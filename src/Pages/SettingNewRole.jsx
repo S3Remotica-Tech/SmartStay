@@ -13,6 +13,8 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
 import PropTypes from "prop-types";
 import { toast } from 'react-toastify';
 import './SettingNewRole.css';
+import { useHasPermission } from '../Utils/Permission';
+import ErrorMessage from '../Components/ErrorMessage'
 
 
 function SettingNewRole({ hostelid }) {
@@ -29,6 +31,16 @@ function SettingNewRole({ hostelid }) {
   const [addRole, setAddRole] = useState(false)
 
   const [loading, setLoading] = useState(true)
+
+
+
+
+  const canReadRole = useHasPermission("Role", "canRead")
+  const canWriteRole = useHasPermission("Role", "canWrite");
+  const canUpdateRole = useHasPermission("Role", "canUpdate");
+  const canDeleteRole = useHasPermission("Role", "canDelete");
+
+
 
   useEffect(() => {
     dispatch({ type: 'GETMODULES' })
@@ -101,9 +113,9 @@ function SettingNewRole({ hostelid }) {
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-    dispatch({ type: 'SETTING_ROLE_LIST', payload:  state.login.selectedHostel_Id});
-    setLoading(true)
-         }
+      dispatch({ type: 'SETTING_ROLE_LIST', payload: state.login.selectedHostel_Id });
+      setLoading(true)
+    }
   }, [state.login.selectedHostel_Id]);
 
 
@@ -129,29 +141,6 @@ function SettingNewRole({ hostelid }) {
     }
   }, [state.Settings.errorRole])
 
-//   const [currentPage, setCurrentPage] = useState(1);
-//   const [itemsPerPage, setItemsPerPage] = useState(10)
-//   const indexOfLastItem = currentPage * itemsPerPage;
-//   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-//   const roleList = roleList?.slice(indexOfFirstItem, indexOfLastItem);
-
-
-//   const totalPages = roleList?.length > 0 ? Math.ceil(roleList.length / itemsPerPage) : 1;
-
-
-//   const handlePageChange = (pageNumber) => {
-//     setCurrentPage(pageNumber);
-//   };
-//   const handleItemsPerPageChange = (selectedOption) => {
-//   setItemsPerPage(selectedOption.value);
-//   setCurrentPage(1);
-// };
-
-// const options = [
-//   { value: 10, label: "10" },
-//   { value: 50, label: "50" },
-//   { value: 100, label: "100" },
-// ];
 
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
@@ -178,7 +167,7 @@ function SettingNewRole({ hostelid }) {
     if (state.Settings.statusCodeForAddRole === 201)
 
       setShowRole(false)
-    dispatch({ type: 'SETTING_ROLE_LIST', payload:  state.login.selectedHostel_Id});
+    dispatch({ type: 'SETTING_ROLE_LIST', payload: state.login.selectedHostel_Id });
     setTimeout(() => {
       dispatch({ type: "CLEAR_ADD_SETTING_ROLE" });
     }, 1000);
@@ -189,7 +178,7 @@ function SettingNewRole({ hostelid }) {
   useEffect(() => {
     if (state.Settings.StatusForDeletePermission === 204) {
       setDeleteRole(false)
-    dispatch({ type: 'SETTING_ROLE_LIST', payload:  state.login.selectedHostel_Id});
+      dispatch({ type: 'SETTING_ROLE_LIST', payload: state.login.selectedHostel_Id });
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_SETTING_ROLE" });
       }, 1000);
@@ -200,7 +189,7 @@ function SettingNewRole({ hostelid }) {
   useEffect(() => {
     if (state.Settings.StatusForEditPermission === 200) {
       setShowRole(false)
-    dispatch({ type: 'SETTING_ROLE_LIST', payload:  state.login.selectedHostel_Id});
+      dispatch({ type: 'SETTING_ROLE_LIST', payload: state.login.selectedHostel_Id });
       setTimeout(() => {
         dispatch({ type: "CLEAR_EDIT_SETTING_ROLE" });
         dispatch({ type: "CLEAR_EDIT_PERMISSION" });
@@ -210,18 +199,9 @@ function SettingNewRole({ hostelid }) {
   }, [state.Settings.StatusForEditPermission])
 
 
-  // useEffect(() => {
-  //   if (
-  //     roleList.length > 0 &&
-  //     currentItems.length === 0 &&
-  //     currentPage > 1
-  //   ) {
-  //     setCurrentPage(currentPage - 1);
-  //   }
-  // }, [roleList])
 
 
-  
+
 
   return (
     <div style={{ position: "relative", paddingRight: 10, paddingLeft: 10 }}>
@@ -246,6 +226,7 @@ function SettingNewRole({ hostelid }) {
         </div>
         <div className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0">
           <Button
+            disabled={!canWriteRole}
             onClick={handleAddRole}
             style={{
               fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white",
@@ -263,320 +244,215 @@ function SettingNewRole({ hostelid }) {
       </div>
 
 
+      {
+        !canReadRole ? (
 
-
-
-      <div
-        className="row mt-3 mb-3 overflow-auto  show-scrolls"
-        style={{ maxHeight: 475, overflowY: "auto" }}
-      >
-        {roleList.length > 0 ? (
-          roleList.map((view, index) => (
-            <div key={index} className="col-12  col-sm-12 col-md-12 col-lg-4 col-xs-12 mb-3">
-              <div
-                className="d-flex align-items-center justify-content-between p-3 border rounded position-relative"
-                style={{ height: 64, width: "100%" }}
-              >
-                <div className="d-flex align-items-center">
-                  <img src={role} width={24} height={24} alt="Role Icon" />
-                  <span
-                    title={view.role_name}
-                    className="ms-3  text-truncate d-inline-block"
-                    style={{ fontSize: 16, maxWidth: 100, fontWeight: 500, fontFamily: "Gilroy" }}
-                  >
-                    {view.name}
-                  </span>
-                </div>
-
-                <div
-                  className="d-flex justify-content-center align-items-center border rounded-circle"
-                  style={{
-                    height: "35px",
-                    width: "35px",
-                    cursor: "pointer",
-                    // backgroundColor: showDots === index ? "#E7F1FF" : "white",
-                    position: "relative",
-                  }}
-                  onClick={(e) => handleShowDots(e, index)}
-                >
-                  <PiDotsThreeOutlineVerticalFill
-                    style={{ height: "20px", width: "20px" }}
-                  />
-                  {showDots === index &&  view.editable && (
-                    <div
-                      ref={popupRef}
-                      className="pg-card"
-                      style={{
-                        backgroundColor: "#fff",
-                        position: "fixed",
-                        top: popupPosition.top,
-                        left: popupPosition.left,
-                        border: "1px solid #E0E0E0",
-                        borderRadius: 10,
-                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
-                        width: 140,
-                        zIndex: 1000,
-                      }}
-                    >
-                      <div>
-
-                        <div
-                          className="d-flex gap-2 align-items-center"
-                          onClick={() => view.editable && handleEditForm(view)}
-                          style={{
-                            padding: "8px 12px",
-                            width: "100%",
-                            cursor: view.editable ? "pointer" : "not-allowed",
-                            transition: "background 0.2s ease-in-out",
-                          }}
-                          onMouseEnter={(e) =>
-                            view.editable &&
-                            (e.currentTarget.style.backgroundColor = "#F0F4FF")
-                          }
-                          onMouseLeave={(e) =>
-                            view.editable &&
-                            (e.currentTarget.style.backgroundColor = "transparent")
-                          }
-                        >
-                          <img src={Edit} width={16} height={16} alt="Edit" />
-                          <span
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                              color: "#1E45E1" ,
-                            }}
-                          >
-                            Edit
-                          </span>
-                        </div>
-
-                        <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
-
-                        <div
-                          className="d-flex gap-2 align-items-center"
-                          onClick={() => view.editable && handleDeleteForm(view)}
-                          style={{
-                            padding: "8px 12px",
-                            width: "100%",
-                            cursor: view.editable ? "pointer" : "not-allowed",
-                            transition: "background 0.2s ease-in-out",
-                          }}
-                          onMouseEnter={(e) =>
-                            view.editable &&
-                            (e.currentTarget.style.backgroundColor = "#F0F4FF")
-                          }
-                          onMouseLeave={(e) =>
-                            view.editable &&
-                            (e.currentTarget.style.backgroundColor = "transparent")
-                          }
-                        >
-                          <img src={Delete} width={16} height={16} alt="Delete" />
-                          <span
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                              color: "#FF0000",
-                            }}
-                          >
-                            Delete
-                          </span>
-                        </div>
-
-                      </div>
-                    </div>
-
-                  )}
-                </div>
-              </div>
-            </div>
-          ))
-        ) : (
-          !loading && (
-
-
-
-
-
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: 90,
-                paddingLeft: "0px",
-              }}
-            >
-              <div style={{ textAlign: "center" }}>
-                <img
-                  src={EmptyState}
-                  alt="emptystate"
-                  style={{ maxWidth: "250px" }}
-                />
-                <div
-                  className="pb-1"
-                  style={{
-                    textAlign: "center",
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                    fontSize: 18,
-                    color: "rgba(75, 75, 75, 1)",
-                  }}
-                >
-                  No Roles{" "}
-                </div>
-                <div
-                  className="pb-1"
-                  style={{
-                    textAlign: "center",
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
-                    fontSize: 14,
-                    color: "rgba(75, 75, 75, 1)",
-                  }}
-                >
-                  There are no Roles available.{" "}
-                </div>
-              </div>
-            </div>
-          )
-        )}
-      </div>
-
-
-
-
-      {/* {
-        roleList.length > 10 &&
-        <nav
-          className='position-fixed bottom-0 end-0  d-flex justify-content-end align-items-center' style={{ padding: "10px", backgroundColor: "white", zIndex: 1000 }}
-
-        >
-          <div>
-            <Select
-              value={options.find((opt) => opt.value === itemsPerPage)}
-              onChange={handleItemsPerPageChange}
-              options={options}
-              placeholder="Items per page"
-              classNamePrefix="custom"
-              menuPlacement="auto"
-              noOptionsMessage={() => "No options"}
-              styles={{
-                control: (base) => ({
-                  ...base,
-                  height: "40px",
-                  borderRadius: "6px",
-                  fontSize: "14px",
-                  color: "#1E45E1",
-                  fontFamily: "Gilroy",
-                  fontWeight: 600,
-                  border: "1px solid #1E45E1",
-                  boxShadow: "0 0 0 1px #1E45E1",
-                  cursor: "pointer",
-                  width: 90,
-                }),
-                menu: (base) => ({
-                  ...base,
-                  backgroundColor: "#f8f9fa",
-                  border: "1px solid #ced4da",
-                  fontFamily: "Gilroy",
-                }),
-                menuList: (base) => ({
-                  ...base,
-                  backgroundColor: "#f8f9fa",
-                  maxHeight: "200px",
-                  padding: 0,
-                  scrollbarWidth: "thin",
-                  overflowY: "auto",
-                  fontFamily: "Gilroy",
-                }),
-                placeholder: (base) => ({
-                  ...base,
-                  color: "#555",
-                }),
-                dropdownIndicator: (base) => ({
-                  ...base,
-                  color: "#1E45E1",
-                  cursor: "pointer",
-                }),
-                indicatorSeparator: () => ({
-                  display: "none",
-                }),
-                option: (base, state) => ({
-                  ...base,
-                  cursor: "pointer",
-                  backgroundColor: state.isFocused ? "#1E45E1" : "white",
-                  color: state.isFocused ? "#fff" : "#000",
-                }),
-              }}
-            />
-          </div>
-
-
-          <ul
+          <div
             style={{
               display: "flex",
+              flexDirection: "column",
               alignItems: "center",
-              listStyleType: "none",
-              margin: 0,
-              padding: 0,
+              justifyContent: "center",
+              height: "80vh"
             }}
           >
 
-            <li style={{ margin: "0 10px" }}>
-              <button
-                style={{
-                  padding: "5px",
-                  textDecoration: "none",
-                  color: currentPage === 1 ? "#ccc" : "#1E45E1",
-                  cursor: currentPage === 1 ? "not-allowed" : "pointer",
-                  borderRadius: "50%",
-                  display: "inline-block",
-                  minWidth: "30px",
-                  textAlign: "center",
-                  backgroundColor: "transparent",
-                  border: "none",
-                }}
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-              >
-                <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
-              </button>
-            </li>
+            <ErrorMessage message={['You do not have access to view Role']} type="warning" />
+
+          </div>
 
 
-            <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
-              {currentPage} of {totalPages}
-            </li>
+        )
+          : (
+
+            <div
+              className="row mt-3 mb-3 overflow-auto  show-scrolls"
+              style={{ maxHeight: 475, overflowY: "auto" }}
+            >
+              {roleList.length > 0 ? (
+                roleList.map((view, index) => (
+                  <div key={index} className="col-12  col-sm-12 col-md-12 col-lg-4 col-xs-12 mb-3">
+                    <div
+                      className="d-flex align-items-center justify-content-between p-3 border rounded position-relative"
+                      style={{ height: 64, width: "100%" }}
+                    >
+                      <div className="d-flex align-items-center">
+                        <img src={role} width={24} height={24} alt="Role Icon" />
+                        <span
+                          title={view.role_name}
+                          className="ms-3  text-truncate d-inline-block"
+                          style={{ fontSize: 16, maxWidth: 100, fontWeight: 500, fontFamily: "Gilroy" }}
+                        >
+                          {view.name}
+                        </span>
+                      </div>
+
+                      <div
+                        className="d-flex justify-content-center align-items-center border rounded-circle"
+                        style={{
+                          height: "35px",
+                          width: "35px",
+                          cursor: "pointer",
+                          // backgroundColor: showDots === index ? "#E7F1FF" : "white",
+                          position: "relative",
+                        }}
+                        onClick={(e) => handleShowDots(e, index)}
+                      >
+                        <PiDotsThreeOutlineVerticalFill
+                          style={{ height: "20px", width: "20px" }}
+                        />
+                        {showDots === index && view.editable && (
+                          <div
+                            ref={popupRef}
+                            className="pg-card"
+                            style={{
+                              backgroundColor: "#fff",
+                              position: "fixed",
+                              top: popupPosition.top,
+                              left: popupPosition.left,
+                              border: "1px solid #E0E0E0",
+                              borderRadius: 10,
+                              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+                              width: 140,
+                              zIndex: 1000,
+                            }}
+                          >
+                            <div>
+
+                              <div
+                                className="d-flex gap-2 align-items-center"
+                                onClick={() => {
+                                  if (view.editable && canUpdateRole) handleEditForm(view);
+                                }}
+                                style={{
+                                  padding: "8px 12px",
+                                  width: "100%",
+                                  cursor: view.editable && canUpdateRole ? "pointer" : "not-allowed",
+                                  transition: "background 0.2s ease-in-out",
+                                  opacity: view.editable && canUpdateRole ? 1 : 0.5,
+                                }}
+                                onMouseEnter={(e) =>
+                                  view.editable &&
+                                  (e.currentTarget.style.backgroundColor = "#F0F4FF")
+                                }
+                                onMouseLeave={(e) =>
+                                  view.editable &&
+                                  (e.currentTarget.style.backgroundColor = "transparent")
+                                }
+                              >
+                                <img src={Edit} width={16} height={16} alt="Edit" style={{ filter: view.editable && canUpdateRole ? "none" : "grayscale(100%)" }} />
+                                <span
+                                  style={{
+                                    fontSize: 14,
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                    cursor: view.editable && canUpdateRole ? "pointer" : "not-allowed",
+                                    color: view.editable && canUpdateRole ? "#1E45E1" : "#A0A0A0",
+                                  }}
+                                >
+                                  Edit
+                                </span>
+                              </div>
+
+                              <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
+
+                              <div
+                                className="d-flex gap-2 align-items-center"
+                                onClick={() => view.editable && canDeleteRole && handleDeleteForm(view)}
+                                style={{
+                                  padding: "8px 12px",
+                                  width: "100%",
+                                  cursor: view.editable && canDeleteRole ? "pointer" : "not-allowed",
+                                  opacity: view.editable && canDeleteRole ? 1 : 0.5,
+                                  transition: "background 0.2s ease-in-out",
+                                }}
+                                onMouseEnter={(e) =>
+                                  view.editable &&
+                                  (e.currentTarget.style.backgroundColor = "#F0F4FF")
+                                }
+                                onMouseLeave={(e) =>
+                                  view.editable &&
+                                  (e.currentTarget.style.backgroundColor = "transparent")
+                                }
+                              >
+                                <img src={Delete} width={16} height={16} alt="Delete" style={{ filter: view.editable && canDeleteRole ? "none" : "grayscale(100%)" }} />
+                                <span
+                                  style={{
+                                    fontSize: 14,
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                    color: view.editable && canDeleteRole ? "#FF0000" : "A0A0A0",
+                                    cursor: view.editable && canDeleteRole ? "pointer" : "not-allowed",
+                                  }}
+                                >
+                                  Delete
+                                </span>
+                              </div>
+
+                            </div>
+                          </div>
+
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                !loading && (
 
 
-            <li style={{ margin: "0 10px" }}>
-              <button
-                style={{
-                  padding: "5px",
-                  textDecoration: "none",
-                  color: currentPage === totalPages ? "#ccc" : "#1E45E1",
-                  cursor: currentPage === totalPages ? "not-allowed" : "pointer",
-                  borderRadius: "50%",
-                  display: "inline-block",
-                  minWidth: "30px",
-                  textAlign: "center",
-                  backgroundColor: "transparent",
-                  border: "none",
-                }}
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
-              >
-                <ArrowRight2
-                  size="16"
-                  color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
-                />
-              </button>
-            </li>
-          </ul>
-        </nav>
-      } */}
+
+
+
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginTop: 90,
+                      paddingLeft: "0px",
+                    }}
+                  >
+                    <div style={{ textAlign: "center" }}>
+                      <img
+                        src={EmptyState}
+                        alt="emptystate"
+                        style={{ maxWidth: "250px" }}
+                      />
+                      <div
+                        className="pb-1"
+                        style={{
+                          textAlign: "center",
+                          fontWeight: 600,
+                          fontFamily: "Gilroy",
+                          fontSize: 18,
+                          color: "rgba(75, 75, 75, 1)",
+                        }}
+                      >
+                        No Roles{" "}
+                      </div>
+                      <div
+                        className="pb-1"
+                        style={{
+                          textAlign: "center",
+                          fontWeight: 500,
+                          fontFamily: "Gilroy",
+                          fontSize: 14,
+                          color: "rgba(75, 75, 75, 1)",
+                        }}
+                      >
+                        There are no Roles available.{" "}
+                      </div>
+                    </div>
+                  </div>
+                )
+              )}
+            </div>
+          )
+      }
+
+
+
 
 
 

@@ -18,7 +18,7 @@ import Exchange from "../../../Assets/v2Images/exchange.svg"
 import MakeAsInAcive from "../../../Assets/v2Images/Inactive.svg"
 import Checkouts from '../../../Assets/v2Images/calendar-tick.svg'
 import Settings from '../../../Assets/v2Images/info-circle.svg'
-
+import { useHasPermission } from '../../../Utils/Permission';
 function NoticeBedStatusDetails({
   show,
   handleCloseBed,
@@ -33,26 +33,13 @@ function NoticeBedStatusDetails({
   const state = useSelector(state => state)
   const dispatch = useDispatch();
 
-  // const [customer, setCustomer] = useState([])
-  // const [customerId, setCustomerId] = useState("")
-
-
-
+  
+  const canWriteCustomers = useHasPermission("Customers", "canWrite")
   const [recheckin, setRecheckin] = useState(false)
   const [activeMenu, setActiveMenu] = useState(null);
   const [bactocheckinForm, setBacktoCheckInForm] = useState(false)
-
-  // const [customer_details, setCustomerDetails] = useState({})
-
   const popupRef = useRef(null);
-
-
-  
-
   const isNoticeAndBooked = currentItem?.newTenantCustomerId !== null
-
-
-
   const handleShowDots = (type) => {
     setActiveMenu((prev) => (prev === type ? null : type));
   }
@@ -285,51 +272,42 @@ function NoticeBedStatusDetails({
                               <div>
                                 <div
                                   className="d-flex gap-2 align-items-center"
-                                  // onClick={() => handleCheckout(currentItem)}
+                                  // onClick={() => canWriteCustomers && handleCheckout(currentItem)}
 
                                   style={{
                                     padding: "10px",
                                     borderBottomLeftRadius: 10,
                                     borderBottomRightRadius: 10,
 
-                                    cursor: "pointer"
+                                    cursor: canWriteCustomers ? "pointer" : "not-allowed",
+                                    opacity: canWriteCustomers ? 1 : 0.5,
                                   }}
                                   onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
                                   onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
                                 >
-                                  <img src={Checkouts} alt="Checkout" />
-                                  <label style={{ fontSize: 14, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>Cancel Checkout</label>
+                                  <img src={Checkouts} alt="Checkout" style={{ filter: canWriteCustomers ? "none" : "grayscale(100%)" }} />
+                                  <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#A0A0A0", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed" }}>Cancel Checkout</label>
                                 </div>
 
 
                                 <div
                                   className="d-flex gap-2 align-items-center"
-                                  // onClick={() => handleCheckout(currentItem)}
+                                  // onClick={canWriteCustomers ? () => handleCheckout(currentItem) : undefined}
 
                                   style={{
                                     padding: "10px",
                                     borderBottomLeftRadius: 10,
                                     borderBottomRightRadius: 10,
 
-                                    cursor: "pointer"
+                                    cursor: canWriteCustomers ? "pointer" : "not-allowed",
+                                    opacity: canWriteCustomers ? 1 : 0.5,
                                   }}
                                   onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
                                   onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
                                 >
-                                  <img src={Checkouts} alt="Checkout" />
-                                  <label style={{ fontSize: 14, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>Checkout</label>
+                                  <img src={Checkouts} alt="Checkout" style={{ filter: canWriteCustomers ? "none" : "grayscale(100%)" }} />
+                                  <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#A0A0A0", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed" }}>Checkout</label>
                                 </div>
-
-
-
-
-
-
-
-
-
-
-
 
 
                               </div>
@@ -349,32 +327,34 @@ function NoticeBedStatusDetails({
                                     padding: "10px",
                                     borderTopLeftRadius: 10,
                                     borderTopRightRadius: 10,
-                                    cursor: "pointer"
+                                    cursor: canWriteCustomers ? "pointer" : "not-allowed",
+                                    opacity: canWriteCustomers ? 1 : 0.5,
                                   }}
                                   onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#F0F4FF"; }}
                                   onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
                                 >
 
-                                  <img src={CalenderTick} alt="Re-Assign Bed" />
-                                  <label style={{ fontSize: 14, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>Cancal Checkout</label>
+                                  <img src={CalenderTick} alt="Re-Assign Bed" style={{ filter: canWriteCustomers ? "none" : "grayscale(100%)" }} />
+                                  <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#A0A0A0", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed", }}>Cancal Checkout</label>
                                 </div>
 
                                 <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
 
                                 <div
                                   className="d-flex gap-2 align-items-center"
-                                  onClick={() => handleNewBooking()}
+                                  onClick={canWriteCustomers ? () => handleNewBooking() : undefined}
                                   style={{
                                     padding: "10px",
                                     borderBottomLeftRadius: 10,
                                     borderBottomRightRadius: 10,
-                                    cursor: "pointer",
+                                    cursor: canWriteCustomers ? "pointer" : "not-allowed",
+                                    opacity: canWriteCustomers ? 1 : 0.5,
                                   }}
                                   onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
                                   onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
                                 >
-                                  <img src={TimerPause} alt="booking" />
-                                  <label style={{ fontSize: 14, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>
+                                  <img src={TimerPause} alt="booking" style={{ filter: canWriteCustomers ? "none" : "grayscale(100%)" }} />
+                                  <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#A0A0A0", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed", }}>
                                     New Booking
                                   </label>
                                 </div>
@@ -382,20 +362,20 @@ function NoticeBedStatusDetails({
 
                                 <div
                                   className="d-flex gap-2 align-items-center"
-                                  onClick={() => handleFinalsettelmentGenerate(currentItem)}
+                                  onClick={() => canWriteCustomers && handleFinalsettelmentGenerate(currentItem)}
 
                                   style={{
                                     padding: "10px",
                                     borderBottomLeftRadius: 10,
                                     borderBottomRightRadius: 10,
-
-                                    cursor: "pointer"
+                                    cursor: canWriteCustomers ? "pointer" : "not-allowed",
+                                    opacity: canWriteCustomers ? 1 : 0.5,
                                   }}
                                   onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
                                   onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
                                 >
-                                  <img src={logout} alt="Checkout" />
-                                  <label style={{ fontSize: 14, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>Generate</label>
+                                  <img src={logout} alt="Checkout" style={{ filter: canWriteCustomers ? "none" : "grayscale(100%)" }} />
+                                  <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#A0A0A0", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed" }}>Generate</label>
                                 </div>
                               </div>
 
@@ -493,13 +473,20 @@ function NoticeBedStatusDetails({
 
 
                             <div
+                              //                           onClick={
+                              //   canWriteCustomers && !currentItem.isOccupied
+                              //     ? () => handleCheckIn(currentItem)
+                              //     : undefined
+                              // }
                               className="d-flex gap-2 align-items-center"
                               style={{
                                 position: "relative",
                                 padding: "10px",
                                 borderBottomLeftRadius: 10,
                                 borderBottomRightRadius: 10,
-                                cursor: currentItem.isOccupied ? "not-allowed" : "pointer",
+                                cursor:
+                                  canWriteCustomers && !currentItem.isOccupied ? "pointer" : "not-allowed",
+                                opacity: canWriteCustomers && !currentItem.isOccupied ? 1 : 0.6,
                               }}
                               onMouseEnter={(e) => {
                                 if (!currentItem.isOccupied) e.currentTarget.style.backgroundColor = "#FFF3F3";
@@ -516,18 +503,29 @@ function NoticeBedStatusDetails({
                                 }
                               }}
                             >
-                              <img src={AddPlus} alt="booking" style={{
-                                filter: currentItem.isOccupied ? "grayscale(100%) brightness(50%)" : "none",
-                                cursor: currentItem.isOccupied ? "not-allowed" : "pointer",
-                              }} />
+                              <img src={AddPlus} alt="booking"
+                                style={{
+                                  filter:
+                                    canWriteCustomers && !currentItem.isOccupied
+                                      ? "none"
+                                      : "grayscale(100%) brightness(60%)",
+                                  cursor:
+                                    canWriteCustomers && !currentItem.isOccupied
+                                      ? "pointer"
+                                      : "not-allowed",
+                                }} />
                               <label
                                 style={{
                                   fontSize: 14,
                                   fontWeight: 500,
-                                  color: currentItem.isOccupied ? "#dcdcdc" : "#222222",
+                                  color:
+                                    canWriteCustomers && !currentItem.isOccupied ? "#222222" : "#dcdcdc",
                                   marginBottom: 0,
                                   fontFamily: "Gilroy",
-                                  cursor: currentItem.isOccupied ? "not-allowed" : "pointer",
+                                  cursor:
+                                    canWriteCustomers && !currentItem.isOccupied
+                                      ? "pointer"
+                                      : "not-allowed",
                                 }}
                               >
                                 Check-In
@@ -558,38 +556,45 @@ function NoticeBedStatusDetails({
 
                             <div
                               className="d-flex gap-2 align-items-center"
-                              onClick={() => handleChangeBed(currentItem)}
+                              onClick={canWriteCustomers ? () => handleChangeBed(currentItem) : undefined}
 
                               style={{
                                 padding: "10px",
                                 borderBottomLeftRadius: 10,
                                 borderBottomRightRadius: 10,
-
-                                cursor: "pointer"
+                                cursor: canWriteCustomers ? "pointer" : "not-allowed",
+                                opacity: canWriteCustomers ? 1 : 0.5,
                               }}
                               onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
                               onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
                             >
-                              <img src={Exchange} alt="Checkout" />
-                              <label style={{ fontSize: 14, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>Change Bed</label>
+                              <img src={Exchange} alt="Checkout" style={{
+                                filter: canWriteCustomers ? "none" : "grayscale(100%) brightness(60%)",
+                                cursor: canWriteCustomers ? "pointer" : "not-allowed",
+                              }} />
+                              <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#dcdcdc", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed", }}>Change Bed</label>
                             </div>
 
                             <div
                               className="d-flex gap-2 align-items-center"
-                              // onClick={() => handleFinalsettelmentGenerate(currentItem)}
+                              //  onClick={canWriteCustomers ? () => handleFinalsettelmentGenerate(currentItem) : undefined}
 
                               style={{
                                 padding: "10px",
                                 borderBottomLeftRadius: 10,
                                 borderBottomRightRadius: 10,
 
-                                cursor: "pointer"
+                                cursor: canWriteCustomers ? "pointer" : "not-allowed",
+                                opacity: canWriteCustomers ? 1 : 0.5,
                               }}
                               onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
                               onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
                             >
-                              <img src={MakeAsInAcive} alt="Checkout" />
-                              <label style={{ fontSize: 14, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>Make as Inactive</label>
+                              <img src={MakeAsInAcive} alt="Checkout" style={{
+                                filter: canWriteCustomers ? "none" : "grayscale(100%) brightness(60%)",
+                                cursor: canWriteCustomers ? "pointer" : "not-allowed",
+                              }} />
+                              <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#dcdcdc", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed" }}>Make as Inactive</label>
                             </div>
 
 

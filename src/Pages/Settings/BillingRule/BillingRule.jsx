@@ -8,8 +8,9 @@ import ShortStayRecurringModal from "./ShortStay";
 import { useDispatch, useSelector } from "react-redux";
 import { ArrowSwapHorizontal } from 'iconsax-react';
 import { FaCheck } from "react-icons/fa";
-
-
+import { useHasPermission } from '../../../Utils/Permission';
+import Emptystate from "../../../Assets/Images/Empty-State.jpg";
+import ErrorMessage from '../../../Components/ErrorMessage'
 function BillingRule() {
 
 
@@ -18,7 +19,7 @@ function BillingRule() {
   const [recurringBills, setRecuringBills] = useState("");
   const [checked, setChecked] = useState(true);
 
-  const [formLoading, setFormLoading] = useState(true)
+  const [formLoading, setFormLoading] = useState(false)
   const [showShortStay, setShowShortStay] = useState(false);
   const [showLongStay, setShowLongStay] = useState(false);
 
@@ -28,10 +29,11 @@ function BillingRule() {
   const handleShowShortStay = () => setShowShortStay(true);
   const handleCloseShortStay = () => setShowShortStay(false);
 
+  const canReadRecurring = useHasPermission("Recurring bills", "canRead")
+  const canWriteRecurring = useHasPermission("Recurring bills", "canWrite")
 
 
-
-//  Future needed this function so don't delete this command line.............
+  //  Future needed this function so don't delete this command line.............
 
   // const handleToggle = () => {
   //   setChecked(!checked);
@@ -61,6 +63,7 @@ function BillingRule() {
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostel_id: state.login.selectedHostel_Id } });
+      setFormLoading(false)
     }
   }, [state.login.selectedHostel_Id]);
 
@@ -135,35 +138,173 @@ function BillingRule() {
       </div>
 
       <div >
-        <Row className="g-3">
-          <Col xs={12} md={6}>
-            <Card
+        {!canReadRecurring ? (
+          <>
+            <div
               style={{
-                height: "100%",
-                borderRadius: "12px",
-                border: "1px solid #E6E6E6",
-                boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                marginTop: 95
+
               }}
             >
-              <Card.Body>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "start",
-                  }}
-                >
+
+              <img
+                src={Emptystate}
+                alt="Empty State"
+
+              />
+
+
+
+              <ErrorMessage message={['You do not have access to view Billing Rule']} type="warning" />
+
+            </div>
+          </>
+        ) : (
+          <Row className="g-3">
+            <Col xs={12} md={6}>
+              <Card
+                style={{
+                  height: "100%",
+                  borderRadius: "12px",
+                  border: "1px solid #E6E6E6",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                }}
+              >
+                <Card.Body>
                   <div
                     style={{
-                      backgroundColor: "#fff",
-                      borderRadius: 8,
-                      padding: "8px",
-                      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "start",
                     }}
                   >
-                    <BsShieldCheck size={24} color="#1E45E1" />
+                    <div
+                      style={{
+                        backgroundColor: "#fff",
+                        borderRadius: 8,
+                        padding: "8px",
+                        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                      }}
+                    >
+                      <BsShieldCheck size={24} color="#1E45E1" />
+                    </div>
+                    {recurringBills.isActive === 1 ? "" :
+                      <div
+                        style={{
+                          color: "#D12929",
+                          backgroundColor: "#FFEFEF",
+                          borderRadius: 10,
+                          padding: "5px 10px",
+                          fontSize: 10,
+                          fontFamily: "Gilroy"
+                        }}
+                      >
+                        Not Configure Yet
+                      </div>
+                    }
                   </div>
-                  {recurringBills.isActive === 1 ? "" :
+                  <Card.Title style={{ marginTop: "20px", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "#222222" }}>
+                    Long Stay Recurring
+                  </Card.Title>
+                  <Card.Text style={{ color: "#6D6D6D", fontSize: 15, fontFamily: "Gilroy", marginBottom: 5 }}>
+                    Configure recurring billing for tenants staying long-term
+                  </Card.Text>
+
+                  {
+                    recurringBills.isActive === 1 ?
+
+                      <div className="d-flex justify-content-between p-0 align-items-center">
+                        <Button
+                          disabled
+                          style={{
+                            marginTop: "10px",
+                            fontSize: "14px",
+                            padding: "6px 12px",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "6px",
+                            backgroundColor: "#1E45E1",
+                            fontFamily: "Gilroy"
+                          }}
+                        >
+                          <ArrowSwapHorizontal size="20" color="#fff" /> Configure
+                        </Button>
+
+
+                        <div className="custom-toggle-wrapper"
+                        // onClick={handleToggle}
+                        >
+                          <span className={`custom-toggle-label ${checked ? "active" : ""}`}>
+                            {checked ? "On" : "Off"}
+                          </span>
+                          <div className={`custom-toggle-switch ${checked ? "on" : "off"}`}>
+                            <div className="custom-toggle-thumb">
+                              {checked && <FaCheck size={10} color="#1E1E1E" />}
+                            </div>
+                          </div>
+                        </div>
+
+
+
+                      </div>
+                      :
+                      <Button
+                      disabled={!canWriteRecurring}
+                        onClick={handleShowLongStay}
+                        style={{
+                          marginTop: "10px",
+                          fontSize: "14px",
+                          padding: "6px 12px",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "6px",
+                          backgroundColor: "#1E45E1",
+                          fontFamily: "Gilroy"
+                        }}
+                      >
+                        <FiSettings /> Setup Now
+                      </Button>
+
+
+
+                  }
+
+
+                </Card.Body>
+              </Card>
+            </Col>
+
+            <Col xs={12} md={6}>
+              <Card
+                style={{
+                  height: "100%",
+                  borderRadius: "12px",
+                  border: "1px solid #E6E6E6",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                }}
+              >
+                <Card.Body>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "start",
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: "#fff",
+                        borderRadius: 8,
+                        padding: "8px",
+                        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                      }}
+                    >
+                      <BsHourglassSplit size={24} color="#1E45E1" />
+                    </div>
                     <div
                       style={{
                         color: "#D12929",
@@ -176,145 +317,37 @@ function BillingRule() {
                     >
                       Not Configure Yet
                     </div>
-                  }
-                </div>
-                <Card.Title style={{ marginTop: "20px", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "#222222" }}>
-                  Long Stay Recurring
-                </Card.Title>
-                <Card.Text style={{ color: "#6D6D6D", fontSize: 15, fontFamily: "Gilroy", marginBottom: 5 }}>
-                  Configure recurring billing for tenants staying long-term
-                </Card.Text>
-
-                {
-                  recurringBills.isActive === 1 ?
-
-                    <div className="d-flex justify-content-between p-0 align-items-center">
-                      <Button
-                        disabled
-                        style={{
-                          marginTop: "10px",
-                          fontSize: "14px",
-                          padding: "6px 12px",
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "6px",
-                          backgroundColor: "#1E45E1",
-                          fontFamily: "Gilroy"
-                        }}
-                      >
-                        <ArrowSwapHorizontal size="20" color="#fff" /> Configure
-                      </Button>
-
-
-                      <div className="custom-toggle-wrapper"
-                        // onClick={handleToggle}
-                      >
-                        <span className={`custom-toggle-label ${checked ? "active" : ""}`}>
-                          {checked ? "On" : "Off"}
-                        </span>
-                        <div className={`custom-toggle-switch ${checked ? "on" : "off"}`}>
-                          <div className="custom-toggle-thumb">
-                            {checked && <FaCheck size={10} color="#1E1E1E" />}
-                          </div>
-                        </div>
-                      </div>
-
-
-
-                    </div>
-                    :
-                    <Button
-                      onClick={handleShowLongStay}
-                      style={{
-                        marginTop: "10px",
-                        fontSize: "14px",
-                        padding: "6px 12px",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "6px",
-                        backgroundColor: "#1E45E1",
-                        fontFamily: "Gilroy"
-                      }}
-                    >
-                      <FiSettings /> Setup Now
-                    </Button>
-
-
-
-                }
-
-
-              </Card.Body>
-            </Card>
-          </Col>
-
-          <Col xs={12} md={6}>
-            <Card
-              style={{
-                height: "100%",
-                borderRadius: "12px",
-                border: "1px solid #E6E6E6",
-                boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-              }}
-            >
-              <Card.Body>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "start",
-                  }}
-                >
-                  <div
-                    style={{
-                      backgroundColor: "#fff",
-                      borderRadius: 8,
-                      padding: "8px",
-                      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                    }}
-                  >
-                    <BsHourglassSplit size={24} color="#1E45E1" />
                   </div>
-                  <div
+                  <Card.Title style={{ marginTop: "20px", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "#222222" }}>
+                    Short Stay Recurring
+                  </Card.Title>
+                  <Card.Text style={{ color: "#6D6D6D", fontSize: 15, fontFamily: "Gilroy", marginBottom: 5 }}>
+                    Set up one-time or daily billing for short-term tenants.
+                  </Card.Text>
+                  <Button
+                    disabled
+                    onClick={handleShowShortStay}
                     style={{
-                      color: "#D12929",
-                      backgroundColor: "#FFEFEF",
-                      borderRadius: 10,
-                      padding: "5px 10px",
-                      fontSize: 10,
+                      marginTop: "10px",
+                      fontSize: "14px",
+                      padding: "6px 12px",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "6px",
+                      backgroundColor: "#1E45E1",
                       fontFamily: "Gilroy"
                     }}
                   >
-                    Not Configure Yet
-                  </div>
-                </div>
-                <Card.Title style={{ marginTop: "20px", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "#222222" }}>
-                  Short Stay Recurring
-                </Card.Title>
-                <Card.Text style={{ color: "#6D6D6D", fontSize: 15, fontFamily: "Gilroy", marginBottom: 5 }}>
-                  Set up one-time or daily billing for short-term tenants.
-                </Card.Text>
-                <Button
-                  disabled
-                  onClick={handleShowShortStay}
-                  style={{
-                    marginTop: "10px",
-                    fontSize: "14px",
-                    padding: "6px 12px",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "6px",
-                    backgroundColor: "#1E45E1",
-                    fontFamily: "Gilroy"
-                  }}
-                >
-                  <FiSettings /> Coming Soon
-                </Button>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
+                    <FiSettings /> Coming Soon
+                  </Button>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        )
 
+
+        }
 
 
 

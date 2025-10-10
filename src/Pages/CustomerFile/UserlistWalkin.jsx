@@ -16,6 +16,8 @@ import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import { ArrowUp2, ArrowDown2, } from "iconsax-react";
 import PaginationList from "../../Components/PaginationList";
 import ErrorMessage from '../../Components/ErrorMessage'
+import { useHasPermission } from '../../Utils/Permission';
+
 
 function UserlistWalkin(props) {
   const state = useSelector((state) => state);
@@ -30,7 +32,10 @@ function UserlistWalkin(props) {
   const [walkInDeletePermissionError, setWalkInDeletePermissionError] =
     useState("");
 
+  const canReadWalkin = useHasPermission("Walk in", "canRead")
 
+  const canUpdateWalkin = useHasPermission("Walk in", "canUpdate")
+  const canDeleteWalkin = useHasPermission("Walk in", "canDelete")
 
   useEffect(() => {
     const userType = props.customerrolePermission[0]?.user_details?.user_type;
@@ -330,7 +335,7 @@ function UserlistWalkin(props) {
 
   return (
     <>
-      {walkInPermissionError ? (
+      {!canReadWalkin ? (
         <>
           <div
             style={{
@@ -347,9 +352,9 @@ function UserlistWalkin(props) {
 
             />
 
-            {walkInPermissionError && (
-             <ErrorMessage message={walkInPermissionError} type="error"/>
-            )}
+
+            <ErrorMessage message={['You do not have access to view Walk In ']} type="warning" />
+
           </div>
         </>
       ) : (
@@ -1062,18 +1067,18 @@ function UserlistWalkin(props) {
                                         <div
                                           className="d-flex align-items-center"
                                           onClick={() => {
-                                            if (!walkInEditPermissionError) {
+                                            if (canUpdateWalkin) {
                                               handleEdit(v);
                                             }
                                           }}
                                           style={{
-                                            cursor: walkInEditPermissionError ? "not-allowed" : "pointer",
-                                            opacity: walkInEditPermissionError ? 0.5 : 1,
+                                            cursor: !canUpdateWalkin ? "not-allowed" : "pointer",
+                                            opacity: !canUpdateWalkin ? 0.5 : 1,
                                             padding: "6px 8px",
                                             borderRadius: 6,
                                           }}
                                           onMouseEnter={(e) => {
-                                            if (!walkInEditPermissionError) e.currentTarget.style.backgroundColor = "#F0F4FF";
+                                            e.currentTarget.style.backgroundColor = "#F0F4FF";
                                           }}
                                           onMouseLeave={(e) => {
                                             e.currentTarget.style.backgroundColor = "transparent";
@@ -1081,7 +1086,7 @@ function UserlistWalkin(props) {
                                         >
                                           <Edit
                                             size="16"
-                                            color={walkInEditPermissionError ? "#A9A9A9" : "#1E45E1"}
+                                            color={!canUpdateWalkin ? "#A9A9A9" : "#1E45E1"}
                                             style={{ marginRight: 8 }}
                                           />
                                           <label
@@ -1089,8 +1094,8 @@ function UserlistWalkin(props) {
                                               fontSize: 14,
                                               fontWeight: 500,
                                               fontFamily: "Gilroy, sans-serif",
-                                              color: walkInEditPermissionError ? "#A9A9A9" : "#222222",
-                                              cursor: walkInEditPermissionError ? "not-allowed" : "pointer",
+                                              color: !canUpdateWalkin ? "#A9A9A9" : "#222222",
+                                              cursor: !canUpdateWalkin ? "not-allowed" : "pointer",
                                             }}
                                           >
                                             Edit
@@ -1101,18 +1106,18 @@ function UserlistWalkin(props) {
                                         <div
                                           className="d-flex align-items-center"
                                           onClick={() => {
-                                            if (!walkInDeletePermissionError) {
+                                            if (canDeleteWalkin) {
                                               handleDelete(v);
                                             }
                                           }}
                                           style={{
-                                            cursor: walkInDeletePermissionError ? "not-allowed" : "pointer",
-                                            opacity: walkInDeletePermissionError ? 0.5 : 1,
+                                            cursor: !canDeleteWalkin ? "not-allowed" : "pointer",
+                                            opacity: !canDeleteWalkin ? 0.5 : 1,
                                             padding: "6px 8px",
                                             borderRadius: 6,
                                           }}
                                           onMouseEnter={(e) => {
-                                            if (!walkInDeletePermissionError) e.currentTarget.style.backgroundColor = "#FFF3F3";
+                                            e.currentTarget.style.backgroundColor = "#FFF3F3";
                                           }}
                                           onMouseLeave={(e) => {
                                             e.currentTarget.style.backgroundColor = "transparent";
@@ -1120,7 +1125,7 @@ function UserlistWalkin(props) {
                                         >
                                           <Trash
                                             size="16"
-                                            color={walkInDeletePermissionError ? "#A9A9A9" : "red"}
+                                            color={!canDeleteWalkin ? "#A9A9A9" : "red"}
                                             style={{ marginRight: 8 }}
                                           />
                                           <label
@@ -1128,8 +1133,8 @@ function UserlistWalkin(props) {
                                               fontSize: 14,
                                               fontWeight: 500,
                                               fontFamily: "Gilroy, sans-serif",
-                                              color: walkInDeletePermissionError ? "#A9A9A9" : "#FF0000",
-                                              cursor: walkInDeletePermissionError ? "not-allowed" : "pointer",
+                                              color: !canDeleteWalkin ? "#A9A9A9" : "#FF0000",
+                                              cursor: !canDeleteWalkin ? "not-allowed" : "pointer",
                                             }}
                                           >
                                             Delete

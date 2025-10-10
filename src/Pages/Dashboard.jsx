@@ -155,7 +155,6 @@ const canReadDashboard = useHasPermission("Dashboard", "canRead");
 
   useEffect(() => {
 
-    setLoading(true);
     dispatch({
       type: "DASHBOARDFILTERCASHBACK",
       payload: {
@@ -164,6 +163,8 @@ const canReadDashboard = useHasPermission("Dashboard", "canRead");
         hostel_id: hostel_id,
       },
     });
+    setLoading(true);
+
 
   }, [selectCashback, hostel_id]);
 
@@ -549,7 +550,7 @@ useEffect(() => {
 
   return (
     <>
-      <div className="cotainer px-3 py-3">
+      <div className="container px-3 py-3">
    <Marquee pauseOnHover gradient={false}>
   {showWarning && (
     <div
@@ -664,7 +665,7 @@ useEffect(() => {
 
           <div >
             <TabPanel value="1">
-              {!canReadDashboard ? (
+              {!canReadDashboard && !loading ? (
                 <div
                   style={{
                     display: "flex",
@@ -682,9 +683,9 @@ useEffect(() => {
                   />
 
 
-                  {!canReadDashboard && (
+                 
                     <ErrorMessage message={['You do not have access to view Dashboard']} type="warning" />
-                  )}
+                 
                 </div>
               ) : (
                 <>

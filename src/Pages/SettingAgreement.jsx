@@ -13,12 +13,7 @@ import searchteam from "../Assets/Images/New_images/Search Team.png";
 function SettingAgreement() {
   const [isEditable, setIsEditable] = useState(false);
 
-//   const variables = [
-//     "[Date]", "[Smartstay / Hostel Name]", "[Tenant Full Name]", "[Room No]",
-//     "[Single/Shared]", "[Joining Date]", "[6 months / 1 year / Until Notice]",
-//     "[Amount]", "[Security Deposit]", "[Advance Paid]", "[Payment Due Date]",
-//     "[Example: 5th of every month]"
-//   ];
+
 
   const execCmd = (command, value = null) => {
     if (isEditable) {

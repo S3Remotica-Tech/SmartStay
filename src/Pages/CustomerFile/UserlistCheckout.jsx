@@ -20,7 +20,7 @@ import './UserlistCheckout.css';
 import PaginationList from "../../Components/PaginationList";
 import DueCustomerConfirmCheckout from "./DueCustomerConfirmCheckout";
 import ErrorMessage from '../../Components/ErrorMessage';
-
+import { useHasPermission } from '../../Utils/Permission';
 function CheckOut(props) {
 
 
@@ -42,6 +42,16 @@ function CheckOut(props) {
   const [CheckoutProfile, setCheckoutProfile] = useState(false)
   const [checkouttableshow, setcheckoutTableShow] = useState(true);
   const [checkoutWithoutPay,setCheckoutWithoutPay] =useState("")
+
+
+
+const canReadCheckout = useHasPermission("Checkout", "canRead")
+const canWriteCheckout = useHasPermission("Checkout", "canWrite")
+//  const canUpdateCheckout = useHasPermission("Checkout", "canUpdate")
+//   const canDeleteCheckout = useHasPermission("Checkout", "canDelete")
+
+
+ 
 
   const handleCustomerProfilePage = (checkout) => {
         // props?.handleCheckoutOverview(false)
@@ -566,7 +576,7 @@ function CheckOut(props) {
                 ></div>
               </div>
             }
-            {checkOutPermissionError ? (
+            {!canReadCheckout ? (
               <>
                 <div
                   style={{
@@ -586,9 +596,9 @@ function CheckOut(props) {
                   />
 
 
-                  {checkOutPermissionError && (
-                    <ErrorMessage message={checkOutPermissionError} type="error" />
-                  )}
+                  
+                    <ErrorMessage message={['You do not have access to view Checkout']} type="warning" />
+                 
                 </div>
               </>
             ) :
@@ -1330,21 +1340,21 @@ function CheckOut(props) {
                                               <div
                                                 className="d-flex align-items-center"
                                                 onClick={() => {
-                                                  if (!props.customerCheckoutPermission) {
+                                                  if (canWriteCheckout) {
                                                     handleConfirmCheckout(checkout);
                                                   }
                                                 }}
                                                 style={{
-                                                  cursor: props.customerCheckoutPermission ? "not-allowed" : "pointer",
-                                                  opacity: props.customerCheckoutPermission ? 0.5 : 1,
+                                                  cursor: !canWriteCheckout ? "not-allowed" : "pointer",
+                                                  opacity: !canWriteCheckout ? 0.5 : 1,
                                                   padding: "6px 8px",
                                                   borderRadius: 6,
                                                   transition: "background-color 0.2s ease",
                                                 }}
                                                 onMouseEnter={(e) => {
-                                                  if (!props.customerCheckoutPermission) {
+                                                
                                                     e.currentTarget.style.backgroundColor = "#FFF3F3";
-                                                  }
+                                                  
                                                 }}
                                                 onMouseLeave={(e) => {
                                                   e.currentTarget.style.backgroundColor = "transparent";
@@ -1360,8 +1370,8 @@ function CheckOut(props) {
                                                     fontSize: 14,
                                                     fontWeight: 600,
                                                     fontFamily: "Gilroy, sans-serif",
-                                                    color: props.customerCheckoutPermission ? "#A9A9A9" : "#222222",
-                                                    cursor: props.customerCheckoutPermission ? "not-allowed" : "pointer",
+                                                    color: !canWriteCheckout ? "#A9A9A9" : "#222222",
+                                                    cursor:  !canWriteCheckout ? "not-allowed" : "pointer",
                                                   }}
                                                 >
                                                   Confirm Check-Out

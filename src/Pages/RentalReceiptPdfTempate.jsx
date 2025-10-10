@@ -24,6 +24,8 @@ import uploadsett from "../Assets/Images/New_images/upload setting.png";
 import Modal from 'react-bootstrap/Modal';
 import Questionimage from '../Assets/Images/question.png';
 import ErrorMessage from '../Components/ErrorMessage'
+import { useHasPermission } from '../Utils/Permission';
+
 
 const RentalReceiptPdfTemplate = ({ BillsTemplateList }) => {
 
@@ -41,6 +43,7 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList }) => {
   const [color, setColor] = useState({ r: 0, g: 163, b: 46, a: 1 });
     const [useGradient, setUseGradient] = useState(true);
     const defaultGradient = 'linear-gradient(to right, rgba(0,163, 46, 1), rgba(0, 163, 46, 1))';
+const canUpdateInvoice = useHasPermission("Bills", "canUpdate")
 
 
   const handleColorChange = (newColor) => {
@@ -1005,6 +1008,7 @@ useEffect(() => {
           )}
           <div className="d-flex justify-content-end mt-2 col-lg-10">
             <Button
+            disabled={!canUpdateInvoice}
               style={{
                 width: 160,
                 height: 42,

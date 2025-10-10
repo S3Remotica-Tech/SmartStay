@@ -16,7 +16,7 @@ import Box from "@mui/material/Box";
 import TabList from "@mui/lab/TabList";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 import CustomerReAssign from "./CustomerReAssign";
-import {  ArrowUp2, ArrowDown2, Trash } from "iconsax-react";
+import { ArrowUp2, ArrowDown2, Trash } from "iconsax-react";
 import Profile from "../../Assets/Images/New_images/profile-picture.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import TabPanel from "@mui/lab/TabPanel";
@@ -60,6 +60,7 @@ import FinalSettlement from "./FinalSettlement";
 import PaginationList from '../../Components/PaginationList';
 import ErrorMessage from '../../Components/ErrorMessage'
 import BackToCheckIn from "./BackToCheckIn";
+import { useHasPermission } from '../../Utils/Permission';
 function UserList(props) {
   const state = useSelector((state) => state);
 
@@ -150,11 +151,10 @@ function UserList(props) {
 
 
 
-
-
-
-
-
+  const canReadTenant = useHasPermission("Customers", "canRead")
+  const canWriteTenant = useHasPermission("Customers", "canWrite")
+  const canDeleteTenant = useHasPermission("Customers", "canDelete")
+  const canWriteWalkin = useHasPermission("Walk in", "canWrite")
 
 
 
@@ -162,12 +162,12 @@ function UserList(props) {
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       if (value === "1") {
-       
+
         dispatch({
           type: "USERLIST",
           payload: { hostel_id: state.login.selectedHostel_Id },
         });
-         setLoading(true)
+        setLoading(true)
       }
       if (value === "2") {
         dispatch({
@@ -1322,13 +1322,13 @@ function UserList(props) {
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
   const handleShowDots = (id, event) => {
-   
+
     if (activeRow === id) {
       setActiveRow(null);
     } else {
       setActiveRow(id);
     }
-      setSearch(false);
+    setSearch(false);
 
     const { top, left, height } = event.target.getBoundingClientRect();
     const popupTop = top + height / 2;
@@ -1434,7 +1434,7 @@ function UserList(props) {
 
 
 
- 
+
 
 
 
@@ -1513,7 +1513,7 @@ function UserList(props) {
   const [userDatafull, setUserData] = useState("")
 
   const handleRoomDetailsPage = (userData) => {
- 
+
     setHostelIds(userData.Hostel_Id);
     setUserData(userData)
     setId(userData.customerId);
@@ -2271,17 +2271,17 @@ function UserList(props) {
 
 
 
-useEffect(() => {
-        if (state.UsersList?.bookingToCheckinStatusCode === 200) {
-          setBookingAssignForm(false)
-                dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+  useEffect(() => {
+    if (state.UsersList?.bookingToCheckinStatusCode === 200) {
+      setBookingAssignForm(false)
+      dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
 
-            setTimeout(() => {
-                dispatch({ type: 'REMOVE_BOOKING_TO_CHECKIN' })
-            }, 100)
-        }
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_BOOKING_TO_CHECKIN' })
+      }, 100)
+    }
 
-    }, [state.UsersList?.bookingToCheckinStatusCode])
+  }, [state.UsersList?.bookingToCheckinStatusCode])
 
 
 
@@ -2292,7 +2292,7 @@ useEffect(() => {
 
   const handleCloseBooking = () => {
     setBookingAssignForm(false)
-    dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR_BOOKED'})
+    dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR_BOOKED' })
   }
 
   const handleBookingAssign = (book) => {
@@ -2309,14 +2309,14 @@ useEffect(() => {
   const [bactocheckinForm, setBacktoCheckInForm] = useState(false)
 
   const handleCloseAddCustomer = () => {
-     dispatch({ type: "CLEAR_PHONE_ERROR" });
-        dispatch({ type: "CLEAR_EMAIL_ERROR" });
-           setShowMenu(false)
+    dispatch({ type: "CLEAR_PHONE_ERROR" });
+    dispatch({ type: "CLEAR_EMAIL_ERROR" });
+    setShowMenu(false)
   }
 
-const handleCloseBackToCheckIn = () =>{
-  setBacktoCheckInForm(false)
-}
+  const handleCloseBackToCheckIn = () => {
+    setBacktoCheckInForm(false)
+  }
 
 
 
@@ -2324,7 +2324,7 @@ const handleCloseBackToCheckIn = () =>{
 
 
   const handleBacktoCheckout = (item) => {
-   
+
     handleMenuClick();
     setShowMenu(false);
     setBookingAssignForm(false)
@@ -2370,7 +2370,7 @@ const handleCloseBackToCheckIn = () =>{
       // setDueCustomerShow(true);
 
     }
- 
+
     setTimeout(() => {
       dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
     }, 500);
@@ -2393,7 +2393,7 @@ const handleCloseBackToCheckIn = () =>{
 
   const handleClosefinal = () => {
     setFinalSettlePage(false)
-    
+
   }
 
 
@@ -2724,7 +2724,7 @@ const handleCloseBackToCheckIn = () =>{
                 <div className="mt-2 me-lg-4 text-center">
                   {value === "1" && (
                     <Button
-                      disabled={customerAddPermission}
+                      disabled={!canWriteTenant}
                       onClick={handleShow}
                       style={buttonStyle}
                     >
@@ -2751,7 +2751,7 @@ const handleCloseBackToCheckIn = () =>{
                   )} */}
                   {value === "4" && (
                     <Button
-                      disabled={customerWalkInAddPermission}
+                      disabled={!canWriteWalkin}
                       onClick={walkinForm}
                       style={buttonStyle}
                     >
@@ -2904,7 +2904,7 @@ const handleCloseBackToCheckIn = () =>{
                     ></div>
                   </div>
                 )}
-                {customerpermissionError ? (
+                {!canReadTenant ? (
                   <div
                     style={{
                       display: "flex",
@@ -2919,7 +2919,7 @@ const handleCloseBackToCheckIn = () =>{
                       alt="Empty State"
 
                     />
-                    <ErrorMessage message={customerpermissionError} type="error" />
+                    <ErrorMessage message={['You do not have access to view Tenant']} type="warning" />
                   </div>
                 ) : !loading && Array.isArray(currentItems) && currentItems.length === 0 ? (
                   <div style={{ marginTop: 30 }} className="animated-text">
@@ -2954,7 +2954,7 @@ const handleCloseBackToCheckIn = () =>{
                 ) : null}
 
                 <>
-                  {!customerpermissionError && sortedData && sortedData.length > 0 &&
+                  {canReadTenant && sortedData && sortedData.length > 0 &&
                     <div
                       className=" booking-table-userlist  booking-table  me-4"
                       style={{ paddingBottom: "20px", marginLeft: "-14px" }}
@@ -3352,7 +3352,7 @@ const handleCloseBackToCheckIn = () =>{
                                     <td className=""
                                       style={{
                                         paddingTop: 15,
-                                         paddingLeft: 26,
+                                        paddingLeft: 26,
                                         border: "none",
                                         textAlign: "start",
                                         fontSize: "13px",
@@ -3366,7 +3366,7 @@ const handleCloseBackToCheckIn = () =>{
                                     <td className=""
                                       style={{
                                         paddingTop: 15,
-                                         paddingLeft: 26,
+                                        paddingLeft: 26,
                                         border: "none",
                                         textAlign: "start",
                                         fontSize: "13px",
@@ -3536,7 +3536,7 @@ const handleCloseBackToCheckIn = () =>{
                                                 <div
                                                   className="d-flex align-items-center gap-2"
                                                   onClick={() => {
-                                                    if (!customerAddPermission) {
+                                                    if (canWriteTenant) {
                                                       handleShowAssignBed(user);
                                                     }
                                                   }}
@@ -3545,15 +3545,14 @@ const handleCloseBackToCheckIn = () =>{
                                                     width: "100%",
                                                     borderRadius: 6,
                                                     backgroundColor: "#F9F9F9",
-                                                    cursor: customerAddPermission ? "not-allowed" : "pointer",
-                                                    opacity: customerAddPermission ? 0.6 : 1,
-                                                    pointerEvents: customerAddPermission ? "none" : "auto",
+                                                    cursor: !canWriteTenant ? "not-allowed" : "pointer",
+                                                    opacity: !canWriteTenant ? 0.6 : 1,
+                                                    pointerEvents: !canWriteTenant ? "none" : "auto",
                                                     transition: "background 0.2s ease-in-out",
                                                   }}
                                                   onMouseEnter={(e) => {
-                                                    if (!customerAddPermission) {
-                                                      e.currentTarget.style.backgroundColor = "#FFF3F3";
-                                                    }
+                                                    e.currentTarget.style.backgroundColor = "#FFF3F3";
+
                                                   }}
                                                   onMouseLeave={(e) => {
                                                     e.currentTarget.style.backgroundColor = "#F9F9F9";
@@ -3565,7 +3564,7 @@ const handleCloseBackToCheckIn = () =>{
                                                     style={{
                                                       height: 16,
                                                       width: 16,
-                                                      filter: customerAddPermission ? "grayscale(100%)" : "none",
+                                                      filter: !canWriteTenant ? "grayscale(100%)" : "none",
                                                     }}
                                                   />
                                                   <label
@@ -3573,8 +3572,8 @@ const handleCloseBackToCheckIn = () =>{
                                                       fontSize: 14,
                                                       fontWeight: 500,
                                                       fontFamily: "Gilroy, sans-serif",
-                                                      color: customerAddPermission ? "#888888" : "#222222",
-                                                      cursor: customerAddPermission ? "not-allowed" : "pointer",
+                                                      color: !canWriteTenant ? "#888888" : "#222222",
+                                                      cursor: !canWriteTenant ? "not-allowed" : "pointer",
                                                     }}
                                                   >
                                                     Check_In
@@ -3590,21 +3589,21 @@ const handleCloseBackToCheckIn = () =>{
                                                   className="d-flex align-items-center gap-2"
                                                   style={{
                                                     backgroundColor: "#F9F9F9",
-                                                    cursor: customerEditPermission ? "not-allowed" : "pointer",
-                                                    opacity: customerEditPermission ? 0.6 : 1,
+                                                    cursor: !canWriteTenant ? "not-allowed" : "pointer",
+                                                    opacity: !canWriteTenant ? 0.6 : 1,
                                                     padding: "8px 12px",
                                                     borderRadius: 6,
                                                     transition: "background 0.2s ease-in-out",
                                                   }}
                                                   onClick={() => {
-                                                    if (!customerEditPermission) {
+                                                    if (canWriteTenant) {
                                                       handleAddBookings(user);
                                                     }
                                                   }}
                                                   onMouseEnter={(e) => {
-                                                    if (!customerEditPermission) {
-                                                      e.currentTarget.style.backgroundColor = "#F0F4FF";
-                                                    }
+
+                                                    e.currentTarget.style.backgroundColor = "#F0F4FF";
+
                                                   }}
                                                   onMouseLeave={(e) => {
                                                     e.currentTarget.style.backgroundColor = "#F9F9F9";
@@ -3616,8 +3615,8 @@ const handleCloseBackToCheckIn = () =>{
                                                     style={{
                                                       width: 16,
                                                       height: 16,
-                                                      filter: customerEditPermission ? "grayscale(100%)" : "none",
-                                                      cursor: customerEditPermission ? "not-allowed" : "pointer",
+                                                      filter: !canWriteTenant ? "grayscale(100%)" : "none",
+                                                      cursor: !canWriteTenant ? "not-allowed" : "pointer",
                                                     }}
                                                   />
                                                   <label
@@ -3625,8 +3624,8 @@ const handleCloseBackToCheckIn = () =>{
                                                       fontSize: 14,
                                                       fontWeight: 500,
                                                       fontFamily: "Gilroy, sans-serif",
-                                                      // color: customerEditPermission ? "#888888" : "#1E45E1",
-                                                      cursor: customerEditPermission ? "not-allowed" : "pointer",
+                                                      color: !canWriteTenant ? "#888888" : "#1E45E1",
+                                                      cursor: !canWriteTenant ? "not-allowed" : "pointer",
                                                       margin: 0,
                                                     }}
                                                   >
@@ -3641,21 +3640,20 @@ const handleCloseBackToCheckIn = () =>{
                                                   className="d-flex align-items-center gap-2"
                                                   style={{
                                                     backgroundColor: "#F9F9F9",
-                                                    cursor: customerDeletePermission ? "not-allowed" : "pointer",
-                                                    opacity: customerDeletePermission ? 0.6 : 1,
+                                                    cursor: !canDeleteTenant ? "not-allowed" : "pointer",
+                                                    opacity: !canDeleteTenant ? 0.6 : 1,
                                                     padding: "8px 12px",
                                                     borderRadius: 6,
                                                     transition: "background 0.2s ease-in-out",
                                                   }}
                                                   onClick={() => {
-                                                    if (!customerDeletePermission) {
+                                                    if (canDeleteTenant) {
                                                       handleDeleteShow(user);
                                                     }
                                                   }}
                                                   onMouseEnter={(e) => {
-                                                    if (!customerDeletePermission) {
-                                                      e.currentTarget.style.backgroundColor = "#FFF3F3";
-                                                    }
+                                                    e.currentTarget.style.backgroundColor = "#FFF3F3";
+
                                                   }}
                                                   onMouseLeave={(e) => {
                                                     e.currentTarget.style.backgroundColor = "#F9F9F9";
@@ -3664,15 +3662,15 @@ const handleCloseBackToCheckIn = () =>{
 
                                                   <Trash
                                                     size="16"
-                                                    color={customerDeletePermission ? "#A9A9A9" : "red"}
+                                                    color={!canDeleteTenant ? "#A9A9A9" : "red"}
                                                   />
                                                   <label
                                                     style={{
                                                       fontSize: 14,
                                                       fontWeight: 500,
                                                       fontFamily: "Gilroy, sans-serif",
-                                                      color: customerDeletePermission ? "#888888" : "#FF0000",
-                                                      cursor: customerDeletePermission ? "not-allowed" : "pointer",
+                                                      color: !canDeleteTenant ? "#888888" : "#FF0000",
+                                                      cursor: !canDeleteTenant ? "not-allowed" : "pointer",
                                                       margin: 0,
                                                     }}
                                                   >
@@ -3689,23 +3687,22 @@ const handleCloseBackToCheckIn = () =>{
                                                   className="d-flex align-items-center gap-2"
 
                                                   onClick={() => {
-                                                    if (!customerAddPermission) {
+                                                    if (canWriteTenant) {
                                                       handleCustomerCheckout(user);
                                                     }
                                                   }}
 
                                                   style={{
                                                     backgroundColor: "#F9F9F9",
-                                                    cursor: customerAddPermission ? "not-allowed" : "pointer",
-                                                    opacity: customerAddPermission ? 0.6 : 1,
+                                                    cursor: !canWriteTenant ? "not-allowed" : "pointer",
+                                                    opacity: !canWriteTenant ? 0.6 : 1,
                                                     padding: "8px 12px",
                                                     borderRadius: 6,
                                                     transition: "background 0.2s ease-in-out",
                                                   }}
                                                   onMouseEnter={(e) => {
-                                                    if (!customerAddPermission) {
-                                                      e.currentTarget.style.backgroundColor = "#FFFBEF";
-                                                    }
+                                                    e.currentTarget.style.backgroundColor = "#FFFBEF";
+
                                                   }}
                                                   onMouseLeave={(e) => {
                                                     e.currentTarget.style.backgroundColor = "#F9F9F9";
@@ -3717,7 +3714,7 @@ const handleCloseBackToCheckIn = () =>{
                                                     style={{
                                                       width: 16,
                                                       height: 16,
-                                                      filter: customerAddPermission ? "grayscale(100%)" : "none",
+                                                      filter: !canWriteTenant ? "grayscale(100%)" : "none",
                                                     }}
                                                   />
                                                   <label
@@ -3725,8 +3722,8 @@ const handleCloseBackToCheckIn = () =>{
                                                       fontSize: 14,
                                                       fontWeight: 500,
                                                       fontFamily: "Gilroy, sans-serif",
-                                                      color: customerAddPermission ? "#888888" : "#222222",
-                                                      cursor: customerAddPermission ? "not-allowed" : "pointer",
+                                                      color: !canWriteTenant ? "#888888" : "#222222",
+                                                      cursor: !canWriteTenant ? "not-allowed" : "pointer",
                                                       margin: 0,
                                                     }}
                                                   >
@@ -3741,23 +3738,22 @@ const handleCloseBackToCheckIn = () =>{
                                                   className="d-flex align-items-center gap-2"
 
                                                   onClick={() => {
-                                                    if (!customerAddPermission) {
+                                                    if (canWriteTenant) {
                                                       handleCustomerReAssign(user);
                                                     }
                                                   }}
 
                                                   style={{
                                                     backgroundColor: "#F9F9F9",
-                                                    cursor: customerAddPermission ? "not-allowed" : "pointer",
-                                                    opacity: customerAddPermission ? 0.6 : 1,
+                                                    cursor: !canWriteTenant ? "not-allowed" : "pointer",
+                                                    opacity: !canWriteTenant ? 0.6 : 1,
                                                     padding: "8px 12px",
                                                     borderRadius: 6,
                                                     transition: "background 0.2s ease-in-out",
                                                   }}
                                                   onMouseEnter={(e) => {
-                                                    if (!customerAddPermission) {
-                                                      e.currentTarget.style.backgroundColor = "#FFFBEF";
-                                                    }
+                                                    e.currentTarget.style.backgroundColor = "#FFFBEF";
+
                                                   }}
                                                   onMouseLeave={(e) => {
                                                     e.currentTarget.style.backgroundColor = "#F9F9F9";
@@ -3769,7 +3765,7 @@ const handleCloseBackToCheckIn = () =>{
                                                     style={{
                                                       width: 16,
                                                       height: 16,
-                                                      filter: customerAddPermission ? "grayscale(100%)" : "none",
+                                                      filter: !canWriteTenant ? "grayscale(100%)" : "none",
                                                     }}
                                                   />
                                                   <label
@@ -3777,12 +3773,12 @@ const handleCloseBackToCheckIn = () =>{
                                                       fontSize: 14,
                                                       fontWeight: 500,
                                                       fontFamily: "Gilroy, sans-serif",
-                                                      color: customerAddPermission ? "#888888" : "#222222",
-                                                      cursor: customerAddPermission ? "not-allowed" : "pointer",
+                                                      color: !canWriteTenant ? "#888888" : "#222222",
+                                                      cursor: !canWriteTenant ? "not-allowed" : "pointer",
                                                       margin: 0,
                                                     }}
                                                   >
-                                               Change Bed
+                                                    Change Bed
                                                   </label>
                                                 </div>
 
@@ -3795,23 +3791,22 @@ const handleCloseBackToCheckIn = () =>{
                                                     className="d-flex align-items-center gap-2"
 
                                                     onClick={() => {
-                                                      if (!customerAddPermission) {
+                                                      if (canWriteTenant) {
                                                         handleBacktoCheckout(user);
                                                       }
                                                     }}
 
                                                     style={{
                                                       backgroundColor: "#F9F9F9",
-                                                      cursor: customerAddPermission ? "not-allowed" : "pointer",
-                                                      opacity: customerAddPermission ? 0.6 : 1,
+                                                      cursor: !canWriteTenant ? "not-allowed" : "pointer",
+                                                      opacity: !canWriteTenant ? 0.6 : 1,
                                                       padding: "8px 12px",
                                                       borderRadius: 6,
                                                       transition: "background 0.2s ease-in-out",
                                                     }}
                                                     onMouseEnter={(e) => {
-                                                      if (!customerAddPermission) {
-                                                        e.currentTarget.style.backgroundColor = "#FFFBEF";
-                                                      }
+                                                      e.currentTarget.style.backgroundColor = "#FFFBEF";
+
                                                     }}
                                                     onMouseLeave={(e) => {
                                                       e.currentTarget.style.backgroundColor = "#F9F9F9";
@@ -3823,7 +3818,7 @@ const handleCloseBackToCheckIn = () =>{
                                                       style={{
                                                         width: 16,
                                                         height: 16,
-                                                        filter: customerAddPermission ? "grayscale(100%)" : "none",
+                                                        filter: !canWriteTenant ? "grayscale(100%)" : "none",
                                                       }}
                                                     />
                                                     <label
@@ -3831,8 +3826,8 @@ const handleCloseBackToCheckIn = () =>{
                                                         fontSize: 14,
                                                         fontWeight: 500,
                                                         fontFamily: "Gilroy, sans-serif",
-                                                        color: customerAddPermission ? "#888888" : "#222222",
-                                                        cursor: customerAddPermission ? "not-allowed" : "pointer",
+                                                        color: !canWriteTenant ? "#888888" : "#222222",
+                                                        cursor: !canWriteTenant ? "not-allowed" : "pointer",
                                                         margin: 0,
                                                       }}
                                                     >
@@ -3845,23 +3840,23 @@ const handleCloseBackToCheckIn = () =>{
                                                     className="d-flex align-items-center gap-2"
 
                                                     onClick={() => {
-                                                      if (!customerAddPermission) {
+                                                      if (canWriteTenant) {
                                                         handleConformCheckout(user);
                                                       }
                                                     }}
 
                                                     style={{
                                                       backgroundColor: "#F9F9F9",
-                                                      cursor: customerAddPermission ? "not-allowed" : "pointer",
-                                                      opacity: customerAddPermission ? 0.6 : 1,
+                                                      cursor: !canWriteTenant ? "not-allowed" : "pointer",
+                                                      opacity: !canWriteTenant ? 0.6 : 1,
                                                       padding: "8px 12px",
                                                       borderRadius: 6,
                                                       transition: "background 0.2s ease-in-out",
                                                     }}
                                                     onMouseEnter={(e) => {
-                                                      if (!customerAddPermission) {
-                                                        e.currentTarget.style.backgroundColor = "#FFFBEF";
-                                                      }
+
+                                                      e.currentTarget.style.backgroundColor = "#FFFBEF";
+
                                                     }}
                                                     onMouseLeave={(e) => {
                                                       e.currentTarget.style.backgroundColor = "#F9F9F9";
@@ -3873,7 +3868,7 @@ const handleCloseBackToCheckIn = () =>{
                                                       style={{
                                                         width: 16,
                                                         height: 16,
-                                                        filter: customerAddPermission ? "grayscale(100%)" : "none",
+                                                        filter: !canWriteTenant ? "grayscale(100%)" : "none",
                                                       }}
                                                     />
                                                     <label
@@ -3881,8 +3876,8 @@ const handleCloseBackToCheckIn = () =>{
                                                         fontSize: 14,
                                                         fontWeight: 500,
                                                         fontFamily: "Gilroy, sans-serif",
-                                                        color: customerAddPermission ? "#888888" : "#222222",
-                                                        cursor: customerAddPermission ? "not-allowed" : "pointer",
+                                                        color: !canWriteTenant ? "#888888" : "#222222",
+                                                        cursor: !canWriteTenant ? "not-allowed" : "pointer",
                                                         margin: 0,
                                                       }}
                                                     >
@@ -3893,23 +3888,23 @@ const handleCloseBackToCheckIn = () =>{
                                                     className="d-flex align-items-center gap-2"
 
                                                     onClick={() => {
-                                                      if (!customerAddPermission) {
+                                                      if (canWriteTenant) {
                                                         handleCheckoutGenrate(user);
                                                       }
                                                     }}
 
                                                     style={{
                                                       backgroundColor: "#F9F9F9",
-                                                      cursor: customerAddPermission ? "not-allowed" : "pointer",
-                                                      opacity: customerAddPermission ? 0.6 : 1,
+                                                      cursor: !canWriteTenant ? "not-allowed" : "pointer",
+                                                      opacity: !canWriteTenant ? 0.6 : 1,
                                                       padding: "8px 12px",
                                                       borderRadius: 6,
                                                       transition: "background 0.2s ease-in-out",
                                                     }}
                                                     onMouseEnter={(e) => {
-                                                      if (!customerAddPermission) {
-                                                        e.currentTarget.style.backgroundColor = "#FFFBEF";
-                                                      }
+
+                                                      e.currentTarget.style.backgroundColor = "#FFFBEF";
+
                                                     }}
                                                     onMouseLeave={(e) => {
                                                       e.currentTarget.style.backgroundColor = "#F9F9F9";
@@ -3921,7 +3916,7 @@ const handleCloseBackToCheckIn = () =>{
                                                       style={{
                                                         width: 16,
                                                         height: 16,
-                                                        filter: customerAddPermission ? "grayscale(100%)" : "none",
+                                                        filter: !canWriteTenant ? "grayscale(100%)" : "none",
                                                       }}
                                                     />
                                                     <label
@@ -3929,8 +3924,8 @@ const handleCloseBackToCheckIn = () =>{
                                                         fontSize: 14,
                                                         fontWeight: 500,
                                                         fontFamily: "Gilroy, sans-serif",
-                                                        color: customerAddPermission ? "#888888" : "#222222",
-                                                        cursor: customerAddPermission ? "not-allowed" : "pointer",
+                                                        color: !canWriteTenant ? "#888888" : "#222222",
+                                                        cursor: !canWriteTenant ? "not-allowed" : "pointer",
                                                         margin: 0,
                                                       }}
                                                     >
@@ -3950,19 +3945,19 @@ const handleCloseBackToCheckIn = () =>{
                                                     className="d-flex align-items-center gap-2"
                                                     style={{
                                                       backgroundColor: "#F9F9F9",
-                                                      cursor: customerEditPermission ? "not-allowed" : "pointer",
-                                                      opacity: customerEditPermission ? 0.6 : 1,
+                                                      cursor: !canWriteTenant ? "not-allowed" : "pointer",
+                                                      opacity: !canWriteTenant ? 0.6 : 1,
                                                       padding: "8px 12px",
                                                       borderRadius: 6,
                                                       transition: "background 0.2s ease-in-out",
                                                     }}
                                                     onClick={() => {
-                                                      if (!customerEditPermission) {
+                                                      if (canWriteTenant) {
                                                         handleBookingAssign(user);
                                                       }
                                                     }}
                                                     onMouseEnter={(e) => {
-                                                      if (!customerEditPermission) {
+                                                      if (canWriteTenant) {
                                                         e.currentTarget.style.backgroundColor = "#F0F4FF";
                                                       }
                                                     }}
@@ -3976,8 +3971,8 @@ const handleCloseBackToCheckIn = () =>{
                                                       style={{
                                                         width: 16,
                                                         height: 16,
-                                                        filter: customerEditPermission ? "grayscale(100%)" : "none",
-                                                        cursor: customerEditPermission ? "not-allowed" : "pointer",
+                                                        filter: !canWriteTenant ? "grayscale(100%)" : "none",
+                                                        cursor: !canWriteTenant ? "not-allowed" : "pointer",
                                                       }}
                                                     />
                                                     <label
@@ -3985,7 +3980,7 @@ const handleCloseBackToCheckIn = () =>{
                                                         fontSize: 14,
                                                         fontWeight: 500,
                                                         fontFamily: "Gilroy, sans-serif",
-                                                        cursor: customerEditPermission ? "not-allowed" : "pointer",
+                                                        cursor: !canWriteTenant ? "not-allowed" : "pointer",
                                                         margin: 0,
                                                       }}
                                                     >
@@ -3996,21 +3991,21 @@ const handleCloseBackToCheckIn = () =>{
                                                     className="d-flex align-items-center gap-2"
                                                     style={{
                                                       backgroundColor: "#F9F9F9",
-                                                      cursor: customerEditPermission ? "not-allowed" : "pointer",
-                                                      opacity: customerEditPermission ? 0.6 : 1,
+                                                      cursor: !canWriteTenant ? "not-allowed" : "pointer",
+                                                      opacity: !canWriteTenant ? 0.6 : 1,
                                                       padding: "8px 12px",
                                                       borderRadius: 6,
                                                       transition: "background 0.2s ease-in-out",
                                                     }}
                                                     onClick={() => {
-                                                      if (!customerEditPermission) {
+                                                      if (canWriteTenant) {
                                                         handleInActive(user);
                                                       }
                                                     }}
                                                     onMouseEnter={(e) => {
-                                                      if (!customerEditPermission) {
-                                                        e.currentTarget.style.backgroundColor = "#F0F4FF";
-                                                      }
+
+                                                      e.currentTarget.style.backgroundColor = "#F0F4FF";
+
                                                     }}
                                                     onMouseLeave={(e) => {
                                                       e.currentTarget.style.backgroundColor = "#F9F9F9";
@@ -4022,8 +4017,8 @@ const handleCloseBackToCheckIn = () =>{
                                                       style={{
                                                         width: 16,
                                                         height: 16,
-                                                        filter: customerEditPermission ? "grayscale(100%)" : "none",
-                                                        cursor: customerEditPermission ? "not-allowed" : "pointer",
+                                                        filter: !canWriteTenant ? "grayscale(100%)" : "none",
+                                                        cursor: !canWriteTenant ? "not-allowed" : "pointer",
                                                       }}
                                                     />
                                                     <label
@@ -4031,8 +4026,7 @@ const handleCloseBackToCheckIn = () =>{
                                                         fontSize: 14,
                                                         fontWeight: 500,
                                                         fontFamily: "Gilroy, sans-serif",
-                                                        // color: customerEditPermission ? "#888888" : "#1E45E1",
-                                                        cursor: customerEditPermission ? "not-allowed" : "pointer",
+                                                        cursor: !canWriteTenant ? "not-allowed" : "pointer",
                                                         margin: 0,
                                                       }}
                                                     >
@@ -4578,7 +4572,7 @@ const handleCloseBackToCheckIn = () =>{
                       ))}
                   </Form.Select>
                   {floorError && (
-                   <ErrorMessage message={floorError} type="error" />
+                    <ErrorMessage message={floorError} type="error" />
                   )}
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -4621,7 +4615,7 @@ const handleCloseBackToCheckIn = () =>{
                       ))}
                   </Form.Select>
                   {roomError && (
-                     <ErrorMessage message={roomError} type="error" />
+                    <ErrorMessage message={roomError} type="error" />
                   )}
                 </div>
 
@@ -4660,7 +4654,7 @@ const handleCloseBackToCheckIn = () =>{
                     />
                   </Form.Group>
                   {readingError && (
-                     <ErrorMessage message={readingError} type="error" />
+                    <ErrorMessage message={readingError} type="error" />
                   )}
                 </div>s
                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -4692,13 +4686,13 @@ const handleCloseBackToCheckIn = () =>{
                     </div>
                   </Form.Group>
                   {dateError && (
-                   <ErrorMessage message={dateError} type="error" />
+                    <ErrorMessage message={dateError} type="error" />
                   )}
                 </div>
               </div>
             </Modal.Body>
             {formError && (
-            <ErrorMessage message={formError} type="error" />
+              <ErrorMessage message={formError} type="error" />
             )}
             <Modal.Footer className="d-flex justify-content-center">
               <Button
@@ -4879,13 +4873,13 @@ const handleCloseBackToCheckIn = () =>{
                     </div>
                   </Form.Group>
                   {dateError && (
-                     <ErrorMessage message={dateError} type="error" />
+                    <ErrorMessage message={dateError} type="error" />
                   )}
                 </div>
               </div>
             </Modal.Body>
             {formError && (
-             <ErrorMessage message={formError} type="error" />
+              <ErrorMessage message={formError} type="error" />
             )}
             <Modal.Footer className="d-flex justify-content-center">
               <Button
@@ -5169,7 +5163,7 @@ const handleCloseBackToCheckIn = () =>{
                   ))}
               </Form.Select>
               {customererrmsg.trim() !== "" && (
-               <ErrorMessage message={customererrmsg} type="error" />
+                <ErrorMessage message={customererrmsg} type="error" />
               )}
             </Form.Group>
           </div>
@@ -5204,7 +5198,7 @@ const handleCloseBackToCheckIn = () =>{
                 readOnly
               />
               {invoicenumbererrmsg.trim() !== "" && (
-              <ErrorMessage message={invoicenumbererrmsg} type="error" />
+                <ErrorMessage message={invoicenumbererrmsg} type="error" />
               )}
             </Form.Group>
           </div>
@@ -5260,7 +5254,7 @@ const handleCloseBackToCheckIn = () =>{
               </Form.Group>
 
               {invoicedateerrmsg.trim() !== "" && (
-              <ErrorMessage message={invoicedateerrmsg} type="error" />
+                <ErrorMessage message={invoicedateerrmsg} type="error" />
               )}
             </div>
 
@@ -5316,7 +5310,7 @@ const handleCloseBackToCheckIn = () =>{
           </div>
 
           {allfielderrmsg.trim() !== "" && (
-           <ErrorMessage message={allfielderrmsg} type="error" />
+            <ErrorMessage message={allfielderrmsg} type="error" />
           )}
 
 
@@ -5427,11 +5421,11 @@ const handleCloseBackToCheckIn = () =>{
             </Form.Select>
 
             {tableErrmsg.trim() !== "" && (
-               <ErrorMessage message={tableErrmsg} type="error" />
+              <ErrorMessage message={tableErrmsg} type="error" />
             )}
           </div>
 
-         
+
 
 
           {billLoading && <div
@@ -5583,13 +5577,13 @@ const handleCloseBackToCheckIn = () =>{
           handleClose={handleCloseBooking} bookingDetails={EditObj} />
       }
 
-{
-      bactocheckinForm  && <BackToCheckIn show={bactocheckinForm}  handleClose={handleCloseBackToCheckIn}/>
+      {
+        bactocheckinForm && <BackToCheckIn show={bactocheckinForm} handleClose={handleCloseBackToCheckIn} />
 
-}
+      }
 
 
-      {(advanceForm || showAssignMenu ) && (
+      {(advanceForm || showAssignMenu) && (
         <UserlistForm
           // setShowMenu={setShowMenu}
           advanceForm={advanceForm}
@@ -5615,8 +5609,8 @@ const handleCloseBackToCheckIn = () =>{
           uniqueostel_Id={uniqueostel_Id}
           setUniqostel_Id={setUniqostel_Id}
 
-          // bactocheckinForm={bactocheckinForm}
-          // setBacktoCheckInForm={setBacktoCheckInForm}
+        // bactocheckinForm={bactocheckinForm}
+        // setBacktoCheckInForm={setBacktoCheckInForm}
         />
       )}
 

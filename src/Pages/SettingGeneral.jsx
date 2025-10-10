@@ -26,7 +26,8 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { CloseCircle } from "iconsax-react";
 import './SettingGeneral.css';
 import ErrorMessage from '../Components/ErrorMessage'
-
+import { useHasPermission } from '../Utils/Permission';
+import Emptystate from "../Assets/Images/Empty-State.jpg";
 
 function SettingGeneral() {
   const state = useSelector((state) => state);
@@ -91,6 +92,11 @@ function SettingGeneral() {
 
   const [loading, setLoading] = useState(true)
   const [generalDeleteError, setGeneralDeleteError] = useState("")
+
+  const canReadProfile = useHasPermission("Profile", "canRead");
+  const canWriteProfile = useHasPermission("Profile", "canWrite");
+  const canUpdateProfile = useHasPermission("Profile", "canUpdate");
+  const canDeleteProfile = useHasPermission("Profile", "canDelete");
 
 
   const indianStates = [
@@ -409,7 +415,7 @@ function SettingGeneral() {
 
 
 
-const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
+  const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
 
 
   const handleHouseNo = (e) => {
@@ -633,21 +639,21 @@ const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
       validateField(firstName, "firstName"),
       validateField(emilId, "emilId"),
       validateField(Phone, "Phone"),
-           validateField(city, "City"),
+      validateField(city, "City"),
       validateField(pincode, "Pincode"),
       validateField(state_name, "state_name"),
     ];
 
 
     if (!Phone) {
-  setPhoneError("Please Enter Mobile Number");
-  hasError = true;
-} else if (!/^(?!0{10})[1-9][0-9]{9}$/.test(Phone)) {
-    setPhoneError("Please Enter Valid Mobile Number");
-  hasError = true;
-} else {
-  setPhoneError(""); 
-}
+      setPhoneError("Please Enter Mobile Number");
+      hasError = true;
+    } else if (!/^(?!0{10})[1-9][0-9]{9}$/.test(Phone)) {
+      setPhoneError("Please Enter Valid Mobile Number");
+      hasError = true;
+    } else {
+      setPhoneError("");
+    }
 
 
 
@@ -721,7 +727,7 @@ const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
       payload: {
         firstName,
         lastName,
-        mobile: normalizedPhoneNumber,  
+        mobile: normalizedPhoneNumber,
         mailId: emilId,
         houseNo: house_no,
         street,
@@ -730,13 +736,13 @@ const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
         pincode: Number(pincode),
         state: state_name
       },
-     
+
       profilePic: isFile(profileimage) ? profileimage : null
     };
 
 
 
-   
+
 
 
     if (edit && editId) {
@@ -1072,7 +1078,7 @@ const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
           <div
           >
             <Button
-
+              disabled={!canWriteProfile}
               style={{
                 fontFamily: "Gilroy",
                 fontSize: "14px",
@@ -1081,7 +1087,6 @@ const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
                 fontWeight: 600,
                 borderRadius: "8px",
                 padding: "11px",
-
                 height: 45,
                 width: 146,
                 whiteSpace: "nowrap",
@@ -1134,465 +1139,337 @@ const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
         }
 
 
+        {
+          !canReadProfile ? (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                marginTop: 100
+              }}
+            >
+
+              <img
+                src={Emptystate}
+                alt="Empty State"
+
+              />
+              <ErrorMessage message={['You do not have access to view General']} type="warning" />
+
+            </div>
+          )
+            :
+
+            generalFilterddata && generalFilterddata.length > 0 ? (
+              generalFilterddata.map((item) => {
+                const imageUrl = item.profilePic || Profile;
+                return (
 
 
+                  <div
+                    className="card p-3 settingGreneral mt-2"
+                    style={{
+                      borderRadius: 16,
+                      height: 230,
+                      overflow: 'hidden'
+                    }}
+                    key={item.userId}
+                  >
+                    <div
 
-        {generalFilterddata && generalFilterddata.length > 0 ? (
-          generalFilterddata.map((item) => {
-            const imageUrl = item.profilePic || Profile;
-            return (
-
-
-              <div
-                className="card p-3 settingGreneral mt-2"
-                style={{
-                  borderRadius: 16,
-                  height: 230,
-                  overflow: 'hidden'
-                }}
-                key={item.userId}
-              >
-                <div
-
-                  className="d-flex flex-wrap justify-content-between align-items-center w-100"
-                >
-                  <div className="d-flex align-items-center flex-wrap">
-                    <Image
-                      src={imageUrl}
-                      alt={item.firstName || "Default Profile"}
-                      roundedCircle
-                      style={{
-                        height: "50px",
-                        width: "50px",
-                      }}
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = Profile;
-                      }}
-                    />
-                    <div className="ms-2 ">
-                      <p
-                        className="mb-0 text-break"
-                        style={{
-                          fontSize: 16,
-                          fontWeight: 600,
-                          fontFamily: "Gilroy",
-
-                        }}
-                      >
-                        {item.firstName} {item.lastName}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="d-flex align-items-center flex-wrap">
-                    <img src={img2} width="20" height="20" alt="icon" />
-                    <p
-                      onClick={() => handleChangePassword(item)}
-                      className="mb-0 mx-2 text-wrap"
-                      style={{
-                        fontFamily: "Montserrat",
-                        fontWeight: 600,
-                        fontSize: 14,
-                        color: "#1E45E1",
-                        cursor: "pointer",
-                      }}
+                      className="d-flex flex-wrap justify-content-between align-items-center w-100"
                     >
-                      Change Password
-                    </p>
-
-                    <div className="ms-2 me-2" style={{
-                      cursor: "pointer", height: 40, width: 40, borderRadius: 100,
-                      border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center",
-                      position: "relative", zIndex: generalEdit ? 1000 : 'auto'
-                      , backgroundColor: generalEdit === item.userId ? "#E7F1FF" : "transparent",
-
-
-                    }} onClick={() => handlegeneralform(item.userId)} >
-                      <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-
-                      {generalEdit === item.userId && (
-                        <div
-                          ref={popupRef}
+                      <div className="d-flex align-items-center flex-wrap">
+                        <Image
+                          src={imageUrl}
+                          alt={item.firstName || "Default Profile"}
+                          roundedCircle
                           style={{
-                            cursor: "pointer",
-                            backgroundColor: "#F9F9F9",
-                            position: "absolute",
-                            right: window.innerWidth <= 404 ? "auto" : 40,
-                            top: 40,
-                            width: window.innerWidth <= 404 ? 100 : 120,
-                            height: "auto",
-                            border: "1px solid #EBEBEB",
-                            borderRadius: 10,
-                            display: "flex",
-                            flexDirection: "column",
-                            padding: 0,
-                            alignItems: "flex-start",
-                            zIndex: 1050,
-                            fontSize: window.innerWidth <= 404 ? 13 : 14,
+                            height: "50px",
+                            width: "50px",
                           }}
-                        >
-                          <div
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = Profile;
+                          }}
+                        />
+                        <div className="ms-2 ">
+                          <p
+                            className="mb-0 text-break"
                             style={{
-                              width: "100%",
-                              backgroundColor: "#F9F9F9",
-                              borderRadius: 10,
+                              fontSize: 16,
+                              fontWeight: 600,
+                              fontFamily: "Gilroy",
+
                             }}
                           >
-
-                            <div
-                              onClick={() => handleEditGeneralUser(item)}
-                              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#EDF2FF")}
-                              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#F9F9F9")}
-                              style={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: "10px",
-                                padding: "8px 12px",
-                                width: "100%",
-                                backgroundColor: "#F9F9F9",
-                                borderTopLeftRadius: 10,
-                                borderTopRightRadius: 10,
-                                cursor: "pointer",
-                              }}
-                            >
-                              <img src={Edit} alt="Edit" style={{ height: 16, width: 16 }} />
-                              <label
-                                style={{
-                                  fontSize: 14,
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy, sans-serif",
-                                  color: "#000000",
-                                  cursor: "pointer",
-                                }}
-                              >
-                                Edit
-                              </label>
-                            </div>
-
-                            <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px" }} />
-
-
-                            <div
-                              onClick={() => handleDelete(item)}
-                              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#FFF0F0")}
-                              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#F9F9F9")}
-                              style={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: "10px",
-                                padding: "8px 12px",
-                                width: "100%",
-                                backgroundColor: "#F9F9F9",
-                                borderBottomLeftRadius: 10,
-                                borderBottomRightRadius: 10,
-                                cursor: "pointer",
-                              }}
-                            >
-                              <img src={Delete} alt="Delete" style={{ height: 16, width: 16 }} />
-                              <label
-                                style={{
-                                  fontSize: 14,
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy, sans-serif",
-                                  color: "#FF0000",
-                                  cursor: "pointer",
-                                }}
-                              >
-                                Delete
-                              </label>
-                            </div>
-                          </div>
+                            {item.firstName} {item.lastName}
+                          </p>
                         </div>
+                      </div>
+                      <div className="d-flex align-items-center flex-wrap">
+                        <img src={img2} width="20" height="20" alt="icon" style={{filter :canWriteProfile ? "none": "grayscale(100%) brightness(70%)" }} />
+                        <p
+                          onClick={() => canWriteProfile && handleChangePassword(item)}
+                          className="mb-0 mx-2 text-wrap"
+                          style={{
+                            fontFamily: "Montserrat",
+                            fontWeight: 600,
+                            fontSize: 14,
+                            color: canWriteProfile ? "#1E45E1" : "#B0B0B0",
+                            cursor: canWriteProfile ? "pointer" : "not-allowed",
+                          }}
+                        >
+                          Change Password
+                        </p>
 
-                      )}
+                        <div className="ms-2 me-2" style={{
+                          cursor: "pointer", height: 40, width: 40, borderRadius: 100,
+                          border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center",
+                          position: "relative", zIndex: generalEdit ? 1000 : 'auto'
+                          , backgroundColor: generalEdit === item.userId ? "#E7F1FF" : "transparent",
+
+
+                        }} onClick={() => handlegeneralform(item.userId)} >
+                          <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+
+                          {generalEdit === item.userId && (
+                            <div
+                              ref={popupRef}
+                              style={{
+                                cursor: "pointer",
+                                backgroundColor: "#F9F9F9",
+                                position: "absolute",
+                                right: window.innerWidth <= 404 ? "auto" : 40,
+                                top: 40,
+                                width: window.innerWidth <= 404 ? 100 : 120,
+                                height: "auto",
+                                border: "1px solid #EBEBEB",
+                                borderRadius: 10,
+                                display: "flex",
+                                flexDirection: "column",
+                                padding: 0,
+                                alignItems: "flex-start",
+                                zIndex: 1050,
+                                fontSize: window.innerWidth <= 404 ? 13 : 14,
+                              }}
+                            >
+                              <div
+                                style={{
+                                  width: "100%",
+                                  backgroundColor: "#F9F9F9",
+                                  borderRadius: 10,
+                                }}
+                              >
+
+                                <div
+                                  onClick={() => canUpdateProfile && handleEditGeneralUser(item)}
+                                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#EDF2FF")}
+                                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#F9F9F9")}
+                                  style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: "10px",
+                                    padding: "8px 12px",
+                                    width: "100%",
+                                    backgroundColor: "#F9F9F9",
+                                    borderTopLeftRadius: 10,
+                                    borderTopRightRadius: 10,
+                                    cursor: canUpdateProfile ? "pointer" : "not-allowed",
+                                    opacity: canUpdateProfile ? 1 : 0.5,
+                                  }}
+                                >
+                                  <img src={Edit} alt="Edit" style={{ height: 16, width: 16, filter: canUpdateProfile ? "none" : "grayscale(100%) brightness(70%)", }} />
+                                  <label
+                                    style={{
+                                      fontSize: 14,
+                                      fontWeight: 500,
+                                      fontFamily: "Gilroy, sans-serif",
+                                      color: "#000000",
+                                      color: canUpdateProfile ? "#000000" : "#999999",
+                                      cursor: canUpdateProfile ? "pointer" : "not-allowed",
+                                    }}
+                                  >
+                                    Edit
+                                  </label>
+                                </div>
+
+                                <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px" }} />
+
+
+                                <div
+                                  onClick={() => canDeleteProfile && handleDelete(item)}
+                                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#FFF0F0")}
+                                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#F9F9F9")}
+                                  style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: "10px",
+                                    padding: "8px 12px",
+                                    width: "100%",
+                                    backgroundColor: "#F9F9F9",
+                                    borderBottomLeftRadius: 10,
+                                    borderBottomRightRadius: 10,
+                                    cursor: canDeleteProfile ? "pointer" : "not-allowed",
+                                    opacity: canDeleteProfile ? 1 : 0.5,
+                                  }}
+                                >
+                                  <img src={Delete} alt="Delete" style={{ height: 16, width: 16, filter: canDeleteProfile ? "none" : "grayscale(100%) brightness(70%)", }} />
+                                  <label
+                                    style={{
+                                      fontSize: 14,
+                                      fontWeight: 500,
+                                      fontFamily: "Gilroy, sans-serif",
+                                      color: "#FF0000",
+                                      color: canDeleteProfile ? "#FF0000" : "#999999",
+                                      cursor: canDeleteProfile ? "pointer" : "not-allowed",
+                                    }}
+                                  >
+                                    Delete
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                    <hr />
+                    <div className="row">
+                      <div className="col-md-6">
+                        <p
+                          className="mb-0"
+                          style={{
+                            fontSize: 12,
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                            color: "#939393",
+                          }}
+                        >
+                          Email ID
+                        </p>
+                        <p
+                          style={{
+                            fontSize: 16,
+                            fontFamily: "Gilroy",
+                            fontWeight: 600,
+                          }}
+                        >
+                          {item.mailId}
+                        </p>
+                      </div>
+                      <div className="col-md-6">
+                        <p
+                          className="mb-0"
+                          style={{
+                            fontSize: 12,
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                            color: "#939393",
+                          }}
+                        >
+                          Contact Number
+                        </p>
+                        <p
+                          style={{
+                            fontSize: 16,
+                            fontFamily: "Gilroy",
+                            fontWeight: 600,
+                          }}
+                        >
+                          + {item?.countryCode}
+                          {item &&
+                            String(item.mobileNo).slice(
+                              0,
+                              String(item.mobileNo).length - 10
+                            )}{" "}
+                          {item && String(item.mobileNo).slice(-10)}
+                        </p>
+                      </div>
+
+                      <div className="col-12">
+                        <p
+                          className="mb-0"
+                          style={{
+                            fontSize: 12,
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                            color: "#939393",
+                          }}
+                        >
+                          Address
+                        </p>
+                        <p
+                          style={{
+                            fontSize: 16,
+                            fontFamily: "Gilroy",
+                            fontWeight: 600,
+                          }}
+                        >
+                          {(item?.houseNo ? item?.houseNo : '') +
+                            (item.street ? ' ' + item.street : '') +
+                            (item.landmark ? ', ' + item.landmark : '')}
+                          <br />
+                          {(item.city ? item.city + ', ' : '') +
+                            (item.state ? item.state + ' ' : '-') +
+                            (item.pincode ? item.pincode : '')}
+                        </p>
+
+                      </div>
+
                     </div>
                   </div>
+
+                );
+              })
+            )
+
+              :
+              !loading && (
+                <div
+                  style={{
+                    textAlign: "center",
+                    marginTop: 90,
+                    height: '40vh',
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center"
+                  }}
+                >
+                  <img src={EmptyState} alt="emptystate" />
+                  <div
+                    className="pb-1"
+                    style={{
+                      fontWeight: 600,
+                      fontFamily: "Gilroy",
+                      fontSize: 18,
+                      color: "rgba(75, 75, 75, 1)",
+                    }}
+                  >
+                    No Profile
+                  </div>
+                  <div
+                    className="pb-1"
+                    style={{
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
+                      fontSize: 14,
+                      color: "rgba(75, 75, 75, 1)",
+                    }}
+                  >
+                    There are no Profile available.
+                  </div>
                 </div>
-                <hr />
-                <div className="row">
-                  <div className="col-md-6">
-                    <p
-                      className="mb-0"
-                      style={{
-                        fontSize: 12,
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        color: "#939393",
-                      }}
-                    >
-                      Email ID
-                    </p>
-                    <p
-                      style={{
-                        fontSize: 16,
-                        fontFamily: "Gilroy",
-                        fontWeight: 600,
-                      }}
-                    >
-                      {item.mailId}
-                    </p>
-                  </div>
-                  <div className="col-md-6">
-                    <p
-                      className="mb-0"
-                      style={{
-                        fontSize: 12,
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        color: "#939393",
-                      }}
-                    >
-                      Contact Number
-                    </p>
-                    <p
-                      style={{
-                        fontSize: 16,
-                        fontFamily: "Gilroy",
-                        fontWeight: 600,
-                      }}
-                    >
-                      + {item?.countryCode}
-                      {item &&
-                        String(item.mobileNo).slice(
-                          0,
-                          String(item.mobileNo).length - 10
-                        )}{" "}
-                      {item && String(item.mobileNo).slice(-10)}
-                    </p>
-                  </div>
-
-                  <div className="col-12">
-                    <p
-                      className="mb-0"
-                      style={{
-                        fontSize: 12,
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        color: "#939393",
-                      }}
-                    >
-                      Address
-                    </p>
-                    <p
-                      style={{
-                        fontSize: 16,
-                        fontFamily: "Gilroy",
-                        fontWeight: 600,
-                      }}
-                    >
-                      {(item?.houseNo ? item?.houseNo : '') +
-                        (item.street ? ' ' + item.street : '') +
-                        (item.landmark ? ', ' + item.landmark : '')}
-                      <br />
-                      {(item.city ? item.city + ', ' : '') +
-                        (item.state ? item.state + ' ' : '-') +
-                        (item.pincode ? item.pincode : '')}
-                    </p>
-
-                  </div>
-
-                </div>
-              </div>
-
-            );
-          })
-        ) : !loading && (
-          <div
-            style={{
-              textAlign: "center",
-              marginTop: 90,
-              height: '40vh',
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center"
-            }}
-          >
-            <img src={EmptyState} alt="emptystate" />
-            <div
-              className="pb-1"
-              style={{
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-                fontSize: 18,
-                color: "rgba(75, 75, 75, 1)",
-              }}
-            >
-              No Profile
-            </div>
-            <div
-              className="pb-1"
-              style={{
-                fontWeight: 500,
-                fontFamily: "Gilroy",
-                fontSize: 14,
-                color: "rgba(75, 75, 75, 1)",
-              }}
-            >
-              There are no Profile available.
-            </div>
-          </div>
 
 
-        )}
+              )
+        }
       </div>
 
 
-
-      {/* {generalFilterddata?.length > 2 && (
-        <nav
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "end",
-            padding: "10px",
-            position: "sticky",
-            bottom: "0px",
-            right: "0px",
-            left: 0,
-            backgroundColor: "#fff",
-            borderRadius: "5px",
-            zIndex: 1000,
-          }}
-
-        >
-
-          <div>
-            <Select
-              value={options.find((opt) => opt.value === generalrowsPerPage)}
-              onChange={handleItemsPerPageChange}
-              options={options}
-              placeholder="Items per page"
-              classNamePrefix="custom"
-              menuPlacement="auto"
-              noOptionsMessage={() => "No options"}
-
-              styles={{
-                control: (base) => ({
-                  ...base,
-                  height: "40px",
-                  borderRadius: "6px",
-                  fontSize: "14px",
-                  color: "#1E45E1",
-                  fontFamily: "Gilroy",
-                  fontWeight: 600,
-                  border: "1px solid #1E45E1",
-                  boxShadow: "0 0 0 1px #1E45E1",
-                  cursor: "pointer",
-                  width: 90,
-                }),
-                menu: (base) => ({
-                  ...base,
-                  backgroundColor: "#f8f9fa",
-                  border: "1px solid #ced4da",
-                  fontFamily: "Gilroy",
-                }),
-                menuList: (base) => ({
-                  ...base,
-                  backgroundColor: "#f8f9fa",
-                  maxHeight: "200px",
-                  padding: 0,
-                  scrollbarWidth: "thin",
-                  overflowY: "auto",
-                  fontFamily: "Gilroy",
-                }),
-                placeholder: (base) => ({
-                  ...base,
-                  color: "#555",
-                }),
-                dropdownIndicator: (base) => ({
-                  ...base,
-                  color: "#1E45E1",
-                  cursor: "pointer",
-                }),
-                indicatorSeparator: () => ({
-                  display: "none",
-                }),
-                option: (base, state) => ({
-                  ...base,
-                  cursor: "pointer",
-                  backgroundColor: state.isFocused ? "#1E45E1" : "white",
-                  color: state.isFocused ? "#fff" : "#000",
-                }),
-              }}
-            />
-          </div>
-
-          <ul
-            style={{
-              display: "flex",
-              alignItems: "center",
-              listStyleType: "none",
-              margin: 0,
-              padding: 0,
-            }}
-          >
-
-            <li style={{ margin: "0 10px" }}>
-              <button
-                style={{
-                  padding: "5px",
-                  textDecoration: "none",
-                  color: generalcurrentPage === 1 ? "#ccc" : "#1E45E1",
-                  cursor: generalcurrentPage === 1 ? "not-allowed" : "pointer",
-                  borderRadius: "50%",
-                  display: "inline-block",
-                  minWidth: "30px",
-                  textAlign: "center",
-                  backgroundColor: "transparent",
-                  border: "none",
-                }}
-                onClick={() => handlePageChange(generalcurrentPage - 1)}
-                disabled={generalcurrentPage === 1}
-              >
-                <ArrowLeft2
-                  size="16"
-                  color={generalcurrentPage === 1 ? "#ccc" : "#1E45E1"}
-                />
-              </button>
-            </li>
-
-            <li
-              style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}
-            >
-              {generalcurrentPage} of {totalPagesGeneral}
-            </li>
-
-            <li style={{ margin: "0 10px" }}>
-              <button
-                style={{
-                  padding: "5px",
-                  textDecoration: "none",
-                  color:
-                    generalcurrentPage === totalPagesGeneral
-                      ? "#ccc"
-                      : "#1E45E1",
-                  cursor:
-                    generalcurrentPage === totalPagesGeneral
-                      ? "not-allowed"
-                      : "pointer",
-                  borderRadius: "50%",
-                  display: "inline-block",
-                  minWidth: "30px",
-                  textAlign: "center",
-                  backgroundColor: "transparent",
-                  border: "none",
-                }}
-                onClick={() => handlePageChange(generalcurrentPage + 1)}
-                disabled={generalcurrentPage === totalPagesGeneral}
-              >
-                <ArrowRight2
-                  size="16"
-                  color={
-                    generalcurrentPage === totalPagesGeneral
-                      ? "#ccc"
-                      : "#1E45E1"
-                  }
-                />
-              </button>
-            </li>
-          </ul>
-        </nav>
-      )} */}
 
       <Modal
         show={showFormGeneral}

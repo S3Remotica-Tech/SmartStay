@@ -13,7 +13,8 @@ import PropTypes from "prop-types";
 import { CloseCircle } from "iconsax-react";
 import "./SettingCompliance.css";
 import { toast } from 'react-toastify';
-import ErrorMessage from '../Components/ErrorMessage'
+import ErrorMessage from '../Components/ErrorMessage';
+import { useHasPermission } from '../Utils/Permission';
 
 function SettingCompliance({ hostelid }) {
   const dispatch = useDispatch();
@@ -38,6 +39,10 @@ function SettingCompliance({ hostelid }) {
   const [planExpiredCompliance, setPlanExpiredCompliance] = useState("");
   const [formLoading, setFormLoading] = useState(false)
 
+  const canReadComplaints = useHasPermission("Complaints", "canRead");
+  const canWriteComplaints = useHasPermission("Complaints", "canWrite");
+  const canUpdateComplaints = useHasPermission("Complaints", "canUpdate");
+  const canDeleteComplaints = useHasPermission("Complaints", "canDelete");
 
   const handleDeleteClick = () => {
     dispatch({ type: "ALREADY_ASSIGNCOMPLAINTTYPE_ERROR" });
@@ -423,6 +428,7 @@ function SettingCompliance({ hostelid }) {
         </div>
         <div className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0 mb-3 mb-md-0">
           <Button
+            disabled={!canWriteComplaints}
             onClick={handleShowForm}
             style={{
               fontFamily: "Gilroy",
@@ -443,157 +449,199 @@ function SettingCompliance({ hostelid }) {
         </div>
       </div>
 
+      {
 
-      <div className="complainttype">
-        {complianceFilterddata && complianceFilterddata.length > 0 && (
-          <div className="container show-scrolls" style={{
-            position: "relative", maxHeight: "475px",
-            overflowY: "auto"
-          }}>
-            <div className="row ">
-              {complianceFilterddata.map((u, i) => {
-                return (
-                  <>
-                    <div className="col-12 col-sm-6 col-md-12 col-lg-4 mb-3">
-                      <div
-                        className="d-flex align-items-center justify-content-between p-3 border rounded w-auto"
-                        style={{
-                          height: 64,
-                          width: "100%",
-                        }}
-                      >
-                        <div className="d-flex align-items-center">
-                          <img
-                            src={message}
-                            width={24}
-                            height={24}
-                            alt="Role Icon"
-                          />
-                          <span
-                            style={{
-                              marginLeft: 20,
-                              fontSize: 16,
-                              fontWeight: 600,
-                              fontFamily: "Gilroy",
-                              color: "#222222",
-                            }}
-                          >
-                            {u.complaintTypeName}
-                          </span>
-                        </div>
+        !canReadComplaints ? (
 
-                        <button
-                          onClick={(e) => handleShowDots(e, u, i)}
-                          style={{
-                            height: "35px",
-                            width: "35px",
-                            borderRadius: "50%",
-                            border: "1px solid #EFEFEF",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            position: "relative",
-                            cursor: "pointer",
-                            backgroundColor:
-                              showDots === i ? "#E7F1FF" : "white",
-                          }}
-                        >
-                          <PiDotsThreeOutlineVerticalFill
-                            style={{
-                              height: "18px",
-                              width: "18px",
-                              cursor: "pointer",
-                            }}
-                          />
-                        </button>
-                      </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "100vh",
+            }}
+          >
 
-                      {showDots === i && menuLoaded && (
-                        <div
-                          ref={popupRef}
-                          style={{
-                            cursor: "pointer",
-                            backgroundColor: "#F9F9F9",
-                            position: "fixed",
-                            top: popupPosition.top,
-                            left: popupPosition.left,
-                            width: 120,
-                            border: "1px solid #EBEBEB",
-                            borderRadius: 10,
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "flex-start",
-                            zIndex: 1000,
-                            boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
-                          }}
-                        >
-                          <div
-                            className="d-flex align-items-center gap-2 w-100 px-3 py-2"
-                            onClick={() => handleEdit(u)}
-                            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#EDF2FF")}
-                            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
-                            style={{
-                              cursor: "pointer",
-                              transition: "background-color 0.2s ease",
-                              borderTopLeftRadius: 10,
-                              borderTopRightRadius: 10,
-                            }}
-                          >
-                            <img src={Edit} alt="edit" style={{ height: 16, width: 16 }} />
-                            <label
-                              className="m-0"
-                              style={{
-                                fontSize: 14,
-                                fontWeight: 500,
-                                fontFamily: "Gilroy, sans-serif",
-                                color: "#222222",
-                                cursor: "pointer",
-                              }}
-                            >
-                              Edit
-                            </label>
-                          </div>
+            <ErrorMessage message={['You do not have access to view Settings Compliants']} type="warning" />
 
-
-                          <div style={{ width: "100%", height: 1, backgroundColor: "#E6E6E6" }} />
-
-
-                          <div
-                            className="d-flex align-items-center gap-2 w-100 px-3 py-2"
-                            onClick={handleDeleteClick}
-                            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#FFF0F0")}
-                            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
-                            style={{
-                              cursor: "pointer",
-                              transition: "background-color 0.2s ease",
-                              borderBottomLeftRadius: 10,
-                              borderBottomRightRadius: 10,
-                            }}
-                          >
-                            <img src={Delete} alt="delete" style={{ height: 16, width: 16 }} />
-                            <label
-                              style={{
-                                fontSize: 14,
-                                fontWeight: 500,
-                                fontFamily: "Gilroy, sans-serif",
-                                color: "#FF0000",
-                                cursor: "pointer",
-                              }}
-                            >
-                              Delete
-                            </label>
-                          </div>
-                        </div>
-
-                      )}
-                    </div>
-                  </>
-                );
-              })}
-            </div>
           </div>
-        )}
-      </div>
+
+
+        )
+          :
+          (
+            <div className="complainttype">
+              {complianceFilterddata && complianceFilterddata.length > 0 && (
+                <div className="container show-scrolls" style={{
+                  position: "relative", maxHeight: "475px",
+                  overflowY: "auto"
+                }}>
+                  <div className="row ">
+                    {complianceFilterddata.map((u, i) => {
+                      return (
+                        <>
+                          <div className="col-12 col-sm-6 col-md-12 col-lg-4 mb-3">
+                            <div
+                              className="d-flex align-items-center justify-content-between p-3 border rounded w-auto"
+                              style={{
+                                height: 64,
+                                width: "100%",
+                              }}
+                            >
+                              <div className="d-flex align-items-center">
+                                <img
+                                  src={message}
+                                  width={24}
+                                  height={24}
+                                  alt="Role Icon"
+                                />
+                                <span
+                                  style={{
+                                    marginLeft: 20,
+                                    fontSize: 16,
+                                    fontWeight: 600,
+                                    fontFamily: "Gilroy",
+                                    color: "#222222",
+                                  }}
+                                >
+                                  {u.complaintTypeName}
+                                </span>
+                              </div>
+
+                              <button
+                                onClick={(e) => handleShowDots(e, u, i)}
+                                style={{
+                                  height: "35px",
+                                  width: "35px",
+                                  borderRadius: "50%",
+                                  border: "1px solid #EFEFEF",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                  position: "relative",
+                                  cursor: "pointer",
+                                  backgroundColor:
+                                    showDots === i ? "#E7F1FF" : "white",
+                                }}
+                              >
+                                <PiDotsThreeOutlineVerticalFill
+                                  style={{
+                                    height: "18px",
+                                    width: "18px",
+                                    cursor: "pointer",
+                                  }}
+                                />
+                              </button>
+                            </div>
+
+                            {showDots === i && menuLoaded && (
+                              <div
+                                ref={popupRef}
+                                style={{
+                                  cursor: "pointer",
+                                  backgroundColor: "#F9F9F9",
+                                  position: "fixed",
+                                  top: popupPosition.top,
+                                  left: popupPosition.left,
+                                  width: 120,
+                                  border: "1px solid #EBEBEB",
+                                  borderRadius: 10,
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  alignItems: "flex-start",
+                                  zIndex: 1000,
+                                  boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
+                                }}
+                              >
+                                <div
+                                  className="d-flex align-items-center gap-2 w-100 px-3 py-2"
+                                  onClick={() => canUpdateComplaints && handleEdit(u)}
+                                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#EDF2FF")}
+                                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
+                                  style={{
+                                    cursor: canUpdateComplaints ? "pointer" : "not-allowed",
+                                    opacity: canUpdateComplaints ? 1 : 0.5,
+                                    transition: "background-color 0.2s ease",
+                                    borderTopLeftRadius: 10,
+                                    borderTopRightRadius: 10,
+                                  }}
+                                >
+                                  <img src={Edit} alt="edit"
+                                    style={{
+                                      height: 16, width: 16,
+                                      filter: canUpdateComplaints ? "none" : "grayscale(100%)",
+                                      opacity: canUpdateComplaints ? 1 : 0.5,
+
+                                    }} />
+                                  <label
+                                    className="m-0"
+                                    style={{
+                                      fontSize: 14,
+                                      fontWeight: 500,
+                                      fontFamily: "Gilroy, sans-serif",
+                                      color: canUpdateComplaints ? "#222222" : "#A0A0A0",
+                                      cursor: canUpdateComplaints ? "pointer" : "not-allowed",
+                                    }}
+                                  >
+                                    Edit
+                                  </label>
+                                </div>
+
+
+                                <div style={{ width: "100%", height: 1, backgroundColor: "#E6E6E6" }} />
+
+
+                                <div
+                                  className="d-flex align-items-center gap-2 w-100 px-3 py-2"
+                                  onClick={() => {
+                                    if (canDeleteComplaints) handleDeleteClick();
+                                  }}
+                                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#FFF0F0")}
+                                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
+                                  style={{
+                                    cursor: canDeleteComplaints ? "pointer" : "not-allowed",
+                                    opacity: canDeleteComplaints ? 1 : 0.5,
+                                    transition: "background-color 0.2s ease",
+                                    borderBottomLeftRadius: 10,
+                                    borderBottomRightRadius: 10,
+                                  }}
+                                >
+                                  <img src={Delete} alt="delete" style={{
+                                    height: 16, width: 16,
+                                    filter: canDeleteComplaints ? "none" : "grayscale(100%)",
+                                    opacity: canDeleteComplaints ? 1 : 0.5,
+
+                                  }} />
+                                  <label
+                                    style={{
+                                      fontSize: 14,
+                                      fontWeight: 500,
+                                      fontFamily: "Gilroy, sans-serif",
+                                      color: canDeleteComplaints ? "#FF0000" : "#A0A0A0",
+                                      cursor: canDeleteComplaints ? "pointer" : "not-allowed",
+                                    }}
+                                  >
+                                    Delete
+                                  </label>
+                                </div>
+                              </div>
+
+                            )}
+                          </div>
+                        </>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
+
+          )
+
+
+      }
+
 
       {!loading && complianceFilterddata.length === 0 && (
         <div style={{
@@ -637,156 +685,7 @@ function SettingCompliance({ hostelid }) {
 
       )}
 
-      {/* {complianceFilterddata.length > 10 && (
-        <nav 
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "end",
-          padding: "10px",
-          position: "fixed",
-          bottom: "0px",
-          right: "0px",
-          backgroundColor: "#fff",
-          borderRadius: "5px",
-          zIndex: 1000,
-        }}>
-          <div>
-            <Select
-              value={complianceOptions.find((opt) => opt.value === compliancerowsPerPage)}
-              onChange={handleItemsPerPageChange}
-              options={complianceOptions}
-              placeholder="Items per page"
-              classNamePrefix="custom"
-              menuPlacement="auto"
-              noOptionsMessage={() => "No options"}
-              styles={{
-                control: (base) => ({
-                  ...base,
-                  height: "40px",
-                  borderRadius: "6px",
-                  fontSize: "14px",
-                  color: "#1E45E1",
-                  fontFamily: "Gilroy",
-                  fontWeight: 600,
-                  border: "1px solid #1E45E1",
-                  boxShadow: "0 0 0 1px #1E45E1",
-                  cursor: "pointer",
-                  width: 90,
-                }),
-                menu: (base) => ({
-                  ...base,
-                  backgroundColor: "#f8f9fa",
-                  border: "1px solid #ced4da",
-                  fontFamily: "Gilroy",
-                }),
-                menuList: (base) => ({
-                  ...base,
-                  backgroundColor: "#f8f9fa",
-                  maxHeight: "200px",
-                  padding: 0,
-                  scrollbarWidth: "thin",
-                  overflowY: "auto",
-                  fontFamily: "Gilroy",
-                }),
-                placeholder: (base) => ({
-                  ...base,
-                  color: "#555",
-                }),
-                dropdownIndicator: (base) => ({
-                  ...base,
-                  color: "#1E45E1",
-                  cursor: "pointer",
-                }),
-                indicatorSeparator: () => ({
-                  display: "none",
-                }),
-                option: (base, state) => ({
-                  ...base,
-                  cursor: "pointer",
-                  backgroundColor: state.isFocused ? "#1E45E1" : "white",
-                  color: state.isFocused ? "#fff" : "#000",
-                }),
-              }}
-            />
-          </div>
 
-          <ul
-            style={{
-              display: "flex",
-              alignItems: "center",
-              listStyleType: "none",
-              margin: 0,
-              padding: 0,
-            }}
-          >
-            <li style={{ margin: "0 10px" }}>
-              <button
-                style={{
-                  padding: "5px",
-                  textDecoration: "none",
-                  color: compliancecurrentPage === 1 ? "#ccc" : "#1E45E1",
-                  cursor:
-                    compliancecurrentPage === 1 ? "not-allowed" : "pointer",
-                  borderRadius: "50%",
-                  display: "inline-block",
-                  minWidth: "30px",
-                  textAlign: "center",
-                  backgroundColor: "transparent",
-                  border: "none",
-                }}
-                onClick={() => handlePageChange(compliancecurrentPage - 1)}
-                disabled={compliancecurrentPage === 1}
-              >
-                <ArrowLeft2
-                  size="16"
-                  color={compliancecurrentPage === 1 ? "#ccc" : "#1E45E1"}
-                />
-              </button>
-            </li>
-
-            <li
-              style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}
-            >
-              {compliancecurrentPage} of {totalPagesGeneral}
-            </li>
-
-            <li style={{ margin: "0 10px" }}>
-              <button
-                style={{
-                  padding: "5px",
-                  textDecoration: "none",
-                  color:
-                    compliancecurrentPage === totalPagesGeneral
-                      ? "#ccc"
-                      : "#1E45E1",
-                  cursor:
-                    compliancecurrentPage === totalPagesGeneral
-                      ? "not-allowed"
-                      : "pointer",
-                  borderRadius: "50%",
-                  display: "inline-block",
-                  minWidth: "30px",
-                  textAlign: "center",
-                  backgroundColor: "transparent",
-                  border: "none",
-                }}
-                onClick={() => handlePageChange(compliancecurrentPage + 1)}
-                disabled={compliancecurrentPage === totalPagesGeneral}
-              >
-                <ArrowRight2
-                  size="16"
-                  color={
-                    compliancecurrentPage === totalPagesGeneral
-                      ? "#ccc"
-                      : "#1E45E1"
-                  }
-                />
-              </button>
-            </li>
-          </ul>
-        </nav>
-      )} */}
 
       <Modal
         className="editform custom-modal"
@@ -977,21 +876,21 @@ function SettingCompliance({ hostelid }) {
                 />
 
 
-                 {state.Settings.alreadytypeerror !== "" && (
-                <ErrorMessage message={state.Settings.alreadytypeerror} type="error" />
-              )}
-            
+                {state.Settings.alreadytypeerror !== "" && (
+                  <ErrorMessage message={state.Settings.alreadytypeerror} type="error" />
+                )}
+
                 {complaintError && (
-                 <ErrorMessage message={complaintError} type="error" />
+                  <ErrorMessage message={complaintError} type="error" />
                 )}
               </Form.Group>
-             
-              
+
+
             </div>
           </div>
         </Modal.Body>
 
-                {formLoading &&
+        {formLoading &&
           <div
             style={{
               position: 'absolute',

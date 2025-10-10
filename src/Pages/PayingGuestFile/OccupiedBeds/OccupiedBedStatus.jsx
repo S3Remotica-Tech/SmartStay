@@ -31,11 +31,10 @@ function OccupiedBedStatus({
     // const [customer, setCustomer] = useState([])
     const [showDots, setShowDots] = useState('')
     const [activeRoomId, setActiveRoomId] = useState(null);
-    const canWritePayingGuests = false
+
 
     const popupRef = useRef(null);
-
-
+    const canWriteCustomers = useHasPermission("Customers", "canWrite");
     const handleReAssignBed = () => {
         handleShowReassignBed(true, currentItem)
     };
@@ -162,22 +161,22 @@ function OccupiedBedStatus({
 
                                             <div
                                                 className="d-flex gap-2 align-items-center"
-                                                onClick={() => canWritePayingGuests && handleReAssignBed()}
+                                                onClick={() => canWriteCustomers && handleReAssignBed()}
 
 
                                                 style={{
                                                     padding: "15px",
                                                     borderTopLeftRadius: 10,
                                                     borderTopRightRadius: 10,
-                                                    cursor: canWritePayingGuests ? "pointer" : "not-allowed",
-                                                    opacity: canWritePayingGuests ? 1 : 0.6,
+                                                    cursor: canWriteCustomers ? "pointer" : "not-allowed",
+                                                    opacity: canWriteCustomers ? 1 : 0.6,
                                                 }}
                                                 onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#F0F4FF"; }}
                                                 onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
                                             >
 
-                                                <FiCalendar size={16} color={canWritePayingGuests ? "#1E45E1" : "#A9A9A9"} />
-                                                <label style={{ fontSize: 13, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: canWritePayingGuests ? "pointer" : "not-allowed", }}>Change Bed</label>
+                                                <FiCalendar size={16} color={canWriteCustomers ? "#1E45E1" : "#A9A9A9"} />
+                                                <label style={{ fontSize: 13, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed", }}>Change Bed</label>
                                             </div>
 
                                             <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
@@ -185,16 +184,16 @@ function OccupiedBedStatus({
 
                                             <div
                                                 className="d-flex gap-2 align-items-center"
-                                                onClick={() => canWritePayingGuests && handleMoveToNoticePeriod()}
+                                                onClick={() => canWriteCustomers && handleMoveToNoticePeriod()}
                                                 style={{
                                                     padding: "15px",
                                                     borderBottomLeftRadius: 10,
                                                     borderBottomRightRadius: 10,
-                                                    cursor: canWritePayingGuests ? "pointer" : "not-allowed",
-                                                    opacity: canWritePayingGuests ? 1 : 0.6,
-                                                                                                    }}
+                                                    cursor: canWriteCustomers ? "pointer" : "not-allowed",
+                                                    opacity: canWriteCustomers ? 1 : 0.6,
+                                                }}
                                                 onMouseEnter={(e) => {
-                                                     e.currentTarget.style.backgroundColor = "#FFF3F3";
+                                                    e.currentTarget.style.backgroundColor = "#FFF3F3";
                                                 }}
                                                 onMouseLeave={(e) => {
                                                     e.currentTarget.style.backgroundColor = "transparent";
@@ -202,16 +201,16 @@ function OccupiedBedStatus({
                                             >
                                                 <LogoutCurve
                                                     size="18"
-                                                    color={canWritePayingGuests ? "#FF9500" : "#A9A9A9"} 
+                                                    color={canWriteCustomers ? "#FF9500" : "#A9A9A9"}
                                                 />
                                                 <label
                                                     style={{
                                                         fontSize: 13,
                                                         fontWeight: 500,
-                                                        color: canWritePayingGuests ? "#222222" : "#A9A9A9", 
+                                                        color: canWriteCustomers ? "#222222" : "#A9A9A9",
                                                         marginBottom: 0,
                                                         fontFamily: "Gilroy",
-                                                        cursor: canWritePayingGuests ? "pointer" : "not-allowed",
+                                                        cursor: canWriteCustomers ? "pointer" : "not-allowed",
                                                     }}
                                                 >
                                                     Move To Notice Period

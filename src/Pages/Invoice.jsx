@@ -52,7 +52,7 @@ import AxiosConfig from "../WebService/AxiosConfig";
 import Swal from 'sweetalert2';
 import PaginationList from "../Components/PaginationList";
 import ErrorMessage from '../Components/ErrorMessage'
-
+import { useHasPermission } from '../Utils/Permission';
 
 
 
@@ -87,6 +87,8 @@ const InvoicePage = () => {
     invoice_type: "",
     transaction: "",
   });
+
+
 
   const [showLoader, setShowLoader] = useState(false);
   const [statusfilter, setStatusfilter] = useState("");
@@ -178,6 +180,23 @@ const InvoicePage = () => {
   const [profile_pic , setProfilePic] = useState(null)
 
   const [activeStay, setActiveStay] = useState("long_stay");
+
+
+const canReadInvoice = useHasPermission("Bills", "canRead")
+const canWriteInvoice = useHasPermission("Bills", "canWrite")
+// const canUpdateInvoice = useHasPermission("Bills", "canUpdate")
+// const canDeleteInvoice = useHasPermission("Bills", "canDelete")
+
+
+
+const canReadRecurring = useHasPermission("Recurring bills", "canRead")
+// const canWriteRecurring = useHasPermission("Recurring bills", "canWrite")
+
+
+const canReadReceipt = useHasPermission("Receipt", "canRead")
+const canWriteReceipt = useHasPermission("Receipt", "canWrite")
+
+
 
   const handleClick = (stayType) => {
     setActiveStay(stayType);
@@ -2875,6 +2894,11 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
 
   return (
     <div style={{ height: "100vh", overflowY: "auto", }}>
+
+
+      {
+
+      }
       {showAllBill && (
         <>
           <div
@@ -2920,6 +2944,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
                             }}
                             value={filterInput}
                             onChange={(e) => handlefilterInput(e)}
+                            disabled={!canReadInvoice || !canReadReceipt || !canReadRecurring}
                           />
                           <span className="input-group-text bg-white border-start-0">
                             <img
@@ -3210,6 +3235,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
                       }}
                     >
                       <Form.Select
+                  disabled={!canReadInvoice}
                         onChange={(e) => handleStatusFilter(e)}
                         value={statusfilter}
                         aria-label="Select Price Range"
@@ -3265,6 +3291,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
                       }}
                     >
                       <Form.Select
+                        disabled={!canReadReceipt}
                         onChange={(e) => handleStatusFilterReceipt(e)}
                         value={statusFilterReceipt}
                         aria-label="Select Price Range"
@@ -3304,7 +3331,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
                   <div className="text-center" style={{ paddingRight: 18 }} >
                     {value === "1" && (
                       <Button
-                        disabled={billAddPermission || state?.login?.planStatus === 0}
+                        disabled={!canWriteInvoice}
                         onClick={handleManualShow}
 
                         style={{
@@ -3350,7 +3377,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
 
                     {value === "3" && (
                       <Button
-                        disabled={receiptaddPermission}
+                        disabled={!canWriteReceipt}
                         onClick={handleReceiptShow}
 
                         style={{
@@ -3446,7 +3473,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
             </div>
             <TabPanel value="1">
               <>
-                {billpermissionError ? (
+                {!canReadInvoice ? (
                   <>
                     <div
                       style={{
@@ -3465,9 +3492,9 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
                       />
 
 
-                      {billpermissionError && (
-                        <ErrorMessage message={billpermissionError} type="error"/>
-                      )}
+                     
+                        <ErrorMessage message={['You do not have access to view Invoice']} type="warning"/>
+                    
                     </div>
                   </>
                 ) : (
@@ -5473,7 +5500,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
             </TabPanel>
 
             <TabPanel value="2">
-              {recurringPermission ? (
+              {!canReadRecurring ? (
                 <>
                   <div
                     style={{
@@ -5493,9 +5520,9 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
                     />
 
 
-                    {recurringPermission && (
-                     <ErrorMessage message={recurringPermission} type="error"/>
-                    )}
+                    
+                    <ErrorMessage message={['You do not have access to view Recurring']} type="warning"/>
+                    
                   </div>
                 </>
               ) : (
@@ -6077,7 +6104,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
             </TabPanel>
 
             <TabPanel value="3">
-              {receiptPermission ? (
+              {canReadReceipt ? (
                 <>
                   <div
                     style={{
@@ -6097,9 +6124,9 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
                     />
 
 
-                    {receiptPermission && (
-                      <ErrorMessage message={receiptPermission} type="error"/>
-                    )}
+                    
+                      <ErrorMessage message={['You do not have access to view Receipt']} type="warning"/>
+                    
                   </div>
                 </>
               ) : (

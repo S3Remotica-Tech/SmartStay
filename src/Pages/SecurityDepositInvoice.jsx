@@ -32,6 +32,7 @@ import CloseIcon from '../Assets/Images/close_icon.png';
 import PropTypes from "prop-types";
 import BankingAddForm from "./BankingAddForm";
 import ErrorMessage from '../Components/ErrorMessage'
+import { useHasPermission } from '../Utils/Permission';
 
 
 const SecurityDepositInvoiceTemplate = ({  BillsTemplateList }) => {
@@ -88,6 +89,15 @@ const SecurityDepositInvoiceTemplate = ({  BillsTemplateList }) => {
   });
 
 const [edit, setEdit] = useState(false);
+
+
+
+const canUpdateInvoice = useHasPermission("Bills", "canUpdate")
+
+
+
+
+
 
  const handleCloseForm = () => {
     setBankAccountForm(false);
@@ -1658,6 +1668,7 @@ useEffect(() => {
 
           <div className="d-flex justify-content-end mt-2 col-lg-10">
             <Button
+            disabled={!canUpdateInvoice}
               style={{
                 width: 160,
                 height: 42,
