@@ -102,6 +102,7 @@ const MyComponent = () => {
       return
     }
     if (email_Id && password) {
+      console.log("clicked ",email_Id,password )
       dispatch({ type: 'LOGINVERSION2', payload: { emailId: email_Id, password: password } });
 
       dispatch({ type: 'LOGININFO', payload: { email_Id: 'shree@gmail.com', password: 'Shree@2025' } });
@@ -326,7 +327,8 @@ const MyComponent = () => {
             </Form>
 
             <div className="d-flex justify-content-center pt-2">
-              <Button type="button" className="btn w-100" style={{ height: '42px', fontWeight: 600, fontSize: "16px", borderRadius: '10px', backgroundColor: "rgba(30, 69, 225, 1)", color: "rgba(255, 255, 255, 1)", fontFamily: "Montserrat" }} onClick={() => handleLogin()}>
+              <Button className="btn w-100" style={{ cursor:"pointer",
+                height: '42px', fontWeight: 600, fontSize: "16px", borderRadius: '10px', backgroundColor: "rgba(30, 69, 225, 1)", color: "rgba(255, 255, 255, 1)", fontFamily: "Montserrat" }} onClick={() => handleLogin()}>
                 Sign in
               </Button>
             </div>
