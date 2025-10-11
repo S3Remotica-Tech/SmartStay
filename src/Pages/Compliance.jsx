@@ -1129,8 +1129,12 @@ useEffect(() => {
                   <div className='me-2' style={{ cursor: "pointer" }}>
                     <Image
                       src={searchteam}
-                      style={{ height: "24px", width: "24px" }}
-                      onClick={handleSearch}
+                      style={{ height: "24px", width: "24px",
+                         cursor: canReadComplaints ? "pointer" : "not-allowed",
+                  opacity: canReadComplaints ? 1 : 0.4,
+                  pointerEvents: canReadComplaints ? "auto" : "none",
+                  transition: "opacity 0.3s ease" }}
+                      onClick={()=>canReadComplaints && handleSearch()}
                     />
                   </div>
                 )}
@@ -1138,7 +1142,10 @@ useEffect(() => {
                 <div className='me-2' style={{ cursor: "pointer" }}>
                   <Image
                     src={Filters}
-                    style={{ height: "50px", width: "50px" }}
+                    style={{ height: "50px", width: "50px", cursor: canReadComplaints ? "pointer" : "not-allowed",
+                  opacity: canReadComplaints ? 1 : 0.4,
+                  pointerEvents: canReadComplaints ? "auto" : "none",
+                  transition: "opacity 0.3s ease" }}
                     onClick={handleFilterd}
                   />
                 </div>
@@ -1184,6 +1191,10 @@ useEffect(() => {
                     width={38}
                     height={38}
                     onClick={handleComplianceeExcel}
+                    style={{ cursor: canReadComplaints ? "pointer" : "not-allowed",
+                  opacity: canReadComplaints ? 1 : 0.4,
+                  pointerEvents: canReadComplaints ? "auto" : "none",
+                  transition: "opacity 0.3s ease"}}
                   />
                 </div>
 

@@ -370,7 +370,14 @@ const RoomReadingTable = () => {
 
             <div className="ms-auto d-flex gap-2 me-2">
               <div className="ms-auto d-flex gap-3 me-2 p-1" style={{ backgroundColor: "white", borderRadius: 5, padding: 6, boxShadow: "0px 2px 2px rgba(0,0,0,0.2)" }}>
-                <img src={searchteam} height="20" width="20" alt="search" />
+                <img 
+                // onClick={()=> canReadElectricity && handleSearch()}
+                 src={searchteam} height="20" width="20" alt="search" style={{
+                  cursor: canReadElectricity ? "pointer" : "not-allowed",
+                  opacity: canReadElectricity ? 1 : 0.4,
+                  pointerEvents: canReadElectricity ? "auto" : "none",
+                  transition: "opacity 0.3s ease"
+                }} />
               </div>
 
               <div>
@@ -383,9 +390,14 @@ const RoomReadingTable = () => {
                     padding: 6,
                     boxShadow: "0px 2px 2px rgba(0,0,0,0.2)",
                   }}
-                  onClick={handleFilterShow}
+                  onClick={()=>canReadElectricity && handleFilterShow()}
                 >
-                  <FiFilter size={20} style={{ cursor: "pointer" }} />
+                  <FiFilter size={20} style={{ 
+                    cursor: canReadElectricity ? "pointer" : "not-allowed",
+                  opacity: canReadElectricity ? 1 : 0.4,
+                  pointerEvents: canReadElectricity ? "auto" : "none",
+                  transition: "opacity 0.3s ease"  
+                  }} />
                 </div>
 
                 {/* Right Side Offcanvas */}

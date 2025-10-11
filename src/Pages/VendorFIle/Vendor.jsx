@@ -372,10 +372,14 @@ function Vendor() {
               {
                 !showFilterData &&
 
-                <div onClick={handleShowSearch} style={{ paddingRight: 30, cursor: "pointer" }}>
+                <div onClick={()=> canReadVendor && handleShowSearch()} style={{ paddingRight: 30, cursor: "pointer" }}>
                   <SearchNormal1
                     size="26"
                     color="#222"
+                    style={{cursor: canReadVendor ? "pointer" : "not-allowed",
+                  opacity: canReadVendor ? 1 : 0.4,
+                  pointerEvents: canReadVendor ? "auto" : "none",
+                  transition: "opacity 0.3s ease"}}
                   />
                 </div>
               }

@@ -944,7 +944,10 @@ useEffect(() => {
                     width: 250,
                     marginLeft: 7,
                     marginTop: 5,
-                    cursor: "pointer",
+                   cursor: canReadExpense ? "pointer" : "not-allowed",
+                  opacity: canReadExpense ? 1 : 0.4,
+                  pointerEvents: canReadExpense ? "auto" : "none",
+                  transition: "opacity 0.3s ease" ,
                     paddingLeft: 30,
                     fontFamily: "Gilroy"
                   }}
@@ -960,7 +963,7 @@ useEffect(() => {
               <div className="col-12 col-md d-flex flex-wrap justify-content-md-end align-items-center">
 
                 {!showFilterExpense && (
-                  <div onClick={handleShowSearch}
+                  <div onClick={()=>canReadExpense && handleShowSearch()}
                     style={{ paddingRight: 16 }}
                   >
                     <SearchNormal1
@@ -968,7 +971,10 @@ useEffect(() => {
                       style={{
                         height: "24px",
                         width: "24px",
-                        cursor: "pointer",
+                        cursor: canReadExpense ? "pointer" : "not-allowed",
+                  opacity: canReadExpense ? 1 : 0.4,
+                  pointerEvents: canReadExpense ? "auto" : "none",
+                  transition: "opacity 0.3s ease" ,
                         fontFamily: "Gilroy",
                         marginTop: 8,
                       }}
@@ -979,7 +985,12 @@ useEffect(() => {
                 <div className='me-3' style={{ cursor: "pointer", marginTop: 5 }}>
                   <Image
                     src={Filters}
-                    style={{ height: "50px", width: "50px", }}
+                    style={{ height: "50px", width: "50px",
+                       cursor: canReadExpense ? "pointer" : "not-allowed",
+                  opacity: canReadExpense ? 1 : 0.4,
+                  pointerEvents: canReadExpense ? "auto" : "none",
+                  transition: "opacity 0.3s ease" 
+                }}
                     onClick={handleFilterByPrice}
                   />
                 </div>
@@ -1251,7 +1262,10 @@ useEffect(() => {
                     alt="excel"
                     width={38}
                     height={38}
-
+style={{ursor: canReadExpense ? "pointer" : "not-allowed",
+                  opacity: canReadExpense ? 1 : 0.4,
+                  pointerEvents: canReadExpense ? "auto" : "none",
+                  transition: "opacity 0.3s ease" ,}}
                     onClick={handleExpenceExcel}
                   />
                 </div>

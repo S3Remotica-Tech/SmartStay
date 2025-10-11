@@ -49,17 +49,17 @@ function Asset() {
   const [ExcelDownloadDates, setExcelDownloadDates] = useState([])
   const [filterexcelprice, setFilterExcelPrice] = useState('')
 
-const canWriteAssets = useHasPermission("Assets", "canWrite");
-const canReadAssets = useHasPermission("Assets", "canRead");
+  const canWriteAssets = useHasPermission("Assets", "canWrite");
+  const canReadAssets = useHasPermission("Assets", "canRead");
 
 
-useEffect(() => {
-  if (!canReadAssets) {
-    setLoading(false);
-  }else{
-    setLoading(true);
-  }
-}, [canReadAssets]);
+  useEffect(() => {
+    if (!canReadAssets) {
+      setLoading(false);
+    } else {
+      setLoading(true);
+    }
+  }, [canReadAssets]);
 
 
 
@@ -162,7 +162,7 @@ useEffect(() => {
 
 
 
-  
+
   useEffect(() => {
 
     const userType = assetrolePermission[0]?.user_details?.user_type;
@@ -233,12 +233,12 @@ useEffect(() => {
       return;
     }
 
-if( state.bankingDetails?.bankingList?.length === 0){
-   toast.error(' Please Create Banking before adding an asset', {
+    if (state.bankingDetails?.bankingList?.length === 0) {
+      toast.error(' Please Create Banking before adding an asset', {
         hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
       });
       return;
-}
+    }
 
 
 
@@ -248,33 +248,33 @@ if( state.bankingDetails?.bankingList?.length === 0){
 
 
 
-   
+
 
   useEffect(() => {
     if (state.login?.selectedHostel_Id) {
       // setLoading(true)
 
-      dispatch({type: 'ASSETLIST',  payload:state.login.selectedHostel_Id})
+      dispatch({ type: 'ASSETLIST', payload: state.login.selectedHostel_Id })
       dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
-   
+
     } else {
-         setLoading(false)
+      setLoading(false)
     }
   }, [state.login?.selectedHostel_Id])
 
 
 
   useEffect(() => {
-    if (state.AssetList.updateAssetStatusCode === 200 ||  state.AssetList.addAssetStatusCode === 200 || state.AssetList.deleteAssetStatusCode === 200 || state.AssetList.addAssignAssetStatusCode === 200) {
-           setShow(false)
+    if (state.AssetList.updateAssetStatusCode === 200 || state.AssetList.addAssetStatusCode === 200 || state.AssetList.deleteAssetStatusCode === 200 || state.AssetList.addAssignAssetStatusCode === 200) {
+      setShow(false)
       setTimeout(() => {
-         dispatch({type: 'ASSETLIST',  payload: state.login.selectedHostel_Id})
+        dispatch({ type: 'ASSETLIST', payload: state.login.selectedHostel_Id })
         dispatch({ type: 'CLEAR_ADD_ASSET_STATUS_CODE' })
-        dispatch({ type: 'CLEAR_UPDATE_ASSET_STATUS_CODE'})
+        dispatch({ type: 'CLEAR_UPDATE_ASSET_STATUS_CODE' })
         dispatch({ type: 'CLEAR_DELETE_ASSET_STATUS_CODE' })
         dispatch({ type: 'CLEAR_ASSIGN_STATUS_CODE' })
       }, 100)
-      }
+    }
 
   }, [state.AssetList.updateAssetStatusCode, state.AssetList.addAssetStatusCode, state.AssetList.deleteAssetStatusCode, state.AssetList.addAssignAssetStatusCode])
 
@@ -331,9 +331,9 @@ if( state.bankingDetails?.bankingList?.length === 0){
     if (!dates || dates.length < 2 || !dates[0] || !dates[1]) {
       setSelectedDateRange([]);
       setSelectedPriceRange("All");
-     if(state.login.selectedHostel_Id){
-    dispatch({type: 'ASSETLIST',  payload: state.login.selectedHostel_Id})
-     }
+      if (state.login.selectedHostel_Id) {
+        dispatch({ type: 'ASSETLIST', payload: state.login.selectedHostel_Id })
+      }
 
       return;
     }
@@ -356,14 +356,14 @@ if( state.bankingDetails?.bankingList?.length === 0){
     setFilterExcelPrice(value)
 
     if (value === "All" && state.login.selectedHostel_Id) {
-    dispatch({type: 'ASSETLIST',  payload: state.login.selectedHostel_Id})
+      dispatch({ type: 'ASSETLIST', payload: state.login.selectedHostel_Id })
     } else if (value === "date" && state.login.selectedHostel_Id) {
-    dispatch({type: 'ASSETLIST',  payload: state.login.selectedHostel_Id})
+      dispatch({ type: 'ASSETLIST', payload: state.login.selectedHostel_Id })
       setExcelFilterDates([]);
       setSelectedDateRange([]);
       setExcelDownloadDates([]);
     } else if (value && state.login.selectedHostel_Id) {
-    dispatch({type: 'ASSETLIST',  payload: state.login.selectedHostel_Id})
+      dispatch({ type: 'ASSETLIST', payload: state.login.selectedHostel_Id })
     }
 
     // setCurrentPage(1);
@@ -391,9 +391,9 @@ if( state.bankingDetails?.bankingList?.length === 0){
   useEffect(() => {
     if (!showFilter && showFilter !== null) {
 
-       if(state.login.selectedHostel_Id){
-      dispatch({ type: 'ASSETLIST', payload: state.login.selectedHostel_Id  })
-       }
+      if (state.login.selectedHostel_Id) {
+        dispatch({ type: 'ASSETLIST', payload: state.login.selectedHostel_Id })
+      }
 
       setSelectedPriceRange('All');
       setSelectedDateRange([]);
@@ -471,7 +471,7 @@ if( state.bankingDetails?.bankingList?.length === 0){
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
   const sortedData = React.useMemo(() => {
-    if (!sortConfig.key) return filteredData;  
+    if (!sortConfig.key) return filteredData;
 
     const sorted = [...filteredData].sort((a, b) => {
       const valueA = a[sortConfig.key];
@@ -605,336 +605,350 @@ if( state.bankingDetails?.bankingList?.length === 0){
 
   return (
     <>
-      
-          <div className='container p-0 ' style={{ marginTop: 7 }}>
-            <div className="container d-flex justify-content-between align-items-center  flex-wrap h-auto"
-              style={{
-                position: 'sticky',
 
-                backgroundColor: 'white',
-                zIndex: 10,
-                paddingLeft: 25, paddingRight: 20,
-                height: 83,
-              }}
-            >
-              <div style={{ marginTop: 10 }}>
-                <label style={{ fontSize: 18, color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>
-                  Assets</label>
+      <div className='container p-0 ' style={{ marginTop: 7 }}>
+        <div className="container d-flex justify-content-between align-items-center  flex-wrap h-auto"
+          style={{
+            position: 'sticky',
+
+            backgroundColor: 'white',
+            zIndex: 10,
+            paddingLeft: 25, paddingRight: 20,
+            height: 83,
+          }}
+        >
+          <div style={{ marginTop: 10 }}>
+            <label style={{ fontSize: 18, color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>
+              Assets</label>
+          </div>
+
+          <div className="d-flex justify-content-between align-items-center flex-wrap ">
+
+            {
+              !showFilterData &&
+
+              <div onClick={()=>canReadAssets && handleShowSearch()} style={{ paddingRight: 30, marginTop: 12, cursor: "pointer" }}>
+                <SearchNormal1
+                  size="26"
+                  color="#222"
+style={{cursor: canReadAssets ? "pointer" : "not-allowed",
+                  opacity: canReadAssets ? 1 : 0.4,
+                  pointerEvents: canReadAssets ? "auto" : "none",
+                  transition: "opacity 0.3s ease"}}
+                />
               </div>
+            }
+            {
 
-              <div className="d-flex justify-content-between align-items-center flex-wrap ">
-
-                {
-                  !showFilterData &&
-
-                  <div onClick={handleShowSearch} style={{ paddingRight: 30, marginTop: 12, cursor: "pointer" }}>
-                    <SearchNormal1
-                      size="26"
-                      color="#222"
-
-                    />
-                  </div>
-                }
-                {
-
-                  showFilterData &&
-                  <div className='me-3 flex flex-wrap ' style={{
-                    position: 'relative', cursor: "pointer", marginTop: 10
-                  }}>
-                    <InputGroup
-                      style={{
-                        maxWidth: "100%",
-                        flexWrap: 'nowrap',
-
-                      }}
-                    >
-
-                      <FormControl size="lg"
-                        value={searchQuery}
-                        onChange={handleInputChange}
-
-                        style={{
-                          width: "100%",
-                          maxWidth: "235px",
-                          boxShadow: "none",
-                          borderColor: "lightgray",
-                          borderRight: "none", fontSize: 15, fontWeight: 500, color: "#222",
-                        }}
-                        placeholder="Search..."
-                      />
-                      <InputGroup.Text style={{ backgroundColor: "#ffffff", cursor: "pointer" }}>
-                        <CloseCircle size="24" color="#222" onClick={handleCloseSearch} />
-                      </InputGroup.Text>
-                    </InputGroup>
-                    {
-                      getData.length > 0 && searchQuery !== '' && showDropDown && (
-
-                        <div style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 50, left: 0, padding: 5, zIndex: 1000, borderRadius: 8, backgroundColor: "#fff" }}>
-                          <ul className='show-scroll' style={{
-                            width: 263,
-                            backgroundColor: '#fff',
-                            maxHeight: "174px",
-                            minHeight: getData?.length > 1 ? "100px" : "auto",
-                            overflowY: getData?.length > 2 ? "auto" : "hidden",
-                            padding: '5px 10px',
-                            margin: '0',
-                            listStyleType: 'none',
-
-                            borderRadius: 8,
-                            boxSizing: 'border-box'
-                          }}>
-                            {
-                              getData.map((user, index) => (
-                                <li
-                                  key={index}
-                                  onClick={() => {
-                                    handleDropDown(user.asset_name);
-
-                                  }}
-                                  onMouseEnter={() => setHoveredIndex(index)}
-                                  onMouseLeave={() => setHoveredIndex(null)}
-                                  style={{
-                                    padding: '10px',
-                                    cursor: 'pointer',
-
-                                    borderBottom: getData.length > 1 ? '1px solid #dcdcdc' : 'none',
-                                    fontSize: '14px',
-                                    fontFamily: 'Gilroy',
-                                    fontWeight: 500,
-                                    backgroundColor: hoveredIndex === index ? '#1E45E1' : 'transparent',
-                                    color: hoveredIndex === index ? 'white' : 'black',
-
-                                  }}
-                                >
-                                  {user.asset_name}
-                                </li>
-                              ))
-                            }
-                          </ul>
-                        </div>
-                      )
-                    }
-
-
-                  </div>
-
-
-                }
-
-
-
-
-                <div onClick={handleFilterByPrice} style={{ paddingRight: 23, marginTop: 12, cursor: "pointer" }}>
-                  <Sort
-                    Size="24"
-                    color="#222"
-                    variant="Outline"
-                  />
-                </div>
-
-                {
-                  showFilter &&
-
-
-                  <div style={{ paddingRight: 30, marginTop: 10 }}>
-                    <Select
-
-                      value={{
-                        value: selectedPriceRange,
-                        label: selectedPriceRange === "date" ? "Date" : selectedPriceRange
-                      }}
-                      onChange={(selectedOption) => handlePriceRangeChange(selectedOption?.value)}
-                      options={[
-                        { value: "All", label: "All" },
-                        { value: "0-100", label: "0-100" },
-                        { value: "100-500", label: "100-500" },
-                        { value: "500-1000", label: "500-1000" },
-                        { value: "1000+", label: "1000+" },
-                        { value: "date", label: "Date" }
-                      ]}
-                      styles={{
-                        control: (base) => ({
-                          ...base,
-                          height: "40px",
-                          borderRadius: "6px",
-                          boxShadow: "none !important",
-                          outline: "none !important",
-                          backgroundColor: "#fff",
-                          minHeight: "unset",
-                          minWidth: "140px",
-                          '&:hover': {
-                            borderColor: "#ccc"
-                          }
-                        }),
-                        menuList: (base) => ({
-                          ...base,
-                          backgroundColor: "#f8f9fa",
-                          maxHeight: "150px",
-                          padding: 0,
-                          scrollbarWidth: "thin",
-                          overflowY: "auto",
-                          fontFamily: "Gilroy",
-
-                          minWidth: "140px",
-                          zIndex: 9999
-                        }),
-                        indicatorSeparator: () => ({
-                          display: "none",
-
-                        }),
-                        dropdownIndicator: (base) => ({
-                          ...base,
-                          padding: "0 8px",
-                          cursor: "pointer"
-                        }),
-                        valueContainer: (base) => ({
-                          ...base,
-                          padding: "0 12px"
-                        }),
-                        input: (base) => ({
-                          ...base,
-                          margin: 0,
-                          padding: 0,
-                          border: "none",
-                          boxShadow: "none",
-                          outline: "none"
-                        }),
-                        singleValue: (base) => ({
-                          ...base,
-                          color: "#222",
-                          fontWeight: 600,
-                          fontFamily: "Gilroy"
-                        }),
-
-                        option: (base, state) => ({
-                          ...base,
-                          backgroundColor: state.isFocused ? "#f0f0f0" : "#fff",
-                          color: "#222",
-                          fontFamily: "Gilroy",
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          fontSize: "14px",
-                          cursor: "pointer"
-                        })
-                      }}
-                      placeholder="Select Price Range"
-                    />
-                  </div>
-                }
-
-                {showFilter && selectedPriceRange === 'date' && (
-                  <div style={{ paddingRight: 30, marginTop: 10 }}>
-                    <RangePicker
-                      value={selectedDateRange}
-                      onChange={handleDateChange}
-                      format="DD-MM-YYYY"
-                      style={{ height: 40, cursor: "pointer" }}
-                    />
-                  </div>
-                )}
-
-                <div className='me-2' style={{ marginTop: 8, cursor: "pointer" }}>
-                  <img src={excelimg} alt='excel' width={38} height={38}
-                    onClick={handleAssetsExcel}
-                  />
-                </div>
-
-                <div style={{ marginTop: 15, paddingRight: 4 }}>
-                  <Button disabled={!canWriteAssets} onClick={handleShow}
-                    style={{
-                      fontFamily: "Gilroy",
-                      fontSize: "14px",
-                      backgroundColor: "#1E45E1",
-                      color: "white",
-                      fontWeight: 600,
-                      borderRadius: "8px",
-                      padding: "12px",
-                      paddingLeft: 50,
-                      paddingRight: 48,
-                      marginBottom: "10px",
-                      maxHeight: 45,
-
-                    }}
-                  >
-                    + Asset</Button>
-                </div>
-              </div>
-            </div>
-
-            {searchQuery && (
-              <div className='mb-4' style={{ marginTop: '20px', fontWeight: 600, fontSize: 16 }}>
-                {getData.length > 0 ? (
-                  <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>
-                    {getData.length} result{getData.length > 1 ? 's' : ''} found for{" "}
-                    <span style={{ color: "rgba(34, 34, 34, 1)" }}>
-                      &quot;{searchQuery}&quot;
-                    </span>
-                  </span>
-                ) : (
-                  <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>No results found for {" "}<span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}> &quot;{searchQuery}&quot;</span></span>
-                )}
-              </div>
-            )}
-
-
-
-
-
-
-            {loading &&
-              <div
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  right: 0,
-                  bottom: 0,
-                  left: '200px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  backgroundColor: 'transparent',
-                  opacity: 0.75,
-                  zIndex: 10,
-                }}
-              >
-                <div
+              showFilterData &&
+              <div className='me-3 flex flex-wrap ' style={{
+                position: 'relative', cursor: "pointer", marginTop: 10
+              }}>
+                <InputGroup
                   style={{
-                    borderTop: '4px solid #1E45E1',
-                    borderRight: '4px solid transparent',
-                    borderRadius: '50%',
-                    width: '40px',
-                    height: '40px',
-                    animation: 'spin 1s linear infinite',
+                    maxWidth: "100%",
+                    flexWrap: 'nowrap',
+
                   }}
-                ></div>
+                >
+
+                  <FormControl size="lg"
+                    value={searchQuery}
+                    onChange={handleInputChange}
+
+                    style={{
+                      width: "100%",
+                      maxWidth: "235px",
+                      boxShadow: "none",
+                      borderColor: "lightgray",
+                      borderRight: "none", fontSize: 15, fontWeight: 500, color: "#222",
+                    }}
+                    placeholder="Search..."
+                  />
+                  <InputGroup.Text style={{ backgroundColor: "#ffffff", cursor: "pointer" }}>
+                    <CloseCircle size="24" color="#222" onClick={handleCloseSearch} />
+                  </InputGroup.Text>
+                </InputGroup>
+                {
+                  getData.length > 0 && searchQuery !== '' && showDropDown && (
+
+                    <div style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 50, left: 0, padding: 5, zIndex: 1000, borderRadius: 8, backgroundColor: "#fff" }}>
+                      <ul className='show-scroll' style={{
+                        width: 263,
+                        backgroundColor: '#fff',
+                        maxHeight: "174px",
+                        minHeight: getData?.length > 1 ? "100px" : "auto",
+                        overflowY: getData?.length > 2 ? "auto" : "hidden",
+                        padding: '5px 10px',
+                        margin: '0',
+                        listStyleType: 'none',
+
+                        borderRadius: 8,
+                        boxSizing: 'border-box'
+                      }}>
+                        {
+                          getData.map((user, index) => (
+                            <li
+                              key={index}
+                              onClick={() => {
+                                handleDropDown(user.asset_name);
+
+                              }}
+                              onMouseEnter={() => setHoveredIndex(index)}
+                              onMouseLeave={() => setHoveredIndex(null)}
+                              style={{
+                                padding: '10px',
+                                cursor: 'pointer',
+
+                                borderBottom: getData.length > 1 ? '1px solid #dcdcdc' : 'none',
+                                fontSize: '14px',
+                                fontFamily: 'Gilroy',
+                                fontWeight: 500,
+                                backgroundColor: hoveredIndex === index ? '#1E45E1' : 'transparent',
+                                color: hoveredIndex === index ? 'white' : 'black',
+
+                              }}
+                            >
+                              {user.asset_name}
+                            </li>
+                          ))
+                        }
+                      </ul>
+                    </div>
+                  )
+                }
+
+
               </div>
+
+
             }
 
 
-{
-        !canReadAssets ? (
-          <>
+
+
+            <div onClick={()=> canReadAssets && handleFilterByPrice()} style={{ paddingRight: 23, marginTop: 12, cursor: "pointer" }}>
+              <Sort
+                Size="24"
+                color="#222"
+                variant="Outline"
+                style={{cursor: canReadAssets ? "pointer" : "not-allowed",
+                  opacity: canReadAssets ? 1 : 0.4,
+                  pointerEvents: canReadAssets ? "auto" : "none",
+                  transition: "opacity 0.3s ease"}}
+              />
+            </div>
+
+            {
+              showFilter &&
+
+
+              <div style={{ paddingRight: 30, marginTop: 10 }}>
+                <Select
+
+                  value={{
+                    value: selectedPriceRange,
+                    label: selectedPriceRange === "date" ? "Date" : selectedPriceRange
+                  }}
+                  onChange={(selectedOption) => handlePriceRangeChange(selectedOption?.value)}
+                  options={[
+                    { value: "All", label: "All" },
+                    { value: "0-100", label: "0-100" },
+                    { value: "100-500", label: "100-500" },
+                    { value: "500-1000", label: "500-1000" },
+                    { value: "1000+", label: "1000+" },
+                    { value: "date", label: "Date" }
+                  ]}
+                  styles={{
+                    control: (base) => ({
+                      ...base,
+                      height: "40px",
+                      borderRadius: "6px",
+                      boxShadow: "none !important",
+                      outline: "none !important",
+                      backgroundColor: "#fff",
+                      minHeight: "unset",
+                      minWidth: "140px",
+                      '&:hover': {
+                        borderColor: "#ccc"
+                      }
+                    }),
+                    menuList: (base) => ({
+                      ...base,
+                      backgroundColor: "#f8f9fa",
+                      maxHeight: "150px",
+                      padding: 0,
+                      scrollbarWidth: "thin",
+                      overflowY: "auto",
+                      fontFamily: "Gilroy",
+
+                      minWidth: "140px",
+                      zIndex: 9999
+                    }),
+                    indicatorSeparator: () => ({
+                      display: "none",
+
+                    }),
+                    dropdownIndicator: (base) => ({
+                      ...base,
+                      padding: "0 8px",
+                      cursor: "pointer"
+                    }),
+                    valueContainer: (base) => ({
+                      ...base,
+                      padding: "0 12px"
+                    }),
+                    input: (base) => ({
+                      ...base,
+                      margin: 0,
+                      padding: 0,
+                      border: "none",
+                      boxShadow: "none",
+                      outline: "none"
+                    }),
+                    singleValue: (base) => ({
+                      ...base,
+                      color: "#222",
+                      fontWeight: 600,
+                      fontFamily: "Gilroy"
+                    }),
+
+                    option: (base, state) => ({
+                      ...base,
+                      backgroundColor: state.isFocused ? "#f0f0f0" : "#fff",
+                      color: "#222",
+                      fontFamily: "Gilroy",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      fontSize: "14px",
+                      cursor: "pointer"
+                    })
+                  }}
+                  placeholder="Select Price Range"
+                />
+              </div>
+            }
+
+            {showFilter && selectedPriceRange === 'date' && (
+              <div style={{ paddingRight: 30, marginTop: 10 }}>
+                <RangePicker
+                  value={selectedDateRange}
+                  onChange={handleDateChange}
+                  format="DD-MM-YYYY"
+                  style={{ height: 40, cursor: "pointer" }}
+                />
+              </div>
+            )}
+
+            <div className='me-2' style={{ marginTop: 8, cursor: "pointer" }}>
+              <img src={excelimg} alt='excel' width={38} height={38}
+
+                style={{
+                  cursor: canReadAssets ? "pointer" : "not-allowed",
+                  opacity: canReadAssets ? 1 : 0.4,
+                  pointerEvents: canReadAssets ? "auto" : "none",
+                  transition: "opacity 0.3s ease"
+                }}
+                onClick={() => { if (canReadAssets) handleAssetsExcel() }}
+              />
+            </div>
+
+            <div style={{ marginTop: 15, paddingRight: 4 }}>
+              <Button disabled={!canWriteAssets} onClick={handleShow}
+                style={{
+                  fontFamily: "Gilroy",
+                  fontSize: "14px",
+                  backgroundColor: "#1E45E1",
+                  color: "white",
+                  fontWeight: 600,
+                  borderRadius: "8px",
+                  padding: "12px",
+                  paddingLeft: 50,
+                  paddingRight: 48,
+                  marginBottom: "10px",
+                  maxHeight: 45,
+
+                }}
+              >
+                + Asset</Button>
+            </div>
+          </div>
+        </div>
+
+        {searchQuery && (
+          <div className='mb-4' style={{ marginTop: '20px', fontWeight: 600, fontSize: 16 }}>
+            {getData.length > 0 ? (
+              <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>
+                {getData.length} result{getData.length > 1 ? 's' : ''} found for{" "}
+                <span style={{ color: "rgba(34, 34, 34, 1)" }}>
+                  &quot;{searchQuery}&quot;
+                </span>
+              </span>
+            ) : (
+              <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>No results found for {" "}<span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}> &quot;{searchQuery}&quot;</span></span>
+            )}
+          </div>
+        )}
+
+
+
+
+
+
+        {loading &&
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              bottom: 0,
+              left: '200px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
             <div
               style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                height: "100vh",
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
               }}
-            >
-              <img
-                src={EmptyState}
-                alt="Empty State"
-                style={{ maxWidth: "100%", height: "auto" }}
-              />
+            ></div>
+          </div>
+        }
 
-              <ErrorMessage message={['You do not have access to view Asset']} type="warning"/>
 
-            </div>
-          </>
-        ) :
+        {
+          !canReadAssets ? (
+            <>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  height: "100vh",
+                }}
+              >
+                <img
+                  src={EmptyState}
+                  alt="Empty State"
+                  style={{ maxWidth: "100%", height: "auto" }}
+                />
+
+                <ErrorMessage message={['You do not have access to view Asset']} type="warning" />
+
+              </div>
+            </>
+          ) :
 
 
             sortedData && sortedData.length > 0 && (
@@ -949,7 +963,7 @@ if( state.bankingDetails?.bankingList?.length === 0){
                   style={{
                     height: sortedData.length >= 8 || sortedData.length >= 8 ? "460px" : "auto",
                     overflow: "auto",
-                                  marginTop: "20px"
+                    marginTop: "20px"
                   }}>
 
                   <Table
@@ -1072,31 +1086,31 @@ if( state.bankingDetails?.bankingList?.length === 0){
               </div>
             )
 
-          }
-            {
-              !loading && sortedData && sortedData.length === 0 &&
+        }
+        {
+          !loading && sortedData && sortedData.length === 0 &&
 
-              <div className='d-flex align-items-center justify-content-center animated-text mt-5' style={{ width: "100%", height: 350, margin: "0px auto" }}>
+          <div className='d-flex align-items-center justify-content-center animated-text mt-5' style={{ width: "100%", height: 350, margin: "0px auto" }}>
 
-                <div>
-                  <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
-                  <div className="pb-1 " style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "rgba(75, 75, 75, 1)" }}>No Assets available</div>
-                  <div className="pb-1 " style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 14, color: "rgba(75, 75, 75, 1)" }}>There are no Assets added.</div>
+            <div>
+              <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
+              <div className="pb-1 " style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "rgba(75, 75, 75, 1)" }}>No Assets available</div>
+              <div className="pb-1 " style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 14, color: "rgba(75, 75, 75, 1)" }}>There are no Assets added.</div>
 
-                </div>
-                <div>
+            </div>
+            <div>
 
-                </div>
-              </div>
-
-
-            }
-
-
-
-
+            </div>
           </div>
-     
+
+
+        }
+
+
+
+
+      </div>
+
 
       {show && <AddAsset show={show} currentItem={currentItem} setShow={setShow} />}
 

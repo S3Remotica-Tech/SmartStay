@@ -695,7 +695,7 @@ useEffect(() => {
                         <span className="input-group-text bg-white border-end-0">
                           <Image
                             src={searchteam}
-                            style={{ height: 20, width: 20 }}
+                            style={{ height: 20, width: 20,  }}
                           />
                         </span>
                         <input
@@ -709,7 +709,9 @@ useEffect(() => {
                             borderColor: "rgb(207,213,219)",
                             borderRight: "none",
                             width: "160px",
-                            height: 40
+                            height: 40,
+                            fontFamily:"Gilroy"
+
                           }}
                           value={filterInput}
                           onChange={(e) => handlefilterInput(e)}
@@ -781,7 +783,12 @@ useEffect(() => {
                     <Image
                       src={searchteam}
                       roundedCircle
-                      style={{ height: "24px", width: "24px" }}
+                      style={{ height: "24px", width: "24px",
+                        cursor: canReadBanking ? "pointer" : "not-allowed",
+                  opacity: canReadBanking ? 1 : 0.4,
+                  pointerEvents: canReadBanking ? "auto" : "none",
+                  transition: "opacity 0.3s ease" 
+                 }}
                       onClick={handleSearch}
                     />
                   </div>
@@ -793,7 +800,11 @@ useEffect(() => {
                 <Image
                   src={Filters}
                   roundedCircle
-                  style={{ height: "50px", width: "50px", }}
+                  style={{ height: "50px", width: "50px", 
+                     cursor: canReadBanking ? "pointer" : "not-allowed",
+                        opacity: canReadBanking ? 1 : 0.4,
+                        pointerEvents: canReadBanking ? "auto" : "none",
+                        transition: "opacity 0.3s ease" }}
                   onClick={handleFilterd}
                 />
               </div>

@@ -264,10 +264,15 @@ function Reports() {
             {
               !showFilterData &&
 
-              <div onClick={handleShowSearch}>
+              <div onClick={()=>canReadReports && handleShowSearch()}>
                 <SearchNormal1
                   size="26"
                   color="#222"
+                  style={{
+                    cursor: canReadReports ? "pointer" : "not-allowed",
+                  opacity: canReadReports ? 1 : 0.4,
+                  pointerEvents: canReadReports ? "auto" : "none",
+                  transition: "opacity 0.3s ease" ,}}
                 />
               </div>
             }

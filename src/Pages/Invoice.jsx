@@ -173,36 +173,36 @@ const InvoicePage = () => {
   const [checkedRows, setCheckedRows] = useState({});
   // const [manualInvoiceNumberError, setManualInvoiceNumberError] = useState("")
   const [unableAddInvoiceDetailsError, setUnableAddInvoiceDetailsError] = useState("")
-  const [name , setName] = useState("")
-  const [floor_name , setFloorName] = useState("")
-  const [room_name , setRoomName] = useState("")
-  const [bed_name , setBedName] = useState("")
-  const [profile_pic , setProfilePic] = useState(null)
+  const [name, setName] = useState("")
+  const [floor_name, setFloorName] = useState("")
+  const [room_name, setRoomName] = useState("")
+  const [bed_name, setBedName] = useState("")
+  const [profile_pic, setProfilePic] = useState(null)
 
   const [activeStay, setActiveStay] = useState("long_stay");
 
 
-const canReadInvoice = useHasPermission("Bills", "canRead")
-const canWriteInvoice = useHasPermission("Bills", "canWrite")
-// const canUpdateInvoice = useHasPermission("Bills", "canUpdate")
-// const canDeleteInvoice = useHasPermission("Bills", "canDelete")
+  const canReadInvoice = useHasPermission("Bills", "canRead")
+  const canWriteInvoice = useHasPermission("Bills", "canWrite")
+  // const canUpdateInvoice = useHasPermission("Bills", "canUpdate")
+  // const canDeleteInvoice = useHasPermission("Bills", "canDelete")
 
 
 
-const canReadRecurring = useHasPermission("Recurring bills", "canRead")
-// const canWriteRecurring = useHasPermission("Recurring bills", "canWrite")
+  const canReadRecurring = useHasPermission("Recurring bills", "canRead")
+  // const canWriteRecurring = useHasPermission("Recurring bills", "canWrite")
 
 
-const canReadReceipt = useHasPermission("Receipt", "canRead")
-const canWriteReceipt = useHasPermission("Receipt", "canWrite")
+  const canReadReceipt = useHasPermission("Receipt", "canRead")
+  const canWriteReceipt = useHasPermission("Receipt", "canWrite")
 
 
 
 
-useEffect(() => {
+  useEffect(() => {
     if (!canReadInvoice) {
       setLoading(false);
-    }else{
+    } else {
       setLoading(true);
     }
   }, [canReadInvoice]);
@@ -214,7 +214,7 @@ useEffect(() => {
 
 
 
-  
+
 
   useEffect(() => {
     if (recurringbills?.length > 0) {
@@ -273,7 +273,7 @@ useEffect(() => {
   useEffect(() => {
     if (hostelId) {
       // setLoading(true)
-dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
+      dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
     }
   }, [hostelId]);
 
@@ -638,7 +638,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
     return date.toISOString().split("T")[0];
   };
 
- 
+
   const [payableAmount, setPayableAmount] = useState("");
   const [balance, setBalance] = useState(0);
 
@@ -905,7 +905,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
   const handleShowForm = (props) => {
     setShowform(true);
     setInvoiceValue(props.item);
-    
+
     if (props.item.invoiceId !== undefined) {
 
       const dateObject = new Date(props.item.Date);
@@ -920,8 +920,8 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
 
       // let value = props.item.Name.split(" ");
       setSelectedUserId(props.item.customerId);
-     const userDetails = state?.UsersList?.Users.filter((u)=> u.customerId === props?.item?.customerId)
-     
+      const userDetails = state?.UsersList?.Users.filter((u) => u.customerId === props?.item?.customerId)
+
       setName(props.item?.fullName)
       setFloorName(userDetails[0]?.floorName)
       setRoomName(userDetails[0]?.roomName)
@@ -1045,19 +1045,19 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
       invoiceList.transaction &&
       formatpaiddate && hostelId
     ) {
-    dispatch({
-  type: "RECORD_PAYMENT",
-  payload: {
-    hostelId: hostelId,   
-    invoiceId: invoiceList.InvoiceId, 
-    data: {
-      bankId:  invoiceList.transaction,                       
-      paymentDate: formatpaiddate,            
-      referenceId: "",   
-      amount: payableAmount                   
-    }
-  },
-});
+      dispatch({
+        type: "RECORD_PAYMENT",
+        payload: {
+          hostelId: hostelId,
+          invoiceId: invoiceList.InvoiceId,
+          data: {
+            bankId: invoiceList.transaction,
+            paymentDate: formatpaiddate,
+            referenceId: "",
+            amount: payableAmount
+          }
+        },
+      });
 
 
 
@@ -1998,7 +1998,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
 
     if (newValue === "1") {
       setLoading(true);
-dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
+      dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
     }
 
     if (newValue === "2") {
@@ -2070,7 +2070,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
 
   useEffect(() => {
     if (hostelId) {
-      dispatch({ type: "BANKINGLIST", payload: hostelId  });
+      dispatch({ type: "BANKINGLIST", payload: hostelId });
     }
   }, [hostelId]);
 
@@ -2122,7 +2122,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
       setSelectedDate(null);
       setFormRecordLoading(false)
       setShowform(false)
-      dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
+      dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
 
       dispatch({ type: "RECEIPTSLIST", payload: hostelId });
 
@@ -2465,7 +2465,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
       setShowRecurringBillForm(false);
       setReceiptFormShow(false);
       setShowAllBill(true);
-dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
+      dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
       setLoading(false);
 
       setTimeout(() => {
@@ -2493,7 +2493,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
       setShowRecurringBillForm(false);
       setReceiptFormShow(false);
       setShowAllBill(true);
-dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
+      dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
       setLoading(false);
 
       setTimeout(() => {
@@ -2509,7 +2509,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
   ]);
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceDeleteStatusCode === 200) {
-dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
+      dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
       setLoading(false);
 
       setTimeout(() => {
@@ -2536,7 +2536,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
 
   useEffect(() => {
     if (state.InvoiceList.message !== "" && state.InvoiceList.message !== null) {
-dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
+      dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
       setBills(state.InvoiceList.ManualInvoices);
       setTimeout(() => {
         dispatch({ type: "CLEAR_INVOICE_UPDATE_LIST" });
@@ -2733,7 +2733,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
     setBills(bills);
     setRecurringBills(originalRecuiring);
     setReceiptData(originalReceipt);
-dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
+    dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
   };
 
 
@@ -2829,7 +2829,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
 
     if (hostelId) {
       setReceiptLoader(true);
-  dispatch({ type: "RECEIPTSLIST", payload: hostelId });
+      dispatch({ type: "RECEIPTSLIST", payload: hostelId });
     }
   }, [hostelId]);
 
@@ -2839,7 +2839,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
       setOriginalBillsFilterReceipt(state.InvoiceList.ReceiptList)
       setOriginalReceipt(state.InvoiceList.ReceiptList)
       setReceiptLoader(false);
-      dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
+      dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_RECEIPTS_LIST" });
       }, 100);
@@ -2854,7 +2854,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
     ) {
       handleBackBill()
 
-     dispatch({ type: "RECEIPTSLIST", payload: hostelId });
+      dispatch({ type: "RECEIPTSLIST", payload: hostelId });
 
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_RECEIPTS_ADD" });
@@ -2938,7 +2938,12 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
                           <span className="input-group-text bg-white border-end-0">
                             <Image
                               src={searchteam}
-                              style={{ height: 20, width: 20 }}
+                              style={{
+                                height: 20, width: 20, cursor: canReadInvoice ? "pointer" : "not-allowed",
+                                opacity: canReadInvoice ? 1 : 0.4,
+                                pointerEvents: canReadInvoice ? "auto" : "none",
+                                transition: "opacity 0.3s ease"
+                              }}
                             />
                           </span>
                           <input
@@ -3215,7 +3220,10 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
                           style={{
                             height: "24px",
                             width: "24px",
-                            cursor: "pointer"
+                            cursor: canReadInvoice ? "pointer" : "not-allowed",
+                            opacity: canReadInvoice ? 1 : 0.4,
+                            pointerEvents: canReadInvoice ? "auto" : "none",
+                            transition: "opacity 0.3s ease"
                           }}
                           onClick={handleSearch}
                         />
@@ -3228,7 +3236,13 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
                       <Image
                         src={Filters}
                         roundedCircle
-                        style={{ height: "50px", width: "50px", marginTop: 18, cursor: "pointer" }}
+                        style={{
+                          height: "50px", width: "50px", marginTop: 18,
+                           cursor: (canReadInvoice || canReadReceipt || canReadRecurring) ? "pointer" : "not-allowed",
+                          opacity: (canReadInvoice || canReadReceipt || canReadRecurring) ? 1 : 0.4,
+                          pointerEvents: (canReadInvoice || canReadReceipt || canReadRecurring) ? "auto" : "none",
+                          transition: "opacity 0.3s ease"
+                        }}
                         onClick={handleFilterd}
                       />
                     </div>
@@ -3245,7 +3259,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
                       }}
                     >
                       <Form.Select
-                  disabled={!canReadInvoice}
+                        disabled={!canReadInvoice}
                         onChange={(e) => handleStatusFilter(e)}
                         value={statusfilter}
                         aria-label="Select Price Range"
@@ -3502,9 +3516,9 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
                       />
 
 
-                     
-                        <ErrorMessage message={['You do not have access to view Invoice']} type="warning"/>
-                    
+
+                      <ErrorMessage message={['You do not have access to view Invoice']} type="warning" />
+
                     </div>
                   </>
                 ) : (
@@ -4263,7 +4277,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
                           onHide={handleCloseForm}
                           backdrop="static"
                           centered
-                          // dialogClassName="custom-modals-record-payment-style"
+                        // dialogClassName="custom-modals-record-payment-style"
 
                         >
                           <Modal.Dialog
@@ -4310,41 +4324,41 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
                             </Modal.Header>
 
 
-                           
+
 
                             <Modal.Body>
                               <>
-                                 <div className="d-flex align-items-center " >
-                                       <img
-                            src={ profile_pic && profile_pic !== "0"  ? profile_pic : Profile}
-                                style={{ height: 55, width: 55, cursor: "pointer" }}
-                                alt="profile"
-                                className="rounded-circle me-3"
-                              />
-                              {/* <img src={Profile}  style={{ height: 55, width: 55, cursor: "pointer" }}
+                                <div className="d-flex align-items-center " >
+                                  <img
+                                    src={profile_pic && profile_pic !== "0" ? profile_pic : Profile}
+                                    style={{ height: 55, width: 55, cursor: "pointer" }}
+                                    alt="profile"
+                                    className="rounded-circle me-3"
+                                  />
+                                  {/* <img src={Profile}  style={{ height: 55, width: 55, cursor: "pointer" }}
                                 alt="profile"
                                 className="rounded-circle me-3"/> */}
-                                     <div>
-                                  <p style={{fontSize:"1.25rem",fontFamily:"Gilroy",fontWeight:600}} className="mb-0"> {name}</p>
-                              <div className="d-flex mb-2">
-                                <span className="badge rounded-pill bg-warning text-dark me-2" style={{fontSize:"0.75rem",fontFamily:"Gilroy",fontWeight:400}}>
-                               {floor_name}
-                                </span>
-                                <span className="badge rounded-pill bg-danger-subtle text-dark" style={{fontSize:"0.75rem",fontFamily:"Gilroy",fontWeight:400}}>
-                                  {room_name} - {bed_name}
-                                 {/* {matchedDet[0]?.Room_Id} - {matchedDet[0]?.Bed} */}
-                                </span>
-                              </div>
-                              </div>
-                                      <div className="ms-auto text-end mt-2">
-                                        <p   style={{fontSize:14,fontFamily:"Gilroy",fontWeight:400,color:"#4B4B4B",padding:0 , margin:0}}>Due Pending</p>
-                                        <p style={{fontSize:16,fontFamily:"Gilroy",fontWeight:600,}}>
-                                          {/* {checkOutDate} */} {invoiceList.balanceDue}
-                                          </p>
-                                      </div>
+                                  <div>
+                                    <p style={{ fontSize: "1.25rem", fontFamily: "Gilroy", fontWeight: 600 }} className="mb-0"> {name}</p>
+                                    <div className="d-flex mb-2">
+                                      <span className="badge rounded-pill bg-warning text-dark me-2" style={{ fontSize: "0.75rem", fontFamily: "Gilroy", fontWeight: 400 }}>
+                                        {floor_name}
+                                      </span>
+                                      <span className="badge rounded-pill bg-danger-subtle text-dark" style={{ fontSize: "0.75rem", fontFamily: "Gilroy", fontWeight: 400 }}>
+                                        {room_name} - {bed_name}
+                                        {/* {matchedDet[0]?.Room_Id} - {matchedDet[0]?.Bed} */}
+                                      </span>
                                     </div>
-                              <div className="row">
-                                {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                  </div>
+                                  <div className="ms-auto text-end mt-2">
+                                    <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "#4B4B4B", padding: 0, margin: 0 }}>Due Pending</p>
+                                    <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600, }}>
+                                      {/* {checkOutDate} */} {invoiceList.balanceDue}
+                                    </p>
+                                  </div>
+                                </div>
+                                <div className="row">
+                                  {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                   <Form.Group
 
                                     controlId="exampleForm.ControlInput1"
@@ -4378,425 +4392,425 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
                                   </Form.Group>
                                 </div> */}
 
-                                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                  <Form.Group
+                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <Form.Group
 
-                                    controlId="exampleForm.ControlInput3"
-                                  >
-                                    <Form.Label
-                                      style={{
-                                        fontSize: 14,
-                                        color: "#222222",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                        marginBottom: 2
-
-
-                                      }}
+                                      controlId="exampleForm.ControlInput3"
                                     >
-                                      Paid Amount {" "}
-                                      <span
+                                      <Form.Label
                                         style={{
-                                          color: "red",
-                                          fontSize: "20px",
+                                          fontSize: 14,
+                                          color: "#222222",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                          marginBottom: 2
+
+
                                         }}
                                       >
-                                        *
-                                      </span>
-                                    </Form.Label>
-
-                                    <Form.Control
-                                      type="number"
-                                      min="0"
-                                      step="1"
-                                      style={{
-                                        fontSize: 16,
-                                        color: "#4B4B4B",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                        boxShadow: "none",
-                                        border: "1px solid #D9D9D9",
-                                        height: 50,
-                                        borderRadius: 8,
-
-                                      }}
-                                      placeholder="Enter Amount"
-                                      className="no-spinner"
-                                      value={payableAmount}
-                                      onChange={handleAmount}
-                                   onKeyDown={(e) => {
-    if (e.key === "-" || e.key === "e") {
-      e.preventDefault();
-    }
-  }}
-                                    />
-
-
-
-                                    {amounterrormsg.trim() !== "" && (
-                                       <ErrorMessage message={amounterrormsg} type="error"/>
-                                    )}
-                                  </Form.Group>
-                                </div>
-
-                                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                  <Form.Group
-
-                                    controlId="exampleForm.ControlInput3"
-                                  >
-                                    <Form.Label
-                                      style={{
-                                        fontSize: 14,
-                                        color: "#222222",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                        marginBottom: 2
-
-
-                                      }}
-                                    >
-                                      Balance Amount {" "}
-                                      <span
-                                        style={{
-                                          color: "red",
-                                          fontSize: "20px",
-                                        }}
-                                      >
-                                        *
-                                      </span>
-                                    </Form.Label>
-
-                                    <Form.Control
-                                      disabled
-                                      type="number"
-                                      min="0"
-                                      step="1"
-                                      style={{
-                                        fontSize: 16,
-                                        color: "#4B4B4B",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                        boxShadow: "none",
-                                        border: "1px solid #D9D9D9",
-                                        height: 50,
-                                        borderRadius: 8,
-
-                                      }}
-                                      placeholder="Enter Amount"
-                                      className="no-spinner"
-                                      value={balance}
-
-                                    />
-
-
-
-
-                                  </Form.Group>
-                                </div>
-
-                                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                  <Form.Group
-                                    controlId="purchaseDate"
-                                  >
-                                    <Form.Label
-                                      style={{
-                                        fontSize: 14,
-                                        color: "#222222",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                      }}
-                                    >
-                                      Paid Date {" "}
-                                      <span
-                                        style={{
-                                          color: "red",
-                                          fontSize: "20px",
-                                        }}
-                                      >
-                                        *
-                                      </span>
-                                    </Form.Label>
-                                    <div
-                                      style={{
-                                        position: "relative",
-                                        width: "100%",
-                                      }}
-                                    >
-
-                                      <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
-                                        <DatePicker
+                                        Paid Amount {" "}
+                                        <span
                                           style={{
-                                            width: "100%",
-                                            height: 48,
-                                            cursor: "pointer",
-                                            fontFamily: "Gilroy",
+                                            color: "red",
+                                            fontSize: "20px",
                                           }}
-                                          format="DD/MM/YYYY"
-                                          placeholder="DD/MM/YYYY"
-                                          value={selectedDate ? dayjs(selectedDate) : null}
-                                          onChange={(date) => {
-                                            setDateErrmsg("");
-                                            setAccountError("");
-                                            setSelectedDate(date ? date.toDate() : null);
-                                          }}
-                                          disabledDate={(current) => current && current > dayjs().endOf("day")}
-                                          getPopupContainer={(triggerNode) =>
-                                            triggerNode.closest(".show-scroll") || document.body
-                                          }
-                                        />
+                                        >
+                                          *
+                                        </span>
+                                      </Form.Label>
 
-
-                                      </div>
-                                    </div>
-                                    {dateerrmsg.trim() !== "" && (
-                                      <ErrorMessage message={dateerrmsg} type="error"/>
-                                    )}
-                                  </Form.Group>
-
-
-
-
-                                </div>
-
-
-
-                                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                  <Form.Group
-                                    className=""
-                                    controlId="exampleForm.ControlInput2"
-                                  >
-                                    <Form.Label
-                                      style={{
-                                        fontSize: 14,
-                                        color: "#222222",
-                                        fontFamily: "'Gilroy', sans-serif",
-                                        fontWeight: 500,
-
-                                      }}
-                                    >
-                                      Mode of Transaction {" "}
-                                      <span
+                                      <Form.Control
+                                        type="number"
+                                        min="0"
+                                        step="1"
                                         style={{
-                                          color: "red",
-                                          fontSize: "20px",
-                                        }}
-                                      >
-                                        *
-                                      </span>
-                                    </Form.Label>
-
-                                    <Select
-                                      options={combinedOptions}
-                                      onChange={(selectedOption) => handleTransaction(selectedOption?.value)}
-                                      value={
-                                        invoiceList.transaction
-                                          ? combinedOptions.find(option => option.value === invoiceList.transaction)
-                                          : null
-                                      }
-                                      placeholder="Please Select"
-                                      classNamePrefix="custom"
-                                      menuPlacement="auto"
-                                      noOptionsMessage={() => "No options available"}
-                                      styles={{
-                                        control: (base) => ({
-                                          ...base,
-                                          height: "49px",
-                                          border: "1px solid #D9D9D9",
-                                          borderRadius: "8px",
-                                          fontSize: "16px",
+                                          fontSize: 16,
                                           color: "#4B4B4B",
-                                          fontFamily: "Gilroy, sans-serif",
+                                          fontFamily: "Gilroy",
                                           fontWeight: 500,
                                           boxShadow: "none",
-                                        }),
-                                        menu: (base) => ({
-                                          ...base,
-                                          backgroundColor: "#f8f9fa",
-                                          border: "1px solid #ced4da",
-                                          fontFamily: "Gilroy, sans-serif",
-                                        }),
-                                        menuList: (base) => ({
-                                          ...base,
-                                          backgroundColor: "#f8f9fa",
-                                          maxHeight: "120px",
-                                          padding: 0,
-                                          scrollbarWidth: "thin",
-                                          overflowY: "auto",
-                                          fontFamily: "Gilroy, sans-serif",
-                                        }),
-                                        placeholder: (base) => ({
-                                          ...base,
-                                          color: "#555",
-                                        }),
-                                        option: (base, state) => ({
-                                          ...base,
-                                          cursor: "pointer",
-                                          backgroundColor: state.isFocused ? "lightblue" : "white",
-                                          color: "#000",
-                                        }),
-                                        dropdownIndicator: (base) => ({
-                                          ...base,
-                                          color: "#555",
-                                          cursor: "pointer"
-                                        }),
-                                        indicatorSeparator: () => ({
-                                          display: "none",
-                                        }),
-                                      }}
-                                    />
+                                          border: "1px solid #D9D9D9",
+                                          height: 50,
+                                          borderRadius: 8,
+
+                                        }}
+                                        placeholder="Enter Amount"
+                                        className="no-spinner"
+                                        value={payableAmount}
+                                        onChange={handleAmount}
+                                        onKeyDown={(e) => {
+                                          if (e.key === "-" || e.key === "e") {
+                                            e.preventDefault();
+                                          }
+                                        }}
+                                      />
 
 
 
-                                    {paymodeerrormsg.trim() !== "" && (
-                                       <ErrorMessage message={paymodeerrormsg} type="error"/>
-                                    )}
-                                  </Form.Group>
-                                </div>
+                                      {amounterrormsg.trim() !== "" && (
+                                        <ErrorMessage message={amounterrormsg} type="error" />
+                                      )}
+                                    </Form.Group>
+                                  </div>
 
+                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <Form.Group
 
-                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                  <Form.Group
-
-                                    controlId="exampleForm.ControlInput1"
-                                  >
-                                    <Form.Label
-                                      style={{
-                                        fontSize: 14,
-                                        color: "#222222",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                      }}
+                                      controlId="exampleForm.ControlInput3"
                                     >
-                                      Transaction ID
-                                    </Form.Label>
-                                    <Form.Control
-                                      type="text"
-                                      style={{
-                                        fontSize: 16,
-                                        color: "#4B4B4B",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                        boxShadow: "none",
-                                        border: "1px solid #D9D9D9",
-                                        height: 50,
-                                        borderRadius: 8,
-                                      }}
-                                      placeholder="Enter Transaction ID"
+                                      <Form.Label
+                                        style={{
+                                          fontSize: 14,
+                                          color: "#222222",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                          marginBottom: 2
+
+
+                                        }}
+                                      >
+                                        Balance Amount {" "}
+                                        <span
+                                          style={{
+                                            color: "red",
+                                            fontSize: "20px",
+                                          }}
+                                        >
+                                          *
+                                        </span>
+                                      </Form.Label>
+
+                                      <Form.Control
+                                        disabled
+                                        type="number"
+                                        min="0"
+                                        step="1"
+                                        style={{
+                                          fontSize: 16,
+                                          color: "#4B4B4B",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                          boxShadow: "none",
+                                          border: "1px solid #D9D9D9",
+                                          height: 50,
+                                          borderRadius: 8,
+
+                                        }}
+                                        placeholder="Enter Amount"
+                                        className="no-spinner"
+                                        value={balance}
+
+                                      />
+
+
+
+
+                                    </Form.Group>
+                                  </div>
+
+                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <Form.Group
+                                      controlId="purchaseDate"
+                                    >
+                                      <Form.Label
+                                        style={{
+                                          fontSize: 14,
+                                          color: "#222222",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                        }}
+                                      >
+                                        Paid Date {" "}
+                                        <span
+                                          style={{
+                                            color: "red",
+                                            fontSize: "20px",
+                                          }}
+                                        >
+                                          *
+                                        </span>
+                                      </Form.Label>
+                                      <div
+                                        style={{
+                                          position: "relative",
+                                          width: "100%",
+                                        }}
+                                      >
+
+                                        <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                                          <DatePicker
+                                            style={{
+                                              width: "100%",
+                                              height: 48,
+                                              cursor: "pointer",
+                                              fontFamily: "Gilroy",
+                                            }}
+                                            format="DD/MM/YYYY"
+                                            placeholder="DD/MM/YYYY"
+                                            value={selectedDate ? dayjs(selectedDate) : null}
+                                            onChange={(date) => {
+                                              setDateErrmsg("");
+                                              setAccountError("");
+                                              setSelectedDate(date ? date.toDate() : null);
+                                            }}
+                                            disabledDate={(current) => current && current > dayjs().endOf("day")}
+                                            getPopupContainer={(triggerNode) =>
+                                              triggerNode.closest(".show-scroll") || document.body
+                                            }
+                                          />
+
+
+                                        </div>
+                                      </div>
+                                      {dateerrmsg.trim() !== "" && (
+                                        <ErrorMessage message={dateerrmsg} type="error" />
+                                      )}
+                                    </Form.Group>
+
+
+
+
+                                  </div>
+
+
+
+                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <Form.Group
+                                      className=""
+                                      controlId="exampleForm.ControlInput2"
+                                    >
+                                      <Form.Label
+                                        style={{
+                                          fontSize: 14,
+                                          color: "#222222",
+                                          fontFamily: "'Gilroy', sans-serif",
+                                          fontWeight: 500,
+
+                                        }}
+                                      >
+                                        Mode of Transaction {" "}
+                                        <span
+                                          style={{
+                                            color: "red",
+                                            fontSize: "20px",
+                                          }}
+                                        >
+                                          *
+                                        </span>
+                                      </Form.Label>
+
+                                      <Select
+                                        options={combinedOptions}
+                                        onChange={(selectedOption) => handleTransaction(selectedOption?.value)}
+                                        value={
+                                          invoiceList.transaction
+                                            ? combinedOptions.find(option => option.value === invoiceList.transaction)
+                                            : null
+                                        }
+                                        placeholder="Please Select"
+                                        classNamePrefix="custom"
+                                        menuPlacement="auto"
+                                        noOptionsMessage={() => "No options available"}
+                                        styles={{
+                                          control: (base) => ({
+                                            ...base,
+                                            height: "49px",
+                                            border: "1px solid #D9D9D9",
+                                            borderRadius: "8px",
+                                            fontSize: "16px",
+                                            color: "#4B4B4B",
+                                            fontFamily: "Gilroy, sans-serif",
+                                            fontWeight: 500,
+                                            boxShadow: "none",
+                                          }),
+                                          menu: (base) => ({
+                                            ...base,
+                                            backgroundColor: "#f8f9fa",
+                                            border: "1px solid #ced4da",
+                                            fontFamily: "Gilroy, sans-serif",
+                                          }),
+                                          menuList: (base) => ({
+                                            ...base,
+                                            backgroundColor: "#f8f9fa",
+                                            maxHeight: "120px",
+                                            padding: 0,
+                                            scrollbarWidth: "thin",
+                                            overflowY: "auto",
+                                            fontFamily: "Gilroy, sans-serif",
+                                          }),
+                                          placeholder: (base) => ({
+                                            ...base,
+                                            color: "#555",
+                                          }),
+                                          option: (base, state) => ({
+                                            ...base,
+                                            cursor: "pointer",
+                                            backgroundColor: state.isFocused ? "lightblue" : "white",
+                                            color: "#000",
+                                          }),
+                                          dropdownIndicator: (base) => ({
+                                            ...base,
+                                            color: "#555",
+                                            cursor: "pointer"
+                                          }),
+                                          indicatorSeparator: () => ({
+                                            display: "none",
+                                          }),
+                                        }}
+                                      />
+
+
+
+                                      {paymodeerrormsg.trim() !== "" && (
+                                        <ErrorMessage message={paymodeerrormsg} type="error" />
+                                      )}
+                                    </Form.Group>
+                                  </div>
+
+
+                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <Form.Group
+
+                                      controlId="exampleForm.ControlInput1"
+                                    >
+                                      <Form.Label
+                                        style={{
+                                          fontSize: 14,
+                                          color: "#222222",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                        }}
+                                      >
+                                        Transaction ID
+                                      </Form.Label>
+                                      <Form.Control
+                                        type="text"
+                                        style={{
+                                          fontSize: 16,
+                                          color: "#4B4B4B",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                          boxShadow: "none",
+                                          border: "1px solid #D9D9D9",
+                                          height: 50,
+                                          borderRadius: 8,
+                                        }}
+                                        placeholder="Enter Transaction ID"
                                       // value={invoiceList.balanceDue}
                                       // disabled
-                                    />
-                                  </Form.Group>
-                                </div>
+                                      />
+                                    </Form.Group>
+                                  </div>
 
 
-                                {invoiceList.transaction === "Net Banking" && (
-                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    <Form.Label
-                                      style={{
-                                        fontSize: 14,
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                      }}
-                                    >
-                                      Account{" "}
-                                      <span
+                                  {invoiceList.transaction === "Net Banking" && (
+                                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                      <Form.Label
                                         style={{
-                                          color: "red",
-                                          fontSize: "20px",
+                                          fontSize: 14,
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
                                         }}
                                       >
-                                        {" "}
-                                        *{" "}
-                                      </span>
-                                    </Form.Label>
-                                    <Select
-                                      placeholder="Select Account"
-                                      options={
-                                        bankking?.length > 0
-                                          ? bankking.map((u) => ({
+                                        Account{" "}
+                                        <span
+                                          style={{
+                                            color: "red",
+                                            fontSize: "20px",
+                                          }}
+                                        >
+                                          {" "}
+                                          *{" "}
+                                        </span>
+                                      </Form.Label>
+                                      <Select
+                                        placeholder="Select Account"
+                                        options={
+                                          bankking?.length > 0
+                                            ? bankking.map((u) => ({
+                                              value: u.id,
+                                              label: u.bank_name,
+                                            }))
+                                            : []
+                                        }
+                                        value={
+                                          bankking.map((u) => ({
                                             value: u.id,
                                             label: u.bank_name,
-                                          }))
-                                          : []
-                                      }
-                                      value={
-                                        bankking.map((u) => ({
-                                          value: u.id,
-                                          label: u.bank_name,
-                                        })).find((opt) => opt.value === account) || null
-                                      }
-                                      onChange={handleAccount}
-                                      styles={{
-                                        control: (base) => ({
-                                          ...base,
-                                          height: "48px",
-                                          border: "1px solid #D9D9D9",
-                                          borderRadius: "8px",
-                                          fontSize: "16px",
-                                          color: "#4B4B4B",
-                                          fontFamily: "Gilroy",
-                                          fontWeight: 500,
-                                          boxShadow: "none",
-                                        }),
-                                        menu: (base) => ({
-                                          ...base,
-                                          backgroundColor: "#f8f9fa",
-                                          border: "1px solid #ced4da",
-                                          fontFamily: "Gilroy",
-                                        }),
-                                        menuList: (base) => ({
-                                          ...base,
-                                          backgroundColor: "#f8f9fa",
-                                          maxHeight: "120px",
-                                          padding: 0,
-                                          scrollbarWidth: "thin",
-                                          overflowY: "auto",
-                                          fontFamily: "Gilroy",
-                                        }),
-                                        placeholder: (base) => ({
-                                          ...base,
-                                          color: "#555",
-                                        }),
-                                        dropdownIndicator: (base) => ({
-                                          ...base,
-                                          color: "#555",
-                                          cursor: "pointer",
-                                        }),
-                                        indicatorSeparator: () => ({
-                                          display: "none",
-                                        }),
-                                        option: (base, state) => ({
-                                          ...base,
-                                          cursor: "pointer",
-                                          backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                                          color: "#000",
-                                        }),
-                                      }}
+                                          })).find((opt) => opt.value === account) || null
+                                        }
+                                        onChange={handleAccount}
+                                        styles={{
+                                          control: (base) => ({
+                                            ...base,
+                                            height: "48px",
+                                            border: "1px solid #D9D9D9",
+                                            borderRadius: "8px",
+                                            fontSize: "16px",
+                                            color: "#4B4B4B",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                            boxShadow: "none",
+                                          }),
+                                          menu: (base) => ({
+                                            ...base,
+                                            backgroundColor: "#f8f9fa",
+                                            border: "1px solid #ced4da",
+                                            fontFamily: "Gilroy",
+                                          }),
+                                          menuList: (base) => ({
+                                            ...base,
+                                            backgroundColor: "#f8f9fa",
+                                            maxHeight: "120px",
+                                            padding: 0,
+                                            scrollbarWidth: "thin",
+                                            overflowY: "auto",
+                                            fontFamily: "Gilroy",
+                                          }),
+                                          placeholder: (base) => ({
+                                            ...base,
+                                            color: "#555",
+                                          }),
+                                          dropdownIndicator: (base) => ({
+                                            ...base,
+                                            color: "#555",
+                                            cursor: "pointer",
+                                          }),
+                                          indicatorSeparator: () => ({
+                                            display: "none",
+                                          }),
+                                          option: (base, state) => ({
+                                            ...base,
+                                            cursor: "pointer",
+                                            backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                                            color: "#000",
+                                          }),
+                                        }}
 
-                                      noOptionsMessage={() =>
-                                        bankking?.length === 0
-                                          ? "No accounts available"
-                                          : "No match found"
-                                      }
-                                    />
+                                        noOptionsMessage={() =>
+                                          bankking?.length === 0
+                                            ? "No accounts available"
+                                            : "No match found"
+                                        }
+                                      />
 
-                                    {accountError.trim() !== "" && (
-                                     <ErrorMessage message={accountError} type="error"/>
-                                    )}
-                                  </div>
-                                )}
+                                      {accountError.trim() !== "" && (
+                                        <ErrorMessage message={accountError} type="error" />
+                                      )}
+                                    </div>
+                                  )}
 
-                              </div>
+                                </div>
                               </>
                               {totalErrormsg.trim() !== "" && (
-                                <ErrorMessage message={totalErrormsg} type="error"/>
-                               
+                                <ErrorMessage message={totalErrormsg} type="error" />
+
                               )}
                             </Modal.Body>
 
-                          
+
                             {payableamountError ?
-                               <ErrorMessage message={payableamountError} type="error"/>
+                              <ErrorMessage message={payableamountError} type="error" />
                               : null}
 
 
@@ -4845,16 +4859,16 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
                               </Button> */}
 
 
-                                 <div className="text-end mt-4">
-                                                                  <Button variant="" className="me-2" onClick={handleCloseForm} style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400 }}>
-                                                                      Cancel
-                                                                  </Button>
-                                                                  <Button
-                                                                      // disabled={activeTab !== "writeoff" && ReturnAmount < 0}
-                                                                      style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400, backgroundColor: "#1E45E1" }} 
-                                                                      onClick={handleSaveInvoiceList}
-                                                                      >Record</Button>
-                                                              </div>
+                              <div className="text-end mt-4">
+                                <Button variant="" className="me-2" onClick={handleCloseForm} style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400 }}>
+                                  Cancel
+                                </Button>
+                                <Button
+                                  // disabled={activeTab !== "writeoff" && ReturnAmount < 0}
+                                  style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400, backgroundColor: "#1E45E1" }}
+                                  onClick={handleSaveInvoiceList}
+                                >Record</Button>
+                              </div>
                             </Modal.Footer>
                           </Modal.Dialog>
                         </Modal>
@@ -5530,9 +5544,9 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
                     />
 
 
-                    
-                    <ErrorMessage message={['You do not have access to view Recurring']} type="warning"/>
-                    
+
+                    <ErrorMessage message={['You do not have access to view Recurring']} type="warning" />
+
                   </div>
                 </>
               ) : (
@@ -6134,9 +6148,9 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
                     />
 
 
-                    
-                      <ErrorMessage message={['You do not have access to view Receipt']} type="warning"/>
-                    
+
+                    <ErrorMessage message={['You do not have access to view Receipt']} type="warning" />
+
                   </div>
                 </>
               ) : (
@@ -6502,7 +6516,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
                                               OnHandleshowInvoicePdf={handleReceiptDetail}
                                               onhandleEdit={handleEditReceipt}
                                               DisplayInvoice={handleDisplayReceiptDownload}
-                                              
+
                                             />
                                           ))}
                                         </PaginationList>
@@ -6905,7 +6919,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
 
 
                 {customererrmsg.trim() !== "" && (
-                 <ErrorMessage message={customererrmsg} type="error"/>
+                  <ErrorMessage message={customererrmsg} type="error" />
                 )}
               </Form.Group>
             </div>
@@ -6940,7 +6954,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
                   readOnly
                 />
                 {invoicenumbererrmsg.trim() !== "" && (
-                 <ErrorMessage message={invoicenumbererrmsg} type="error"/>
+                  <ErrorMessage message={invoicenumbererrmsg} type="error" />
                 )}
 
               </Form.Group>
@@ -6995,7 +7009,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
               </div>
 
               {invoicedateerrmsg.trim() !== "" && (
-               <ErrorMessage message={invoicedateerrmsg} type="error"/>
+                <ErrorMessage message={invoicedateerrmsg} type="error" />
               )}
             </div>
 
@@ -7035,7 +7049,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
 
 
               {invoiceduedateerrmsg.trim() !== "" && (
-                  <ErrorMessage message={invoiceduedateerrmsg} type="error"/>
+                <ErrorMessage message={invoiceduedateerrmsg} type="error" />
               )}
             </div>
           </div>
@@ -7066,7 +7080,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
 
 
             {tableErrmsg.trim() !== "" && (
-               <ErrorMessage message={tableErrmsg} type="error"/>
+              <ErrorMessage message={tableErrmsg} type="error" />
             )}
           </div>
 
@@ -7214,12 +7228,12 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
 
           <div>
             {allfielderrmsg.trim() !== "" && (
-              <ErrorMessage message={allfielderrmsg} type="error"/>
+              <ErrorMessage message={allfielderrmsg} type="error" />
             )}
           </div>
 
 
-         
+
           {formLoading && <div
             style={{
               position: 'absolute',
@@ -7276,10 +7290,10 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
         </div>
 
       )}
-    
+
 
       {unableAddInvoiceDetailsError ?
-        <ErrorMessage message={unableAddInvoiceDetailsError} type="error"/>
+        <ErrorMessage message={unableAddInvoiceDetailsError} type="error" />
         : null}
 
       {showRecurringBillForm && (
