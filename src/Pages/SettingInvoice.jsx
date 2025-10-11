@@ -111,7 +111,13 @@ const [resetCall, setResetCall] = useState(false)
 const canReadInvoice = useHasPermission("Bills", "canRead")
 const canUpdateInvoice = useHasPermission("Bills", "canUpdate")
 
-
+useEffect(() => {
+      if (!canReadInvoice) {
+        setLoading(false);
+      }else{
+        setLoading(true);
+      }
+    }, [canReadInvoice]);
 
   // useEffect(() => {
   //   if (state.Settings.statusCodeForSettingFetch === 200) {
@@ -715,7 +721,7 @@ const canUpdateInvoice = useHasPermission("Bills", "canUpdate")
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-      setLoading(true)
+      // setLoading(true)
       // dispatch({ type: "SETTINGS_GET_INVOICE", payload: { hostel_id: state.login.selectedHostel_Id } });
       dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
     }

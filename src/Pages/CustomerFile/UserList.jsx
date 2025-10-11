@@ -157,7 +157,9 @@ function UserList(props) {
   const canWriteWalkin = useHasPermission("Walk in", "canWrite")
 
 
+  const canReadWalkin = useHasPermission("Walk in", "canRead")
 
+  const canReadCheckout = useHasPermission("Checkout", "canRead")
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
@@ -2467,8 +2469,9 @@ function UserList(props) {
                         className="form-control border-start-0"
                         placeholder="Search"
                         value={filterInput}
+                        disabled={!canReadTenant}
                         onChange={(e) => handlefilterInput(e)}
-                        style={{ boxShadow: "none", borderRight: "none" }}
+                        style={{ boxShadow: "none", borderRight: "none", fontFamily: "Gilroy" }}
                       />
                       <span className="input-group-text bg-white border-start-0">
                         <img
@@ -2577,7 +2580,10 @@ function UserList(props) {
                     src={searchteam}
                     alt="search"
                     className="me-2"
-                    style={{ height: "24px", width: "24px", cursor: "pointer" }}
+                    style={{ height: "24px", width: "24px", cursor: canReadTenant ? "pointer" : "not-allowed",
+                        opacity: canReadTenant ? 1 : 0.4,
+                        pointerEvents: canReadTenant ? "auto" : "none",
+                        transition: "opacity 0.3s ease" }}
                     onClick={handleShowSearch}
                   />
                 )}
@@ -2589,7 +2595,10 @@ function UserList(props) {
                       style={{
                         height: "50px",
                         width: "50px",
-                        cursor: "pointer",
+                        cursor: canReadTenant ? "pointer" : "not-allowed",
+                        opacity: canReadTenant ? 1 : 0.4,
+                        pointerEvents: canReadTenant ? "auto" : "none",
+                        transition: "opacity 0.3s ease"
                       }}
                       onClick={handleFilterd}
                     />
@@ -2612,6 +2621,7 @@ function UserList(props) {
                 {value === "2" && filterStatus && (
                   <div style={{ width: 240 }}>
                     <RangePicker
+                      disabled={!canReadTenant}
                       value={bookingDateRange}
                       onChange={handleDateRangeChangeBooking}
                       format="DD/MM/YYYY"
@@ -2630,6 +2640,7 @@ function UserList(props) {
                     }}
                   >
                     <Form.Select
+                      disabled={!canReadTenant}
                       onChange={(e) => handleStatusFilterCheckout(e)}
                       value={statusFilterCheckout}
                       aria-label="Select Price Range"
@@ -2653,6 +2664,7 @@ function UserList(props) {
                 {value === "3" && statusFilterCheckout === "date" && (
                   <div>
                     <RangePicker
+                      disabled={!canReadTenant}
                       value={checkoutDateRange}
                       format="DD-MM-YYYY"
                       onChange={handleDateRangeChangeCheckout}
@@ -2670,6 +2682,7 @@ function UserList(props) {
                 {value === "4" && filterStatus && (
                   <div style={{ width: 240 }}>
                     <RangePicker
+                      disabled={!canReadTenant}
                       value={walkinDateRange}
                       onChange={handleDateRangeChangeWalkin}
                       format="DD/MM/YYYY"
@@ -2685,9 +2698,17 @@ function UserList(props) {
                       alt="excel"
                       width={38}
                       height={38}
-                      style={{ cursor: "pointer" }}
-                      onClick={handleCustomerExcel}
+                      style={{
+                        cursor: canReadTenant ? "pointer" : "not-allowed",
+                        opacity: canReadTenant ? 1 : 0.4,
+                        pointerEvents: canReadTenant ? "auto" : "none",
+                        transition: "opacity 0.3s ease"
+                      }}
+                      onClick={() => {
+                        if (canReadTenant) handleCustomerExcel();
+                      }}
                     />
+
                   )}
                   {value === "2" && (
                     <img
@@ -2695,7 +2716,12 @@ function UserList(props) {
                       alt="excel"
                       width={38}
                       height={38}
-                      style={{ cursor: "pointer" }}
+                      style={{
+                        cursor: canReadTenant ? "pointer" : "not-allowed",
+                        opacity: canReadTenant ? 1 : 0.4,
+                        pointerEvents: canReadTenant ? "auto" : "none",
+                        transition: "opacity 0.3s ease"
+                      }}
                       onClick={handleBookingExcel}
                     />
                   )}
@@ -2705,7 +2731,12 @@ function UserList(props) {
                       alt="excel"
                       width={38}
                       height={38}
-                      style={{ cursor: "pointer" }}
+                      style={{
+                        cursor: canReadCheckout ? "pointer" : "not-allowed",
+                        opacity: canReadCheckout ? 1 : 0.4,
+                        pointerEvents: canReadCheckout ? "auto" : "none",
+                        transition: "opacity 0.3s ease"
+                      }}
                       onClick={handlecheckoutExcel}
                     />
                   )}
@@ -2715,7 +2746,12 @@ function UserList(props) {
                       alt="excel"
                       width={38}
                       height={38}
-                      style={{ cursor: "pointer" }}
+                      style={{
+                        cursor: canReadWalkin ? "pointer" : "not-allowed",
+                        opacity: canReadWalkin ? 1 : 0.4,
+                        pointerEvents: canReadWalkin ? "auto" : "none",
+                        transition: "opacity 0.3s ease"
+                      }}
                       onClick={handlewalkinExcel}
                     />
                   )}

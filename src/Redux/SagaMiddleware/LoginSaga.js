@@ -5,7 +5,7 @@ import { login, OTPverification, loginV2 } from '../Action/smartStayAction';
 
 
 
-function* Login(args) {
+function* handleLogin(args) {
 
   try {
     const response = yield call(login, args.payload);
@@ -47,13 +47,10 @@ function* Login(args) {
 }
 
 
-function* LoginV2(args) {
-
+function* handleLoginV2(args) {
+ console.log("LOGINVERSION2 payload", args.payload);
   try {
     const response = yield call(loginV2, args.payload);
-
-   
-
     if (response.status === 200) {
       yield put({ type: 'LOGIN_VERSION_2', payload: { response: response.data, statusCode: response.status || response.statusCode } });
     }
@@ -107,9 +104,10 @@ function* handleOTPVerified(args) {
 
 
 function* LoginSaga() {
-  yield takeEvery('LOGININFO', Login)
+  yield takeEvery('LOGININFO', handleLogin)
   yield takeEvery('OTPVERIFY', handleOTPVerified)
-  yield takeEvery('LOGINVERSION2', LoginV2)
+  yield takeEvery('LOGINVERSION2', handleLoginV2)
+  
 
   
 }

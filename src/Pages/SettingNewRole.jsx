@@ -30,7 +30,7 @@ function SettingNewRole({ hostelid }) {
   const [editRoleDetails, setEditRoleDetails] = useState('')
   const [addRole, setAddRole] = useState(false)
 
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
 
 
 
@@ -41,6 +41,13 @@ function SettingNewRole({ hostelid }) {
   const canDeleteRole = useHasPermission("Role", "canDelete");
 
 
+useEffect(() => {
+      if (!canReadRole) {
+        setLoading(false);
+      }else{
+        setLoading(true);
+      }
+    }, [canReadRole]);
 
   useEffect(() => {
     dispatch({ type: 'GETMODULES' })
@@ -114,7 +121,7 @@ function SettingNewRole({ hostelid }) {
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       dispatch({ type: 'SETTING_ROLE_LIST', payload: state.login.selectedHostel_Id });
-      setLoading(true)
+      // setLoading(true)
     }
   }, [state.login.selectedHostel_Id]);
 

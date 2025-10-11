@@ -73,13 +73,29 @@ function Dashboard() {
   const [cashBackData, setCashBackData] = useState("");
   const [selectRevenu, setSelectRevenu] = useState("six_month");
   const [hostel_id, setHostel_Id] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
   const [daysLeft, setDaysLeft] = useState(null);
   const [selectAdvance, setSelectAdvance] = useState("six_month");
   const [accountList, setAccountList] = useState("");
 
 const canReadDashboard =  useHasPermission("Dashboard", "canRead");
+
+
+
+useEffect(() => {
+  if (!canReadDashboard) {
+    setLoading(false);
+  }else{
+    setLoading(true);
+  }
+}, [canReadDashboard]);
+
+
+
+
+
+
 
   const monthNames = [
     "Jan", "Feb", "Mar", "Apr", "May", "Jun",

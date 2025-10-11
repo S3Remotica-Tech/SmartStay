@@ -60,6 +60,10 @@ function Expenses({ allPageHostel_Id }) {
   const [excelDownload, setExcelDownload] = useState("");
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
   const [dates, setDates] = useState([]);
+   const [pickerKey, setPickerKey] = useState(0);
+
+  const [loading, setLoading] = useState(false);
+  const [hoveredIndex, setHoveredIndex] = useState(null);
 
 
   const canReadExpense = useHasPermission("Expense", "canRead");
@@ -67,17 +71,18 @@ function Expenses({ allPageHostel_Id }) {
   
 
 
+useEffect(() => {
+  if (!canReadExpense) {
+    setLoading(false);
+  }else{
+    setLoading(true);
+  }
+}, [canReadExpense]);
 
 
 
 
-
-
-
-  const [pickerKey, setPickerKey] = useState(0);
-
-  const [loading, setLoading] = useState(false);
-  const [hoveredIndex, setHoveredIndex] = useState(null);
+ 
 
   const handleClickOutside = (event) => {
     if (filterRef.current && !filterRef.current.contains(event.target)) {
@@ -471,7 +476,7 @@ function Expenses({ allPageHostel_Id }) {
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-      setLoading(true);
+      // setLoading(true);
       dispatch({
         type: "ASSETLIST",
         payload: state.login.selectedHostel_Id,
@@ -903,32 +908,7 @@ function Expenses({ allPageHostel_Id }) {
 
   return (
     <>
-      {!canReadExpense ? (
-        <>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              height: "100vh",
-            }}
-          >
-
-            <img
-              src={EmptyState}
-              alt="Empty State"
-
-            />
-
-
-            
-              <ErrorMessage message={['You do not have access to view Expense']} type="warning" />
-
-            
-          </div>
-        </>
-      ) : (
+     
         <div style={{ width: "100%" }}>
           <div className="container" style={{ paddingTop: 12 }}>
             <div
@@ -964,7 +944,10 @@ function Expenses({ allPageHostel_Id }) {
                     width: 250,
                     marginLeft: 7,
                     marginTop: 5,
-                    cursor: "pointer",
+                   cursor: canReadExpense ? "pointer" : "not-allowed",
+                  opacity: canReadExpense ? 1 : 0.4,
+                  pointerEvents: canReadExpense ? "auto" : "none",
+                  transition: "opacity 0.3s ease" ,
                     paddingLeft: 30,
                     fontFamily: "Gilroy"
                   }}
@@ -980,7 +963,7 @@ function Expenses({ allPageHostel_Id }) {
               <div className="col-12 col-md d-flex flex-wrap justify-content-md-end align-items-center">
 
                 {!showFilterExpense && (
-                  <div onClick={handleShowSearch}
+                  <div onClick={()=>canReadExpense && handleShowSearch()}
                     style={{ paddingRight: 16 }}
                   >
                     <SearchNormal1
@@ -988,7 +971,10 @@ function Expenses({ allPageHostel_Id }) {
                       style={{
                         height: "24px",
                         width: "24px",
-                        cursor: "pointer",
+                        cursor: canReadExpense ? "pointer" : "not-allowed",
+                  opacity: canReadExpense ? 1 : 0.4,
+                  pointerEvents: canReadExpense ? "auto" : "none",
+                  transition: "opacity 0.3s ease" ,
                         fontFamily: "Gilroy",
                         marginTop: 8,
                       }}
@@ -999,7 +985,12 @@ function Expenses({ allPageHostel_Id }) {
                 <div className='me-3' style={{ cursor: "pointer", marginTop: 5 }}>
                   <Image
                     src={Filters}
-                    style={{ height: "50px", width: "50px", }}
+                    style={{ height: "50px", width: "50px",
+                       cursor: canReadExpense ? "pointer" : "not-allowed",
+                  opacity: canReadExpense ? 1 : 0.4,
+                  pointerEvents: canReadExpense ? "auto" : "none",
+                  transition: "opacity 0.3s ease" 
+                }}
                     onClick={handleFilterByPrice}
                   />
                 </div>
@@ -1271,7 +1262,10 @@ function Expenses({ allPageHostel_Id }) {
                     alt="excel"
                     width={38}
                     height={38}
-
+style={{ursor: canReadExpense ? "pointer" : "not-allowed",
+                  opacity: canReadExpense ? 1 : 0.4,
+                  pointerEvents: canReadExpense ? "auto" : "none",
+                  transition: "opacity 0.3s ease" ,}}
                     onClick={handleExpenceExcel}
                   />
                 </div>
@@ -1386,7 +1380,33 @@ function Expenses({ allPageHostel_Id }) {
             </div>
           )}
 
+ {!canReadExpense ? (
+        <>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "100vh",
+            }}
+          >
 
+            <img
+              src={EmptyState}
+              alt="Empty State"
+
+            />
+
+
+            
+              <ErrorMessage message={['You do not have access to view Expense']} type="warning" />
+
+            
+          </div>
+        </>
+      ) : 
+<>
           {sortedData && sortedData.length > 0 && (
 
 
@@ -1502,17 +1522,7 @@ function Expenses({ allPageHostel_Id }) {
 
           )}
 
-
-
-
-
-
-
-
-
-
-
-        
+        </>}
 
           {!loading && (!filteredData || filteredData.length === 0) && (
             <div
@@ -1711,7 +1721,7 @@ function Expenses({ allPageHostel_Id }) {
             </nav>
           )} */}
         </div>
-      )}
+     
 
       {showModal && (
         <AddExpenses

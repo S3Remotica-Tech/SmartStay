@@ -75,17 +75,13 @@ function Banking() {
   const canDeleteBanking = useHasPermission("Banking", "canDelete");
 
 
-
-
-
-
-
-  // const transactionPageOptions = [
-  //   { value: 5, label: "5" },
-  //   { value: 10, label: "10" },
-  //   { value: 50, label: "50" },
-  //   { value: 100, label: "100" },
-  // ];
+useEffect(() => {
+      if (!canReadBanking) {
+        setLoader(false);
+      }else{
+        setLoader(true);
+      }
+    }, [canReadBanking]);
 
 
   useEffect(() => {
@@ -183,7 +179,7 @@ function Banking() {
 
   useEffect(() => {
     if (hostel_id) {
-      setLoader(true);
+      // setLoader(true);
       dispatch({ type: "BANKINGLIST", payload: hostel_id });
     }
   }, [hostel_id]);
@@ -639,31 +635,7 @@ function Banking() {
 
   return (
     <>
-      {!canReadBanking ? (
-        <>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              height: "100vh",
-            }}
-          >
-
-            <img
-              src={emptyimg}
-              alt="Empty State"
-              style={{ maxWidth: "100%", height: "auto" }}
-            />
-
-
-
-            <ErrorMessage message={['You do not have access to view Banking']} type="warning" />
-
-          </div>
-        </>
-      ) : (
+     
         <div className="container" >
           <div
             className="d-flex flex-wrap justify-content-between align-items-center "
@@ -723,7 +695,7 @@ function Banking() {
                         <span className="input-group-text bg-white border-end-0">
                           <Image
                             src={searchteam}
-                            style={{ height: 20, width: 20 }}
+                            style={{ height: 20, width: 20,  }}
                           />
                         </span>
                         <input
@@ -737,7 +709,9 @@ function Banking() {
                             borderColor: "rgb(207,213,219)",
                             borderRight: "none",
                             width: "160px",
-                            height: 40
+                            height: 40,
+                            fontFamily:"Gilroy"
+
                           }}
                           value={filterInput}
                           onChange={(e) => handlefilterInput(e)}
@@ -809,7 +783,12 @@ function Banking() {
                     <Image
                       src={searchteam}
                       roundedCircle
-                      style={{ height: "24px", width: "24px" }}
+                      style={{ height: "24px", width: "24px",
+                        cursor: canReadBanking ? "pointer" : "not-allowed",
+                  opacity: canReadBanking ? 1 : 0.4,
+                  pointerEvents: canReadBanking ? "auto" : "none",
+                  transition: "opacity 0.3s ease" 
+                 }}
                       onClick={handleSearch}
                     />
                   </div>
@@ -821,7 +800,11 @@ function Banking() {
                 <Image
                   src={Filters}
                   roundedCircle
-                  style={{ height: "50px", width: "50px", }}
+                  style={{ height: "50px", width: "50px", 
+                     cursor: canReadBanking ? "pointer" : "not-allowed",
+                        opacity: canReadBanking ? 1 : 0.4,
+                        pointerEvents: canReadBanking ? "auto" : "none",
+                        transition: "opacity 0.3s ease" }}
                   onClick={handleFilterd}
                 />
               </div>
@@ -891,7 +874,31 @@ function Banking() {
               </div>
             </div>
           </div>
+ {!canReadBanking ? (
+        <>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "100vh",
+            }}
+          >
 
+            <img
+              src={emptyimg}
+              alt="Empty State"
+              style={{ maxWidth: "100%", height: "auto" }}
+            />
+
+
+
+            <ErrorMessage message={['You do not have access to view Banking']} type="warning" />
+
+          </div>
+        </>
+      ) : (
           <div className="d-flex overflow-auto mt-3"  >
             {bankking && bankking?.length > 0 ? (
               bankking?.map((item) => {
@@ -1318,6 +1325,7 @@ function Banking() {
 
             )}
           </div>
+      )}
 
           <div style={{ marginTop: 30 }} className="container bankingtab-table ms-2 me-4">
 
@@ -2367,7 +2375,7 @@ function Banking() {
             />
           ) : null}
         </div>
-      )}
+     
     </>
   );
 }

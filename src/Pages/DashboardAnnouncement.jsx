@@ -57,7 +57,7 @@ function DashboardAnnouncement(props) {
   const [commentsList, setCommentsList] = useState([])
   const [displayError, setDisplayError] = useState("");
   const [selectTitleCard, setSelectedTitleCard] = useState('')
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
 
@@ -66,6 +66,21 @@ function DashboardAnnouncement(props) {
   const canWriteAnnouncement = useHasPermission("Announcement", "canWrite");
   const canUpdateAnnouncement = useHasPermission("Announcement", "canUpdate");
   const canDeleteAnnouncement = useHasPermission("Announcement", "canDelete");
+
+
+
+useEffect(() => {
+  if (!canReadAnnouncement) {
+    setLoading(false);
+     setFormCommentsLoading(false)
+  }else{
+    setLoading(true);
+         setFormCommentsLoading(true)
+  }
+}, [canReadAnnouncement]);
+
+
+
 
 
   const handlePageChange = (pageNumber) => {
@@ -99,7 +114,7 @@ function DashboardAnnouncement(props) {
     }
     if (Comments) {
       dispatch({ type: 'CREATECOMMENTS', payload: { an_id: selectedCard, comment: Comments } })
-      setFormCommentsLoading(true)
+     
     }
     setComments("");
     setCommentsList([]);
@@ -165,8 +180,7 @@ function DashboardAnnouncement(props) {
   useEffect(() => {
 
     if (hostel_id) {
-      setLoading(true)
-      dispatch({
+         dispatch({
         type: "ANNOUNCEMENTLIST",
         payload: { hostel_id: hostel_id },
       });

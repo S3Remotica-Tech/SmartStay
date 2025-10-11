@@ -1,5 +1,3 @@
-
-
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import editimg from "../Assets/Images/New_images/edit.png";
@@ -10,9 +8,19 @@ import jsPDF from "jspdf";
 import {CloseCircle} from "iconsax-react";
 import searchteam from "../Assets/Images/New_images/Search Team.png";
 
+import { useHasPermission } from '../Utils/Permission';
+import ErrorMessage from '../Components/ErrorMessage'
+
+
 function SettingAgreement() {
   const [isEditable, setIsEditable] = useState(false);
 
+
+  
+ const canReadAgreement = useHasPermission("Agreement", "canRead")
+  const canWriteAgreement = useHasPermission("Agreement", "canWrite");
+  const canUpdateAgreement = useHasPermission("Agreement", "canUpdate");
+  // const canDeleteAgreement = useHasPermission("Agreement", "canDelete");
 
 
   const execCmd = (command, value = null) => {
@@ -122,15 +130,15 @@ function SettingAgreement() {
       </small>
     </div>
 
-    {/* Right Section: Buttons */}
+   
     <div className="d-flex flex-wrap align-items-center gap-2">
-      <button className="btn btn-outline-secondary" onClick={handleDownloadPDF} style={{whiteSpace:"nowrap"}}>
+      <button className="btn btn-outline-secondary" disabled={!canReadAgreement} onClick={handleDownloadPDF} style={{whiteSpace:"nowrap"}}>
         <img src={download} alt="download" width={15} height={15} className="me-2" />
         Download Sample
       </button>
 
       {!isEditable && (
-        <button className="btn btn-primary d-flex align-items-center gap-2 px-4" onClick={() => setIsEditable(true)}>
+        <button disabled={!canUpdateAgreement} className="btn btn-primary d-flex align-items-center gap-2 px-4" onClick={() => setIsEditable(true)}>
           <img src={editimg} alt="Edit" width={15} height={15} />
           Edit
         </button>
@@ -140,6 +148,7 @@ function SettingAgreement() {
         <>
           <button className="btn btn-primary d-flex align-items-center gap-2 px-4" 
           // onClick={handleSave}
+          disabled={!canWriteAgreement}
           >
             <img src={savevec} alt="Save" width={15} height={15} />
             Save
@@ -155,8 +164,26 @@ function SettingAgreement() {
     </div>
   </div>
 </div>
+{
+  !canReadAgreement ? (
 
-      <div className=" p-3" style={{backgroundColor:"#F8FAFC"}}>
+    <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  height: "80vh"
+                }}
+              >
+    
+                <ErrorMessage message={['You do not have access to view Agreement & Policy']} type="warning" />
+    
+              </div>
+  )
+  :
+(
+ <div className=" p-3" style={{backgroundColor:"#F8FAFC"}}>
 
       <div className="row">
        
@@ -411,6 +438,9 @@ function SettingAgreement() {
         )}
       </div>
       </div>
+)
+}
+     
     </div>
   );
 }
