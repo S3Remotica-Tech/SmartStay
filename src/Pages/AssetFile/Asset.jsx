@@ -52,6 +52,20 @@ function Asset() {
 const canWriteAssets = useHasPermission("Assets", "canWrite");
 const canReadAssets = useHasPermission("Assets", "canRead");
 
+
+useEffect(() => {
+  if (!canReadAssets) {
+    setLoading(false);
+  }else{
+    setLoading(true);
+  }
+}, [canReadAssets]);
+
+
+
+
+
+
   useEffect(() => {
     if (state.UsersList?.exportAssetsDetail?.response?.fileUrl) {
       setExcelDownload(state.UsersList?.exportAssetsDetail?.response?.fileUrl);
@@ -238,7 +252,7 @@ if( state.bankingDetails?.bankingList?.length === 0){
 
   useEffect(() => {
     if (state.login?.selectedHostel_Id) {
-      setLoading(true)
+      // setLoading(true)
 
       dispatch({type: 'ASSETLIST',  payload:state.login.selectedHostel_Id})
       dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
@@ -591,29 +605,7 @@ if( state.bankingDetails?.bankingList?.length === 0){
 
   return (
     <>
-      {
-        !canReadAssets ? (
-          <>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                height: "100vh",
-              }}
-            >
-              <img
-                src={EmptyState}
-                alt="Empty State"
-                style={{ maxWidth: "100%", height: "auto" }}
-              />
-
-              <ErrorMessage message={['You do not have access to view Asset']} type="warning"/>
-
-            </div>
-          </>
-        ) :
+      
           <div className='container p-0 ' style={{ marginTop: 7 }}>
             <div className="container d-flex justify-content-between align-items-center  flex-wrap h-auto"
               style={{
@@ -920,10 +912,32 @@ if( state.bankingDetails?.bankingList?.length === 0){
             }
 
 
+{
+        !canReadAssets ? (
+          <>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "100vh",
+              }}
+            >
+              <img
+                src={EmptyState}
+                alt="Empty State"
+                style={{ maxWidth: "100%", height: "auto" }}
+              />
+
+              <ErrorMessage message={['You do not have access to view Asset']} type="warning"/>
+
+            </div>
+          </>
+        ) :
 
 
-
-            {sortedData && sortedData.length > 0 && (
+            sortedData && sortedData.length > 0 && (
 
               <div
                 className="p-0 booking-table-userlist  booking-table ms-2 me-4"
@@ -1056,7 +1070,9 @@ if( state.bankingDetails?.bankingList?.length === 0){
                 </div>
 
               </div>
-            )}
+            )
+
+          }
             {
               !loading && sortedData && sortedData.length === 0 &&
 
@@ -1080,7 +1096,7 @@ if( state.bankingDetails?.bankingList?.length === 0){
 
 
           </div>
-      }
+     
 
       {show && <AddAsset show={show} currentItem={currentItem} setShow={setShow} />}
 

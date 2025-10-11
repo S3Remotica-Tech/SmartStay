@@ -82,6 +82,23 @@ function PgList() {
   const [showRoom, setShowRoom] = useState(false);
   const [hostelFloor, setHostelFloor] = useState("");
   const [loading, setLoading] = useState(false)
+
+
+useEffect(() => {
+  if (!canReadPayingGuests) {
+    setLoading(false);
+  }else{
+    setLoading(true);
+  }
+}, [canReadPayingGuests]);
+
+
+
+
+
+
+
+
   const hostelDetails = {
     room: null,
     selectedFloor: null,
@@ -723,239 +740,244 @@ function PgList() {
 
   return (
     <>
-      {!canReadPayingGuests ? (
-        <>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              height: "100vh",
-            }}
-          >
-
-            <img
-              src={EmptyState}
-              alt="Empty State"
-
-            />
 
 
 
-            <ErrorMessage message={['You do not have access to view paying guest']} type="warning" />
 
-          </div>
-        </>
-      ) : (
-        <>
+      {loading && <div
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '60%',
+          transform: 'translate(-50%, -50%)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: 'transparent',
+          opacity: 0.75,
+          zIndex: 10,
+          height: "100%",
+        }}
+      >
+        <div
+          style={{
+            borderTop: '4px solid #1E45E1',
+            borderRight: '4px solid transparent',
+            borderRadius: '50%',
+            width: '40px',
+            height: '40px',
+            animation: 'spin 1s linear infinite',
+          }}
+        ></div>
+      </div>}
 
-          {loading && <div
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '60%',
-              transform: 'translate(-50%, -50%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'transparent',
-              opacity: 0.75,
-              zIndex: 10,
-              height: "100%",
-            }}
-          >
+
+
+      <div className="container" style={{ position: "relative" }} >
+
+
+        {state.login.isTrigger &&
+
+          <>
             <div
+              className="d-flex align-items-center"
               style={{
-                borderTop: '4px solid #1E45E1',
-                borderRight: '4px solid transparent',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                animation: 'spin 1s linear infinite',
+                position: "sticky",
+                top: 0,
+                zIndex: 1000,
+                backgroundColor: "#fff",
+                padding: "12px 20px",
+                height: "50px",
               }}
-            ></div>
-          </div>}
-          <div className="container" style={{ position: "relative" }} >
+            >
+              <FaArrowLeftLong
+                onClick={handleCloseChangeBed}
+                alt="leftarrow"
+                width={20}
+                height={20}
+                style={{ cursor: "pointer" }}
+              />
+              <span
+                style={{
+                  fontWeight: 600,
+                  fontSize: "18px",
+                  fontFamily: "Gilroy",
+                  paddingLeft: "10px",
+                }}
+              >
+                Change Bed
+              </span>
+            </div>
+            <div
+              className="card mt-1"
+              style={{ borderRadius: "14px", marginLeft: "20px" }}
+            >
+              <div className="card-body d-flex flex-column flex-md-row align-items-center justify-content-between">
+                <div className="d-flex align-items-center mb-3 mb-md-0">
 
 
-            {state.login.isTrigger &&
 
-              <>
-                <div
-                  className="d-flex align-items-center"
-                  style={{
-                    position: "sticky",
-                    top: 0,
-                    zIndex: 1000,
-                    backgroundColor: "#fff",
-                    padding: "12px 20px",
-                    height: "50px",
-                  }}
-                >
-                  <FaArrowLeftLong
-                    onClick={handleCloseChangeBed}
-                    alt="leftarrow"
-                    width={20}
-                    height={20}
-                    style={{ cursor: "pointer" }}
-                  />
-                  <span
+
+                  <div
                     style={{
-                      fontWeight: 600,
-                      fontSize: "18px",
-                      fontFamily: "Gilroy",
-                      paddingLeft: "10px",
+                      position: "relative",
+                      width: "60px",
+                      height: "60px",
+                      marginRight: "10px",
                     }}
                   >
-                    Change Bed
-                  </span>
-                </div>
-                <div
-                  className="card mt-1"
-                  style={{ borderRadius: "14px", marginLeft: "20px" }}
-                >
-                  <div className="card-body d-flex flex-column flex-md-row align-items-center justify-content-between">
-                    <div className="d-flex align-items-center mb-3 mb-md-0">
+                    <img
+                      src={
+                        state.PgList?.OccupiedCustomer?.profilePic
+                        || Profiles
+                      }
+
+                      alt={"Default Profile"}
+                      style={{
+                        height: "60px",
+                        width: "60px",
+                        borderRadius: "50%",
+                        objectFit: "cover",
+                      }}
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = Profiles;
+                      }}
+                    />
+
+
+                  </div>
 
 
 
 
-                      <div
-                        style={{
-                          position: "relative",
-                          width: "60px",
-                          height: "60px",
-                          marginRight: "10px",
-                        }}
-                      >
-                        <img
-                          src={
-                            state.PgList?.OccupiedCustomer?.profilePic
-                            || Profiles
-                          }
-
-                          alt={"Default Profile"}
-                          style={{
-                            height: "60px",
-                            width: "60px",
-                            borderRadius: "50%",
-                            objectFit: "cover",
-                          }}
-                          onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.src = Profiles;
-                          }}
-                        />
 
 
+
+                  <div style={{ marginLeft: 10 }}>
+                    <span
+                      className="card-title mb-0"
+                      style={{
+                        fontSize: "20px",
+                        fontWeight: 600,
+                        fontFamily: "Gilroy",
+                      }}
+                    >
+                      {state.PgList?.OccupiedCustomer?.fullName}
+
+                    </span>
+
+
+
+                    <div style={{ display: 'flex', flexDirection: 'row', gap: '25px' }}>
+                      <div style={{ fontSize: 12, fontFamily: "Gilroy", }}>
+                        <img src={Floorimage} alt="Floorimage" size="16" color="#1E45E1" className="me-1" /> {state.PgList?.OccupiedCustomer?.floorName}
+                      </div>
+                      <div style={{ fontSize: 12, fontFamily: "Gilroy", }}>
+                        <img src={RoomImage} alt="RoomImage" size="16" color="#1E45E1" className="me-1" /> {state.PgList?.OccupiedCustomer?.roomName}
+                      </div>
+                      <div style={{ fontSize: 12, fontFamily: "Gilroy", }}>
+                        <img src={Group} alt="bedimage" size="16" color="#1E45E1" className="me-1" /> {state.PgList?.OccupiedCustomer?.bedName}
                       </div>
 
-
-
-
-
-
-
-                      <div style={{ marginLeft: 10 }}>
-                        <span
-                          className="card-title mb-0"
-                          style={{
-                            fontSize: "20px",
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
-                          }}
-                        >
-                          {state.PgList?.OccupiedCustomer?.fullName}
-
-                        </span>
-
-
-
-                        <div style={{ display: 'flex', flexDirection: 'row', gap: '25px' }}>
-                          <div style={{ fontSize: 12, fontFamily: "Gilroy", }}>
-                            <img src={Floorimage} alt="Floorimage" size="16" color="#1E45E1" className="me-1" /> {state.PgList?.OccupiedCustomer?.floorName}
-                          </div>
-                          <div style={{ fontSize: 12, fontFamily: "Gilroy", }}>
-                            <img src={RoomImage} alt="RoomImage" size="16" color="#1E45E1" className="me-1" /> {state.PgList?.OccupiedCustomer?.roomName}
-                          </div>
-                          <div style={{ fontSize: 12, fontFamily: "Gilroy", }}>
-                            <img src={Group} alt="bedimage" size="16" color="#1E45E1" className="me-1" /> {state.PgList?.OccupiedCustomer?.bedName}
-                          </div>
-
-                        </div>
-
-
-
-
-
-
-
-                      </div>
                     </div>
+
+
+
+
 
 
 
                   </div>
                 </div>
-              </>
+
+
+
+              </div>
+            </div>
+          </>
+        }
+
+
+
+        {selectedHostel && (
+          <div className="container mt-3" >
+
+
+            {
+              !state.login.isTrigger &&
+
+              <div className="d-flex justify-content-between align-items-center mb-3">
+
+                <div className="d-flex align-items-center">
+
+
+
+                  <label
+                    className="ms-4"
+                    style={{
+                      fontSize: 18,
+                      color: "rgba(34, 34, 34, 1)",
+                      fontWeight: 600,
+                      fontFamily: "Gilroy",
+                    }}
+                  >
+                    {showHostelDetails?.name}
+                  </label>
+                </div>
+
+                <div className="d-flex justify-content-between align-items-center">
+                  <div className="me-3">
+
+                  </div>
+
+                  <div style={{ marginTop: 5 }}>
+                    <Button
+                      style={{
+                        fontSize: 14,
+                        backgroundColor: "#1E45E1",
+                        color: "white",
+                        fontWeight: 600,
+                        borderRadius: 8,
+                        padding: "11px 50px",
+                        paddingLeft: 52,
+                        fontFamily: "Gilroy",
+                      }}
+                      disabled={!canWritePayingGuests}
+                      onClick={() => handleAddFloors(state.login.selectedHostel_Id)}
+                    >
+                      + Floor
+                    </Button>
+                  </div>
+                </div>
+              </div>
             }
+            {
+              !canReadPayingGuests ? (
+                <>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      height: "100vh",
+                    }}
+                  >
+
+                    <img
+                      src={EmptyState}
+                      alt="Empty State"
+
+                    />
 
 
 
-            {selectedHostel && (
-              <div className="container mt-3" >
+                    <ErrorMessage message={['You do not have access to view paying guest']} type="warning" />
 
-
-                {
-                  !state.login.isTrigger &&
-
-                  <div className="d-flex justify-content-between align-items-center mb-3">
-
-                    <div className="d-flex align-items-center">
-
-
-
-                      <label
-                        className="ms-4"
-                        style={{
-                          fontSize: 18,
-                          color: "rgba(34, 34, 34, 1)",
-                          fontWeight: 600,
-                          fontFamily: "Gilroy",
-                        }}
-                      >
-                        {showHostelDetails?.name}
-                      </label>
-                    </div>
-
-                    <div className="d-flex justify-content-between align-items-center">
-                      <div className="me-3">
-
-                      </div>
-
-                      <div style={{ marginTop: 5 }}>
-                        <Button
-                          style={{
-                            fontSize: 14,
-                            backgroundColor: "#1E45E1",
-                            color: "white",
-                            fontWeight: 600,
-                            borderRadius: 8,
-                            padding: "11px 50px",
-                            paddingLeft: 52,
-                            fontFamily: "Gilroy",
-                          }}
-                          disabled={!canWritePayingGuests}
-                          onClick={() => handleAddFloors(state.login.selectedHostel_Id)}
-                        >
-                          + Floor
-                        </Button>
-                      </div>
-                    </div>
                   </div>
-                }
-
+                </>
+              ) : (
                 <div className="show-scroll"
                 >
                   {floorList?.length > 0 ? (
@@ -1311,59 +1333,62 @@ function PgList() {
                     </div>
                   )}
                 </div>
-              </div>
-            )}
+              )
 
-            {showAddPg && (
-
-
-
-              <AddPg
-                show={showAddPg}
-                handleClose={handleCloses}
-                editPermissionError={editPermissionError}
-                deletePermissionError={deletePermissionError}
-                addPermissionError={addPermissionError}
-              />
-            )}
-            {showDelete && (
-              <DeleteFloor
-                show={showDelete}
-                handleClose={handleCloseDelete}
-                currentItem={deleteFloor}
-                editPermissionError={editPermissionError}
-                deletePermissionError={deletePermissionError}
-                addPermissionError={addPermissionError}
-              />
-            )}
-            {showFloor && (
-              <AddFloor
-                updateFloor={update}
-                show={showFloor}
-                handleClose={handleCloseFloor}
-                hostelFloor={hostelFloor}
-                openFloor={handleDIsplayFloorClick}
-                editFloor={editFloor}
-                editPermissionError={editPermissionError}
-                deletePermissionError={deletePermissionError}
-                addPermissionError={addPermissionError}
-              />
-            )}
-            {showRoom && (
-              <AddRoom
-                show={showRoom}
-                handleClose={handlecloseRoom}
-                hostelDetails={hostelDetails}
-                editPermissionError={editPermissionError}
-                deletePermissionError={deletePermissionError}
-                addPermissionError={addPermissionError}
-              />
-            )}
-
-
+            }
           </div>
-        </>
-      )}
+        )}
+
+        {showAddPg && (
+
+
+
+          <AddPg
+            show={showAddPg}
+            handleClose={handleCloses}
+            editPermissionError={editPermissionError}
+            deletePermissionError={deletePermissionError}
+            addPermissionError={addPermissionError}
+          />
+        )}
+        {showDelete && (
+          <DeleteFloor
+            show={showDelete}
+            handleClose={handleCloseDelete}
+            currentItem={deleteFloor}
+            editPermissionError={editPermissionError}
+            deletePermissionError={deletePermissionError}
+            addPermissionError={addPermissionError}
+          />
+        )}
+        {showFloor && (
+          <AddFloor
+            updateFloor={update}
+            show={showFloor}
+            handleClose={handleCloseFloor}
+            hostelFloor={hostelFloor}
+            openFloor={handleDIsplayFloorClick}
+            editFloor={editFloor}
+            editPermissionError={editPermissionError}
+            deletePermissionError={deletePermissionError}
+            addPermissionError={addPermissionError}
+          />
+        )}
+        {showRoom && (
+          <AddRoom
+            show={showRoom}
+            handleClose={handlecloseRoom}
+            hostelDetails={hostelDetails}
+            editPermissionError={editPermissionError}
+            deletePermissionError={deletePermissionError}
+            addPermissionError={addPermissionError}
+          />
+        )}
+
+
+      </div>
+
+
 
 
     </>

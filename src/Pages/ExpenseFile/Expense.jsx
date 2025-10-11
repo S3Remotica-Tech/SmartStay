@@ -60,6 +60,10 @@ function Expenses({ allPageHostel_Id }) {
   const [excelDownload, setExcelDownload] = useState("");
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
   const [dates, setDates] = useState([]);
+   const [pickerKey, setPickerKey] = useState(0);
+
+  const [loading, setLoading] = useState(false);
+  const [hoveredIndex, setHoveredIndex] = useState(null);
 
 
   const canReadExpense = useHasPermission("Expense", "canRead");
@@ -67,17 +71,18 @@ function Expenses({ allPageHostel_Id }) {
   
 
 
+useEffect(() => {
+  if (!canReadExpense) {
+    setLoading(false);
+  }else{
+    setLoading(true);
+  }
+}, [canReadExpense]);
 
 
 
 
-
-
-
-  const [pickerKey, setPickerKey] = useState(0);
-
-  const [loading, setLoading] = useState(false);
-  const [hoveredIndex, setHoveredIndex] = useState(null);
+ 
 
   const handleClickOutside = (event) => {
     if (filterRef.current && !filterRef.current.contains(event.target)) {
@@ -471,7 +476,7 @@ function Expenses({ allPageHostel_Id }) {
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-      setLoading(true);
+      // setLoading(true);
       dispatch({
         type: "ASSETLIST",
         payload: state.login.selectedHostel_Id,
@@ -903,32 +908,7 @@ function Expenses({ allPageHostel_Id }) {
 
   return (
     <>
-      {!canReadExpense ? (
-        <>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              height: "100vh",
-            }}
-          >
-
-            <img
-              src={EmptyState}
-              alt="Empty State"
-
-            />
-
-
-            
-              <ErrorMessage message={['You do not have access to view Expense']} type="warning" />
-
-            
-          </div>
-        </>
-      ) : (
+     
         <div style={{ width: "100%" }}>
           <div className="container" style={{ paddingTop: 12 }}>
             <div
@@ -1386,7 +1366,33 @@ function Expenses({ allPageHostel_Id }) {
             </div>
           )}
 
+ {!canReadExpense ? (
+        <>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "100vh",
+            }}
+          >
 
+            <img
+              src={EmptyState}
+              alt="Empty State"
+
+            />
+
+
+            
+              <ErrorMessage message={['You do not have access to view Expense']} type="warning" />
+
+            
+          </div>
+        </>
+      ) : 
+<>
           {sortedData && sortedData.length > 0 && (
 
 
@@ -1502,17 +1508,7 @@ function Expenses({ allPageHostel_Id }) {
 
           )}
 
-
-
-
-
-
-
-
-
-
-
-        
+        </>}
 
           {!loading && (!filteredData || filteredData.length === 0) && (
             <div
@@ -1711,7 +1707,7 @@ function Expenses({ allPageHostel_Id }) {
             </nav>
           )} */}
         </div>
-      )}
+     
 
       {showModal && (
         <AddExpenses

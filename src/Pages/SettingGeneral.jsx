@@ -90,13 +90,27 @@ function SettingGeneral() {
   const [generalFilterddata, setGeneralFilterddata] = useState([]);
 
 
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [generalDeleteError, setGeneralDeleteError] = useState("")
 
   const canReadProfile = useHasPermission("Profile", "canRead");
   const canWriteProfile = useHasPermission("Profile", "canWrite");
   const canUpdateProfile = useHasPermission("Profile", "canUpdate");
   const canDeleteProfile = useHasPermission("Profile", "canDelete");
+
+
+
+useEffect(() => {
+      if (!canReadProfile) {
+        setLoading(false);
+      }else{
+        setLoading(true);
+      }
+    }, [canReadProfile]);
+
+
+
+
 
 
   const indianStates = [
@@ -810,7 +824,7 @@ function SettingGeneral() {
   }, [state.Settings.generalDeleteError]);
 
   useEffect(() => {
-    setLoading(true)
+    // setLoading(true)
 
     dispatch({ type: "GETALLGENERAL" });
     const timeout = setTimeout(() => {

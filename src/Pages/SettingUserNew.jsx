@@ -41,7 +41,13 @@ function SettingNewUser() {
 
 
 
-
+useEffect(() => {
+      if (!canReadUser) {
+        setLoading(false);
+      }else{
+        setLoading(true);
+      }
+    }, [canReadUser]);
 
 
 
@@ -113,7 +119,7 @@ function SettingNewUser() {
 
   useEffect(() => {
     if (hostel_Id) {
-      setLoading(true);
+      // setLoading(true);
       dispatch({ type: "GETUSERSTAFF", payload: { hostelId: hostel_Id } });
     }
 

@@ -44,6 +44,17 @@ function SettingCompliance({ hostelid }) {
   const canUpdateComplaints = useHasPermission("Complaints", "canUpdate");
   const canDeleteComplaints = useHasPermission("Complaints", "canDelete");
 
+
+useEffect(() => {
+      if (!canReadComplaints) {
+        setLoading(false);
+      }else{
+        setLoading(true);
+      }
+    }, [canReadComplaints]);
+
+
+
   const handleDeleteClick = () => {
     dispatch({ type: "ALREADY_ASSIGNCOMPLAINTTYPE_ERROR" });
     setShowPopup(true)
@@ -84,7 +95,7 @@ function SettingCompliance({ hostelid }) {
 
   useEffect(() => {
     if (hostelid) {
-      setLoading(true);
+      // setLoading(true);
       dispatch({
         type: "COMPLAINT-TYPE-LIST",
         payload: { hostel_id: hostelid },

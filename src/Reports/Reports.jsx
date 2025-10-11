@@ -19,8 +19,10 @@ import Image from 'react-bootstrap/Image';
 import CatoryActive from "../Assets/Images/New_images/category-active.png";
 import HostelRentProjection from './HostelRentProjection';
 import { FormControl, InputGroup, Row, Col } from 'react-bootstrap';
-import { CloseCircle, SearchNormal1} from 'iconsax-react';
+import { CloseCircle, SearchNormal1 } from 'iconsax-react';
 import './Reports.css';
+import { useHasPermission } from '../Utils/Permission';
+import ErrorMessage from '../Components/ErrorMessage'
 
 
 function Reports() {
@@ -35,14 +37,19 @@ function Reports() {
   const [searchQuery, setSearchQuery] = useState("");
 
 
+  const canReadReports = useHasPermission("Reports", "canRead")
+  // const canWriteReports= useHasPermission("Reports", "canWrite");
+  // const canUpdateReports = useHasPermission("Reports", "canUpdate");
+  // const canDeleteReports = useHasPermission("Reports", "canDelete");
 
-// useEffect(()=>{
-//   dispatch({ type: 'ASSETLIST'})
-//   dispatch({ type: 'CATEGORYLIST'})
-//   dispatch({ type: 'VENDORLIST'})
-//   dispatch({ type: 'EXPENSELIST'})
-// },[])
-  
+
+  // useEffect(()=>{
+  //   dispatch({ type: 'ASSETLIST'})
+  //   dispatch({ type: 'CATEGORYLIST'})
+  //   dispatch({ type: 'VENDORLIST'})
+  //   dispatch({ type: 'EXPENSELIST'})
+  // },[])
+
   // useEffect(() => {
   //   setReportRolePermission(state.createAccount?.accountList);
   // }, [state.createAccount?.accountList]);
@@ -61,7 +68,7 @@ function Reports() {
 
 
   // useEffect(() => {
- 
+
   //   if (
   //     reportrolePermission[0]?.is_owner == 1 ||
   //     reportrolePermission[0]?.role_permissions[15]?.per_create == 1
@@ -74,7 +81,7 @@ function Reports() {
 
 
   // useEffect(() => {
- 
+
   //   if (
   //     reportrolePermission[0]?.is_owner == 1 ||
   //     reportrolePermission[0]?.role_permissions[15]?.per_delete == 1
@@ -245,111 +252,113 @@ function Reports() {
 
     <div className='container margin-top-lg' style={{ width: "100%" }}>
 
-<div className='container'>
-<div className="d-flex justify-content-between  flex-wrap">
-              <div>
-                <label style={{ color: "#222222", fontWeight: 600, fontSize: 18, fontFamily: "Gilroy",}}>Reports</label>
+      <div className='container'>
+        <div className="d-flex justify-content-between  flex-wrap">
+          <div>
+            <label style={{ color: "#222222", fontWeight: 600, fontSize: 18, fontFamily: "Gilroy", }}>Reports</label>
 
+          </div>
+
+
+          <div>
+            {
+              !showFilterData &&
+
+              <div onClick={handleShowSearch}>
+                <SearchNormal1
+                  size="26"
+                  color="#222"
+                />
               </div>
-
-
-              <div>
-                {
-                  !showFilterData &&
-
-                  <div   onClick={handleShowSearch}>
-                    <SearchNormal1
-                      size="26"
-                      color="#222"
-                    />
-                  </div>
-                }
-                {
-                  showFilterData &&
-                  <div className='me-3 ' style={{ position: 'relative' }}>
-                    <InputGroup  style={{
+            }
+            {
+              showFilterData &&
+              <div className='me-3 ' style={{ position: 'relative' }}>
+                <InputGroup style={{
                   display: 'flex',
                   flexWrap: 'nowrap',
                   width: '100%',
                 }}>
 
-                      <FormControl size="lg"
-                        value={searchQuery}
-                        onChange={handleInputChange}
+                  <FormControl size="lg"
+                    value={searchQuery}
+                    onChange={handleInputChange}
 
-                        style={{
-                          width: 235, boxShadow: "none", borderColor: "lightgray", borderRight: "none", fontSize: 15, fontWeight: 500, color: "#222",
-                          //  '::placeholder': { color: "#222", fontWeight: 500 } 
-                        }}
-                        placeholder="Search..."
-                      />
-                      <InputGroup.Text style={{ backgroundColor: "#ffffff", }}>
-                        <CloseCircle size="24" color="#222" onClick={handleCloseSearch} />
-                      </InputGroup.Text>
-                    </InputGroup>
-                    {
-                      reports.length > 0 && searchQuery !== '' && showDropDown && (
+                    style={{
+                      width: 235, boxShadow: "none", borderColor: "lightgray", borderRight: "none", fontSize: 15, fontWeight: 500, color: "#222",
+                      //  '::placeholder': { color: "#222", fontWeight: 500 } 
+                    }}
+                    placeholder="Search..."
+                  />
+                  <InputGroup.Text style={{ backgroundColor: "#ffffff", }}>
+                    <CloseCircle size="24" color="#222" onClick={handleCloseSearch} />
+                  </InputGroup.Text>
+                </InputGroup>
+                {
+                  reports.length > 0 && searchQuery !== '' && showDropDown && (
 
-                        <div className='report-card' style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 50, left: 0, 
-                        zIndex: 1000, padding: 10, borderRadius: 8, backgroundColor: "#fff" }}>
-                          <ul  style={{
-                            // position: 'absolute',
-                            // top: '50px',
-                            // left: 0,
-                            width: 260,
-                            backgroundColor: '#fff',
-                            // maxHeight: 174,
-                            // minHeight: 100,
-                            // overflowY: 'auto',
-                            padding: '5px 10px',
-                            margin: '0',
-                            listStyleType: 'none',
-                            borderRadius: 8,
-                            boxSizing: 'border-box'
-                          }}>
-                            {
-                              reports.map((user, index) => (
+                    <div className='report-card' style={{
+                      border: '1px solid #d9d9d9 ', position: "absolute", top: 50, left: 0,
+                      zIndex: 1000, padding: 10, borderRadius: 8, backgroundColor: "#fff"
+                    }}>
+                      <ul style={{
+                        // position: 'absolute',
+                        // top: '50px',
+                        // left: 0,
+                        width: 260,
+                        backgroundColor: '#fff',
+                        // maxHeight: 174,
+                        // minHeight: 100,
+                        // overflowY: 'auto',
+                        padding: '5px 10px',
+                        margin: '0',
+                        listStyleType: 'none',
+                        borderRadius: 8,
+                        boxSizing: 'border-box'
+                      }}>
+                        {
+                          reports.map((user, index) => (
 
-                                <li
-                                  key={index}
-                                  onClick={() => {
-                                    handleDropDown(user.ReportsName);
+                            <li
+                              key={index}
+                              onClick={() => {
+                                handleDropDown(user.ReportsName);
 
-                                  }}
-                                  style={{
-                                    padding: '10px',
-                                    cursor: 'pointer',
-                                    borderBottom: '1px solid #dcdcdc',
-                                    fontSize: '14px',
-                                    fontFamily: 'Gilroy',
-                                    fontWeight: 500,
+                              }}
+                              style={{
+                                padding: '10px',
+                                cursor: 'pointer',
+                                borderBottom: '1px solid #dcdcdc',
+                                fontSize: '14px',
+                                fontFamily: 'Gilroy',
+                                fontWeight: 500,
 
-                                  }}
-                                >
+                              }}
+                            >
 
-                                  <span className='ps-4'>{user.ReportsName}</span>
-                                </li>
-
-
-                              ))
-                            }
-                          </ul>
-                        </div>
-                      )
-                    }
-                  </div>
+                              <span className='ps-4'>{user.ReportsName}</span>
+                            </li>
 
 
+                          ))
+                        }
+                      </ul>
+                    </div>
+                  )
                 }
               </div>
 
 
-            </div>
-            </div>
+            }
+          </div>
 
 
-            {searchQuery && (
-        <div  className='container mb-4'   style={{fontWeight: 600, fontSize: 16 }}>
+        </div>
+      </div>
+
+
+      {searchQuery && (
+        <div className='container mb-4' style={{ fontWeight: 600, fontSize: 16 }}>
           {reports.length > 0 ? (
             <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>
               {reports.length} result{reports.length > 1 ? 's' : ''} found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>&quot;{searchQuery}&quot;</span>
@@ -360,51 +369,70 @@ function Reports() {
         </div>
       )}
 
-
-      <Row>
-
-        <Col lg={showReport ? 4 : 12} md={showReport ? 4 : 12} style={{ borderRight: showReport && "1px solid #E7F1FF" }}>
-
-          <div className='container report-card' 
-          // style={{ maxHeight: showReport ? 650 : 'unset', overflowY: showReport ? 'auto' : "unset", backgroundColor: "" }}
+      {
+        !canReadReports ? (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "80vh"
+            }}
           >
 
-            
+            <ErrorMessage message={['You do not have access to view Reports']} type="warning" />
 
-            <Row className='mt-3 mb-3 g-2'  >
-              {filteredReports && filteredReports.map((report) => (
-                <Col key={report.id} className='show-scroll mb-3' lg={showReport ? 12 : 4} md={showReport ? 12 : 4} >
-
-                  <Card className='fade-in ms-0'
-                    onMouseEnter={() => handleMouseEnter(report.id)}
-                    onMouseLeave={handleMouseLeave}
-                    onClick={() => handlePageClick(report.id)}
-                    style={{ borderRadius: 16, border: "1px solid", borderColor: hoveredCard === report.id ? "#0000FF" : "#DCDCDC" }} >
-                    <Card.Body>
-                      <div className='d-flex justify-content-start gap-2 align-items-center '>
-                        <div>
-                          <Image src={hoveredCard === report.id ? CatoryActive : report.images} style={{ height: 24, width: 24 }} />
-                        </div>
-                        <div>
-                          <label style={{ fontSize: 16, fontWeight: 600, color: hoveredCard === report.id ? "#0000FF" : "#222222", fontFamily: "Gilroy" }}>{report.ReportsName}</label>
-                        </div>
-                      </div>
-                    </Card.Body>
-                  </Card>
-
-                </Col>
-              ))}
-            </Row>
           </div>
+        )
+          : (
+            <Row>
 
-        </Col>
+              <Col lg={showReport ? 4 : 12} md={showReport ? 4 : 12} style={{ borderRight: showReport && "1px solid #E7F1FF" }}>
 
-             <Col lg={showReport ? 8 : 12} md={showReport ? 8 : 12}>
-          {selectedReport === 1 ? <HostelRentProjection isVisible={handleBack} /> : ''}
-        </Col>
-      </Row>
+                <div className='container report-card'
+                // style={{ maxHeight: showReport ? 650 : 'unset', overflowY: showReport ? 'auto' : "unset", backgroundColor: "" }}
+                >
 
-      </div>
+
+
+                  <Row className='mt-3 mb-3 g-2'  >
+                    {filteredReports && filteredReports.map((report) => (
+                      <Col key={report.id} className='show-scroll mb-3' lg={showReport ? 12 : 4} md={showReport ? 12 : 4} >
+
+                        <Card className='fade-in ms-0'
+                          onMouseEnter={() => handleMouseEnter(report.id)}
+                          onMouseLeave={handleMouseLeave}
+                          onClick={() => handlePageClick(report.id)}
+                          style={{ borderRadius: 16, border: "1px solid", borderColor: hoveredCard === report.id ? "#0000FF" : "#DCDCDC" }} >
+                          <Card.Body>
+                            <div className='d-flex justify-content-start gap-2 align-items-center '>
+                              <div>
+                                <Image src={hoveredCard === report.id ? CatoryActive : report.images} style={{ height: 24, width: 24 }} />
+                              </div>
+                              <div>
+                                <label style={{ fontSize: 16, fontWeight: 600, color: hoveredCard === report.id ? "#0000FF" : "#222222", fontFamily: "Gilroy" }}>{report.ReportsName}</label>
+                              </div>
+                            </div>
+                          </Card.Body>
+                        </Card>
+
+                      </Col>
+                    ))}
+                  </Row>
+                </div>
+
+              </Col>
+
+              <Col lg={showReport ? 8 : 12} md={showReport ? 8 : 12}>
+                {selectedReport === 1 ? <HostelRentProjection isVisible={handleBack} /> : ''}
+              </Col>
+            </Row>
+          )
+      }
+
+
+    </div>
 
 
 

@@ -52,11 +52,17 @@ const SettingElectricity = ({ hostelid }) => {
   const canReadElectricity = useHasPermission("Electricity", "canRead")
   const canUpdateElectricity = useHasPermission("Electricity", "canUpdate");
 
-
+useEffect(() => {
+      if (!canReadElectricity) {
+        setLoading(false);
+      }else{
+        setLoading(true);
+      }
+    }, [canReadElectricity]);
 
   useEffect(() => {
     if (hostelid) {
-      setLoading(true)
+      // setLoading(true)
       dispatch({
         type: "EB-BILLING-UNIT-LIST",
         payload: hostelid

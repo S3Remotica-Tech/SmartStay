@@ -39,7 +39,7 @@ function SettingAmenities({ hostelid }) {
     const [deleteAmenities, setDeleteAmenities] = useState(false)
     // const [deleteID, setDeleteID] = useState('')
     // const [assignAmenitiesDetails, setAssignAmenitiesDetails] = useState('')
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false)
     const [amenitiesrowsPerPage, setAmenitiesrowsPerPage] = useState(2);
     const [amenitiesFilterddata, setAmenitiesFilterddata] = useState([]);
     const [amenitiescurrentPage, setAmenitiescurrentPage] = useState(1);
@@ -54,7 +54,13 @@ function SettingAmenities({ hostelid }) {
 
 
 
-
+useEffect(() => {
+      if (!canReadAmenities) {
+        setLoading(false);
+      }else{
+        setLoading(true);
+      }
+    }, [canReadAmenities]);
 
 
     // const handleEditAmenities = (amenity) => {

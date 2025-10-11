@@ -75,17 +75,13 @@ function Banking() {
   const canDeleteBanking = useHasPermission("Banking", "canDelete");
 
 
-
-
-
-
-
-  // const transactionPageOptions = [
-  //   { value: 5, label: "5" },
-  //   { value: 10, label: "10" },
-  //   { value: 50, label: "50" },
-  //   { value: 100, label: "100" },
-  // ];
+useEffect(() => {
+      if (!canReadBanking) {
+        setLoader(false);
+      }else{
+        setLoader(true);
+      }
+    }, [canReadBanking]);
 
 
   useEffect(() => {
@@ -183,7 +179,7 @@ function Banking() {
 
   useEffect(() => {
     if (hostel_id) {
-      setLoader(true);
+      // setLoader(true);
       dispatch({ type: "BANKINGLIST", payload: hostel_id });
     }
   }, [hostel_id]);
@@ -639,31 +635,7 @@ function Banking() {
 
   return (
     <>
-      {!canReadBanking ? (
-        <>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              height: "100vh",
-            }}
-          >
-
-            <img
-              src={emptyimg}
-              alt="Empty State"
-              style={{ maxWidth: "100%", height: "auto" }}
-            />
-
-
-
-            <ErrorMessage message={['You do not have access to view Banking']} type="warning" />
-
-          </div>
-        </>
-      ) : (
+     
         <div className="container" >
           <div
             className="d-flex flex-wrap justify-content-between align-items-center "
@@ -891,7 +863,31 @@ function Banking() {
               </div>
             </div>
           </div>
+ {!canReadBanking ? (
+        <>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "100vh",
+            }}
+          >
 
+            <img
+              src={emptyimg}
+              alt="Empty State"
+              style={{ maxWidth: "100%", height: "auto" }}
+            />
+
+
+
+            <ErrorMessage message={['You do not have access to view Banking']} type="warning" />
+
+          </div>
+        </>
+      ) : (
           <div className="d-flex overflow-auto mt-3"  >
             {bankking && bankking?.length > 0 ? (
               bankking?.map((item) => {
@@ -1318,6 +1314,7 @@ function Banking() {
 
             )}
           </div>
+      )}
 
           <div style={{ marginTop: 30 }} className="container bankingtab-table ms-2 me-4">
 
@@ -2367,7 +2364,7 @@ function Banking() {
             />
           ) : null}
         </div>
-      )}
+     
     </>
   );
 }

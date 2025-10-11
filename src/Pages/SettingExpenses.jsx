@@ -33,7 +33,7 @@ function SettingExpenses({ hostelid }) {
   const [showModal, setShowModal] = useState(false);
   const [subcategory_Id, setSubCategory_ID] = useState(null)
   const [deleteCategoryId, setDeleteCategoryId] = useState('')
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [expensesFilterddata, setExpensesFilterddata] = useState([]);
   const [expensescurrentPage, setExpensescurrentPage] = useState(1);
 
@@ -44,7 +44,13 @@ function SettingExpenses({ hostelid }) {
   const canUpdateExpense = useHasPermission("Expense", "canUpdate");
   const canDeleteExpense = useHasPermission("Expense", "canDelete");
 
-
+useEffect(() => {
+      if (!canReadExpense) {
+        setLoading(false);
+      }else{
+        setLoading(true);
+      }
+    }, [canReadExpense]);
 
 
   const [showPopup, setShowPopup] = useState(false);
@@ -145,7 +151,7 @@ function SettingExpenses({ hostelid }) {
   }, [state.Settings?.alreadycategoryerror])
 
   useEffect(() => {
-    setLoading(true);
+    // setLoading(true);
     if (hostelid) {
       dispatch({ type: 'EXPENCES-CATEGORY-LIST', payload: { hostel_id: hostelid } });
     }

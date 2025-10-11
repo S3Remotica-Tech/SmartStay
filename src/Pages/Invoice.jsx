@@ -198,6 +198,16 @@ const canWriteReceipt = useHasPermission("Receipt", "canWrite")
 
 
 
+
+useEffect(() => {
+    if (!canReadInvoice) {
+      setLoading(false);
+    }else{
+      setLoading(true);
+    }
+  }, [canReadInvoice]);
+
+
   const handleClick = (stayType) => {
     setActiveStay(stayType);
   };
@@ -262,7 +272,7 @@ const canWriteReceipt = useHasPermission("Receipt", "canWrite")
   }, [state.login.selectedHostel_Id]);
   useEffect(() => {
     if (hostelId) {
-      setLoading(true)
+      // setLoading(true)
 dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
     }
   }, [hostelId]);
