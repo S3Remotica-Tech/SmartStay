@@ -676,7 +676,18 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                         fontWeight: 400,
                         fontFamily: "Gilroy",
                         color: 'rgba(30, 69, 225, 1)'
-                      }}>Room No {currentItem?.roomName} | Bed {currentItem?.bedName}</span>
+                      }}>{currentItem?.floorName}  {" "} <span style={{
+                                            fontSize: 14,
+                                            color: "#1E45E1",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                        }}>|</span>  {" "}
+                                        {currentItem?.roomName}  {" "} <span style={{
+                                            fontSize: 14,
+                                            color: "#1E45E1",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                        }}>|</span>  {" "} {currentItem?.bedName}</span>
                     </div>
                   </div>
 

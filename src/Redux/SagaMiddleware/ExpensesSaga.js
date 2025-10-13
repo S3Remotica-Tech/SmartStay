@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { GetExpenseCatogory, AddExpense, GetExpense, DeleteExpense, transactionHistory, AddExpenseTag } from "../Action/ExpensesAction"
+import { GetInitializeExpense, GetExpenseCatogory, AddExpense, GetExpense, DeleteExpense, transactionHistory, AddExpenseTag } from "../Action/ExpensesAction"
 import Cookies from 'universal-cookie';
 
 import { toast } from 'react-toastify';
@@ -24,7 +24,7 @@ function* handleGetExpenses(action) {
    const response = yield call(GetExpense, action.payload);
 
    if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'EXPENSES_LIST', payload: { response: response.data.data, paymentmode: response.data.paymentModeList, statusCode: response.status || response.statusCode } })
+      yield put({ type: 'EXPENSES_LIST', payload: { response: response.data, statusCode: response.status || response.statusCode } })
    }
    else if (response.status === 201) {
       yield put({ type: 'NOEXPENSEDATA', payload: { statusCode: response.status } })
@@ -33,6 +33,24 @@ function* handleGetExpenses(action) {
       refreshToken(response)
    }
 }
+
+function* handleGetInitializeExpense(action) {
+   const response = yield call(GetInitializeExpense, action.payload);
+
+   if (response.status === 200 || response.statusCode === 200) {
+      yield put({ type: 'INITIALIZE_EXPENSES_LIST', payload: { response: response.data,  statusCode: response.status || response.statusCode } })
+   }
+   
+   if (response) {
+      refreshToken(response)
+   }
+}
+
+
+
+
+
+
 function* handleAddExpense(action) {
    try {
       const response = yield call(AddExpense, action.payload);
@@ -52,7 +70,7 @@ function* handleAddExpense(action) {
 
       };
 
-      if (response.status === 200 || response.statusCode === 200) {
+      if (response.status === 201 || response.statusCode === 200) {
          yield put({ type: 'ADD_EXPENSE', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
          toast.success(`${response.data.message}`, {
             position: "bottom-center",
@@ -65,17 +83,9 @@ function* handleAddExpense(action) {
             progress: undefined,
             style: toastStyle,
          });
-
-
-
       }
 
-      else if (response.status === 201 || response.statusCode === 201) {
-         yield put({ type: 'EXPENCE_NETBANKIG', payload: response.data.message })
-      }
-      else {
-         yield put({ type: 'ERROR', payload: response.data.message })
-      }
+     
       if (response) {
          refreshToken(response)
       }
@@ -226,5 +236,7 @@ function* ExpenseSaga() {
    yield takeEvery('DELETEEXPENSE', handleDeleteExpense)
    yield takeEvery('TRANSACTIONHISTORY', HandleTransactionHistory)
    yield takeEvery('ADDEXPENSETAG', handleAddExpenseTag)
+  yield takeEvery('INITIALIZEEXPENSESLIST', handleGetInitializeExpense)
+ 
 }
 export default ExpenseSaga;

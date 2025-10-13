@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 // import LoaderComponent from "../LoaderComponent";
 import leftarrow from "../../Assets/Images/arrow-left.png";
 import building from '/src/Assets/Images/New_images/building1.svg';
-import Ellipse1 from "../../Assets/Images/New_images/Ellipse 1.svg";
+import Ellipse1 from "../../Assets/Images/Profile.jpg";
 import emptyimg from "../../Assets/Images/New_images/empty_image.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FiFilter } from "react-icons/fi";
@@ -21,6 +21,7 @@ const EBRoomOverview = ({ onBack, room }) => {
 
     const [activeTab, setActiveTab] = useState("room");
     const [roomReadingList, setRoomReadingList] = useState();
+    const [tenantReadingList, setTenantreadingList] = useState()
     const [tableLoading, setTableLoading] = useState(false)
 
 
@@ -38,7 +39,7 @@ const EBRoomOverview = ({ onBack, room }) => {
         if (state.UsersList.getparticularRoomReadingStatus === 200) {
             setTableLoading(false)
             setRoomReadingList(state.UsersList?.getParticularRoomReadingList?.readings)
-
+            setTenantreadingList(state.UsersList?.getParticularRoomReadingList?.customers)
             setTimeout(() => {
                 dispatch({ type: 'REMOVE_GET_PARTICULAR_ROOM_READING' })
             }, 100)
@@ -73,8 +74,34 @@ const EBRoomOverview = ({ onBack, room }) => {
         };
     });
 
+const formattedTenantReadings = tenantReadingList?.map((item) => {
+        const [day, month, year] = item.startDate.split("/");
+        const billingMonth = new Date(`${year}-${month}-01`).toLocaleString("en-US", {
+            month: "long",
+            year: "numeric",
+        });
 
-    console.log("formattedReadings", formattedReadings)
+        const formatDate = (dateStr) => {
+            const [d, m, y] = dateStr.split("/").map(Number);
+            return new Date(y, m - 1, d).toLocaleDateString("en-GB", {
+                day: "2-digit",
+                month: "short",
+            });
+        };
+
+
+
+        return {
+            profilePic: item.profilePic,
+            billingMonth,
+            from: formatDate(item.startDate),
+            to: formatDate(item.endDate),
+            bed: item.bedName,
+            totalUnits: item.consumption,
+            amount: item.consumption * item.unitPrice,
+        };
+    });
+    
     return (
         <>
 
@@ -305,14 +332,14 @@ const EBRoomOverview = ({ onBack, room }) => {
                 )}
 
                 {activeTab === "customer" && (
-                    roomReadingList?.length === 0 ? (
+                    tenantReadingList?.length === 0 ? (
                         <div style={{ textAlign: "center", marginTop: 40 }}>
                             <img src={emptyimg} width={240} height={240} alt="emptystate" />
                             <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "rgba(75, 75, 75, 1)" }}>
-                                No room reading
+                                No tenant reading
                             </div>
                             <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 14, color: "rgba(75, 75, 75, 1)" }}>
-                                There are no room reading available.
+                                There are no tenant reading available.
                             </div>
                         </div>
                     ) : (
@@ -363,11 +390,11 @@ const EBRoomOverview = ({ onBack, room }) => {
                                 </thead>
                                 <tbody style={{ fontSize: 14, color: "#000" }}>
                                     <PaginationList>
-                                        {roomReadingList?.map((row, i) => (
+                                        {formattedTenantReadings?.map((row, i) => (
                                             <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px" }}>
 
                                                 <td style={{ paddingLeft: "10px", fontWeight: 600, color: "black" }}>
-                                                    <img src={Ellipse1} alt="" style={{ marginRight: "12px" }} />
+                                                    <img src={formattedTenantReadings.profilePic ? formattedTenantReadings.profilePic : Ellipse1} alt="" style={{ marginRight: "12px" }} />
                                                     {row.name}
                                                 </td>
 

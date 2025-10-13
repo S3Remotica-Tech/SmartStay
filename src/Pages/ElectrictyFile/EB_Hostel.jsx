@@ -13,7 +13,7 @@ import electricity from "../../Assets/Images/New_images/electricity.svg";
 import building from '/src/Assets/Images/New_images/building1.svg';
 import PaginationList from "../../Components/PaginationList";
 import EB_RoomOverview from "./EB_RoomOverview";
-import Ellipse1 from "../../Assets/Images/New_images/Ellipse 1.svg";
+import Ellipse1 from "../../Assets/Images/Profile.jpg";
 import emptyimg from "../../Assets/Images/New_images/empty_image.png";
 import EB_TenantOverview from "./EB_TenantOverview";
 // import ClipPathGroup from "../../Assets/Images/New_images/ClipPathGroup.svg";
@@ -770,10 +770,10 @@ const RoomReadingTable = () => {
                     <div style={{ textAlign: "center", marginTop: 40 }}>
                       <img src={emptyimg} width={240} height={240} alt="emptystate" />
                       <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "rgba(75, 75, 75, 1)" }}>
-                        No Reading
+                        No Tenant Reading
                       </div>
                       <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 14, color: "rgba(75, 75, 75, 1)" }}>
-                        There are no reading available.
+                        There are no  tenant reading available.
                       </div>
                     </div>
                   ) : (
@@ -812,7 +812,7 @@ const RoomReadingTable = () => {
 
                                 <td style={{ paddingLeft: "10px", fontWeight: 600, color: "#1E45E1", cursor: "pointer" }}
                                   onClick={() => handleTenantsDetailsPage(row.tenant)}>
-                                  <img src={row.profilePic ? row.profilePic : Ellipse1} alt="" style={{ marginRight: "12px" }} />
+                                  <img src={row.profilePic ? row.profilePic : Ellipse1} alt="" style={{ marginRight: "12px" , height:45, width:45 }} />
                                   {row.fullName}
                                 </td>
                                 <td style={{ fontWeight: 600, color: "black" }}>{row.floorName}</td>

@@ -12,6 +12,7 @@ export const initialState = {
     transactionHistory: [],
     StatusCodeForAddExpenseTagSuccess: 0,
     expenceNetBanking: '',
+    getInitializeExpenseList: []
 
 }
 
@@ -19,7 +20,9 @@ const ExpenseReducer = (state = initialState, action) => {
 
     switch (action.type) {
         case 'RESET_ALL':
-              return initialState;
+            return initialState;
+        case 'INITIALIZE_EXPENSES_LIST':
+            return { ...state, getInitializeExpenseList: action.payload.response }
         case 'CATEGORY_LIST':
             return { ...state, categoryList: action.payload.response }
         case 'TRANSACTION_HISTORY':
@@ -52,11 +55,11 @@ const ExpenseReducer = (state = initialState, action) => {
         case 'CLEAR_EXPENCE_NETBANKIG':
             return { ...state, expenceNetBanking: '' }
 
-                default:
-        return state;
+        default:
+            return state;
 
     }
 
-    
+
 }
 export default ExpenseReducer;

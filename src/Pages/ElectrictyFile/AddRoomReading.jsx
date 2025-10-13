@@ -36,7 +36,7 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
     const [readingDate, setReadingDate] = useState(null);
     const [loading, setLoading] = useState(false);
     const handleCurrentReadingChange = (e) => {
-         dispatch({ type: 'REMOVE_ROOM_READING_ERROR' })
+        dispatch({ type: 'REMOVE_ROOM_READING_ERROR' })
         const value = e.target.value;
         if (/^\d*\.?\d*$/.test(value)) {
             setCurrentReading(value);
@@ -45,7 +45,7 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
     };
 
     const handleReadingDateChange = (date) => {
-         dispatch({ type: 'REMOVE_ROOM_READING_ERROR' })
+        dispatch({ type: 'REMOVE_ROOM_READING_ERROR' })
         setReadingDate(date ? date : null);
         setDateError('')
     };
@@ -177,9 +177,9 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
 
 
 
-{state.UsersList?.roomReadingError && (
-                       <ErrorMessage message={state.UsersList?.roomReadingError} type="error"/>
-                    )}
+                {state.UsersList?.roomReadingError && (
+                    <ErrorMessage message={state.UsersList?.roomReadingError} type="error" />
+                )}
                 <Form.Group className="mt-4">
                     <div
                         style={{
@@ -231,7 +231,7 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
 
 
                     {readingError && (
-                                              <ErrorMessage message={readingError} type="error"/>
+                        <ErrorMessage message={readingError} type="error" />
 
                     )}
 
@@ -276,6 +276,7 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
                                 value={readingDate ? dayjs(readingDate) : null}
                                 onChange={handleReadingDateChange}
                                 getPopupContainer={() => document.body}
+                                disabledDate={(current) => current && current > dayjs()}
                             />
                         </div>
 
@@ -284,7 +285,7 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
                     </div>
 
                     {dateError && (
-                          <ErrorMessage message={dateError} type="error"/>
+                        <ErrorMessage message={dateError} type="error" />
 
                     )}
 

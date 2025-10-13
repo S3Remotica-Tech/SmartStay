@@ -55,13 +55,12 @@ function StaticExample({ show, currentItem, setShowModal }) {
 
 
 
-  useEffect(() => {
-    dispatch({
-      type: "EXPENCES-CATEGORY-LIST",
-      payload: { hostel_id: state.login.selectedHostel_Id },
-    });
-    // dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } })
-  }, []);
+  // useEffect(() => {
+  //   dispatch({
+  //     type: "EXPENCES-CATEGORY-LIST",
+  //     payload:  state.login.selectedHostel_Id })
+
+  // }, []);
 
   useEffect(() => {
     dispatch({
@@ -296,18 +295,18 @@ function StaticExample({ show, currentItem, setShowModal }) {
       return;
     }
 
-    const formattedDate = moment(selectedDate).format("YYYY-MM-DD");
+    const formattedDate = moment(selectedDate).format("DD-MM-YYYY");
     dispatch({
       type: "ADDEXPENSE",
       payload: {
-        category_id: category,
-        purchase_date: formattedDate,
-        unit_count: count,
-        unit_amount: price,
+        categoryId: category,
+        purchaseDate: formattedDate,
+        count: count,
+        totalAmount: price,
         description: description,
-        payment_mode: modeOfPayment,
-        hostel_id: state.login.selectedHostel_Id,
-        id: currentItem ? currentItem.id : null,
+        bankId: modeOfPayment,
+        hostelId: state.login.selectedHostel_Id,
+        // id: currentItem ? currentItem.id : null,
       },
     });
     setFormLoading(true)
@@ -343,25 +342,40 @@ function StaticExample({ show, currentItem, setShowModal }) {
 
 
 
+  useEffect(() => {
+    dispatch({ type: 'INITIALIZEEXPENSESLIST', payload: state.login.selectedHostel_Id })
+  }, [])
 
 
-useEffect(() => {
-  if (
-    state.Settings.Expences.data &&
-    state.Settings.Expences.data.length === 0
-  ) {
-    toast.error(
-      "Please add a Category option in Settings, accessible after adding an expense",
-     
-    );
-  }
-}, [state.Settings.Expences.data]);
+  useEffect(() => {
+    if (
+      state.Settings.Expences &&
+      state.Settings.Expences.length === 0
+    ) {
+      toast.error(
+        "Please add a Category option in Settings, accessible after adding an expense",
+
+      );
+    }
+  }, [state.Settings.Expences]);
 
 
+  const expenseOptions =
+    state.ExpenseList?.getInitializeExpenseList?.listExpenses?.map((item) => ({
+      value: item.categoryId,
+      label: item.categoryName,
+    })) || [];
 
-
-
-
+  const paymentOptions = Array.isArray(state.ExpenseList?.getInitializeExpenseList?.banks)
+    ? state.ExpenseList.getInitializeExpenseList.banks.map((item) => {
+      const typeLabelMap = { bank: "Bank", upi: "UPI", card: "Card", cash: "Cash" };
+      return {
+        value: item.bankId,
+        label: `${item.holderName} - ${item.bankName || typeLabelMap[item.type]}`,
+        type: item.type,
+      };
+    })
+    : [];
 
   return (
     <div
@@ -401,7 +415,7 @@ useEffect(() => {
           <Modal.Body style={{ maxHeight: "380px", overflowY: "scroll", padding: 20 }} className="show-scroll pt-1 mt-2 me-1">
             <div className="row" style={{}}>
 
-             
+
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
@@ -424,24 +438,11 @@ useEffect(() => {
 
 
                   <Select
-                    options={
-                      state.Settings.Expences.data && state.Settings.Expences.data.length > 0
-                        ? state.Settings.Expences.data.map((view) => ({
-                          value: view.category_Id,
-                          label: view.category_Name,
-                        }))
-                        : []
-                    }
+                    options={expenseOptions}
                     onChange={handleCategoryChange}
                     value={
                       category
-                        ? {
-                          value: category,
-                          label:
-                            state.Settings.Expences.data.find(
-                              (view) => view.category_Id === category
-                            )?.category_Name || "Select a Category",
-                        }
+                        ? expenseOptions.find((opt) => opt.value === category) || null
                         : null
                     }
                     placeholder="Select a Category"
@@ -498,7 +499,7 @@ useEffect(() => {
 
                 </Form.Group>
                 {categoryError && (
-                 <ErrorMessage message={categoryError} type="error" />
+                  <ErrorMessage message={categoryError} type="error" />
                 )}
               </div>
 
@@ -544,7 +545,7 @@ useEffect(() => {
                 )}
 
                 {joiningDateErrmsg.trim() !== "" && (
-                   <ErrorMessage message={joiningDateErrmsg} type="error" />
+                  <ErrorMessage message={joiningDateErrmsg} type="error" />
                 )}
               </div>
 
@@ -590,7 +591,7 @@ useEffect(() => {
                   />
                 </Form.Group>
                 {countError && (
-                   <ErrorMessage message={countError} type="error" />
+                  <ErrorMessage message={countError} type="error" />
                 )}
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -634,7 +635,7 @@ useEffect(() => {
                   />
                 </Form.Group>
                 {priceError && (
-                   <ErrorMessage message={priceError} type="error" />
+                  <ErrorMessage message={priceError} type="error" />
                 )}
               </div>
 
@@ -700,48 +701,16 @@ useEffect(() => {
 
 
                   <Select
-                    options={
-                      Array.isArray(state.bankingDetails?.bankingList?.banks)
-                        ? state.bankingDetails.bankingList.banks.map((item) => {
-                          let label = "";
-                          if (item.type === "bank") label = "Bank";
-                          else if (item.type === "upi") label = "UPI";
-                          else if (item.type === "card") label = "Card";
-                          else if (item.type === "cash") label = "Cash";
-
-                          return {
-                            value: item.id,
-                            label: `${item.benificiary_name} - ${label}`,
-                          };
-                        })
-                        : []
-                    }
+                    options={paymentOptions}
                     onChange={(selectedOption) =>
                       handleModeOfPaymentChange(selectedOption?.value)
                     }
+
                     value={
                       modeOfPayment
-                        ? (() => {
-                          const selected = state.bankingDetails?.bankingList?.banks.find(
-                            (item) => item.id === modeOfPayment
-
-                          );
-                          if (!selected) return null;
-
-                          const labelMap = {
-                            bank: "Bank",
-                            upi: "UPI",
-                            card: "Card",
-                            cash: "Cash",
-                          };
-                          return {
-                            value: selected.id,
-                            label: `${selected.benificiary_name} - ${labelMap[selected.type]}`,
-                          };
-                        })()
+                        ? paymentOptions.find((opt) => opt.value === modeOfPayment) || null
                         : null
                     }
-
                     placeholder="Select Payment"
                     classNamePrefix="custom"
                     isDisabled={currentItem}
@@ -798,7 +767,7 @@ useEffect(() => {
 
                 </Form.Group>
                 {paymentError && (
-                 <ErrorMessage message={paymentError} type="error" />
+                  <ErrorMessage message={paymentError} type="error" />
                 )}
               </div>
 
@@ -839,7 +808,7 @@ useEffect(() => {
             </div>
           </Modal.Body>
 
-         
+
 
           {formLoading &&
             <div

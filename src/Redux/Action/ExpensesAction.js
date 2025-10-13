@@ -1,4 +1,5 @@
-import AxiosConfig from "../../WebService/AxiosConfig"
+import AxiosConfig from "../../WebService/AxiosConfig";
+import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 
 
 export async function GetExpenseCatogory() {
@@ -14,13 +15,16 @@ export async function AddExpenseTag(datum) {
 
 
 export async function GetExpense(datum) {
-    return await AxiosConfig.post('/get/get-hostel-expenses',datum , {
-      data:datum
-        })
+    return await AxiosConfigV2.get(`/v2/expense/${datum.hostelId}`)
   }
 
+export async function GetInitializeExpense(hostelId) {
+    return await AxiosConfigV2.get(`/v2/expense/initialize/${hostelId}`)
+  }
+
+
 export async function AddExpense(datum) {
-    return await AxiosConfig.post('/add/add-expense',datum,{
+     return await AxiosConfigV2.post(`/v2/expense/${datum.hostelId}`,datum , {
         data:datum
         })
   }
