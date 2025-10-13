@@ -262,44 +262,85 @@ if(currentItem){
     };
 
 
+const handleInputChange = (index, field, value) => {
+    const updatedFields = [...fields];
+    const updatedErrors = [...errors];
 
+    if (field === "reason") {
+        if (value === "others") {
+            updatedFields[index].showInput = true;
+            updatedFields[index].reason_name = "others";
+            updatedFields[index].customReason = "";
+        } else {
+            updatedFields[index].showInput = false;
+            updatedFields[index].reason = value;
+            updatedFields[index].reason_name = value;
+            updatedFields[index].customReason = "";
+        }
 
+        if (updatedErrors[index]) updatedErrors[index].reason = "";
+    } 
+    else if (field === "customReason") {
+        // Allow only letters and spaces
+        const lettersOnly = value.replace(/[^a-zA-Z\s]/g, "");
+        updatedFields[index].customReason = lettersOnly;
 
-    const handleInputChange = (index, field, value) => {
-
-        const updatedFields = [...fields];
-        const updatedErrors = [...errors];
-
-        if (field === "reason") {
-            if (value === "others") {
-                updatedFields[index].showInput = true;
-                updatedFields[index].reason_name = "others";
-                updatedFields[index].customReason = "";
-            } else {
-                updatedFields[index].showInput = false;
-                updatedFields[index].reason = value;
-                updatedFields[index].reason_name = value;
-                updatedFields[index].customReason = "";
-            }
-
-
-            if (updatedErrors[index]) updatedErrors[index].reason = "";
-        } else if (field === "customReason") {
-            updatedFields[index].customReason = value;
+        // Optional: show error if user tried typing numbers
+        if (/[^a-zA-Z\s]/.test(value)) {
+            if (!updatedErrors[index]) updatedErrors[index] = {};
+            updatedErrors[index].reason = "";
+        } else {
             if (updatedErrors[index]) updatedErrors[index].reason = "";
         }
+    }
+    else if (field === "amount") {
+        if (/^\d*$/.test(value)) {
+            updatedFields[index].amount = value;
+            if (updatedErrors[index]) updatedErrors[index].amount = "";
+        }
+    }
+
+    setFields(updatedFields);
+    setErrors(updatedErrors);
+};
+
+
+
+    // const handleInputChange = (index, field, value) => {
+
+    //     const updatedFields = [...fields];
+    //     const updatedErrors = [...errors];
+
+    //     if (field === "reason") {
+    //         if (value === "others") {
+    //             updatedFields[index].showInput = true;
+    //             updatedFields[index].reason_name = "others";
+    //             updatedFields[index].customReason = "";
+    //         } else {
+    //             updatedFields[index].showInput = false;
+    //             updatedFields[index].reason = value;
+    //             updatedFields[index].reason_name = value;
+    //             updatedFields[index].customReason = "";
+    //         }
+
+
+    //         if (updatedErrors[index]) updatedErrors[index].reason = "";
+    //     } else if (field === "customReason") {
+    //         updatedFields[index].customReason = value;
+    //         if (updatedErrors[index]) updatedErrors[index].reason = "";
+    //     }
     
-        else if (field === "amount") {
+    //     else if (field === "amount") {
           
-            if (/^\d*$/.test(value)) {
-                updatedFields[index].amount = value;
-                if (updatedErrors[index]) updatedErrors[index].amount = "";
-            }
-        }
+    //         if (/^\d*$/.test(value)) {
+    //             updatedFields[index].amount = value;
+    //             if (updatedErrors[index]) updatedErrors[index].amount = "";
+    //         }
+    //     }
 
-        setFields(updatedFields);
-        setErrors(updatedErrors);
-    };
+    //     setFields(updatedFields);
+    //     setErrors(updatedErrors);
+    // };
 
 
 
@@ -1031,7 +1072,7 @@ const formatDate = (date) => {
                                     )}
                                 </div>
 
-                                <div className="col-lg-12 col-md-12 col-sm-12">
+                                <div className="col-lg-12 col-md-12 col-sm-12" >
 
                                     <div style={{ backgroundColor: "#F7F9FF", borderRadius: 10, paddingBottom: 5 }} className="mt-1 mb-2">
 

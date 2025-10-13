@@ -447,7 +447,8 @@ const handleFinalsettelmentGenerate = () => {
                       alignItems: "center",
                       position: "relative",
                       zIndex: activeMenu === 'occupied' ? 1000 : "auto",
-                      backgroundColor: "white",
+                      // backgroundColor: "white",
+                       backgroundColor: activeMenu === 'occupied'? "#E7F1FF" : "white",
                     }}>
                       <HiDotsHorizontal style={{ height: 20, width: 20, cursor: "pointer" }} />
                       {activeMenu === 'occupied' && (
@@ -650,7 +651,7 @@ const handleFinalsettelmentGenerate = () => {
                               alignItems: "center",
                               position: "relative",
                               zIndex: activeMenu === 'reserved' ? 1000 : "auto",
-                              backgroundColor: "white",
+                              backgroundColor: activeMenu === 'reserved'? "#E7F1FF" : "white",
                             }}>
                             <HiDotsHorizontal style={{ height: 20, width: 20 }} />
                             {activeMenu === 'reserved' && (
