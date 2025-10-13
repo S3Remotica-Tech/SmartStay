@@ -97,6 +97,8 @@ useEffect(()=>{
               setFormLoading(false)
       },[customer_details])
 
+       console.log("customerdetails", customer_details);
+       
  
          const handleBookingCustomerName = (selectedOption) => {
      
@@ -471,26 +473,26 @@ if (!isCustomerValid || !isJoiningDateValid || !isBookingDateValid || !isAmountV
                     </Form.Label>
 
                      <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
-                                                                 <DatePicker
-                                                                   ref={bookingDateRef}
-                                                                   style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy" }}
-                                                                   format="DD/MM/YYYY"
-                                                                   placeholder="DD/MM/YYYY"
-                                                                   value={bookingDate ? dayjs(bookingDate) : null}
-                                                                   onChange={(date) => {
-                                                                     setDateError("");
-                                                                     setBookingDate(date ? date.toDate() : null);
-                                                                     setBookingDateErrmsg('');
-                                                                     setJoiningDate("")
-                                                                   }}
-                                                                  //  disabledDate={(current) => {
-                                                                  //    return current && current > dayjs().endOf('day');
-                                                                  //  }}
- disabledDate={(current) => {
-  return current && current < dayjs(customer_details.CheckoutDate).startOf('day');
-}}                                                                // getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
-                                                                   getPopupContainer={() => document.body}
-                                                                 />
+                  <DatePicker
+  ref={bookingDateRef}
+  style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy" }}
+  format="DD/MM/YYYY"
+  placeholder="DD/MM/YYYY"
+  value={bookingDate ? dayjs(bookingDate) : null}
+  onChange={(date) => {
+    setDateError("");
+    setBookingDate(date ? date.toDate() : null);
+    setBookingDateErrmsg("");
+    setJoiningDate("");
+  }}
+  disabledDate={(current) => {
+    const checkout = dayjs(customer_details.CheckoutDate).startOf('day');
+    const today = dayjs().endOf('day');
+    return current && (current.isBefore(checkout) || current.isAfter(today));
+  }}
+  getPopupContainer={() => document.body}
+/>
+
                                                                </div>
 
                                                                {dateError && (
@@ -649,54 +651,31 @@ if (!isCustomerValid || !isJoiningDateValid || !isBookingDateValid || !isAmountV
                                                                        className="datepicker-wrapper"
                                                                        style={{ position: "relative", width: "100%", marginTop: 6 }}
                                                                      >
-                                                                       {/* <DatePicker
-                                                                         style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
-                                                                         format="DD/MM/YYYY"
-                                                                         placeholder="DD/MM/YYYY"
-                                                                         value={joiningDate ? dayjs(joiningDate) : null}
-                                                                         onChange={(date) => {
-                                                                           setDateError("");
-                                                                           setJoiningDate(date ? date.toDate() : null);
-                                                                           dispatch({ type: 'REMOVE_ERROR_BOOKING_DATE' })
-                                                                           setJoingDateErrmsg("")
-                                                                         }}
-                                                                          disabledDate={(current) => current && current < dayjs().startOf("day")}
-
                                                                       
-                                                                        getPopupContainer={() => document.body}
-                                                                       /> */}
-
-                                                                       <DatePicker
-                                                                  style={{
-                                                              width: "100%",
-                                                              height: 48,
-                                                              cursor: "pointer",
-                                                              fontFamily: "Gilroy",
-                                                                 }}
-                                                        format="DD/MM/YYYY"
-                                                        placeholder="DD/MM/YYYY"
-                                                        value={joiningDate ? dayjs(joiningDate) : null}
-                                                        onChange={(date) => {
-                                                                           setDateError("");
-                                                                           setJoiningDate(date ? date.toDate() : null);
-                                                                           dispatch({ type: 'REMOVE_ERROR_BOOKING_DATE' })
-                                                                           setJoingDateErrmsg("")
-                                                                         }}
-                                                        getPopupContainer={() => document.body}
-                                                       disabledDate={(current) => {
-   
-    // if (current && current > dayjs().endOf("day")) {
-    //   return true;
-    // }
-
-    // Disable before bookingDate
-    if (bookingDate) {
-      return current && current.isBefore(dayjs(bookingDate), "day");
-    }
-
-    return false;
+<DatePicker
+  style={{
+    width: "100%",
+    height: 48,
+    cursor: "pointer",
+    fontFamily: "Gilroy",
   }}
-                                                             />
+  format="DD/MM/YYYY"
+  placeholder="DD/MM/YYYY"
+  value={joiningDate ? dayjs(joiningDate) : null}
+  onChange={(date) => {
+    setDateError("");
+    setJoiningDate(date ? date.toDate() : null);
+    dispatch({ type: "REMOVE_ERROR_BOOKING_DATE" });
+    setJoingDateErrmsg("");
+  }}
+  getPopupContainer={() => document.body}
+  disabledDate={(current) => {
+    if (!bookingDate) return true;
+
+    return current && current.isBefore(dayjs(bookingDate), "day");
+  }}
+/>
+
 
                                                                      </div>
                 </Form.Group>

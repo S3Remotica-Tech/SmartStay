@@ -243,8 +243,8 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
 
 
 
-      <Modal show={show} onHide={handleClose} centered backdrop="static">
-        <div>
+      <Modal show={show} onHide={handleClose} centered backdrop="static" >
+        <div  >
           <Nav fill variant="tabs">
 
             <Nav.Item onClick={() => handleShow('deleteBed')}>
@@ -308,6 +308,7 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
             paddingTop: 20,
             paddingBottom: 10,
           }}
+          className='p-2 m-0'
         >
           Are you sure you want to delete the bed?
 
