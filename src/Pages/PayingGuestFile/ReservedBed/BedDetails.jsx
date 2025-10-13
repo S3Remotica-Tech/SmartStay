@@ -138,7 +138,20 @@ function BedDetails({
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
-                                        }}>Room No {""}
+                                        }}>
+                                            {currentItem?.floorName}
+                                        </label> <span style={{
+                                            fontSize: 14,
+                                            color: "#1E45E1",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                        }}>|</span>
+                                        <label style={{
+                                            fontSize: 14,
+                                            color: "#1E45E1",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                        }}>
                                             {currentItem?.roomName}
                                         </label> <span style={{
                                             fontSize: 14,
@@ -150,7 +163,7 @@ function BedDetails({
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
-                                        }}> Bed {""}
+                                        }}> 
                                             {currentItem?.bedName}
                                         </span>
                                     </div>

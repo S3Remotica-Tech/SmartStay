@@ -70,7 +70,6 @@ function Expenses({ allPageHostel_Id }) {
   const canWriteExpense = useHasPermission("Expense", "canWrite");
   
 
-
 useEffect(() => {
   if (!canReadExpense) {
     setLoading(false);
@@ -275,7 +274,7 @@ useEffect(() => {
 
 
 
-
+console.log("state",state)
 
   useEffect(() => {
     if (dates.length === 2) {
@@ -284,13 +283,13 @@ useEffect(() => {
         payload: {
           start_date: dates[0].format("YYYY-MM-DD"),
           end_date: dates[1].format("YYYY-MM-DD"),
-          hostel_id: state.login.selectedHostel_Id,
+          hostelId: state.login.selectedHostel_Id,
         },
       });
     } else if (dates?.length === 0 && state.login.selectedHostel_Id) {
       dispatch({
         type: "EXPENSELIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
+        payload: { hostelId: state.login.selectedHostel_Id },
       });
     }
   }, [dates, state.login.selectedHostel_Id, dispatch]);
@@ -299,7 +298,7 @@ useEffect(() => {
     if (selectedValue === "All") {
       dispatch({
         type: "EXPENSELIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
+        payload: { hostelId: state.login.selectedHostel_Id },
       });
       setCategoryValue("");
       setAssetValue("");
@@ -315,7 +314,7 @@ useEffect(() => {
         type: "EXPENSELIST",
         payload: {
           category: categoryValue,
-          hostel_id: state.login.selectedHostel_Id,
+          hostelId: state.login.selectedHostel_Id,
         },
       });
       setCategoryValue("");
@@ -332,7 +331,7 @@ useEffect(() => {
         type: "EXPENSELIST",
         payload: {
           asset_id: assetValue,
-          hostel_id: state.login.selectedHostel_Id,
+          hostelId: state.login.selectedHostel_Id,
         },
       });
       setCategoryValue("");
@@ -349,7 +348,7 @@ useEffect(() => {
         type: "EXPENSELIST",
         payload: {
           vendor_id: vendorValue,
-          hostel_id: state.login.selectedHostel_Id,
+          hostelId: state.login.selectedHostel_Id,
         },
       });
       setCategoryValue("");
@@ -366,7 +365,7 @@ useEffect(() => {
         type: "EXPENSELIST",
         payload: {
           payment_mode: modeValue,
-          hostel_id: state.login.selectedHostel_Id,
+          hostelId: state.login.selectedHostel_Id,
         },
       });
       setCategoryValue("");
@@ -386,7 +385,7 @@ useEffect(() => {
         payload: {
           min_amount: minAmount,
           max_amount: maxAmount,
-          hostel_id: state.login.selectedHostel_Id,
+          hostelId: state.login.selectedHostel_Id,
         },
       });
       setCategoryValue("");
@@ -412,11 +411,11 @@ useEffect(() => {
     state.login.selectedHostel_Id,
   ]);
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
-    }
-  }, [state.login.selectedHostel_Id, dispatch]);
+  // useEffect(() => {
+  //   if (state.login.selectedHostel_Id) {
+  //     dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
+  //   }
+  // }, [state.login.selectedHostel_Id, dispatch]);
 
   const handleShow = () => {
     if (!state.login.selectedHostel_Id) {
@@ -431,23 +430,23 @@ useEffect(() => {
       });
       return;
     }
-    if (
-      !Array.isArray(state.bankingDetails.bankingList.banks) ||
-      state.bankingDetails.bankingList.banks.length === 0
-    ) {
-      toast.error(
-        "Please add bank details before adding expense information.",
-        {
-          autoClose: 1500,
-          style: {
-            color: "#000",
-            borderBottom: "5px solid red",
-            fontFamily: "Gilroy",
-          },
-        }
-      );
-      return;
-    }
+    // if (
+    //   !Array.isArray(state.bankingDetails.bankingList.banks) ||
+    //   state.bankingDetails.bankingList.banks.length === 0
+    // ) {
+    //   toast.error(
+    //     "Please add bank details before adding expense information.",
+    //     {
+    //       autoClose: 1500,
+    //       style: {
+    //         color: "#000",
+    //         borderBottom: "5px solid red",
+    //         fontFamily: "Gilroy",
+    //       },
+    //     }
+    //   );
+    //   return;
+    // }
 
     setCurrentItem("");
     setShowModal(true);
@@ -481,20 +480,20 @@ useEffect(() => {
         type: "ASSETLIST",
         payload: state.login.selectedHostel_Id,
       });
-      dispatch({
-        type: "EXPENCES-CATEGORY-LIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
+      // dispatch({
+      //   type: "EXPENCES-CATEGORY-LIST",
+      //   payload: state.login.selectedHostel_Id 
+      // });
       dispatch({
         type: "VENDORLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
+        payload: { hostelId: state.login.selectedHostel_Id },
       });
       dispatch({
         type: "EXPENSELIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
+        payload: { hostelId: state.login.selectedHostel_Id },
       });
     }
-  }, [state.login.selectedHostel_Id, dispatch]);
+  }, [state.login.selectedHostel_Id]);
 
   const { getExpenseStatusCode } = state.ExpenseList;
 
@@ -508,7 +507,7 @@ useEffect(() => {
         dispatch({ type: "CLEAR_EXPENSE_SATUS_CODE" });
       }, 4000);
     }
-  }, [getExpenseStatusCode, dispatch, state.ExpenseList.expenseList]);
+  }, [getExpenseStatusCode, state.ExpenseList.expenseList]);
 
 
   useEffect(() => {
@@ -519,16 +518,16 @@ useEffect(() => {
         dispatch({ type: "CLEAR_NOEXPENSEdATA" });
       }, 200);
     }
-  }, [state.ExpenseList.nodataGetExpenseStatusCode, dispatch]);
+  }, [state.ExpenseList.nodataGetExpenseStatusCode]);
 
   useEffect(() => {
     if (
-      state.ExpenseList.StatusCodeForAddExpenseSuccess === 200 ||
+      state.ExpenseList.StatusCodeForAddExpenseSuccess === 201 ||
       state.ExpenseList.deleteExpenseStatusCode === 200
     ) {
       dispatch({
         type: "EXPENSELIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
+        payload: { hostelId: state.login.selectedHostel_Id },
       });
       setShowModal(false);
       setShowExpenseDelete(false);
@@ -827,7 +826,7 @@ useEffect(() => {
 
       dispatch({
         type: "EXPENSELIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
+        payload: { hostelId: state.login.selectedHostel_Id },
       });
       return;
     }
@@ -842,18 +841,18 @@ useEffect(() => {
   useEffect(() => {
     if (!state.login.selectedHostel_Id) return;
 
-    const payload = { hostel_id: state.login.selectedHostel_Id };
+    const payload = { hostelId: state.login.selectedHostel_Id };
     if (dates.length === 2) {
       payload.start_date = dates[0].format("YYYY-MM-DD");
       payload.end_date = dates[1].format("YYYY-MM-DD");
     }
     dispatch({ type: "EXPENSELIST", payload });
-  }, [dates, state.login.selectedHostel_Id, dispatch]);
+  }, [dates, state.login.selectedHostel_Id]);
 
   useEffect(() => {
     if (!state.login.selectedHostel_Id) return;
 
-    const payload = { hostel_id: state.login.selectedHostel_Id };
+    const payload = { hostelId: state.login.selectedHostel_Id };
 
     if (selectedValue === "All") {
       dispatch({ type: "EXPENSELIST", payload });
@@ -875,7 +874,7 @@ useEffect(() => {
       payload.vendor_id = vendorValue;
       dispatch({ type: "EXPENSELIST", payload });
     }
-  }, [selectedValue, categoryValue, modeValue, amountValue, assetValue, vendorValue, state.login.selectedHostel_Id, dispatch]);
+  }, [selectedValue, categoryValue, modeValue, amountValue, assetValue, vendorValue, state.login.selectedHostel_Id]);
 
   useEffect(() => {
     if (state.ExpenseList.getExpenseStatusCode === 200) {
@@ -885,7 +884,7 @@ useEffect(() => {
         dispatch({ type: "CLEAR_EXPENSE_SATUS_CODE" });
       }, 1000);
     }
-  }, [state.ExpenseList.getExpenseStatusCode, state.ExpenseList.expenseList, dispatch]);
+  }, [state.ExpenseList.getExpenseStatusCode, state.ExpenseList.expenseList]);
 
 
   useEffect(() => {
@@ -896,7 +895,7 @@ useEffect(() => {
         dispatch({ type: "CLEAR_NOEXPENSEdATA" });
       }, 1000);
     }
-  }, [state.ExpenseList.nodataGetExpenseStatusCode, dispatch]);
+  }, [state.ExpenseList.nodataGetExpenseStatusCode]);
 
 
 

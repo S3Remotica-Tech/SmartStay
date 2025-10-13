@@ -207,7 +207,7 @@ function* handleCategoryAdd(params) {
 
          };
 
-         toast.success(response.data.message, {
+         toast.success(response.data, {
             position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: true,
@@ -222,21 +222,21 @@ function* handleCategoryAdd(params) {
       else if (response.status === 201 || response.statusCode === 201) {
 
 
-         yield put({ type: 'ALREADY_EXPENCE_CATEGORY_ERROR', payload: response.data.message })
+        
 
 
       }
-      else {
-         yield put({ type: 'ERROR', payload: response.data.message })
-      }
+      
       if (response) {
          refreshToken(response)
       }
    }
    catch (error) {
-      if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
+      if (error.code === 'ERR_BAD_REQUEST') {
+         if (error.status === 400) {
+            yield put({ type: 'ALREADY_EXPENCE_CATEGORY_ERROR', payload: error.response.data })
+         }
+      } else if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
       }
    }
