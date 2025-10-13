@@ -16,6 +16,7 @@ import { AddCircle, LogoutCurve, InfoCircle } from "iconsax-react";
 import exchange from '../../../Assets/Images/New_images/exchange.svg';
 import TimerPause from '../../../Assets/Images/New_images/calendar-tick.png';
 import dayjs from 'dayjs';
+import UserList from "../../CustomerFile/UserList";
 
 function NoticeBedStatusDetails({
   show,
@@ -25,6 +26,7 @@ function NoticeBedStatusDetails({
   showNoticeperiodCheckout,
   showchangeBed,
   showfinalsettelemnet,
+  floorName
   // handleShowCheck_In,
 }) {
 
@@ -38,12 +40,15 @@ function NoticeBedStatusDetails({
   const [activeMenu, setActiveMenu] = useState(null);
   const [recheckin, setRecheckin] = useState(false)
   const [bactocheckinForm, setBacktoCheckInForm] = useState(false)
+  const [makeasinactive , setMakeasInactive] = useState(false)
 
   const [customer_details, setCustomerDetails] = useState({})
   const [noticePeriodCustomer, setNoticePeriodCustomer] = useState([])
   const [reservedCustomer, setReservedCustomer] = useState([])
+   const [reserve_customer_details, setReserveCustomerDetails] = useState({})
 
-  console.log("noticeperiodcustomer", customer_details);
+
+  console.log("noticeperiodcustomer", noticePeriodCustomer);
   
   const popupRef = useRef(null);
 
@@ -72,6 +77,12 @@ function NoticeBedStatusDetails({
 
   const handlechangeBed = () => {
       showchangeBed(true , reservedCustomer[0]?.id)
+  }
+
+  const handleMakeAsInactive = () => {
+    console.log("bookinginactive");
+      setMakeasInactive(true)
+
   }
 
 
@@ -124,7 +135,18 @@ const handleFinalsettelmentGenerate = () => {
     }
   }, [currentItem])
 
+ 
 
+    const matchingUser = state.UsersList?.Users?.find(
+  (user) => user.ID === noticePeriodCustomer[0]?.id
+);
+
+console.log("Matching User Details:", matchingUser);
+ const matchingUserreserved = state.UsersList?.Users?.find(
+  (user) => user.ID === reservedCustomer[0]?.id
+);
+
+console.log("Matching User Details:", matchingUser);
 
   useEffect(() => {
     if (state.Booking.StatusCodeInactiveCode === 200) {
@@ -196,6 +218,20 @@ const handleFinalsettelmentGenerate = () => {
 
       setCustomerDetails(foundCustomer || null);
     }
+        if (
+      Array.isArray(usersList) &&
+      Array.isArray(ReservedcustomerDetails) &&
+      usersList.length > 0 &&
+      ReservedcustomerDetails.length > 0
+    ) {
+      const targetUserId = ReservedcustomerDetails[0]?.User_Id?.trim()?.toLowerCase();
+
+      const foundCustomer = usersList.find(
+        (user) => user.User_Id?.trim()?.toLowerCase() === targetUserId
+      );
+
+      setReserveCustomerDetails(foundCustomer || null);
+    }
   }, [state?.UsersList?.Users, customer]);
 
   const JoiningDate = dayjs(noticePeriodCustomer?.[0]?.Date).format("DD MMM YYYY");
@@ -237,7 +273,7 @@ const handleFinalsettelmentGenerate = () => {
                       Bed Status
                     </Modal.Title>
                   </div>
-                  <div className="d-flex align-items-center gap-3">
+                  {/* <div className="d-flex align-items-center gap-3">
                     <label style={{
                       fontSize: 14,
                       color: "#1E45E1",
@@ -254,7 +290,48 @@ const handleFinalsettelmentGenerate = () => {
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                     }}> Bed  {currentItem?.bed.bed_no}</span>
-                  </div>
+                  </div> */}
+
+
+
+                             <div className="d-flex flex-wrap gap-2 ">
+
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                background: "#FFEFCF",
+                                padding: "6px 12px",
+                                borderRadius: "60px",
+                                fontFamily: "Gilroy",
+                                fontSize: 12,
+                                color: "#222",
+                                fontWeight: 500,
+                                whiteSpace: "nowrap",
+                              }}
+                            >
+                             {floorName} 
+                            </div>
+
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                background: "#FFE0D9",
+                                padding: "6px 12px",
+                                borderRadius: "60px",
+                                fontFamily: "Gilroy",
+                                fontSize: 12,
+                                color: "#222",
+                                fontWeight: 500,
+                                whiteSpace: "nowrap",
+                              }}
+                            >
+                             {currentItem?.room.Room_Name} - {currentItem?.bed.bed_no}
+                            </div>
+
+
+                          </div>
                 </div>
 
                 {/* <div onClick={() => handleShowDots(1)}
@@ -561,14 +638,30 @@ const handleFinalsettelmentGenerate = () => {
                   <div className="d-flex gap-3 align-items-center mt-2">
                     <div>
                       <Image
-                        src={
-                          noticePeriodCustomer[0]?.profile && noticePeriodCustomer[0]?.profile !== "0"
-                            ? noticePeriodCustomer[0]?.profile
-                            : Profile
-                        }
-                        roundedCircle
-                        style={{ height: 50, width: 50 }}
-                        alt="image"
+                        // src={
+                        //   noticePeriodCustomer[0]?.profile && noticePeriodCustomer[0]?.profile !== "0"
+                        //     ? noticePeriodCustomer[0]?.profile
+                        //     : Profile
+                        // }
+                        // roundedCircle
+                        // style={{ height: 50, width: 50 }}
+                        // alt="image"
+                          src={
+                                                                      matchingUser  && matchingUser?.profile &&matchingUser.profile !== ""
+                                                                        ? typeof matchingUser?.profile === "string"
+                                                                          ? matchingUser.profile.startsWith("/9j/") 
+                                                                            ? `data:image/jpeg;base64,${matchingUser.profile}`
+                                                                            : matchingUser?.profile 
+                                                                          : URL.createObjectURL(matchingUser?.profile) 
+                                                                        : Profile
+                                                                    }
+                                                                    alt="Profile"
+                                                                    roundedCircle
+                                                                    style={{ height: 60, width: 60 }}
+                                                                    onError={(e) => {
+                                                                      e.target.onerror = null;
+                                                                      e.target.src = Profile;
+                                                                    }}
                       />
                     </div>
                     <div className="mt-2">
@@ -849,7 +942,7 @@ const handleFinalsettelmentGenerate = () => {
                                 <div
                                   className="d-flex gap-2 align-items-center"
                                   
-
+                                  onClick={()=> handleMakeAsInactive ()}
                                   style={{
                                     padding: "10px",
                                     borderBottomLeftRadius: 10,
@@ -875,15 +968,33 @@ const handleFinalsettelmentGenerate = () => {
                         <div className="d-flex gap-3 align-items-center">
                           <div>
                             <Image
-                              src={
-                                reservedCustomer[0]?.profile &&
-                                  reservedCustomer[0]?.profile !== "0"
-                                  ? reservedCustomer[0]?.profile
-                                  : Profile
-                              }
-                              roundedCircle
-                              style={{ height: 50, width: 50 }}
-                              alt="image"
+                              // src={
+                              //   reservedCustomer[0]?.profile &&
+                              //     reservedCustomer[0]?.profile !== "0"
+                              //     ? reservedCustomer[0]?.profile
+                              //     : Profile
+                              // }
+                              // roundedCircle
+                              // style={{ height: 50, width: 50 }}
+                              // alt="image"
+
+                                src={
+                                                                      matchingUserreserved  && matchingUserreserved?.profile &&matchingUserreserved.profile !== ""
+                                                                        ? typeof matchingUserreserved?.profile === "string"
+                                                                          ? matchingUserreserved.profile.startsWith("/9j/") 
+                                                                            ? `data:image/jpeg;base64,${matchingUserreserved.profile}`
+                                                                            : matchingUserreserved?.profile 
+                                                                          : URL.createObjectURL(matchingUserreserved?.profile) 
+                                                                        : Profile
+                                                                    }
+                                                                    alt="Profile"
+                                                                    roundedCircle
+                                                                    style={{ height: 60, width: 60 }}
+                                                                    onError={(e) => {
+                                                                      e.target.onerror = null;
+                                                                      e.target.src = Profile;
+                                                                    }}
+
                             />
                           </div>
                           <div className="mt-2">
@@ -1035,6 +1146,14 @@ const handleFinalsettelmentGenerate = () => {
         />
       }
 
+       {
+                      makeasinactive && <UserList  setMakeasInactive={setMakeasInactive} makeasinactive={makeasinactive}
+                       customer_details = {reserve_customer_details}
+                       customer={customer}
+                      handleCloseBed = {handleCloseBed}
+                      />
+                  }
+
     </>
   );
 }
@@ -1046,6 +1165,7 @@ NoticeBedStatusDetails.propTypes = {
   showBooking: PropTypes.func.isRequired,
   showfinalsettelemnet: PropTypes.func.isRequired,
   showchangeBed:PropTypes.func.isRequired,
+   floorName:PropTypes.func.isRequired,
 
 };
 export default NoticeBedStatusDetails;

@@ -17,7 +17,7 @@ import dayjs from 'dayjs';
 import Error_Icon from "../../Assets/Images/New_images/Error_warning.png";
 
 
- const PGAssignTenant = ({ show, handleClose  , currentItem , }) => {
+ const PGAssignTenant = ({ show, handleClose  , currentItem ,floorName }) => {
 
      const state = useSelector((state) => state);
      
@@ -634,7 +634,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                     
                         <div >
                           <Modal.Header className="pt-0"
-                            style={{ position: "relative", marginTop: "", border: "none" }}
+                            style={{ position: "relative", marginTop: "", border: "none", borderBottom: "1px solid #e0e0e0", }}
                           >
                             <div
                               style={{
@@ -645,13 +645,56 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                             >
                               Assign Tenant
                                 <div>
-                                <span  style={{
+                                {/* <span  style={{
                                 fontSize: 15,
                                 fontWeight: 400,
                                 fontFamily: "Gilroy",
                                 color:'rgba(30, 69, 225, 1)'
-                              }}>Room No {currentItem?.room?.Room_Name} | Bed {currentItem?.bed?.bed_no}</span> 
+                              }}>Room No {currentItem?.room?.Room_Name} | Bed {currentItem?.bed?.bed_no}</span>  */}
+
+
+
+                              <span className="d-flex flex-wrap gap-2 mt-2 me-1">
+
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                background: "#FFEFCF",
+                                padding: "6px 12px",
+                                borderRadius: "60px",
+                                fontFamily: "Gilroy",
+                                fontSize: 12,
+                                color: "#222",
+                                fontWeight: 500,
+                                whiteSpace: "nowrap",
+                              }}
+                            >
+                             {floorName} 
                             </div>
+
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                background: "#FFE0D9",
+                                padding: "6px 12px",
+                                borderRadius: "60px",
+                                fontFamily: "Gilroy",
+                                fontSize: 12,
+                                color: "#222",
+                                fontWeight: 500,
+                                whiteSpace: "nowrap",
+                              }}
+                            >
+                             {currentItem?.room.Room_Name} - {currentItem?.bed.bed_no}
+                            </div>
+
+
+                          </span>
+                            
+                            </div>
+                            
                             </div>
                           
         
@@ -661,8 +704,10 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                               onClick={handleClose}
                               style={{ cursor: "pointer" }}
                             />
+
+                            
                           </Modal.Header>
-        
+                    
         
                           <div style={{ backgroundColor: "#F7F9FF", borderRadius: 10, width: "100%" }} className="mt-1 p-1">
                             <div style={{ display: "flex", gap: "10px", justifyContent: "space-between", width: "100%" }}>
@@ -2313,6 +2358,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
      show: PropTypes.func.isRequired,
      handleClose: PropTypes.func.isRequired,
      currentItem: PropTypes.func.isRequired,
+     floorName:PropTypes.func.isRequired,
  }
 
  export default PGAssignTenant ; 

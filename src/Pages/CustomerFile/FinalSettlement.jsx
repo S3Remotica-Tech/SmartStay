@@ -735,7 +735,7 @@ handleCloseForm()
                         <div className="p-4 border-end rounded" style={{ flex: "0 0 35%", background: "#f9f9f9" }}>
                             <div className="d-flex align-items-center">
                               
-                                <img
+                                {/* <img
                                     src={
                                         data?.user_profile && data?.user_profile !== "0"
                                             ? data?.user_profile
@@ -746,7 +746,24 @@ handleCloseForm()
                                     style={{ height: 55, width: 55, cursor: "pointer" }}
                                     alt="profile"
                                     className="rounded-circle me-3"
-                                />
+                                /> */}
+                                <img
+  src={
+    data?.profile && data?.profile !== "0"
+      ? data?.profile.startsWith("data:image")
+        ? data?.profile
+        : `data:image/jpeg;base64,${data?.profile}`
+      : dataBed[0]?.profile && dataBed[0]?.profile !== "0"
+      ? dataBed[0].profile.startsWith("data:image")
+        ? dataBed[0].profile
+        : `data:image/jpeg;base64,${dataBed[0].profile}`
+      : Profile2
+  }
+  style={{ height: 55, width: 55, cursor: "pointer" }}
+  alt="profile"
+  className="rounded-circle me-3"
+/>
+
 
                                 <div>
                                     <p style={{ fontSize: "1.25rem", fontFamily: "Gilroy", fontWeight: 600 }} className="mb-0">{hostelData?.Name}</p>

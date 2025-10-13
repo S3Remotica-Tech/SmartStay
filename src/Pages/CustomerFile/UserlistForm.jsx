@@ -2306,7 +2306,7 @@ if (Email) {
     return null;
   }, [Floor, props.EditObj?.floor_name, state.UsersList?.hosteldetailslist, props?.customer_details]);
 
-console.log("selectedFloor",selectedFloor)
+console.log("bed", selectedFloor);
 
 
   // const selectedRoom = React.useMemo(() => {
@@ -2331,6 +2331,7 @@ console.log("selectedFloor",selectedFloor)
   const selectedRoom = React.useMemo(() => {
     const list = state.UsersList?.roomdetails;
     if (!list) return null;
+    console.log("selectedRoom",selectedRoom)
 
     // Prefer customer_details if available
     // if (props.customer_details?.Rooms) {
@@ -2360,7 +2361,7 @@ console.log("selectedFloor",selectedFloor)
     props.customer_details?.Rooms,
     state.UsersList?.roomdetails
   ]);
-  console.log("selectedRoom",selectedRoom)
+  console.log("props.customer_details",props.customer_details)
 
 
   // let bedOptions =
@@ -6099,23 +6100,40 @@ console.log("selectedFloor",selectedFloor)
 
 
                 <div className="d-flex align-items-center gap-3 mb-3 ms-3">
-                  {/* <img
+                  <img
                   
-                     src={
-                      props.EditObj && props.EditObj?.profile && props.EditObj?.profile !== ""
-                        ? typeof props.EditObj?.profile === "string"
-                          ? props.EditObj?.profile.startsWith("/9j/") 
-                            ? `data:image/jpeg;base64,${props.EditObj?.profile}`
-                            : props.EditObj?.profile 
-                          : URL.createObjectURL(props.EditObj?.profile) 
-                        : Profileimage
-                    }
+                    //  src={
+                    //   props.EditObj || props.customer_details  && props.EditObj?.profile || props.customer_details.profile && props.EditObj?.profile || props.customer_details.profile !== ""
+                    //     ? typeof props.EditObj?.profile || props.customer_details.profile === "string"
+                    //       ? props.EditObj?.profile || props.customer_details.profile .startsWith("/9j/") 
+                    //         ? `data:image/jpeg;base64,${props.EditObj?.profile|| props.customer_details.profile}`
+                    //         : props.EditObj?.profile||props.customer_details.profile 
+                    //       : URL.createObjectURL(props.EditObj?.profile|| props.customer_details.profile) 
+                    //     : Profileimage
+                    // }
+                    src={
+  (
+    (props.EditObj && props.EditObj.profile) ||
+    (props.customer_details && props.customer_details.profile)
+  )
+    ? (typeof ((props.EditObj && props.EditObj.profile) || (props.customer_details && props.customer_details.profile)) === "string"
+        ? (((props.EditObj && props.EditObj.profile) || (props.customer_details && props.customer_details.profile)).startsWith("/9j/")
+            ? `data:image/jpeg;base64,${(props.EditObj && props.EditObj.profile) || (props.customer_details && props.customer_details.profile)}`
+            : (props.EditObj && props.EditObj.profile) || (props.customer_details && props.customer_details.profile)
+          )
+        : URL.createObjectURL(
+            (props.EditObj && props.EditObj.profile) || (props.customer_details && props.customer_details.profile)
+          )
+      )
+    : Profileimage
+}
+
                     alt="Profile"
                     className="rounded-circle"
                     width="35"
                     height="35"
-                  /> */}
-                  <img
+                  />
+                  {/* <img
                     src={
                       typeof file === "string" && file.trim()
                         ? file
@@ -6131,7 +6149,7 @@ console.log("selectedFloor",selectedFloor)
                       e.target.onerror = null;
                       e.target.src = Profileimage;
                     }}
-                  />
+                  /> */}
 
                   <div>
                     <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px" }}>

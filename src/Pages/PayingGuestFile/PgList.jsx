@@ -56,6 +56,7 @@ function PgList() {
 
  const [changebedDesignshow , setChangeBedDesignShow] = useState(false)
  const [Reserved_customer_details, setResrvedCustomerDetails] = useState({})
+ console.log("Reserved_customer_details",Reserved_customer_details)
 
  const handleshowbedDesign = (customerid) => {
   console.log("customerid",customerid );
@@ -830,14 +831,44 @@ useEffect(() => {
               }}
             >
               <img
-                src={Profiles}
-                alt={ "Default Profile"}
-                style={{
-                  height: "60px",
-                  width: "60px",
-                  borderRadius: "50%",
-                  objectFit: "cover",
-                }}
+                // src={Profiles}
+                // alt={ "Default Profile"}
+                // style={{
+                //   height: "60px",
+                //   width: "60px",
+                //   borderRadius: "50%",
+                //   objectFit: "cover",
+                // }}
+                // onError={(e) => {
+                //   e.target.onerror = null;
+                //   e.target.src = Profiles;
+                // }}
+                //  src={
+                //                   Reserved_customer_details.profile
+                //                     ? (typeof Reserved_customer_details.profile === "string" ? Reserved_customer_details.profile : URL.createObjectURL(Reserved_customer_details.profile))
+                //                     : (Reserved_customer_details?.profile && Reserved_customer_details.profile.trim() !== ""
+                //                       ? Reserved_customer_details.profile
+                //                       : Profiles)
+                //                 }
+                //                 onError={(e) => {
+                //                   e.target.onerror = null;
+                //                   e.target.src = Profiles;
+                //                 }}
+                //                 alt="Profile"
+                //                 roundedCircle
+                //                 style={{ height: 60, width: 60 }}
+                                           src={
+                  Reserved_customer_details && Reserved_customer_details.profile && Reserved_customer_details.profile !== ""
+                    ? typeof Reserved_customer_details.profile === "string"
+                      ? Reserved_customer_details.profile.startsWith("/9j/") 
+                        ? `data:image/jpeg;base64,${Reserved_customer_details.profile}`
+                        : Reserved_customer_details.profile 
+                      : URL.createObjectURL(Reserved_customer_details.profile) 
+                    : Profiles
+                }
+                alt="Profile"
+               
+                style={{ height: 60, width: 60 ,borderRadius:"50%"}}
                 onError={(e) => {
                   e.target.onerror = null;
                   e.target.src = Profiles;
@@ -1246,6 +1277,7 @@ useEffect(() => {
         deletePermissionError={deletePermissionError}
         addPermissionError={addPermissionError}
         showchangebed = {handleshowbedDesign}
+        floorName={floorName}
       /> : <BedStatusListView  
          floorID={floorClick}
         hostel_Id={state.login?.selectedHostel_Id}
