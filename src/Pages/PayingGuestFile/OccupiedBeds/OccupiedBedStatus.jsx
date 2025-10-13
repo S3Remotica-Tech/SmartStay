@@ -175,7 +175,8 @@ function OccupiedBedStatus({
                                         alignItems: "center",
                                         position: "relative",
                                         zIndex: showDots ? 1000 : "auto",
-                                        backgroundColor: "white",
+                                        backgroundColor: String(activeRoomId) === "1" ? "#E7F1FF" : "white",
+                                        
                                     }}>
                                     <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
                                     {String(activeRoomId) === String(1) && (
