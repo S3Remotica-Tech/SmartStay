@@ -37,27 +37,28 @@ function SettingExpenses({ hostelid }) {
   const [expensesFilterddata, setExpensesFilterddata] = useState([]);
   const [expensescurrentPage, setExpensescurrentPage] = useState(1);
 
-
+  console.log("expensesFilterddata", expensesFilterddata)
 
   const canReadExpense = useHasPermission("Expense", "canRead");
   const canWriteExpense = useHasPermission("Expense", "canWrite");
   const canUpdateExpense = useHasPermission("Expense", "canUpdate");
   const canDeleteExpense = useHasPermission("Expense", "canDelete");
 
-useEffect(() => {
-      if (!canReadExpense) {
-        setLoading(false);
-      }else{
-        setLoading(true);
-      }
-    }, [canReadExpense]);
+  useEffect(() => {
+    if (!canReadExpense) {
+      setLoading(false);
+    } else {
+      setLoading(true);
+    }
+  }, [canReadExpense]);
 
 
   const [showPopup, setShowPopup] = useState(false);
+
   const handleShow = () => {
     setCategoryErrmsg('')
     setSubCategoryErrmsg('')
-    if (!hostelid) {
+    if (!state.login.selectedHostel_Id) {
       setShowPopup(true);
       return;
     }
@@ -113,7 +114,7 @@ useEffect(() => {
         type: 'DELETE-EXPENCES-CATEGORY',
         payload: {
           cat_id: deletesubcatItems.cat_id,
-          subcat_id: deletesubcatItems.subcategory_Id
+          subcat_id: deletesubcatItems.subCategoryId
         },
       });
     }
@@ -152,21 +153,21 @@ useEffect(() => {
 
   useEffect(() => {
     // setLoading(true);
-    if (hostelid) {
-      dispatch({ type: 'EXPENCES-CATEGORY-LIST', payload: { hostel_id: hostelid } });
+    if (state.login.selectedHostel_Id) {
+      dispatch({ type: 'EXPENCES-CATEGORY-LIST', payload: state.login.selectedHostel_Id });
     }
     const timeout = setTimeout(() => {
       setLoading(false);
     }, 4000);
 
     return () => clearTimeout(timeout);
-  }, [hostelid]);
+  }, [state.login.selectedHostel_Id]);
 
 
 
   useEffect(() => {
     if (state.Settings.getExpensesStatuscode === 200) {
-      setExpensesFilterddata(state.Settings.Expences.data);
+      setExpensesFilterddata(state.Settings.Expences);
       setLoading(false)
 
       setTimeout(() => {
@@ -190,7 +191,7 @@ useEffect(() => {
 
 
   useEffect(() => {
-    if (state.Settings.addexpencesStatuscode === 200 || state.Settings.editexpencesStatuscode === 200 || state.Settings.deleteexpencesStatusCode === 200) {
+    if (state.Settings.addexpencesStatuscode === 201 || state.Settings.editexpencesStatuscode === 200 || state.Settings.deleteexpencesStatusCode === 200) {
       setShowForm(false)
       setFormLoading(false)
       setCategoryErrmsg('')
@@ -198,7 +199,7 @@ useEffect(() => {
         setShowForm(false)
       }
       setTimeout(() => {
-        dispatch({ type: 'EXPENCES-CATEGORY-LIST', payload: { hostel_id: hostelid } })
+        dispatch({ type: 'EXPENCES-CATEGORY-LIST', payload: state.login.selectedHostel_Id })
       }, 100)
       setDeleteSubCatItems('')
 
@@ -214,7 +215,7 @@ useEffect(() => {
         dispatch({ type: 'CLEAR_DELETE_EXPENCES_STATUS_CODE' })
       }, 1000)
     }
-  }, [hostelid, state.Settings.addexpencesStatuscode, state.Settings.editexpencesStatuscode, state.Settings.deleteexpencesStatusCode])
+  }, [state.login.selectedHostel_Id, state.Settings.addexpencesStatuscode, state.Settings.editexpencesStatuscode, state.Settings.deleteexpencesStatusCode])
 
 
 
@@ -243,7 +244,7 @@ useEffect(() => {
         setFormError("");
       }
 
-      dispatch({ type: 'EDIT_EXPENCES_CATEGORY', payload: { id: subcategory_Id, hostel_id: hostelid, name: subType, type: 2 } })
+      dispatch({ type: 'EDIT_EXPENCES_CATEGORY', payload: { id: subcategory_Id, hostel_id: state.login.selectedHostel_Id, name: subType, type: 2 } })
       setFormLoading(true)
       setIsSubCategory(false)
       setSubType('')
@@ -258,7 +259,7 @@ useEffect(() => {
         setFormCategoryError("");
       }
 
-      dispatch({ type: 'EDIT_EXPENCES_CATEGORY', payload: { id: type.value, hostel_id: hostelid, name: type.label, type: 1 } })
+      dispatch({ type: 'EDIT_EXPENCES_CATEGORY', payload: { id: type.value, hostel_id: state.login.selectedHostel_Id, name: type.label, type: 1 } })
       setFormLoading(true)
     }
   }
@@ -282,10 +283,10 @@ useEffect(() => {
       dispatch({
         type: "EXPENCES-CATEGORY-ADD",
         payload: {
-          hostel_id: hostelid,
-          id: type.value,
-          category_Name: type.label,
-          sub_Category: subType?.trim() || ''
+          hostelId: state.login.selectedHostel_Id,
+          categoryName: type.label,
+          categoryId: type.value,
+          subCategory: subType,
         },
       });
       setFormLoading(true)
@@ -329,15 +330,15 @@ useEffect(() => {
       setInitialCategory({ id: item.category_Id, name: item.category_Name });
 
     }
-    else if (item.subcategory_Id && item.cat_id) {
+    else if (item.subCategoryId && item.cat_id) {
       setIsSubCategory(true)
       setSubType(item.subcategory)
       setType({ value: item.cat_id, label: item.category_Name });
       setSelectedOptions({ value: item.cat_id, label: item.category_Name })
-      setSubCategory_ID(item.subcategory_Id)
+      setSubCategory_ID(item.subCategoryId)
       setEditsubCat(true)
 
-      setInitialSubCategory({ id: item.subcategory_Id, name: item.subcategory });
+      setInitialSubCategory({ id: item.subCategoryId, name: item.subcategory });
     }
 
   }
@@ -373,7 +374,7 @@ useEffect(() => {
 
       dispatch({
         type: 'EDIT_EXPENCES_CATEGORY',
-        payload: { id: selectedOptions.value, hostel_id: hostelid, name: inputValue, type: 1 }
+        payload: { id: selectedOptions.value, hostel_id: state.login.selectedHostel_Id, name: inputValue, type: 1 }
       });
       setFormLoading(true)
 
@@ -387,7 +388,10 @@ useEffect(() => {
 
       dispatch({
         type: 'EXPENCES-CATEGORY-ADD',
-        payload: { hostel_id: hostelid, category_Name: inputValue, sub_Category: '' }
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          categoryName: inputValue,
+        }
       });
       setFormLoading(true)
     }
@@ -497,8 +501,8 @@ useEffect(() => {
 
   useEffect(() => {
     if (
-      expensesFilterddata.length > 0 &&
-      expensesFilterddata.length === 0 &&
+      expensesFilterddata?.length > 0 &&
+      expensesFilterddata?.length === 0 &&
       expensescurrentPage > 1
     ) {
       setExpensescurrentPage(expensescurrentPage - 1);
@@ -644,25 +648,27 @@ useEffect(() => {
           :
           (
             <div className="mt-4 pe-4 d-flex flex-wrap justify-content-between show-scrolls" style={{
-              gap: "20px", alignItems: "flex-start", maxHeight: "470px",
-              overflowY: "auto"
+              gap: "20px", alignItems: "flex-start", minHeight: "450px",
+              overflowY: "auto", backgroundColor:""
             }}>
 
               {expensesFilterddata && expensesFilterddata.length > 0 ? (
                 expensesFilterddata.map((category) => (
-                  <div key={category.category_Id}
+                  
+                  <div key={category.categoryId}
 
                     className="col-12 col-md-6 col-lg-5 col-xl-4 border rounded p-2 card-width-sm  "
                     style={{
                       flex: "0 0 48%",
                       position: "relative",
-                      paddingBottom: "30px"
+                      paddingBottom: "30px",
+                      height:"100%"
                     }}>
                     <Card className="d-flex justify-content-between border-0 card-height-sm"
                       style={{ fontFamily: "Gilroy", fontSize: 16, fontWeight: 500 }}>
 
                       <div className="d-flex justify-content-between align-items-center border-0 gap-4 flex-wrap card-inner">
-                        <div className="category-title">{category.category_Name}</div>
+                        <div className="category-title">{category.categoryName}</div>
 
                         <div className="d-flex align-items-center " style={{ gap: "10px" }}>
                           <img
@@ -688,15 +694,15 @@ useEffect(() => {
                             onClick={(e) => { canDeleteExpense && handleDeleteExpensesCategory(category); }}
                           />
                           <i
-                            onClick={(event) => handleToggleDropdown(category.category_Id, event)}
-                            className={`bi ${expandedCategoryId === category.category_Id ? "bi-chevron-up" : "bi-chevron-down"}`}
+                            onClick={(event) => handleToggleDropdown(category.categoryId, event)}
+                            className={`bi ${expandedCategoryId === category.categoryId ? "bi-chevron-up" : "bi-chevron-down"}`}
                             style={{ cursor: "pointer" }}
                           />
                         </div>
                       </div>
                     </Card>
 
-                    {expandedCategoryId === category.category_Id && (
+                    {expandedCategoryId === category.categoryId && (
                       <div className="dropdown-content" style={{
                         position: "absolute",
                         top: "100%",
@@ -712,10 +718,10 @@ useEffect(() => {
                         marginTop: "5px"
                       }}>
                         <ul className="p-2 m-0">
-                          {category.subcategory?.length > 0 ? (
-                            category.subcategory.map((sub) => (
-                              <li key={sub.subcategory_Id} className="d-flex justify-content-between align-items-center mb-2" style={{ fontFamily: "Gilroy" }}>
-                                {sub.subcategory}
+                          {category.listSubcategories && category?.listSubcategories?.length > 0 ? (
+                            category.listSubcategories.map((sub) => (
+                              <li key={sub.subCategoryId} className="d-flex justify-content-between align-items-center mb-2" style={{ fontFamily: "Gilroy" }}>
+                                {sub.subCategoryName}
                                 <span>
                                   <img
                                     src={Editbtn}
@@ -794,7 +800,7 @@ useEffect(() => {
               )}
 
 
-             
+
 
 
 
