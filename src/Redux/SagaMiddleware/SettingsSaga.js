@@ -188,7 +188,7 @@ function* handleCategoryAdd(params) {
    try {
       const response = yield call(AddExpencesCategory, params.payload);
 
-      if (response.status === 200 || response.statusCode === 200) {
+      if (response.status === 201 ) {
          yield put({ type: 'EXPENCES_ADD', payload: { response: response.data, statusCode: response.status || response.statusCode, message: response.data.message, Type: response.data.type } })
 
          var toastStyle = {

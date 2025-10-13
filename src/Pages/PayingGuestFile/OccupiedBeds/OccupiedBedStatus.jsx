@@ -103,12 +103,26 @@ function OccupiedBedStatus({
                                         </Modal.Title>
                                     </div>
                                     <div className="d-flex align-items-center gap-3">
+                                     <label style={{
+                                            fontSize: 14,
+                                            color: "#1E45E1",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                        }}>
+                                            {currentItem?.floorName}
+                                        </label>
+                                    <span style={{
+                                            fontSize: 14,
+                                            color: "#1E45E1",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                        }}>|</span>
                                         <label style={{
                                             fontSize: 14,
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
-                                        }}>Room No : {" "}
+                                        }}>
                                             {currentItem?.roomName}
                                         </label> <span style={{
                                             fontSize: 14,
@@ -120,7 +134,7 @@ function OccupiedBedStatus({
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
-                                        }}> Bed : {" "}
+                                        }}> 
                                             {currentItem?.bedName}
                                         </span>
                                     </div>

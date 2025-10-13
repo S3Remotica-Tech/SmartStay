@@ -2,7 +2,7 @@ import AxiosConfig from "../../WebService/AxiosConfig";
 import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 
 export async function AddExpencesCategory(Expences) {
-  return await AxiosConfig.post("/add/expense-category", Expences, {
+  return await AxiosConfigV2.post(`/v2/expense/category/${Expences.hostelId}`, Expences, {
     data: Expences,
   });
 }
@@ -13,10 +13,8 @@ export async function EditExpencesCategory(Expences) {
   });
 }
 
-export async function ExpencesCategorylist(Expences) {
-  return await AxiosConfig.post("/get/expense-category", Expences, {
-    data: Expences,
-  });
+export async function ExpencesCategorylist(hostelId) {
+  return await AxiosConfigV2.get(`/v2/expense/category/${hostelId}`);
 }
 
 
