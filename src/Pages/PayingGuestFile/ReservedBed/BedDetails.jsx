@@ -18,7 +18,8 @@ function BedDetails({
     show,
     handleCloseBed,
     handleShowCheck_In,
-    currentItem
+    currentItem,
+    floorName
 }) {
     // const state = useSelector((state) => state);
     // const dispatch = useDispatch();
@@ -45,6 +46,19 @@ function BedDetails({
         
                 }
             }, [currentItem])
+useEffect(() => {
+        if (state.login.selectedHostel_Id) {
+            dispatch({
+                type: "USERLIST",
+                payload: { hostel_id: state.login.selectedHostel_Id },
+            });
+        }
+       
+    }, [state.login.selectedHostel_Id]);
+
+    const matchingUser = state.UsersList?.Users?.find(
+  (user) => user.ID === customer[0]?.id
+);
 
  
 
@@ -61,7 +75,7 @@ function BedDetails({
               
               },[state.Booking.StatusCodeInactiveCode])
 
-
+console.log("currentItem",currentItem)
         
         
             useEffect(() => {
@@ -171,24 +185,81 @@ function BedDetails({
                                             Bed Status
                                         </Modal.Title>
                                     </div>
-                                    <div className="d-flex align-items-center gap-3">
+                                    {/* <div className="d-flex align-items-center gap-3">
+
+
+                                           <span style={{
+                                            fontSize: 14,
+                                            color: "#1E45E1",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                        }}>   {floorName}</span>
+                                          <span style={{
+                                            fontSize: 14,
+                                            color: "#1E45E1",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                        }}>|</span> 
                                         <label style={{
                                             fontSize: 14,
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
-                                        }}>Room No  {currentItem?.room.Room_Name} </label> <span style={{
+                                        }}> {currentItem?.room.Room_Name} </label>
+                                        
+                                        
+                                         <span style={{
                                             fontSize: 14,
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
-                                        }}>|</span> <span style={{
+                                        }}>|</span> 
+                                        <span style={{
                                             fontSize: 14,
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
-                                        }}> Bed  {currentItem?.bed.bed_no}</span>
-                                    </div>
+                                        }}>  {currentItem?.bed.bed_no}</span>
+                                      
+                                    </div> */}
+                                       <div className="d-flex flex-wrap gap-2 ">
+
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                background: "#FFEFCF",
+                                padding: "6px 12px",
+                                borderRadius: "60px",
+                                fontFamily: "Gilroy",
+                                fontSize: 12,
+                                color: "#222",
+                                fontWeight: 500,
+                                whiteSpace: "nowrap",
+                              }}
+                            >
+                             {floorName} 
+                            </div>
+
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                background: "#FFE0D9",
+                                padding: "6px 12px",
+                                borderRadius: "60px",
+                                fontFamily: "Gilroy",
+                                fontSize: 12,
+                                color: "#222",
+                                fontWeight: 500,
+                                whiteSpace: "nowrap",
+                              }}
+                            >
+                             {currentItem?.room.Room_Name} - {currentItem?.bed.bed_no}
+                            </div>
+
+
+                          </div>
                                 </div>
 
                                 <div onClick={() => handleShowDots(1)}
@@ -285,7 +356,25 @@ function BedDetails({
 
                                     <div className="d-flex gap-3 align-items-center">
                                         <div>
-                                            <Image src={customer[0]?.profile && customer[0]?.profile !== "0" ? customer[0]?.profile : Profile} roundedCircle style={{ height: 50, width: 50 }} alt="image" />
+                                            <Image 
+                                            // src={customer[0]?.profile && customer[0]?.profile !== "0" ? customer[0]?.profile : Profile} roundedCircle style={{ height: 50, width: 50 }} alt="image" 
+                                              src={
+                                                                                          matchingUser  && matchingUser?.profile &&matchingUser.profile !== ""
+                                                                                            ? typeof matchingUser?.profile === "string"
+                                                                                              ? matchingUser.profile.startsWith("/9j/") 
+                                                                                                ? `data:image/jpeg;base64,${matchingUser.profile}`
+                                                                                                : matchingUser?.profile 
+                                                                                              : URL.createObjectURL(matchingUser?.profile) 
+                                                                                            : Profile
+                                                                                        }
+                                                                                        alt="Profile"
+                                                                                        roundedCircle
+                                                                                        style={{ height: 60, width: 60 }}
+                                                                                        onError={(e) => {
+                                                                                          e.target.onerror = null;
+                                                                                          e.target.src = Profile;
+                                                                                        }}
+                                            />
                                         </div>
                                         <div className="mt-2">
                                             <div>
@@ -354,6 +443,8 @@ BedDetails.propTypes = {
     handleShowCheck_In: PropTypes.func.isRequired,
     // MakeAsInActive: PropTypes.func.isRequired,
     currentItem: PropTypes.func.isRequired,
+    floorName:PropTypes.func.isRequired,
+    
 
 };
 export default BedDetails;

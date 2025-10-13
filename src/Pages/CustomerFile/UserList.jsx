@@ -5444,14 +5444,31 @@ const handleClosefinal = ()=>{
                     setIsACtiveDateError("");
                   }}
                   getPopupContainer={() => document.body}
+                  // disabledDate={(current) => {
+                  //   if (!bookingDate) return true;
+                  //   return (
+                  //     current.isBefore(dayjs(bookingDate), "day") ||
+                  //     current.isAfter(dayjs(), "day")
+                  //   );
+                  // }}
                   disabledDate={(current) => {
-                    if (!bookingDate) return true;
-                    // Disable before bookingDate OR after today
-                    return (
-                      current.isBefore(dayjs(bookingDate), "day") ||
-                      current.isAfter(dayjs(), "day")
-                    );
-                  }}
+  if (!bookingDate) return true;
+
+  const today = dayjs();
+  const booking = dayjs(bookingDate);
+
+  // If bookingDate is in the future, allow only today's date
+  if (booking.isAfter(today, "day")) {
+    return !current.isSame(today, "day");
+  }
+
+  // Otherwise, disable before bookingDate OR after today
+  return (
+    current.isBefore(booking, "day") ||
+    current.isAfter(today, "day")
+  );
+}}
+
                 />
 
               </div>

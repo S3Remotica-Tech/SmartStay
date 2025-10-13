@@ -14,7 +14,7 @@ import { CloseCircle } from "iconsax-react";
 import Error_Icon from "/src/Assets/Images/New_images/Error_warning.png"
 
 function BookingBed({
-  show, handleClose,currentItem
+  show, handleClose,currentItem,floorName
 }) 
 
 {
@@ -326,7 +326,7 @@ if (!isCustomerValid || !isJoiningDateValid || !isBookingDateValid || !isAmountV
                 />
               </div>
 
-              <span
+              {/* <span
                 className="text-primary"
                 style={{
                   fontSize: "13px",
@@ -336,8 +336,47 @@ if (!isCustomerValid || !isJoiningDateValid || !isBookingDateValid || !isAmountV
                 }}
               >
                 Room No {currentItem?.room.Room_Name} &nbsp; | &nbsp; Bed {currentItem?.bed.bed_no}
-              </span>
+              </span> */}
+              <div className="d-flex flex-wrap gap-2">
+
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                background: "#FFEFCF",
+                                padding: "6px 12px",
+                                borderRadius: "60px",
+                                fontFamily: "Gilroy",
+                                fontSize: 12,
+                                color: "#222",
+                                fontWeight: 500,
+                                whiteSpace: "nowrap",
+                              }}
+                            >
+                             {floorName} 
+                            </div>
+
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                background: "#FFE0D9",
+                                padding: "6px 12px",
+                                borderRadius: "60px",
+                                fontFamily: "Gilroy",
+                                fontSize: 12,
+                                color: "#222",
+                                fontWeight: 500,
+                                whiteSpace: "nowrap",
+                              }}
+                            >
+                             {currentItem?.room.Room_Name} - {currentItem?.bed.bed_no}
+                            </div>
+
+
+                          </div>
             </Modal.Header>
+            
 
             <div
               style={{ maxHeight: "350px", overflowY: "scroll" }}
@@ -823,6 +862,7 @@ BookingBed.propTypes = {
   handleClose:PropTypes.func.isRequired,
   currentItem: PropTypes.func.isRequired,
   customerID: PropTypes.func.isRequired,
+  floorName:PropTypes.func.isRequired,
 
  
 };

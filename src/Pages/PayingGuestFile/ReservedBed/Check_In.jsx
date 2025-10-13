@@ -21,7 +21,8 @@ import Error_Icon from "/src/Assets/Images/New_images/Error_warning.png";
 function CheckIn({
     show,
     handleClose,
-    currentItem
+    currentItem,
+    floorName
 }) {
 
     const state = useSelector((state) => state);
@@ -234,6 +235,7 @@ if(currentItem){
         }
         setFormLoading(false)
     }, [state.login.selectedHostel_Id]);
+    
 
 
     const formatOptions = () => {
@@ -578,8 +580,8 @@ const formatDate = (date) => {
                             style={{ border: "none" }}
                         >
 
-                            <div className="d-flex justify-content-between w-100" style={{ padding: "5px  10px 5px 5px" }}>
-                                <div>
+                            <div className="d-flex justify-content-between w-100" style={{ padding: "5px  10px 5px 5px" ,borderBottom: "1px solid #e0e0e0",}}>
+                                <div >
                                     <div>
                                         <Modal.Title
                                             style={{
@@ -592,24 +594,45 @@ const formatDate = (date) => {
                                             Check-In Tenant
                                         </Modal.Title>
                                     </div>
-                                    <div className="d-flex align-items-center gap-3 mt-1">
-                                        <label style={{
-                                            fontSize: 14,
-                                            color: "#1E45E1",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                        }}>Room No {currentItem?.room.Room_Name} </label> <span style={{
-                                            fontSize: 14,
-                                            color: "#1E45E1",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                        }}>|</span> <span style={{
-                                            fontSize: 14,
-                                            color: "#1E45E1",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                        }}> Bed {currentItem?.bed.bed_no}</span>
-                                    </div>
+                                
+                                      <div className="d-flex flex-wrap gap-2 ">
+
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                background: "#FFEFCF",
+                                padding: "6px 12px",
+                                borderRadius: "60px",
+                                fontFamily: "Gilroy",
+                                fontSize: 12,
+                                color: "#222",
+                                fontWeight: 500,
+                                whiteSpace: "nowrap",
+                              }}
+                            >
+                             {floorName} 
+                            </div>
+
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                background: "#FFE0D9",
+                                padding: "6px 12px",
+                                borderRadius: "60px",
+                                fontFamily: "Gilroy",
+                                fontSize: 12,
+                                color: "#222",
+                                fontWeight: 500,
+                                whiteSpace: "nowrap",
+                              }}
+                            >
+                             {currentItem?.room.Room_Name} - {currentItem?.bed.bed_no}
+                            </div>
+
+
+                          </div>
                                 </div>
 
 
@@ -620,6 +643,7 @@ const formatDate = (date) => {
 
                             <CloseCircle size="24" color="#000" onClick={handleClose} style={{ cursor: "pointer" }} />
                         </Modal.Header>
+                       
                         <Modal.Body style={{ maxHeight: "370px", overflowY: "scroll" }} className="show-scrolls pt-0 mt-1 me-3">
                             <div className="row mt-1">
 
@@ -1406,6 +1430,7 @@ CheckIn.propTypes = {
     handleClose: PropTypes.func.isRequired,
     show: PropTypes.func.isRequired,
     currentItem: PropTypes.func.isRequired,
+    floorName:PropTypes.func.isRequired,
 
 }
 export default CheckIn;

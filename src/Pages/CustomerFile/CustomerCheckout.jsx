@@ -50,13 +50,14 @@ useEffect(() => {
  
 
 
-   
+   const [customerData,setCustomerData] = useState("")
       
 
     useEffect(() => {
          if (state.UsersList.CustomerdetailsgetStatuscode === 200) {
            const customerData = state.UsersList.customerdetails?.data?.[0]
-           console.log("customerData",customerData)
+           setCustomerData(customerData)
+
            const invoiceDetails = state.UsersList.customerdetails?.invoice_details;
        setReAssignDate(customerData?.reassign_date)
            // 🔹 1. Store Joining Date
@@ -285,12 +286,12 @@ handleCloseCheckout()
                             //   e.target.src = Profiles;
                             // }}
                             src={
-  props.data && props.data.profile && props.data.profile !== ""
-    ? typeof props.data.profile === "string"
-      ? props.data.profile.startsWith("/9j/") 
-        ? `data:image/jpeg;base64,${props.data.profile}`
-        : props.data.profile 
-      : URL.createObjectURL(props.data.profile) 
+  customerData  && customerData.profile && customerData.profile !== ""
+    ? typeof customerData.profile === "string"
+      ? customerData.profile.startsWith("/9j/") 
+        ? `data:image/jpeg;base64,${customerData.profile}`
+        : customerData.profile 
+      : URL.createObjectURL(customerData.profile) 
     : Profiles
 }
 alt="Profile"

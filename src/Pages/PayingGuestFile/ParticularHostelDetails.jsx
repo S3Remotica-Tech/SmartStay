@@ -923,7 +923,7 @@ console.log("customerID",bed, room)
         }
 
         {
-          assign_tenantform && <PGAssignTenant show={assign_tenantform} handleClose={handleCloseAssignTenant} currentItem={OccupiedCustomerDetails}
+          assign_tenantform && <PGAssignTenant show={assign_tenantform} handleClose={handleCloseAssignTenant} currentItem={OccupiedCustomerDetails} floorName={props.floorName}
 
           />
         }
@@ -932,12 +932,13 @@ console.log("customerID",bed, room)
         {
           showReservedBed && <BedDetails show={handleShowReservedBed} handleCloseBed={handleCloseReservedBed}
             handleShowCheck_In={handleShowCheck_In} MakeAsInActive={handleShowMakeAsInActive}
+            floorName={props.floorName}
             currentItem={OccupiedCustomerDetails}
           />
         }
 
         {
-          showCheckIn && <Check_In show={showCheckIn} handleClose={handleCloseCheck_In} currentItem={OccupiedCustomerDetails} />
+          showCheckIn && <Check_In show={showCheckIn} handleClose={handleCloseCheck_In} currentItem={OccupiedCustomerDetails} floorName={props.floorName}/>
         }
 
         {
@@ -948,7 +949,8 @@ console.log("customerID",bed, room)
 
         {
           Occubied_bed && <OccupiedBedStatus show={Occubied_bed}
-            handleCloseBed={handlecloseoccubiedbed} currentItem={OccupiedCustomerDetails} handleShowReassignBed={handleShowReAssignBedPopup} handleShowNoticePeriod={handleShowNoticePeriod} showchangeBed={handleshowchangebed}/>
+            handleCloseBed={handlecloseoccubiedbed} currentItem={OccupiedCustomerDetails} handleShowReassignBed={handleShowReAssignBedPopup} handleShowNoticePeriod={handleShowNoticePeriod} showchangeBed={handleshowchangebed}
+            floorName={props.floorName}/>
         }
 
         {/* {
@@ -963,6 +965,7 @@ console.log("customerID",bed, room)
             handleCloseBed={handlecloseNoticePeriodBed} currentItem={OccupiedCustomerDetails}
             showBooking={handleshowNoticePeriodBooking} showNoticeperiodCheckout={handleshowNoticePeriodCheckout} showfinalsettelemnet = {handleshowfinalsettlement} 
             showchangeBed={handleshowchangebed}
+            floorName={props.floorName}
           />}
 
 
@@ -987,7 +990,7 @@ console.log("customerID",bed, room)
         }
 
         {
-          Noticeperiod_booking && <BookingBed show={Noticeperiod_booking} handleClose={handlecloseNoticeperiodBooking} currentItem={OccupiedCustomerDetails}  customerID={customerID}/>
+          Noticeperiod_booking && <BookingBed show={Noticeperiod_booking} handleClose={handlecloseNoticeperiodBooking} currentItem={OccupiedCustomerDetails}  customerID={customerID} floorName={props.floorName}/>
         }
 
         {
@@ -1037,6 +1040,7 @@ ParticularHostelDetails.propTypes = {
   addPermissionError: PropTypes.func.isRequired,
   editPermissionError: PropTypes.func.isRequired,
   showchangebed: PropTypes.func.isRequired,
+  floorName:PropTypes.func.isRequired,
 };
 export default ParticularHostelDetails
 
