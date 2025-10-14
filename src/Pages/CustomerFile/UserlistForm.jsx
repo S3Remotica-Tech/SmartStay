@@ -1824,6 +1824,11 @@ console.log("ddddddddddddddddd",selectedDate)
   ];
 
 
+    // (props.EditObj && props.EditObj.profile) ||
+    // (props.customer_details && props.customer_details.profile
+
+      console.log("imageurl", props.EditObj?.profile , props.customer_details?.profile );
+      
 
   const handleAddField = () => {
     setFields([...fields, { reason_name: "", amount: "", showInput: false }]);
@@ -2328,40 +2333,41 @@ console.log("bed", selectedFloor);
 
 
 
-  const selectedRoom = React.useMemo(() => {
-    const list = state.UsersList?.roomdetails;
-    if (!list) return null;
-    console.log("selectedRoom",selectedRoom)
+  // const selectedRoom = React.useMemo(() => {
+  //   const list = state.UsersList?.roomdetails;
+  //   if (!list) return null;
+   
 
-    // Prefer customer_details if available
-    // if (props.customer_details?.Rooms) {
-    //   return list.find(
-    //     (option) => String(option.Room_Id) === String(props.customer_details.Rooms)
-    //   ) || null;
-    // }
+  //   // Prefer customer_details if available
+  //   // if (props.customer_details?.Rooms) {
+  //   //   return list.find(
+  //   //     (option) => String(option.Room_Id) === String(props.customer_details.Rooms)
+  //   //   ) || null;
+  //   // }
 
-    // Then check Rooms from state
-    if (Rooms) {
-      return list.find(
-        (option) => String(option.Room_Id) === String(Rooms)
-      ) || null;
-    }
+  //   // Then check Rooms from state
+  //   if (Rooms) {
+  //     return list.find(
+  //       (option) => String(option.Room_Id) === String(Rooms)
+  //     ) || null;
+  //   }
 
-    // Finally check EditObj
-    if (props.EditObj?.Rooms) {
-      return list.find(
-        (option) => String(option.Room_Id) === String(props.EditObj.Rooms)
-      ) || null;
-    }
+  //   // Finally check EditObj
+  //   if (props.EditObj?.Rooms) {
+  //     return list.find(
+  //       (option) => String(option.Room_Id) === String(props.EditObj.Rooms)
+  //     ) || null;
+  //   }
 
-    return null;
-  }, [
-    Rooms,
-    props.EditObj?.Rooms,
-    props.customer_details?.Rooms,
-    state.UsersList?.roomdetails
-  ]);
-  console.log("props.customer_details",props.customer_details)
+  //   return null;
+  // }, [
+  //   Rooms,
+  //   props.EditObj?.Rooms,
+  //   props.customer_details?.Rooms,
+  //   state.UsersList?.roomdetails
+  // ]);
+  // console.log("props.customer_details",props.customer_details)
+   
 
 
   // let bedOptions =
@@ -6111,22 +6117,59 @@ console.log("bed", selectedFloor);
                     //       : URL.createObjectURL(props.EditObj?.profile|| props.customer_details.profile) 
                     //     : Profileimage
                     // }
-                    src={
-  (
-    (props.EditObj && props.EditObj.profile) ||
-    (props.customer_details && props.customer_details.profile)
-  )
-    ? (typeof ((props.EditObj && props.EditObj.profile) || (props.customer_details && props.customer_details.profile)) === "string"
-        ? (((props.EditObj && props.EditObj.profile) || (props.customer_details && props.customer_details.profile)).startsWith("/9j/")
-            ? `data:image/jpeg;base64,${(props.EditObj && props.EditObj.profile) || (props.customer_details && props.customer_details.profile)}`
-            : (props.EditObj && props.EditObj.profile) || (props.customer_details && props.customer_details.profile)
-          )
-        : URL.createObjectURL(
-            (props.EditObj && props.EditObj.profile) || (props.customer_details && props.customer_details.profile)
-          )
-      )
-    : Profileimage
+//                     src={
+//   (
+//     (props.EditObj && props.EditObj.profile) ||
+//     (props.customer_details && props.customer_details.profile)
+//   )
+//     ? (typeof ((props.EditObj && props.EditObj.profile) || (props.customer_details && props.customer_details.profile)) === "string"
+//         ? (((props.EditObj && props.EditObj.profile) || (props.customer_details && props.customer_details.profile)).startsWith("/9j/")
+//             ? `data:image/jpeg;base64,${(props.EditObj && props.EditObj.profile) || (props.customer_details && props.customer_details.profile)}`
+//             : (props.EditObj && props.EditObj.profile) || (props.customer_details && props.customer_details.profile)
+//           )
+//         : URL.createObjectURL(
+//             (props.EditObj && props.EditObj.profile) || (props.customer_details && props.customer_details.profile)
+//           )
+//       )
+//     : Profileimage
+// }
+src={
+  (() => {
+    const profile =
+      props.EditObj?.profile || props.customer_details?.profile;
+
+    // invalid or falsy values → show default
+    if (
+      !profile ||
+      profile === "0" ||
+      profile === 0 ||
+      profile === "null" ||
+      profile === null ||
+      profile === "undefined" ||
+      profile === undefined ||
+      profile === ""
+    ) {
+      return Profileimage;
+    }
+
+    // If it's a string (URL or base64)
+    if (typeof profile === "string") {
+      // Base64 check
+      if (profile.startsWith("/9j/")) {
+        return `data:image/jpeg;base64,${profile}`;
+      }
+
+      // Normal URL
+      return profile;
+    }
+
+    // If it's a file/blob object
+    return URL.createObjectURL(profile);
+  })()
 }
+
+
+
 
                     alt="Profile"
                     className="rounded-circle"

@@ -748,17 +748,51 @@ handleCloseForm()
                                     className="rounded-circle me-3"
                                 /> */}
                                 <img
-  src={
-    data?.profile && data?.profile !== "0"
-      ? data?.profile.startsWith("data:image")
-        ? data?.profile
-        : `data:image/jpeg;base64,${data?.profile}`
-      : dataBed[0]?.profile && dataBed[0]?.profile !== "0"
-      ? dataBed[0].profile.startsWith("data:image")
-        ? dataBed[0].profile
-        : `data:image/jpeg;base64,${dataBed[0].profile}`
-      : Profile2
-  }
+//   src={
+//     data?.profile && data?.profile !== "0"
+//       ? data?.profile.startsWith("data:image")
+//         ? data?.profile
+//         : `data:image/jpeg;base64,${data?.profile}`
+//       : dataBed[0]?.profile && dataBed[0]?.profile !== "0"
+//       ? dataBed[0].profile.startsWith("data:image")
+//         ? dataBed[0].profile
+//         : `data:image/jpeg;base64,${dataBed[0].profile}`
+//       : Profile2
+//   }
+src={
+  (() => {
+    const profile =
+      data?.profile || dataBed?.[0]?.profile;
+
+    // Invalid or empty values → show default
+    if (
+      !profile ||
+      profile === 0 ||
+      profile === "0" ||
+      profile === null ||
+      profile === "null" ||
+      profile === undefined ||
+      profile === "undefined" ||
+      profile === ""
+    ) {
+      return Profile2;
+    }
+
+    // If it's already a data:image (base64 with prefix)
+    if (profile.startsWith("data:image")) {
+      return profile;
+    }
+
+    // If it looks like a normal base64 (starts with /9j/)
+    if (profile.startsWith("/9j/")) {
+      return `data:image/jpeg;base64,${profile}`;
+    }
+
+    // Otherwise, assume it’s a valid URL
+    return profile;
+  })()
+}
+
   style={{ height: 55, width: 55, cursor: "pointer" }}
   alt="profile"
   className="rounded-circle me-3"
