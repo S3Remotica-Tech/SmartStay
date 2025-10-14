@@ -615,7 +615,7 @@ function SettingExpenses({ hostelid }) {
       )}
 
 
-      <div className="mt-4 pe-4 d-flex flex-wrap justify-content-between show-scrolls" style={{ gap: "20px", alignItems: "flex-start",   maxHeight: "470px",
+      <div className="mt-4 pe-4 d-flex flex-wrap justify-content-between show-scrolls" style={{ gap: "20px", alignItems: "flex-start",   minHeight: "470px",
                 overflowY: "auto" }}>
 
         {expensesFilterddata && expensesFilterddata.length > 0 ? (
