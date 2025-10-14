@@ -54,6 +54,7 @@ function NoticeBedStatusDetails({
 
   const handleShowDots = (type) => {
     setActiveMenu((prev) => (prev === type ? null : type));
+    console.log("handleShowDots",type)
   }
 
   const handleClickOutside = (event) => {
@@ -231,8 +232,9 @@ console.log("Matching User Details:", matchingUser);
       );
 
       setReserveCustomerDetails(foundCustomer || null);
+      console.log("resfffffff",reserve_customer_details)
     }
-  }, [state?.UsersList?.Users, customer]);
+  }, [state?.UsersList?.Users, customer,reserve_customer_details]);
 
   const JoiningDate = dayjs(noticePeriodCustomer?.[0]?.Date).format("DD MMM YYYY");
   const BookingDate = dayjs(reservedCustomer?.[0]?.Date).format("DD MMM YYYY");

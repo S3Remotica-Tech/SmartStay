@@ -17,6 +17,7 @@ import ConfirmChangeBed from './ConfirmChangeBed';
  
 
 function BedStatusListView(props) {
+  
 
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
@@ -487,7 +488,7 @@ function BedStatusListView(props) {
         })()}</p>
       <p>
       <span style={{ fontWeight: 500  ,color:'rgba(30, 69, 225, 1)' , fontSize: 16, fontFamily: "Gilroy" }}>
-        {`Room ${selectedBed.roomName} | Bed ${selectedBed.bedNo}`} 
+        {`${props.floorName} | ${selectedBed.roomName} | ${selectedBed.bedNo} `} 
       </span></p>
     </div>
     <div style={{marginLeft:200}}>

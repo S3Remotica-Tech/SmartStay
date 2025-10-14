@@ -30,7 +30,7 @@ import Error_Icon from "../../Assets/Images/New_images/Error_warning.png";
     const [roomrentError, setRoomRentError] = useState("");
     const [RoomRent, setRoomRent] = useState("");   
     const [AdvanceAmount, setAdvanceAmount] = useState("");
-    const [checkin_joiningDate, setCheckinJoiningDate] = useState(null);
+    const [checkin_joiningDate, setCheckinJoiningDate] = useState(new Date());
     const [Checkin_joiningDateErrmsg, setCheckinJoingDateErrmsg] = useState('')
 
      const reasonOptions = [
@@ -1542,7 +1542,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
         
                             activeTab === "short" && (
                                 <>
-                                <div style={{ maxHeight: "370px", overflowY: "scroll" }} className="show-scroll p-2 mt-2 me-1">
+                                <div style={{ maxHeight: "350px", overflowY: "scroll" }} className="show-scroll p-2 mt-2 me-1">
                               <div className="row">
 
                                   <Row>

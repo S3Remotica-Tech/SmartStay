@@ -172,11 +172,21 @@ const isJoiningDateValid = validateAssignField(joiningDate, "joiningDate", dateR
 const isBookingDateValid = validateAssignField(bookingDate, "bookingDate", bookingDateRef, focusedRef);
 const isAmountValid = validateAssignField(amount, "amount", amountRef, focusedRef);
 
-if (!isCustomerValid || !isJoiningDateValid || !isBookingDateValid || !isAmountValid) {
-  return;
-}
+// if (!isCustomerValid || !isJoiningDateValid || !isBookingDateValid || !isAmountValid) {
+//   return;
+// }
+
     
-      
+    if (!isCustomerValid || !isJoiningDateValid || !isBookingDateValid || !isAmountValid || Number(amount) <= 0) {
+  if (Number(amount) <= 0) {
+    setamountError("Amount must be greater than 0");
+    if (!focusedRef.current && amountRef?.current) {
+      amountRef.current.focus();
+      focusedRef.current = true;
+    }
+  }
+  return;
+}  
     
         if (!bookingDate) {
           if (!focusedRef.current && bookingDateRef?.current) {
@@ -256,6 +266,7 @@ if (!isCustomerValid || !isJoiningDateValid || !isBookingDateValid || !isAmountV
                 type: "USERLIST",
                 payload: { hostel_id: state.login.selectedHostel_Id},
               });
+              dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { hostel_id: state.login.selectedHostel_Id, floor_id: currentItem?.room?.Floor_Id, room_id: currentItem?.room?.Room_Id, bed: currentItem?.bed.id } })
     
              dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: currentItem?.room?.Floor_Id, hostel_Id: state.login.selectedHostel_Id } })
         
@@ -524,11 +535,11 @@ if (!isCustomerValid || !isJoiningDateValid || !isBookingDateValid || !isAmountV
     setBookingDateErrmsg("");
     setJoiningDate("");
   }}
-  disabledDate={(current) => {
-    const checkout = dayjs(customer_details.CheckoutDate).startOf('day');
-    const today = dayjs().endOf('day');
-    return current && (current.isBefore(checkout) || current.isAfter(today));
-  }}
+  // disabledDate={(current) => {
+  //   const checkout = dayjs(customer_details.CheckoutDate).startOf('day');
+  //   const today = dayjs().endOf('day');
+  //   return current && (current.isBefore(checkout) || current.isAfter(today));
+  // }}
   getPopupContainer={() => document.body}
 />
 
