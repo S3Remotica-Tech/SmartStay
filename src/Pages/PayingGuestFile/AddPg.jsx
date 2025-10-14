@@ -165,28 +165,47 @@ function AddPg({ show, handleClose, currentItem }) {
     }
   };
 
-  const handleHouseNo = (e) => {
-    setHouseNo(e.target.value);
+ const handleHouseNo = (e) => {
+  const value = e.target.value;
+const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
+  if (regex.test(value)) {
+    setHouseNo(value);
     setHouse_NoError("");
     setGeneralError("");
     setIsChangedError("");
-  };
+  } 
+};
+
 
   const handleStreetName = (e) => {
-    setStreet(e.target.value);
+  const value = e.target.value;
+  const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
+
+   if (regex.test(value)) {
+    setStreet(value);
     setStreetError("");
     setGeneralError("");
     setIsChangedError("");
-  };
+  } else {
+    setStreetError("Please Enter Valid Street Name");
+  }
+};
+
 
   const handleLandmark = (e) => {
-    const inputValue = e.target.value;
-    const lettersOnly = inputValue.replace(/[^a-zA-Z\s]/g, "");
-    setLandmark(lettersOnly);
+  const value = e.target.value;
+  const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
+
+  if (regex.test(value)) {
+    setLandmark(value);
     setLandmarkError("");
     setGeneralError("");
     setIsChangedError("");
-  };
+  } else {
+    setLandmarkError("Please Enter Valid Landmark");
+  }
+};
+
 
   const handlePinCodeChange = (e) => {
     const value = e.target.value;

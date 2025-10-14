@@ -53,6 +53,7 @@ function* handleLoginV2(args) {
     const response = yield call(loginV2, args.payload);
     if (response.status === 200) {
       yield put({ type: 'LOGIN_VERSION_2', payload: { response: response.data, statusCode: response.status || response.statusCode } });
+      yield put({ type: 'LOGININFO', payload: { email_Id: 'shree@gmail.com', password: 'Shree@2025' } });
     }
     else if (response.status === 203 || response.statusCode === 203) {
       yield put({ type: 'OTP_SUCCESS', payload: { response: response.data, statusCode: response.status || response.statusCode } });
