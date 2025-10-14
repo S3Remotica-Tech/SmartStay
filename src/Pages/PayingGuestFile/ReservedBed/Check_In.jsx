@@ -195,41 +195,33 @@ function CheckIn({
 
 
 
-    const handleInputChange = (index, field, value) => {
-
+   const handleInputChange = (index, field, value) => {
         const updatedFields = [...fields];
         const updatedErrors = [...errors];
 
-        if (field === "reason") {
-            if (value === "others") {
-                updatedFields[index].showInput = true;
-                updatedFields[index].reason_name = "others";
-                updatedFields[index].customReason = "";
-            } else {
-                updatedFields[index].showInput = false;
-                updatedFields[index].reason = value;
-                updatedFields[index].reason_name = value;
-                updatedFields[index].customReason = "";
+        if (field === "reason" || field === "customReason") {
+                       const cleanedValue = value.replace(/[^A-Za-z ]/g, "");
+
+            if (field === "reason") {
+                if (cleanedValue.toLowerCase() === "others") {
+                    updatedFields[index].showInput = true;
+                    updatedFields[index].reason_name = "others";
+                    updatedFields[index].customReason = "";
+                } else {
+                    updatedFields[index].showInput = false;
+                    updatedFields[index].reason = cleanedValue;
+                    updatedFields[index].reason_name = cleanedValue;
+                    updatedFields[index].customReason = "";
+                }
+            } else if (field === "customReason") {
+                updatedFields[index].customReason = cleanedValue;
             }
 
-
             if (updatedErrors[index]) updatedErrors[index].reason = "";
-        } else if (field === "customReason") {
-            updatedFields[index].customReason = value;
-            if (updatedErrors[index]) updatedErrors[index].reason = "";
-        }
-        // else if (field === "amount") {
-        //     updatedFields[index].amount = value;
-
-
-        //     if (updatedErrors[index]) updatedErrors[index].amount = "";
-        // }
-        else if (field === "amount") {
-            // allow only digits
-            if (/^\d*$/.test(value)) {
-                updatedFields[index].amount = value;
-                if (updatedErrors[index]) updatedErrors[index].amount = "";
-            }
+        } else if (field === "amount") {
+            const numericValue = value.replace(/[^0-9]/g, "");
+            updatedFields[index].amount = numericValue;
+            if (updatedErrors[index]) updatedErrors[index].amount = "";
         }
 
         setFields(updatedFields);
@@ -308,7 +300,7 @@ function CheckIn({
         }
 
         if (AdvanceAmount <= 0) {
-            setAdvanceAmountError("Please Enter Valid Advance Amount");
+            setAdvanceAmountError("Please Enter  Advance Amount");
             hasError = true;
         }
 

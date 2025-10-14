@@ -48,7 +48,6 @@ function* handleLogin(args) {
 
 
 function* handleLoginV2(args) {
- console.log("LOGINVERSION2 payload", args.payload);
   try {
     const response = yield call(loginV2, args.payload);
     if (response.status === 200) {

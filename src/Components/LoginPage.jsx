@@ -101,7 +101,7 @@ const MyComponent = () => {
       return
     }
     if (email_Id && password) {
-      console.log("clicked ", email_Id, password)
+      
       dispatch({ type: 'LOGINVERSION2', payload: { emailId: email_Id, password: password } });
       // dispatch({ type: 'LOGININFO', payload: { email_Id: 'shree@gmail.com', password: 'Shree@2025' } });
       setLoading(true)

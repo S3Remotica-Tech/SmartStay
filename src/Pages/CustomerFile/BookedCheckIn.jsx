@@ -150,8 +150,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
         const updatedErrors = [...errors];
 
         if (field === "reason" || field === "customReason") {
-            // allow only letters and spaces
-            const cleanedValue = value.replace(/[^A-Za-z ]/g, "");
+                       const cleanedValue = value.replace(/[^A-Za-z ]/g, "");
 
             if (field === "reason") {
                 if (cleanedValue.toLowerCase() === "others") {

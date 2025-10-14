@@ -15,6 +15,8 @@ import Select from "react-select";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import ErrorMessage from '../../Components/ErrorMessage';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function StaticExample({ show, currentItem, setShowModal }) {
   const state = useSelector((state) => state);
@@ -22,7 +24,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
   const customContainerRef = useRef();
   const [assetName, setAssetName] = useState("");
   const [vendorName, setVendorName] = useState("");
-  const [price, setPrice] = useState("");
+  const [totalPrice, setTotalPrice] = useState("");
   const [category, setCategory] = useState("");
   const [modeOfPayment, setModeOfPayment] = useState("");
   const [description, setDescription] = useState("");
@@ -40,11 +42,14 @@ function StaticExample({ show, currentItem, setShowModal }) {
   const [joiningDateErrmsg, setJoingDateErrmsg] = useState('')
   const [formLoading, setFormLoading] = useState(false)
   const calendarRef = useRef(null);
+  const [subCategory, setSubCategory] = useState("");
+  const [subCategoryError, setSubCategoryError] = useState("");
+  const [subCategoryList, setSubCategoryList] = useState([]);
   const [initialState, setInitialState] = useState({
     assetName: "",
     vendorName: "",
     selectedDate: "",
-    price: "",
+    totalPrice: "",
     category: "",
     modeOfPayment: "",
     description: "",
@@ -55,28 +60,13 @@ function StaticExample({ show, currentItem, setShowModal }) {
 
 
 
-  // useEffect(() => {
-  //   dispatch({
-  //     type: "EXPENCES-CATEGORY-LIST",
-  //     payload:  state.login.selectedHostel_Id })
-
-  // }, []);
-
-  useEffect(() => {
-    dispatch({
-      type: "ASSETLIST",
-      payload: state.login.selectedHostel_Id,
-    });
-  }, []);
   useEffect(() => {
     if (state.ExpenseList.expenceNetBanking) {
       setNetPaymentError(state.ExpenseList.expenceNetBanking)
     }
   }, [state.ExpenseList.expenceNetBanking])
 
-  useEffect(() => {
-    dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
-  }, []);
+
 
   useEffect(() => {
     const closeButton = document.querySelector(
@@ -97,7 +87,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
       setAssetName((currentItem && currentItem.asset_id) || "");
       setVendorName((currentItem && currentItem.vendor_id) || "");
       setSelectedDate(moment(currentItem.purchase_date).toDate());
-      setPrice((currentItem && currentItem.unit_amount) || "");
+      setTotalPrice((currentItem && currentItem.unit_amount) || "");
       setCategory((currentItem && currentItem.category_id) || "");
       setModeOfPayment((currentItem && Number(currentItem.payment_mode)) || "");
       setDescription((currentItem && currentItem.description) || "");
@@ -110,7 +100,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
         selectedDate: currentItem.purchase_date
           ? moment(currentItem.purchase_date).toDate()
           : null,
-        price: currentItem.unit_amount || "",
+        totalPrice: currentItem.unit_amount || "",
         category: currentItem.category_id || "",
         modeOfPayment: Number(currentItem.payment_mode) || "",
         description: currentItem.description || "",
@@ -159,6 +149,33 @@ function StaticExample({ show, currentItem, setShowModal }) {
     setIsChangedError("");
   };
 
+  useEffect(() => {
+    if (category) {
+      const selectedCat = state.ExpenseList?.getInitializeExpenseList?.listExpenses.find(
+        (cat) => cat.categoryId === category
+      );
+
+      setSubCategoryList(
+        selectedCat?.subCategories.map((sub) => ({
+          value: sub.subCategoryId,
+          label: sub.subCategoryName,
+        })) || []
+      );
+      const categoryHasSubCategory = selectedCat?.subCategories?.length > 0;
+      console.log("categoryHasSubCategory", categoryHasSubCategory)
+
+      if (categoryHasSubCategory && !subCategory) {
+        setSubCategoryError("Please Select SubCategory");
+      } else {
+        setSubCategoryError("");
+      }
+
+      setSubCategory("");
+    }
+
+  }, [category])
+
+
 
   const handleModeOfPaymentChange = (selectedOption) => {
     if (!selectedOption) return;
@@ -186,7 +203,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
     setNetPaymentError("")
 
     if (/^\d*\.?\d*$/.test(value)) {
-      setPrice(value);
+      setTotalPrice(value);
     }
   };
 
@@ -225,6 +242,18 @@ function StaticExample({ show, currentItem, setShowModal }) {
       hasError = true;
     }
 
+    const selectedCategoryObj = state.ExpenseList?.getInitializeExpenseList?.listExpenses.find(
+      (cat) => cat.categoryId === category
+    );
+
+    const categoryHasSubCategory = selectedCategoryObj?.subCategories?.length > 0;
+
+    if (categoryHasSubCategory && !subCategory) {
+      setSubCategoryError("Please Select SubCategory");
+      hasError = true;
+    }
+
+
     if (!selectedDate) {
       setDateError("Please Select Purchase Date");
       hasError = true;
@@ -253,10 +282,10 @@ function StaticExample({ show, currentItem, setShowModal }) {
       hasError = true;
     }
 
-    if (!price) {
-      setPriceError("Please Enter Valid Unit Amount");
+    if (!totalPrice) {
+      setPriceError("Please Enter Valid Total Amount");
       hasError = true;
-    } else if (isNaN(price) || price <= 0) {
+    } else if (isNaN(totalPrice) || totalPrice <= 0) {
       setPriceError("Price Must be a Positive Number");
       hasError = true;
     }
@@ -279,7 +308,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
       (initialState.selectedDate && selectedDate &&
         moment(initialState.selectedDate).format("YYYY-MM-DD") !==
         moment(selectedDate).format("YYYY-MM-DD")) ||
-      Number(initialState.price) !== Number(price) ||
+      Number(initialState.totalPrice) !== Number(totalPrice) ||
       initialState.category !== category ||
       initialState.modeOfPayment !== modeOfPayment ||
       initialState.description !== description ||
@@ -300,13 +329,13 @@ function StaticExample({ show, currentItem, setShowModal }) {
       type: "ADDEXPENSE",
       payload: {
         categoryId: category,
+        subCategory: subCategory ? Number(subCategory) : null,
         purchaseDate: formattedDate,
-        count: count,
-        totalAmount: price,
+        count: Number(count),
+        totalAmount: Number(totalPrice),
         description: description,
         bankId: modeOfPayment,
         hostelId: state.login.selectedHostel_Id,
-        // id: currentItem ? currentItem.id : null,
       },
     });
     setFormLoading(true)
@@ -314,8 +343,12 @@ function StaticExample({ show, currentItem, setShowModal }) {
 
 
 
-
-
+  const handleSubCategoryChange = (selectedOption) => {
+    setSubCategory(selectedOption?.value || "");
+    setSubCategoryError("");
+    setGeneralError("");
+    setIsChangedError("");
+  };
 
 
 
@@ -346,18 +379,28 @@ function StaticExample({ show, currentItem, setShowModal }) {
     dispatch({ type: 'INITIALIZEEXPENSESLIST', payload: state.login.selectedHostel_Id })
   }, [])
 
+  const hasShownToast = useRef(false);
 
   useEffect(() => {
-    if (
-      state.Settings.Expences &&
-      state.Settings.Expences.length === 0
-    ) {
-      toast.error(
-        "Please add a Category option in Settings, accessible after adding an expense",
+    if (state.ExpenseList?.getInitializeExpenseStatusCode === 200) {
+      const expenses = state.ExpenseList?.getInitializeExpenseList?.listExpenses || [];
+            if (expenses?.length === 0 && !hasShownToast.current) {
+       
+        toast.error(
+          "Please add a Category option in Settings, accessible after adding an expense",
+          {
+            style: {
+              fontFamily: "Gilroy, sans-serif",
+            },
+          });
+        hasShownToast.current = true;
 
-      );
+      }
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_INITIALIZE_EXPENSES_LIST' })
+      }, 100)
     }
-  }, [state.Settings.Expences]);
+  }, [state.ExpenseList?.getInitializeExpenseStatusCode]);
 
 
   const expenseOptions =
@@ -365,6 +408,12 @@ function StaticExample({ show, currentItem, setShowModal }) {
       value: item.categoryId,
       label: item.categoryName,
     })) || [];
+
+
+
+
+
+
 
   const paymentOptions = Array.isArray(state.ExpenseList?.getInitializeExpenseList?.banks)
     ? state.ExpenseList.getInitializeExpenseList.banks.map((item) => {
@@ -503,6 +552,96 @@ function StaticExample({ show, currentItem, setShowModal }) {
                 )}
               </div>
 
+              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <Form.Group
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label
+                    style={{
+                      fontSize: 14,
+                      color: "#222222",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    SubCategory {" "}{
+                      subCategoryList.length > 0 ?
+
+                      <span style={{ color: "#FF0000", display: "inline-block", fontSize: "20px" }}>
+                        *
+                      </span>
+                      :
+                      <span style={{ visibility: "hidden", fontSize: 20 }}>*</span>
+                    }
+                  </Form.Label>
+
+
+
+                  <Select
+                    options={subCategoryList}
+                    onChange={handleSubCategoryChange}
+                    value={
+                      subCategory
+                        ? subCategoryList.find((opt) => opt.value === subCategory) || null
+                        : null
+                    }
+                    placeholder="Select a Category"
+                    classNamePrefix="custom"
+                    styles={{
+                      control: (base) => ({
+                        ...base,
+                        fontSize: "16px",
+                        color: "rgba(75, 75, 75, 1)",
+                        fontFamily: "Gilroy",
+                        fontWeight: subCategory ? 600 : 500,
+                        border: "1px solid #D9D9D9",
+                        borderRadius: "8px",
+                        boxShadow: "none",
+                        height: "50px"
+                      }),
+                      menu: (base) => ({
+                        ...base,
+                        backgroundColor: "#f8f9fa",
+                        border: "1px solid #ced4da",
+                        fontFamily: "Gilroy",
+                      }),
+                      menuList: (base) => ({
+                        ...base,
+                        backgroundColor: "#f8f9fa",
+                        maxHeight: "120px",
+                        padding: 0,
+                        scrollbarWidth: "thin",
+                        overflowY: "auto",
+                        fontFamily: "Gilroy",
+                      }),
+                      placeholder: (base) => ({
+                        ...base,
+                        color: "#555",
+                      }),
+                      dropdownIndicator: (base) => ({
+                        ...base,
+                        color: "#555",
+                        cursor: "pointer"
+                      }),
+                      option: (base, state) => ({
+                        ...base,
+                        cursor: "pointer",
+                        backgroundColor: state.isFocused ? "lightblue" : "white",
+                        color: "#000",
+                      }),
+                      indicatorSeparator: () => ({
+                        display: "none",
+                      }),
+                    }}
+                    noOptionsMessage={() => "No sub category available"}
+                  />
+
+
+                </Form.Group>
+                {subCategoryError && (
+                  <ErrorMessage message={subCategoryError} type="error" />
+                )}
+              </div>
 
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -559,7 +698,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
                       color: "#222222",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
-                      marginTop: "5px",
+
                     }}
                   >
                     Unit Count {" "}
@@ -604,10 +743,10 @@ function StaticExample({ show, currentItem, setShowModal }) {
                       color: "#222222",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
-                      marginTop: "5px",
+
                     }}
                   >
-                    Per Unit Amount {" "}
+                    Total Amount{" "}
                     <span
                       style={{
                         color: "#FF0000",
@@ -618,15 +757,15 @@ function StaticExample({ show, currentItem, setShowModal }) {
                     </span>
                   </Form.Label>
                   <Form.Control
-                    value={price}
+                    value={totalPrice}
                     onChange={handlePriceChange}
                     type="text"
-                    placeholder="Enter Unit Amount"
+                    placeholder="Enter Total Amount"
                     style={{
                       fontSize: 16,
                       color: "#4B4B4B",
                       fontFamily: "Gilroy",
-                      fontWeight: price ? 600 : 500,
+                      fontWeight: totalPrice ? 600 : 500,
                       boxShadow: "none",
                       border: "1px solid #D9D9D9",
                       height: 50,
@@ -641,7 +780,6 @@ function StaticExample({ show, currentItem, setShowModal }) {
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
-                  className="mb-2"
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -650,13 +788,13 @@ function StaticExample({ show, currentItem, setShowModal }) {
                       color: "#222222",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
-                      marginTop: "15px",
+
                     }}
                   >
-                    Purchase Amount
+                    Per Unit Amount  <span style={{ visibility: "hidden", fontSize: 20 }}>*</span>
                   </Form.Label>
                   <Form.Control
-                    value={count * price}
+                    value={count > 0 ? totalPrice / count : 0}
                     disabled
                     type="text"
                     placeholder=""
@@ -676,7 +814,6 @@ function StaticExample({ show, currentItem, setShowModal }) {
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
-
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -685,7 +822,6 @@ function StaticExample({ show, currentItem, setShowModal }) {
                       color: "#222222",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
-                      marginTop: "5px",
                     }}
                   >
                     Mode Of Transaction {" "}
@@ -772,9 +908,8 @@ function StaticExample({ show, currentItem, setShowModal }) {
               </div>
 
 
-              <div className="col-lg-12 col-md-12  col-sm-12 col-xs-12">
+              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
-
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -785,7 +920,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
                       fontWeight: 500,
                     }}
                   >
-                    Description
+                    Description {" "} <span style={{ visibility: "hidden", fontSize: 20 }}>*</span>
                   </Form.Label>
                   <Form.Control
                     value={description}
@@ -803,6 +938,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
                       borderRadius: 8,
                     }}
                   />
+
                 </Form.Group>
               </div>
             </div>

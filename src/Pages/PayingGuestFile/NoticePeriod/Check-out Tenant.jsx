@@ -68,48 +68,38 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
     dispatch({ type: "CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
   };
 
-  const handleInputChange = (index, field, value) => {
-    const updatedFields = [...fields];
-    const updatedErrors = [...errors];
-    const fieldData = updatedFields[index] || {};
+   const handleInputChange = (index, field, value) => {
+        const updatedFields = [...fields];
+        const updatedErrors = [...errors];
 
-    if (field === "reason_name") {
-      fieldData.reason = value;
-      fieldData.reason_name = value;
-      fieldData.showInput = value === "others";
-      if (value !== "others") fieldData.customReason = "";
-      if (updatedErrors[index]) {
-        updatedErrors[index].reason = "";
-      }
-    }
+        if (field === "reason" || field === "customReason") {
+                       const cleanedValue = value.replace(/[^A-Za-z ]/g, "");
 
-    if (field === "customReason") {
-      fieldData.customReason = value;
-      if (updatedErrors[index]) {
-        updatedErrors[index].reason = "";
-      }
-    }
+            if (field === "reason") {
+                if (cleanedValue.toLowerCase() === "others") {
+                    updatedFields[index].showInput = true;
+                    updatedFields[index].reason_name = "others";
+                    updatedFields[index].customReason = "";
+                } else {
+                    updatedFields[index].showInput = false;
+                    updatedFields[index].reason = cleanedValue;
+                    updatedFields[index].reason_name = cleanedValue;
+                    updatedFields[index].customReason = "";
+                }
+            } else if (field === "customReason") {
+                updatedFields[index].customReason = cleanedValue;
+            }
 
-    // if (field === "amount") {
-    //   fieldData.amount = value;
-    //   if (updatedErrors[index]) {
-    //     updatedErrors[index].amount = "";
-    //   }
-    // }
-     if (field === "amount") {
-    // allow only digits
-    if (/^\d*$/.test(value)) {
-      fieldData.amount = value;
-      if (updatedErrors[index]) {
-        updatedErrors[index].amount = "";
-      }
-    }
-  }
+            if (updatedErrors[index]) updatedErrors[index].reason = "";
+        } else if (field === "amount") {
+            const numericValue = value.replace(/[^0-9]/g, "");
+            updatedFields[index].amount = numericValue;
+            if (updatedErrors[index]) updatedErrors[index].amount = "";
+        }
 
-    updatedFields[index] = fieldData;
-    setFields(updatedFields);
-    setErrors(updatedErrors);
-  };
+        setFields(updatedFields);
+        setErrors(updatedErrors);
+    };
 
   const handleRemoveField = (index) => {
     const updatedFields = [...fields];
