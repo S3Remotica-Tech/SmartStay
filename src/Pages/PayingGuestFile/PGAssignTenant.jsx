@@ -1072,7 +1072,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                               fontWeight: 500,
                             }}
                           >
-                            Joining Date {" "}
+                            Joining Date (Tentative) {" "} 
                             <span style={{ color: "red", fontSize: "20px" }}> * </span>
                           </Form.Label>
 
@@ -1461,7 +1461,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                     fontWeight: 500,
                                   }}
                                 >
-                                  Joining Date (Tentative) {" "}
+                                  Joining Date  {" "}
                                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                                 </Form.Label>
 

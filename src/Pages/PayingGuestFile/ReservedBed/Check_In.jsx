@@ -469,7 +469,18 @@ setFormLoading(true)
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
-                                        }}> Room No {currentItem?.roomName} </label> <span style={{
+                                        }}>  {currentItem?.floorName} </label> <span style={{
+                                            fontSize: 14,
+                                            color: "#1E45E1",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                        }}>|</span>
+                                        <label style={{
+                                            fontSize: 14,
+                                            color: "#1E45E1",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                        }}> {currentItem?.roomName} </label> <span style={{
                                             fontSize: 14,
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
@@ -479,7 +490,7 @@ setFormLoading(true)
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
-                                        }}> Bed No {currentItem?.bedName}</span>
+                                        }}>{currentItem?.bedName}</span>
                                     </div>
                                 </div>
 
