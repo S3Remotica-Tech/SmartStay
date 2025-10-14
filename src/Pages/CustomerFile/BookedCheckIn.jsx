@@ -150,7 +150,6 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
         const updatedErrors = [...errors];
 
         if (field === "reason" || field === "customReason") {
-            // allow only letters and spaces
             const cleanedValue = value.replace(/[^A-Za-z ]/g, "");
 
             if (field === "reason") {
@@ -345,9 +344,9 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
     useEffect(() => {
         if (state.UsersList.bedError) {
             setFormLoading(false)
-            setTimeout(() => {
-                dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR_BOOKED' })
-            }, 1000)
+            // setTimeout(() => {
+            //     dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR_BOOKED' })
+            // }, 1000)
 
         }
 
@@ -676,7 +675,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                             </Form.Group>
 
                                             {dateError && (
-                                               <ErrorMessage message={dateError} type="error" />
+                                                <ErrorMessage message={dateError} type="error" />
                                             )}
 
                                             {joiningDateErrmsg.trim() !== "" && (
@@ -712,7 +711,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                             </Form.Group>
 
                                             {advanceAmountError && (
-                                               <ErrorMessage message={advanceAmountError} type="error" />
+                                                <ErrorMessage message={advanceAmountError} type="error" />
                                             )}
 
                                         </div>
@@ -744,12 +743,12 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                                     }}
                                                 />
                                             </Form.Group>
-                                           
 
-                                                {roomrentError && (
-                                                    <ErrorMessage message={roomrentError} type="error" />
-                                                )}
-                            
+
+                                            {roomrentError && (
+                                                <ErrorMessage message={roomrentError} type="error" />
+                                            )}
+
 
                                         </div>
 
@@ -929,7 +928,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
                                                         />
                                                         {errors[index]?.amount && (
-                                                             <ErrorMessage message={errors[index]?.amount} type="error" />
+                                                            <ErrorMessage message={errors[index]?.amount} type="error" />
                                                         )}
                                                     </div>
 
@@ -965,9 +964,12 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
                                 </div>
 
-                                {state.UsersList.bedError ?
-                                     <ErrorMessage message={state.UsersList.bedError} type="error" />
-                                    : null}
+                                {state.UsersList.bedError &&
+                                    <div className="d-flex justify-content-center">
+                                        <ErrorMessage message={state.UsersList.bedError} type="error" />
+
+                                    </div>
+                                }
 
                                 <Button
                                     className="w-100"

@@ -158,8 +158,8 @@ const handleRecheckin = (e) => {
                     <div>
 
                         <div >
-                            <Modal.Header className="pt-0"
-                                style={{ position: "relative", marginTop: "", border: "none" }}
+                            <Modal.Header className="pt-0 border-0"
+                                style={{ position: "relative", marginTop: "",  }}
                             >
                                 <div
                                     style={{
@@ -168,7 +168,7 @@ const handleRecheckin = (e) => {
                                         fontFamily: "Gilroy",
                                     }}
                                 >
-                                    Back to Check-In
+                                  Cancel Check-Out
                                 </div>
 
                                 <CloseCircle

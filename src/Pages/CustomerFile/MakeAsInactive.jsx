@@ -81,7 +81,7 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails }) {
 useEffect(() => {
     if (state.Booking.StatusCodeInactiveCode === 200) {
            setFormLoading(false);
-         
+         handleCloseInActive()
     }
 
   }, [state.Booking.StatusCodeInactiveCode])

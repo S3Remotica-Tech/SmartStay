@@ -194,23 +194,23 @@ function ExpensesListTable(props) {
   return (<>
     <tr style={{ fontFamily: "Gilroy", border: "none" }} key={props.item.id}>
 
-      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }}><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: 13, fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }}>{moment(props.item.purchase_date).format('DD MMM YYYY').toUpperCase()}</span></td>
+      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }}><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: 13, fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }}>{props.item.transactionDate}</span></td>
 
       <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none", borderBottom: "1px solid #E8E8E8", whiteSpace: "nowrap" }} className="ps-0 ps-sm-0 ps-md-3 ps-lg-3">
         <div style={{ width: "100%", display: "flex", justifyContent: "start" }}>
-          <div style={{ fontWeight: 500, width: "fit-content", padding: 8, borderRadius: 10, fontSize: 13, display: "flex", justifyContent: "center", fontFamily: "Gilroy" }}>{props.item.category_Name}</div>
+          <div style={{ fontWeight: 500, width: "fit-content", padding: 8, borderRadius: 10, fontSize: 13, display: "flex", justifyContent: "center", fontFamily: "Gilroy" }}>{props.item.categoryName}</div>
         </div>
       </td>
 
       <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, fontFamily: "Gilroy", color: "#000000", borderBottom: "1px solid #E8E8E8", whiteSpace: "nowrap" }} className="ps-0 ps-sm-0 ps-md-3 ps-lg-4">{props.item.description || "-"}</td>
-      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8", whiteSpace: "nowrap" }} className="ps-0 ps-sm-0 ps-md-3 ps-lg-4">{props.item.unit_count}</td>
-      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8", whiteSpace: "nowrap" }} className="ps-0 ps-sm-0 ps-md-3 ps-lg-4">{props.item.unit_amount}</td>
+      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8", whiteSpace: "nowrap" }} className="ps-0 ps-sm-0 ps-md-3 ps-lg-4">{props.item.itemsCount}</td>
+      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8", whiteSpace: "nowrap" }} className="ps-0 ps-sm-0 ps-md-3 ps-lg-4">{props.item.unitPrice}</td>
 
 
       <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none", borderBottom: "1px solid #E8E8E8", whiteSpace: "nowrap" }} className="ps-0 ps-sm-0 ps-md-3 ps-lg-3">
         <div style={{ width: "100%", display: "flex", justifyContent: "start" }}>
           <div style={{ fontWeight: 500, padding: 8, borderRadius: 60, fontSize: 13, width: "fit-content", fontFamily: "Gilroy" }} >
-            {props.item.purchase_amount}
+            {props.item.totalAmount}
           </div >
         </div>
 
@@ -219,7 +219,7 @@ function ExpensesListTable(props) {
 
 
       <td className="ps-0 ps-sm-0 ps-md-3 ps-lg-3" style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8", }}><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: 13, fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }} className=''>
-        {props.item.paymentModeName ? props.item.paymentModeName : '-'}
+        {props.item.accountHolderName && props.item.accountHolderName} - {props.item.bankName}
 
       </span></td>
 

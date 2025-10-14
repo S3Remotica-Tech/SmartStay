@@ -26,7 +26,9 @@ function NoticeBedStatusDetails({
   showBooking,
   showNoticeperiodCheckout,
   showfinalsettelemnet,
-  handleOpenChangeBed
+  handleOpenChangeBed,
+  handleShowInActiveForm,
+  handleOpenCancelCheckout
 }) {
 
 
@@ -56,12 +58,15 @@ function NoticeBedStatusDetails({
 
 
 
-
+const handleMakeAsInActive = () =>{
+   handleShowInActiveForm(true)
+}
 
 
   const handleRecheckInBed = () => {
-    setBacktoCheckInForm(true)
-    setRecheckin(true)
+    handleOpenCancelCheckout(true)
+    // setBacktoCheckInForm(true)
+    // setRecheckin(true)
   }
 
 
@@ -591,7 +596,7 @@ function NoticeBedStatusDetails({
 
                             <div
                               className="d-flex gap-2 align-items-center"
-                              //  onClick={canWriteCustomers ? () => handleFinalsettelmentGenerate(currentItem) : undefined}
+                               onClick={canWriteCustomers ? () => handleMakeAsInActive() : undefined}
 
                               style={{
                                 padding: "10px",
@@ -712,12 +717,12 @@ function NoticeBedStatusDetails({
         </Modal>
       </div>
 
-      {
+      {/* {
         bactocheckinForm && <UserlistForm setBacktoCheckInForm={setBacktoCheckInForm} bactocheckinForm={bactocheckinForm}
           // customer_details={customer_details}
           handleCloseBed={handleCloseBed} recheckin={recheckin}
         />
-      }
+      } */}
 
     </>
   );

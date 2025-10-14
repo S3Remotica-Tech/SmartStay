@@ -1965,29 +1965,38 @@ const canWriteTenant = useHasPermission("Customers", "canWrite")
     setFields([...fields, { reason_name: "", amount: "", showInput: false }]);
   };
 
-  const handleInputChange = (index, field, value) => {
-    const updatedFields = [...fields];
+   const handleInputChange = (index, field, value) => {
+        const updatedFields = [...fields];
+        const updatedErrors = [...errors];
 
-    if (field === "reason") {
-      if (value === "others") {
-        updatedFields[index].showInput = true;
-        updatedFields[index].reason_name = "others";
-        updatedFields[index].customReason = "";
-      } else {
-        updatedFields[index].showInput = false;
-        updatedFields[index].reason = value;
-        updatedFields[index].customReason = "";
-      }
-    } else if (field === "customReason") {
-      updatedFields[index].customReason = value;
-    } else {
-      updatedFields[index][field] = value;
-    }
+        if (field === "reason" || field === "customReason") {
+                       const cleanedValue = value.replace(/[^A-Za-z ]/g, "");
 
-    setFields(updatedFields);
-    setFormError("")
-  };
+            if (field === "reason") {
+                if (cleanedValue.toLowerCase() === "others") {
+                    updatedFields[index].showInput = true;
+                    updatedFields[index].reason_name = "others";
+                    updatedFields[index].customReason = "";
+                } else {
+                    updatedFields[index].showInput = false;
+                    updatedFields[index].reason = cleanedValue;
+                    updatedFields[index].reason_name = cleanedValue;
+                    updatedFields[index].customReason = "";
+                }
+            } else if (field === "customReason") {
+                updatedFields[index].customReason = cleanedValue;
+            }
 
+            if (updatedErrors[index]) updatedErrors[index].reason = "";
+        } else if (field === "amount") {
+            const numericValue = value.replace(/[^0-9]/g, "");
+            updatedFields[index].amount = numericValue;
+            if (updatedErrors[index]) updatedErrors[index].amount = "";
+        }
+
+        setFields(updatedFields);
+        setErrors(updatedErrors);
+    };
 
 
 

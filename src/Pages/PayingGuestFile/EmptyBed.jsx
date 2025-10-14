@@ -132,7 +132,7 @@ function EmptyBed({ show, handleClose, showbed, showcustomer, showtenant }) {
                     fontWeight: 500,
                   }}
                 >
-                  Add Customer
+                  Add Tenant
                 </span>
                 <img
                   src={AddSquare}

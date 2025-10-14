@@ -210,14 +210,8 @@ function CustomerCheckout(props) {
             }}
             className="m-0 p-0"
           >
-            <Modal.Body style={{ marginTop: -30 }}>
-              <div className="d-flex align-items-center">
-
-                <div className="container">
-                  <div className="row mb-3"></div>
-
-                  <Modal.Header
-                    style={{ marginBottom: "10px", position: "relative", paddingRight: 1, paddingLeft: 1 }}
+             <Modal.Header
+                    style={{ marginBottom: "8px", position: "relative",  }}
                   >
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
                       <div
@@ -237,6 +231,7 @@ function CustomerCheckout(props) {
                               fontFamily: "Gilroy",
                               fontWeight: 500,
                               color: "#1E45E1",
+                              marginBottom:0
                             }}
                           >
                             Notice Days* : {dateDifference}
@@ -247,6 +242,13 @@ function CustomerCheckout(props) {
                     <CloseCircle size="24" color="#000" onClick={handleCloseCheckout}
                       style={{ cursor: 'pointer' }} />
                   </Modal.Header>
+            <Modal.Body style={{ marginTop: -30 }}>
+              <div className="d-flex align-items-center">
+
+                <div className="container">
+                  <div className="row mb-3"></div>
+
+                 
 
 
                   <ModalBody className="p-0">

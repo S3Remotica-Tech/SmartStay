@@ -17,6 +17,7 @@ export async function login(EmailId, Password) {
 // v2
 
 export async function loginV2(loginInfo) {
+  console.log("loginInfo%%%%%%%%%%%%",loginInfo)
   return await axios.post(`${ConfigV2.apiBaseUrl}/v2/users/login`,loginInfo, {
    data:loginInfo
 

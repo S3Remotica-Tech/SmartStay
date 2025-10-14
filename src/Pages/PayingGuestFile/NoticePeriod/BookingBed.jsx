@@ -20,7 +20,7 @@ function BookingBed({
   const state = useSelector(state => state)
   const dispatch = useDispatch();
 
-
+console.log("currentItem",currentItem)
 
   const bookingcustomerRef = useRef();
   const dateRef = useRef();
@@ -41,15 +41,15 @@ function BookingBed({
   const [customer_details, setCustomerDetails] = useState({})
 
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id && currentItem?.room?.Floor_Id && currentItem?.bed?.id && currentItem?.room?.Room_Id) {
-      dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { hostel_id: state.login.selectedHostel_Id, floor_id: currentItem?.room?.Floor_Id, room_id: currentItem?.room?.Room_Id, bed: currentItem?.bed?.id } })
-      dispatch({
-        type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
-    }
-  }, [currentItem])
+  // useEffect(() => {
+  //   if (state.login.selectedHostel_Id && currentItem?.room?.Floor_Id && currentItem?.bed?.id && currentItem?.room?.Room_Id) {
+  //     dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { hostel_id: state.login.selectedHostel_Id, floor_id: currentItem?.room?.Floor_Id, room_id: currentItem?.room?.Room_Id, bed: currentItem?.bed?.id } })
+  //     dispatch({
+  //       type: "USERLIST",
+  //       payload: { hostel_id: state.login.selectedHostel_Id },
+  //     });
+  //   }
+  // }, [currentItem])
 
 
 
@@ -57,39 +57,39 @@ function BookingBed({
   //   const userData = state.UsersList.Users.filter((item) => item.ID === customerID);
 
   // }, [state.UsersList, customerID]);
-  useEffect(() => {
+  // useEffect(() => {
 
-    const usersList = state?.UsersList?.Users;
-    const userDetails = state?.PgList?.OccupiedCustomer;
+  //   const usersList = state?.UsersList?.Users;
+  //   const userDetails = state?.PgList?.OccupiedCustomer;
 
-    if (
-      Array.isArray(usersList) &&
-      Array.isArray(userDetails) &&
-      usersList.length > 0 &&
-      userDetails.length > 0
-    ) {
-      const targetUserId = userDetails[0]?.User_Id?.trim()?.toLowerCase();
+  //   if (
+  //     Array.isArray(usersList) &&
+  //     Array.isArray(userDetails) &&
+  //     usersList.length > 0 &&
+  //     userDetails.length > 0
+  //   ) {
+  //     const targetUserId = userDetails[0]?.User_Id?.trim()?.toLowerCase();
 
-      const foundCustomer = usersList.find(
-        (user) => user.User_Id?.trim()?.toLowerCase() === targetUserId
-      );
+  //     const foundCustomer = usersList.find(
+  //       (user) => user.User_Id?.trim()?.toLowerCase() === targetUserId
+  //     );
 
-      setCustomerDetails(foundCustomer || null);
-    }
-  }, [state?.UsersList?.Users, state?.PgList?.OccupiedCustomer]);
-
-
+  //     setCustomerDetails(foundCustomer || null);
+  //   }
+  // }, [state?.UsersList?.Users, state?.PgList?.OccupiedCustomer]);
 
 
 
-  useEffect(() => {
-    if (customer_details) {
-      setBookingCustomerName(customer_details.ID)
-      // const checkoutDate = customer_details?.CheckoutDate ? dayjs(customer_details?.CheckoutDate) : null;
-      // setCheckoutDate(checkoutDate)
-    }
-    setFormLoading(false)
-  }, [customer_details])
+
+
+  // useEffect(() => {
+  //   if (customer_details) {
+  //     setBookingCustomerName(customer_details.ID)
+  //     // const checkoutDate = customer_details?.CheckoutDate ? dayjs(customer_details?.CheckoutDate) : null;
+  //     // setCheckoutDate(checkoutDate)
+  //   }
+  //   setFormLoading(false)
+  // }, [customer_details])
 
 
   const handleBookingCustomerName = (selectedOption) => {
@@ -209,22 +209,22 @@ function BookingBed({
 
 
 
-    dispatch({
-      type: "ADD_BOOKING",
-      payload: {
-        joining_date: formattedDate,
-        booking_date: bookingFormattedDate,
-        amount: amount,
-        hostel_id: state.login.selectedHostel_Id,
-        floor_id: currentItem?.room?.Floor_Id,
-        room_id: currentItem?.room?.Room_Id,
-        bed_id: currentItem?.bed?.id,
-        customer_Id: booking_customername,
-        mob_no: userDetails.Phone,
-        email: userDetails.Email,
-        profile: userDetails.profile
-      },
-    });
+    // dispatch({
+    //   type: "ADD_BOOKING",
+    //   payload: {
+    //     joining_date: formattedDate,
+    //     booking_date: bookingFormattedDate,
+    //     amount: amount,
+    //     hostel_id: state.login.selectedHostel_Id,
+    //     floor_id: currentItem?.room?.Floor_Id,
+    //     room_id: currentItem?.room?.Room_Id,
+    //     bed_id: currentItem?.bed?.id,
+    //     customer_Id: booking_customername,
+    //     mob_no: userDetails.Phone,
+    //     email: userDetails.Email,
+    //     profile: userDetails.profile
+    //   },
+    // });
     setFormLoading(true)
   };
 
@@ -234,12 +234,12 @@ function BookingBed({
       setFormLoading(false)
 
       setJoingDateErrmsg('');
-      dispatch({
-        type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
+      // dispatch({
+      //   type: "USERLIST",
+      //   payload: { hostel_id: state.login.selectedHostel_Id },
+      // });
 
-      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: currentItem?.room?.Floor_Id, hostel_Id: state.login.selectedHostel_Id } })
+      // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: currentItem?.room?.Floor_Id, hostel_Id: state.login.selectedHostel_Id } })
 
       handleClose()
       setTimeout(() => {
@@ -249,7 +249,7 @@ function BookingBed({
   }, [state?.Booking?.statusCodeForAddBooking]);
 
   useEffect(() => {
-    dispatch({ type: 'UNASSIGNCUSTOMER', payload: { hostel_Id: currentItem.room.Hostel_Id } })
+    // dispatch({ type: 'UNASSIGNCUSTOMER', payload: { hostel_Id: currentItem.room.Hostel_Id } })
   }, [])
 
 
@@ -317,7 +317,7 @@ function BookingBed({
                   fontFamily: "Gilroy",
                 }}
               >
-                Room No {currentItem?.room.Room_Name} &nbsp; | &nbsp; Bed {currentItem?.bed.bed_no}
+                {currentItem?.roomName} &nbsp; | &nbsp; {currentItem?.bedName}
               </span>
             </Modal.Header>
 

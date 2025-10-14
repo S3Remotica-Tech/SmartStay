@@ -34,6 +34,7 @@ import Button from 'react-bootstrap/Button';
 import Tick from '../../Assets/v2Images/Tick.svg'
 import ConfirmChangeBed from './NoticePeriod/ConfirmChangedBed';
 import { useHasPermission } from '../../Utils/Permission';
+import BackToCheckIn from "../CustomerFile/BackToCheckIn";
 
 function BedDetailsMap({ room, propsValue }) {
 
@@ -71,6 +72,7 @@ function BedDetailsMap({ room, propsValue }) {
     const [showConfirmChangeBedModal, setShowConfirmChangeBedModal] = useState(false)
     const [clickedBed, setClickedBed] = useState('')
     const [changeBedClicked, setChangedBedClicked] = useState('')
+     const [bactocheckinForm, setBacktoCheckInForm] = useState(false)
 
 
  const canWritePayingGuests = useHasPermission("Paying Guests", "canWrite");
@@ -93,6 +95,9 @@ function BedDetailsMap({ room, propsValue }) {
         setShowReservedBed(false)
     }
 
+const handleCloseBackToCheckIn = () => {
+    setBacktoCheckInForm(false)
+  }
 
 
     const handleCloseReassignForm = () => {
@@ -257,8 +262,15 @@ function BedDetailsMap({ room, propsValue }) {
     const handleShowInActiveForm = () => {
         setMakeasInactive(true)
         setShowReservedBed(false);
+        setNoticePeriodBed(false)
     }
 
+     const handleOpenCancelCheckout = () =>{
+        setNoticePeriodBed(false)
+    setBacktoCheckInForm(true)
+
+
+     }
 
 
     const handleCloseInActive = () => {
@@ -433,6 +445,10 @@ useEffect(() => {
     if (state.Booking.StatusCodeInactiveCode === 200) {
           setShowInActive(false)
       dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+       dispatch({
+                type: "GETALLBEDSLIST",
+                payload: { roomId: room.id }
+            });
       setTimeout(() => {
         dispatch({ type: 'CLEAR_BOOKING_InActive' })
       }, 1000)
@@ -447,6 +463,14 @@ useEffect(() => {
     return (
 
         <div>
+
+{
+        bactocheckinForm && <BackToCheckIn show={bactocheckinForm} handleClose={handleCloseBackToCheckIn} />
+
+      }
+
+
+
             {showBed && <AddBedUI show={showBed} setShowBed={setShowBed} currentItem={details} />}
 
             {
@@ -531,7 +555,7 @@ useEffect(() => {
                 Noticeperiod_bed && <NoticeBedStatusDetails show={Noticeperiod_bed}
                     handleCloseBed={handlecloseNoticePeriodBed} currentItem={customer}
                     showBooking={handleshowNoticePeriodBooking} showNoticeperiodCheckout={handleshowNoticePeriodCheckout} showfinalsettelemnet={handleshowfinalsettlement}
-                    handleOpenChangeBed={handleOpenChangeBed}
+                    handleOpenChangeBed={handleOpenChangeBed} handleShowInActiveForm={handleShowInActiveForm} handleOpenCancelCheckout={handleOpenCancelCheckout}
                 />}
 
 

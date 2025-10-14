@@ -70,44 +70,37 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
   };
 
   const handleInputChange = (index, field, value) => {
-    const updatedFields = [...fields];
-    const updatedErrors = [...errors];
+        const updatedFields = [...fields];
+        const updatedErrors = [...errors];
 
-    if (field === "reason") {
-      if (value === "others") {
-        updatedFields[index].showInput = true;
-        updatedFields[index].reason_name = "others";
-        updatedFields[index].customReason = "";
-      } else {
-        updatedFields[index].showInput = false;
-        updatedFields[index].reason = value;
-        updatedFields[index].reason_name = value;
-        updatedFields[index].customReason = "";
-      }
+        if (field === "reason" || field === "customReason") {
+                       const cleanedValue = value.replace(/[^A-Za-z ]/g, "");
 
+            if (field === "reason") {
+                if (cleanedValue.toLowerCase() === "others") {
+                    updatedFields[index].showInput = true;
+                    updatedFields[index].reason_name = "others";
+                    updatedFields[index].customReason = "";
+                } else {
+                    updatedFields[index].showInput = false;
+                    updatedFields[index].reason = cleanedValue;
+                    updatedFields[index].reason_name = cleanedValue;
+                    updatedFields[index].customReason = "";
+                }
+            } else if (field === "customReason") {
+                updatedFields[index].customReason = cleanedValue;
+            }
 
-      if (updatedErrors[index]) updatedErrors[index].reason = "";
-    } else if (field === "customReason") {
-      updatedFields[index].customReason = value;
-      if (updatedErrors[index]) updatedErrors[index].reason = "";
-    }
-    //  else if (field === "amount") {
-    //   updatedFields[index].amount = value;
+            if (updatedErrors[index]) updatedErrors[index].reason = "";
+        } else if (field === "amount") {
+            const numericValue = value.replace(/[^0-9]/g, "");
+            updatedFields[index].amount = numericValue;
+            if (updatedErrors[index]) updatedErrors[index].amount = "";
+        }
 
-
-    //   if (updatedErrors[index]) updatedErrors[index].amount = "";
-    // }
-    else if (field === "amount") {
-
-      if (/^\d*$/.test(value)) {
-        updatedFields[index].amount = value;
-        if (updatedErrors[index]) updatedErrors[index].amount = "";
-      }
-    }
-
-    setFields(updatedFields);
-    setErrors(updatedErrors);
-  };
+        setFields(updatedFields);
+        setErrors(updatedErrors);
+    };
 
   const handleRemoveField = (index) => {
     const updatedFields = [...fields];
@@ -755,7 +748,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                 lineHeight: "normal",
                               }}
                             >
-                              Customer <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                              Tenant <span style={{ color: "red", fontSize: "20px" }}>*</span>
                             </Form.Label>
                             <Select
                               options={
@@ -773,11 +766,11 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                     value: booking_customername,
                                     label:
                                       state.UsersList?.UnAssignCustomerDetails?.find((u) => u.customerId === booking_customername)?.firstName ||
-                                      "Select Customer",
+                                      "Select Tenant",
                                   }
                                   : null
                               }
-                              placeholder="Select Customer"
+                              placeholder="Select Tenant"
                               classNamePrefix="custom"
                               menuPlacement="auto"
                               noOptionsMessage={() => "No customers available"}
@@ -1079,7 +1072,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                               fontWeight: 500,
                             }}
                           >
-                            Joining Date {" "}
+                            Joining Date (Tentative) {" "} 
                             <span style={{ color: "red", fontSize: "20px" }}> * </span>
                           </Form.Label>
 
@@ -1217,7 +1210,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                       lineHeight: "normal",
                                     }}
                                   >
-                                    Customer <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                                 Tenant <span style={{ color: "red", fontSize: "20px" }}>*</span>
                                   </Form.Label>
                                   <Select
                                     options={
@@ -1235,11 +1228,11 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                           value: checkin_customername,
                                           label:
                                             state.UsersList?.UnAssignCustomerDetails?.find((u) => u.customerId === checkin_customername)?.firstName ||
-                                            "Select Customer",
+                                            "Select Tenant",
                                         }
                                         : null
                                     }
-                                    placeholder="Select Customer"
+                                    placeholder="Select Tenant"
                                     classNamePrefix="custom"
                                     menuPlacement="auto"
                                     noOptionsMessage={() => "No customers available"}
@@ -1468,7 +1461,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                     fontWeight: 500,
                                   }}
                                 >
-                                  Joining Date (Tentative) {" "}
+                                  Joining Date  {" "}
                                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                                 </Form.Label>
 
@@ -1480,7 +1473,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                     style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
                                     format="DD/MM/YYYY"
                                     placeholder="DD/MM/YYYY"
-                                    value={checkin_joiningDate ? dayjs(checkin_joiningDate) : null}
+                                    value={checkin_joiningDate ? dayjs(checkin_joiningDate) : dayjs()}
                                     onChange={(date) => {
                                       setCheckinJoingDateErrmsg("");
                                       setCheckinJoiningDate(date ? date.toDate() : null);

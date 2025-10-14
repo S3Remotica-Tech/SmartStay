@@ -140,517 +140,524 @@ function PayingGuestMap(props) {
 
   return (
     <>
-   {!canReadPayingGuests ? (
-           <>
-             <div
-               style={{
-                 display: "flex",
-                 flexDirection: "column",
-                 alignItems: "center",
-                 justifyContent: "center",
-                 height: "100vh",
-               }}
-             >
-   
-               <img
-                 src={EmptyState}
-                 alt="Empty State"
-   
-               />
-   
-   
-   
-               <ErrorMessage message={['You do not have access to view paying guest']} type="warning" />
-   
-             </div>
-           </>
-         ) : (
-      <Card
-        className="animated-text ms-0 h-100 p-0"
-        key={props.hostel && props.hostel.id}
-        style={{
-          borderRadius: 16,
-          border: hoverPgCard
-            ? " 1px solid #1E45E1"
-            : hoverPgCard
-              ? "1px solid #9C9C9C"
-              : "1px solid #E6E6E6",
-          transition: "border 0.3s ease",
-          height: "auto",
-        }}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      >
-        <Card.Body style={{ padding: 10 }}>
-          <div className="d-flex justify-content-between align-items-center flex-wrap">
-            <div className="d-flex gap-1 align-items-center">
-              <div className="">
-                <Image
-                  src={
-                    props.hostel &&
-                      props.hostel.mainImage !== undefined &&
-                      props.hostel.mainImage !== null &&
-                      props.hostel.mainImage !== "0"
-                      ? props.hostel.mainImage
-                      : Vendors
-                  }
-                  roundedCircle
-                  style={{ height: "60px", width: "60px" }}
-                />
-              </div>
-              <div>
-                <div
-                  className="pb-2"
-                  onClick={() =>
-                    canWritePayingGuests
-                      ? handleSelectedHostel(props.hostel.hostelId)
-                      : null
-                  }
-                >
+      {!canReadPayingGuests ? (
+        <>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "100vh",
+            }}
+          >
 
-                  <label
-                    className={`${!canWritePayingGuests ? "" : "hover-hostel-name"}`}
+            <img
+              src={EmptyState}
+              alt="Empty State"
 
-                    style={{
-                      fontSize: 14,
-                      color:!canWritePayingGuests ? "#dcdcdc": "#1E45E1",
-                      fontWeight: 600,
-                      fontFamily: "Gilroy",
-                      textDecoration: "underline",
-                    }}
-                  >
-                    {props?.hostel && props?.hostel.name}
-                  </label>
+            />
+
+
+
+            <ErrorMessage message={['You do not have access to view paying guest']} type="warning" />
+
+          </div>
+        </>
+      ) : (
+        <Card
+          className="animated-text ms-0 h-100 p-0"
+          key={props.hostel && props.hostel.id}
+          style={{
+            borderRadius: 16,
+            border: hoverPgCard
+              ? " 1px solid #1E45E1"
+              : hoverPgCard
+                ? "1px solid #9C9C9C"
+                : "1px solid #E6E6E6",
+            transition: "border 0.3s ease",
+            height: "auto",
+          }}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <Card.Body style={{ padding: 10 }}>
+            <div className="d-flex justify-content-between align-items-center flex-wrap">
+              <div className="d-flex gap-1 align-items-center">
+                <div className="">
+                  <Image
+                    src={
+                      props.hostel &&
+                        props.hostel.mainImage !== undefined &&
+                        props.hostel.mainImage !== null &&
+                        props.hostel.mainImage !== "0"
+                        ? props.hostel.mainImage
+                        : Vendors
+                    }
+                    roundedCircle
+                    style={{ height: "60px", width: "60px" }}
+                  />
                 </div>
                 <div>
                   <div
-                    style={{
-                      backgroundColor: "rgba(255, 239, 207, 1)",
-                      fontWeight: 500,
-                      width: "fit-content",
-                      padding: 5,
-                      borderRadius: 10,
-                      fontSize: 12,
-                      fontFamily: "Gilroy",
-                      color: "rgba(34, 34, 34, 1)",
-                    }}
+                    className="pb-2"
+                    onClick={() =>
+                      canWritePayingGuests
+                        ? handleSelectedHostel(props.hostel.hostelId)
+                        : null
+                    }
                   >
-                    Paying Guest
+
+                    <label
+                      className={`${!canWritePayingGuests ? "" : "hover-hostel-name"}`}
+                      style={{
+                        fontSize: 14,
+                        color: !canWritePayingGuests ? "#dcdcdc" : "#1E45E1",
+                        fontWeight: 600,
+                        fontFamily: "Gilroy",
+                        textDecoration: "underline",
+                        display: "inline-block",
+                        maxWidth: "150px",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        verticalAlign: "middle",
+                      }}
+                      title={props?.hostel?.name}
+                    >
+                      {props?.hostel?.name}
+                    </label>
+
+                  </div>
+                  <div>
+                    <div
+                      style={{
+                        backgroundColor: "rgba(255, 239, 207, 1)",
+                        fontWeight: 500,
+                        width: "fit-content",
+                        padding: 5,
+                        borderRadius: 10,
+                        fontSize: 12,
+                        fontFamily: "Gilroy",
+                        color: "rgba(34, 34, 34, 1)",
+                      }}
+                    >
+                      Paying Guest
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div>
-              <div
-                style={{
-                  backgroundColor: showDots ? "#E7F1FF" : "#fff",
-                  cursor: "pointer",
-                  height: 40,
-                  width: 40,
-                  borderRadius: 100,
-                  border: "1px solid #EFEFEF",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  position: "relative",
-                  zIndex: showDots ? 1000 : "auto",
-                }}
-                onClick={handleDotsClick}
-              >
-                <PiDotsThreeOutlineVerticalFill
-                  style={{ height: 20, width: 20 }}
-                />
+              <div>
+                <div
+                  style={{
+                    backgroundColor: showDots ? "#E7F1FF" : "#fff",
+                    cursor: "pointer",
+                    height: 40,
+                    width: 40,
+                    borderRadius: 100,
+                    border: "1px solid #EFEFEF",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    position: "relative",
+                    zIndex: showDots ? 1000 : "auto",
+                  }}
+                  onClick={handleDotsClick}
+                >
+                  <PiDotsThreeOutlineVerticalFill
+                    style={{ height: 20, width: 20 }}
+                  />
 
-                {showDots && (
-                  <>
-                    <div
-                      ref={popupRef}
-                      style={{
-                        cursor: "pointer",
-                        backgroundColor: "#fff",
-                        position: "absolute",
-                        right:
-                          window.innerWidth <= 331
-                            ? "auto"
-                            : window.innerWidth <= 420
-                              ? 50
-                              : window.innerWidth <= 576
-                                ? 30
-                                : 50,
-                        left: window.innerWidth <= 331 ? 10 : "auto",
-                        top: 0,
-                        width: 140,
-                        border: "1px solid #E0E0E0",
-                        borderRadius: 10,
-                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "flex-start",
-                        zIndex: 1050,
-                      }}
-                    >
-
+                  {showDots && (
+                    <>
                       <div
-                        className="d-flex gap-2 align-items-center w-100"
-                        onClick={
-                          canUpdatePayingGuests
-                            ? () => handleEdit(props.hostel)
-                            : undefined
-                        }
+                        ref={popupRef}
                         style={{
-                          padding: "8px 12px",
-                          width: "100%",
-                          borderTopLeftRadius: 10,
-                          borderTopRightRadius: 10,
-                          opacity: !canUpdatePayingGuests ? 0.5 : 1,
-                          cursor: !canUpdatePayingGuests ? "not-allowed" : "pointer",
-                          transition: "background 0.2s ease-in-out",
+                          cursor: "pointer",
+                          backgroundColor: "#fff",
+                          position: "absolute",
+                          right:
+                            window.innerWidth <= 331
+                              ? "auto"
+                              : window.innerWidth <= 420
+                                ? 50
+                                : window.innerWidth <= 576
+                                  ? 30
+                                  : 50,
+                          left: window.innerWidth <= 331 ? 10 : "auto",
+                          top: 0,
+                          width: 140,
+                          border: "1px solid #E0E0E0",
+                          borderRadius: 10,
+                          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "flex-start",
+                          zIndex: 1050,
                         }}
-                        onMouseEnter={(e) =>
-
-                          (e.currentTarget.style.backgroundColor = "#F0F4FF")
-                        }
-                        onMouseLeave={(e) =>
-                          (e.currentTarget.style.backgroundColor = "transparent")
-                        }
                       >
-                        <Edit
-                          size="16"
-                          color={!canUpdatePayingGuests ? "#A0A0A0" : "#1E45E1"}
-                        />
-                        <label
+
+                        <div
+                          className="d-flex gap-2 align-items-center w-100"
+                          onClick={
+                            canUpdatePayingGuests
+                              ? () => handleEdit(props.hostel)
+                              : undefined
+                          }
                           style={{
-                            fontSize: 14,
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
-                            color: !canUpdatePayingGuests ? "#A0A0A0" : "#1E45E1",
-                            cursor: "pointer",
-                            marginBottom: 0,
+                            padding: "8px 12px",
+                            width: "100%",
+                            borderTopLeftRadius: 10,
+                            borderTopRightRadius: 10,
+                            opacity: !canUpdatePayingGuests ? 0.5 : 1,
+                            cursor: !canUpdatePayingGuests ? "not-allowed" : "pointer",
+                            transition: "background 0.2s ease-in-out",
                           }}
+                          onMouseEnter={(e) =>
+
+                            (e.currentTarget.style.backgroundColor = "#F0F4FF")
+                          }
+                          onMouseLeave={(e) =>
+                            (e.currentTarget.style.backgroundColor = "transparent")
+                          }
                         >
-                          Edit
-                        </label>
-                      </div>
+                          <Edit
+                            size="16"
+                            color={!canUpdatePayingGuests ? "#A0A0A0" : "#1E45E1"}
+                          />
+                          <label
+                            style={{
+                              fontSize: 14,
+                              fontWeight: 600,
+                              fontFamily: "Gilroy",
+                              color: !canUpdatePayingGuests ? "#A0A0A0" : "#1E45E1",
+                              cursor: "pointer",
+                              marginBottom: 0,
+                            }}
+                          >
+                            Edit
+                          </label>
+                        </div>
 
 
-                      <div style={{ height: 1, backgroundColor: "#F0F0F0", width: "100%" }} />
+                        <div style={{ height: 1, backgroundColor: "#F0F0F0", width: "100%" }} />
 
 
-                      <div
-                        className="d-flex gap-2 align-items-center w-100"
-                        onClick={
-                          canDeletePayingGuests
-                            ? () => handleDelete(props.hostel)
-                            : undefined
-                        }
-                        style={{
-                          padding: "8px 12px",
-                          width: "100%",
-                          borderBottomLeftRadius: 10,
-                          borderBottomRightRadius: 10,
-                          opacity: !canDeletePayingGuests ? 0.5 : 1,
-                          cursor: !canDeletePayingGuests ? "not-allowed" : "pointer",
-                          transition: "background 0.2s ease-in-out",
-                        }}
-                        onMouseEnter={(e) =>
-                          (e.currentTarget.style.backgroundColor = "#FFF3F3")
-                        }
-                        onMouseLeave={(e) =>
-                          (e.currentTarget.style.backgroundColor = "transparent")
-                        }
-                      >
-                        <Trash
-                          size="16"
-                          color={!canDeletePayingGuests ? "#A0A0A0" : "#FF0000"}
-                        />
-                        <label
+                        <div
+                          className="d-flex gap-2 align-items-center w-100"
+                          onClick={
+                            canDeletePayingGuests
+                              ? () => handleDelete(props.hostel)
+                              : undefined
+                          }
                           style={{
-                            fontSize: 14,
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
-                            color: !canDeletePayingGuests ? "#A0A0A0" : "#FF0000",
+                            padding: "8px 12px",
+                            width: "100%",
+                            borderBottomLeftRadius: 10,
+                            borderBottomRightRadius: 10,
+                            opacity: !canDeletePayingGuests ? 0.5 : 1,
                             cursor: !canDeletePayingGuests ? "not-allowed" : "pointer",
-                            marginBottom: 0,
+                            transition: "background 0.2s ease-in-out",
                           }}
+                          onMouseEnter={(e) =>
+                            (e.currentTarget.style.backgroundColor = "#FFF3F3")
+                          }
+                          onMouseLeave={(e) =>
+                            (e.currentTarget.style.backgroundColor = "transparent")
+                          }
                         >
-                          Delete
-                        </label>
+                          <Trash
+                            size="16"
+                            color={!canDeletePayingGuests ? "#A0A0A0" : "#FF0000"}
+                          />
+                          <label
+                            style={{
+                              fontSize: 14,
+                              fontWeight: 600,
+                              fontFamily: "Gilroy",
+                              color: !canDeletePayingGuests ? "#A0A0A0" : "#FF0000",
+                              cursor: !canDeletePayingGuests ? "not-allowed" : "pointer",
+                              marginBottom: 0,
+                            }}
+                          >
+                            Delete
+                          </label>
+                        </div>
                       </div>
-                    </div>
 
-                  </>
-                )}
+                    </>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-          <hr style={{ border: "1px solid #E7E7E7", margin: "0.5rem 0" }} />
+            <hr style={{ border: "1px solid #E7E7E7", margin: "0.5rem 0" }} />
 
-          <div className="row g-2  d-flex justify-content-between m-0">
-            <div className="col-lg-4 col-md-4 col-xs-12 col-sm-12 h-100">
-              <Card
-                className="pt-2 ps-3  m-0"
-                style={{
-                  border: "1px solid  rgba(220, 220, 220, 1)",
-                  borderRadius: 12,
-                }}
-              >
-                <label
+            <div className="row g-2  d-flex justify-content-between m-0">
+              <div className="col-lg-4 col-md-4 col-xs-12 col-sm-12 h-100">
+                <Card
+                  className="pt-2 ps-3  m-0"
                   style={{
-                    color: "#222",
-                    fontSize: 12,
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
+                    border: "1px solid  rgba(220, 220, 220, 1)",
+                    borderRadius: 12,
                   }}
                 >
-                  Available Beds
-                </label>
-                <div className="">
                   <label
                     style={{
-                      color: "#222222",
-                      fontSize: 20,
-                      fontWeight: 600,
+                      color: "#222",
+                      fontSize: 12,
+                      fontWeight: 500,
                       fontFamily: "Gilroy",
-                      textAlign: "center",
                     }}
                   >
-                    {props.hostel?.noOfAvailableBeds || "0"}
+                    Available Beds
                   </label>
-                </div>
-              </Card>
-            </div>
-            <div className="col-lg-4 col-md-4 col-xs-12 col-sm-12 h-100">
-              <Card
-                className="pt-2 ps-3 m-0"
-                style={{
-                  border: "1px solid  rgba(220, 220, 220, 1)",
-                  borderRadius: 12,
-                }}
-              >
-                <label
+                  <div className="">
+                    <label
+                      style={{
+                        color: "#222222",
+                        fontSize: 20,
+                        fontWeight: 600,
+                        fontFamily: "Gilroy",
+                        textAlign: "center",
+                      }}
+                    >
+                      {props.hostel?.noOfAvailableBeds || "0"}
+                    </label>
+                  </div>
+                </Card>
+              </div>
+              <div className="col-lg-4 col-md-4 col-xs-12 col-sm-12 h-100">
+                <Card
+                  className="pt-2 ps-3 m-0"
                   style={{
-                    color: "#222",
-                    fontSize: 12,
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
+                    border: "1px solid  rgba(220, 220, 220, 1)",
+                    borderRadius: 12,
                   }}
                 >
-                  Total Rooms
-                </label>
-                <div className="">
                   <label
                     style={{
-                      color: "#222222",
-                      fontSize: 20,
-                      fontWeight: 600,
+                      color: "#222",
+                      fontSize: 12,
+                      fontWeight: 500,
                       fontFamily: "Gilroy",
-                      textAlign: "center",
                     }}
                   >
-                    {props.hostel?.noOfRooms || "0"}
+                    Total Rooms
                   </label>
-                </div>
-              </Card>
-            </div>
-            <div className="col-lg-4 col-md-4 col-xs-12 col-sm-12 h-100">
-              <Card
-                className="pt-2 ps-3 m-0"
-                style={{
-                  border: "1px solid  rgba(220, 220, 220, 1)",
-                  borderRadius: 12,
-                }}
-              >
-                <label
+                  <div className="">
+                    <label
+                      style={{
+                        color: "#222222",
+                        fontSize: 20,
+                        fontWeight: 600,
+                        fontFamily: "Gilroy",
+                        textAlign: "center",
+                      }}
+                    >
+                      {props.hostel?.noOfRooms || "0"}
+                    </label>
+                  </div>
+                </Card>
+              </div>
+              <div className="col-lg-4 col-md-4 col-xs-12 col-sm-12 h-100">
+                <Card
+                  className="pt-2 ps-3 m-0"
                   style={{
-                    color: "#222",
-                    fontSize: 12,
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
+                    border: "1px solid  rgba(220, 220, 220, 1)",
+                    borderRadius: 12,
                   }}
                 >
-                  Occupied Beds
-                </label>
-                <div className="">
+                  <label
+                    style={{
+                      color: "#222",
+                      fontSize: 12,
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
+                    }}
+                  >
+                    Occupied Beds
+                  </label>
+                  <div className="">
+                    <label
+                      style={{
+                        color: "#222222",
+                        fontSize: 20,
+                        fontWeight: 600,
+                        fontFamily: "Gilroy",
+                        textAlign: "center",
+                      }}
+                    >
+                      {" "}
+                      {props.hostel?.noOfOccupiedBeds || "0"}
+                    </label>
+                  </div>
+                </Card>
+              </div>
+            </div>
+
+            <div className="d-flex justify-content-between align-items-center mb-1 mt-1 ms-2 flex-wrap">
+              <div className="pb-1" style={{ lineHeight: 1 }}>
+                <div className="pb-1">
+                  <label
+                    style={{
+                      color: "#000000",
+                      fontSize: 11,
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
+                    }}
+                  >
+                    Email ID{" "}
+                  </label>
+                </div>
+                <div>
                   <label
                     style={{
                       color: "#222222",
-                      fontSize: 20,
+                      fontSize: 14,
                       fontWeight: 600,
                       fontFamily: "Gilroy",
-                      textAlign: "center",
+                    }}
+                  >
+                    {props.hostel.emailId &&
+                      props.hostel.emailId !== "undefined"
+                      ? props.hostel.emailId
+                      : "N/A"}
+                  </label>
+                </div>
+              </div>
+
+              <div className="pb-1" style={{ lineHeight: 1 }}>
+                <div className="">
+                  <label
+                    style={{
+                      color: "#000000",
+                      fontSize: 11,
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
+                    }}
+                  >
+                    Floor
+                  </label>
+                </div>
+                <div className="text-center">
+                  <label
+                    style={{
+                      color: "#222222",
+                      fontSize: 14,
+                      fontWeight: 600,
+                      fontFamily: "Gilroy",
                     }}
                   >
                     {" "}
-                    {props.hostel?.noOfOccupiedBeds || "0"}
+                    {props.hostel?.noOfFloors || "0"}
                   </label>
                 </div>
-              </Card>
-            </div>
-          </div>
+              </div>
+              <div className="pb-1 ms-2" style={{ lineHeight: 1 }}>
+                <div className="">
+                  <label
+                    style={{
+                      color: "#000000",
+                      fontSize: 11,
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
+                      textAlign: "center",
+                    }}
+                  >
+                    Contact Number
+                  </label>
+                </div>
+                <div>
+                  <label
+                    style={{
+                      color: "#222222",
+                      fontSize: 14,
+                      fontWeight: 600,
+                      fontFamily: "Gilroy",
+                      textAlign: "center",
+                      marginRight: 5,
+                    }}
+                  >
 
-          <div className="d-flex justify-content-between align-items-center mb-1 mt-1 ms-2 flex-wrap">
-            <div className="pb-1" style={{ lineHeight: 1 }}>
-              <div className="pb-1">
+                    {props.hostel &&
+                      String(props.hostel.mobile).slice(
+                        0,
+                        String(props.hostel.mobile).length - 10
+                      )}{" "}
+                    {props.hostel &&
+                      String(props.hostel.mobile).slice(-10)}
+                  </label>
+                </div>
+              </div>
+
+            </div>
+
+            <div className="mb-2 col-lg-12 col-md-12 col-xs-12 col-sm-12 col-12 ms-2" style={{ lineHeight: 1 }}>
+              <div className="mb-1" style={{}}>
                 <label
                   style={{
                     color: "#000000",
                     fontSize: 11,
                     fontWeight: 500,
-                    fontFamily: "Gilroy",
-                  }}
-                >
-                  Email ID{" "}
-                </label>
-              </div>
-              <div>
-                <label
-                  style={{
-                    color: "#222222",
-                    fontSize: 14,
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                  }}
-                >
-                  {props.hostel.emailId &&
-                    props.hostel.emailId !== "undefined"
-                    ? props.hostel.emailId
-                    : "N/A"}
-                </label>
-              </div>
-            </div>
-
-            <div className="pb-1" style={{ lineHeight: 1 }}>
-              <div className="">
-                <label
-                  style={{
-                    color: "#000000",
-                    fontSize: 11,
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
-                  }}
-                >
-                  Floor
-                </label>
-              </div>
-              <div className="text-center">
-                <label
-                  style={{
-                    color: "#222222",
-                    fontSize: 14,
-                    fontWeight: 600,
                     fontFamily: "Gilroy",
                   }}
                 >
                   {" "}
-                  {props.hostel?.noOfFloors || "0"}
+                  Address
                 </label>
               </div>
-            </div>
-            <div className="pb-1 ms-2" style={{ lineHeight: 1 }}>
-              <div className="">
-                <label
-                  style={{
-                    color: "#000000",
-                    fontSize: 11,
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
-                    textAlign: "center",
-                  }}
-                >
-                  Contact Number
-                </label>
-              </div>
-              <div>
-                <label
-                  style={{
-                    color: "#222222",
-                    fontSize: 14,
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                    textAlign: "center",
-                    marginRight: 5,
-                  }}
-                >
 
-                  {props.hostel &&
-                    String(props.hostel.mobile).slice(
-                      0,
-                      String(props.hostel.mobile).length - 10
-                    )}{" "}
-                  {props.hostel &&
-                    String(props.hostel.mobile).slice(-10)}
-                </label>
-              </div>
-            </div>
-
-          </div>
-
-          <div className="mb-2 col-lg-12 col-md-12 col-xs-12 col-sm-12 col-12 ms-2" style={{ lineHeight: 1 }}>
-            <div className="mb-1" style={{}}>
-              <label
+              <div
                 style={{
-                  color: "#000000",
-                  fontSize: 11,
-                  fontWeight: 500,
+                  lineHeight: 1.5,
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                  display: "block",
+                  fontSize: 14,
+                  fontWeight: 600,
                   fontFamily: "Gilroy",
                 }}
-              >
-                {" "}
-                Address
-              </label>
-            </div>
-
-            <div
-              style={{
-                lineHeight: 1.5,
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-                display: "block",
-                fontSize: 14,
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-              }}
-              title={[
-                props.hostel?.houseNo,
-                props.hostel?.street,
-                props.hostel?.area,
-                props.hostel?.landmark,
-                props.hostel?.city,
-                props.hostel?.pincode ? `- ${props.hostel.pincode}` : "",
-                props.hostel?.state,
-              ]
-                .filter(Boolean)
-                .join(", ")}
-            >
-              {(() => {
-                const addressParts = [
+                title={[
                   props.hostel?.houseNo,
                   props.hostel?.street,
                   props.hostel?.area,
                   props.hostel?.landmark,
-                ].filter(Boolean);
-
-                const cityStatePin = [
                   props.hostel?.city,
-                  props.hostel?.state,
                   props.hostel?.pincode ? `- ${props.hostel.pincode}` : "",
-                ].filter(Boolean);
+                  props.hostel?.state,
+                ]
+                  .filter(Boolean)
+                  .join(", ")}
+              >
+                {(() => {
+                  const addressParts = [
+                    props.hostel?.houseNo,
+                    props.hostel?.street,
+                    props.hostel?.area,
+                    props.hostel?.landmark,
+                  ].filter(Boolean);
 
-                return (
-                  <>
-                    {addressParts.length > 0 && <>{addressParts.join(", ")}<br /></>}
-                    {cityStatePin.length > 0 && <>{cityStatePin.join(" ")}<br /></>}
-                  </>
-                );
-              })()}
+                  const cityStatePin = [
+                    props.hostel?.city,
+                    props.hostel?.state,
+                    props.hostel?.pincode ? `- ${props.hostel.pincode}` : "",
+                  ].filter(Boolean);
+
+                  return (
+                    <>
+                      {addressParts.length > 0 && <>{addressParts.join(", ")}<br /></>}
+                      {cityStatePin.length > 0 && <>{cityStatePin.join(" ")}<br /></>}
+                    </>
+                  );
+                })()}
+              </div>
+
             </div>
-
-          </div>
-        </Card.Body>
-      </Card>
-         )}
+          </Card.Body>
+        </Card>
+      )}
 
       {show && (
         <Modal

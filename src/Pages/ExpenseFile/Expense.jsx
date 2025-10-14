@@ -286,136 +286,126 @@ console.log("state",state)
           hostelId: state.login.selectedHostel_Id,
         },
       });
-    } else if (dates?.length === 0 && state.login.selectedHostel_Id) {
-      dispatch({
-        type: "EXPENSELIST",
-        payload: { hostelId: state.login.selectedHostel_Id },
-      });
-    }
-  }, [dates, state.login.selectedHostel_Id, dispatch]);
-
-  useEffect(() => {
-    if (selectedValue === "All") {
-      dispatch({
-        type: "EXPENSELIST",
-        payload: { hostelId: state.login.selectedHostel_Id },
-      });
-      setCategoryValue("");
-      setAssetValue("");
-      setVendorValue("");
-      setModeValue("");
-      setSelectedValue("");
-      setDates("");
-      setAmountValue("");
-      setMinAmount("");
-      setMaxAmount("");
-    } else if (categoryValue) {
-      dispatch({
-        type: "EXPENSELIST",
-        payload: {
-          category: categoryValue,
-          hostelId: state.login.selectedHostel_Id,
-        },
-      });
-      setCategoryValue("");
-      setAssetValue("");
-      setVendorValue("");
-      setModeValue("");
-      setSelectedValue("");
-      setDates("");
-      setAmountValue("");
-      setMinAmount("");
-      setMaxAmount("");
-    } else if (assetValue) {
-      dispatch({
-        type: "EXPENSELIST",
-        payload: {
-          asset_id: assetValue,
-          hostelId: state.login.selectedHostel_Id,
-        },
-      });
-      setCategoryValue("");
-      setAssetValue("");
-      setVendorValue("");
-      setModeValue("");
-      setSelectedValue("");
-      setDates("");
-      setAmountValue("");
-      setMinAmount("");
-      setMaxAmount("");
-    } else if (vendorValue) {
-      dispatch({
-        type: "EXPENSELIST",
-        payload: {
-          vendor_id: vendorValue,
-          hostelId: state.login.selectedHostel_Id,
-        },
-      });
-      setCategoryValue("");
-      setAssetValue("");
-      setVendorValue("");
-      setModeValue("");
-      setSelectedValue("");
-      setDates("");
-      setAmountValue("");
-      setMinAmount("");
-      setMaxAmount("");
-    } else if (modeValue) {
-      dispatch({
-        type: "EXPENSELIST",
-        payload: {
-          payment_mode: modeValue,
-          hostelId: state.login.selectedHostel_Id,
-        },
-      });
-      setCategoryValue("");
-      setAssetValue("");
-      setVendorValue("");
-      setModeValue("");
-      setSelectedValue("");
-      setDates("");
-      setAmountValue("");
-      setMinAmount("");
-      setMaxAmount("");
-    }
-
-    else if (minAmount || maxAmount) {
-      dispatch({
-        type: "EXPENSELIST",
-        payload: {
-          min_amount: minAmount,
-          max_amount: maxAmount,
-          hostelId: state.login.selectedHostel_Id,
-        },
-      });
-      setCategoryValue("");
-      setAssetValue("");
-      setVendorValue("");
-      setModeValue("");
-      setSelectedValue("");
-      setDates("");
-      setAmountValue("");
-      setMinAmount("");
-      setMaxAmount("");
-    }
-  }, [
-    selectedValue,
-    categoryValue,
-    assetValue,
-    vendorValue,
-    modeValue,
-    dates,
-    minAmount,
-    maxAmount,
-    dispatch,
-    state.login.selectedHostel_Id,
-  ]);
+    } 
+  }, [dates, state.login.selectedHostel_Id]);
 
   // useEffect(() => {
-  //   if (state.login.selectedHostel_Id) {
-  //     dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
+  //   if (selectedValue === "All") {
+  //     dispatch({
+  //       type: "EXPENSELIST",
+  //       payload: { hostelId: state.login.selectedHostel_Id },
+  //     });
+  //     setCategoryValue("");
+  //     setAssetValue("");
+  //     setVendorValue("");
+  //     setModeValue("");
+  //     setSelectedValue("");
+  //     setDates("");
+  //     setAmountValue("");
+  //     setMinAmount("");
+  //     setMaxAmount("");
+  //   } else if (categoryValue) {
+  //     dispatch({
+  //       type: "EXPENSELIST",
+  //       payload: {
+  //         category: categoryValue,
+  //         hostelId: state.login.selectedHostel_Id,
+  //       },
+  //     });
+  //     setCategoryValue("");
+  //     setAssetValue("");
+  //     setVendorValue("");
+  //     setModeValue("");
+  //     setSelectedValue("");
+  //     setDates("");
+  //     setAmountValue("");
+  //     setMinAmount("");
+  //     setMaxAmount("");
+  //   } else if (assetValue) {
+  //     dispatch({
+  //       type: "EXPENSELIST",
+  //       payload: {
+  //         asset_id: assetValue,
+  //         hostelId: state.login.selectedHostel_Id,
+  //       },
+  //     });
+  //     setCategoryValue("");
+  //     setAssetValue("");
+  //     setVendorValue("");
+  //     setModeValue("");
+  //     setSelectedValue("");
+  //     setDates("");
+  //     setAmountValue("");
+  //     setMinAmount("");
+  //     setMaxAmount("");
+  //   } else if (vendorValue) {
+  //     dispatch({
+  //       type: "EXPENSELIST",
+  //       payload: {
+  //         vendor_id: vendorValue,
+  //         hostelId: state.login.selectedHostel_Id,
+  //       },
+  //     });
+  //     setCategoryValue("");
+  //     setAssetValue("");
+  //     setVendorValue("");
+  //     setModeValue("");
+  //     setSelectedValue("");
+  //     setDates("");
+  //     setAmountValue("");
+  //     setMinAmount("");
+  //     setMaxAmount("");
+  //   } else if (modeValue) {
+  //     dispatch({
+  //       type: "EXPENSELIST",
+  //       payload: {
+  //         payment_mode: modeValue,
+  //         hostelId: state.login.selectedHostel_Id,
+  //       },
+  //     });
+  //     setCategoryValue("");
+  //     setAssetValue("");
+  //     setVendorValue("");
+  //     setModeValue("");
+  //     setSelectedValue("");
+  //     setDates("");
+  //     setAmountValue("");
+  //     setMinAmount("");
+  //     setMaxAmount("");
   //   }
-  // }, [state.login.selectedHostel_Id, dispatch]);
+
+  //   else if (minAmount || maxAmount) {
+  //     dispatch({
+  //       type: "EXPENSELIST",
+  //       payload: {
+  //         min_amount: minAmount,
+  //         max_amount: maxAmount,
+  //         hostelId: state.login.selectedHostel_Id,
+  //       },
+  //     });
+  //     setCategoryValue("");
+  //     setAssetValue("");
+  //     setVendorValue("");
+  //     setModeValue("");
+  //     setSelectedValue("");
+  //     setDates("");
+  //     setAmountValue("");
+  //     setMinAmount("");
+  //     setMaxAmount("");
+  //   }
+  // }, [
+  //   selectedValue,
+  //   categoryValue,
+  //   assetValue,
+  //   vendorValue,
+  //   modeValue,
+  //   dates,
+  //   minAmount,
+  //   maxAmount,
+ 
+  //   state.login.selectedHostel_Id,
+  // ]);
+
 
   const handleShow = () => {
     if (!state.login.selectedHostel_Id) {
@@ -430,24 +420,7 @@ console.log("state",state)
       });
       return;
     }
-    // if (
-    //   !Array.isArray(state.bankingDetails.bankingList.banks) ||
-    //   state.bankingDetails.bankingList.banks.length === 0
-    // ) {
-    //   toast.error(
-    //     "Please add bank details before adding expense information.",
-    //     {
-    //       autoClose: 1500,
-    //       style: {
-    //         color: "#000",
-    //         borderBottom: "5px solid red",
-    //         fontFamily: "Gilroy",
-    //       },
-    //     }
-    //   );
-    //   return;
-    // }
-
+    
     setCurrentItem("");
     setShowModal(true);
   };
@@ -874,7 +847,7 @@ console.log("state",state)
       payload.vendor_id = vendorValue;
       dispatch({ type: "EXPENSELIST", payload });
     }
-  }, [selectedValue, categoryValue, modeValue, amountValue, assetValue, vendorValue, state.login.selectedHostel_Id]);
+  }, [selectedValue, categoryValue, modeValue, amountValue, assetValue, vendorValue]);
 
   useEffect(() => {
     if (state.ExpenseList.getExpenseStatusCode === 200) {

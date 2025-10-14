@@ -83,39 +83,38 @@ function ReCheckInTenant(props) {
     setFields([...fields, { reason_name: "", amount: "", showInput: false }]);
   };
 
-  const handleInputChange = (index, field, value) => {
-    const updatedFields = [...fields];
-    const updatedErrors = [...errors];
-    updatedFields[index][field] = value;
-    setFields(updatedFields);
+   const handleInputChange = (index, field, value) => {
+        const updatedFields = [...fields];
+        const updatedErrors = [...errors];
 
-    if (field === "reason") {
-      if (value === "others") {
-        updatedFields[index].showInput = true;
-        updatedFields[index].reason_name = "others";
-        updatedFields[index].customReason = "";
-      } else {
-        updatedFields[index].showInput = false;
-        updatedFields[index].reason = value;
-        updatedFields[index].reason_name = value;
-        updatedFields[index].customReason = "";
-      }
+        if (field === "reason" || field === "customReason") {
+                       const cleanedValue = value.replace(/[^A-Za-z ]/g, "");
 
+            if (field === "reason") {
+                if (cleanedValue.toLowerCase() === "others") {
+                    updatedFields[index].showInput = true;
+                    updatedFields[index].reason_name = "others";
+                    updatedFields[index].customReason = "";
+                } else {
+                    updatedFields[index].showInput = false;
+                    updatedFields[index].reason = cleanedValue;
+                    updatedFields[index].reason_name = cleanedValue;
+                    updatedFields[index].customReason = "";
+                }
+            } else if (field === "customReason") {
+                updatedFields[index].customReason = cleanedValue;
+            }
 
-      if (updatedErrors[index]) updatedErrors[index].reason = "";
-    } else if (field === "customReason") {
-      updatedFields[index].customReason = value;
-      if (updatedErrors[index]) updatedErrors[index].reason = "";
-    } else if (field === "amount") {
-      updatedFields[index].amount = value;
+            if (updatedErrors[index]) updatedErrors[index].reason = "";
+        } else if (field === "amount") {
+            const numericValue = value.replace(/[^0-9]/g, "");
+            updatedFields[index].amount = numericValue;
+            if (updatedErrors[index]) updatedErrors[index].amount = "";
+        }
 
-
-      if (updatedErrors[index]) updatedErrors[index].amount = "";
-    }
-
-    setFields(updatedFields);
-    setErrors(updatedErrors);
-  };
+        setFields(updatedFields);
+        setErrors(updatedErrors);
+    };
 
   return (
     <div>
