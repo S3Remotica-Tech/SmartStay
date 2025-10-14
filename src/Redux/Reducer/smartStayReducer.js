@@ -34,7 +34,7 @@
 
 }
 const SmartStayReducer = (state = initialState, action) => {
-console.log("Reducer Login", action.type);
+
 
    switch (action.type) {
 

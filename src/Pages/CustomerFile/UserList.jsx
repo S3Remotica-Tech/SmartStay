@@ -3867,7 +3867,7 @@ function UserList(props) {
                                                         margin: 0,
                                                       }}
                                                     >
-                                                      Back to Check-In
+                                                 Cancel Check-Out
                                                     </label>
                                                   </div>
 

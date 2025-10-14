@@ -155,7 +155,7 @@ useEffect(() => {
   useEffect(() => {
     if (hostel_id) {
       dispatch({ type: "PGDASHBOARD", payload: { hostel_id: hostel_id } });
-       setLoading(true);
+      //  setLoading(true);
     }
   }, [hostel_id]);
 

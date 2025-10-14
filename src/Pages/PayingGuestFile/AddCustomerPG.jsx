@@ -621,7 +621,7 @@ function AddCustomer({ showMenu, handleClose }) {
                   borderBottomLeftRadius: '20px',
                 }}
               >
-                <h5 className="mb-4" style={{ fontFamily: "Gilroy" }}>Add New Customer</h5>
+                <h5 className="mb-4" style={{ fontFamily: "Gilroy" }}>Add New Tenant</h5>
                 {/* Step 1 */}
                 <div className="d-flex align-items-center mb-4">
                   <div

@@ -748,7 +748,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                 lineHeight: "normal",
                               }}
                             >
-                              Customer <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                              Tenant <span style={{ color: "red", fontSize: "20px" }}>*</span>
                             </Form.Label>
                             <Select
                               options={
@@ -766,11 +766,11 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                     value: booking_customername,
                                     label:
                                       state.UsersList?.UnAssignCustomerDetails?.find((u) => u.customerId === booking_customername)?.firstName ||
-                                      "Select Customer",
+                                      "Select Tenant",
                                   }
                                   : null
                               }
-                              placeholder="Select Customer"
+                              placeholder="Select Tenant"
                               classNamePrefix="custom"
                               menuPlacement="auto"
                               noOptionsMessage={() => "No customers available"}
@@ -1210,7 +1210,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                       lineHeight: "normal",
                                     }}
                                   >
-                                    Customer <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                                 Tenant <span style={{ color: "red", fontSize: "20px" }}>*</span>
                                   </Form.Label>
                                   <Select
                                     options={
@@ -1228,11 +1228,11 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                           value: checkin_customername,
                                           label:
                                             state.UsersList?.UnAssignCustomerDetails?.find((u) => u.customerId === checkin_customername)?.firstName ||
-                                            "Select Customer",
+                                            "Select Tenant",
                                         }
                                         : null
                                     }
-                                    placeholder="Select Customer"
+                                    placeholder="Select Tenant"
                                     classNamePrefix="custom"
                                     menuPlacement="auto"
                                     noOptionsMessage={() => "No customers available"}
@@ -1473,7 +1473,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                     style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
                                     format="DD/MM/YYYY"
                                     placeholder="DD/MM/YYYY"
-                                    value={checkin_joiningDate ? dayjs(checkin_joiningDate) : null}
+                                    value={checkin_joiningDate ? dayjs(checkin_joiningDate) : dayjs()}
                                     onChange={(date) => {
                                       setCheckinJoingDateErrmsg("");
                                       setCheckinJoiningDate(date ? date.toDate() : null);
