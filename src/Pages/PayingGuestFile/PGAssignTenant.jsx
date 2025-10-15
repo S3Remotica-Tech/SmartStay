@@ -746,7 +746,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                           </div>
         
                           {activeTab === "long" ? <>
-                            <div style={{ maxHeight: "350px", overflowY: "scroll" }} className="show-scroll p-2 mt-2 me-1">
+                            <div style={{ maxHeight: "350px", overflowY: "scroll", overflowX:'hidden' }} className="show-scroll p-2 mt-2 me-1">
                               <div className="row ">
 
                                

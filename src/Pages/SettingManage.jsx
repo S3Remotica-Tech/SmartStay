@@ -229,24 +229,27 @@ function SettingManage() {
   }, [state.UsersList.deleteFloorSuccessStatusCode]);
 
   useEffect(() => {
-    if (
-      state.PgList.deletePgSuccessStatusCode === 200 ||
-      state.PgList.dleteHostelImagesStatusCode === 200
-    ) {
+    if (state.PgList.deletePgSuccessStatusCode === 200 ) {
       dispatch({ type: "HOSTELLIST" });
-            setShowAddPg(false);
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_DELETE_HOSTEL_IMAGES" });
-      }, 1000);
-
+      setShowAddPg(false);
+      
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_PG_STATUS_CODE" });
       }, 1000);
     }
-  }, [
-    state.PgList.deletePgSuccessStatusCode,
-    state.PgList.dleteHostelImagesStatusCode,
-  ]);
+  }, [ state.PgList.deletePgSuccessStatusCode]);
+
+
+   useEffect(() => {
+    if (state.PgList.dleteHostelImagesStatusCode === 200) {
+
+      dispatch({ type: "HOSTELLIST" });
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_DELETE_HOSTEL_IMAGES" });
+      }, 1000);
+    }
+  }, [ state.PgList.dleteHostelImagesStatusCode,]);
+
 
   useEffect(() => {
     if (state.PgList.createPgStatusCode === 200) {

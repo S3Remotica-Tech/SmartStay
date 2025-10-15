@@ -236,13 +236,14 @@ handleCloseCheckout()
                         Move to Notice Period
                       </div>
                       {dateDifference !== null && (
-                        <div className="col-12 mt-1">
+                        <div className="col-12 ">
                           <p
                             style={{
                               fontSize: 15,
                               fontFamily: "Gilroy",
                               fontWeight: 500,
                               color: "#1E45E1",
+                              margin:0 , padding:0
                             }}
                           >
                             Notice Days* : {dateDifference}
@@ -402,6 +403,7 @@ onError={(e) => {
                               }}
                               format="DD/MM/YYYY"
                               placeholder="DD/MM/YYYY"
+                              className="small-placeholder-datepicker"
                              value={requestDate ? dayjs(requestDate) : null}
                               // ref={selectedDateRef}
                               onChange={(date) => {
@@ -628,6 +630,7 @@ disabledDate={(current) => {
   }}
   format="DD/MM/YYYY"
   placeholder="DD/MM/YYYY"
+  className="small-placeholder-datepicker"
   value={selectedDate ? dayjs(selectedDate) : null}
   onChange={(date) => {
     setSelectedDate(date);
@@ -649,6 +652,15 @@ disabledDate={(current) => {
     triggerNode.closest(".datepicker-wrapper")
   }
 />
+                                            <style>{`
+  /* Force style only for placeholder of this DatePicker */
+  .small-placeholder-datepicker input::placeholder {
+    font-size: 14px !important;
+    color: #a9a9a9 !important;
+    font-family: 'Gilroy' !important;
+    opacity: 1 !important;
+  }
+`}</style>
 
                           </div>
 
@@ -724,11 +736,16 @@ disabledDate={(current) => {
                           id="comments"
                           value={comments}
                           onChange={handleCommentsChange}
-                          className="form-control mt-2"
+                          className="form-control small-placeholder mt-2"
                           placeholder="Enter Comments"
                           required
                           style={{ height: '50px', borderRadius: '8px', fontSize: 16, color: comments ? "#222" : "#4b4b4b", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9" }}
                         />
+                         <style>{`
+                         .small-placeholder::placeholder {
+                          font-size: 14px;
+                          color: #a9a9a9;
+                          font-family: 'Gilroy'; }`}</style>
                       </div>
 
 

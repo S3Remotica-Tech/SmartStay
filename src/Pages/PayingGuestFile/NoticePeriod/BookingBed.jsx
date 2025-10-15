@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Form, FormControl } from "react-bootstrap";
+import { Form, FormControl , Col} from "react-bootstrap";
 import React, { useState ,useRef , useEffect} from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from "react-bootstrap/Modal";
@@ -104,7 +104,7 @@ useEffect(()=>{
      
          setBookingCustomerName(selectedOption?.value || '');
          if (!selectedOption) {
-           setBookingCustomerErrmsg("Please Select Customer");
+           setBookingCustomerErrmsg("Please Select Tenant");
          } else {
            setBookingCustomerErrmsg("");
          }
@@ -119,18 +119,46 @@ useEffect(()=>{
       setamountError("");
     };
 
+     const modeofRef = useRef()
+     const [paymentError, setPaymentError] = useState("");
+      const [modeOfPayment, setModeOfPayment] = useState("");
+     
+     const [transactionId,setTransactionId] = useState("")
+     const handleTransactionId = (e) => {
+       const value = e.target.value;
+       setTransactionId(value);
+     };
+     
+     
+         useEffect(() => {
+             if (state.login.selectedHostel_Id) {
+                 dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+             }
+         }, []);
+     
+     
+       const handleModeOfPaymentChange = (selectedOption) => {
+         if (!selectedOption) return;
+     
+         setModeOfPayment(selectedOption);
+         setPaymentError("")
+         dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
+       };
+
 
  const validateAssignField = (value, fieldName, ref, focusedRef) => {
   if (!value) {
     if (fieldName === "bookingcustomername") {
-      setBookingCustomerErrmsg("Please Select Customer");
+      setBookingCustomerErrmsg("Please Select Tenant");
     } else if (fieldName === "joiningDate") {
       setJoingDateErrmsg("Please Select Joining Date");
     } else if (fieldName === "bookingDate") {
       setBookingDateErrmsg("Please Select Booking Date");
     } else if (fieldName === "amount") {
       setamountError("Please Enter Amount");
-    }
+    } else if (fieldName === "modeofpayment")    {
+      setPaymentError("Please Select Payment Mode");
+    }  
 
     if (!focusedRef.current && ref?.current) {
       ref.current.focus();
@@ -148,14 +176,16 @@ useEffect(()=>{
     setBookingDateErrmsg("");
   } else if (fieldName === "amount") {
     setamountError("");
-  }
+  }else if (fieldName === "modeofpayment")    {
+    setPaymentError("");
+  } 
 
   return true;
 };
 
 
 
-  console.log("booking_customername" , booking_customername);
+  console.log("customer_details" , customer_details);
   
 
        const handleSubmitBooking = () => {
@@ -171,10 +201,11 @@ const isCustomerValid = validateAssignField(
 const isJoiningDateValid = validateAssignField(joiningDate, "joiningDate", dateRef, focusedRef);
 const isBookingDateValid = validateAssignField(bookingDate, "bookingDate", bookingDateRef, focusedRef);
 const isAmountValid = validateAssignField(amount, "amount", amountRef, focusedRef);
+const ismodeofpayment= validateAssignField(modeOfPayment, "modeofpayment", modeofRef, setPaymentError, focusedRef);
 
-// if (!isCustomerValid || !isJoiningDateValid || !isBookingDateValid || !isAmountValid) {
-//   return;
-// }
+if (!isCustomerValid || !isJoiningDateValid || !isBookingDateValid || !isAmountValid || !ismodeofpayment) {
+  return;
+}
 
     
     if (!isCustomerValid || !isJoiningDateValid || !isBookingDateValid || !isAmountValid || Number(amount) <= 0) {
@@ -201,7 +232,8 @@ const isAmountValid = validateAssignField(amount, "amount", amountRef, focusedRe
         //   !booking_customername ||
         //   !isJoiningDateValid ||
         //   !isAmountValid ||
-        //   !isBookingDateValid
+        //   !isBookingDateValid ||
+        //   !ismodeofpayment
         // ) {
         //   return;
         // }
@@ -250,7 +282,9 @@ const isAmountValid = validateAssignField(amount, "amount", amountRef, focusedRe
             customer_Id: booking_customername,
             mob_no: userDetails.Phone,
             email: userDetails.Email,
-            profile: userDetails.profile
+            profile: userDetails.profile,
+            payment_mode:modeOfPayment,
+            transaction_id:transactionId
           },
         });
         setFormLoading(true)
@@ -393,7 +427,7 @@ const isAmountValid = validateAssignField(amount, "amount", amountRef, focusedRe
               style={{ maxHeight: "350px", overflowY: "scroll" }}
               className="show-scroll p-2 mt-1 me-1"
             >
-              <div className="col-12 mb-3">
+              <div className="col-12 ">
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -422,14 +456,14 @@ const isAmountValid = validateAssignField(amount, "amount", amountRef, focusedRe
                                                             value: booking_customername,
                                                             label:
                                                               state.UsersList?.UnAssignCustomerDetails?.find((u) => u.id === booking_customername)?.Name ||
-                                                              "Select Customer",
+                                                              "Select Tenant",
                                                           }
                                                           : null
                                                       }
-                                                      placeholder="Select Customer"
+                                                      placeholder="Select Tenant"
                                                       classNamePrefix="custom"
                                                       menuPlacement="auto"
-                                                      noOptionsMessage={() => "No customers available"}
+                                                      noOptionsMessage={() => "No Tenants available"}
                                                       styles={{
                                                         control: (base) => ({
                                                           ...base,
@@ -456,10 +490,13 @@ const isAmountValid = validateAssignField(amount, "amount", amountRef, focusedRe
                                                           overflowY: "auto",
                                                           fontFamily: "Gilroy"
                                                         }),
-                                                        placeholder: (base) => ({
+                                                       placeholder: (base) => ({
                                                           ...base,
-                                                          color: "#555",
-                                                        }),
+                                                        fontSize: "14px",      
+                                                        color: "#a9a9a9",      
+                                                        fontFamily: "Gilroy",
+                                                        fontWeight: 400,
+                                                         }),
                                                         dropdownIndicator: (base) => ({
                                                           ...base,
                                                           color: "#555",
@@ -528,6 +565,7 @@ const isAmountValid = validateAssignField(amount, "amount", amountRef, focusedRe
   style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy" }}
   format="DD/MM/YYYY"
   placeholder="DD/MM/YYYY"
+    className="small-placeholder-datepicker"
   value={bookingDate ? dayjs(bookingDate) : null}
   onChange={(date) => {
     setDateError("");
@@ -535,13 +573,22 @@ const isAmountValid = validateAssignField(amount, "amount", amountRef, focusedRe
     setBookingDateErrmsg("");
     setJoiningDate("");
   }}
-  // disabledDate={(current) => {
-  //   const checkout = dayjs(customer_details.CheckoutDate).startOf('day');
-  //   const today = dayjs().endOf('day');
-  //   return current && (current.isBefore(checkout) || current.isAfter(today));
-  // }}
+  disabledDate={(current) => {
+    const checkout = dayjs(customer_details.req_date).startOf('day');
+    const today = dayjs().endOf('day');
+    return current && (current.isBefore(checkout) || current.isAfter(today));
+  }}
   getPopupContainer={() => document.body}
 />
+                                             <style>{`
+  /* Force style only for placeholder of this DatePicker */
+  .small-placeholder-datepicker input::placeholder {
+    font-size: 14px !important;
+    color: #a9a9a9 !important;
+    font-family: 'Gilroy' !important;
+    opacity: 1 !important;
+  }
+`}</style>
 
                                                                </div>
 
@@ -637,6 +684,7 @@ const isAmountValid = validateAssignField(amount, "amount", amountRef, focusedRe
                                                                    type="text"
                                                                    ref={amountRef}
                                                                    id="form-controls"
+                                                                    className="small-placeholder"
                                                                    placeholder="Enter Booking Amount"
                                                                    value={amount}
                                                                    onChange={(e) => handleAmount(e)}
@@ -651,6 +699,13 @@ const isAmountValid = validateAssignField(amount, "amount", amountRef, focusedRe
                                                                      borderRadius: 8,
                                                                    }}
                                                                  />
+ <style>{`
+    .small-placeholder::placeholder {
+      font-size: 14px;
+      color: #a9a9a9;
+      font-family: 'Gilroy';
+    }
+  `}</style>
                     </div>
                   </Form.Group>
                     {amountError && (
@@ -683,6 +738,234 @@ const isAmountValid = validateAssignField(amount, "amount", amountRef, focusedRe
                 </div>
               </div>
 
+                 <div className="row">
+                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                                                   <Form.Group
+                                                                                     
+                                                                                     controlId="exampleForm.ControlInput1"
+                                                                                   >
+                                                                                     <Form.Label
+                                                                                       style={{
+                                                                                         fontSize: 14,
+                                                                                         color: "#222222",
+                                                                                         fontFamily: "Gilroy",
+                                                                                         fontWeight: 500,
+                                                                                         
+                                                                                       }}
+                                                                                     >
+                                                                                       Mode Of Transaction {" "}
+                                                                                       <span
+                                                                                         style={{
+                                                                                           color: "#FF0000",
+                                                                                           fontSize: "20px",
+                                                                                         }}
+                                                                                       >
+                                                                                         *
+                                                                                       </span>
+                                                                                     </Form.Label>
+                                                                   
+                                                                   
+                                                                                     <Select
+                                                                                       options={
+                                                                                         Array.isArray(state.bankingDetails?.bankingList?.banks)
+                                                                                           ? state.bankingDetails.bankingList.banks.map((item) => {
+                                                                                             let label = "";
+                                                                                             if (item.type === "bank") label = "Bank";
+                                                                                             else if (item.type === "upi") label = "UPI";
+                                                                                             else if (item.type === "card") label = "Card";
+                                                                                             else if (item.type === "cash") label = "Cash";
+                                                                   
+                                                                                             return {
+                                                                                               value: item.id,
+                                                                                               label: `${item.benificiary_name} - ${label}`,
+                                                                                             };
+                                                                                           })
+                                                                                           : []
+                                                                                       }
+                                                                                       onChange={(selectedOption) =>
+                                                                                         handleModeOfPaymentChange(selectedOption?.value)
+                                                                                       }
+                                                                                        ref={modeofRef}
+                                                                                       value={
+                                                                                         modeOfPayment
+                                                                                           ? (() => {
+                                                                                             const selected = state.bankingDetails?.bankingList?.banks.find(
+                                                                                               (item) => item.id === modeOfPayment
+                                                                   
+                                                                                             );
+                                                                                             if (!selected) return null;
+                                                                   
+                                                                                             const labelMap = {
+                                                                                               bank: "Bank",
+                                                                                               upi: "UPI",
+                                                                                               card: "Card",
+                                                                                               cash: "Cash",
+                                                                                             };
+                                                                                             return {
+                                                                                               value: selected.id,
+                                                                                               label: `${selected.benificiary_name} - ${labelMap[selected.type]}`,
+                                                                                             };
+                                                                                           })()
+                                                                                           : null
+                                                                                       }
+                                                                   
+                                                                                       placeholder="Select Payment"
+                                                                                       classNamePrefix="custom"
+                                                                                      //  isDisabled={currentItem}
+                                                                                       styles={{
+                                                                                         control: (base) => ({
+                                                                                           ...base,
+                                                                                           fontSize: 16,
+                                                                                           color: "rgba(75, 75, 75, 1)",
+                                                                                           fontFamily: "Gilroy",
+                                                                                           fontWeight: modeOfPayment ? 600 : 500,
+                                                                                           border: "1px solid #D9D9D9",
+                                                                                           borderRadius: "8px",
+                                                                                           boxShadow: "none",
+                                                                                           height: 50,
+                                                                                           cursor: "pointer",
+                                                                                         }),
+                                                                                         menu: (base) => ({
+                                                                                           ...base,
+                                                                                           backgroundColor: "#f8f9fa",
+                                                                                           border: "1px solid #ced4da",
+                                                                                           fontFamily: "Gilroy",
+                                                                                         }),
+                                                                                         menuList: (base) => ({
+                                                                                           ...base,
+                                                                                           backgroundColor: "#f8f9fa",
+                                                                                           maxHeight: "120px",
+                                                                                           padding: 0,
+                                                                                           scrollbarWidth: "thin",
+                                                                                           overflowY: "auto",
+                                                                                           fontFamily: "Gilroy",
+                                                                                         }),
+                                                                                         placeholder: (base) => ({
+                                                                                          ...base,
+                                                                                          fontSize: "14px",      
+                                                                                          color: "#a9a9a9",      
+                                                                                          fontFamily: "Gilroy",
+                                                                                          fontWeight: 400,
+                                                                                           }),
+                                                                                         dropdownIndicator: (base) => ({
+                                                                                           ...base,
+                                                                                           color: "#555",
+                                                                                           cursor: "pointer",
+                                                                                         }),
+                                                                                         option: (base, state) => ({
+                                                                                           ...base,
+                                                                                           cursor: "pointer",
+                                                                                           backgroundColor: state.isFocused ? "lightblue" : "white",
+                                                                                           color: "#000",
+                                                                                           fontFamily: "Gilroy",
+                                                                                         }),
+                                                                                         indicatorSeparator: () => ({
+                                                                                           display: "none",
+                                                                                         }),
+                                                                                       }}
+                                                                                       noOptionsMessage={() => "No mode available"}
+                                                                                     />
+                                                                   
+                                                                                   </Form.Group>
+                                                                                   {paymentError && (
+                                                          <div style={{
+                                                                                                                     color: "red",
+                                                                                                                    backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                                                                                                                 marginTop: 4,
+                                                                                                                                                                                 display: "inline-flex", 
+                                                                                                                                                                                 alignItems: "center",
+                                                                                                                                                                                 padding: "4px 10px", 
+                                                                                                                                                                                 borderRadius: 4,
+                                                                                                                                                                               }}> 
+                                                                                                                                                                               <img
+                                                                                                                                                                                 src={Error_Icon}
+                                                                                                                                                                                 alt="ErrorIcon"
+                                                                                                                                                                                 style={{ marginRight: "4px", fontSize:15}}
+                                                                                                                                                                               />
+                                                                                                                                                                               <span
+                                                                                                                                                                                 style={{
+                                                                                                                                                                                   fontSize: "12px",
+                                                                                                                                                                                   color: "red",
+                                                                                                                                                                                   fontFamily: "Gilroy",
+                                                                                                                                                                                   fontWeight: 500,
+                                                                                                                                                                                   whiteSpace: "nowrap", 
+                                                                                                                                                                                 }}
+                                                                         >
+                                                                           {paymentError}
+                                                                         </span>
+                                                                       </div>
+              
+                                                                                    //  <div className="d-flex align-items-center p-1 ">
+                                                                                    //    <MdError style={{ color: "red", fontSize: "14px",  }} />
+                                                                                    //    <label
+                                                                                    //      className="mb-0"
+                                                                                    //      style={{
+                                                                                    //        color: "red",
+                                                                                    //        fontSize: "12px",
+                                                                                    //        fontFamily: "Gilroy",
+                                                                                    //        fontWeight: 500,
+                                                                                    //        whiteSpace: "nowrap"
+                                                                                    //      }}
+                                                                                    //    >
+                                                                                    //      {paymentError}
+                                                                                    //    </label>
+                                                                                    //  </div>
+                                                                                   )}
+                                                                                 </div>
+                                                      
+                                                      
+                                                      
+                                                                                    <Col md={6}>
+                                                                    <Form.Group >
+                                                                      <Form.Label
+                                                                        style={{
+                                                                          fontSize: 14,
+                                                                          fontWeight: 500,
+                                                                          fontFamily: "Gilroy",
+                                                                        }}
+                                                                      >
+                                                                       Transaction ID{" "}
+                                                                                       <span
+                                                                                         style={{
+                                                                                           color: "white",
+                                                                                           fontSize: "20px",
+                                                                                         }}
+                                                                                       >
+                                                                                         
+                                                                                       </span>
+                                                                      </Form.Label>
+                                                                      <FormControl
+                                                                        type="text"
+                                                                        id="form-controls"
+                                                                        placeholder="Enter Transaction ID"
+                                                                       value={transactionId} 
+                                                                       onChange={(e)=>handleTransactionId(e)} 
+                                                                       className="small-placeholder"
+                                                                        style={{
+                                                                          fontSize: 16,
+                                                                          color: "#4B4B4B",
+                                                                          fontFamily: "Gilroy",
+                                                                          fontWeight: 500,
+                                                                          boxShadow: "none",
+                                                                          border: "1px solid #D9D9D9",
+                                                                          height: 50,
+                                                                          borderRadius: 8,
+                                                                        }}
+                                                                      />
+                                                                                                                                              <style>{`
+                  .small-placeholder::placeholder {
+                    font-size: 14px;
+                    color: #a9a9a9;
+                    font-family: 'Gilroy';
+                  }
+                `}</style>
+                                                                    </Form.Group>
+                                                      
+                                                                   
+                                                      
+                                                                  </Col>
+                                                 </div>
+
               <div className="col-12 mb-3">
                 <Form.Group controlId="joiningDate">
                   <Form.Label
@@ -712,6 +995,7 @@ const isAmountValid = validateAssignField(amount, "amount", amountRef, focusedRe
   format="DD/MM/YYYY"
   placeholder="DD/MM/YYYY"
   value={joiningDate ? dayjs(joiningDate) : null}
+  className="small-placeholder-datepicker"
   onChange={(date) => {
     setDateError("");
     setJoiningDate(date ? date.toDate() : null);
@@ -719,10 +1003,9 @@ const isAmountValid = validateAssignField(amount, "amount", amountRef, focusedRe
     setJoingDateErrmsg("");
   }}
   getPopupContainer={() => document.body}
-  disabledDate={(current) => {
-    if (!bookingDate) return true;
-
-    return current && current.isBefore(dayjs(bookingDate), "day");
+   disabledDate={(current) => {
+    const checkout = dayjs(customer_details.CheckoutDate).startOf("day");
+    return current && current.isBefore(checkout, "day"); 
   }}
 />
 

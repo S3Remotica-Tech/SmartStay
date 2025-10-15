@@ -60,42 +60,89 @@ ConfirmChangeBed.propTypes = {
    
 
 
-   const validateAssignField = (value, fieldName, ref, focusedRef, setError) => {
-    const isValueEmpty =
-      (typeof value === "string" && (
-        value.trim() === "" ||
-        value === "Selected Room" ||
-        value === "Selected Floor" ||
-        value === "Selected Bed"
-      )) ||
-      value === undefined ||
-      value === null ||
-      value === "0";
+  //  const validateAssignField = (value, fieldName, ref, focusedRef, setError) => {
+  //   const isValueEmpty =
+  //     (typeof value === "string" && (
+  //       value.trim() === "" ||
+  //       value === "Selected Room" ||
+  //       value === "Selected Floor" ||
+  //       value === "Selected Bed"
+  //     )) ||
+  //     value === undefined ||
+  //     value === null ||
+  //     value === "0";
 
-    if (isValueEmpty) {
-      switch (fieldName) {
-        case "newRoomRent":
-          setError("Please Enter New Rent Amount");
-          break;
-        case "selectedDate":
-          setError("Please Select Date");
-          break;
-        default:
-          break;
-      }
+  //   if (isValueEmpty) {
+  //     switch (fieldName) {
+  //       case "newRoomRent":
+  //         setError("Please Enter New Rent Amount");
+  //         break;
+  //       case "selectedDate":
+  //         setError("Please Select Date");
+  //         break;
+  //       default:
+  //         break;
+  //     }
 
+  //     if (!focusedRef.current && ref?.current) {
+  //       ref.current.focus();
+  //       focusedRef.current = true;
+  //     }
+
+  //     return false;
+  //   }
+
+  //   setError("");
+  //   return true;
+  // };
+
+const validateAssignField = (value, fieldName, ref, focusedRef, setError) => {
+  const isValueEmpty =
+    (typeof value === "string" && (
+      value.trim() === "" ||
+      value === "Selected Room" ||
+      value === "Selected Floor" ||
+      value === "Selected Bed"
+    )) ||
+    value === undefined ||
+    value === null;
+
+  if (isValueEmpty) {
+    switch (fieldName) {
+      case "newRoomRent":
+        setError("Please Enter New Rent Amount");
+        break;
+      case "selectedDate":
+        setError("Please Select Date");
+        break;
+      default:
+        break;
+    }
+
+    if (!focusedRef.current && ref?.current) {
+      ref.current.focus();
+      focusedRef.current = true;
+    }
+
+    return false;
+  }
+
+  // 🔹 Extra check for 0 or only zeroes
+  if (fieldName === "newRoomRent") {
+    const numericValue = Number(value);
+    if (numericValue === 0 || /^0+$/.test(value)) {
+      setError("Rent amount cannot be 0");
       if (!focusedRef.current && ref?.current) {
         ref.current.focus();
         focusedRef.current = true;
       }
-
       return false;
     }
+  }
 
-    setError("");
-    return true;
-  };
-
+  setError("");
+  return true;
+};
 
   console.log("selectedCustomer", selectedCustomer);
   
@@ -456,6 +503,7 @@ useEffect(() => {
   }}
   format="DD/MM/YYYY"
   placeholder="DD/MM/YYYY"
+   className="small-placeholder-datepicker"
   value={selectedDate ? dayjs(selectedDate) : null}
   ref={selectedDateRef}
   onChange={(date) => {
@@ -587,7 +635,15 @@ useEffect(() => {
   // }}
 />
 
-
+                                             <style>{`
+  /* Force style only for placeholder of this DatePicker */
+  .small-placeholder-datepicker input::placeholder {
+    font-size: 14px !important;
+    color: #a9a9a9 !important;
+    font-family: 'Gilroy' !important;
+    opacity: 1 !important;
+  }
+`}</style>
 
 
 
@@ -681,6 +737,7 @@ useEffect(() => {
                             type="text"
                             id="form-controls"
                             placeholder="Enter Amount"
+                            className="small-placeholder"
                             style={{
                               fontSize: 16,
                               color: "#4B4B4B",
@@ -693,6 +750,13 @@ useEffect(() => {
                               marginTop: 8,
                             }}
                           />
+                                                  <style>{`
+    .small-placeholder::placeholder {
+      font-size: 14px;
+      color: #a9a9a9;
+      font-family: 'Gilroy';
+    }
+  `}</style>
                           {rentError && (
                                <div style={{
                                                                                                                                   color: "red",

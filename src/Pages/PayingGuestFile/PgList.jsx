@@ -84,7 +84,8 @@ function PgList() {
 
   const [showAddPg, setShowAddPg] = useState(false);
 
-
+  console.log("showAddPg" , filteredData);
+  
 
   const [showFloor, setShowFloor] = useState(false);
   const [showRoom, setShowRoom] = useState(false);
@@ -297,7 +298,6 @@ function PgList() {
     if (state.PgList.dleteHostelImagesStatusCode === 200) {
       dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
       dispatch({ type: "HOSTELLIST" })
-
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_HOSTEL_IMAGES" });
       }, 1000);
