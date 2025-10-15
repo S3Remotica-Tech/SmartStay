@@ -16,6 +16,7 @@ import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import addcircle from "../../../Assets/Images/New_images/add-circle.png";
 import Error_Icon from "/src/Assets/Images/New_images/Error_warning.png";
+import ProfileImage from "../../../Assets/Images/New_images/profile-picture.png";
 // import { JoininDatecustomer } from "../../Redux/Action/smartStayAction";
 
 function CheckIn({
@@ -52,6 +53,7 @@ function CheckIn({
     //         setRoomRent(matchedBed.bed_amount);
     //     }
     // }, [state.PgList, currentItem]);
+    console.log("currentItem",currentItem)
     useEffect(()=>{
 if(currentItem){
     setRoomRent(currentItem?.bed?.bed_amount)
@@ -77,59 +79,59 @@ if(currentItem){
     };
 
 
-    const customStyles = {
-        control: (base) => ({
-            ...base,
-            height: "48px",
-            border: "1px solid #D9D9D9",
-            borderRadius: "8px",
-            fontSize: "16px",
-            color: "#4B4B4B",
-            fontFamily: "Gilroy",
-            fontWeight: 500,
-            boxShadow: "none",
-            backgroundColor: "#EFF2FF"
+    // const customStyles = {
+    //     control: (base) => ({
+    //         ...base,
+    //         height: "48px",
+    //         border: "1px solid #D9D9D9",
+    //         borderRadius: "8px",
+    //         fontSize: "16px",
+    //         color: "#4B4B4B",
+    //         fontFamily: "Gilroy",
+    //         fontWeight: 500,
+    //         boxShadow: "none",
+    //         backgroundColor: "#EFF2FF"
 
-        }),
-        menu: (base) => ({
-            ...base,
-            backgroundColor: "#f8f9fa",
-            border: "1px solid #ced4da",
-            fontFamily: "Gilroy",
-        }),
-        menuList: (base) => ({
-            ...base,
-            backgroundColor: "#f8f9fa",
-            maxHeight: "120px",
-            padding: 0,
-            scrollbarWidth: "thin",
-            overflowY: "auto",
-            fontFamily: "Gilroy",
-        }),
-        placeholder: (base) => ({
-            ...base,
-            color: "#555",
-        }),
-        dropdownIndicator: (base) => ({
-            ...base,
-            color: "#555",
-            display: "inline-block",
-            fill: "currentColor",
-            lineHeight: 1,
-            stroke: "currentColor",
-            strokeWidth: 0,
-            cursor: "pointer"
-        }),
-        indicatorSeparator: () => ({
-            display: "none",
-        }),
-        option: (base, state) => ({
-            ...base,
-            cursor: "pointer",
-            backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-            color: "#000",
-        }),
-    };
+    //     }),
+    //     menu: (base) => ({
+    //         ...base,
+    //         backgroundColor: "#f8f9fa",
+    //         border: "1px solid #ced4da",
+    //         fontFamily: "Gilroy",
+    //     }),
+    //     menuList: (base) => ({
+    //         ...base,
+    //         backgroundColor: "#f8f9fa",
+    //         maxHeight: "120px",
+    //         padding: 0,
+    //         scrollbarWidth: "thin",
+    //         overflowY: "auto",
+    //         fontFamily: "Gilroy",
+    //     }),
+    //     placeholder: (base) => ({
+    //         ...base,
+    //         color: "#555",
+    //     }),
+    //     dropdownIndicator: (base) => ({
+    //         ...base,
+    //         color: "#555",
+    //         display: "inline-block",
+    //         fill: "currentColor",
+    //         lineHeight: 1,
+    //         stroke: "currentColor",
+    //         strokeWidth: 0,
+    //         cursor: "pointer"
+    //     }),
+    //     indicatorSeparator: () => ({
+    //         display: "none",
+    //     }),
+    //     option: (base, state) => ({
+    //         ...base,
+    //         cursor: "pointer",
+    //         backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+    //         color: "#000",
+    //     }),
+    // };
 
     const [customer, setCustomer] = useState([])
 
@@ -238,16 +240,16 @@ if(currentItem){
     
 
 
-    const formatOptions = () => {
-        return state.UsersList?.Users?.map((user) => ({
-            value: user.ID,
-            label: (
-                <div className="d-flex align-items-center">
-                    <span>{user.Name}</span>
-                </div>
-            ),
-        }));
-    };
+    // const formatOptions = () => {
+    //     return state.UsersList?.Users?.map((user) => ({
+    //         value: user.ID,
+    //         label: (
+    //             <div className="d-flex align-items-center">
+    //                 <span>{user.Name}</span>
+    //             </div>
+    //         ),
+    //     }));
+    // };
 
 
 
@@ -582,7 +584,7 @@ const formatDate = (date) => {
 
                             <div className="d-flex justify-content-between w-100" style={{ padding: "5px  10px 5px 5px" ,borderBottom: "1px solid #e0e0e0",}}>
                                 <div >
-                                    <div>
+                                    <div className="d-flex justify-content-between w-100">
                                         <Modal.Title
                                             style={{
                                                 fontSize: 18,
@@ -593,9 +595,46 @@ const formatDate = (date) => {
                                         >
                                             Check-In Tenant
                                         </Modal.Title>
+                                            <CloseCircle size="24" color="#000"  onClick={handleClose} style={{ cursor: "pointer",marginTop:7,paddingLeft:1 }} />
                                     </div>
+                                    
+                        
                                 
-                                      <div className="d-flex flex-wrap gap-2 ">
+                                  
+
+                                      <div className="d-flex align-items-center gap-3 mb-3 ">
+
+                  <img
+                    src={ProfileImage}
+                    alt="Profile"
+                    className="rounded-circle"
+                    width="60px"
+                    height="60px"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = ProfileImage;
+                    }}
+                  />
+                
+
+                   <div style={{ display: 'flex', flexDirection: 'column' }}>
+                          <div className="ps-3">
+                            <div>
+                              <label
+                                style={{
+                                  fontSize: 16,
+                                  fontWeight: 500,
+                                  color: "#222222",
+                                  fontFamily: "Gilroy",
+                                }}
+                              >
+                              {customer_details?.Name}
+                              </label>
+                            </div>
+
+                          </div>
+
+                          <div className="d-flex flex-wrap gap-2 ms-2">
 
                             <div
                               style={{
@@ -611,7 +650,8 @@ const formatDate = (date) => {
                                 whiteSpace: "nowrap",
                               }}
                             >
-                             {floorName} 
+                             {/* {floor_name}  */}
+                              {floorName} 
                             </div>
 
                             <div
@@ -628,11 +668,64 @@ const formatDate = (date) => {
                                 whiteSpace: "nowrap",
                               }}
                             >
-                             {currentItem?.room.Room_Name} - {currentItem?.bed.bed_no}
+                             {/* {room_name} - {bed_name} */}
+                              {currentItem?.room.Room_Name} - {currentItem?.bed.bed_no}
+
                             </div>
 
 
                           </div>
+                        </div>
+
+                        
+                </div>
+
+
+
+
+                <div
+  style={{
+    display: "flex",
+    flexDirection: "column",
+ 
+    fontFamily: "Gilroy",
+    fontSize: "15px",
+    color: "#333",
+    marginTop: "10px",
+  }}
+>
+  
+  <div
+    style={{
+      display: "flex",
+      flexDirection:"row",
+    //   alignItems: "center",
+     justifyContent: "space-between",
+      paddingBottom: "6px",
+    }}
+  >
+    <div style={{display:'flex'}}>
+    <span style={{ fontWeight: 400, color: "#4B4B4B",fontFamily:"Gilroy",fontSize:14 }}>Booking Date</span>
+    </div>
+     <div style={{display:'flex',alignItems:'end' , justifyContent:'end', marginLeft:'250px' }}>
+    <span style={{ fontWeight: 600, color: "#111",fontFamily:"Gilroy",fontSize:16 }}>{bookingDate ? bookingDate.format("DD/MM/YYYY") : ""}</span>
+    </div>
+  </div>
+
+  {/* Booking Amount */}
+  <div
+    style={{
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      paddingBottom: "6px",
+        // borderBottom: "2px solid #f0f0f0",
+    }}
+  >
+    <span style={{ fontWeight: 400,  color: "#4B4B4B",fontFamily:"Gilroy",fontSize:14 }}>Booking Amount</span>
+    <span style={{ fontWeight: 600, color: "#111",fontFamily:"Gilroy",fontSize:16 }}>₹ {bookingAmount}</span>
+  </div>
+</div>
                                 </div>
 
 
@@ -641,14 +734,17 @@ const formatDate = (date) => {
 
 
 
-                            <CloseCircle size="24" color="#000" onClick={handleClose} style={{ cursor: "pointer" }} />
                         </Modal.Header>
+
+                    
+
+
                        
-                        <Modal.Body style={{ maxHeight: "370px", overflowY: "scroll" }} className="show-scrolls pt-0 mt-1 me-3">
+                        <Modal.Body style={{ maxHeight: "300px", overflowY: "scroll" }} className="show-scrolls pt-0 mt-1 me-3">
                             <div className="row mt-1">
 
 
-                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <Form.Group
                                         className="mb-2"
                                         controlId="exampleForm.ControlInput1"
@@ -681,9 +777,9 @@ const formatDate = (date) => {
                                     </Form.Group>
 
 
-                                </div>
+                                </div> */}
 
-                                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                     <Form.Group className="mb-2" controlId="purchaseDate">
                                         <Form.Label
                                             style={{
@@ -694,11 +790,11 @@ const formatDate = (date) => {
                                             }}
                                         >
                                             Booking Date {" "}
-                                            {/* <span style={{ color: 'red', fontSize: '20px' }}>*</span> */}
+                                            
                                         </Form.Label>
 
                                         <Form.Control
-                                            // value={bookingDate}
+                                          
                                             value={bookingDate ? bookingDate.format("DD/MM/YYYY") : ""}
                                             type="text"
                                             placeholder="Booking Date"
@@ -717,9 +813,9 @@ const formatDate = (date) => {
 
 
                                     </Form.Group>
-                                </div>
+                                </div> */}
 
-                                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                     <Form.Group
                                         className="mb-2"
                                         controlId="exampleForm.ControlInput1"
@@ -733,7 +829,7 @@ const formatDate = (date) => {
                                             }}
                                         >
                                             Booking Amount
-                                            {/* <span style={{ color: 'red', fontSize: '20px' }}>*</span> */}
+                                           
                                         </Form.Label>
                                         <Form.Control
                                             value={bookingAmount}
@@ -752,7 +848,7 @@ const formatDate = (date) => {
                                             }}
                                         />
                                     </Form.Group>
-                                </div>
+                                </div> */}
 
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <Form.Group
@@ -801,7 +897,10 @@ const formatDate = (date) => {
         }),
         placeholder: (base) => ({
             ...base,
-            color: "#555",
+            color: "#a9a9a9",  
+              fontSize: "14px", 
+               fontFamily: "Gilroy",
+               fontWeight: 400,
         }),
         dropdownIndicator: (base) => ({
             ...base,
@@ -882,6 +981,7 @@ const formatDate = (date) => {
                                             value={RoomRent}
                                             onChange={handleRoomRent}
                                             type="text"
+                                             className="small-placeholder"
                                             placeholder="Enter Rental Amount"
                                             style={{
                                                 fontSize: 16,
@@ -947,7 +1047,8 @@ const formatDate = (date) => {
                                             value={AdvanceAmount}
                                             onChange={handleAdvanceAmount}
                                             type="text"
-                                            placeholder="Enter   Advance Amount"
+                                            className="small-placeholder"
+                                            placeholder="Enter Advance Amount"
                                             style={{
                                                 fontSize: 16,
                                                 color: "#4B4B4B",
@@ -960,6 +1061,13 @@ const formatDate = (date) => {
                                             }}
                                         />
                                     </Form.Group>
+                                    <style>{`
+    .small-placeholder::placeholder {
+      font-size: 14px;
+      color: #a9a9a9;
+      font-family: 'Gilroy';
+    }
+  `}</style>
 
                                     {advanceAmountError && (
                                                 <div
@@ -1050,6 +1158,7 @@ const formatDate = (date) => {
         }}
         format="DD/MM/YYYY"
         placeholder="DD/MM/YYYY"
+        className="small-placeholder-datepicker"
         value={joiningDate ? dayjs(joiningDate) : null} // show current date by default
         onChange={(date) => {
           setJoiningDate(date ? date.toDate() : null);
@@ -1063,6 +1172,15 @@ const formatDate = (date) => {
             current > dayjs().endOf("day")
           }
       />
+      <style>{`
+  /* Force style only for placeholder of this DatePicker */
+  .small-placeholder-datepicker input::placeholder {
+    font-size: 13px !important;
+    color: #a9a9a9 !important;
+    font-family: 'Gilroy' !important;
+    opacity: 1 !important;
+  }
+`}</style>
     </div>
   
                                     </Form.Group>
@@ -1199,7 +1317,10 @@ const formatDate = (date) => {
                                                                     }),
                                                                     placeholder: (base) => ({
                                                                         ...base,
-                                                                        color: "#555",
+                                                                        color: "#a9a9a9",  
+                                                                        fontSize: "14px", 
+                                                                         fontFamily: "Gilroy",
+                                                                          fontWeight: 400,
                                                                     }),
                                                                     dropdownIndicator: (base) => ({
                                                                         ...base,
@@ -1226,8 +1347,8 @@ const formatDate = (date) => {
                                                             <>
                                                                 <input
                                                                     type="text"
-                                                                    className="form-control"
-                                                                    placeholder="Enter custom reason"
+                                                                    className="form-control small-placeholder"
+                                                                    placeholder="Enter custom Reason "
                                                                     value={item.customReason}
                                                                     onChange={(e) => handleInputChange(index, "customReason", e.target.value)}
                                                                     style={{
@@ -1241,8 +1362,17 @@ const formatDate = (date) => {
                                                                         borderRadius: 8,
                                                                     }}
                                                                 />
+                                                             
                                                             </>
+                                                            
                                                         )}
+                                                           <style>{`
+    .small-placeholder::placeholder {
+      font-size: 14px;
+      color: #a9a9a9;
+      font-family: 'Gilroy';
+    }
+  `}</style>
                                                         {errors[index]?.reason && (
                                                             <div style={{
                                                                                                                                                                          color: "red",
@@ -1278,10 +1408,10 @@ const formatDate = (date) => {
 
                                                         <input
                                                             type="text"
-                                                            placeholder="Enter amount"
+                                                            placeholder="Enter Amount"
                                                             value={item.amount}
                                                             onChange={(e) => handleInputChange(index, "amount", e.target.value)}
-                                                            className="form-control"
+                                                            className="form-control small-placeholder"
                                                             style={{
                                                                 fontSize: 16,
                                                                 color: "#4B4B4B",

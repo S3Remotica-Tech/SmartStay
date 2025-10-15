@@ -3063,6 +3063,7 @@ console.log("bed", selectedFloor);
                               }}
                               format="DD/MM/YYYY"
                               placeholder="DD/MM/YYYY"
+                              className="small-placeholder-datepicker"
                               value={selectedDate ? dayjs(selectedDate) : null}
                               onChange={(date) => {
                                 setDateError("");
@@ -3076,6 +3077,15 @@ console.log("bed", selectedFloor);
                               }
                               disabledDate={(current) => current && current > dayjs().endOf("day")}
                             />
+                            <style>{`
+  /* Force style only for placeholder of this DatePicker */
+  .small-placeholder-datepicker input::placeholder {
+    font-size: 13px !important;
+    color: #a9a9a9 !important;
+    font-family: 'Gilroy' !important;
+    opacity: 1 !important;
+  }
+`}</style>
                           </div>
      
 
@@ -3758,21 +3768,120 @@ console.log("bed", selectedFloor);
                     }
                     alt="Profile"
                     className="rounded-circle"
-                    width="35"
-                    height="35"
+                    width="60px"
+                    height="60px"
                     onError={(e) => {
                       e.target.onerror = null;
                       e.target.src = Profileimage;
                     }}
                   />
-                  <div>
+                  {/* <div>
                     <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px" }}>
                       {firstname} {lastname}
                     </p>
 
-                  </div>
+                  </div> */}
+
+                   <div style={{ display: 'flex', flexDirection: 'column' }}>
+                          <div className="ps-3">
+                            <div>
+                              <label
+                                style={{
+                                  fontSize: 16,
+                                  fontWeight: 500,
+                                  color: "#222222",
+                                  fontFamily: "Gilroy",
+                                }}
+                              >
+                               {firstname} {lastname}
+                              </label>
+                            </div>
+
+                          </div>
+
+                          <div className="d-flex flex-wrap gap-2 ms-2">
+
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                background: "#FFEFCF",
+                                padding: "6px 12px",
+                                borderRadius: "60px",
+                                fontFamily: "Gilroy",
+                                fontSize: 12,
+                                color: "#222",
+                                fontWeight: 500,
+                                whiteSpace: "nowrap",
+                              }}
+                            >
+                             {floor_name} 
+                            </div>
+
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                background: "#FFE0D9",
+                                padding: "6px 12px",
+                                borderRadius: "60px",
+                                fontFamily: "Gilroy",
+                                fontSize: 12,
+                                color: "#222",
+                                fontWeight: 500,
+                                whiteSpace: "nowrap",
+                              }}
+                            >
+                             {room_name} - {bed_name}
+                            </div>
+
+
+                          </div>
+                        </div>
+
+                        
                 </div>
 
+<div
+  style={{
+    display: "flex",
+    flexDirection: "column",
+   paddingLeft:10,
+   paddingRight:10,
+    fontFamily: "Gilroy",
+    fontSize: "15px",
+    color: "#333",
+    marginTop: "10px",
+  }}
+>
+  {/* Booking Date */}
+  <div
+    style={{
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+    
+      paddingBottom: "6px",
+    }}
+  >
+    <span style={{ fontWeight: 400, color: "#4B4B4B",fontFamily:"Gilroy",fontSize:14 }}>Booking Date</span>
+    <span style={{ fontWeight: 600, color: "#111",fontFamily:"Gilroy",fontSize:16 }}>{bookingDate ? bookingDate.format("DD/MM/YYYY") : ""}</span>
+  </div>
+
+  {/* Booking Amount */}
+  <div
+    style={{
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      paddingBottom: "6px",
+        borderBottom: "2px solid #f0f0f0",
+    }}
+  >
+    <span style={{ fontWeight: 400,  color: "#4B4B4B",fontFamily:"Gilroy",fontSize:14 }}>Booking Amount</span>
+    <span style={{ fontWeight: 600, color: "#111",fontFamily:"Gilroy",fontSize:16 }}>₹ {bookingAmount}</span>
+  </div>
+</div>
 
                 <div style={{ backgroundColor: "#F7F9FF", borderRadius: 10, width: "100%" }} className="mt-1 p-1">
                   <div style={{ display: "flex", gap: "10px", justifyContent: "space-between", width: "100%" }}>
@@ -3810,10 +3919,12 @@ console.log("bed", selectedFloor);
 
                 </div>
 
+                
+
                 {activeTab === "long" ? <>
-                  <div style={{ maxHeight: "300px", overflowY: "scroll" }} className="show-scroll p-2 mt-2 me-1">
+                  <div style={{ maxHeight: "220px", overflowY: "scroll" , overflowX:'hidden'}} className="show-scroll p-2 mt-2">
                     <div className="">
-                       <div className="row">
+                       {/* <div className="row">
                       <div className="col-12">
                         <Form.Label
                           style={{
@@ -3881,9 +3992,9 @@ console.log("bed", selectedFloor);
 
 
                       </div>
-                      </div>
+                      </div> */}
 
-<div className="row">
+{/* <div className="row">
 
                       <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
                         <Form.Label
@@ -3932,7 +4043,7 @@ console.log("bed", selectedFloor);
                             value={bookingAmount}
 
                             style={{
-                              // marginTop: "-3px",
+                             
                               fontSize: 16,
                               color: "#4B4B4B",
                               fontFamily: "Gilroy",
@@ -3945,30 +4056,15 @@ console.log("bed", selectedFloor);
                             }}
                           />
                         </Form.Group>
-                        {/* {advanceAmountError && (
-                          <div style={{ color: "red" }}>
-                            <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                            <label
-                              className="mb-0"
-                              style={{
-                                color: "red",
-                                fontSize: "12px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
-                            >
-                              {advanceAmountError}
-                            </label>
-                          </div>
-                        )} */}
+                      
                       </div>
-                      </div>
+                      </div> */}
 
 
                       <Row>
                        
                                   {/* <Col md={6}> */}
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mt-2">
+                      {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mt-2">
                         <Form.Group>
                           <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
                             Booking Date
@@ -3978,7 +4074,7 @@ console.log("bed", selectedFloor);
                             disabled
                             type="text"
                             placeholder="Enter Amount"
-                            // value={bookingDate}
+                         
                             value={bookingDate ? bookingDate.format("DD/MM/YYYY") : ""}
                             style={{
                               fontSize: 16,
@@ -3994,10 +4090,10 @@ console.log("bed", selectedFloor);
                           />
                         </Form.Group>
 
-                      {/* </div> */}
-                      </div>
+                    
+                      </div> */}
 
- <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+ <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                       {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12"> */}
                         <Form.Group controlId="purchaseDate">
                           <Form.Label
@@ -6068,7 +6164,7 @@ console.log("bed", selectedFloor);
 
               <div >
                 <Modal.Header className="pt-0"
-                  style={{ position: "relative", marginTop: "", border: "none" }}
+                  style={{ position: "relative", marginTop: "", }}
                 >
                   <div
                     style={{
@@ -6089,7 +6185,7 @@ console.log("bed", selectedFloor);
                 </Modal.Header>
 
 
-                <div className="d-flex align-items-center gap-3 mb-3 ms-3">
+                <div className="d-flex align-items-center gap-3 mt-2 mb-2 ms-3">
                   <img
                   
                     //  src={
