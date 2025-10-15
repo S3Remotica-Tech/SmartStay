@@ -1081,6 +1081,13 @@ const handleTransactionId = (e) => {
                       height: "50px",
                       borderRadius: "8px",
                     }),
+                    placeholder: (base) => ({
+  ...base,
+  fontSize: "14px",     
+  color: "#a9a9a9",     
+  fontFamily: "Gilroy",
+  fontWeight: 400,
+}),
                     menu: (base) => ({
                       ...base,
                       maxHeight: "150px",
@@ -1276,6 +1283,13 @@ const handleTransactionId = (e) => {
                       strokeWidth: 0,
                       cursor: "pointer",
                     }),
+                    placeholder: (base) => ({
+  ...base,
+  fontSize: "14px",     
+  color: "#a9a9a9",     
+  fontFamily: "Gilroy",
+  fontWeight: 400,
+}),
                     indicatorSeparator: () => ({
                       display: "none",
                     }),
@@ -1383,10 +1397,13 @@ const handleTransactionId = (e) => {
                     overflowY: "auto",
                     fontFamily: "Gilroy",
                   }),
-                  placeholder: (base) => ({
-                    ...base,
-                    color: "#555",
-                  }),
+                   placeholder: (base) => ({
+  ...base,
+  fontSize: "14px",     
+  color: "#a9a9a9",     
+  fontFamily: "Gilroy",
+  fontWeight: 400,
+}),
                   dropdownIndicator: (base) => ({
                     ...base,
                     color: "#555",
