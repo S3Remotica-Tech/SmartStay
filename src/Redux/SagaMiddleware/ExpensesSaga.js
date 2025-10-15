@@ -91,13 +91,17 @@ function* handleAddExpense(action) {
          refreshToken(response)
       }
    }
-   catch (error) {
-         if (error.code === 'ERR_NETWORK') {
-            yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-         } else {
-            yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+  catch (error) {
+      if (error.code === 'ERR_BAD_REQUEST') {
+         if (error.status === 400 || error.status === 403) {
+             yield put({ type: 'BANK_INSUFFICIANT_FUND_ERROR', payload: error.response.data });
+           
          }
+      } else if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
       }
+   }
+
 }
 
 

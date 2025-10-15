@@ -165,46 +165,46 @@ function AddPg({ show, handleClose, currentItem }) {
     }
   };
 
- const handleHouseNo = (e) => {
-  const value = e.target.value;
-const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
-  if (regex.test(value)) {
-    setHouseNo(value);
-    setHouse_NoError("");
-    setGeneralError("");
-    setIsChangedError("");
-  } 
-};
+  const handleHouseNo = (e) => {
+    const value = e.target.value;
+    const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
+    if (regex.test(value)) {
+      setHouseNo(value);
+      setHouse_NoError("");
+      setGeneralError("");
+      setIsChangedError("");
+    }
+  };
 
 
   const handleStreetName = (e) => {
-  const value = e.target.value;
-  const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
+    const value = e.target.value;
+    const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
 
-   if (regex.test(value)) {
-    setStreet(value);
-    setStreetError("");
-    setGeneralError("");
-    setIsChangedError("");
-  } else {
-    setStreetError("Please Enter Valid Street Name");
-  }
-};
+    if (regex.test(value)) {
+      setStreet(value);
+      setStreetError("");
+      setGeneralError("");
+      setIsChangedError("");
+    } else {
+      setStreetError("Please Enter Valid Street Name");
+    }
+  };
 
 
   const handleLandmark = (e) => {
-  const value = e.target.value;
-  const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
+    const value = e.target.value;
+    const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
 
-  if (regex.test(value)) {
-    setLandmark(value);
-    setLandmarkError("");
-    setGeneralError("");
-    setIsChangedError("");
-  } else {
-    setLandmarkError("Please Enter Valid Landmark");
-  }
-};
+    if (regex.test(value)) {
+      setLandmark(value);
+      setLandmarkError("");
+      setGeneralError("");
+      setIsChangedError("");
+    } else {
+      setLandmarkError("Please Enter Valid Landmark");
+    }
+  };
 
 
   const handlePinCodeChange = (e) => {
@@ -295,22 +295,22 @@ const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
     }
 
     if (!mobile) {
-  setMobileError("Please Enter Mobile No");
-  if (!focused) {
-    mobileRef.current?.focus();
-    focused = true;
-  }
-  hasError = true;
-} else if (!/^(?!0{10})[1-9][0-9]{9}$/.test(mobile)) {
-    setMobileError("Please Enter Valid Mobile No");
-  if (!focused) {
-    mobileRef.current?.focus();
-    focused = true;
-  }
-  hasError = true;
-} else {
-  setMobileError(""); 
-}
+      setMobileError("Please Enter Mobile No");
+      if (!focused) {
+        mobileRef.current?.focus();
+        focused = true;
+      }
+      hasError = true;
+    } else if (!/^(?!0{10})[1-9][0-9]{9}$/.test(mobile)) {
+      setMobileError("Please Enter Valid Mobile No");
+      if (!focused) {
+        mobileRef.current?.focus();
+        focused = true;
+      }
+      hasError = true;
+    } else {
+      setMobileError("");
+    }
 
 
 
@@ -790,9 +790,10 @@ const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
                   placeholder="Enter PG Name"
                   style={{
                     fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
+                    color: pgName ? "#4B4B4B" : "#9AA0A6",
+                    opacity: pgName ? 1 : 0.7,
                     fontWeight: pgName ? 600 : 500,
+                    fontFamily: "Gilroy",
                     boxShadow: "none",
                     border: "1px solid #D9D9D9",
                     height: 50,
@@ -935,7 +936,7 @@ const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
                     fontSize: 16,
                     color: "#4B4B4B",
                     fontFamily: "Gilroy",
-                    fontWeight: 500,
+                     fontWeight: house_no ? 600 : 500,
                     boxShadow: "none",
                     border: "1px solid #D9D9D9",
                     height: 50,
@@ -968,10 +969,10 @@ const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
                   onChange={(e) => handleStreetName(e)}
                   style={{
                     fontSize: 16,
-                    color: "#4B4B4B",
+                    color:"#4B4B4B",
                     fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
+                    fontWeight: street ? 600 : 500,
+                   boxShadow: "none",
                     border: "1px solid #D9D9D9",
                     height: 50,
                     borderRadius: 8,
@@ -1005,7 +1006,7 @@ const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
                     fontSize: 16,
                     color: "#4B4B4B",
                     fontFamily: "Gilroy",
-                    fontWeight: 500,
+                     fontWeight: landmark ? 600 : 500,
                     boxShadow: "none",
                     border: "1px solid #D9D9D9",
                     height: 50,
@@ -1084,7 +1085,7 @@ const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
                     fontSize: 16,
                     color: "#4B4B4B",
                     fontFamily: "Gilroy",
-                    fontWeight: 500,
+                    fontWeight:city ? 600 : 500,
                     boxShadow: "none",
                     border: "1px solid #D9D9D9",
                     height: 50,
@@ -1147,7 +1148,7 @@ const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
                       border: "1px solid #D9D9D9",
                       borderRadius: "8px",
                       fontSize: "16px",
-                      color: "#4B4B4B",
+                      color: state_name ? "#4B4B4B" : "9AA0A6",
                       fontFamily: "Gilroy",
                       fontWeight: state_name ? 600 : 500,
                       boxShadow: "none",
@@ -1168,7 +1169,7 @@ const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
                     }),
                     placeholder: (base) => ({
                       ...base,
-                      color: "#555",
+                      color: "#9AA0A6",
                     }),
                     dropdownIndicator: (base) => ({
                       ...base,

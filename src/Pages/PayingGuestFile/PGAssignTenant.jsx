@@ -30,7 +30,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
   const [roomrentError, setRoomRentError] = useState("");
   const [RoomRent, setRoomRent] = useState("");
   const [AdvanceAmount, setAdvanceAmount] = useState("");
-  const [checkin_joiningDate, setCheckinJoiningDate] = useState(null);
+  const [checkin_joiningDate, setCheckinJoiningDate] = useState(new Date());
   const [Checkin_joiningDateErrmsg, setCheckinJoingDateErrmsg] = useState('')
   const [isTrigger, setIsTrigger] = useState(false)
   const reasonOptions = [
@@ -70,37 +70,37 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
   };
 
   const handleInputChange = (index, field, value) => {
-        const updatedFields = [...fields];
-        const updatedErrors = [...errors];
+    const updatedFields = [...fields];
+    const updatedErrors = [...errors];
 
-        if (field === "reason" || field === "customReason") {
-                       const cleanedValue = value.replace(/[^A-Za-z ]/g, "");
+    if (field === "reason" || field === "customReason") {
+      const cleanedValue = value.replace(/[^A-Za-z ]/g, "");
 
-            if (field === "reason") {
-                if (cleanedValue.toLowerCase() === "others") {
-                    updatedFields[index].showInput = true;
-                    updatedFields[index].reason_name = "others";
-                    updatedFields[index].customReason = "";
-                } else {
-                    updatedFields[index].showInput = false;
-                    updatedFields[index].reason = cleanedValue;
-                    updatedFields[index].reason_name = cleanedValue;
-                    updatedFields[index].customReason = "";
-                }
-            } else if (field === "customReason") {
-                updatedFields[index].customReason = cleanedValue;
-            }
-
-            if (updatedErrors[index]) updatedErrors[index].reason = "";
-        } else if (field === "amount") {
-            const numericValue = value.replace(/[^0-9]/g, "");
-            updatedFields[index].amount = numericValue;
-            if (updatedErrors[index]) updatedErrors[index].amount = "";
+      if (field === "reason") {
+        if (cleanedValue.toLowerCase() === "others") {
+          updatedFields[index].showInput = true;
+          updatedFields[index].reason_name = "others";
+          updatedFields[index].customReason = "";
+        } else {
+          updatedFields[index].showInput = false;
+          updatedFields[index].reason = cleanedValue;
+          updatedFields[index].reason_name = cleanedValue;
+          updatedFields[index].customReason = "";
         }
+      } else if (field === "customReason") {
+        updatedFields[index].customReason = cleanedValue;
+      }
 
-        setFields(updatedFields);
-        setErrors(updatedErrors);
-    };
+      if (updatedErrors[index]) updatedErrors[index].reason = "";
+    } else if (field === "amount") {
+      const numericValue = value.replace(/[^0-9]/g, "");
+      updatedFields[index].amount = numericValue;
+      if (updatedErrors[index]) updatedErrors[index].amount = "";
+    }
+
+    setFields(updatedFields);
+    setErrors(updatedErrors);
+  };
 
   const handleRemoveField = (index) => {
     const updatedFields = [...fields];
@@ -110,11 +110,11 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
 
 
-  
+
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
-       dispatch({ type: 'UNASSIGNCUSTOMER', payload: { hostel_id: state.login.selectedHostel_Id, type: "inactive" } })
+      dispatch({ type: 'UNASSIGNCUSTOMER', payload: { hostel_id: state.login.selectedHostel_Id, type: "inactive" } })
       setIsTrigger(true)
 
 
@@ -189,14 +189,14 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
   const [modeOfPayment, setModeOfPayment] = useState("");
 
   const [transactionId, setTransactionId] = useState("")
- const handleTransactionId = (e) => {
-  const value = e.target.value;
-  const regex = /^[A-Za-z0-9_.-]*$/;
+  const handleTransactionId = (e) => {
+    const value = e.target.value;
+    const regex = /^[A-Za-z0-9_.-]*$/;
 
-  if (regex.test(value)) {
-    setTransactionId(value);
-  }
-};
+    if (regex.test(value)) {
+      setTransactionId(value);
+    }
+  };
 
 
   const labelMap = {
@@ -670,17 +670,17 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                         fontFamily: "Gilroy",
                         color: 'rgba(30, 69, 225, 1)'
                       }}>{currentItem?.floorName}  {" "} <span style={{
-                                            fontSize: 14,
-                                            color: "#1E45E1",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                        }}>|</span>  {" "}
-                                        {currentItem?.roomName}  {" "} <span style={{
-                                            fontSize: 14,
-                                            color: "#1E45E1",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                        }}>|</span>  {" "} {currentItem?.bedName}</span>
+                        fontSize: 14,
+                        color: "#1E45E1",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                      }}>|</span>  {" "}
+                        {currentItem?.roomName}  {" "} <span style={{
+                          fontSize: 14,
+                          color: "#1E45E1",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}>|</span>  {" "} {currentItem?.bedName}</span>
                     </div>
                   </div>
 
@@ -802,7 +802,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                 }),
                                 placeholder: (base) => ({
                                   ...base,
-                                  color: "#555",
+                                  color: "#9AA0A6",
                                 }),
                                 dropdownIndicator: (base) => ({
                                   ...base,
@@ -823,7 +823,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
 
                             {booking_customererrmsg.trim() !== "" && (
-                             <ErrorMessage message={booking_customererrmsg} type="error" />
+                              <ErrorMessage message={booking_customererrmsg} type="error" />
                             )}
                           </Form.Group>
                         </div>
@@ -851,8 +851,9 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
                           <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
                             <DatePicker
+                              className={bookingDate ? "datepicker-bold" : "datepicker-normal"}
                               ref={bookingDateRef}
-                              style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy" }}
+                              style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", fontWeight: bookingDate ? 600 : 500, }}
                               format="DD/MM/YYYY"
                               placeholder="DD/MM/YYYY"
                               value={bookingDate ? dayjs(bookingDate) : null}
@@ -871,11 +872,11 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                           </div>
                         </Form.Group>
                         {dateError && (
-                           <ErrorMessage message={dateError} type="error" />
+                          <ErrorMessage message={dateError} type="error" />
                         )}
 
                         {bookingDateErrmsg.trim() !== "" && (
-                           <ErrorMessage message={bookingDateErrmsg} type="error" />
+                          <ErrorMessage message={bookingDateErrmsg} type="error" />
                         )}
                       </Col>
 
@@ -906,7 +907,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                               fontSize: 16,
                               color: "#4B4B4B",
                               fontFamily: "Gilroy",
-                              fontWeight: 500,
+                              fontWeight: amount ? 600 : 500,
                               boxShadow: "none",
                               border: "1px solid #D9D9D9",
                               height: 50,
@@ -990,7 +991,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                               }),
                               placeholder: (base) => ({
                                 ...base,
-                                color: "#555",
+                                color: "#9AA0A6",
                               }),
                               dropdownIndicator: (base) => ({
                                 ...base,
@@ -1013,7 +1014,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
                         </Form.Group>
                         {paymentError && (
-                           <ErrorMessage message={paymentError} type="error" />
+                          <ErrorMessage message={paymentError} type="error" />
                         )}
                       </Col>
 
@@ -1049,7 +1050,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                               fontSize: 16,
                               color: "#4B4B4B",
                               fontFamily: "Gilroy",
-                              fontWeight: 500,
+                              fontWeight: transactionId ? 600 : 500,
                               boxShadow: "none",
                               border: "1px solid #D9D9D9",
                               height: 50,
@@ -1072,7 +1073,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                               fontWeight: 500,
                             }}
                           >
-                            Joining Date (Tentative) {" "} 
+                            Joining Date (Tentative) {" "}
                             <span style={{ color: "red", fontSize: "20px" }}> * </span>
                           </Form.Label>
 
@@ -1107,11 +1108,11 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                           </div>
                         </Form.Group>
                         {dateError && (
-                           <ErrorMessage message={dateError} type="error" />
+                          <ErrorMessage message={dateError} type="error" />
                         )}
 
                         {joiningDateErrmsg.trim() !== "" && (
-                           <ErrorMessage message={joiningDateErrmsg} type="error" />
+                          <ErrorMessage message={joiningDateErrmsg} type="error" />
                         )}
 
 
@@ -1152,7 +1153,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                       ></div>
                     </div>
                   }
-               
+
                   <div className="d-flex justify-content-end">
                     <Button
                       style={{
@@ -1210,7 +1211,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                       lineHeight: "normal",
                                     }}
                                   >
-                                 Tenant <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                                    Tenant <span style={{ color: "red", fontSize: "20px" }}>*</span>
                                   </Form.Label>
                                   <Select
                                     options={
@@ -1264,7 +1265,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                       }),
                                       placeholder: (base) => ({
                                         ...base,
-                                        color: "#555",
+                                        color: "#9aa0a6",
                                       }),
                                       dropdownIndicator: (base) => ({
                                         ...base,
@@ -1319,127 +1320,120 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                 classNamePrefix="custom"
                                 menuPlacement="auto"
                                 noOptionsMessage={() => "No stay types available"}
-                                styles={{
-                                  control: (base) => ({
-                                    ...base,
-                                    height: "50px",
-                                    border: "1px solid #D9D9D9",
-                                    borderRadius: "8px",
-                                    fontSize: "16px",
-                                    color: "#4B4B4B",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                    boxShadow: "none",
-                                    cursor: "pointer",
-                                  }),
-                                  menu: (base) => ({
-                                    ...base,
-                                    backgroundColor: "#f8f9fa",
-                                    border: "1px solid #ced4da",
-                                    fontFamily: "Gilroy",
-                                    cursor: "pointer",
-                                  }),
-                                  menuList: (base) => ({
-                                    ...base,
-                                    backgroundColor: "#f8f9fa",
-                                    maxHeight: "120px",
-                                    padding: 0,
-                                    scrollbarWidth: "thin",
-                                    overflowY: "auto",
-                                    fontFamily: "Gilroy",
-                                    cursor: "pointer",
-                                  }),
-                                  placeholder: (base) => ({
-                                    ...base,
-                                    color: "#555",
-                                  }),
-                                  dropdownIndicator: (base) => ({
-                                    ...base,
-                                    color: "#555",
-                                    display: "inline-block",
-                                    fill: "currentColor",
-                                    lineHeight: 1,
-                                    stroke: "currentColor",
-                                    strokeWidth: 0,
-                                  }),
-                                  indicatorSeparator: () => ({
-                                    display: "none",
-                                  }),
-                                  option: (base, state) => ({
-                                    ...base,
-                                    cursor: "pointer",
-                                    color: state.isSelected ? "#fff" : "#000",
-                                    fontFamily: "Gilroy",
-                                  }),
-                                }}
+                                 styles={{
+                                      control: (base) => ({
+                                        ...base,
+                                        padding: "3px 5px ",
+                                        border: "1px solid #D9D9D9",
+                                        borderRadius: "8px",
+                                        fontSize: "16px",
+                                        color: "#4B4B4B",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: longStayOnly ? 600 : 500,
+                                        boxShadow: "none",
+                                      }),
+                                      menu: (base) => ({
+                                        ...base,
+                                        backgroundColor: "#f8f9fa",
+                                        border: "1px solid #ced4da",
+                                      }),
+                                      menuList: (base) => ({
+                                        ...base,
+                                        backgroundColor: "#f8f9fa",
+                                        maxHeight: "120px",
+                                        padding: 0,
+                                        scrollbarWidth: "thin",
+                                        overflowY: "auto",
+                                        fontFamily: "Gilroy"
+                                      }),
+                                      placeholder: (base) => ({
+                                        ...base,
+                                        color: "#9aa0a6",
+                                                                              fontWeight:500
+                                      }),
+                                      dropdownIndicator: (base) => ({
+                                        ...base,
+                                        color: "#555",
+                                        cursor: "pointer",
+                                      }),
+                                      indicatorSeparator: () => ({
+                                        display: "none",
+                                      }),
+                                      option: (base, state) => ({
+                                        ...base,
+                                        cursor: "pointer",
+                                        backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                                        color: "#000",
+                                      }),
+                                    }}
                               />
 
 
                             </div>
                             {stay_typenameErrmsg.trim() !== "" && (
-                               <ErrorMessage message={stay_typenameErrmsg} type="error" />
+                              <ErrorMessage message={stay_typenameErrmsg} type="error" />
                             )}
                           </Row>
 
                           <Row>
 
 
-                              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
-                                <Form.Group>
-                                  <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
-                                    Rental Amount
-                                    <span style={{ color: "red", fontSize: "20px" }}> *</span>
-                                  </Form.Label>
-                                  <FormControl
-                                    type="text"
-                                    placeholder="Enter Amount"
-                                    value={RoomRent}
-                                    onChange={handleRoomRent}
-                                    style={{
-                                      fontSize: 16,
-                                      color: "#4B4B4B",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                      boxShadow: "none",
-                                      border: "1px solid #D9D9D9",
-                                      height: 50,
-                                      borderRadius: 8,
-                                    }}
-                                  />
-                                </Form.Group>
-                                {roomrentError && (
+                            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                              <Form.Group>
+                                <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                  Rental Amount
+                                  <span style={{ color: "red", fontSize: "20px" }}> *</span>
+                                </Form.Label>
+                                <FormControl
+                                  type="text"
+                                  placeholder="Enter Amount"
+                                  value={RoomRent}
+                                  onChange={handleRoomRent}
+                                  style={{
+                                    fontSize: 16,
+                                    color: "#4B4B4B",
+                                    fontFamily: "Gilroy",
+                                    fontWeight:RoomRent ? 600 :  500,
+                                    boxShadow: "none",
+                                    border: "1px solid #D9D9D9",
+                                    height: 50,
+                                    borderRadius: 8,
+                                  }}
+                                />
+                              </Form.Group>
+                              {roomrentError && (
                                 <ErrorMessage message={roomrentError} type="error" />
-                                )}
-                              </div>
+                              )}
+                            </div>
 
 
-                              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
-                                <Form.Group>
-                                  <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
-                                    Advance Amount
-                                    <span style={{ color: "red", fontSize: "20px" }}> *</span>
-                                  </Form.Label>
-                                  <FormControl
-                                    type="text"
-                                    placeholder="Enter Amount"
-                                    value={AdvanceAmount}
-                                    onChange={handleAdvanceAmount}
-                                    style={{
-                                      fontSize: 16,
-                                      color: "#4B4B4B",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                      boxShadow: "none",
-                                      border: "1px solid #D9D9D9",
-                                      height: 50,
-                                      borderRadius: 8,
-                                    }}
-                                  />
-                                </Form.Group>
-                                {advanceAmountError && (
-                                  <ErrorMessage message={advanceAmountError} type="error" />
-                                )}
-                              </div>
+                            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                              <Form.Group>
+                                <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                  Advance Amount
+                                  <span style={{ color: "red", fontSize: "20px" }}> *</span>
+                                </Form.Label>
+                                <FormControl
+                                  type="text"
+                                  placeholder="Enter Amount"
+                                  value={AdvanceAmount}
+                                  onChange={handleAdvanceAmount}
+                                  style={{
+                                    fontSize: 16,
+                                    color: "#4B4B4B",
+                                    fontFamily: "Gilroy",
+                                    fontWeight: AdvanceAmount ? 600 : 500,
+                                    boxShadow: "none",
+                                    border: "1px solid #D9D9D9",
+                                    height: 50,
+                                    borderRadius: 8,
+                                  }}
+                                />
+                              </Form.Group>
+                              {advanceAmountError && (
+                                <ErrorMessage message={advanceAmountError} type="error" />
+                              )}
+                            </div>
 
 
 
@@ -1470,10 +1464,10 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                   style={{ position: "relative", width: "100%", marginTop: 6 }}
                                 >
                                   <DatePicker
-                                    style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
+                                    style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", fontWeight: checkin_joiningDate ? 600 : 500, color: checkin_joiningDate ? "#4B4B4B" : "#9AA0A6", }}
                                     format="DD/MM/YYYY"
                                     placeholder="DD/MM/YYYY"
-                                    value={checkin_joiningDate ? dayjs(checkin_joiningDate) : dayjs()}
+                                    value={checkin_joiningDate ? dayjs(checkin_joiningDate) : null}
                                     onChange={(date) => {
                                       setCheckinJoingDateErrmsg("");
                                       setCheckinJoiningDate(date ? date.toDate() : null);
@@ -1487,9 +1481,9 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                 </div>
                               </Form.Group>
                               {Checkin_joiningDateErrmsg && (
-                              <ErrorMessage message={Checkin_joiningDateErrmsg} type="error" />
+                                <ErrorMessage message={Checkin_joiningDateErrmsg} type="error" />
                               )}
-                             
+
 
 
 

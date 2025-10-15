@@ -162,6 +162,7 @@ const handleCloseBackToCheckIn = () => {
 
     const handlecloseNoticeperiodBooking = () => {
         setNoticePeriodBooking(false)
+        dispatch({ type: "ERROR_BOOKING_REMOVE" })
     }
 
 

@@ -16,6 +16,7 @@ import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import addcircle from "../../../Assets/Images/New_images/add-circle.png";
 import ErrorMessage from '../../../Components/ErrorMessage'
+import Profileimage from "../../../Assets/Images/New_images/profile-picture.png";
 
 function CheckIn({
     show,
@@ -24,7 +25,7 @@ function CheckIn({
 }) {
 
 
-    
+
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
     const bookingDateRef = useRef("");
@@ -61,7 +62,7 @@ function CheckIn({
         }
     }, [state.UsersList?.bookedDetails]);
 
-    
+
 
     const handleRoomRent = (e) => {
         const newAmount = e.target.value;
@@ -136,7 +137,7 @@ function CheckIn({
         }),
     };
 
-   
+
 
 
     const [stay_typename, setStayTypeName] = useState("")
@@ -175,7 +176,7 @@ function CheckIn({
     };
 
 
-
+    console.log("currentItem", currentItem)
 
 
 
@@ -195,12 +196,12 @@ function CheckIn({
 
 
 
-   const handleInputChange = (index, field, value) => {
+    const handleInputChange = (index, field, value) => {
         const updatedFields = [...fields];
         const updatedErrors = [...errors];
 
         if (field === "reason" || field === "customReason") {
-                       const cleanedValue = value.replace(/[^A-Za-z ]/g, "");
+            const cleanedValue = value.replace(/[^A-Za-z ]/g, "");
 
             if (field === "reason") {
                 if (cleanedValue.toLowerCase() === "others") {
@@ -383,9 +384,9 @@ function CheckIn({
                     isAdvanceIncludedInBooking: true
                 }
             });
-setFormLoading(true)
+            setFormLoading(true)
         }
-        
+
 
 
     };
@@ -463,10 +464,10 @@ setFormLoading(true)
                                             Check-In Tenant
                                         </Modal.Title>
                                     </div>
-                                    <div className="d-flex align-items-center gap-3 mt-1">
+                                    {/* <div className="d-flex align-items-center gap-3 mt-1">
                                         <label style={{
                                             fontSize: 14,
-                                            color: "#1E45E1",
+                                            color: "#1E45E1",   
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
                                         }}>  {currentItem?.floorName} </label> <span style={{
@@ -491,7 +492,7 @@ setFormLoading(true)
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
                                         }}>{currentItem?.bedName}</span>
-                                    </div>
+                                    </div> */}
                                 </div>
 
 
@@ -503,10 +504,124 @@ setFormLoading(true)
                             <CloseCircle size="24" color="#000" onClick={handleClose} style={{ cursor: "pointer" }} />
                         </Modal.Header>
                         <Modal.Body style={{ maxHeight: "370px", overflowY: "scroll" }} className="show-scrolls pt-0 mt-1 me-3">
+
+                            <div className="d-flex align-items-center gap-3 mb-3 ms-3">
+
+                                <img
+                                    src={
+                                        typeof currentItem?.newTenantProfilePic === "string" && currentItem?.newTenantProfilePic.trim()
+                                            ? currentItem?.newTenantProfilePic
+                                            : currentItem?.newTenantProfilePic instanceof File
+                                                ? URL.createObjectURL(currentItem?.newTenantProfilePic)
+                                                : Profileimage
+                                    }
+                                    alt="Profile"
+                                    className="rounded-circle"
+                                    width="45"
+                                    height="45"
+                                    onError={(e) => {
+                                        e.target.onerror = null;
+                                        e.target.src = Profileimage;
+                                    }}
+                                />
+                                <div>
+                                    <div>
+                                        <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px", fontFamily: "Gilroy" }}>
+                                            {currentItem.newTenantFullName}
+                                        </p>
+
+                                    </div>
+
+                                    <div className="d-flex gap-2">
+                                        <span
+                                            style={{
+                                                backgroundColor: "#FFF3CD",
+                                                color: "#856404",
+                                                fontSize: "12px",
+                                                padding: "2px 8px",
+                                                borderRadius: "12px",
+                                                fontWeight: 500,
+                                                fontFamily: "Gilroy"
+                                            }}
+                                        >
+                                            {currentItem?.floorName}
+                                        </span>
+                                        <span
+                                            style={{
+                                                backgroundColor: "#F8D7DA",
+                                                color: "#721C24",
+                                                fontSize: "12px",
+                                                padding: "2px 8px",
+                                                borderRadius: "12px",
+                                                fontWeight: 500,
+                                                fontFamily: "Gilroy"
+                                            }}
+                                        >
+                                            {currentItem?.roomName} - {currentItem?.bedName}
+                                        </span>
+                                    </div>
+
+                                </div>
+
+
+
+                            </div>
+
+
+
                             <div className="row mt-1">
 
+                                <div className="d-flex justify-content-between align-items-center mb-2">
+                                    <div>
+                                        <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                            Booking Date
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label
+                                            style={{
+                                                fontSize: 14,
+                                                color: "#222222",
+                                                fontFamily: "Gilroy",
+                                                fontWeight: 600,
+                                            }}
+                                        >
+                                            {bookingDate ? dayjs(bookingDate).format("DD/MM/YYYY") : ""}
+                                        </label>
+                                    </div>
+                                </div>
 
-                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div className="d-flex justify-content-between align-items-center mb-2">
+                                    <div>
+                                        <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                            Booking Amount
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label
+                                            style={{
+                                                fontSize: 14,
+                                                color: "#222222",
+                                                fontFamily: "Gilroy",
+                                                fontWeight: 600,
+                                            }}
+                                        >
+                                            {bookingAmount}
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <hr
+                                    style={{
+                                        border: "none",
+                                        height: "1px",
+                                        backgroundColor: "#D9D9D9",
+                                        margin: "8px 0",
+                                        padding: 0,
+                                    }}
+                                />
+
+                                {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <Form.Group
                                         className="mb-2"
                                         controlId="exampleForm.ControlInput1"
@@ -534,9 +649,9 @@ setFormLoading(true)
                                     </Form.Group>
 
 
-                                </div>
+                                </div> */}
 
-                                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                     <Form.Group className="mb-2" controlId="purchaseDate">
                                         <Form.Label
                                             style={{
@@ -605,7 +720,7 @@ setFormLoading(true)
                                             }}
                                         />
                                     </Form.Group>
-                                </div>
+                                </div> */}
 
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <Form.Group
@@ -658,7 +773,7 @@ setFormLoading(true)
                                                 }),
                                                 placeholder: (base) => ({
                                                     ...base,
-                                                    color: "#555",
+                                                    color: "#9aa0a6",
                                                 }),
                                                 dropdownIndicator: (base) => ({
                                                     ...base,
@@ -715,7 +830,7 @@ setFormLoading(true)
                                                 fontSize: 16,
                                                 color: "#4B4B4B",
                                                 fontFamily: "Gilroy",
-                                                fontWeight: 600,
+                                                fontWeight: RoomRent ? 600 : 500 ,
                                                 boxShadow: "none",
                                                 border: "1px solid #D9D9D9",
                                                 height: 50,
@@ -755,7 +870,7 @@ setFormLoading(true)
                                                 fontSize: 16,
                                                 color: "#4B4B4B",
                                                 fontFamily: "Gilroy",
-                                                fontWeight: 600,
+                                                fontWeight: AdvanceAmount ? 600 : 500,
                                                 boxShadow: "none",
                                                 border: "1px solid #D9D9D9",
                                                 height: 50,
@@ -798,9 +913,18 @@ setFormLoading(true)
                                                     setJoingDateErrmsg("");
                                                 }}
                                                 getPopupContainer={() => document.body}
-                                                disabledDate={(current) =>
-                                                    bookingDate ? current.isBefore(bookingDate.startOf("day")) : false
-                                                }
+
+                                                disabledDate={(current) => {
+                                                    if (!current) return false;
+                                                    const bookedAtDayjs = bookingDate
+                                                        ? dayjs(bookingDate, "DD/MM/YYYY")
+                                                        : null;
+
+                                                    return (
+                                                        (bookedAtDayjs && current.isBefore(bookedAtDayjs.startOf("day"))) ||
+                                                        current.isAfter(dayjs().endOf("day"))
+                                                    );
+                                                }}
 
                                             />
                                         </div>

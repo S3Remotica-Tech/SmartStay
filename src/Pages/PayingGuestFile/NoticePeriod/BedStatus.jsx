@@ -324,7 +324,7 @@ const handleMakeAsInActive = () =>{
                                   onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
                                   onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
                                 >
-                                  <img src={Checkouts} alt="Checkout" style={{ filter: canWriteCustomers ? "none" : "grayscale(100%)" }} />
+                                  <img src={logout} alt="Checkout" style={{ filter: canWriteCustomers ? "none" : "grayscale(100%)" }} />
                                   <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#A0A0A0", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed" }}>Checkout</label>
                                 </div>
 

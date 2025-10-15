@@ -1673,7 +1673,7 @@ function UserlistForm(props) {
                             }),
                             placeholder: (base) => ({
                               ...base,
-                              color: "#555",
+                              color: "#9aa0a6",
                             }),
                             dropdownIndicator: (base) => ({
                               ...base,
@@ -1772,7 +1772,7 @@ function UserlistForm(props) {
                             }),
                             placeholder: (base) => ({
                               ...base,
-                              color: "#555",
+                              color: "#9aa0a6",
                             }),
                             dropdownIndicator: (base) => ({
                               ...base,
@@ -1879,7 +1879,8 @@ function UserlistForm(props) {
                             }),
                             placeholder: (base) => ({
                               ...base,
-                              color: "#555",
+                              color: "#9aa0a6",
+                              fontWeight:500
                             }),
                             dropdownIndicator: (base) => ({
                               ...base,
@@ -1935,7 +1936,7 @@ function UserlistForm(props) {
                               fontSize: 16,
                               color: "#4B4B4B",
                               fontFamily: "Gilroy",
-                              fontWeight: 500,
+                              fontWeight: AdvanceAmount ? 600 : 500,
                               boxShadow: "none",
                               border: "1px solid #D9D9D9",
                               height: 50,
@@ -1967,7 +1968,7 @@ function UserlistForm(props) {
                               fontSize: 16,
                               color: "#4B4B4B",
                               fontFamily: "Gilroy",
-                              fontWeight: 500,
+                              fontWeight:RoomRent? 600 : 500,
                               boxShadow: "none",
                               border: "1px solid #D9D9D9",
                               height: 50,
