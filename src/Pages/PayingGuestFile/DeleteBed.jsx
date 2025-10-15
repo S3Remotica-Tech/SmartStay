@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import Nav from 'react-bootstrap/Nav';
 import AddCustomer from './AddCustomerPG';
 // import { MdError } from "react-icons/md";
 import PropTypes from "prop-types";
@@ -21,7 +20,6 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
   const state = useSelector(state => state)
   const dispatch = useDispatch();
 
-  const [actionType, setActionType] = useState('addCustomer');
   const [showAddCustomer, setShowAddCustomer] = useState(false)
   const [rolePermission, setRolePermission] = useState("");
   const [customerDeletePermission, setCustomerDeletePermission] = useState("")
@@ -82,10 +80,7 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
 
 
 
-  const handleShow = (type) => {
-    setActionType(type);
-  };
-
+  
 
   const handleSaveCustomer = () => {
     dispatch({ type: "CLEAR_PHONE_ERROR" });

@@ -1705,10 +1705,7 @@ if (error) {
                                     overflowY: "auto",
                                     fontFamily: "Gilroy",
                                   }),
-                                  placeholder: (base) => ({
-                                    ...base,
-                                    color: "#555",
-                                  }),
+                                 
                                   dropdownIndicator: (base) => ({
                                     ...base,
                                     color: "#555",
@@ -1718,12 +1715,12 @@ if (error) {
                                     display: "none",
                                   }),
                                   placeholder: (base) => ({
-  ...base,
-  fontSize: "14px",      
-  color: "#a9a9a9",      
-  fontFamily: "Gilroy",
-  fontWeight: 400,
-}),
+                                  ...base,
+                                  fontSize: "14px",      
+                                  color: "#a9a9a9",      
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 400,
+                                  }),
                                   option: (base, state) => ({
                                     ...base,
                                     cursor: "pointer",
