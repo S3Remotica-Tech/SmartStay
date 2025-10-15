@@ -150,7 +150,7 @@ useEffect(()=>{
 
     setCheckinCustomerName(selectedOption?.value || '');
     if (!selectedOption) {
-      setCheckinCustomerErrmsg("Please Select Customer");
+      setCheckinCustomerErrmsg("Please Select Tenant");
     } else {
       setCheckinCustomerErrmsg("");
     }
@@ -179,7 +179,7 @@ useEffect(()=>{
 
       switch (fieldName) {
           case "bookingcustomername":
-          setError("Please Select Customer");
+          setError("Please Select Tenant");
           break;
         case "joiningDate":
           setError("Please Select Joining Date");
@@ -243,7 +243,7 @@ useEffect(()=>{
   if (!trimmedValue) {
     switch (fieldName) {
       case "checkin_customername":
-        setCheckinCustomerErrmsg("Please Select Customer");
+        setCheckinCustomerErrmsg("Please Select Tenant");
         break;
       case "stay_typename":
         setStayTypeNameErrMsg("Please Select Staytype");
@@ -489,20 +489,20 @@ const handleStayTypeChange = (selectedOption) => {
   let reason_name = "";
 
   if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
-    reason_name = item.customReason || item["custom Reason"] || "";
+    reason_name = item.customReason || item["Custom Reason"] || "";
   } else {
     reason_name = item.reason || item.reason_name || "";
   }
 
     const error = { reason: "", amount: "" };
       if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
-        error.amount = "Please enter amount";
+        error.amount = "Please Enter Amount";
         hasReasonAmountError = true;
       }
 
 
       if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
-        error.reason = "Please enter reason";
+        error.reason = "Please Enter Reason";
         hasReasonAmountError = true;
       }
 
@@ -763,7 +763,8 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                                         lineHeight: "normal",
                                                       }}
                                                     >
-                                                      Customer <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                                                      Tenant
+                                 <span style={{ color: "red", fontSize: "20px" }}>*</span>
                                                     </Form.Label>
                                                     <Select
                                                       options={
@@ -781,14 +782,14 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                                             value: booking_customername,
                                                             label:
                                                               state.UsersList?.UnAssignCustomerDetails?.find((u) => u.id === booking_customername)?.Name ||
-                                                              "Select Customer",
+                                                              "Select Tenant",
                                                           }
                                                           : null
                                                       }
-                                                      placeholder="Select Customer"
+                                                      placeholder="Select Tenant"
                                                       classNamePrefix="custom"
                                                       menuPlacement="auto"
-                                                      noOptionsMessage={() => "No customers available"}
+                                                      noOptionsMessage={() => "No Tenants available"}
                                                       styles={{
                                                         control: (base) => ({
                                                           ...base,
@@ -817,8 +818,11 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                                         }),
                                                         placeholder: (base) => ({
                                                           ...base,
-                                                          color: "#555",
-                                                        }),
+                                                        fontSize: "14px",      
+                                                        color: "#a9a9a9",      
+                                                        fontFamily: "Gilroy",
+                                                        fontWeight: 400,
+                                                         }),
                                                         dropdownIndicator: (base) => ({
                                                           ...base,
                                                           color: "#555",
@@ -827,6 +831,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                                         indicatorSeparator: () => ({
                                                           display: "none",
                                                         }),
+                                                       
                                                         option: (base, state) => ({
                                                           ...base,
                                                           cursor: "pointer",
@@ -916,9 +921,11 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                             <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
                                               <DatePicker
                                                 ref={bookingDateRef}
-                                                style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy" }}
+                                                style={{ width: "100%", height: 50, cursor: "pointer", fontFamily: "Gilroy" }}
                                                 format="DD/MM/YYYY"
                                                 placeholder="DD/MM/YYYY"
+                                                // className="small-placeholder"
+                                                className="small-placeholder-datepicker"
                                                 value={bookingDate ? dayjs(bookingDate) : null}
                                                 onChange={(date) => {
                                                   setDateError("");
@@ -932,7 +939,17 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                                 // getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
                                                 getPopupContainer={() => document.body}
                                               />
+                                               <style>{`
+  /* Force style only for placeholder of this DatePicker */
+  .small-placeholder-datepicker input::placeholder {
+    font-size: 14px !important;
+    color: #a9a9a9 !important;
+    font-family: 'Gilroy' !important;
+    opacity: 1 !important;
+  }
+`}</style>
                                             </div>
+   
                                           </Form.Group>
                                           {dateError && (
                                    <div style={{
@@ -1029,6 +1046,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                               type="text"
                                               ref={amountRef}
                                               id="form-controls"
+                                               className="small-placeholder"
                                               placeholder="Enter Booking Amount"
                                               value={amount}
                                               onChange={(e) => handleAmount(e)}
@@ -1043,6 +1061,13 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                                 borderRadius: 8,
                                               }}
                                             />
+                                                                           <style>{`
+    .small-placeholder::placeholder {
+      font-size: 14px;
+      color: #a9a9a9;
+      font-family: 'Gilroy';
+    }
+  `}</style>
                                           </Form.Group>
                                           {amountError && (
                                                <div
@@ -1063,9 +1088,8 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                                     alt="ErrorIcon"
                                                     style={{
                                                       marginRight: "6px",
-                                                      marginTop: "2px",       
-                                                      width: 14,
-                                                      height: 14,
+                                                      // marginTop: "2px",       
+                                                      fontSize:"15px"
                                                     }}
                                                   />
                                                   <span
@@ -1181,7 +1205,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                                                              border: "1px solid #D9D9D9",
                                                                              borderRadius: "8px",
                                                                              boxShadow: "none",
-                                                                             height: 48,
+                                                                             height: 50,
                                                                              cursor: "pointer",
                                                                            }),
                                                                            menu: (base) => ({
@@ -1200,9 +1224,12 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                                                              fontFamily: "Gilroy",
                                                                            }),
                                                                            placeholder: (base) => ({
-                                                                             ...base,
-                                                                             color: "#555",
-                                                                           }),
+                                                                            ...base,
+                                                                            fontSize: "14px",      
+                                                                            color: "#a9a9a9",      
+                                                                            fontFamily: "Gilroy",
+                                                                            fontWeight: 400,
+                                                                             }),
                                                                            dropdownIndicator: (base) => ({
                                                                              ...base,
                                                                              color: "#555",
@@ -1296,7 +1323,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                                           placeholder="Enter Transaction ID"
                                                          value={transactionId} 
                                                          onChange={(e)=>handleTransactionId(e)} 
-                                                        
+                                                         className="small-placeholder"
                                                           style={{
                                                             fontSize: 16,
                                                             color: "#4B4B4B",
@@ -1308,6 +1335,13 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                                             borderRadius: 8,
                                                           }}
                                                         />
+                                                                                                                                <style>{`
+    .small-placeholder::placeholder {
+      font-size: 14px;
+      color: #a9a9a9;
+      font-family: 'Gilroy';
+    }
+  `}</style>
                                                       </Form.Group>
                                         
                                                      
@@ -1337,6 +1371,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                                        style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
                                                        format="DD/MM/YYYY"
                                                        placeholder="DD/MM/YYYY"
+                                                       className="small-placeholder-datepicker"
                                                        value={joiningDate ? dayjs(joiningDate) : null}
                                                        onChange={(date) => {
                                                          setDateError("");
@@ -1357,6 +1392,15 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                                       // disabledDate={(current) => current && current < dayjs().startOf("day")}
                                                       getPopupContainer={() => document.body}
                                                      />
+                                                     <style>{`
+  /* Force style only for placeholder of this DatePicker */
+  .small-placeholder-datepicker input::placeholder {
+    font-size: 14px !important;
+    color: #a9a9a9 !important;
+    font-family: 'Gilroy' !important;
+    opacity: 1 !important;
+  }
+`}</style>
                                                    </div>
                                                  </Form.Group>
                                                  {dateError && (
@@ -1559,7 +1603,8 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                                         lineHeight: "normal",
                                                       }}
                                                     >
-                                                      Customer <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                                                      Tenant
+                                     <span style={{ color: "red", fontSize: "20px" }}>*</span>
                                                     </Form.Label>
                                                     <Select
                                                       options={
@@ -1577,14 +1622,14 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                                             value: checkin_customername,
                                                             label:
                                                               state.UsersList?.UnAssignCustomerDetails?.find((u) => u.id === checkin_customername)?.Name ||
-                                                              "Select Customer",
+                                                              "Select Tenant",
                                                           }
                                                           : null
                                                       }
-                                                      placeholder="Select Customer"
+                                                      placeholder="Select Tenant"
                                                       classNamePrefix="custom"
                                                       menuPlacement="auto"
-                                                      noOptionsMessage={() => "No customers available"}
+                                                      noOptionsMessage={() => "No Tenants available"}
                                                       styles={{
                                                         control: (base) => ({
                                                           ...base,
@@ -1613,8 +1658,11 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                                         }),
                                                         placeholder: (base) => ({
                                                           ...base,
-                                                          color: "#555",
-                                                        }),
+                                                        fontSize: "14px",      
+                                                        color: "#a9a9a9",      
+                                                        fontFamily: "Gilroy",
+                                                        fontWeight: 400,
+                                                         }),
                                                         dropdownIndicator: (base) => ({
                                                           ...base,
                                                           color: "#555",
@@ -1724,10 +1772,13 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
       fontFamily: "Gilroy",
       cursor: "pointer",
     }),
-    placeholder: (base) => ({
-      ...base,
-      color: "#555",
-    }),
+      placeholder: (base) => ({
+       ...base,
+      fontSize: "14px",      
+      color: "#a9a9a9",      
+      fontFamily: "Gilroy",
+      fontWeight: 400,
+       }),
     dropdownIndicator: (base) => ({
       ...base,
       color: "#555",
@@ -1795,6 +1846,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                                                   <FormControl
                                                                     type="text"
                                                                     placeholder="Enter Amount"
+                                                                    className="small-placeholder"
                                                                     value={RoomRent}
                                                                     onChange={handleRoomRent}
                                                                     style={{
@@ -1808,6 +1860,13 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                                                       borderRadius: 8,
                                                                     }}
                                                                   />
+                                                                                                <style>{`
+    .small-placeholder::placeholder {
+      font-size: 14px;
+      color: #a9a9a9;
+      font-family: 'Gilroy';
+    }
+  `}</style>
                                                                 </Form.Group>
                                                                 {roomrentError && (
                                                                    <div style={{
@@ -1850,6 +1909,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                                                     type="text"
                                                                     placeholder="Enter Amount"
                                                                     value={AdvanceAmount}
+                                                                    className="small-placeholder"
                                                                     onChange={handleAdvanceAmount}
                                                                     style={{
                                                                       fontSize: 16,
@@ -1862,6 +1922,13 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                                                       borderRadius: 8,
                                                                     }}
                                                                   />
+                                                                                                <style>{`
+    .small-placeholder::placeholder {
+      font-size: 14px;
+      color: #a9a9a9;
+      font-family: 'Gilroy';
+    }
+  `}</style>
                                                                 </Form.Group>
                                                                 {advanceAmountError && (
                                                                            <div style={{
@@ -1926,6 +1993,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                                        style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
                                                        format="DD/MM/YYYY"
                                                        placeholder="DD/MM/YYYY"
+                                                         className="small-placeholder-datepicker"
                                                        value={checkin_joiningDate ? dayjs(checkin_joiningDate) : null}
                                                        onChange={(date) => {
                                                          setCheckinJoingDateErrmsg("");
@@ -1937,6 +2005,15 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                                       //  }
                                                        getPopupContainer={() => document.body}
                                                      />
+                                                                                                   <style>{`
+  /* Force style only for placeholder of this DatePicker */
+  .small-placeholder-datepicker input::placeholder {
+    font-size: 14px !important;
+    color: #a9a9a9 !important;
+    font-family: 'Gilroy' !important;
+    opacity: 1 !important;
+  }
+`}</style>
                                                    </div>
                                                  </Form.Group>
                                                  {Checkin_joiningDateErrmsg && (
@@ -2123,10 +2200,13 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                                 overflowY: "auto",
                                                 fontFamily: "Gilroy",
                                               }),
-                                              placeholder: (base) => ({
-                                                ...base,
-                                                color: "#555",
-                                              }),
+                                placeholder: (base) => ({
+  ...base,
+  fontSize: "14px",      
+  color: "#a9a9a9",      
+  fontFamily: "Gilroy",
+  fontWeight: 400,
+}),
                                               dropdownIndicator: (base) => ({
                                                 ...base,
                                                 color: "#555",
@@ -2152,8 +2232,9 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                           <>
                                             <input
                                               type="text"
-                                              className="form-control"
-                                              placeholder="Enter custom reason"
+                                              className="form-control small-placeholder"
+                                              //  className="small-placeholder"
+                                              placeholder="Enter Custom Reason"
                                               value={item.customReason}
                                               onChange={(e) => handleInputChange(index, "customReason", e.target.value)}
                                               style={{
@@ -2204,10 +2285,10 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
         
                                         <input
                                           type="text"
-                                          placeholder="Enter amount"
+                                          placeholder="Enter Amount"
                                           value={item.amount}
                                           onChange={(e) => handleInputChange(index, "amount", e.target.value)}
-                                          className="form-control"
+                                          className="form-control small-placeholder"
                                           style={{
                                             fontSize: 16,
                                             color: "#4B4B4B",

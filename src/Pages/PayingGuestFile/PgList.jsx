@@ -56,10 +56,8 @@ function PgList() {
 
  const [changebedDesignshow , setChangeBedDesignShow] = useState(false)
  const [Reserved_customer_details, setResrvedCustomerDetails] = useState({})
- console.log("Reserved_customer_details",Reserved_customer_details)
 
  const handleshowbedDesign = (customerid) => {
-  console.log("customerid",customerid );
   
    setChangeBedDesignShow(true)
    if(customerid){
@@ -72,6 +70,7 @@ function PgList() {
 
  const handlecloseChangeBed = () => {
    setChangeBedDesignShow(false)
+   setResrvedCustomerDetails(null)
  }
 
  
@@ -705,7 +704,8 @@ useEffect(() => {
     floor_Name: null,
   });
 
-
+ console.log("notice", Reserved_customer_details?.bed_status);
+ 
  
 
   const handleCloseDelete = () => setShowDelete(false);

@@ -734,33 +734,42 @@ useEffect(() => {
             
 
 
+           <div className="d-flex justify-content-end gap-3 mt-3">
+  <Button
+    variant="light"
+    className="px-4"
+    style={{
+      border: "1px solid #ddd",
+      width: "160px",
+      backgroundColor: "white",
+      fontSize: 16,
+      fontFamily: "Gilroy",
+    }}
+    onClick={handleClose}
+  >
+    Cancel
+  </Button>
 
+  <Button
+    variant="primary"
+    className="px-4"
+    style={{
+      fontSize: 16,
+      backgroundColor: "#1E45E1",
+      color: "white",
+      fontWeight: 600,
+      borderRadius: 12,
+      padding: "10px 20px",
+      fontFamily: "Gilroy",
+      width: "160px",
+    }}
+    onClick={handleSaveReassignBed}
+  >
+    <img src={repeatOne} alt="icon" className="me-2" />
+    Assign
+  </Button>
+</div>
 
-            <div className="d-flex col-lg-10 gap-3 mt-3">
-              <Button
-                variant="light"
-                className="px-4"
-                style={{ border: "1px solid #ddd", width: "260px", backgroundColor: "white", fontSize: 16, fontFamily: "Gilroy"  }}
-                onClick={handleClose}
-              >
-                Cancel
-              </Button>
-
-              <Button
-                variant="primary"
-                className="px-4"
-                style={{
-                  backgroundColor: "#0056FF",
-                  borderRadius: "8px",
-                  width: "260px" ,fontSize: 16, fontFamily: "Gilroy" 
-                }}
-                onClick={handleSaveReassignBed}
-              >
-                <img src={repeatOne} alt="icon" className="me-2" />
-                Assign
-              </Button>
-
-            </div>
           </Modal.Body>
 
 
