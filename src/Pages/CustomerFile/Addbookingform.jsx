@@ -532,6 +532,7 @@ const handleTransactionId = (e) => {
                     style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy" }}
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
+                    className="small-placeholder-datepicker"
                     value={bookingDate ? dayjs(bookingDate) : null}
                     onChange={handleBookingDateChange}
                     disabledDate={(current) => current && current > dayjs().endOf("day")}
@@ -539,6 +540,15 @@ const handleTransactionId = (e) => {
                       triggerNode.closest(".datepicker-wrapper")
                     }
                   />
+                  <style>{`
+  /* Force style only for placeholder of this DatePicker */
+  .small-placeholder-datepicker input::placeholder {
+    font-size: 14px !important;
+    color: #a9a9a9 !important;
+    font-family: 'Gilroy' !important;
+    opacity: 1 !important;
+  }
+`}</style>
 
                 </div>
               </Form.Group>
@@ -620,6 +630,7 @@ const handleTransactionId = (e) => {
                   type="text"
                   id="form-controls"
                   placeholder="Enter Booking Amount"
+                   className="small-placeholder"
                   value={bookingAmount}
                   onChange={(e) => handleBookingAmountChange(e)}
                   onKeyPress={(e) => {
@@ -638,6 +649,13 @@ const handleTransactionId = (e) => {
                     borderRadius: 8,
                   }}
                 />
+                <style>{`
+    .small-placeholder::placeholder {
+      font-size: 14px;
+      color: #a9a9a9;
+      font-family: 'Gilroy';
+    }
+  `}</style>
               </Form.Group>
 
  {amountError && (
@@ -784,8 +802,11 @@ const handleTransactionId = (e) => {
                                      fontFamily: "Gilroy",
                                    }),
                                    placeholder: (base) => ({
-                                     ...base,
-                                     color: "#555",
+                                    ...base,
+  fontSize: "14px",      
+  color: "#a9a9a9", 
+  fontFamily: "Gilroy",
+  fontWeight: 400,
                                    }),
                                    dropdownIndicator: (base) => ({
                                      ...base,
@@ -855,6 +876,7 @@ const handleTransactionId = (e) => {
                   type="text"
                   id="form-controls"
                   placeholder="Enter Transaction ID"
+                  className="small-placeholder"
                  value={transactionId} 
                  onChange={(e)=>handleTransactionId(e)} 
                 
@@ -907,6 +929,7 @@ const handleTransactionId = (e) => {
                       }}
                       format="DD/MM/YYYY"
                       placeholder="DD/MM/YYYY"
+                      className="small-placeholder-datepicker"
                       value={joiningDate ? dayjs(joiningDate) : null}
                       onChange={handleJoiningDateChange}
                       // disabledDate={(current) =>
@@ -921,6 +944,15 @@ const handleTransactionId = (e) => {
                       getPopupContainer={() => document.body}
 
                     />
+                    <style>{`
+  /* Force style only for placeholder of this DatePicker */
+  .small-placeholder-datepicker input::placeholder {
+    font-size: 13px !important;
+    color: #a9a9a9 !important;
+    font-family: 'Gilroy' !important;
+    opacity: 1 !important;
+  }
+`}</style>
                   </div>
 
 

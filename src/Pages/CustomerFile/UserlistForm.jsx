@@ -3398,8 +3398,8 @@ console.log("bed", selectedFloor);
                                 <>
                                   <input
                                     type="text"
-                                    className="form-control "
-                                    placeholder="Enter custom reason"
+                                    className="form-control small-placeholder"
+                                    placeholder="Enter Custom Reason"
                                     value={item.customReason}
                                     onChange={(e) => handleInputChange(index, "customReason", e.target.value)}
                                     style={{
@@ -3453,7 +3453,7 @@ console.log("bed", selectedFloor);
 
                               <input
                                 type="text"
-                                placeholder="Enter amount "
+                                placeholder="Enter Amount "
                                 value={item.amount}
                                 onChange={(e) => handleInputChange(index, "amount", e.target.value)}
                                 className="form-control small-placeholder"
@@ -4180,6 +4180,7 @@ console.log("bed", selectedFloor);
                             type="text"
                             placeholder="Enter Amount"
                             value={AdvanceAmount}
+                            className="small-placeholder"
                             onChange={handleAdvanceAmount}
                             style={{
                               fontSize: 16,
@@ -4192,6 +4193,13 @@ console.log("bed", selectedFloor);
                               borderRadius: 8,
                             }}
                           />
+                          <style>{`
+    .small-placeholder::placeholder {
+      font-size: 14px;
+      color: #a9a9a9;
+      font-family: 'Gilroy';
+    }
+  `}</style>
                            {advanceAmountError && (
                             <div style={{
                                         color: "red",
@@ -4233,6 +4241,7 @@ console.log("bed", selectedFloor);
                           <FormControl
                             type="text"
                             placeholder="Enter Amount"
+                            className="small-placeholder"
                             value={RoomRent}
                             onChange={handleRoomRent}
                             style={{
@@ -4391,7 +4400,10 @@ console.log("bed", selectedFloor);
                                     }),
                                     placeholder: (base) => ({
                                       ...base,
-                                      color: "#555",
+  fontSize: "14px",    
+  color: "#a9a9a9",     
+  fontFamily: "Gilroy",
+  fontWeight: 400,
                                     }),
                                     dropdownIndicator: (base) => ({
                                       ...base,
@@ -4418,8 +4430,8 @@ console.log("bed", selectedFloor);
                                 <>
                                   <input
                                     type="text"
-                                    className="form-control"
-                                    placeholder="Enter custom reason"
+                                    className="form-control small-placeholder"
+                                    placeholder="Enter Custom Reason"
                                     value={item.customReason}
                                     onChange={(e) => handleInputChange(index, "customReason", e.target.value)}
                                     style={{
@@ -4473,7 +4485,7 @@ console.log("bed", selectedFloor);
                                 placeholder="Enter amount"
                                 value={item.amount}
                                 onChange={(e) => handleInputChange(index, "amount", e.target.value)}
-                                className="form-control"
+                                className="form-control small-placeholder"
                                 style={{
                                   fontSize: 16,
                                   color: "#4B4B4B",
@@ -4742,7 +4754,7 @@ console.log("bed", selectedFloor);
                   borderBottomLeftRadius: '20px',
                 }}
               >
-                <h5 className="mb-4">Add New Customer</h5>
+                <h5 className="mb-4">Add New Tenant</h5>
                 <div className="d-flex align-items-center">
                   <div className=" text-white rounded-circle d-flex justify-content-center align-items-center" style={{ width: '30px', height: '30px', backgroundColor: 'rgba(30, 69, 225, 1)' }}><img src={Store_Icon} alt="storeicon" height={15} width={15} /> </div>
                   <span className="ms-2" style={{ fontFamily: "Gilroy", fontSize: "14px" }}>Step 1<br /><small>Basic Details</small></span>
@@ -7207,7 +7219,7 @@ value={bookingAmount}
 <style>{`
   /* Force style only for placeholder of this DatePicker */
   .small-placeholder-datepicker input::placeholder {
-    font-size: 14px !important;
+    font-size: 13px !important;
     color: #a9a9a9 !important;
     font-family: 'Gilroy' !important;
     opacity: 1 !important;

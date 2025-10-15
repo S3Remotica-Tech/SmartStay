@@ -5248,7 +5248,7 @@ const handleClosefinal = ()=>{
               textAlign: "center",
             }}
           >
-            Delete Customer?
+            Delete Tenant?
           </h5>
         </Modal.Header>
 
@@ -5262,7 +5262,7 @@ const handleClosefinal = ()=>{
             marginTop: "-10px",
           }}
         >
-          Are you sure you want to delete this Customer?
+          Are you sure you want to delete this Tenant?
         </Modal.Body>
         {formLoading && <div
           style={{
@@ -5488,6 +5488,7 @@ const handleClosefinal = ()=>{
                   }}
                   format="DD/MM/YYYY"
                   placeholder="DD/MM/YYYY"
+                  className="small-placeholder-datepicker"
                   value={inActiveDate ? dayjs(inActiveDate) : null}
                   onChange={(date) => {
                     setInActiveDate(date ? date.toDate() : null);
@@ -5520,6 +5521,14 @@ const handleClosefinal = ()=>{
 }}
 
                 />
+                 <style>{`
+        .small-placeholder-datepicker input::placeholder {
+          font-size: 13px !important;
+          color: #a9a9a9 !important;
+          font-family: 'Gilroy' !important;
+          opacity: 1 !important;
+        }
+      `}</style>
 
               </div>
             </Form.Group>
@@ -5574,11 +5583,19 @@ const handleClosefinal = ()=>{
                 }}
                 as="textarea"
                 rows={5}
-                placeholder="Enter reason here"
+                placeholder="Enter Reason Here"
+                className="small-placeholder"
                 value={inActiveComments}
                 onChange={(e) => handleInActiveReason(e)}
               />
             </Form.Group>
+            <style>{`
+    .small-placeholder::placeholder {
+      font-size: 14px;
+      color: #a9a9a9;
+      font-family: 'Gilroy';
+    }
+  `}</style>
           </div>
           <Modal.Footer style={{ border: "none", padding: 0 }}>
             <div className="d-flex  w-100 gap-3">
