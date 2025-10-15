@@ -959,12 +959,14 @@ src={
   <InputGroup style={{ marginTop: 10 }}>
     <Form.Control
       type="number"
+      className="small-placeholder"
       placeholder="471.55"
       value={currentReading}
        ref={inputRef}
       onChange={handlecurrentReading}
       style={{ fontSize: 14, fontWeight: 600, padding: "12px 14px" }}
     />
+ 
     <InputGroup.Text
     //   style={{
     //     borderColor: !isConfirmed &&  currenReadingError? "red" : "#ced4da",
@@ -1003,6 +1005,14 @@ src={
 
   
 </Form.Group>
+   <style>{`
+    .small-placeholder::placeholder {
+      font-size: 14px;
+      color: #a9a9a9;
+      font-family: 'Gilroy';
+    }
+  `}</style>
+
 {state.createAccount?.networkError ?
             <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
               <MdError style={{ color: "red", marginRight: '5px' }} />
