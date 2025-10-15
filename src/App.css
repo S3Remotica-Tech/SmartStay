@@ -1,13 +1,89 @@
-/* ::-webkit-scrollbar {
-    display: none;
-} */
+
+.form-control::placeholder {
+  color: #9aa0a6;       
+  opacity: 1;
+}
+
+
+.form-control:placeholder-shown {
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+
+.form-control:not(:placeholder-shown),
+.form-control:focus {
+  opacity: 1;
+}
+
+.ant-picker-input > input {
+  font-weight: 500;
+  color: #9aa0a6 !important;  
+  opacity: 0.7;
+  transition: font-weight 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+}
+
+.ant-picker-input > input[value] {
+  font-weight: 600;
+  color: #000000 !important;
+  opacity: 1;
+}
+
+
+.ant-picker-input > input.ant-picker-input-active {
+  font-weight: 800 !important;
+  color: #000000 !important;
+  opacity: 1 !important;
+}
+
+.ant-picker-input > input::placeholder {
+  color: #9aa0a6 !important;
+  opacity: 1 !important;
+}
+
+
+.ant-picker {
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+  border: 1px solid #D9D9D9; 
+  box-shadow: none !important; 
+}
+
+
+.ant-picker .ant-picker-input > input:not(:placeholder-shown) {
+  opacity: 1;
+}
+
+
+.ant-picker:hover,
+.ant-picker-focused {
+  border-color: #D9D9D9 !important; 
+  box-shadow: none !important;       
+}
+
+
+
+:where(.css-dev-only-do-not-override-5uvb3z).ant-picker .ant-picker-input >input {
+   
+   color:"unset" !important;
+}
+
+.custom-tooltip .tooltip-inner {
+  background-color: #1e45e1 !important;
+    color: #fff !important;
+  font-family: "Gilroy";
+  font-size: 13px;
+  border-radius: 8px;
+  padding: 6px 10px;
+}
+
+.custom-tooltip .tooltip-arrow::before {
+  border-right-color: #1e45e1 !important; 
+}
 
 
 
 
- /* * {
-  scrollbar-width: none;
-}  */
 
  ::-webkit-scrollbar {
   width: 0;

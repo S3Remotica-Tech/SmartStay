@@ -20,18 +20,18 @@ function BookingBed({
   const state = useSelector(state => state)
   const dispatch = useDispatch();
 
-console.log("currentItem",currentItem)
+  console.log("currentItem", currentItem)
 
   const bookingcustomerRef = useRef();
   const dateRef = useRef();
   const amountRef = useRef();
   const bookingDateRef = useRef();
+  const modeOfPaymentRef = useRef()
 
   const [amount, setAmount] = useState("");
   const [amountError, setamountError] = useState("");
   const [joiningDate, setJoiningDate] = useState(null);
   const [bookingDate, setBookingDate] = useState(null);
-  //  const [checkoutDate , setCheckoutDate] = useState(null);
   const [joiningDateErrmsg, setJoingDateErrmsg] = useState('')
   const [bookingDateErrmsg, setBookingDateErrmsg] = useState('')
   const [dateError, setDateError] = useState("");
@@ -39,58 +39,18 @@ console.log("currentItem",currentItem)
   const [booking_customername, setBookingCustomerName] = useState("");
   const [booking_customererrmsg, setBookingCustomerErrmsg] = useState("");
   const [customer_details, setCustomerDetails] = useState({})
+  const [modeOfPayment, setModeOfPayment] = useState("");
+  const [transactionId, setTransactionId] = useState("")
+  const [paymentError, setPaymentError] = useState("");
 
+console.log("state",state)
 
-  // useEffect(() => {
-  //   if (state.login.selectedHostel_Id && currentItem?.room?.Floor_Id && currentItem?.bed?.id && currentItem?.room?.Room_Id) {
-  //     dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { hostel_id: state.login.selectedHostel_Id, floor_id: currentItem?.room?.Floor_Id, room_id: currentItem?.room?.Room_Id, bed: currentItem?.bed?.id } })
-  //     dispatch({
-  //       type: "USERLIST",
-  //       payload: { hostel_id: state.login.selectedHostel_Id },
-  //     });
-  //   }
-  // }, [currentItem])
-
-
-
-  //  useEffect(() => {
-  //   const userData = state.UsersList.Users.filter((item) => item.ID === customerID);
-
-  // }, [state.UsersList, customerID]);
-  // useEffect(() => {
-
-  //   const usersList = state?.UsersList?.Users;
-  //   const userDetails = state?.PgList?.OccupiedCustomer;
-
-  //   if (
-  //     Array.isArray(usersList) &&
-  //     Array.isArray(userDetails) &&
-  //     usersList.length > 0 &&
-  //     userDetails.length > 0
-  //   ) {
-  //     const targetUserId = userDetails[0]?.User_Id?.trim()?.toLowerCase();
-
-  //     const foundCustomer = usersList.find(
-  //       (user) => user.User_Id?.trim()?.toLowerCase() === targetUserId
-  //     );
-
-  //     setCustomerDetails(foundCustomer || null);
-  //   }
-  // }, [state?.UsersList?.Users, state?.PgList?.OccupiedCustomer]);
-
-
-
-
-
-  // useEffect(() => {
-  //   if (customer_details) {
-  //     setBookingCustomerName(customer_details.ID)
-  //     // const checkoutDate = customer_details?.CheckoutDate ? dayjs(customer_details?.CheckoutDate) : null;
-  //     // setCheckoutDate(checkoutDate)
-  //   }
-  //   setFormLoading(false)
-  // }, [customer_details])
-
+  useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+       dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
+      dispatch({ type: 'UNASSIGNCUSTOMER', payload: { hostel_id: state.login.selectedHostel_Id, type: "inactive" } })
+    }
+  }, [])
 
   const handleBookingCustomerName = (selectedOption) => {
 
@@ -111,122 +71,152 @@ console.log("currentItem",currentItem)
     setamountError("");
   };
 
+const handleTransactionId = (e) => {
+    const value = e.target.value;
+    const regex = /^[A-Za-z0-9_.-]*$/;
 
-  const validateAssignField = (value, fieldName, ref, setError, focusedRef) => {
-    if (!value || value === "Select a PG") {
-
-      switch (fieldName) {
-        case "bookingcustomername":
-          setError("Please Select Customer");
-          break;
-        case "joiningDate":
-          setError("Please Select Joining Date");
-          break;
-        case "bookingDate":
-          setError("Please Select Booking Date");
-          break;
-        case "amount":
-          setError("Please Enter Amount");
-          break;
-
-
-
-
-
-        default:
-          break;
-      }
-
-
-      if (ref?.current && !focusedRef.current) {
-        ref.current.focus();
-        focusedRef.current = true;
-      }
-      return false;
-    } else {
-      setError("");
-      return true;
+    if (regex.test(value)) {
+      setTransactionId(value);
     }
   };
+  
+
+  const handleModeOfPaymentChange = (selectedOption) => {
+    if (!selectedOption) return;
+
+    setModeOfPayment(selectedOption);
+    setPaymentError("")
+    dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
+  };
+
+const labelMap = {
+    CARD: "Card",
+    CASH: "Cash",
+    UPI: "UPI",
+    BANK: "Bank",
+  };
+
+  const paymentOptions = Array.isArray(state.bankingDetails.bankingList.listBanks)
+    ? state.bankingDetails?.bankingList?.listBanks.map((item) => ({
+      value: String(item.bankingId),
+      label: `${item.accountHolderName} - ${labelMap[item.accountType] || ""}`,
+    }))
+    : [];
+ const validateAssignField = (value, fieldName, ref, setError, focusedRef) => {
+  if (!value || value === "Select a PG") {
+    switch (fieldName) {
+      case "bookingcustomername":
+        setError("Please Select Customer");
+        break;
+      case "joiningDate":
+        setError("Please Select Joining Date");
+        break;
+      case "bookingDate":
+        setError("Please Select Booking Date");
+        break;
+      case "amount":
+        setError("Please Enter Amount");
+        break;
+      case "modeOfPayment":
+        setError("Please Select Mode of Payment");
+        break;
+      default:
+        break;
+    }
+
+    if (ref?.current && !focusedRef.current) {
+      ref.current.focus();
+      focusedRef.current = true;
+    }
+    return false;
+  } else {
+    setError("");
+    return true;
+  }
+};
 
   const handleSubmitBooking = () => {
+  let hasError = false;
+  const focusedRef = { current: false };
 
-    let hasError = false;
-    const focusedRef = { current: false };
-    const isCustomerValid = validateAssignField(booking_customername, "bookingcustomername", bookingcustomerRef, setBookingCustomerErrmsg, focusedRef);
-    const isJoiningDateValid = validateAssignField(joiningDate, "joiningDate", dateRef, setJoingDateErrmsg, focusedRef);
-    const isBookingDateValid = validateAssignField(bookingDate, "bookingDate", bookingDateRef, setBookingDateErrmsg, focusedRef);
-    const isAmountValid = validateAssignField(amount, "amount", amountRef, setamountError, focusedRef);
+  const isCustomerValid = validateAssignField(
+    booking_customername,
+    "bookingcustomername",
+    bookingcustomerRef,
+    setBookingCustomerErrmsg,
+    focusedRef
+  );
 
+  const isBookingDateValid = validateAssignField(
+    bookingDate,
+    "bookingDate",
+    bookingDateRef,
+    setBookingDateErrmsg,
+    focusedRef
+  );
+  const isAmountValid = validateAssignField(
+    amount,
+    "amount",
+    amountRef,
+    setamountError,
+    focusedRef
+  );
+  const isJoiningDateValid = validateAssignField(
+    joiningDate,
+    "joiningDate",
+    dateRef,
+    setJoingDateErrmsg,
+    focusedRef
+  );
 
+  
+  const isModeOfPaymentValid = validateAssignField(
+    modeOfPayment,
+    "modeOfPayment",
+    modeOfPaymentRef,      
+    setPaymentError,
+    focusedRef
+  );
 
-    if (!bookingDate) {
-      if (!focusedRef.current && bookingDateRef?.current) {
-        bookingDateRef.current.focus();
-        focusedRef.current = true;
-      }
-      hasError = true;
-    }
+  if (!isCustomerValid || !isJoiningDateValid || !isBookingDateValid || !isAmountValid || !isModeOfPaymentValid) {
+    hasError = true;
+  }
 
-    if (hasError) return;
-    if (
-      !isCustomerValid ||
-      !isJoiningDateValid ||
-      !isAmountValid ||
-      !isBookingDateValid
-    ) {
-      return;
-    }
+  if (hasError) return;
 
-
-
-    let formattedDate = null;
-    let bookingFormattedDate = null;
-    try {
-      const date = new Date(joiningDate);
-      date.setDate(date.getDate() + 1);
-      formattedDate = date.toISOString().split("T")[0];
-    } catch (error) {
-      console.error("Error formatting date:", error);
-      setDateError("Please Select Date");
-      return;
-    }
-
-
-    try {
-      const date = new Date(bookingDate);
-      date.setDate(date.getDate() + 1);
-      bookingFormattedDate = date.toISOString().split("T")[0];
-    } catch (error) {
-      console.error("Error formatting date:", error);
-      setDateError("Please Select Date");
-      return;
-    }
-
-    const userDetails = state.UsersList.Users.find(
-      (u) => u.ID === booking_customername
-    );
-
-
-
-    // dispatch({
-    //   type: "ADD_BOOKING",
-    //   payload: {
-    //     joining_date: formattedDate,
-    //     booking_date: bookingFormattedDate,
-    //     amount: amount,
-    //     hostel_id: state.login.selectedHostel_Id,
-    //     floor_id: currentItem?.room?.Floor_Id,
-    //     room_id: currentItem?.room?.Room_Id,
-    //     bed_id: currentItem?.bed?.id,
-    //     customer_Id: booking_customername,
-    //     mob_no: userDetails.Phone,
-    //     email: userDetails.Email,
-    //     profile: userDetails.profile
-    //   },
-    // });
-    setFormLoading(true)
+  const formatDate = (date) => {
+    if (!date) return "";
+    const d = new Date(date);
+    const day = String(d.getDate()).padStart(2, "0");
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const year = d.getFullYear();
+    return `${day}-${month}-${year}`;
   };
+
+  const joiningDateForFormatted = formatDate(joiningDate);
+  const bookingDateForFormatted = formatDate(bookingDate);
+
+  dispatch({
+    type: "ADD_BOOKING",
+    payload: {
+      hostelId: state.login.selectedHostel_Id,
+      joiningDate: joiningDateForFormatted,
+      bookingDate: bookingDateForFormatted,
+      bookingAmount: amount,
+      floorId: currentItem?.floorId,
+      roomId: currentItem?.roomId,
+      bedId: currentItem?.bedId,
+      customerId: booking_customername,
+      bankId: modeOfPayment,
+      referenceNumber: transactionId,
+    },
+  });
+
+  setFormLoading(true);
+};
+
+
+
 
 
   useEffect(() => {
@@ -248,20 +238,12 @@ console.log("currentItem",currentItem)
     }
   }, [state?.Booking?.statusCodeForAddBooking]);
 
-  useEffect(() => {
-    // dispatch({ type: 'UNASSIGNCUSTOMER', payload: { hostel_Id: currentItem.room.Hostel_Id } })
-  }, [])
-
-
-
-  //   const isAlreadyAssigned =
-  // booking_customername &&
-  // !state.UsersList?.UnAssignCustomerDetails?.some(
-  //   (u) => String(u.id) === String(booking_customername)
-  // );
-
-
-
+  
+useEffect(()=>{
+  if(state.Booking.bookingBedError){
+setFormLoading(false)
+  }
+},[state.Booking.bookingBedError])
   return (
     <div>
       <Modal
@@ -309,7 +291,6 @@ console.log("currentItem",currentItem)
               </div>
 
               <span
-                className="text-primary"
                 style={{
                   fontSize: "13px",
                   color: "#1E45E1",
@@ -317,7 +298,7 @@ console.log("currentItem",currentItem)
                   fontFamily: "Gilroy",
                 }}
               >
-                {currentItem?.roomName} &nbsp; | &nbsp; {currentItem?.bedName}
+                {currentItem.floorName} &nbsp; | &nbsp; {currentItem?.roomName} &nbsp; | &nbsp; {currentItem?.bedName}
               </span>
             </Modal.Header>
 
@@ -325,123 +306,28 @@ console.log("currentItem",currentItem)
               style={{ maxHeight: "350px", overflowY: "scroll" }}
               className="show-scroll p-2 mt-1 me-1"
             >
-              <div className="col-12 mb-3">
+              
+
+              <div className="row">
+
+                <div className="col-lg-6 col-md-6 col-sm-12">
                 <Form.Label
                   style={{
                     fontSize: 14,
                     fontWeight: 500,
                     fontFamily: "Gilroy",
-                    paddingTop: "6px",
-                  }}
+                                      }}
                 >
                   Select Tenant{" "}
                   <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
                 <Select
-                  // options={
-                  //   state.UsersList?.users?.length > 0 &&
-                  //      state.UsersList?.UnAssignCustomerDetails.map((u) => ({
-                  //       value: u.id,
-                  //       label: u.Name,
-                  //     }))
-
-                  // }
-                  // onChange={handleBookingCustomerName}
-                  // value={
-                  //   booking_customername
-                  //     ? {
-                  //       value: booking_customername,
-                  //       label:
-                  //         state.UsersList?.Users?.find((u) => u.ID === booking_customername)?.Name ||
-                  //         "Select Customer",
-                  //     }
-                  //     : null
-                  // }
-                  //          options={
-                  //                                                         state.UsersList?.UnAssignCustomerDetails?.length > 0 &&
-                  //                                                            state.UsersList?.UnAssignCustomerDetails.map((u) => ({
-                  //                                                             value: u.id,
-                  //                                                             label: u.Name,
-                  //                                                           })) || []
-                  // }
-                  // options={
-                  //   (state.UsersList?.UnAssignCustomerDetails?.length > 0
-                  //     ? state.UsersList.UnAssignCustomerDetails.map((u) => ({
-                  //         value: u.id,
-                  //         label: u.Name,
-                  //       }))
-                  //     : [])
-                  // }
-
-                  // onChange={handleBookingCustomerName}
-                  // value={
-                  //   booking_customername
-                  //     ? {
-                  //         value: String(booking_customername),
-                  //         label:
-                  //           state.UsersList?.Users?.find(
-                  //             (u) => String(u.ID) === String(booking_customername)
-                  //           )?.Name || "Select Customer",
-                  //       }
-                  //     : null
-                  // }
-
-
-
-                  //                                                       placeholder="Select Customer"
-                  //                                                       classNamePrefix="custom"
-                  //                                                       menuPlacement="auto"
-                  //                                                       noOptionsMessage={() => "No customers available"}
-                  //                                                       styles={{
-                  //                                                         control: (base) => ({
-                  //                                                           ...base,
-                  //                                                           padding: "3px 5px ",
-                  //                                                           border: "1px solid #D9D9D9",
-                  //                                                           borderRadius: "8px",
-                  //                                                           fontSize: "16px",
-                  //                                                           color: "#4B4B4B",
-                  //                                                           fontFamily: "Gilroy",
-                  //                                                           fontWeight: booking_customername ? 600 : 500,
-                  //                                                           boxShadow: "none",
-                  //                                                         }),
-                  //                                                         menu: (base) => ({
-                  //                                                           ...base,
-                  //                                                           backgroundColor: "#f8f9fa",
-                  //                                                           border: "1px solid #ced4da",
-                  //                                                         }),
-                  //                                                         menuList: (base) => ({
-                  //                                                           ...base,
-                  //                                                           backgroundColor: "#f8f9fa",
-                  //                                                           maxHeight: "120px",
-                  //                                                           padding: 0,
-                  //                                                           scrollbarWidth: "thin",
-                  //                                                           overflowY: "auto",
-                  //                                                           fontFamily: "Gilroy"
-                  //                                                         }),
-                  //                                                         placeholder: (base) => ({
-                  //                                                           ...base,
-                  //                                                           color: "#555",
-                  //                                                         }),
-                  //                                                         dropdownIndicator: (base) => ({
-                  //                                                           ...base,
-                  //                                                           color: "#555",
-                  //                                                           cursor: "pointer",
-                  //                                                         }),
-                  //                                                         indicatorSeparator: () => ({
-                  //                                                           display: "none",
-                  //                                                         }),
-                  //                                                         option: (base, state) => ({
-                  //                                                           ...base,
-                  //                                                           cursor: "pointer",
-                  //                                                           backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                  //                                                           color: "#000",
-                  //                                                         }),
-                  //                                                       }}
+                            ref={bookingcustomerRef}        
                   options={
                     state.UsersList?.UnAssignCustomerDetails?.length > 0 &&
                     state.UsersList?.UnAssignCustomerDetails.map((u) => ({
-                      value: u.id,
-                      label: u.Name,
+                      value: u.customerId,
+                      label: u.firstName,
                     }))
 
                   }
@@ -451,12 +337,12 @@ console.log("currentItem",currentItem)
                       ? {
                         value: booking_customername,
                         label:
-                          state.UsersList?.UnAssignCustomerDetails?.find((u) => u.id === booking_customername)?.Name ||
-                          "Select Customer",
+                          state.UsersList?.UnAssignCustomerDetails?.find((u) => u.customerId === booking_customername)?.firstName ||
+                          "Select Tenant",
                       }
                       : null
                   }
-                  placeholder="Select Customer"
+                  placeholder="Select Tenant"
                   classNamePrefix="custom"
                   menuPlacement="auto"
                   noOptionsMessage={() => "No customers available"}
@@ -512,9 +398,7 @@ console.log("currentItem",currentItem)
                   <ErrorMessage message={booking_customererrmsg} type="error" />
                 )}
               </div>
-
-              <div className="row">
-                <div className="col-lg-6 col-md-6 col-sm-12 mb-2">
+                <div className="col-lg-6 col-md-6 col-sm-12">
                   <Form.Group controlId="bookingDate">
                     <Form.Label
                       style={{
@@ -552,7 +436,7 @@ console.log("currentItem",currentItem)
                     </div>
 
                     {dateError && (
-                       <ErrorMessage message={dateError} type="error" />
+                      <ErrorMessage message={dateError} type="error" />
                     )}
 
                     {bookingDateErrmsg.trim() !== "" && (
@@ -561,7 +445,7 @@ console.log("currentItem",currentItem)
                   </Form.Group>
                 </div>
 
-                <div className="col-lg-6 col-md-6 col-sm-12 mb-2">
+                <div className="col-lg-6 col-md-6 col-sm-12">
                   <Form.Group>
                     <Form.Label
                       style={{
@@ -575,21 +459,7 @@ console.log("currentItem",currentItem)
                     </Form.Label>
 
                     <div style={{ position: "relative" }}>
-                      {/* <span
-                        style={{
-                          position: "absolute",
-                          top: "50%",
-                          left: 12,
-                          transform: "translateY(-50%)",
-                          fontSize: 16,
-                          color: "#000",
-                          pointerEvents: "none",
-                          zIndex: 1,
-
-                        }}
-                      >
-                        ₹
-                      </span> */}
+                     
 
                       <FormControl
                         type="text"
@@ -615,9 +485,8 @@ console.log("currentItem",currentItem)
                     <ErrorMessage message={amountError} type="error" />
                   )}
                 </div>
-              </div>
-
-              <div className="col-12 mb-3">
+              
+              <div className="col-lg-6 col-md-6 col-sm-12">
                 <Form.Group controlId="joiningDate">
                   <Form.Label
                     style={{
@@ -635,24 +504,9 @@ console.log("currentItem",currentItem)
                     className="datepicker-wrapper"
                     style={{ position: "relative", width: "100%", marginTop: 6 }}
                   >
-                    {/* <DatePicker
-                                                                         style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
-                                                                         format="DD/MM/YYYY"
-                                                                         placeholder="DD/MM/YYYY"
-                                                                         value={joiningDate ? dayjs(joiningDate) : null}
-                                                                         onChange={(date) => {
-                                                                           setDateError("");
-                                                                           setJoiningDate(date ? date.toDate() : null);
-                                                                           dispatch({ type: 'REMOVE_ERROR_BOOKING_DATE' })
-                                                                           setJoingDateErrmsg("")
-                                                                         }}
-                                                                          disabledDate={(current) => current && current < dayjs().startOf("day")}
-
-                                                                      
-                                                                        getPopupContainer={() => document.body}
-                                                                       /> */}
-
+                   
                     <DatePicker
+                 ref={dateRef}
                       style={{
                         width: "100%",
                         height: 48,
@@ -671,9 +525,9 @@ console.log("currentItem",currentItem)
                       getPopupContainer={() => document.body}
                       disabledDate={(current) => {
                         // Disable all future dates
-                        if (current && current > dayjs().endOf("day")) {
-                          return true;
-                        }
+                        // if (current && current > dayjs().endOf("day")) {
+                        //   return true;
+                        // }
 
                         // Disable before bookingDate
                         if (bookingDate) {
@@ -687,7 +541,7 @@ console.log("currentItem",currentItem)
                   </div>
                 </Form.Group>
                 {dateError && (
-                   <ErrorMessage message={dateError} type="error" />
+                  <ErrorMessage message={dateError} type="error" />
                 )}
 
                 {joiningDateErrmsg.trim() !== "" && (
@@ -695,6 +549,157 @@ console.log("currentItem",currentItem)
                 )}
 
               </div>
+
+              <div className="col-lg-12 col-md-12 col-sm-12">
+                <Form.Group
+
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label
+                    style={{
+                      fontSize: 14,
+                      color: "#222222",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                      
+                    }}
+                  >
+                    Mode Of Transaction {" "}
+                    <span
+                      style={{
+                        color: "#FF0000",
+                        fontSize: "20px",
+                      }}
+                    >
+                      *
+                    </span>
+                  </Form.Label>
+
+
+
+                  <Select
+                  ref={modeOfPaymentRef}
+                    options={paymentOptions}
+                    onChange={(selectedOption) =>
+                      handleModeOfPaymentChange(selectedOption?.value)
+                    }
+                    value={
+                      modeOfPayment
+                        ? paymentOptions.find((opt) => opt.value === String(modeOfPayment)) || null
+                        : null
+                    }
+                    placeholder="Select Payment"
+                    noOptionsMessage={() => "No mode available"}
+                    styles={{
+                      control: (base) => ({
+                        ...base,
+                        fontSize: 16,
+                        color: "rgba(75, 75, 75, 1)",
+                        fontFamily: "Gilroy",
+                        fontWeight: modeOfPayment ? 600 : 500,
+                        border: "1px solid #D9D9D9",
+                        borderRadius: "8px",
+                        boxShadow: "none",
+                        height: 48,
+                        cursor: "pointer",
+                      }),
+                      menu: (base) => ({
+                        ...base,
+                        backgroundColor: "#f8f9fa",
+                        border: "1px solid #ced4da",
+                        fontFamily: "Gilroy",
+                      }),
+                      menuList: (base) => ({
+                        ...base,
+                        backgroundColor: "#f8f9fa",
+                        maxHeight: "120px",
+                        padding: 0,
+                        scrollbarWidth: "thin",
+                        overflowY: "auto",
+                        fontFamily: "Gilroy",
+                      }),
+                      placeholder: (base) => ({
+                        ...base,
+                        color: "#555",
+                      }),
+                      dropdownIndicator: (base) => ({
+                        ...base,
+                        color: "#555",
+                        cursor: "pointer",
+                      }),
+                      option: (base, state) => ({
+                        ...base,
+                        cursor: "pointer",
+                        backgroundColor: state.isFocused ? "lightblue" : "white",
+                        color: "#000",
+                        fontFamily: "Gilroy",
+                      }),
+                      indicatorSeparator: () => ({
+                        display: "none",
+                      }),
+                    }}
+                  />
+
+                </Form.Group>
+                {paymentError && (
+                  <ErrorMessage message={paymentError} type="error" />
+
+                )}
+              </div>
+
+
+              <div className="col-lg-12 col-md-12 col-sm-12">
+                <Form.Group >
+                  <Form.Label
+                    style={{
+                      fontSize: 14,
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
+                    }}
+                  >
+                    Transaction ID{" "}
+                    <span
+                      style={{
+                        color: "white",
+                        fontSize: "20px",
+                      }}
+                    >
+
+                    </span>
+                  </Form.Label>
+                  <FormControl
+                    type="text"
+                    id="form-controls"
+                    placeholder="Enter Transaction ID"
+                    value={transactionId}
+                    onChange={(e) => handleTransactionId(e)}
+
+                    style={{
+                      fontSize: 16,
+                      color: "#4B4B4B",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                      boxShadow: "none",
+                      border: "1px solid #D9D9D9",
+                      height: 50,
+                      borderRadius: 8,
+                    }}
+                  />
+                </Form.Group>
+
+              </div>
+
+
+
+</div>
+
+
+            </div>
+            <div className="d-flex justify-content-center">
+{
+  state.Booking.bookingBedError &&  <ErrorMessage message={state.Booking.bookingBedError} type="error" />
+}
+
             </div>
 
             <div
@@ -745,6 +750,10 @@ console.log("currentItem",currentItem)
               </button>
             </div>
           </Modal.Body>
+
+
+
+
           {formLoading && <div
             style={{
               position: 'absolute',

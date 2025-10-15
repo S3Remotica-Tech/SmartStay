@@ -17,7 +17,7 @@ import { Trash } from 'iconsax-react';
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
 import Profileimage from "../../Assets/Images/New_images/profile-picture.png";
 import ErrorMessage from '../../Components/ErrorMessage'
-
+import customParseFormat from "dayjs/plugin/customParseFormat";
 function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
 
@@ -37,8 +37,8 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
     //   const [bed_name, setBedName] = useState("")
     const calendarRef = useRef(null);
     const [dateError, setDateError] = useState("");
-    const [selectedDate, setSelectedDate] = useState(null);
-
+    const [selectedDate, setSelectedDate] = useState(new Date());
+    dayjs.extend(customParseFormat);
     const [fields, setFields] = useState([]);
     const [joiningDateErrmsg, setJoingDateErrmsg] = useState('');
     const [AdvanceAmount, setAdvanceAmount] = useState("");
@@ -319,11 +319,11 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
     useEffect(() => {
         if (state.UsersList?.bookedDetails || bookingDetails) {
-            const parsedDate = bookingDetails?.expectedJoiningDate
-                ? dayjs(bookingDetails.expectedJoiningDate, "DD/MM/YYYY")
-                : null;
+            // const parsedDate = bookingDetails?.expectedJoiningDate
+            //     ? dayjs(bookingDetails.expectedJoiningDate, "DD/MM/YYYY")
+            //     : null;
 
-            setSelectedDate(parsedDate);
+            // setSelectedDate(parsedDate);
             setBookingAmount(state.UsersList.bookedDetails?.bookingAmount)
             setRoomRent(state.UsersList.bookedDetails?.rent)
         }
@@ -412,11 +412,46 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                     }}
                                 />
                                 <div>
-                                    <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px", fontFamily: "Gilroy" }}>
-                                        {bookingDetails?.firstName}{bookingDetails?.lastName}
-                                    </p>
+                                    <div>
+                                        <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px", fontFamily: "Gilroy" }}>
+                                            {bookingDetails?.firstName}{bookingDetails?.lastName}
+                                        </p>
+
+                                    </div>
+
+                                    <div className="d-flex gap-2">
+                                        <span
+                                            style={{
+                                                backgroundColor: "#FFF3CD",
+                                                color: "#856404",
+                                                fontSize: "12px",
+                                                padding: "2px 8px",
+                                                borderRadius: "12px",
+                                                fontWeight: 500,
+                                                fontFamily: "Gilroy"
+                                            }}
+                                        >
+                                            {bookingDetails?.floorName}
+                                        </span>
+                                        <span
+                                            style={{
+                                                backgroundColor: "#F8D7DA",
+                                                color: "#721C24",
+                                                fontSize: "12px",
+                                                padding: "2px 8px",
+                                                borderRadius: "12px",
+                                                fontWeight: 500,
+                                                fontFamily: "Gilroy"
+                                            }}
+                                        >
+                                            {bookingDetails?.roomName} - {bookingDetails?.bedName}
+                                        </span>
+                                    </div>
 
                                 </div>
+
+
+
                             </div>
 
 
@@ -459,7 +494,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                             {activeTab === "LONG" ? <>
                                 <div style={{ maxHeight: "300px", overflowY: "scroll" }} className="show-scroll p-2 mt-2 me-1">
                                     <div className="row d-flex align-items-center">
-                                        <div className="col-12">
+                                        {/* <div className="col-12">
                                             <Form.Label
                                                 style={{
                                                     fontSize: 14,
@@ -562,9 +597,9 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                             />
 
 
-                                        </div>
+                                        </div> */}
 
-                                        <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                             <Form.Group>
                                                 <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
                                                     Booking Amount
@@ -618,9 +653,60 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                                 />
                                             </Form.Group>
 
+                                        </div> */}
+
+                                        <div className="d-flex justify-content-between align-items-center mb-2">
+                                            <div>
+                                                <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                                    Booking Date
+                                                </label>
+                                            </div>
+                                            <div>
+                                                <label
+                                                    style={{
+                                                        fontSize: 14,
+                                                        color: "#222222",
+                                                        fontFamily: "Gilroy",
+                                                        fontWeight: 600,
+                                                    }}
+                                                >
+                                                    {bookingDetails?.bookedAt}
+                                                </label>
+                                            </div>
                                         </div>
 
-                                        <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <div className="d-flex justify-content-between align-items-center mb-2">
+                                            <div>
+                                                <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                                    Booking Amount
+                                                </label>
+                                            </div>
+                                            <div>
+                                                <label
+                                                    style={{
+                                                        fontSize: 14,
+                                                        color: "#222222",
+                                                        fontFamily: "Gilroy",
+                                                        fontWeight: 600,
+                                                    }}
+                                                >
+                                                    {bookingAmount}
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <hr
+                                            style={{
+                                                border: "none",
+                                                height: "1px",
+                                                backgroundColor: "#D9D9D9",
+                                                margin: "8px 0",
+                                                padding: 0,
+                                            }}
+                                        />
+
+
+                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                             <Form.Group controlId="purchaseDate">
                                                 <Form.Label
                                                     style={{
@@ -642,7 +728,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                                         style={{
                                                             width: "100%",
                                                             height: 48,
-                                                            cursor: "not-allowed",
+                                                            cursor: "pointer",
                                                             fontFamily: "Gilroy",
                                                             // backgroundColor: "#EFF2FF"
                                                         }}
@@ -658,12 +744,17 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                                             dispatch(JoininDatecustomer(date ? date.toDate() : null));
                                                         }}
 
-                                                        // disabledDate={(current) =>
+                                                        disabledDate={(current) => {
+                                                            if (!current) return false;
+                                                            const bookedAtDayjs = bookingDetails?.bookedAt
+                                                                ? dayjs(bookingDetails.bookedAt, "DD/MM/YYYY")
+                                                                : null;
 
-                                                        //     (bookingDate && current < bookingDate.startOf("day")) ||
-                                                        //     current > dayjs().endOf("day")
-                                                        // }
-
+                                                            return (
+                                                                (bookedAtDayjs && current.isBefore(bookedAtDayjs.startOf("day"))) ||
+                                                                current.isAfter(dayjs().endOf("day"))
+                                                            );
+                                                        }}
                                                         getPopupContainer={(triggerNode) =>
                                                             triggerNode.closest(".show-scroll") || document.body
                                                         }

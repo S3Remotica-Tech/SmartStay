@@ -47,7 +47,7 @@ function CustomerCheckout(props) {
 
 
 
-
+  console.log("props", props)
 
 
 
@@ -56,7 +56,7 @@ function CustomerCheckout(props) {
       const customerData = state.UsersList.customerdetails?.data?.[0]
       const invoiceDetails = state.UsersList.customerdetails?.invoice_details;
 
-      // 🔹 1. Store Joining Date
+
       if (customerData?.joining_Date) {
         const joining = new Date(customerData.joining_Date);
         const formattedJoining = `${String(joining.getDate()).padStart(2, "0")}-${String(
@@ -67,7 +67,7 @@ function CustomerCheckout(props) {
         setJoiningDate("");
       }
 
-      // 🔹 2. Store Last Bill Date
+
       if (invoiceDetails && invoiceDetails.length > 0) {
         const dates = invoiceDetails.map((item) => item.Date).filter(Boolean);
         if (dates.length > 0) {
@@ -83,12 +83,22 @@ function CustomerCheckout(props) {
         setLastDate("");
       }
 
-      // clear details after some time
       setTimeout(() => {
         dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
       }, 1000);
     }
   }, [state.UsersList.CustomerdetailsgetStatuscode]);
+
+
+
+  useEffect(() => {
+    if (props.bedData.actualJoining) {
+      setJoiningDate(props.bedData.actualJoining)
+    }
+
+  }, [props.bedData.actualJoining])
+
+
 
 
   const handleCloseCheckout = () => {
@@ -210,45 +220,45 @@ function CustomerCheckout(props) {
             }}
             className="m-0 p-0"
           >
-             <Modal.Header
-                    style={{ marginBottom: "8px", position: "relative",  }}
-                  >
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
-                      <div
-                        style={{
-                          fontSize: 20,
-                          fontWeight: 600,
-                          fontFamily: "Gilroy",
-                        }}
-                      >
-                        Move to Notice Period
-                      </div>
-                      {dateDifference !== null && (
-                        <div className="col-12 mt-1">
-                          <p
-                            style={{
-                              fontSize: 15,
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                              color: "#1E45E1",
-                              marginBottom:0
-                            }}
-                          >
-                            Notice Days* : {dateDifference}
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                    <CloseCircle size="24" color="#000" onClick={handleCloseCheckout}
-                      style={{ cursor: 'pointer' }} />
-                  </Modal.Header>
+            <Modal.Header
+              style={{ marginBottom: "8px", position: "relative", }}
+            >
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <div
+                  style={{
+                    fontSize: 20,
+                    fontWeight: 600,
+                    fontFamily: "Gilroy",
+                  }}
+                >
+                  Move to Notice Period
+                </div>
+                {dateDifference !== null && (
+                  <div className="col-12 mt-1">
+                    <p
+                      style={{
+                        fontSize: 15,
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                        color: "#1E45E1",
+                        marginBottom: 0
+                      }}
+                    >
+                      Notice Days* : {dateDifference}
+                    </p>
+                  </div>
+                )}
+              </div>
+              <CloseCircle size="24" color="#000" onClick={handleCloseCheckout}
+                style={{ cursor: 'pointer' }} />
+            </Modal.Header>
             <Modal.Body style={{ marginTop: -30 }}>
               <div className="d-flex align-items-center">
 
                 <div className="container">
                   <div className="row mb-3"></div>
 
-                 
+
 
 
                   <ModalBody className="p-0">
@@ -266,7 +276,7 @@ function CustomerCheckout(props) {
                         >
 
                           <Image
-                                                       src={
+                            src={
                               props.bedData
                                 ? props.bedData.currentTenantProfilePic && props.bedData.currentTenantProfilePic !== ""
                                   ? typeof props.bedData.currentTenantProfilePic === "string"
@@ -388,45 +398,14 @@ function CustomerCheckout(props) {
                               }
                               disabledDate={(current) => {
                                 if (!current) return false;
-
-                                const today = dayjs().endOf("day");
-
-                                let joining = null;
-                                if (joiningdate && /^\d{2}-\d{2}-\d{4}$/.test(joiningdate)) {
-                                  const [dd, mm, yyyy] = joiningdate.split("-");
-                                  joining = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
-                                }
-
-
-                                let lastBillDate = null;
-                                if (lastDate && /^\d{2}-\d{2}-\d{4}$/.test(lastDate)) {
-                                  const [dd, mm, yyyy] = lastDate.split("-");
-                                  lastBillDate = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
-                                }
-
-                                let minAllowedDate = null;
-
-                                if (joining) {
-                                  const sameMonth =
-                                    joining.month() === today.month() &&
-                                    joining.year() === today.year();
-
-                                  if (sameMonth) {
-                                    minAllowedDate = joining;
-                                  } else if (lastBillDate) {
-                                    minAllowedDate = lastBillDate;
-                                  }
-                                }
-
-                                if (current.isAfter(today)) {
+                                const joining = joiningdate ? dayjs(joiningdate, "DD/MM/YYYY") : null;
+                                if (joining && current.isBefore(joining.startOf("day"))) {
                                   return true;
                                 }
-
-                                if (minAllowedDate && current.isBefore(minAllowedDate)) {
-                                  return true;
-                                }
-
-                                return false;
+                                 if (current.isAfter(dayjs().endOf("day"))) {
+    return true;
+  }
+                               return false;
                               }}
                             />
 

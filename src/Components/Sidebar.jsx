@@ -56,6 +56,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Route, Routes, } from "react-router-dom";
 import Cookies from 'universal-cookie';
 import { checkoutCustomerProfile } from "../Redux/Action/smartStayAction";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip"
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -660,6 +662,11 @@ function Sidebar() {
                       fontWeight: 600,
                       display: "inline-block",
                       fontFamily: "Gilroy",
+                      maxWidth: "150px",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      verticalAlign: "middle",
                     }}
                   >
                     {payingGuestName}
@@ -693,37 +700,49 @@ function Sidebar() {
                     >
                       <ul style={{ margin: 0, padding: 0 }}>
                         {hostelListDetail.map((item) => (
-                          <li
+                          <OverlayTrigger
                             key={item.id}
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              padding: "8px 12px",
-                              cursor: "pointer",
-                              color: "#1e45e1",
-                            }}
-                            onClick={() =>
-                              handleHostelId(item.hostelId, item.name, item.mainImage)
-                            }
+                            
+                            placement="right"
+                            overlay={<Tooltip className="custom-tooltip"  id={`tooltip-${item.id}`}>{item.name}</Tooltip>}
                           >
-                            <img
-                              src={
-                                item.mainImage &&
-                                  item.mainImage !== "0" &&
-                                  item.mainImage !== ""
-                                  ? item.mainImage
-                                  : Profile
-                              }
+                            <li
+                              key={item.id}
                               style={{
-                                height: 25,
-                                width: 25,
-                                borderRadius: "50%",
-                                marginRight: 8,
+                                display: "flex",
+                                alignItems: "center",
+                                padding: "8px 12px",
+                                cursor: "pointer",
+                                color: "#1e45e1",
+                                maxWidth: "130px",
+                                whiteSpace: "nowrap",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                verticalAlign: "middle",
                               }}
-                              alt={item.name || "Default Profile"}
-                            />
-                            {item.name}
-                          </li>
+                              onClick={() =>
+                                handleHostelId(item.hostelId, item.name, item.mainImage)
+                              }
+                            >
+                              <img
+                                src={
+                                  item.mainImage &&
+                                    item.mainImage !== "0" &&
+                                    item.mainImage !== ""
+                                    ? item.mainImage
+                                    : Profile
+                                }
+                                style={{
+                                  height: 25,
+                                  width: 25,
+                                  borderRadius: "50%",
+                                  marginRight: 8,
+                                }}
+                                alt={item.name || "Default Profile"}
+                              />
+                              {item.name}
+                            </li>
+                          </OverlayTrigger>
                         ))}
                       </ul>
                     </div>
