@@ -61,10 +61,10 @@ function StaticExample({ show, currentItem, setShowModal }) {
 
 
   useEffect(() => {
-    if (state.ExpenseList.expenceNetBanking) {
-      setNetPaymentError(state.ExpenseList.expenceNetBanking)
+    if (state.ExpenseList.insufficiantFundError) {
+     setFormLoading(false)
     }
-  }, [state.ExpenseList.expenceNetBanking])
+  }, [state.ExpenseList.insufficiantFundError])
 
 
 
@@ -196,6 +196,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
 
 
   const handlePriceChange = (e) => {
+    dispatch({ type: 'REMOVE_BANK_INSUFFICIANT_FUND_ERROR'})
     const value = e.target.value;
     setGeneralError("");
     setPriceError("");
@@ -356,6 +357,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
 
 
   const handleClose = () => {
+       dispatch({ type: 'REMOVE_BANK_INSUFFICIANT_FUND_ERROR'})
     setShowModal(false);
     setNetPaymentError("")
     setJoingDateErrmsg("")
@@ -985,9 +987,9 @@ function StaticExample({ show, currentItem, setShowModal }) {
           )}
 
 
-          {netPaymentError && (
+          {state.ExpenseList.insufficiantFundError && (
             <div className="d-flex align-items-center justify-content-center  mb-2 mt-2">
-              <ErrorMessage message={netPaymentError} type="error" />
+              <ErrorMessage message={state.ExpenseList.insufficiantFundError} type="error" />
             </div>
           )}
 

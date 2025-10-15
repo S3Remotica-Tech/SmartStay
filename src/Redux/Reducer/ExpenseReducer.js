@@ -13,7 +13,8 @@ export const initialState = {
     StatusCodeForAddExpenseTagSuccess: 0,
     expenceNetBanking: '',
     getInitializeExpenseList: [],
-getInitializeExpenseStatusCode:0,
+    getInitializeExpenseStatusCode: 0,
+    insufficiantFundError: ""
 }
 
 const ExpenseReducer = (state = initialState, action) => {
@@ -22,9 +23,9 @@ const ExpenseReducer = (state = initialState, action) => {
         case 'RESET_ALL':
             return initialState;
         case 'INITIALIZE_EXPENSES_LIST':
-            return { ...state, getInitializeExpenseList: action.payload.response, getInitializeExpenseStatusCode: action.payload.statusCode}
-             case 'REMOVE_INITIALIZE_EXPENSES_LIST':
-            return { ...state,  getInitializeExpenseStatusCode:0}
+            return { ...state, getInitializeExpenseList: action.payload.response, getInitializeExpenseStatusCode: action.payload.statusCode }
+        case 'REMOVE_INITIALIZE_EXPENSES_LIST':
+            return { ...state, getInitializeExpenseStatusCode: 0 }
         case 'CATEGORY_LIST':
             return { ...state, categoryList: action.payload.response }
         case 'TRANSACTION_HISTORY':
@@ -57,6 +58,10 @@ const ExpenseReducer = (state = initialState, action) => {
         case 'CLEAR_EXPENCE_NETBANKIG':
             return { ...state, expenceNetBanking: '' }
 
+        case 'BANK_INSUFFICIANT_FUND_ERROR':
+            return { ...state, insufficiantFundError: action.payload }
+        case 'REMOVE_BANK_INSUFFICIANT_FUND_ERROR':
+            return { ...state, insufficiantFundError: "" }
         default:
             return state;
 
