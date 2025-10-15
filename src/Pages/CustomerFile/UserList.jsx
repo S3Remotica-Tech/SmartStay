@@ -620,6 +620,8 @@ function UserList(props) {
     }
   }, [billsAddshow]);
 
+  
+
   const handleCustomerName = (e) => {
     setCustomerName(e.target.value);
     setAllFieldErrmsg("");
@@ -1308,6 +1310,7 @@ function UserList(props) {
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
   const handleShowDots = (id, event) => {
+    
   if (activeRow === id) {
     setActiveRow(null);
     return;
@@ -1334,6 +1337,46 @@ function UserList(props) {
 
   setPopupPosition({ top: popupTop, left: popupLeft });
 };
+console.log("handleShowDots",activeRow)
+const activeUser = state.UsersList?.Users?.filter(user => user.ID === activeRow);
+// console.log("handleShowDots",activeUser)
+
+// const matchedUser = state.UsersList?.Users?.find(
+//   (user) =>
+//     user.Floor === activeUser[0]?.booking_floor_id &&
+//     user.room_id === activeUser[0]?.booking_room_id &&
+//     user.hstl_Bed === activeUser[0]?.booking_bed_id
+// );
+
+// console.log(matchedUser);
+// console.log("UsersList", state.UsersList?.Users);
+// console.log("Active User", activeUser[0]);
+// console.log("Matching user found:", matchedUser);
+
+
+// 1️⃣ Get the active user based on activeRow
+//  activeUser = state.UsersList?.Users?.filter(user => user.ID === activeRow);
+const [checkinDisable,setCheckinDisables] = useState("")
+
+useEffect(()=>{
+  if (activeUser) {
+  // 3️⃣ Find all matching users
+  const matchedUsers = state.UsersList?.Users?.filter(
+    (user) =>
+      String(user.Floor) === String(activeUser[0]?.booking_floor_id) &&
+      String(user.room_id) === String(activeUser[0]?.booking_room_id) &&
+      String(user.hstl_Bed) === String(activeUser[0]?.booking_bed_id)
+  );
+
+  // 4️⃣ Check if at least one match exists
+  const isMatch = matchedUsers.length > 0;
+setCheckinDisables(isMatch)
+  console.log("Matched Users:", matchedUsers);
+  console.log("Is Match:", isMatch);
+} else {
+  console.log("Active user not found");
+}
+},[activeUser])
 
 
 //   const handleShowDots = (id, event) => {
@@ -2242,7 +2285,7 @@ function UserList(props) {
 
   }, [props.makeasinactive])
 
-
+// console.log("props?.customer_details",props?.customer_details.ID)
 
 
   const [inactivename, setInactiveName] = useState("")
@@ -2282,9 +2325,13 @@ function UserList(props) {
   }
   const [isActiveDateError, setIsACtiveDateError] = useState("")
 
-
+//  console.log("props.customer_details.ID",props.customer_details.ID)
 
   const SubmitInActiveForm = () => {
+    console.log("props.customer_details.ID",props.customer_details.ID)
+     console.log("props.customer_details.ID",inActiveId)
+      // console.log("props.customer_details.ID",props.customer[0].id)
+
     if (!inActiveDate) {
       setIsACtiveDateError(" Please Select Inactive Date");
       return;
@@ -2300,10 +2347,12 @@ function UserList(props) {
       : "";
 
     setIsACtiveDateError("");
+    
+ 
     if (formattedDate) {
       dispatch({
         type: "BOOKINGACTIVE",
-        payload: { booking_id: bookingId, Inactive_date: formattedDate, Inactive_Reason: inActiveComments,ID:inActiveId || props.customer[0].id },
+        payload: { booking_id: bookingId, Inactive_date: formattedDate, Inactive_Reason: inActiveComments,ID:inActiveId || props.customer_details.ID },
       });
     }
     setFormLoading(true)
@@ -2338,6 +2387,7 @@ function UserList(props) {
     setEditObj(book);
 
   }
+  
   const [bactocheckinForm, setBacktoCheckInForm] = useState(false)
   const handleBacktoCheckout = (item) => {
     console.log("handleBacktoCheckout", item)
@@ -4763,19 +4813,19 @@ const handleClosefinal = ()=>{
                                                       className="d-flex align-items-center gap-2"
                                                       style={{
                                                         backgroundColor: "#F9F9F9",
-                                                        cursor: customerEditPermission ? "not-allowed" : "pointer",
-                                                        opacity: customerEditPermission ? 0.6 : 1,
+                                                        cursor: customerEditPermission || checkinDisable ? "not-allowed" : "pointer",
+                                                        opacity: customerEditPermission || checkinDisable ? 0.6 : 1,
                                                         padding: "8px 12px",
                                                         borderRadius: 6,
                                                         transition: "background 0.2s ease-in-out",
                                                       }}
                                                       onClick={() => {
-                                                        if (!customerEditPermission) {
+                                                        if (!customerEditPermission && !checkinDisable) {
                                                           handleBookingAssign(user);
                                                         }
                                                       }}
                                                       onMouseEnter={(e) => {
-                                                        if (!customerEditPermission) {
+                                                        if (!customerEditPermission || checkinDisable) {
                                                           e.currentTarget.style.backgroundColor = "#F0F4FF";
                                                         }
                                                       }}
@@ -4789,8 +4839,8 @@ const handleClosefinal = ()=>{
                                                         style={{
                                                           width: 16,
                                                           height: 16,
-                                                          filter: customerEditPermission ? "grayscale(100%)" : "none",
-                                                          cursor: customerEditPermission ? "not-allowed" : "pointer",
+                                                          filter: customerEditPermission || checkinDisable ? "grayscale(100%)" : "none",
+                                                          cursor: customerEditPermission || checkinDisable ? "not-allowed" : "pointer",
                                                         }}
                                                       />
                                                       <label
@@ -4798,7 +4848,7 @@ const handleClosefinal = ()=>{
                                                           fontSize: 14,
                                                           fontWeight: 500,
                                                           fontFamily: "Gilroy, sans-serif",
-                                                          cursor: customerEditPermission ? "not-allowed" : "pointer",
+                                                          cursor: customerEditPermission || checkinDisable? "not-allowed" : "pointer",
                                                           margin: 0,
                                                         }}
                                                       >

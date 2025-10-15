@@ -27,8 +27,6 @@ import Store_Icon from "../../Assets/Images/store_icon.png";
 import Profileimage from "../../Assets/Images/New_images/profile-picture.png";
 
 
-
-
 function UserlistForm(props) {
   const [id, setId] = useState("");
   const [file, setFile] = useState(null);
@@ -66,21 +64,16 @@ function UserlistForm(props) {
   const [firstnameError, setFirstnameError] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [emailError, setEmailError] = useState("");
-  const [phonenumError, setphonenumError] = useState("");
-  const [emailIdError, setemailIdError] = useState("");
   const [house_noError, setHouse_NoError] = useState("");
   const [streetError, setStreetError] = useState("");
   const [landmarkError, setLandmarkError] = useState("");
   const [pincodeError, setPincodeError] = useState("");
   const [cityError, setCityError] = useState("");
   const [state_nameError, setStateNameError] = useState("");
-  const [emailErrorMessage, setEmailErrorMessage] = useState("");
-  const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
   const [joiningDateErrmsg, setJoingDateErrmsg] = useState('');
   const [recheckinDateError, setRecheckinDateError] = useState("");
   const [formLoading, setFormLoading] = useState(false)
   const [backtoError,setBacktoError] = useState("")
-
   const [loading, setLoading] = useState(false)
   const countryCode = "91";
   const [errors, setErrors] = useState([]);
@@ -239,7 +232,7 @@ const [internalError,setInternalError]=useState("")
     if (state.UsersList.phoneError) {
       setFormLoading(false)
       setLoading(false)
-      setphonenumError(state.UsersList.phoneError);
+      setPhoneError(state.UsersList.phoneError);
     }
   }, [state.UsersList.phoneError]);
    useEffect(() => {
@@ -254,7 +247,7 @@ const [internalError,setInternalError]=useState("")
     if (state.UsersList.emailError) {
       setFormLoading(false)
       setLoading(false)
-      setemailIdError(state.UsersList.emailError);
+      setEmailError(state.UsersList.emailError);
     }
   }, [state.UsersList.emailError]);
 
@@ -283,8 +276,7 @@ const [internalError,setInternalError]=useState("")
       setPhoneError("");
     }
 
-    setPhoneErrorMessage("");
-    setphonenumError("")
+   
     dispatch({ type: "CLEAR_PHONE_ERROR" });
   };
 
@@ -296,16 +288,16 @@ const [internalError,setInternalError]=useState("")
     const isValidEmail = emailRegex.test(emailValue);
     if (!emailValue) {
       setEmailError("");
-      setEmailErrorMessage("");
+     
     } else if (!isValidEmail) {
-      setEmailErrorMessage("");
+     
       setEmailError("Please Enter  Valid Email Id");
     } else {
       setEmailError("");
-      setEmailErrorMessage("");
+     
     }
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
-    setemailIdError("")
+   
   };
 
   useEffect(() => {
@@ -728,7 +720,6 @@ const handleStreetName = (e) => {
       hasError = true;
     } else if (Phone) {
       setPhoneError("");
-      setPhoneErrorMessage("");
     }
 
     if (pincode && pincode.length !== 6) {
@@ -1895,7 +1886,7 @@ const handleNext = () => {
     hasError = true;
   } else if (Phone) {
     setPhoneError("");
-    setPhoneErrorMessage("");
+    
   }
 
   // ✅ Duplicate Phone check (with 91 prefix)
@@ -2671,7 +2662,11 @@ console.log("bed", selectedFloor);
                             }),
                             placeholder: (base) => ({
                               ...base,
-                              color: "#555",
+                              ...base,
+  fontSize: "14px",  
+  color: "#a9a9a9",     
+  fontFamily: "Gilroy",
+  fontWeight: 400,
                             }),
                             dropdownIndicator: (base) => ({
                               ...base,
@@ -2818,7 +2813,10 @@ console.log("bed", selectedFloor);
                             }),
                             placeholder: (base) => ({
                               ...base,
-                              color: "#555",
+  fontSize: "14px",     
+  color: "#a9a9a9",      
+  fontFamily: "Gilroy",
+  fontWeight: 400,
                             }),
                             dropdownIndicator: (base) => ({
                               ...base,
@@ -2978,7 +2976,11 @@ console.log("bed", selectedFloor);
                             }),
                             placeholder: (base) => ({
                               ...base,
-                              color: "#555",
+                                
+  fontSize: "14px",  
+  color: "#a9a9a9",  
+  fontFamily: "Gilroy",
+  fontWeight: 400,
                             }),
                             dropdownIndicator: (base) => ({
                               ...base,
@@ -3148,6 +3150,7 @@ console.log("bed", selectedFloor);
                           </Form.Label>
                           <FormControl
                             type="text"
+                            className="small-placeholder"
                             placeholder="Enter Amount"
                             value={AdvanceAmount}
                             onChange={handleAdvanceAmount}
@@ -3205,6 +3208,7 @@ console.log("bed", selectedFloor);
                           </Form.Label>
                           <FormControl
                             type="text"
+                            className="small-placeholder"
                             placeholder="Enter Amount"
                             value={RoomRent}
                             onChange={handleRoomRent}
@@ -3219,6 +3223,13 @@ console.log("bed", selectedFloor);
                               borderRadius: 8,
                             }}
                           />
+                          <style>{`
+    .small-placeholder::placeholder {
+      font-size: 14px;
+      color: #a9a9a9;
+      font-family: 'Gilroy';
+    }
+  `}</style>
                         </Form.Group>
                         {roomrentError && (
                               <div style={{
@@ -3357,7 +3368,10 @@ console.log("bed", selectedFloor);
                                     }),
                                     placeholder: (base) => ({
                                       ...base,
-                                      color: "#555",
+                                        fontSize: "14px",
+  color: "#a9a9a9", 
+  fontFamily: "Gilroy",
+  fontWeight: 400,
                                     }),
                                     dropdownIndicator: (base) => ({
                                       ...base,
@@ -3384,7 +3398,7 @@ console.log("bed", selectedFloor);
                                 <>
                                   <input
                                     type="text"
-                                    className="form-control"
+                                    className="form-control "
                                     placeholder="Enter custom reason"
                                     value={item.customReason}
                                     onChange={(e) => handleInputChange(index, "customReason", e.target.value)}
@@ -3399,8 +3413,11 @@ console.log("bed", selectedFloor);
                                       borderRadius: 8,
                                     }}
                                   />
+                                
                                 </>
+                                
                               )}
+                             
                               {errors[index]?.reason && (
                                   <div style={{
                                               color: "red",
@@ -3436,10 +3453,10 @@ console.log("bed", selectedFloor);
 
                               <input
                                 type="text"
-                                placeholder="Enter amount"
+                                placeholder="Enter amount "
                                 value={item.amount}
                                 onChange={(e) => handleInputChange(index, "amount", e.target.value)}
-                                className="form-control"
+                                className="form-control small-placeholder"
                                 style={{
                                   fontSize: 16,
                                   color: "#4B4B4B",
@@ -3452,6 +3469,13 @@ console.log("bed", selectedFloor);
                                 }}
 
                               />
+                                 <style>{`
+    .small-placeholder::placeholder {
+      font-size: 14px;
+      color: #a9a9a9;
+      font-family: 'Gilroy';
+    }
+  `}</style>
                               {errors[index]?.amount && (
                                   <div style={{
                                               color: "red",
@@ -4872,6 +4896,7 @@ console.log("bed", selectedFloor);
                                   </span>
                                 </Form.Label>
                                 <FormControl
+                                className="small-placeholder"
                                   id="form-controls"
                                   placeholder="Enter First Name"
                                   type="text"
@@ -4890,6 +4915,13 @@ console.log("bed", selectedFloor);
                                   }}
                                 />
                               </Form.Group>
+                              <style>{`
+    .small-placeholder::placeholder {
+      font-size: 14px;
+      color: #a9a9a9;
+      font-family: 'Gilroy';
+    }
+  `}</style>
                               {firstnameError && (
                                                               <div style={{
       color: "red",
@@ -4935,6 +4967,7 @@ console.log("bed", selectedFloor);
                                 </Form.Label>
                                 <FormControl
                                   type="text"
+                                  className="small-placeholder"
                                   id="form-controls"
                                   placeholder="Enter Last Name"
                                   value={lastname}
@@ -4951,11 +4984,19 @@ console.log("bed", selectedFloor);
                                   }}
                                 />
                               </Form.Group>
+                              <style>{`
+    .small-placeholder::placeholder {
+      font-size: 14px;
+      color: #a9a9a9;
+      font-family: 'Gilroy';
+    }
+  `}</style>
                             </div>
 
                             <Form.Group
                               className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1"
                               controlId="exampleForm.ControlInput1"
+
                             >
                               <Form.Label
                                 style={{
@@ -4995,6 +5036,7 @@ console.log("bed", selectedFloor);
                                   <option>{countryCode}</option>
                                 </Form.Select>
                                 <Form.Control
+                                className="small-placeholder"
                                   value={Phone}
                                   ref={phoneRef}
                                   onChange={handlePhone}
@@ -5053,65 +5095,16 @@ console.log("bed", selectedFloor);
                                   </span>
                                 </div>
                               )}
-                              {phonenumError && (
-                                                             <div style={{
-      color: "red",
-      backgroundColor: "rgba(255, 243, 243, 0.64)",
-      marginTop: 4,
-      display: "inline-flex", 
-      alignItems: "center",
-      padding: "4px 10px", 
-      borderRadius: 4,
-    }}> 
-    <img
-      src={Error_Icon}
-      alt="ErrorIcon"
-      style={{ marginRight: "4px", fontSize:15}}
-    />
-    <span
-      style={{
-        fontSize: "12px",
-        color: "red",
-        fontFamily: "Gilroy",
-        fontWeight: 500,
-        whiteSpace: "nowrap", 
-      }}
-                                  >
-                                    {" "}
-                                    {phonenumError}
-                                  </span>
-                                </div>
-                              )}
-                              {phoneErrorMessage && (
-                                                             <div style={{
-      color: "red",
-      backgroundColor: "rgba(255, 243, 243, 0.64)",
-      marginTop: 4,
-      display: "inline-flex", 
-      alignItems: "center",
-      padding: "4px 10px", 
-      borderRadius: 4,
-    }}> 
-    <img
-      src={Error_Icon}
-      alt="ErrorIcon"
-      style={{ marginRight: "4px", fontSize:15}}
-    />
-    <span
-      style={{
-        fontSize: "12px",
-        color: "red",
-        fontFamily: "Gilroy",
-        fontWeight: 500,
-        whiteSpace: "nowrap", 
-      }}
-                                  >
-                                    {" "}
-                                    {phoneErrorMessage}
-                                  </span>
-                                </div>
-                              )}
+                              
+                              
                             </Form.Group>
+                             <style>{`
+    .small-placeholder::placeholder {
+      font-size: 14px;
+      color: #a9a9a9;
+      font-family: 'Gilroy';
+    }
+  `}</style>
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                               <Form.Group className="mb-1">
                                 <Form.Label
@@ -5128,6 +5121,7 @@ console.log("bed", selectedFloor);
                                 <FormControl
                                   type="text"
                                   id="form-controls"
+                                   className="small-placeholder"
                                   placeholder="Enter Email ID"
                                   value={Email}
                                   onChange={(e) => handleEmail(e)}
@@ -5171,64 +5165,17 @@ console.log("bed", selectedFloor);
   </div>
 )}
 
-                                {emailIdError && (
-                                      <div style={{
-      color: "red",
-      backgroundColor: "rgba(255, 243, 243, 0.64)",
-      marginTop: 4,
-      display: "inline-flex", 
-      alignItems: "center",
-      padding: "4px 10px", 
-      borderRadius: 4,
-    }}> 
-    <img
-      src={Error_Icon}
-      alt="ErrorIcon"
-      style={{ marginRight: "4px", fontSize:15}}
-    />
-    <span
-      style={{
-        fontSize: "12px",
-        color: "red",
-        fontFamily: "Gilroy",
-        fontWeight: 500,
-        whiteSpace: "nowrap", 
-      }}
-                                    >
-                                      {emailIdError}
-                                    </span>
-                                  </div>
-                                )}
+                               
 
-                                {emailErrorMessage && (
-                                            <div style={{
-      color: "red",
-      backgroundColor: "rgba(255, 243, 243, 0.64)",
-      marginTop: 4,
-      display: "inline-flex", 
-      alignItems: "center",
-      padding: "4px 10px", 
-      borderRadius: 4,
-    }}> 
-    <img
-      src={Error_Icon}
-      alt="ErrorIcon"
-      style={{ marginRight: "4px", fontSize:15}}
-    />
-    <span
-      style={{
-        fontSize: "12px",
-        color: "red",
-        fontFamily: "Gilroy",
-        fontWeight: 500,
-        whiteSpace: "nowrap", 
-      }}
-                                    >
-                                      {emailErrorMessage}
-                                    </span>
-                                  </div>
-                                )}
+                               
                               </Form.Group>
+                                <style>{`
+    .small-placeholder::placeholder {
+      font-size: 14px;
+      color: #a9a9a9;
+      font-family: 'Gilroy';
+    }
+  `}</style>
                             </div>
                           </div>
 
@@ -5293,6 +5240,7 @@ console.log("bed", selectedFloor);
                               <FormControl
                                 type="text"
                                 id="form-controls"
+                                 className="small-placeholder"
                                 placeholder="Enter House No"
                                 value={house_no}
                                 onChange={(e) => handleHouseNo(e)}
@@ -5353,6 +5301,7 @@ console.log("bed", selectedFloor);
                               <FormControl
                                 type="text"
                                 id="form-controls"
+                                 className="small-placeholder"
                                 placeholder="Enter Street"
                                 value={street}
                                 onChange={(e) => handleStreetName(e)}
@@ -5368,6 +5317,13 @@ console.log("bed", selectedFloor);
                                 }}
                               />
                             </Form.Group>
+                               <style>{`
+    .small-placeholder::placeholder {
+      font-size: 14px;
+      color: #a9a9a9;
+      font-family: 'Gilroy';
+    }
+  `}</style>
                             {streetError && (
                                                             <div style={{
       color: "red",
@@ -5413,6 +5369,7 @@ console.log("bed", selectedFloor);
                               <FormControl
                                 type="text"
                                 id="form-controls"
+                                 className="small-placeholder"
                                 placeholder="E.g , near appollo hospital"
                                 value={landmark}
                                 onChange={(e) => handleLandmark(e)}
@@ -5480,6 +5437,7 @@ console.log("bed", selectedFloor);
                                 onChange={(e) => handlePinCodeChange(e)}
                                 type="tel"
                                 maxLength={6}
+                                 className="small-placeholder"
                                 inputMode="numeric"
                                 pattern="[0-9]*"
                                 placeholder="Enter Pincode"
@@ -5543,6 +5501,7 @@ console.log("bed", selectedFloor);
                               <FormControl
                                 type="text"
                                 id="form-controls"
+                                 className="small-placeholder"
                                 placeholder="Enter City"
                                 value={city}
                                 ref={cityRef}
@@ -5591,8 +5550,9 @@ console.log("bed", selectedFloor);
 
                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <Form.Group
-                              className="mb-3"
+                              className="mb-3 small-placeholder"
                               controlId="exampleForm.ControlInput5"
+                              
                             >
                               <Form.Label
                                 style={{
@@ -5629,6 +5589,7 @@ console.log("bed", selectedFloor);
                                     ? { value: state_name, label: state_name }
                                     : null
                                 }
+                                 
                                 placeholder="Select State"
                                 classNamePrefix="custom"
                                 menuPlacement="auto"
@@ -5651,6 +5612,7 @@ console.log("bed", selectedFloor);
                                     border: "1px solid #ced4da",
                                     fontFamily: "Gilroy",
                                   }),
+                              
                                   menuList: (base) => ({
                                     ...base,
                                     backgroundColor: "#f8f9fa",
@@ -5660,10 +5622,13 @@ console.log("bed", selectedFloor);
                                     overflowY: "auto",
                                     fontFamily: "Gilroy",
                                   }),
-                                  placeholder: (base) => ({
-                                    ...base,
-                                    color: "#555",
-                                  }),
+                                     placeholder: (base) => ({
+  ...base,
+  fontSize: "14px",     
+  color: "#a9a9a9",      
+  fontFamily: "Gilroy",
+  fontWeight: 400,
+}),
                                   dropdownIndicator: (base) => ({
                                     ...base,
                                     color: "#555",
@@ -5683,6 +5648,13 @@ console.log("bed", selectedFloor);
                                 }}
                               />
                             </Form.Group>
+                              <style>{`
+    .small-placeholder::placeholder {
+      font-size: 14px;
+      color: #a9a9a9;
+      font-family: 'Gilroy';
+    }
+  `}</style>
 
                             {!state_name && state_nameError && (
                                         <div style={{
@@ -7133,6 +7105,7 @@ value={bookingAmount}
                           ref={reasonRef}
                           type="text"
                           placeholder="Enter Comments"
+                          className="small-placeholder"
                           value={reason}
                           onChange={handleRecheckin}
                           style={{
@@ -7147,6 +7120,13 @@ value={bookingAmount}
                           }}
                         />
                       </Form.Group>
+                      <style>{`
+    .small-placeholder::placeholder {
+      font-size: 14px;
+      color: #a9a9a9;
+      font-family: 'Gilroy';
+    }
+  `}</style>
                       {reasonError && (
                        <div style={{
                                                         color: "red",
@@ -7204,6 +7184,7 @@ value={bookingAmount}
                         }}
                         format="DD/MM/YYYY"
                         placeholder="DD/MM/YYYY"
+                         className="small-placeholder-datepicker"
                         value={recheckInDate ? dayjs(recheckInDate) : null}
                         onChange={(date) => {
                           setRecheckInDate(date ? date.toDate() : null);
@@ -7220,6 +7201,19 @@ value={bookingAmount}
                           return current && current < dayjs(RequestDate).startOf("day");
                         }}
                       />
+          
+
+
+<style>{`
+  /* Force style only for placeholder of this DatePicker */
+  .small-placeholder-datepicker input::placeholder {
+    font-size: 14px !important;
+    color: #a9a9a9 !important;
+    font-family: 'Gilroy' !important;
+    opacity: 1 !important;
+  }
+`}</style>
+
 
 
 

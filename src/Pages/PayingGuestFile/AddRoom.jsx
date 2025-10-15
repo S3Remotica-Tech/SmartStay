@@ -77,6 +77,10 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
 
       return;
     }
+     const trimmedRoom = room?.trim();
+
+  
+  if (!trimmedRoom) return;
 
     const isChanged = room !== initialState.room;
 
@@ -93,17 +97,17 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
           payload: {
             hostel_id: hostel_Id,
             floorId: floorId,
-            roomId: room,
+            roomId: trimmedRoom,
             id: room_Id,
           },
         });
         setFormLoading(true)
       }
     } else {
-      if (floorId && hostel_Id && room) {
+      if (floorId && hostel_Id && trimmedRoom) {
         dispatch({
           type: "CREATEROOM",
-          payload: { hostel_id: hostel_Id, floorId: floorId, roomId: room },
+          payload: { hostel_id: hostel_Id, floorId: floorId, roomId: trimmedRoom },
         });
         setFormLoading(true)
       }
