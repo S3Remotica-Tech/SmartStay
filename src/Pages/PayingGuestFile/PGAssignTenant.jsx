@@ -1349,6 +1349,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                       placeholder: (base) => ({
                                         ...base,
                                         color: "#9aa0a6",
+                                                                              fontWeight:500
                                       }),
                                       dropdownIndicator: (base) => ({
                                         ...base,

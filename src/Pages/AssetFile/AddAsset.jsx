@@ -701,9 +701,10 @@ useEffect(()=>{
                           overflowY: "auto",
                           fontFamily: "Gilroy",
                         }),
-                        placeholder: (base) => ({
+                      placeholder: (base) => ({
                           ...base,
-                          color: "#555",
+                          color: "#9aa0a6",
+                          fontSize:16,
                         }),
                         dropdownIndicator: (base) => ({
                           ...base,
@@ -964,7 +965,8 @@ useEffect(()=>{
                         }),
                         placeholder: (base) => ({
                           ...base,
-                          color: "#555",
+                          color: "#9aa0a6",
+                          fontSize:16,
                         }),
                         dropdownIndicator: (base) => ({
                           ...base,

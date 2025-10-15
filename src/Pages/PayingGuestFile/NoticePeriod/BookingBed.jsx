@@ -43,11 +43,11 @@ function BookingBed({
   const [transactionId, setTransactionId] = useState("")
   const [paymentError, setPaymentError] = useState("");
 
-console.log("state",state)
+  console.log("state", state)
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-       dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
+      dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
       dispatch({ type: 'UNASSIGNCUSTOMER', payload: { hostel_id: state.login.selectedHostel_Id, type: "inactive" } })
     }
   }, [])
@@ -71,7 +71,7 @@ console.log("state",state)
     setamountError("");
   };
 
-const handleTransactionId = (e) => {
+  const handleTransactionId = (e) => {
     const value = e.target.value;
     const regex = /^[A-Za-z0-9_.-]*$/;
 
@@ -79,7 +79,7 @@ const handleTransactionId = (e) => {
       setTransactionId(value);
     }
   };
-  
+
 
   const handleModeOfPaymentChange = (selectedOption) => {
     if (!selectedOption) return;
@@ -89,7 +89,7 @@ const handleTransactionId = (e) => {
     dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
   };
 
-const labelMap = {
+  const labelMap = {
     CARD: "Card",
     CASH: "Cash",
     UPI: "UPI",
@@ -102,118 +102,118 @@ const labelMap = {
       label: `${item.accountHolderName} - ${labelMap[item.accountType] || ""}`,
     }))
     : [];
- const validateAssignField = (value, fieldName, ref, setError, focusedRef) => {
-  if (!value || value === "Select a PG") {
-    switch (fieldName) {
-      case "bookingcustomername":
-        setError("Please Select Customer");
-        break;
-      case "joiningDate":
-        setError("Please Select Joining Date");
-        break;
-      case "bookingDate":
-        setError("Please Select Booking Date");
-        break;
-      case "amount":
-        setError("Please Enter Amount");
-        break;
-      case "modeOfPayment":
-        setError("Please Select Mode of Payment");
-        break;
-      default:
-        break;
+  const validateAssignField = (value, fieldName, ref, setError, focusedRef) => {
+    if (!value || value === "Select a PG") {
+      switch (fieldName) {
+        case "bookingcustomername":
+          setError("Please Select Customer");
+          break;
+        case "joiningDate":
+          setError("Please Select Joining Date");
+          break;
+        case "bookingDate":
+          setError("Please Select Booking Date");
+          break;
+        case "amount":
+          setError("Please Enter Amount");
+          break;
+        case "modeOfPayment":
+          setError("Please Select Mode of Payment");
+          break;
+        default:
+          break;
+      }
+
+      if (ref?.current && !focusedRef.current) {
+        ref.current.focus();
+        focusedRef.current = true;
+      }
+      return false;
+    } else {
+      setError("");
+      return true;
     }
-
-    if (ref?.current && !focusedRef.current) {
-      ref.current.focus();
-      focusedRef.current = true;
-    }
-    return false;
-  } else {
-    setError("");
-    return true;
-  }
-};
-
-  const handleSubmitBooking = () => {
-  let hasError = false;
-  const focusedRef = { current: false };
-
-  const isCustomerValid = validateAssignField(
-    booking_customername,
-    "bookingcustomername",
-    bookingcustomerRef,
-    setBookingCustomerErrmsg,
-    focusedRef
-  );
-
-  const isBookingDateValid = validateAssignField(
-    bookingDate,
-    "bookingDate",
-    bookingDateRef,
-    setBookingDateErrmsg,
-    focusedRef
-  );
-  const isAmountValid = validateAssignField(
-    amount,
-    "amount",
-    amountRef,
-    setamountError,
-    focusedRef
-  );
-  const isJoiningDateValid = validateAssignField(
-    joiningDate,
-    "joiningDate",
-    dateRef,
-    setJoingDateErrmsg,
-    focusedRef
-  );
-
-  
-  const isModeOfPaymentValid = validateAssignField(
-    modeOfPayment,
-    "modeOfPayment",
-    modeOfPaymentRef,      
-    setPaymentError,
-    focusedRef
-  );
-
-  if (!isCustomerValid || !isJoiningDateValid || !isBookingDateValid || !isAmountValid || !isModeOfPaymentValid) {
-    hasError = true;
-  }
-
-  if (hasError) return;
-
-  const formatDate = (date) => {
-    if (!date) return "";
-    const d = new Date(date);
-    const day = String(d.getDate()).padStart(2, "0");
-    const month = String(d.getMonth() + 1).padStart(2, "0");
-    const year = d.getFullYear();
-    return `${day}-${month}-${year}`;
   };
 
-  const joiningDateForFormatted = formatDate(joiningDate);
-  const bookingDateForFormatted = formatDate(bookingDate);
+  const handleSubmitBooking = () => {
+    let hasError = false;
+    const focusedRef = { current: false };
 
-  dispatch({
-    type: "ADD_BOOKING",
-    payload: {
-      hostelId: state.login.selectedHostel_Id,
-      joiningDate: joiningDateForFormatted,
-      bookingDate: bookingDateForFormatted,
-      bookingAmount: amount,
-      floorId: currentItem?.floorId,
-      roomId: currentItem?.roomId,
-      bedId: currentItem?.bedId,
-      customerId: booking_customername,
-      bankId: modeOfPayment,
-      referenceNumber: transactionId,
-    },
-  });
+    const isCustomerValid = validateAssignField(
+      booking_customername,
+      "bookingcustomername",
+      bookingcustomerRef,
+      setBookingCustomerErrmsg,
+      focusedRef
+    );
 
-  setFormLoading(true);
-};
+    const isBookingDateValid = validateAssignField(
+      bookingDate,
+      "bookingDate",
+      bookingDateRef,
+      setBookingDateErrmsg,
+      focusedRef
+    );
+    const isAmountValid = validateAssignField(
+      amount,
+      "amount",
+      amountRef,
+      setamountError,
+      focusedRef
+    );
+    const isJoiningDateValid = validateAssignField(
+      joiningDate,
+      "joiningDate",
+      dateRef,
+      setJoingDateErrmsg,
+      focusedRef
+    );
+
+
+    const isModeOfPaymentValid = validateAssignField(
+      modeOfPayment,
+      "modeOfPayment",
+      modeOfPaymentRef,
+      setPaymentError,
+      focusedRef
+    );
+
+    if (!isCustomerValid || !isJoiningDateValid || !isBookingDateValid || !isAmountValid || !isModeOfPaymentValid) {
+      hasError = true;
+    }
+
+    if (hasError) return;
+
+    const formatDate = (date) => {
+      if (!date) return "";
+      const d = new Date(date);
+      const day = String(d.getDate()).padStart(2, "0");
+      const month = String(d.getMonth() + 1).padStart(2, "0");
+      const year = d.getFullYear();
+      return `${day}-${month}-${year}`;
+    };
+
+    const joiningDateForFormatted = formatDate(joiningDate);
+    const bookingDateForFormatted = formatDate(bookingDate);
+
+    dispatch({
+      type: "ADD_BOOKING",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        joiningDate: joiningDateForFormatted,
+        bookingDate: bookingDateForFormatted,
+        bookingAmount: amount,
+        floorId: currentItem?.floorId,
+        roomId: currentItem?.roomId,
+        bedId: currentItem?.bedId,
+        customerId: booking_customername,
+        bankId: modeOfPayment,
+        referenceNumber: transactionId,
+      },
+    });
+
+    setFormLoading(true);
+  };
 
 
 
@@ -238,12 +238,12 @@ const labelMap = {
     }
   }, [state?.Booking?.statusCodeForAddBooking]);
 
-  
-useEffect(()=>{
-  if(state.Booking.bookingBedError){
-setFormLoading(false)
-  }
-},[state.Booking.bookingBedError])
+
+  useEffect(() => {
+    if (state.Booking.bookingBedError) {
+      setFormLoading(false)
+    }
+  }, [state.Booking.bookingBedError])
   return (
     <div>
       <Modal
@@ -306,99 +306,100 @@ setFormLoading(false)
               style={{ maxHeight: "350px", overflowY: "scroll" }}
               className="show-scroll p-2 mt-1 me-1"
             >
-              
 
-              <div className="row">
 
-                <div className="col-lg-6 col-md-6 col-sm-12">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
-                                      }}
-                >
-                  Select Tenant{" "}
-                  <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                </Form.Label>
-                <Select
-                            ref={bookingcustomerRef}        
-                  options={
-                    state.UsersList?.UnAssignCustomerDetails?.length > 0 &&
-                    state.UsersList?.UnAssignCustomerDetails.map((u) => ({
-                      value: u.customerId,
-                      label: u.firstName,
-                    }))
+              <div className="row ">
 
-                  }
-                  onChange={handleBookingCustomerName}
-                  value={
-                    booking_customername
-                      ? {
-                        value: booking_customername,
-                        label:
-                          state.UsersList?.UnAssignCustomerDetails?.find((u) => u.customerId === booking_customername)?.firstName ||
-                          "Select Tenant",
-                      }
-                      : null
-                  }
-                  placeholder="Select Tenant"
-                  classNamePrefix="custom"
-                  menuPlacement="auto"
-                  noOptionsMessage={() => "No customers available"}
-                  styles={{
-                    control: (base) => ({
-                      ...base,
-                      padding: "3px 5px ",
-                      border: "1px solid #D9D9D9",
-                      borderRadius: "8px",
-                      fontSize: "16px",
-                      color: "#4B4B4B",
+                <div className="col-lg-12 col-md-12 col-sm-12 mb-1">
+                  <Form.Label
+                    style={{
+                      fontSize: 14,
+                      fontWeight: 500,
                       fontFamily: "Gilroy",
-                      fontWeight: booking_customername ? 600 : 500,
-                      boxShadow: "none",
-                    }),
-                    menu: (base) => ({
-                      ...base,
-                      backgroundColor: "#f8f9fa",
-                      border: "1px solid #ced4da",
-                    }),
-                    menuList: (base) => ({
-                      ...base,
-                      backgroundColor: "#f8f9fa",
-                      maxHeight: "120px",
-                      padding: 0,
-                      scrollbarWidth: "thin",
-                      overflowY: "auto",
-                      fontFamily: "Gilroy"
-                    }),
-                    placeholder: (base) => ({
-                      ...base,
-                      color: "#555",
-                    }),
-                    dropdownIndicator: (base) => ({
-                      ...base,
-                      color: "#555",
-                      cursor: "pointer",
-                    }),
-                    indicatorSeparator: () => ({
-                      display: "none",
-                    }),
-                    option: (base, state) => ({
-                      ...base,
-                      cursor: "pointer",
-                      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                      color: "#000",
-                    }),
-                  }}
-                />
+                    }}
+                  >
+                    Select Tenant{" "}
+                    <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                  </Form.Label>
+                  <Select
+                    ref={bookingcustomerRef}
+                    options={
+                      state.UsersList?.UnAssignCustomerDetails?.length > 0 &&
+                      state.UsersList?.UnAssignCustomerDetails.map((u) => ({
+                        value: u.customerId,
+                        label: u.firstName,
+                      }))
+
+                    }
+                    onChange={handleBookingCustomerName}
+                    value={
+                      booking_customername
+                        ? {
+                          value: booking_customername,
+                          label:
+                            state.UsersList?.UnAssignCustomerDetails?.find((u) => u.customerId === booking_customername)?.firstName ||
+                            "Select Tenant",
+                        }
+                        : null
+                    }
+                    placeholder="Select Tenant"
+                    classNamePrefix="custom"
+                    menuPlacement="auto"
+                    noOptionsMessage={() => "No customers available"}
+                    styles={{
+                      control: (base) => ({
+                        ...base,
+                        height: 48,
+                        padding: "3px 5px ",
+                        border: "1px solid #D9D9D9",
+                        borderRadius: "8px",
+                        fontSize: "16px",
+                        color: "#4B4B4B",
+                        fontFamily: "Gilroy",
+                        fontWeight: booking_customername ? 600 : 500,
+                        boxShadow: "none",
+                      }),
+                      menu: (base) => ({
+                        ...base,
+                        backgroundColor: "#f8f9fa",
+                        border: "1px solid #ced4da",
+                      }),
+                      menuList: (base) => ({
+                        ...base,
+                        backgroundColor: "#f8f9fa",
+                        maxHeight: "120px",
+                        padding: 0,
+                        scrollbarWidth: "thin",
+                        overflowY: "auto",
+                        fontFamily: "Gilroy"
+                      }),
+                      placeholder: (base) => ({
+                        ...base,
+                        color: "#9aa0a6",
+                      }),
+                      dropdownIndicator: (base) => ({
+                        ...base,
+                        color: "#555",
+                        cursor: "pointer",
+                      }),
+                      indicatorSeparator: () => ({
+                        display: "none",
+                      }),
+                      option: (base, state) => ({
+                        ...base,
+                        cursor: "pointer",
+                        backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                        color: "#000",
+                      }),
+                    }}
+                  />
 
 
-                {booking_customererrmsg.trim() !== "" && (
-                  <ErrorMessage message={booking_customererrmsg} type="error" />
-                )}
-              </div>
-                <div className="col-lg-6 col-md-6 col-sm-12">
+                  {booking_customererrmsg.trim() !== "" && (
+                    <ErrorMessage message={booking_customererrmsg} type="error" />
+                  )}
+                </div>
+                <div className="col-lg-12 col-md-12 col-sm-12  mb-1">
                   <Form.Group controlId="bookingDate">
                     <Form.Label
                       style={{
@@ -445,21 +446,21 @@ setFormLoading(false)
                   </Form.Group>
                 </div>
 
-                <div className="col-lg-6 col-md-6 col-sm-12">
-                  <Form.Group>
+                <div className="col-lg-6 col-md-6 col-sm-12  mb-1">
+                  <Form.Group >
                     <Form.Label
                       style={{
                         fontSize: 14,
                         fontWeight: 500,
                         fontFamily: "Gilroy",
-                      }}
+                       }}
                     >
-                      Booking Amount
+                      Booking Amount {" "}
                       <span style={{ color: "red", fontSize: "20px" }}> *</span>
                     </Form.Label>
 
                     <div style={{ position: "relative" }}>
-                     
+
 
                       <FormControl
                         type="text"
@@ -472,7 +473,7 @@ setFormLoading(false)
                           fontSize: 16,
                           color: "#4B4B4B",
                           fontFamily: "Gilroy",
-                          fontWeight: 500,
+                          fontWeight: amount? 600 : 500,
                           boxShadow: "none",
                           border: "1px solid #D9D9D9",
                           height: 50,
@@ -485,220 +486,222 @@ setFormLoading(false)
                     <ErrorMessage message={amountError} type="error" />
                   )}
                 </div>
-              
-              <div className="col-lg-6 col-md-6 col-sm-12">
-                <Form.Group controlId="joiningDate">
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    Joining Date (Tentative){" "}
-                    <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                  </Form.Label>
 
-                  <div
-                    className="datepicker-wrapper"
-                    style={{ position: "relative", width: "100%", marginTop: 6 }}
-                  >
-                   
-                    <DatePicker
-                 ref={dateRef}
+                <div className="col-lg-6 col-md-6 col-sm-12  mb-1">
+                  <Form.Group style={{ marginBottom: 0 }}>
+                    <Form.Label
                       style={{
-                        width: "100%",
-                        height: 48,
-                        cursor: "pointer",
+                        fontSize: 14,
+                        color: "#222222",
                         fontFamily: "Gilroy",
+                        fontWeight: 500,
+                         
                       }}
-                      format="DD/MM/YYYY"
-                      placeholder="DD/MM/YYYY"
-                      value={joiningDate ? dayjs(joiningDate) : null}
-                      onChange={(date) => {
-                        setDateError("");
-                        setJoiningDate(date ? date.toDate() : null);
-                        dispatch({ type: 'REMOVE_ERROR_BOOKING_DATE' })
-                        setJoingDateErrmsg("")
+                    >
+                      Joining Date (Tentative){" "}
+                      <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                    </Form.Label>
+
+                    <div
+                      className="datepicker-wrapper"
+                      style={{ position: "relative", width: "100%" }}
+                    >
+
+                      <DatePicker
+                        ref={dateRef}
+                        style={{
+                          width: "100%",
+                          height: 48,
+                          cursor: "pointer",
+                          fontFamily: "Gilroy",
+                          padding:"6px 12px"
+                        }}
+                        format="DD/MM/YYYY"
+                        placeholder="DD/MM/YYYY"
+                        value={joiningDate ? dayjs(joiningDate) : null}
+                        onChange={(date) => {
+                          setDateError("");
+                          setJoiningDate(date ? date.toDate() : null);
+                          dispatch({ type: 'REMOVE_ERROR_BOOKING_DATE' })
+                          setJoingDateErrmsg("")
+                        }}
+                        getPopupContainer={() => document.body}
+                        disabledDate={(current) => {
+                          // Disable all future dates
+                          // if (current && current > dayjs().endOf("day")) {
+                          //   return true;
+                          // }
+
+                          // Disable before bookingDate
+                          if (bookingDate) {
+                            return current && current.isBefore(dayjs(bookingDate), "day");
+                          }
+
+                          return false;
+                        }}
+                      />
+
+                    </div>
+                  </Form.Group>
+                  {dateError && (
+                    <ErrorMessage message={dateError} type="error" />
+                  )}
+
+                  {joiningDateErrmsg.trim() !== "" && (
+                    <ErrorMessage message={joiningDateErrmsg} type="error" />
+                  )}
+
+                </div>
+
+                <div className="col-lg-12 col-md-12 col-sm-12  mb-1">
+                  <Form.Group
+
+                    controlId="exampleForm.ControlInput1"
+                  >
+                    <Form.Label
+                      style={{
+                        fontSize: 14,
+                        color: "#222222",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+
                       }}
-                      getPopupContainer={() => document.body}
-                      disabledDate={(current) => {
-                        // Disable all future dates
-                        // if (current && current > dayjs().endOf("day")) {
-                        //   return true;
-                        // }
+                    >
+                      Mode Of Transaction {" "}
+                      <span
+                        style={{
+                          color: "#FF0000",
+                          fontSize: "20px",
+                        }}
+                      >
+                        *
+                      </span>
+                    </Form.Label>
 
-                        // Disable before bookingDate
-                        if (bookingDate) {
-                          return current && current.isBefore(dayjs(bookingDate), "day");
-                        }
 
-                        return false;
+
+                    <Select
+                      ref={modeOfPaymentRef}
+                      options={paymentOptions}
+                      onChange={(selectedOption) =>
+                        handleModeOfPaymentChange(selectedOption?.value)
+                      }
+                      value={
+                        modeOfPayment
+                          ? paymentOptions.find((opt) => opt.value === String(modeOfPayment)) || null
+                          : null
+                      }
+                      placeholder="Select Payment"
+                      noOptionsMessage={() => "No mode available"}
+                      styles={{
+                        control: (base) => ({
+                          ...base,
+                          fontSize: 16,
+                          color: "rgba(75, 75, 75, 1)",
+                          fontFamily: "Gilroy",
+                          fontWeight: modeOfPayment ? 600 : 500,
+                          border: "1px solid #D9D9D9",
+                          borderRadius: "8px",
+                          boxShadow: "none",
+                          height: 48,
+                          cursor: "pointer",
+                        }),
+                        menu: (base) => ({
+                          ...base,
+                          backgroundColor: "#f8f9fa",
+                          border: "1px solid #ced4da",
+                          fontFamily: "Gilroy",
+                        }),
+                        menuList: (base) => ({
+                          ...base,
+                          backgroundColor: "#f8f9fa",
+                          maxHeight: "120px",
+                          padding: 0,
+                          scrollbarWidth: "thin",
+                          overflowY: "auto",
+                          fontFamily: "Gilroy",
+                        }),
+                        placeholder: (base) => ({
+                          ...base,
+                          color: "#9aa0a6",
+                        }),
+                        dropdownIndicator: (base) => ({
+                          ...base,
+                          color: "#555",
+                          cursor: "pointer",
+                        }),
+                        option: (base, state) => ({
+                          ...base,
+                          cursor: "pointer",
+                          backgroundColor: state.isFocused ? "lightblue" : "white",
+                          color: "#000",
+                          fontFamily: "Gilroy",
+                        }),
+                        indicatorSeparator: () => ({
+                          display: "none",
+                        }),
                       }}
                     />
 
-                  </div>
-                </Form.Group>
-                {dateError && (
-                  <ErrorMessage message={dateError} type="error" />
-                )}
+                  </Form.Group>
+                  {paymentError && (
+                    <ErrorMessage message={paymentError} type="error" />
 
-                {joiningDateErrmsg.trim() !== "" && (
-                  <ErrorMessage message={joiningDateErrmsg} type="error" />
-                )}
+                  )}
+                </div>
 
-              </div>
 
-              <div className="col-lg-12 col-md-12 col-sm-12">
-                <Form.Group
-
-                  controlId="exampleForm.ControlInput1"
-                >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      
-                    }}
-                  >
-                    Mode Of Transaction {" "}
-                    <span
+                <div className="col-lg-12 col-md-12 col-sm-12  mb-1">
+                  <Form.Group >
+                    <Form.Label
                       style={{
-                        color: "#FF0000",
-                        fontSize: "20px",
+                        fontSize: 14,
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
                       }}
                     >
-                      *
-                    </span>
-                  </Form.Label>
+                      Transaction ID{" "}
+                      <span
+                        style={{
+                          color: "white",
+                          fontSize: "20px",
+                        }}
+                      >
 
+                      </span>
+                    </Form.Label>
+                    <FormControl
+                      type="text"
+                      id="form-controls"
+                      placeholder="Enter Transaction ID"
+                      value={transactionId}
+                      onChange={(e) => handleTransactionId(e)}
 
-
-                  <Select
-                  ref={modeOfPaymentRef}
-                    options={paymentOptions}
-                    onChange={(selectedOption) =>
-                      handleModeOfPaymentChange(selectedOption?.value)
-                    }
-                    value={
-                      modeOfPayment
-                        ? paymentOptions.find((opt) => opt.value === String(modeOfPayment)) || null
-                        : null
-                    }
-                    placeholder="Select Payment"
-                    noOptionsMessage={() => "No mode available"}
-                    styles={{
-                      control: (base) => ({
-                        ...base,
+                      style={{
                         fontSize: 16,
-                        color: "rgba(75, 75, 75, 1)",
+                        color: "#4B4B4B",
                         fontFamily: "Gilroy",
-                        fontWeight: modeOfPayment ? 600 : 500,
-                        border: "1px solid #D9D9D9",
-                        borderRadius: "8px",
+                        fontWeight:transactionId ? 600 : 500,
                         boxShadow: "none",
-                        height: 48,
-                        cursor: "pointer",
-                      }),
-                      menu: (base) => ({
-                        ...base,
-                        backgroundColor: "#f8f9fa",
-                        border: "1px solid #ced4da",
-                        fontFamily: "Gilroy",
-                      }),
-                      menuList: (base) => ({
-                        ...base,
-                        backgroundColor: "#f8f9fa",
-                        maxHeight: "120px",
-                        padding: 0,
-                        scrollbarWidth: "thin",
-                        overflowY: "auto",
-                        fontFamily: "Gilroy",
-                      }),
-                      placeholder: (base) => ({
-                        ...base,
-                        color: "#555",
-                      }),
-                      dropdownIndicator: (base) => ({
-                        ...base,
-                        color: "#555",
-                        cursor: "pointer",
-                      }),
-                      option: (base, state) => ({
-                        ...base,
-                        cursor: "pointer",
-                        backgroundColor: state.isFocused ? "lightblue" : "white",
-                        color: "#000",
-                        fontFamily: "Gilroy",
-                      }),
-                      indicatorSeparator: () => ({
-                        display: "none",
-                      }),
-                    }}
-                  />
-
-                </Form.Group>
-                {paymentError && (
-                  <ErrorMessage message={paymentError} type="error" />
-
-                )}
-              </div>
-
-
-              <div className="col-lg-12 col-md-12 col-sm-12">
-                <Form.Group >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                    }}
-                  >
-                    Transaction ID{" "}
-                    <span
-                      style={{
-                        color: "white",
-                        fontSize: "20px",
+                        border: "1px solid #D9D9D9",
+                        height: 50,
+                        borderRadius: 8,
                       }}
-                    >
+                    />
+                  </Form.Group>
 
-                    </span>
-                  </Form.Label>
-                  <FormControl
-                    type="text"
-                    id="form-controls"
-                    placeholder="Enter Transaction ID"
-                    value={transactionId}
-                    onChange={(e) => handleTransactionId(e)}
+                </div>
 
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                    }}
-                  />
-                </Form.Group>
+
 
               </div>
-
-
-
-</div>
 
 
             </div>
             <div className="d-flex justify-content-center">
-{
-  state.Booking.bookingBedError &&  <ErrorMessage message={state.Booking.bookingBedError} type="error" />
-}
+              {
+                state.Booking.bookingBedError && <ErrorMessage message={state.Booking.bookingBedError} type="error" />
+              }
 
             </div>
 

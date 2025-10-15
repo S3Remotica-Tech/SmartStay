@@ -773,7 +773,7 @@ function CheckIn({
                                                 }),
                                                 placeholder: (base) => ({
                                                     ...base,
-                                                    color: "#555",
+                                                    color: "#9aa0a6",
                                                 }),
                                                 dropdownIndicator: (base) => ({
                                                     ...base,
@@ -830,7 +830,7 @@ function CheckIn({
                                                 fontSize: 16,
                                                 color: "#4B4B4B",
                                                 fontFamily: "Gilroy",
-                                                fontWeight: 600,
+                                                fontWeight: RoomRent ? 600 : 500 ,
                                                 boxShadow: "none",
                                                 border: "1px solid #D9D9D9",
                                                 height: 50,
@@ -870,7 +870,7 @@ function CheckIn({
                                                 fontSize: 16,
                                                 color: "#4B4B4B",
                                                 fontFamily: "Gilroy",
-                                                fontWeight: 600,
+                                                fontWeight: AdvanceAmount ? 600 : 500,
                                                 boxShadow: "none",
                                                 border: "1px solid #D9D9D9",
                                                 height: 50,

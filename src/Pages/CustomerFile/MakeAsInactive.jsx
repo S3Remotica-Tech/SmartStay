@@ -250,7 +250,7 @@ useEffect(() => {
                                 fontSize: 16,
                                 color: "#4B4B4B",
                                 fontFamily: "Gilroy",
-                                fontWeight: 500,
+                                fontWeight:inActiveComments ? 600 : 500,
                                 boxShadow: "none",
                                 border: "1px solid #D9D9D9",
                                 height: 50,

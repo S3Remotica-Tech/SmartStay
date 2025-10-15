@@ -16,12 +16,12 @@
   opacity: 1;
 }
 
-.ant-picker-input > input {
+/* .ant-picker-input > input {
   font-weight: 500;
   color: #9aa0a6 !important;  
-  opacity: 0.7;
-  transition: font-weight 0.2s ease, color 0.2s ease, opacity 0.2s ease;
-}
+  opacity: 0.5;
+  /* transition: font-weight 0.2s ease, color 0.2s ease, opacity 0.2s ease; */
+
 
 .ant-picker-input > input[value] {
   font-weight: 600;
@@ -31,14 +31,14 @@
 
 
 .ant-picker-input > input.ant-picker-input-active {
-  font-weight: 800 !important;
+  font-weight: 600 !important;
   color: #000000 !important;
   opacity: 1 !important;
 }
 
 .ant-picker-input > input::placeholder {
   color: #9aa0a6 !important;
-  opacity: 1 !important;
+  opacity: 0.5 !important;
 }
 
 
@@ -50,9 +50,10 @@
 }
 
 
-.ant-picker .ant-picker-input > input:not(:placeholder-shown) {
+/* .ant-picker .ant-picker-input > input:not(:placeholder-shown) {
   opacity: 1;
-}
+
+} */
 
 
 .ant-picker:hover,
@@ -63,12 +64,20 @@
 
 
 
-:where(.css-dev-only-do-not-override-5uvb3z).ant-picker .ant-picker-input >input {
-   
-   color:"unset" !important;
+
+:where(.css-dev-only-do-not-override-5uvb3z).ant-picker .ant-picker-input > input::placeholder {
+  color: #9aa0a6 !important;
+  opacity: 0.5;
+  font-weight: 500;
 }
 
-.custom-tooltip .tooltip-inner {
+
+:where(.css-dev-only-do-not-override-5uvb3z).ant-picker .ant-picker-input > input {
+ font-size: 15px !important;
+}
+
+
+.custom-tooltip .tooltip-inner {  
   background-color: #1e45e1 !important;
     color: #fff !important;
   font-family: "Gilroy";
@@ -82,7 +91,9 @@
 }
 
 
-
+.css-ljzrea-control:hover {
+  border-color:  #d9d9d9 !important;
+}
 
 
  ::-webkit-scrollbar {
