@@ -113,7 +113,7 @@ function EmptyBed ({ show, handleClose   , showbed  , showcustomer , showtenant}
 
       <div className="d-flex justify-content-between align-items-center" style={{ cursor: "pointer" }} onClick={handleShowAddCustomer}>
         <span style={{ fontSize: 14, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy", fontWeight: 500 }}>
-          Add Customer
+          Add Tenant
         </span>
         <img src={AddSquare} height={20} width={20} color="#1E45E1" alt='addcustomer' />
       </div>

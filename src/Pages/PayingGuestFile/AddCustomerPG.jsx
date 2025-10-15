@@ -38,16 +38,12 @@ function AddCustomer({  show, handleClose   }) {
     const [firstnameError, setFirstnameError] = useState("");
     const [phoneError, setPhoneError] = useState("");
     const [emailError, setEmailError] = useState("");
-    const [phonenumError, setphonenumError] = useState("");
-    const [emailIdError, setemailIdError] = useState("");
     const [house_noError, setHouse_NoError] = useState("");
     const [streetError, setStreetError] = useState("");
     const [landmarkError, setLandmarkError] = useState("");
     const [pincodeError, setPincodeError] = useState("");
     const [cityError, setCityError] = useState("");
     const [state_nameError, setStateNameError] = useState("");
-    const [emailErrorMessage, setEmailErrorMessage] = useState("");
-    const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
     const [formLoading, setFormLoading] = useState(false);
 
     const countryCode = "91";
@@ -152,14 +148,14 @@ function AddCustomer({  show, handleClose   }) {
   
     useEffect(() => {
       if (state.UsersList.phoneError) {
-        setphonenumError(state.UsersList.phoneError);
+        setPhoneError(state.UsersList.phoneError);
       }
       setFormLoading(false)
     }, [state.UsersList.phoneError]);
   
     useEffect(() => {
       if (state.UsersList.emailError) {
-        setemailIdError(state.UsersList.emailError);
+        setEmailError(state.UsersList.emailError);
       }
        setFormLoading(false)
     }, [state.UsersList.emailError]);
@@ -188,8 +184,6 @@ function AddCustomer({  show, handleClose   }) {
       } else if (input.length === 10) {
         setPhoneError("");
       }
-      setphonenumError("");
-      setPhoneErrorMessage("");
       dispatch({ type: "CLEAR_PHONE_ERROR" });
     };
   
@@ -201,13 +195,10 @@ function AddCustomer({  show, handleClose   }) {
       const isValidEmail = emailRegex.test(emailValue);
       if (!emailValue) {
         setEmailError("");
-        setEmailErrorMessage("");
       } else if (!isValidEmail) {
-        setEmailErrorMessage("");
         setEmailError("Please Enter  Valid Email Id");
       } else {
         setEmailError("");
-        setEmailErrorMessage("");
       }
       dispatch({ type: "CLEAR_EMAIL_ERROR" });
     };
@@ -344,7 +335,6 @@ function AddCustomer({  show, handleClose   }) {
         hasError = true;
       } else if (Phone) {
         setPhoneError("");
-        setPhoneErrorMessage("");
       }
   
       if (pincode && pincode.length !== 6) {
@@ -451,7 +441,6 @@ function AddCustomer({  show, handleClose   }) {
         hasError = true;
       } else if (Phone) {
         setPhoneError("");
-        setPhoneErrorMessage("");
       }
 
         if (Phone) {
@@ -461,7 +450,7 @@ function AddCustomer({  show, handleClose   }) {
     );
 
     if (isDuplicatePhone) {
-      setPhoneError("This Mobile Number Already Exists");
+      setPhoneError("Phone Number Already Exists");
       if (!focusedRef.current && phoneRef?.current) {
         phoneRef.current.focus();
         focusedRef.current = true;
@@ -493,7 +482,7 @@ function AddCustomer({  show, handleClose   }) {
     });
 
     if (isDuplicateEmail) {
-      setEmailError("This Email ID Already Exists");
+      setEmailError("Email Already Exists");
       if (!focusedRef.current) {
         focusedRef.current = true;
       }
@@ -637,7 +626,7 @@ if (error) {
                 borderBottomLeftRadius: '20px',
               }}
             >
-              <h5 className="mb-4">Add New Customer</h5>
+              <h5 className="mb-4">Add New Tenant</h5>
               <div className="d-flex align-items-center mb-3">
                 <div className=" text-white rounded-circle d-flex justify-content-center align-items-center" style={{ width: '30px', height: '30px' , backgroundColor:'rgba(30, 69, 225, 1)' }}><img src={Store_Icon} alt="storeicon" height={15} width={15}/> </div>
                 <span className="ms-2" style={{fontFamily: "Gilroy",fontSize: "14px"}}>Step 1<br /><small>Basic Details</small></span>
@@ -787,6 +776,7 @@ if (error) {
                                 id="form-controls"
                                 placeholder="Enter First Name"
                                 type="text"
+                                className="small-placeholder"
                                 ref={firstnameRef}
                                 value={firstname}
                                 onChange={(e) => handleFirstName(e)}
@@ -800,7 +790,16 @@ if (error) {
                                   height: 40,
                                   borderRadius: 8,
                                 }}
+
                               />
+                               <style>{`
+    .small-placeholder::placeholder {
+      font-size: 14px;
+      color: #a9a9a9;
+      font-family: 'Gilroy';
+    }
+  `}</style>
+
                             </Form.Group>
                             {firstnameError && (
                                                     <div style={{
@@ -849,6 +848,7 @@ if (error) {
                               <FormControl
                                 type="text"
                                 id="form-controls"
+                                className="small-placeholder"
                                 placeholder="Enter Last Name"
                                 value={lastname}
                                 onChange={(e) => handleLastName(e)}
@@ -863,6 +863,13 @@ if (error) {
                                   borderRadius: 8,
                                 }}
                               />
+                                                            <style>{`
+    .small-placeholder::placeholder {
+      font-size: 14px;
+      color: #a9a9a9;
+      font-family: 'Gilroy';
+    }
+  `}</style>
                             </Form.Group>
                           </div>
     
@@ -889,6 +896,7 @@ if (error) {
                               <Form.Select
                                 value={countryCode}
                                 id="vendor-select-pg"
+                                
                                 style={{
                                   border: "1px solid #D9D9D9",
     
@@ -910,6 +918,7 @@ if (error) {
                               <Form.Control
                                 value={Phone}
                                 ref={phoneRef}
+                                 className="small-placeholder"
                                 onChange={handlePhone}
                                 type="text"
                                 placeholder="9876543210"
@@ -929,6 +938,14 @@ if (error) {
                                 }}
                               />
                             </InputGroup>
+                                                                                        <style>{`
+    .small-placeholder::placeholder {
+      font-size: 14px;
+      color: #a9a9a9;
+      font-family: 'Gilroy';
+    }
+  `}</style>
+
                             <p
                               id="MobileNumberError"
                               style={{
@@ -967,66 +984,8 @@ if (error) {
 
                             
                             )}
-                            {phonenumError && (
-                             <div style={{
-                                                                                           color: "red",
-                                                                                          backgroundColor: "rgba(255, 243, 243, 0.64)",
-                                                                                                                                                       marginTop: 4,
-                                                                                                                                                       display: "inline-flex", 
-                                                                                                                                                       alignItems: "center",
-                                                                                                                                                       padding: "4px 10px", 
-                                                                                                                                                       borderRadius: 4,
-                                                                                                                                                     }}> 
-                                                                                                                                                     <img
-                                                                                                                                                       src={Error_Icon}
-                                                                                                                                                       alt="ErrorIcon"
-                                                                                                                                                       style={{ marginRight: "4px", fontSize:15}}
-                                                                                                                                                     />
-                                                                                                                                                     <span
-                                                                                                                                                       style={{
-                                                                                                                                                         fontSize: "12px",
-                                                                                                                                                         color: "red",
-                                                                                                                                                         fontFamily: "Gilroy",
-                                                                                                                                                         fontWeight: 500,
-                                                                                                                                                         whiteSpace: "nowrap", 
-                                                                                                                                                       }}
-                                               >
-                                                 {phonenumError}
-                                               </span>
-                                             </div>
-
-                             
-                            )}
-                            {phoneErrorMessage && (
-                              <div style={{
-                                                                                           color: "red",
-                                                                                          backgroundColor: "rgba(255, 243, 243, 0.64)",
-                                                                                                                                                       marginTop: 4,
-                                                                                                                                                       display: "inline-flex", 
-                                                                                                                                                       alignItems: "center",
-                                                                                                                                                       padding: "4px 10px", 
-                                                                                                                                                       borderRadius: 4,
-                                                                                                                                                     }}> 
-                                                                                                                                                     <img
-                                                                                                                                                       src={Error_Icon}
-                                                                                                                                                       alt="ErrorIcon"
-                                                                                                                                                       style={{ marginRight: "4px", fontSize:15}}
-                                                                                                                                                     />
-                                                                                                                                                     <span
-                                                                                                                                                       style={{
-                                                                                                                                                         fontSize: "12px",
-                                                                                                                                                         color: "red",
-                                                                                                                                                         fontFamily: "Gilroy",
-                                                                                                                                                         fontWeight: 500,
-                                                                                                                                                         whiteSpace: "nowrap", 
-                                                                                                                                                       }}
-                                               >
-                                                 {phoneErrorMessage}
-                                               </span>
-                                             </div>
-
                            
-                            )}
+                            
                           </Form.Group>
                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <Form.Group className="mb-1">
@@ -1044,6 +1003,7 @@ if (error) {
                               <FormControl
                                 type="text"
                                 id="form-controls"
+                                className="small-placeholder"
                                 placeholder="Enter Email ID"
                                 value={Email}
                                 onChange={(e) => handleEmail(e)}
@@ -1058,6 +1018,13 @@ if (error) {
                                   borderRadius: 8,
                                 }}
                               />
+   <style>{`
+    .small-placeholder::placeholder {
+      font-size: 14px;
+      color: #a9a9a9;
+      font-family: 'Gilroy';
+    }
+  `}</style>
                               {emailError && (
                                 <div style={{
                                                                                            color: "red",
@@ -1088,65 +1055,8 @@ if (error) {
 
                                
                               )}
-                              {emailIdError && (
-                                 <div style={{
-                                                                                           color: "red",
-                                                                                          backgroundColor: "rgba(255, 243, 243, 0.64)",
-                                                                                                                                                       marginTop: 4,
-                                                                                                                                                       display: "inline-flex", 
-                                                                                                                                                       alignItems: "center",
-                                                                                                                                                       padding: "4px 10px", 
-                                                                                                                                                       borderRadius: 4,
-                                                                                                                                                     }}> 
-                                                                                                                                                     <img
-                                                                                                                                                       src={Error_Icon}
-                                                                                                                                                       alt="ErrorIcon"
-                                                                                                                                                       style={{ marginRight: "4px", fontSize:15}}
-                                                                                                                                                     />
-                                                                                                                                                     <span
-                                                                                                                                                       style={{
-                                                                                                                                                         fontSize: "12px",
-                                                                                                                                                         color: "red",
-                                                                                                                                                         fontFamily: "Gilroy",
-                                                                                                                                                         fontWeight: 500,
-                                                                                                                                                         whiteSpace: "nowrap", 
-                                                                                                                                                       }}
-                                               >
-                                                 {emailIdError}
-                                               </span>
-                                             </div>
-                               
-                              )}
-                              {emailErrorMessage && (
-   <div style={{
-                                                                                           color: "red",
-                                                                                          backgroundColor: "rgba(255, 243, 243, 0.64)",
-                                                                                                                                                       marginTop: 4,
-                                                                                                                                                       display: "inline-flex", 
-                                                                                                                                                       alignItems: "center",
-                                                                                                                                                       padding: "4px 10px", 
-                                                                                                                                                       borderRadius: 4,
-                                                                                                                                                     }}> 
-                                                                                                                                                     <img
-                                                                                                                                                       src={Error_Icon}
-                                                                                                                                                       alt="ErrorIcon"
-                                                                                                                                                       style={{ marginRight: "4px", fontSize:15}}
-                                                                                                                                                     />
-                                                                                                                                                     <span
-                                                                                                                                                       style={{
-                                                                                                                                                         fontSize: "12px",
-                                                                                                                                                         color: "red",
-                                                                                                                                                         fontFamily: "Gilroy",
-                                                                                                                                                         fontWeight: 500,
-                                                                                                                                                         whiteSpace: "nowrap", 
-                                                                                                                                                       }}
-                                               >
-                                                 {emailErrorMessage}
-                                               </span>
-                                             </div>
-
-                               
-                              )}
+                              
+                            
                             </Form.Group>
                           </div>
     </div>
@@ -1401,6 +1311,7 @@ if (error) {
       type="text"
       id="form-controls"
       placeholder="Enter House No"
+       className="small-placeholder"
       value={house_no}
       onChange={(e) => {
         const value = e.target.value;
@@ -1420,6 +1331,13 @@ if (error) {
         borderRadius: 8,
       }}
     />
+       <style>{`
+    .small-placeholder::placeholder {
+      font-size: 14px;
+      color: #a9a9a9;
+      font-family: 'Gilroy';
+    }
+  `}</style>
   </Form.Group>
   {house_noError && (
     <div style={{ color: "red" }}>
@@ -1460,6 +1378,7 @@ if (error) {
       type="text"
       id="form-controls"
       placeholder="Enter Street"
+       className="small-placeholder"
       value={street}
       onChange={(e) => {
         const value = e.target.value;
@@ -1479,6 +1398,13 @@ if (error) {
         borderRadius: 8,
       }}
     />
+       <style>{`
+    .small-placeholder::placeholder {
+      font-size: 14px;
+      color: #a9a9a9;
+      font-family: 'Gilroy';
+    }
+  `}</style>
   </Form.Group>
   {streetError && (
     <div style={{ color: "red" }}>
@@ -1518,6 +1444,7 @@ if (error) {
     <FormControl
       type="text"
       id="form-controls"
+       className="small-placeholder"
       placeholder="E.g , near appollo hospital"
       value={landmark}
       onChange={(e) => {
@@ -1538,6 +1465,13 @@ if (error) {
         borderRadius: 8,
       }}
     />
+       <style>{`
+    .small-placeholder::placeholder {
+      font-size: 14px;
+      color: #a9a9a9;
+      font-family: 'Gilroy';
+    }
+  `}</style>
   </Form.Group>
   {landmarkError && (
     <div style={{ color: "red" }}>
@@ -1586,6 +1520,7 @@ if (error) {
                                 type="tel"
                                 maxLength={6}
                                 inputMode="numeric"
+                                 className="small-placeholder"
                                 pattern="[0-9]*"
                                 placeholder="Enter Pincode"
                                 style={{
@@ -1599,6 +1534,13 @@ if (error) {
                                   borderRadius: 8,
                                 }}
                               />
+                                 <style>{`
+    .small-placeholder::placeholder {
+      font-size: 14px;
+      color: #a9a9a9;
+      font-family: 'Gilroy';
+    }
+  `}</style>
     
                               {pincodeError && (
                                    <div style={{
@@ -1649,6 +1591,7 @@ if (error) {
                                 type="text"
                                 id="form-controls"
                                 placeholder="Enter City"
+                                 className="small-placeholder"
                                 value={city}
                                 ref={cityRef}
                                 onChange={(e) => handleCity(e)}
@@ -1663,6 +1606,13 @@ if (error) {
                                   borderRadius: 8,
                                 }}
                               />
+                                 <style>{`
+    .small-placeholder::placeholder {
+      font-size: 14px;
+      color: #a9a9a9;
+      font-family: 'Gilroy';
+    }
+  `}</style>
                             </Form.Group>
                             {cityError && (
                               <div style={{ color: "red" }}>
@@ -1767,6 +1717,13 @@ if (error) {
                                   indicatorSeparator: () => ({
                                     display: "none",
                                   }),
+                                  placeholder: (base) => ({
+  ...base,
+  fontSize: "14px",      
+  color: "#a9a9a9",      
+  fontFamily: "Gilroy",
+  fontWeight: 400,
+}),
                                   option: (base, state) => ({
                                     ...base,
                                     cursor: "pointer",
@@ -1777,6 +1734,7 @@ if (error) {
                                   }),
                                 }}
                               />
+    
                             </Form.Group>
     
                             {!state_name && state_nameError && (

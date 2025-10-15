@@ -241,22 +241,28 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
   return (
     <div>
 
-
-
-      <Modal show={show} onHide={handleClose} centered backdrop="static" >
-        <div  >
-          <Nav fill variant="tabs">
-
-            <Nav.Item onClick={() => handleShow('deleteBed')}>
-              <Nav.Link style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy", borderColor: '#e0ecff', borderTopLeftRadius: '0px', color: actionType === 'deleteBed' ? "black" : "black", backgroundColor: actionType === 'deleteBed' ? "#e0ecff" : "#FFF" }}>Delete Bed ?</Nav.Link>
-            </Nav.Item>
-
-          </Nav>
-        </div>
-
-
-
-        {state.PgList?.deleteBedError && (
+       <Modal
+             show={show} onHide={handleClose}
+              centered
+              backdrop="static"
+              className="logout-card d-flex justify-content-center align-items-center"
+              dialogClassName="custom-modal-width"
+            >
+              <Modal.Header style={{ borderBottom: "none" }}>
+                <Modal.Title
+                  style={{
+                    fontSize: "18px",
+                    fontFamily: "Gilroy",
+                    textAlign: "center",
+                    fontWeight: 600,
+                    color: "#222222",
+                    flex: 1,
+                  }}
+                >
+                Delete Bed ?
+                </Modal.Title>
+              </Modal.Header>
+      {state.PgList?.deleteBedError && (
          
                              <div 
                                                                                                style={{
@@ -297,25 +303,23 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
 
         
         )}
-
-
-        <Modal.Body
-          style={{
-            fontSize: 16,
-            fontWeight: 600,
-            fontFamily: "Gilroy",
-            textAlign: "center",
-            paddingTop: 20,
-            paddingBottom: 10,
-          }}
-          className='p-2 m-0'
-        >
-          Are you sure you want to delete the bed?
-
-          {/* {`Are you sure you want to delete the bed ${deleteBedDetails.bed.bed_no}?`} */}
-        </Modal.Body>
-
-        {formLoading &&
+              <Modal.Body
+                style={{
+                  fontSize: 14,
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  color: "#646464",
+                  textAlign: "center",
+                  marginTop: "-20px",
+                }}
+              >
+                 Are you sure you want to delete the bed{" "}{" "}
+  <strong style={{fontSize: 14, fontFamily: "Gilroy", fontWeight: 600, color: "#000" }}>
+    {deleteBedDetails?.bed?.bed_no}
+  </strong>
+   {" "}{" "}?
+              </Modal.Body>
+              {formLoading &&
           <div
             style={{
               position: 'absolute',
@@ -343,27 +347,52 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
           </div>
         }
 
-        <Modal.Footer className='d-flex justify-content-center mb-2' style={{ border: "none" }}>
-          <Button onClick={handleClose} style={{ width: 130, height: 52, borderRadius: 8, padding: "16px, 45px, 16px, 45px", border: "1px solid #1E45E1", backgroundColor: "#FFF", color: "#1E45E1", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
-            Cancel
-          </Button>
+      
+              <Modal.Footer
+                style={{
+                  justifyContent: "center",
+                  borderTop: "none",
+                  marginTop: "-10px",
+                }}
+              >
+                <Button
+                  style={{
+                    width: 160,
+                    height: 52,
+                    borderRadius: 8,
+                    padding: "12px 20px",
+                    background: "#fff",
+                    color: "#1E45E1",
+                    border: "1px solid #1E45E1",
+                    fontWeight: 600,
+                    fontFamily: "Gilroy",
+                    fontSize: "14px",
+                    marginRight: 10,
+                  }}
+                  onClick={handleClose}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  style={{
+                    width: 160,
+                    height: 52,
+                    borderRadius: 8,
+                    padding: "12px 20px",
+                    background: "#1E45E1",
+                    color: "#FFFFFF",
+                    fontWeight: 600,
+                    fontFamily: "Gilroy",
+                    fontSize: "14px",
+                  }}
+                    disabled={customerDeletePermission} onClick={handleDeleteBed}>
+                
+                  Delete
+                </Button>
+              </Modal.Footer>
+            </Modal>
 
-          {/* {actionType === 'addCustomer' && (
-            <Button style={{ width: 130, height: 52, borderRadius: 8, border: "1px solid #1E45E1", backgroundColor: "#1E45E1", color: "#fff", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}
-              disabled={customerAddPermission} onClick={handleAddCustomer}
-            >
-              Add Customer
-            </Button>
-          )} */}
-
-          <Button style={{ width: 130, height: 52, borderRadius: 8, border: "1px solid #1E45E1", backgroundColor: "#1E45E1", color: "#fff", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}
-            disabled={customerDeletePermission} onClick={handleDeleteBed}>
-            Delete
-          </Button>
-
-
-        </Modal.Footer>
-      </Modal>
+      
 
       <Modal
         show={advanceForm}
