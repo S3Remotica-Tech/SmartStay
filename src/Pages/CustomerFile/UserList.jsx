@@ -2486,7 +2486,8 @@ console.log("billAmount",billAmount)
 
 
 
-
+  console.log("bookingDate", bookingDate);
+  
 
 
 
@@ -5508,10 +5509,9 @@ const handleClosefinal = ()=>{
   const today = dayjs();
   const booking = dayjs(bookingDate);
 
-  // If bookingDate is in the future, allow only today's date
-  if (booking.isAfter(today, "day")) {
-    return !current.isSame(today, "day");
-  }
+  // if (booking.isAfter(today, "day")) {
+  //   return !current.isSame(today, "day");
+  // }
 
   // Otherwise, disable before bookingDate OR after today
   return (

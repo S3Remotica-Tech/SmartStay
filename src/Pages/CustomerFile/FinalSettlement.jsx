@@ -5,7 +5,7 @@ import { Modal, Button,Form,InputGroup} from "react-bootstrap";
 import "flatpickr/dist/flatpickr.css";
 // import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
 import PropTypes from "prop-types";
@@ -21,6 +21,7 @@ import arrowTot from "../../Assets/Images/New_images/direction-down 01.png";
 // import writeOffWhite from "../../Assets/Images/New_images/writeoffWhite.png";
 // import addcircleblack from "../../Assets/Images/New_images/add-circle-black.png";
 import { Tooltip } from "bootstrap";
+import Error_Icon from "../../Assets/Images/New_images/Error_warning.png";
 
 
 function FinalSettlement({ show, handleClose, data, customerID }) {
@@ -365,7 +366,7 @@ const handleCheckedtrue = (e) => {
 
   if (checked) {
     if (!currentReading) {
-      setCurrenReadingError("Please enter current reading");
+      setCurrenReadingError("Please Enter Current Reading");
       return;
     }
 
@@ -893,22 +894,32 @@ src={
                                 />
                             </div>
                               {billingError && (
-                                      <div style={{ color: "red" }}>
-                                        <MdError
-                                          style={{ fontSize: "13px", marginRight: "5px" }}
-                                        />
-                                        <label
-                                          className="mb-0"
-                                          style={{
-                                            color: "red",
-                                            fontSize: "12px",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                          }}
-                                        >
-                                          {billingError}
-                                        </label>
-                                      </div>
+                                   <div style={{
+                                                            color: "red",
+                                                            backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                            marginTop: 4,
+                                                            display: "inline-flex", 
+                                                            alignItems: "center",
+                                                            padding: "4px 10px", 
+                                                            borderRadius: 4,
+                                                          }}> 
+                                                          <img
+                                                            src={Error_Icon}
+                                                            alt="ErrorIcon"
+                                                            style={{ marginRight: "4px", fontSize:15}}
+                                                          />
+                                                          <span
+                                                            style={{
+                                                              fontSize: "12px",
+                                                              color: "red",
+                                                              fontFamily: "Gilroy",
+                                                              fontWeight: 500,
+                                                              whiteSpace: "nowrap", 
+                                                            }}
+                                                        >
+                                                          {billingError}
+                                                        </span>
+                                                      </div>
                                     )}
                             <div style={{ maxHeight: "70vh", overflowY: "auto", padding: "15px" }}>
 
@@ -1014,29 +1025,61 @@ src={
   `}</style>
 
 {state.createAccount?.networkError ?
-            <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-              <MdError style={{ color: "red", marginRight: '5px' }} />
-              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-            </div>
+            <div style={{
+                                                            color: "red",
+                                                            backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                            marginTop: 4,
+                                                            display: "inline-flex", 
+                                                            alignItems: "center",
+                                                            padding: "4px 10px", 
+                                                            borderRadius: 4,
+                                                          }}> 
+                                                          <img
+                                                            src={Error_Icon}
+                                                            alt="ErrorIcon"
+                                                            style={{ marginRight: "4px", fontSize:15}}
+                                                          />
+                                                          <span
+                                                            style={{
+                                                              fontSize: "12px",
+                                                              color: "red",
+                                                              fontFamily: "Gilroy",
+                                                              fontWeight: 500,
+                                                              whiteSpace: "nowrap", 
+                                                            }}
+                                                        >
+                                                          {state.createAccount?.networkError}
+                                                        </span>
+                                                      </div>
             : null}
 
  {currenReadingError && (
-                                      <div style={{ color: "red" }}>
-                                        <MdError
-                                          style={{ fontSize: "13px", marginRight: "5px" }}
-                                        />
-                                        <label
-                                          className="mb-0"
-                                          style={{
-                                            color: "red",
-                                            fontSize: "12px",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                          }}
-                                        >
-                                          {currenReadingError}
-                                        </label>
-                                      </div>
+                                              <div style={{
+                                                            color: "red",
+                                                            backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                            marginTop: 4,
+                                                            display: "inline-flex", 
+                                                            alignItems: "center",
+                                                            padding: "4px 10px", 
+                                                            borderRadius: 4,
+                                                          }}> 
+                                                          <img
+                                                            src={Error_Icon}
+                                                            alt="ErrorIcon"
+                                                            style={{ marginRight: "4px", fontSize:15}}
+                                                          />
+                                                          <span
+                                                            style={{
+                                                              fontSize: "12px",
+                                                              color: "red",
+                                                              fontFamily: "Gilroy",
+                                                              fontWeight: 500,
+                                                              whiteSpace: "nowrap", 
+                                                            }}
+                                                        >
+                                                          {currenReadingError}
+                                                        </span>
+                                                      </div>
                                     )}
 
 
@@ -1306,7 +1349,7 @@ src={
     })();
 
     return (
-        <div className="row px-4 mb-3" key={index}>
+        <div className="row px-2 mb-3" key={index}>
           
             <div className="col-md-6">
                 {!item.showInput ? (
@@ -1350,7 +1393,13 @@ src={
                                 overflowY: "auto",
                                 fontFamily: "Gilroy",
                             }),
-                            placeholder: (base) => ({ ...base, color: "#555" }),
+                            placeholder: (base) => ({
+                             ...base,
+                             fontSize: "14px",      
+                             color: "#a9a9a9",      
+                             fontFamily: "Gilroy",
+                             fontWeight: 400,
+                             }),
                             dropdownIndicator: (base) => ({ ...base, color: "#555", cursor: "pointer" }),
                             indicatorSeparator: () => ({ display: "none" }),
                             option: (base, state) => ({
@@ -1364,8 +1413,8 @@ src={
                 ) : (
                     <input
                         type="text"
-                        className="form-control"
-                        placeholder="Enter custom reason"
+                        className="form-control small-placeholder"
+                        placeholder="Enter Custom Reason"
                         value={item.customReason}
                         onChange={(e) => handleInputChange(index, "customReason", e.target.value)}
                         disabled={disableField}
@@ -1388,10 +1437,10 @@ src={
             <div className="col-md-5">
                 <input
                     type="text"
-                    placeholder="Enter amount"
+                    placeholder="Enter Amount"
                     value={item.amount}
                     onChange={(e) => handleInputChange(index, "amount", e.target.value)}
-                    className="form-control"
+                    className="form-control small-placeholder"
                     disabled={disableField}
                     style={{
                         fontSize: 16,
