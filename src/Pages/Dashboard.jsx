@@ -87,7 +87,7 @@ useEffect(() => {
   if (!canReadDashboard) {
     setLoading(false);
   }else{
-    setLoading(true);
+    setLoading(false);
   }
 }, [canReadDashboard]);
 

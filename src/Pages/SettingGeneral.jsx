@@ -1336,8 +1336,7 @@ useEffect(() => {
                                       fontSize: 14,
                                       fontWeight: 500,
                                       fontFamily: "Gilroy, sans-serif",
-                                      color: "#FF0000",
-                                      color: canDeleteProfile ? "#FF0000" : "#999999",
+                                                                           color: canDeleteProfile ? "#FF0000" : "#999999",
                                       cursor: canDeleteProfile ? "pointer" : "not-allowed",
                                     }}
                                   >
