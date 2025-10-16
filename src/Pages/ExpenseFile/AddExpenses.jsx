@@ -17,6 +17,7 @@ import dayjs from 'dayjs';
 import ErrorMessage from '../../Components/ErrorMessage';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {customSelectStyles} from "../../Utils/SelectStyles"
 
 function StaticExample({ show, currentItem, setShowModal }) {
   const state = useSelector((state) => state);
@@ -62,7 +63,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
 
   useEffect(() => {
     if (state.ExpenseList.insufficiantFundError) {
-     setFormLoading(false)
+      setFormLoading(false)
     }
   }, [state.ExpenseList.insufficiantFundError])
 
@@ -196,7 +197,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
 
 
   const handlePriceChange = (e) => {
-    dispatch({ type: 'REMOVE_BANK_INSUFFICIANT_FUND_ERROR'})
+    dispatch({ type: 'REMOVE_BANK_INSUFFICIANT_FUND_ERROR' })
     const value = e.target.value;
     setGeneralError("");
     setPriceError("");
@@ -357,7 +358,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
 
 
   const handleClose = () => {
-       dispatch({ type: 'REMOVE_BANK_INSUFFICIANT_FUND_ERROR'})
+    dispatch({ type: 'REMOVE_BANK_INSUFFICIANT_FUND_ERROR' })
     setShowModal(false);
     setNetPaymentError("")
     setJoingDateErrmsg("")
@@ -386,8 +387,8 @@ function StaticExample({ show, currentItem, setShowModal }) {
   useEffect(() => {
     if (state.ExpenseList?.getInitializeExpenseStatusCode === 200) {
       const expenses = state.ExpenseList?.getInitializeExpenseList?.listExpenses || [];
-            if (expenses?.length === 0 && !hasShownToast.current) {
-       
+      if (expenses?.length === 0 && !hasShownToast.current) {
+
         toast.error(
           "Please add a Category option in Settings, accessible after adding an expense",
           {
@@ -489,6 +490,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
 
 
                   <Select
+                  className="custom"
                     options={expenseOptions}
                     onChange={handleCategoryChange}
                     value={
@@ -498,52 +500,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
                     }
                     placeholder="Select a Category"
                     classNamePrefix="custom"
-                    styles={{
-                      control: (base) => ({
-                        ...base,
-                        fontSize: "16px",
-                        color: "rgba(75, 75, 75, 1)",
-                        fontFamily: "Gilroy",
-                        fontWeight: category ? 600 : 500,
-                        border: "1px solid #D9D9D9",
-                        borderRadius: "8px",
-                        boxShadow: "none",
-                        height: "50px"
-                      }),
-                      menu: (base) => ({
-                        ...base,
-                        backgroundColor: "#f8f9fa",
-                        border: "1px solid #ced4da",
-                        fontFamily: "Gilroy",
-                      }),
-                      menuList: (base) => ({
-                        ...base,
-                        backgroundColor: "#f8f9fa",
-                        maxHeight: "120px",
-                        padding: 0,
-                        scrollbarWidth: "thin",
-                        overflowY: "auto",
-                        fontFamily: "Gilroy",
-                      }),
-                      placeholder: (base) => ({
-                        ...base,
-                        color: "#555",
-                      }),
-                      dropdownIndicator: (base) => ({
-                        ...base,
-                        color: "#555",
-                        cursor: "pointer"
-                      }),
-                      option: (base, state) => ({
-                        ...base,
-                        cursor: "pointer",
-                        backgroundColor: state.isFocused ? "lightblue" : "white",
-                        color: "#000",
-                      }),
-                      indicatorSeparator: () => ({
-                        display: "none",
-                      }),
-                    }}
+                   styles={customSelectStyles(category)}
                     noOptionsMessage={() => "No category available"}
                   />
 
@@ -569,11 +526,11 @@ function StaticExample({ show, currentItem, setShowModal }) {
                     SubCategory {" "}{
                       subCategoryList.length > 0 ?
 
-                      <span style={{ color: "#FF0000", display: "inline-block", fontSize: "20px" }}>
-                        *
-                      </span>
-                      :
-                      <span style={{ visibility: "hidden", fontSize: 20 }}>*</span>
+                        <span style={{ color: "#FF0000", display: "inline-block", fontSize: "20px" }}>
+                          *
+                        </span>
+                        :
+                        <span style={{ visibility: "hidden", fontSize: 20 }}>*</span>
                     }
                   </Form.Label>
 
@@ -593,7 +550,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
                       control: (base) => ({
                         ...base,
                         fontSize: "16px",
-                        color: "rgba(75, 75, 75, 1)",
+                        color: "4B4B4B",
                         fontFamily: "Gilroy",
                         fontWeight: subCategory ? 600 : 500,
                         border: "1px solid #D9D9D9",
