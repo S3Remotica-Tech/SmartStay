@@ -2906,9 +2906,7 @@ const InvoicePage = () => {
     <div style={{ height: "100vh", overflowY: "auto", }}>
 
 
-      {
-
-      }
+     
       {showAllBill && (
         <>
           <div

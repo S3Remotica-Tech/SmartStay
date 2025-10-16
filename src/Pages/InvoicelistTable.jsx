@@ -20,14 +20,6 @@ const canUpdateInvoice = useHasPermission("Invoice", "canUpdate")
 const canDeleteInvoice = useHasPermission("Invoice", "canDelete")
 
 
-
-
-
-
-
-
-
-
   const handleShowDots = (event) => {
     setShowDots(!showDots)
 
