@@ -84,6 +84,22 @@ export async function GetManualInvoices(hostelId) {
   })
 }
 
+
+export async function getFinalSettlementList(customerId) {
+  return await AxiosConfigV2.get(`/v2/customers/settlement/${customerId}`, {
+  })
+}
+
+
+
+
+
+
+
+
+
+
+
 export async function AddRecurrBillsUsers(recurr) {
   return await AxiosConfig.post('/users/recuring_bill_users', recurr, {  
     data: recurr
