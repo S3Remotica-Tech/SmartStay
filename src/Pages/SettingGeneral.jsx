@@ -1301,8 +1301,7 @@ useEffect(() => {
                                       fontSize: 14,
                                       fontWeight: 500,
                                       fontFamily: "Gilroy, sans-serif",
-                                      color: "#000000",
-                                      color: canUpdateProfile ? "#000000" : "#999999",
+                                                                            color: canUpdateProfile ? "#000000" : "#999999",
                                       cursor: canUpdateProfile ? "pointer" : "not-allowed",
                                     }}
                                   >
