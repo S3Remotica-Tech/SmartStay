@@ -770,7 +770,7 @@ const InvoicePage = () => {
       setCustomerName(invoiceDetails?.ID);
     }
 
-    setInvoiceNumber(invoiceDetails?.Invoices);
+    // setInvoiceNumber(invoiceDetails?.Invoices);
 
     if (invoiceDetails?.DueDate) {
       const parsedDate = new Date(invoiceDetails.DueDate);
@@ -1473,9 +1473,10 @@ dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS'})
 
     const selectedUser = state.UsersList.Users.find(item => item.customerId === customername);
 
+    console.log("selectedUser",selectedUser)
 
     if (selectedUser) {
-      const joiningDate = dayjs(selectedUser.user_join_date).format("YYYY-MM-DD");
+      const joiningDate = dayjs(selectedUser.actualJoining).format("YYYY-MM-DD");
       const formattedInvoiceDate = dayjs(invoicedate).format("YYYY-MM-DD");
       const formattedDueDate = dayjs(invoiceduedate).format("YYYY-MM-DD");
 
@@ -2471,7 +2472,7 @@ dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS'})
 
 
   useEffect(() => {
-    if (state.InvoiceList.manualInvoiceAddStatusCode === 200) {
+    if (state.InvoiceList.manualInvoiceAddStatusCode === 201) {
       setShowManualInvoice(false)
       setFormLoading(false)
       setShowRecurringBillForm(false);
@@ -2586,26 +2587,26 @@ dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS'})
     }
   }, [startdate, enddate, invoicedate, invoiceduedate]);
 
-  useEffect(() => {
-    if (customername && !invoiceDetails) {
-      dispatch({
-        type: "MANUAL-INVOICE-NUMBER-GET",
-        payload: { user_id: customername, template_type: "Rental Invoice" },
-      });
-    }
-  }, [customername]);
+  // useEffect(() => {
+  //   if (customername && !invoiceDetails) {
+  //     dispatch({
+  //       type: "MANUAL-INVOICE-NUMBER-GET",
+  //       payload: { user_id: customername, template_type: "Rental Invoice" },
+  //     });
+  //   }
+  // }, [customername]);
 
-  useEffect(() => {
-    if (state.InvoiceList.Manulainvoicenumberstatuscode === 200) {
-      setInvoiceNumber(state.InvoiceList.ManualInvoiceNUmber.invoice_number);
-      setTimeout(() => {
-        dispatch({ type: "REMOVE_MANUAL_INVOICE_NUMBER_GET" });
-      }, 100);
-    }
-  }, [
-    state.InvoiceList.ManualInvoiceNUmber.invoice_number,
-    state.InvoiceList.Manulainvoicenumberstatuscode,
-  ]);
+  // useEffect(() => {
+  //   if (state.InvoiceList.Manulainvoicenumberstatuscode === 200) {
+  //     setInvoiceNumber(state.InvoiceList.ManualInvoiceNUmber.invoice_number);
+  //     setTimeout(() => {
+  //       dispatch({ type: "REMOVE_MANUAL_INVOICE_NUMBER_GET" });
+  //     }, 100);
+  //   }
+  // }, [
+  //   state.InvoiceList.ManualInvoiceNUmber.invoice_number,
+  //   state.InvoiceList.Manulainvoicenumberstatuscode,
+  // ]);
 
 
 
