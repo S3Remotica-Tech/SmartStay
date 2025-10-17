@@ -78,6 +78,8 @@ export const initialState = {
     pdfErrorStatusCode: 0,
     statusodeForPayableAmount: 0,
     payapleAmountError: '',
+    finalSettlementDetails: [],
+    finalSettlementGetStatusCode:0,
     whatsappSettings:
         JSON.parse(localStorage.getItem('whatsappSettings')) || {
             0: false,
@@ -98,8 +100,12 @@ const InvoiceReducer = (state = initialState, action) => {
 
         case 'REMOVE_ERROR_AMENITIES':
             return { ...state, errorAmenities: 0 }
-
-        case 'ALREADY_ASSIGN_ERROR':
+            case 'GET_FINAL_SETTLEMENT':
+                            return { ...state, finalSettlementDetails: action.payload.response,finalSettlementGetStatusCode: action.payload.statusCode }
+                   case 'REMOVE_GET_FINAL_SETTLEMENT':
+                            return { ...state, finalSettlementGetStatusCode:0 }
+   
+                            case 'ALREADY_ASSIGN_ERROR':
             return { ...state, alreadyAssignAmenitiesStatusCode: action.payload.statusCode }
 
         case 'REMOVE_ALREADY_ASSIGN_ERROR':

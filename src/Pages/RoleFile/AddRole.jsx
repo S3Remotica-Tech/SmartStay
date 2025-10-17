@@ -53,14 +53,14 @@ const handleCheckboxChange = (rowName, index) => {
        
         let newRow = row.map((val, i) => (i === index ? !val : val));
       
-        if ((index === 0 || index === 2 || index === 3) && newRow[index]) {
+        if ((index === 2 || index === 3) && newRow[index]) {
             newRow[1] = true; 
         }
       
         if (index === 1 && !newRow[1]) {
             newRow[2] = false; 
             newRow[3] = false; 
-            newRow[0] = false;
+           
         }
 
         return {

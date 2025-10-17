@@ -180,7 +180,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
 
   const handleModeOfPaymentChange = (selectedOption) => {
     if (!selectedOption) return;
-
+  dispatch({ type: 'REMOVE_BANK_INSUFFICIANT_FUND_ERROR' })
     setModeOfPayment(selectedOption);
     setGeneralError("");
     setPaymentError("");

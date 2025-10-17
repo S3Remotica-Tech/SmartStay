@@ -1,9 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Modal, Button, Form ,InputGroup} from "react-bootstrap";
+import { Modal, Button, Form, InputGroup } from "react-bootstrap";
 import "flatpickr/dist/flatpickr.css";
-// import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { MdError } from "react-icons/md";
 import Select from "react-select";
@@ -13,13 +12,10 @@ import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import { CloseCircle } from "iconsax-react";
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
-// import whiteaddcircle from "../../Assets/Images/white_add-circle.png";
 import { Trash } from 'iconsax-react';
 import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
 import arrowTot from "../../Assets/Images/New_images/direction-down 01.png";
-// import writeOff from "../../Assets/Images/New_images/writeoff.png";
-// import writeOffWhite from "../../Assets/Images/New_images/writeoffWhite.png";
-// import addcircleblack from "../../Assets/Images/New_images/add-circle-black.png";
+
 import { Tooltip } from "bootstrap";
 import ErrorMessage from '../../Components/ErrorMessage'
 
@@ -33,33 +29,31 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
 
     const [fields, setFields] = useState([]);
     const [errors, setErrors] = useState([]);
-    // const [modeOfPayment, setModeOfPayment] = useState("");
-    // const [comments, setComments] = useState("");
-    // const [checkOutDate, setCheckOutDate] = useState("");
+
     const [checkOutDate, setCheckOutDate] = useState(() => {
         const today = new Date();
 
         return today.toISOString().split("T")[0];
     });
-    // const [uploadFile, setUploadFile] = useState(null);
-    // const [rightOffNote, setRightOffNote] = useState("")
     const [checkoUtDateError, setCheckOutDateError] = useState("");
     const [ReturnAmount, setReturnAmount] = useState('')
-    // const [modeOfPaymentError, setModeOfPaymentError] = useState("")
+
     const [formLoading, setFormLoading] = useState(false)
     const checkOutDateRef = useRef(null);
-    // const modeOfPaymentRef = useRef(null);
+
     const [showBreakdown, setShowBreakdown] = useState(false);
-    // const [refundCompleted, setRefundCompleted] = useState(false);
+
     const [dataBed, setDataBed] = useState([])
-    // const [activeTab, setActiveTab] = useState("record");
     const [hostelData, setHostelData] = useState("")
     const [refundableDetails, setReFundableDetails] = useState("")
     const [detuction, setDetuction] = useState("")
     const [rentalBalance, setRentalBalance] = useState('')
     const [billAmount, setBillAmount] = useState("")
+    const [finalSettlementList, setFinalSettlementList] = useState([])
 
-
+    console.log("data", data)
+    console.log("STATE", state)
+    console.log("finalSettlementList", finalSettlementList)
 
     useEffect(() => {
         if (state.UsersList.statusCodegetConfirmCheckout) {
@@ -79,7 +73,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                     reason_name: item.reason || "",
                     amount: Number(item.amount) || 0,
                     showInput: false,
-                    isSystemGenerated: true,   // ✅ Mark API rows
+                    isSystemGenerated: true,
                 }));
             }
 
@@ -102,14 +96,27 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
     }, [state.UsersList.statusCodegetConfirmCheckout, data, dataBed]);
 
 
+    useEffect(() => {
+        if (data?.customerId) {
+            dispatch({ type: "GETFINALSETTLEMENT", payload: data?.customerId });
 
+        }
+    }, [data])
 
 
     useEffect(() => {
-        if (checkOutDate) {
-            dispatch({ type: "CHECKOUTDATEUPDATE", payload: { hostel_id: state.login.selectedHostel_Id, id: data.ID, checkoutDate: checkOutDate } });
+        if (state.InvoiceList.finalSettlementGetStatusCode === 200) {
+            setFinalSettlementList(state.InvoiceList.finalSettlementDetails)
+            setTimeout(() => {
+                dispatch({ type: "REMOVE_GET_FINAL_SETTLEMENT" });
+            }, [])
         }
-    }, [checkOutDate])
+    }, [state.InvoiceList.finalSettlementGetStatusCode])
+
+
+
+
+
 
 
     useEffect(() => {
@@ -118,114 +125,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
         }
     }, [state.UsersList.StatusCodeForDateUpdate])
 
-    //      useEffect(() => {
-    //     if (state.UsersList.statusCodegetConfirmCheckout) {
-    //         const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter(
-    //             (invoice) => invoice.balance > 0
-    //         );
-    //         setBillAmount(validInvoices)
 
-    //         const deduction_details = state?.UsersList?.nonRefundable_details?.filter(
-    //             (deduction) => deduction.amount > 0
-    //         );
-
-    //         let formattedFields = [];
-
-    //         if (Array.isArray(deduction_details) && deduction_details.length > 0) {
-    //             formattedFields = deduction_details.map((item) => ({
-    //                 reason_name: item.reason || "",
-    //                 amount: Number(item.amount) || 0,
-    //                 showInput: false,
-    //             }));
-    //         }
-
-    //         // ✅ Only other reasons, no DueAmount
-    //         setFields(formattedFields);
-
-    //         // Other state updates
-    //         const rentBalance =
-    //             state?.UsersList?.GetconfirmcheckoutBillDetails?.find(
-    //                 (item) => String(item.action).toLowerCase() === "rent"
-    //             )?.balance ?? 0;
-
-    //         setRentalBalance(rentBalance);
-    //         setDetuction(state?.UsersList?.Deduction);
-    //         setReFundableDetails(state?.UsersList?.Refundable_details);
-    //         setHostelData(state?.UsersList?.hostelData);
-    //     }
-
-    //     setTimeout(() => {
-    //         dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
-    //     }, 500);
-    // }, [state.UsersList.statusCodegetConfirmCheckout, data, dataBed]);
-
-
-    //    useEffect(() => {
-    //         if (state.UsersList.statusCodegetConfirmCheckout) {
-    //             const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter(
-    //                 (invoice) => invoice.balance > 0
-    //             );
-
-
-
-    //             const deduction_details = state?.UsersList?.nonRefundable_details?.filter(
-    //                 (deduction) => deduction.amount > 0
-    //             );
-
-
-    //             const invoiceTotal = Array.isArray(validInvoices)
-    //                 ? validInvoices.reduce((total, invoice) => total + Number(invoice.balance || 0), 0)
-    //                 : 0;
-
-
-    //             if (Array.isArray(deduction_details) && deduction_details.length > 0) {
-    //                 const formattedFields = deduction_details.map((item) => ({
-    //                     reason_name: item.reason || "",
-    //                     amount: Number(item.amount) || 0,
-    //                     showInput: false,
-    //                 }));
-
-
-    //                 formattedFields.unshift({
-    //                     reason_name: "DueAmount",
-    //                     amount: invoiceTotal,
-    //                     showInput: false,
-    //                 });
-
-
-    //                 setFields(formattedFields);
-    //             //   setInvoieTotal(invoiceTotal);
-    //             } else {
-    //                 setFields([
-    //                     { reason_name: "DueAmount", amount: invoiceTotal, showInput: false },
-    //                 ]);
-    //                 // setInvoieTotal(invoiceTotal);
-    //             }
-    // const rentBalance =
-    //   state?.UsersList?.GetconfirmcheckoutBillDetails?.find(
-    //     (item) => String(item.action).toLowerCase() === "rent"
-    //   )?.balance ?? 0;
-    // setRentalBalance(rentBalance)
-    // setDetuction(state?.UsersList?.Deduction)
-    // setReFundableDetails(state?.UsersList?.Refundable_details)
-
-
-    // setHostelData(state?.UsersList?.hostelData)
-
-    //         }
-
-    //         setTimeout(() => {
-    //             dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
-    //         }, 500);
-    //     }, [state.UsersList.statusCodegetConfirmCheckout, data,dataBed]);
-
-
-
-    useEffect(() => {
-        if (state.login.selectedHostel_Id) {
-            dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
-        }
-    }, [state.login.selectedHostel_Id]);
     useEffect(() => {
         const userData = state.UsersList.Users.filter((item) => item.ID === customerID);
 
@@ -238,98 +138,25 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
         { value: "others", label: "Others" },
     ];
 
-    // const [rentalBalance, setRentalBalance] = useState('')
-
-    // useEffect(() => {
-    //     if (state.UsersList.statusCodegetConfirmCheckout) {
-    //         const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter(
-    //             (invoice) => invoice.balance > 0
-    //         );
 
 
 
-    //         const deduction_details = state?.UsersList?.nonRefundable_details?.filter(
-    //             (deduction) => deduction.amount > 0
-    //         );
+    // const advanceAmount = state?.UsersList?.GetconfirmcheckoutUserDetails?.advance_amount
 
-
-    //         const invoiceTotal = Array.isArray(validInvoices)
-    //             ? validInvoices.reduce((total, invoice) => total + Number(invoice.balance || 0), 0)
-    //             : 0;
-
-
-    //         if (Array.isArray(deduction_details) && deduction_details.length > 0) {
-    //             const formattedFields = deduction_details.map((item) => ({
-    //                 reason_name: item.reason || "",
-    //                 amount: Number(item.amount) || 0,
-    //                 showInput: false,
-    //             }));
-
-
-    //             formattedFields.unshift({
-    //                 reason_name: "DueAmount",
-    //                 amount: invoiceTotal,
-    //                 showInput: false,
-    //             });
-
-
-    //             setFields(formattedFields);
-
-    //         } else {
-    //             setFields([
-    //                 { reason_name: "DueAmount", amount: invoiceTotal, showInput: false },
-    //             ]);
-
-    //         }
-    //         const rentBalance =
-    //             state?.UsersList?.GetconfirmcheckoutBillDetails?.find(
-    //                 (item) => String(item.action).toLowerCase() === "rent"
-    //             )?.balance ?? 0;
-    //         setRentalBalance(rentBalance)
-    //         setDetuction(state?.UsersList?.Deduction)
-    //         setReFundableDetails(state?.UsersList?.Refundable_details)
-
-
-    //         setHostelData(state?.UsersList?.hostelData)
-
-    //     }
-
-    //     setTimeout(() => {
-    //         dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
-    //     }, 500);
-    // }, [state.UsersList.statusCodegetConfirmCheckout, data, dataBed]);
-
-
-    const advanceAmount = state?.UsersList?.GetconfirmcheckoutUserDetails?.advance_amount
 
     // useEffect(() => {
     //     if (fields || advanceAmount) {
-
     //         const totalDeductions = fields.reduce((acc, item) => acc + Number(item.amount || 0), 0);
 
-    //         const returnAmount = Number(advanceAmount || 0) - totalDeductions;
-    //         setReturnAmount(returnAmount)
+    //         const dueAmount = Number(detuction?.DueAmount || 0);
+
+    //         const returnAmount = Number(advanceAmount || 0) - totalDeductions - dueAmount;
+    //         setReturnAmount(returnAmount);
+
     //     }
-    // }, [fields, advanceAmount])
-    useEffect(() => {
-        if (fields || advanceAmount) {
-            const totalDeductions = fields.reduce((acc, item) => acc + Number(item.amount || 0), 0);
-
-            const dueAmount = Number(detuction?.DueAmount || 0);  // extra subtraction
-
-            const returnAmount = Number(advanceAmount || 0) - totalDeductions - dueAmount;
-            setReturnAmount(returnAmount);
-
-        }
-    }, [fields, advanceAmount, detuction]);
+    // }, [fields, advanceAmount, detuction]);
 
 
-    // const handleFileChange = (e) => {
-    //     const file = e.target.files[0];
-    //     if (file) {
-    //         setUploadFile(file);
-    //     }
-    // };
 
 
     const handleAddField = () => {
@@ -384,20 +211,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
     };
 
 
-    // const handleModeOfPaymentChange = (e) => {
-    //     setModeOfPaymentError("")
-    //     setModeOfPayment(e.target.value);
-    // };
 
-    // const handleCommentsChange = (event) => {
-    //     setComments(event.target.value);
-
-    // };
-
-    // const handleToggle = () => {
-    //     setChecked((prev) => !prev);
-
-    // };
 
 
 
@@ -421,142 +235,14 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
             }
         };
     }, []);
-    // const [transactionId, setTransactionId] = useState("")
 
-    // const handleTransactionId = (e) => {
-    //     const value = e.target.value;
-    //     setTransactionId(value);
-    // };
 
     const handleClickInvoiceNo = () => {
         console.log("INV654 clicked");
     };
 
 
-    // const handleClickGenerate = () => {
-    //     dispatch({ type: "CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
 
-    //     let hasError = false;
-
-
-    //     if (!checkOutDate) {
-    //         setCheckOutDateError("Please select a checkout Date");
-    //         checkOutDateRef.current?.focus();
-    //         return;
-    //     }
-
-
-    //     if (ReturnAmount > 0 && !modeOfPayment) {
-    //         setModeOfPaymentError("Please Select Mode Of Payment");
-    //         if (!hasError) {
-    //             modeOfPaymentRef.current?.focus();
-    //             hasError = true;
-    //         }
-    //     }
-
-
-    //     if (hasError) return;
-
-    //     const formatDate = (date) =>
-    //         typeof date === "string" ? date : moment(date).format("YYYY-MM-DD");
-
-    //     const formattedCheckOutDate = moment(formatDate(checkOutDate), "YYYY-MM-DD");
-    //     const formattedRequestDate = moment(
-    //         data.req_date || dataBed[0]?.req_date,
-    //         "YYYY-MM-DD"
-    //     );
-
-    //     if (formattedCheckOutDate.isBefore(formattedRequestDate, "day")) {
-    //         setCheckOutDateError("Before Request Date not allowed");
-    //         return;
-    //     }
-    //     const userId = data?.ID || dataBed[0]?.ID;
-    //     if (!userId) return;
-
-    //     const { formattedReasons, errors, hasError: reasonError } = fields.reduce(
-    //         (acc, item) => {
-    //             let reason_name = "";
-
-    //             if (
-    //                 item.reason?.toLowerCase() === "others" ||
-    //                 item.reason_name?.toLowerCase() === "others"
-    //             ) {
-    //                 reason_name = item.customReason || item["custom Reason"] || "";
-    //             } else {
-    //                 reason_name = item.reason || item.reason_name || "";
-    //             }
-
-    //             const error = { reason: "", amount: "" };
-    //             if (reason_name && !item.amount) {
-    //                 error.amount = "Please enter amount";
-    //                 acc.hasError = true;
-    //             }
-    //             if (!reason_name && item.amount) {
-    //                 error.reason = "Please enter reason";
-    //                 acc.hasError = true;
-    //             }
-
-    //             acc.errors.push(error);
-    //             acc.formattedReasons.push({
-    //                 reason_name,
-    //                 amount: item.amount?.toString() || "",
-    //                 showInput: !!item.showInput,
-    //             });
-
-    //             return acc;
-    //         },
-    //         { formattedReasons: [], errors: [], hasError: false }
-    //     );
-
-    //     setErrors(errors);
-    //     if (reasonError) return;
-
-    //     setCheckOutDateError("");
-
-    //     const formattedDate = formatDate(checkOutDate);
-
-    //     const basePayload = {
-    //         checkout_date: formattedDate,
-    //         id: userId,
-    //         hostel_id: data?.Hostel_Id || dataBed[0]?.Hostel_Id,
-    //         advance_return: ReturnAmount,
-    //         reinburse: 1,
-    //         reasons: formattedReasons,
-    //     };
-
-    //     if (ReturnAmount >= 0) {
-    //         dispatch({
-    //             type: "ADDCONFIRMCHECKOUTCUSTOMER",
-    //             payload: {
-    //                 ...basePayload,
-    //                 comments,
-    //                 payment_id: modeOfPayment,
-    //                 transaction_id: transactionId
-
-    //             },
-    //         });
-    //     } else {
-    //         dispatch({
-    //             type: "CONFIRMCHECKOUTDUECUSTOMER",
-    //             payload: {
-    //                 ...basePayload,
-    //                 formal_checkout: activeTab === "writeoff",
-    //                 reason_note: rightOffNote,
-    //                 profile: uploadFile,
-    //             },
-    //         });
-    //     }
-
-    //     setFormLoading(true);
-    // };
-
-
-    // useEffect(() => {
-    //     if (hostelData) {
-    //         setCheckOutDate(hostelData?.CheckoutDate)
-    //     }
-
-    // }, [hostelData])
 
     useEffect(() => {
         if (state.UsersList.statusCodeForDueCustomer === 200 || state.UsersList.statusCodeAddConfirmCheckout === 200) {
@@ -566,7 +252,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                 type: "USERLIST",
                 payload: { hostel_id: state.login.selectedHostel_Id },
             })
-            dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: dataBed[0]?.Floor, hostel_Id: state.login.selectedHostel_Id } })
+            // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: dataBed[0]?.Floor, hostel_Id: state.login.selectedHostel_Id } })
             setTimeout(() => {
                 dispatch({ type: "REMOVE_CONFIRM_CHECKOUT_DUE_CUSTOMER" });
             }, 500);
@@ -624,19 +310,19 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
 
                                 <img
                                     src={
-                                        data?.user_profile && data?.user_profile !== "0"
-                                            ? data?.user_profile
-                                            : dataBed[0]?.profile && dataBed[0]?.profile !== "0"
-                                                ? dataBed[0].profile
-                                                : Profile2
+                                        finalSettlementList?.customerInfo?.profilePic &&
+                                            finalSettlementList?.customerInfo?.profilePic !== "0"
+                                            ? finalSettlementList.customerInfo.profilePic
+                                            : Profile2
                                     }
+
                                     style={{ height: 55, width: 55, cursor: "pointer" }}
                                     alt="profile"
                                     className="rounded-circle me-3"
                                 />
 
                                 <div>
-                                    <p style={{ fontSize: "1.25rem", fontFamily: "Gilroy", fontWeight: 600 }} className="mb-0">{hostelData?.Name}</p>
+                                    <p style={{ fontSize: "1.25rem", fontFamily: "Gilroy", fontWeight: 600 }} className="mb-0">{finalSettlementList?.customerInfo?.fullName}</p>
                                     <div className="d-flex mb-2">
 
                                         <span
@@ -648,11 +334,11 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                                 backgroundColor: "#FFEFCF"
                                             }}
                                         >
-                                            {hostelData.floor_name}
+                                            {data?.floorName}
                                         </span>
                                         <span className="badge rounded-pill bg-danger-subtle text-dark" style={{ fontSize: "0.75rem", fontFamily: "Gilroy", fontWeight: 400 }}>
 
-                                            {hostelData["Room Name"]} - {hostelData["Bed Name"]}
+                                            {data?.roomName} - {data?.bedName}
                                         </span>
                                     </div>
 
@@ -670,28 +356,33 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                 <span style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>Joined Date</span>
                                 <span style={{ fontSize: "1rem", fontFamily: "Gilroy", fontWeight: 600 }}>
 
-                                    {new Date(hostelData.joining_Date).toLocaleDateString("en-GB")}
+                                    {finalSettlementList?.customerInfo?.joiningDate}
                                 </span>
                             </div>
                             <div className="d-flex justify-content-between mb-3">
                                 <span style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>Req Checkout Date</span>
                                 <span style={{ fontSize: "1rem", fontFamily: "Gilroy", fontWeight: 600 }}>
-                                    {new Date(hostelData.request_checkout_date).toLocaleDateString("en-GB")}
+                                    {finalSettlementList?.stayInfo?.noticeDate}
                                 </span>
                             </div>
                             <div className="d-flex justify-content-between mb-3">
                                 <span style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>Total Advance Amount</span>
                                 <span style={{ fontSize: "1rem", fontFamily: "Gilroy", fontWeight: 600 }}>
-                                    {hostelData.AdvanceAmount}
+                                    ₹{finalSettlementList?.customerInfo?.advanceAmount}
                                 </span>
                             </div>
                             <div className="d-flex justify-content-between mb-3">
                                 <span style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>Monthly Rent</span>
-                                <span style={{ fontSize: "1rem", fontFamily: "Gilroy", fontWeight: 600 }}>₹ {hostelData.RoomRent}
+                                <span style={{ fontSize: "1rem", fontFamily: "Gilroy", fontWeight: 600 }}>₹  {finalSettlementList?.customerInfo?.rentAmount}
 
                                 </span>
                             </div>
+                            <div className="d-flex justify-content-between mb-3">
+                                <span style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>Checkout Date</span>
+                                <span style={{ fontSize: "1rem", fontFamily: "Gilroy", fontWeight: 600 }}> {finalSettlementList?.stayInfo?.checkoutDate}
 
+                                </span>
+                            </div>
                             <div className="mt-2" style={{ textAlign: "center", backgroundColor: "#FFF7F7" }}>
                                 {ReturnAmount < 0 && <span style={{ color: "red", fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400, textAlign: "center" }}>Pending</span>}
                             </div>
@@ -699,7 +390,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                         </div>
 
                         {/* Right Section (Scrollable) */}
-                        <div className="container-fluid p-4 overflow-auto">
+                        <div className="container-fluid p-2 overflow-auto">
 
                             <div
                                 className="d-flex justify-content-between align-items-center"
@@ -720,7 +411,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                     style={{ cursor: "pointer" }}
                                 />
                             </div>
-                            <div style={{ maxHeight: "70vh", overflowY: "auto", padding: "15px" }}>
+                            <div style={{ maxHeight: "70vh", overflowY: "auto", padding: "10px" }}>
 
 
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -760,10 +451,10 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                                     color: "gray"
                                                 }}
                                             >
-                                                Last Reading: 
+                                                Last Reading:
                                                 <span style={{ color: '#1E45E1' }}>
                                                     {/* {state.UsersList?.finalsettleLastrent?.LastReading} */}
-                                                    </span>
+                                                </span>
                                             </span>
                                         </div>
 
@@ -1103,32 +794,8 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {/* {
-                                                            billAmount?.map((user)=>{
-return(
-    <>
-     <tr>
-                                                            <td className="fw-normal text-decoration-underline text-primary mt-4"
-                                                                onClick={handleClickInvoiceNo}
-                                                                style={{
-                                                                    fontFamily: "Gilroy",
-                                                                    fontSize: "14px",
-                                                                    paddingTop: "1rem"
-                                                                }}>
-                                                                {user.invoiceid}
-                                                            </td>
-                                                            <td className="fw-normal" style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black", paddingTop: "1rem" }}>{user.action}</td>
-                                                            <td className="text-end" style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black", fontWeight: 500, paddingTop: "1rem" }}>₹{user.balance}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            
-                                                           
-                                                        </tr>
-    </>
-)
-                                                            })
-                                                        } */}
-                                                        {Array.isArray(billAmount) && billAmount.map((user) => (
+
+                                                        {Array.isArray(finalSettlementList?.unpaidInvoices) && finalSettlementList?.unpaidInvoices.map((user) => (
                                                             <tr key={user.invoiceid}>
                                                                 <td
                                                                     className="fw-normal text-decoration-underline text-primary mt-4"
@@ -1139,7 +806,7 @@ return(
                                                                         paddingTop: "1rem"
                                                                     }}
                                                                 >
-                                                                    {user.invoiceid}
+                                                                    {user.invoiceNumber}
                                                                 </td>
                                                                 <td
                                                                     className="fw-normal"
@@ -1150,7 +817,7 @@ return(
                                                                         paddingTop: "1rem"
                                                                     }}
                                                                 >
-                                                                    {user.action}
+                                                                    {user.type}
                                                                 </td>
                                                                 <td
                                                                     className="text-end"
@@ -1162,7 +829,7 @@ return(
                                                                         paddingTop: "1rem"
                                                                     }}
                                                                 >
-                                                                    ₹{user.balance}
+                                                                    ₹{user.payableAmount?.toFixed(2)}
                                                                 </td>
                                                             </tr>
                                                         ))}
@@ -1176,53 +843,139 @@ return(
 
                                     {/* Refundable Rent */}
                                     <div className="mt-3">
-                                        <div className="">
-                                            <p style={{
-                                                fontSize: 14,
-                                                color: "black",
-                                                fontFamily: "Gilroy",
-                                                fontWeight: 500,
-                                            }}>Refundable Rent</p>
-                                            <div className="table-responsive border border-gray rounded p-2">
+                                        <div>
+                                            <p
+                                                style={{
+                                                    fontSize: 14,
+                                                    color: "black",
+                                                    fontFamily: "Gilroy",
+                                                    fontWeight: 500,
+                                                }}
+                                            >
+                                                Refundable Rent
+                                            </p>
+
+                                            <div className="table-responsive border border-gray rounded p-2 shadow-sm">
                                                 <table className="table table-sm align-middle mb-0">
                                                     <thead>
                                                         <tr>
-                                                            <th style={{
-                                                                fontSize: 14,
-                                                                color: "black",
-                                                                fontFamily: "Gilroy",
-                                                                fontWeight: 500,
-                                                            }}>Description</th>
-                                                            <th className="text-end" style={{
-                                                                fontSize: 14,
-                                                                color: "black",
-                                                                fontFamily: "Gilroy",
-                                                                fontWeight: 500,
-                                                            }}>Amount</th>
+                                                            <th
+                                                                style={{
+                                                                    fontSize: 14,
+                                                                    color: "black",
+                                                                    fontFamily: "Gilroy",
+                                                                    fontWeight: 500,
+                                                                }}
+                                                            >
+                                                                Description
+                                                            </th>
+                                                            <th
+                                                                className="text-end"
+                                                                style={{
+                                                                    fontSize: 14,
+                                                                    color: "black",
+                                                                    fontFamily: "Gilroy",
+                                                                    fontWeight: 500,
+                                                                }}
+                                                            >
+                                                                Amount
+                                                            </th>
                                                         </tr>
                                                     </thead>
+
                                                     <tbody>
+                                                        {/* Last Rent Paid */}
                                                         <tr>
-                                                            <td className="fw-normal" style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black", paddingTop: "1rem" }}>Last Rent Paid (30 Days)</td>
-                                                            <td className="text-end" style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black" }}>₹6,000</td>
+                                                            <td
+                                                                className="fw-normal"
+                                                                style={{
+                                                                    fontFamily: "Gilroy",
+                                                                    fontSize: "14px",
+                                                                    color: "black",
+                                                                    paddingTop: "1rem",
+                                                                }}
+                                                            >
+                                                                Last Rent Paid (30 Days)
+                                                            </td>
+                                                            <td
+                                                                className="text-end"
+                                                                style={{
+                                                                    fontFamily: "Gilroy",
+                                                                    fontSize: "14px",
+                                                                    color: "black",
+                                                                }}
+                                                            >
+                                                                {/* ₹{finalSettlementList?.currentMonthRentInfo?.currentRentPaid || 0} */}
+                                                            </td>
                                                         </tr>
+
+                                                        {/* Actual Stay Days */}
                                                         <tr>
-                                                            <td className="fw-normal" style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black", paddingTop: "1rem" }}>Actual Stay Days ({detuction.stayedDays} days * ₹{detuction.ratePerDay})</td>
-                                                            <td className="text-end" style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black" }}>₹{detuction.stayDeductionAmount}</td>
+                                                            <td
+                                                                className="fw-normal"
+                                                                style={{
+                                                                    fontFamily: "Gilroy",
+                                                                    fontSize: "14px",
+                                                                    color: "black",
+                                                                    paddingTop: "1rem",
+                                                                }}
+                                                            >
+                                                                Actual Stay Days (
+                                                                {finalSettlementList?.currentMonthRentInfo?.stayDays} days × ₹
+                                                                {(
+                                                                    (finalSettlementList?.currentMonthRentInfo?.currentMonthRent || 0) / 30
+                                                                ).toFixed(0)}
+                                                                )
+                                                            </td>
+                                                            <td
+                                                                className="text-end"
+                                                                style={{
+                                                                    fontFamily: "Gilroy",
+                                                                    fontSize: "14px",
+                                                                    color: "black",
+                                                                }}
+                                                            >
+                                                                ₹ {finalSettlementList?.currentMonthRentInfo?.currentPayableRent}
+                                                               
+                                                            </td>
                                                         </tr>
-                                                        <tr>
-                                                            <td className="fw-normal" style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black", paddingTop: "1rem" }}>EB Amount</td>
-                                                            <td className="text-end" style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black" }}>₹600</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td className="fw-normal" style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black", paddingTop: "1rem" }}>Gym</td>
-                                                            <td className="text-end" style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black" }}>₹500</td>
-                                                        </tr>
+
+
+                                                        {finalSettlementList?.customerInfo?.listDeductions?.length > 0 ? (
+                                                            finalSettlementList.customerInfo.listDeductions.map((item, index) => (
+                                                                <tr key={index}>
+                                                                    <td
+                                                                        className="fw-normal"
+                                                                        style={{
+                                                                            fontFamily: "Gilroy",
+                                                                            fontSize: "14px",
+                                                                            color: "black",
+                                                                            paddingTop: "1rem",
+                                                                        }}
+                                                                    >
+                                                                        {item.reason || "Deduction"}
+                                                                    </td>
+                                                                    <td
+                                                                        className="text-end"
+                                                                        style={{
+                                                                            fontFamily: "Gilroy",
+                                                                            fontSize: "14px",
+                                                                            color: "black",
+                                                                        }}
+                                                                    >
+                                                                        ₹{item.amount || 0}
+                                                                    </td>
+                                                                </tr>
+                                                            ))
+                                                        ) : (
+                                                            ""
+                                                        )}
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
 
                                 <div className="d-flex justify-content-between align-items-center mt-3">
@@ -1245,28 +998,66 @@ return(
 
 
                                 {showBreakdown && (
-                                    <div className="p-3  rounded mb-3">
+                                    <div className="p-3 rounded mb-3">
                                         <div className="d-flex justify-content-between">
-                                            <p style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 600 }}>Final settlement</p>
-                                            <p style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 600 }}>₹  {refundableDetails.totalRefund}</p>
+                                            <p style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 600 }}>
+                                                Final Settlement
+                                            </p>
+                                            {/* <p style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 600 }}>
+                                                ₹{" "}
+                                                {finalSettlementList?.settlementInfo?.amountTobePaid?.toLocaleString("en-IN", {
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2,
+                                                })}
+                                            </p> */}
                                         </div>
+
                                         <div className="d-flex justify-content-between">
-                                            <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>Total Deductions</p>
-                                            <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400, color: "red" }}>- ₹ {detuction.DueAmount}</p>
-                                        </div>
-                                        <div className="d-flex justify-content-between">
-                                            <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>Refundable Rent</p>
-                                            <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>₹ {refundableDetails.remainingRentRefund}
+                                            <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>
+                                                Total Deductions
+                                            </p>
+                                            <p
+                                                style={{
+                                                    fontFamily: "Gilroy",
+                                                    fontSize: "0.875rem",
+                                                    fontWeight: 400,
+                                                    color: "red",
+                                                }}
+                                            >
+                                                - ₹{" "}
+                                                {finalSettlementList?.settlementInfo?.totalDeductions?.toLocaleString("en-IN", {
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2,
+                                                })}
                                             </p>
                                         </div>
-                                        <div className="d-flex justify-content-between mb-1">
-                                            <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>Refundable Advance</p>
-                                            <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>₹ {refundableDetails.securityDepositRefund}</p>
+
+                                        <div className="d-flex justify-content-between">
+                                            <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>
+                                                Refundable Rent
+                                            </p>
+                                            <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>
+                                                ₹{" "}
+                                                {finalSettlementList?.settlementInfo?.payableRent?.toLocaleString("en-IN", {
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2,
+                                                })}
+                                            </p>
                                         </div>
 
-
-
+                                        {/* {finalSettlementList?.settlementInfo?.isRefundable && ( */}
+                                            <div className="d-flex justify-content-between mb-1">
+                                                <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>
+                                                    Refundable Advance
+                                                </p>
+                                                <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>
+                                                    ₹{" "}
+                                                    {finalSettlementList?.customerInfo?.advanceAmount}
+                                                </p>
+                                            </div>
+                                        {/* )} */}
                                     </div>
+
                                 )}
 
                                 <div className="col-lg-12 col-md-12 col-sm-12 colxs-12 ">
@@ -1277,7 +1068,10 @@ return(
                                         name="Advance"
                                         id="Advance"
 
-                                        value={ReturnAmount}
+                                        value={finalSettlementList?.settlementInfo?.amountTobePaid.toLocaleString("en-IN", {
+                                                        minimumFractionDigits: 2,
+                                                        maximumFractionDigits: 2,
+                                                    })}
                                         className="form-control mt-1"
                                         placeholder="Add Advance Amount"
                                         required
