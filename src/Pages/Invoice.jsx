@@ -196,6 +196,7 @@ const InvoicePage = () => {
   const canReadReceipt = useHasPermission("Receipt", "canRead")
   const canWriteReceipt = useHasPermission("Receipt", "canWrite")
 
+  console.log("newRows", newRows)
 
 
 
@@ -220,7 +221,7 @@ const InvoicePage = () => {
     if (recurringbills?.length > 0) {
       const initialChecked = {};
       recurringbills.forEach(item => {
-        initialChecked[item.ID] = item.Bill_Enable === 1;
+        initialChecked[item.customerId] = item.Bill_Enable === 1;
       });
       setCheckedRows(initialChecked);
     }
@@ -1091,6 +1092,7 @@ const InvoicePage = () => {
   };
 
   const handleBackBill = () => {
+     dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS' })
     setFormLoading(false)
     setShowManualInvoice(false);
     setShowRecurringBillForm(false);
@@ -1423,7 +1425,7 @@ const InvoicePage = () => {
 
   const handleCreateBill = () => {
     let hasError = false;
-
+dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS'})
 
     if (!customername) {
       setCustomerErrmsg("Please Select Customer");
@@ -1469,7 +1471,7 @@ const InvoicePage = () => {
       setTableErrmsg("");
     }
 
-    const selectedUser = state.UsersList.Users.find(item => item.ID === customername);
+    const selectedUser = state.UsersList.Users.find(item => item.customerId === customername);
 
 
     if (selectedUser) {
@@ -1496,47 +1498,52 @@ const InvoicePage = () => {
       }
     }
 
-
-
-
-
     if (hasError) {
       return;
     }
 
+    const formatinvoicedate = dayjs(invoicedate).format("DD-MM-YYYY");
+    const formatduedate = dayjs(invoiceduedate).format("DD-MM-YYYY");
+    const rentAmount = newRows
+      .filter((row) => row.am_name?.toLowerCase() === "room rent")
+      .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
 
-    const formattedStartDate = startdate ? dayjs(startdate).format("YYYY-MM-DD") : "";
+    const ebAmount = newRows
+      .filter((row) => row.am_name?.toLowerCase() === "eb")
+      .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
 
-    const formattedEndDate = enddate ? dayjs(enddate).format("YYYY-MM-DD") : "";
+    const amenityAmount = newRows
+      .filter(
+        (row) =>
+          row.am_name?.toLowerCase() !== "room rent" &&
+          row.am_name?.toLowerCase() !== "eb"
+      )
+      .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
+
+
+    console.log("rentAmount", rentAmount, "ebAmount", ebAmount, "amenityAmount", amenityAmount)
+
+
 
 
     dispatch({
       type: "MANUAL-INVOICE-ADD",
       payload: {
-        user_id: customername,
-        date: formatinvoicedate,
-        due_date: formatduedate,
-
-        start_date: invoiceDetails?.action === "advance" ? null : formattedStartDate,
-        end_date: invoiceDetails?.action === "advance" ? null : formattedEndDate,
-        invoice_id: invoicenumber,
+        customerId: customername,
+        invoiceDate: formatinvoicedate,
+        dueDate: formatduedate,
+        invoiceNumber: invoicenumber,
         total_amount: totalAmount,
-        amenity: amenityArray.length > 0 ? amenityArray : [],
+        rentAmount: rentAmount,
+        ebAmount: ebAmount,
+        amenityAmount: amenityAmount,
       },
     });
     setFormLoading(true)
 
 
 
-    setCustomerName("");
-    setInvoiceNumber("");
-    setStartDate("");
-    setEndDate("");
-    setInvoiceDate("");
-    setInvoiceDueDate("");
-    setTotalAmount("");
-
-    setNewRows([]);
+   
   };
 
   const handleEditBill = () => {
@@ -1594,7 +1601,7 @@ const InvoicePage = () => {
     }
 
 
-    const selectedUser = state.UsersList.Users.find(item => item.ID === customername);
+    const selectedUser = state.UsersList.Users.find(item => item.customerId === customername);
 
 
 
@@ -2107,10 +2114,13 @@ const InvoicePage = () => {
   // }, [state.InvoiceList.ManualInvoiceNumberError])
 
   useEffect(() => {
-    if (state.InvoiceList.unableAddInvoiceDetailsError) {
+    if (state.InvoiceList?.unableAddInvoiceDetailsError) {
       setFormLoading(false)
       setLoading(false)
       setUnableAddInvoiceDetailsError(state.InvoiceList.unableAddInvoiceDetailsError)
+      setTimeout(()=>{
+dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS'})
+      },3000)
 
     }
 
@@ -2444,7 +2454,7 @@ const InvoicePage = () => {
 
 
 
-
+  console.log("state", state)
 
 
 
@@ -2467,6 +2477,15 @@ const InvoicePage = () => {
       setShowRecurringBillForm(false);
       setReceiptFormShow(false);
       setShowAllBill(true);
+       setCustomerName("");
+    setInvoiceNumber("");
+    setStartDate("");
+    setEndDate("");
+    setInvoiceDate("");
+    setInvoiceDueDate("");
+    setTotalAmount("");
+
+    setNewRows([]);
       dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
       setLoading(false);
 
@@ -2960,7 +2979,7 @@ const InvoicePage = () => {
                             cursor: "pointer",
                             transition: "all 0.3s ease",
                             color: showSearchFilter ? "#1E45E1" : "#000",
-                            
+
                           }}
                           onMouseEnter={(e) => (e.target.style.backgroundColor = "#e6e6e6")}
                           onMouseLeave={(e) => (e.target.style.backgroundColor = "#9C9C9C26")}
@@ -5754,10 +5773,10 @@ const InvoicePage = () => {
                               <PaginationList>
                                 {sortedDataRecure.map((item) => (
                                   <RecurringBillList
-                                    key={item.ID}
+                                    key={item.customerId}
                                     item={item}
-                                    checked={checkedRows[item.ID] === true}
-                                    onToggle={() => handleToggle(item.ID, item.Inv_ID)}
+                                    checked={checkedRows[item.customerId] === true}
+                                    onToggle={() => handleToggle(item.customerId, item.Inv_ID)}
                                     handleDeleteRecurringbills={handleDeleteRecurringbills}
                                     recuringbillAddPermission={recuringbillAddPermission}
                                     billrolePermission={billrolePermission}
@@ -6728,17 +6747,17 @@ const InvoicePage = () => {
                     state.UsersList?.Users?.length > 0
                       ? state.UsersList.Users.filter(
                         (u) =>
-                          u.Bed !== "undefined" &&
-                          u.Bed !== "0" &&
-                          typeof u.Bed === "string" &&
-                          u.Bed.trim() !== "" &&
-                          u.Rooms !== "undefined" &&
-                          u.Rooms !== "0" &&
-                          typeof u.Rooms === "string" &&
-                          u.Rooms.trim() !== ""
+                          u.bedId !== "undefined" &&
+                          u.bedId !== "0" &&
+                          typeof u.bedId === "string" &&
+                          u.bedId.trim() !== "" &&
+                          u.roomId !== "undefined" &&
+                          u.roomId !== "0" &&
+                          typeof u.roomId === "string" &&
+                          u.roomId.trim() !== ""
                       ).map((u) => ({
-                        value: u.ID,
-                        label: u.Name,
+                        value: u.customerId,
+                        label: u.firstName,
                       }))
                       : []
                   }
@@ -6748,7 +6767,7 @@ const InvoicePage = () => {
                       ? {
                         value: customername,
                         label:
-                          state.UsersList?.Users?.find((u) => u.ID === customername)?.Name ||
+                          state.UsersList?.Users?.find((u) => u.customerId === customername)?.firstName ||
                           "Select Customer",
                       }
                       : null
@@ -7014,8 +7033,8 @@ const InvoicePage = () => {
                           <Form.Control
                             type="text"
                             style={{ fontFamily: "Gilroy" }}
-                            value={u.amount}
-                            placeholder="0"
+                            value={u.amount !== "0" ? u.amount  : ""}
+                            placeholder="Please Enter Amount"
                             onChange={(e) => {
                               const value = e.target.value;
                               if (/^\d*\.?\d*$/.test(value)) {
@@ -7180,8 +7199,11 @@ const InvoicePage = () => {
       )}
 
 
-      {unableAddInvoiceDetailsError ?
-        <ErrorMessage message={unableAddInvoiceDetailsError} type="error" />
+      {state.InvoiceList.unableAddInvoiceDetailsError ?
+      <div className="d-flex justify-content-center mt-5">
+
+        <ErrorMessage message={state.InvoiceList.unableAddInvoiceDetailsError} type="error" />
+        </div>
         : null}
 
       {showRecurringBillForm && (
