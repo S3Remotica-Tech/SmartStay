@@ -92,6 +92,7 @@ const formattedTenantReadings = tenantReadingList?.map((item) => {
 
 
         return {
+            fullName: item.fullName,
             profilePic: item.profilePic,
             billingMonth,
             from: formatDate(item.startDate),
@@ -101,6 +102,9 @@ const formattedTenantReadings = tenantReadingList?.map((item) => {
             amount: item.totalAmount
         };
     });
+
+
+    console.log("tenantReadingList",tenantReadingList)
     
     return (
         <>
@@ -395,7 +399,7 @@ const formattedTenantReadings = tenantReadingList?.map((item) => {
 
                                                 <td style={{ paddingLeft: "10px", fontWeight: 600, color: "black" }}>
                                                     <img src={formattedTenantReadings.profilePic ? formattedTenantReadings.profilePic : Ellipse1} alt="" style={{ marginRight: "12px" , height:45, width:45}} />
-                                                    {row.name}
+                                                    {row.fullName}
                                                 </td>
 
                                                 <td style={{ paddingLeft: "40px" }}>{row.billingMonth}</td>
