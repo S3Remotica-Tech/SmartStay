@@ -57,126 +57,7 @@ useEffect(() => {
 
 
     const billingData = [
-        {
-                       name: "Surya",
-            bed: "Bed No 01",
-            billingMonth: "1 sep",
-            from: "02 Jul",
-            to: "23 Aug",
-            floor: "Ground Floor",
-            amount: "₹1,000",
-            room: "Room 001",
-            units: 300,
-        },
-        {
-            name: "Rajesh",
-            floor: "Ground Floor",
-            bed: "Bed No 02",
-            billingMonth: "1 sep",
-            from: "02 Jul",
-            to: "23 Aug",
-            totalUnits: 220,
-            amount: "₹2,200",
-            room: "Room 001",
-            units: 300,
-        },
-        {
-            floor: "Ground Floor",
-            name: "Ramesh",
-            bed: "Bed No 03",
-            billingMonth: "1 sep",
-            from: "02 Jul",
-            to: "23 Aug",
-            totalUnits: "---",
-            amount: "₹0.00",
-            room: "Room 001",
-            units: 300,
-        },
-        {
-            floor: "Ground Floor",
-            name: "Xavier",
-            bed: "Bed No 04",
-            billingMonth: "1 sep",
-            from: "02 Jul",
-            to: "23 Aug",
-            totalUnits: "---",
-            amount: "₹0.00",
-            room: "Room 001",
-            units: 300,
-        },
-        {
-            floor: "Ground Floor",
-            name: "Britto",
-            bed: "Bed No 05",
-            billingMonth: "1 sep",
-            from: "02 Jul",
-            to: "23 Aug",
-            totalUnits: "---",
-            amount: "₹0.00",
-            room: "Room 001",
-            units: 300,
-        },
-        {
-            floor: "Ground Floor",
-            name: "Alex",
-            bed: "Bed No 01",
-            billingMonth: "1 sep",
-            from: "02 Jul",
-            to: "23 Aug",
-            totalUnits: "---",
-            amount: "₹0.00",
-            room: "Room 001",
-            units: 300,
-        },
-        {
-            floor: "Ground Floor",
-            name: "Surya",
-            bed: "Bed No 01",
-            billingMonth: "1 sep",
-            from: "02 Jul",
-            to: "23 Aug",
-            totalUnits: "---",
-            amount: "₹0.00",
-            room: "Room 001",
-            units: 300,
-        },
-        {
-            floor: "Ground Floor",
-            name: "Supriya",
-            bed: "Bed No 02",
-            billingMonth: "1 sep",
-            from: "02 Jul",
-            to: "23 Aug",
-            totalUnits: "---",
-            amount: "₹0.00",
-            room: "Room 001",
-            units: 300,
-        },
-        {
-            floor: "Ground Floor",
-            name: "Karthick",
-            bed: "Bed No 03",
-            billingMonth: "1 sep",
-            from: "02 Jul",
-            to: "23 Aug",
-            totalUnits: "---",
-            amount: "₹0.00",
-            room: "Room 001",
-            units: 300,
-        },
-        {
-            floor: "Ground Floor",
-            name: "Priya",
-            bed: "Bed No 03",
-            billingMonth: "1 sep",
-            from: "02 Jul",
-            to: "23 Aug",
-            totalUnits: "---",
-            amount: "₹0.00",
-            room: "Room 001",
-            units: 300,
-
-        },
+      
     ];
 
 console.log("state",state)
@@ -392,7 +273,7 @@ console.log("formattedTenantReadings",formattedTenantReadings)
                 </div>
 
                 {activeTab === "room" && (
-                    tenantReadingList?.length === 0 ? (
+                    billingData?.length === 0 ? (
                         <div style={{ textAlign: "center", marginTop: 40 }}>
                             <img src={emptyimg} width={240} height={240} alt="emptystate" />
                             <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "rgba(75, 75, 75, 1)" }}>
@@ -452,7 +333,7 @@ console.log("formattedTenantReadings",formattedTenantReadings)
                                 </thead>
                                 <tbody style={{ fontSize: 14, color: "#000" }}>
                                     <PaginationList>
-                                        {billingData.map((row, i) => (
+                                        {billingData?.map((row, i) => (
                                             <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px" }}>
 
                                                 <td style={{ paddingLeft: "40px" }}>{row.billingMonth}</td>
