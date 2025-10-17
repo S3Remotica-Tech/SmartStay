@@ -73,7 +73,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                     reason_name: item.reason || "",
                     amount: Number(item.amount) || 0,
                     showInput: false,
-                    isSystemGenerated: true,   // ✅ Mark API rows
+                    isSystemGenerated: true,
                 }));
             }
 
@@ -141,20 +141,20 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
 
 
 
-    const advanceAmount = state?.UsersList?.GetconfirmcheckoutUserDetails?.advance_amount
+    // const advanceAmount = state?.UsersList?.GetconfirmcheckoutUserDetails?.advance_amount
 
 
-    useEffect(() => {
-        if (fields || advanceAmount) {
-            const totalDeductions = fields.reduce((acc, item) => acc + Number(item.amount || 0), 0);
+    // useEffect(() => {
+    //     if (fields || advanceAmount) {
+    //         const totalDeductions = fields.reduce((acc, item) => acc + Number(item.amount || 0), 0);
 
-            const dueAmount = Number(detuction?.DueAmount || 0);
+    //         const dueAmount = Number(detuction?.DueAmount || 0);
 
-            const returnAmount = Number(advanceAmount || 0) - totalDeductions - dueAmount;
-            setReturnAmount(returnAmount);
+    //         const returnAmount = Number(advanceAmount || 0) - totalDeductions - dueAmount;
+    //         setReturnAmount(returnAmount);
 
-        }
-    }, [fields, advanceAmount, detuction]);
+    //     }
+    // }, [fields, advanceAmount, detuction]);
 
 
 
@@ -252,7 +252,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                 type: "USERLIST",
                 payload: { hostel_id: state.login.selectedHostel_Id },
             })
-            dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: dataBed[0]?.Floor, hostel_Id: state.login.selectedHostel_Id } })
+            // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: dataBed[0]?.Floor, hostel_Id: state.login.selectedHostel_Id } })
             setTimeout(() => {
                 dispatch({ type: "REMOVE_CONFIRM_CHECKOUT_DUE_CUSTOMER" });
             }, 500);
@@ -806,7 +806,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                                                         paddingTop: "1rem"
                                                                     }}
                                                                 >
-                                                                    {user.invoiceid}
+                                                                    {user.invoiceNumber}
                                                                 </td>
                                                                 <td
                                                                     className="fw-normal"
@@ -817,7 +817,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                                                         paddingTop: "1rem"
                                                                     }}
                                                                 >
-                                                                    {user.action}
+                                                                    {user.type}
                                                                 </td>
                                                                 <td
                                                                     className="text-end"
@@ -829,7 +829,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                                                         paddingTop: "1rem"
                                                                     }}
                                                                 >
-                                                                    ₹{user.balance}
+                                                                    ₹{user.payableAmount?.toFixed(2)}
                                                                 </td>
                                                             </tr>
                                                         ))}
@@ -923,7 +923,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                                                 Actual Stay Days (
                                                                 {finalSettlementList?.currentMonthRentInfo?.stayDays} days × ₹
                                                                 {(
-                                                                    (finalSettlementList?.customerInfo?.rentAmount || 0) / 30
+                                                                    (finalSettlementList?.currentMonthRentInfo?.currentMonthRent || 0) / 30
                                                                 ).toFixed(0)}
                                                                 )
                                                             </td>
@@ -935,15 +935,12 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                                                     color: "black",
                                                                 }}
                                                             >
-                                                                ₹
-                                                                {(
-                                                                    ((finalSettlementList?.customerInfo?.rentAmount || 0) / 30) *
-                                                                    (finalSettlementList?.currentMonthRentInfo?.stayDays || 0)
-                                                                ).toFixed(0)}
+                                                                ₹ {finalSettlementList?.currentMonthRentInfo?.currentPayableRent}
+                                                               
                                                             </td>
                                                         </tr>
 
-                                                       
+
                                                         {finalSettlementList?.customerInfo?.listDeductions?.length > 0 ? (
                                                             finalSettlementList.customerInfo.listDeductions.map((item, index) => (
                                                                 <tr key={index}>
@@ -971,7 +968,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                                                 </tr>
                                                             ))
                                                         ) : (
-                                                           ""
+                                                            ""
                                                         )}
                                                     </tbody>
                                                 </table>
@@ -1001,28 +998,66 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
 
 
                                 {showBreakdown && (
-                                    <div className="p-3  rounded mb-3">
+                                    <div className="p-3 rounded mb-3">
                                         <div className="d-flex justify-content-between">
-                                            <p style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 600 }}>Final settlement</p>
-                                            <p style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 600 }}>₹  {refundableDetails.totalRefund}</p>
+                                            <p style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 600 }}>
+                                                Final Settlement
+                                            </p>
+                                            {/* <p style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 600 }}>
+                                                ₹{" "}
+                                                {finalSettlementList?.settlementInfo?.amountTobePaid?.toLocaleString("en-IN", {
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2,
+                                                })}
+                                            </p> */}
                                         </div>
+
                                         <div className="d-flex justify-content-between">
-                                            <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>Total Deductions</p>
-                                            <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400, color: "red" }}>- ₹ {detuction.DueAmount}</p>
-                                        </div>
-                                        <div className="d-flex justify-content-between">
-                                            <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>Refundable Rent</p>
-                                            <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>₹ {refundableDetails.remainingRentRefund}
+                                            <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>
+                                                Total Deductions
+                                            </p>
+                                            <p
+                                                style={{
+                                                    fontFamily: "Gilroy",
+                                                    fontSize: "0.875rem",
+                                                    fontWeight: 400,
+                                                    color: "red",
+                                                }}
+                                            >
+                                                - ₹{" "}
+                                                {finalSettlementList?.settlementInfo?.totalDeductions?.toLocaleString("en-IN", {
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2,
+                                                })}
                                             </p>
                                         </div>
-                                        <div className="d-flex justify-content-between mb-1">
-                                            <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>Refundable Advance</p>
-                                            <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>₹ {refundableDetails.securityDepositRefund}</p>
+
+                                        <div className="d-flex justify-content-between">
+                                            <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>
+                                                Refundable Rent
+                                            </p>
+                                            <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>
+                                                ₹{" "}
+                                                {finalSettlementList?.settlementInfo?.payableRent?.toLocaleString("en-IN", {
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2,
+                                                })}
+                                            </p>
                                         </div>
 
-
-
+                                        {/* {finalSettlementList?.settlementInfo?.isRefundable && ( */}
+                                            <div className="d-flex justify-content-between mb-1">
+                                                <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>
+                                                    Refundable Advance
+                                                </p>
+                                                <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>
+                                                    ₹{" "}
+                                                    {finalSettlementList?.customerInfo?.advanceAmount}
+                                                </p>
+                                            </div>
+                                        {/* )} */}
                                     </div>
+
                                 )}
 
                                 <div className="col-lg-12 col-md-12 col-sm-12 colxs-12 ">
@@ -1033,7 +1068,10 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                         name="Advance"
                                         id="Advance"
 
-                                        value={ReturnAmount}
+                                        value={finalSettlementList?.settlementInfo?.amountTobePaid.toLocaleString("en-IN", {
+                                                        minimumFractionDigits: 2,
+                                                        maximumFractionDigits: 2,
+                                                    })}
                                         className="form-control mt-1"
                                         placeholder="Add Advance Amount"
                                         required
