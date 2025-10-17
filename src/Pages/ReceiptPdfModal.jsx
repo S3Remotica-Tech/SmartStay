@@ -12,7 +12,7 @@ import Mail from '../Assets/Images/gmail.png'
 import Mail_white from '../Assets/Images/gmail_white.png'
 import Message_text from '../Assets/Images/message-text.png'
 import Message_text_white from '../Assets/Images/message-white.png'
-import Close from '../Assets/Images/New_images/Close.png'
+import Close from '../Assets/Images/New_images/close.png'
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import PropTypes from "prop-types";
