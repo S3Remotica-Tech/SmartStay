@@ -704,7 +704,9 @@ export async function getCustomerReading(hostelId) {
   return await AxiosConfigV2.get(`/v2/electricity/customers/${hostelId}`)
 }
 
-
+export async function getParticularCustomerReading(custom) {
+  return await AxiosConfigV2.get(`/v2/electricity/customers/${custom.hostelId}/${custom.customerId}`)
+}
 
 
 

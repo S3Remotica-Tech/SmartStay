@@ -1,31 +1,64 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // import LoaderComponent from "../LoaderComponent";
 import leftarrow from "../../Assets/Images/arrow-left.png";
 import building from '/src/Assets/Images/New_images/building1.svg';
-import Ellipse1 from "../../Assets/Images/New_images/Ellipse 1.svg";
-import verify from "../../Assets/Images/New_images/verify.svg";
-import Bed from "../../Assets/Images/New_images/Bed.svg";
+import Profile from "../../Assets/Images/Profile.jpg";
 import emptyimg from "../../Assets/Images/New_images/empty_image.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FiFilter } from "react-icons/fi";
 import { Table } from "react-bootstrap";
 import PaginationList from "../../Components/PaginationList";
 import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
+import { BiDotsVerticalRounded } from "react-icons/bi";
+import verify from "../../Assets/Images/New_images/verify.svg";
+import Bed from "../../Assets/Images/New_images/Bed.svg";
 
 
+const EBTenantOverview = ({ tenant, onBack }) => {
 
-const EBTenantOverview = ({ onBack }) => {
-
+    const state = useSelector((state) => state);
+    const dispatch = useDispatch();
 
     const [activeTab, setActiveTab] = useState("customer");
-    // const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
+
+    console.log("tenant", tenant)
+    const [tenantReadingList, setTenantreadingList] = useState([])
+
+
+    useEffect(() => {
+        if (state.login?.selectedHostel_Id && tenant?.customerId) {
+            dispatch({
+                type: 'GETPARTICULARCUSTOMERREADING', 
+                payload: {
+                    hostelId: state.login.selectedHostel_Id,
+                    customerId: tenant.customerId
+                }
+            })
+            setLoading(true)
+        }
+
+    }, [])
+
+
+useEffect(() => {
+        if (state.UsersList.getParticularCustomerReadingStatus === 200) {
+            setLoading(false)
+                        setTenantreadingList(state.UsersList?.getParticularCustomerReadingList)
+            setTimeout(() => {
+                dispatch({ type: 'REMOVE_GET_PARTICULAR_CUSTOMER_READING' })
+            }, 100)
+
+        }
+
+    }, [state.UsersList.getParticularCustomerReadingStatus])
+
 
 
     const billingData = [
         {
-            pic: Ellipse1,
-            name: "Surya",
+                       name: "Surya",
             bed: "Bed No 01",
             billingMonth: "1 sep",
             from: "02 Jul",
@@ -146,18 +179,50 @@ const EBTenantOverview = ({ onBack }) => {
         },
     ];
 
-    const [roomData] = useState({
-        pic: Ellipse1,
-        roomNo: "004",
-        floor: "Ground Floor",
-        bedNo: "01",
-        name: "ARUN"
+console.log("state",state)
+const formattedTenantReadings = (tenantReadingList?.electricityHistory || []).map((item) => {
+ 
+  const [day, month, year] = item.startDate.split("/");
+
+  const billingMonth = new Date(`${year}-${month}-01`).toLocaleString("en-US", {
+    month: "long",
+    year: "numeric",
+  });
+
+  
+  const formatDate = (dateStr) => {
+    const [d, m, y] = dateStr.split("/").map(Number);
+    return new Date(y, m - 1, d).toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
     });
+  };
+
+  return {
+    billingMonth,
+    from: formatDate(item.startDate),
+    to: formatDate(item.endDate),
+    floor: item.floorName || tenantReadingList.floorName,
+    room: item.roomName || tenantReadingList.roomName,
+    bed: item.bedName || tenantReadingList.bedName,
+    totalUnits: item.consumption || 0,
+    amount: item.amount || 0,
+    profilePic: tenantReadingList.profilePic || null,
+    tenantName: `${tenantReadingList.firstName || ""} ${tenantReadingList.lastName || ""}`.trim(),
+  };
+});
+
+
+
+
+
+console.log("formattedTenantReadings",formattedTenantReadings)
+
+
 
 
     return (
         <>
-            {/* {loading && <LoaderComponent />} */}
             <div>
                 <div className="mb-5  mx-4">
 
@@ -206,7 +271,7 @@ const EBTenantOverview = ({ onBack }) => {
                             style={{ gap: "12px" }}
                         >
                             <img
-                                src={roomData.pic}
+                                src={tenant?.profilePic || Profile}
                                 alt="Profile"
                                 style={{ width: "60px", height: "60px", borderRadius: "50%" }}
                             />
@@ -221,7 +286,7 @@ const EBTenantOverview = ({ onBack }) => {
                                         fontFamily: "Gilroy",
                                     }}
                                 >
-                                    {roomData.name}
+                                    {tenant?.fullName}
                                     <img src={verify} alt="verify" style={{ marginTop: "-5px" }}></img>
                                 </p>
 
@@ -229,13 +294,21 @@ const EBTenantOverview = ({ onBack }) => {
 
                                     <div className="d-flex align-items-center" style={{ gap: "6px" }}>
                                         <img src={building} height="14" width="14" alt="Floor" />
-                                        <span style={{ color: "Black", fontWeight: 600, fontSize: "14px" }}>
-                                            {roomData.floor}
+                                        <span style={{ color: "Black", fontWeight: 600, fontSize: "14px",fontFamily:"Gilroy" }}>
+                                            {tenant.floorName}
                                         </span>
                                     </div>
 
-                                    <span style={{ fontSize: "14px", fontWeight: 600, color: "black", }}>
-                                        Room No {roomData.roomNo}
+                                    <span style={{ fontSize: "14px", fontWeight: 600, color: "black", marginLeft: 5,fontFamily:"Gilroy"}}>
+
+ <img
+                                            src={Bed}
+                                            height="14"
+                                            width="14"
+                                            style={{ marginRight: 6, marginTop: "-4px" }}
+                                            alt="Bed"
+                                        />
+                                      {tenant.roomName}
                                     </span>
 
                                     <span
@@ -243,7 +316,7 @@ const EBTenantOverview = ({ onBack }) => {
                                             fontSize: "14px",
                                             fontWeight: 600,
                                             color: "black",
-                                            marginLeft: 5,
+                                            marginLeft: 5,fontFamily:"Gilroy"
                                         }}
                                     >
                                         <img
@@ -253,7 +326,7 @@ const EBTenantOverview = ({ onBack }) => {
                                             style={{ marginRight: 6, marginTop: "-4px" }}
                                             alt="Bed"
                                         />
-                                        Bed No {roomData.bedNo}
+                                      {tenant.bedName}
                                     </span>
 
                                 </div>
@@ -318,8 +391,8 @@ const EBTenantOverview = ({ onBack }) => {
                     </div>
                 </div>
 
-                {activeTab === "customer" && (
-                    billingData.length === 0 ? (
+                {activeTab === "room" && (
+                    tenantReadingList?.length === 0 ? (
                         <div style={{ textAlign: "center", marginTop: 40 }}>
                             <img src={emptyimg} width={240} height={240} alt="emptystate" />
                             <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "rgba(75, 75, 75, 1)" }}>
@@ -402,15 +475,15 @@ const EBTenantOverview = ({ onBack }) => {
                     )
                 )}
 
-                {activeTab === "room" && (
-                    billingData.length === 0 ? (
+                {activeTab === "customer" && (
+                    formattedTenantReadings?.length === 0 ? (
                         <div style={{ textAlign: "center", marginTop: 40 }}>
                             <img src={emptyimg} width={240} height={240} alt="emptystate" />
                             <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "rgba(75, 75, 75, 1)" }}>
-                                No Transaction
+                                No Reading
                             </div>
                             <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 14, color: "rgba(75, 75, 75, 1)" }}>
-                                There are no Transaction available.
+                                There are no reading available.
                             </div>
                         </div>
                     ) : (
@@ -463,17 +536,17 @@ const EBTenantOverview = ({ onBack }) => {
                                 </thead>
                                 <tbody style={{ fontSize: 14, color: "#000" }}>
                                     <PaginationList>
-                                        {billingData.map((row, i) => (
-                                            <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px" }}>
+                                        {formattedTenantReadings?.map((row, i) => (
+                                            <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px", fontFamily:"Gilroy" }}>
 
                                                 <td style={{ paddingLeft: "40px" }}>{row.billingMonth}</td>
                                                 <td style={{ paddingLeft: "10px" }}>{row.from}</td>
                                                 <td style={{ paddingLeft: "5px" }}>{row.to}</td>
-                                                <td style={{ paddingLeft: "10px", fontWeight: 600, color: "black" }}>{row.floor}</td>
-                                                <td style={{ paddingLeft: "10px", fontWeight: 600, color: "black" }}>{row.room}</td>
-                                                <td style={{ paddingLeft: "10px", fontWeight: 600, color: "black" }}>{row.bed}</td>
-                                                <td style={{ paddingLeft: "40px", fontWeight: 600, color: "black" }}>{row.units}</td>
-                                                <td style={{ paddingLeft: "25px", fontWeight: 600, color: "black" }}>{row.amount}</td>
+                                                <td style={{ paddingLeft: "10px", }}>{row.floor}</td>
+                                                <td style={{ paddingLeft: "10px",  }}>{row.room}</td>
+                                                <td style={{ paddingLeft: "10px", }}>{row.bed}</td>
+                                                <td style={{ paddingLeft: "40px", }}>{row.totalUnits}</td>
+                                                <td style={{ paddingLeft: "25px",  }}>{row.amount}</td>
 
 
 

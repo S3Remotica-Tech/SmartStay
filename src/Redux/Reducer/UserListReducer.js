@@ -144,7 +144,9 @@ export const initialState = {
     getParticularRoomReadingList: [],
     getparticularRoomReadingStatus: 0,
     getCustomerReadingList: [],
-    getCustomerReadingStatus: 0
+    getCustomerReadingStatus: 0,
+    getParticularCustomerReadingList: [],
+     getParticularCustomerReadingStatus:0
 
 }
 
@@ -180,9 +182,10 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, getCustomerReadingList: action.payload.response, getCustomerReadingStatus: action.payload.statusCode }
         case 'REMOVE_GET_CUSTOMER_READING':
             return { ...state, getCustomerReadingStatus: 0 }
-
-
-
+case 'GET_PARTICULAR_CUSTOMER_READING':
+            return { ...state, getParticularCustomerReadingList: action.payload.response, getParticularCustomerReadingStatus: action.payload.statusCode }
+        case 'REMOVE_GET_PARTICULAR_CUSTOMER_READING':
+            return { ...state, getParticularCustomerReadingStatus: 0 }
         case 'GET_PARTICULAR_ROOM_READING':
             return { ...state, getParticularRoomReadingList: action.payload.response, getparticularRoomReadingStatus: action.payload.statusCode }
         case 'REMOVE_GET_PARTICULAR_ROOM_READING':

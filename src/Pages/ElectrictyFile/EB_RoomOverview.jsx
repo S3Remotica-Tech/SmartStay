@@ -97,8 +97,8 @@ const formattedTenantReadings = tenantReadingList?.map((item) => {
             from: formatDate(item.startDate),
             to: formatDate(item.endDate),
             bed: item.bedName,
-            totalUnits: item.consumption,
-            amount: item.consumption * item.unitPrice,
+            totalUnits: item.totalUnits,
+            amount: item.totalAmount
         };
     });
     
@@ -391,10 +391,10 @@ const formattedTenantReadings = tenantReadingList?.map((item) => {
                                 <tbody style={{ fontSize: 14, color: "#000" }}>
                                     <PaginationList>
                                         {formattedTenantReadings?.map((row, i) => (
-                                            <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px" }}>
+                                            <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px" , fontFamily:"Gilroy"}}>
 
                                                 <td style={{ paddingLeft: "10px", fontWeight: 600, color: "black" }}>
-                                                    <img src={formattedTenantReadings.profilePic ? formattedTenantReadings.profilePic : Ellipse1} alt="" style={{ marginRight: "12px" }} />
+                                                    <img src={formattedTenantReadings.profilePic ? formattedTenantReadings.profilePic : Ellipse1} alt="" style={{ marginRight: "12px" , height:45, width:45}} />
                                                     {row.name}
                                                 </td>
 
@@ -402,8 +402,8 @@ const formattedTenantReadings = tenantReadingList?.map((item) => {
                                                 <td style={{ paddingLeft: "10px" }}>{row.from}</td>
                                                 <td style={{ paddingLeft: "10px" }}>{row.to}</td>
                                                 <td style={{ paddingLeft: "10px" }}>{row.bed}</td>
-                                                <td style={{ paddingLeft: "40px", fontWeight: 600, color: "black" }}>{row.totalUnits}</td>
-                                                <td style={{ paddingLeft: "25px", fontWeight: 600, color: "black" }}>{row.amount}</td>
+                                                <td style={{ paddingLeft: "40px", }}>{row.totalUnits}</td>
+                                                <td style={{ paddingLeft: "25px", }}>{row.amount}</td>
 
                                             </tr>
                                         ))}
