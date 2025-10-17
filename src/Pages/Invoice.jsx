@@ -2955,7 +2955,7 @@ console.log("invoiceList.transaction",invoiceList.transaction)
 {
   showPdfModal  &&
   <>
-   {(value === "1" || value === "3") && (
+   {value === "1"&& (
                    
                       <Image
                     
@@ -3450,7 +3450,17 @@ console.log("invoiceList.transaction",invoiceList.transaction)
                       />
                     </div>
                   )} */}
-                  {(value === "1" || value === "3") && (!showPdfModal && !showPdfReceiptModal) && (
+                  {value === "1" && !showPdfModal  && (
+    <div >
+                      <Image
+                        src={Filters}
+                        roundedCircle
+                        style={{ height: "50px", width: "50px", marginTop: 18, cursor: "pointer" }}
+                        onClick={handleFilterd}
+                      />
+                    </div>
+)}
+                  {value === "3" && !showPdfReceiptModal  && (
     <div >
                       <Image
                         src={Filters}
