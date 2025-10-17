@@ -50,7 +50,7 @@ export async function RecurrInvoiceamountData(amountdata) {
 }
 
 export async function AddManualInvoiceBill(manualinvoice) {
-  return await AxiosConfig.post('/add_manual_invoice', manualinvoice, { 
+  return await AxiosConfigV2.post(`/v2/bills/manual/${manualinvoice.customerId}`, manualinvoice, { 
     data: manualinvoice
   })
 }

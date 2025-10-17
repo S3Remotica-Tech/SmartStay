@@ -811,7 +811,7 @@ const RoomReadingTable = () => {
                               <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px" }}>
 
                                 <td style={{ paddingLeft: "10px", fontWeight: 600, color: "#1E45E1", cursor: "pointer" }}
-                                  onClick={() => handleTenantsDetailsPage(row.tenant)}>
+                                  onClick={() => handleTenantsDetailsPage(row)}>
                                   <img src={row.profilePic ? row.profilePic : Ellipse1} alt="" style={{ marginRight: "12px" , height:45, width:45 }} />
                                   {row.fullName}
                                 </td>

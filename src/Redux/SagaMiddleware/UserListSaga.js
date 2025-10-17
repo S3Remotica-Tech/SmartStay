@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import {getParticularRoomReading, getCustomerReading,
+import {getParticularCustomerReading, getParticularRoomReading, getCustomerReading,
    cancelBookingGet, bookingToCheckIn, addRoomReading, getRoomReading,
    bookedDetails, availableBedDetailsForDate, checkoutDetailView, customerSaveInfo, CheckIn, GetAllFloor, getParticularHostelList, ConfirmCheckout_Due_Customer, deleteCustomer,
    AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer,
@@ -15,6 +15,41 @@ import {getParticularRoomReading, getCustomerReading,
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+
+function* handleGetParticularCustomerReading(reading) {
+   try {
+      const response = yield call(getParticularCustomerReading, reading.payload)
+
+      if (response.status === 200) {
+         yield put({ type: 'GET_PARTICULAR_CUSTOMER_READING', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      }
+     
+      if (response) {
+         refreshToken(response)
+      }
+   }
+   catch (err) {
+
+      const error = err || {};
+
+      yield put({
+         type: 'NETWORK_ERROR',
+         payload:
+            error?.code === 'ERR_NETWORK'
+               ? 'Network error occurred'
+               : error?.message || 'Something went wrong',
+      });
+   }
+
+
+}
+
+
+
+
+
+
 
 function* handleGetCustomerReading(reading) {
    try {
@@ -2474,6 +2509,7 @@ function* handleCheckoutProfile(action) {
 
 function* UserListSaga() {
    yield takeEvery('GETCUSTOMERREADING', handleGetCustomerReading)
+   yield takeEvery('GETPARTICULARCUSTOMERREADING',handleGetParticularCustomerReading)
     yield takeEvery('GETPARTICULARROOMREADING', handleGetParticularRoomReading)
    yield takeEvery('GETROOMREADING', handleGetRoomReading)
    yield takeEvery('BOOKINGTOCHECKIN', handleBookingToCheckIn)
