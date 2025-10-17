@@ -53,7 +53,7 @@ import Swal from 'sweetalert2';
 import PaginationList from "../Components/PaginationList";
 import ErrorMessage from '../Components/ErrorMessage'
 import { useHasPermission } from '../Utils/Permission';
-
+import { HiMiniBars3BottomLeft } from "react-icons/hi2";
 
 
 
@@ -2011,7 +2011,7 @@ const InvoicePage = () => {
     }
 
     if (newValue === "3") {
-       setDownloadInvoice(false)
+      setDownloadInvoice(false)
       setReceiptLoader(true);
       dispatch({ type: "RECEIPTSLIST", payload: hostelId });
     }
@@ -2899,6 +2899,7 @@ const InvoicePage = () => {
   }, [state.createAccount?.networkError])
 
 
+  const [showSearchFilter, setShowSearchFilter] = useState(false);
 
 
 
@@ -2923,15 +2924,16 @@ const InvoicePage = () => {
           >
             <div
               className="container-fluid sticky-top bg-white "
-              style={{ zIndex: 1000,  paddingLeft: 8, paddingRight: 6, backgroundColor: "#ffffff" ,
-                  borderBottom: !DownloadInvoice ? "none": "1px solid #E0E0E0",
-              height: "50px",
-              boxShadow: "initial",
+              style={{
+                zIndex: 1000, paddingLeft: 8, paddingRight: 6, backgroundColor: "#ffffff",
+                borderBottom: !DownloadInvoice ? "none" : "1px solid #E0E0E0",
+                height: "50px",
+                boxShadow: "initial",
               }}
             >
               <div className="d-flex justify-content-between align-items-center flex-wrap">
                 <div className=" ms-3 " style={{
-                  marginTop:DownloadInvoice ? 0 : 12, 
+                  marginTop: DownloadInvoice ? 0 : 12,
                 }}>
                   <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Bills</label>
                 </div>
@@ -2939,433 +2941,464 @@ const InvoicePage = () => {
                 <div >
                   {showLoader && <LoaderComponent />}
                   {loading && <LoaderComponent />}
-                  <div className="d-flex flex-wrap align-items-center gap-2" style={{  paddingLeft: 25 }}>
-                    {search ? (
+                  <div className="d-flex flex-wrap align-items-center gap-2" style={{ paddingLeft: 25 }}>
+                    {DownloadInvoice && (
+                      <div className="d-flex align-items-center mt-1" style={{}}>
+                        <button
+                          onClick={() => setShowSearchFilter(!showSearchFilter)}
+                          style={{
+                            fontFamily: "Gilroy",
+                            fontWeight: 600,
+                            fontSize: "0.9rem",
+                            borderRadius: 8,
+                            padding: "10px 12px",
+                            backgroundColor: "#9C9C9C26",
+                            border: "none",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 8,
+                            cursor: "pointer",
+                            transition: "all 0.3s ease",
+                            color: showSearchFilter ? "#1E45E1" : "#000",
+                            
+                          }}
+                          onMouseEnter={(e) => (e.target.style.backgroundColor = "#e6e6e6")}
+                          onMouseLeave={(e) => (e.target.style.backgroundColor = "#9C9C9C26")}
+                        >
+                          <HiMiniBars3BottomLeft size={20} color="#000" />
+
+                        </button>
+
+                      </div>
+                    )}
+                    {(!DownloadInvoice || showSearchFilter) && (
                       <>
-                        <div className="position-relative" style={{ minWidth: 160, maxWidth: 250, }}>
+                        {search ? (
+                          <>
+                            <div className="position-relative" style={{ minWidth: 160, maxWidth: 250, }}>
 
 
-                          <div
-                            className="input-group"
-                            style={{ marginRight: 20, paddingTop: "25px" }}
-                          >
-                            <span className="input-group-text bg-white border-end-0">
+                              <div
+                                className="input-group"
+                                style={{ marginRight: 20, paddingTop: "25px" }}
+                              >
+                                <span className="input-group-text bg-white border-end-0" onMouseEnter={(e) => (e.target.style.backgroundColor = "#e6e6e6")}>
+                                  <Image
+                                    src={searchteam}
+                                    style={{
+                                      height: 20, width: 20, cursor: canReadInvoice ? "pointer" : "not-allowed",
+                                      opacity: canReadInvoice ? 1 : 0.4,
+                                      pointerEvents: canReadInvoice ? "auto" : "none",
+                                      transition: "opacity 0.3s ease"
+                                    }}
+                                  />
+                                </span>
+                                <input
+                                  type="text"
+                                  className="form-control border-start-0"
+                                  placeholder="Search"
+                                  style={{
+                                    boxShadow: "none",
+                                    outline: "none",
+                                    borderColor: "rgb(207,213,219)",
+                                    borderRight: "none",
+                                    fontFamily: "Gilroy",
+                                  }}
+                                  value={filterInput}
+                                  onChange={(e) => handlefilterInput(e)}
+                                  disabled={!canReadInvoice || !canReadReceipt || !canReadRecurring}
+                                />
+                                <span className="input-group-text bg-white border-start-0">
+                                  <img
+                                    src={closecircle}
+                                    alt="close"
+                                    onClick={handleCloseSearch}
+                                    style={{ height: 20, width: 20, cursor: "pointer" }}
+                                  />
+                                </span>
+                              </div>
+
+
+                              {value === "1" &&
+                                isDropdownVisible &&
+                                bills?.length > 0 && (
+                                  <div
+                                    style={{
+                                      border: "1px solid #d9d9d9",
+                                      position: "absolute",
+                                      top: 80,
+                                      left: 0,
+                                      zIndex: 1000,
+                                      padding: 10,
+                                      borderRadius: 8,
+                                      backgroundColor: "#fff",
+                                      width: "100%",
+                                    }}
+                                  >
+                                    <ul
+                                      className="show-scroll p-0"
+                                      style={{
+                                        listStyleType: "none",
+                                        maxHeight: 174,
+                                        minHeight: bills?.length > 1 ? "50px" : "auto",
+                                        overflowY: bills?.length > 3 ? "auto" : "hidden",
+                                        margin: 0,
+                                      }}
+                                    >
+                                      {bills
+                                        ?.filter(
+                                          (item, index, self) =>
+                                            index === self.findIndex((t) => t.Name === item.Name)
+                                        )
+                                        .map((user, index) => (
+                                          <li
+                                            key={index}
+                                            className="d-flex align-items-center me-1"
+                                            style={{
+                                              padding: "10px 5px",
+                                              cursor: "pointer",
+                                              fontFamily: "Gilroy",
+                                              borderRadius: 8,
+                                              borderBottom:
+                                                index !== bills?.length - 1
+                                                  ? "1px solid #eee"
+                                                  : "none",
+                                              backgroundColor:
+                                                hoveredIndex === index ? "#1E45E1" : "transparent",
+                                              color: hoveredIndex === index ? "white" : "black",
+                                            }}
+                                            onClick={() => handleUserSelect(user)}
+                                            onMouseEnter={() => setHoveredIndex(index)}
+                                            onMouseLeave={() => setHoveredIndex(null)}
+                                          >
+                                            <Image
+                                              src={user.profile || Profile}
+                                              alt={user.Name}
+                                              roundedCircle
+                                              style={{
+                                                height: "30px",
+                                                width: "30px",
+                                                marginRight: "10px",
+                                              }}
+                                              onError={(e) => {
+                                                e.target.onerror = null;
+                                                e.target.src = Profile;
+                                              }}
+                                            />
+                                            <span>{user.Name}</span>
+                                          </li>
+                                        ))}
+                                    </ul>
+                                  </div>
+                                )}
+
+                              {value === "2" && isDropdownVisible && recurringbills?.length > 0 && (
+                                <div
+                                  style={{
+                                    border: "1px solid #d9d9d9 ",
+                                    position: "absolute",
+                                    top: 80,
+                                    left: 0,
+                                    zIndex: 9999,
+                                    padding: 10,
+                                    borderRadius: 8,
+                                    backgroundColor: "#fff",
+                                    width: "100%",
+                                    pointerEvents: "auto",
+                                  }}
+                                >
+                                  <ul
+                                    className="show-scroll p-0"
+                                    style={{
+                                      backgroundColor: "#fff",
+                                      borderRadius: "4px",
+                                      minHeight: 50,
+                                      maxHeight: recurringbills?.length > 1 ? "174px" : "auto",
+                                      overflowY: recurringbills?.length > 1 ? "auto" : "hidden",
+                                      margin: "0",
+                                      listStyleType: "none",
+                                      boxSizing: "border-box",
+                                    }}
+                                  >
+                                    {recurringbills?.length === 0 ? (
+                                      <li style={{ padding: "10px" }}>No results found</li>
+                                    ) : (
+                                      recurringbills
+                                        ?.filter(
+                                          (item, index, self) =>
+                                            index === self.findIndex((t) => t.user_name === item.user_name)
+                                        )
+                                        .map((user, index) => (
+                                          <li
+                                            key={index}
+                                            className="d-flex align-items-center me-1"
+                                            style={{
+                                              cursor: "pointer",
+                                              fontFamily: "Gilroy",
+                                              borderRadius: 8,
+                                              padding: "10px 5px",
+                                              borderBottom:
+                                                index !== recurringbills.length - 1
+                                                  ? "1px solid #eee"
+                                                  : "none",
+                                              backgroundColor:
+                                                hoveredIndex === index ? "#1E45E1" : "transparent",
+                                              color: hoveredIndex === index ? "white" : "black",
+                                            }}
+                                            onClick={(e) => {
+                                              e.preventDefault();
+                                              e.stopPropagation();
+                                              handleUserRecuire(user);
+                                            }}
+                                            onMouseEnter={() => setHoveredIndex(index)}
+                                            onMouseLeave={() => setHoveredIndex(null)}
+                                          >
+                                            <Image
+                                              src={user.profile || Profile}
+                                              alt={user.user_name || "Default Profile"}
+                                              roundedCircle
+                                              style={{ height: "30px", width: "30px", marginRight: "10px" }}
+                                              onError={(e) => {
+                                                e.target.onerror = null;
+                                                e.target.src = Profile;
+                                              }}
+                                            />
+                                            <span>{user.user_name}</span>
+                                          </li>
+                                        ))
+                                    )}
+                                  </ul>
+                                </div>
+                              )}
+
+
+                              {value === "3" &&
+                                isDropdownVisible &&
+                                receiptdata?.length > 0 && (
+                                  <div
+                                    style={{
+                                      border: "1px solid #d9d9d9 ",
+                                      position: "absolute",
+                                      top: 80,
+                                      left: 0,
+                                      zIndex: 9999,
+                                      padding: 10,
+                                      borderRadius: 8,
+                                      backgroundColor: "#fff",
+                                      width: "100%",
+                                      pointerEvents: "auto",
+                                    }}
+                                  >
+                                    <ul
+                                      className="show-scroll p-0"
+                                      style={{
+                                        backgroundColor: "#fff",
+                                        borderRadius: "4px",
+                                        minHeight: 50,
+                                        maxHeight: receiptdata?.length > 1 ? "100px" : "auto",
+                                        overflowY: receiptdata?.length > 3 ? "auto" : "hidden",
+                                        margin: "0",
+                                        listStyleType: "none",
+                                        boxSizing: "border-box",
+                                      }}
+                                    >
+                                      {receiptdata
+                                        ?.filter(
+                                          (item, index, self) =>
+                                            index === self.findIndex((t) => t.Name === item.Name)
+                                        )
+                                        .map((user, index) => {
+                                          const imagedrop = user.profile || Profile;
+                                          return (
+                                            <li
+                                              key={index}
+                                              className="d-flex align-items-center me-1 "
+                                              style={{
+                                                cursor: "pointer",
+                                                fontFamily: "Gilroy",
+                                                borderRadius: 8,
+                                                padding: "10px 5px",
+                                                borderBottom:
+                                                  index !== receiptdata?.length - 1
+                                                    ? "1px solid #eee"
+                                                    : "none",
+                                                backgroundColor:
+                                                  hoveredIndex === index ? "#1E45E1" : "transparent",
+                                                color: hoveredIndex === index ? "white" : "black",
+                                              }}
+                                              onClick={(e) => {
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                                handleUserReceipt(user);
+                                              }}
+                                              onMouseEnter={() => setHoveredIndex(index)}
+                                              onMouseLeave={() => setHoveredIndex(null)}
+                                            >
+                                              <Image
+                                                src={imagedrop}
+                                                alt={user.Name || "Default Profile"}
+                                                roundedCircle
+                                                style={{
+                                                  height: "30px",
+                                                  width: "30px",
+                                                  marginRight: "10px",
+                                                }}
+                                                onError={(e) => {
+                                                  e.target.onerror = null;
+                                                  e.target.src = Profile;
+                                                }}
+                                              />
+                                              <span>{user.Name}</span>
+                                            </li>
+                                          );
+                                        })}
+                                    </ul>
+                                  </div>
+                                )}
+
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <div style={{ marginTop: DownloadInvoice ? 0 : 12 }}>
                               <Image
                                 src={searchteam}
+                                roundedCircle
                                 style={{
-                                  height: 20, width: 20, cursor: canReadInvoice ? "pointer" : "not-allowed",
+                                  height: "24px",
+                                  width: "24px",
+                                  cursor: canReadInvoice ? "pointer" : "not-allowed",
                                   opacity: canReadInvoice ? 1 : 0.4,
                                   pointerEvents: canReadInvoice ? "auto" : "none",
                                   transition: "opacity 0.3s ease"
                                 }}
+                                onClick={handleSearch}
                               />
-                            </span>
-                            <input
-                              type="text"
-                              className="form-control border-start-0"
-                              placeholder="Search"
+                            </div>
+                          </>
+                        )}
+
+                        {(value === "1" || value === "3") && (
+                          <div >
+                            <Image
+                              src={Filters}
+                              roundedCircle
                               style={{
-                                boxShadow: "none",
-                                outline: "none",
-                                borderColor: "rgb(207,213,219)",
-                                borderRight: "none",
-                                fontFamily: "Gilroy",
+                                height: "50px", width: "50px", marginTop: DownloadInvoice ? 0 : 12,
+                                cursor: (canReadInvoice || canReadReceipt || canReadRecurring) ? "pointer" : "not-allowed",
+                                opacity: (canReadInvoice || canReadReceipt || canReadRecurring) ? 1 : 0.4,
+                                pointerEvents: (canReadInvoice || canReadReceipt || canReadRecurring) ? "auto" : "none",
+                                transition: "opacity 0.3s ease"
                               }}
-                              value={filterInput}
-                              onChange={(e) => handlefilterInput(e)}
-                              disabled={!canReadInvoice || !canReadReceipt || !canReadRecurring}
+                              onClick={handleFilterd}
                             />
-                            <span className="input-group-text bg-white border-start-0">
-                              <img
-                                src={closecircle}
-                                alt="close"
-                                onClick={handleCloseSearch}
-                                style={{ height: 20, width: 20, cursor: "pointer" }}
-                              />
-                            </span>
                           </div>
+                        )}
 
-
-                          {value === "1" &&
-                            isDropdownVisible &&
-                            bills?.length > 0 && (
-                              <div
-                                style={{
-                                  border: "1px solid #d9d9d9",
-                                  position: "absolute",
-                                  top: 80,
-                                  left: 0,
-                                  zIndex: 1000,
-                                  padding: 10,
-                                  borderRadius: 8,
-                                  backgroundColor: "#fff",
-                                  width: "100%",
-                                }}
-                              >
-                                <ul
-                                  className="show-scroll p-0"
-                                  style={{
-                                    listStyleType: "none",
-                                    maxHeight: 174,
-                                    minHeight: bills?.length > 1 ? "50px" : "auto",
-                                    overflowY: bills?.length > 3 ? "auto" : "hidden",
-                                    margin: 0,
-                                  }}
-                                >
-                                  {bills
-                                    ?.filter(
-                                      (item, index, self) =>
-                                        index === self.findIndex((t) => t.Name === item.Name)
-                                    )
-                                    .map((user, index) => (
-                                      <li
-                                        key={index}
-                                        className="d-flex align-items-center me-1"
-                                        style={{
-                                          padding: "10px 5px",
-                                          cursor: "pointer",
-                                          fontFamily: "Gilroy",
-                                          borderRadius: 8,
-                                          borderBottom:
-                                            index !== bills?.length - 1
-                                              ? "1px solid #eee"
-                                              : "none",
-                                          backgroundColor:
-                                            hoveredIndex === index ? "#1E45E1" : "transparent",
-                                          color: hoveredIndex === index ? "white" : "black",
-                                        }}
-                                        onClick={() => handleUserSelect(user)}
-                                        onMouseEnter={() => setHoveredIndex(index)}
-                                        onMouseLeave={() => setHoveredIndex(null)}
-                                      >
-                                        <Image
-                                          src={user.profile || Profile}
-                                          alt={user.Name}
-                                          roundedCircle
-                                          style={{
-                                            height: "30px",
-                                            width: "30px",
-                                            marginRight: "10px",
-                                          }}
-                                          onError={(e) => {
-                                            e.target.onerror = null;
-                                            e.target.src = Profile;
-                                          }}
-                                        />
-                                        <span>{user.Name}</span>
-                                      </li>
-                                    ))}
-                                </ul>
-                              </div>
-                            )}
-
-                          {value === "2" && isDropdownVisible && recurringbills?.length > 0 && (
-                            <div
+                        {value === "1" && filterStatus && (
+                          <div
+                            className="me-3"
+                            style={{
+                              border: "1px solid #D4D4D4",
+                              borderRadius: 8,
+                              width: search ? "120px" : "120px",
+                              marginTop: "20px",
+                            }}
+                          >
+                            <Form.Select
+                              disabled={!canReadInvoice}
+                              onChange={(e) => handleStatusFilter(e)}
+                              value={statusfilter}
+                              aria-label="Select Price Range"
+                              className=""
+                              id="statusselect"
                               style={{
-                                border: "1px solid #d9d9d9 ",
-                                position: "absolute",
-                                top: 80,
-                                left: 0,
-                                zIndex: 9999,
-                                padding: 10,
-                                borderRadius: 8,
-                                backgroundColor: "#fff",
-                                width: "100%",
-                                pointerEvents: "auto",
+                                color: "rgba(34, 34, 34, 1)",
+                                fontWeight: 600,
+                                fontFamily: "Gilroy",
+                                cursor: "pointer"
                               }}
                             >
-                              <ul
-                                className="show-scroll p-0"
-                                style={{
-                                  backgroundColor: "#fff",
-                                  borderRadius: "4px",
-                                  minHeight: 50,
-                                  maxHeight: recurringbills?.length > 1 ? "174px" : "auto",
-                                  overflowY: recurringbills?.length > 1 ? "auto" : "hidden",
-                                  margin: "0",
-                                  listStyleType: "none",
-                                  boxSizing: "border-box",
-                                }}
-                              >
-                                {recurringbills?.length === 0 ? (
-                                  <li style={{ padding: "10px" }}>No results found</li>
-                                ) : (
-                                  recurringbills
-                                    ?.filter(
-                                      (item, index, self) =>
-                                        index === self.findIndex((t) => t.user_name === item.user_name)
-                                    )
-                                    .map((user, index) => (
-                                      <li
-                                        key={index}
-                                        className="d-flex align-items-center me-1"
-                                        style={{
-                                          cursor: "pointer",
-                                          fontFamily: "Gilroy",
-                                          borderRadius: 8,
-                                          padding: "10px 5px",
-                                          borderBottom:
-                                            index !== recurringbills.length - 1
-                                              ? "1px solid #eee"
-                                              : "none",
-                                          backgroundColor:
-                                            hoveredIndex === index ? "#1E45E1" : "transparent",
-                                          color: hoveredIndex === index ? "white" : "black",
-                                        }}
-                                        onClick={(e) => {
-                                          e.preventDefault();
-                                          e.stopPropagation();
-                                          handleUserRecuire(user);
-                                        }}
-                                        onMouseEnter={() => setHoveredIndex(index)}
-                                        onMouseLeave={() => setHoveredIndex(null)}
-                                      >
-                                        <Image
-                                          src={user.profile || Profile}
-                                          alt={user.user_name || "Default Profile"}
-                                          roundedCircle
-                                          style={{ height: "30px", width: "30px", marginRight: "10px" }}
-                                          onError={(e) => {
-                                            e.target.onerror = null;
-                                            e.target.src = Profile;
-                                          }}
-                                        />
-                                        <span>{user.user_name}</span>
-                                      </li>
-                                    ))
-                                )}
-                              </ul>
-                            </div>
-                          )}
+                              <option value="All">All</option>
+                              <option value="Unpaid">UnPaid</option>
+                              <option value="Paid">Paid</option>
+                              <option value="date">Date</option>
+                            </Form.Select>
 
+                          </div>
+                        )}
+                        {statusfilter === "date" && value === "1" && (
+                          <div className="mt-4">
+                            <RangePicker
+                              style={{ height: 40, cursor: "pointer" }}
+                              onChange={(dates) => {
+                                if (!dates || dates.length === 0) {
+                                  setStatusfilter("");
+                                  setDateRange([]);
+                                  setStartDate(null);
+                                  setEndDate(null);
+                                } else {
+                                  setDateRange(dates);
+                                  setStartDate(dates[0]);
+                                  setEndDate(dates[1]);
+                                }
+                              }}
+                              value={dateRange}
+                              format="DD-MM-YYYY"
+                              className="w-100"
+                            />
 
-                          {value === "3" &&
-                            isDropdownVisible &&
-                            receiptdata?.length > 0 && (
-                              <div
-                                style={{
-                                  border: "1px solid #d9d9d9 ",
-                                  position: "absolute",
-                                  top: 80,
-                                  left: 0,
-                                  zIndex: 9999,
-                                  padding: 10,
-                                  borderRadius: 8,
-                                  backgroundColor: "#fff",
-                                  width: "100%",
-                                  pointerEvents: "auto",
-                                }}
-                              >
-                                <ul
-                                  className="show-scroll p-0"
-                                  style={{
-                                    backgroundColor: "#fff",
-                                    borderRadius: "4px",
-                                    minHeight: 50,
-                                    maxHeight: receiptdata?.length > 1 ? "100px" : "auto",
-                                    overflowY: receiptdata?.length > 3 ? "auto" : "hidden",
-                                    margin: "0",
-                                    listStyleType: "none",
-                                    boxSizing: "border-box",
-                                  }}
-                                >
-                                  {receiptdata
-                                    ?.filter(
-                                      (item, index, self) =>
-                                        index === self.findIndex((t) => t.Name === item.Name)
-                                    )
-                                    .map((user, index) => {
-                                      const imagedrop = user.profile || Profile;
-                                      return (
-                                        <li
-                                          key={index}
-                                          className="d-flex align-items-center me-1 "
-                                          style={{
-                                            cursor: "pointer",
-                                            fontFamily: "Gilroy",
-                                            borderRadius: 8,
-                                            padding: "10px 5px",
-                                            borderBottom:
-                                              index !== receiptdata?.length - 1
-                                                ? "1px solid #eee"
-                                                : "none",
-                                            backgroundColor:
-                                              hoveredIndex === index ? "#1E45E1" : "transparent",
-                                            color: hoveredIndex === index ? "white" : "black",
-                                          }}
-                                          onClick={(e) => {
-                                            e.preventDefault();
-                                            e.stopPropagation();
-                                            handleUserReceipt(user);
-                                          }}
-                                          onMouseEnter={() => setHoveredIndex(index)}
-                                          onMouseLeave={() => setHoveredIndex(null)}
-                                        >
-                                          <Image
-                                            src={imagedrop}
-                                            alt={user.Name || "Default Profile"}
-                                            roundedCircle
-                                            style={{
-                                              height: "30px",
-                                              width: "30px",
-                                              marginRight: "10px",
-                                            }}
-                                            onError={(e) => {
-                                              e.target.onerror = null;
-                                              e.target.src = Profile;
-                                            }}
-                                          />
-                                          <span>{user.Name}</span>
-                                        </li>
-                                      );
-                                    })}
-                                </ul>
-                              </div>
-                            )}
+                          </div>
+                        )}
 
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <div style={{ marginTop:DownloadInvoice ? 0 : 12}}>
-                          <Image
-                            src={searchteam}
-                            roundedCircle
+                        {value === "3" && filterStatus && (
+                          <div
+                            className="me-3"
                             style={{
-                              height: "24px",
-                              width: "24px",
-                              cursor: canReadInvoice ? "pointer" : "not-allowed",
-                              opacity: canReadInvoice ? 1 : 0.4,
-                              pointerEvents: canReadInvoice ? "auto" : "none",
-                              transition: "opacity 0.3s ease"
+                              border: "1px solid #D4D4D4",
+                              borderRadius: 8,
+                              width: search ? "120px" : "120px",
+                              marginTop: "20px",
                             }}
-                            onClick={handleSearch}
-                          />
-                        </div>
+                          >
+                            <Form.Select
+                              disabled={!canReadReceipt}
+                              onChange={(e) => handleStatusFilterReceipt(e)}
+                              value={statusFilterReceipt}
+                              aria-label="Select Price Range"
+                              className=""
+                              id="statusselect"
+                              style={{
+                                color: "rgba(34, 34, 34, 1)",
+                                fontWeight: 600,
+                                fontFamily: "Gilroy",
+                                cursor: "pointer"
+                              }}
+                            >
+                              <option value="All">All</option>
+                              <option value="Cash">Cash</option>
+                              <option value="UPI">UPI</option>
+                              <option value="Bank">Bank</option>
+                              <option value="Card">Card</option>
+                              <option value="date">Date</option>
+                            </Form.Select>
+                          </div>
+                        )}
+
+                        {statusFilterReceipt === "date" && value === "3" && (
+                          <div className="me-3 mt-3">
+                            <RangePicker
+                              value={receiptDateRange}
+                              format="YYYY-MM-DD"
+                              onChange={handleDateRangeChangeReceipt}
+                              style={{ height: "38px", borderRadius: 8, cursor: "pointer" }}
+                              allowClear
+                            />
+                          </div>
+                        )}
+
                       </>
                     )}
-
-                    {(value === "1" || value === "3") && (
-                      <div >
-                        <Image
-                          src={Filters}
-                          roundedCircle
-                          style={{
-                            height: "50px", width: "50px", marginTop:DownloadInvoice ? 0 : 12,
-                            cursor: (canReadInvoice || canReadReceipt || canReadRecurring) ? "pointer" : "not-allowed",
-                            opacity: (canReadInvoice || canReadReceipt || canReadRecurring) ? 1 : 0.4,
-                            pointerEvents: (canReadInvoice || canReadReceipt || canReadRecurring) ? "auto" : "none",
-                            transition: "opacity 0.3s ease"
-                          }}
-                          onClick={handleFilterd}
-                        />
-                      </div>
-                    )}
-
-                    {value === "1" && filterStatus && (
-                      <div
-                        className="me-3"
-                        style={{
-                          border: "1px solid #D4D4D4",
-                          borderRadius: 8,
-                          width: search ? "120px" : "120px",
-                          marginTop: "20px",
-                        }}
-                      >
-                        <Form.Select
-                          disabled={!canReadInvoice}
-                          onChange={(e) => handleStatusFilter(e)}
-                          value={statusfilter}
-                          aria-label="Select Price Range"
-                          className=""
-                          id="statusselect"
-                          style={{
-                            color: "rgba(34, 34, 34, 1)",
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
-                            cursor: "pointer"
-                          }}
-                        >
-                          <option value="All">All</option>
-                          <option value="Unpaid">UnPaid</option>
-                          <option value="Paid">Paid</option>
-                          <option value="date">Date</option>
-                        </Form.Select>
-
-                      </div>
-                    )}
-                    {statusfilter === "date" && value === "1" && (
-                      <div className="mt-4">
-                        <RangePicker
-                          style={{ height: 40, cursor: "pointer" }}
-                          onChange={(dates) => {
-                            if (!dates || dates.length === 0) {
-                              setStatusfilter("");
-                              setDateRange([]);
-                              setStartDate(null);
-                              setEndDate(null);
-                            } else {
-                              setDateRange(dates);
-                              setStartDate(dates[0]);
-                              setEndDate(dates[1]);
-                            }
-                          }}
-                          value={dateRange}
-                          format="DD-MM-YYYY"
-                          className="w-100"
-                        />
-
-                      </div>
-                    )}
-
-                    {value === "3" && filterStatus && (
-                      <div
-                        className="me-3"
-                        style={{
-                          border: "1px solid #D4D4D4",
-                          borderRadius: 8,
-                          width: search ? "120px" : "120px",
-                          marginTop: "20px",
-                        }}
-                      >
-                        <Form.Select
-                          disabled={!canReadReceipt}
-                          onChange={(e) => handleStatusFilterReceipt(e)}
-                          value={statusFilterReceipt}
-                          aria-label="Select Price Range"
-                          className=""
-                          id="statusselect"
-                          style={{
-                            color: "rgba(34, 34, 34, 1)",
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
-                            cursor: "pointer"
-                          }}
-                        >
-                          <option value="All">All</option>
-                          <option value="Cash">Cash</option>
-                          <option value="UPI">UPI</option>
-                          <option value="Bank">Bank</option>
-                          <option value="Card">Card</option>
-                          <option value="date">Date</option>
-                        </Form.Select>
-                      </div>
-                    )}
-
-                    {statusFilterReceipt === "date" && value === "3" && (
-                      <div className="me-3 mt-3">
-                        <RangePicker
-                          value={receiptDateRange}
-                          format="YYYY-MM-DD"
-                          onChange={handleDateRangeChangeReceipt}
-                          style={{ height: "38px", borderRadius: 8, cursor: "pointer" }}
-                          allowClear
-                        />
-                      </div>
-                    )}
-
-
-
                     <div className="text-center" style={{ paddingRight: 18 }} >
                       {value === "1" && (
                         <Button className="d-flex justify-content-center"
@@ -3378,10 +3411,10 @@ const InvoicePage = () => {
                             color: "white",
                             fontWeight: 600,
                             borderRadius: "8px",
-                            padding: DownloadInvoice ? "6px 12px": "11px 12px",
-                            marginTop:DownloadInvoice ? 0 : 12,
-                                                       whiteSpace: "nowrap",
-                            minWidth:DownloadInvoice ? "50px": "150px", 
+                            padding: DownloadInvoice ? "6px 12px" : "11px 12px",
+                            marginTop: DownloadInvoice ? 0 : 12,
+                            whiteSpace: "nowrap",
+                            minWidth: DownloadInvoice ? "50px" : "150px",
                             textAlign: "center",
                           }}
                         >
@@ -3430,7 +3463,7 @@ const InvoicePage = () => {
                   zIndex: 1000,
                   backgroundColor: search ? undefined : "#FFFFFF",
                   height: "auto",
-                  marginBottom:10
+                  marginBottom: 10
                 }}
               >
                 <Box
