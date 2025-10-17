@@ -1813,7 +1813,7 @@ const canWriteTenant = useHasPermission("Customers", "canWrite")
     if (state.UsersList.customerdetails) {
       setAdvanceDetail(state.UsersList.customerdetails);
     }
-  }, [state.UsersList.customerdetails.data]);
+  }, [state.UsersList.customerdetails]);
 
 
 
