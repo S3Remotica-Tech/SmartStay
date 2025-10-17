@@ -19,18 +19,18 @@ import PropTypes from "prop-types";
 import './BillPdfModal.css';
 import received from '../Assets/Images/New_images/Received_payment.png'
 import "./Receipt.css";
-import mob from "../Assets/Images/New_images/Rectangle 77.png";
-import substrac from "../Assets/Images/New_images/Subtract.png";
-import frame from "../Assets/Images/New_images/FramePDF.png";
-import mobblue from "../Assets/Images/New_images/Rectangleblue.png";
+// import mob from "../Assets/Images/New_images/Rectangle 77.png";
+// import substrac from "../Assets/Images/New_images/Subtract.png";
+// import frame from "../Assets/Images/New_images/FramePDF.png";
+// import mobblue from "../Assets/Images/New_images/Rectangleblue.png";
 import substracBlue from "../Assets/Images/New_images/location 03.png";
 import frameblue from "../Assets/Images/New_images/Frameblue.png";
 import paidfull from '../Assets/Images/New_images/paidfull.png'
 import { useDispatch, useSelector } from "react-redux";
 import Logo from '../Assets/Images/get.png'
 import receiptLogo from '../Assets/Images/New_images/receiptlogo.png';
-import User from '../Assets/Images/user.png'
-import PaymentUser from '../Assets/Images/usertwo.png' 
+// import User from '../Assets/Images/user.png'
+// import PaymentUser from '../Assets/Images/usertwo.png' 
 import Rectangle from '../Assets/Images/New_images/Rectangle.png';
 
 
