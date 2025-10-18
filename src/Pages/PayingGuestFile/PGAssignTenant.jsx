@@ -121,6 +121,17 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
     }
   }, []);
 
+  var toastStyle = {
+      
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center",
+      padding: "10px",
+
+   };
   useEffect(() => {
     if (state.bankingDetails.bankingList.listBanks) {
       if (state.bankingDetails?.bankingList?.listBanks.length === 0 && isTrigger) {
@@ -136,6 +147,33 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
       }, 200);
     }
   }, [state.bankingDetails.bankingList.listBanks]);
+
+
+useEffect(() => {
+  if (state.UsersList?.UnAssignCustomerDetails?.length === 0 && isTrigger) {
+    
+    toast.error(
+              "Please create a new tenant",
+              {
+                 hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+                style: toastStyle
+              });
+              setIsTrigger(false)
+  }
+}, [state.UsersList?.UnAssignCustomerDetails]);
+
+
+
+
+
+
+
+
 
   const bookingcustomerRef = useRef();
   const dateRef = useRef();
@@ -630,6 +668,15 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
     }
 
   }, [state.UsersList.statusCodeForCheckInCustomer])
+
+
+
+
+
+
+
+
+  
 
   return (
     <>
