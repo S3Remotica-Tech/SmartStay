@@ -1579,7 +1579,7 @@ function* handleGetSettingsRecurrringBill(action) {
    const response = yield call(SettingsGetRecurring, action.payload);
 
    if (response.status === 200 || response.data.statusCode === 200) {
-      yield put({ type: 'SETTINGSGETRECURRING', payload: { response: response.data.data, statusCode: response.status || response.statusCode, message: response.data.message } })
+      yield put({ type: 'SETTINGSGETRECURRING', payload: { response: response.data, statusCode: response.status || response.statusCode, message: response.data.message } })
    }
    else if (response.status === 201 || response.data.statusCode === 201) {
       yield put({ type: 'RECURRINGOFF', payload: { statusCode: response.status || response.statusCode } })
