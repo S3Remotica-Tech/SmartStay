@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import {getFinalSettlementList,  CustomerRecurringEnableDisable, UnAssignAmenities, GetAssignAmenities, AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList, RecordPayment, InvoiceSettings, InvoicePDf, GetAmenities, UpdateAmenities, AmenitiesSettings, ManualInvoice, ManualInvoiceUserData, AddManualInvoiceBill, EditManualInvoiceBill, DeleteManualInvoiceBill, ManualInvoiceNumber, GetManualInvoices, RecurrInvoiceamountData, AddRecurringBill, GetRecurrBills, DeleteRecurrBills, InvoiceRecurringsettings, GetReceiptData, AddReceipt, ReferenceIdGet, DeleteReceipt, EditReceipt, ReceiptPDf, AddRecurrBillsUsers, GetBillsPdfDetails, ReceiptPDFNewChanges } from "../Action/InvoiceAction";
+import { getParticularReceiptDetails, getParticularBillsDetails, getFinalSettlementList, CustomerRecurringEnableDisable, UnAssignAmenities, GetAssignAmenities, AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList, RecordPayment, InvoiceSettings, InvoicePDf, GetAmenities, UpdateAmenities, AmenitiesSettings, ManualInvoice, ManualInvoiceUserData, AddManualInvoiceBill, EditManualInvoiceBill, DeleteManualInvoiceBill, ManualInvoiceNumber, GetManualInvoices, RecurrInvoiceamountData, AddRecurringBill, GetRecurrBills, DeleteRecurrBills, InvoiceRecurringsettings, GetReceiptData, AddReceipt, ReferenceIdGet, DeleteReceipt, EditReceipt, ReceiptPDf, AddRecurrBillsUsers, GetBillsPdfDetails, ReceiptPDFNewChanges } from "../Action/InvoiceAction";
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -7,89 +7,135 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function* handleGetFinalSettlementList(action) {
 
-   try{
-       const response = yield call(getFinalSettlementList, action.payload)
+   try {
+      const response = yield call(getFinalSettlementList, action.payload)
 
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'GET_FINAL_SETTLEMENT', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      if (response.status === 200 || response.statusCode === 200) {
+         yield put({ type: 'GET_FINAL_SETTLEMENT', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      }
+
+      if (response) {
+         refreshToken(response)
+      }
    }
-   
-   if (response) {
-      refreshToken(response)
-   }
-   }
-      catch (error) {
+   catch (error) {
       if (error.code === 'ERR_BAD_REQUEST') {
-            yield put({ type: 'NETWORK_ERROR', payload: error.response.data });
+         yield put({ type: 'NETWORK_ERROR', payload: error.response.data });
       } else if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
       }
-      }
-  
+   }
+
 }
 
 
+function* handleGetParticularBillsDetails(action) {
+
+   try {
+      const response = yield call(getParticularBillsDetails, action.payload)
+
+      console.log("response",response)
+
+      if (response.status === 200 || response.statusCode === 200) {
+         yield put({ type: 'GET_PARTICULAR_BILL_DETAILS', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      }
+
+      if (response) {
+         refreshToken(response)
+      }
+   }
+   catch (error) {
+      if (error.code === 'ERR_BAD_REQUEST') {
+         yield put({ type: 'NETWORK_ERROR', payload: error.response.data });
+      } else if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
+
+}
 
 
+function* handleGetParticularReceiptDetails(action) {
 
+   try {
+      const response = yield call(getParticularReceiptDetails, action.payload)
+
+
+      if (response.status === 200 || response.statusCode === 200) {
+         yield put({ type: 'GET_PARTICULAR_RECEIPT_DETAILS', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      }
+
+      if (response) {
+         refreshToken(response)
+      }
+   }
+   catch (error) {
+      if (error.code === 'ERR_BAD_REQUEST') {
+         yield put({ type: 'NETWORK_ERROR', payload: error.response.data });
+      } else if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
+
+}
 
 
 
 function* handleDeleteUser(action) {
 
-   try{
-       const response = yield call(DeleteUser, action.payload)
+   try {
+      const response = yield call(DeleteUser, action.payload)
 
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'DELETE_USER', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
+      if (response.status === 200 || response.statusCode === 200) {
+         yield put({ type: 'DELETE_USER', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
 
-      var toastStyle = {
-         backgroundColor: "#E6F6E6",
-         color: "black",
-         width: "100%",
-         borderRadius: "60px",
-         height: "20px",
-         fontFamily: "Gilroy",
-         fontWeight: 600,
-         fontSize: 14,
-         textAlign: "start",
-         display: "flex",
-         alignItems: "center",
-         padding: "10px",
+         var toastStyle = {
+            backgroundColor: "#E6F6E6",
+            color: "black",
+            width: "100%",
+            borderRadius: "60px",
+            height: "20px",
+            fontFamily: "Gilroy",
+            fontWeight: 600,
+            fontSize: 14,
+            textAlign: "start",
+            display: "flex",
+            alignItems: "center",
+            padding: "10px",
 
-      };
+         };
 
-      toast.success(response.data, {
-         position: "bottom-center",
-         autoClose: 2000,
-         hideProgressBar: true,
-         closeButton: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-         style: toastStyle
-      })
+         toast.success(response.data, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle
+         })
 
 
+      }
+      else {
+         yield put({ type: 'ERROR', payload: response.data.message })
+      }
+      if (response) {
+         refreshToken(response)
+      }
    }
-   else {
-      yield put({ type: 'ERROR', payload: response.data.message })
-   }
-   if (response) {
-      refreshToken(response)
-   }
-   }
-      catch (error) {
+   catch (error) {
       if (error.code === 'ERR_BAD_REQUEST') {
-            yield put({ type: 'NETWORK_ERROR', payload: error.response.data });
+         yield put({ type: 'NETWORK_ERROR', payload: error.response.data });
       } else if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
       }
-      }
-  
+   }
+
 }
 
 function* handleDeleteAmenities(action) {
@@ -314,8 +360,8 @@ function* handleInvoiceList(action) {
 
 function* handleRecordPaymentUpdate(action) {
    try {
-       const {hostelId , invoiceId , data} = action.payload
-      const response = yield call(RecordPayment, hostelId , invoiceId , data )
+      const { hostelId, invoiceId, data } = action.payload
+      const response = yield call(RecordPayment, hostelId, invoiceId, data)
 
       if (response.status === 200 || response.statusCode === 200) {
          yield put({ type: 'RECORD-PAYMENT', payload: { response: response.data, statusCode: response.status || response.statusCode } })
@@ -756,20 +802,20 @@ function* handleManualInvoiceAdd(params) {
             style: toastStyle
          })
       }
-      
+
       if (response) {
          refreshToken(response)
       }
    }
    catch (error) {
-        if (error.code === 'ERR_BAD_REQUEST') {
-           if (error.status === 400 || error.status === 403) {
-                               yield put({ type: 'UNABLE_ADD_INVOICE_DETAILS', payload: error.response.data });
-                        }
-        } else if (error.code === 'ERR_NETWORK') {
-           yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-        }
-     }
+      if (error.code === 'ERR_BAD_REQUEST') {
+         if (error.status === 400 || error.status === 403) {
+            yield put({ type: 'UNABLE_ADD_INVOICE_DETAILS', payload: error.response.data });
+         }
+      } else if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
 }
 
 
@@ -936,29 +982,29 @@ function* handleRecurrBillsAdd(params) {
 
 function* handleGetManualInvoice(action) {
    try {
-   const response = yield call(GetManualInvoices, action.payload)
+      const response = yield call(GetManualInvoices, action.payload)
 
-   if (response.status === 200 || response.data.statusCode === 200) {
-      yield put({ type: 'MANUAL_INVOICES_LIST', payload: { response: response?.data || [], statusCode: response.status || response.data.statusCode } })
+      if (response.status === 200 || response.data.statusCode === 200) {
+         yield put({ type: 'MANUAL_INVOICES_LIST', payload: { response: response?.data || [], statusCode: response.status || response.data.statusCode } })
+      }
+      else if (response.status === 201 || response.statusCode === 201) {
+         yield put({ type: 'NODATA_BILL_LIST', payload: { response: response.message, statusCode: response.status || response.statusCode } })
+      }
+      else {
+         yield put({ type: 'ERROR', payload: response.data.message })
+      }
+      if (response) {
+         refreshToken(response)
+      }
    }
-   else if (response.status === 201 || response.statusCode === 201) {
-      yield put({ type: 'NODATA_BILL_LIST', payload: { response: response.message, statusCode: response.status || response.statusCode } })
-   }
-   else {
-      yield put({ type: 'ERROR', payload: response.data.message })
-   }
-   if (response) {
-      refreshToken(response)
-   }
-}
-catch (error) {
+   catch (error) {
       if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
       } else {
          yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
       }
    }
-   
+
 }
 
 function* handleGetRecurrbills(action) {
@@ -1079,29 +1125,29 @@ function* handleAddInvoiceRecurringSettings(param) {
 function* handleGetReceipts(action) {
 
    try {
-   const response = yield call(GetReceiptData, action.payload)
+      const response = yield call(GetReceiptData, action.payload)
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'RECEIPTS_LIST', payload: { response: response?.data || [], statusCode: response.status || response.statusCode } })
+      if (response.status === 200 || response.statusCode === 200) {
+         yield put({ type: 'RECEIPTS_LIST', payload: { response: response?.data || [], statusCode: response.status || response.statusCode } })
+      }
+      else if (response.status === 400 || response.statusCode === 400) {
+         yield put({ type: 'NODATA_RECEIPTS_LIST', payload: { response: response.message, statusCode: response.status || response.data.statusCode } })
+      }
+      else {
+         yield put({ type: 'ERROR', payload: response.data.message })
+      }
+      if (response) {
+         refreshToken(response)
+      }
    }
-   else if (response.status === 400 || response.statusCode === 400) {
-      yield put({ type: 'NODATA_RECEIPTS_LIST', payload: { response: response.message, statusCode: response.status || response.data.statusCode } })
-   }
-   else {
-      yield put({ type: 'ERROR', payload: response.data.message })
-   }
-   if (response) {
-      refreshToken(response)
-   }
-   }
-     catch (error) {
+   catch (error) {
       if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
       } else {
          yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
       }
    }
-   
+
 
 }
 
@@ -1485,6 +1531,8 @@ function refreshToken(response) {
 
 
 function* InvoiceSaga() {
+   yield takeEvery('GETPARTICULARRECEIPTSDETAILS', handleGetParticularReceiptDetails)
+   yield takeEvery('GETPARTICULARBILLSDETAILS', handleGetParticularBillsDetails)
    yield takeEvery('GETFINALSETTLEMENT', handleGetFinalSettlementList)
    yield takeEvery('INVOICEITEM', handleinvoicelist)
    yield takeEvery('INVOICELIST', handleInvoiceList)

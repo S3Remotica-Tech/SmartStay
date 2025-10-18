@@ -81,15 +81,10 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
   const [billReceipt, setBillReceipt] = useState("")
 
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({ type: 'GET_TEMPLATE_LIST', payload: state.login.selectedHostel_Id })
-    }
-
-  }, [])
+  
 
 
-
+  console.log("state", state.InvoiceList.particularBillsDetails)
 
 
 
@@ -220,21 +215,21 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
     setIsOpen(false);
 
     if (key === "whatsapp") {
-      try {
-        dispatch({
-          type: "SET_TRIGGER_SOURCE",
-          payload: "whatsapp",
-        });
-        dispatch({
-          type: "INVOICEPDF",
-          payload: {
-            id: idforwhats,
-          },
-        });
+      // try {
+      //   dispatch({
+      //     type: "SET_TRIGGER_SOURCE",
+      //     payload: "whatsapp",
+      //   });
+      //   dispatch({
+      //     type: "INVOICEPDF",
+      //     payload: {
+      //       id: idforwhats,
+      //     },
+      //   });
 
-      } catch (error) {
-        console.error("Error sending WhatsApp with PDF:", error);
-      }
+      // } catch (error) {
+      //   console.error("Error sending WhatsApp with PDF:", error);
+      // }
     }
   };
 
@@ -246,7 +241,9 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
 
 
+  const pdfDetails = state.InvoiceList?.particularBillsDetails
 
+  console.log("rowData", rowData)
 
   return (
     <div style={{ position: 'sticky', top: 0, zIndex: 100, background: 'white' }}>
@@ -270,15 +267,15 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                   fontSize: 14, fontWeight: 500, color: "#222222",
                   fontFamily: "Gilroy"
                 }}
-                >#AFHFOHGSJH{rowData?.Invoices === null || rowData?.Invoices === '' ? '0.00' : rowData?.Invoices}
+                >{pdfDetails?.invoiceNumber}
                 </label>
               </div>
 
               <div className="">
-                {rowData?.BalanceDue === 0 ? <span
+                {rowData?.paymentStatus !== "Pending" ? <span
                   style={{
                     fontSize: '10px',
-                    backgroundColor: '#FFF0F0', color: '#000',
+                    backgroundColor: '#D9FFD9', color: '#000',
                     borderRadius: '14px', fontFamily: 'Gilroy', padding: "8px 12px"
                   }}>
                   Paid
@@ -425,20 +422,19 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
 
               <div ref={innerScrollRef}
-                style={{ borderRadius: "8px", backgroundColor: "#FFFFFF" , marginBottom:50,boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.08)",}}
+                style={{ borderRadius: "8px", backgroundColor: "#FFFFFF", marginBottom: 50, boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.08)", }}
               >
 
                 <div className=" p-2 position-relative" style={{
                   borderTopLeftRadius: "8px", borderTopRightRadius: "8px", height: "80px",
-                  // bill_template.template_theme || 'linear-gradient(to right, rgba(18, 50, 180, 1), rgba(72, 104, 234, 1))',
                 }}>
                   <div className="d-flex justify-content-between align-items-center">
                     <div className="d-flex" >
-                      <img src={bill_template?.invoiceLogoUrl ? bill_template?.invoiceLogoUrl : Logo} alt="logo" style={{ height: 64, minWidth: 64, maxWidth: 84, borderRadius: '4px', }} className="me-2 mt-2" />
+                      <img src={pdfDetails?.configurations?.hostelLogo ? pdfDetails?.configurations?.hostelLogo : Logo} alt="logo" style={{ height: 64, minWidth: 64, maxWidth: 84, borderRadius: '4px', }} className="me-2 mt-2" />
 
                       <div >
                         <div style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", marginRight: '20px', color: '#2B2B2B' }}>
-                          {/* {hosteldetails?.name}  */}Sweet Homes
+                          {pdfDetails?.configurations?.hostelName}
                         </div>
                         <div
                           className="d-flex flex-wrap"
@@ -451,7 +447,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                             paddingRight: 100
                           }}
                         >
-                          9, 8th Avenue Rd, Someshwara Nagar, Chennai, Tamilnadu - 600 056
+                           {pdfDetails?.configurations?.address}
                         </div>
 
                       </div>
@@ -462,7 +458,15 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
                       <label style={{ fontSize: 10, fontWeight: 600, fontFamily: "Gilroy", color: "#4B4B4B" }}>Invoice of the Month</label>
 
-                      <label style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy", color: "#16255D" }}>March- Apr 2025</label>
+                      <label style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy", color: "#16255D" }}> {pdfDetails?.invoiceDate
+                        ? new Date(
+                          pdfDetails.invoiceDate.split("/").reverse().join("-")
+                        ).toLocaleDateString("en-US", {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                        })
+                        : ""}</label>
                     </div>
 
                   </div>
@@ -472,7 +476,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                 <div className="container bg-white rounded-bottom  position-relative" style={{ width: "100%", }}>
                   <div className="text-center pt-2 pb-1">
                     <h5 style={{ fontSize: '17px', fontFamily: 'Gilroy', fontWeight: 600, color: '#171717', }}>
-                      {/* {invoice_details.invoice_type === "advance" ? "Security Deposit Invoice" : "Payment Invoice"} */}
+
                       Payment Invoice
                     </h5>
                   </div>
@@ -488,41 +492,69 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                       <div className="mb-1 d-flex align-items-center">
                         <label style={{ fontWeight: 500, width: 90, color: "#4B4B4B", fontSize: 12 }}>Tenant Name:</label>
                         <span style={{ fontWeight: 600, color: "#171717", fontSize: 14 }}>
-                          {/* {userdetails?.name} */}
+                          {pdfDetails?.customerInfo?.fullName}
                         </span>
                       </div>
 
                       <div className="mb-1 d-flex">
                         <label style={{ fontWeight: 500, width: 90, color: "#4B4B4B", fontSize: 12 }}>Mobile No:</label>
                         <span style={{ color: "#171717", fontSize: 14 }}>
-                          {userdetails &&
-                            String(userdetails?.phone)?.slice(
-                              0,
-                              String(userdetails?.phone).length - 10
-                            )}{" "}
-                          {userdetails && String(userdetails?.phone)?.slice(-10)}
+                          {pdfDetails?.customerInfo?.customerMobileNo &&
+                            pdfDetails.customerInfo.customerMobileNo !== "undefined"
+                            ? `+${pdfDetails.customerInfo?.countryCode} ${pdfDetails.customerInfo.customerMobileNo}`
+                            : ""}
                         </span>
                       </div>
 
                       <div className="mb-1 d-flex">
                         <label style={{ fontWeight: 500, width: 90, color: "#4B4B4B", fontSize: 12 }}>Room No:</label>
-                        <span style={{ color: "#171717", fontSize: 14 }}>
-                          {userdetails?.room_name}  {userdetails?.bed_name}
+                        <span style={{ color: "#171717", fontSize: 14 }} className="d-flex align-items-center">
+                          {pdfDetails?.stayInfo?.floorName && (
+                            <>
+                              {pdfDetails.stayInfo.floorName}
+                              <span
+                                style={{
+                                  display: "inline-block",
+                                  width: 2,
+                                  height: 14,
+                                  backgroundColor: "#171717",
+                                  margin: "0 8px",
+                                  verticalAlign: "middle",
+                                  borderRadius: 2
+                                }}
+                              ></span>
+                            </>
+                          )}
+
+                          {pdfDetails?.stayInfo?.roomName && (
+                            <>
+                              {pdfDetails.stayInfo.roomName}
+                              <span
+                                style={{
+                                  display: "inline-block",
+                                  width: 2,
+                                  height: 14,
+                                  backgroundColor: "#171717",
+                                  margin: "0 8px",
+                                  verticalAlign: "middle",
+                                  borderRadius: 2
+                                }}
+                              ></span>
+                            </>
+                          )}
+
+                          {pdfDetails?.stayInfo?.bedName}
                         </span>
+
                       </div>
 
-                      <div className="d-flex">
+                      <div className="d-flex ">
                         <label style={{ fontWeight: 500, width: 90, color: "#4B4B4B", fontSize: 12 }}>Address:</label>
-                        <div>
-                          <div style={{ color: "#171717", fontSize: 14 }}>
-                            {isValid(userdetails?.address) && <>{userdetails.address}, </>}
-                            {isValid(userdetails?.area) && <>{userdetails.area}, </>}
-                            {isValid(userdetails?.city) && <>{userdetails.city}</>}
-                          </div>
-                          <div>
-                            {isValid(userdetails?.state) && <>{userdetails.state} </>}
-                            {isValid(userdetails?.pincode) && <>- {userdetails.pincode}</>}
-                          </div>
+
+                        <div style={{ color: "#171717", fontSize: 14 }} className="ms-5" >
+                          {pdfDetails?.customerInfo?.fullAddress}
+
+
                         </div>
                       </div>
 
@@ -532,16 +564,16 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                       <div className="row">
 
                         <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400, color: '#4B4B4B', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>Invoice :</div>
-                        <div className="col-6 text-start mt-1" style={{ fontSize: '14px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>#{invoice_details?.invoice_id === null || invoice_details?.invoice_id === '' ? '0.00' : invoice_details?.invoice_id}</div>
+                        <div className="col-6 text-start mt-1" style={{ fontSize: '14px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>{pdfDetails?.invoiceNumber}</div>
 
                         <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400, color: '#4B4B4B', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>Invoice Date :</div>
-                        <div className="col-6  text-start mt-1" style={{ fontSize: '14px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>{moment(invoice_details?.invioice_date).format('DD MMM YYYY')}</div>
+                        <div className="col-6  text-start mt-1" style={{ fontSize: '14px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>{pdfDetails?.invoiceDate}</div>
 
                         <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400, color: '#4B4B4B', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>Due date :</div>
-                        <div className="col-6 text-start mt-1" style={{ fontSize: '14px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>{moment(invoice_details?.due_date).format('DD MMM YYYY')}</div>
+                        <div className="col-6 text-start mt-1" style={{ fontSize: '14px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>{pdfDetails?.dueDate}</div>
 
                         <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400, color: '#4B4B4B', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>Joining date :</div>
-                        <div className="col-6  text-start mt-1" style={{ fontSize: '14px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>{moment(userdetails?.joining_date).format('DD MMM YYYY')}</div>
+                        <div className="col-6  text-start mt-1" style={{ fontSize: '14px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>{pdfDetails?.customerInfo?.joiningDate}</div>
 
                       </div>
                     </div>
@@ -572,10 +604,10 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
                       <div className="mb-1">
                         <label style={{ fontSize: "12px", fontWeight: 500, color: "#4B4B4B", fontFamily: "Gilroy", }}>
-                          Account No:
+                          Account No: 
                         </label>{" "}
                         <span style={{ fontSize: "14px", fontWeight: 500, color: "#171717", fontFamily: "Gilroy", }}>
-                          {banking_details?.acc_num}
+                          {pdfDetails?.accountDetails?.accountNo || "N/A"}
                         </span>
                       </div>
 
@@ -583,21 +615,21 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                         <label style={{ fontSize: "12px", fontWeight: 500, color: "#4B4B4B", fontFamily: "Gilroy" }}>
                           IFSC Code:
                         </label>{" "}
-                        <span style={{ fontSize: "14px", fontWeight: 500, color: "#171717", fontFamily: "Gilroy" }}>{banking_details?.ifsc_code}</span>
+                        <span style={{ fontSize: "14px", fontWeight: 500, color: "#171717", fontFamily: "Gilroy" }}> {pdfDetails?.accountDetails?.ifscCode || "N/A"}</span>
                       </div>
 
                       <div className="mb-1">
                         <label style={{ fontSize: "12px", fontWeight: 500, color: "#4B4B4B", fontFamily: "Gilroy" }}>
                           Bank Name:
                         </label>{" "}
-                        <span style={{ fontSize: "14px", fontWeight: 500, color: "#171717", fontFamily: "Gilroy" }}>{banking_details?.bank_name}</span>
+                        <span style={{ fontSize: "14px", fontWeight: 500, color: "#171717", fontFamily: "Gilroy" }}>{pdfDetails?.accountDetails?.bankName || "N/A"}</span>
                       </div>
 
                       <div>
                         <label style={{ fontSize: "12px", fontWeight: 500, color: "#4B4B4B", fontFamily: "Gilroy" }}>
                           UPI Details:
                         </label>{" "}
-                        <span style={{ fontSize: "14px", fontWeight: 500, color: "#171717", fontFamily: "Gilroy" }}>{banking_details?.type}</span>
+                        <span style={{ fontSize: "14px", fontWeight: 500, color: "#171717", fontFamily: "Gilroy" }}>{pdfDetails?.accountDetails?.upiId || "N/A"}</span>
                       </div>
                     </div>
 
@@ -605,9 +637,9 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
                     <div className="col-md-4 d-flex flex-column justify-content-between">
 
-                      <div className="d-flex justify-content-end mb-2">
+                      <div className="d-flex justify-content-center mb-2">
                         <img
-                          src={bill_template?.qr_url ? bill_template?.qr_url : Barcode}
+                          src={pdfDetails?.accountDetails?.qrCode ? pdfDetails?.accountDetails?.qrCode  : Barcode}
                           alt="Barcode"
                           style={{ height: "auto", maxWidth: 150, borderRadius: 2 }}
                           className="img-fluid"
@@ -635,15 +667,14 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                   <div className="col-md-8">
                     <h4 style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600, color: '#4B4B4B' }}>Terms and Conditions</h4>
                     <p style={{ whiteSpace: "pre-line", fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: '#3D3D3D', paddingRight: 50 }}>
-                      {/* {bill_template?.terms_and_condition} */}
-                      Tenants must pay all dues on or before the due date, maintain cleanliness, and follow PG rules; failure may lead to penalties or termination of stay.
+                      {pdfDetails?.configurations?.termAndCondition}
                     </p>
                   </div>
 
                   <div className="col-md-4 d-flex flex-column justify-content-end align-items-end">
-                    {bill_template?.digital_signature_url && (
+                     {pdfDetails?.configurations?.signatureUrl && (
                       <img
-                        src={bill_template?.digital_signature_url}
+                        src={pdfDetails?.configurations?.signatureUrl}
                         alt="Digital Signature" style={{ height: 60, width: 130, paddingLeft: 20 }}
 
                       />
@@ -662,246 +693,190 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                     <label style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600, color: '#3F3F3F' }}>Payment Summary</label>
                   </div>
                   <div className="p-3" style={{ fontFamily: "Gilroy" }}>
-                    <Row style={{border:"1px solid #DFDFDF", borderRadius:8}}>
-                      
+                    <Row style={{ border: "1px solid #DFDFDF", borderRadius: 8 }}>
+
                       <Col md={6} className="p-1">
-                        <Table   responsive className="mb-0">
+                        <Table responsive className="mb-0">
                           <thead>
                             <tr style={{ backgroundColor: "#FFF" }}>
                               <th style={{ fontSize: 12, fontWeight: 600, color: "#222222" }}>DESCRIPTION</th>
-                              <th style={{ fontSize: 12, fontWeight: 600, color: "#222222", textAlign: "right" }}>
+                              <th
+                                style={{
+                                  fontSize: 12,
+                                  fontWeight: 600,
+                                  color: "#222222",
+                                  textAlign: "right",
+                                }}
+                              >
                                 AMOUNT / INR
                               </th>
                             </tr>
                           </thead>
+
                           <tbody>
-                            <tr>
-                              <td style={{ fontSize: 12 , color:"#2D2D2D", fontWeight:500}}>Rental Amount</td>
-                              <td style={{ fontSize: 12, textAlign: "right",fontWeight:600,color:"#2D2D2D" }}>₹ 6,000.00</td>
-                            </tr>
-                            <tr>
-                              <td style={{ fontSize: 12 , color:"#2D2D2D",fontWeight:500}}>EB Bill</td>
-                              <td style={{ fontSize: 12, textAlign: "right",fontWeight:600 ,color:"#2D2D2D"}}>₹ 900.00</td>
-                            </tr>
-                            <tr>
-                              <td style={{ fontSize: 12 , color:"#2D2D2D", fontWeight:500}}>Food</td>
-                              <td style={{ fontSize: 12, textAlign: "right" ,fontWeight:600,color:"#2D2D2D"}}>₹ 2,100.00</td>
-                            </tr>
-                            <tr style={{ backgroundColor: "#FAFBFF", fontWeight: 600, borderTop:"1px solid #DFDFDF" }}>
-                              <td  style={{ fontSize: 14 , color:"#2D2D2D", fontWeight:500}}>Total</td>
-                              <td style={{ textAlign: "right",fontSize: 14, textAlign: "right" ,fontWeight:600,color:"#2D2D2D" }}>₹ 9,000.00</td>
+                            {pdfDetails?.invoiceInfo?.invoiceItems?.map((item, index) => (
+                              <tr key={index}>
+                                <td
+                                  style={{
+                                    fontSize: 12,
+                                    color: "#2D2D2D",
+                                    fontWeight: 500,
+                                  }}
+                                >
+                                  {item.description}
+                                </td>
+                                <td
+                                  style={{
+                                    fontSize: 12,
+                                    textAlign: "right",
+                                    fontWeight: 600,
+                                    color: "#2D2D2D",
+                                  }}
+                                >
+                                  ₹ {Number(item.amount)}
+                                </td>
+                              </tr>
+                            ))}
+
+                            <tr
+                              style={{
+                                backgroundColor: "#FAFBFF",
+                                fontWeight: 600,
+                                borderTop: "1px solid #DFDFDF",
+                              }}
+                            >
+                              <td
+                                style={{
+                                  fontSize: 14,
+                                  color: "#2D2D2D",
+                                  fontWeight: 500,
+                                }}
+                              >
+                                Total
+                              </td>
+                              <td
+                                style={{
+                                  textAlign: "right",
+                                  fontSize: 14,
+                                  fontWeight: 600,
+                                  color: "#2D2D2D",
+                                }}
+                              >
+                                ₹{" "}
+                                {Number(pdfDetails?.invoiceInfo?.subTotal || 0)}
+                              </td>
                             </tr>
                           </tbody>
                         </Table>
+
                       </Col>
 
-                      
+
                       <Col md={6} className="p-1">
-                        <Table  responsive className="mb-0">
+                        <Table responsive className="mb-0">
                           <thead>
                             <tr style={{ backgroundColor: "#FFF" }}>
                               <th style={{ fontSize: 12, fontWeight: 600, color: "#222222" }}>OTHERS</th>
-                              <th style={{ fontSize: 12, fontWeight: 600, color: "#222222", textAlign: "right" }}>
+                              <th
+                                style={{
+                                  fontSize: 12,
+                                  fontWeight: 600,
+                                  color: "#222222",
+                                  textAlign: "right",
+                                }}
+                              >
                                 AMOUNT / INR
                               </th>
                             </tr>
                           </thead>
+
                           <tbody>
-                            <tr>
-                              <td style={{ fontSize: 12 , color:"#2D2D2D", fontWeight:500 }}>GST</td>
-                              <td style={{ fontSize: 12, color:"#2D2D2D", fontWeight:600, textAlign: "right" }}>₹ 300.00</td>
-                            </tr>
-                            <tr style={{ backgroundColor: "#FAFBFF", fontWeight: 600 ,borderTop:"1px solid #DFDFDF" }}>
-                              <td style={{fontSize: 14 , color:"#2D2D2D", fontWeight:500}}>Total</td>
-                              <td style={{ textAlign: "right",fontSize: 14, textAlign: "right" ,fontWeight:600,color:"#2D2D2D" }}>₹ 300.00</td>
+                           
+                            {pdfDetails?.invoiceInfo?.taxAmount > 0 && (
+                              <tr>
+                                <td
+                                  style={{
+                                    fontSize: 12,
+                                    color: "#2D2D2D",
+                                    fontWeight: 500,
+                                  }}
+                                >
+                                  GST ({pdfDetails?.invoiceInfo?.taxPercentage}%)
+                                </td>
+                                <td
+                                  style={{
+                                    fontSize: 12,
+                                    color: "#2D2D2D",
+                                    fontWeight: 600,
+                                    textAlign: "right",
+                                  }}
+                                >
+                                  ₹{" "}
+                                  {Number(pdfDetails?.invoiceInfo?.taxAmount).toLocaleString("en-IN", {
+                                    minimumFractionDigits: 2,
+                                  })}
+                                </td>
+                              </tr>
+                            )}
+
+                                                       <tr
+                              style={{
+                                backgroundColor: "#FAFBFF",
+                                fontWeight: 600,
+                                borderTop: "1px solid #DFDFDF",
+                              }}
+                            >
+                              <td
+                                style={{
+                                  fontSize: 14,
+                                  color: "#2D2D2D",
+                                  fontWeight: 500,
+                                }}
+                              >
+                                Total
+                              </td>
+                              <td
+                                style={{
+                                  textAlign: "right",
+                                  fontSize: 14,
+                                  fontWeight: 600,
+                                  color: "#2D2D2D",
+                                }}
+                              >
+                                ₹{" "}
+                                {Number(pdfDetails?.invoiceInfo?.taxAmount || 0)}
+                              </td>
                             </tr>
                           </tbody>
                         </Table>
+
+
                       </Col>
                     </Row>
 
-                    {/* Grand Total */}
-                  
+
+
                   </div>
 
-                  {/* <div className="d-flex flex-wrap align-items-start mt-1">
-                    {invoice_details?.invoice_type === "manual" && (
-                      <div className="text-start mt-5" style={{ flex: '1 1 0%' }}>
-                        <p className="mb-0" style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(30, 69, 225, 1)' }}>
-                          &quot; {bill_template?.notes} &quot;
-                        </p>
 
-                      </div>
-                    )}
-                    {invoice_details?.invoice_type === "advance" ? (
-
-
-
-
-                      <div className="mt-3 ms-auto" style={{ minWidth: '300px' }}>
-                        <div className="d-flex justify-content-between py-1">
-                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Sub Total</span>
-                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', marginRight: 50 }}>Rs. {billReceipt?.subtotal}</span>
-                        </div>
-
-
-                        {Number(billReceipt?.tax) > 0 && (
-                          <div className="d-flex justify-content-between py-1">
-                            <span
-                              style={{
-                                fontSize: '13px',
-                                fontFamily: 'Gilroy',
-                                fontWeight: 500,
-                                color: 'rgba(23, 23, 23, 1)',
-                              }}
-                            >
-                              Tax({billReceipt?.tax}%)
-                            </span>
-                            <span
-                              className="me-1"
-                              style={{
-                                fontSize: '13px',
-                                fontFamily: 'Gilroy',
-                                fontWeight: 500,
-                                color: 'rgba(23, 23, 23, 1)',
-                                marginRight: 50
-                              }}
-                            >
-                              Rs. {billReceipt?.taxAmount}
-                            </span>
-                          </div>
-                        )}
-
-                        <div className="d-flex justify-content-between fw-bold py-2">
-                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Total Bill Amount </span>
-                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', paddingLeft: 10, marginRight: 50 }}>Rs.{billReceipt?.totalBillAmount}</span>
-                        </div>
-
-                       
-                        {billTransaction?.length > 0 &&
-                          billTransaction.map((item, index) => (
-                            <div
-                              key={index}
-                              className="d-flex justify-content-between fw-bold py-2"
-                            >
-                              <span
-                                style={{
-                                  fontSize: '13px',
-                                  fontFamily: 'Gilroy',
-                                  fontWeight: 600,
-                                  color: 'rgba(23, 23, 23, 1)',
-                                }}
-                              >
-                                
-                                Payment made <p style={{ fontSize: 10 }}>(receiptId:  {item.reference_id}) </p>
-                              </span>
-                              <span
-                                style={{
-                                  fontSize: '13px',
-                                  fontFamily: 'Gilroy',
-                                  fontWeight: 600,
-                                  color: 'red',
-                                  marginRight: 50
-                                }}
-                              >
-                                Rs. {Number(item.amount || 0)}
-                              </span>
-                            </div>
-                          ))}
-
-
-                        <div className="d-flex justify-content-between fw-bold py-2">
-                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>BalanceDue</span>
-                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', marginRight: 50 }}>Rs. {billReceipt.BalanceDueAmount}</span>
-                        </div>
-
-                        <div className="d-flex justify-content-between fw-bold py-2">
-                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Non Refundable</span>
-                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', marginRight: "60px" }}>Rs. {invoice_details?.non_refundable_amount}</span>
-                        </div>
-                        <div className="d-flex justify-content-between fw-bold py-2">
-                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Refundable</span>
-                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', marginRight: "60px" }}>Rs. {invoice_details?.refundable_Amount}</span>
-                        </div>
-                      </div>
-
-                    ) : (
-                      <div className="mt-3 ms-auto" style={{ minWidth: '300px' }}>
-                        <div className="d-flex justify-content-between py-1">
-                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Sub Total</span>
-                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', marginRight: "60px" }}>Rs. {billReceipt.subtotal}</span>
-                        </div>
-                        {Number(billReceipt.tax) > 0 && (
-                          <div className="d-flex justify-content-between py-1">
-                            <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Tax({billReceipt.tax}%)</span>
-                            <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', marginRight: "60px" }}>Rs. {billReceipt.taxAmount}</span>
-                          </div>
-                        )}
-                        <div className="d-flex justify-content-between fw-bold py-2">
-                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Total Bill Amount </span>
-                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', paddingLeft: 10, marginRight: "60px" }}>Rs.{billReceipt.totalBillAmount}</span>
-                        </div>
-
-
-                        {billTransaction?.length > 0 &&
-                          billTransaction.map((item, index) => (
-                            <div
-                              key={index}
-                              className="d-flex justify-content-between fw-bold py-2"
-                            >
-                              <span
-                                style={{
-                                  fontSize: '13px',
-                                  fontFamily: 'Gilroy',
-                                  fontWeight: 600,
-                                  color: 'rgba(23, 23, 23, 1)',
-                                }}
-                              >
-                              
-                                Payment made <p style={{ fontSize: 10 }}>(receiptId: {item.reference_id}) </p>
-                              </span>
-                              <span
-                                style={{
-                                  fontSize: '13px',
-                                  fontFamily: 'Gilroy',
-                                  fontWeight: 600,
-                                  color: 'red',
-                                  marginRight: "60px"
-                                }}
-                              >
-                                Rs. {Number(item.amount || 0)}
-                              </span>
-                            </div>
-                          ))}
-
-
-                        <div className="d-flex justify-content-between fw-bold py-2">
-                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>BalanceDue</span>
-                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', marginRight: "60px" }}>Rs. {billReceipt.BalanceDueAmount}</span>
-                        </div>
-
-
-                      </div>
-                    )}
-
-                  </div> */}
-  <div
-                      className="d-flex justify-content-between align-items-center mt-2 px-4 py-2 border rounded"
-                      style={{
-                        backgroundColor: "#FAFBFF",
-                        fontSize: 13,
-                        fontWeight: 600,
-                      }}
-                    >
-                      <div style={{color:"#4B4B4B",fontSize: 14 ,fontWeight:600, fontFamily:"Gilroy"}}>Grand Total</div>
-                      <div style={{ fontSize: 14, fontWeight: 700 , color:"#1E1E1E",fontFamily:"Gilroy"}}>₹ 9,300.00</div>
-                    </div>
+                  <div
+                    className="d-flex justify-content-between align-items-center mt-2 px-4 py-2 border rounded"
+                    style={{
+                      backgroundColor: "#FAFBFF",
+                      fontSize: 13,
+                      fontWeight: 600,
+                    }}
+                  >
+                    <div style={{ color: "#4B4B4B", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>Grand Total</div>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: "#1E1E1E", fontFamily: "Gilroy" }}>₹{" "}
+                      {Number(pdfDetails?.invoiceInfo?.totalAmount || 0)}</div>
+                  </div>
                   <hr
-        style={{
-          borderTop: "1px solid #D9D9D9",
-          
-        }}
-      />
+                    style={{
+                      borderTop: "1px solid #D9D9D9",
+
+                    }}
+                  />
 
                 </div>
 
@@ -913,8 +888,6 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                   <div
                     className="text-center rounded-bottom d-flex justify-content-center gap-4"
                     style={{
-                      // backgroundColor: 'rgba(48, 80, 210, 1)',
-                      // background: bill_template.template_theme || 'linear-gradient(to right, rgba(18, 50, 180, 1), rgba(72, 104, 234, 1))',
                       borderTopRightRadius: '38px',
                       borderTopLeftRadius: '38px',
                     }}
@@ -930,10 +903,12 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                       }}
                     >
                       email:
-                      <span style={{fontSize: '13px',
+                      <span style={{
+                        fontSize: '13px',
                         fontFamily: 'Gilroy',
                         fontWeight: 600,
-                        color: '#222222',}}>example@gmail.com</span> 
+                        color: '#222222',
+                      }}>{pdfDetails?.emailId}</span>
                     </p>
                     <p
                       className="mb-0"
@@ -944,11 +919,13 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                         color: '#4B4B4B',
                       }}
                     >
-                      Contact: 
-                       <span style={{fontSize: '13px',
+                      Contact:
+                      <span style={{
+                        fontSize: '13px',
                         fontFamily: 'Gilroy',
                         fontWeight: 600,
-                        color: '#222222',}}>+912365987548</span> 
+                        color: '#222222',
+                      }}>{pdfDetails?.mobile && ` + ${pdfDetails?.countryCode} ${pdfDetails?.mobile}`}</span>
                     </p>
                   </div>
                 </div>

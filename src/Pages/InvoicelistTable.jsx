@@ -7,9 +7,11 @@ import Download from '../Assets/Images/New_images/download.png';
 import PropTypes from "prop-types"
 import WriteOffForm from "./InvoiceWriteOff";
 import { useHasPermission } from '../Utils/Permission';
+import { useDispatch, useSelector } from "react-redux";
 
 const InvoiceTable = (props) => {
-
+const state = useSelector((state) => state);
+  const dispatch = useDispatch();
   const [showDots, setShowDots] = useState('')
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
@@ -103,7 +105,13 @@ const handleCloseRefundAmount=()=>{
 
 
   const handleDownload = (item) => {
-    props.DisplayInvoice(true, item)
+        if(item){
+    // dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: item.hostelId, invoiceId: item.invoiceId}})
+   props.DisplayInvoice(true, item)
+}
+   
+
+
   }
 
 
