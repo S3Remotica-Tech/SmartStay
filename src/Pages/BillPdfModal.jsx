@@ -432,9 +432,9 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                     <div className="d-flex" >
                       <img src={pdfDetails?.configurations?.hostelLogo ? pdfDetails?.configurations?.hostelLogo : Logo} alt="logo" style={{ height: 64, minWidth: 64, maxWidth: 84, borderRadius: '4px', }} className="me-2 mt-2" />
 
-                      <div >
+                      <div className="mt-2" >
                         <div style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", marginRight: '20px', color: '#2B2B2B' }}>
-                          {pdfDetails?.configurations?.hostelName}
+                          {pdfDetails?.stayInfo?.hostelName}
                         </div>
                         <div
                           className="d-flex flex-wrap"
@@ -444,7 +444,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                             fontFamily: "Gilroy",
                             color: "#4B4B4B",
                             wordBreak: "break-word",
-                            paddingRight: 100
+                            width:150,
                           }}
                         >
                            {pdfDetails?.configurations?.address}
@@ -455,9 +455,10 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
                     </div>
                     <div>
-
+<div>
                       <label style={{ fontSize: 10, fontWeight: 600, fontFamily: "Gilroy", color: "#4B4B4B" }}>Invoice of the Month</label>
-
+</div>
+  <div>
                       <label style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy", color: "#16255D" }}> {pdfDetails?.invoiceDate
                         ? new Date(
                           pdfDetails.invoiceDate.split("/").reverse().join("-")
@@ -467,6 +468,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                           year: "numeric",
                         })
                         : ""}</label>
+                        </div>
                     </div>
 
                   </div>
@@ -477,7 +479,9 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                   <div className="text-center pt-2 pb-1">
                     <h5 style={{ fontSize: '17px', fontFamily: 'Gilroy', fontWeight: 600, color: '#171717', }}>
 
-                      Payment Invoice
+                     {
+                      pdfDetails?.configurations?.invoiceType === 'Advance' ? "Security Deposit Invoice" : "Payment Invoice"}
+                     
                     </h5>
                   </div>
 

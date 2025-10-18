@@ -10,7 +10,10 @@ import { ArrowSwapHorizontal } from 'iconsax-react';
 import { FaCheck } from "react-icons/fa";
 import { useHasPermission } from '../../../Utils/Permission';
 import Emptystate from "../../../Assets/Images/Empty-State.jpg";
-import ErrorMessage from '../../../Components/ErrorMessage'
+import ErrorMessage from '../../../Components/ErrorMessage';
+import "../../SettingsBills.css"
+
+
 function BillingRule() {
 
 
@@ -53,7 +56,7 @@ function BillingRule() {
 
   useEffect(() => {
     if (state.Settings.SettingsRecurringAddSuccess === 200) {
-      dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostel_id: state.login.selectedHostel_Id } });
+      dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostelId: state.login.selectedHostel_Id } });
       setTimeout(() => {
         dispatch({ type: "CLEAR_SETTINGSADDRECURRING_STATUS_CODE" });
       }, 100);
@@ -62,7 +65,7 @@ function BillingRule() {
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-      dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostel_id: state.login.selectedHostel_Id } });
+      dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostelId: state.login.selectedHostel_Id } });
       setFormLoading(false)
     }
   }, [state.login.selectedHostel_Id]);
@@ -96,15 +99,15 @@ function BillingRule() {
 
 
   useEffect(() => {
-    if (recurringBills.isActive === 1) {
+    if (recurringBills?.billStartDate) {
       setChecked(true)
     }
 
-  }, [recurringBills.isActive, state.login.selectedHostel_Id])
+  }, [recurringBills?.billStartDate, state.login.selectedHostel_Id])
 
 
 
-
+  console.log("recurringBills", recurringBills)
 
   return (
     <div style={{ position: "relative" }}>
@@ -192,7 +195,7 @@ function BillingRule() {
                     >
                       <BsShieldCheck size={24} color="#1E45E1" />
                     </div>
-                    {recurringBills.isActive === 1 ? "" :
+                    {recurringBills.billStartDate ? "" :
                       <div
                         style={{
                           color: "#D12929",
@@ -213,13 +216,65 @@ function BillingRule() {
                   <Card.Text style={{ color: "#6D6D6D", fontSize: 15, fontFamily: "Gilroy", marginBottom: 5 }}>
                     Configure recurring billing for tenants staying long-term
                   </Card.Text>
+                  {recurringBills.billStartDate && (
+                    <div
+                      className="recurring-details"
+                      style={{
+                        backgroundColor: "#F8F9FF",
+                        borderRadius: 10,
+                        padding: "10px 15px",
+                        marginTop: 10,
+                        fontFamily: "Gilroy",
+                      }}
+                    >
+                      <div
+                        className="d-flex justify-content-between mb-2"
+                        style={{ fontSize: 14, color: "#4B4B4B" }}
+                      >
+                        <span>Bill Start Date:</span>
+                        <span style={{ fontWeight: 600, color: "#1E45E1" }}>
+                          {recurringBills.billStartDate}
+                        </span>
+                      </div>
+
+                      <div
+                        className="d-flex justify-content-between mb-2"
+                        style={{ fontSize: 14, color: "#4B4B4B" }}
+                      >
+                        <span>Bill Due Date:</span>
+                        <span style={{ fontWeight: 600, color: "#1E45E1" }}>
+                          {recurringBills.billDueDate}
+                        </span>
+                      </div>
+
+                      <div
+                        className="d-flex justify-content-between mb-2"
+                        style={{ fontSize: 14, color: "#4B4B4B" }}
+                      >
+                        <span>Notice Period:</span>
+                        <span style={{ fontWeight: 600, color: "#1E45E1" }}>
+                          {recurringBills.noticePeriod} days
+                        </span>
+                      </div>
+
+                      <div
+                        className="d-flex justify-content-between"
+                        style={{ fontSize: 14, color: "#4B4B4B" }}
+                      >
+                        <span>Starts From:</span>
+                        <span style={{ fontWeight: 600, color: "#1E45E1" }}>
+                          {recurringBills.startsFrom || "—"}
+                        </span>
+                      </div>
+                    </div>
+                  )}
 
                   {
-                    recurringBills.isActive === 1 ?
+                    recurringBills.billStartDate ?
 
                       <div className="d-flex justify-content-between p-0 align-items-center">
                         <Button
-                          disabled
+                          onClick={handleShowLongStay}
                           style={{
                             marginTop: "10px",
                             fontSize: "14px",
@@ -253,7 +308,7 @@ function BillingRule() {
                       </div>
                       :
                       <Button
-                      disabled={!canWriteRecurring}
+                        disabled={!canWriteRecurring}
                         onClick={handleShowLongStay}
                         style={{
                           marginTop: "10px",
