@@ -2098,6 +2098,7 @@ const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
     setDownloadInvoice(isVisible);
     setShowPdfModal(true);
     setRowData(rowData);
+          setSelectedInvoiceId(rowData.invoiceId);
     if (rowData) {
       dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: rowData.hostelId, invoiceId: rowData.invoiceId } })
 

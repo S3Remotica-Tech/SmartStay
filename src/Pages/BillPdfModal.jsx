@@ -81,12 +81,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
   const [billReceipt, setBillReceipt] = useState("")
 
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({ type: 'GET_TEMPLATE_LIST', payload: state.login.selectedHostel_Id })
-    }
-
-  }, [])
+  
 
 
   console.log("state", state.InvoiceList.particularBillsDetails)
@@ -435,11 +430,11 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                 }}>
                   <div className="d-flex justify-content-between align-items-center">
                     <div className="d-flex" >
-                      <img src={bill_template?.invoiceLogoUrl ? bill_template?.invoiceLogoUrl : Logo} alt="logo" style={{ height: 64, minWidth: 64, maxWidth: 84, borderRadius: '4px', }} className="me-2 mt-2" />
+                      <img src={pdfDetails?.configurations?.hostelLogo ? pdfDetails?.configurations?.hostelLogo : Logo} alt="logo" style={{ height: 64, minWidth: 64, maxWidth: 84, borderRadius: '4px', }} className="me-2 mt-2" />
 
                       <div >
                         <div style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", marginRight: '20px', color: '#2B2B2B' }}>
-                          {/* {hosteldetails?.name}  */}Sweet Homes
+                          {pdfDetails?.configurations?.hostelName}
                         </div>
                         <div
                           className="d-flex flex-wrap"
@@ -452,7 +447,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                             paddingRight: 100
                           }}
                         >
-                          9, 8th Avenue Rd, Someshwara Nagar, Chennai, Tamilnadu - 600 056
+                           {pdfDetails?.configurations?.address}
                         </div>
 
                       </div>
@@ -578,7 +573,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                         <div className="col-6 text-start mt-1" style={{ fontSize: '14px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>{pdfDetails?.dueDate}</div>
 
                         <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400, color: '#4B4B4B', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>Joining date :</div>
-                        <div className="col-6  text-start mt-1" style={{ fontSize: '14px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>pending</div>
+                        <div className="col-6  text-start mt-1" style={{ fontSize: '14px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>{pdfDetails?.customerInfo?.joiningDate}</div>
 
                       </div>
                     </div>
@@ -609,10 +604,10 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
                       <div className="mb-1">
                         <label style={{ fontSize: "12px", fontWeight: 500, color: "#4B4B4B", fontFamily: "Gilroy", }}>
-                          Account No:
+                          Account No: 
                         </label>{" "}
                         <span style={{ fontSize: "14px", fontWeight: 500, color: "#171717", fontFamily: "Gilroy", }}>
-                          {banking_details?.acc_num}
+                          {pdfDetails?.accountDetails?.accountNo || "N/A"}
                         </span>
                       </div>
 
@@ -620,21 +615,21 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                         <label style={{ fontSize: "12px", fontWeight: 500, color: "#4B4B4B", fontFamily: "Gilroy" }}>
                           IFSC Code:
                         </label>{" "}
-                        <span style={{ fontSize: "14px", fontWeight: 500, color: "#171717", fontFamily: "Gilroy" }}>{banking_details?.ifsc_code}</span>
+                        <span style={{ fontSize: "14px", fontWeight: 500, color: "#171717", fontFamily: "Gilroy" }}> {pdfDetails?.accountDetails?.ifscCode || "N/A"}</span>
                       </div>
 
                       <div className="mb-1">
                         <label style={{ fontSize: "12px", fontWeight: 500, color: "#4B4B4B", fontFamily: "Gilroy" }}>
                           Bank Name:
                         </label>{" "}
-                        <span style={{ fontSize: "14px", fontWeight: 500, color: "#171717", fontFamily: "Gilroy" }}>{banking_details?.bank_name}</span>
+                        <span style={{ fontSize: "14px", fontWeight: 500, color: "#171717", fontFamily: "Gilroy" }}>{pdfDetails?.accountDetails?.bankName || "N/A"}</span>
                       </div>
 
                       <div>
                         <label style={{ fontSize: "12px", fontWeight: 500, color: "#4B4B4B", fontFamily: "Gilroy" }}>
                           UPI Details:
                         </label>{" "}
-                        <span style={{ fontSize: "14px", fontWeight: 500, color: "#171717", fontFamily: "Gilroy" }}>{banking_details?.type}</span>
+                        <span style={{ fontSize: "14px", fontWeight: 500, color: "#171717", fontFamily: "Gilroy" }}>{pdfDetails?.accountDetails?.upiId || "N/A"}</span>
                       </div>
                     </div>
 
@@ -642,9 +637,9 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
                     <div className="col-md-4 d-flex flex-column justify-content-between">
 
-                      <div className="d-flex justify-content-end mb-2">
+                      <div className="d-flex justify-content-center mb-2">
                         <img
-                          src={bill_template?.qr_url ? bill_template?.qr_url : Barcode}
+                          src={pdfDetails?.accountDetails?.qrCode ? pdfDetails?.accountDetails?.qrCode  : Barcode}
                           alt="Barcode"
                           style={{ height: "auto", maxWidth: 150, borderRadius: 2 }}
                           className="img-fluid"
@@ -672,15 +667,14 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                   <div className="col-md-8">
                     <h4 style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600, color: '#4B4B4B' }}>Terms and Conditions</h4>
                     <p style={{ whiteSpace: "pre-line", fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: '#3D3D3D', paddingRight: 50 }}>
-                      {/* {bill_template?.terms_and_condition} */}
-                      Tenants must pay all dues on or before the due date, maintain cleanliness, and follow PG rules; failure may lead to penalties or termination of stay.
+                      {pdfDetails?.configurations?.termAndCondition}
                     </p>
                   </div>
 
                   <div className="col-md-4 d-flex flex-column justify-content-end align-items-end">
-                    {bill_template?.digital_signature_url && (
+                     {pdfDetails?.configurations?.signatureUrl && (
                       <img
-                        src={bill_template?.digital_signature_url}
+                        src={pdfDetails?.configurations?.signatureUrl}
                         alt="Digital Signature" style={{ height: 60, width: 130, paddingLeft: 20 }}
 
                       />
