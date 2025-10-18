@@ -105,10 +105,8 @@ const handleCloseRefundAmount=()=>{
 
 
   const handleDownload = (item) => {
-    console.log("itemmmmmmmmm",item)
-    if(item){
-  console.log("clickedddd",item)
-  dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: item.hostelId, invoiceId: item.invoiceId}})
+        if(item){
+    // dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: item.hostelId, invoiceId: item.invoiceId}})
    props.DisplayInvoice(true, item)
 }
    

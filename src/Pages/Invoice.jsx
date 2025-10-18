@@ -88,7 +88,7 @@ const InvoicePage = () => {
     transaction: "",
   });
   const [showSearchFilter, setShowSearchFilter] = useState(false);
-
+const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
 
   const [showLoader, setShowLoader] = useState(false);
   const [statusfilter, setStatusfilter] = useState("");
@@ -178,7 +178,7 @@ const InvoicePage = () => {
   const [room_name, setRoomName] = useState("")
   const [bed_name, setBedName] = useState("")
   const [profile_pic, setProfilePic] = useState(null)
-
+  const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);
   const [activeStay, setActiveStay] = useState("long_stay");
 
 
@@ -198,11 +198,11 @@ const InvoicePage = () => {
 
 
 
-  
+
+  console.log("bills", bills)
 
 
-
-console.log("receiptdata",receiptdata)
+  console.log("receiptdata", receiptdata)
 
 
 
@@ -2057,8 +2057,8 @@ console.log("receiptdata",receiptdata)
 
     if (newValue === "1") {
       setLoading(true);
-       
-     setDownloadReceipt(false);
+
+      setDownloadReceipt(false);
 
       dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
     }
@@ -2066,7 +2066,7 @@ console.log("receiptdata",receiptdata)
     if (newValue === "2") {
       setRecurLoader(true);
       setDownloadInvoice(false)
-          setDownloadReceipt(false)
+      setDownloadReceipt(false)
       dispatch({
         type: "RECURRING-BILLS-LIST",
         payload: { hostel_id: hostelId, stay_type: activeStay },
@@ -2098,7 +2098,10 @@ console.log("receiptdata",receiptdata)
     setDownloadInvoice(isVisible);
     setShowPdfModal(true);
     setRowData(rowData);
+    if (rowData) {
+      dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: rowData.hostelId, invoiceId: rowData.invoiceId } })
 
+    }
     // dispatch({ type: 'BILL_PDF_DETAILS', payload: { bill_id: rowData.id } })
   };
 
@@ -2959,7 +2962,7 @@ console.log("receiptdata",receiptdata)
               className="container-fluid sticky-top bg-white "
               style={{
                 zIndex: 1000, paddingLeft: 8, paddingRight: 6, backgroundColor: "#ffffff",
-                borderBottom: (!DownloadInvoice && !DownloadReceipt )? "none" : "1px solid #E0E0E0",
+                borderBottom: (!DownloadInvoice && !DownloadReceipt) ? "none" : "1px solid #E0E0E0",
                 height: "50px",
                 boxShadow: "initial",
               }}
@@ -3317,7 +3320,7 @@ console.log("receiptdata",receiptdata)
                               src={Filters}
                               roundedCircle
                               style={{
-                                height: "50px", width: "50px", marginTop: DownloadInvoice  || DownloadReceipt ? 0 : 12,
+                                height: "50px", width: "50px", marginTop: DownloadInvoice || DownloadReceipt ? 0 : 12,
                                 cursor: (canReadInvoice || canReadReceipt || canReadRecurring) ? "pointer" : "not-allowed",
                                 opacity: (canReadInvoice || canReadReceipt || canReadRecurring) ? 1 : 0.4,
                                 pointerEvents: (canReadInvoice || canReadReceipt || canReadRecurring) ? "auto" : "none",
@@ -3463,7 +3466,7 @@ console.log("receiptdata",receiptdata)
                           onClick={handleReceiptShow}
 
                           style={{
-                           fontFamily: "Gilroy",
+                            fontFamily: "Gilroy",
                             fontSize: DownloadReceipt ? "16px" : "14px",
                             backgroundColor: "#1E45E1",
                             color: "white",
@@ -3477,7 +3480,7 @@ console.log("receiptdata",receiptdata)
                           }}
                         >
                           {" "}
-                         {DownloadReceipt ? "+ " : "+ Create Receipt"}
+                          {DownloadReceipt ? "+ " : "+ Create Receipt"}
                         </Button>
                       )}
                     </div>
@@ -3684,7 +3687,7 @@ console.log("receiptdata",receiptdata)
                       )}
 
 
-                     
+
 
                       {showform && (
                         <div
@@ -4326,9 +4329,12 @@ console.log("receiptdata",receiptdata)
                                   bills?.map((item) => (
                                     <>
 
-                                      <div
-                                        className="mb-3 bg-white shadow-sm rounded"
-                                        style={{ padding: "12px 16px" }}
+                                      <div key={item.invoiceId}
+                                        className="mb-3  shadow-sm rounded"
+                                        style={{
+                                          padding: "12px 16px", cursor: "pointer",
+                                          backgroundColor: String(selectedInvoiceId) === String(item.invoiceId) ? "#F8F9FF" : "#FFFFFF"
+                                        }}
                                       >
                                         <div className="d-flex align-items-start justify-content-between">
                                           <div>
@@ -4354,18 +4360,19 @@ console.log("receiptdata",receiptdata)
                                                   fontFamily: "Gilroy",
                                                   fontSize: "14px",
                                                   wordWrap: "break-word",
-                                                  color: "#222",
+                                                  color: hoveredInvoiceId === item.invoiceId ? "#1E45E1" : "#222222",
+                                                  textDecoration: "underline",
                                                   fontStyle: "normal",
-                                                  lineHeight: "normal",
+                                                  lineHeight: "normal", 
                                                   fontWeight: 600,
                                                   cursor: "pointer",
                                                 }}
-                                                onClick={() =>
-                                                  handleDisplayInvoiceDownload(
-                                                    true,
-                                                    item
-                                                  )
-                                                }
+                                                onMouseEnter={() => setHoveredInvoiceId(item.invoiceId)}
+                                                onMouseLeave={() => setHoveredInvoiceId(null)}
+                                                onClick={() => {
+                                                  setSelectedInvoiceId(item.invoiceId);
+                                                  handleDisplayInvoiceDownload(true, item);
+                                                }}
                                               >
                                                 {item.fullName}
                                               </div>
@@ -5732,7 +5739,7 @@ console.log("receiptdata",receiptdata)
                                             >Action</th>
                                           </tr>
                                         </thead>
-                                       
+
 
                                         <tbody style={{ fontSize: "10px", minHeight: "200px", position: "relative" }}>
                                           <PaginationList pageSizeOptions={[{ value: 10, label: "10" }, { value: 50, label: "50" }, { value: 100, label: "100" }]}>
@@ -5757,7 +5764,7 @@ console.log("receiptdata",receiptdata)
                                   </div>
                                 )}
 
-                             
+
                               {!receiptLoader && sortedDataReceipt &&
                                 sortedDataReceipt?.length === 0 && (
                                   <div style={{ marginTop: 20 }}>
