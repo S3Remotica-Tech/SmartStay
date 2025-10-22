@@ -46,7 +46,7 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
   const [idforwhats, setIdForWhats] = useState("");
   const [receiptDataNew, setReceiptDataNew] = useState("");
 
-   const AdminDetails = state?.createAccount?.accountList[0]?.user_details
+  //  const AdminDetails = state?.createAccount?.accountList[0]?.user_details
   //  const fullName = `${AdminDetails.first_name} ${AdminDetails.last_name}`.trim();
 
   useEffect(() => {
