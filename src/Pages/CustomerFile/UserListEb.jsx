@@ -8,20 +8,21 @@ import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import Select from "react-select";
 import ErrorMessage from '../../Components/ErrorMessage';
 import { useHasPermission } from '../../Utils/Permission';
-
+import PaginationList from "../../Components/PaginationList";
 
 function UserEb(props) {
   const state = useSelector(state => state)
 
-
+console.log("props",props)
   const dispatch = useDispatch();
 
   const [EbrowsPerPage, setEbrowsPerPage] = useState(4);
   const [EbcurrentPage, setEbCurrentPage] = useState(1);
   const [EbFilterddata, setEbFilterddata] = useState([]);
+   const [tenantReadingList, setTenantreadingList] = useState([])
   const indexOfLastRowEb = EbcurrentPage * EbrowsPerPage;
   const indexOfFirstRowEb = indexOfLastRowEb - EbrowsPerPage;
-  const currentRowsEb = EbFilterddata?.slice(indexOfFirstRowEb, indexOfLastRowEb);
+
   const [selectedHostel, setSelectedHostel] = useState("");
 
   const handleEbPageChange = (EbpageNumber) => {
@@ -54,9 +55,9 @@ const canReadElectricity = useHasPermission("Electricity", "canRead")
 
 
   const sortedData = React.useMemo(() => {
-    if (!sortConfig.key) return currentRowsEb;
+    if (!sortConfig.key) return tenantReadingList;
 
-    const sorted = [...currentRowsEb].sort((a, b) => {
+    const sorted = [...tenantReadingList].sort((a, b) => {
       const valueA = a[sortConfig.key];
       const valueB = b[sortConfig.key];
 
@@ -76,7 +77,7 @@ const canReadElectricity = useHasPermission("Electricity", "canRead")
     });
 
     return sorted;
-  }, [currentRowsEb, sortConfig]);
+  }, [tenantReadingList, sortConfig]);
   
   const handleSort = (key, direction) => {
     setSortConfig({ key, direction });
@@ -91,29 +92,29 @@ const canReadElectricity = useHasPermission("Electricity", "canRead")
 
 
 
+console.log("sortedData",sortedData)
 
 
 
 
+  // useEffect(() => {
+  //   if (selectedHostel) {
+  //     dispatch({
+  //       type: "EB-BILLING-UNIT-LIST",
+  //       payload: selectedHostel ,
+  //     });
+  //   }
 
-  useEffect(() => {
-    if (selectedHostel) {
-      dispatch({
-        type: "EB-BILLING-UNIT-LIST",
-        payload: selectedHostel ,
-      });
-    }
+  // }, [selectedHostel]);
 
-  }, [selectedHostel]);
-
-  useEffect(() => {
-    if (selectedHostel) {
-      dispatch({
-        type: "HOSTELBASEDEBLIST",
-        payload: { hostel_id: selectedHostel },
-      });
-    }
-  }, [selectedHostel]);
+  // useEffect(() => {
+  //   if (selectedHostel) {
+  //     dispatch({
+  //       type: "HOSTELBASEDEBLIST",
+  //       payload: { hostel_id: selectedHostel },
+  //     });
+  //   }
+  // }, [selectedHostel]);
 
 
 
@@ -133,6 +134,69 @@ const canReadElectricity = useHasPermission("Electricity", "canRead")
   useEffect(() => {
     setEbFilterddata(state?.UsersList?.customerdetails?.eb_data)
   }, [state?.UsersList?.customerdetails?.eb_data])
+
+
+
+ useEffect(() => {
+        if (state.login?.selectedHostel_Id && props?.id) {
+            dispatch({
+                type: 'GETPARTICULARCUSTOMERREADING', 
+                payload: {
+                    hostelId: state.login.selectedHostel_Id,
+                    customerId: props?.id
+                }
+            })
+                   }
+
+    }, [])
+
+
+
+useEffect(() => {
+        if (state.UsersList.getParticularCustomerReadingStatus === 200) {
+            // setLoading(false)
+                         setTenantreadingList(state.UsersList?.getParticularCustomerReadingList)
+            setTimeout(() => {
+                dispatch({ type: 'REMOVE_GET_PARTICULAR_CUSTOMER_READING' })
+            }, 100)
+
+        }
+
+    }, [state.UsersList.getParticularCustomerReadingStatus])
+
+const formattedTenantReadings = (tenantReadingList?.electricityHistory || []).map((item) => {
+ 
+  const [day, month, year] = item.startDate.split("/");
+
+  const billingMonth = new Date(`${year}-${month}-01`).toLocaleString("en-US", {
+    month: "long",
+    year: "numeric",
+  });
+
+  
+  const formatDate = (dateStr) => {
+    const [d, m, y] = dateStr.split("/").map(Number);
+    return new Date(y, m - 1, d).toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+    });
+  };
+
+  return {
+    billingMonth,
+    from: formatDate(item.startDate),
+    to: formatDate(item.endDate),
+    floor: item.floorName || tenantReadingList.floorName,
+    room: item.roomName || tenantReadingList.roomName,
+    bed: item.bedName || tenantReadingList.bedName,
+    totalUnits: item.consumption || 0,
+    amount: item.amount || 0,
+    profilePic: tenantReadingList.profilePic || null,
+    tenantName: `${tenantReadingList.firstName || ""} ${tenantReadingList.lastName || ""}`.trim(),
+  };
+});
+
+
   return (
     <>
 
@@ -170,252 +234,76 @@ const canReadElectricity = useHasPermission("Electricity", "canRead")
           
           
           
-          sortedData?.length > 0 ? (
-            <div
-
-              className='show-scrolls'
-              style={{
-
-                height: sortedData?.length >= 6 | sortedData?.length >= 6 ? "240px" : "auto",
-                overflow: "auto",
-                borderTop: "1px solid #E8E8E8",
-                marginBottom: 20,
-                marginTop: "20px",
-                paddingRight: 0,
-                paddingLeft: 0
-              }}
-            >
-              <Table
-                responsive="md"
-                style={{
-                  fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                  top: 0,
-                  zIndex: 1,
-                  borderRadius: 0
-                }}
-              >
-                <thead style={{
-                  fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 12, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                  top: 0,
-                  zIndex: 1
-                }}>
-                  <tr >
-
-                    <th style={{ color: "#939393", fontWeight: 500, fontSize: "12px", fontFamily: "Gilroy", paddingRight: "10px", paddingTop: "10px", paddingBottom: "10px" }}> <div className="d-flex gap-1 align-items-center justify-content-start">
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          gap: "2px",
-                        }}
-                      >
-                        <ArrowUp2
-                          size="10"
-                          variant="Bold"
-                          color="#1E45E1"
-                          onClick={() => handleSort("floor_name", "asc")}
-                          style={{ cursor: "pointer" }}
-                        />
-                        <ArrowDown2
-                          size="10"
-                          variant="Bold"
-                          color="#1E45E1"
-                          onClick={() => handleSort("floor_name", "desc")}
-                          style={{ cursor: "pointer" }}
-                        />
-                      </div>
-                      Floor
-                    </div></th>
-                    <th style={{ color: "#939393", fontWeight: 500, fontSize: "12px", fontFamily: "Gilroy", padding: "10px", paddingLeft: 5 }}> <div className="d-flex gap-1 align-items-center justify-content-start">
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          gap: "2px",
-                        }}
-                      >
-                        <ArrowUp2
-                          size="10"
-                          variant="Bold"
-                          color="#1E45E1"
-                          onClick={() => handleSort("Room_Name", "asc")}
-                          style={{ cursor: "pointer" }}
-                        />
-                        <ArrowDown2
-                          size="10"
-                          variant="Bold"
-                          color="#1E45E1"
-                          onClick={() => handleSort("Room_Name", "desc")}
-                          style={{ cursor: "pointer" }}
-                        />
-                      </div>
-                      Room
-                    </div></th>
-                    <th style={{ color: "#939393", fontWeight: 500, fontSize: "12px", fontFamily: "Gilroy", padding: "10px", whiteSpace: "nowrap" }}> <div className="d-flex gap-1 align-items-center justify-content-start">
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          gap: "2px",
-                        }}
-                      >
-                        <ArrowUp2
-                          size="10"
-                          variant="Bold"
-                          color="#1E45E1"
-                          onClick={() => handleSort("start_meter", "asc")}
-                          style={{ cursor: "pointer" }}
-                        />
-                        <ArrowDown2
-                          size="10"
-                          variant="Bold"
-                          color="#1E45E1"
-                          onClick={() => handleSort("start_meter", "desc")}
-                          style={{ cursor: "pointer" }}
-                        />
-                      </div>
-                      Start Meter
-                    </div></th>
-
-                    <th style={{ color: "#939393", fontWeight: 500, fontSize: "12px", fontFamily: "Gilroy", padding: "10px", whiteSpace: "nowrap" }}> <div className="d-flex gap-1 align-items-center justify-content-start">
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          gap: "2px",
-                        }}
-                      >
-                        <ArrowUp2
-                          size="10"
-                          variant="Bold"
-                          color="#1E45E1"
-                          onClick={() => handleSort("end_meter", "asc")}
-                          style={{ cursor: "pointer" }}
-                        />
-                        <ArrowDown2
-                          size="10"
-                          variant="Bold"
-                          color="#1E45E1"
-                          onClick={() => handleSort("end_meter", "desc")}
-                          style={{ cursor: "pointer" }}
-                        />
-                      </div>
-                      End Meter
-                    </div></th>
-                    <th style={{ color: "#939393", fontWeight: 500, fontSize: "12px", fontFamily: "Gilroy", padding: "10px", textAlign: "start" }}> <div className="d-flex gap-1 align-items-center justify-content-start">
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          gap: "2px",
-                        }}
-                      >
-                        <ArrowUp2
-                          size="10"
-                          variant="Bold"
-                          color="#1E45E1"
-                          onClick={() => handleSort("reading_date", "asc")}
-                          style={{ cursor: "pointer" }}
-                        />
-                        <ArrowDown2
-                          size="10"
-                          variant="Bold"
-                          color="#1E45E1"
-                          onClick={() => handleSort("reading_date", "desc")}
-                          style={{ cursor: "pointer" }}
-                        />
-                      </div>
-                      Date
-                    </div></th>
-                    <th style={{ color: "#939393", fontWeight: 500, fontSize: "12px", fontFamily: "Gilroy", padding: "10px" }}> <div className="d-flex gap-1 align-items-center justify-content-start">
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          gap: "2px",
-                        }}
-                      >
-                        <ArrowUp2
-                          size="10"
-                          variant="Bold"
-                          color="#1E45E1"
-                          onClick={() => handleSort("unit", "asc")}
-                          style={{ cursor: "pointer" }}
-                        />
-                        <ArrowDown2
-                          size="10"
-                          variant="Bold"
-                          color="#1E45E1"
-                          onClick={() => handleSort("unit", "desc")}
-                          style={{ cursor: "pointer" }}
-                        />
-                      </div>
-                      Unit
-                    </div></th>
-                    <th style={{ color: "#939393", fontWeight: 500, fontSize: "12px", fontFamily: "Gilroy", padding: "10px" }}> <div className="d-flex gap-1 align-items-center justify-content-start">
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          gap: "2px",
-                        }}
-                      >
-                        <ArrowUp2
-                          size="10"
-                          variant="Bold"
-                          color="#1E45E1"
-                          onClick={() => handleSort("amount", "asc")}
-                          style={{ cursor: "pointer" }}
-                        />
-                        <ArrowDown2
-                          size="10"
-                          variant="Bold"
-                          color="#1E45E1"
-                          onClick={() => handleSort("amount", "desc")}
-                          style={{ cursor: "pointer" }}
-                        />
-                      </div>
-                      Amount
-                    </div></th>
-
-                  </tr>
-                </thead>
-                <tbody style={{ height: "50px", fontSize: "11px", verticalAlign: 'middle' }}>
-                  {sortedData?.map((u) => {
-                    let Dated = new Date(u.reading_date);
-
-                    let day = Dated.getDate();
-                    let month = Dated.getMonth() + 1;
-                    let year = Dated.getFullYear();
-
-                    let formattedDate = `${day}/${month}/${year}`;
-                    return (
-                      <tr key={u.id} style={{ lineHeight: "20px" }}>
-
-                        <td style={{ fontWeight: 500, fontSize: "13px", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8", paddingTop: 10 }}
-                          className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"  >
-                          <div className="ps-1">{u.floor_name}</div>
-                        </td>
-                        <td style={{ fontWeight: 500, fontSize: "13px", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-4 ps-sm-2 ps-md-3 ps-lg-3" >
-                          <div className="ps-1">{u.Room_Name}</div>
-                        </td>
-                        <td style={{ fontWeight: 500, fontSize: "13px", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 " >₹{u.start_meter}</td>
-                        <td style={{ fontWeight: 500, fontSize: "13px", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 " >{u.end_meter}</td>
-                        <td style={{ borderBottom: "1px solid #E8E8E8" }}> <span style={{ backgroundColor: "#EBEBEB", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "11px", fontWeight: 500, fontFamily: "Gilroy" }} className="ps-4 ps-sm-2 ps-md-3 ps-lg-3" >{formattedDate}</span></td>
-                        <td style={{ fontWeight: 500, fontSize: "13px", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 " >{u.unit}</td>
-                        <td style={{ fontWeight: 500, fontSize: "13px", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 " >{u.amount}</td>
-
-
-                      </tr>
-                    )
-
-                  })}
-
-
-                </tbody>
-              </Table>
-
-            </div>
+          formattedTenantReadings?.length > 0 ? (
+             <div
+                                       className="table-responsive mx-4"
+                                       style={{
+                                           background: "#fff",
+                                           borderRadius: 12,
+                                           boxShadow: "0px 4px 8px rgba(0,0,0,0.05)",
+                                           maxHeight: "420px",
+                                           overflowY: "auto",
+                                       }}
+                                   >
+                                       <Table bordered={false} className="align-middle mb-0">
+                                           <thead
+                                               style={{
+                                                   backgroundColor: "rgba(231, 241, 255, 1)",
+                                                   position: "sticky",
+                                                   top: 0,
+                                                   zIndex: 2,
+                                               }}
+                                           >
+                                               <tr className="text-uppercase">
+                                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                                       BILLING MONTH
+                                                   </th>
+                                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                                       FROM
+                                                   </th>
+                                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                                       TO
+                                                   </th>
+                                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                                       FLOOR
+                                                   </th>
+                                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                                       ROOM
+                                                   </th>
+           
+                                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>
+                                                       BED
+                                                   </th>
+                                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>
+                                                       TOTAL UNITS
+                                                   </th>
+                                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>
+                                                       AMOUNT
+                                                   </th>
+                                               </tr>
+                                           </thead>
+                                           <tbody style={{ fontSize: 14, color: "#000" }}>
+                                               <PaginationList>
+                                                   {formattedTenantReadings?.map((row, i) => (
+                                                       <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px", fontFamily:"Gilroy" }}>
+           
+                                                           <td style={{ paddingLeft: "40px" }}>{row.billingMonth}</td>
+                                                           <td style={{ paddingLeft: "10px" }}>{row.from}</td>
+                                                           <td style={{ paddingLeft: "5px" }}>{row.to}</td>
+                                                           <td style={{ paddingLeft: "10px", }}>{row.floor}</td>
+                                                           <td style={{ paddingLeft: "10px",  }}>{row.room}</td>
+                                                           <td style={{ paddingLeft: "10px", }}>{row.bed}</td>
+                                                           <td style={{ paddingLeft: "40px", }}>{row.totalUnits}</td>
+                                                           <td style={{ paddingLeft: "25px",  }}>{row.amount}</td>
+           
+           
+           
+                                                       </tr>
+                                                   ))}
+                                               </PaginationList>
+                                           </tbody>
+                                       </Table>
+                                   </div>
           ) :
             <div style={{ marginTop: 25 }}>
               <div style={{ textAlign: "center" }}>
@@ -447,130 +335,7 @@ const canReadElectricity = useHasPermission("Electricity", "canRead")
               </div>
             </div>}
         </div>
-        {/* {EbFilterddata?.length > 4 && (
-
-          <nav className="position-fixed bottom-0 end-0 left-0 mb-3 me-3 d-flex justify-content-end align-items-center"
-   style={{backgroundColor:"white", zIndex:1000}}
-          >
-           <div>
-  <Select
-    value={ebOptions.find((opt) => opt.value === EbrowsPerPage)}
-    onChange={handleItemsPerPageChange}
-    options={ebOptions}
-    placeholder="Items per page"
-    classNamePrefix="custom"
-    menuPlacement="auto"
-    noOptionsMessage={() => "No options"}
-    styles={{
-      control: (base) => ({
-        ...base,
-        height: "40px",
-        borderRadius: "6px",
-        fontSize: "14px",
-        color: "#1E45E1",
-        fontFamily: "Gilroy",
-        fontWeight: 600,
-        border: "1px solid #1E45E1",
-        boxShadow: "0 0 0 1px #1E45E1",
-        cursor: "pointer",
-        width: 90,
-      }),
-      menu: (base) => ({
-        ...base,
-        backgroundColor: "#f8f9fa",
-        border: "1px solid #ced4da",
-        fontFamily: "Gilroy",
-      }),
-      menuList: (base) => ({
-        ...base,
-        backgroundColor: "#f8f9fa",
-        maxHeight: "200px",
-        padding: 0,
-        scrollbarWidth: "thin",
-        overflowY: "auto",
-        fontFamily: "Gilroy",
-      }),
-      placeholder: (base) => ({
-        ...base,
-        color: "#555",
-      }),
-      dropdownIndicator: (base) => ({
-        ...base,
-        color: "#1E45E1",
-        cursor: "pointer",
-      }),
-      indicatorSeparator: () => ({
-        display: "none",
-      }),
-      option: (base, state) => ({
-        ...base,
-        cursor: "pointer",
-        backgroundColor: state.isFocused ? "#1E45E1" : "white",
-        color: state.isFocused ? "#fff" : "#000",
-      }),
-    }}
-  />
-</div>
-            <ul
-              style={{
-                display: "flex",
-                alignItems: "center",
-                listStyleType: "none",
-                margin: 0,
-                padding: 0,
-              }}
-            >
-              <li style={{ margin: "0 10px" }}>
-                <button
-                  style={{
-                    padding: "5px",
-                    textDecoration: "none",
-                    color: EbcurrentPage === 1 ? "#ccc" : "#1E45E1",
-                    cursor: EbcurrentPage === 1 ? "not-allowed" : "pointer",
-                    borderRadius: "50%",
-                    display: "inline-block",
-                    minWidth: "30px",
-                    textAlign: "center",
-                    backgroundColor: "transparent",
-                    border: "none",
-                  }}
-                  onClick={() => handleEbPageChange(EbcurrentPage - 1)}
-                  disabled={EbcurrentPage === 1}
-                >
-                  <ArrowLeft2 size="16" color={EbcurrentPage === 1 ? "#ccc" : "#1E45E1"} />
-                </button>
-              </li>
-
-              <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
-                {EbcurrentPage} of {totalPagesEb}
-              </li>
-
-              <li style={{ margin: "0 10px" }}>
-                <button
-                  style={{
-                    padding: "5px",
-                    textDecoration: "none",
-                    color: EbcurrentPage === totalPagesEb ? "#ccc" : "#1E45E1",
-                    cursor: EbcurrentPage === totalPagesEb ? "not-allowed" : "pointer",
-                    borderRadius: "50%",
-                    display: "inline-block",
-                    minWidth: "30px",
-                    textAlign: "center",
-                    backgroundColor: "transparent",
-                    border: "none",
-                  }}
-                  onClick={() => handleEbPageChange(EbcurrentPage + 1)}
-                  disabled={EbcurrentPage === totalPagesEb}
-                >
-                  <ArrowRight2
-                    size="16"
-                    color={EbcurrentPage === totalPagesEb ? "#ccc" : "#1E45E1"}
-                  />
-                </button>
-              </li>
-            </ul>
-          </nav>
-        )} */}
+        
       </div>
     </>
   )

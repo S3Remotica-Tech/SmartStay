@@ -528,7 +528,7 @@ export async function SubscriptionPdfDownload(id) {
 }
 
 export async function SettingsAddRecurring(reccurring) {
-  return await AxiosConfig.post("/add-recuringBill", reccurring, {
+  return await AxiosConfigV2.put(`/v2/hostel/config/billing/${reccurring.hostelId}`, reccurring, {
     data: reccurring,
   });
 }
