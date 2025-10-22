@@ -12,10 +12,10 @@ import Form from 'react-bootstrap/Form';
 import AddAmenities from './AmenitiesFile/AddAmenities';
 import RecurringEnable from './AmenitiesFile/RecurringEnable';
 import AssignAmenities from './AmenitiesFile/AssignAmenities';
-import { ArrowLeft2, ArrowRight2, } from "iconsax-react";
+// import { ArrowLeft2, ArrowRight2, } from "iconsax-react";
 import PropTypes from "prop-types";
 import './SettingsAmentities.css';
-import Select from "react-select";
+// import Select from "react-select";
 import directRight from '../Assets/Images/New_images/direct-right.svg';
 import link2 from '../Assets/Images/New_images/link-2.svg';
 import { useHasPermission } from '../Utils/Permission';
@@ -37,8 +37,8 @@ function SettingAmenities({ hostelid }) {
     const [amenityDetails, setAmenityDetails] = useState('')
     const [switchStates, setSwitchStates] = useState({});
     const [deleteAmenities, setDeleteAmenities] = useState(false)
-    // const [deleteID, setDeleteID] = useState('')
-    // const [assignAmenitiesDetails, setAssignAmenitiesDetails] = useState('')
+    const [deleteID, setDeleteID] = useState('')
+    const [assignAmenitiesDetails, setAssignAmenitiesDetails] = useState('')
     const [loading, setLoading] = useState(false)
     const [amenitiesrowsPerPage, setAmenitiesrowsPerPage] = useState(2);
     const [amenitiesFilterddata, setAmenitiesFilterddata] = useState([]);
@@ -63,10 +63,10 @@ useEffect(() => {
     }, [canReadAmenities]);
 
 
-    // const handleEditAmenities = (amenity) => {
-    //     setEditDetails(amenity)
-    //     setOpenAmenitiesForm(true)
-    // }
+    const handleEditAmenities = (amenity) => {
+        setEditDetails(amenity)
+        setOpenAmenitiesForm(true)
+    }
 
 
 
@@ -163,31 +163,34 @@ useEffect(() => {
     }
 
 
-    // const handleDisplayAssignAmenities = (amenity) => {
-    //     setIsDisplayAssignAmenities(true)
-    //     setAssignAmenitiesDetails(amenity)
-    // }
+    const handleDisplayAssignAmenities = (amenity) => {
+        setIsDisplayAssignAmenities(true)
+        setAssignAmenitiesDetails(amenity)   
+    }
+
     const handleDisplayAssignAmenitiesClose = () => {
         setIsDisplayAssignAmenities(false)
     }
 
 
-    // const handleDeleteAmenities = (amen) => {
-    //     setDeleteID(amen.id)
-    //     setDeleteAmenities(true)
-    // }
+    const handleDeleteAmenities = (amen) => {        
+        setDeleteID(amen.amenityId)
+        setDeleteAmenities(true)
+    }
 
     const handleCloseDeleteFormAmenities = () => {
         setDeleteAmenities(false)
     }
 
 
-    // const handleDeleteAmenitiesConfirm = () => {
-    //     if (deleteID) {
-    //         dispatch({ type: 'DELETEAMENITIES', payload: { am_id: deleteID, hostel_id: state.login.selectedHostel_Id } })
+    const handleDeleteAmenitiesConfirm = () => {
 
-    //     }
-    // }
+        if (deleteID) {
+            dispatch({ type: 'DELETEAMENITIES',
+                 payload: { amenityId: deleteID, hostelId: state.login.selectedHostel_Id } })
+
+        }
+    }
 
     useEffect(() => {
         const initialSwitchStates = amenitiesFilterddata.reduce((acc, amenity) => {
@@ -201,7 +204,12 @@ useEffect(() => {
 
 
     useEffect(() => {
-        dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+
+        const hostelid = state.login.selectedHostel_Id 
+        if(hostelid){
+        dispatch({ type: 'AMENITIESLIST', payload: hostelid })
+        }
+
 
     }, [state.login.selectedHostel_Id])
 
@@ -261,7 +269,10 @@ useEffect(() => {
         if (state.InvoiceList?.statusCode === 200 || state.InvoiceList?.AmenitiesUpdateStatusCode === 200) {
 
             setOpenAmenitiesForm(false)
-            dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+           const hostelid = state.login.selectedHostel_Id 
+        if(hostelid){
+        dispatch({ type: 'AMENITIESLIST', payload: hostelid })
+        }
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_AMENITIES_SETTINS_STATUSCODE' })
             }, 1000)
@@ -284,7 +295,10 @@ useEffect(() => {
 
         if (state.Settings?.addRecurringRole === 200) {
             setIsDisplayRecurring(false)
-            dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+           const hostelid = state.login.selectedHostel_Id 
+        if(hostelid){
+        dispatch({ type: 'AMENITIESLIST', payload: hostelid })
+        }
 
             setTimeout(() => {
                 dispatch({ type: 'REMOVE_RECURRING_ROLE' })
@@ -296,7 +310,10 @@ useEffect(() => {
     useEffect(() => {
         if (state.InvoiceList?.deleteAmenitiesSuccessStatusCode === 200) {
 
-            dispatch({ type: 'AMENITIESLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+          const hostelid = state.login.selectedHostel_Id 
+        if(hostelid){
+        dispatch({ type: 'AMENITIESLIST', payload: hostelid })
+        }
 
             setDeleteAmenities(false)
 
@@ -609,7 +626,7 @@ useEffect(() => {
                                                                     margin: 0,
                                                                 }}
                                                             >
-                                                                {amenity.Amnities_Name}
+                                                                {amenity?.amenityName}
                                                             </label>
                                                         </div>
 
@@ -620,7 +637,7 @@ useEffect(() => {
                                                                 alt="link2"
                                                                 onClick={() => {
                                                                     if (canWriteAmenities || canUpdateAmenities) {
-                                                                        // handleAssignAmenities();
+                                                                        handleDisplayAssignAmenities(amenity);
                                                                     }
                                                                 }}
                                                                 style={{
@@ -676,7 +693,7 @@ useEffect(() => {
 
 
                                                                             <div
-                                                                                // onClick={() => canUpdateAmenities && handleEditAmenities(amenity)}
+                                                                                onClick={() => canUpdateAmenities && handleEditAmenities(amenity)}
                                                                                 className="d-flex gap-2 align-items-center w-100"
                                                                                 style={{
                                                                                     cursor: canUpdateAmenities ? "pointer" : "not-allowed",
@@ -707,7 +724,7 @@ useEffect(() => {
 
 
                                                                             <div
-                                                                                // onClick={() => canDeleteAmenities &&  handleDeleteAmenities(amenity)}
+                                                                                onClick={() => canDeleteAmenities &&  handleDeleteAmenities(amenity)}
                                                                                 className="d-flex gap-2  align-items-center w-100"
                                                                                 style={{
                                                                                     cursor: canDeleteAmenities ? "pointer" : "not-allowed",
@@ -768,7 +785,7 @@ useEffect(() => {
                                                                         paddingRight: 10
                                                                     }}
                                                                 >
-                                                                    ₹{amenity.Amount}<span style={{
+                                                                    ₹{amenity?.amenityAmount}<span style={{
                                                                         fontSize: 16,
                                                                         fontFamily: "Gilroy",
                                                                         fontWeight: 400,
@@ -1080,7 +1097,7 @@ useEffect(() => {
             }
             {
                 IsDisplayAssignAmenities && <AssignAmenities show={IsDisplayAssignAmenities} handleClose={handleDisplayAssignAmenitiesClose} hostelid={hostelid}
-                //  assignAmenitiesDetails={assignAmenitiesDetails}
+                 assignAmenitiesDetails={assignAmenitiesDetails}
                 />
             }
 
@@ -1165,7 +1182,7 @@ useEffect(() => {
                                 fontFamily: "Gilroy",
                                 fontSize: "14px",
                             }}
-                        // onClick={handleDeleteAmenitiesConfirm}
+                        onClick={handleDeleteAmenitiesConfirm}
                         >
                             Delete
                         </Button>
