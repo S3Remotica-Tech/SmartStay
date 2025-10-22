@@ -23,8 +23,8 @@ import "./Receipt.css";
 // import substrac from "../Assets/Images/New_images/Subtract.png";
 // import frame from "../Assets/Images/New_images/FramePDF.png";
 // import mobblue from "../Assets/Images/New_images/Rectangleblue.png";
-import substracBlue from "../Assets/Images/New_images/location 03.png";
-import frameblue from "../Assets/Images/New_images/Frameblue.png";
+// import substracBlue from "../Assets/Images/New_images/location 03.png";
+// import frameblue from "../Assets/Images/New_images/Frameblue.png";
 import paidfull from '../Assets/Images/New_images/Refunded.png'
 import { useDispatch, useSelector } from "react-redux";
 import Logo from '../Assets/Images/get.png'
@@ -47,7 +47,7 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
   const [receiptDataNew, setReceiptDataNew] = useState("");
 
    const AdminDetails = state?.createAccount?.accountList[0]?.user_details
-   const fullName = `${AdminDetails.first_name} ${AdminDetails.last_name}`.trim();
+  //  const fullName = `${AdminDetails.first_name} ${AdminDetails.last_name}`.trim();
 
   useEffect(() => {
     if (state.InvoiceList.statusCodeNewReceiptStatusCode === 200) {
