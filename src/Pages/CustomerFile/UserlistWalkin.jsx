@@ -19,6 +19,7 @@ import ErrorMessage from '../../Components/ErrorMessage'
 import { useHasPermission } from '../../Utils/Permission';
 
 
+
 function UserlistWalkin(props) {
   const state = useSelector((state) => state);
 
@@ -107,22 +108,23 @@ function UserlistWalkin(props) {
     if (state.login.selectedHostel_Id && !calledOnceRef.current) {
       calledOnceRef.current = true;
       setWalkingLoader(true);
-      dispatch({
-        type: "WALKINCUSTOMERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
+       dispatch({
+          type: "USERLIST",
+          payload: { hostel_id: state.login.selectedHostel_Id, type: 'Inactive' },
+        });
+     
     }
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
-    if (state.UsersList.getWalkInStatusCode === 200) {
+    if (state.UsersList?.UserListStatusCode === 200) {
       setWalkingLoader(false);
-      setWalkInCustomer(state.UsersList.WalkInCustomerList);
+      setWalkInCustomer(state.UsersList?.Users);
       setTimeout(() => {
         dispatch({ type: "CLEAR_WALK_IN_STATUS_CODE" });
       }, 1000);
     }
-  }, [state.UsersList.getWalkInStatusCode]);
+  }, [state.UsersList?.UserListStatusCode]);
 
   useEffect(() => {
     if (state.UsersList.NoDataWalkInCustomerStatusCode === 201) {
@@ -137,7 +139,10 @@ function UserlistWalkin(props) {
 
   useEffect(() => {
     if (state.UsersList.deleteWalkInCustomerStatusCode === 200) {
-      dispatch({ type: "WALKINCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id }, });
+      dispatch({
+          type: "USERLIST",
+          payload: { hostel_id: state.login.selectedHostel_Id, type: 'Inactive' },
+        });
       setShowDeleteModal(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_WALK_IN_CUSTOMER" });
@@ -205,88 +210,18 @@ function UserlistWalkin(props) {
     };
   }, [popupRef]);
 
-  //   const [currentPage, setCurrentPage] = useState(1);
-
-  //   const indexOfLastCustomer = currentPage * itemsPerPage;
-  //   const indexOfFirstCustomer = indexOfLastCustomer - itemsPerPage;
-  //   const currentCustomers =
-  //     props.search || props.filterStatus || props.walkinDateRange?.length === 2
-  //       ? props.filteredUsers?.slice(indexOfFirstCustomer, indexOfLastCustomer)
-  //       : walkInCustomer?.slice(indexOfFirstCustomer, indexOfLastCustomer);
-  //   const totalPages = Math.ceil(
-  //     (props.search || props.filterStatus
-  //       ? props.filteredUsers?.length
-  //       : walkInCustomer?.length) / itemsPerPage
-  //   );
-
-  //   const handlePageChange = (pageNumber) => {
-  //     setCurrentPage(pageNumber);
-  //   };
-  //   useEffect(() => {
-  //     if (props.resetPage) {
-  //       setCurrentPage(1);
-  //       props.setResetPage(false);
-  //     }
-  //   }, [props.resetPage]);
-
-  //  const handleItemsPerPageChange = (selectedOption) => {
-  //     setItemsPerPage(Number(selectedOption.value));
-  //     setCurrentPage(1);
-  //   };
-
-  // const pageOptions = [
-  //     { value: 10, label: "10" },
-  //     { value: 50, label: "50" },
-  //     { value: 100, label: "100" },
-  //   ];
+ 
 
 
-  //   const sortedData = React.useMemo(() => {
-  //     if (!sortConfig.key) return currentCustomers;
 
-  //     const sorted = [...currentCustomers].sort((a, b) => {
-  //       const valueA = a[sortConfig.key];
-  //       const valueB = b[sortConfig.key];
-
-  //       if (!isNaN(valueA) && !isNaN(valueB)) {
-  //         return sortConfig.direction === "asc"
-  //           ? valueA - valueB
-  //           : valueB - valueA;
-  //       }
-
-  //       if (typeof valueA === "string" && typeof valueB === "string") {
-  //         return sortConfig.direction === "asc"
-  //           ? valueA.localeCompare(valueB)
-  //           : valueB.localeCompare(valueA);
-  //       }
-
-  //       return 0;
-  //     });
-
-  //     return sorted;
-  //   }, [currentCustomers, sortConfig]);
-
-
-  const currentCustomers = React.useMemo(() => {
-    const useFiltered =
-      props.search || props.filterStatus || props.walkinDateRange?.length === 2;
-
-    return useFiltered ? props.filteredUsers || [] : walkInCustomer || [];
-  }, [
-    props.search,
-    props.filterStatus,
-    props.walkinDateRange,
-    props.filteredUsers,
-    walkInCustomer,
-  ]);
 
 
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
   const sortedData = React.useMemo(() => {
-    if (!sortConfig.key) return currentCustomers;
+    if (!sortConfig.key) return walkInCustomer;
 
-    const sorted = [...currentCustomers].sort((a, b) => {
+    const sorted = [...walkInCustomer].sort((a, b) => {
       const valueA = a[sortConfig.key];
       const valueB = b[sortConfig.key];
 
@@ -304,7 +239,7 @@ function UserlistWalkin(props) {
     });
 
     return sorted;
-  }, [currentCustomers, sortConfig]);
+  }, [walkInCustomer, sortConfig]);
 
 
   const handleSort = (key, direction) => {
@@ -314,13 +249,10 @@ function UserlistWalkin(props) {
 
   useEffect(() => {
     if (
-      state.UsersList.addWalkInCustomerStatusCode === 200
+      state.UsersList?.UserListStatusCode === 200
     ) {
       setShowForm(false)
-      dispatch({
-        type: "WALKINCUSTOMERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
+    
 
 
       setTimeout(() => {
@@ -328,10 +260,28 @@ function UserlistWalkin(props) {
       }, 1000);
 
     }
-  }, [
-    state.UsersList.addWalkInCustomerStatusCode
+  }, [state.UsersList?.UserListStatusCode]);
 
-  ]);
+
+useEffect(() => {
+    if (state.UsersList?.statusCodeForAddUser === 201 || state.UsersList?.statusCodeForAddCustomerSaveInfo === 201) {
+ 
+       dispatch({
+          type: "USERLIST",
+          payload: { hostel_id: state.login.selectedHostel_Id, type: 'Inactive' },
+        });
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_STATUS_CODES" });
+        dispatch({ type: 'REMOVE_STATUS_CODE_FOR_CREATE_CUSTOMER_SAVE_INFO' })
+      }, 2000);
+    }
+  }, [state.UsersList?.statusCodeForAddUser, state.UsersList?.statusCodeForAddCustomerSaveInfo]);
+
+
+
+
+
 
   return (
     <>
@@ -584,7 +534,7 @@ function UserlistWalkin(props) {
                                   style={{ cursor: "pointer" }}
                                 />
                               </div>{" "}
-                              Walk-In Date
+                              Joining Date
                             </div>
                           </th>
 
@@ -641,273 +591,13 @@ function UserlistWalkin(props) {
                         </tr>
                       </thead>
 
-                      {/* <tbody>
-                        {sortedData && sortedData.length > 0 && (
-                          <>
-                            {sortedData.map((v) => {
-                              return (
-                                <tr key={v.id}>
-                                  <td
-                                    style={{
-                                      border: "none",
-                                      padding: "10px",
-                                      textAlign: "start",
-                                      verticalAlign: "middle",
-                                      paddingLeft: "23px",
-                                      borderBottom: "1px solid #E8E8E8",
-                                    }}
-                                    className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
-                                  >
-                                    <div>
-                                      <span
-                                        style={{
-                                          fontSize: 13,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                        }}
-                                      >
-                                        {v.first_name} {v.last_name}
-                                      </span>
-                                    </div>
-                                  </td>
-                                  <td
-                                    style={{
-                                      fontSize: 13,
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy",
-                                      textAlign: "start",
-                                      verticalAlign: "middle",
-                                      borderBottom: "1px solid #E8E8E8",
-                                    }}
-                                    className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
-                                  >
-                                    {v.email_Id || "N/A"}
-                                  </td>
-                                  <td
-                                    style={{
-                                      textAlign: "start",
-                                      verticalAlign: "middle",
-                                      fontSize: 13,
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy",
-                                      borderBottom: "1px solid #E8E8E8",
-                                    }}
-                                    className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
-                                  >
-                                    +
-                                    {v &&
-                                      String(v.mobile_Number).slice(
-                                        0,
-                                        String(v.mobile_Number).length - 10
-                                      )}{" "}
-                                    {v && String(v.mobile_Number).slice(-10)}
-                                  </td>
-
-                                  <td
-                                    style={{
-                                      padding: "10px",
-                                      border: "none",
-                                      textAlign: "start",
-                                      fontSize: "13px",
-                                      fontWeight: 600,
-                                      fontFamily: "Gilroy",
-                                      whiteSpace: "nowrap",
-                                      verticalAlign: "middle",
-                                      borderBottom: "1px solid #E8E8E8",
-                                    }}
-                                    className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
-                                  >
-                                    <span
-                                      style={{
-                                        padding: "3px 10px",
-                                        borderRadius: "60px",
-                                        backgroundColor: "#EBEBEB",
-                                        textAlign: "start",
-                                        fontSize: "11px",
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                        display: "inline-block",
-                                        overflow: "hidden",
-                                        textOverflow: "ellipsis",
-                                        whiteSpace: "nowrap",
-                                        verticalAlign: "middle",
-                                      }}
-                                    >
-                                      {moment(v.walk_In_Date).format(
-                                        "D MMMM YYYY"
-                                      )}
-                                    </span>
-                                  </td>
-
-                                  <td
-                                    style={{
-                                      fontSize: 13,
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy",
-                                      textAlign: "start",
-                                      verticalAlign: "middle",
-                                      borderBottom: "1px solid #E8E8E8",
-                                    }}
-                                    className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
-                                  >
-                                    {(v.comments || v.area || v.landmark || v.city || v.state || v.pin_code)
-                                      ? (
-                                        <>
-                                          {(v.comments || v.area || v.landmark) && (
-                                            <>
-                                              {v.comments && `${v.comments} , `}
-
-                                              {v.area && `${v.area} `}
-
-                                              {v.landmark || ""}
-                                              <br />
-                                            </>
-                                          )}
-                                          {v.city || ""} {v.state || ""} {(v.pin_code && `- ${v.pin_code}`) || ""}
-
-                                        </>
-                                      )
-                                      : "N/A"}
-
-                                  </td>
-
-
-                                  <td
-                                    style={{
-                                      borderBottom: "1px solid #E8E8E8",
-                                    }}
-                                  >
-                                    <div
-                                      style={{
-                                        cursor: "pointer",
-                                        height: 40,
-                                        width: 40,
-                                        borderRadius: "50%",
-                                        border: "1px solid #EFEFEF",
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                        position: "relative",
-                                        borderBottom: "1px solid #E8E8E8",
-                                        backgroundColor:
-                                          dotsButton === v.id
-                                            ? "#E7F1FF"
-                                            : "white",
-                                      }}
-                                      onClick={(e) => handleDotsClick(v.id, e)}
-                                    >
-                                      <PiDotsThreeOutlineVerticalFill
-                                        style={{ height: 20, width: 20 }}
-                                      />
-                                      {dotsButton === v.id && (
-                                        <div
-                                          ref={popupRef}
-                                          style={{
-                                            cursor: "pointer",
-                                            backgroundColor: "#F9F9F9",
-                                            position: "fixed",
-                                            top: popupPosition.top - 15,
-                                            left: popupPosition.left-10,
-                                            width: 140,
-                                            border: "1px solid #EBEBEB",
-                                            borderRadius: 10,
-                                            display: "flex",
-                                            flexDirection: "column",
-                                            justifyContent: "center",
-                                            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                                            zIndex: 10,
-                                          }}
-                                        >
-                                          <div
-                                            className="d-flex align-items-center"
-                                            onClick={() => {
-                                              if (!walkInEditPermissionError) {
-                                                handleEdit(v);
-                                              }
-                                              
-                                            }}
-                                            style={{
-                                              cursor: walkInEditPermissionError ? "not-allowed" : "pointer",
-                                             
-                                              opacity: walkInEditPermissionError ? 0.5 : 1,
-                                              padding: "6px 8px",
-                                              borderRadius: 6,
-                                            }}
-                                            onMouseEnter={(e) => {
-                                              if (!walkInEditPermissionError) e.currentTarget.style.backgroundColor = "#F0F4FF";
-                                            }}
-                                            onMouseLeave={(e) => {
-                                              e.currentTarget.style.backgroundColor = "transparent";
-                                            }}
-                                          >
-                                             <Edit size="16" color={walkInEditPermissionError ? "#A9A9A9" : "#1E45E1"} style={{marginRight: 8}}/>
-                                            <label
-                                              style={{
-                                                fontSize: 14,
-                                                fontWeight: 500,
-                                                fontFamily: "Gilroy, sans-serif",
-                                                color: walkInEditPermissionError ? "#A9A9A9" : "#222222",
-                      cursor: walkInEditPermissionError ? "not-allowed" : "pointer",
-                                              }}
-                                            >
-                                              Edit
-                                            </label>
-                                          </div>
-
-                                          <div
-                                            className="d-flex align-items-center"
-                                            onClick={() => {
-                                              if (!walkInDeletePermissionError) {
-                                                handleDelete(v);
-                                              }
-                                            }}
-                                            style={{
-                                              cursor: walkInDeletePermissionError ? "not-allowed" : "pointer",
-                                             
-                                              opacity: walkInDeletePermissionError ? 0.5 : 1,
-                                              padding: "6px 8px",
-                                              borderRadius: 6,
-                                            }}
-                                            onMouseEnter={(e) => {
-                                              if (!walkInDeletePermissionError) e.currentTarget.style.backgroundColor = "#FFF3F3";
-                                            }}
-                                            onMouseLeave={(e) => {
-                                              e.currentTarget.style.backgroundColor = "transparent";
-                                            }}
-                                          >
-                                           <Trash
-                                                                                                                             size="16"
-                                                                                                                             color={walkInDeletePermissionError ? "#A9A9A9" : "red"}
-                                                                                                                       style={{marginRight: 8}}    />
-                                            <label
-                                              style={{
-                                                fontSize: 14,
-                                                fontWeight: 500,
-                                                fontFamily: "Gilroy, sans-serif",
-                                                 color: walkInDeletePermissionError ? "#A9A9A9" : "#FF0000",
-                      cursor: walkInDeletePermissionError ? "not-allowed" : "pointer",
-                                              }}
-                                            >
-                                              Delete
-                                            </label>
-                                          </div>
-                                        </div>
-
-                                      )}
-                                    </div>
-                                  </td>
-                                </tr>
-                              );
-                            })}
-                          </>
-                        )}
-                      </tbody> */}
+                     
 
                       <tbody>
                         <PaginationList>
                           {sortedData && sortedData.length > 0 && (
                             sortedData.map((v) => (
-                              <tr key={v.id}>
+                              <tr key={v.customerId}>
                                 <td
                                   style={{
                                     border: "none",
@@ -927,7 +617,7 @@ function UserlistWalkin(props) {
                                         fontFamily: "Gilroy",
                                       }}
                                     >
-                                      {v.first_name} {v.last_name}
+                                      {v.firstName} 
                                     </span>
                                   </div>
                                 </td>
@@ -943,7 +633,7 @@ function UserlistWalkin(props) {
                                   }}
                                   className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
                                 >
-                                  {v.email_Id || "N/A"}
+                                  {v.emailId || "N/A"}
                                 </td>
 
                                 <td
@@ -957,8 +647,11 @@ function UserlistWalkin(props) {
                                   }}
                                   className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
                                 >
-                                  +{v && String(v.mobile_Number).slice(0, String(v.mobile_Number).length - 10)}{" "}
-                                  {v && String(v.mobile_Number).slice(-10)}
+                                   +
+                                      {v &&
+                                        v.countryCode}
+                                      {" "}
+                                      {v.mobile}
                                 </td>
 
                                 <td
@@ -975,24 +668,16 @@ function UserlistWalkin(props) {
                                   }}
                                   className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
                                 >
-                                  <span
-                                    style={{
-                                      padding: "3px 10px",
-                                      borderRadius: "60px",
-                                      backgroundColor: "#EBEBEB",
-                                      textAlign: "start",
-                                      fontSize: "11px",
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy",
-                                      display: "inline-block",
-                                      overflow: "hidden",
-                                      textOverflow: "ellipsis",
-                                      whiteSpace: "nowrap",
-                                      verticalAlign: "middle",
-                                    }}
-                                  >
-                                    {moment(v.walk_In_Date).format("D MMMM YYYY")}
-                                  </span>
+                                  <span>
+                                                                         {v?.actualJoining && v.actualJoining !== "0000-00-00"
+                                                                           ? moment(v.actualJoining, "DD/MM/YYYY").format("D MMMM YYYY")
+                                                                           : v?.expectedJoiningDate && v.expectedJoiningDate !== "0000-00-00"
+                                                                             ? moment(v.expectedJoiningDate, "DD/MM/YYYY").format("D MMMM YYYY")
+                                                                             : v?.RecheckIn_Date && v.RecheckIn_Date !== "0000-00-00"
+                                                                               ? moment(v.RecheckIn_Date).format("D MMMM YYYY")
+                                                                               : "-"
+                                                                         }
+                                                                       </span>
                                 </td>
 
                                 <td
@@ -1039,12 +724,12 @@ function UserlistWalkin(props) {
                                       backgroundColor:
                                         dotsButton === v.id ? "#E7F1FF" : "white",
                                     }}
-                                    onClick={(e) => handleDotsClick(v.id, e)}
+                                    onClick={(e) => handleDotsClick(v.customerId, e)}
                                   >
                                     <PiDotsThreeOutlineVerticalFill
                                       style={{ height: 20, width: 20 }}
                                     />
-                                    {dotsButton === v.id && (
+                                    {dotsButton === v.customerId && (
                                       <div
                                         ref={popupRef}
                                         style={{
@@ -1157,7 +842,7 @@ function UserlistWalkin(props) {
               )
             )}
 
-            {!walkinLoader && currentCustomers?.length === 0 && (
+            {!walkinLoader && walkInCustomer?.length === 0 && (
               <div style={{ marginTop: 30 }} className="animated-text">
                 <div style={{ textAlign: "center" }}>
                   <img src={Emptystate} alt="emptystate" />
