@@ -1047,12 +1047,12 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
   const [billReceipt, setBillReceipt] = useState("")
 
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({ type: 'GET_TEMPLATE_LIST', payload: state.login.selectedHostel_Id })
-    }
+  // useEffect(() => {
+  //   if (state.login.selectedHostel_Id) {
+  //     dispatch({ type: 'GET_TEMPLATE_LIST', payload: state.login.selectedHostel_Id })
+  //   }
 
-  }, [])
+  // }, [])
 
 
 

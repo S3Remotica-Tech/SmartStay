@@ -94,14 +94,6 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
     };
 
 
-    const disabledJoiningDate = (current) => {
-        if (!bookingDetails?.bookedAt) return false;
-
-        return (
-            current.isBefore(bookingDetails?.bookedAt, "day") ||
-            current.isAfter(dayjs(), "day")
-        );
-    };
 
 
 
@@ -319,11 +311,6 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
     useEffect(() => {
         if (state.UsersList?.bookedDetails || bookingDetails) {
-            // const parsedDate = bookingDetails?.expectedJoiningDate
-            //     ? dayjs(bookingDetails.expectedJoiningDate, "DD/MM/YYYY")
-            //     : null;
-
-            // setSelectedDate(parsedDate);
             setBookingAmount(state.UsersList.bookedDetails?.bookingAmount)
             setRoomRent(state.UsersList.bookedDetails?.rent)
         }
@@ -344,10 +331,6 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
     useEffect(() => {
         if (state.UsersList.bedError) {
             setFormLoading(false)
-            // setTimeout(() => {
-            //     dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR_BOOKED' })
-            // }, 1000)
-
         }
 
     }, [state.UsersList.bedError])
@@ -494,166 +477,9 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                             {activeTab === "LONG" ? <>
                                 <div style={{ maxHeight: "300px", overflowY: "scroll" }} className="show-scroll p-2 mt-2 me-1">
                                     <div className="row d-flex align-items-center">
-                                        {/* <div className="col-12">
-                                            <Form.Label
-                                                style={{
-                                                    fontSize: 14,
-                                                    fontWeight: 500,
-                                                    fontFamily: "Gilroy",
-                                                    paddingTop: "6px",
-                                                }}
-                                            >
-                                                Floor  {" "}
-
-                                            </Form.Label>
-
-                                            <FormControl
-                                                type="text"
-                                                placeholder="Enter Amount"
-                                                value={bookingDetails?.floorName}
-                                                disabled
-                                                style={{
-                                                    fontSize: 16,
-                                                    color: "#4B4B4B",
-                                                    fontFamily: "Gilroy",
-                                                    fontWeight: 500,
-                                                    boxShadow: "none",
-                                                    height: 50,
-                                                    borderRadius: 8,
-                                                    backgroundColor: "#EFF2FF"
-                                                }}
-                                            />
-
-
-                                        </div>
-
-                                        <div className="col-12">
-                                            <Form.Label
-                                                style={{
-                                                    fontSize: 14,
-                                                    fontWeight: 500,
-                                                    fontFamily: "Gilroy",
-                                                }}
-                                            >
-                                                Room {" "}
-
-                                            </Form.Label>
-
-                                            <FormControl
-                                                type="text"
-                                                disabled
-                                                placeholder="Enter Amount"
-                                                value={bookingDetails?.roomName}
-                                                style={{
-                                                    fontSize: 16,
-                                                    color: "#4B4B4B",
-                                                    fontFamily: "Gilroy",
-                                                    fontWeight: 500,
-                                                    boxShadow: "none",
-                                                    border: "1px solid #D9D9D9",
-                                                    height: 50,
-                                                    borderRadius: 8,
-                                                    backgroundColor: "#EFF2FF"
-                                                }}
-                                            />
 
 
 
-
-                                        </div>
-
-
-
-
-                                        <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                            <Form.Label
-                                                style={{
-                                                    fontSize: 14,
-                                                    fontWeight: 500,
-                                                    fontFamily: "Gilroy",
-                                                }}
-                                            >
-                                                Bed {" "}
-
-                                            </Form.Label>
-
-
-                                            <FormControl
-                                                type="text"
-                                                disabled
-                                                placeholder="Enter Amount"
-                                                value={bookingDetails?.bedName}
-                                                style={{
-                                                    fontSize: 16,
-                                                    color: "#4B4B4B",
-                                                    fontFamily: "Gilroy",
-                                                    fontWeight: 500,
-                                                    boxShadow: "none",
-                                                    border: "1px solid #D9D9D9",
-                                                    height: 50,
-                                                    borderRadius: 8,
-                                                    backgroundColor: "#EFF2FF"
-                                                }}
-                                            />
-
-
-                                        </div> */}
-
-                                        {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                            <Form.Group>
-                                                <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
-                                                    Booking Amount
-                                                    <span style={{ color: "red", fontSize: "20px" }}> *</span>
-                                                </Form.Label>
-                                                <FormControl
-                                                    type="text"
-                                                    placeholder="Enter Amount"
-                                                    value={bookingAmount}
-
-                                                    style={{
-                                                        fontSize: 16,
-                                                        color: "#4B4B4B",
-                                                        fontFamily: "Gilroy",
-                                                        fontWeight: 500,
-                                                        boxShadow: "none",
-                                                        border: "1px solid #D9D9D9",
-                                                        height: 50,
-                                                        borderRadius: 8,
-                                                        backgroundColor: "#EFF2FF"
-                                                    }}
-                                                />
-                                            </Form.Group>
-
-                                        </div>
-
-
-
-                                        <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                            <Form.Group>
-                                                <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
-                                                    Booking Date
-
-                                                </Form.Label>
-                                                <FormControl
-                                                    disabled
-                                                    type="text"
-                                                    placeholder="Enter Amount"
-                                                    value={bookingDetails?.bookedAt}
-                                                    style={{
-                                                        fontSize: 16,
-                                                        color: "#4B4B4B",
-                                                        fontFamily: "Gilroy",
-                                                        fontWeight: 500,
-                                                        boxShadow: "none",
-                                                        border: "1px solid #D9D9D9",
-                                                        height: 50,
-                                                        borderRadius: 8,
-                                                        backgroundColor: "#EFF2FF"
-                                                    }}
-                                                />
-                                            </Form.Group>
-
-                                        </div> */}
 
                                         <div className="d-flex justify-content-between align-items-center mb-2">
                                             <div>
@@ -670,7 +496,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                                         fontWeight: 600,
                                                     }}
                                                 >
-                                                    {bookingDetails?.bookedAt}
+                                                    {state.UsersList.bookedDetails?.bookedDate}
                                                 </label>
                                             </div>
                                         </div>
@@ -730,11 +556,9 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                                             height: 48,
                                                             cursor: "pointer",
                                                             fontFamily: "Gilroy",
-                                                            // backgroundColor: "#EFF2FF"
+
                                                         }}
                                                         format="DD/MM/YYYY"
-                                                        // value={dayjs()}       
-                                                        // value={selectedDate ? dayjs(selectedDate) : null} 
                                                         value={selectedDate ? dayjs(selectedDate) : null}
                                                         onChange={(date) => {
                                                             setDateError("");
@@ -746,8 +570,9 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
                                                         disabledDate={(current) => {
                                                             if (!current) return false;
-                                                            const bookedAtDayjs = bookingDetails?.bookedAt
-                                                                ? dayjs(bookingDetails.bookedAt, "DD/MM/YYYY")
+
+                                                            const bookedAtDayjs = state.UsersList?.bookedDetails?.bookedDate
+                                                                ? dayjs(state.UsersList?.bookedDetails?.bookedDate, "DD/MM/YYYY")
                                                                 : null;
 
                                                             return (
@@ -755,12 +580,8 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                                                 current.isAfter(dayjs().endOf("day"))
                                                             );
                                                         }}
-                                                        getPopupContainer={(triggerNode) =>
-                                                            triggerNode.closest(".show-scroll") || document.body
-                                                        }
-                                                    // open={false}         
-                                                    // allowClear={false}    
-                                                    //  inputReadOnly            
+
+
                                                     />
                                                 </div>
                                             </Form.Group>

@@ -2111,9 +2111,10 @@ const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
     setDownloadReceipt(isVisible);
     setShowPdfReceiptModal(true);
     setRowData(rowData);
-    if (rowData?.id) {
-      // dispatch({ type: "RECEIPTPDF_NEWCHANGES", payload: { id: rowData?.id } })
-    }
+    console.log("rowData**************",rowData)
+    // if (rowData) {
+    //   dispatch({ type: "RECEIPTPDF_NEWCHANGES", payload: { id: rowData?.id } })
+    // }
 
   };
 

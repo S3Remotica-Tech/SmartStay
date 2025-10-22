@@ -86,10 +86,13 @@ function LongStayRecurringModal({ handleClose, show }) {
     const handleSave = () => {
         const newErrors = {};
         if (!billingDate) {
-            newErrors.billingDate = "Please enter billing date of month";
+            newErrors.billingDate = "Please select billing date of month";
         }
         if (!dueDate) {
-            newErrors.dueDate = "Please enter due date of month";
+            newErrors.dueDate = "Please select due date of month";
+        }
+        if(!noticePeriod){
+             newErrors.notice = "Please select notice period";
         }
 
         setErrors(newErrors);
@@ -98,14 +101,12 @@ function LongStayRecurringModal({ handleClose, show }) {
             dispatch({
                 type: "SETTINGSADD_RECURRING",
                 payload: {
-                    hostel_id: Number(state.login.selectedHostel_Id),
-                    billingDateOfMonth: parseInt(billingDate?.value, 10),
-                    dueDateOfMonth: parseInt(dueDate?.value, 10),
-                    isActive: 1,
-                    noticePeriod: parseInt(noticePeriod?.value, 10),
-                    billFrequency:"Monthly"
-                },
-            })
+                    hostelId: state?.login?.selectedHostel_Id || "",
+                    startDate: Number(billingDate?.value) || 0,
+                    dueDate: Number(dueDate?.value) || 0,
+                    noticeDays: Number(noticePeriod?.value) || 0,
+                }
+                })
             setFormLoading(false)
         }
     };
@@ -115,10 +116,10 @@ function LongStayRecurringModal({ handleClose, show }) {
 
 
     useEffect(() => {
-        if (state.Settings.SettingsRecurringAddSuccess === 200) {
+        if (state.Settings.SettingsRecurringAddSuccess === 201) {
             setFormLoading(false)
             handleClose()
-            dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostel_id: state.login.selectedHostel_Id } });
+            dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostelId: state.login.selectedHostel_Id } });
             setTimeout(() => {
                 dispatch({ type: "CLEAR_SETTINGSADDRECURRING_STATUS_CODE" });
             }, 100);
@@ -181,7 +182,10 @@ function LongStayRecurringModal({ handleClose, show }) {
                                 color: "#222222",
                                 fontFamily: "Gilroy",
                                 fontWeight: 500,
-                            }}>Billing Date of Month</Form.Label>
+                            }}>Billing Date of Month {" "}
+                    <span style={{ color: "#FF0000", display: "inline-block", fontSize: "20px" }}>
+                      *
+                    </span></Form.Label>
                         <Select options={dayOptions} styles={selectStyle} placeholder="Select Billing Date"
                             value={billingDate}
                             onChange={(selected) => {
@@ -193,7 +197,7 @@ function LongStayRecurringModal({ handleClose, show }) {
                         />
 
                         {errors.billingDate && (
-                             <ErrorMessage message={errors.billingDate} type="error" />
+                            <ErrorMessage message={errors.billingDate} type="error" />
                         )}
 
                     </Form.Group>
@@ -205,7 +209,10 @@ function LongStayRecurringModal({ handleClose, show }) {
                                 color: "#222222",
                                 fontFamily: "Gilroy",
                                 fontWeight: 500,
-                            }}>Due Date of Month</Form.Label>
+                            }}>Due Date of Month {" "}
+                    <span style={{ color: "#FF0000", display: "inline-block", fontSize: "20px" }}>
+                      *
+                    </span></Form.Label>
                         <Select options={dayOptions} styles={selectStyle} placeholder="Select Due Date"
                             value={dueDate}
                             onChange={(selected) => {
@@ -213,7 +220,7 @@ function LongStayRecurringModal({ handleClose, show }) {
                                 setErrors((prev) => ({ ...prev, dueDate: "" }));
                             }} />
                         {errors.dueDate && (
-                           <ErrorMessage message={errors.dueDate} type="error" />
+                            <ErrorMessage message={errors.dueDate} type="error" />
                         )}
                     </Form.Group>
 
@@ -224,12 +231,21 @@ function LongStayRecurringModal({ handleClose, show }) {
                                 color: "#222222",
                                 fontFamily: "Gilroy",
                                 fontWeight: 500,
-                            }}>Notice Period</Form.Label>
+                            }}>Notice Period {" "}
+                    <span style={{ color: "#FF0000", display: "inline-block", fontSize: "20px" }}>
+                      *
+                    </span></Form.Label>
                         <Select options={dayOptions} styles={selectStyle} placeholder="Select Notice Period"
                             value={noticePeriod}
-                            onChange={(selected) => setNoticePeriod(selected)}
+                            onChange={(selected) => {
+                                setNoticePeriod(selected)
+                                setErrors((prev) => ({ ...prev, notice: "" }));
+                            }}
 
                         />
+                         {errors.notice && (
+                            <ErrorMessage message={errors.notice} type="error" />
+                        )}
                     </Form.Group>
 
                     <div
@@ -299,7 +315,7 @@ function LongStayRecurringModal({ handleClose, show }) {
                             ></div>
                         </div>
                     }
-                   
+
 
                 </Modal.Body>
             </Modal>
