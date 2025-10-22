@@ -216,19 +216,31 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
             const { isRefundable, amountTobePaid } = finalSettlementList.settlementInfo;
 
             const allDeductions = fields || [];
-
             const totalDeductions = allDeductions.reduce(
                 (sum, item) => sum + (Number(item.amount) || 0),
                 0
             );
-            const finalAmount = isRefundable
-                ? amountTobePaid - totalDeductions
-                : amountTobePaid + totalDeductions;
+
+            let finalAmount = 0;
+
+            if (amountTobePaid < 0) {
+                finalAmount = isRefundable
+                    ? amountTobePaid + totalDeductions
+                    : amountTobePaid - totalDeductions;
+            } else {
+
+                finalAmount = isRefundable
+                    ? amountTobePaid - totalDeductions
+                    : amountTobePaid + totalDeductions;
+            }
 
             setReturnAmount(finalAmount);
         }
+    }, [finalSettlementList?.settlementInfo, fields]);
 
-    }, [finalSettlementList?.settlementInfo, fields])
+
+
+
 
 
     useEffect(() => {
@@ -245,6 +257,18 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
     }, [finalSettlementList]);
 
 
+    const apiDeductions = finalSettlementList?.customerInfo?.listDeductions || [];
+    const totalApiDeductions = apiDeductions.reduce(
+        (sum, item) => sum + (Number(item.amount) || 0),
+        0
+    );
+
+    const totalUserDeductions = fields?.reduce(
+        (sum, item) => sum + (Number(item.amount) || 0),
+        0
+    );
+
+    const totalDeductions = totalApiDeductions + totalUserDeductions;
 
 
     return (
@@ -411,40 +435,20 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                             <Form.Control
                                                 type="number"
                                                 placeholder="471.55"
-                                                // value={currentReading}
-                                                // ref={inputRef}
-                                                // onChange={handlecurrentReading}
                                                 style={{ fontSize: 14, fontWeight: 600, padding: "12px 14px" }}
                                             />
                                             <InputGroup.Text
-                                            //   style={{
-                                            //     borderColor: !isConfirmed &&  currenReadingError? "red" : "#ced4da",
-                                            //     borderWidth: 1,
-                                            //     borderStyle: "solid",
-                                            //     padding: "0 6px"
-                                            //   }}
+
                                             >
-                                                {/* <Form.Check
-        type="checkbox"
-        id="confirmReading"
-        checked={isConfirmed}
-        onChange={handleCheckedtrue}
-        style={{ margin: 0, borderColor: !isConfirmed &&  currenReadingError? "red" : "#ced4da", }}
-      /> */}
                                                 <Form.Check
                                                     type="checkbox"
                                                     id="confirmReading"
-                                                    //   checked={isConfirmed}
-                                                    //   onChange={handleCheckedtrue}
                                                     style={{ margin: 0 }}
                                                 >
                                                     <Form.Check.Input
                                                         type="checkbox"
-                                                        // checked={isConfirmed}
-                                                        //   ref={checkboxRef}
-                                                        // onChange={handleCheckedtrue}
+
                                                         style={{
-                                                            //   borderColor: !isConfirmed && currenReadingError ? "red" : "#ced4da",
                                                         }}
                                                     />
                                                 </Form.Check>
@@ -457,47 +461,6 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                 </div>
 
 
-                                {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    <Form.Group className="mb-2" controlId="purchaseDate">
-                                        <Form.Label
-                                            style={{
-                                                fontSize: 14,
-                                                color: "black",
-                                                fontFamily: "Gilroy",
-                                                fontWeight: 500,
-                                            }}
-                                        >
-                                            Check-Out Date{" "}
-                                            <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                                        </Form.Label>
-
-
-
-                                        <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%", }}>
-                                            <DatePicker
-                                                ref={checkOutDateRef}
-                                                style={{
-                                                    width: "100%", height: 48, cursor: "pointer",
-                                                    backgroundColor: "#FFF",
-                                                    color: "#000",
-                                                    fontFamily: "Gilroy"
-                                                }}
-                                                format="DD/MM/YYYY"
-                                                placeholder="DD/MM/YYYY"
-                                                value={checkOutDate ? dayjs(checkOutDate) : null}
-                                                onChange={(date) => {
-                                                    setCheckOutDate(date ? date.toDate() : null);
-                                                    setCheckOutDateError("");
-                                                }}
-                                                getPopupContainer={() => document.body}
-
-                                            />
-                                        </div>
-                                    </Form.Group>
-                                    {checkoUtDateError && (
-                                        <ErrorMessage message={checkoUtDateError} type="error" />
-                                    )}
-                                </div> */}
 
 
 
@@ -832,8 +795,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                                     </thead>
 
                                                     <tbody>
-                                                        {/* Last Rent Paid */}
-                                                        <tr>
+                                                       <tr>
                                                             <td
                                                                 className="fw-normal"
                                                                 style={{
@@ -945,7 +907,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                                 }}
                                             >
                                                 - ₹{" "}
-                                                {finalSettlementList?.settlementInfo?.totalDeductions}
+                                                {totalDeductions}
                                             </p>
                                         </div>
 
@@ -966,7 +928,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                             </p>
                                             <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>
                                                 ₹{" "}
-                                                {finalSettlementList?.customerInfo?.advanceAmount}
+                                                {finalSettlementList?.customerInfo?.advancePaidAmount}
                                             </p>
                                         </div>
                                         {/* )} */}
@@ -981,7 +943,6 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                         type="text"
                                         name="Advance"
                                         id="Advance"
-
                                         value={ReturnAmount}
                                         className="form-control mt-1"
                                         placeholder="Add Advance Amount"
@@ -990,7 +951,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                             height: "50px",
                                             borderRadius: "8px",
                                             fontSize: 16,
-                                            color: "#4b4b4b",
+                                            color: ReturnAmount > 0 ? "green" : "red",
                                             fontFamily: "Gilroy",
                                             fontWeight: 600,
                                             boxShadow: "none",

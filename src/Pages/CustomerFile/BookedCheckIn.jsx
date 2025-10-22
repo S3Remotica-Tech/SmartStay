@@ -556,10 +556,10 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                                             height: 48,
                                                             cursor: "pointer",
                                                             fontFamily: "Gilroy",
-                                                            
+
                                                         }}
                                                         format="DD/MM/YYYY"
-                                                                                                               value={selectedDate ? dayjs(selectedDate) : null}
+                                                        value={selectedDate ? dayjs(selectedDate) : null}
                                                         onChange={(date) => {
                                                             setDateError("");
                                                             setSelectedDate(date);
@@ -576,7 +576,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                                                 : null;
 
                                                             return (
-                                                                (bookedAtDayjs && current.isBefore(bookedAtDayjs.startOf("day"))) ||    
+                                                                (bookedAtDayjs && current.isBefore(bookedAtDayjs.startOf("day"))) ||
                                                                 current.isAfter(dayjs().endOf("day"))
                                                             );
                                                         }}
