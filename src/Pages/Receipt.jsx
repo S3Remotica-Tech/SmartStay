@@ -14,15 +14,15 @@ const Receipt = (props) => {
 
 
   const state = useSelector((state) => state);
- 
+
   const dispatch = useDispatch();
 
-      const [receiptdeletePermission, setReceiptDeletePermission] = useState("");
-      const [receiptEditPermission, setReceiptEditPermission] = useState("")
-      const [deleteShow, setDeleteShow] = useState(false)
-      const [deleteitem, setDeleteItem] = useState('')
-      const [showDots, setShowDots] = useState('')
-      const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+  const [receiptdeletePermission, setReceiptDeletePermission] = useState("");
+  const [receiptEditPermission, setReceiptEditPermission] = useState("")
+  const [deleteShow, setDeleteShow] = useState(false)
+  const [deleteitem, setDeleteItem] = useState('')
+  const [showDots, setShowDots] = useState('')
+  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
 
   const handleDeleteForm = (item) => {
@@ -35,12 +35,12 @@ const Receipt = (props) => {
   }
 
 
-useEffect(() => {
- const userType = props.billrolePermission[0]?.user_details?.user_type;
-const isAdmin = userType === "admin" || userType === "agent";
+  useEffect(() => {
+    const userType = props.billrolePermission[0]?.user_details?.user_type;
+    const isAdmin = userType === "admin" || userType === "agent";
     if (isAdmin) {
       if (state?.login?.planStatus === 0) {
-       setReceiptDeletePermission("Permission Denied");
+        setReceiptDeletePermission("Permission Denied");
         setReceiptEditPermission("Permission Denied");
       } else if (state?.login?.planStatus === 1) {
         setReceiptDeletePermission("");
@@ -51,33 +51,33 @@ const isAdmin = userType === "admin" || userType === "agent";
   }, [state?.login?.planStatus, state.login?.selectedHostel_Id, props.billrolePermission])
 
 
- useEffect(() => {
-  const receiptPermission = props.billrolePermission[0]?.role_permissions?.find(
+  useEffect(() => {
+    const receiptPermission = props.billrolePermission[0]?.role_permissions?.find(
       (perm) => perm.permission_name === "Receipt"
     );
-  const isOwner = props.billrolePermission[0]?.user_details?.user_type === "staff";
-  const planActive = state?.login?.planStatus === 1;
+    const isOwner = props.billrolePermission[0]?.user_details?.user_type === "staff";
+    const planActive = state?.login?.planStatus === 1;
 
-  if (!receiptPermission || !isOwner) return;
-
- 
-  if (receiptPermission.per_delete === 1 && planActive) {
-    setReceiptDeletePermission("");
-  } else {
-    setReceiptDeletePermission("Permission Denied");
-  }
-
- 
-  if (receiptPermission.per_edit === 1 && planActive) {
-    setReceiptEditPermission("");
-  } else {
-    setReceiptEditPermission("Permission Denied");
-  }
-}, [props.billrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
+    if (!receiptPermission || !isOwner) return;
 
 
+    if (receiptPermission.per_delete === 1 && planActive) {
+      setReceiptDeletePermission("");
+    } else {
+      setReceiptDeletePermission("Permission Denied");
+    }
 
-   
+
+    if (receiptPermission.per_edit === 1 && planActive) {
+      setReceiptEditPermission("");
+    } else {
+      setReceiptEditPermission("Permission Denied");
+    }
+  }, [props.billrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
+
+
+
+
   const handleShowDots = (event) => {
     setShowDots(!showDots)
     const { top, left, height } = event.target.getBoundingClientRect();
@@ -102,7 +102,7 @@ const isAdmin = userType === "admin" || userType === "agent";
 
 
   const handleEdit = (item) => {
-    props.onhandleEdit(item)  
+    props.onhandleEdit(item)
   }
 
 
@@ -116,7 +116,7 @@ const isAdmin = userType === "admin" || userType === "agent";
   let Dated = new Date(props.item.payment_date);
 
   let day = Dated.getDate();
-  let month = Dated.getMonth() + 1; 
+  let month = Dated.getMonth() + 1;
   let year = Dated.getFullYear();
 
   let formattedDate = `${day}/${month}/${year}`;
@@ -140,9 +140,7 @@ const isAdmin = userType === "admin" || userType === "agent";
   const handleDownload = (item) => {
 
     props.DisplayInvoice(true, item)
-    if(item?.id){
-          dispatch({type:"RECEIPTPDF_NEWCHANGES",id:item?.id})
-    }
+   
   }
 
 
@@ -156,7 +154,7 @@ const isAdmin = userType === "admin" || userType === "agent";
 
   }, [state.InvoiceList.statusCodeNewReceiptStatusCode])
 
-  
+
 
   useEffect(() => {
     if (state.InvoiceList.ReceiptDeletesuccessStatuscode === 200) {
@@ -175,22 +173,22 @@ const isAdmin = userType === "admin" || userType === "agent";
 
     <>
 
-      <tr 
-      // key={props.item.id} 
-      style={{
-        color: "#000", fontFamily: "Gilroy", fontSize: "14px", fontStyle: "normal",
-        lineHeight: "normal", alignItems: 'center', marginTop: '10px', flexWrap: "wrap"
-      }} className='m-2' >
+      <tr
+        // key={props.item.id} 
+        style={{
+          color: "#000", fontFamily: "Gilroy", fontSize: "14px", fontStyle: "normal",
+          lineHeight: "normal", alignItems: 'center', marginTop: '10px', flexWrap: "wrap"
+        }} className='m-2' >
 
 
-       
+
 
         <td className="table-cells ps-2 ps-sm-2 ps-md-3 ps-lg-3" style={{ border: "none", flexWrap: "wrap", whiteSpace: "nowrap", borderBottom: "1px solid #E8E8E8" }}>
           <div className="d-flex  align-items-center">
 
             <div className="Invoice_Name" style={{
               fontFamily: 'Gilroy', fontSize: '13px', marginLeft: '17px', color: "#1E45E1",
-              fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer", textAlign: "start",paddingTop:"10px"
+              fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer", textAlign: "start", paddingTop: "10px"
             }}
               onClick={() => handleDownload(props.item)}
 
@@ -198,23 +196,23 @@ const isAdmin = userType === "admin" || userType === "agent";
 
           </div>
         </td>
-         
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
-           <div style={{marginLeft:7}}>{props.item?.referenceNumber ? props.item?.referenceNumber : "-"}</div></td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
-          <div className="ps-0" style={{marginLeft:6}}>{!props.item?.invoiceNumber || props.item?.invoiceNumber === "0" ? "-" : props.item.invoiceNumber}</div>
+
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
+          <div style={{ marginLeft: 7 }}>{props.item?.referenceNumber ? props.item?.referenceNumber : "-"}</div></td>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
+          <div className="ps-0" style={{ marginLeft: 6 }}>{!props.item?.invoiceNumber || props.item?.invoiceNumber === "0" ? "-" : props.item.invoiceNumber}</div>
         </td>
 
 
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
-          <div style={{marginLeft:6}}>{props.item.invoiceType}</div>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
+          <div style={{ marginLeft: 6 }}>{props.item.invoiceType}</div>
         </td>
 
-        <td className="ps-2 ps-sm-2 ps-md-3 ps-lg-2" style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }}>
-          <span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" , marginLeft:3 }}>{props.item?.paidAt}</span></td>
-        <td className="ps-2 ps-sm-2 ps-md-3 ps-lg-4" style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }} > ₹{props.item?.paidAmount != null ? props.item.paidAmount.toLocaleString('en-IN') : '0'}</td>
-        <td className="ps-2 ps-sm-2 ps-md-3 ps-lg-2" style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }}>
-          <span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" , marginLeft:2}}>{props.item?.bankName ? props.item?.bankName : "-"}</span></td>
+        <td className="ps-2 ps-sm-2 ps-md-3 ps-lg-2" style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }}>
+          <span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px", marginLeft: 3 }}>{props.item?.paidAt}</span></td>
+        <td className="ps-2 ps-sm-2 ps-md-3 ps-lg-4" style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} > ₹{props.item?.paidAmount != null ? props.item.paidAmount.toLocaleString('en-IN') : '0'}</td>
+        <td className="ps-2 ps-sm-2 ps-md-3 ps-lg-2" style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }}>
+          <span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px", marginLeft: 2 }}>{props.item?.bankName ? props.item?.bankName : "-"}</span></td>
 
 
         <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none", borderBottom: "1px solid #E8E8E8" }} className=''>
@@ -236,7 +234,7 @@ const isAdmin = userType === "admin" || userType === "agent";
                     width: 130,
                     border: "1px solid #EBEBEB",
                     borderRadius: 10,
-                                        display: "flex",
+                    display: "flex",
                     flexDirection: "column",
                     alignItems: "flex-start",
                     zIndex: showDots ? 1000 : "auto",
@@ -249,10 +247,10 @@ const isAdmin = userType === "admin" || userType === "agent";
                       cursor: receiptEditPermission ? "not-allowed" : "pointer",
                       opacity: receiptEditPermission ? 0.5 : 1,
                       borderTopLeftRadius: 10,
-                        borderTopRightRadius: 10,
-                        backgroundColor: "#F9F9F9",
-                        padding: "8px 12px",
-                         width:"100%"
+                      borderTopRightRadius: 10,
+                      backgroundColor: "#F9F9F9",
+                      padding: "8px 12px",
+                      width: "100%"
                     }}
                     onClick={() => {
                       if (!receiptEditPermission) {
@@ -273,7 +271,7 @@ const isAdmin = userType === "admin" || userType === "agent";
                       style={{
                         height: 16,
                         width: 16,
-                        
+
                       }}
                     />
                     <label
@@ -281,7 +279,7 @@ const isAdmin = userType === "admin" || userType === "agent";
                         fontSize: 14,
                         fontWeight: 500,
                         fontFamily: "Gilroy, sans-serif",
-                        color:  "#222222",
+                        color: "#222222",
                         cursor: receiptEditPermission ? "not-allowed" : "pointer",
                       }}
                     >
@@ -294,9 +292,9 @@ const isAdmin = userType === "admin" || userType === "agent";
                     className="d-flex justify-content-start align-items-center gap-2 "
                     style={{
                       cursor: receiptdeletePermission ? "not-allowed" : "pointer",
-                        opacity: receiptdeletePermission  ? 0.5 : 1,
-                                        padding: "8px 12px",
-                       width:"100%"
+                      opacity: receiptdeletePermission ? 0.5 : 1,
+                      padding: "8px 12px",
+                      width: "100%"
                     }}
                     onClick={() => {
                       if (!receiptdeletePermission) {
@@ -317,14 +315,14 @@ const isAdmin = userType === "admin" || userType === "agent";
                       style={{
                         height: 16,
                         width: 16,
-                                              }}
+                      }}
                     />
                     <label
                       style={{
                         fontSize: 14,
                         fontWeight: 500,
                         fontFamily: "Gilroy, sans-serif",
-                        color:"#FF0000",
+                        color: "#FF0000",
                         cursor: receiptdeletePermission ? "not-allowed" : "pointer",
                       }}
                     >
@@ -336,15 +334,16 @@ const isAdmin = userType === "admin" || userType === "agent";
                   <div
                     className="d-flex justify-content-start align-items-center gap-2 "
                     style={{
-                      opacity: props.receiptaddPermission  ? 0.5 : 1,
+                      opacity: props.receiptaddPermission ? 0.5 : 1,
                       cursor: props.receiptaddPermission ? "not-allowed" : "pointer",
                       padding: "8px 12px",
-                      width:"100%"
+                      width: "100%"
                     }}
                     onClick={() => {
-                      if(!props.receiptaddPermission) {handleInvoicepdf(props.item)}}}
+                      if (!props.receiptaddPermission) { handleInvoicepdf(props.item) }
+                    }}
                     onMouseEnter={(e) => {
-                      if(!props.receiptaddPermission) e.currentTarget.style.backgroundColor = "#EDF2FF";
+                      if (!props.receiptaddPermission) e.currentTarget.style.backgroundColor = "#EDF2FF";
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.backgroundColor = "transparent";
@@ -463,14 +462,14 @@ const isAdmin = userType === "admin" || userType === "agent";
           </Button>
         </Modal.Footer>
       </Modal>
-     
+
 
     </>
   )
 }
 Receipt.propTypes = {
   billrolePermission: PropTypes.func.isRequired,
-receiptaddPermission:  PropTypes.func.isRequired,
+  receiptaddPermission: PropTypes.func.isRequired,
   onhandleEdit: PropTypes.func.isRequired,
   DisplayInvoice: PropTypes.func.isRequired,
   item: PropTypes.func.isRequired,
