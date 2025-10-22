@@ -176,7 +176,7 @@ function CheckIn({
     };
 
 
-    console.log("currentItem", currentItem)
+
 
 
 
@@ -830,7 +830,7 @@ function CheckIn({
                                                 fontSize: 16,
                                                 color: "#4B4B4B",
                                                 fontFamily: "Gilroy",
-                                                fontWeight: RoomRent ? 600 : 500 ,
+                                                fontWeight: RoomRent ? 600 : 500,
                                                 boxShadow: "none",
                                                 border: "1px solid #D9D9D9",
                                                 height: 50,
@@ -914,8 +914,10 @@ function CheckIn({
                                                 }}
                                                 getPopupContainer={() => document.body}
 
+
                                                 disabledDate={(current) => {
                                                     if (!current) return false;
+
                                                     const bookedAtDayjs = bookingDate
                                                         ? dayjs(bookingDate, "DD/MM/YYYY")
                                                         : null;
