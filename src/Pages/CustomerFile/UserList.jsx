@@ -183,8 +183,8 @@ console.log("newRows",newRows)
         });
       } else if (value === "4") {
         dispatch({
-          type: "WALKINCUSTOMERLIST",
-          payload: { hostel_id: state.login.selectedHostel_Id },
+          type: "USERLIST",
+          payload: { hostel_id: state.login.selectedHostel_Id, type: 'Inactive' },
         });
       }
     }
@@ -1192,14 +1192,7 @@ setFormatDueDate(formattedDate);
 
   const [walkingCustomer, setWalkingCustomer] = useState([]);
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({
-        type: "WALKINCUSTOMERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
-    }
-  }, [state.login.selectedHostel_Id]);
+
 
   useEffect(() => {
     if (state.UsersList?.getWalkInStatusCode === 200) {
@@ -1313,8 +1306,8 @@ setFormatDueDate(formattedDate);
       setFilteredUsers(FilterUsertwo);
     }
     if (value === "4") {
-      const FilterUsertwo = Array.isArray(walkingCustomer)
-        ? walkingCustomer?.filter((item) => {
+      const FilterUsertwo = Array.isArray(userListDetail)
+        ? userListDetail?.filter((item) => {
           return item.first_name
             ?.toLowerCase()
             .includes(filterInput?.toLowerCase() || "");
@@ -1667,8 +1660,8 @@ setFormatDueDate(formattedDate);
   }, [customerUser_Id, state.UsersList?.Users, state.InvoiceList?.Invoice]);
 
   useEffect(() => {
-    if (state.UsersList?.statusCodeForAddUser === 201 || state.UsersList?.statusCodeForAddCustomerSaveInfo === 201) {
-      handleCloseAddCustomer()
+    if (value === "1" && state.UsersList?.statusCodeForAddUser === 201 || state.UsersList?.statusCodeForAddCustomerSaveInfo === 201) {
+        handleCloseAddCustomer()
       dispatch({
         type: "USERLIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
@@ -2035,11 +2028,11 @@ setFormatDueDate(formattedDate);
     setWalkinForm(false);
   };
 
-  useEffect(() => {
-    if (state.UsersList.addWalkInCustomerStatusCode === 200) {
-      setWalkinForm(false);
-    }
-  }, [state.UsersList.addWalkInCustomerStatusCode]);
+  // useEffect(() => {
+  //   if (state.UsersList.addWalkInCustomerStatusCode === 200) {
+  //     setWalkinForm(false);
+  //   }
+  // }, [state.UsersList.addWalkInCustomerStatusCode]);
 
   useEffect(() => {
     if (state.UsersList.addCheckoutCustomerStatusCode === 201) {
@@ -2882,10 +2875,10 @@ setFormatDueDate(formattedDate);
                   {value === "4" && (
                     <Button
                       disabled={!canWriteWalkin}
-                      onClick={walkinForm}
+                      onClick={handleShow}
                       style={buttonStyle}
                     >
-                      + Walk-In
+                       + Walk-In
                     </Button>
                   )}
                 </div>

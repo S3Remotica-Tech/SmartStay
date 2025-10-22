@@ -154,7 +154,7 @@ const canWriteTenant = useHasPermission("Customers", "canWrite")
 
 console.log("customerid", id);
 
-
+console.log("props***",props.id)
 
 
   const handleFileOpen = (url) => {

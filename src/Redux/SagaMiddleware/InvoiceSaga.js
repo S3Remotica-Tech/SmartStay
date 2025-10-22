@@ -790,8 +790,6 @@ function* handleManualInvoiceAdd(params) {
    try {
       const response = yield call(AddManualInvoiceBill, params.payload);
 
-
-
       if (response.status === 201 || response.statusCode === 200) {
          yield put({ type: 'MANUAL_INVOICE_ADD', payload: { response: response.data, statusCode: response.status || response.statusCode } })
          var toastStyle = {
@@ -805,7 +803,7 @@ function* handleManualInvoiceAdd(params) {
 
          };
 
-         toast.success(response.data.message, {
+         toast.success(response.data, {
             position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: true,
@@ -1417,7 +1415,7 @@ function* handleReceiptPdfNewChanges(action) {
          throw new Error("Missing receipt_id in params");
       }
 
-      const response = yield call(ReceiptPDFNewChanges, action);
+      const response = yield call(getParticularReceiptDetails, action);
 
       if (response.status === 200 || response.data.statusCode === 200) {
          yield put({

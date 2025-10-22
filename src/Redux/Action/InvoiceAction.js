@@ -92,12 +92,11 @@ export async function getFinalSettlementList(customerId) {
 
 
 export async function getParticularBillsDetails(bill) {
-  console.log("called billlsss", bill)
-  return await AxiosConfigV2.get(`/v2/bills/${bill.hostelId}/${bill.invoiceId}`)
+   return await AxiosConfigV2.get(`/v2/bills/${bill.hostelId}/${bill.invoiceId}`)
 }
 
 export async function getParticularReceiptDetails(bill) {
-  return await AxiosConfigV2.get(`/v2/bis/${bill.hostelId}/${bill.invoiceId}`)
+  return await AxiosConfigV2.get(`/v2/bills/receipts/${bill.hostelId}/${bill.invoiceId}`)
 }
 
 
