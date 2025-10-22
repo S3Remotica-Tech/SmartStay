@@ -1496,7 +1496,7 @@ function* handleSettingsRecurring(action) {
    try {
       const response = yield call(SettingsAddRecurring, action.payload);
 
-      if (response.status === 200 || response.statusCode === 200) {
+      if (response.status === 201 || response.statusCode === 200) {
          yield put({ type: 'SETTINGSADDRECURRING', payload: { response: response.data, statusCode: response.status || response.statusCode } })
 
          var toastStyle = {
