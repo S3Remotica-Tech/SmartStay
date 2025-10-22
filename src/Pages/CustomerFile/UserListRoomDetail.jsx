@@ -152,6 +152,7 @@ const canDeleteTenant = useHasPermission("Customers", "canDelete")
 const canWriteTenant = useHasPermission("Customers", "canWrite")
 
 
+console.log("customerid", id);
 
 
 
@@ -357,7 +358,7 @@ const canWriteTenant = useHasPermission("Customers", "canWrite")
     setcustomerAsignBed(false);
 
 
-    setId(props.userData[0]?.ID);
+    setId(props.userData[0]?.ID || props.userData[0]?.customerId);
     setFile(props.userData[0]?.profile === "0" ? null : props.userData[0]?.profile);
 
     let value = props.userData[0]?.Name ? props.userData[0]?.Name.split(" ") : ["", ""];
