@@ -160,7 +160,9 @@ console.log("UserList",state)
 
   const canReadCheckout = useHasPermission("Checkout", "canRead")
 
-
+const handleInvoiceNumber = (e)=>{
+  setInvoiceNumber(e.target.value)
+}
 
   useEffect(()=>{
     if(state.AssetList.accessRestricted){
@@ -5336,7 +5338,7 @@ setFormatDueDate(formattedDate);
                 type="text"
                 placeholder="Enter invoice number"
                 value={invoicenumber || ""}
-                readOnly
+                onChange={handleInvoiceNumber}
               />
               {invoicenumbererrmsg.trim() !== "" && (
                 <ErrorMessage message={invoicenumbererrmsg} type="error" />
