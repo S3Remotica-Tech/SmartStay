@@ -6,7 +6,8 @@ import { Table, Button, Form, FormControl } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
-import Image from "react-bootstrap/Image";import UserlistForm from "./UserlistForm";
+import Image from "react-bootstrap/Image";
+import UserlistForm from "./UserlistForm";
 import UserListRoomDetail from "./UserListRoomDetail";
 import Modal from "react-bootstrap/Modal";
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
@@ -190,7 +191,7 @@ useEffect(() => {
           type: "USERLIST",
           payload: { hostel_id: state.login.selectedHostel_Id },
         });
-        // setLoading(true)
+        setLoading(true)
       }
       if (value === "2") {
         dispatch({
@@ -204,8 +205,8 @@ useEffect(() => {
         });
       } else if (value === "4") {
         dispatch({
-          type: "USERLIST",
-          payload: { hostel_id: state.login.selectedHostel_Id, type: 'Inactive' },
+          type: "WALKINCUSTOMERLIST",
+          payload: { hostel_id: state.login.selectedHostel_Id },
         });
       }
     }
@@ -243,11 +244,13 @@ useEffect(() => {
     setDropdownValue("");
   };
   useEffect(() => {
-    if (state?.Booking?.statusCodeForAddBooking === 200 && value === "1") {
-      // dispatch({
-      //   type: "GET_BOOKING_LIST",
-      //   payload: { hostel_id: state.login.selectedHostel_Id },
-      // });
+    if (state?.Booking?.statusCodeForAddBooking === 200) {
+
+
+      dispatch({
+        type: "GET_BOOKING_LIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
       dispatch({
         type: "USERLIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
@@ -259,6 +262,25 @@ useEffect(() => {
       }, 500);
     }
   }, [state?.Booking?.statusCodeForAddBooking]);
+  console.log("state.UsersList.invoiceResponseList",state.UsersList.customerdetails.invoiceResponseList)
+
+useEffect(() => {
+  if (state.UsersList.customerdetails.invoiceResponseList) {
+    const mappedRows = [];
+
+    state.UsersList.customerdetails.invoiceResponseList.forEach((invoice) => {
+      if (invoice.invoiceType === "Rent") {
+        mappedRows.push({
+          am_name: "RoomRent",
+          amount: invoice.totalAmount.toString(),
+        });
+      }
+      // You can add more conditions here if needed for EB or Other
+    });
+
+    setNewRows(mappedRows);
+  }
+}, [state.UsersList.customerdetails.invoiceResponseList]);
 
   useEffect(() => {
     if (state.InvoiceList.Manulainvoicenumberstatuscode === 200) {
@@ -534,7 +556,7 @@ useEffect(() => {
       });
 
       setBillLoading(true)
-      setCustomerName("");
+      // setCustomerName("");
       setInvoiceNumber("");
 
       setInvoiceDate("");
@@ -552,7 +574,7 @@ useEffect(() => {
     dispatch({ type: "UPDATE_USERSLIST_TRUE" });
   };
 
-console.log("customername", customername);
+
 
 
   const handleCreateBill = () => {
@@ -604,7 +626,7 @@ console.log("customername", customername);
     }
 
 
-    const selectedUser = state.UsersList.Users.find(item => item.ID === customername);
+    const selectedUser = state.UsersList.Users.find(item => item.customerId === customername);
 
 
 
@@ -625,9 +647,12 @@ console.log("customername", customername);
         hasError = true;
       }
     }
-     const rentAmount = newRows
-      .filter((row) => row.am_name?.toLowerCase() === "room rent")
-      .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
+    //  const rentAmount = newRows
+    //   .filter((row) => row.am_name?.toLowerCase() === "room rent")
+    //   .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
+    const rentAmount = newRows
+  .filter((row) => row.am_name?.replace(/\s/g, "").toLowerCase() === "roomrent")
+  .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
 console.log("newRows",newRows)
   const ebAmount = newRows
       .filter((row) => row.am_name?.toLowerCase() === "eb")
@@ -679,7 +704,7 @@ setBillLoading(true)
       }
     }
   }, [billsAddshow]);
-  console.log("customerId",customername)
+  
 
   const handleCustomerName = (e) => {
     setCustomerName(e.target.value);
@@ -779,7 +804,7 @@ setFormatDueDate(formattedDate);
     setDropdownValue("");
     setSelectedTypes("");
     setRoomDetail(true);
-    setCustomerName("");
+    // setCustomerName("");
     setInvoiceNumber("");
     setInvoiceDate("");
     setInvoiceDueDate("");
@@ -794,6 +819,8 @@ setFormatDueDate(formattedDate);
     dispatch({ type: "UPDATE_USERSLIST_TRUE" });
     dispatch({ type: "REMOVE_MANUAL_INVOICE_NUMBER_GET" });
   };
+
+  
 
   useEffect(() => {
     if (currentView && billsAddshow) {
@@ -830,6 +857,16 @@ setFormatDueDate(formattedDate);
       }
     }
   }, [currentView]);
+
+  useEffect(()=>{
+if(state.UsersList?.CustomerdetailsgetStatuscode === 200){
+setTimeout(() => {
+        dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
+      }, 500);
+  
+}
+  },[state.UsersList?.CustomerdetailsgetStatuscode])
+  console.log("state.UsersList?.CustomerdetailsgetStatuscode",state.UsersList?.CustomerdetailsgetStatuscode)
 
   useEffect(() => {
     if (newRows) {
@@ -910,6 +947,7 @@ setFormatDueDate(formattedDate);
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceEditStatusCode === 200) {
       setBillLoading(false)
+      console.log("customerId",customername)
       dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: id } });
 
       setLoading(false);
@@ -922,48 +960,37 @@ setFormatDueDate(formattedDate);
     }
   }, [state.InvoiceList.manualInvoiceEditStatusCode]);
 
+  // useEffect(() => {
+  //   if (state.InvoiceList.manualInvoiceAddStatusCode === 200) {
+  //     setBillLoading(false)
+  //     // handleBackBill();
+  //     dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: id } });
+
+  //     setTimeout(() => {
+  //       dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD" });
+  //     }, 1000);
+  //   }
+  // }, [
+  //   state.InvoiceList.manualInvoiceAddStatusCode,
+  //   state.InvoiceList.ManualInvoices,
+  // ]);
+
+
   useEffect(() => {
-    if (state.InvoiceList.manualInvoiceAddStatusCode === 200) {
-      setBillLoading(false)
-      handleBackBill();
-      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: id } });
-
-      setTimeout(() => {
-        dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD" });
-      }, 1000);
-    }
-  }, [
-    state.InvoiceList.manualInvoiceAddStatusCode,
-    state.InvoiceList.ManualInvoices,
-  ]);
-
-
-  useEffect(() => {
+    console.log("customerId",customername)
       if (state.InvoiceList.manualInvoiceAddStatusCode === 201) {
-        // setShowManualInvoice(false)
-        // setFormLoading(false)
-        // setShowRecurringBillForm(false);
-        // setReceiptFormShow(false);
-        // setShowAllBill(true);
-        // setCustomerName("");
-        // setInvoiceNumber("");
-        // setStartDate("");
-        // setEndDate("");
-        // setInvoiceDate("");
-        // setInvoiceDueDate("");
-        // setTotalAmount("");
-         handleBackBill();
-        setNewRows([]);
-        dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: id } });
+        
+      
+       if(customername){
+     dispatch({ type: "CUSTOMERDETAILS", payload: { customerId:customername} });
+       }
+       
         dispatch({ type: "MANUALINVOICESLIST", payload: state.login.selectedHostel_Id })
         setBillLoading(false);
-         setCustomerName("");
-    setInvoiceNumber("");
-
-    setInvoiceDate("");
-    setInvoiceDueDate("");
-    setTotalAmount("");
-    setNewRows([]);
+           handleBackBill();
+           
+        
+  
    
   
         setTimeout(() => {
@@ -976,6 +1003,7 @@ setFormatDueDate(formattedDate);
 
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceDeleteStatusCode === 200) {
+      console.log("customerId",customername)
       dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: id } });
       setLoading(false);
 
@@ -1211,7 +1239,14 @@ setFormatDueDate(formattedDate);
 
   const [walkingCustomer, setWalkingCustomer] = useState([]);
 
-
+  useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      dispatch({
+        type: "WALKINCUSTOMERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
+    }
+  }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
     if (state.UsersList?.getWalkInStatusCode === 200) {
@@ -1325,8 +1360,8 @@ setFormatDueDate(formattedDate);
       setFilteredUsers(FilterUsertwo);
     }
     if (value === "4") {
-      const FilterUsertwo = Array.isArray(userListDetail)
-        ? userListDetail?.filter((item) => {
+      const FilterUsertwo = Array.isArray(walkingCustomer)
+        ? walkingCustomer?.filter((item) => {
           return item.first_name
             ?.toLowerCase()
             .includes(filterInput?.toLowerCase() || "");
@@ -1679,8 +1714,8 @@ setFormatDueDate(formattedDate);
   }, [customerUser_Id, state.UsersList?.Users, state.InvoiceList?.Invoice]);
 
   useEffect(() => {
-    if (value === "1" && state.UsersList?.statusCodeForAddUser === 201 || state.UsersList?.statusCodeForAddCustomerSaveInfo === 201) {
-        handleCloseAddCustomer()
+    if (state.UsersList?.statusCodeForAddUser === 201 || state.UsersList?.statusCodeForAddCustomerSaveInfo === 201) {
+      handleCloseAddCustomer()
       dispatch({
         type: "USERLIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
@@ -1856,6 +1891,7 @@ setFormatDueDate(formattedDate);
 
   useEffect(() => {
     if (id) {
+      console.log("customerId",customername)
       dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: id } });
     }
   }, [id]);
@@ -1934,6 +1970,7 @@ setFormatDueDate(formattedDate);
   useEffect(() => {
     if (state.UsersList.statusCustomerAddUser === 200) {
       setTimeout(() => {
+        console.log("customerId",customername)
         dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: id } });
         dispatch({ type: "AMENITESHISTORY", payload: { user_id: id } });
       }, 1000);
@@ -2047,11 +2084,11 @@ setFormatDueDate(formattedDate);
     setWalkinForm(false);
   };
 
-  // useEffect(() => {
-  //   if (state.UsersList.addWalkInCustomerStatusCode === 200) {
-  //     setWalkinForm(false);
-  //   }
-  // }, [state.UsersList.addWalkInCustomerStatusCode]);
+  useEffect(() => {
+    if (state.UsersList.addWalkInCustomerStatusCode === 200) {
+      setWalkinForm(false);
+    }
+  }, [state.UsersList.addWalkInCustomerStatusCode]);
 
   useEffect(() => {
     if (state.UsersList.addCheckoutCustomerStatusCode === 201) {
@@ -2223,7 +2260,7 @@ setFormatDueDate(formattedDate);
 
 
   useEffect(() => {
-    if (state.UsersList.statusCodeForCheckInCustomer === 201 && value === "1") {
+    if (state.UsersList.statusCodeForCheckInCustomer === 201) {
       dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
       setShowAssignMenu(false)
       setTimeout(() => {
@@ -2894,10 +2931,10 @@ setFormatDueDate(formattedDate);
                   {value === "4" && (
                     <Button
                       disabled={!canWriteWalkin}
-                      onClick={handleShow}
+                      onClick={walkinForm}
                       style={buttonStyle}
                     >
-                       + Walk-In
+                      + Walk-In
                     </Button>
                   )}
                 </div>

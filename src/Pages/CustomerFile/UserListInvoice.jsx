@@ -23,7 +23,7 @@ import InvoicePage from "../Invoice";
 
 function UserListInvoice(props) {
   const state = useSelector((state) => state);
-  console.log("UserListInvoice",props)
+  console.log("UserListInvoice",state)
 
   const dispatch = useDispatch();
 
@@ -112,7 +112,7 @@ function UserListInvoice(props) {
     setinvoiceFilterddata(state.UsersList.customerdetails.invoiceResponseList);
   }, [state.UsersList.customerdetails.invoiceResponseList]);
 
-console.log("state.UsersList.invoiceResponseList",state.UsersList.invoiceResponseList)
+console.log("state.UsersList.invoiceResponseList",state.UsersList.customerdetails.invoiceResponseList)
 
 
   const handleShowDots = (item, event) => {
@@ -644,8 +644,10 @@ console.log("state.UsersList.invoiceResponseList",state.UsersList.invoiceRespons
                             }}
                             className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
                           >
-                            ₹ {view?.items?.map((item, index) => (
-  <div key={index}>₹{item.amount}</div>
+                            {view?.items
+  ?.filter(item => item.amount !== 0)
+  .map((item, index) => (
+    <div key={index}>₹{item.amount}</div>
 ))}
                           </td>
                          
