@@ -23,15 +23,17 @@ import "./Receipt.css";
 // import substrac from "../Assets/Images/New_images/Subtract.png";
 // import frame from "../Assets/Images/New_images/FramePDF.png";
 // import mobblue from "../Assets/Images/New_images/Rectangleblue.png";
-import substracBlue from "../Assets/Images/New_images/location 03.png";
-import frameblue from "../Assets/Images/New_images/Frameblue.png";
-import paidfull from '../Assets/Images/New_images/paidfull.png'
+// import substracBlue from "../Assets/Images/New_images/location 03.png";
+// import frameblue from "../Assets/Images/New_images/Frameblue.png";
+import paidfull from '../Assets/Images/New_images/Refunded.png'
 import { useDispatch, useSelector } from "react-redux";
 import Logo from '../Assets/Images/get.png'
 import receiptLogo from '../Assets/Images/New_images/receiptlogo.png';
 // import User from '../Assets/Images/user.png'
 // import PaymentUser from '../Assets/Images/usertwo.png' 
 import Rectangle from '../Assets/Images/New_images/Rectangle.png';
+import GreenRectangleforrecipt from '../Assets/Images/New_images/Rectangle_fr_receipt.png'; 
+// import { Card, Badge } from 'react-bootstrap';
 
 
 
@@ -44,8 +46,8 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
   const [idforwhats, setIdForWhats] = useState("");
   const [receiptDataNew, setReceiptDataNew] = useState("");
 
-   const AdminDetails = state?.createAccount?.accountList[0]?.user_details
-   const fullName = `${AdminDetails.first_name} ${AdminDetails.last_name}`.trim();
+  //  const AdminDetails = state?.createAccount?.accountList[0]?.user_details
+  //  const fullName = `${AdminDetails.first_name} ${AdminDetails.last_name}`.trim();
 
   useEffect(() => {
     if (state.InvoiceList.statusCodeNewReceiptStatusCode === 200) {
@@ -204,7 +206,7 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
     }
   };
 
-  console.log("receiptDataNew", receiptDataNew);
+  console.log("receiptDataNew", receiptDataNew?.invoice_type);
   
 
   return (
@@ -377,6 +379,7 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
       letterSpacing: 1,
       fontFamily: "Gilroy",
       marginRight: "20px",
+      color:'black'
     }}
   >
     {receiptDataNew?.hostel_details?.name}
@@ -386,6 +389,7 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
       fontSize: 12,
       fontWeight: 600,
       fontFamily: "Gilroy",
+      color:'black'
     }}
   >
     {receiptDataNew?.hostel_details?.address}
@@ -435,8 +439,8 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                 </div>
 
 
-                <div className="container bg-white rounded-bottom border position-relative" style={{ width: "100%", }}>
-                  <div className="text-center pt-2 pb-1">
+                <div className="container bg-white rounded-bottom  position-relative" >
+                  <div className="text-center m-0 p-0">
                     <p className="" style={{ fontSize: '17px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>
                       {receiptDataNew.invoice_type === "advance" && "Security Deposit Receipt"}
                       {receiptDataNew.invoice_type === "checkout" && "Final Settlement Receipt"}
@@ -446,21 +450,25 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
 
 
                   </div>
+                 
 
 
                   <div className="row px-4 mt-2">
-                    <div className="col-md-7 mb-3">
+                    {/* <div className="col-md-7 mb-3">
                       <p className="mb-1" style={{ fontSize: '13px', color: '#1E45E1', fontFamily: 'Gilroy', fontWeight: 400, fontStyle: 'italic' }}>Bill To:</p>
-                      <p className="mb-1 me-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(23, 23, 23, 1)', }}> <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: '#000000',marginLeft:8 }}>{receiptDataNew?.user_details?.name }</span></p>
+                      <p className="mb-1 me-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(23, 23, 23, 1)', }}> <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: '#000000',marginLeft:8 }}>
+                        {receiptDataNew?.user_details?.name }</span></p>
                       <p className="mb-1">
-                        <span className="ms-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: '#000000', }}>  + {receiptDataNew &&
+                        <span className="ms-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: '#000000', }}> 
+                           + {receiptDataNew &&
                           String(receiptDataNew?.user_details?.phone)?.slice(
                             0,
                             String(receiptDataNew?.user_details?.phone).length - 10
                           )}{" "}
                           {receiptDataNew && String(receiptDataNew?.user_details?.phone)?.slice(-10)}</span>
                       </p>
-                      <p className="mb-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: '#000000', }}><img src={frameblue} alt="frame" width={15} height={15} className="me-1" /> {receiptDataNew?.user_details?.room_name}-{receiptDataNew?.user_details?.bed_name}</p>
+                      <p className="mb-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: '#000000', }}><img src={frameblue} alt="frame" width={15} height={15} className="me-1" /> 
+                      {receiptDataNew?.user_details?.room_name}-{receiptDataNew?.user_details?.bed_name}</p>
 
                       <div className="d-flex" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(34, 34, 34, 1)' }}>
 
@@ -483,8 +491,142 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
 
                       </div>
 
-                    </div>
-                    <div className="col-md-5 mb-3">
+                    </div> */}
+
+   <div className="col-md-6 mb-3">
+  {/* Tenant Name */}
+  <div
+    className="d-flex mt-1"
+    style={{
+      fontSize: "12px",
+      fontFamily: "Gilroy",
+      fontWeight: 400,
+      color: "rgba(65, 65, 65, 1)",
+      alignItems: "center",
+    }}
+  >
+    <span style={{ width: "90px", textAlign: "left" }}>Tenant Name</span>
+    <span style={{ margin: "0 4px" }}>:</span>
+    <span
+      style={{
+        fontSize: "13px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        color: "rgba(23, 23, 23, 1)",
+      }}
+    >
+      {receiptDataNew?.user_details?.name}
+    </span>
+  </div>
+
+  {/* Mobile No */}
+  <div
+    className="d-flex mt-1"
+    style={{
+      fontSize: "12px",
+      fontFamily: "Gilroy",
+      fontWeight: 400,
+      color: "rgba(65, 65, 65, 1)",
+      alignItems: "center",
+    }}
+  >
+    <span style={{ width: "90px", textAlign: "left" }}>Mobile No</span>
+    <span style={{ margin: "0 4px" }}>:</span>
+    <span
+      style={{
+        fontSize: "13px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        color: "rgba(23, 23, 23, 1)",
+      }}
+    >
+      +
+      {receiptDataNew &&
+        String(receiptDataNew?.user_details?.phone)?.slice(
+          0,
+          String(receiptDataNew?.user_details?.phone).length - 10
+        )}{" "}
+      {receiptDataNew &&
+        String(receiptDataNew?.user_details?.phone)?.slice(-10)}
+    </span>
+  </div>
+
+  {/* Room No */}
+  <div
+    className="d-flex mt-1"
+    style={{
+      fontSize: "12px",
+      fontFamily: "Gilroy",
+      fontWeight: 400,
+      color: "rgba(65, 65, 65, 1)",
+      alignItems: "center",
+    }}
+  >
+    <span style={{ width: "90px", textAlign: "left" }}>Room No</span>
+    <span style={{ margin: "0 4px" }}>:</span>
+    <span
+      style={{
+        fontSize: "13px",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        color: "rgba(23, 23, 23, 1)",
+      }}
+    >
+      {receiptDataNew?.user_details?.room_name}-
+      {receiptDataNew?.user_details?.bed_name}
+    </span>
+  </div>
+
+  {/* Address */}
+  <div
+  className="d-flex mt-1"
+  style={{
+    fontSize: "12px",
+    fontFamily: "Gilroy",
+    fontWeight: 400,
+    color: "rgba(65, 65, 65, 1)",
+    alignItems: "flex-start",
+  }}
+>
+  <span style={{ width: "90px", textAlign: "left", whiteSpace: "nowrap" }}>
+    Address
+  </span>
+  <span style={{ margin: "0 4px" }}>:</span>
+
+  <span
+    style={{
+      fontSize: "13px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      color: "rgba(23, 23, 23, 1)",
+      lineHeight: "18px",
+      wordWrap: "break-word",
+      wordBreak: "break-word",
+      whiteSpace: "normal",
+      flex: 1, // makes the address span take remaining width
+    }}
+  >
+    {isValid(receiptDataNew?.user_details?.address) && (
+      <>{receiptDataNew?.user_details?.address}, </>
+    )}
+    {isValid(receiptDataNew?.user_details?.area) && (
+      <>{receiptDataNew?.user_details?.area}, </>
+    )}
+    {isValid(receiptDataNew?.user_details?.city) && (
+      <>{receiptDataNew?.user_details?.city}. </>
+    )}
+    {isValid(receiptDataNew?.user_details?.state) && (
+      <>{receiptDataNew?.user_details?.state} </>
+    )}
+    {isValid(receiptDataNew?.user_details?.pincode) && (
+      <>- {receiptDataNew?.user_details?.pincode}.</>
+    )}
+  </span>
+</div>
+
+</div>
+
+                    <div className="col-md-6 mb-3">
                       <div className="row">
 
                         <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>Receipt No :</div>
@@ -493,38 +635,59 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                         <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)', }}>Date :</div>
                         <div className="col-6  text-start mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>{moment(receiptDataNew?.payment_date).format('DD/MM/YYYY')}</div>
 
-                        <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)', whiteSpace: "nowrap" }}>Room No :</div>
-                        <div className="col-6  text-start mt-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>{receiptDataNew?.user_details?.room_name}-{receiptDataNew?.user_details?.bed_name}</div>
+
                         <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)', whiteSpace: "nowrap" }}>Payment Mode :</div>
                         <div className="col-6  text-start" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', marginTop: 2, paddingLeft: 18 }}> {receiptDataNew?.bank_type !== ""
                           ? receiptDataNew.bank_type
                           : receiptDataNew.payment_mode}</div>
+                                                  <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)', whiteSpace: "nowrap" }}>Transaction ID :</div>
+                        <div className="col-6  text-start mt-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>
+                          {/* {receiptDataNew?.user_details?.room_name}-{receiptDataNew?.user_details?.bed_name} */}
+                          -
+                          </div>
                       </div>
                     </div>
                   </div>
 
 
-                  <div className="px-4 pb-3">
-                    <div className="table-responsive">
-                      <table className="table  text-center align-middle">
-                        <thead style={{backgroundColor:receiptDataNew?.bill_template?.template_theme || "#1E45E1" , color: "#FFFFFF" }}>
-                          <tr style={{ color: "white" }}>
-                            <th style={{ borderTopLeftRadius: "12px", borderBottomLeftRadius: "12px", color: "white", fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400 }}>S.NO</th>
-                            <th style={{ color: "white", fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400 }}>Description</th>
-                            <th style={{ borderTopRightRadius: "12px", borderBottomRightRadius: "12px", color: "white", fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400 }}>Amount / INR</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {receiptDataNew?.amenities?.map((item, index) => (
-                            <tr key={index} style={{ borderBottom: "1px solid #dee2e6" }}>
-                              <td style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 500 }}>{index + 1}</td>
-                              <td style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 500 }}>{item.am_name}</td>
-                              <td style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 500 }}>Rs: {item.amount}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+ <div className="d-flex flex-row  mt-3 ms-4 me-4 border" style={{borderRadius: '10px'}}>
+                      <div className="col-lg-6 d-flex  justify-content-left align-items-center ">
+                        <div className="d-flex flex-column">
+                        <label style={{ fontSize: 15, fontWeight: 600, fontFamily: "Gilroy", marginLeft: '15px',  }}>
+                          TOTAL REFUNDED AMOUNT
+                        </label>
+                        <p style={{ fontSize: 11, fontWeight: 500, fontFamily: "Gilroy",marginLeft: '15px',  }}>Security Deposit - Deductions (If any)</p>
+                      </div>
+                      </div>
+                      <div className="col-lg-6 border" >
+
+                        <div style={{backgroundColor:'rgba(241, 255, 245, 1)', padding:10}}>
+                          <div className="d-flex flex-row">
+                             <div className="me-2">
+                              <img src={GreenRectangleforrecipt} alt="greenrectangleimage"/>
+                              </div>
+                          <label style={{ fontSize: 17, fontWeight: 700, fontFamily: "Gilroy",  }}>
+                            ₹ 
+                          </label>
+                        </div>
+                        </div>
+                        <div>
+                          <label style={{
+                            fontSize: 13,
+                            fontWeight: 600,
+                            color: "#000000",
+                            fontFamily: "Gilroy"
+                            , padding:10
+                          }}>
+                            only
+                          </label>
+                        </div>
+                      </div>
                     </div>
+
+
+                  <div className="px-4 pb-3">
+                    
 
 
                     <div className="d-flex justify-content-end mt-3"  >
@@ -553,7 +716,7 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                 <div className="px-4" style={{ marginTop: 20 }}>
                   <div className="row">
                     <div className="col-md-8">
-                      <h6 className="" style={{ color: '#1E45E1', fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500 }}>Terms and Conditions</h6>
+                      <h6 className="" style={{ color: '#1E45E1', fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500 }}>Acknowledgment</h6>
                       <p style={{ fontSize: "12px", color: "#555", fontFamily: 'Gilroy', fontWeight: 400 }}>
                         {receiptDataNew?.bill_template?.terms_and_condition}
                         {/* This document confirms final settlement for the Tenant on <br></br>
@@ -574,22 +737,183 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                   </div>
                 </div>
 
-                <div className="d-flex justify-content-between mt-4 align-items-start flex-wrap ms-4">
+                <div className="d-flex justify-content-between  align-items-start flex-wrap ms-4">
 
-                  <div className="text-start mt-4">
-                    <p className="mb-0" style={{ fontSize: "12px", fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(30, 69, 225, 1)' }}>
+                  <div className="text-start mt-5 col-lg-4">
+                    <p className="mb-0" style={{ fontSize: "12px", fontFamily: 'Gilroy', fontWeight: 500,  }}>
                       &quot;{receiptDataNew?.bill_template?.notes}&quot;
                     </p>
                    
                   </div>
 
+                  <div className="col-lg-4">
+                  </div>
 
-                  <div>
+
+                  <div className="col-lg-4">
                     <p className="text-success fw-bold  border-success px-4 py-2 d-inline-block"><img src={paidfull} alt="received"  /></p>
 
                   </div>
                 </div>
 
+                    <div className="px-4 pb-3">
+                   <div className="table-responsive">
+<table
+  style={{
+    width: "100%",
+    borderCollapse: "separate",
+    borderSpacing: "0",
+    border: "1px solid #dee2e6",
+    borderRadius: "12px",
+    overflow: "hidden",
+    fontFamily: "Gilroy",
+  }}
+>
+  <thead>
+    <tr style={{  textAlign: "left" }}>
+      <th
+        style={{
+          padding: "10px 16px",
+          fontSize: "13px",
+          fontWeight: 600,
+          color: "black",
+          fontFamily: "Gilroy",
+          borderBottom: "1px solid #dee2e6",
+          width: "10%",
+        }}
+      >
+        REFUND
+      </th>
+      <th
+        style={{
+          padding: "10px 16px",
+          fontSize: "13px",
+          fontWeight: 600,
+          color: "black",
+          fontFamily: "Gilroy",
+          borderBottom: "1px solid #dee2e6",
+        }}
+      >
+        AMOUNT / INR
+      </th>
+      <th
+        style={{
+          padding: "10px 16px",
+          fontSize: "13px",
+          fontWeight: 600,
+          color: "black",
+          fontFamily: "Gilroy",
+          textAlign: "right",
+          borderBottom: "1px solid #dee2e6",
+          width: "25%",
+        }}
+      >
+        DEDUCTION
+      </th>
+       <th
+        style={{
+          padding: "10px 16px",
+          fontSize: "13px",
+          fontWeight: 600,
+          color: "black",
+          fontFamily: "Gilroy",
+          textAlign: "right",
+          borderBottom: "1px solid #dee2e6",
+          width: "25%",
+        }}
+      >
+        AMOUNT / INR
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {
+      receiptDataNew?.amenities?.map((item, index) => (
+        <tr key={index} style={{ borderBottom: "1px solid #dee2e6" }}>
+       
+          <td
+            style={{
+              padding: "10px 16px",
+              fontSize: "13px",
+              fontWeight: 500,
+              color: "#444",
+            }}
+          >
+            {item.am_name}
+          </td>
+          <td
+            style={{
+              padding: "10px 16px",
+              fontSize: "13px",
+              fontWeight: 500,
+              color: "#444",
+            }}
+          >
+            ₹ {item.amount}
+          </td>
+        </tr>
+      ))
+    }
+
+    <tr style={{ backgroundColor: "rgba(250, 251, 255, 1)" }}>
+      <td style={{
+          padding: "10px 16px",
+          fontSize: "13px",
+          fontWeight: 600,
+          color: "#000",
+          borderTop: "1px solid #dee2e6",
+        }}>Total</td>
+      <td
+        style={{
+          padding: "10px 16px",
+          fontSize: "13px",
+          fontWeight: 600,
+          color: "#000",
+          borderTop: "1px solid #dee2e6",
+        }}
+      >
+         ₹{" "}
+        {receiptDataNew?.invoice_type === "booking"
+          ? receiptDataNew?.amount_received
+          : receiptDataNew?.amenities?.reduce(
+              (acc, item) => acc + Number(item.amount || 0),
+              0
+            )}
+      </td>
+       <td style={{
+          padding: "10px 16px",
+          fontSize: "13px",
+          fontWeight: 600,
+          color: "rgba(255, 0, 0, 1)",
+          borderTop: "1px solid #dee2e6",
+        }}>Total Deductions</td>
+      <td
+        style={{
+          padding: "10px 16px",
+          fontSize: "13px",
+          fontWeight: 600,
+          color: "rgba(255, 0, 0, 1)",
+          textAlign: "right",
+          borderTop: "1px solid #dee2e6",
+        }}
+      >
+         ₹{" "}
+        {receiptDataNew?.invoice_type === "booking"
+          ? receiptDataNew?.amount_received
+          : receiptDataNew?.amenities?.reduce(
+              (acc, item) => acc + Number(item.amount || 0),
+              0
+            )}
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+                    </div>
+                      </div>
                 
 <div className="py-2 px-5 d-flex justify-content-evenly"> 
                   <div>
@@ -700,60 +1024,67 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                   <div className="row px-4 mt-3">
       
 
- <div className="col-md-6 mb-3">
-  <div className="row">
-
-    {/* Tenant Name */}
+ <div className="col-md-6 mb-3" style={{ fontFamily: "Gilroy" }}>
+  {/* Tenant Name */}
+  <div className="row mt-1">
     <div
-      className="col-6 mt-1"
+      className="col-4"
       style={{
         display: "flex",
         justifyContent: "flex-start",
-        alignItems: "center",
+        alignItems: "flex-start",
         fontSize: "12px",
-        fontFamily: "Gilroy",
         fontWeight: 400,
         color: "rgba(65, 65, 65, 1)",
+        paddingRight: 0,
       }}
     >
       <span style={{ width: "90px", textAlign: "left" }}>Tenant Name</span>
       <span style={{ marginLeft: "4px" }}>:</span>
     </div>
     <div
-      className="col-6 text-start mt-1"
+      className="col-8"
       style={{
         fontSize: "13px",
-        fontFamily: "Gilroy",
         fontWeight: 600,
         color: "rgba(23, 23, 23, 1)",
+        lineHeight: "18px",
+        whiteSpace: "normal",
+        wordBreak: "break-word",
+        paddingLeft: 10,
       }}
     >
       {receiptDataNew?.user_details?.name || rowData?.Name}
     </div>
+  </div>
 
-    {/* Mobile No */}
+  {/* Mobile No */}
+  <div className="row mt-1">
     <div
-      className="col-6 mt-1"
+      className="col-4"
       style={{
         display: "flex",
         justifyContent: "flex-start",
-        alignItems: "center",
+        alignItems: "flex-start",
         fontSize: "12px",
-        fontFamily: "Gilroy",
         fontWeight: 400,
         color: "rgba(65, 65, 65, 1)",
+        paddingRight: 0,
       }}
     >
       <span style={{ width: "90px", textAlign: "left" }}>Mobile No</span>
       <span style={{ marginLeft: "4px" }}>:</span>
     </div>
     <div
-      className="col-6 text-start mt-1"
+      className="col-8"
       style={{
         fontSize: "13px",
-        fontFamily: "Gilroy",
         fontWeight: 600,
         color: "rgba(23, 23, 23, 1)",
+        lineHeight: "18px",
+        whiteSpace: "normal",
+        wordBreak: "break-word",
+        paddingLeft: 10,
       }}
     >
       +{receiptDataNew &&
@@ -764,88 +1095,90 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
       {receiptDataNew &&
         String(receiptDataNew?.user_details?.phone)?.slice(-10)}
     </div>
+  </div>
 
-    {/* Room No */}
+  {/* Room No */}
+  <div className="row mt-1">
     <div
-      className="col-6 mt-1"
+      className="col-4"
       style={{
         display: "flex",
         justifyContent: "flex-start",
-        alignItems: "center",
+        alignItems: "flex-start",
         fontSize: "12px",
-        fontFamily: "Gilroy",
         fontWeight: 400,
         color: "rgba(65, 65, 65, 1)",
+        paddingRight: 0,
       }}
     >
       <span style={{ width: "90px", textAlign: "left" }}>Room No</span>
       <span style={{ marginLeft: "4px" }}>:</span>
     </div>
     <div
-      className="col-6 text-start mt-1"
+      className="col-8"
       style={{
         fontSize: "13px",
-        fontFamily: "Gilroy",
         fontWeight: 600,
         color: "rgba(23, 23, 23, 1)",
+        lineHeight: "18px",
+        whiteSpace: "normal",
+        wordBreak: "break-word",
+        paddingLeft: 10,
       }}
     >
       {receiptDataNew?.user_details?.room_name} -{" "}
       {receiptDataNew?.user_details?.bed_name}
     </div>
+  </div>
 
-    {/* Address */}
+  {/* Address */}
+  <div className="row mt-1">
     <div
-      className="col-6 mt-1"
+      className="col-4"
       style={{
         display: "flex",
         justifyContent: "flex-start",
-        alignItems: "start",
+        alignItems: "flex-start",
         fontSize: "12px",
-        fontFamily: "Gilroy",
         fontWeight: 400,
         color: "rgba(65, 65, 65, 1)",
+        paddingRight: 0,
       }}
     >
       <span style={{ width: "90px", textAlign: "left" }}>Address</span>
       <span style={{ marginLeft: "4px" }}>:</span>
     </div>
     <div
-      className="col-6 text-start mt-1"
+      className="col-8"
       style={{
         fontSize: "13px",
-        fontFamily: "Gilroy",
         fontWeight: 600,
         color: "rgba(23, 23, 23, 1)",
         lineHeight: "18px",
+        whiteSpace: "normal",
+        wordBreak: "break-word",
+        paddingLeft: 10,
       }}
     >
       {isValid(receiptDataNew?.user_details?.address) && (
-        <>
-          {receiptDataNew?.user_details?.address},{" "}
-        </>
+        <>{receiptDataNew?.user_details?.address}, </>
       )}
       {isValid(receiptDataNew?.user_details?.area) && (
-        <>
-          {receiptDataNew?.user_details?.area},{" "}
-        </>
+        <>{receiptDataNew?.user_details?.area}, </>
       )}
       {isValid(receiptDataNew?.user_details?.city) && (
-        <>{receiptDataNew?.user_details?.city}</>
+        <>{receiptDataNew?.user_details?.city}. </>
       )}
-      {(isValid(receiptDataNew?.user_details?.address) ||
-        isValid(receiptDataNew?.user_details?.area) ||
-        isValid(receiptDataNew?.user_details?.city)) && <br />}
       {isValid(receiptDataNew?.user_details?.state) && (
         <>{receiptDataNew?.user_details?.state} </>
       )}
       {isValid(receiptDataNew?.user_details?.pincode) && (
-        <>- {receiptDataNew?.user_details?.pincode}</>
+        <>- {receiptDataNew?.user_details?.pincode}.</>
       )}
     </div>
-
   </div>
 </div>
+
 
 
                     <div className="col-md-6 mb-3">
@@ -870,19 +1203,24 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                   </div>
                   
 
-                  {receiptDataNew?.invoice_type === "advance" && (
-                    <div className="d-flex justify-content-end text-end mt-3 me-5">
-                      <div>
-                        <label style={{ fontSize: 13, fontWeight: 500, fontFamily: "Gilroy", marginRight: '15px', marginTop: '60px' }}>
-                          Amount received
+                  {/* {receiptDataNew?.invoice_type === "advance" && ( */}
+                    <div className="d-flex flex-row  mt-3 ms-4 me-4 border" style={{borderRadius: '10px'}}>
+                      <div className="col-lg-6 d-flex justify-content-left align-items-center ">
+                        <label style={{ fontSize: 15, fontWeight: 600, fontFamily: "Gilroy", marginLeft: '15px',  }}>
+                          TOTAL PAID AMOUNT
                         </label>
                       </div>
-                      <div style={{ padding: '20px', border: '1px solid rgba(0, 163, 46, 1)', borderRadius: '5px' }}>
+                      <div className="col-lg-6 border" >
 
-                        <div>
-                          <label style={{ fontSize: 17, fontWeight: 700, fontFamily: "Gilroy", color: 'rgba(0, 163, 46, 1)' }}>
+                        <div style={{backgroundColor:'rgba(241, 255, 245, 1)', padding:10}}>
+                          <div className="d-flex flex-row">
+                             <div className="me-2">
+                              <img src={GreenRectangleforrecipt} alt="greenrectangleimage"/>
+                              </div>
+                          <label style={{ fontSize: 17, fontWeight: 700, fontFamily: "Gilroy",  }}>
                             ₹ {receiptDataNew?.amount_received}
                           </label>
+                        </div>
                         </div>
                         <div>
                           <label style={{
@@ -890,28 +1228,204 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                             fontWeight: 600,
                             color: "#000000",
                             fontFamily: "Gilroy"
+                            , padding:10
                           }}>
                             {amountInWords} only
                           </label>
                         </div>
                       </div>
                     </div>
-                  )}
+                  {/* )} */}
 
-                  {receiptDataNew?.invoice_type === "advance" &&
-                    (
-                      <div>
-                        <p style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(0, 0, 0, 1)', marginLeft: '20px' }}>Payment For</p>
+                
+
+
+                  
+
+
+
+                </div>
+                <div className="px-4" style={{ marginTop: 20 }}>
+
+                  <div className="row">
+                      <div className="col-md-8">
+                        <h6 style={{ color: "grey", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" , letterSpacing:'0px',}}>Acknowledgment</h6>
+                        <p style={{ fontSize: "12px", color: "#555", fontFamily: "rgba(61, 61, 61, 1)" }}>
+                      {receiptDataNew?.bill_template?.terms_and_condition}
+                        </p>
                       </div>
-                    )
 
-                  }
+                      <div className="col-md-4 text-end">
+                           {receiptDataNew?.bill_template?.digital_signature_url && (
+                              <img
+                                src={receiptDataNew?.bill_template.digital_signature_url}
+                                alt="Digital Signature" style={{ height: 60, width: 130, paddingLeft:20 }}
 
-                  <div className="px-4 pb-3">
-                    <div className="table-responsive">
+                              />
+                            )}
+                        <p className="mt-4 " style={{ fontSize: "13px", fontFamily: "Gilroy", color: "#2C2C2C", paddingRight: "5px" }}>Authorized Signature</p>
+                      </div>
+                    </div>
+                  <div className="row">
+                    <div className="col-md-6 pt-4">
+   <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500,  fontSize: "13px", }}>
+                            &quot;{receiptDataNew?.bill_template?.notes} &quot;
+                          </p>
+                         
+
+                    </div>
+                    <div className="col-md-6 text-end">
+                      <p className="text-success fw-bold  border-success px-4 py-2 d-inline-block ms-2"><img src={received} alt="received"  className="img-fluid" style={{rotate:'5deg'}} /></p>
+                      
+                    </div>
+
+                    
+
+                  </div>
+                </div>
+
+             <p style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(0, 0, 0, 1)', marginLeft: '20px' }}>Payment For</p>
+
+                <div className="px-4 pb-3">
+
+                  {
+                    receiptDataNew?.invoice_type === "checkIn" ?
+
+                    
+                                    <div className="table-responsive">
                     
  
 
+<table
+  style={{
+    width: "100%",
+    borderCollapse: "separate",
+    borderSpacing: "0",
+    border: "1px solid #dee2e6",
+    borderRadius: "12px",
+    overflow: "hidden",
+    fontFamily: "Gilroy",
+  }}
+>
+  <thead>
+    <tr style={{  textAlign: "left" }}>
+      <th
+        style={{
+          padding: "10px 12px",
+          fontSize: "13px",
+          fontWeight: 600,
+          color: "black",
+          fontFamily: "Gilroy",
+          borderBottom: "1px solid #dee2e6",
+          width: "10%",
+        }}
+      >
+        INVOICE.NO
+      </th>
+      <th
+        style={{
+          padding: "10px 12px",
+          fontSize: "13px",
+          fontWeight: 600,
+          color: "black",
+          fontFamily: "Gilroy",
+          borderBottom: "1px solid #dee2e6",
+        }}
+      >
+        INV DATE
+      </th>
+      <th
+        style={{
+          padding: "10px 12px",
+          fontSize: "13px",
+          fontWeight: 600,
+          color: "black",
+          fontFamily: "Gilroy",
+          textAlign: "right",
+          borderBottom: "1px solid #dee2e6",
+          width: "25%",
+        }}
+      >
+       INVOICE AMOUNT 
+      </th>
+       <th
+        style={{
+          padding: "10px 12px",
+          fontSize: "13px",
+          fontWeight: 600,
+          color: "black",
+          fontFamily: "Gilroy",
+          textAlign: "right",
+          borderBottom: "1px solid #dee2e6",
+          width: "25%",
+        }}
+      >
+       PAYMENT AMOUNT
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+  
+      
+     {  receiptDataNew?.amenities?.map((item, index) => (
+        <tr key={index} style={{ borderBottom: "1px solid #dee2e6" }}>
+          <td
+            style={{
+              padding: "10px 16px",
+              fontSize: "13px",
+              fontWeight: 500,
+              color: "#444",
+            }}
+          >
+            {index + 1}
+          </td>
+            <td
+            style={{
+              padding: "10px 16px",
+              fontSize: "13px",
+              fontWeight: 500,
+              color: "#444",
+            }}
+          >
+           -
+          </td>
+          <td
+            style={{
+              padding: "10px 16px",
+              fontSize: "13px",
+              fontWeight: 500,
+              color: "#444",
+            }}
+          >
+            {item.am_name}
+          </td>
+          <td
+            style={{
+              padding: "10px 16px",
+              fontSize: "13px",
+              fontWeight: 500,
+              color: "#444",
+              textAlign: "right",
+            }}
+          >
+            ₹ {item.amount}
+          </td>
+        </tr>
+      ))
+    }
+
+    
+  </tbody>
+</table>
+
+
+
+                    </div>
+
+                    :              
+                    
+                    <div className="table-responsive">
 <table
   style={{
     width: "100%",
@@ -1084,55 +1598,11 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
 
 
                     </div>
+                    
+                  }
+    
 
-<table   style={{
-    width: "100%",
-    // borderCollapse: "separate",
-    borderSpacing: "0",
-    borderRadius: "12px",
-    overflow: "hidden",
-    fontFamily: "Gilroy",
-    marginTop:'10px',
-  }}>
-      <tr className="border shadow-md" style={{ backgroundColor: "rgba(250, 251, 255, 1)" , borderTopLeftRadius:'12px', borderTopRightRadius:'12px' , borderBottomLeftRadius:'12px', borderBottomRightRadius:'12px'}}>
-      <td style={{
-          padding: "10px 16px",
-          fontSize: "13px",
-          fontWeight: 600,
-          color: "#000",
-          borderTop: "1px solid #dee2e6",
-        }}></td>
-      <td
-        style={{
-          padding: "10px 16px",
-          fontSize: "13px",
-          fontWeight: 600,
-          color: "#000",
-          borderTop: "1px solid #dee2e6",
-        }}
-      >
-      Grand Total
-      </td>
-      <td
-        style={{
-          padding: "10px 16px",
-          fontSize: "13px",
-          fontWeight: 600,
-          color: "#000",
-          textAlign: "right",
-          borderTop: "1px solid #dee2e6",
-        }}
-      >
-        ₹{" "}
-        {receiptDataNew?.invoice_type === "booking"
-          ? receiptDataNew?.amount_received
-          : receiptDataNew?.amenities?.reduce(
-              (acc, item) => acc + Number(item.amount || 0),
-              0
-            )}
-      </td>
-    </tr>
-                      </table>
+
 
                     {/* {receiptDataNew.invoice_type !== "advance" &&  ( */}
                     {!(receiptDataNew?.invoice_type === "advance" || receiptDataNew?.invoice_type === "booking") && (
@@ -1195,73 +1665,6 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
 
 
                   </div>
-
-
-
-                </div>
-                <div className="px-4" style={{ marginTop: 20 }}>
-                  <div className="row">
-                    <div className="col-md-6 mb-3">
-                      <h6 style={{
-                        fontSize: '13px',
-                        fontFamily: 'Gilroy',
-                        fontWeight: 700,
-                        color: '#00A32E',
-                        letterSpacing: '1px'
-                      }}
-                      >PAYMENT DETAILS</h6>
-                      <p className="mb-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Payment Mode :  {receiptDataNew.bank_type || rowData.payment_mode}</p>
-                      {receiptDataNew?.invoice_type !== "advance" && (
-                        <p
-                          className="mb-1"
-                          style={{
-                            fontSize: '13px',
-                            fontFamily: 'Gilroy',
-                            fontWeight: 500,
-                            color: 'rgba(23, 23, 23, 1)',
-                          }}
-                        >
-                          Transaction ID : 
-                        </p>
-                      )}
-
-                      <p style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Payment Recorded By : Admin - {fullName}</p>
-                      <p style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', marginTop: "-14px" }}>Status : Paid</p>
-
-                    </div>
-                    <div className="col-md-6 text-end">
-                      <p className="text-success fw-bold  border-success px-4 py-2 d-inline-block ms-2"><img src={received} alt="received"  className="img-fluid" style={{rotate:'-5deg'}} /></p>
-                      {receiptDataNew?.invoice_type === "advance" && (
-                        <div className="text-start mt-2 ms-5" >
-                          <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(0, 163, 46, 1)', fontSize: "13px", marginLeft: "35px" }}>
-                            &quot;{receiptDataNew?.bill_template?.notes} &quot;
-                          </p>
-                         
-                        </div>
-                      )}
-                    </div>
-                    <div className="row">
-                      <div className="col-md-8">
-                        <h6 style={{ color: "#00A32E", fontSize: "13px", fontWeight: 600, fontFamily: "Gilroy" }}>Terms and Conditions</h6>
-                        <p style={{ fontSize: "12px", color: "#555", fontFamily: "Gilroy" }}>
-                      {receiptDataNew?.bill_template?.terms_and_condition}
-                        </p>
-                      </div>
-
-                      <div className="col-md-4 text-end">
-                           {receiptDataNew?.bill_template?.digital_signature_url && (
-                              <img
-                                src={receiptDataNew?.bill_template.digital_signature_url}
-                                alt="Digital Signature" style={{ height: 60, width: 130, paddingLeft:20 }}
-
-                              />
-                            )}
-                        <p className="mt-4 " style={{ fontSize: "13px", fontFamily: "Gilroy", color: "#2C2C2C", paddingRight: "5px" }}>Authorized Signature</p>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
 
                 <div className="py-2 px-5 d-flex justify-content-evenly"> 
                   <div>

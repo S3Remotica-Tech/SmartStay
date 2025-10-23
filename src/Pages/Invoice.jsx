@@ -52,7 +52,6 @@ import AxiosConfig from "../WebService/AxiosConfig";
 import Swal from 'sweetalert2';
 import PaginationList from "../Components/PaginationList";
 import Error_Icon from ".././Assets/Images/New_images/Error_warning.png";
-import plusIcon from "../Assets/Images/New_images/plusIcon.png";
 
 
 
@@ -2017,8 +2016,6 @@ console.log("invoiceList.transaction",invoiceList.transaction)
     setStatusfilter("");
     setDateRange([]);
     setStartDate(null);
-    // setShowPdfModal(false)
-    // setShowPdfReceiptModal(false)
     setEndDate(null);
   };
 
@@ -2057,14 +2054,10 @@ console.log("invoiceList.transaction",invoiceList.transaction)
 
   const handleClosePdfReceipt = () => {
     setDownloadReceipt(false);
-      setShowPdfModal(false);
-      setShowPdfReceiptModal(false)
   };
 
   const handleClosePdfModal = () => {
     setDownloadInvoice(false);
-    setShowPdfModal(false);
-
   };
 
   // useEffect(() => {
@@ -2952,161 +2945,8 @@ console.log("invoiceList.transaction",invoiceList.transaction)
                 marginTop: value === "1" || value === "3" ? "11px" : "15px",
               }}>
                 <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Bills</label>
-{
-  showPdfModal  &&
-  <>
-   {value === "1"&& (
-                   
-                      <Image
-                    
-                        src={Filters}
-                        roundedCircle
-                        style={{ height: "50px", width: "50px", cursor: "pointer",marginLeft:135}}
-                        onClick={handleFilterd}
-                      />
-                
-                  )}
-
-
-                  
-
-                 {value === "1" && (
-                    
-                      <img src={plusIcon}   alt="plusicon" width={30} height={30} style={{marginLeft:10}} onClick={handleManualShow}  disabled={billAddPermission || state?.login?.planStatus === 0}/>
-                    )}
-  </>
-}
-
-
- {value === "1" && filterStatus  && showPdfModal &&(
-                    <div
-                    
-                      style={{
-                        border: "1px solid #D4D4D4",
-                        borderRadius: 8,
-                        width: search ? "120px" : "120px",
-                        marginTop:"-45px",
-                        marginLeft:40
-                        
-                      }}
-                    >
-                      <Form.Select
-                        onChange={(e) => handleStatusFilter(e)}
-                        value={statusfilter}
-                        aria-label="Select Price Range"
-                        className=""
-                        id="statusselect"
-                        style={{
-                          color: "rgba(34, 34, 34, 1)",
-                          fontWeight: 600,
-                          fontFamily: "Gilroy",
-                          cursor: "pointer"
-                        }}
-                      >
-                        <option value="All">All</option>
-                        <option value="Unpaid">UnPaid</option>
-                        <option value="Paid">Paid</option>
-                        <option value="date">Date</option>
-                      </Form.Select>
-
-                    </div>
-                  )}
-                  {statusfilter === "date" && value === "1" && showPdfModal && (
-                    <div className="mt-2 mb-2 ">
-                      <RangePicker
-                        style={{ height: 35, cursor: "pointer",width:200}}
-                        onChange={(dates) => {
-                          if (!dates || dates.length === 0) {
-                            setStatusfilter("");
-                            setDateRange([]);
-                            setStartDate(null);
-                            setEndDate(null);
-                          } else {
-                            setDateRange(dates);
-                            setStartDate(dates[0]);
-                            setEndDate(dates[1]);
-                          }
-                        }}
-                        value={dateRange}
-                        format="DD-MM-YYYY"
-                       
-                      />
-
-                    </div>
-                  )}
-
-
-{
-  showPdfReceiptModal  &&
-  <>
-   {( value === "3") && (
-                   
-                      <Image
-                    
-                        src={Filters}
-                        roundedCircle
-                        style={{ height: "50px", width: "50px", cursor: "pointer",marginLeft:135}}
-                        onClick={handleFilterd}
-                      />
-                
-                  )}
-
-                 {value === "3" && (
-                    
-                      <img src={plusIcon}   alt="plusicon" width={30} height={30} style={{marginLeft:10}} onClick={handleManualShow}  disabled={billAddPermission || state?.login?.planStatus === 0}/>
-                    )}
-  </>
-}
-
-    {value === "3" && filterStatus && showPdfReceiptModal &&(
-                    <div
-                      className="me-3"
-                      style={{
-                        border: "1px solid #D4D4D4",
-                        borderRadius: 8,
-                        width: search ? "120px" : "120px",
-                       marginTop:"-45px",
-                        marginLeft:40
-                      }}
-                    >
-                      <Form.Select
-                        onChange={(e) => handleStatusFilterReceipt(e)}
-                        value={statusFilterReceipt}
-                        aria-label="Select Price Range"
-                        className=""
-                        id="statusselect"
-                        style={{
-                          color: "rgba(34, 34, 34, 1)",
-                          fontWeight: 600,
-                          fontFamily: "Gilroy",
-                          cursor: "pointer"
-                        }}
-                      >
-                        <option value="All">All</option>
-                        <option value="Cash">Cash</option>
-                        <option value="UPI">UPI</option>
-                        <option value="Bank">Bank</option>
-                        <option value="Card">Card</option>
-                        <option value="date">Date</option>
-                      </Form.Select>
-                    </div>
-                  )}
-
-                  {statusFilterReceipt === "date" && value === "3" && showPdfReceiptModal && (
-                    <div className="me-3 mt-2 mb-2">
-                      <RangePicker
-                        value={receiptDateRange}
-                        format="YYYY-MM-DD"
-                        onChange={handleDateRangeChangeReceipt}
-                        style={{ height: "38px", borderRadius: 8, cursor: "pointer",width:200 }}
-                        allowClear
-                      />
-                    </div>
-                  )}
-
-                
               </div>
- 
+
               <div >
                 {showLoader && <LoaderComponent />}
                 {loading && <LoaderComponent />}
@@ -3392,8 +3232,7 @@ console.log("invoiceList.transaction",invoiceList.transaction)
                     </>
                   ) : (
                     <>
-                    { (value === "2") &&
-                        <div style={{ marginTop: 18 }}>
+                      <div style={{ marginTop: 18 }}>
                         <Image
                           src={searchteam}
                           roundedCircle
@@ -3405,42 +3244,10 @@ console.log("invoiceList.transaction",invoiceList.transaction)
                           onClick={handleSearch}
                         />
                       </div>
-                    }
-
-                      { value === "1" && !showPdfModal &&
-                        <div style={{ marginTop: 18 }}>
-                        <Image
-                          src={searchteam}
-                          roundedCircle
-                          style={{
-                            height: "24px",
-                            width: "24px",
-                            cursor: "pointer"
-                          }}
-                          onClick={handleSearch}
-                        />
-                      </div>
-                    }
-
-
-                     { value === "3" && !showPdfReceiptModal &&
-                        <div style={{ marginTop: 18 }}>
-                        <Image
-                          src={searchteam}
-                          roundedCircle
-                          style={{
-                            height: "24px",
-                            width: "24px",
-                            cursor: "pointer"
-                          }}
-                          onClick={handleSearch}
-                        />
-                      </div>
-                    }
                     </>
                   )}
 
-                  {/* {(value === "1" || value === "3") && (!showPdfModal || !showPdfReceiptModal)  && (
+                  {(value === "1" || value === "3") && (
                     <div >
                       <Image
                         src={Filters}
@@ -3449,30 +3256,9 @@ console.log("invoiceList.transaction",invoiceList.transaction)
                         onClick={handleFilterd}
                       />
                     </div>
-                  )} */}
-                  {value === "1" && !showPdfModal  && (
-    <div >
-                      <Image
-                        src={Filters}
-                        roundedCircle
-                        style={{ height: "50px", width: "50px", marginTop: 18, cursor: "pointer" }}
-                        onClick={handleFilterd}
-                      />
-                    </div>
-)}
-                  {value === "3" && !showPdfReceiptModal  && (
-    <div >
-                      <Image
-                        src={Filters}
-                        roundedCircle
-                        style={{ height: "50px", width: "50px", marginTop: 18, cursor: "pointer" }}
-                        onClick={handleFilterd}
-                      />
-                    </div>
-)}
+                  )}
 
-
-                  {value === "1" && filterStatus && !showPdfModal && (
+                  {value === "1" && filterStatus && (
                     <div
                       className="me-3"
                       style={{
@@ -3503,7 +3289,7 @@ console.log("invoiceList.transaction",invoiceList.transaction)
 
                     </div>
                   )}
-                  {statusfilter === "date" && value === "1" && !showPdfModal &&(
+                  {statusfilter === "date" && value === "1" && (
                     <div className="mt-4">
                       <RangePicker
                         style={{ height: 40, cursor: "pointer" }}
@@ -3527,7 +3313,7 @@ console.log("invoiceList.transaction",invoiceList.transaction)
                     </div>
                   )}
 
-                  {value === "3" && filterStatus && !showPdfReceiptModal &&(
+                  {value === "3" && filterStatus && (
                     <div
                       className="me-3"
                       style={{
@@ -3560,7 +3346,7 @@ console.log("invoiceList.transaction",invoiceList.transaction)
                     </div>
                   )}
 
-                  {statusFilterReceipt === "date" && value === "3" && !showPdfReceiptModal && (
+                  {statusFilterReceipt === "date" && value === "3" && (
                     <div className="me-3 mt-3">
                       <RangePicker
                         value={receiptDateRange}
@@ -3575,7 +3361,7 @@ console.log("invoiceList.transaction",invoiceList.transaction)
 
 
                   <div className="text-center" style={{ paddingRight: 18 }} >
-                    {value === "1" && !showPdfModal && (
+                    {value === "1" && (
                       <Button
                         disabled={billAddPermission || state?.login?.planStatus === 0}
                         onClick={handleManualShow}
@@ -3621,7 +3407,7 @@ console.log("invoiceList.transaction",invoiceList.transaction)
                       </Button>
                     )} */}
 
-                    {value === "3" && !showPdfReceiptModal && (
+                    {value === "3" && (
                       <Button
                         disabled={receiptaddPermission}
                         onClick={handleReceiptShow}
@@ -3670,7 +3456,7 @@ console.log("invoiceList.transaction",invoiceList.transaction)
                   orientation={isSmallScreen ? "vertical" : "horizontal"}
                   onChange={handleChanges}
                   aria-label="lab API tabs example"
-                  style={{ marginLeft: "-8px", }}
+                  style={{ marginLeft: "14px", }}
 
                   className="custom-tab-list d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
                 >
@@ -3678,7 +3464,7 @@ console.log("invoiceList.transaction",invoiceList.transaction)
                     label="Bills"
                     value="1"
                     style={{
-                      fontSize: 14,
+                      fontSize: 16,
                       fontFamily: "Gilroy",
                       color: "#4B4B4B",
                       lineHeight: "normal",
@@ -3691,7 +3477,7 @@ console.log("invoiceList.transaction",invoiceList.transaction)
                     label="Recurring Bills"
                     value="2"
                     style={{
-                      fontSize: 14,
+                      fontSize: 16,
                       fontFamily: "Gilroy",
                       color: "#4B4B4B",
                       lineHeight: "normal",
@@ -3704,7 +3490,7 @@ console.log("invoiceList.transaction",invoiceList.transaction)
                     label="Receipt"
                     value="3"
                     style={{
-                      fontSize: 14,
+                      fontSize: 16,
                       fontFamily: "Gilroy",
                       color: "#4B4B4B",
                       lineHeight: "normal",
@@ -3717,7 +3503,6 @@ console.log("invoiceList.transaction",invoiceList.transaction)
               </Box>
 
             </div>
-            
             <TabPanel value="1">
               <>
                 {billpermissionError ? (
