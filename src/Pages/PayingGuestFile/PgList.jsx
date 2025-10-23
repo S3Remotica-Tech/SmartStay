@@ -127,9 +127,7 @@ useEffect(() => {
     if (hostel_Id) {
       dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } });
       dispatch({ type: 'ALLFLOORLIST', payload: { hostel_id: hostel_Id } })
-      // setLoading(true)
-    }else{
-       setLoading(false)
+      setLoading(true)
     }
   }, [hostel_Id]);
 
@@ -340,7 +338,7 @@ useEffect(() => {
   useEffect(() => {
     if (state.PgList?.createPgStatusCode === 201) {
       dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
-      dispatch({ type: "HOSTELLIST" });
+      dispatch({ type: "HOSTELLIST"});
 
       setShowAddPg(false);
       setTimeout(() => {
@@ -945,7 +943,7 @@ useEffect(() => {
                         paddingLeft: 52,
                         fontFamily: "Gilroy",
                       }}
-                      disabled={!canWritePayingGuests ||  !state.login.selectedHostel_Id}
+                      disabled={!canWritePayingGuests}
                       onClick={() => handleAddFloors(state.login.selectedHostel_Id)}
                     >
                       + Floor

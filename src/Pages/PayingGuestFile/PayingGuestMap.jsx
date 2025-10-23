@@ -40,12 +40,23 @@ function PayingGuestMap(props) {
   const handleEdit = (item) => {
     props.OnEditHostel(item);
   };
-
+console.log("state",state)
   const handleDeletePG = (item) => {
+    console.log("handleDeletePG",item)
     if (item) {
-      dispatch({ type: "DELETEPG", payload: { hostel_Id: item.id } });
+      dispatch({ type: "DELETEHOSTEL", payload: { hostelId: item.hostelId } });
     }
   };
+
+  useEffect(()=>{
+if(state.PgList.statusCodeDeleteHostel === 200){
+      dispatch({ type: "HOSTELLIST"});
+      handleClose()
+ setTimeout(() => {
+        dispatch({ type: "CLEAR_DELETE_HOSTEL_STATUS_CODE" });
+      }, 1000);
+}
+  },[state.PgList.statusCodeDeleteHostel])
 
   const handleSelectedHostel = (selectedHostel) => {
 

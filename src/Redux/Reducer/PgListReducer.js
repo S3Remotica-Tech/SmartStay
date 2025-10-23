@@ -96,6 +96,7 @@ export const initialState = {
     bedList: [],
     getAllBedSuccessStatus: 0,
     updateBedStatusCode: 0,
+    statusCodeDeleteHostel:0
 
 
 
@@ -480,6 +481,13 @@ const PgListReducer = (state = initialState, action) => {
 
         case 'CLEAR_TITTLE_UNIQUE':
             return { ...state, TittleUnique: '', SameTitleErrorStatusCode: 0 }
+
+
+
+            case 'DELETE_HOSTEL':
+            return { ...state, statusCodeDeleteHostel: action.payload.statusCode }
+        case 'CLEAR_DELETE_HOSTEL_STATUS_CODE':
+            return { ...state, statusCodeDeleteHostel: 0 }
 
         default:
             return state;

@@ -1,18 +1,10 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { UpdateBed, getAllBed, updateRoom, getAllRoom, add_sub_comments, get_comments, add_comments, delete_announcement, deleteHostelImages, UpdateFloor, DeletePG, DeleteBed, createBed, createPgList, createRoom, CheckRoomId, CheckBedDetails, Checkeblist, CreateEbbill, EB_Customerlist, EB_startmeterlist, createAllPGDetails, OccupiedCustomer, EB_CustomerListTable, editElectricity, deleteElectricity, dashboardFilter, ebAddHostelReading, ebHostelBasedRead, ebAddHostelEdit, ebAddHostelDelete, announcement_list, add_announcement } from "../Action/PgListAction";
+import { UpdateBed, getAllBed, updateRoom, getAllRoom, add_sub_comments, get_comments, add_comments, delete_announcement, deleteHostelImages, UpdateFloor, DeletePG, DeleteBed, createBed, createPgList, createRoom, CheckRoomId, CheckBedDetails, Checkeblist, CreateEbbill, EB_Customerlist, EB_startmeterlist, createAllPGDetails, OccupiedCustomer, EB_CustomerListTable, editElectricity, deleteElectricity, dashboardFilter, ebAddHostelReading, ebHostelBasedRead, ebAddHostelEdit, ebAddHostelDelete, announcement_list, add_announcement,DeleteHostel } from "../Action/PgListAction";
 import Cookies from "universal-cookie";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function* handleApiError(error) {
-  if (error?.status === 401 || error?.response?.status === 401) {
-    yield put({
-      type: "UN-AUTHORIZED",
-      payload: "Access Denied",
-    });
-  }
 
-}
 
 function* handleUpdateBed(datum) {
   try {
@@ -58,7 +50,6 @@ function* handleUpdateBed(datum) {
     }
   }
   catch (error) {
-    yield* handleApiError(error);
     if (error.code === 'ERR_BAD_REQUEST') {
       if (error.status === 409) {
         yield put({ type: 'ALREADY_BED', payload: error.response.data });
@@ -85,7 +76,6 @@ function* handleGetAllRooms(action) {
     }
   }
   catch (error) {
-    yield* handleApiError(error);
     if (error.code === 'ERR_NETWORK') {
       yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
     } else {
@@ -98,7 +88,7 @@ function* handleGetAllBed(action) {
   try {
     const response = yield call(getAllBed, action.payload);
 
-
+   
 
     if (response.status === 200) {
       yield put({ type: 'GET_ALL_BEDS', payload: { response: response.data, statusCode: response.status } })
@@ -109,7 +99,6 @@ function* handleGetAllBed(action) {
     }
   }
   catch (error) {
-    yield* handleApiError(error);
     if (error.code === 'ERR_NETWORK') {
       yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
     } else {
@@ -124,7 +113,7 @@ function* handlePgList(datum) {
   try {
     const response = yield call(createPgList, datum.payload);
 
-
+   
 
     var toastStyle = {
       backgroundColor: "#E6F6E6",
@@ -191,7 +180,6 @@ function* handlePgList(datum) {
     }
   }
   catch (error) {
-    yield* handleApiError(error);
     if (error.code === 'ERR_NETWORK') {
       yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
     } else {
@@ -248,7 +236,6 @@ function* handleCreateRoom(datum) {
     }
   }
   catch (error) {
-    yield* handleApiError(error);
     if (error.code === 'ERR_BAD_REQUEST') {
       if (error.status === 409) {
         yield put({ type: 'ALREADY_ROOM_ERROR', payload: error.response.data });
@@ -304,7 +291,6 @@ function* handleUpdateRoom(datum) {
     }
   }
   catch (error) {
-    yield* handleApiError(error);
     if (error.code === 'ERR_BAD_REQUEST') {
       if (error.status === 409) {
         yield put({ type: 'ALREADY_ROOM_ERROR', payload: error.response.data });
@@ -468,7 +454,6 @@ function* handleCreateEB(action) {
     }
   }
   catch (error) {
-    yield* handleApiError(error);
     if (error.code === 'ERR_NETWORK') {
       yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
     } else {
@@ -574,7 +559,7 @@ function* handleCreateBed(action) {
     }
   }
   catch (error) {
-    yield* handleApiError(error);
+   
 
     if (error.code === 'ERR_BAD_REQUEST') {
       if (error.status === 409) {
@@ -587,105 +572,94 @@ function* handleCreateBed(action) {
 }
 
 function* handleDeleteBed(action) {
-  try {
-    const response = yield call(DeleteBed, action.payload);
+  const response = yield call(DeleteBed, action.payload);
 
-    var toastStyle = {
-      backgroundColor: "#E6F6E6",
-      color: "black",
-      width: "100%",
-      borderRadius: "60px",
-      height: "20px",
-      fontFamily: "Gilroy",
-      fontWeight: 600,
-      fontSize: 14,
-      textAlign: "start",
-      display: "flex",
-      alignItems: "center",
-      padding: "10px",
+  var toastStyle = {
+    backgroundColor: "#E6F6E6",
+    color: "black",
+    width: "100%",
+    borderRadius: "60px",
+    height: "20px",
+    fontFamily: "Gilroy",
+    fontWeight: 600,
+    fontSize: 14,
+    textAlign: "start",
+    display: "flex",
+    alignItems: "center",
+    padding: "10px",
 
-    };
+  };
 
-    if (response.status === 200 || response.statusCode === 200) {
-      yield put({
-        type: "DELETE_BED",
-        payload: {
-          response: response.data,
-          statusCode: response.status || response.statusCode,
-        },
-      });
-      toast.success("Deleted successfully", {
-        position: "bottom-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeButton: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        style: toastStyle,
-      });
-    } else if (response.status === 201 || response.statusCode === 201) {
-      yield put({ type: "DELETE_BED_ERROR", payload: response.data.message });
+  if (response.status === 200 || response.statusCode === 200) {
+    yield put({
+      type: "DELETE_BED",
+      payload: {
+        response: response.data,
+        statusCode: response.status || response.statusCode,
+      },
+    });
+    toast.success("Deleted successfully", {
+      position: "bottom-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeButton: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      style: toastStyle,
+    });
+  } else if (response.status === 201 || response.statusCode === 201) {
+    yield put({ type: "DELETE_BED_ERROR", payload: response.data.message });
 
-    }
-    if (response) {
-      refreshToken(response);
-    }
   }
-  catch (error) {
-    yield* handleApiError(error);
+  if (response) {
+    refreshToken(response);
   }
 }
 
 function* handleDeletePG(action) {
-  try {
-    const response = yield call(DeletePG, action.payload);
-    var toastStyle = {
-      backgroundColor: "#E6F6E6",
-      color: "black",
-      width: "100%",
-      borderRadius: "60px",
-      height: "20px",
-      fontFamily: "Gilroy",
-      fontWeight: 600,
-      fontSize: 14,
-      textAlign: "start",
-      display: "flex",
-      alignItems: "center",
-      padding: "10px",
+  const response = yield call(DeletePG, action.payload);
+  var toastStyle = {
+    backgroundColor: "#E6F6E6",
+    color: "black",
+    width: "100%",
+    borderRadius: "60px",
+    height: "20px",
+    fontFamily: "Gilroy",
+    fontWeight: 600,
+    fontSize: 14,
+    textAlign: "start",
+    display: "flex",
+    alignItems: "center",
+    padding: "10px",
 
-    };
-    if (response.status === 200 || response.statusCode === 200) {
-      yield put({
-        type: "DELETE_PG",
-        payload: {
-          response: response.data,
-          statusCode: response.status || response.statusCode,
-        },
-      });
-      toast.success("Deleted successfully", {
-        position: "bottom-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeButton: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        style: toastStyle,
-      });
-    } else if (response.status === 201 || response.statusCode === 201) {
-      yield put({ type: "DELETE_PG_ERROR", payload: response.data.message });
+  };
+  if (response.status === 200 || response.statusCode === 200) {
+    yield put({
+      type: "DELETE_PG",
+      payload: {
+        response: response.data,
+        statusCode: response.status || response.statusCode,
+      },
+    });
+    toast.success("Deleted successfully", {
+      position: "bottom-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeButton: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      style: toastStyle,
+    });
+  } else if (response.status === 201 || response.statusCode === 201) {
+    yield put({ type: "DELETE_PG_ERROR", payload: response.data.message });
 
-    }
-    if (response) {
-      refreshToken(response);
-    }
   }
-  catch (error) {
-    yield* handleApiError(error);
-
+  if (response) {
+    refreshToken(response);
   }
 }
 
@@ -732,7 +706,6 @@ function* handleUpdateFloor(action) {
     }
   }
   catch (error) {
-    yield* handleApiError(error);
     if (error.code === 'ERR_BAD_REQUEST') {
       if (error.status === 409) {
         yield put({ type: 'UPDATE_FLOOR_ERROR', payload: error.response.data });
@@ -745,79 +718,69 @@ function* handleUpdateFloor(action) {
 
 
 function* handleOccupiedCustomer(action) {
-  try {
-    const response = yield call(OccupiedCustomer, action.payload);
+  const response = yield call(OccupiedCustomer, action.payload);
 
 
 
-    if (response.status === 200) {
-      yield put({
-        type: "OCCUPIED_CUSTOMER",
-        payload: {
-          response: response.data,
-          statusCode: response.status,
-        },
-      });
+  if (response.status === 200) {
+    yield put({
+      type: "OCCUPIED_CUSTOMER",
+      payload: {
+        response: response.data,
+        statusCode: response.status,
+      },
+    });
 
-    }
-    if (response) {
-      refreshToken(response);
-    }
-  }
-  catch (error) {
-    yield* handleApiError(error);
+  } 
+  if (response) {
+    refreshToken(response);
   }
 }
 
 
 function* handleDeleteHostelImages(action) {
-  try {
-    const response = yield call(deleteHostelImages, action.payload);
-    var toastStyle = {
-      backgroundColor: "#E6F6E6",
-      color: "black",
-      width: "100%",
-      borderRadius: "60px",
-      height: "20px",
-      fontFamily: "Gilroy",
-      fontWeight: 600,
-      fontSize: 14,
-      textAlign: "start",
-      display: "flex",
-      alignItems: "center",
-      padding: "10px",
+  const response = yield call(deleteHostelImages, action.payload);
+  var toastStyle = {
+    backgroundColor: "#E6F6E6",
+    color: "black",
+    width: "100%",
+    borderRadius: "60px",
+    height: "20px",
+    fontFamily: "Gilroy",
+    fontWeight: 600,
+    fontSize: 14,
+    textAlign: "start",
+    display: "flex",
+    alignItems: "center",
+    padding: "10px",
 
-    };
-    if (response.status === 200 || response.statusCode === 200) {
-      yield put({
-        type: "DELETE_HOSTEL_IMAGES",
-        payload: {
-          response: response.data.message,
-          statusCode: response.status || response.statusCode,
-        },
-      });
-      toast.success("Deleted successfully ", {
-        position: "bottom-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeButton: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        style: toastStyle,
-      });
+  };
+  if (response.status === 200 || response.statusCode === 200) {
+    yield put({
+      type: "DELETE_HOSTEL_IMAGES",
+      payload: {
+        response: response.data.message,
+        statusCode: response.status || response.statusCode,
+      },
+    });
+    toast.success("Deleted successfully ", {
+      position: "bottom-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeButton: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      style: toastStyle,
+    });
 
 
-    } else {
-      yield put({ type: "ERROR", payload: response.data.message });
-    }
-    if (response) {
-      refreshToken(response);
-    }
+  } else {
+    yield put({ type: "ERROR", payload: response.data.message });
   }
-  catch (error) {
-    yield* handleApiError(error);
+  if (response) {
+    refreshToken(response);
   }
 }
 
@@ -864,7 +827,6 @@ function* handleEditElectricity(action) {
     }
   }
   catch (error) {
-    yield* handleApiError(error);
     if (error.code === 'ERR_NETWORK') {
       yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
     } else {
@@ -874,139 +836,114 @@ function* handleEditElectricity(action) {
 }
 
 function* handleDeleteElectricity(action) {
-  try {
-    const response = yield call(deleteElectricity, action.payload);
+  const response = yield call(deleteElectricity, action.payload);
 
-    var toastStyle = {
-      backgroundColor: "#E6F6E6",
-      color: "black",
-      width: "auto",
-      borderRadius: "60px",
-      height: "20px",
-      fontFamily: "Gilroy",
-      fontWeight: 600,
-      fontSize: 14,
-      textAlign: "start",
-      display: "flex",
-      alignItems: "center",
-      padding: "10px",
+  var toastStyle = {
+    backgroundColor: "#E6F6E6",
+    color: "black",
+    width: "auto",
+    borderRadius: "60px",
+    height: "20px",
+    fontFamily: "Gilroy",
+    fontWeight: 600,
+    fontSize: 14,
+    textAlign: "start",
+    display: "flex",
+    alignItems: "center",
+    padding: "10px",
 
-    };
+  };
 
-    if (response.status === 200 || response.data.statusCode === 200) {
-      yield put({ type: 'DELETE_ELECTRICITY', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
-      toast.success(`${response.data.message}`, {
-        position: "bottom-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeButton: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        style: toastStyle,
-      });
-    }
-
-    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
-    }
-    if (response) {
-      refreshToken(response)
-    }
+  if (response.status === 200 || response.data.statusCode === 200) {
+    yield put({ type: 'DELETE_ELECTRICITY', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
+    toast.success(`${response.data.message}`, {
+      position: "bottom-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeButton: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      style: toastStyle,
+    });
   }
-  catch (error) {
-    yield* handleApiError(error);
+
+  else {
+    yield put({ type: 'ERROR', payload: response.data.message })
+  }
+  if (response) {
+    refreshToken(response)
   }
 }
 
 
 function* handleDropFilter(action) {
-  try {
+  const response = yield call(dashboardFilter, action.payload);
 
-    const response = yield call(dashboardFilter, action.payload);
+  if (response.data.status === 200 || response.data.statusCode === 200) {
+    yield put({ type: 'DASHBOARD_FILTER_DETAILS', payload: { response: response.data, statusCode: response.data.status || response.data.statusCode } })
 
-    if (response.data.status === 200 || response.data.statusCode === 200) {
-      yield put({ type: 'DASHBOARD_FILTER_DETAILS', payload: { response: response.data, statusCode: response.data.status || response.data.statusCode } })
-
-    }
-
-    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
-    }
-    if (response) {
-      refreshToken(response)
-    }
   }
-  catch (error) {
-    yield* handleApiError(error);
+
+  else {
+    yield put({ type: 'ERROR', payload: response.data.message })
+  }
+  if (response) {
+    refreshToken(response)
   }
 }
 function* handleDropFilterCashBack(action) {
-  try {
-    const response = yield call(dashboardFilter, action.payload);
-    if (response.data.status === 200 || response.data.statusCode === 200) {
-      yield put({ type: 'DASHBOARD_FILTER_CASHBACK', payload: { response: response.data, statusCode: response.data.status || response.data.statusCode } })
+  const response = yield call(dashboardFilter, action.payload);
+  if (response.data.status === 200 || response.data.statusCode === 200) {
+    yield put({ type: 'DASHBOARD_FILTER_CASHBACK', payload: { response: response.data, statusCode: response.data.status || response.data.statusCode } })
 
-    }
-
-    else if (response.status === 201 || response.data.statusCode === 201) {
-      yield put({ type: 'NO_DASHBOARD_LIST', payload: { statusCode: response.status || response.data.statusCode } })
-
-    }
-
-    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
-    }
-    if (response) {
-      refreshToken(response)
-    }
   }
-  catch (error) {
-    yield* handleApiError(error);
+
+  else if (response.status === 201 || response.data.statusCode === 201) {
+    yield put({ type: 'NO_DASHBOARD_LIST', payload: { statusCode: response.status || response.data.statusCode } })
+
+  }
+
+  else {
+    yield put({ type: 'ERROR', payload: response.data.message })
+  }
+  if (response) {
+    refreshToken(response)
   }
 }
 
 
 
 function* handleDropFilterRevenue(action) {
-  try {
-    const response = yield call(dashboardFilter, action.payload);
+  const response = yield call(dashboardFilter, action.payload);
 
-    if (response.data.status === 200 || response.data.statusCode === 200) {
-      yield put({ type: 'DASHBOARD_FILTER_REVENUE', payload: { response: response.data, statusCode: response.data.status || response.data.statusCode } })
+  if (response.data.status === 200 || response.data.statusCode === 200) {
+    yield put({ type: 'DASHBOARD_FILTER_REVENUE', payload: { response: response.data, statusCode: response.data.status || response.data.statusCode } })
 
-    }
-
-    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
-    }
-    if (response) {
-      refreshToken(response)
-    }
   }
-  catch (error) {
-    yield* handleApiError(error);
+
+  else {
+    yield put({ type: 'ERROR', payload: response.data.message })
+  }
+  if (response) {
+    refreshToken(response)
   }
 }
 
 function* handleDropFilterAdvance(action) {
-  try {
-    const response = yield call(dashboardFilter, action.payload);
+  const response = yield call(dashboardFilter, action.payload);
 
-    if (response.data.status === 200 || response.data.statusCode === 200) {
-      yield put({ type: 'DASHBOARD_FILTER_ADVANCE', payload: { response: response.data, statusCode: response.data.status || response.data.statusCode } })
-    }
+  if (response.data.status === 200 || response.data.statusCode === 200) {
+    yield put({ type: 'DASHBOARD_FILTER_ADVANCE', payload: { response: response.data, statusCode: response.data.status || response.data.statusCode } })
 
-    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
-    }
-    if (response) {
-      refreshToken(response)
-    }
   }
-  catch (error) {
-    yield* handleApiError(error);
+
+  else {
+    yield put({ type: 'ERROR', payload: response.data.message })
+  }
+  if (response) {
+    refreshToken(response)
   }
 }
 
@@ -1054,7 +991,6 @@ function* handleAddHostelElectricity(action) {
     }
   }
   catch (error) {
-    yield* handleApiError(error);
     if (error.code === 'ERR_NETWORK') {
       yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
     } else {
@@ -1106,7 +1042,6 @@ function* handleHostelEditElectricity(action) {
     }
   }
   catch (error) {
-    yield* handleApiError(error);
     if (error.code === 'ERR_NETWORK') {
       yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
     } else {
@@ -1116,7 +1051,6 @@ function* handleHostelEditElectricity(action) {
 }
 
 function* handleHostelDeleteElectricity(action) {
-  try{
   const response = yield call(ebAddHostelDelete, action.payload);
 
   var toastStyle = {
@@ -1156,13 +1090,8 @@ function* handleHostelDeleteElectricity(action) {
     refreshToken(response)
   }
 }
-catch(error){
-  yield* handleApiError(error);
-}
-}
 
 function* handleHostelBasedEblist(action) {
-  try{
   const response = yield call(ebHostelBasedRead, action.payload);
   if (response.status === 200 || response.statusCode === 200) {
     yield put({ type: "EB_CUSTOMER_HOSTEL_EBLIST", payload: response.data });
@@ -1179,17 +1108,12 @@ function* handleHostelBasedEblist(action) {
     refreshToken(response);
   }
 }
-catch(error){
-  yield* handleApiError(error);
-}
-}
 
 
 
 
 
 function* handleAnnouncementList(action) {
-  try{
   const response = yield call(announcement_list, action.payload);
 
   if (response.status === 200 || response.data.statusCode === 200) {
@@ -1200,10 +1124,6 @@ function* handleAnnouncementList(action) {
   if (response) {
     refreshToken(response);
   }
-}
-catch(error){
-  yield* handleApiError(error);
-}
 }
 
 
@@ -1256,7 +1176,6 @@ function* handleAddAnnounce(action) {
     }
   }
   catch (error) {
-    yield* handleApiError(error);
     if (error.code === 'ERR_NETWORK') {
       yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
     } else {
@@ -1268,7 +1187,6 @@ function* handleAddAnnounce(action) {
 
 
 function* handleDeleteAnnounce(action) {
-  try{
   const response = yield call(delete_announcement, action.payload);
   var toastStyle = {
     backgroundColor: "#E6F6E6",
@@ -1306,14 +1224,9 @@ function* handleDeleteAnnounce(action) {
     refreshToken(response)
   }
 }
-catch(error){
-  yield* handleApiError(error);
-}
-}
 
 
 function* handleGetComments(action) {
-  try{
   const response = yield call(get_comments, action.payload);
 
   if (response.status === 200 || response.data.statusCode === 200) {
@@ -1324,10 +1237,6 @@ function* handleGetComments(action) {
   if (response) {
     refreshToken(response)
   }
-}
-catch(error){
-  yield* handleApiError(error);
-}
 }
 
 
@@ -1373,7 +1282,6 @@ function* handleCreateComments(action) {
     }
   }
   catch (error) {
-    yield* handleApiError(error);
     if (error.code === 'ERR_NETWORK') {
       yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
     } else {
@@ -1424,7 +1332,6 @@ function* handleCreateSubComments(action) {
     }
   }
   catch (error) {
-    yield* handleApiError(error);
     if (error.code === 'ERR_NETWORK') {
       yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
     } else {
@@ -1433,7 +1340,127 @@ function* handleCreateSubComments(action) {
   }
 }
 
+// function* handleDeleteHostel(action) {
+  
+//   const response = yield call(DeleteHostel, action.payload);
 
+//   var toastStyle = {
+//     backgroundColor: "#E6F6E6",
+//     color: "black",
+//     width: "100%",
+//     borderRadius: "60px",
+//     height: "20px",
+//     fontFamily: "Gilroy",
+//     fontWeight: 600,
+//     fontSize: 14,
+//     textAlign: "start",
+//     display: "flex",
+//     alignItems: "center",
+//     padding: "10px",
+
+//   };
+
+//   if (response.status === 200 || response.statusCode === 200) {
+//     yield put({
+//       type: "DELETE_HOSTEL",
+//       payload: {
+//         response: response.data,
+//         statusCode: response.status || response.statusCode,
+//       },
+//     });
+//     toast.success("Deleted successfully", {
+//       position: "bottom-center",
+//       autoClose: 2000,
+//       hideProgressBar: true,
+//       closeButton: false,
+//       closeOnClick: true,
+//       pauseOnHover: true,
+//       draggable: true,
+//       progress: undefined,
+//       style: toastStyle,
+//     });
+//   } else if (response.status === 201 || response.statusCode === 201) {
+//     yield put({ type: "DELETE_Hostel_ERROR", payload: response.data.message });
+
+//   }
+//   if (response) {
+//     refreshToken(response);
+//   }
+
+
+//   catch (error) {
+//     if (error.code === 'ERR_NETWORK') {
+//       yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+//     } else {
+//       yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+//     }
+//   }
+  
+// }
+function* handleDeleteHostel(action) {
+  try {
+    const response = yield call(DeleteHostel, action.payload);
+
+    const toastStyle = {
+      backgroundColor: "#E6F6E6",
+      color: "black",
+      width: "100%",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center",
+      padding: "10px",
+    };
+
+    if (response.status === 200 || response.statusCode === 200) {
+      yield put({
+        type: "DELETE_HOSTEL",
+        payload: {
+          response: response.data,
+          statusCode: response.status || response.statusCode,
+        },
+      });
+
+      toast.success("Deleted successfully", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    } else if (response.status === 201 || response.statusCode === 201) {
+      yield put({
+        type: "DELETE_HOSTEL_ERROR",
+        payload: response.data.message,
+      });
+    }
+
+    if (response) {
+      refreshToken(response);
+    }
+
+  } catch (error) {
+    if (error.code === "ERR_NETWORK") {
+      yield put({
+        type: "NETWORK_ERROR",
+        payload: "Network error occurred",
+      });
+    } else {
+      yield put({
+        type: "NETWORK_ERROR",
+        payload: error.message || "Something went wrong",
+      });
+    }
+  }
+}
 
 
 
@@ -1486,6 +1513,7 @@ function* PgListSaga() {
   yield takeEvery("CREATECOMMENTS", handleCreateComments)
   yield takeEvery("GETCOMMENTS", handleGetComments)
   yield takeEvery("CREATESUBCOMMENTS", handleCreateSubComments)
+   yield takeEvery("DELETEHOSTEL", handleDeleteHostel)
 
 
 
