@@ -30,7 +30,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
       const initialData = {
         amenity: editDetails.amenityName || "",
         amount: editDetails.amenityAmount || "",
-        isChecked: editDetails.proRate === 1 ? true : false,
+        isChecked: !!editDetails.proRate,
       };
 
 

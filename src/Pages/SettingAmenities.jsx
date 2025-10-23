@@ -40,7 +40,7 @@ function SettingAmenities({ hostelid }) {
     const [deleteID, setDeleteID] = useState('')
     const [assignAmenitiesDetails, setAssignAmenitiesDetails] = useState('')
     const [loading, setLoading] = useState(false)
-    const [amenitiesrowsPerPage, setAmenitiesrowsPerPage] = useState(2);
+    const [amenitiesrowsPerPage, setAmenitiesrowsPerPage] = useState(50);
     const [amenitiesFilterddata, setAmenitiesFilterddata] = useState([]);
     const [amenitiescurrentPage, setAmenitiescurrentPage] = useState(1);
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
@@ -51,7 +51,8 @@ function SettingAmenities({ hostelid }) {
     const canUpdateAmenities = useHasPermission("Amenities", "canUpdate");
     const canDeleteAmenities = useHasPermission("Amenities", "canDelete");
 
-
+  console.log("amenitiesFilterddata", amenitiesFilterddata);
+  
 
 
 useEffect(() => {
@@ -70,48 +71,52 @@ useEffect(() => {
 
 
 
-    const handleToggle = (amenity) => {
-        setSwitchStates((prevSwitchStates) => {
-            const newChecked = !prevSwitchStates[amenity.id];
+  const handleToggle = (amenity) => {
+  const newChecked = !switchStates[amenity.amenityId]; 
 
-            setIsChecked(newChecked);
-            setAmenityDetails(amenity);
-
-            return {
-                ...prevSwitchStates,
-                [amenity.id]: newChecked,
-            };
-        });
+  setSwitchStates((prev) => ({
+    ...prev,
+    [amenity.amenityId]: newChecked,
+  }));
 
 
-        if (!switchStates[amenity.id]) {
-            setIsDisplayRecurring(true);
-        }
-    };
+  dispatch({
+    type: "AMENITIESUPDATE",
+    payload: {
+      hostelId: state.login.selectedHostel_Id,
+      amenityId: amenity.amenityId,
+      data: {
+        amenityName: amenity.amenityName,
+        amount: amenity.amenityAmount,
+        proRate: newChecked, 
+      },
+    },
+  });
+};
 
 
 
-    useEffect(() => {
-        if (isChecked === null) return;
 
-        if (isChecked) {
-            setIsDisplayRecurring(true);
-            setIsFormSubmitted(false);
-        } else {
+    // useEffect(() => {
+    //     if (isChecked === null) return;
 
-            dispatch({
-                type: 'RECURRINGROLE',
-                payload: {
-                    type: "amenities",
-                    recure: 0,
-                    hostel_id: state.login.selectedHostel_Id,
-                    start_date: '0',
-                    end_date: '0',
-                    am_id: amenityDetails?.id,
-                },
-            });
-        }
-    }, [isChecked]);
+    //     if (isChecked) {
+    //         setIsFormSubmitted(false);
+    //     } else {
+
+    //         dispatch({
+    //             type: 'RECURRINGROLE',
+    //             payload: {
+    //                 type: "amenities",
+    //                 recure: 0,
+    //                 hostel_id: state.login.selectedHostel_Id,
+    //                 start_date: '0',
+    //                 end_date: '0',
+    //                 am_id: amenityDetails?.id,
+    //             },
+    //         });
+    //     }
+    // }, [isChecked]);
 
 
 
@@ -192,13 +197,23 @@ useEffect(() => {
         }
     }
 
+    // useEffect(() => {
+    //     const initialSwitchStates = amenitiesFilterddata.reduce((acc, amenity) => {
+    //         acc[amenity.id] = amenity.recuring === 1;
+    //         return acc;
+    //     }, {})
+    //     setSwitchStates(initialSwitchStates);
+    // }, [amenitiesFilterddata])
+
     useEffect(() => {
-        const initialSwitchStates = amenitiesFilterddata.reduce((acc, amenity) => {
-            acc[amenity.id] = amenity.recuring === 1;
-            return acc;
-        }, {})
-        setSwitchStates(initialSwitchStates);
-    }, [amenitiesFilterddata])
+  if (amenitiesFilterddata.length > 0) {
+    const initialSwitchStates = amenitiesFilterddata.reduce((acc, amenity) => {
+      acc[amenity.amenityId] = !!amenity.proRate; // convert to boolean safely
+      return acc;
+    }, {});
+    setSwitchStates(initialSwitchStates);
+  }
+}, [amenitiesFilterddata]);
 
 
 
@@ -463,158 +478,8 @@ useEffect(() => {
                                         <div key={index} className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12 p-2' >
                                             <Card style={{ border: "1px solid #dcdcdc", borderRadius: 16, }}>
                                                 <Card.Body>
-                                                    {/* <div className='d-flex justify-content-between align-items-center'>
-                                            <div>
-                                            <img src={directRight} alt="directRight" />  <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222", fontWeight: 600, }}>{amenity.Amnities_Name}</label>
-                                            </div>
-                                            <div>
-
-                                                <div style={{
-                                                    cursor: "pointer", height: 40,
-                                                    width: 40,
-                                                    // border: "1px solid #EFEFEF", display: "flex",
-                                                    justifyContent: "center", alignItems: "center",
-                                                    position: "relative",
-                                                    zIndex: showDots ? 1000 : 'auto',
-                                                    backgroundColor: showDots === index ? "#E7F1FF" : "white",
-                                                }}
-                                                    onClick={() => handleDotsClick(index)}
-                                                >
-                                            <img
-                                    src={link2}
-                                    alt="link2"
-                                    style={{ width: "18px", height: "18px", marginRight: "8px" }}
-                                />          <PiDotsThreeOutlineVerticalFill style={{ height: 18, width: 18 }} />
-
-                                                    {showDots === index && <>
-
-                                                        <div
-                                                            ref={popupRef}
-                                                            style={{
-                                                                cursor: "pointer",
-                                                                backgroundColor: "#F9F9F9",
-                                                                position: "absolute",
-                                                                right: window.innerWidth <= 335 ? 0 : 40,
-                                                                top: 20,
-                                                                width: window.innerWidth <= 335 ? 120 : 180,
-                                                                border: "1px solid #EBEBEB",
-                                                                borderRadius: 10,
-                                                                display: "flex",
-                                                                flexDirection: "column",
-                                                                alignItems: "start",
-                                                                zIndex: 1050,
-                                                                fontSize: window.innerWidth <= 335 ? 13 : 14,
-                                                                boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
-                                                            }}
-                                                        >
-                                                            <div style={{ width: "100%" }}>
-                                                                <div
-                                                                    onClick={() => {
-                                                                        if (amenity.setAsDefault !== 1) {
-                                                                            handleDisplayAssignAmenities(amenity);
-                                                                        }
-                                                                    }}
-                                                                    className="d-flex gap-2 align-items-center w-100"
-                                                                    style={{
-                                                                        cursor: amenity.setAsDefault === 1 ? "not-allowed" : "pointer",
-                                                                        opacity: amenity.setAsDefault === 1 ? 0.5 : 1,
-                                                                        padding: "8px 12px",
-                                                                        borderTopLeftRadius: 10,
-                                                                        borderTopRightRadius: 10,
-                                                                        transition: "background 0.2s ease",
-                                                                    }}
-                                                                    onMouseEnter={(e) =>
-                                                                        amenity.setAsDefault !== 1 &&
-                                                                        (e.currentTarget.style.backgroundColor = "#EDF2FF")
-                                                                    }
-                                                                    onMouseLeave={(e) =>
-                                                                        (e.currentTarget.style.backgroundColor = "transparent")
-                                                                    }
-                                                                >
-                                                                    <ProfileAdd size="16" color="#1E45E1" />
-                                                                    <label
-                                                                        style={{
-                                                                            fontSize: 14,
-                                                                            fontWeight: 600,
-                                                                            fontFamily: "Gilroy",
-                                                                            color: "#222222",
-                                                                        }}
-                                                                    >
-                                                                        Assign Amenities
-                                                                    </label>
-                                                                </div>
-                                                                <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
-
-
-                                                                <div
-                                                                    onClick={() => handleEditAmenities(amenity)}
-                                                                    className="d-flex gap-2 align-items-center w-100"
-                                                                    style={{
-                                                                        cursor: "pointer",
-                                                                        padding: "8px 12px",
-
-                                                                        transition: "background 0.2s ease",
-                                                                    }}
-                                                                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#EDF2FF")}
-                                                                    onMouseLeave={(e) =>
-                                                                        (e.currentTarget.style.backgroundColor = "transparent")
-                                                                    }
-                                                                >
-                                                                    <Edit size="16" color="#1E45E1" />
-                                                                    <label
-                                                                        style={{
-                                                                            fontSize: 14,
-                                                                            fontWeight: 600,
-                                                                            fontFamily: "Gilroy",
-                                                                            color: "#222222",
-                                                                        }}
-                                                                    >
-                                                                        Edit
-                                                                    </label>
-                                                                </div>
-                                                                <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
-
-
-                                                                <div
-                                                                    onClick={() => handleDeleteAmenities(amenity)}
-                                                                    className="d-flex gap-2  align-items-center w-100"
-                                                                    style={{
-                                                                        cursor: "pointer",
-                                                                        padding: "8px 12px",
-                                                                        borderBottomLeftRadius: 10,
-                                                                        borderBottomRightRadius: 10,
-                                                                        transition: "background 0.2s ease",
-                                                                    }}
-                                                                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#FFF0F0")}
-                                                                    onMouseLeave={(e) =>
-                                                                        (e.currentTarget.style.backgroundColor = "transparent")
-                                                                    }
-                                                                >
-                                                                    <Trash size="16" color="red" />
-                                                                    <label
-                                                                        style={{
-                                                                            fontSize: 14,
-                                                                            fontWeight: 600,
-                                                                            fontFamily: "Gilroy",
-                                                                            color: "#FF0000",
-                                                                        }}
-                                                                    >
-                                                                        Delete
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-
-                                                    </>}
-
-                                                </div>
-
-
-                                            </div>
-                                        </div> */}
+                                          
                                                     <div className="d-flex justify-content-between align-items-center">
-                                                        {/* Left side */}
                                                         <div className="d-flex align-items-center">
                                                             <img src={directRight} alt="directRight" style={{ marginRight: 6 }} />
                                                             <label
@@ -807,16 +672,19 @@ useEffect(() => {
                                                                     Pro-Rate
                                                                 </p>
 
-                                                                <Form.Check
-                                                                    disabled={!canUpdateAmenities}
-                                                                    type="switch"
-                                                                    checked={switchStates[amenity.id]}
-                                                                    id={`custom-switch-${amenity.id}`}
-                                                                    className="custom-switch-pointer"
-                                                                    style={{ boxShadow: "none" }}
+                                       
 
-                                                                    onChange={() => handleToggle(amenity)}
-                                                                />
+                                                              <Form.Check
+  disabled={!canUpdateAmenities}
+  type="switch"
+  checked={switchStates[amenity.amenityId] || false}
+  id={`custom-switch-${amenity.amenityId}`}
+  className="custom-switch-pointer"
+  style={{ boxShadow: "none" }}
+  onChange={() => handleToggle(amenity)}
+/>
+
+
                                                             </div>
 
                                                             <style>

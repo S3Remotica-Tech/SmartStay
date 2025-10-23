@@ -62,16 +62,19 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
     if (state.InvoiceList.getAssignAmenitiesSuccessStatusCode === 200) {
       setAssignedList(state?.InvoiceList?.GetAssignAmenitiesList || [])
       setUnassignedList(state?.InvoiceList?.GetUnAssignAmenitiesList || [])
+       console.log("assignedlist", state?.InvoiceList?.GetAssignAmenitiesList);
+       console.log("assignedlist", state?.InvoiceList?.GetUnAssignAmenitiesList);
     }
 
- setTimeout(() => {
-        dispatch({ type: 'REMOVE_ASSIGN_AMENITIES_STATUS_CODE' })
-      }, 100)
+   setTimeout(() => {
+        dispatch({ type: 'REMOVE_GET_ASSIGN_AMENITIES_STATUS_CODE' })
+      }, 500)
 
 
   }, [state.InvoiceList.getAssignAmenitiesSuccessStatusCode])
 
-
+  console.log("assignedlist", state.InvoiceList.getAssignAmenitiesSuccessStatusCode);
+  // console.log("assignedlist", unAssignedList);
   
 
   useEffect(() => {
