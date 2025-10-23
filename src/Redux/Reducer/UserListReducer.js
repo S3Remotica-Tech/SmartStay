@@ -232,7 +232,7 @@ case 'GET_PARTICULAR_CUSTOMER_READING':
             return { ...state, deleteFloorSuccessStatusCode: 0 }
 
         case 'CUSTOMER_DETAILS':
-            return { ...state, customerdetails: action.payload, CustomerdetailsgetStatuscode: action.payload.statusCode };
+            return { ...state, customerdetails: action.payload.response, CustomerdetailsgetStatuscode: action.payload.statusCode };
         case 'CLEAR_CUSTOMER_DETAILS':
             return { ...state, CustomerdetailsgetStatuscode: 0 }
 
