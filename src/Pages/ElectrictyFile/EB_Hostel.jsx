@@ -389,8 +389,8 @@ console.log("showModal",showModal)
 
             </div>
 
-            <div className="ms-auto d-flex gap-2 me-2">
-              <div className="ms-auto d-flex gap-3 me-2 p-1" style={{ backgroundColor: "white", borderRadius: 5, padding: 6, boxShadow: "0px 2px 2px rgba(0,0,0,0.2)" }}>
+            <div className="ms-auto d-flex gap-2 me-2 align-items-center">
+              <div className="ms-auto d-flex gap-3 me-2" style={{ backgroundColor: "white", borderRadius: 5, padding:8, boxShadow: "0px 2px 2px rgba(0,0,0,0.2)", height:"fit-content" }}>
                 <img
                   // onClick={()=> canReadElectricity && handleSearch()}
                   src={searchteam} height="20" width="20" alt="search" style={{

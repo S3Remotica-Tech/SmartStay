@@ -64,7 +64,7 @@ import { useHasPermission } from '../../Utils/Permission';
 function UserList(props) {
   const state = useSelector((state) => state);
 
-console.log("UserList",state)
+  console.log("UserList", state)
   const { RangePicker } = DatePicker;
   dayjs.extend(isBetween);
   const dispatch = useDispatch();
@@ -161,25 +161,25 @@ console.log("UserList",state)
 
   const canReadCheckout = useHasPermission("Checkout", "canRead")
 
-const handleInvoiceNumber = (e)=>{
-  setInvoiceNumber(e.target.value)
-}
+  const handleInvoiceNumber = (e) => {
+    setInvoiceNumber(e.target.value)
+  }
 
-  useEffect(()=>{
-    if(state.AssetList.accessRestricted){
+  useEffect(() => {
+    if (state.AssetList.accessRestricted) {
       setLoading(false);
     }
-  
-  },[state.AssetList.accessRestricted])
+
+  }, [state.AssetList.accessRestricted])
 
 
-useEffect(() => {
-  if (!canReadTenant) {
-    setLoading(false);
-  }else{
-    setLoading(true);
-  }
-}, [canReadTenant]);
+  useEffect(() => {
+    if (!canReadTenant) {
+      setLoading(false);
+    } else {
+      setLoading(true);
+    }
+  }, [canReadTenant]);
 
 
 
@@ -236,7 +236,7 @@ useEffect(() => {
     if (type !== "Other" && !selectedTypes.includes(type)) {
       setSelectedTypes((prev) => [...prev, type]);
     }
-    
+
 
     setAllFieldErrmsg("");
     setTableErrmsg("");
@@ -262,25 +262,25 @@ useEffect(() => {
       }, 500);
     }
   }, [state?.Booking?.statusCodeForAddBooking]);
-  console.log("state.UsersList.invoiceResponseList",state.UsersList.customerdetails.invoiceResponseList)
+  console.log("state.UsersList.invoiceResponseList", state.UsersList.customerdetails.invoiceResponseList)
 
-useEffect(() => {
-  if (state.UsersList.customerdetails.invoiceResponseList) {
-    const mappedRows = [];
+  useEffect(() => {
+    if (state.UsersList.customerdetails.invoiceResponseList) {
+      const mappedRows = [];
 
-    state.UsersList.customerdetails.invoiceResponseList.forEach((invoice) => {
-      if (invoice.invoiceType === "Rent") {
-        mappedRows.push({
-          am_name: "RoomRent",
-          amount: invoice.totalAmount.toString(),
-        });
-      }
-      // You can add more conditions here if needed for EB or Other
-    });
+      state.UsersList.customerdetails.invoiceResponseList.forEach((invoice) => {
+        if (invoice.invoiceType === "Rent") {
+          mappedRows.push({
+            am_name: "RoomRent",
+            amount: invoice.totalAmount.toString(),
+          });
+        }
+        // You can add more conditions here if needed for EB or Other
+      });
 
-    setNewRows(mappedRows);
-  }
-}, [state.UsersList.customerdetails.invoiceResponseList]);
+      setNewRows(mappedRows);
+    }
+  }, [state.UsersList.customerdetails.invoiceResponseList]);
 
   useEffect(() => {
     if (state.InvoiceList.Manulainvoicenumberstatuscode === 200) {
@@ -307,7 +307,7 @@ useEffect(() => {
     // setTimeout(() => {
     //   setCurrentView(details);
     // }, 0);
-    console.log("curerrereer",currentView)
+    console.log("curerrereer", currentView)
   };
 
   useEffect(() => {
@@ -513,7 +513,7 @@ useEffect(() => {
           );
         });
 
-         
+
 
 
       return (
@@ -651,14 +651,14 @@ useEffect(() => {
     //   .filter((row) => row.am_name?.toLowerCase() === "room rent")
     //   .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
     const rentAmount = newRows
-  .filter((row) => row.am_name?.replace(/\s/g, "").toLowerCase() === "roomrent")
-  .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
-console.log("newRows",newRows)
-  const ebAmount = newRows
+      .filter((row) => row.am_name?.replace(/\s/g, "").toLowerCase() === "roomrent")
+      .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
+    console.log("newRows", newRows)
+    const ebAmount = newRows
       .filter((row) => row.am_name?.toLowerCase() === "eb")
       .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
 
-      const amenityAmount = newRows
+    const amenityAmount = newRows
       .filter(
         (row) =>
           row.am_name?.toLowerCase() !== "room rent" &&
@@ -669,7 +669,7 @@ console.log("newRows",newRows)
     if (hasError) {
       return;
     }
-setBillLoading(true)
+    setBillLoading(true)
     dispatch({
       type: "MANUAL-INVOICE-ADD",
       payload: {
@@ -690,21 +690,21 @@ setBillLoading(true)
         amenityAmount: amenityAmount,
       },
     });
-    
 
-   
+
+
   };
   useEffect(() => {
     if (billsAddshow && id) {
       const customeraId = state.UsersList?.Users?.find((u) => u.customerId === id);
-       console.log("filtercustomer", customeraId);
-       
+      console.log("filtercustomer", customeraId);
+
       if (customeraId) {
         setCustomerName(customeraId.customerId);
       }
     }
   }, [billsAddshow]);
-  
+
 
   const handleCustomerName = (e) => {
     setCustomerName(e.target.value);
@@ -731,17 +731,17 @@ setBillLoading(true)
     } else {
       setInvoiceDateErrmsg("");
     }
-   const formatDateForPayloadmanualinvoice = (date) => {
-  const d = new Date(date);
-  const day = String(d.getDate()).padStart(2, '0');
-  const month = String(d.getMonth() + 1).padStart(2, '0');
-  const year = d.getFullYear();
+    const formatDateForPayloadmanualinvoice = (date) => {
+      const d = new Date(date);
+      const day = String(d.getDate()).padStart(2, '0');
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const year = d.getFullYear();
 
-  return `${day}-${month}-${year}`;
-};
+      return `${day}-${month}-${year}`;
+    };
 
-const formattedDate = formatDateForPayloadmanualinvoice(date);
-setFormatInvoiceDate(formattedDate);
+    const formattedDate = formatDateForPayloadmanualinvoice(date);
+    setFormatInvoiceDate(formattedDate);
   };
 
   const handleDueDate = (selectedDates) => {
@@ -754,18 +754,18 @@ setFormatInvoiceDate(formattedDate);
       setInvoiceDueDateErrmsg("");
     }
 
-      const formatDateForPayloadmanualinvoice = (date) => {
-  const d = new Date(date);
-  const day = String(d.getDate()).padStart(2, '0');
-  const month = String(d.getMonth() + 1).padStart(2, '0');
-  const year = d.getFullYear();
+    const formatDateForPayloadmanualinvoice = (date) => {
+      const d = new Date(date);
+      const day = String(d.getDate()).padStart(2, '0');
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const year = d.getFullYear();
 
-  return `${day}-${month}-${year}`;
-};
+      return `${day}-${month}-${year}`;
+    };
 
-const formattedDate = formatDateForPayloadmanualinvoice(date);
-setFormatDueDate(formattedDate);
-   
+    const formattedDate = formatDateForPayloadmanualinvoice(date);
+    setFormatDueDate(formattedDate);
+
   };
 
   const handleDeleteNewRow = (index) => {
@@ -820,7 +820,7 @@ setFormatDueDate(formattedDate);
     dispatch({ type: "REMOVE_MANUAL_INVOICE_NUMBER_GET" });
   };
 
-  
+
 
   useEffect(() => {
     if (currentView && billsAddshow) {
@@ -858,15 +858,15 @@ setFormatDueDate(formattedDate);
     }
   }, [currentView]);
 
-  useEffect(()=>{
-if(state.UsersList?.CustomerdetailsgetStatuscode === 200){
-setTimeout(() => {
+  useEffect(() => {
+    if (state.UsersList?.CustomerdetailsgetStatuscode === 200) {
+      setTimeout(() => {
         dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
       }, 500);
-  
-}
-  },[state.UsersList?.CustomerdetailsgetStatuscode])
-  console.log("state.UsersList?.CustomerdetailsgetStatuscode",state.UsersList?.CustomerdetailsgetStatuscode)
+
+    }
+  }, [state.UsersList?.CustomerdetailsgetStatuscode])
+  console.log("state.UsersList?.CustomerdetailsgetStatuscode", state.UsersList?.CustomerdetailsgetStatuscode)
 
   useEffect(() => {
     if (newRows) {
@@ -947,7 +947,7 @@ setTimeout(() => {
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceEditStatusCode === 200) {
       setBillLoading(false)
-      console.log("customerId",customername)
+      console.log("customerId", customername)
       dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: id } });
 
       setLoading(false);
@@ -977,33 +977,33 @@ setTimeout(() => {
 
 
   useEffect(() => {
-    console.log("customerId",customername)
-      if (state.InvoiceList.manualInvoiceAddStatusCode === 201) {
-        
-      
-       if(customername){
-     dispatch({ type: "CUSTOMERDETAILS", payload: { customerId:customername} });
-       }
-       
-        dispatch({ type: "MANUALINVOICESLIST", payload: state.login.selectedHostel_Id })
-        setBillLoading(false);
-           handleBackBill();
-           
-        
-  
-   
-  
-        setTimeout(() => {
-          dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD" });
-          setLoading(false);
-  
-        }, 300);
+    console.log("customerId", customername)
+    if (state.InvoiceList.manualInvoiceAddStatusCode === 201) {
+
+
+      if (customername) {
+        dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: customername } });
       }
-    }, [state.InvoiceList.manualInvoiceAddStatusCode]);
+
+      dispatch({ type: "MANUALINVOICESLIST", payload: state.login.selectedHostel_Id })
+      setBillLoading(false);
+      handleBackBill();
+
+
+
+
+
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD" });
+        setLoading(false);
+
+      }, 300);
+    }
+  }, [state.InvoiceList.manualInvoiceAddStatusCode]);
 
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceDeleteStatusCode === 200) {
-      console.log("customerId",customername)
+      console.log("customerId", customername)
       dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: id } });
       setLoading(false);
 
@@ -1646,7 +1646,7 @@ setTimeout(() => {
 
   const handleRoomDetailsPage = (userData) => {
     console.log("customer", userData);
-    
+
     setHostelIds(userData.Hostel_Id);
     setUserData(userData)
     setId(userData?.customerId);
@@ -1891,7 +1891,7 @@ setTimeout(() => {
 
   useEffect(() => {
     if (id) {
-      console.log("customerId",customername)
+      console.log("customerId", customername)
       dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: id } });
     }
   }, [id]);
@@ -1970,7 +1970,7 @@ setTimeout(() => {
   useEffect(() => {
     if (state.UsersList.statusCustomerAddUser === 200) {
       setTimeout(() => {
-        console.log("customerId",customername)
+        console.log("customerId", customername)
         dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: id } });
         dispatch({ type: "AMENITESHISTORY", payload: { user_id: id } });
       }, 1000);
@@ -2531,12 +2531,12 @@ setTimeout(() => {
 
   }
 
- useEffect(() => {
+  useEffect(() => {
     if (state.InvoiceList?.unableAddInvoiceDetailsError) {
       setBillLoading(false)
       setLoading(false)
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS'})
+        dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS' })
       }, 3000)
 
     }
@@ -2723,10 +2723,12 @@ setTimeout(() => {
                     src={searchteam}
                     alt="search"
                     className="me-2"
-                    style={{ height: "24px", width: "24px", cursor: canReadTenant ? "pointer" : "not-allowed",
-                        opacity: canReadTenant ? 1 : 0.4,
-                        pointerEvents: canReadTenant ? "auto" : "none",
-                        transition: "opacity 0.3s ease" }}
+                    style={{
+                      height: "24px", width: "24px", cursor: canReadTenant ? "pointer" : "not-allowed",
+                      opacity: canReadTenant ? 1 : 0.4,
+                      pointerEvents: canReadTenant ? "auto" : "none",
+                      transition: "opacity 0.3s ease"
+                    }}
                     onClick={handleShowSearch}
                   />
                 )}
@@ -4010,7 +4012,7 @@ setTimeout(() => {
                                                         margin: 0,
                                                       }}
                                                     >
-                                                 Cancel Check-Out
+                                                      Cancel Check-Out
                                                     </label>
                                                   </div>
 
@@ -5336,11 +5338,11 @@ setTimeout(() => {
                       typeof u.roomId === "string" &&
                       u.roomId.trim() !== ""
                   )
-                  .map((u) => (
-                    <option value={u.customerId} key={u.customerId}>
-                      {u.firstName}
-                    </option>
-                  ))}
+                    .map((u) => (
+                      <option value={u.customerId} key={u.customerId}>
+                        {u.firstName}
+                      </option>
+                    ))}
               </Form.Select>
               {customererrmsg.trim() !== "" && (
                 <ErrorMessage message={customererrmsg} type="error" />
@@ -5606,12 +5608,12 @@ setTimeout(() => {
           </div>
 
 
-{state.InvoiceList.unableAddInvoiceDetailsError ?
-        <div className="d-flex justify-content-center mt-5">
+          {state.InvoiceList.unableAddInvoiceDetailsError ?
+            <div className="d-flex justify-content-center mt-5">
 
-          <ErrorMessage message={state.InvoiceList.unableAddInvoiceDetailsError} type="error" />
-        </div>
-        : null}
+              <ErrorMessage message={state.InvoiceList.unableAddInvoiceDetailsError} type="error" />
+            </div>
+            : null}
 
           {billLoading && <div
             style={{
