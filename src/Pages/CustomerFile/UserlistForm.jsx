@@ -534,7 +534,7 @@ function UserlistForm(props) {
 
   useEffect(() => {
     if (props.EditObj && props.EditObj.customerId) {
-      props.setEdit("Edit");
+      // props?.setEdit("Edit");
       setId(props.EditObj.customerId);
       if (props.EditObj.profilePic === 0) setFile(null);
       else {

@@ -96,7 +96,8 @@ export async function getParticularBillsDetails(bill) {
 }
 
 export async function getParticularReceiptDetails(bill) {
-  return await AxiosConfigV2.get(`/v2/bills/receipts/${bill.hostelId}/${bill.invoiceId}`)
+  console.log("bill",bill)
+  return await AxiosConfigV2.get(`/v2/transaction/${bill.hostelId}/${bill.transactionId}`)
 }
 
 

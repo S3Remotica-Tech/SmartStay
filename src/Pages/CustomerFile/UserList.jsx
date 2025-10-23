@@ -6,8 +6,8 @@ import { Table, Button, Form, FormControl } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
-import Image from "react-bootstrap/Image";
-import UserlistForm from "./UserlistForm";
+import Image from "react-bootstrap/Image";import UserlistForm from "./UserlistForm";
+
 import UserListRoomDetail from "./UserListRoomDetail";
 import Modal from "react-bootstrap/Modal";
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
@@ -221,13 +221,11 @@ function UserList(props) {
     setDropdownValue("");
   };
   useEffect(() => {
-    if (state?.Booking?.statusCodeForAddBooking === 200) {
-
-
-      dispatch({
-        type: "GET_BOOKING_LIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
+    if (state?.Booking?.statusCodeForAddBooking === 200 && value === "1") {
+      // dispatch({
+      //   type: "GET_BOOKING_LIST",
+      //   payload: { hostel_id: state.login.selectedHostel_Id },
+      // });
       dispatch({
         type: "USERLIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
@@ -2120,7 +2118,7 @@ function UserList(props) {
 
 
   useEffect(() => {
-    if (state.UsersList.statusCodeForCheckInCustomer === 201) {
+    if (state.UsersList.statusCodeForCheckInCustomer === 201 && value === "1") {
       dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
       setShowAssignMenu(false)
       setTimeout(() => {

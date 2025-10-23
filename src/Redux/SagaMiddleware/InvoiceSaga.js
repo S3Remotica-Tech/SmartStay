@@ -1395,12 +1395,7 @@ function* handleGetBillPdfDetails(action) {
 
 function* handleReceiptPdfNewChanges(action) {
    try {
-
-      if (!action || !action.id) {
-         throw new Error("Missing receipt_id in params");
-      }
-
-      const response = yield call(getParticularReceiptDetails, action);
+         const response = yield call(getParticularReceiptDetails, action.payload);
 
       if (response.status === 200 || response.data.statusCode === 200) {
          yield put({

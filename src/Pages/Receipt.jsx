@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 
 const Receipt = (props) => {
 
-
+  console.log("props", props)
 
   const state = useSelector((state) => state);
 
@@ -138,9 +138,11 @@ const Receipt = (props) => {
 
 
   const handleDownload = (item) => {
+    if (item) {
+      props.DisplayInvoice(true, item)
+    }
 
-    props.DisplayInvoice(true, item)
-   
+
   }
 
 

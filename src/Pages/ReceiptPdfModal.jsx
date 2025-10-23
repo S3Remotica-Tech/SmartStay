@@ -1001,7 +1001,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
   const dispatch = useDispatch();
 
 
-  console.log("rowData", rowData.invoiceType)
+  // console.log("rowData", rowData.invoiceType)
 
   const [hoveredItem, setHoveredItem] = useState(null);
 
@@ -1060,7 +1060,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
 
   useEffect(() => {
-    if (state.Settings?.SettingsBilltemplategetsuccessCode === 200) {
+    if (state.InvoiceList.statusCodeNewReceiptStatusCode === 200) {
 
       const invoiceTypeMap = {
         Rent: "RENTAL",
@@ -1068,14 +1068,9 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
       };
 
       const selectedType = invoiceTypeMap[rowData.invoiceType];
-
-      const TempArray = state.Settings?.settingsBillsTemplateList?.templates?.filter(
+      const TempArray = state.Settings?.newReceiptchanges?.templates?.filter(
         (template) => template.type === selectedType
       );
-
-      console.log(TempArray, "TempArray");
-
-
       setHostelDetails(TempArray)
       setUserDetails(state.InvoiceList.BillsPdfDetails.user_details)
       setTableDetails(state.InvoiceList.BillsPdfDetails.amenities)
@@ -1087,10 +1082,10 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
       setBillTransaction(state.InvoiceList.BillsPdfDetails.Transaction)
       setBillReceipt(state.InvoiceList.BillsPdfDetails)
       setTimeout(() => {
-        dispatch({ type: "CLEAR_GET_BILLS_PDF_DETAILS_STATUS_CODE" });
+        dispatch({ type: "CLEAR_NEE_RECEIPT_PDF_STATUS_CODE" });
       }, 100);
     }
-  }, [state.Settings?.SettingsBilltemplategetsuccessCode]);
+  }, [state.InvoiceList.statusCodeNewReceiptStatusCode]);
 
 
 

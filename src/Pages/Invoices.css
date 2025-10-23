@@ -23,6 +23,16 @@
   max-width: 150px;
 } */
 
+.expand-section {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  z-index: 50;
+}
+
+.expand-section.show {
+  max-height: 600px; /* Adjust based on your content height */
+}
 
 .table-scrollbar {
   scrollbar-width: auto;   
