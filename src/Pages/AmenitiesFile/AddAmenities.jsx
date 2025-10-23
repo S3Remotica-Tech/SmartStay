@@ -28,9 +28,9 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
   useEffect(() => {
     if (editDetails) {
       const initialData = {
-        amenity: editDetails.Amnities_Name || "",
-        amount: editDetails.Amount || "",
-        isChecked: editDetails.setAsDefault === 1 ? true : false,
+        amenity: editDetails.amenityName || "",
+        amount: editDetails.amenityAmount || "",
+        isChecked: !!editDetails.proRate,
       };
 
 
@@ -41,6 +41,8 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
     }
   }, [editDetails]);
 
+  console.log("initialdata", initialState , amount);
+  
   const handleAmenityChange = (e) => {
     const value = e.target.value;
     const pattern = /^[a-zA-Z\s]*$/;
@@ -79,6 +81,9 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
 
   }, [state.InvoiceList.amnitiessAddError])
 
+  console.log("editDetails", editDetails);
+  
+
   const handleSubmit = () => {
     dispatch({ type: 'REMOVE_ERROR_AMENITIES_SETTINGS' })
     let isValid = true;
@@ -92,49 +97,79 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
       isValid = false;
     }
 
+    // if (!amount) {
+    //   setErrorAmount("Please Enter Amount");
+    //   isValid = false;
+    // } else if (isNaN(amount)) {
+    //   setErrorAmount("Amount must be a Number");
+    //   isValid = false;
+    // }
+
     if (!amount) {
-      setErrorAmount("Please Enter Amount");
-      isValid = false;
-    } else if (isNaN(amount)) {
-      setErrorAmount("Amount must be a Number");
+    setErrorAmount("Please Enter Amount");
+    isValid = false;
+  } else if (isNaN(amount)) {
+    setErrorAmount("Amount Must Be a Number");
+    isValid = false;
+  } else if (Number(amount) <= 0) { 
+    setErrorAmount("Amount Must Be Greater Than 0");
+    isValid = false;
+  }
+
+    // if (initialState) {
+    //   const isChanged =
+    //     initialState.amenity !== amenity ||
+    //     initialState.amount !== amount ||
+    //     initialState.isChecked !== isChecked;
+
+    //   if (!isChanged) {
+    //     setIsChangedError("No Changes Detected");
+    //     isValid = false;
+    //   }
+    // }
+
+      if (initialState) {
+    const oldAmount = Number(initialState.amount);
+    const newAmount = Number(amount);
+
+    const isChanged =
+      initialState.amenity !== amenity ||
+      oldAmount !== newAmount ||
+      initialState.isChecked !== isChecked;
+
+    if (!isChanged) {
+      setIsChangedError("No Changes Detected");
       isValid = false;
     }
-
-    if (initialState) {
-      const isChanged =
-        initialState.amenity !== amenity ||
-        initialState.amount !== amount ||
-        initialState.isChecked !== isChecked;
-
-      if (!isChanged) {
-        setIsChangedError("No Changes Detected");
-        isValid = false;
-      }
-    }
+  }
 
     if (isValid) {
       if (editDetails) {
         dispatch({
           type: "AMENITIESUPDATE",
           payload: {
-            id: editDetails.Amnities_Id,
-            amenitiesName: amenity,
-            Amount: amount,
-            setAsDefault: isChecked,
-            Status: editDetails.Status,
-            Hostel_Id: state.login.selectedHostel_Id,
-          },
+          hostelId: state.login.selectedHostel_Id,
+          amenityId: editDetails.amenityId,
+          data: {
+            amenityName: amenity,
+            amount: amount,   
+            proRate: isChecked,
+          }
+        },
+        
         });
         setFormLoading(true)
       } else {
         dispatch({
-          type: "AMENITIESSETTINGS",
+          type: "ADD_AMENITIY",
           payload: {
-            amenitiesName: amenity,
-            Amount: amount,
-            setAsDefault: isChecked,
-            Hostel_Id: state.login.selectedHostel_Id,
-          },
+          hostelId: state.login.selectedHostel_Id,
+          data: {
+            amenityName: amenity,
+            amount: amount,   
+            proRate: isChecked,
+          }
+        }
         });
         setFormLoading(true)
       }

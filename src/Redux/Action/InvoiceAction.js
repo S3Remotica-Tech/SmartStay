@@ -173,25 +173,49 @@ export async function InvoicePDf(datum) {
 }
 
 
+// v1 
+// export async function GetAmenities(datum) {
+//   return await AxiosConfig.post('/list/amenities-list', datum, {
+//     data: datum
+//   })
+// }
 
-export async function GetAmenities(datum) {
-  return await AxiosConfig.post('/list/amenities-list', datum, {
-    data: datum
+export async function GetAmenities(hostelId) {
+  return await AxiosConfigV2.get(`/v2/amenity/${hostelId}`, {
+     headers: {
+      "Content-Type": "application/json",
+    },
   })
 }
 
-export async function UpdateAmenities(datum) {
-  return await AxiosConfig.post('/amenities/amnityUpdate', datum, {
-    data: datum
+// v1 
+// export async function UpdateAmenities(datum) {
+//   return await AxiosConfig.post('/amenities/amnityUpdate', datum, {
+//     data: datum
+//   })
+// }
+
+// v2 
+export async function UpdateAmenities(hostelId , amenityId, datum) {
+  return await AxiosConfigV2.put(`/v2/amenity/${hostelId}/${amenityId}`, datum, {
+    headers: {
+      "Content-Type": "application/json",
+    },
   })
 }
 
 
-export async function AmenitiesSettings(datum) {
-  return await AxiosConfig.post('/amenities/setting', datum, {
-    data: datum
+
+
+export async function AddAmenity(hostelId , datum) {
+  return await AxiosConfigV2.post(`/v2/amenity/${hostelId}`, datum, {
+     headers: {
+      "Content-Type": "application/json",
+    },
   })
 }
+
+ 
 
 
 export async function InvoiceSettings(params) {
@@ -241,30 +265,80 @@ export async function DeleteUser(userId) {
   });
 }
 
-export async function DeleteAmenities(datum) {
-  return await AxiosConfig.post('/amenities/delete', datum, {
-    data: datum
+
+// v1 
+// export async function DeleteAmenities(datum) {
+//   return await AxiosConfig.post('/amenities/delete', datum, {
+//     data: datum
+//   })
+// }
+
+// v2 
+export async function DeleteAmenities(amenityId , hostelId  ) {
+  return await AxiosConfigV2.delete(`/v2/amenity/${amenityId}/${hostelId}`, {
+     headers: {
+      "Content-Type": "application/json",
+    },
   })
+} 
+
+
+// v1 
+// export async function AssignAmenities(datum) {
+//   return await AxiosConfig.post('/settings/assign_amenity', datum, {
+//     data: datum
+//   })
+// }
+
+
+// v2 
+export async function AssignAmenities(hostelId, amenityId, customers) {
+  return await AxiosConfigV2.put(
+    `/v2/amenity/assign/${hostelId}/${amenityId}`,
+    { customers },
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+}
+
+// v1 
+// export async function UnAssignAmenities(datum) {
+//   return await AxiosConfig.post('/settings/remove_assigned_amenitie', datum, {
+//     data: datum
+//   })
+// }
+
+export async function UnAssignAmenities(hostelId, amenityId, customers) {
+  return await AxiosConfigV2.put(
+    `/v2/amenity/unAssign/${hostelId}/${amenityId}`,
+    { customers },
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
 }
 
 
-export async function AssignAmenities(datum) {
-  return await AxiosConfig.post('/settings/assign_amenity', datum, {
-    data: datum
-  })
-}
+// v1 
+// export async function GetAssignAmenities(datum) {
+//   return await AxiosConfig.post('/settings/all_customer_list', datum, {
+//     data: datum
+//   })
+// }
 
-export async function UnAssignAmenities(datum) {
-  return await AxiosConfig.post('/settings/remove_assigned_amenitie', datum, {
-    data: datum
+// v2 
+export async function ParticularAmentityList(hostelId , amenityId) {
+  return await AxiosConfigV2.get(`/v2/amenity/${hostelId}/${amenityId}`, {
+     headers: {
+      "Content-Type": "application/json",
+    },
   })
-}
-
-export async function GetAssignAmenities(datum) {
-  return await AxiosConfig.post('/settings/all_customer_list', datum, {
-    data: datum
-  })
-}
+} 
 
 
 export async function GetBillsPdfDetails(datum) {
