@@ -65,7 +65,6 @@ function Asset() {
 
 
 
-
   useEffect(() => {
     if (state.UsersList?.exportAssetsDetail?.response?.fileUrl) {
       setExcelDownload(state.UsersList?.exportAssetsDetail?.response?.fileUrl);

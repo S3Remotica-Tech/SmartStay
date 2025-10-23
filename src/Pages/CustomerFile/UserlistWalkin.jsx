@@ -17,14 +17,17 @@ import { ArrowUp2, ArrowDown2, } from "iconsax-react";
 import PaginationList from "../../Components/PaginationList";
 import ErrorMessage from '../../Components/ErrorMessage'
 import { useHasPermission } from '../../Utils/Permission';
-
-
+import Addbook from "../../Assets/Images/New_images/calendar-tick.svg";
+import addcircle from "../../Assets/Images/New_images/add-circle.png";
+import Addbooking from "./Addbookingform";
+import UserlistForm from "./UserlistForm";
 
 function UserlistWalkin(props) {
   const state = useSelector((state) => state);
-
+  const [tenantDetails, setTenantDetails] = useState("");
   const dispatch = useDispatch();
   const [showForm, setShowForm] = useState(false);
+  const [showFormCheckIn, setShowFormCheckIn] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [dotsButton, setDotsButton] = useState(null);
   const [walkInPermissionError, setWalkInPermissionError] = useState("");
@@ -34,7 +37,7 @@ function UserlistWalkin(props) {
     useState("");
 
   const canReadWalkin = useHasPermission("Walk in", "canRead")
-
+const canWriteWalkin = useHasPermission("Walk in", "canWrite")
   const canUpdateWalkin = useHasPermission("Walk in", "canUpdate")
   const canDeleteWalkin = useHasPermission("Walk in", "canDelete")
 
@@ -108,21 +111,21 @@ function UserlistWalkin(props) {
     if (state.login.selectedHostel_Id && !calledOnceRef.current) {
       calledOnceRef.current = true;
       setWalkingLoader(true);
-       dispatch({
-          type: "USERLIST",
-          payload: { hostel_id: state.login.selectedHostel_Id, type: 'Inactive' },
-        });
-     
+      dispatch({
+        type: "USERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id, type: 'Inactive' },
+      });
+
     }
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
-    if (state.UsersList?.UserListStatusCode === 200) {
+    if (state.UsersList?.UserListStatusCode) {
       setWalkingLoader(false);
       setWalkInCustomer(state.UsersList?.Users);
       setTimeout(() => {
         dispatch({ type: "CLEAR_WALK_IN_STATUS_CODE" });
-      }, 1000);
+      }, 100);
     }
   }, [state.UsersList?.UserListStatusCode]);
 
@@ -140,9 +143,9 @@ function UserlistWalkin(props) {
   useEffect(() => {
     if (state.UsersList.deleteWalkInCustomerStatusCode === 200) {
       dispatch({
-          type: "USERLIST",
-          payload: { hostel_id: state.login.selectedHostel_Id, type: 'Inactive' },
-        });
+        type: "USERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id, type: 'Inactive' },
+      });
       setShowDeleteModal(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_WALK_IN_CUSTOMER" });
@@ -187,16 +190,32 @@ function UserlistWalkin(props) {
     setCustomerToDelete(null);
   };
 
-  const handleEdit = (customer) => {
+  const handleBooking = (customer) => {
     setDotsButton(null);
     setSelectedCustomer(customer);
     setShowForm(true);
   };
 
+
+
   const handleFormClose = () => {
     setShowForm(false);
     setSelectedCustomer(null);
   };
+
+
+  const handleCheckIn = (data) => {
+    setShowFormCheckIn(true)
+    setTenantDetails(data)
+  }
+
+  const handleCloseCheckInForm = () => {
+    setShowFormCheckIn(false)
+  }
+
+
+
+
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -210,7 +229,7 @@ function UserlistWalkin(props) {
     };
   }, [popupRef]);
 
- 
+
 
 
 
@@ -252,7 +271,7 @@ function UserlistWalkin(props) {
       state.UsersList?.UserListStatusCode === 200
     ) {
       setShowForm(false)
-    
+
 
 
       setTimeout(() => {
@@ -263,13 +282,13 @@ function UserlistWalkin(props) {
   }, [state.UsersList?.UserListStatusCode]);
 
 
-useEffect(() => {
+  useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser === 201 || state.UsersList?.statusCodeForAddCustomerSaveInfo === 201) {
- 
-       dispatch({
-          type: "USERLIST",
-          payload: { hostel_id: state.login.selectedHostel_Id, type: 'Inactive' },
-        });
+
+      dispatch({
+        type: "USERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id, type: 'Inactive' },
+      });
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_STATUS_CODES" });
@@ -279,9 +298,34 @@ useEffect(() => {
   }, [state.UsersList?.statusCodeForAddUser, state.UsersList?.statusCodeForAddCustomerSaveInfo]);
 
 
+  useEffect(() => {
+    if (state?.Booking?.statusCodeForAddBooking === 200) {
+      setShowForm(false);
+      dispatch({
+        type: "USERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id, type: 'Inactive' },
+      });
 
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
+      }, 500);
+    }
+  }, [state?.Booking?.statusCodeForAddBooking]);
 
+  useEffect(() => {
+    if (state.UsersList.statusCodeForCheckInCustomer === 201) {
+      setShowFormCheckIn(false)
+      dispatch({
+        type: "USERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id, type: 'Inactive' },
+      });
 
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_STATUS_CODES_CHECK_IN' })
+      }, 2000)
+    }
+
+  }, [state.UsersList.statusCodeForCheckInCustomer])
 
   return (
     <>
@@ -496,7 +540,7 @@ useEffect(() => {
                             </div>
                           </th>
 
-                          <th
+                          {/* <th
                             style={{
                               textAlign: "start",
                               fontFamily: "Gilroy",
@@ -536,9 +580,9 @@ useEffect(() => {
                               </div>{" "}
                               Joining Date
                             </div>
-                          </th>
+                          </th> */}
 
-                          <th
+                          {/* <th
                             style={{
                               textAlign: "start",
                               fontFamily: "Gilroy",
@@ -573,7 +617,7 @@ useEffect(() => {
                               </div>{" "}
                               Address{" "}
                             </div>
-                          </th>
+                          </th> */}
 
                           <th
                             style={{
@@ -591,7 +635,7 @@ useEffect(() => {
                         </tr>
                       </thead>
 
-                     
+
 
                       <tbody>
                         <PaginationList>
@@ -617,7 +661,7 @@ useEffect(() => {
                                         fontFamily: "Gilroy",
                                       }}
                                     >
-                                      {v.firstName} 
+                                      {v.firstName}
                                     </span>
                                   </div>
                                 </td>
@@ -647,14 +691,14 @@ useEffect(() => {
                                   }}
                                   className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
                                 >
-                                   +
-                                      {v &&
-                                        v.countryCode}
-                                      {" "}
-                                      {v.mobile}
+                                  +
+                                  {v &&
+                                    v.countryCode}
+                                  {" "}
+                                  {v.mobile}
                                 </td>
 
-                                <td
+                                {/* <td
                                   style={{
                                     padding: "10px",
                                     border: "none",
@@ -669,18 +713,18 @@ useEffect(() => {
                                   className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
                                 >
                                   <span>
-                                                                         {v?.actualJoining && v.actualJoining !== "0000-00-00"
-                                                                           ? moment(v.actualJoining, "DD/MM/YYYY").format("D MMMM YYYY")
-                                                                           : v?.expectedJoiningDate && v.expectedJoiningDate !== "0000-00-00"
-                                                                             ? moment(v.expectedJoiningDate, "DD/MM/YYYY").format("D MMMM YYYY")
-                                                                             : v?.RecheckIn_Date && v.RecheckIn_Date !== "0000-00-00"
-                                                                               ? moment(v.RecheckIn_Date).format("D MMMM YYYY")
-                                                                               : "-"
-                                                                         }
-                                                                       </span>
-                                </td>
+                                    {v?.actualJoining && v.actualJoining !== "0000-00-00"
+                                      ? moment(v.actualJoining, "DD/MM/YYYY").format("D MMMM YYYY")
+                                      : v?.expectedJoiningDate && v.expectedJoiningDate !== "0000-00-00"
+                                        ? moment(v.expectedJoiningDate, "DD/MM/YYYY").format("D MMMM YYYY")
+                                        : v?.RecheckIn_Date && v.RecheckIn_Date !== "0000-00-00"
+                                          ? moment(v.RecheckIn_Date).format("D MMMM YYYY")
+                                          : "-"
+                                    }
+                                  </span>
+                                </td> */}
 
-                                <td
+                                {/* <td
                                   style={{
                                     fontSize: 13,
                                     fontWeight: 500,
@@ -706,7 +750,7 @@ useEffect(() => {
                                       </>
                                     )
                                     : "N/A"}
-                                </td>
+                                </td> */}
 
                                 <td style={{ borderBottom: "1px solid #E8E8E8" }}>
                                   <div
@@ -750,15 +794,15 @@ useEffect(() => {
                                       >
                                         {/* Edit Option */}
                                         <div
-                                          className="d-flex align-items-center"
+                                          className="d-flex align-items-center gap-2"
                                           onClick={() => {
-                                            if (canUpdateWalkin) {
-                                              handleEdit(v);
+                                            if (canWriteWalkin) {
+                                              handleCheckIn(v);
                                             }
                                           }}
                                           style={{
-                                            cursor: !canUpdateWalkin ? "not-allowed" : "pointer",
-                                            opacity: !canUpdateWalkin ? 0.5 : 1,
+                                            cursor: !canWriteWalkin ? "not-allowed" : "pointer",
+                                            opacity: !canWriteWalkin ? 0.5 : 1,
                                             padding: "6px 8px",
                                             borderRadius: 6,
                                           }}
@@ -769,35 +813,40 @@ useEffect(() => {
                                             e.currentTarget.style.backgroundColor = "transparent";
                                           }}
                                         >
-                                          <Edit
-                                            size="16"
-                                            color={!canUpdateWalkin ? "#A9A9A9" : "#1E45E1"}
-                                            style={{ marginRight: 8 }}
+                                          <img
+                                            src={addcircle}
+                                            alt="Assign Bed"
+                                            style={{
+                                              height: 16,
+                                              width: 16,
+                                              filter: !canWriteWalkin ? "grayscale(100%)" : "none",
+                                            }}
                                           />
+
                                           <label
                                             style={{
                                               fontSize: 14,
                                               fontWeight: 500,
                                               fontFamily: "Gilroy, sans-serif",
-                                              color: !canUpdateWalkin ? "#A9A9A9" : "#222222",
-                                              cursor: !canUpdateWalkin ? "not-allowed" : "pointer",
+                                              color: !canWriteWalkin ? "#A9A9A9" : "#222222",
+                                              cursor: !canWriteWalkin ? "not-allowed" : "pointer",
                                             }}
                                           >
-                                            Edit
+                                            Check_In
                                           </label>
                                         </div>
 
                                         {/* Delete Option */}
                                         <div
-                                          className="d-flex align-items-center"
+                                          className="d-flex align-items-center gap-2"
                                           onClick={() => {
-                                            if (canDeleteWalkin) {
-                                              handleDelete(v);
+                                            if (canWriteWalkin) {
+                                              handleBooking(v);
                                             }
                                           }}
                                           style={{
-                                            cursor: !canDeleteWalkin ? "not-allowed" : "pointer",
-                                            opacity: !canDeleteWalkin ? 0.5 : 1,
+                                            cursor: !canWriteWalkin ? "not-allowed" : "pointer",
+                                            opacity: !canWriteWalkin ? 0.5 : 1,
                                             padding: "6px 8px",
                                             borderRadius: 6,
                                           }}
@@ -808,21 +857,27 @@ useEffect(() => {
                                             e.currentTarget.style.backgroundColor = "transparent";
                                           }}
                                         >
-                                          <Trash
-                                            size="16"
-                                            color={!canDeleteWalkin ? "#A9A9A9" : "red"}
-                                            style={{ marginRight: 8 }}
+
+                                          <img
+                                            src={Addbook}
+                                            alt="Addbook"
+                                            style={{
+                                              width: 16,
+                                              height: 16,
+                                              filter: !canWriteWalkin ? "grayscale(100%)" : "none",
+                                              cursor: !canWriteWalkin ? "not-allowed" : "pointer",
+                                            }}
                                           />
                                           <label
                                             style={{
                                               fontSize: 14,
                                               fontWeight: 500,
                                               fontFamily: "Gilroy, sans-serif",
-                                              color: !canDeleteWalkin ? "#A9A9A9" : "#FF0000",
-                                              cursor: !canDeleteWalkin ? "not-allowed" : "pointer",
+                                              color: !canWriteWalkin ? "#A9A9A9" : "#1E45E1",
+                                              cursor: !canWriteWalkin ? "not-allowed" : "pointer",
                                             }}
                                           >
-                                            Delete
+                                            Add booking
                                           </label>
                                         </div>
                                       </div>
@@ -874,165 +929,37 @@ useEffect(() => {
               </div>
             )}
           </div>
-          {/* {(props.search || props.filterStatus
-            ? props.filteredUsers?.length
-            : walkInCustomer?.length) > 10 && (
-              <nav
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "end",
-                  padding: "10px",
-                  position: "fixed",
-                  bottom: "0px",
-                  right: "0px",
-                  left:0,
-                  backgroundColor: "#fff",
-                  borderRadius: "5px",
-                  zIndex: 1000,
-                }}
-              >
-             <div>
-                    <Select
-                      options={pageOptions}
-                      value={
-                        itemsPerPage
-                          ? { value: itemsPerPage, label: `${itemsPerPage}` }
-                          : null
-                      }
-                      onChange={handleItemsPerPageChange}
-                      classNamePrefix="custom"
-                      menuPlacement="auto"
-                      noOptionsMessage={() => "No options"}
-                      styles={{
-                        control: (base) => ({
-                          ...base,
-                          height: "40px",
-                          padding: "0 5px",
-                          border: "1px solid #1E45E1",
-                          borderRadius: "5px",
-                          fontSize: "14px",
-                          color: "#1E45E1",
-                          fontWeight: 600,
-                          cursor: "pointer",
-                          fontFamily: "Gilroy",
-                          boxShadow: "0 0 0 1px #1E45E1",
-                          width: 100,
-                        }),
-                        menu: (base) => ({
-                          ...base,
-                          backgroundColor: "#f8f9fa",
-                          border: "1px solid #ced4da",
-                          fontFamily: "Gilroy",
-                        }),
-                        menuList: (base) => ({
-                          ...base,
-                          maxHeight: "200px",
-                          overflowY: "auto",
-                          padding: 0,
-                        }),
-                        placeholder: (base) => ({
-                          ...base,
-                          color: "#555",
-                        }),
-                        dropdownIndicator: (base) => ({
-                          ...base,
-                          color: "#1E45E1",
-                          cursor: "pointer",
-                        }),
-                        indicatorSeparator: () => ({
-                          display: "none",
-                        }),
-                        option: (base, state) => ({
-                          ...base,
-                          backgroundColor: state.isFocused ? "#1E45E1" : "white",
-                          color: state.isFocused ? "#fff" : "#000",
-                          cursor: "pointer",
-                        }),
-                      }}
-                    />
-                  </div>
 
-                <ul
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    listStyleType: "none",
-                    margin: 0,
-                    padding: 0,
-                  }}
-                >
-                  <li style={{ margin: "0 10px" }}>
-                    <button
-                      style={{
-                        padding: "5px",
-                        textDecoration: "none",
-                        color: currentPage === 1 ? "#ccc" : "#1E45E1",
-                        cursor: currentPage === 1 ? "not-allowed" : "pointer",
-                        borderRadius: "50%",
-                        display: "inline-block",
-                        minWidth: "30px",
-                        textAlign: "center",
-                        backgroundColor: "transparent",
-                        border: "none",
-                      }}
-                      onClick={() => handlePageChange(currentPage - 1)}
-                      disabled={currentPage === 1}
-                    >
-                      <ArrowLeft2
-                        size="16"
-                        color={currentPage === 1 ? "#ccc" : "#1E45E1"}
-                      />
-                    </button>
-                  </li>
-
-                  <li
-                    style={{
-                      margin: "0 10px",
-                      fontSize: "14px",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    {currentPage} of {totalPages}
-                  </li>
-
-                  <li style={{ margin: "0 10px" }}>
-                    <button
-                      style={{
-                        padding: "5px",
-                        textDecoration: "none",
-                        color: currentPage === totalPages ? "#ccc" : "#1E45E1",
-                        cursor:
-                          currentPage === totalPages ? "not-allowed" : "pointer",
-                        borderRadius: "50%",
-                        display: "inline-block",
-                        minWidth: "30px",
-                        textAlign: "center",
-                        backgroundColor: "transparent",
-                        border: "none",
-                      }}
-                      onClick={() => handlePageChange(currentPage + 1)}
-                      disabled={currentPage === totalPages}
-                    >
-                      <ArrowRight2
-                        size="16"
-                        color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
-                      />
-                    </button>
-                  </li>
-                </ul>
-              </nav>
-            )} */}
         </>
       )}
 
       {showForm && (
-        <CustomerForm
-          show={showForm}
-          handleClose={handleFormClose}
-          initialData={selectedCustomer}
+
+        <Addbooking add_bookingshow={showForm}
+          handleCloseAddBooking={handleFormClose}
+          userDetail={selectedCustomer}
         />
+
+        // <CustomerForm
+        //   show={showForm}
+        //   handleClose={handleFormClose}
+        //   initialData={selectedCustomer}
+        // />
       )}
+
+
+      {
+        showFormCheckIn && <UserlistForm EditObj={tenantDetails}
+          showAssignMenu={showFormCheckIn}
+          setShowAssignMenu={handleCloseCheckInForm} />
+      }
+
+
+
+
+
+
+
 
       <Modal
         show={showDeleteModal}

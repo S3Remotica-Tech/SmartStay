@@ -4,6 +4,16 @@ import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+function* handleApiError(error) {
+   if (error?.status === 401 || error?.response?.status === 401) {
+      yield put({
+         type: "UN-AUTHORIZED",
+         payload: "Access Denied",
+      });
+   }
+
+}
+
 
 function* handleGetFinalSettlementList(action) {
 
@@ -20,6 +30,7 @@ function* handleGetFinalSettlementList(action) {
       }
    }
    catch (error) {
+      yield* handleApiError(error);
       if (error.code === 'ERR_BAD_REQUEST') {
          yield put({ type: 'NETWORK_ERROR', payload: error.response.data });
       } else if (error.code === 'ERR_NETWORK') {
@@ -46,6 +57,7 @@ function* handleGetParticularBillsDetails(action) {
       }
    }
    catch (error) {
+         yield* handleApiError(error);
       if (error.code === 'ERR_BAD_REQUEST') {
          yield put({ type: 'NETWORK_ERROR', payload: error.response.data });
       } else if (error.code === 'ERR_NETWORK') {
@@ -60,17 +72,15 @@ function* handleGetParticularReceiptDetails(action) {
 
    try {
       const response = yield call(getParticularReceiptDetails, action.payload)
-
-
       if (response.status === 200 || response.statusCode === 200) {
          yield put({ type: 'GET_PARTICULAR_RECEIPT_DETAILS', payload: { response: response.data, statusCode: response.status || response.statusCode } })
       }
-
       if (response) {
          refreshToken(response)
       }
    }
    catch (error) {
+         yield* handleApiError(error);
       if (error.code === 'ERR_BAD_REQUEST') {
          yield put({ type: 'NETWORK_ERROR', payload: error.response.data });
       } else if (error.code === 'ERR_NETWORK') {
@@ -129,6 +139,7 @@ function* handleDeleteUser(action) {
       }
    }
    catch (error) {
+         yield* handleApiError(error);
       if (error.code === 'ERR_BAD_REQUEST') {
          yield put({ type: 'NETWORK_ERROR', payload: error.response.data });
       } else if (error.code === 'ERR_NETWORK') {
@@ -139,6 +150,7 @@ function* handleDeleteUser(action) {
 }
 
 function* handleDeleteAmenities(action) {
+   try{
     const { amenityId , hostelId   } = action.payload
     const response = yield call(DeleteAmenities, amenityId , hostelId);
 
@@ -195,6 +207,10 @@ function* handleDeleteAmenities(action) {
       refreshToken(response)
    }
 }
+catch(error){
+      yield* handleApiError(error);
+}
+}
 
 
 function* handleAssignAmenities(action) {
@@ -239,6 +255,7 @@ function* handleAssignAmenities(action) {
       yield call(refreshToken, response);
     }
   } catch (error) {
+         yield* handleApiError(error);
     const errorMsg =
       error.code === 'ERR_NETWORK'
         ? 'Network error occurred'
@@ -299,6 +316,7 @@ function* handleUnAssignAmenities(action) {
       }
    }
    catch (error) {
+         yield* handleApiError(error);
       if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
       } else {
@@ -309,6 +327,7 @@ function* handleUnAssignAmenities(action) {
 
 
 function* handleGetParticularAmentityList(action) {
+   try{
        const {hostelId , amenityId } = action.payload
           const response = yield call(ParticularAmentityList, hostelId,amenityId);
 
@@ -325,6 +344,10 @@ function* handleGetParticularAmentityList(action) {
       refreshToken(response)
    }
 }
+catch(error){
+      yield* handleApiError(error);
+}
+}
 
 
 
@@ -334,6 +357,7 @@ function* handleGetParticularAmentityList(action) {
 
 
 function* handleinvoicelist() {
+   try{
    const response = yield call(invoicelist);
 
    if (response.status === 200 || response.statusCode === 200) {
@@ -346,9 +370,14 @@ function* handleinvoicelist() {
       refreshToken(response)
    }
 }
+catch(error){
+      yield* handleApiError(error);
+}
+}
 
 
 function* handleInvoiceList(action) {
+   try{
    const response = yield call(invoiceList, action.payload)
 
    if (response.status === 200 || response.statusCode === 200) {
@@ -360,6 +389,10 @@ function* handleInvoiceList(action) {
    if (response) {
       refreshToken(response)
    }
+}
+catch(error){
+      yield* handleApiError(error);
+}
 }
 
 function* handleRecordPaymentUpdate(action) {
@@ -410,6 +443,7 @@ function* handleRecordPaymentUpdate(action) {
       }
    }
    catch (error) {
+         yield* handleApiError(error);
       if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
       } else {
@@ -465,6 +499,7 @@ function* handleInvoiceSettings(param) {
       }
    }
    catch (error) {
+         yield* handleApiError(error);
       if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
       } else {
@@ -523,6 +558,7 @@ function* handleInvoicePdf(action) {
 
    }
    catch (error) {
+         yield* handleApiError(error);
       if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
       } else {
@@ -582,6 +618,7 @@ function* handleAddAmenity(action) {
       }
    }
    catch (error) {
+         yield* handleApiError(error);
       if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
       } else {
@@ -591,6 +628,7 @@ function* handleAddAmenity(action) {
 }
 
 function* handleGetAmenities(action) {
+   try{
    const response = yield call(GetAmenities, action.payload)
 
    console.log("response", response);
@@ -608,6 +646,10 @@ function* handleGetAmenities(action) {
    if (response) {
       refreshToken(response)
    }
+}
+catch(error){
+      yield* handleApiError(error);
+}
 }
 
 function* handleUpdateAmenities(action) {
@@ -658,6 +700,7 @@ function* handleUpdateAmenities(action) {
       }
    }
    catch (error) {
+         yield* handleApiError(error);
       if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
       } else {
@@ -669,6 +712,7 @@ function* handleUpdateAmenities(action) {
 
 
 function* handleManualInvoice() {
+   try{
    const response = yield call(ManualInvoice)
 
    if (response.status === 200 || response.data.statusCode === 200) {
@@ -681,8 +725,13 @@ function* handleManualInvoice() {
       refreshToken(response)
    }
 }
+catch(error){
+      yield* handleApiError(error);
+}
+}
 
 function* handleManualInvoiceNumber(params) {
+   try{
    const response = yield call(ManualInvoiceNumber, params.payload)
 
    if (response.status === 200 || response.statusCode === 200) {
@@ -699,8 +748,13 @@ function* handleManualInvoiceNumber(params) {
       refreshToken(response)
    }
 }
+catch(error){
+      yield* handleApiError(error);
+}
+}
 
 function* handleManualInvoiceGetData(params) {
+   try{
    const response = yield call(ManualInvoiceUserData, params.payload)
 
    if (response.status === 200 || response.statusCode === 200) {
@@ -740,8 +794,13 @@ function* handleManualInvoiceGetData(params) {
       refreshToken(response)
    }
 }
+catch(error){
+      yield* handleApiError(error);
+}
+}
 
 function* handleRecurrbillamountData(params) {
+   try{
    const response = yield call(RecurrInvoiceamountData, params.payload)
 
    if (response.status === 200 || response.statusCode === 200) {
@@ -785,6 +844,10 @@ function* handleRecurrbillamountData(params) {
       refreshToken(response)
    }
 }
+catch(error){
+      yield* handleApiError(error);
+}
+}
 
 function* handleManualInvoiceAdd(params) {
    try {
@@ -821,6 +884,7 @@ function* handleManualInvoiceAdd(params) {
       }
    }
    catch (error) {
+         yield* handleApiError(error);
       if (error.code === 'ERR_BAD_REQUEST') {
          if (error.status === 400 || error.status === 403) {
             yield put({ type: 'UNABLE_ADD_INVOICE_DETAILS', payload: error.response.data });
@@ -878,6 +942,7 @@ function* handleManualInvoiceEdit(params) {
       }
    }
    catch (error) {
+         yield* handleApiError(error);
       if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
       } else {
@@ -888,7 +953,7 @@ function* handleManualInvoiceEdit(params) {
 
 
 function* handleManualInvoiceDelete(params) {
-
+try{
    const response = yield call(DeleteManualInvoiceBill, params.payload);
 
    if (response.status === 200 || response.statusCode === 200) {
@@ -939,6 +1004,10 @@ function* handleManualInvoiceDelete(params) {
       refreshToken(response)
    }
 }
+catch(error){
+      yield* handleApiError(error);
+}
+}
 
 
 function* handleRecurrBillsAdd(params) {
@@ -984,6 +1053,7 @@ function* handleRecurrBillsAdd(params) {
       }
    }
    catch (error) {
+         yield* handleApiError(error);
       if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
       } else {
@@ -1011,6 +1081,7 @@ function* handleGetManualInvoice(action) {
       }
    }
    catch (error) {
+         yield* handleApiError(error);
       if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
       } else {
@@ -1021,6 +1092,7 @@ function* handleGetManualInvoice(action) {
 }
 
 function* handleGetRecurrbills(action) {
+   try{
    const response = yield call(GetRecurrBills, action.payload)
 
 
@@ -1037,8 +1109,13 @@ function* handleGetRecurrbills(action) {
       refreshToken(response)
    }
 }
+catch(error){
+      yield* handleApiError(error);
+}
+}
 
 function* handleDeleteRecuringBills(action) {
+   try{
    const response = yield call(DeleteRecurrBills, action.payload);
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'DELETE_RECURRING_BILLS', payload: { response: response.data, statusCode: response.status || response.statusCode } })
@@ -1078,6 +1155,10 @@ function* handleDeleteRecuringBills(action) {
    if (response) {
       refreshToken(response)
    }
+}
+catch(error){
+      yield* handleApiError(error);
+}
 
 }
 
@@ -1126,6 +1207,7 @@ function* handleAddInvoiceRecurringSettings(param) {
       }
    }
    catch (error) {
+         yield* handleApiError(error);
       if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
       } else {
@@ -1154,6 +1236,7 @@ function* handleGetReceipts(action) {
       }
    }
    catch (error) {
+         yield* handleApiError(error);
       if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
       } else {
@@ -1208,6 +1291,7 @@ function* handleAddReceipt(action) {
       }
    }
    catch (error) {
+         yield* handleApiError(error);
       if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
       } else {
@@ -1254,6 +1338,7 @@ function* handleEditReceipt(action) {
       }
    }
    catch (error) {
+         yield* handleApiError(error);
       if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
       } else {
@@ -1263,6 +1348,7 @@ function* handleEditReceipt(action) {
 }
 
 function* handleDeleteReceipt(action) {
+   try{
    const response = yield call(DeleteReceipt, action.payload);
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'DELETERECEIPT', payload: { response: response.data, statusCode: response.status || response.statusCode } })
@@ -1302,11 +1388,16 @@ function* handleDeleteReceipt(action) {
    if (response) {
       refreshToken(response)
    }
+}
+catch(error){
+      yield* handleApiError(error);
+}
 
 }
 
 
 function* handleReference_Id() {
+   try{
    const response = yield call(ReferenceIdGet)
 
    if (response.status === 200 || response.statusCode === 200) {
@@ -1346,6 +1437,10 @@ function* handleReference_Id() {
       refreshToken(response)
    }
 }
+catch(error){
+      yield* handleApiError(error);
+}
+}
 
 function* handleReceiptPdf(action) {
    try {
@@ -1366,6 +1461,7 @@ function* handleReceiptPdf(action) {
       }
    }
    catch (error) {
+         yield* handleApiError(error);
       if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
       } else {
@@ -1375,6 +1471,7 @@ function* handleReceiptPdf(action) {
 }
 
 function* handleFilterRecurrCustomer(action) {
+   try{
    const response = yield call(AddRecurrBillsUsers, action.payload)
 
    if (response.status === 200 || response.statusCode === 200) {
@@ -1388,10 +1485,15 @@ function* handleFilterRecurrCustomer(action) {
       refreshToken(response)
    }
 }
+catch(error){
+      yield* handleApiError(error);
+}
+}
 
 
 
 function* handleGetBillPdfDetails(action) {
+   try{
    const response = yield call(GetBillsPdfDetails, action.payload)
 
    if (response.status === 200 || response.statusCode === 200) {
@@ -1404,18 +1506,17 @@ function* handleGetBillPdfDetails(action) {
       refreshToken(response)
    }
 }
+catch(error){
+      yield* handleApiError(error);
+}
+}
 
 
 
 
 function* handleReceiptPdfNewChanges(action) {
    try {
-
-      if (!action || !action.id) {
-         throw new Error("Missing receipt_id in params");
-      }
-
-      const response = yield call(getParticularReceiptDetails, action);
+         const response = yield call(getParticularReceiptDetails, action.payload);
 
       if (response.status === 200 || response.data.statusCode === 200) {
          yield put({
@@ -1434,6 +1535,7 @@ function* handleReceiptPdfNewChanges(action) {
          refreshToken(response);
       }
    } catch (error) {
+         yield* handleApiError(error);
       if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
       } else {
@@ -1519,6 +1621,7 @@ function* handleCustomerRecurringEnableDisable(params) {
       }
    }
    catch (error) {
+         yield* handleApiError(error);
       if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
       } else {

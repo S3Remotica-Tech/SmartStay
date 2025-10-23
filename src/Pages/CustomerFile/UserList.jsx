@@ -6,8 +6,8 @@ import { Table, Button, Form, FormControl } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
-import Image from "react-bootstrap/Image";
-import UserlistForm from "./UserlistForm";
+import Image from "react-bootstrap/Image";import UserlistForm from "./UserlistForm";
+
 import UserListRoomDetail from "./UserListRoomDetail";
 import Modal from "react-bootstrap/Modal";
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
@@ -160,7 +160,27 @@ console.log("UserList",state)
   const canReadWalkin = useHasPermission("Walk in", "canRead")
 
   const canReadCheckout = useHasPermission("Checkout", "canRead")
-console.log("newRows",newRows)
+
+
+
+  useEffect(()=>{
+    if(state.AssetList.accessRestricted){
+      setLoading(false);
+    }
+  
+  },[state.AssetList.accessRestricted])
+
+
+useEffect(() => {
+  if (!canReadTenant) {
+    setLoading(false);
+  }else{
+    setLoading(true);
+  }
+}, [canReadTenant]);
+
+
+
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       if (value === "1") {
@@ -169,7 +189,7 @@ console.log("newRows",newRows)
           type: "USERLIST",
           payload: { hostel_id: state.login.selectedHostel_Id },
         });
-        setLoading(true)
+        // setLoading(true)
       }
       if (value === "2") {
         dispatch({
@@ -222,13 +242,11 @@ console.log("newRows",newRows)
     setDropdownValue("");
   };
   useEffect(() => {
-    if (state?.Booking?.statusCodeForAddBooking === 200) {
-
-
-      dispatch({
-        type: "GET_BOOKING_LIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
+    if (state?.Booking?.statusCodeForAddBooking === 200 && value === "1") {
+      // dispatch({
+      //   type: "GET_BOOKING_LIST",
+      //   payload: { hostel_id: state.login.selectedHostel_Id },
+      // });
       dispatch({
         type: "USERLIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
@@ -2204,7 +2222,7 @@ setFormatDueDate(formattedDate);
 
 
   useEffect(() => {
-    if (state.UsersList.statusCodeForCheckInCustomer === 201) {
+    if (state.UsersList.statusCodeForCheckInCustomer === 201 && value === "1") {
       dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
       setShowAssignMenu(false)
       setTimeout(() => {

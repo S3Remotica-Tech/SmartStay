@@ -1,48 +1,74 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import { GetInitializeExpense, GetExpenseCatogory, AddExpense, GetExpense, DeleteExpense, transactionHistory, AddExpenseTag } from "../Action/ExpensesAction"
 import Cookies from 'universal-cookie';
-
 import { toast } from 'react-toastify';
 
 
+function* handleApiError(error) {
+   if (error?.status === 401 || error?.response?.status === 401) {
+      yield put({
+         type: "UN-AUTHORIZED",
+         payload: "Access Denied",
+      });
+   }
+
+}
+
+
+
 function* handleGetCategory() {
-   const response = yield call(GetExpenseCatogory);
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'CATEGORY_LIST', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
+   try {
+      const response = yield call(GetExpenseCatogory);
+      if (response.status === 200 || response.statusCode === 200) {
+         yield put({ type: 'CATEGORY_LIST', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
 
 
+      }
+      else {
+         yield put({ type: 'ERROR', payload: response.data.message })
+      }
+      if (response) {
+         refreshToken(response)
+      }
    }
-   else {
-      yield put({ type: 'ERROR', payload: response.data.message })
-   }
-   if (response) {
-      refreshToken(response)
+   catch (error) {
+      yield* handleApiError(error);
    }
 }
 
 function* handleGetExpenses(action) {
-   const response = yield call(GetExpense, action.payload);
+   try {
+      const response = yield call(GetExpense, action.payload);
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'EXPENSES_LIST', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      if (response.status === 200 || response.statusCode === 200) {
+         yield put({ type: 'EXPENSES_LIST', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      }
+      else if (response.status === 201) {
+         yield put({ type: 'NOEXPENSEDATA', payload: { statusCode: response.status } })
+      }
+      if (response) {
+         refreshToken(response)
+      }
    }
-   else if (response.status === 201) {
-      yield put({ type: 'NOEXPENSEDATA', payload: { statusCode: response.status } })
-   }
-   if (response) {
-      refreshToken(response)
+   catch (error) {
+      yield* handleApiError(error);
    }
 }
 
 function* handleGetInitializeExpense(action) {
-   const response = yield call(GetInitializeExpense, action.payload);
+   try {
+      const response = yield call(GetInitializeExpense, action.payload);
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'INITIALIZE_EXPENSES_LIST', payload: { response: response.data,  statusCode: response.status || response.statusCode } })
+      if (response.status === 200 || response.statusCode === 200) {
+         yield put({ type: 'INITIALIZE_EXPENSES_LIST', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      }
+
+      if (response) {
+         refreshToken(response)
+      }
    }
-   
-   if (response) {
-      refreshToken(response)
+   catch (error) {
+      yield* handleApiError(error);
    }
 }
 
@@ -54,7 +80,7 @@ function* handleGetInitializeExpense(action) {
 function* handleAddExpense(action) {
    try {
       const response = yield call(AddExpense, action.payload);
-      console.log("response",response)
+      console.log("response", response)
       var toastStyle = {
          backgroundColor: "#E6F6E6",
          color: "black",
@@ -86,16 +112,17 @@ function* handleAddExpense(action) {
          });
       }
 
-     
+
       if (response) {
          refreshToken(response)
       }
    }
-  catch (error) {
+   catch (error) {
+      yield* handleApiError(error);
       if (error.code === 'ERR_BAD_REQUEST') {
          if (error.status === 400 || error.status === 403) {
-             yield put({ type: 'BANK_INSUFFICIANT_FUND_ERROR', payload: error.response.data });
-           
+            yield put({ type: 'BANK_INSUFFICIANT_FUND_ERROR', payload: error.response.data });
+
          }
       } else if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
@@ -106,52 +133,53 @@ function* handleAddExpense(action) {
 
 
 function* handleAddExpenseTag(action) {
-   try{
-   const response = yield call(AddExpenseTag, action.payload);
+   try {
+      const response = yield call(AddExpenseTag, action.payload);
 
-   var toastStyle = {
-      backgroundColor: "#E6F6E6",
-      color: "black",
-      width: "auto",
-      borderRadius: "60px",
-      height: "20px",
-      fontFamily: "Gilroy",
-      fontWeight: 600,
-      fontSize: 14,
-      textAlign: "start",
-      display: "flex",
-      alignItems: "center",
-      padding: "10px",
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "auto",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center",
+         padding: "10px",
 
-   };
+      };
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'ADD_EXPENSE_TAG', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
-      toast.success(`${response.data.message}`, {
-         position: "bottom-center",
-         autoClose: 2000,
-         hideProgressBar: true,
-         closeButton: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-         style: toastStyle,
-      });
+      if (response.status === 200 || response.statusCode === 200) {
+         yield put({ type: 'ADD_EXPENSE_TAG', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
+         toast.success(`${response.data.message}`, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
 
 
+      }
+      else if (response.status === 201 || response.statusCode === 201) {
+         yield put({ type: 'EXPENCE_NETBANKIG', payload: response.data.message })
+      }
+      else {
+         yield put({ type: 'ERROR', payload: response.data.message })
+      }
+      if (response) {
+         refreshToken(response)
+      }
    }
-   else if (response.status === 201 || response.statusCode === 201) {
-      yield put({ type: 'EXPENCE_NETBANKIG', payload: response.data.message })
-   }
-   else {
-      yield put({ type: 'ERROR', payload: response.data.message })
-   }
-   if (response) {
-      refreshToken(response)
-   }
-    }
- catch (error) {
+   catch (error) {
+      yield* handleApiError(error);
       if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
       } else {
@@ -161,46 +189,51 @@ function* handleAddExpenseTag(action) {
 }
 
 function* handleDeleteExpense(action) {
-   const response = yield call(DeleteExpense, action.payload);
-   var toastStyle = {
-      backgroundColor: "#E6F6E6",
-      color: "black",
-      width: "auto",
-      borderRadius: "60px",
-      height: "20px",
-      fontFamily: "Gilroy",
-      fontWeight: 600,
-      fontSize: 14,
-      textAlign: "start",
-      display: "flex",
-      alignItems: "center",
-      padding: "10px",
+   try {
+      const response = yield call(DeleteExpense, action.payload);
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "auto",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center",
+         padding: "10px",
 
-   };
+      };
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'DELETE_EXPENSE', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
+      if (response.status === 200 || response.statusCode === 200) {
+         yield put({ type: 'DELETE_EXPENSE', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
 
-      toast.success('Deleted successfully', {
-         position: "bottom-center",
-         autoClose: 2000,
-         hideProgressBar: true,
-         closeButton: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-         style: toastStyle,
-      });
+         toast.success('Deleted successfully', {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
 
 
 
+      }
+      else {
+         yield put({ type: 'ERROR', payload: response.data.message })
+      }
+      if (response) {
+         refreshToken(response)
+      }
    }
-   else {
-      yield put({ type: 'ERROR', payload: response.data.message })
-   }
-   if (response) {
-      refreshToken(response)
+   catch (error) {
+      yield* handleApiError(error);
    }
 }
 
@@ -220,17 +253,19 @@ function refreshToken(response) {
 
 
 function* HandleTransactionHistory(action) {
-   const response = yield call(transactionHistory, action.payload)
-
-   if (response.status === 200 || response.statusCode === 200) {
-
-      yield put({ type: 'TRANSACTION_HISTORY', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
-
+   try {
+      const response = yield call(transactionHistory, action.payload)
+      if (response.status === 200 || response.statusCode === 200) {
+         yield put({ type: 'TRANSACTION_HISTORY', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
+      }
+      else {
+         yield put({ type: 'ERROR', payload: response.data.message })
+      }
+      refreshToken(response)
    }
-   else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+   catch (error) {
+      yield* handleApiError(error);
    }
-   refreshToken(response)
 }
 
 
@@ -241,7 +276,7 @@ function* ExpenseSaga() {
    yield takeEvery('DELETEEXPENSE', handleDeleteExpense)
    yield takeEvery('TRANSACTIONHISTORY', HandleTransactionHistory)
    yield takeEvery('ADDEXPENSETAG', handleAddExpenseTag)
-  yield takeEvery('INITIALIZEEXPENSESLIST', handleGetInitializeExpense)
- 
+   yield takeEvery('INITIALIZEEXPENSESLIST', handleGetInitializeExpense)
+
 }
 export default ExpenseSaga;

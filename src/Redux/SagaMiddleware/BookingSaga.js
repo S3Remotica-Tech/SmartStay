@@ -4,6 +4,22 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'universal-cookie';
 
+
+
+function* handleApiError(error) {
+  if (error?.status === 401 || error?.response?.status === 401) {
+    yield put({
+      type: "UN-AUTHORIZED",
+      payload: "Access Denied",
+    });
+  } 
+  
+}
+
+
+
+
+
 function* handleAddBooking(action) {
    try{
     const response = yield call (AddBooking, action.payload);
@@ -56,7 +72,7 @@ function* handleAddBooking(action) {
     }
      }
      catch (error) {
-          
+           yield* handleApiError(error);
     
           if (error.code === 'ERR_BAD_REQUEST') {
              if (error.status === 400) {
@@ -72,6 +88,7 @@ function* handleAddBooking(action) {
 
 
  function* handleGetBooking(action) {
+   try{
    const response = yield call(GetAddBooking, action.payload)
    
    if (response.status === 200 || response.statusCode === 200) {
@@ -84,11 +101,16 @@ function* handleAddBooking(action) {
       refreshToken(response)
    }
 }
+catch(error){
+    yield* handleApiError(error);
+}
+}
 
 
 
 
 function* handleDeleteBooking(action) {
+   try{
    const response = yield call(DeleteBooking, action.payload);
  
    var toastStyle = {
@@ -133,6 +155,10 @@ function* handleDeleteBooking(action) {
    if (response) {
      refreshToken(response);
    }
+}
+catch(error){
+    yield* handleApiError(error);
+}
  }
 
 
@@ -185,6 +211,7 @@ function* handleDeleteBooking(action) {
    }
     }
     catch (error) {
+       yield* handleApiError(error);
           if (error.code === 'ERR_NETWORK') {
              yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
           } else {
@@ -208,6 +235,7 @@ function* handleBookingBed(userDetails){
    }
  }
 catch (error) {
+    yield* handleApiError(error);
       if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
       } else {
@@ -220,6 +248,7 @@ catch (error) {
 
 
 function* handleBookingInActive(action) {
+   try{
    const response = yield call(bookingInActive, action.payload)
   
    console.log("response",response)
@@ -260,6 +289,10 @@ function* handleBookingInActive(action) {
    if(response){
       refreshToken(response)
    }
+}
+catch(error){
+    yield* handleApiError(error);
+}
 }
 
 

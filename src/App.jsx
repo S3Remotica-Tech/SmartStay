@@ -86,8 +86,7 @@ function App() {
 
   // useEffect(() => {
   //   if (tokenAccessDenied === 206) {
-  //     dispatch({ type: 'LOG_OUT' });
-  //     setData(false);
+  //    
   //     cookies.set('access-denied', null, { path: '/', expires: new Date(0) });
   //     localStorage.clear();
 
@@ -95,6 +94,13 @@ function App() {
   // }, [tokenAccessDenied]);
 
 
+useEffect(()=>{
+  if(state.AssetList?.unAuthorized){
+    dispatch({ type: 'LOG_OUT' });
+    setData(false);
+  }
+
+},[state.AssetList?.unAuthorized])
 
 
   // useEffect(() => {

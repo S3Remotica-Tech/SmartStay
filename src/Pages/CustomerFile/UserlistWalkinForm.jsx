@@ -485,15 +485,15 @@ function CustomerForm({ show, handleClose, initialData }) {
   }, [state.UsersList.addWalkInCustomerStatusCode]);
 
 
-  useEffect(() => {
-    if (!show) {
-      dispatch({
-        type: "WALKINCUSTOMERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
-    }
+  // useEffect(() => {
+  //   if (!show) {
+  //     dispatch({
+  //       type: "WALKINCUSTOMERLIST",
+  //       payload: { hostel_id: state.login.selectedHostel_Id },
+  //     });
+  //   }
 
-  }, [])
+  // }, [])
 
 
 

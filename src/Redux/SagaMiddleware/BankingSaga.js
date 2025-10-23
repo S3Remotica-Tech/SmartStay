@@ -4,6 +4,17 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'universal-cookie';
 
+
+function* handleApiError(error) {
+  if (error?.status === 401 || error?.response?.status === 401) {
+    yield put({
+      type: "UN-AUTHORIZED",
+      payload: "Access Denied",
+    });
+  } 
+  
+}
+
 function* handleAddBanking(action) {
   try {
       const {hostelId , data} = action.payload
@@ -48,6 +59,7 @@ function* handleAddBanking(action) {
     }
   }
   catch (error) {
+      yield* handleApiError(error);
       if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
       } else {
@@ -100,6 +112,7 @@ function* handleEditBanking(action) {
     }
   }
   catch (error) {
+      yield* handleApiError(error);
       if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
       } else {
@@ -109,6 +122,9 @@ function* handleEditBanking(action) {
 }
 
 function* handleGetBanking(action) {
+  try{
+
+  
   const response = yield call(GetAddBanking, action.payload)
 
   
@@ -126,9 +142,16 @@ function* handleGetBanking(action) {
     refreshToken(response)
   }
 }
+catch(error){
+    yield* handleApiError(error);
+}
+}
 
 
 function* handleDefaultAccount(action) {
+  try{
+
+  
   const response = yield call(AddDefaultAccount, action.payload);
 
   var toastStyle = {
@@ -168,6 +191,10 @@ function* handleDefaultAccount(action) {
   if (response) {
     refreshToken(response)
   }
+}
+catch(error){
+  yield* handleApiError(error);
+}
 }
 
 
@@ -215,6 +242,7 @@ function* handleAddBankAmount(action) {
   }
    }
  catch (error) {
+   yield* handleApiError(error);
        if (error.code === 'ERR_NETWORK') {
           yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
        } else {
@@ -267,6 +295,7 @@ function* handleEditBankTrans(action) {
   }
  }
  catch (error) {
+   yield* handleApiError(error);
        if (error.code === 'ERR_NETWORK') {
           yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
        } else {
@@ -277,6 +306,9 @@ function* handleEditBankTrans(action) {
 
 
 function* handleDeleteBanking(action) {
+  try{
+
+
   const response = yield call(DeleteBanking, action.payload);
 
   var toastStyle = {
@@ -321,6 +353,10 @@ function* handleDeleteBanking(action) {
   if (response) {
     refreshToken(response);
   }
+}
+catch(error){
+   yield* handleApiError(error);
+}
 }
 
 
@@ -373,6 +409,7 @@ function* handleDeleteBankTransaction(action) {
   }
    }
  catch (error) {
+   yield* handleApiError(error);
       if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
       } else {

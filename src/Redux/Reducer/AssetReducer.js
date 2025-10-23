@@ -13,7 +13,9 @@ export const initialState = {
     bankAmountError: '',
     assetError: '',
     updateAssetStatusCode: 0,
-    getPermissionRoleList: []
+    getPermissionRoleList: [],
+    accessRestricted: "",
+    unAuthorized:""
 }
 
 const AssetReducer = (state = initialState, action) => {
@@ -21,6 +23,10 @@ const AssetReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'RESET_ALL':
             return initialState;
+        case 'ACCESS_RESTRICTED':
+            return { ...state, accessRestricted: action.payload }
+            case 'UN-AUTHORIZED':
+                return { ...state, unAuthorized: action.payload }
         case 'ASSET_ERROR':
             return { ...state, assetError: action.payload }
         case 'CLEAR_ASSET_ERROR':
