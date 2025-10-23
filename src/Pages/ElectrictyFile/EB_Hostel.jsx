@@ -280,6 +280,9 @@ const RoomReadingTable = () => {
 
   }, [state.UsersList?.getCustomerReadingStatus])
 
+
+
+  console.log("state",state.UsersList?.getRoomReadingList)
   useEffect(() => {
     if (state.UsersList?.addRoomReadingStatusCode === 201) {
       dispatch({ type: 'GETROOMREADING', payload: state.login.selectedHostel_Id })
@@ -295,9 +298,11 @@ const RoomReadingTable = () => {
 
 
 
-  console.log("state", state)
 
 
+const isEbHostelBased = state.UsersList?.getRoomReadingList.isHostelBased
+
+const isEbRoomBased = state.UsersList?.getRoomReadingList.isRoomBased
 
 
 
@@ -344,7 +349,7 @@ const RoomReadingTable = () => {
                       : "2px solid transparent",
                 }}
               >
-                Room Reading
+              {isEbHostelBased ? "Hostel Reading" : "Room Reading"}  
               </div>
               <div
                 onClick={() => setActiveTab("customer")}
@@ -635,10 +640,10 @@ const RoomReadingTable = () => {
                 {activeTab === "room" && (
 
 
-
-
-
-                  (roomReadingList?.length === 0 && !loading) ? (
+<>
+{isEbRoomBased && (
+  <>
+  {roomReadingList?.length === 0 && !loading  ? (
                     <div style={{ textAlign: "center", marginTop: 40 }}>
                       <img src={emptyimg} width={240} height={240} alt="emptystate" />
                       <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "rgba(75, 75, 75, 1)" }}>
@@ -763,7 +768,139 @@ const RoomReadingTable = () => {
 
 
                     </div>
-                  )
+                  )}
+
+</>
+)}
+
+                
+{isEbHostelBased && (
+  <>
+ {roomReadingList?.length === 0 && !loading  ? (
+                    <div style={{ textAlign: "center", marginTop: 40 }}>
+                      <img src={emptyimg} width={240} height={240} alt="emptystate" />
+                      <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "rgba(75, 75, 75, 1)" }}>
+                        No Hostel Reading
+                      </div>
+                      <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 14, color: "rgba(75, 75, 75, 1)" }}>
+                        There are no Hostel Reading available.
+                      </div>
+                    </div>
+                  ) :  (
+                    <div className="table-responsive"
+                      style={{
+                        background: "#fff",
+                        borderRadius: 12,
+                        boxShadow: "0px 4px 8px rgba(0,0,0,0.05)",
+                        maxHeight: "420px",
+                        overflowY: "auto",
+                        position: "relative"
+                      }}
+                    >
+                      <Table bordered={false} className="align-middle mb-0">
+                        <thead
+                          style={{
+                            backgroundColor: "rgba(231, 241, 255, 1)",
+                            position: "sticky",
+                            top: 0,
+                            zIndex: 2,
+                          }}
+                        >
+                          <tr className="text-uppercase">
+                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                              Name
+                            </th>
+                           
+                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>OCCUPANTS</th>
+                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>BILLING MONTH</th>
+                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>PREVIOUS</th>
+                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>CURRENT</th>
+                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>TOTAL UNITS</th>
+                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>AMOUNT</th>
+                            
+                          </tr>
+                        </thead>
+                        <tbody style={{ fontSize: 14, color: "#000" }}>
+                          <PaginationList>
+                            {roomReadingList?.map((row, i) => (
+                              <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px" }}>
+                                <td style={{ fontSize: 15, fontWeight: 600, paddingLeft: "40px" }}>{row.floorName}</td>
+                               
+                                <td style={{ paddingLeft: "40px" }}>{row.noOfTenants}</td>
+                                <td style={{ paddingLeft: "40px" }}>
+                                  {row.entryDate !== "N/A"
+                                    ? new Date(row.entryDate.split("/").reverse().join("-")).toLocaleString("en-US", { month: "short" })
+                                    : "N/A"}
+                                </td>
+                                <td style={{ paddingLeft: "40px" }}>{row.previousReading}</td>
+                                <td style={{ paddingLeft: "40px" }}>{row.currentReading}</td>
+                                <td style={{ paddingLeft: "40px" }}>{row.consumption}</td>
+                                <td style={{ paddingLeft: "30px" }}>{row.totalPrice || '0'}</td>
+                              
+                              </tr>
+                            ))}
+                          </PaginationList>
+                        </tbody>
+                      </Table>
+
+
+
+                      {loading &&
+                        <div
+                          style={{
+                            position: 'absolute',
+                            top: '70%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            backgroundColor: 'transparent',
+                            opacity: 0.75,
+                            zIndex: 10,
+                          }}
+                        >
+                          <div
+                            style={{
+                              borderTop: '4px solid #1E45E1',
+                              borderRight: '4px solid transparent',
+                              borderRadius: '50%',
+                              width: '40px',
+                              height: '40px',
+                              animation: 'spin 1s linear infinite',
+                            }}
+                          ></div>
+                        </div>
+                      }
+
+
+
+
+
+
+
+
+
+
+
+                    </div>
+                  )}
+
+
+</>
+)}
+
+
+
+
+</>
+
+
+
+
+
+
+
                 )}
                 {activeTab === "customer" && (
                   customerReadingList?.length === 0 ? (
