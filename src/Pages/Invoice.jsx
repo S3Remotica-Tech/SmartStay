@@ -199,8 +199,7 @@ const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
 
 
 
-
-  
+console.log("receiptdata",receiptdata)
 
 
 
@@ -5454,7 +5453,7 @@ const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
                                                 alignItems: "center",
                                               }}
                                             >
-                                              Paid
+                                              {item?.paymentStatus === "PAID" ? "Paid" : "Unpaid"}
                                             </span>
                                           </div>
                                         </div>
