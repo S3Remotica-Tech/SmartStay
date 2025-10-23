@@ -161,6 +161,26 @@ function UserList(props) {
 
   const canReadCheckout = useHasPermission("Checkout", "canRead")
 
+
+
+  useEffect(()=>{
+    if(state.AssetList.accessRestricted){
+      setLoading(false);
+    }
+  
+  },[state.AssetList.accessRestricted])
+
+
+useEffect(() => {
+  if (!canReadTenant) {
+    setLoading(false);
+  }else{
+    setLoading(true);
+  }
+}, [canReadTenant]);
+
+
+
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       if (value === "1") {
@@ -169,7 +189,7 @@ function UserList(props) {
           type: "USERLIST",
           payload: { hostel_id: state.login.selectedHostel_Id },
         });
-        setLoading(true)
+        // setLoading(true)
       }
       if (value === "2") {
         dispatch({

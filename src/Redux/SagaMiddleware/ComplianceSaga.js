@@ -1,11 +1,20 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { updateVendor, ComplianceChangeStatus, complianceList, Compliancedetails, VendorList, addVendor, DeleteVendorList, ComplianceAssign, complianceDelete, getComplianceComment, addComplianceComment , EditComplaint , ParticularcomplianceDetails } from "../Action/ComplianceAction"
+import { updateVendor, ComplianceChangeStatus, complianceList, Compliancedetails, VendorList, addVendor, DeleteVendorList, ComplianceAssign, complianceDelete, getComplianceComment, addComplianceComment, EditComplaint, ParticularcomplianceDetails } from "../Action/ComplianceAction"
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
 
+function* handleApiError(error) {
+   if (error?.status === 401 || error?.response?.status === 401) {
+      yield put({
+         type: "UN-AUTHORIZED",
+         payload: "Access Denied",
+      });
+   }
+
+}
 
 function* handleUpdateVendor(action) {
    try {
@@ -43,76 +52,87 @@ function* handleUpdateVendor(action) {
             style: toastStyle,
          });
       }
-     
+
       if (response) {
          refreshToken(response)
       }
    }
-  catch (error) {
+   catch (error) {
+      yield* handleApiError(error);
       if (error.code === 'ERR_BAD_REQUEST') {
-        if (error.status === 400) {
-          yield put({ type: 'ALREADY_VENDOR_ERROR', payload: error.response.data });
-        }
+         if (error.status === 400) {
+            yield put({ type: 'ALREADY_VENDOR_ERROR', payload: error.response.data });
+         }
       } else if (error.code === 'ERR_NETWORK') {
-        yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
       }
-    }
+   }
 }
 
 
 
 function* handleParticularcompliant(action) {
- 
-   try{
-    const { complaintId } = action.payload
-    const response = yield call(ParticularcomplianceDetails, complaintId)
 
-     if (response.status === 200 || response.data.statusCode === 200) {
-      yield put({ type: 'PARTICULAR-COMPLIANT', payload: { response: response.data || [], 
-          statusCode: response.status || response.data.statusCode } })
-          }
-     else {
-      yield put({ type: 'ERROR', payload: response.data.message })
-       }
-     if(response) {
-      refreshToken(response)
+   try {
+      const { complaintId } = action.payload
+      const response = yield call(ParticularcomplianceDetails, complaintId)
+
+      if (response.status === 200 || response.data.statusCode === 200) {
+         yield put({
+            type: 'PARTICULAR-COMPLIANT', payload: {
+               response: response.data || [],
+               statusCode: response.status || response.data.statusCode
+            }
+         })
+      }
+      else {
+         yield put({ type: 'ERROR', payload: response.data.message })
+      }
+      if (response) {
+         refreshToken(response)
       }
    }
    catch (error) {
-         if (error.code === 'ERR_BAD_REQUEST') {
-            yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-         } else {
-            yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-         }
+      yield* handleApiError(error);
+      if (error.code === 'ERR_BAD_REQUEST') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
       }
+   }
 
 }
 
 
 
 function* handlecompliancelist(action) {
-      try{
-    
-    const response = yield call(complianceList, action.payload)
+   try {
 
-     if (response.status === 200 || response.data.statusCode === 200) {
-      yield put({ type: 'COMPLIANCE_LIST', payload: { response: response.data || [], filterOptions: response.data.filterOptions || [],
-          statusCode: response.status || response.data.statusCode } })
-          }
-     else {
-      yield put({ type: 'ERROR', payload: response.data.message })
-       }
-     if(response) {
-      refreshToken(response)
+      const response = yield call(complianceList, action.payload)
+
+      if (response.status === 200 || response.data.statusCode === 200) {
+         yield put({
+            type: 'COMPLIANCE_LIST', payload: {
+               response: response.data || [], filterOptions: response.data.filterOptions || [],
+               statusCode: response.status || response.data.statusCode
+            }
+         })
+      }
+      else {
+         yield put({ type: 'ERROR', payload: response.data.message })
+      }
+      if (response) {
+         refreshToken(response)
       }
    }
    catch (error) {
-         if (error.code === 'ERR_BAD_REQUEST') {
-            yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-         } else {
-            yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-         }
+      yield* handleApiError(error);
+      if (error.code === 'ERR_BAD_REQUEST') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
       }
+   }
 
 }
 
@@ -120,8 +140,8 @@ function* handleComplianceadd(params) {
    try {
 
       const response = yield call(Compliancedetails, params.payload);
-      
-      
+
+
 
       if (response.status === 201 || response.data.statusCode === 201) {
          yield put({ type: 'COMPLIANCE_ADD', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
@@ -162,19 +182,19 @@ function* handleComplianceadd(params) {
       }
    }
    catch (error) {
-      
-         if (error.code === 'ERR_BAD_REQUEST') {
-            yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-         } else {
-            yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-         }
+      yield* handleApiError(error);
+      if (error.code === 'ERR_BAD_REQUEST') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
       }
+   }
 }
 
 function* handleEditComplaint(action) {
-  try {
-    const response = yield call(EditComplaint, action.payload);
-  var toastStyle = {
+   try {
+      const response = yield call(EditComplaint, action.payload);
+      var toastStyle = {
          backgroundColor: "#E6F6E6",
          color: "black",
          width: "100%",
@@ -189,9 +209,9 @@ function* handleEditComplaint(action) {
          padding: "10px",
 
       };
-    if (response.status === 200) {
-      yield put({ type: "EDIT_COMPLAINT_SUCCESS",  payload: { response: response.data, statusCode: response.status || response.data.statusCode }  });
-      
+      if (response.status === 200) {
+         yield put({ type: "EDIT_COMPLAINT_SUCCESS", payload: { response: response.data, statusCode: response.status || response.data.statusCode } });
+
          toast.success(response.data, {
             position: "bottom-center",
             autoClose: 2000,
@@ -203,38 +223,43 @@ function* handleEditComplaint(action) {
             progress: undefined,
             style: toastStyle
          })
-    } else {
-      yield put({ type: "EDIT_COMPLAINT_FAILURE", payload: response.data });
-    }
+      } else {
+         yield put({ type: "EDIT_COMPLAINT_FAILURE", payload: response.data });
+      }
 
-     if (response) {
+      if (response) {
          refreshToken(response)
       }
-  } 
-    catch (error) {
-     
-         if (error.code === 'ERR_BAD_REQUEST') {
-            yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-         } else {
-            yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-         }
+   }
+   catch (error) {
+      yield* handleApiError(error);
+      if (error.code === 'ERR_BAD_REQUEST') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
       }
+   }
 }
 
 
 function* handleVendorGet(action) {
-   const response = yield call(VendorList, action.payload);
+   try {
+      const response = yield call(VendorList, action.payload);
 
-   
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'VENDOR_LIST', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+
+      if (response.status === 200 || response.statusCode === 200) {
+         yield put({ type: 'VENDOR_LIST', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      }
+      else if (response.status === 201 || response.statusCode === 201) {
+         yield put({ type: 'ERROR_VENDOR_LIST', payload: { statusCode: response.status || response.statusCode } })
+      }
+      if (response) {
+         refreshToken(response)
+      }
    }
-   else if (response.status === 201 || response.statusCode === 201) {
-      yield put({ type: 'ERROR_VENDOR_LIST', payload: { statusCode: response.status || response.statusCode } })
-   }
-   if (response) {
-      refreshToken(response)
+   catch (error) {
+      yield* handleApiError(error);
    }
 }
 
@@ -275,20 +300,21 @@ function* handleAddVendor(action) {
             style: toastStyle,
          });
       }
-     
+
       if (response) {
          refreshToken(response)
       }
    }
-  catch (error) {
+   catch (error) {
+      yield* handleApiError(error);
       if (error.code === 'ERR_BAD_REQUEST') {
-        if (error.status === 400) {
-          yield put({ type: 'ALREADY_VENDOR_ERROR', payload: error.response.data });
-        }
+         if (error.status === 400) {
+            yield put({ type: 'ALREADY_VENDOR_ERROR', payload: error.response.data });
+         }
       } else if (error.code === 'ERR_NETWORK') {
-        yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
       }
-    }
+   }
 }
 
 
@@ -313,8 +339,8 @@ function* handleComplianceChange(action) {
 
       };
 
-      if ( response.status === 200 ||  response.statusCode === 200 ) {
-         yield put({ type: 'COMPLIANCE_CHANGE_STATUS', payload: { response: response.data, statusCode: response.status ||  response.statusCode   } })
+      if (response.status === 200 || response.statusCode === 200) {
+         yield put({ type: 'COMPLIANCE_CHANGE_STATUS', payload: { response: response.data, statusCode: response.status || response.statusCode } })
 
 
 
@@ -337,13 +363,14 @@ function* handleComplianceChange(action) {
          refreshToken(response)
       }
    }
-  catch (error) {
-        if (error.code === 'ERR_BAD_REQUEST') {
-           yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-        } else {
-           yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-        }
-     }
+   catch (error) {
+      yield* handleApiError(error);
+      if (error.code === 'ERR_BAD_REQUEST') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
 
 }
 
@@ -393,13 +420,14 @@ function* handleComplianceChangeAssign(action) {
          refreshToken(response)
       }
    }
- catch (error) {
-       if (error.code === 'ERR_NETWORK') {
-          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-       } else {
-          yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-       }
-    }
+   catch (error) {
+      yield* handleApiError(error);
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
 
 }
 
@@ -407,87 +435,99 @@ function* handleComplianceChangeAssign(action) {
 
 
 function* handleDeleteVendor(action) {
-   const response = yield call(DeleteVendorList, action.payload);
+   try {
+      const response = yield call(DeleteVendorList, action.payload);
 
-   var toastStyle = {
-      backgroundColor: "#E6F6E6",
-      color: "black",
-      width: "100%",
-      borderRadius: "60px",
-      height: "20px",
-      fontFamily: "Gilroy",
-      fontWeight: 600,
-      fontSize: 14,
-      textAlign: "start",
-      display: "flex",
-      alignItems: "center",
-      padding: "10px",
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center",
+         padding: "10px",
 
-   };
+      };
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'DELETE_VENDOR', payload: { response: response.data, statusCode: response.status || response.statusCode } })
-      toast.success('Vendor has been successfully deleted!', {
-         position: "bottom-center",
-         autoClose: 2000,
-         hideProgressBar: true,
-         closeButton: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-         style: toastStyle,
-      });
+      if (response.status === 200 || response.statusCode === 200) {
+         yield put({ type: 'DELETE_VENDOR', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+         toast.success('Vendor has been successfully deleted!', {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
+      }
+      else {
+         yield put({ type: 'ERROR', payload: response.data.message })
+      }
+      if (response) {
+         refreshToken(response)
+      }
    }
-   else {
-      yield put({ type: 'ERROR', payload: response.data.message })
-   }
-   if (response) {
-      refreshToken(response)
+   catch (error) {
+      yield* handleApiError(error);
    }
 
 }
 
 
 function* handleDeleteCompliance(action) {
-   const response = yield call(complianceDelete, action.payload);
+   try {
 
 
-   var toastStyle = {
-      backgroundColor: "#E6F6E6",
-      color: "black",
-      width: "100%",
-      borderRadius: "60px",
-      height: "20px",
-      fontFamily: "Gilroy",
-      fontWeight: 600,
-      fontSize: 14,
-      textAlign: "start",
-      display: "flex",
-      alignItems: "center",
-      padding: "10px",
+      const response = yield call(complianceDelete, action.payload);
 
-   };
 
-   if (response.status === 200 || response.data.statusCode === 200) {
-      yield put({ type: 'DELETE_COMPLIANCE', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
-      toast.success(`${response.data}`, {
-         position: "bottom-center",
-         autoClose: 2000,
-         hideProgressBar: true,
-         closeButton: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-         style: toastStyle,
-      });
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center",
+         padding: "10px",
+
+      };
+
+      if (response.status === 200 || response.data.statusCode === 200) {
+         yield put({ type: 'DELETE_COMPLIANCE', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
+         toast.success(`${response.data}`, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
+      }
+      else {
+         yield put({ type: 'ERROR', payload: response.data.message })
+      }
+      if (response) {
+         refreshToken(response)
+      }
    }
-   else {
-      yield put({ type: 'ERROR', payload: response.data.message })
-   }
-   if (response) {
-      refreshToken(response)
+   catch (error) {
+      yield* handleApiError(error);
    }
 
 }
@@ -495,15 +535,20 @@ function* handleDeleteCompliance(action) {
 
 
 function* handleGetComplianceComment(action) {
-   const response = yield call(getComplianceComment, action.payload);
-   if (response.status === 200 || response.data.statusCode === 200) {
-      yield put({ type: 'COMPLIANCE_COMENET_LIST', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
+   try {
+      const response = yield call(getComplianceComment, action.payload);
+      if (response.status === 200 || response.data.statusCode === 200) {
+         yield put({ type: 'COMPLIANCE_COMENET_LIST', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
+      }
+      else {
+         yield put({ type: 'ERROR', payload: response.data.message })
+      }
+      if (response) {
+         refreshToken(response)
+      }
    }
-   else {
-      yield put({ type: 'ERROR', payload: response.data.message })
-   }
-   if (response) {
-      refreshToken(response)
+   catch (error) {
+      yield* handleApiError(error);
    }
 }
 
@@ -515,8 +560,8 @@ function* handleGetComplianceComment(action) {
 function* handleAddComplianceComment(action) {
    try {
       // const response = yield call(addComplianceComment, action.payload);
-            const {  complaintId , data } = action.payload; 
-          const response = yield call(addComplianceComment,  complaintId , data);
+      const { complaintId, data } = action.payload;
+      const response = yield call(addComplianceComment, complaintId, data);
 
       if (response.status === 201 || response.data.statusCode === 201) {
          yield put({ type: 'COMPLIANCE_ADD_COMMENT', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
@@ -556,13 +601,14 @@ function* handleAddComplianceComment(action) {
          refreshToken(response)
       }
    }
- catch (error) {
-       if (error.code === 'ERR_BAD_REQUEST') {
-          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-       } else {
-          yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-       }
-    }
+   catch (error) {
+       yield* handleApiError(error);
+      if (error.code === 'ERR_BAD_REQUEST') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
 }
 
 
@@ -586,13 +632,12 @@ function refreshToken(response) {
 
 
 function* ComplianceSaga() {
- 
    yield takeEvery('COMPLIANCE-LIST', handlecompliancelist)
    yield takeEvery('COMPLIANCE-ADD', handleComplianceadd)
    yield takeEvery('EDIT_COMPLAINT', handleEditComplaint)
    yield takeEvery('VENDORLIST', handleVendorGet)
    yield takeEvery('ADDVENDOR', handleAddVendor)
-   yield takeEvery('UPDATEVENDOR',   handleUpdateVendor)
+   yield takeEvery('UPDATEVENDOR', handleUpdateVendor)
    yield takeEvery('DELETEVENDOR', handleDeleteVendor)
    yield takeEvery('COMPLIANCECHANGESTATUS', handleComplianceChange)
    yield takeEvery('DELETECOMPLIANCE', handleDeleteCompliance)
@@ -600,7 +645,5 @@ function* ComplianceSaga() {
    yield takeEvery('GET_COMPLIANCE_COMMENT', handleGetComplianceComment)
    yield takeEvery('Add_COMPLIANCE_COMMENT', handleAddComplianceComment)
    yield takeEvery('PARTICULAR_COMPLIANT', handleParticularcompliant)
-   
-
 }
 export default ComplianceSaga;

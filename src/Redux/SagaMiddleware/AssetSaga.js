@@ -4,6 +4,21 @@ import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 
 
+function* handleApiError(error) {
+  if (error?.status === 401 || error?.response?.status === 401) {
+    yield put({
+      type: "UN-AUTHORIZED",
+      payload: "Access Denied",
+    });
+  } 
+  
+}
+
+
+
+
+
+
 function* handleGetRoleBasedPermission(action) {
    try {
       const response = yield call(getRoleBasedPermission, action.payload);
@@ -18,6 +33,7 @@ function* handleGetRoleBasedPermission(action) {
    }
 
    catch (error) {
+      yield* handleApiError(error);
       if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
       } else {
@@ -43,6 +59,7 @@ function* handleGetAsset(action) {
    }
 
    catch (error) {
+         yield* handleApiError(error);
       if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
       } else {
@@ -94,6 +111,7 @@ function* handleAddAsset(action) {
 
    }
    catch (error) {
+     yield* handleApiError(error);
       if (error.code === 'ERR_BAD_REQUEST') {
          if (error.status === 400 || error.status === 403) {
             if (error.response.data === 'Serial number already exists') {
@@ -152,6 +170,7 @@ function* handleUpdateAsset(action) {
 
    }
    catch (error) {
+       yield* handleApiError(error);
       if (error.code === 'ERR_BAD_REQUEST') {
          if (error.status === 400 || error.status === 403) {
             if (error.response.data === 'Serial number already exists') {
@@ -169,6 +188,7 @@ function* handleUpdateAsset(action) {
 }
 
 function* handleDeleteAsset(action) {
+   try{
    const response = yield call(DeleteAssetList, action.payload);
    var toastStyle = {
       backgroundColor: "#E6F6E6",
@@ -210,6 +230,10 @@ function* handleDeleteAsset(action) {
    if (response) {
       refreshToken(response)
    }
+}
+catch(error){
+   yield* handleApiError(error);
+}
 
 }
 
@@ -273,6 +297,7 @@ function* handleAssignAsset(action) {
       }
    }
    catch (error) {
+      yield* handleApiError(error);
       if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
       } else {

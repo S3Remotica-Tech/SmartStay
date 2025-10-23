@@ -127,7 +127,9 @@ useEffect(() => {
     if (hostel_Id) {
       dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } });
       dispatch({ type: 'ALLFLOORLIST', payload: { hostel_id: hostel_Id } })
-      setLoading(true)
+      // setLoading(true)
+    }else{
+       setLoading(false)
     }
   }, [hostel_Id]);
 
@@ -943,7 +945,7 @@ useEffect(() => {
                         paddingLeft: 52,
                         fontFamily: "Gilroy",
                       }}
-                      disabled={!canWritePayingGuests}
+                      disabled={!canWritePayingGuests ||  !state.login.selectedHostel_Id}
                       onClick={() => handleAddFloors(state.login.selectedHostel_Id)}
                     >
                       + Floor

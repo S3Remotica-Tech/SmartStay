@@ -17,6 +17,29 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
+
+
+
+
+
+
+function* handleApiError(error) {
+   console.log("handleApiError",error)
+   if (error?.status === 403 || error?.response?.status === 403) {
+    yield put({
+      type: "ACCESS_RESTRICTED",
+      payload: "Access Restricted",
+    });
+  } 
+  else if (error?.status === 401 || error?.response?.status === 401) {
+    yield put({
+      type: "UN-AUTHORIZED",
+      payload: "Access Denied",
+    });
+  } 
+  
+}
+
 function* handleGetParticularCustomerReading(reading) {
    try {
       const response = yield call(getParticularCustomerReading, reading.payload)
@@ -453,6 +476,7 @@ function* handleuserlist(user) {
       }
    }
    catch (err) {
+        yield* handleApiError(err);
       const error = err || {};
       yield put({
          type: 'NETWORK_ERROR',
