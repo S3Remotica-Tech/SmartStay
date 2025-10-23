@@ -16,12 +16,14 @@ import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import Select from "react-select";
 import ErrorMessage from '../../Components/ErrorMessage'
 import { useHasPermission } from '../../Utils/Permission';
+import InvoicePage from "../Invoice";
 
 
 
 
 function UserListInvoice(props) {
   const state = useSelector((state) => state);
+  console.log("UserListInvoice",props)
 
   const dispatch = useDispatch();
 
@@ -29,6 +31,9 @@ function UserListInvoice(props) {
   const [invoicerowsPerPage, setInvoicerowsPerPage] = useState(4);
   const [invoicecurrentPage, setinvoicecurrentPage] = useState(1);
   const [invoiceFilterddata, setinvoiceFilterddata] = useState([]);
+  const [tabletrue,setTableTrue] = useState(true)
+  const [billMode, setBillMode] = useState("New Bill");
+  const [showmanualinvoice, setShowManualInvoice] = useState(false);
   const [activeId, setActiveId] = useState(null);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
@@ -92,6 +97,8 @@ function UserListInvoice(props) {
 
     return sorted;
   }, [currentRowinvoice, sortConfig]);
+
+  console.log("sortedData",sortedData)
   const handleSort = (key, direction) => {
     setSortConfig({ key, direction });
   };
@@ -102,10 +109,10 @@ function UserListInvoice(props) {
 
 
   useEffect(() => {
-    setinvoiceFilterddata(state.UsersList.customerdetails.invoice_details);
-  }, [state.UsersList.customerdetails.invoice_details]);
+    setinvoiceFilterddata(state.UsersList.customerdetails.invoiceResponseList);
+  }, [state.UsersList.customerdetails.invoiceResponseList]);
 
-
+console.log("state.UsersList.invoiceResponseList",state.UsersList.invoiceResponseList)
 
 
   const handleShowDots = (item, event) => {
@@ -133,6 +140,7 @@ function UserListInvoice(props) {
   const [BillsForm, setBillsForm] = useState(false)
 
   const handleEditBill = (item) => {
+    console.log("handleEditBill",item)
 
     props.handleEditItem(item)
     setBillsForm(false)
@@ -142,13 +150,15 @@ function UserListInvoice(props) {
   };
 
   const handleAddBill = () => {
+    setBillMode("New Bill");
+    // setTableTrue(false)
     setBillsForm(true)
+    
     props.handleAddItem()
 
 
 
     dispatch({ type: 'USERROOMAVAILABLETRUE' });
-
 
 
   };
@@ -161,16 +171,16 @@ function UserListInvoice(props) {
 
 
 
-  useEffect(() => {
-    if (BillsForm) {
-      dispatch({
-        type: "MANUAL-INVOICE-NUMBER-GET",
-        payload: { user_id: props.id },
-      });
-    }
+  // useEffect(() => {
+  //   if (BillsForm) {
+  //     dispatch({
+  //       type: "MANUAL-INVOICE-NUMBER-GET",
+  //       payload: { user_id: props.id },
+  //     });
+  //   }
 
 
-  }, [BillsForm])
+  // }, [BillsForm])
 
 
   const handleDeleteBill = (user) => {
@@ -228,7 +238,7 @@ function UserListInvoice(props) {
             :
 
 
-            sortedData?.length > 0 ? (
+           sortedData?.length > 0 ? (
               <div
 
                 className='show-scrolls'
@@ -243,7 +253,10 @@ function UserListInvoice(props) {
                   paddingLeft: 0
                 }}
               >
-                <Table
+                {
+                  tabletrue &&
+
+                   <Table
                   responsive="md"
                   style={{
                     fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
@@ -542,14 +555,8 @@ function UserListInvoice(props) {
                       verticalAlign: "middle",
                     }}
                   >
-                    {sortedData?.map((view) => {
-                      let Dated = new Date(view.Date);
-
-                      let day = Dated.getDate();
-                      let month = Dated.getMonth() + 1;
-                      let year = Dated.getFullYear();
-
-                      let formattedDate = `${day}/${month}/${year}`;
+                    {  sortedData?.map((view) => {
+                     
 
                       let dueDated = new Date(view.DueDate);
 
@@ -571,7 +578,8 @@ function UserListInvoice(props) {
                             }}
                             className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
                           >
-                            <div style={{ marginLeft: 10 }}>  {view.Invoices}</div>
+                            <div style={{ marginLeft: 10 }}>  {view.invoiceNumber
+}</div>
 
                           </td>
                           <td
@@ -585,7 +593,7 @@ function UserListInvoice(props) {
                             className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
                           >
                             <div className="ps-1">
-                              {view.action}
+                              {view.invoiceType}
                             </div>
 
                           </td>
@@ -605,7 +613,7 @@ function UserListInvoice(props) {
                               }}
 
                             >
-                              {formattedDate}
+                              {view?.invoiceGeneratedDate}
                             </span>
                           </td>
                           <td style={{ textAlign: "start", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-2">
@@ -636,8 +644,11 @@ function UserListInvoice(props) {
                             }}
                             className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
                           >
-                            ₹{view.Amount}
+                            ₹ {view?.items?.map((item, index) => (
+  <div key={index}>₹{item.amount}</div>
+))}
                           </td>
+                         
                           <td
                             style={{
                               fontWeight: 500,
@@ -663,7 +674,7 @@ function UserListInvoice(props) {
                                 marginLeft: 4
                               }}
                             >
-                              {view.Status === "Success" ? "Paid" : "Unpaid"}
+                              {view.paymentStatus}
                             </span>
                           </td>
                           <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none", borderBottom: "1px solid #E8E8E8" }} className=''>
@@ -839,6 +850,9 @@ function UserListInvoice(props) {
                     )}
                   </tbody>
                 </Table>
+
+                }
+               
               </div>
             ) : <div>
               <div style={{ textAlign: "center" }}>

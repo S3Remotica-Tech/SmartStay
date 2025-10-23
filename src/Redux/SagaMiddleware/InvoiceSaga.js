@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { getParticularReceiptDetails, getParticularBillsDetails, getFinalSettlementList, CustomerRecurringEnableDisable, UnAssignAmenities, GetAssignAmenities, AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList, RecordPayment, InvoiceSettings, InvoicePDf, GetAmenities, UpdateAmenities, AmenitiesSettings, ManualInvoice, ManualInvoiceUserData, AddManualInvoiceBill, EditManualInvoiceBill, DeleteManualInvoiceBill, ManualInvoiceNumber, GetManualInvoices, RecurrInvoiceamountData, AddRecurringBill, GetRecurrBills, DeleteRecurrBills, InvoiceRecurringsettings, GetReceiptData, AddReceipt, ReferenceIdGet, DeleteReceipt, EditReceipt, ReceiptPDf, AddRecurrBillsUsers, GetBillsPdfDetails, ReceiptPDFNewChanges } from "../Action/InvoiceAction";
+import { getParticularReceiptDetails, getParticularBillsDetails, getFinalSettlementList, CustomerRecurringEnableDisable, UnAssignAmenities, ParticularAmentityList, AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList, RecordPayment, InvoiceSettings, InvoicePDf, GetAmenities, UpdateAmenities, AddAmenity, ManualInvoice, ManualInvoiceUserData, AddManualInvoiceBill, EditManualInvoiceBill, DeleteManualInvoiceBill, ManualInvoiceNumber, GetManualInvoices, RecurrInvoiceamountData, AddRecurringBill, GetRecurrBills, DeleteRecurrBills, InvoiceRecurringsettings, GetReceiptData, AddReceipt, ReferenceIdGet, DeleteReceipt, EditReceipt, ReceiptPDf, AddRecurrBillsUsers, GetBillsPdfDetails, ReceiptPDFNewChanges } from "../Action/InvoiceAction";
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -151,7 +151,8 @@ function* handleDeleteUser(action) {
 
 function* handleDeleteAmenities(action) {
    try{
-   const response = yield call(DeleteAmenities, action.payload)
+    const { amenityId , hostelId   } = action.payload
+    const response = yield call(DeleteAmenities, amenityId , hostelId);
 
    var toastStyle = {
       backgroundColor: "#E6F6E6",
@@ -167,12 +168,12 @@ function* handleDeleteAmenities(action) {
       alignItems: "center",
       padding: "10px",
 
-   };
+   }
 
    if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'DELETE_AMENITIES', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
+      yield put({ type: 'DELETE_AMENITIES', payload: { response: response.data.data || [], statusCode: response.status || response.statusCode } })
 
-      toast.success('Deleted Successfully', {
+      toast.success(response.data, {
          position: "bottom-center",
          autoClose: 2000,
          hideProgressBar: true,
@@ -213,65 +214,64 @@ catch(error){
 
 
 function* handleAssignAmenities(action) {
-   try {
-      const response = yield call(AssignAmenities, action.payload)
+  try {
+    const { hostelId, amenityId, customers } = action.payload;
 
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'ASSIGN_AMENITIES', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
+    const response = yield call(AssignAmenities, hostelId, amenityId, customers);
 
-         var toastStyle = {
-            backgroundColor: "#E6F6E6",
-            color: "black",
-            width: "100%",
-            borderRadius: "60px",
-            height: "20px",
-            fontFamily: "Gilroy",
-            fontWeight: 600,
-            fontSize: 14,
-            textAlign: "start",
-            display: "flex",
-            alignItems: "center",
-            padding: "10px",
+    if (response.status === 200) {
+      yield put({
+        type: 'ASSIGN_AMENITIES',
+        payload: {
+          response: response.data.data,
+          statusCode: response.status,
+        },
+      });
 
-         };
+      toast.success(response?.data || "Amenities assigned successfully!", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        style: {
+          backgroundColor: "#E6F6E6",
+          color: "black",
+          fontFamily: "Gilroy",
+          fontWeight: 600,
+          fontSize: 14,
+          textAlign: "start",
+          borderRadius: "60px",
+          padding: "10px",
+        },
+      });
+    } else {
+      yield put({
+        type: 'ERROR',
+        payload: response.data.message || "Failed to assign amenities",
+      });
+    }
 
-
-         toast.success('Assigned Successfully', {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: toastStyle
-         })
-
-
-
-      }
-      else {
-         yield put({ type: 'ERROR', payload: response.data.message })
-      }
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
+    if (response) {
+      yield call(refreshToken, response);
+    }
+  } catch (error) {
          yield* handleApiError(error);
-      if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
-   }
+    const errorMsg =
+      error.code === 'ERR_NETWORK'
+        ? 'Network error occurred'
+        : error.message || 'Something went wrong';
+
+    yield put({ type: 'NETWORK_ERROR', payload: errorMsg });
+  }
 }
+
 
 
 function* handleUnAssignAmenities(action) {
    try {
-      const response = yield call(UnAssignAmenities, action.payload)
+      const { hostelId, amenityId, customers } = action.payload;
+      const response = yield call(UnAssignAmenities, hostelId, amenityId, customers);
+      // const response = yield call(UnAssignAmenities, action.payload)
 
       if (response.status === 200 || response.statusCode === 200) {
          yield put({ type: 'UN_ASSIGN_AMENITIES', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
@@ -293,7 +293,7 @@ function* handleUnAssignAmenities(action) {
          };
 
 
-         toast.success('UnAssigned Successfully', {
+         toast.success(response?.data || "Amenities UnAssigned successfully!", {
             position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: true,
@@ -326,12 +326,16 @@ function* handleUnAssignAmenities(action) {
 }
 
 
-function* handleGetAssignAmenities(action) {
+function* handleGetParticularAmentityList(action) {
    try{
-   const response = yield call(GetAssignAmenities, action.payload)
+       const {hostelId , amenityId } = action.payload
+          const response = yield call(ParticularAmentityList, hostelId,amenityId);
+
+          console.log("response", response);
+          
 
    if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'GET_ASSIGN_AMENITIES', payload: { unAssigned: response.data.unselected, Assigned: response.data.selected, statusCode: response.status || response.statusCode } })
+      yield put({ type: 'GET_ASSIGN_AMENITIES', payload: { unAssigned: response?.data?.unassignedCustomers, Assigned: response?.data?.assignedCustomers, statusCode: response.status || response.statusCode } })
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -564,9 +568,12 @@ function* handleInvoicePdf(action) {
 }
 
 
-function* handleAmenitiesSettings(action) {
+function* handleAddAmenity(action) {
    try {
-      const response = yield call(AmenitiesSettings, action.payload)
+          const {hostelId , data} = action.payload
+          const response = yield call(AddAmenity, hostelId , data);
+      // const response = yield call(AddAmenity, action.payload)
+
       if (response.status === 200 || response.statusCode === 200) {
          yield put({ type: 'AMENITIES_SETTINGS', payload: { response: response.data, statusCode: response.status || response.statusCode } })
 
@@ -587,7 +594,7 @@ function* handleAmenitiesSettings(action) {
 
          };
 
-         toast.success(response.data.message, {
+         toast.success(response.data, {
             position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: true,
@@ -624,9 +631,15 @@ function* handleGetAmenities(action) {
    try{
    const response = yield call(GetAmenities, action.payload)
 
+   console.log("response", response);
+   
+
    if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'AMENITIES_LIST', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
+      yield put({ type: 'AMENITIES_LIST', payload: { response: response?.data || [], statusCode: response.status || response.statusCode } })
    }
+    else if (response.status === 201 || response.statusCode === 201) {
+       yield put({ type: 'NO_AMENITIES_LIST', payload: { statusCode: response.statusCode } })
+     }
    else {
       yield put({ type: 'ERROR_AMENITIES', payload: { statusCode: response.status || response.statusCode } })
    }
@@ -641,7 +654,9 @@ catch(error){
 
 function* handleUpdateAmenities(action) {
    try {
-      const response = yield call(UpdateAmenities, action.payload)
+           const {hostelId , amenityId , data} = action.payload
+          const response = yield call(UpdateAmenities, hostelId,amenityId,data);
+      // const response = yield call(UpdateAmenities, action.payload)
 
       if (response.status === 200 || response.statusCode === 200) {
          yield put({ type: 'AMENITIES_UPDATE', payload: { response: response.data, statusCode: response.status || response.statusCode } })
@@ -663,7 +678,7 @@ function* handleUpdateAmenities(action) {
             padding: "10px",
 
          };
-         toast.success(response.data.message, {
+         toast.success(response.data, {
             position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: true,
@@ -1640,7 +1655,7 @@ function* InvoiceSaga() {
    yield takeEvery('RECORD_PAYMENT', handleRecordPaymentUpdate)
    yield takeEvery('INVOICESETTINGS', handleInvoiceSettings)
    yield takeEvery('INVOICEPDF', handleInvoicePdf)
-   yield takeEvery('AMENITIESSETTINGS', handleAmenitiesSettings)
+   yield takeEvery('ADD_AMENITIY', handleAddAmenity)
    yield takeEvery('AMENITIESLIST', handleGetAmenities)
    yield takeEvery('AMENITIESUPDATE', handleUpdateAmenities)
    yield takeEvery('MANUALINVOICE', handleManualInvoice)
@@ -1659,7 +1674,7 @@ function* InvoiceSaga() {
    yield takeEvery('DELETEAMENITIES', handleDeleteAmenities)
    yield takeEvery('ASSIGNAMENITIES', handleAssignAmenities)
    yield takeEvery('UNASSIGNAMENITIES', handleUnAssignAmenities)
-   yield takeEvery('GETASSIGNAMENITIES', handleGetAssignAmenities)
+   yield takeEvery('GET_PARTICULAR_AMENITIES', handleGetParticularAmentityList)
 
    yield takeEvery('RECEIPTSLIST', handleGetReceipts)
    yield takeEvery('ADD_RECEIPT', handleAddReceipt)

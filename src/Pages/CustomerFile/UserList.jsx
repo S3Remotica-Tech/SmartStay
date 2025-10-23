@@ -64,7 +64,7 @@ import { useHasPermission } from '../../Utils/Permission';
 function UserList(props) {
   const state = useSelector((state) => state);
 
-
+console.log("UserList",state)
   const { RangePicker } = DatePicker;
   dayjs.extend(isBetween);
   const dispatch = useDispatch();
@@ -234,6 +234,7 @@ useEffect(() => {
     if (type !== "Other" && !selectedTypes.includes(type)) {
       setSelectedTypes((prev) => [...prev, type]);
     }
+    
 
     setAllFieldErrmsg("");
     setTableErrmsg("");
@@ -278,10 +279,12 @@ useEffect(() => {
 
   const handleEditItem = (details) => {
     setBillsAddShow(true);
-    setCurrentView(null);
-    setTimeout(() => {
-      setCurrentView(details);
-    }, 0);
+    // setCurrentView(null);
+    setCustomerName(id);
+    // setTimeout(() => {
+    //   setCurrentView(details);
+    // }, 0);
+    console.log("curerrereer",currentView)
   };
 
   useEffect(() => {
@@ -373,10 +376,10 @@ useEffect(() => {
       isValid = false;
     }
 
-    if (!invoicenumber) {
-      setInvoicenumberErrmsg("Invoice Number is Required");
-      isValid = false;
-    }
+    // if (!invoicenumber) {
+    //   setInvoicenumberErrmsg("Invoice Number is Required");
+    //   isValid = false;
+    // }
 
     if (!invoicedate) {
       setInvoiceDateErrmsg("Please Select Invoice Date");
@@ -434,7 +437,7 @@ useEffect(() => {
 
     if (hasError || !isValid) return;
 
-    if (!customername || !invoicenumber || !invoicedate || !invoiceduedate) {
+    if (!customername || !invoicedate || !invoiceduedate) {
       setAllFieldErrmsg("Please Fill Out All Required Fields");
       isValid = false;
     }
@@ -487,9 +490,12 @@ useEffect(() => {
           );
         });
 
+         
+
+
       return (
         userChanged ||
-        invoiceChanged ||
+        // invoiceChanged ||
         invoiceDateChanged ||
         dueDateChanged ||
         amenitiesChanged
@@ -544,6 +550,9 @@ useEffect(() => {
     }
     dispatch({ type: "UPDATE_USERSLIST_TRUE" });
   };
+
+console.log("customername", customername);
+
 
   const handleCreateBill = () => {
     let hasError = false;
@@ -615,44 +624,61 @@ useEffect(() => {
         hasError = true;
       }
     }
+     const rentAmount = newRows
+      .filter((row) => row.am_name?.toLowerCase() === "room rent")
+      .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
+console.log("newRows",newRows)
+  const ebAmount = newRows
+      .filter((row) => row.am_name?.toLowerCase() === "eb")
+      .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
 
-
+      const amenityAmount = newRows
+      .filter(
+        (row) =>
+          row.am_name?.toLowerCase() !== "room rent" &&
+          row.am_name?.toLowerCase() !== "eb"
+      )
+      .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
 
     if (hasError) {
       return;
     }
-
+setBillLoading(true)
     dispatch({
       type: "MANUAL-INVOICE-ADD",
       payload: {
-        user_id: customername,
-        date: formatinvoicedate,
-        due_date: formatduedate,
+        // user_id: customername,
+        // date: formatinvoicedate,
+        // due_date: formatduedate,
 
-        invoice_id: invoicenumber,
+        // invoice_id: invoicenumber,
+        // total_amount: totalAmount,
+        // amenity: amenityArray.length > 0 ? amenityArray : [],
+        customerId: customername,
+        invoiceDate: formatinvoicedate,
+        dueDate: formatduedate,
+        invoiceNumber: invoicenumber,
         total_amount: totalAmount,
-        amenity: amenityArray.length > 0 ? amenityArray : [],
+        rentAmount: rentAmount,
+        ebAmount: ebAmount,
+        amenityAmount: amenityAmount,
       },
     });
-    setBillLoading(true)
+    
 
-    setCustomerName("");
-    setInvoiceNumber("");
-
-    setInvoiceDate("");
-    setInvoiceDueDate("");
-    setTotalAmount("");
-    setNewRows([]);
+   
   };
   useEffect(() => {
-    if (!billsAddshow && id) {
-      const customeraId = state.UsersList?.Users?.find((u) => u.ID === id);
-
+    if (billsAddshow && id) {
+      const customeraId = state.UsersList?.Users?.find((u) => u.customerId === id);
+       console.log("filtercustomer", customeraId);
+       
       if (customeraId) {
-        setCustomerName(customeraId.Name);
+        setCustomerName(customeraId.customerId);
       }
     }
   }, [billsAddshow]);
+  console.log("customerId",customername)
 
   const handleCustomerName = (e) => {
     setCustomerName(e.target.value);
@@ -679,8 +705,17 @@ useEffect(() => {
     } else {
       setInvoiceDateErrmsg("");
     }
-    const formattedDate = formatDateForPayloadmanualinvoice(date);
-    setFormatInvoiceDate(formattedDate);
+   const formatDateForPayloadmanualinvoice = (date) => {
+  const d = new Date(date);
+  const day = String(d.getDate()).padStart(2, '0');
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const year = d.getFullYear();
+
+  return `${day}-${month}-${year}`;
+};
+
+const formattedDate = formatDateForPayloadmanualinvoice(date);
+setFormatInvoiceDate(formattedDate);
   };
 
   const handleDueDate = (selectedDates) => {
@@ -692,8 +727,19 @@ useEffect(() => {
     } else {
       setInvoiceDueDateErrmsg("");
     }
-    const formattedDate = formatDateForPayloadmanualinvoice(date);
-    setFormatDueDate(formattedDate);
+
+      const formatDateForPayloadmanualinvoice = (date) => {
+  const d = new Date(date);
+  const day = String(d.getDate()).padStart(2, '0');
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const year = d.getFullYear();
+
+  return `${day}-${month}-${year}`;
+};
+
+const formattedDate = formatDateForPayloadmanualinvoice(date);
+setFormatDueDate(formattedDate);
+   
   };
 
   const handleDeleteNewRow = (index) => {
@@ -889,6 +935,43 @@ useEffect(() => {
     state.InvoiceList.manualInvoiceAddStatusCode,
     state.InvoiceList.ManualInvoices,
   ]);
+
+
+  useEffect(() => {
+      if (state.InvoiceList.manualInvoiceAddStatusCode === 201) {
+        // setShowManualInvoice(false)
+        // setFormLoading(false)
+        // setShowRecurringBillForm(false);
+        // setReceiptFormShow(false);
+        // setShowAllBill(true);
+        // setCustomerName("");
+        // setInvoiceNumber("");
+        // setStartDate("");
+        // setEndDate("");
+        // setInvoiceDate("");
+        // setInvoiceDueDate("");
+        // setTotalAmount("");
+         handleBackBill();
+        setNewRows([]);
+        dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: id } });
+        dispatch({ type: "MANUALINVOICESLIST", payload: state.login.selectedHostel_Id })
+        setBillLoading(false);
+         setCustomerName("");
+    setInvoiceNumber("");
+
+    setInvoiceDate("");
+    setInvoiceDueDate("");
+    setTotalAmount("");
+    setNewRows([]);
+   
+  
+        setTimeout(() => {
+          dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD" });
+          setLoading(false);
+  
+        }, 300);
+      }
+    }, [state.InvoiceList.manualInvoiceAddStatusCode]);
 
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceDeleteStatusCode === 200) {
@@ -1526,10 +1609,11 @@ useEffect(() => {
   const [userDatafull, setUserData] = useState("")
 
   const handleRoomDetailsPage = (userData) => {
-
+    console.log("customer", userData);
+    
     setHostelIds(userData.Hostel_Id);
     setUserData(userData)
-    setId(userData.customerId);
+    setId(userData?.customerId);
     sethosName(userData.HostelName);
     setcustomerUser_Id(userData.User_Id);
     setRoomDetail(true);
@@ -2409,7 +2493,17 @@ useEffect(() => {
 
   }
 
+ useEffect(() => {
+    if (state.InvoiceList?.unableAddInvoiceDetailsError) {
+      setBillLoading(false)
+      setLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS'})
+      }, 3000)
 
+    }
+
+  }, [state.InvoiceList.unableAddInvoiceDetailsError])
   return (
     <div>
       {/* <Addbooking
@@ -5195,17 +5289,18 @@ useEffect(() => {
                   state.UsersList?.Users?.length > 0 &&
                   state?.UsersList?.Users?.filter(
                     (u) =>
-                      u.Bed !== "undefined" &&
-                      u.Bed !== "0" &&
-                      typeof u.Bed === "string" &&
-                      u.Bed.trim() !== "" &&
-                      u.Rooms !== "undefined" &&
-                      u.Rooms !== "0" &&
-                      typeof u.Rooms === "string" &&
-                      u.Rooms.trim() !== ""
-                  ).map((u) => (
-                    <option value={u.ID} key={u.ID}>
-                      {u.Name}
+                      u.bedId !== "undefined" &&
+                      u.bedId !== "0" &&
+                      typeof u.bedId === "string" &&
+                      u.bedId.trim() !== "" &&
+                      u.roomId !== "undefined" &&
+                      u.roomId !== "0" &&
+                      typeof u.roomId === "string" &&
+                      u.roomId.trim() !== ""
+                  )
+                  .map((u) => (
+                    <option value={u.customerId} key={u.customerId}>
+                      {u.firstName}
                     </option>
                   ))}
               </Form.Select>
@@ -5473,7 +5568,12 @@ useEffect(() => {
           </div>
 
 
+{state.InvoiceList.unableAddInvoiceDetailsError ?
+        <div className="d-flex justify-content-center mt-5">
 
+          <ErrorMessage message={state.InvoiceList.unableAddInvoiceDetailsError} type="error" />
+        </div>
+        : null}
 
           {billLoading && <div
             style={{

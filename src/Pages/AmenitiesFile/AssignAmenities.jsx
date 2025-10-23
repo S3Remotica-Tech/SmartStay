@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import Card from 'react-bootstrap/Card';
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { CloseCircle } from 'iconsax-react';
 import Form from 'react-bootstrap/Form';
@@ -28,42 +28,66 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
   const [formLoading, setFormLoading] = useState(false)
 
 
+   
+
   useEffect(() => {
     dispatch({
-      type: 'GETASSIGNAMENITIES', payload: {
-        hostel_id: state.login.selectedHostel_Id,
-        am_id: assignAmenitiesDetails.id,
-      }
-    })
+  type: 'GET_PARTICULAR_AMENITIES',
+  payload: {
+    hostelId: state.login.selectedHostel_Id,
+    amenityId: assignAmenitiesDetails.amenityId,
+  },
+});
   }, [])
 
 
-  useEffect(() => {
-    if (state.InvoiceList.GetUnAssignAmenitiesList) {
-      setUnassignedList(state.InvoiceList.GetUnAssignAmenitiesList)
+
+
+  // useEffect(() => {
+  //   if (assignAmenitiesDetails) {
+  //     setUnassignedList(assignAmenitiesDetails?.unassignedCustomers)
+  //   }
+
+  // }, [assignAmenitiesDetails])
+
+  // useEffect(() => {
+  //   if (assignAmenitiesDetails) {
+  //     setAssignedList(assignAmenitiesDetails?.assignedCustomers)
+  //   }
+
+  // }, [assignAmenitiesDetails])
+
+
+    useEffect(() => {
+    if (state.InvoiceList.getAssignAmenitiesSuccessStatusCode === 200) {
+      setAssignedList(state?.InvoiceList?.GetAssignAmenitiesList || [])
+      setUnassignedList(state?.InvoiceList?.GetUnAssignAmenitiesList || [])
+       console.log("assignedlist", state?.InvoiceList?.GetAssignAmenitiesList);
+       console.log("assignedlist", state?.InvoiceList?.GetUnAssignAmenitiesList);
     }
 
-  }, [state.InvoiceList.GetUnAssignAmenitiesList])
-
-  useEffect(() => {
-    if (state.InvoiceList.GetAssignAmenitiesList) {
-      setAssignedList(state.InvoiceList.GetAssignAmenitiesList)
-    }
-
-  }, [state.InvoiceList.GetAssignAmenitiesList])
+   setTimeout(() => {
+        dispatch({ type: 'REMOVE_GET_ASSIGN_AMENITIES_STATUS_CODE' })
+      }, 500)
 
 
+  }, [state.InvoiceList.getAssignAmenitiesSuccessStatusCode])
+
+  console.log("assignedlist", state.InvoiceList.getAssignAmenitiesSuccessStatusCode);
+  // console.log("assignedlist", unAssignedList);
+  
 
   useEffect(() => {
 
     if (state.InvoiceList.assignAmenitiesSuccessStatusCode) {
       setFormLoading(false)
-      dispatch({
-        type: 'GETASSIGNAMENITIES', payload: {
-          hostel_id: state.login.selectedHostel_Id,
-          am_id: assignAmenitiesDetails.id,
-        }
-      })
+        dispatch({
+  type: 'GET_PARTICULAR_AMENITIES',
+  payload: {
+    hostelId: state.login.selectedHostel_Id,
+    amenityId: assignAmenitiesDetails.amenityId,
+  },
+});
 
 
       setTimeout(() => {
@@ -81,12 +105,13 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
 
     if (state.InvoiceList.UnAssignAmenitiesSuccessStatusCode === 200) {
       setFormLoading(false)
-      dispatch({
-        type: 'GETASSIGNAMENITIES', payload: {
-          hostel_id: state.login.selectedHostel_Id,
-          am_id: assignAmenitiesDetails.id,
-        }
-      })
+        dispatch({
+  type: 'GET_PARTICULAR_AMENITIES',
+  payload: {
+    hostelId: state.login.selectedHostel_Id,
+    amenityId: assignAmenitiesDetails.amenityId,
+  },
+});
 
       setTimeout(() => {
         dispatch({ type: 'REMOVE_UN_ASSIGN_AMENITIES_STATUS_CODE' })
@@ -127,7 +152,14 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
 
 
 
-    dispatch({ type: 'ASSIGNAMENITIES', payload: { hostel_id: state.login.selectedHostel_Id, am_id: assignAmenitiesDetails.id, user_ids: assignedCheckedUsers } })
+    dispatch({ type: 'ASSIGNAMENITIES', 
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          amenityId: assignAmenitiesDetails.amenityId,
+          customers:  assignedCheckedUsers
+  
+        },
+    })
     setFormLoading(true)
 
   }
@@ -140,7 +172,14 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
       return;
     }
 
-    dispatch({ type: 'UNASSIGNAMENITIES', payload: { hostel_id: state.login.selectedHostel_Id, am_id: assignAmenitiesDetails.id, user_ids: unAssignedCheckedUsers } })
+    dispatch({ type: 'UNASSIGNAMENITIES',
+     payload: {
+          hostelId: state.login.selectedHostel_Id,
+          amenityId: assignAmenitiesDetails.amenityId,
+          customers:  unAssignedCheckedUsers
+  
+        },
+      })
     setFormLoading(true)
   }
 
@@ -196,18 +235,18 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
                   <Card.Body style={{ maxHeight: 350, overflowY: "auto" }} className="show-scroll m-1 p-2">
                     {unAssignedList.length > 0 && unAssignedList.map((list) => {
                       return (
-                        <div key={list.user_id}>
+                        <div key={list.customerId}>
                           <div className='d-flex justify-content-between'>
                             <div>
-                              <label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>{list.user_Name}</label>
+                              <label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>{list.customerName}</label>
 
                             </div>
 
                             <div>
                               <Form.Check aria-label="option 1"
 
-                                checked={assignedCheckedUsers.includes(list.user_id)}
-                                onChange={() => handleAssignedCheckboxChange(list.user_id)}
+                                checked={assignedCheckedUsers.includes(list.customerId)}
+                                onChange={() => handleAssignedCheckboxChange(list.customerId)}
                                 style={{ cursor: "pointer", boxShadow: "none" }}
                               />
                             </div>
@@ -250,10 +289,10 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
                   <Card.Body style={{ maxHeight: 350, overflowY: "auto" }} className="show-scroll m-1 p-2">
                     {AssignedList.length > 0 && AssignedList.map((list) => {
                       return (
-                        <div key={list.user_id}>
+                        <div key={list.customerId}>
                           <div className='d-flex justify-content-between'>
                             <div>
-                              <label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>{list.user_Name}</label>
+                              <label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>{list.customerName}</label>
 
                             </div>
 
@@ -264,8 +303,8 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
                                   boxShadow: "none",
                                 }}
 
-                                checked={unAssignedCheckedUsers.includes(list.user_id)}
-                                onChange={() => handleUnassignedCheckboxChange(list.user_id)}
+                                checked={unAssignedCheckedUsers.includes(list.customerId)}
+                                onChange={() => handleUnassignedCheckboxChange(list.customerId)}
 
                               />
                             </div>
