@@ -1816,8 +1816,10 @@ function* handleCheckoutExportDetails(action) {
 
 function* handleReAssignPage(action) {
    try {
+      const { hostelId, customerId, datum } = action.payload;
+     const response = yield call(customerReAssignBed, hostelId, customerId, datum);
 
-      const response = yield call(customerReAssignBed, action.payload);
+      // const response = yield call(customerReAssignBed, action.payload);
 
 
       var toastStyle = {
@@ -1845,7 +1847,7 @@ function* handleReAssignPage(action) {
             }
          });
 
-         toast.success(`${response.data.message}`, {
+         toast.success(`${response.data}`, {
             position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: true,
