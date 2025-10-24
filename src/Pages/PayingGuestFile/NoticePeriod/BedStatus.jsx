@@ -77,7 +77,8 @@ const handleMakeAsInActive = () =>{
     showBooking(true)
   }
 
-  const handleCheckout = () => {
+  const handleCheckout = (currentItem) => {
+    
 
     showNoticeperiodCheckout(true)
     dispatch({
@@ -87,6 +88,10 @@ const handleMakeAsInActive = () =>{
 
 
   }
+  const matchedData = state?.UsersList?.Users?.filter(
+  (user) => user.customerId === currentItem.currentTenantCustomerId
+);
+console.log("matchedData",matchedData)
 
   const handleFinalsettelmentGenerate = () => {
     showfinalsettelemnet(true)
@@ -286,7 +291,7 @@ const handleMakeAsInActive = () =>{
 
 
                           {
-                            currentItem?.newTenantCustomerId ?
+                            currentItem?.newTenantCustomerId &&
 
                               <div>
                                 <div
@@ -309,31 +314,19 @@ const handleMakeAsInActive = () =>{
                                 </div>
 
 
-                                <div
-                                  className="d-flex gap-2 align-items-center"
-                                  // onClick={canWriteCustomers ? () => handleCheckout(currentItem) : undefined}
-
-                                  style={{
-                                    padding: "10px",
-                                    borderBottomLeftRadius: 10,
-                                    borderBottomRightRadius: 10,
-
-                                    cursor: canWriteCustomers ? "pointer" : "not-allowed",
-                                    opacity: canWriteCustomers ? 1 : 0.5,
-                                  }}
-                                  onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
-                                  onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
-                                >
-                                  <img src={logout} alt="Checkout" style={{ filter: canWriteCustomers ? "none" : "grayscale(100%)" }} />
-                                  <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#A0A0A0", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed" }}>Checkout</label>
-                                </div>
+                              
 
 
                               </div>
 
 
 
-                              :
+                                }
+                            
+
+
+                          {
+                            matchedData[0]?.currentStatus === "Notice Period" &&
                               <div>
 
 
@@ -397,9 +390,29 @@ const handleMakeAsInActive = () =>{
                                   <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#A0A0A0", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed" }}>Generate</label>
                                 </div>
                               </div>
-
-
                           }
+                          {
+                            matchedData[0]?.currentStatus === "Settlement Generated" &&
+                             <div
+                                  className="d-flex gap-2 align-items-center"
+                                  onClick={canWriteCustomers ? () => handleCheckout(currentItem) : undefined}
+
+                                  style={{
+                                    padding: "10px",
+                                    borderBottomLeftRadius: 10,
+                                    borderBottomRightRadius: 10,
+
+                                    cursor: canWriteCustomers ? "pointer" : "not-allowed",
+                                    opacity: canWriteCustomers ? 1 : 0.5,
+                                  }}
+                                  onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
+                                  onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
+                                >
+                                  <img src={logout} alt="Checkout" style={{ filter: canWriteCustomers ? "none" : "grayscale(100%)" }} />
+                                  <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#A0A0A0", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed" }}>Checkout</label>
+                                </div>
+                          }
+                           
 
                         </div>
                       )}

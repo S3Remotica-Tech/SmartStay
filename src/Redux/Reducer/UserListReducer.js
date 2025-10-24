@@ -146,7 +146,10 @@ export const initialState = {
     getCustomerReadingList: [],
     getCustomerReadingStatus: 0,
     getParticularCustomerReadingList: [],
-     getParticularCustomerReadingStatus:0
+     getParticularCustomerReadingStatus:0,
+     statusCodeForFinalSettlement:0,
+     chrckoutError:'',
+     finalError:''
 
 }
 
@@ -701,6 +704,28 @@ case 'GET_PARTICULAR_CUSTOMER_READING':
             return { ...state, checkoutprofileDetails: action.payload.response, StatuscodeforCheckoutProfile: action.payload.statusCode }
         case 'REMOVE_CHECKOUT_PROFILE_DETAILS':
             return { ...state, StatuscodeforCheckoutProfile: 0 }
+
+
+              case 'FINAL_GENERATE':
+            return { ...state, statusCodeForFinalSettlement: action.payload.statusCode }
+        case 'CLEAR_FINAL_GENERATE':
+            return { ...state, statusCodeForFinalSettlement: 0 }
+
+
+
+
+            case 'CONFORM_CHECKOUT_ERROR':
+            return { ...state, chrckoutError: action.payload }
+
+        case 'REMOVE_CONFORM_CHECKOUT_ERROR':
+            return { ...state, chrckoutError: '' }
+
+
+              case 'FINAL_GENERATE_ERROR':
+            return { ...state, finalError: action.payload }
+
+        case 'REMOVE_FINAL_GENERATE_ERROR':
+            return { ...state, finalError: '' }
 
         default:
             return state;

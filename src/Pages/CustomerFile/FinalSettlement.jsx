@@ -21,6 +21,7 @@ import ErrorMessage from '../../Components/ErrorMessage'
 
 
 function FinalSettlement({ show, handleClose, data, customerID }) {
+    console.log("data",data)
 
 
     const state = useSelector((state) => state);
@@ -65,6 +66,12 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
             dispatch({ type: "CLEAR_CHEKOUT_DATE_CHANGE" })
         }
     }, [state.UsersList.StatusCodeForDateUpdate])
+    useEffect(() => {
+            if (state.UsersList?.finalError) {
+                 setFormLoading(false)
+            }
+    
+        }, [state.UsersList?.finalError])
 
 
 
@@ -267,8 +274,39 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
         (sum, item) => sum + (Number(item.amount) || 0),
         0
     );
-
+console.log("fields",fields)
     const totalDeductions = totalApiDeductions + totalUserDeductions;
+
+const handleClickGenerate = ()=>{
+ const Finalsettelmenntdata = fields
+  .filter(f => f.reason_name && f.amount)
+  .map(f => ({ item: f.reason_name, amount: Number(f.amount) }))
+
+    if(data.customerId){
+ dispatch({
+                type: "FINALSETTLEMENT",
+                payload: { customerId:data.customerId,
+                    data : Finalsettelmenntdata
+ 
+                 },
+            })
+    }
+    
+}
+useEffect(()=>{
+    if(state.UsersList.statusCodeForFinalSettlement === 201){
+         setFormLoading(false)
+            handleClose()
+         dispatch({
+                type: "USERLIST",
+                payload: { hostel_id: state.login.selectedHostel_Id },
+            })
+            setTimeout(() => {
+                dispatch({ type: "CLEAR_FINAL_GENERATE" });
+            }, 500);
+
+    }
+},[state.UsersList.statusCodeForFinalSettlement])
 
 
     return (
@@ -960,7 +998,9 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                     />
                                 </div>
 
-
+{state.UsersList?.finalError && (
+                    <ErrorMessage message={state.UsersList?.finalError} type="error" />
+                )}
 
                                 <div className="text-end mt-4">
                                     <Button variant="" className="me-2" onClick={handleClose} style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400 }}>
@@ -969,7 +1009,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                     <Button
                                         // disabled={activeTab !== "writeoff" && ReturnAmount < 0}
                                         style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400, backgroundColor: "#1E45E1" }}
-                                    // onClick={handleClickGenerate}
+                                    onClick={handleClickGenerate}
                                     >Generate</Button>
                                 </div>
                             </div>

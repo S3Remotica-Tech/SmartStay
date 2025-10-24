@@ -9,7 +9,7 @@ import {getParticularCustomerReading, getParticularRoomReading, getCustomerReadi
    userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, CustomerDetails, amenitieshistory, amnitiesnameList,
    amenitieAddUser, availableBedDetails, countrylist, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut, customerReAssignBed,
    customerAddContact, customerAllContact, deleteContact, generateAdvance, uploadDocument, hostelDetailsId, EditConfirmCheckOut,
-   handleKycVerify, handlegetCustomerDetailsKyc, CustomerUnAssign, backtoCheckin
+   handleKycVerify, handlegetCustomerDetailsKyc, CustomerUnAssign, backtoCheckin,GenerateDetails,conformCheckout
 } from "../Action/UserListAction"
 
 import Cookies from 'universal-cookie';
@@ -2490,6 +2490,135 @@ function* handleGetAllFloor(floor) {
    }
 }
 
+function* handleGenerateDetails(reading) {
+   try {
+      const {customerId , data} = reading.payload
+      const response = yield call(GenerateDetails, customerId , data )
+      console.log("handleGenerateDetails",response)
+
+      if (response.status === 201 || response.status === 200) {
+         yield put({ type: 'FINAL_GENERATE', payload: { response: response.data, statusCode: response.status } })
+
+         var toastStyle = {
+            backgroundColor: "#E6F6E6",
+            color: "black",
+            width: "100%",
+            borderRadius: "60px",
+            height: "20px",
+            fontFamily: "Gilroy",
+            fontWeight: 600,
+            fontSize: 14,
+            textAlign: "start",
+            display: "flex",
+            alignItems: "center",
+            padding: "10px",
+
+         };
+
+         toast.success(response.data, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
+
+
+
+
+
+
+      }
+
+      if (response) {
+         refreshToken(response)
+      }
+   }
+   catch (error) {
+
+
+      if (error.code === 'ERR_BAD_REQUEST') {
+         if (error.status === 400) {
+            yield put({ type: 'FINAL_GENERATE_ERROR', payload: error.response.data });
+         }
+      } else if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
+
+
+}
+
+
+
+function* handleConformCheckout(reading) {
+   try {
+      const response = yield call(conformCheckout, reading.payload)
+      console.log("handleConformCheckout",response)
+
+      if (response.status === 200 ) {
+         yield put({ type: 'CONFORM_CHECKOUT', payload: { response: response.data, statusCode: response.status } })
+
+         var toastStyle = {
+            backgroundColor: "#E6F6E6",
+            color: "black",
+            width: "100%",
+            borderRadius: "60px",
+            height: "20px",
+            fontFamily: "Gilroy",
+            fontWeight: 600,
+            fontSize: 14,
+            textAlign: "start",
+            display: "flex",
+            alignItems: "center",
+            padding: "10px",
+
+         };
+
+         toast.success(response.data, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
+
+
+
+
+
+
+      }
+
+      if (response) {
+         refreshToken(response)
+      }
+   }
+   catch (error) {
+
+
+      if (error.code === 'ERR_BAD_REQUEST') {
+         if (error.status === 400) {
+            yield put({ type: 'CONFORM_CHECKOUT_ERROR', payload: error.response.data });
+         }
+      } else if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
+
+
+}
+
+
+
 function* handleCheckoutProfile(action) {
    const response = yield call(checkoutDetailView, action.payload)
 
@@ -2575,6 +2704,8 @@ function* UserListSaga() {
    yield takeEvery('UNASSIGNCUSTOMER', handlecustomerUnAssign)
    yield takeEvery('BACKTOCHECKIN', handleBackToCheckin)
    yield takeEvery('CHECKOUTPROFILEDETAILS', handleCheckoutProfile)
+   yield takeEvery('FINALSETTLEMENT',handleGenerateDetails)
+   yield takeEvery ('CONFIRMCHECKOUT',handleConformCheckout)
 
 
 }
