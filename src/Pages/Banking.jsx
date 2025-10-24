@@ -232,12 +232,14 @@ useEffect(() => {
   }, []);
 
   const handleAccountTypeChange = (item) => {
-    setTypeId(item.id);
-    const defaultType = item.setus_default ? item.setus_default : 3;
+    console.log("item", item);
+    
+    setTypeId(item.bankingId);
+    const defaultType = item.isDefault ? item.isDefault : 3;
     setDefaultType(defaultType);
     setSelectedAccountType(defaultType);
     setShowAccountTypeOptions((prevId) =>
-      prevId === item.id ? null : item.id
+      prevId === item.bankingId ? null : item.bankingId
     );
   };
 
@@ -381,9 +383,11 @@ useEffect(() => {
   }, [state.bankingDetails.statusCodeForDeleteTrans]);
 
   const handleShowAddBalance = (item) => {
-    setAddBankName(`${item.benificiary_name} - ${item.type}`);
+    console.log("item", item);
+    
+    setAddBankName(`${item.accountHolderName} - ${item.accountType}`);
 
-    setTypeId(item.id);
+    setTypeId(item.bankingId);
     setshowAddBalance(true);
 
   };
@@ -409,9 +413,13 @@ useEffect(() => {
       setAmountError("Please Enter Amount");
       return;
     }
+    const hostelId = state.login.selectedHostel_Id
     dispatch({
       type: "ADDBANKAMOUNT",
-      payload: { id: typeId, amount: AddBankAmount, hostel_id: hostel_id },
+      payload: {
+        hostelId , 
+        data : { bankId: typeId ,balance: AddBankAmount }
+        }
     });
     setFormLoading(true)
   };
@@ -1121,7 +1129,8 @@ useEffect(() => {
 
                         )}
                       </div>
-
+                    
+                    <div    className="mt-3">
                       <p
                         className="mt-3"
                         style={{
@@ -1132,10 +1141,11 @@ useEffect(() => {
                       >
                         {item?.accountNumber || item?.upiId || item.creditCardNumber}
                       </p>
+                       </div>
 
                       <div className="d-flex justify-content-between align-items-center mb-2">
                         <div style={{ fontFamily: "Gilroy", }}>
-                          <p
+                          {/* <p
                             className="text-muted mb-0"
                             style={{
                               fontSize: 14,
@@ -1151,9 +1161,16 @@ useEffect(() => {
                                 : item.setus_default === 3
                                   ? "Default:Both A/C"
                                   : ""}
-                          </p>
+                          </p> */}
 
-                          {item.setus_default === 0 && (
+                          <p className="text-muted mb-0" style={{ fontSize: 14, fontWeight: 500 }}>
+  {item.isDefault
+    ? `Default: ${item.transactionType === "BOTH" ? "Both A/C" : item.transactionType + " A/C"}`
+    : ""}
+</p>
+
+
+                          {item.isDefault === 0 && (
                             <p
                               style={{
                                 color: !canWriteBanking
@@ -1204,7 +1221,7 @@ useEffect(() => {
                           Change
                         </span>
                       </div>
-                      {showAccountTypeOptions === item.id && (
+                      {showAccountTypeOptions === item.bankingId && (
                         <div
                           className="account-type-dropdown"
                           onMouseDown={(e) => e.stopPropagation()}
@@ -1224,7 +1241,7 @@ useEffect(() => {
                           <label style={{ display: "block", marginBottom: "5px" }}>
                             <input
                               type="radio"
-                              name={`accountType-${item.id}`}
+                              name={`accountType-${item.bankingId}`}
                               value={1}
                               checked={selectedAccountType === 1}
                               onChange={handleAccountTypeSelection}
@@ -1234,7 +1251,7 @@ useEffect(() => {
                           <label style={{ display: "block", marginBottom: "5px" }}>
                             <input
                               type="radio"
-                              name={`accountType-${item.id}`}
+                              name={`accountType-${item.bankingId}`}
                               value={2}
                               checked={selectedAccountType === 2}
                               onChange={handleAccountTypeSelection}
@@ -1244,7 +1261,7 @@ useEffect(() => {
                           <label style={{ display: "block", marginBottom: "5px" }}>
                             <input
                               type="radio"
-                              name={`accountType-${item.id}`}
+                              name={`accountType-${item.bankingId}`}
                               value={3}
                               checked={selectedAccountType === 3}
                               onChange={handleAccountTypeSelection}
@@ -1276,9 +1293,9 @@ useEffect(() => {
                         />{" "}
                         Balance
                       </span>
-                      {item.balance === 0 ||
-                        item.balance === "" ||
-                        item.balance === null ? (
+                      {item.accountBalance === 0 ||
+                        item.accountBalance === "" ||
+                        item.accountBalance === null ? (
                         <span
                           href={!canWriteBanking ? "#" : undefined}
                           className={
@@ -1313,7 +1330,7 @@ useEffect(() => {
                             color: "black",
                           }}
                         >
-                          ₹{item.balance}
+                          ₹{item?.accountBalance}
                         </span>
                       )}
                     </div>
