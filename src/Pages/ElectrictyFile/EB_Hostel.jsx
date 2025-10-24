@@ -176,13 +176,12 @@ const RoomReadingTable = () => {
   const [loading, setLoading] = useState(false);
   const [roomReadingList, setRoomReadingList] = useState([])
   const [customerReadingList, setCustomerReadingList] = useState([])
-const [showHostelModal , setShowHostelModal] = useState(false)
+  const [showHostelModal, setShowHostelModal] = useState(false)
 
-  // const [searchText, setSearchText] = useState("");
   const [filters, setFilters] = useState([]);
 
 
-console.log("showModal",showModal)
+  console.log("showModal", showModal)
 
 
 
@@ -193,20 +192,7 @@ console.log("showModal",showModal)
       setLoading(true);
     }
   }, [canReadElectricity]);
-  // const handleKeyPress = (e) => {
-  //   if (e.key === "Enter" && searchText.trim() !== "") {
-  //     if (!filters.includes(searchText.trim())) {
-  //       setFilters([...filters, searchText.trim()]);
-  //     }
-  //     setSearchText("");
-  //     e.preventDefault();
-  //   }
-  // };
-
-
-
-
-  // console.log("selectedRow", selectedRow)
+ 
 
 
 
@@ -256,9 +242,10 @@ console.log("showModal",showModal)
     ;
 
 
-    const handleCloseHostelShowModal = () =>{
-      setShowHostelModal(false);
-    }
+  const handleCloseHostelShowModal = () => {
+     dispatch({ type: 'REMOVE_ROOM_READING_ERROR' })
+    setShowHostelModal(false);
+  }
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
@@ -294,12 +281,13 @@ console.log("showModal",showModal)
 
 
 
-  console.log("state", state.UsersList?.getRoomReadingList)
+
   useEffect(() => {
     if (state.UsersList?.addRoomReadingStatusCode === 201) {
       dispatch({ type: 'GETROOMREADING', payload: state.login.selectedHostel_Id })
       dispatch({ type: 'GETCUSTOMERREADING', payload: state.login.selectedHostel_Id })
       setShowModal(false)
+      setShowHostelModal(false);
       setTimeout(() => {
         dispatch({ type: 'REMOVE_ADD_ROOM_READING' })
       }, 100)
@@ -314,7 +302,7 @@ console.log("showModal",showModal)
 
   const isEbBased = state.UsersList?.getRoomReadingList?.isHostelBased
 
-  
+
 
 
   const monthOptions = [
@@ -399,7 +387,7 @@ console.log("showModal",showModal)
             </div>
 
             <div className="ms-auto d-flex gap-2 me-2 align-items-center">
-              <div className="ms-auto d-flex gap-3 me-2" style={{ backgroundColor: "white", borderRadius: 5, padding:8, boxShadow: "0px 2px 2px rgba(0,0,0,0.2)", height:"fit-content" }}>
+              <div className="ms-auto d-flex gap-3 me-2" style={{ backgroundColor: "white", borderRadius: 5, padding: 8, boxShadow: "0px 2px 2px rgba(0,0,0,0.2)", height: "fit-content" }}>
                 <img
                   // onClick={()=> canReadElectricity && handleSearch()}
                   src={searchteam} height="20" width="20" alt="search" style={{
@@ -555,7 +543,7 @@ console.log("showModal",showModal)
 
 
 
-                        {/* Buttons */}
+                       
                         <div className="d-flex justify-content-between mt-4">
                           <Button
                             variant="secondary"
@@ -587,7 +575,7 @@ console.log("showModal",showModal)
                     display: "flex",
                     gap: "12px",
                     alignItems: "center",
-                    zIndex:20
+                    zIndex: 20
                   }}
                 >
                   <Select
@@ -634,13 +622,14 @@ console.log("showModal",showModal)
                         cursor: "pointer",
                       }),
                     }}
-                    
+
                   />
 
 
 
-                  
+
                   <Button
+                  onClick={() => canWriteElectricity && handleActionReadingClick()}
                     style={{
                       backgroundColor: "#1E45E1",
                       borderRadius: "8px",
@@ -664,7 +653,7 @@ console.log("showModal",showModal)
                         opacity: canWriteElectricity ? 1 : 0.6,
                         cursor: canWriteElectricity ? "pointer" : "default",
                       }}
-                      onClick={() => canWriteElectricity && handleActionReadingClick()}
+                      
                     />
                     Reading
                   </Button>
@@ -766,8 +755,8 @@ console.log("showModal",showModal)
 
 
                   <>
-                    {!isEbBased && (
-                      <>
+                    {/* {isEbBased && ( */}
+                      
                         {roomReadingList?.length === 0 && !loading ? (
                           <div style={{ textAlign: "center", marginTop: 40 }}>
                             <img src={emptyimg} width={240} height={240} alt="emptystate" />
@@ -811,7 +800,10 @@ console.log("showModal",showModal)
                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>CURRENT</th>
                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>TOTAL UNITS</th>
                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>AMOUNT</th>
-                                  <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>ACTION</th>
+                                  {
+                                    !isEbBased && <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>ACTION</th>
+
+                                  }
                                 </tr>
                               </thead>
                               <tbody style={{ fontSize: 14, color: "#000" }}>
@@ -835,18 +827,21 @@ console.log("showModal",showModal)
                                       <td style={{ paddingLeft: "40px" }}>{row.currentReading}</td>
                                       <td style={{ paddingLeft: "40px" }}>{row.consumption}</td>
                                       <td style={{ paddingLeft: "30px" }}>{row.totalPrice || '0'}</td>
-                                      <td style={{ paddingLeft: "40px",cursor:canWriteElectricity ? "pointer": "not-allowed" }}>
+                                       {
+                                    !isEbBased &&
+                                      <td style={{ paddingLeft: "40px", cursor: canWriteElectricity ? "pointer" : "not-allowed" }}>
                                         <img
                                           src={Group}
                                           alt="action"
                                           style={{
                                             filter: canWriteElectricity ? "none" : "grayscale(100%) brightness(60%)",
                                             opacity: canWriteElectricity ? 1 : 0.6,
-                                            cursor:canWriteElectricity ? "pointer": "not-allowed"
+                                            cursor: canWriteElectricity ? "pointer" : "not-allowed"
                                           }}
                                           onClick={() => canWriteElectricity && handleActionClick(row)}
                                         />
                                       </td>
+}
                                     </tr>
                                   ))}
                                 </PaginationList>
@@ -896,11 +891,11 @@ console.log("showModal",showModal)
                           </div>
                         )}
 
-                      </>
-                    )}
+                      
+                    {/* )} */}
 
 
-                    {isEbBased && (
+                    {/* {isEbBased && (
                       <>
                         {roomReadingList?.length === 0 && !loading ? (
                           <div style={{ textAlign: "center", marginTop: 40 }}>
@@ -1014,7 +1009,7 @@ console.log("showModal",showModal)
 
 
                       </>
-                    )}
+                    )} */}
 
 
 
@@ -1106,8 +1101,8 @@ console.log("showModal",showModal)
         <AddRoomReading show={showModal} handleClose={handleCloseShowModal} selectedRowDetails={selectedRow} />
       )}
 
-       {showHostelModal  && (
-        <AddHostelReading show={showHostelModal} handleClose={handleCloseHostelShowModal}  />
+      {showHostelModal && (
+        <AddHostelReading show={showHostelModal} handleClose={handleCloseHostelShowModal} />
       )}
     </>
 

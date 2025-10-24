@@ -72,17 +72,14 @@ function AddHostelReading({ show, handleClose, selectedRowDetails }) {
         if (hasError) return;
         const formattedDate = readingDate ? dayjs(readingDate).format("DD-MM-YYYY") : "";
         if (currentReading) {
-            // dispatch({
-            //     type: 'ADDROOMREADING',
-            //     payload: {
-            //         hostelId: state.login.selectedHostel_Id,
-            //         reading: currentReading,
-            //         readingDate: formattedDate,
-            //         // roomId: selectedRowDetails?.roomId,
-            //         // floorId: selectedRowDetails?.floorId,
-
-            //     }
-            // })
+            dispatch({
+                type: 'ADDROOMREADING',
+                payload: {
+                    hostelId: state.login.selectedHostel_Id,
+                    reading: Number(currentReading),
+                    readingDate: formattedDate,
+                                   }
+            })
             setLoading(true)
 
         }
@@ -131,7 +128,7 @@ function AddHostelReading({ show, handleClose, selectedRowDetails }) {
                     onClick={handleClose}
                 />
             </Modal.Header>
-            <Modal.Body className="border">
+            <Modal.Body className="border pt-1">
 
 
 
@@ -180,7 +177,7 @@ function AddHostelReading({ show, handleClose, selectedRowDetails }) {
                 {state.UsersList?.roomReadingError && (
                     <ErrorMessage message={state.UsersList?.roomReadingError} type="error" />
                 )}
-                <Form.Group className="mt-4">
+                <Form.Group className="mt-0">
                     <div
                         style={{
                             display: 'flex',
@@ -205,7 +202,7 @@ function AddHostelReading({ show, handleClose, selectedRowDetails }) {
                             Current Reading   <span style={{ color: "red", fontSize: "20px" }}>*</span>
                         </Form.Label>
 
-                        <span
+                        {/* <span
                             style={{
                                 fontFamily: 'Gilroy',
                                 fontWeight: 400,
@@ -217,9 +214,9 @@ function AddHostelReading({ show, handleClose, selectedRowDetails }) {
                             }}
                         >
                             Last Reading: <span style={{ color: '#1E45E1', fontFamily: "Gilroy" }}>
-                                {/* {selectedRowDetails?.currentReading} */}
+                                {selectedRowDetails?.currentReading}
                                 </span>
-                        </span>
+                        </span> */}
                     </div>
 
                     <Form.Control
