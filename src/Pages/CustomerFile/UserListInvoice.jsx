@@ -631,7 +631,7 @@ console.log("state.UsersList.invoiceResponseList",state.UsersList.customerdetail
                                 textAlign: "start"
                               }}
                             >
-                              {DueformattedDate}
+                              {view.dueDate}
                             </span>
                           </td>
                           <td
@@ -661,7 +661,7 @@ console.log("state.UsersList.invoiceResponseList",state.UsersList.customerdetail
                             }}
                             className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
                           >
-                            ₹{view.BalanceDue}
+                            ₹{view.dueAmount}
                           </td>
                           <td style={{ textAlign: "start", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-2">
                             <span
