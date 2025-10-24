@@ -2936,7 +2936,7 @@ function UserList(props) {
                   {value === "4" && (
                     <Button
                       disabled={!canWriteWalkin}
-                      onClick={walkinForm}
+                       onClick={handleShow}
                       style={buttonStyle}
                     >
                       + Walk-In
