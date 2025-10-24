@@ -49,9 +49,8 @@ export async function AddDefaultAccount(datum) {
   });
 }
 
-export async function AddBankAmount(datum) {
-  return await AxiosConfig.post("/add_bank_amount", datum, {
-    data: datum,
+export async function AddBankAmount(hostelId , data) {
+  return await AxiosConfigV2.put(`/v2/bank/money/${hostelId}`, data, {
   });
 }
 

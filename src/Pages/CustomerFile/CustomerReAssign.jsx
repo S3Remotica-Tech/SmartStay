@@ -372,13 +372,6 @@ console.log("roomrent", selectedBed);
     if (!validateAssignField(selectedDate, "selectedDate", selectedDateRef, focusedRef, setDateError)) hasError = true;
 
 
-
-
-
-
-
-
-
     if (newRoom === "Selected Room") {
       setRoomError("Please Select a Valid Room");
       hasError = true;
@@ -396,33 +389,28 @@ console.log("roomrent", selectedBed);
 
 
 
-    const formatToISODate = (date) => {
-      const d = new Date(date);
-      const yyyy = d.getFullYear();
-      const mm = String(d.getMonth() + 1).padStart(2, '0');
-      const dd = String(d.getDate()).padStart(2, '0');
-      return `${yyyy}-${mm}-${dd}`;
-    };
+  const formatToCustomDate = (date) => {
+  const d = new Date(date);
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  return `${dd}-${mm}-${yyyy}`
+}
+    const formattedDate = selectedDate ? formatToCustomDate(selectedDate) : "";
 
-    const formattedDate = selectedDate ? formatToISODate(selectedDate) : "";
-
-const datum = {
-    bedId: newBed,              
-    rentAmount: parseFloat(newRoomRent) || 0,
-    joiningDate: formattedDate,
-  };
-
-  console.log("cutomerid", userId);
-   console.log("cutomerid", state.login.selectedHostel_Id);
-  
+      const datum = {
+       bedId: newBed,              
+       rentAmount: parseFloat(newRoomRent) || 0,
+       joiningDate: formattedDate,
+      }
 
   if(userId &&state.login.selectedHostel_Id && datum ){
       dispatch({
       type: "CUSTOMERREASSINBED",
-     payload: {
-      hostelId: state.login.selectedHostel_Id , 
-      customerId: userId,       
-      datum,                       
+      payload: {
+       hostelId: state.login.selectedHostel_Id , 
+       customerId: userId,       
+       datum,                       
     },
     });
   }
