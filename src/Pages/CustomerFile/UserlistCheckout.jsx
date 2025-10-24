@@ -29,7 +29,19 @@ function CheckOut(props) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
+ const calledOnceRef = useRef(false);
 
+  useEffect(() => {
+    if (state.login.selectedHostel_Id && !calledOnceRef.current) {
+      calledOnceRef.current = true;
+      // setWalkingLoader(true);
+      dispatch({
+        type: "USERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id, type: 'checkout ' },
+      });
+
+    }
+  }, [state.login.selectedHostel_Id]);
   const [activeDotsId, setActiveDotsId] = useState(null);
   // const [modalType, setModalType] = useState(null);
   

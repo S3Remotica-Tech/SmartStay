@@ -2479,7 +2479,7 @@ function UserList(props) {
   const [finalsettledData, setFinalsettledData] = useState("")
 
   const handleConformCheckout = (item) => {
-    // setDueCustomerShow(true)
+    setDueCustomerShow(true)
     setCheckOutDetails(item)
     setFinalSettlePage(false)
 
@@ -3620,7 +3620,7 @@ function UserList(props) {
 
                                         {user.currentStatus === "Booked"
                                           ? (user.floorName || "-")
-                                          : user.currentStatus === "Checked In" || user.currentStatus === "Notice Period"
+                                          : user.currentStatus === "Checked In" || user.currentStatus === "Notice Period"  || user.currentStatus === "Settlement Generated"
                                             ? (user.floorName || "-")
                                             : "-"}
                                       </div>
@@ -4020,54 +4020,7 @@ function UserList(props) {
                                                   </div>
 
 
-                                                  <div
-                                                    className="d-flex align-items-center gap-2"
-
-                                                    onClick={() => {
-                                                      if (canWriteTenant) {
-                                                        handleConformCheckout(user);
-                                                      }
-                                                    }}
-
-                                                    style={{
-                                                      backgroundColor: "#F9F9F9",
-                                                      cursor: !canWriteTenant ? "not-allowed" : "pointer",
-                                                      opacity: !canWriteTenant ? 0.6 : 1,
-                                                      padding: "8px 12px",
-                                                      borderRadius: 6,
-                                                      transition: "background 0.2s ease-in-out",
-                                                    }}
-                                                    onMouseEnter={(e) => {
-
-                                                      e.currentTarget.style.backgroundColor = "#FFFBEF";
-
-                                                    }}
-                                                    onMouseLeave={(e) => {
-                                                      e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                                    }}
-                                                  >
-                                                    <img
-                                                      src={logout}
-                                                      alt="checkout"
-                                                      style={{
-                                                        width: 16,
-                                                        height: 16,
-                                                        filter: !canWriteTenant ? "grayscale(100%)" : "none",
-                                                      }}
-                                                    />
-                                                    <label
-                                                      style={{
-                                                        fontSize: 14,
-                                                        fontWeight: 500,
-                                                        fontFamily: "Gilroy, sans-serif",
-                                                        color: !canWriteTenant ? "#888888" : "#222222",
-                                                        cursor: !canWriteTenant ? "not-allowed" : "pointer",
-                                                        margin: 0,
-                                                      }}
-                                                    >
-                                                      Check-Out
-                                                    </label>
-                                                  </div>
+                                                
                                                   <div
                                                     className="d-flex align-items-center gap-2"
 
@@ -4116,6 +4069,67 @@ function UserList(props) {
                                                       Generate
                                                     </label>
                                                   </div>
+                                                </>
+
+                                              )}
+
+
+
+
+                                               {user.bedId && user.currentStatus === "Settlement Generated" && (
+                                                <>
+                                                 
+
+
+                                                  <div
+                                                    className="d-flex align-items-center gap-2"
+
+                                                    onClick={() => {
+                                                      if (canWriteTenant) {
+                                                        handleConformCheckout(user);
+                                                      }
+                                                    }}
+
+                                                    style={{
+                                                      backgroundColor: "#F9F9F9",
+                                                      cursor: !canWriteTenant ? "not-allowed" : "pointer",
+                                                      opacity: !canWriteTenant ? 0.6 : 1,
+                                                      padding: "8px 12px",
+                                                      borderRadius: 6,
+                                                      transition: "background 0.2s ease-in-out",
+                                                    }}
+                                                    onMouseEnter={(e) => {
+
+                                                      e.currentTarget.style.backgroundColor = "#FFFBEF";
+
+                                                    }}
+                                                    onMouseLeave={(e) => {
+                                                      e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                                    }}
+                                                  >
+                                                    <img
+                                                      src={logout}
+                                                      alt="checkout"
+                                                      style={{
+                                                        width: 16,
+                                                        height: 16,
+                                                        filter: !canWriteTenant ? "grayscale(100%)" : "none",
+                                                      }}
+                                                    />
+                                                    <label
+                                                      style={{
+                                                        fontSize: 14,
+                                                        fontWeight: 500,
+                                                        fontFamily: "Gilroy, sans-serif",
+                                                        color: !canWriteTenant ? "#888888" : "#222222",
+                                                        cursor: !canWriteTenant ? "not-allowed" : "pointer",
+                                                        margin: 0,
+                                                      }}
+                                                    >
+                                                      Check-Out
+                                                    </label>
+                                                  </div>
+                                                
                                                 </>
 
                                               )}

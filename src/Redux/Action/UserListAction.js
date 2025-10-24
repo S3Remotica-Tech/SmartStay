@@ -730,3 +730,17 @@ export async function bookingToCheckIn(customer) {
     data: customer
   })
 }
+
+
+export async function GenerateDetails(customerId , data) {
+  return await AxiosConfigV2.post(`/v2/customers/settlement/${customerId}`, data , {
+    // data: generate
+  })
+}
+
+export async function conformCheckout(customer) {
+
+  return await AxiosConfigV2.post(`/v2/bookings/checkout/${customer.customerId}`, customer, {
+    data: customer
+  })
+}

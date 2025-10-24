@@ -25,12 +25,19 @@ import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
 // import addcircleblack from "../../Assets/Images/New_images/add-circle-black.png";
 import { Tooltip } from "bootstrap";
 // import { useFormState } from "react-dom";
+import ErrorMessage from '../../Components/ErrorMessage'
 
 
 
 function DueCustomerConfirmCheckout({ show, handleClose, data,customerID }) {
 
 
+    const handleClosecheck = ()=>{
+        handleClose()
+         dispatch({ type: "REMOVE_CONFORM_CHECKOUT_ERROR" });
+    }
+
+console.log("DueCustomerConfirmCheckout",data)
     const state = useSelector((state) => state);
    
     const dispatch = useDispatch();
@@ -64,12 +71,26 @@ function DueCustomerConfirmCheckout({ show, handleClose, data,customerID }) {
         }
     }, [state.login.selectedHostel_Id]);
 
+
+     useEffect(() => {
+            if (data?.customerId) {
+                dispatch({ type: "GETFINALSETTLEMENT", payload: data?.customerId });
+                // setFormLoading(true)
+            }
+        }, [data])
+    
+
      useEffect(() => {
       const userData = state.UsersList.Users.filter((item) => item.ID === customerID);
       
       setDataBed(userData)
     }, [customerID]);
+  useEffect(() => {
+        if (state.UsersList?.chrckoutError) {
+            setFormLoading(false)
+        }
 
+    }, [state.UsersList?.chrckoutError])
 
     // const reasonOptions = [
     //     { value: "DueAmount", label: "Due Amount" },
@@ -444,7 +465,7 @@ useEffect(() => {
     useEffect(() => {
         if (state.UsersList.statusCodeForDueCustomer === 200 || state.UsersList.statusCodeAddConfirmCheckout === 200) {
             setFormLoading(false)
-            handleClose()
+            handleClosecheck()
             dispatch({
                       type: "USERLIST",
                       payload: { hostel_id: state.login.selectedHostel_Id },
@@ -495,6 +516,18 @@ useEffect(() => {
   `;
   document.head.appendChild(style);
 }, []);
+
+
+
+const handleConfirmCheckout =()=>{
+    if(data.customerId || data.currentTenantCustomerId){
+ dispatch({
+                type: "CONFIRMCHECKOUT",
+                payload: { customerId:data.customerId || data.currentTenantCustomerId,
+                    comments:comments},
+            })
+    }
+}
 
     return (
         <div>
@@ -1421,7 +1454,7 @@ useEffect(() => {
     </Modal> */}
 
 
-    <Modal show={show} onHide={handleClose} centered >
+    <Modal show={show} onHide={handleClosecheck} centered >
      
        <Modal.Header
                           style={{ marginBottom: "10px", position: "relative",borderBottom:"none" }}
@@ -1438,7 +1471,7 @@ useEffect(() => {
                             </div>
                           
                           </div>
-                          <CloseCircle size="24" color="#000" onClick={handleClose}
+                          <CloseCircle size="24" color="#000" onClick={handleClosecheck}
                             style={{ cursor: 'pointer' }} />
                         </Modal.Header>
       <Modal.Body>
@@ -1457,26 +1490,27 @@ useEffect(() => {
     className="rounded-circle me-3"
   />
          <div>
-      <p style={{fontSize:"1.25rem",fontFamily:"Gilroy",fontWeight:600}} className="mb-0">{data?.Name || dataBed[0]?.Name}</p>
+      <p style={{fontSize:"1.25rem",fontFamily:"Gilroy",fontWeight:600}} className="mb-0">{data?.firstName || data?.currentTenantFirstName}</p>
   <div className="d-flex mb-2">
     <span className="badge rounded-pill bg-warning text-dark me-2" style={{fontSize:"0.75rem",fontFamily:"Gilroy",fontWeight:400}}>
-      {hostelData.floor_name}
+      {data.floorName}
     </span>
     <span className="badge rounded-pill bg-danger-subtle text-dark" style={{fontSize:"0.75rem",fontFamily:"Gilroy",fontWeight:400}}>
-      {hostelData["Room Name"]} - {hostelData["Bed Name"]}
+      {data.roomName} - {data.bedName}
     </span>
   </div>
   </div>
           <div className="ms-auto text-end mt-2">
             <p   style={{fontSize:14,fontFamily:"Gilroy",fontWeight:400,color:"#4B4B4B",padding:0 , margin:0}}>Checkout Date</p>
-            <p style={{fontSize:16,fontFamily:"Gilroy",fontWeight:600,}}>{checkOutDate}</p>
+            <p style={{fontSize:16,fontFamily:"Gilroy",fontWeight:600,}}>{data.bookedAt}</p>
           </div>
         </div>
 
         {/* Status */}
         {/* <div className="mb-3">
           <strong>Status: </strong>
-          <Badge bg="success">Dues Cleared</Badge>
+          <Badge bg="succes
+          s">Dues Cleared</Badge>
         </div> */}
 {detuction?.DueAmount ? (
           <div className="d-flex justify-content-between align-items-center mb-3">
@@ -1548,128 +1582,7 @@ useEffect(() => {
 
 {/* {detuction?.DueAmount ? (
 <> */}
-        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        {/* {activeTab === "writeoff" && ( */}
-                                            <div className="">
-                                               
-                                                  
-                                            
-
-
-
-                                                <label
-                                                    style={{
-                                                        fontSize: 14,
-                                                        color: "#222222",
-                                                        fontFamily: "Gilroy",
-                                                        fontWeight: 500,
-                                                        marginBottom: 5,
-                                                    }}
-                                                >
-                                                    Attachments/Proofs (If any)
-                                                </label>
-
-                                                <div className="row ms-1 me-1">
-
-                                                    <div className="col-md-12" style={{
-                                                        border: "1px dashed #D9D9D9",
-                                                        padding: 20,
-                                                        borderRadius: 10,
-                                                        textAlign: "center",
-                                                        backgroundColor: "#FAFAFA",
-                                                    }}>
-                                                        <div className="row">
-
-                                                            <div className="col-md-6 d-flex align-items-center justify-content-center">
-                                                                {uploadFile ? (
-                                                                    uploadFile.type.startsWith("image/") ? (
-                                                                        <img
-                                                                            src={URL.createObjectURL(uploadFile)}
-                                                                            alt="Preview"
-                                                                            style={{
-                                                                                width: "100%",
-                                                                                maxWidth: "200px",
-                                                                                height: "auto",
-                                                                                borderRadius: 8,
-                                                                            }}
-                                                                        />
-                                                                    ) : (
-                                                                        <div
-                                                                            style={{
-                                                                                fontSize: 14,
-                                                                                fontFamily: "Gilroy",
-                                                                                color: "#333",
-                                                                                fontWeight: 500,
-                                                                                gap: 4,
-                                                                            }}
-                                                                        >
-                                                                            <DocumentDownload size="24" color="#1E45E1" /> {uploadFile.name}
-                                                                        </div>
-                                                                    )
-                                                                ) : (
-                                                                    <div
-                                                                        className="text-center"
-                                                                        style={{
-                                                                            backgroundColor: "#1E45E10D",
-                                                                            borderRadius: 6,
-                                                                            display: "flex",
-                                                                            alignItems: "center",
-                                                                            justifyContent: "center",
-                                                                        }}
-                                                                    >
-                                                                        <div>
-                                                                            <div
-                                                                                style={{
-                                                                                    backgroundColor: "#EAF0FF",
-                                                                                    borderRadius: "50%",
-                                                                                    padding: 10,
-                                                                                    display: "flex",
-                                                                                    alignItems: "center",
-                                                                                    justifyContent: "center",
-                                                                                    margin: "0 auto",
-                                                                                }}
-                                                                            >
-                                                                                <DocumentDownload size="24" color="#1E45E1" />
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                )}
-                                                            </div>
-
-
-                                                            <div className="col-md-6 d-flex align-items-center justify-content-center" >
-                                                                <div >
-                                                                    <label
-                                                                        htmlFor="upload"
-                                                                        style={{
-                                                                            cursor: "pointer",
-                                                                            fontFamily: "Gilroy",
-                                                                            color: "#1E45E1",
-                                                                            fontWeight: 600,
-                                                                        }}
-                                                                    >
-                                                                        Choose file
-                                                                    </label>{" "}  <span style={{ color: "#16151C", fontFamily: "Gilroy", }}>to Upload</span>
-
-                                                                    <div style={{ fontSize: 12, color: "#A0A0A0", fontFamily: "Gilroy" }}>
-                                                                        <span style={{ fontWeight: 500 }}>JPG PNG PDF Format</span> <span style={{ fontWeight: 300 }}>(600px*300px)</span>
-                                                                    </div>
-                                                                    <input type="file" id="upload" hidden onChange={handleFileChange} />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-
-                                                    </div>
-
-
-
-                                                </div>
-                                            </div>
-                                        {/* )} */}
-
-
-                                    </div>
+        
                                     {/* </> */}
                                     {/* ): */}
                                     <Form.Group >
@@ -1686,11 +1599,14 @@ useEffect(() => {
         {/* } */}
 
       </Modal.Body>
+        {state.UsersList?.chrckoutError && (
+                    <ErrorMessage message={state.UsersList?.chrckoutError} type="error" />
+                )}
       <Modal.Footer style={{borderTop:"none",marginTop:"-10px"}}>
-        <Button style={{fontFamily:"Gilroy",fontSize:"1rem",fontWeight:400}} className="btn btn-light" onClick={handleClose}>
+        <Button style={{fontFamily:"Gilroy",fontSize:"1rem",fontWeight:400}} className="btn btn-light" onClick={handleClosecheck}>
           Cancel
         </Button>
-        <Button style={{fontFamily:"Gilroy",fontSize:"1rem",fontWeight:400}} variant="primary">Check-Out</Button>
+        <Button onClick={handleConfirmCheckout} style={{fontFamily:"Gilroy",fontSize:"1rem",fontWeight:400}} variant="primary">Check-Out</Button>
       </Modal.Footer>
     </Modal>
         </div>
