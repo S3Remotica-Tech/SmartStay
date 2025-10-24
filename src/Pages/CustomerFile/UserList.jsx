@@ -1067,6 +1067,9 @@ setTimeout(() => {
   };
 
   const handleCustomerReAssign = (reuser) => {
+    if(reuser?.customerId){
+        dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: reuser?.customerId } });
+    }
     setReasignDetail(reuser);
     setCustomerReAssign(true);
   };

@@ -551,12 +551,21 @@ export async function exportDetails(datum) {
   })
 }
 
+// v1 
+// export async function customerReAssignBed(datum) {
+//   return await AxiosConfig.post('/users/reassign_bed', datum, {
+//     data: datum
+//   })
+// }
 
-export async function customerReAssignBed(datum) {
-  return await AxiosConfig.post('/users/reassign_bed', datum, {
-    data: datum
+export async function customerReAssignBed(hostelId , customerId , datum) {
+  return await AxiosConfigV2.post(`/v2/customers/change-bed/${hostelId}/${customerId}` , datum, {
+      headers: {
+      "Content-Type": "application/json",
+    },
   })
 }
+
 
 export async function customerAddContact(datum) {
   return await AxiosConfig.post('/contacts/add_contact', datum, {
