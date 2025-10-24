@@ -26,6 +26,7 @@ import { useHasPermission } from '../../Utils/Permission';
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import ErrorMessage from '../../Components/ErrorMessage';
 import Select from "react-select";
+import AddHostelReading from "./AddHostelReading";
 // import WhiteCalender from  "../../../Assets/Images/New_images/ClipPathGroup.svg";
 
 
@@ -175,7 +176,7 @@ const RoomReadingTable = () => {
   const [loading, setLoading] = useState(false);
   const [roomReadingList, setRoomReadingList] = useState([])
   const [customerReadingList, setCustomerReadingList] = useState([])
-
+const [showHostelModal , setShowHostelModal] = useState(false)
 
   // const [searchText, setSearchText] = useState("");
   const [filters, setFilters] = useState([]);
@@ -239,10 +240,14 @@ console.log("showModal",showModal)
 
 
   const handleActionClick = (row) => {
-
     setSelectedRow(row);
     setShowModal(true);
   };
+
+  const handleActionReadingClick = () => {
+    setShowHostelModal(true);
+  };
+
 
   const handleCloseShowModal = () => {
     dispatch({ type: 'REMOVE_ROOM_READING_ERROR' })
@@ -250,6 +255,10 @@ console.log("showModal",showModal)
   }
     ;
 
+
+    const handleCloseHostelShowModal = () =>{
+      setShowHostelModal(false);
+    }
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
@@ -303,9 +312,9 @@ console.log("showModal",showModal)
 
 
 
-  const isEbHostelBased = state.UsersList?.getRoomReadingList.isHostelBased
+  const isEbBased = state.UsersList?.getRoomReadingList?.isHostelBased
 
-  const isEbRoomBased = state.UsersList?.getRoomReadingList.isRoomBased
+  
 
 
   const monthOptions = [
@@ -365,7 +374,7 @@ console.log("showModal",showModal)
                       : "2px solid transparent",
                 }}
               >
-                {isEbHostelBased ? "Hostel Reading" : "Room Reading"}
+                {isEbBased ? "Hostel Reading" : "Room Reading"}
               </div>
               <div
                 onClick={() => setActiveTab("customer")}
@@ -401,7 +410,7 @@ console.log("showModal",showModal)
                   }} />
               </div>
               {
-                isEbRoomBased &&
+                !isEbBased &&
 
                 <div>
                   {/* Filter Button */}
@@ -572,12 +581,13 @@ console.log("showModal",showModal)
 
 
               {
-                isEbHostelBased &&
+                isEbBased &&
                 <div
                   style={{
                     display: "flex",
                     gap: "12px",
                     alignItems: "center",
+                    zIndex:20
                   }}
                 >
                   <Select
@@ -624,7 +634,7 @@ console.log("showModal",showModal)
                         cursor: "pointer",
                       }),
                     }}
-                    menuPortalTarget={document.body}
+                    
                   />
 
 
@@ -654,7 +664,7 @@ console.log("showModal",showModal)
                         opacity: canWriteElectricity ? 1 : 0.6,
                         cursor: canWriteElectricity ? "pointer" : "default",
                       }}
-                      onClick={() => canWriteElectricity && handleActionClick(row)}
+                      onClick={() => canWriteElectricity && handleActionReadingClick()}
                     />
                     Reading
                   </Button>
@@ -756,7 +766,7 @@ console.log("showModal",showModal)
 
 
                   <>
-                    {isEbRoomBased && (
+                    {!isEbBased && (
                       <>
                         {roomReadingList?.length === 0 && !loading ? (
                           <div style={{ textAlign: "center", marginTop: 40 }}>
@@ -825,13 +835,14 @@ console.log("showModal",showModal)
                                       <td style={{ paddingLeft: "40px" }}>{row.currentReading}</td>
                                       <td style={{ paddingLeft: "40px" }}>{row.consumption}</td>
                                       <td style={{ paddingLeft: "30px" }}>{row.totalPrice || '0'}</td>
-                                      <td style={{ paddingLeft: "40px" }}>
+                                      <td style={{ paddingLeft: "40px",cursor:canWriteElectricity ? "pointer": "not-allowed" }}>
                                         <img
                                           src={Group}
                                           alt="action"
                                           style={{
                                             filter: canWriteElectricity ? "none" : "grayscale(100%) brightness(60%)",
                                             opacity: canWriteElectricity ? 1 : 0.6,
+                                            cursor:canWriteElectricity ? "pointer": "not-allowed"
                                           }}
                                           onClick={() => canWriteElectricity && handleActionClick(row)}
                                         />
@@ -889,7 +900,7 @@ console.log("showModal",showModal)
                     )}
 
 
-                    {isEbHostelBased && (
+                    {isEbBased && (
                       <>
                         {roomReadingList?.length === 0 && !loading ? (
                           <div style={{ textAlign: "center", marginTop: 40 }}>
@@ -1093,6 +1104,10 @@ console.log("showModal",showModal)
 
       {showModal && selectedRow && (
         <AddRoomReading show={showModal} handleClose={handleCloseShowModal} selectedRowDetails={selectedRow} />
+      )}
+
+       {showHostelModal  && (
+        <AddHostelReading show={showHostelModal} handleClose={handleCloseHostelShowModal}  />
       )}
     </>
 
