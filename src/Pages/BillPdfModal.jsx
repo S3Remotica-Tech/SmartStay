@@ -480,7 +480,16 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                     <h5 style={{ fontSize: '17px', fontFamily: 'Gilroy', fontWeight: 600, color: '#171717', }}>
 
                       {
-                        pdfDetails?.configurations?.invoiceType === 'Advance' ? "Security Deposit Invoice" : "Payment Invoice"}
+                        pdfDetails?.invoiceType === 'SETTLEMENT'
+                          ? "Final Settlement Invoice"
+                          : pdfDetails?.configurations?.invoiceType === 'Advance'
+                            ? "Security Deposit Invoice"
+                            : pdfDetails?.configurations?.invoiceType === 'Rent'
+                              ? "Payment Invoice"
+                              : "Invoice"
+                      }
+
+
 
                     </h5>
                   </div>
@@ -578,7 +587,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
                         <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400, color: '#4B4B4B', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>Joining date :</div>
                         <div className="col-6  text-start mt-1" style={{ fontSize: '14px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>{pdfDetails?.customerInfo?.joiningDate}</div>
-                         <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400, color: '#4B4B4B', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>Rental Period :</div>
+                        <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400, color: '#4B4B4B', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>Rental Period :</div>
                         <div className="col-6  text-start mt-1" style={{ fontSize: '14px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>{pdfDetails?.customerInfo?.joiningDate}</div>
 
                       </div>
@@ -760,50 +769,50 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
                         <tbody>
                           {pdfDetails?.invoiceInfo?.invoiceItems?.map((item, index) => (
-                          <tr
-                            style={{
-                              // borderBottom: "1px solid #dee2e6",
-                              backgroundColor: "#fff",
-                            }}
-                          >
-                            <td
+                            <tr
                               style={{
-                                padding: "10px 14px",
-                                fontSize: "13px",
-                                fontWeight: 500,
-                                textAlign: "left",
-                                verticalAlign: "middle",
+                                // borderBottom: "1px solid #dee2e6",
+                                backgroundColor: "#fff",
                               }}
                             >
-                              1
-                            </td>
-                            <td
-                              style={{
-                                padding: "10px 14px",
-                                fontSize: "13px",
-                                fontWeight: 500,
-                                color: "#444",
-                                textAlign: "left",
-                                verticalAlign: "middle",
-                              }}
-                            >
-                              Security Deposit (Advance)
-                            </td>
-                            <td
-                              style={{
-                                padding: "10px 14px",
-                                fontSize: "13px",
-                                fontWeight: 500,
-                                color: "#444",
-                                textAlign: "right",
-                                verticalAlign: "middle",
-                              }}
-                            >
-                              Rs. {item.amount?.toLocaleString("en-IN")}
-                            </td>
-                          </tr>
+                              <td
+                                style={{
+                                  padding: "10px 14px",
+                                  fontSize: "13px",
+                                  fontWeight: 500,
+                                  textAlign: "left",
+                                  verticalAlign: "middle",
+                                }}
+                              >
+                                1
+                              </td>
+                              <td
+                                style={{
+                                  padding: "10px 14px",
+                                  fontSize: "13px",
+                                  fontWeight: 500,
+                                  color: "#444",
+                                  textAlign: "left",
+                                  verticalAlign: "middle",
+                                }}
+                              >
+                                Security Deposit (Advance)
+                              </td>
+                              <td
+                                style={{
+                                  padding: "10px 14px",
+                                  fontSize: "13px",
+                                  fontWeight: 500,
+                                  color: "#444",
+                                  textAlign: "right",
+                                  verticalAlign: "middle",
+                                }}
+                              >
+                                Rs. {item.amount?.toLocaleString("en-IN")}
+                              </td>
+                            </tr>
 
-  ))}
+                          ))}
                           <tr
                             style={{
                               backgroundColor: "#F9F9F9",
@@ -832,7 +841,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                               }}
                             >
                               ₹{" "}
-                                    {Number(pdfDetails?.invoiceInfo?.subTotal || 0)}
+                              {Number(pdfDetails?.invoiceInfo?.subTotal || 0)}
                             </td>
                           </tr>
 
