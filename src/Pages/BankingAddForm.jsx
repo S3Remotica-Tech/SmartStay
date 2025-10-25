@@ -9,7 +9,7 @@ import { MdError } from "react-icons/md";
 import "./BankingAddForm.css";
 import PropTypes from "prop-types";
 import { CloseCircle } from "iconsax-react";
-import Select from "react-select";
+import Select , { components } from "react-select";
 import ErrorMessage from '../Components/ErrorMessage'
 
 function BankingAddForm(props) {
@@ -149,6 +149,47 @@ const paymentOptions = Array.isArray(bankking)
       label: `${item?.accountHolderName} - ${item?.bankName || ""}`,
     }))
   : [];
+
+
+const CustomMenuList = (props) => {
+  const { children, selectProps } = props;
+
+  return (
+    <components.MenuList {...props}>
+      {/* Scrollable options list */}
+      <div style={{ maxHeight: 150, overflowY: "auto" }}>{children}</div>
+
+      {/* Fixed + Add Bank button */}
+      <div
+        style={{
+          position: "sticky",       // 🧠 makes it fixed inside dropdown
+          bottom: 0,
+          left: 0,
+          right: 0,
+          borderTop: "1px solid #E0E0E0",
+          backgroundColor: "#fff",
+          padding: "10px",
+          textAlign: "center",
+          cursor: "pointer",
+          color: "#1E45E1",
+          fontWeight: 600,
+          fontSize: 14,
+          fontFamily: "Gilroy",
+          zIndex: 1,
+        }}
+        onClick={() => selectProps.onAddBank?.()}
+        onMouseEnter={(e) =>
+          (e.currentTarget.style.backgroundColor = "#F5F8FF")
+        }
+        onMouseLeave={(e) =>
+          (e.currentTarget.style.backgroundColor = "#fff")
+        }
+      >
+        + Add Bank
+      </div>
+    </components.MenuList>
+  );
+};
 
 
   useEffect(() => {
@@ -416,9 +457,9 @@ const paymentOptions = Array.isArray(bankking)
   // };
 
   const handleSubmitCard = () => {
-    if (!accountName || !cardType) {
-      if (!accountName) {
-        setError("Please Enter Benificiary Name");
+    if (!bankaccount || !cardType) {
+      if (!bankaccount) {
+       setBankAccountError("Please Select Bank");
       }
       if (!cardType) {
         setCardTypeError("Please Select Card Type");
@@ -992,6 +1033,7 @@ const paymentOptions = Array.isArray(bankking)
                              Bank{" "}
                              <span style={{ color: "red", fontSize: "20px" }}>*</span>
                            </Form.Label>
+                         
                           <Select
                             options={paymentOptions}
                             value={
@@ -1003,6 +1045,8 @@ const paymentOptions = Array.isArray(bankking)
                              onMenuOpen={() => setIsSelectOpen(true)}      
                             onMenuClose={() => setIsSelectOpen(false)} 
                             placeholder="Select Bank"
+                              components={{ MenuList: CustomMenuList }}
+                                onAddBank={() => setActiveTab("BANK")}
                             
                               styles={{
                                                 control: (base) => ({
@@ -1026,7 +1070,7 @@ const paymentOptions = Array.isArray(bankking)
                                                 menuList: (base) => ({
                                                   ...base,
                                                   backgroundColor: "#f8f9fa",
-                                                  maxHeight: "80px",
+                                                  maxHeight: "120px",
                                                   padding: 0,
                                                   scrollbarWidth: "thin",
                                                   overflowY: "auto",
@@ -1053,9 +1097,8 @@ const paymentOptions = Array.isArray(bankking)
                                                 }),
                                               }}
                           />
-             
-             
-             
+  
+            
              
                          </Form.Group>
                          {bankaccountError && (
@@ -1142,22 +1185,7 @@ const paymentOptions = Array.isArray(bankking)
 
               </div>
 
-                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mt-5 text-end">
-  <Button
-    className="pb-4"
-    style={{
-      backgroundColor: "#1E45E1",
-      height: 30,
-      fontWeight: 500,
-      borderRadius: 12,
-      fontSize: 13,
-      fontFamily: "Gilroy",
-    }}
-    onClick={() => setActiveTab("BANK")}
-  >
-    Add Bank
-  </Button>
-</div>
+ 
 
 
               {isChangedError && (
@@ -1193,52 +1221,94 @@ const paymentOptions = Array.isArray(bankking)
           {activeTab === "CARD" && (
             <div className="row">
 
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Group >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    Benificiary Name{" "}
-                    <span
-                      style={{
-                        color: "red",
-                        fontSize: "20px",
-                      }}
-                    >
-                      {" "}
-                      *{" "}
-                    </span>
-                  </Form.Label>
-                  <FormControl
-                    type="text"
-                    id="form-controls"
-                    placeholder="Enter Benificiary Name"
-                    value={accountName}
-                    onChange={(e) => handleAccountName(e)}
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                    }}
-                  />
-                </Form.Group>
-                {accountNameError && (
-                   <ErrorMessage message={accountNameError} type="error" />
-                )}
-                {error && (
-                  <ErrorMessage message={error} type="error" />
-                )}
-              </div>
+             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                         <Form.Group
+                           className="mb-1"
+                           controlId="exampleForm.ControlInput1"
+                         >
+                           <Form.Label
+                             style={{
+                               fontSize: 14,
+                               color: "#222222",
+                               fontFamily: "Gilroy",
+                               fontWeight: 500,
+                             }}
+                           >
+                             Bank{" "}
+                             <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                           </Form.Label>
+                         
+                          <Select
+                            options={paymentOptions}
+                            value={
+                              paymentOptions.find((opt) => opt.value === String(bankaccount)) || null
+                            }
+                            onChange={(selectedOption) =>
+                              handleModeOfPaymentChange(selectedOption?.value)
+                            }
+                             onMenuOpen={() => setIsSelectOpen(true)}      
+                            onMenuClose={() => setIsSelectOpen(false)} 
+                            placeholder="Select Bank"
+                              components={{ MenuList: CustomMenuList }}
+                                onAddBank={() => setActiveTab("BANK")}
+                            
+                              styles={{
+                                                control: (base) => ({
+                                                  ...base,
+                                                  fontSize: 14,
+                                                  color: "rgba(75, 75, 75, 1)",
+                                                  fontFamily: "Gilroy",
+                                                  fontWeight: bankaccount ? 600 : 500,
+                                                  border: "1px solid #D9D9D9",
+                                                  borderRadius: "8px",
+                                                  boxShadow: "none",
+                                                  height: 48,
+                                                  cursor: "pointer",
+                                                }),
+                                                menu: (base) => ({
+                                                  ...base,
+                                                  backgroundColor: "#f8f9fa",
+                                                  border: "1px solid #ced4da",
+                                                  fontFamily: "Gilroy",
+                                                }),
+                                                menuList: (base) => ({
+                                                  ...base,
+                                                  backgroundColor: "#f8f9fa",
+                                                  maxHeight: "120px",
+                                                  padding: 0,
+                                                  scrollbarWidth: "thin",
+                                                  overflowY: "auto",
+                                                  fontFamily: "Gilroy",
+                                                }),
+                                                placeholder: (base) => ({
+                                                  ...base,
+                                                  color: "#555",
+                                                }),
+                                                dropdownIndicator: (base) => ({
+                                                  ...base,
+                                                  color: "#555",
+                                                  cursor: "pointer",
+                                                }),
+                                                option: (base, state) => ({
+                                                  ...base,
+                                                  cursor: "pointer",
+                                                  backgroundColor: state.isFocused ? "lightblue" : "white",
+                                                  color: "#000",
+                                                  fontFamily: "Gilroy",
+                                                }),
+                                                indicatorSeparator: () => ({
+                                                  display: "none",
+                                                }),
+                                              }}
+                          />
+  
+            
+             
+                         </Form.Group>
+                         {bankaccountError && (
+                           <ErrorMessage message={bankaccountError} type="error" />
+                         )}
+                       </div>
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
