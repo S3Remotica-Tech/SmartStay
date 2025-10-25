@@ -2226,7 +2226,7 @@ console.log("props***",props.id)
                   paddingLeft: "10px",
                 }}
               >
-                tenant Profile
+                Tenant Profile
               </span>
             </div>
 
