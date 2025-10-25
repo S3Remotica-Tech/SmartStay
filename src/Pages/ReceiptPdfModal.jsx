@@ -26,7 +26,7 @@ import jsPDF from "jspdf";
 import PropTypes from "prop-types";
 import { IoClose } from "react-icons/io5";
 import { Container, Row, Col, Table } from "react-bootstrap";
-import Payment from '../Assets/Images/New_images/received.png'
+import Payment from '../Assets/Images/New_images/Mask-group.png'
 
 
 
@@ -493,15 +493,27 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                         <label style={{ fontSize: 10, fontWeight: 600, fontFamily: "Gilroy", color: "#4B4B4B" }}>Receipt of the Month</label>
                       </div>
                       <div>
-                        <label style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy", color: "#16255D" }}> {pdfDetails?.receiptInfo?.transactionDate
-                          ? new Date(
-                            pdfDetails?.receiptInfo?.transactionDate.split("/").reverse().join("-")
-                          ).toLocaleDateString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                            year: "numeric",
-                          })
-                          : ""}</label>
+                        <label
+                          style={{
+                            fontSize: 12,
+                            fontWeight: 600,
+                            fontFamily: "Gilroy",
+                            color: "#16255D",
+                          }}
+                        >
+                          {pdfDetails?.receiptInfo?.invoiceMonth
+                            ? pdfDetails?.receiptInfo?.invoiceMonth
+                            : pdfDetails?.receiptInfo?.invoiceDate
+                              ? new Date(
+                                pdfDetails?.receiptInfo?.invoiceDate.split("/").reverse().join("-")
+                              ).toLocaleDateString("en-US", {
+                                month: "short",
+                                day: "numeric",
+                                year: "numeric",
+                              })
+                              : ""}
+                        </label>
+
                       </div>
                     </div>
 
@@ -615,13 +627,13 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                         <div className="col-6  text-start mt-1" style={{ fontSize: '14px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>{pdfDetails?.receiptInfo?.transactionDate}</div>
 
                         <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400, color: '#4B4B4B', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>Time :</div>
-                        <div className="col-6 text-start mt-1" style={{ fontSize: '14px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>{pdfDetails?.dueDate}</div>
+                        <div className="col-6 text-start mt-1" style={{ fontSize: '14px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>{pdfDetails?.receiptInfo?.transactionTime}</div>
 
                         <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400, color: '#4B4B4B', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>Payment Mode:</div>
                         <div className="col-6  text-start mt-1" style={{ fontSize: '14px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>{pdfDetails?.accountDetails?.bankName}</div>
                         {
                           pdfDetails?.configurations?.receiptType !== 'Rent' && <><div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400, color: '#4B4B4B', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>Transaction ID :</div>
-                            <div className="col-6  text-start mt-1" style={{ fontSize: '14px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>{pdfDetails?.accountDetails?.bankName}</div></>
+                            <div className="col-6  text-start mt-1" style={{ fontSize: '14px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>{pdfDetails?.accountDetails?.receiptInfo?.transactionId}</div></>
                         }
                       </div>
                     </div>
@@ -743,7 +755,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
                   <div className="col-md-4 d-flex flex-column justify-content-end align-items-end bg-white">
 
-                    <p className="text-success fw-bold  border-success  d-inline-block ms-2"><img src={Payment} alt="received" className="img-fluid" style={{ rotate: '5deg' }} /></p>
+                    <p className="text-success fw-bold  border-success  d-inline-block"><img src={Payment} alt="received" className="img-fluid" style={{ rotate: '360deg' }} /></p>
 
                   </div>
                 </div>
@@ -1033,7 +1045,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                           <Table responsive className="mb-0">
                             <thead>
                               <tr style={{ backgroundColor: "#FFF" }}>
-                                <th style={{ fontSize: 12, fontWeight: 600, color: "#222222" }}>DESCRIPTION</th>
+                                <th style={{ fontSize: 12, fontWeight: 600, color: "#222222" , textTransform:"capitalize"}}>Refund</th>
                                 <th
                                   style={{
                                     fontSize: 12,
@@ -1110,7 +1122,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                           <Table responsive className="mb-0">
                             <thead>
                               <tr style={{ backgroundColor: "#FFF" }}>
-                                <th style={{ fontSize: 12, fontWeight: 600, color: "#222222" }}>OTHERS</th>
+                                <th style={{ fontSize: 12, fontWeight: 600, color: "#222222", textTransform:"capitalize" }}>Deductions</th>
                                 <th
                                   style={{
                                     fontSize: 12,
