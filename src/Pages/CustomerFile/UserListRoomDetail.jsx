@@ -2226,7 +2226,7 @@ console.log("props***",props.id)
                   paddingLeft: "10px",
                 }}
               >
-                Customer Profile
+                tenant Profile
               </span>
             </div>
 

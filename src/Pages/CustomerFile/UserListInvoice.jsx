@@ -17,14 +17,14 @@ import Select from "react-select";
 import ErrorMessage from '../../Components/ErrorMessage'
 import { useHasPermission } from '../../Utils/Permission';
 import InvoicePage from "../Invoice";
-
+import { useNavigate } from "react-router-dom";
 
 
 
 function UserListInvoice(props) {
   const state = useSelector((state) => state);
-  console.log("UserListInvoice",state)
-
+  console.log("UserListInvoice",props)
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const popupRef = useRef(null);
@@ -152,9 +152,11 @@ console.log("state.UsersList.invoiceResponseList",state.UsersList.customerdetail
   const handleAddBill = () => {
     setBillMode("New Bill");
     // setTableTrue(false)
-    setBillsForm(true)
-    
-    props.handleAddItem()
+    // setBillsForm(true)
+      navigate('/create-bill', { state: { id: props.id } });
+
+
+    // props.handleAddItem()
 
 
 
