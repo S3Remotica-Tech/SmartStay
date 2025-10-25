@@ -306,7 +306,36 @@ function ParticularHostelDetails(props) {
 
 
 
+  useEffect(()=>{
+      if(state.UsersList.statusCodeForFinalSettlement === 201){
+            // handleCloseBed()
+           dispatch({
+                  type: "USERLIST",
+                  payload: { hostel_id: state.login.selectedHostel_Id },
+              })
+              dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
+              setTimeout(() => {
+                  dispatch({ type: "CLEAR_FINAL_GENERATE" });
+              }, 500);
+  
+      }
+  },[state.UsersList.statusCodeForFinalSettlement])
 
+
+
+  useEffect(()=>{
+      if(state.UsersList.statuscodeForConformCheckout === 200){
+        //  handleCloseBed()
+   dispatch({
+            type: "USERLIST",
+            payload: { hostel_id: state.login.selectedHostel_Id },
+          });
+           dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
+   setTimeout(() => {
+                  dispatch({ type: "REMOVE_CONFORM_CHECKOUT" });
+              }, 500);
+      }
+  },[state.UsersList.statuscodeForConformCheckout])
 
   return (
     <>

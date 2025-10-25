@@ -148,6 +148,7 @@ export const initialState = {
     getParticularCustomerReadingList: [],
      getParticularCustomerReadingStatus:0,
      statusCodeForFinalSettlement:0,
+     statuscodeForConformCheckout:0,
      chrckoutError:'',
      finalError:''
 
@@ -719,6 +720,13 @@ case 'GET_PARTICULAR_CUSTOMER_READING':
 
         case 'REMOVE_CONFORM_CHECKOUT_ERROR':
             return { ...state, chrckoutError: '' }
+
+
+             case 'CONFORM_CHECKOUT':
+            return { ...state, statuscodeForConformCheckout: action.payload.statusCode }
+
+        case 'REMOVE_CONFORM_CHECKOUT':
+            return { ...state, statuscodeForConformCheckout:0 }
 
 
               case 'FINAL_GENERATE_ERROR':

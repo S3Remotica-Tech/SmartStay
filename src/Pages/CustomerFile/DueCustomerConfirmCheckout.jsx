@@ -72,12 +72,7 @@ console.log("DueCustomerConfirmCheckout",data)
     }, [state.login.selectedHostel_Id]);
 
 
-     useEffect(() => {
-            if (data?.customerId) {
-                dispatch({ type: "GETFINALSETTLEMENT", payload: data?.customerId });
-                // setFormLoading(true)
-            }
-        }, [data])
+     
     
 
      useEffect(() => {
@@ -523,11 +518,29 @@ const handleConfirmCheckout =()=>{
     if(data.customerId || data.currentTenantCustomerId){
  dispatch({
                 type: "CONFIRMCHECKOUT",
-                payload: { customerId:data.customerId || data.currentTenantCustomerId,
-                    comments:comments},
+                payload: { customerId:data.customerId || data.currentTenantCustomerId,comments:comments}
+
             })
+
+            
     }
 }
+useEffect(()=>{
+    if(state.UsersList.statuscodeForConformCheckout === 200){
+        handleClosecheck()
+ dispatch({
+          type: "USERLIST",
+          payload: { hostel_id: state.login.selectedHostel_Id },
+        });
+ setTimeout(() => {
+                dispatch({ type: "REMOVE_CONFORM_CHECKOUT" });
+            }, 500);
+    }
+},[state.UsersList.statuscodeForConformCheckout])
+
+
+
+
 
     return (
         <div>

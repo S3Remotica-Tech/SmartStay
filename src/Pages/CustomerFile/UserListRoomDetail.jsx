@@ -2141,6 +2141,7 @@ function UserListRoomDetail(props) {
   const kycPic = state.UsersList?.KycCustomerDetails?.pic;
 
   const CustomerOverView = state.UsersList.customerdetails;
+  console.log("state.UsersList.customerdetails",state.UsersList.customerdetails)
 
   const imageUrl = imagePreview
     ? imagePreview
@@ -2190,12 +2191,14 @@ function UserListRoomDetail(props) {
 
 
 
+const [advanceList,setAdvanceList] = useState("")
+
+useEffect(() => {
+    setAdvanceList(state.UsersList.customerdetails.advanceInfo);
+  }, [state.UsersList.customerdetails.advanceInfo]);
 
 
-
-
-
-
+console.log("advanceList",advanceList)
 
   return (
 
@@ -3768,32 +3771,33 @@ function UserListRoomDetail(props) {
                               >
 
 
-                                <div className="card-body">
-                                  {CustomerOverView.hostelInfo?.advanceAmount > 0 ? (
-                                    <div>
-                                      <div className="row mb-3">
-                                        <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
-                                          <div
-                                            style={{
-                                              fontSize: 12,
-                                              fontWeight: 500,
-                                              fontFamily: "Gilroy",
-                                            }}
-                                          >
-                                            Advance Amount
+                                  <div className="card-body">
+                                    {CustomerOverView.hostelInfo?.advanceAmount > 0 ? (
+                                      <div>
+                                        <div className="row mb-3">
+                                          <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
+                                            <div
+                                              style={{
+                                                fontSize: 12,
+                                                fontWeight: 500,
+                                                fontFamily: "Gilroy",
+                                              }}
+                                            >
+                                              Advance Amount
+                                            </div>
+                                            <p
+                                              style={{
+                                                fontSize: 14,
+                                                fontWeight: 600,
+                                                fontFamily: "Gilroy",
+                                              }}
+                                            >
+                                              <img src={MoneyImage} alt="Money Icon" height={14} width={14} className="me-1" />{" "}
+                                              ₹{advanceList?.advanceAmount}
+                                              {/* {CustomerOverView.hostelInfo?.advanceAmount} */}
+
+                                            </p>
                                           </div>
-                                          <p
-                                            style={{
-                                              fontSize: 14,
-                                              fontWeight: 600,
-                                              fontFamily: "Gilroy",
-                                            }}
-                                          >
-                                            <img src={MoneyImage} alt="Money Icon" height={14} width={14} className="me-1" />{" "}
-                                            ₹
-                                            {CustomerOverView.hostelInfo?.advanceAmount}
-                                          </p>
-                                        </div>
 
                                         <div className="col-lg-4">
 
@@ -3827,65 +3831,67 @@ function UserListRoomDetail(props) {
                                           </Button>
                                         </div>
 
-                                      </div>
-                                      <div className="row mb-3">
-                                        <div className="col-sm-4 d-flex flex-column align-items-start">
-                                          <div
-                                            style={{
-                                              fontSize: 12,
-                                              fontWeight: 500,
-                                              fontFamily: "Gilroy",
-                                            }}
-                                          >
-                                            Invoice Date
-                                          </div>
-                                          <p
-                                            style={{
-                                              fontSize: 14,
-                                              fontWeight: 600,
-                                              fontFamily: "Gilroy",
-                                            }}
-                                          >
-                                            {advanceDetail[0]?.Date
-                                              ? new Date(
-                                                advanceDetail[0].Date
-                                              ).toLocaleDateString("en-GB", {
-                                                day: "2-digit",
-                                                month: "short",
-                                                year: "numeric",
-                                              })
-                                              : "-"}
-                                          </p>
                                         </div>
+                                        <div className="row mb-3">
+                                          <div className="col-sm-4 d-flex flex-column align-items-start">
+                                            <div
+                                              style={{
+                                                fontSize: 12,
+                                                fontWeight: 500,
+                                                fontFamily: "Gilroy",
+                                              }}
+                                            >
+                                              Invoice Date
+                                            </div>
+                                            <p
+                                              style={{
+                                                fontSize: 14,
+                                                fontWeight: 600,
+                                                fontFamily: "Gilroy",
+                                              }}
+                                            >
+                                              {/* {advanceDetail[0]?.Date
+                                                ? new Date(
+                                                  advanceDetail[0].Date
+                                                ).toLocaleDateString("en-GB", {
+                                                  day: "2-digit",
+                                                  month: "short",
+                                                  year: "numeric",
+                                                })
+                                                : "-"} */}
+                                                {advanceList?.invoiceDate}
+                                            </p>
+                                          </div>
 
-                                        <div className="col-sm-4 d-flex flex-column align-items-start">
-                                          <div
-                                            style={{
-                                              fontSize: 12,
-                                              fontWeight: 500,
-                                              fontFamily: "Gilroy",
-                                            }}
-                                          >
-                                            Due Date
+                                          <div className="col-sm-4 d-flex flex-column align-items-start">
+                                            <div
+                                              style={{
+                                                fontSize: 12,
+                                                fontWeight: 500,
+                                                fontFamily: "Gilroy",
+                                              }}
+                                            >
+                                              Due Date
+                                            </div>
+                                            <p
+                                              style={{
+                                                fontSize: 14,
+                                                fontWeight: 600,
+                                                fontFamily: "Gilroy",
+                                              }}
+                                            >
+                                              {/* {advanceDetail[0]?.DueDate
+                                                ? new Date(
+                                                  advanceDetail[0].DueDate
+                                                ).toLocaleDateString("en-GB", {
+                                                  day: "2-digit",
+                                                  month: "short",
+                                                  year: "numeric",
+                                                })
+                                                : "-"} */}
+                                                 {advanceList.invoiceDate}
+                                            </p>
                                           </div>
-                                          <p
-                                            style={{
-                                              fontSize: 14,
-                                              fontWeight: 600,
-                                              fontFamily: "Gilroy",
-                                            }}
-                                          >
-                                            {advanceDetail[0]?.DueDate
-                                              ? new Date(
-                                                advanceDetail[0].DueDate
-                                              ).toLocaleDateString("en-GB", {
-                                                day: "2-digit",
-                                                month: "short",
-                                                year: "numeric",
-                                              })
-                                              : "-"}
-                                          </p>
-                                        </div>
 
                                         <div className="col-sm-4 d-flex flex-column align-items-start">
                                           <strong
@@ -3916,9 +3922,10 @@ function UserListRoomDetail(props) {
                                                   <>{item.status}</>
                                                 )
                                               )} */}
-                                          </p>
+                                              {advanceList.paymentStatus}
+                                            </p>
+                                          </div>
                                         </div>
-                                      </div>
 
 
                                     </div>

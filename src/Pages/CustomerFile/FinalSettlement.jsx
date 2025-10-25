@@ -282,10 +282,10 @@ const handleClickGenerate = ()=>{
   .filter(f => f.reason_name && f.amount)
   .map(f => ({ item: f.reason_name, amount: Number(f.amount) }))
 
-    if(data.customerId){
+    if(data.customerId || data.currentTenantCustomerId){
  dispatch({
                 type: "FINALSETTLEMENT",
-                payload: { customerId:data.customerId,
+                payload: { customerId:data.customerId || data.currentTenantCustomerId,
                     data : Finalsettelmenntdata
  
                  },
