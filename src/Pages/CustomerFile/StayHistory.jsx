@@ -137,11 +137,15 @@ console.log("setData",data)
                         verticalAlign: "middle",
                         whiteSpace:"nowrap"
                       }}>
-                        {/* {row.startDate}-{row.endDate} */}
-                         {dayjs(row.startDate).format("DD MMM YYYY")}
+                      {`${dayjs(row.startDate, "DD/MM/YYYY").format("DD MMM YYYY")} - ${
+  row.endDate === "Till date"
+    ? "Till date"
+    : dayjs(row.endDate, "DD/MM/YYYY").format("DD MMM YYYY")
+}`}
+                         {/* {dayjs(row.startDate).format("DD MMM YYYY")}
   {row.endDate !== "Till date" && (
     <> - {dayjs(row.endDate).format("DD MMM YYYY")}</>
-  )}
+  )} */}
                       </td>
                       <td style={{
                         fontSize: 14,

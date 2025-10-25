@@ -2128,6 +2128,7 @@ console.log("props***",props.id)
   const kycPic = state.UsersList?.KycCustomerDetails?.pic;
 
   const CustomerOverView = state.UsersList.customerdetails;
+  console.log("state.UsersList.customerdetails",state.UsersList.customerdetails)
 
   const imageUrl = imagePreview
     ? imagePreview
@@ -2177,12 +2178,14 @@ console.log("props***",props.id)
 
 
 
+const [advanceList,setAdvanceList] = useState("")
+
+useEffect(() => {
+    setAdvanceList(state.UsersList.customerdetails.advanceInfo);
+  }, [state.UsersList.customerdetails.advanceInfo]);
 
 
-
-
-
-
+console.log("advanceList",advanceList)
 
   return (
 
@@ -3775,8 +3778,9 @@ console.log("props***",props.id)
                                               }}
                                             >
                                               <img src={MoneyImage} alt="Money Icon" height={14} width={14} className="me-1" />{" "}
-                                              ₹
-                                              {CustomerOverView.hostelInfo?.advanceAmount}
+                                              ₹{advanceList?.advanceAmount}
+                                              {/* {CustomerOverView.hostelInfo?.advanceAmount} */}
+
                                             </p>
                                           </div>
 
@@ -3831,7 +3835,7 @@ console.log("props***",props.id)
                                                 fontFamily: "Gilroy",
                                               }}
                                             >
-                                              {advanceDetail[0]?.Date
+                                              {/* {advanceDetail[0]?.Date
                                                 ? new Date(
                                                   advanceDetail[0].Date
                                                 ).toLocaleDateString("en-GB", {
@@ -3839,7 +3843,8 @@ console.log("props***",props.id)
                                                   month: "short",
                                                   year: "numeric",
                                                 })
-                                                : "-"}
+                                                : "-"} */}
+                                                {advanceList?.invoiceDate}
                                             </p>
                                           </div>
 
@@ -3860,7 +3865,7 @@ console.log("props***",props.id)
                                                 fontFamily: "Gilroy",
                                               }}
                                             >
-                                              {advanceDetail[0]?.DueDate
+                                              {/* {advanceDetail[0]?.DueDate
                                                 ? new Date(
                                                   advanceDetail[0].DueDate
                                                 ).toLocaleDateString("en-GB", {
@@ -3868,7 +3873,8 @@ console.log("props***",props.id)
                                                   month: "short",
                                                   year: "numeric",
                                                 })
-                                                : "-"}
+                                                : "-"} */}
+                                                 {advanceList.invoiceDate}
                                             </p>
                                           </div>
 
@@ -3901,6 +3907,7 @@ console.log("props***",props.id)
                                                   <>{item.status}</>
                                                 )
                                               )} */}
+                                              {advanceList.paymentStatus}
                                             </p>
                                           </div>
                                         </div>

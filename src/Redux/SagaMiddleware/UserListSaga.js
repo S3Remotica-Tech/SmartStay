@@ -2579,7 +2579,7 @@ function* handleConformCheckout(reading) {
 
          };
 
-         toast.success(response.data, {
+         toast.success('Created successfully!', {
             position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: true,

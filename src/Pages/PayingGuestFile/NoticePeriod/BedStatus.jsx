@@ -92,6 +92,7 @@ const handleMakeAsInActive = () =>{
   (user) => user.customerId === currentItem.currentTenantCustomerId
 );
 console.log("matchedData",matchedData)
+console.log("currentItem",currentItem)
 
   const handleFinalsettelmentGenerate = () => {
     showfinalsettelemnet(true)
@@ -125,6 +126,47 @@ console.log("matchedData",matchedData)
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+
+  useEffect(()=>{
+      if(state.UsersList.statusCodeForFinalSettlement === 201){
+            handleCloseBed()
+           dispatch({
+                  type: "USERLIST",
+                  payload: { hostel_id: state.login.selectedHostel_Id },
+              })
+              dispatch({
+                type: "GETALLBEDSLIST",
+                payload: { roomId: currentItem.roomId }
+            });
+              setTimeout(() => {
+                  dispatch({ type: "CLEAR_FINAL_GENERATE" });
+              }, 500);
+  
+      }
+  },[state.UsersList.statusCodeForFinalSettlement])
+
+
+
+  useEffect(()=>{
+      if(state.UsersList.statuscodeForConformCheckout === 200){
+         handleCloseBed()
+   dispatch({
+            type: "USERLIST",
+            payload: { hostel_id: state.login.selectedHostel_Id },
+          });
+           dispatch({
+                type: "GETALLBEDSLIST",
+                payload: { roomId: currentItem.roomId }
+            });
+   setTimeout(() => {
+                  dispatch({ type: "REMOVE_CONFORM_CHECKOUT" });
+              }, 500);
+      }
+  },[state.UsersList.statuscodeForConformCheckout])
+  useEffect(()=>{
+     dispatch({ type: 'USERLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+  },[state.login.selectedHostel_Id])
 
   useEffect(() => {
     if (state.UsersList?.StatusCodeBacktoCheckin === 200) {

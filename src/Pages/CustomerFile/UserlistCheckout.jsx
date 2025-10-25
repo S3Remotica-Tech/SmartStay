@@ -37,7 +37,7 @@ function CheckOut(props) {
       // setWalkingLoader(true);
       dispatch({
         type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id, type: 'checkout ' },
+        payload: { hostel_id: state.login.selectedHostel_Id, type: 'checkout' },
       });
 
     }
