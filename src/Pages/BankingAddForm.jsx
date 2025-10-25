@@ -103,6 +103,53 @@ function BankingAddForm(props) {
     setIsChangedError("")
   }
 
+   const [bankaccount, setBankAccount] = useState("");
+   const [bankaccountError, setBankAccountError] = useState("");
+   const [isSelectOpen, setIsSelectOpen] = useState(false);
+     const [bankking, setBanking] = useState("")
+
+       useEffect(() => {
+         if (hostel_id) {
+           // setLoader(true);
+           dispatch({ type: "BANKINGLIST", payload: hostel_id });
+         }
+       }, [hostel_id]);
+     
+       useEffect(() => {
+         if (state.bankingDetails.statusCodeForGetBanking === 200) {
+        
+           setBanking(state.bankingDetails?.bankingList?.listBanks)
+           setTimeout(() => {
+             dispatch({ type: "CLEAR_BANKING_LIST" });
+           }, 200);
+         }
+       }, [state.bankingDetails.statusCodeForGetBanking]);
+  
+     const handleModeOfPaymentChange = (selectedOption) => {
+      if (!selectedOption) return;
+      // setAllFieldErrmsg("");
+      // setPaymentError("");
+      setBankAccountError("")
+      setBankAccount(selectedOption);
+    };
+
+  const labelMap = {
+  bank: "Bank",
+  upi: "UPI",
+  card: "Card",
+  cash: "Cash",
+};
+
+ console.log("banking", bankking);
+ 
+
+const paymentOptions = Array.isArray(bankking)
+  ? bankking.map((item) => ({
+      value: String(item.bankingId), 
+      label: `${item?.accountHolderName} - ${item?.bankName || ""}`,
+    }))
+  : [];
+
 
   useEffect(() => {
     if (props.editAddBank && props.editAddBank.bankingId) {
@@ -264,13 +311,16 @@ function BankingAddForm(props) {
     setFormLoading(true);
   };
 
+  console.log("bankaccount" , bankaccount);
+  
+
   const handleSubmitUpi = () => {
-    if (!accountName || !upiId) {
-      if (!accountName) {
-        setError("Please Enter Benificiary Name");
+    if (!bankaccount || !upiId) {
+      if (!bankaccount) {
+        setBankAccountError("Please Select Bank");
       }
       if (!upiId) {
-        setUpiIdError("Please Enter Upi Id");
+        setUpiIdError("Please Enter UPI ID");
       }
       return;
     }
@@ -610,6 +660,7 @@ function BankingAddForm(props) {
             setActiveTab(selectedKey);
             setError("");
             setUpiIdError("")
+            setBankAccountError("")
             setCardTypeError("")
             setIsChangedError("")
           }}
@@ -877,7 +928,7 @@ function BankingAddForm(props) {
           )}
           {activeTab === "UPI" && (
             <div className="row">
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group >
                   <Form.Label
                     style={{
@@ -923,7 +974,95 @@ function BankingAddForm(props) {
                 {error && (
                     <ErrorMessage message={error} type="error" />
                 )}
-              </div>
+              </div> */}
+
+             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                         <Form.Group
+                           className="mb-1"
+                           controlId="exampleForm.ControlInput1"
+                         >
+                           <Form.Label
+                             style={{
+                               fontSize: 14,
+                               color: "#222222",
+                               fontFamily: "Gilroy",
+                               fontWeight: 500,
+                             }}
+                           >
+                             Bank{" "}
+                             <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                           </Form.Label>
+                          <Select
+                            options={paymentOptions}
+                            value={
+                              paymentOptions.find((opt) => opt.value === String(bankaccount)) || null
+                            }
+                            onChange={(selectedOption) =>
+                              handleModeOfPaymentChange(selectedOption?.value)
+                            }
+                             onMenuOpen={() => setIsSelectOpen(true)}      
+                            onMenuClose={() => setIsSelectOpen(false)} 
+                            placeholder="Select Bank"
+                            
+                              styles={{
+                                                control: (base) => ({
+                                                  ...base,
+                                                  fontSize: 14,
+                                                  color: "rgba(75, 75, 75, 1)",
+                                                  fontFamily: "Gilroy",
+                                                  fontWeight: bankaccount ? 600 : 500,
+                                                  border: "1px solid #D9D9D9",
+                                                  borderRadius: "8px",
+                                                  boxShadow: "none",
+                                                  height: 48,
+                                                  cursor: "pointer",
+                                                }),
+                                                menu: (base) => ({
+                                                  ...base,
+                                                  backgroundColor: "#f8f9fa",
+                                                  border: "1px solid #ced4da",
+                                                  fontFamily: "Gilroy",
+                                                }),
+                                                menuList: (base) => ({
+                                                  ...base,
+                                                  backgroundColor: "#f8f9fa",
+                                                  maxHeight: "80px",
+                                                  padding: 0,
+                                                  scrollbarWidth: "thin",
+                                                  overflowY: "auto",
+                                                  fontFamily: "Gilroy",
+                                                }),
+                                                placeholder: (base) => ({
+                                                  ...base,
+                                                  color: "#555",
+                                                }),
+                                                dropdownIndicator: (base) => ({
+                                                  ...base,
+                                                  color: "#555",
+                                                  cursor: "pointer",
+                                                }),
+                                                option: (base, state) => ({
+                                                  ...base,
+                                                  cursor: "pointer",
+                                                  backgroundColor: state.isFocused ? "lightblue" : "white",
+                                                  color: "#000",
+                                                  fontFamily: "Gilroy",
+                                                }),
+                                                indicatorSeparator: () => ({
+                                                  display: "none",
+                                                }),
+                                              }}
+                          />
+             
+             
+             
+             
+                         </Form.Group>
+                         {bankaccountError && (
+                           <ErrorMessage message={bankaccountError} type="error" />
+                         )}
+                       </div>
+
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group >
                   <Form.Label
@@ -969,7 +1108,7 @@ function BankingAddForm(props) {
                 )}
               </div>
 
-              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group >
                   <Form.Label
                     style={{
@@ -1002,6 +1141,25 @@ function BankingAddForm(props) {
                 </Form.Group>
 
               </div>
+
+                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mt-5 text-end">
+  <Button
+    className="pb-4"
+    style={{
+      backgroundColor: "#1E45E1",
+      height: 30,
+      fontWeight: 500,
+      borderRadius: 12,
+      fontSize: 13,
+      fontFamily: "Gilroy",
+    }}
+    onClick={() => setActiveTab("BANK")}
+  >
+    Add Bank
+  </Button>
+</div>
+
+
               {isChangedError && (
                 <div className="d-flex justify-content-center">
                   <ErrorMessage message={isChangedError} type="error" />
@@ -1025,7 +1183,7 @@ function BankingAddForm(props) {
                   }}
                   onClick={handleSubmitUpi}
                 >
-                  {props.edit ? "Save Changes" : "Add Upi"}
+                  {props.edit ? "Save Changes" : "ADD UPI"}
                 </Button></Modal.Footer>
 
             </div>

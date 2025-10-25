@@ -42,7 +42,8 @@ function CustomerReAssign(props) {
   const [bedError, setBedError] = useState("");
   const [rentError, setRentError] = useState("");
   const [formLoading, setFormLoading] = useState(false);
-
+  const [availableBed, setAvailableBed] = useState('')
+  const [bedWarning, setBedWarning] = useState('')
 
 
   const rentRef = useRef(null);
@@ -72,52 +73,155 @@ function CustomerReAssign(props) {
   };
 
 
+  // const handleFloor = (selectedOption) => {
+  //   setNewFloor(selectedOption?.value || "");
+
+  //   setfloorError("");
+  //   setNewRoom("")
+  //   setNewBed("")
+  //   setNewRoomRent("")
+  // };
+
   const handleFloor = (selectedOption) => {
-    setNewFloor(selectedOption?.value || "");
+  setNewFloor(selectedOption?.value || "");
+  setfloorError("");
+  setNewRoom("");
+  setNewBed("");
+  setNewRoomRent("");
+};
 
-    setfloorError("");
-    setNewRoom("")
-    setNewBed("")
-    setNewRoomRent("")
-  };
+const handleRooms = (selectedOption) => {
+  const value = selectedOption || "";
+  setNewRoom(value);
+  setRoomError("");
+  setNewBed("");
+  setNewRoomRent("");
+};
 
-  const handleRooms = (selectedOption) => {
-    const value = selectedOption?.value || "";
-    setNewRoom(value);
-    if (value) {
-       dispatch({
-        type: "BEDNUMBERDETAILS", payload: { hostelId: state.login.selectedHostel_Id }
-      });
-    }
+console.log("room", state.UsersList?.roomdetails);
 
-    setRoomError("");
-    setNewBed("");
-    setNewRoomRent("");
-  };
-  const handleBed = (selectedOption) => {
+
+useEffect(() => {
+  if (newFloor && newRoom) {
+    const filteredBed = state.UsersList?.availableBedList?.listBeds?.filter(
+      (view) => view.floorId === newFloor && view.roomId === newRoom
+    );
+    setAvailableBed(filteredBed);
+  }
+}, [newFloor, newRoom, state.UsersList?.availableBedList]);
+
+
+    useEffect(() => {
+      if (state.login.selectedHostel_Id) {
+        dispatch({ type: 'ALLFLOORLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+  
+      }
+    }, []);
+  
+    useEffect(() => {
+      if (newFloor) {
+        dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: newFloor } })
+      }
+    }, [newFloor]);
+  
+  
+    useEffect(() => {
+      if (state?.PgList?.getAllRoomSuccessStatus === 200) {
+        setTimeout(() => {
+          dispatch({ type: 'REMOVE_GET_ALL_ROOMS_STATUS_CODE' })
+        }, 100)
+      }
+  
+    }, [state?.PgList?.getAllRoomSuccessStatus])
+  
+    useEffect(() => {
+      if (state.UsersList.floorListStatusCode === 200) {
+        setTimeout(() => {
+          dispatch({ type: 'REMOVE_ALL_FLOOR_LIST' })
+        }, 500)
+      }
+  
+    }, [state.UsersList.floorListStatusCode])
+
+  // const handleRooms = (selectedOption) => {
+  //   const value = selectedOption?.value || "";
+  //   setNewRoom(value);
+  //   if (value) {
+
+  //  const filteredBed = state.UsersList?.availableBedList?.listBeds?.filter((view) => {
+  //           return view.floorId === newFloor && view.roomId === value
+  //         });
+  //         setAvailableBed(filteredBed)
+  //   }
+
+  //   setRoomError("");
+  //   setNewBed("");
+  //   setNewRoomRent("");
+  // };
+
+  //  useEffect(() => {
+  //       if (Rooms) {
+  //         const filteredBed = state.UsersList?.availableBedList?.listBeds?.filter((view) => {
+  //           return view.floorId === Floor && view.roomId === Rooms
+  //         });
+  //         setAvailableBed(filteredBed)
+  //       }
+    
+  //     }, [Rooms, selectedDate,  state.UsersList?.availableBedList?.listBeds])
+
+
+   const handleBed = (selectedOption) => {
+    dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR' })
+    setBedWarning("");
     const selectedBedId = selectedOption?.value || "";
     setNewBed(selectedBedId);
 
-    const Bedfilter = state?.UsersList?.roomdetails?.filter(
-      (u) =>
-        String(u.Hostel_Id) === String(state.login.selectedHostel_Id) &&
-        String(u.Floor_Id) === String(newFloor) &&
-        String(u.Room_Id) === String(newRoom)
+    const selectedBed = state.UsersList?.availableBedList?.listBeds?.find(
+      (bed) => String(bed.bedId) === String(selectedBedId)
     );
+console.log("roomrent", selectedBed);
 
-    const Roomamountfilter =
-      Bedfilter?.[0]?.bed_details?.filter(
-        (amount) => String(amount.id) === String(selectedBedId)
-      ) ?? [];
+    if (selectedBed) {
+      setNewRoomRent(selectedBed.rentAmount)
+      if (selectedBed.showWarning) {
+        setBedWarning(selectedBed.warningMessage);
+      } else {
+        setBedWarning("");
+      }
 
-    if (Roomamountfilter.length > 0) {
-      setNewRoomRent(Roomamountfilter[0]?.bed_amount);
     }
 
     setBedError("");
     setRentError("");
+  }
 
-  };
+  // const handleBed = (selectedOption) => {
+  //   const selectedBedId = selectedOption?.value || "";
+  //   setNewBed(selectedBedId);
+
+  //   const Bedfilter = state?.UsersList?.roomdetails?.filter(
+  //     (u) =>
+  //       String(u.Hostel_Id) === String(state.login.selectedHostel_Id) &&
+  //       String(u.Floor_Id) === String(newFloor) &&
+  //       String(u.Room_Id) === String(newRoom)
+  //   );
+
+  //   const Roomamountfilter =
+  //     Bedfilter?.[0]?.bed_details?.filter(
+  //       (amount) => String(amount.id) === String(selectedBedId)
+  //     ) ?? [];
+
+  //     console.log("roomrent", state?.UsersList?.roomdetails);
+      
+
+  //   if (Roomamountfilter.length > 0) {
+  //     setNewRoomRent(Roomamountfilter[0]?.bed_amount);
+  //   }
+
+  //   setBedError("");
+  //   setRentError("");
+
+  // };
 
 
   const handleNewRoomRent = (e) => {
@@ -188,54 +292,72 @@ function CustomerReAssign(props) {
   }, [props]);
 
 
-  useEffect(() => {
-    if (state.UsersList.CustomerdetailsgetStatuscode === 200) {
-      const customerData = state.UsersList.customerdetails?.data?.[0]; 
-      const invoiceDetails = state.UsersList.customerdetails?.invoice_details;
+   useEffect(()=>{
+      if(selectedDate){
+        const formatDate = (date) => {
+        if (!date) return "";
+        const d = new Date(date);
+        const day = String(d.getDate()).padStart(2, "0");
+        const month = String(d.getMonth() + 1).padStart(2, "0");
+        const year = d.getFullYear();
+        return `${day}-${month}-${year}`;
+      };
+  
+      const joiningDateForFormatted = formatDate(selectedDate);
+        dispatch({ type: 'AVAILBALEBEDDETAILS', payload:{ hostelId: state.login.selectedHostel_Id, joiningDate: joiningDateForFormatted}})
+      }
+  
+    },[selectedDate])
+
+
+  // useEffect(() => {
+  //   if (state.UsersList.CustomerdetailsgetStatuscode === 200) {
+  //     const customerData = state.UsersList.customerdetails?.data?.[0]; 
+  //     const invoiceDetails = state.UsersList.customerdetails?.invoice_details;
 
     
-      if (customerData?.joining_Date) {
-        const joining = new Date(customerData.joining_Date);
-        const formattedJoining = `${String(joining.getDate()).padStart(2, "0")}-${String(
-          joining.getMonth() + 1
-        ).padStart(2, "0")}-${joining.getFullYear()}`;
-        setJoiningDate(formattedJoining);
-      } else {
-        setJoiningDate("");
-      }
+  //     if (customerData?.joining_Date) {
+  //       const joining = new Date(customerData.joining_Date);
+  //       const formattedJoining = `${String(joining.getDate()).padStart(2, "0")}-${String(
+  //         joining.getMonth() + 1
+  //       ).padStart(2, "0")}-${joining.getFullYear()}`;
+  //       setJoiningDate(formattedJoining);
+  //     } else {
+  //       setJoiningDate("");
+  //     }
 
-       if (customerData?.reassign_date) {
-        const rejoining = new Date(customerData.reassign_date);
-        const formattedJoining = `${String(rejoining.getDate()).padStart(2, "0")}-${String(
-          rejoining.getMonth() + 1
-        ).padStart(2, "0")}-${rejoining.getFullYear()}`;
-        setReAssignDate(formattedJoining);
-      } else {
-        setReAssignDate("");
-      }
+  //      if (customerData?.reassign_date) {
+  //       const rejoining = new Date(customerData.reassign_date);
+  //       const formattedJoining = `${String(rejoining.getDate()).padStart(2, "0")}-${String(
+  //         rejoining.getMonth() + 1
+  //       ).padStart(2, "0")}-${rejoining.getFullYear()}`;
+  //       setReAssignDate(formattedJoining);
+  //     } else {
+  //       setReAssignDate("");
+  //     }
 
      
-      if (invoiceDetails && invoiceDetails.length > 0) {
-        const dates = invoiceDetails.map((item) => item.Date).filter(Boolean);
-        if (dates.length > 0) {
-          const maxDate = new Date(Math.max(...dates.map((d) => new Date(d))));
-          const formatted = `${String(maxDate.getDate()).padStart(2, "0")}-${String(
-            maxDate.getMonth() + 1
-          ).padStart(2, "0")}-${maxDate.getFullYear()}`;
-          setLastDate(formatted);
-        } else {
-          setLastDate("");
-        }
-      } else {
-        setLastDate("");
-      }
+  //     if (invoiceDetails && invoiceDetails.length > 0) {
+  //       const dates = invoiceDetails.map((item) => item.Date).filter(Boolean);
+  //       if (dates.length > 0) {
+  //         const maxDate = new Date(Math.max(...dates.map((d) => new Date(d))));
+  //         const formatted = `${String(maxDate.getDate()).padStart(2, "0")}-${String(
+  //           maxDate.getMonth() + 1
+  //         ).padStart(2, "0")}-${maxDate.getFullYear()}`;
+  //         setLastDate(formatted);
+  //       } else {
+  //         setLastDate("");
+  //       }
+  //     } else {
+  //       setLastDate("");
+  //     }
 
     
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
-      }, 1000);
-    }
-  }, [state.UsersList.CustomerdetailsgetStatuscode]);
+  //     setTimeout(() => {
+  //       dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
+  //     }, 1000);
+  //   }
+  // }, [state.UsersList.CustomerdetailsgetStatuscode]);
 
  
 
@@ -250,13 +372,6 @@ function CustomerReAssign(props) {
     if (!validateAssignField(selectedDate, "selectedDate", selectedDateRef, focusedRef, setDateError)) hasError = true;
 
 
-
-
-
-
-
-
-
     if (newRoom === "Selected Room") {
       setRoomError("Please Select a Valid Room");
       hasError = true;
@@ -264,7 +379,7 @@ function CustomerReAssign(props) {
 
  
     if (!newBed || newBed === "") {
-      setBedError("Please Select  Bed");
+      setBedError("Please Select New Bed");
       return;
     }
 
@@ -274,32 +389,33 @@ function CustomerReAssign(props) {
 
 
 
-    const formatToISODate = (date) => {
-      const d = new Date(date);
-      const yyyy = d.getFullYear();
-      const mm = String(d.getMonth() + 1).padStart(2, '0');
-      const dd = String(d.getDate()).padStart(2, '0');
-      return `${yyyy}-${mm}-${dd}`;
-    };
+  const formatToCustomDate = (date) => {
+  const d = new Date(date);
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  return `${dd}-${mm}-${yyyy}`
+}
+    const formattedDate = selectedDate ? formatToCustomDate(selectedDate) : "";
 
-    const formattedDate = selectedDate ? formatToISODate(selectedDate) : "";
+      const datum = {
+       bedId: newBed,              
+       rentAmount: parseFloat(newRoomRent) || 0,
+       joiningDate: formattedDate,
+      }
 
-
-    dispatch({
+  if(userId &&state.login.selectedHostel_Id && datum ){
+      dispatch({
       type: "CUSTOMERREASSINBED",
       payload: {
-        hostel_id: currentHostel_id,
-        c_floor: currentFloorId,
-        c_room: currentRoomId,
-        c_bed: currentBedId,
-        re_floor: newFloor,
-        re_room: newRoom,
-        re_bed: newBed,
-        re_date: formattedDate,
-        re_rent: newRoomRent,
-        user_id: userId,
-      },
+       hostelId: state.login.selectedHostel_Id , 
+       customerId: userId,       
+       datum,                       
+    },
     });
+  }
+  
+
     setFormLoading(true)
   };
 
@@ -314,12 +430,12 @@ function CustomerReAssign(props) {
 
   }, [state.createAccount?.networkError])
 
-  useEffect(() => {
-    if (userId) {
-      dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: userId } });
-    }
+  // useEffect(() => {
+  //   if (userId) {
+  //     dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: userId } });
+  //   }
 
-  }, [userId])
+  // }, [userId])
 
   useEffect(() => {
     dispatch({
@@ -371,50 +487,141 @@ function CustomerReAssign(props) {
 );
 
 
+console.log("userdetails",state.UsersList.customerdetails );
 
 
+//   useEffect(()=>{
+// if(state.UsersList?.CustomerdetailsgetStatuscode === 200){
+// setTimeout(() => {
+//         dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
+//       }, 500);
+  
+// }
+//   },[state.UsersList?.CustomerdetailsgetStatuscode])
+
+      // useEffect(()=> {
+      //    if(state.UsersList.CustomerdetailsgetStatuscode === 200){
+      // setCurrentFloor(state.UsersList?.customerdetails?.hostelInfo?.floorName);
+      // setCustomerName(state.UsersList?.customerdetails?.fullName)
+      // setCurrentRoom(state.UsersList?.customerdetails?.hostelInfo?.roomName);
+      // setCurrentBed(state.UsersList?.customerdetails?.hostelInfo?.bedName);
+      // setCurrentRoomRent(state.UsersList?.customerdetails?.hostelInfo?.monthlyRent);
+      // setUserId(state.UsersList?.customerdetails?.customerId);
+      // setCurrentBedId(state.UsersList?.customerdetails?.hostelInfo?.bedId);
+      // setCurrentRoomId(state.UsersList?.customerdetails?.hostelInfo?.roomId);
+      // setCurrentFloorId(state.UsersList?.customerdetails?.hostelInfo?.floorId)
+      // setCustomerProfile(state.UsersList?.customerdetails?.profilePic)
+      //    }
+
+      //    setTimeout(() => {
+      //   dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
+      // }, 500);
+      // },[state.UsersList?.CustomerdetailsgetStatuscode])
 
 
+      useEffect(() => {
+  if (state.UsersList?.CustomerdetailsgetStatuscode === 200) {
+    const customerData = state.UsersList?.customerdetails;
+    if (!customerData) return;
 
+    const hostelInfo = customerData.hostelInfo || {};
+    const invoiceList = customerData.invoiceResponseList || [];
+    const bedHistory = customerData.bedHistory || [];
 
-  useEffect(() => {
-    if (props.reAssignDetail) {
+    setCurrentFloor(hostelInfo.floorName || "");
+    setCustomerName(customerData.fullName || "");
+    setCurrentRoom(hostelInfo.roomName || "");
+    setCurrentBed(hostelInfo.bedName || "");
+    setCurrentRoomRent(hostelInfo.monthlyRent || "");
+    setUserId(customerData.customerId || "");
+    setCurrentBedId(hostelInfo.bedId || "");
+    setCurrentRoomId(hostelInfo.roomId || "");
+    setCurrentFloorId(hostelInfo.floorId || "");
+    setCustomerProfile(customerData.profilePic || null);
 
-      setCurrentFloor(props.reAssignDetail?.floor_name);
-      setCustomerName(props.reAssignDetail?.Name)
-      setCurrentRoom(props.reAssignDetail.Rooms);
-      setCurrentBed(props.reAssignDetail.Bed);
-      setCurrentRoomRent(props.reAssignDetail.RoomRent);
-      setCurrentHostel_Id(state.login.selectedHostel_Id);
-      setUserId(props.reAssignDetail.ID);
-      setCurrentBedId(props.reAssignDetail.hstl_Bed);
-      setCurrentRoomId(props.reAssignDetail.room_id);
-      setCurrentFloorId(props.reAssignDetail.Floor)
-      setCustomerProfile(props.reAssignDetail.profile)
-    
+    if (hostelInfo.joiningDate) {
+      const [dd, mm, yyyy] = hostelInfo.joiningDate.split("/");
+      setJoiningDate(`${dd}-${mm}-${yyyy}`);
+    } else {
+      setJoiningDate("");
     }
-    else if (props.reAssignBedDetail) {
 
-      setCurrentBed(props.reAssignBedDetail.bed?.bed_no);
-      setCurrentRoomRent(props.reAssignBedDetail.bed?.bed_amount);
-      setUserId(props.reAssignBedDetail.id);
-      setCurrentRoom(props.reAssignBedDetail.room?.Room_Name);
-      setCurrentRoomId(props.reAssignBedDetail.room?.Room_Id);
-      setCurrentHostel_Id(props.reAssignBedDetail.room?.Hostel_Id);
-      setCurrentBedId(props.reAssignBedDetail.bed?.id);
-      setCurrentFloorId(props.reAssignBedDetail.room?.Floor_Id)
-      const floorName =
-        state.UsersList?.Users?.find(
-          (item) => String(item.Floor) === String(props.reAssignBedDetail?.room?.Floor_Id)
-        )?.floor_name || "";
-      setCurrentFloor(floorName);
+    if (bedHistory.length > 0 && bedHistory[bedHistory.length - 1].startDate) {
+      const [dd, mm, yyyy] = bedHistory[bedHistory.length - 1].startDate.split("/");
+      setReAssignDate(`${dd}-${mm}-${yyyy}`);
+    } else {
+      setReAssignDate("");
+    }
+
+    if (invoiceList.length > 0) {
+      const validDates = invoiceList
+        .map((inv) => inv.invoiceGeneratedDate)
+        .filter(Boolean)
+        .map((d) => {
+          const [dd, mm, yyyy] = d.split("/");
+          return new Date(`${yyyy}-${mm}-${dd}`);
+        });
+
+      if (validDates.length > 0) {
+        const maxDate = new Date(Math.max(...validDates));
+        const formatted = `${String(maxDate.getDate()).padStart(2, "0")}-${String(
+          maxDate.getMonth() + 1
+        ).padStart(2, "0")}-${maxDate.getFullYear()}`;
+        setLastDate(formatted);
+      } else {
+        setLastDate("");
+      }
+    } else {
+      setLastDate("");
+    }
+
+    setTimeout(() => {
+      dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
+    }, 500);
+  }
+}, [state.UsersList?.CustomerdetailsgetStatuscode]);
+
+
+
+
+  // useEffect(() => {
+  //   if (props.reAssignDetail) {
+
+  //     setCurrentFloor(props.reAssignDetail?.floor_name);
+  //     setCustomerName(props.reAssignDetail?.Name)
+  //     setCurrentRoom(props.reAssignDetail.Rooms);
+  //     setCurrentBed(props.reAssignDetail.Bed);
+  //     setCurrentRoomRent(props.reAssignDetail.RoomRent);
+  //     setCurrentHostel_Id(state.login.selectedHostel_Id);
+  //     setUserId(props.reAssignDetail.ID);
+  //     setCurrentBedId(props.reAssignDetail.hstl_Bed);
+  //     setCurrentRoomId(props.reAssignDetail.room_id);
+  //     setCurrentFloorId(props.reAssignDetail.Floor)
+  //     setCustomerProfile(props.reAssignDetail.profile)
+    
+  //   }
+  //   else if (props.reAssignBedDetail) {
+
+  //     setCurrentBed(props.reAssignBedDetail.bed?.bed_no);
+  //     setCurrentRoomRent(props.reAssignBedDetail.bed?.bed_amount);
+  //     setUserId(props.reAssignBedDetail.id);
+  //     setCurrentRoom(props.reAssignBedDetail.room?.Room_Name);
+  //     setCurrentRoomId(props.reAssignBedDetail.room?.Room_Id);
+  //     setCurrentHostel_Id(props.reAssignBedDetail.room?.Hostel_Id);
+  //     setCurrentBedId(props.reAssignBedDetail.bed?.id);
+  //     setCurrentFloorId(props.reAssignBedDetail.room?.Floor_Id)
+  //     const floorName =
+  //       state.UsersList?.Users?.find(
+  //         (item) => String(item.Floor) === String(props.reAssignBedDetail?.room?.Floor_Id)
+  //       )?.floor_name || "";
+  //     setCurrentFloor(floorName);
 
      
 
-    }
+  //   }
 
 
-  }, [props.reAssignDetail, props.reAssignBedDetail]);
+  // }, [props.reAssignDetail, props.reAssignBedDetail]);
  
 
   useEffect(() => {
@@ -496,7 +703,7 @@ const getImageSrc = () => {
                 <div >
 
 <div className="row">
-  <div className="d-flex justify-content-between align-items-center mb-3 ms-3">
+  <div className="d-flex justify-content-between align-items-center mb-2 mt-2 ms-3">
    
     <div className="d-flex align-items-center gap-3">
       <img 
@@ -554,312 +761,8 @@ const getImageSrc = () => {
                   <div  className="show-scroll p-2 mt-0 me-0">
 
                     <div className="row  d-flex align-items-center">
-                    
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <Form.Group className="mb-2">
-                        <Form.Label
-                          style={{
-                            fontSize: 14,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                          }}
-                        >
-                          New Floor
-                          <span style={{ color: "red", fontSize: "20px" }}>
-                            {" "}
-                            *{" "}
-                          </span>
-                        </Form.Label>
 
-
-                        <Select
-                          options={
-                            state.UsersList?.hosteldetailslist?.length > 0
-                              ? state.UsersList.hosteldetailslist.map((u) => ({
-                                value: u.floor_id,
-                                label: u.floor_name,
-                              }))
-                              : []
-                          }
-                          onChange={handleFloor}
-                          ref={floorRef}
-                          value={
-                            newFloor
-                              ? {
-                                value: newFloor,
-                                label:
-                                  state.UsersList?.hosteldetailslist?.find(
-                                    (f) => f.floor_id === newFloor
-                                  )?.floor_name || "Selected Floor",
-                              }
-                              : null
-                          }
-                          placeholder="Selected Floor"
-                          classNamePrefix="custom"
-                          menuPlacement="auto"
-                          noOptionsMessage={() => "No floors available"}
-                          styles={{
-                            control: (base) => ({
-                              ...base,
-                              height: "50px",
-                              border: "1px solid #D9D9D9",
-                              borderRadius: "8px",
-                              fontSize: "16px",
-                              color: "#4B4B4B",
-                              fontFamily: "Gilroy",
-                              fontWeight: newFloor ? 600 : 500,
-                              boxShadow: "none",
-                            }),
-                            menu: (base) => ({
-                              ...base,
-                              backgroundColor: "#f8f9fa",
-                              border: "1px solid #ced4da",
-                              fontFamily: "Gilroy",
-                            }),
-                            menuList: (base) => ({
-                              ...base,
-                              backgroundColor: "#f8f9fa",
-                              maxHeight: "120px",
-                              padding: 0,
-                              scrollbarWidth: "thin",
-                              overflowY: "auto",
-                              fontFamily: "Gilroy",
-                            }),
-                            placeholder: (base) => ({
-                              ...base,
-                              color: "#555",
-                            }),
-                            dropdownIndicator: (base) => ({
-                              ...base,
-                              color: "#555",
-                              cursor: "pointer"
-                            }),
-                            indicatorSeparator: () => ({
-                              display: "none",
-
-                            }),
-                            option: (base, state) => ({
-                              ...base,
-                              cursor: "pointer",
-                              backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                              color: "#000",
-                            }),
-                          }}
-                        />
-
-
-                        {floorError && (
-                          <ErrorMessage message={floorError} type="error" />
-                        )}
-                        </Form.Group>
-                      </div>
-
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                         <Form.Group className="mb-2">
-                        <Form.Label
-                          style={{
-                            fontSize: 14,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                          }}
-                        >
-                          New Room{" "}
-                          <span style={{ color: "red", fontSize: "20px" }}>
-                            {" "}
-                            *{" "}
-                          </span>
-                        </Form.Label>
-
-
-                        <Select
-                        
-                          options={
-                            state.UsersList?.roomdetails?.length > 0
-                              ? state.UsersList.roomdetails.map((item) => ({
-                                value: item.Room_Id,
-                                label: item.Room_Name,
-                              }))
-                              : []
-                          }
-                          onChange={handleRooms}
-                          ref={roomRef}
-                          isDisabled={!newFloor} 
-                          value={
-                            newRoom
-                              ? {
-                                value: newRoom,
-                                label:
-                                  state.UsersList?.roomdetails?.find(
-                                    (room) => room.Room_Id === newRoom
-                                  )?.Room_Name || "Selected Room",
-                              }
-                              : null
-                          }
-                          placeholder="Selected Room"
-                          classNamePrefix="custom"
-                          menuPlacement="auto"
-                          noOptionsMessage={() => "No rooms available"}
-                          styles={{
-                            control: (base) => ({
-                              ...base,
-                              height: "50px",
-                              border: "1px solid #D9D9D9",
-                              borderRadius: "8px",
-                              fontSize: "16px",
-                              color: "#4B4B4B",
-                              fontFamily: "Gilroy",
-                              fontWeight: newRoom ? 600 : 500,
-                              boxShadow: "none",
-                            }),
-                            menu: (base) => ({
-                              ...base,
-                              backgroundColor: "#f8f9fa",
-                              border: "1px solid #ced4da",
-                              fontFamily: "Gilroy",
-                            }),
-                            menuList: (base) => ({
-                              ...base,
-                              backgroundColor: "#f8f9fa",
-                              maxHeight: "120px",
-                              padding: 0,
-                              scrollbarWidth: "thin",
-                              overflowY: "auto",
-                              fontFamily: "Gilroy",
-                            }),
-                            placeholder: (base) => ({
-                              ...base,
-                              color: "#555",
-                            }),
-                            dropdownIndicator: (base) => ({
-                              ...base,
-                              color: "#555",
-                              cursor: "pointer"
-                            }),
-                            indicatorSeparator: () => ({
-                              display: "none",
-                            }),
-                            option: (base, state) => ({
-                              ...base,
-                              cursor: "pointer",
-                              backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                              color: "#000",
-                            }),
-                          }}
-                        />
-
-                        {roomError && (
-                         <ErrorMessage message={roomError} type="error" />
-                        )}
-                        </Form.Group>
-                      </div>
-
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                          <Form.Group className="mb-2">
-                        <Form.Label
-                          style={{
-                            fontSize: 14,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                          }}
-                        >
-                         New Bed{" "}
-                          <span style={{ color: "red", fontSize: "20px" }}>
-                            {" "}
-                            *{" "}
-                          </span>
-                        </Form.Label>
-
-
-                        <Select
-                          options={
-                            state.UsersList?.bednumberdetails?.bed_details?.length > 0
-                              ? state.UsersList.bednumberdetails.bed_details
-                                .filter(
-                                  (item) =>
-                                    item.bed_no !== "0" &&
-                                    item.bed_no !== "undefined" &&
-                                    item.bed_no !== "" &&
-                                    item.bed_no !== "null"
-                                )
-                                .map((item) => ({
-                                  value: item.id,
-                                  label: item.bed_no,
-                                }))
-                              : []
-                          }
-                          onChange={handleBed}
-                          ref={BedRef}
-                          value={
-                            newBed
-                              ? {
-                                value: newBed,
-                                label:
-                                  state.UsersList?.bednumberdetails?.bed_details?.find(
-                                    (bed) => bed.id === newBed
-                                  )?.bed_no || "Selected Bed",
-                              }
-                              : null
-                          }
-                          placeholder="Select Bed"
-                          isDisabled={!newRoom}   
-                          styles={{
-                            control: (base) => ({
-                              ...base,
-                              height: "50px",
-                              border: "1px solid #D9D9D9",
-                              borderRadius: "8px",
-                              fontSize: "16px",
-                              color: "#4B4B4B",
-                              fontFamily: "Gilroy",
-                              fontWeight: newBed ? 600 : 500,
-                              boxShadow: "none",
-                            }),
-                            menu: (base) => ({
-                              ...base,
-                              backgroundColor: "#f8f9fa",
-                              border: "1px solid #ced4da",
-                              fontFamily: "Gilroy",
-                            }),
-                            menuList: (base) => ({
-                              ...base,
-                              backgroundColor: "#f8f9fa",
-                              maxHeight: "120px",
-                              padding: 0,
-                              scrollbarWidth: "thin",
-                              overflowY: "auto",
-                              fontFamily: "Gilroy",
-                            }),
-                            placeholder: (base) => ({
-                              ...base,
-                              color: "#555",
-                            }),
-                            dropdownIndicator: (base) => ({
-                              ...base,
-                              color: "#555",
-                              cursor: "pointer"
-                            }),
-                            indicatorSeparator: () => ({
-                              display: "none",
-                            }),
-                            option: (base, state) => ({
-                              ...base,
-                              cursor: "pointer",
-                              backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                              color: "#000",
-                            }),
-                          }}
-
-                        />
-
-                     
-
-                        {bedError && (
-                          <ErrorMessage message={bedError} type="error" />
-                        )}
-                        </Form.Group>
-                      </div>
-
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                       <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <Form.Group className="mb-2" controlId="purchaseDate">
                           <Form.Label
                             style={{
@@ -987,6 +890,331 @@ const getImageSrc = () => {
 
 
                       </div>
+                    
+                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <Form.Group className="mb-2">
+                        <Form.Label
+                          style={{
+                            fontSize: 14,
+                            fontWeight: 500,
+                            fontFamily: "Gilroy",
+                          }}
+                        >
+                          New Floor
+                          <span style={{ color: "red", fontSize: "20px" }}>
+                            {" "}
+                            *{" "}
+                          </span>
+                        </Form.Label>
+
+
+                        <Select
+                           isDisabled={!selectedDate}
+                          options={
+                            state.UsersList.floorList?.map((u) => ({
+                              value: u.id,
+                              label: u.name,
+                            })) || []
+                          }
+                          onChange={handleFloor}
+                          ref={floorRef}
+                         
+
+                           value={
+                            state.UsersList.floorList?.find(
+                              (option) => option.id === newFloor
+                            )
+                              ? {
+                                value: newFloor,
+                                label: state.UsersList.floorList.find(
+                                  (option) => option.id === newFloor
+                                )?.name,
+                              }
+                              : null
+                          }
+                          placeholder="Selected Floor"
+                          classNamePrefix="custom"
+                          menuPlacement="auto"
+                          noOptionsMessage={() => "No floors available"}
+                          styles={{
+                            control: (base) => ({
+                              ...base,
+                              height: "50px",
+                              border: "1px solid #D9D9D9",
+                              borderRadius: "8px",
+                              fontSize: "16px",
+                              color: "#4B4B4B",
+                              fontFamily: "Gilroy",
+                              fontWeight: newFloor ? 600 : 500,
+                              boxShadow: "none",
+                            }),
+                            menu: (base) => ({
+                              ...base,
+                              backgroundColor: "#f8f9fa",
+                              border: "1px solid #ced4da",
+                              fontFamily: "Gilroy",
+                            }),
+                            menuList: (base) => ({
+                              ...base,
+                              backgroundColor: "#f8f9fa",
+                              maxHeight: "120px",
+                              padding: 0,
+                              scrollbarWidth: "thin",
+                              overflowY: "auto",
+                              fontFamily: "Gilroy",
+                            }),
+                            placeholder: (base) => ({
+                              ...base,
+                              color: "#555",
+                            }),
+                            dropdownIndicator: (base) => ({
+                              ...base,
+                              color: "#555",
+                              cursor: "pointer"
+                            }),
+                            indicatorSeparator: () => ({
+                              display: "none",
+
+                            }),
+                            option: (base, state) => ({
+                              ...base,
+                              cursor: "pointer",
+                              backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                              color: "#000",
+                            }),
+                          }}
+                        />
+
+
+                        {floorError && (
+                          <ErrorMessage message={floorError} type="error" />
+                        )}
+                        </Form.Group>
+                      </div>
+
+                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                         <Form.Group className="mb-2">
+                        <Form.Label
+                          style={{
+                            fontSize: 14,
+                            fontWeight: 500,
+                            fontFamily: "Gilroy",
+                          }}
+                        >
+                          New Room{" "}
+                          <span style={{ color: "red", fontSize: "20px" }}>
+                            {" "}
+                            *{" "}
+                          </span>
+                        </Form.Label>
+
+
+                        <Select
+                        
+                            options={
+                            state.PgList?.roomsList?.map((item) => ({
+                              value: item.id,
+                              label: item.name,
+                            })) || []
+                          }
+                          onChange={(selectedOption) =>
+                            handleRooms(selectedOption?.value)
+                          }
+                          ref={roomRef}
+                          isDisabled={!newFloor} 
+   
+
+                           value={
+                            state.PgList?.roomsList?.find(
+                              (option) => option.id === newRoom
+                            )
+                              ? {
+                                value: newRoom,
+                                label: state.PgList?.roomsList.find(
+                                  (option) => option.id === newRoom
+                                )?.name,
+                              }
+                              : null
+                          }
+                          placeholder="Selected Room"
+                          classNamePrefix="custom"
+                          menuPlacement="auto"
+                          noOptionsMessage={() => "No rooms available"}
+                          styles={{
+                            control: (base) => ({
+                              ...base,
+                              height: "50px",
+                              border: "1px solid #D9D9D9",
+                              borderRadius: "8px",
+                              fontSize: "16px",
+                              color: "#4B4B4B",
+                              fontFamily: "Gilroy",
+                              fontWeight: newRoom ? 600 : 500,
+                              boxShadow: "none",
+                            }),
+                            menu: (base) => ({
+                              ...base,
+                              backgroundColor: "#f8f9fa",
+                              border: "1px solid #ced4da",
+                              fontFamily: "Gilroy",
+                            }),
+                            menuList: (base) => ({
+                              ...base,
+                              backgroundColor: "#f8f9fa",
+                              maxHeight: "120px",
+                              padding: 0,
+                              scrollbarWidth: "thin",
+                              overflowY: "auto",
+                              fontFamily: "Gilroy",
+                            }),
+                            placeholder: (base) => ({
+                              ...base,
+                              color: "#555",
+                            }),
+                            dropdownIndicator: (base) => ({
+                              ...base,
+                              color: "#555",
+                              cursor: "pointer"
+                            }),
+                            indicatorSeparator: () => ({
+                              display: "none",
+                            }),
+                            option: (base, state) => ({
+                              ...base,
+                              cursor: "pointer",
+                              backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                              color: "#000",
+                            }),
+                          }}
+                        />
+
+                        {roomError && (
+                         <ErrorMessage message={roomError} type="error" />
+                        )}
+                        </Form.Group>
+                      </div>
+
+                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                          <Form.Group className="mb-2">
+                        <Form.Label
+                          style={{
+                            fontSize: 14,
+                            fontWeight: 500,
+                            fontFamily: "Gilroy",
+                          }}
+                        >
+                         New Bed{" "}
+                          <span style={{ color: "red", fontSize: "20px" }}>
+                            {" "}
+                            *{" "}
+                          </span>
+                        </Form.Label>
+
+
+                        <Select
+                          //  isDisabled={!selectedDate}
+                          options={
+                            availableBed
+                              ? availableBed
+                                .filter(
+                                  (item) => item &&
+                                    item?.bedName !== "0" &&
+                                    item?.bedName !== "undefined" &&
+                                    item?.bedName !== "" &&
+                                    item?.bedName !== "null"
+                                )
+                                .map((item) => ({
+                                  value: item?.bedId,
+                                  label: item?.bedName,
+                                }))
+                              : []
+                          }
+                          onChange={handleBed}
+                          ref={BedRef}
+                          // value={
+                          //   newBed
+                          //     ? {
+                          //       value: newBed,
+                          //       label:
+                          //         state.UsersList?.bednumberdetails?.bed_details?.find(
+                          //           (bed) => bed.id === newBed
+                          //         )?.bed_no || "Selected Bed",
+                          //     }
+                          //     : null
+                          // }
+
+                          value={
+                            availableBed
+                              ? (() => {
+                                const selected = availableBed?.find(
+                                  (option) => option?.bedId === newBed
+                                );
+                                return selected
+                                  ? { value: selected.bedId, label: selected.bedName }
+                                  : null;
+                              })()
+                              : null
+                          }
+                          placeholder="Select Bed"
+                          isDisabled={!newRoom}   
+                          styles={{
+                            control: (base) => ({
+                              ...base,
+                              height: "50px",
+                              border: "1px solid #D9D9D9",
+                              borderRadius: "8px",
+                              fontSize: "16px",
+                              color: "#4B4B4B",
+                              fontFamily: "Gilroy",
+                              fontWeight: newBed ? 600 : 500,
+                              boxShadow: "none",
+                            }),
+                            menu: (base) => ({
+                              ...base,
+                              backgroundColor: "#f8f9fa",
+                              border: "1px solid #ced4da",
+                              fontFamily: "Gilroy",
+                            }),
+                            menuList: (base) => ({
+                              ...base,
+                              backgroundColor: "#f8f9fa",
+                              maxHeight: "120px",
+                              padding: 0,
+                              scrollbarWidth: "thin",
+                              overflowY: "auto",
+                              fontFamily: "Gilroy",
+                            }),
+                            placeholder: (base) => ({
+                              ...base,
+                              color: "#555",
+                            }),
+                            dropdownIndicator: (base) => ({
+                              ...base,
+                              color: "#555",
+                              cursor: "pointer"
+                            }),
+                            indicatorSeparator: () => ({
+                              display: "none",
+                            }),
+                            option: (base, state) => ({
+                              ...base,
+                              cursor: "pointer",
+                              backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                              color: "#000",
+                            }),
+                          }}
+
+                        />
+
+                     
+
+                        {bedError && (
+                          <ErrorMessage message={bedError} type="error" />
+                        )}
+                        </Form.Group>
+                      </div>
+
+                     
 
 
 

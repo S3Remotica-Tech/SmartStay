@@ -26,7 +26,7 @@ import ErrorMessage from '../../Components/ErrorMessage'
 
 
 
-function AddRoomReading({ show, handleClose, selectedRowDetails }) {
+function AddHostelReading({ show, handleClose, selectedRowDetails }) {
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
 
@@ -76,12 +76,9 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
                 type: 'ADDROOMREADING',
                 payload: {
                     hostelId: state.login.selectedHostel_Id,
-                    reading: currentReading,
+                    reading: Number(currentReading),
                     readingDate: formattedDate,
-                    roomId: selectedRowDetails?.roomId,
-                    floorId: selectedRowDetails?.floorId,
-
-                }
+                                   }
             })
             setLoading(true)
 
@@ -121,7 +118,7 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
                         fontStyle: 'normal',
                         fontSize: '20px',
                     }}>
-                    Add Room Reading
+                    Add Hostel Reading
                 </Modal.Title>
 
                 <CloseCircle
@@ -131,12 +128,12 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
                     onClick={handleClose}
                 />
             </Modal.Header>
-            <Modal.Body >
+            <Modal.Body className="border pt-1">
 
 
 
 
-                <div className="d-flex justify-content-between align-items-center" style={{ width: "100%", borderBottom: "1px solid #E0E0E0", paddingBottom: 10, marginTop: "-15px" }}>
+                {/* <div className="d-flex justify-content-between align-items-center" style={{ width: "100%", borderBottom: "1px solid #E0E0E0", paddingBottom: 10, marginTop: "-15px" }}>
                     <div className="d-flex align-items-center">
                         <span
                             style={{
@@ -173,14 +170,14 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
                     </div>
 
 
-                </div>
+                </div> */}
 
 
 
                 {state.UsersList?.roomReadingError && (
                     <ErrorMessage message={state.UsersList?.roomReadingError} type="error" />
                 )}
-                <Form.Group className="mt-4">
+                <Form.Group className="mt-0">
                     <div
                         style={{
                             display: 'flex',
@@ -205,7 +202,7 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
                             Current Reading   <span style={{ color: "red", fontSize: "20px" }}>*</span>
                         </Form.Label>
 
-                        <span
+                        {/* <span
                             style={{
                                 fontFamily: 'Gilroy',
                                 fontWeight: 400,
@@ -216,8 +213,10 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
                                 color: "gray"
                             }}
                         >
-                            Last Reading: <span style={{ color: '#1E45E1', fontFamily: "Gilroy" }}>{selectedRowDetails?.currentReading}</span>
-                        </span>
+                            Last Reading: <span style={{ color: '#1E45E1', fontFamily: "Gilroy" }}>
+                                {selectedRowDetails?.currentReading}
+                                </span>
+                        </span> */}
                     </div>
 
                     <Form.Control
@@ -335,4 +334,4 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
     )
 }
 
-export default AddRoomReading
+export default AddHostelReading

@@ -54,13 +54,14 @@ import PaginationList from "../Components/PaginationList";
 import ErrorMessage from '../Components/ErrorMessage'
 import { useHasPermission } from '../Utils/Permission';
 import { HiMiniBars3BottomLeft } from "react-icons/hi2";
-
+import { useNavigate } from "react-router-dom";
 
 
 
 const InvoicePage = () => {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { RangePicker } = DatePicker;
   const [recurLoader, setRecurLoader] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -341,7 +342,6 @@ console.log("receiptdata",receiptdata)
 
   useEffect(() => {
     if (state.InvoiceList.NodataReceiptStatusCode === 201) {
-
       setTimeout(() => {
         setReceiptLoader(false);
         dispatch({ type: "CLEAR_NODATA_RECEIPTS_LIST" });
@@ -357,10 +357,12 @@ console.log("receiptdata",receiptdata)
       return;
     }
     setShowAllBill(false);
-    setShowManualInvoice(true);
+    // setShowManualInvoice(true);
     setBillMode("New Bill");
     setIsEditing(false);
     setInvoiceDetails(null);
+    navigate('/create-bill')
+    dispatch({ type: "USERROOMAVAILABLEFALSE" });
   };
 
   const handleReceiptShow = () => {
@@ -1512,18 +1514,20 @@ console.log("receiptdata",receiptdata)
       .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
 
     dispatch({
-      type: "MANUAL-INVOICE-ADD",
-      payload: {
-        customerId: customername,
-        invoiceDate: formatinvoicedate,
-        dueDate: formatduedate,
-        invoiceNumber: invoicenumber,
-        total_amount: totalAmount,
-        rentAmount: rentAmount,
-        ebAmount: ebAmount,
-        amenityAmount: amenityAmount,
-      },
-    });
+  type: "MANUAL-INVOICE-ADD",
+  payload: {
+    customerId: customername,
+    invoiceDate: formatinvoicedate,
+    dueDate: formatduedate,
+    invoiceNumber: invoicenumber,
+    total_amount: totalAmount,
+    items: newRows.map((row) => ({
+      invoiceItem: row.am_name,
+      amount: parseFloat(row.amount) || 0,
+    })),
+  },
+});
+
     setFormLoading(true)
 
 
@@ -2452,6 +2456,7 @@ console.log("receiptdata",receiptdata)
 
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceAddStatusCode === 201) {
+         navigate('/invoice')
       setShowManualInvoice(false)
       setFormLoading(false)
       setShowRecurringBillForm(false);
@@ -5772,7 +5777,7 @@ console.log("receiptdata",receiptdata)
         </Row>
       )}
 
-      {showmanualinvoice && (
+      {/* {showmanualinvoice && (
         <div className="mt-4" style={{ paddingLeft: 25, position: "relative" }}>
           <div
             className="container justify-content-start  d-flex align-items-start"
@@ -6280,7 +6285,7 @@ console.log("receiptdata",receiptdata)
 
         </div>
 
-      )}
+      )} */}
 
 
       {state.InvoiceList.unableAddInvoiceDetailsError ?
