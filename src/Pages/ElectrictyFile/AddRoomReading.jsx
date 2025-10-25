@@ -111,7 +111,7 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
 
 
     return (
-        <div>   <Modal show={show} onHide={handleClose} centered>
+        <div>   <Modal show={show} onHide={handleClose} centered backdrop="static">
 
             <Modal.Header className="d-flex justify-content-between align-items-center" style={{ borderBottom: "none" }}>
                 <Modal.Title

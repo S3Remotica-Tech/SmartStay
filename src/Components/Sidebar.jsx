@@ -58,6 +58,8 @@ import Cookies from 'universal-cookie';
 import { checkoutCustomerProfile } from "../Redux/Action/smartStayAction";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip"
+import CreateBill from "../Pages/Bills/CreateBill";
+import UserListRoomDetail from "../Pages/CustomerFile/UserListRoomDetail";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -1590,6 +1592,21 @@ function Sidebar() {
                     payingGuestName={payingGuestName}
                     settignspgshow={settignspgshow}
                     onhandleShowsettingsPG={handleShowsettingsPG}
+                  />
+                }
+              />
+               <Route
+                path="/create-bill"
+                element={
+                  <CreateBill                                 
+                  />
+                }
+              />
+
+                <Route
+                path="/tenant-profile"
+                element={
+                  <UserListRoomDetail                                 
                   />
                 }
               />

@@ -61,9 +61,11 @@ import PaginationList from '../../Components/PaginationList';
 import ErrorMessage from '../../Components/ErrorMessage'
 import BackToCheckIn from "./BackToCheckIn";
 import { useHasPermission } from '../../Utils/Permission';
+import { useNavigate, useLocation } from "react-router-dom";
+
 function UserList(props) {
   const state = useSelector((state) => state);
-
+  const navigate = useNavigate();
   console.log("UserList", state)
   const { RangePicker } = DatePicker;
   dayjs.extend(isBetween);
@@ -918,10 +920,10 @@ function UserList(props) {
 
   useEffect(() => {
     if (state.UsersList.userRoomfor) {
-      setIsEditing(true);
+      // setIsEditing(true);
       setRoomDetail(false);
 
-      dispatch({ type: "USERROOMAVAILABLEFALSE" });
+      // dispatch({ type: "USERROOMAVAILABLEFALSE" });
     }
   }, [state.UsersList.userRoomfor]);
 
@@ -977,9 +979,8 @@ function UserList(props) {
 
 
   useEffect(() => {
-    console.log("customerId", customername)
     if (state.InvoiceList.manualInvoiceAddStatusCode === 201) {
-
+      navigate('/tenant-profile')
 
       if (customername) {
         dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: customername } });
@@ -988,11 +989,6 @@ function UserList(props) {
       dispatch({ type: "MANUALINVOICESLIST", payload: state.login.selectedHostel_Id })
       setBillLoading(false);
       handleBackBill();
-
-
-
-
-
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD" });
         setLoading(false);
@@ -1089,8 +1085,8 @@ function UserList(props) {
   };
 
   const handleCustomerReAssign = (reuser) => {
-    if(reuser?.customerId){
-        dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: reuser?.customerId } });
+    if (reuser?.customerId) {
+      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: reuser?.customerId } });
     }
     setReasignDetail(reuser);
     setCustomerReAssign(true);
@@ -1654,10 +1650,16 @@ function UserList(props) {
     setUserData(userData)
     setId(userData?.customerId);
     sethosName(userData.HostelName);
-    setcustomerUser_Id(userData.User_Id);
-    setRoomDetail(true);
+    setcustomerUser_Id(userData.customerId);
+    // setRoomDetail(true);
     setUserList(false);
-
+    navigate('/tenant-profile', {
+    state: {
+      customerId: userData.customerId,
+      hostelId: state.login.selectedHostel_Id,
+      name: userData.fullName,
+    },
+  });
     dispatch({ type: "UPDATE_USERSLIST_FALSE" });
   };
 
@@ -2936,7 +2938,7 @@ function UserList(props) {
                   {value === "4" && (
                     <Button
                       disabled={!canWriteWalkin}
-                       onClick={handleShow}
+                      onClick={handleShow}
                       style={buttonStyle}
                     >
                       + Walk-In
@@ -3620,7 +3622,7 @@ function UserList(props) {
 
                                         {user.currentStatus === "Booked"
                                           ? (user.floorName || "-")
-                                          : user.currentStatus === "Checked In" || user.currentStatus === "Notice Period"  || user.currentStatus === "Settlement Generated"
+                                          : user.currentStatus === "Checked In" || user.currentStatus === "Notice Period" || user.currentStatus === "Settlement Generated"
                                             ? (user.floorName || "-")
                                             : "-"}
                                       </div>
@@ -4020,7 +4022,7 @@ function UserList(props) {
                                                   </div>
 
 
-                                                
+
                                                   <div
                                                     className="d-flex align-items-center gap-2"
 
@@ -4076,9 +4078,9 @@ function UserList(props) {
 
 
 
-                                               {user.bedId && user.currentStatus === "Settlement Generated" && (
+                                              {user.bedId && user.currentStatus === "Settlement Generated" && (
                                                 <>
-                                                 
+
 
 
                                                   <div
@@ -4129,7 +4131,7 @@ function UserList(props) {
                                                       Check-Out
                                                     </label>
                                                   </div>
-                                                
+
                                                 </>
 
                                               )}

@@ -98,6 +98,8 @@ useEffect(()=>{
   if(state.AssetList?.unAuthorized){
     dispatch({ type: 'LOG_OUT' });
     setData(false);
+    localStorage.clear();
+
   }
 
 },[state.AssetList?.unAuthorized])
@@ -118,6 +120,8 @@ useEffect(()=>{
       dispatch({ type: 'CLEAR_DASHBOARD' })
       dispatch(StoreSelectedHostelAction(""))
       cookies.set('access-denied', null, { path: '/', expires: new Date(0) });
+      localStorage.clear();
+
     }
   }, [state.login?.isLoggedIn]);
 

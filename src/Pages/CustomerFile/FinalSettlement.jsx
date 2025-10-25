@@ -311,7 +311,7 @@ useEffect(()=>{
 
     return (
         <div>
-            <Modal show={show} onHide={handleClose} dialogClassName="checkout-modal" size="lg" centered>
+            <Modal show={show} onHide={handleClose} dialogClassName="checkout-modal" size="lg" centered backdrop="static">
                 <Modal.Body className="p-0">
                     <div className="d-flex" style={{ height: "90vh" }}>
 

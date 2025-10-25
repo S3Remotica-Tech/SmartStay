@@ -459,15 +459,27 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                         <label style={{ fontSize: 10, fontWeight: 600, fontFamily: "Gilroy", color: "#4B4B4B" }}>Invoice of the Month</label>
                       </div>
                       <div>
-                        <label style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy", color: "#16255D" }}> {pdfDetails?.invoiceDate
-                          ? new Date(
-                            pdfDetails.invoiceDate.split("/").reverse().join("-")
-                          ).toLocaleDateString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                            year: "numeric",
-                          })
-                          : ""}</label>
+                        <label
+                          style={{
+                            fontSize: 12,
+                            fontWeight: 600,
+                            fontFamily: "Gilroy",
+                            color: "#16255D",
+                          }}
+                        >
+                          {pdfDetails?.invoiceInfo?.invoiceMonth
+                            ? pdfDetails?.invoiceInfo?.invoiceMonth
+                            : pdfDetails?.invoiceDate
+                              ? new Date(
+                                pdfDetails.invoiceDate.split("/").reverse().join("-")
+                              ).toLocaleDateString("en-US", {
+                                month: "short",
+                                day: "numeric",
+                                year: "numeric",
+                              })
+                              : ""}
+                        </label>
+
                       </div>
                     </div>
 
@@ -587,9 +599,10 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
                         <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400, color: '#4B4B4B', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>Joining date :</div>
                         <div className="col-6  text-start mt-1" style={{ fontSize: '14px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>{pdfDetails?.customerInfo?.joiningDate}</div>
-                        <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400, color: '#4B4B4B', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>Rental Period :</div>
-                        <div className="col-6  text-start mt-1" style={{ fontSize: '14px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>{pdfDetails?.customerInfo?.joiningDate}</div>
-
+                        {pdfDetails?.configurations?.invoiceType === 'Rent' && <>
+                          <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400, color: '#4B4B4B', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>Rental Period :</div>
+                          <div className="col-6  text-start mt-1" style={{ fontSize: '14px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>{pdfDetails?.invoiceInfo?.invoicePeriod}</div>
+                        </>}
                       </div>
                     </div>
                   </div>
