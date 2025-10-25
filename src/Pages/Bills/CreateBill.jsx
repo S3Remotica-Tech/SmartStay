@@ -2425,6 +2425,7 @@ function CreateBill() {
             }
             setNewRows([]);
             dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
+            console.log("iddddddddddddd",id)
             if (id) {
         dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: id } });
       }
