@@ -981,12 +981,12 @@ function UserList(props) {
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceAddStatusCode === 201) {
       navigate('/tenant-profile')
-
+console.log("customernameeeeeeeeeeeeeeeee",customername)
       if (customername) {
         dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: customername } });
       }
 
-      dispatch({ type: "MANUALINVOICESLIST", payload: state.login.selectedHostel_Id })
+      // dispatch({ type: "MANUALINVOICESLIST", payload: state.login.selectedHostel_Id })
       setBillLoading(false);
       handleBackBill();
       setTimeout(() => {

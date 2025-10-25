@@ -646,12 +646,8 @@ console.log("state.UsersList.invoiceResponseList",state.UsersList.customerdetail
                             }}
                             className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
                           >
-                            {view?.items
-  ?.filter(item => item.amount !== 0)
-  .map((item, index) => (
-    <div key={index}>₹{item.amount}</div>
-))}
-                          </td>
+                            {view?.totalAmount}
+                           </td>
                          
                           <td
                             style={{
