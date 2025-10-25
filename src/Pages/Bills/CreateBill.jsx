@@ -43,7 +43,7 @@ function CreateBill() {
     const location = useLocation();
     const { id } = location.state || {};
 
-    console.log("state", state);
+    console.log("state", id);
 
     const { RangePicker } = DatePicker;
     const [recurLoader, setRecurLoader] = useState(false);
@@ -1035,10 +1035,14 @@ function CreateBill() {
         setNewRows([]);
         setDropdownValue("")
         if (state.UsersList.userRoomfor) {
-            navigate('/user-list')
-        } else {
-            navigate('/invoice')
-        }
+                navigate('/tenant-profile', {
+                    state: {
+                        totriggerBillTap: true
+                    }
+                })
+            } else {
+                navigate('/invoice')
+            }
 
     };
 
@@ -1992,7 +1996,7 @@ function CreateBill() {
         setRowData(rowData);
         setSelectedTransactionId(rowData?.transactionId);
         if (rowData?.transactionId && state.login.selectedHostel_Id) {
-           
+
             dispatch({ type: "RECEIPTPDF_NEWCHANGES", payload: { hostelId: state.login.selectedHostel_Id, transactionId: rowData.transactionId } })
         }
 
@@ -2411,7 +2415,11 @@ function CreateBill() {
             setInvoiceDueDate("");
             setTotalAmount("");
             if (state.UsersList.userRoomfor) {
-                navigate('/user-list')
+                navigate('/tenant-profile', {
+                    state: {
+                        totriggerBillTap: true
+                    }
+                })
             } else {
                 navigate('/invoice')
             }
@@ -3289,8 +3297,8 @@ function CreateBill() {
                 )}
 
                 {
-                    state.InvoiceList.unableAddInvoiceDetailsError && 
-                    <ErrorMessage message={ state.InvoiceList.unableAddInvoiceDetailsError} type="error" />
+                    state.InvoiceList.unableAddInvoiceDetailsError &&
+                    <ErrorMessage message={state.InvoiceList.unableAddInvoiceDetailsError} type="error" />
                 }
             </div>
 

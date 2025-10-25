@@ -65,7 +65,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 function UserList(props) {
   const state = useSelector((state) => state);
-const navigate = useNavigate();
+  const navigate = useNavigate();
   console.log("UserList", state)
   const { RangePicker } = DatePicker;
   dayjs.extend(isBetween);
@@ -979,8 +979,8 @@ const navigate = useNavigate();
 
 
   useEffect(() => {
-      if (state.InvoiceList.manualInvoiceAddStatusCode === 201) {
-      navigate('/user-list')
+    if (state.InvoiceList.manualInvoiceAddStatusCode === 201) {
+      navigate('/tenant-profile')
 
       if (customername) {
         dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: customername } });
@@ -1650,10 +1650,16 @@ const navigate = useNavigate();
     setUserData(userData)
     setId(userData?.customerId);
     sethosName(userData.HostelName);
-    setcustomerUser_Id(userData.User_Id);
-    setRoomDetail(true);
+    setcustomerUser_Id(userData.customerId);
+    // setRoomDetail(true);
     setUserList(false);
-
+    navigate('/tenant-profile', {
+    state: {
+      customerId: userData.customerId,
+      hostelId: state.login.selectedHostel_Id,
+      name: userData.fullName,
+    },
+  });
     dispatch({ type: "UPDATE_USERSLIST_FALSE" });
   };
 
