@@ -571,12 +571,12 @@ function* handleInvoicePdf(action) {
 function* handleAddAmenity(action) {
    try {
           const {hostelId , data} = action.payload
-          const response = yield call(AddAmenity, hostelId , data);
-      // const response = yield call(AddAmenity, action.payload)
-
-      if (response.status === 200 || response.statusCode === 200) {
+          const response = yield call(AddAmenity, hostelId , data)
+            
+          console.log("response", response);
+          
+        if (response.status === 200 || response.statusCode === 200) {
          yield put({ type: 'AMENITIES_SETTINGS', payload: { response: response.data, statusCode: response.status || response.statusCode } })
-
 
          var toastStyle = {
             backgroundColor: "#E6F6E6",
@@ -592,7 +592,7 @@ function* handleAddAmenity(action) {
             alignItems: "center",
             padding: "10px",
 
-         };
+         }
 
          toast.success(response.data, {
             position: "bottom-center",
@@ -605,12 +605,12 @@ function* handleAddAmenity(action) {
             progress: undefined,
             style: toastStyle
          })
-
       }
-      else if (response.status === 203) {
-         yield put({ type: 'ERROR_AMENITIES_SETTINGS', payload: { response: response.data.message } })
 
-      } else {
+      else if (response.status === 403) {
+         yield put({ type: 'ERROR_AMENITIES_SETTINGS', payload: { response: response.data } })
+      }
+       else {
          yield put({ type: 'ERROR', payload: response.data.message })
       }
       if (response) {
@@ -618,7 +618,11 @@ function* handleAddAmenity(action) {
       }
    }
    catch (error) {
+      console.log("response", error);
          yield* handleApiError(error);
+      if (error.status === 403 ||  error.response.status === 403) {
+         yield put({ type: 'ERROR_AMENITIES_SETTINGS', payload: { response: error.response.data } })
+      }
       if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
       } else {
@@ -661,8 +665,6 @@ function* handleUpdateAmenities(action) {
       if (response.status === 200 || response.statusCode === 200) {
          yield put({ type: 'AMENITIES_UPDATE', payload: { response: response.data, statusCode: response.status || response.statusCode } })
 
-
-
          var toastStyle = {
             backgroundColor: "#E6F6E6",
             color: "black",
@@ -701,6 +703,9 @@ function* handleUpdateAmenities(action) {
    }
    catch (error) {
          yield* handleApiError(error);
+      if (error.status === 403 ||  error.response.status === 403) {
+         yield put({ type: 'ERROR_AMENITIES_SETTINGS', payload: { response: error.response.data } })
+      }
       if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
       } else {
