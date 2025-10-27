@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { getParticularReceiptDetails, getParticularBillsDetails, getFinalSettlementList, CustomerRecurringEnableDisable, UnAssignAmenities, ParticularAmentityList, AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList, RecordPayment, InvoiceSettings, InvoicePDf, GetAmenities, UpdateAmenities, AddAmenity, ManualInvoice, ManualInvoiceUserData, AddManualInvoiceBill, EditManualInvoiceBill, DeleteManualInvoiceBill, ManualInvoiceNumber, GetManualInvoices, RecurrInvoiceamountData, AddRecurringBill, GetRecurrBills, DeleteRecurrBills, InvoiceRecurringsettings, GetReceiptData, AddReceipt, ReferenceIdGet, DeleteReceipt, EditReceipt, ReceiptPDf, AddRecurrBillsUsers, GetBillsPdfDetails, ReceiptPDFNewChanges } from "../Action/InvoiceAction";
+import { createRefund, getInitializeRefund, getParticularReceiptDetails, getParticularBillsDetails, getFinalSettlementList, CustomerRecurringEnableDisable, UnAssignAmenities, ParticularAmentityList, AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList, RecordPayment, InvoiceSettings, InvoicePDf, GetAmenities, UpdateAmenities, AddAmenity, ManualInvoice, ManualInvoiceUserData, AddManualInvoiceBill, EditManualInvoiceBill, DeleteManualInvoiceBill, ManualInvoiceNumber, GetManualInvoices, RecurrInvoiceamountData, AddRecurringBill, GetRecurrBills, DeleteRecurrBills, InvoiceRecurringsettings, GetReceiptData, AddReceipt, ReferenceIdGet, DeleteReceipt, EditReceipt, ReceiptPDf, AddRecurrBillsUsers, GetBillsPdfDetails, ReceiptPDFNewChanges } from "../Action/InvoiceAction";
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -13,6 +13,62 @@ function* handleApiError(error) {
    }
 
 }
+
+function* handleCreateRefund(action) {
+
+   try {
+      const response = yield call(createRefund, action.payload)
+
+         if (response.status === 200 || response.statusCode === 200) {
+         yield put({ type: 'CREATE_REFUND', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      }
+
+      if (response) {
+         refreshToken(response)
+      }
+   }
+   catch (error) {
+         yield* handleApiError(error);
+      if (error.code === 'ERR_BAD_REQUEST') {
+         yield put({ type: 'NETWORK_ERROR', payload: error.response.data });
+      } else if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
+
+}
+
+
+
+
+
+
+
+function* handleGetInitializeRefund(action) {
+
+   try {
+      const response = yield call(getInitializeRefund, action.payload)
+
+         if (response.status === 200 || response.statusCode === 200) {
+         yield put({ type: 'GET_INITIALIZE_REFUND_DETAILS', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      }
+
+      if (response) {
+         refreshToken(response)
+      }
+   }
+   catch (error) {
+         yield* handleApiError(error);
+      if (error.code === 'ERR_BAD_REQUEST') {
+         yield put({ type: 'NETWORK_ERROR', payload: error.response.data });
+      } else if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
+
+}
+
+
 
 
 function* handleGetFinalSettlementList(action) {
@@ -1647,6 +1703,8 @@ function refreshToken(response) {
 
 
 function* InvoiceSaga() {
+   yield takeEvery('CREATEREFUND',handleCreateRefund)
+   yield takeEvery('GETINITIALIZEREFUNDDETAILS',handleGetInitializeRefund)
    yield takeEvery('GETPARTICULARRECEIPTSDETAILS', handleGetParticularReceiptDetails)
    yield takeEvery('GETPARTICULARBILLSDETAILS', handleGetParticularBillsDetails)
    yield takeEvery('GETFINALSETTLEMENT', handleGetFinalSettlementList)

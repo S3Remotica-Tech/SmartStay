@@ -22,7 +22,7 @@ export async function invoiceList(invoice) {
 
 // v2 
 export async function RecordPayment(hostelId, invoiceId, data) {
-  return await AxiosConfigV2.post( `/v2/transaction/${hostelId}/${invoiceId}`, data)
+  return await AxiosConfigV2.post(`/v2/transaction/${hostelId}/${invoiceId}`, data)
 }
 
 
@@ -32,41 +32,41 @@ export async function ManualInvoice() {
   })
 }
 export async function ManualInvoiceNumber(invoicenumber) {
-  return await AxiosConfig.post('/get_invoice_id', invoicenumber, { 
+  return await AxiosConfig.post('/get_invoice_id', invoicenumber, {
     data: invoicenumber
   })
 }
 
 export async function ManualInvoiceUserData(amountdata) {
-  return await AxiosConfig.post('/get_user_amounts', amountdata, { 
+  return await AxiosConfig.post('/get_user_amounts', amountdata, {
     data: amountdata
   })
 }
 
 export async function RecurrInvoiceamountData(amountdata) {
-  return await AxiosConfig.post('/get_recuring_amounts', amountdata, { 
+  return await AxiosConfig.post('/get_recuring_amounts', amountdata, {
     data: amountdata
   })
 }
 
 export async function AddManualInvoiceBill(manualinvoice) {
-  return await AxiosConfigV2.post(`/v2/bills/manual/${manualinvoice.customerId}`, manualinvoice, { 
+  return await AxiosConfigV2.post(`/v2/bills/manual/${manualinvoice.customerId}`, manualinvoice, {
     data: manualinvoice
   })
 }
 export async function EditManualInvoiceBill(manualinvoice) {
-  return await AxiosConfig.post('/edit_manual_invoice', manualinvoice, { 
+  return await AxiosConfig.post('/edit_manual_invoice', manualinvoice, {
     data: manualinvoice
   })
 }
 export async function DeleteManualInvoiceBill(manualinvoice) {
-  return await AxiosConfig.post('/delete_manual_invoice', manualinvoice, { 
+  return await AxiosConfig.post('/delete_manual_invoice', manualinvoice, {
     data: manualinvoice
   })
 }
 
 export async function AddRecurringBill(manualinvoice) {
-  return await AxiosConfig.post('/add_recuring_bill', manualinvoice, { 
+  return await AxiosConfig.post('/add_recuring_bill', manualinvoice, {
     data: manualinvoice
   })
 }
@@ -92,34 +92,42 @@ export async function getFinalSettlementList(customerId) {
 
 
 export async function getParticularBillsDetails(bill) {
-   return await AxiosConfigV2.get(`/v2/bills/${bill.hostelId}/${bill.invoiceId}`)
+  return await AxiosConfigV2.get(`/v2/bills/${bill.hostelId}/${bill.invoiceId}`)
 }
 
 export async function getParticularReceiptDetails(bill) {
-  console.log("bill",bill)
   return await AxiosConfigV2.get(`/v2/transaction/${bill.hostelId}/${bill.transactionId}`)
 }
 
 
+export async function getInitializeRefund(bill) {
+  console.log("bill", bill)
+  return await AxiosConfigV2.get(`/v2/bills/refund/${bill.hostelId}/${bill.invoiceId}`)
+}
 
 
+export async function createRefund(bill) {
+  return await AxiosConfigV2.post(`/v2/bills/refund/${bill.hostelId}/${bill.invoiceId}`, bill, {
+    data: bill
+  })
+}
 
 
 
 export async function AddRecurrBillsUsers(recurr) {
-  return await AxiosConfig.post('/users/recuring_bill_users', recurr, {  
+  return await AxiosConfig.post('/users/recuring_bill_users', recurr, {
     data: recurr
   })
 }
 
 export async function GetRecurrBills(bills) {
-  return await AxiosConfig.post('/all_recuring_bills_stay_type', bills, {  
+  return await AxiosConfig.post('/all_recuring_bills_stay_type', bills, {
     data: bills
   })
 }
 
 export async function DeleteRecurrBills(bills) {
-  return await AxiosConfig.post('/delete_recuring_bill', bills, { 
+  return await AxiosConfig.post('/delete_recuring_bill', bills, {
     data: bills
   })
 }
@@ -134,11 +142,11 @@ export async function DeleteRecurrBills(bills) {
 // v2 
 export async function GetReceiptData(hostelId) {
   return await AxiosConfigV2.get(`/v2/bills/receipts/${hostelId}`, {
-  }) 
+  })
 }
 
 export async function AddReceipt(receipt) {
-  return await AxiosConfig.post('/receipts/add', receipt, { 
+  return await AxiosConfig.post('/receipts/add', receipt, {
     data: receipt
   })
 }
@@ -151,13 +159,13 @@ export async function EditReceipt(receipt) {
 }
 
 export async function DeleteReceipt(receipt) {
-  return await AxiosConfig.post('/receipts/delete', receipt, { 
+  return await AxiosConfig.post('/receipts/delete', receipt, {
     data: receipt
   })
 }
 
 export async function ReferenceIdGet() {
-  return await AxiosConfig.get('/receipts/gen_reference', { 
+  return await AxiosConfig.get('/receipts/gen_reference', {
   })
 }
 
@@ -183,7 +191,7 @@ export async function InvoicePDf(datum) {
 
 export async function GetAmenities(hostelId) {
   return await AxiosConfigV2.get(`/v2/amenity/${hostelId}`, {
-     headers: {
+    headers: {
       "Content-Type": "application/json",
     },
   })
@@ -197,7 +205,7 @@ export async function GetAmenities(hostelId) {
 // }
 
 // v2 
-export async function UpdateAmenities(hostelId , amenityId, datum) {
+export async function UpdateAmenities(hostelId, amenityId, datum) {
   return await AxiosConfigV2.put(`/v2/amenity/${hostelId}/${amenityId}`, datum, {
     headers: {
       "Content-Type": "application/json",
@@ -208,15 +216,15 @@ export async function UpdateAmenities(hostelId , amenityId, datum) {
 
 
 
-export async function AddAmenity(hostelId , datum) {
+export async function AddAmenity(hostelId, datum) {
   return await AxiosConfigV2.post(`/v2/amenity/${hostelId}`, datum, {
-     headers: {
+    headers: {
       "Content-Type": "application/json",
     },
   })
 }
 
- 
+
 
 
 export async function InvoiceSettings(params) {
@@ -235,7 +243,7 @@ export async function InvoiceSettings(params) {
         "Content-type": "multipart/form-data",
       },
       timeout: 100000000,
-     
+
     });
     return response.data;
   } catch (error) {
@@ -275,13 +283,13 @@ export async function DeleteUser(userId) {
 // }
 
 // v2 
-export async function DeleteAmenities(amenityId , hostelId  ) {
+export async function DeleteAmenities(amenityId, hostelId) {
   return await AxiosConfigV2.delete(`/v2/amenity/${amenityId}/${hostelId}`, {
-     headers: {
+    headers: {
       "Content-Type": "application/json",
     },
   })
-} 
+}
 
 
 // v1 
@@ -333,13 +341,13 @@ export async function UnAssignAmenities(hostelId, amenityId, customers) {
 // }
 
 // v2 
-export async function ParticularAmentityList(hostelId , amenityId) {
+export async function ParticularAmentityList(hostelId, amenityId) {
   return await AxiosConfigV2.get(`/v2/amenity/${hostelId}/${amenityId}`, {
-     headers: {
+    headers: {
       "Content-Type": "application/json",
     },
   })
-} 
+}
 
 
 export async function GetBillsPdfDetails(datum) {
@@ -353,7 +361,7 @@ export async function ReceiptPDFNewChanges(params) {
 
 
 export async function CustomerRecurringEnableDisable(recur) {
-  return await AxiosConfig.post('/add_recuring_bill_enabled', recur, {  
+  return await AxiosConfig.post('/add_recuring_bill_enabled', recur, {
     data: recur
   })
 }

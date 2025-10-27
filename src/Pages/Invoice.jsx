@@ -200,10 +200,6 @@ const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
 
 
 
-console.log("receiptdata",receiptdata)
-
-
-
 
 
   const handleInvoiceChange = (e) => {

@@ -1015,7 +1015,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                                 verticalAlign: "middle",
                               }}
                             >
-                              ₹ {pdfDetails?.receiptInfo?.paidAmount?.toLocaleString("en-IN")}
+                              ₹ {pdfDetails?.invoiceAmount?.toLocaleString("en-IN")}
                             </td>
                             <td
                               style={{
