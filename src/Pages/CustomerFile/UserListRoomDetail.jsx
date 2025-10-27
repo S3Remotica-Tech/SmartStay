@@ -3783,7 +3783,7 @@ console.log("advanceList",advanceList)
                                                 fontFamily: "Gilroy",
                                               }}
                                             >
-                                              Advance Amount
+                                              Advance
                                             </div>
                                             <p
                                               style={{
@@ -3799,11 +3799,135 @@ console.log("advanceList",advanceList)
                                             </p>
                                           </div>
 
-                                        <div className="col-lg-4">
+                                         <div className="col-sm-4 d-flex flex-column align-items-start">
+                                <div
+                                  style={{
+                                    fontSize: 12,
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                  }}
+                                >
+                                  Rent
+                                </div>
+                                <p
+                                  style={{
+                                    fontSize: 14,
+                                    fontWeight: 600,
+                                    fontFamily: "Gilroy",
+                                    color: 'rgba(30, 69, 225, 1)',
+                                    paddingTop: 7
+                                  }}
+                                >
 
-                                        </div>
+                                  ₹ {CustomerOverView.hostelInfo?.monthlyRent ?? 0}
+                                </p>
+                              </div>
 
-                                        <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-center">
+                                            <div className="col-sm-4 d-flex flex-column align-items-start">
+                                <div
+                                  style={{
+                                    fontSize: 12,
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                  }}
+                                >
+                                  Booking
+                                </div>
+                                <p
+                                  style={{
+                                    fontSize: 14,
+                                    fontWeight: 600,
+                                    fontFamily: "Gilroy",
+                                    color: 'rgba(30, 69, 225, 1)',
+                                    paddingTop: 7
+                                  }}
+                                >
+
+                                  ₹ 
+                                  {/* {CustomerOverView.hostelInfo?.monthlyRent ?? 0} */}
+                                </p>
+                              </div>
+
+                               {
+                                CustomerOverView.hostelInfo?.maintenance !== null &&
+                                <div className="col-sm-4 d-flex flex-column align-items-start">
+                                  <div
+                                    style={{
+                                      fontSize: 12,
+                                      fontWeight: 500,
+                                      fontFamily: "Gilroy",
+                                    }}
+                                  >
+                                    Maintenance
+                                  </div>
+                                  <p
+                                    style={{
+                                      fontSize: 14,
+                                      fontWeight: 600,
+                                      fontFamily: "Gilroy",
+                                      // color: 'rgba(30, 69, 225, 1)',
+                                      paddingTop: 7
+                                    }}
+                                  >
+                                    ₹ {CustomerOverView.hostelInfo?.maintenance ?? 0}
+                                  </p>
+                                </div>
+
+                              }
+                              {CustomerOverView?.hostelInfo?.otherDeductionsBreakup?.map((item, index) => (
+                                <div key={index} className="col-sm-4 d-flex flex-column align-items-start mb-2">
+                                  <div
+                                    style={{
+                                      fontSize: 12,
+                                      fontWeight: 500,
+                                      fontFamily: "Gilroy",
+                                    }}
+                                  >
+                                    {item.type ? item.type : ""}
+                                  </div>
+                                  <p
+                                    style={{
+                                      fontSize: 14,
+                                      fontWeight: 600,
+                                      fontFamily: "Gilroy",
+                                      paddingTop: 7,
+                                    }}
+                                  >
+                                    ₹ {item.amount}
+                                  </p>
+                                </div>
+                              ))}
+
+                               <div className="col-sm-4 d-flex flex-column align-items-start">
+                                          <strong
+                                            style={{
+                                              fontSize: 12,
+                                              fontWeight: 500,
+                                              fontFamily: "Gilroy",
+                                              textAlign: "start",
+                                              paddingRight: 15,
+                                            }}
+                                          >
+                                            Bill Status
+                                          </strong>
+                                          <p
+                                            style={{
+                                              backgroundColor: "#D9FFD9",
+                                              padding: "2px 12px",
+                                              borderRadius: "10px",
+                                              display: "inline-block",
+                                              fontFamily: "Gilroy",
+                                              fontSize: "14px",
+                                              fontWeight: "500",
+                                              marginTop: "5px",
+                                            }}
+                                          >
+                                          
+                                              {advanceList?.paymentStatus}
+                                            </p>
+                                          </div>
+
+                                        {/* <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-center">
                                           <Button
                                             disabled={!canWriteTenant}
                                             style={{
@@ -3829,10 +3953,10 @@ console.log("advanceList",advanceList)
                                           >
                                             <img src={!advanceDetail[0]?.inv_id ? whiteaddcircle : EyeIcon} alt="plusicon" className="me-1" /> {!advanceDetail[0]?.inv_id ? "Generate" : "Invoice"}
                                           </Button>
-                                        </div>
+                                        </div> */}
 
                                         </div>
-                                        <div className="row mb-3">
+                                        {/* <div className="row mb-3">
                                           <div className="col-sm-4 d-flex flex-column align-items-start">
                                             <div
                                               style={{
@@ -3850,15 +3974,7 @@ console.log("advanceList",advanceList)
                                                 fontFamily: "Gilroy",
                                               }}
                                             >
-                                              {/* {advanceDetail[0]?.Date
-                                                ? new Date(
-                                                  advanceDetail[0].Date
-                                                ).toLocaleDateString("en-GB", {
-                                                  day: "2-digit",
-                                                  month: "short",
-                                                  year: "numeric",
-                                                })
-                                                : "-"} */}
+                                            
                                                 {advanceList?.invoiceDate}
                                             </p>
                                           </div>
@@ -3880,16 +3996,8 @@ console.log("advanceList",advanceList)
                                                 fontFamily: "Gilroy",
                                               }}
                                             >
-                                              {/* {advanceDetail[0]?.DueDate
-                                                ? new Date(
-                                                  advanceDetail[0].DueDate
-                                                ).toLocaleDateString("en-GB", {
-                                                  day: "2-digit",
-                                                  month: "short",
-                                                  year: "numeric",
-                                                })
-                                                : "-"} */}
-                                                 {advanceList.invoiceDate}
+                                            
+                                                 {advanceList?.invoiceDate}
                                             </p>
                                           </div>
 
@@ -3917,15 +4025,11 @@ console.log("advanceList",advanceList)
                                               marginTop: "5px",
                                             }}
                                           >
-                                            {/* {state.UsersList?.customerdetails.data?.map(
-                                                (item) => (
-                                                  <>{item.status}</>
-                                                )
-                                              )} */}
-                                              {advanceList.paymentStatus}
+                                          
+                                              {advanceList?.paymentStatus}
                                             </p>
                                           </div>
-                                        </div>
+                                        </div> */}
 
 
                                     </div>
@@ -3947,7 +4051,7 @@ console.log("advanceList",advanceList)
 
                               </div>
                             </div>
-                            <div className="row  mt-2 ms-2">
+                            {/* <div className="row  mt-2 ms-2">
                               <div className="col-sm-4 d-flex flex-column align-items-start">
                                 <div
                                   style={{
@@ -4022,7 +4126,7 @@ console.log("advanceList",advanceList)
                                 </div>
                               ))}
 
-                            </div>
+                            </div> */}
                           </div>
 
                         </div>

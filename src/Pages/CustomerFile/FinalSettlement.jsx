@@ -868,12 +868,17 @@ useEffect(()=>{
                                                                     paddingTop: "1rem",
                                                                 }}
                                                             >
-                                                                Actual Stay Days (
+                                                                {/* Actual Stay Days (
                                                                 {finalSettlementList?.currentMonthRentInfo?.stayDays} days × ₹
                                                                 {(
                                                                     (finalSettlementList?.currentMonthRentInfo?.currentMonthRent || 0) / 30
                                                                 ).toFixed(0)}
-                                                                )
+                                                                ) */}
+                                                                Actual Stay Days (
+  {finalSettlementList?.currentMonthRentInfo?.stayDays ?? 0} days × ₹
+  {Number(finalSettlementList?.currentMonthRentInfo?.rentPerDay || 0)}
+)
+
                                                             </td>
                                                             <td
                                                                 className="text-end"
