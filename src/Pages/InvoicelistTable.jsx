@@ -8,6 +8,8 @@ import PropTypes from "prop-types"
 import WriteOffForm from "./InvoiceWriteOff";
 import { useHasPermission } from '../Utils/Permission';
 import { useDispatch, useSelector } from "react-redux";
+import RefundAmount from "./Bills/RefundAmount";
+
 
 const InvoiceTable = (props) => {
 const state = useSelector((state) => state);
@@ -20,6 +22,9 @@ const state = useSelector((state) => state);
 const canWriteInvoice = useHasPermission("Invoice", "canWrite")
 const canUpdateInvoice = useHasPermission("Invoice", "canUpdate")
 const canDeleteInvoice = useHasPermission("Invoice", "canDelete")
+ const [WriteoffForm,setWriteOffForm] = useState(false)
+  const [payapleform,setPayableForm] =useState(false)
+  const [refundDetails, setRefundDetails] = useState('')
 
 
   const handleShowDots = (event) => {
@@ -48,9 +53,7 @@ const canDeleteInvoice = useHasPermission("Invoice", "canDelete")
     props.OnHandleshowDeleteform(props)
   }
 
-  const [WriteoffForm,setWriteOffForm] = useState(false)
-  const [payapleform,setPayableForm] =useState(false)
-
+ 
 const handleWriteOffFrom=(item)=>{
  
   setWriteOffForm(true)
@@ -59,14 +62,31 @@ const handleWriteOffFrom=(item)=>{
 const handleCloseWriteOffForm=()=>{
   setWriteOffForm(false)
 }
-const handleRefundAmount=(item)=>{
- 
+const handleRefundAmount=(details)=>{
+ setRefundDetails(details.item)
   setPayableForm(true)
-  setWriteOffForm(false)
+
 }
 const handleCloseRefundAmount=()=>{
   setPayableForm(false)
 }
+
+useEffect(() => {
+        if (state.InvoiceList.createRefundStatusCode === 200) {
+            setPayableForm(false)
+             dispatch({ type: "MANUALINVOICESLIST", payload: state?.login?.selectedHostel_Id})
+            setTimeout(() => {
+                dispatch({ type: 'REMOVE_CREATE_REFUND' })
+            }, 100)
+        }
+
+    }, [state.InvoiceList.createRefundStatusCode])
+
+
+
+
+
+
 
   // let Dated = new Date(props.item?.invoiceDate);
 
@@ -109,10 +129,7 @@ const handleCloseRefundAmount=()=>{
     // dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: item.hostelId, invoiceId: item.invoiceId}})
    props.DisplayInvoice(true, item)
 }
-   
-
-
-  }
+     }
 
 
   return (
@@ -306,7 +323,7 @@ const handleCloseRefundAmount=()=>{
                     </div>
 
 
-                    {props.item.BalanceDue !== 0 && (
+                    {(props.item.dueAmount !== 0 && props.item?.invoiceAmount > 0) && (
                       <div
                         className={`d-flex justify-content-start align-items-center gap-2  ${!canWriteInvoice ? 'disabled' : ''}`}
                         style={{
@@ -346,7 +363,7 @@ const handleCloseRefundAmount=()=>{
                         </label>
                       </div>
                     )}
-
+{props.item?.invoiceAmount < 0 && (
                     <div
                      className={`d-flex justify-content-start align-items-center gap-2 ${!canWriteInvoice ? 'disabled' : ''}`}
                         style={{
@@ -385,6 +402,7 @@ const handleCloseRefundAmount=()=>{
                          Refund Amount
                         </label>
                       </div>
+)}
 <div
                        className={`d-flex justify-content-start align-items-center gap-2 ${!canWriteInvoice ? 'disabled' : ''}`}
 
@@ -476,9 +494,13 @@ const handleCloseRefundAmount=()=>{
       </tr>
 
       {
-        (WriteoffForm || payapleform) &&(
-          <WriteOffForm  WriteoffForm={WriteoffForm} handleCloseWriteOffForm={handleCloseWriteOffForm} payapleform={payapleform} handleCloseRefundAmount={handleCloseRefundAmount}/>
+        (WriteoffForm) &&(
+          <WriteOffForm  WriteoffForm={WriteoffForm} handleCloseWriteOffForm={handleCloseWriteOffForm}  handleCloseRefundAmount={handleCloseRefundAmount}/>
         )
+      }
+
+      {
+        payapleform && <RefundAmount  show={payapleform}  handleClose={handleCloseRefundAmount} refundDetails={refundDetails}/>
       }
     </>
   )

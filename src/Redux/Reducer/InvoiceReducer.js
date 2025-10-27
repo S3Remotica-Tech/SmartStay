@@ -22,7 +22,7 @@ export const initialState = {
     RecordPaymentUpdateStatusCode: 0,
     ManualInvoiceNUmber: [],
     ManualInvoiceNumberError: '',
-    unableAddInvoiceDetailsError:'',
+    unableAddInvoiceDetailsError: '',
     ManualInvoices: [],
     ManualInvoicesgetstatuscode: 0,
     Manulainvoicenumberstatuscode: 0,
@@ -79,11 +79,11 @@ export const initialState = {
     statusodeForPayableAmount: 0,
     payapleAmountError: '',
     finalSettlementDetails: [],
-    finalSettlementGetStatusCode:0,
+    finalSettlementGetStatusCode: 0,
     particularBillsDetails: [],
     billsGetStatusCode: 0,
     particularReceiptDetails: [],
-    receiptGetStatusCode:0,
+    receiptGetStatusCode: 0,
     whatsappSettings:
         JSON.parse(localStorage.getItem('whatsappSettings')) || {
             0: false,
@@ -104,27 +104,38 @@ const InvoiceReducer = (state = initialState, action) => {
 
         case 'REMOVE_ERROR_AMENITIES':
             return { ...state, errorAmenities: 0 }
-            case 'GET_FINAL_SETTLEMENT':
-                            return { ...state, finalSettlementDetails: action.payload.response,finalSettlementGetStatusCode: action.payload.statusCode }
-                   case 'REMOVE_GET_FINAL_SETTLEMENT':
-                            return { ...state, finalSettlementGetStatusCode:0 }
+        case 'GET_FINAL_SETTLEMENT':
+            return { ...state, finalSettlementDetails: action.payload.response, finalSettlementGetStatusCode: action.payload.statusCode }
+        case 'REMOVE_GET_FINAL_SETTLEMENT':
+            return { ...state, finalSettlementGetStatusCode: 0 }
+        case 'CREATE_REFUND':
+            return { ...state, createRefundStatusCode: action.payload.statusCode }
+        case 'REMOVE_CREATE_REFUND':
+            return { ...state, createRefundStatusCode: 0 }
 
-case 'GET_PARTICULAR_BILL_DETAILS':
-                            return { ...state, particularBillsDetails: action.payload.response,billsGetStatusCode: action.payload.statusCode }
-case 'REMOVE_PARTICULAR_BILL_DETAILS':
-                            return { ...state, billsGetStatusCode: 0 }
-
-
-case 'GET_PARTICULAR_RECEIPT_DETAILS':
-                            return { ...state, particularReceiptDetails: action.payload.response,receiptGetStatusCode: action.payload.statusCode }
-case 'REMOVE_PARTICULAR_RECEIPT_DETAILS':
-                            return { ...state, receiptGetStatusCode: 0 }
+        case 'GET_INITIALIZE_REFUND_DETAILS':
+            return { ...state, refundDetails: action.payload.response, refundDetailsStatusCode: action.payload.statusCode }
+        case 'REMOVE_GET_INITIALIZE_REFUND_DETAILS':
+            return { ...state, refundDetailsStatusCode: 0 }
 
 
 
+        case 'GET_PARTICULAR_BILL_DETAILS':
+            return { ...state, particularBillsDetails: action.payload.response, billsGetStatusCode: action.payload.statusCode }
+        case 'REMOVE_PARTICULAR_BILL_DETAILS':
+            return { ...state, billsGetStatusCode: 0 }
 
-   
-                            case 'ALREADY_ASSIGN_ERROR':
+
+        case 'GET_PARTICULAR_RECEIPT_DETAILS':
+            return { ...state, particularReceiptDetails: action.payload.response, receiptGetStatusCode: action.payload.statusCode }
+        case 'REMOVE_PARTICULAR_RECEIPT_DETAILS':
+            return { ...state, receiptGetStatusCode: 0 }
+
+
+
+
+
+        case 'ALREADY_ASSIGN_ERROR':
             return { ...state, alreadyAssignAmenitiesStatusCode: action.payload.statusCode }
 
         case 'REMOVE_ALREADY_ASSIGN_ERROR':
