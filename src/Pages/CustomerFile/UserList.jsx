@@ -1324,7 +1324,15 @@ console.log("customernameeeeeeeeeeeeeeeee",customername)
     }
   }, [state.Booking.statusCodeGetBooking]);
 
+useEffect(() => {
+        if (state.UsersList.cancelCheckoutStatusCode === 200) {
+            setBacktoCheckInForm(false)
+            setTimeout(() => {
+                dispatch({ type: 'REMOVE_CANCEL_CHECKOUT' })
+            }, 100)
+        }
 
+    }, [state.UsersList.cancelCheckoutStatusCode])
 
   useEffect(() => {
     if (value === "1") {
@@ -2455,6 +2463,7 @@ console.log("customernameeeeeeeeeeeeeeeee",customername)
   }
 
   const handleCloseBackToCheckIn = () => {
+    dispatch({ type: 'REMOVE_CANCEL_CHECKOUT_ERROR'})
     setBacktoCheckInForm(false)
   }
 
@@ -5784,7 +5793,7 @@ console.log("customernameeeeeeeeeeeeeeeee",customername)
       }
 
       {
-        bactocheckinForm && <BackToCheckIn show={bactocheckinForm} handleClose={handleCloseBackToCheckIn} />
+        bactocheckinForm && <BackToCheckIn show={bactocheckinForm} handleClose={handleCloseBackToCheckIn} checkInDetails={EditObj} />
 
       }
 

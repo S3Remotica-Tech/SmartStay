@@ -494,6 +494,15 @@ export async function AddCheckOutCustomer(checkout) {
     });
 }
 
+
+
+export async function CancelCheckOutCustomer(checkout) {
+  console.log("checkout",checkout)
+  return await AxiosConfigV2.post(`/v2/customers/cancel-checkout/${checkout.hostelId}/${checkout.customerId}`, checkout,{
+      data: checkout
+    });
+}
+
 // export async function AddCheckOutCustomer(payload) {
 //   return await AxiosConfigV2.post(
 //     `/v2/customers/notice/${payload.hostelId}/${payload.customerId}`,

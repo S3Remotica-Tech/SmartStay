@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import {getParticularCustomerReading, getParticularRoomReading, getCustomerReading,
+import {CancelCheckOutCustomer, getParticularCustomerReading, getParticularRoomReading, getCustomerReading,
    cancelBookingGet, bookingToCheckIn, addRoomReading, getRoomReading,
    bookedDetails, availableBedDetailsForDate, checkoutDetailView, customerSaveInfo, CheckIn, GetAllFloor, getParticularHostelList, ConfirmCheckout_Due_Customer, deleteCustomer,
    AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer,
@@ -15,6 +15,54 @@ import {getParticularCustomerReading, getParticularRoomReading, getCustomerReadi
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+function* handleApiError(error) {
+   if (error?.status === 401 || error?.response?.status === 401) {
+      yield put({
+         type: "UN-AUTHORIZED",
+         payload: "Access Denied",
+      });
+   }
+
+}
+
+
+
+function* handleCancelCheckout(reading) {
+   try {
+      const response = yield call(CancelCheckOutCustomer, reading.payload)
+
+      if (response.status === 200) {
+         yield put({ type: 'CANCEL_CHECKOUT', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      }
+     
+      if (response) {
+         refreshToken(response)
+      }
+   }
+   catch (error) {
+ yield* handleApiError(error);
+     if (error.code === 'ERR_BAD_REQUEST') {
+         if (error.status === 400) {
+            yield put({ type: 'CANCEL_CHECKOUT_ERROR', payload: error.response.data });
+         }
+      } else if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
+   
+
+
+}
+
+
+
+
+
+
+
+
+
 
 
 function* handleGetParticularCustomerReading(reading) {
@@ -30,7 +78,7 @@ function* handleGetParticularCustomerReading(reading) {
       }
    }
    catch (err) {
-
+ yield* handleApiError(err);
       const error = err || {};
 
       yield put({
@@ -1443,16 +1491,15 @@ function* handleAddCheckoutCustomer(action) {
          refreshToken(response)
       }
    }
-   catch (err) {
-      const error = err || {};
-
-      yield put({
-         type: 'NETWORK_ERROR',
-         payload:
-            error?.code === 'ERR_NETWORK'
-               ? 'Network error occurred'
-               : error?.message || 'Something went wrong',
-      });
+   catch (error) {
+      yield* handleApiError(error);
+        if (error.code === 'ERR_BAD_REQUEST') {
+         if (error.status === 400) {
+            yield put({ type: 'ADD_CHECKOUT_CUSTOMER_LIST_ERROR', payload: error.response.data });
+         }
+      } else if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
    }
 
 }
@@ -2640,6 +2687,7 @@ function* handleCheckoutProfile(action) {
 
 
 function* UserListSaga() {
+   yield takeEvery('CANCELCHECKOUT', handleCancelCheckout)
    yield takeEvery('GETCUSTOMERREADING', handleGetCustomerReading)
    yield takeEvery('GETPARTICULARCUSTOMERREADING',handleGetParticularCustomerReading)
     yield takeEvery('GETPARTICULARROOMREADING', handleGetParticularRoomReading)

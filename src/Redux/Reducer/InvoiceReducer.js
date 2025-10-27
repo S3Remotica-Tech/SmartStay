@@ -84,6 +84,9 @@ export const initialState = {
     billsGetStatusCode: 0,
     particularReceiptDetails: [],
     receiptGetStatusCode: 0,
+    createRefundStatusCode:0,
+    refundDetails:[],
+    refundDetailsStatusCode:0,
     whatsappSettings:
         JSON.parse(localStorage.getItem('whatsappSettings')) || {
             0: false,

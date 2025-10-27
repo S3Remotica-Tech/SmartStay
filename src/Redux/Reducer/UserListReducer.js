@@ -146,11 +146,13 @@ export const initialState = {
     getCustomerReadingList: [],
     getCustomerReadingStatus: 0,
     getParticularCustomerReadingList: [],
-     getParticularCustomerReadingStatus:0,
-     statusCodeForFinalSettlement:0,
-     statuscodeForConformCheckout:0,
-     chrckoutError:'',
-     finalError:''
+    getParticularCustomerReadingStatus: 0,
+    statusCodeForFinalSettlement: 0,
+    statuscodeForConformCheckout: 0,
+    chrckoutError: '',
+    finalError: '',
+    cancelCheckoutStatusCode: 0,
+    cancelCheckoutError: ""
 
 }
 
@@ -164,7 +166,10 @@ const UserListReducer = (state = initialState, action) => {
             return initialState;
         case 'AVAILABLE_BED':
             return { ...state, availableBedList: action.payload.response }
-
+        case 'CANCEL_CHECKOUT':
+            return { ...state, cancelCheckoutStatusCode: action.payload.statusCode }
+        case 'REMOVE_CANCEL_CHECKOUT':
+            return { ...state, cancelCheckoutStatusCode: 0 }
         case 'INITIALIZE_CANCEL_BOOKING':
             return { ...state, initializeCancelBookingList: action.payload.response }
 
@@ -186,7 +191,7 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, getCustomerReadingList: action.payload.response, getCustomerReadingStatus: action.payload.statusCode }
         case 'REMOVE_GET_CUSTOMER_READING':
             return { ...state, getCustomerReadingStatus: 0 }
-case 'GET_PARTICULAR_CUSTOMER_READING':
+        case 'GET_PARTICULAR_CUSTOMER_READING':
             return { ...state, getParticularCustomerReadingList: action.payload.response, getParticularCustomerReadingStatus: action.payload.statusCode }
         case 'REMOVE_GET_PARTICULAR_CUSTOMER_READING':
             return { ...state, getParticularCustomerReadingStatus: 0 }
@@ -204,6 +209,13 @@ case 'GET_PARTICULAR_CUSTOMER_READING':
 
         case 'REMOVE_ROOM_READING_ERROR':
             return { ...state, roomReadingError: '' }
+
+        case 'CANCEL_CHECKOUT_ERROR':
+            return { ...state, cancelCheckoutError: action.payload }
+        case 'REMOVE_CANCEL_CHECKOUT_ERROR':
+            return { ...state, cancelCheckoutError: "" }
+
+
 
         case 'DELETE_CUSTOMER':
             return { ...state, deleteCustomerSuccessStatusCode: action.payload.statusCode }
@@ -707,7 +719,7 @@ case 'GET_PARTICULAR_CUSTOMER_READING':
             return { ...state, StatuscodeforCheckoutProfile: 0 }
 
 
-              case 'FINAL_GENERATE':
+        case 'FINAL_GENERATE':
             return { ...state, statusCodeForFinalSettlement: action.payload.statusCode }
         case 'CLEAR_FINAL_GENERATE':
             return { ...state, statusCodeForFinalSettlement: 0 }
@@ -715,21 +727,21 @@ case 'GET_PARTICULAR_CUSTOMER_READING':
 
 
 
-            case 'CONFORM_CHECKOUT_ERROR':
+        case 'CONFORM_CHECKOUT_ERROR':
             return { ...state, chrckoutError: action.payload }
 
         case 'REMOVE_CONFORM_CHECKOUT_ERROR':
             return { ...state, chrckoutError: '' }
 
 
-             case 'CONFORM_CHECKOUT':
+        case 'CONFORM_CHECKOUT':
             return { ...state, statuscodeForConformCheckout: action.payload.statusCode }
 
         case 'REMOVE_CONFORM_CHECKOUT':
-            return { ...state, statuscodeForConformCheckout:0 }
+            return { ...state, statuscodeForConformCheckout: 0 }
 
 
-              case 'FINAL_GENERATE_ERROR':
+        case 'FINAL_GENERATE_ERROR':
             return { ...state, finalError: action.payload }
 
         case 'REMOVE_FINAL_GENERATE_ERROR':
