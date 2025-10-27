@@ -42,8 +42,8 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
 
 
     useEffect(() => {
-        if (data?.customerId) {
-            dispatch({ type: "GETFINALSETTLEMENT", payload: data?.customerId });
+        if (data?.customerId || data?.currentTenantCustomerId) {
+            dispatch({ type: "GETFINALSETTLEMENT", payload: data?.customerId  || data?.currentTenantCustomerId});
             setFormLoading(true)
         }
     }, [data])

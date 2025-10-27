@@ -42,6 +42,10 @@ function NoticeBedStatusDetails({
   const [bactocheckinForm, setBacktoCheckInForm] = useState(false)
   const popupRef = useRef(null);
   const isNoticeAndBooked = currentItem?.newTenantCustomerId !== null
+
+
+console.log("currentItem",currentItem)
+
   const handleShowDots = (type) => {
     setActiveMenu((prev) => (prev === type ? null : type));
   }
@@ -330,7 +334,7 @@ console.log("currentItem",currentItem)
                           }}
                         >
 
-
+{/* Cancel checkout */}
 
                           {
                             currentItem?.newTenantCustomerId &&
@@ -338,7 +342,8 @@ console.log("currentItem",currentItem)
                               <div>
                                 <div
                                   className="d-flex gap-2 align-items-center"
-                                  // onClick={() => canWriteCustomers && handleCheckout(currentItem)}
+                                 onClick={() => handleRecheckInBed()}
+
 
                                   style={{
                                     padding: "10px",
@@ -371,7 +376,7 @@ console.log("currentItem",currentItem)
                             matchedData[0]?.currentStatus === "Notice Period" &&
                               <div>
 
-
+{/* cancel checkout */}
                                 <div
                                   className="d-flex gap-2 align-items-center"
                                   onClick={() => handleRecheckInBed()}
@@ -389,11 +394,11 @@ console.log("currentItem",currentItem)
                                 >
 
                                   <img src={CalenderTick} alt="Re-Assign Bed" style={{ filter: canWriteCustomers ? "none" : "grayscale(100%)" }} />
-                                  <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#A0A0A0", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed", }}>Cancal Checkout</label>
+                                  <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#A0A0A0", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed", }}>Cancel Checkout</label>
                                 </div>
 
                                 <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
-
+{/* new booking */}
                                 <div
                                   className="d-flex gap-2 align-items-center"
                                   onClick={canWriteCustomers ? () => handleNewBooking() : undefined}
@@ -413,7 +418,7 @@ console.log("currentItem",currentItem)
                                   </label>
                                 </div>
                                 <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
-
+{/* Generate */}
                                 <div
                                   className="d-flex gap-2 align-items-center"
                                   onClick={() => canWriteCustomers && handleFinalsettelmentGenerate(currentItem)}
@@ -433,6 +438,7 @@ console.log("currentItem",currentItem)
                                 </div>
                               </div>
                           }
+ {/* Checkout */}
                           {
                             matchedData[0]?.currentStatus === "Settlement Generated" &&
                              <div
@@ -543,7 +549,7 @@ console.log("currentItem",currentItem)
                             }}
                           >
 
-
+{/* Check in   */}
 
 
                             <div
@@ -559,7 +565,7 @@ console.log("currentItem",currentItem)
                                 borderBottomLeftRadius: 10,
                                 borderBottomRightRadius: 10,
                                 cursor:
-                                  canWriteCustomers && !currentItem.isOccupied ? "pointer" : "not-allowed",
+                                  canWriteCustomers && currentItem.currentTenantCustomerId ? "pointer" : "not-allowed",
                                 opacity: canWriteCustomers && !currentItem.isOccupied ? 1 : 0.6,
                               }}
                               onMouseEnter={(e) => {
@@ -627,7 +633,7 @@ console.log("currentItem",currentItem)
                               </div>
                             </div>
 
-
+{/* Change bed */}
                             <div
                               className="d-flex gap-2 align-items-center"
                               onClick={canWriteCustomers ? () => handleChangeBed(currentItem) : undefined}
@@ -648,7 +654,7 @@ console.log("currentItem",currentItem)
                               }} />
                               <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#dcdcdc", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed", }}>Change Bed</label>
                             </div>
-
+{/* make as Inactive */}
                             <div
                               className="d-flex gap-2 align-items-center"
                                onClick={canWriteCustomers ? () => handleMakeAsInActive() : undefined}

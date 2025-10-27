@@ -466,7 +466,7 @@ useEffect(() => {
         <div>
 
 {
-        bactocheckinForm && <BackToCheckIn show={bactocheckinForm} handleClose={handleCloseBackToCheckIn} />
+        bactocheckinForm && <BackToCheckIn show={bactocheckinForm} handleClose={handleCloseBackToCheckIn} checkInDetails={customer} />
 
       }
 
