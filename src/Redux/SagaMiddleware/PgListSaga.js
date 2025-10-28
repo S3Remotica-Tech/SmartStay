@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { UpdateBed, getAllBed, updateRoom, getAllRoom, add_sub_comments, get_comments, add_comments, delete_announcement, deleteHostelImages, UpdateFloor, DeletePG, DeleteBed, createBed, createPgList, createRoom, CheckRoomId, CheckBedDetails, Checkeblist, CreateEbbill, EB_Customerlist, EB_startmeterlist, createAllPGDetails, OccupiedCustomer, EB_CustomerListTable, editElectricity, deleteElectricity, dashboardFilter, ebAddHostelReading, ebHostelBasedRead, ebAddHostelEdit, ebAddHostelDelete, announcement_list, add_announcement,DeleteHostel } from "../Action/PgListAction";
+import { UpdateBed, getAllBed, updateRoom, getAllRoom, add_sub_comments, get_comments, add_comments, delete_announcement, deleteHostelImages, UpdateFloor, DeletePG, DeleteBed, createBed, createPgList, createRoom, CheckRoomId, CheckBedDetails, Checkeblist, CreateEbbill, EB_Customerlist, EB_startmeterlist, createAllPGDetails, OccupiedCustomer, EB_CustomerListTable, editElectricity, deleteElectricity, dashboardFilter, ebAddHostelReading, ebHostelBasedRead, ebAddHostelEdit, ebAddHostelDelete, announcement_list, add_announcement, DeleteHostel } from "../Action/PgListAction";
 import Cookies from "universal-cookie";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -88,7 +88,7 @@ function* handleGetAllBed(action) {
   try {
     const response = yield call(getAllBed, action.payload);
 
-   
+
 
     if (response.status === 200) {
       yield put({ type: 'GET_ALL_BEDS', payload: { response: response.data, statusCode: response.status } })
@@ -113,7 +113,7 @@ function* handlePgList(datum) {
   try {
     const response = yield call(createPgList, datum.payload);
 
-   
+
 
     var toastStyle = {
       backgroundColor: "#E6F6E6",
@@ -559,7 +559,7 @@ function* handleCreateBed(action) {
     }
   }
   catch (error) {
-   
+
 
     if (error.code === 'ERR_BAD_REQUEST') {
       if (error.status === 409) {
@@ -619,47 +619,55 @@ function* handleDeleteBed(action) {
 }
 
 function* handleDeletePG(action) {
-  const response = yield call(DeletePG, action.payload);
-  var toastStyle = {
-    backgroundColor: "#E6F6E6",
-    color: "black",
-    width: "100%",
-    borderRadius: "60px",
-    height: "20px",
-    fontFamily: "Gilroy",
-    fontWeight: 600,
-    fontSize: 14,
-    textAlign: "start",
-    display: "flex",
-    alignItems: "center",
-    padding: "10px",
+  try {
+    const response = yield call(DeletePG, action.payload);
+    var toastStyle = {
+      backgroundColor: "#E6F6E6",
+      color: "black",
+      width: "100%",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center",
+      padding: "10px",
 
-  };
-  if (response.status === 200 || response.statusCode === 200) {
-    yield put({
-      type: "DELETE_PG",
-      payload: {
-        response: response.data,
-        statusCode: response.status || response.statusCode,
-      },
-    });
-    toast.success("Deleted successfully", {
-      position: "bottom-center",
-      autoClose: 2000,
-      hideProgressBar: true,
-      closeButton: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      style: toastStyle,
-    });
-  } else if (response.status === 201 || response.statusCode === 201) {
-    yield put({ type: "DELETE_PG_ERROR", payload: response.data.message });
-
+    };
+    if (response.status === 200 || response.statusCode === 200) {
+      yield put({
+        type: "DELETE_PG",
+        payload: {
+          response: response.data,
+          statusCode: response.status || response.statusCode,
+        },
+      });
+      toast.success("Deleted successfully", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
+    if (response) {
+      refreshToken(response);
+    }
   }
-  if (response) {
-    refreshToken(response);
+  catch (error) {
+    if (error.code === 'ERR_BAD_REQUEST') {
+      if (error.status === 400) {
+        yield put({ type: 'DELETE_PG_ERROR', payload: error.response.data });
+      }
+    } else if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+    }
   }
 }
 
@@ -731,7 +739,7 @@ function* handleOccupiedCustomer(action) {
       },
     });
 
-  } 
+  }
   if (response) {
     refreshToken(response);
   }
@@ -1341,7 +1349,7 @@ function* handleCreateSubComments(action) {
 }
 
 // function* handleDeleteHostel(action) {
-  
+
 //   const response = yield call(DeleteHostel, action.payload);
 
 //   var toastStyle = {
@@ -1395,7 +1403,7 @@ function* handleCreateSubComments(action) {
 //       yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
 //     }
 //   }
-  
+
 // }
 function* handleDeleteHostel(action) {
   try {
@@ -1436,28 +1444,31 @@ function* handleDeleteHostel(action) {
         progress: undefined,
         style: toastStyle,
       });
-    } else if (response.status === 201 || response.statusCode === 201) {
-      yield put({
-        type: "DELETE_HOSTEL_ERROR",
-        payload: response.data.message,
-      });
     }
-
     if (response) {
       refreshToken(response);
     }
 
   } catch (error) {
-    if (error.code === "ERR_NETWORK") {
-      yield put({
-        type: "NETWORK_ERROR",
-        payload: "Network error occurred",
-      });
-    } else {
-      yield put({
-        type: "NETWORK_ERROR",
-        payload: error.message || "Something went wrong",
-      });
+    if (error.code === 'ERR_BAD_REQUEST') {
+      if (error.status === 400) {
+
+        toast.error(`${error.response.data}`, {
+          style: { fontFamily: "Gilroy", font: "#000", borderBottom: "5px solid red" },
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeButton: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+
+        });
+        // yield put({ type: 'DELETE_HOSTEL_ERROR', payload: error.response.data });
+      }
+    } else if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
     }
   }
 }
@@ -1513,7 +1524,7 @@ function* PgListSaga() {
   yield takeEvery("CREATECOMMENTS", handleCreateComments)
   yield takeEvery("GETCOMMENTS", handleGetComments)
   yield takeEvery("CREATESUBCOMMENTS", handleCreateSubComments)
-   yield takeEvery("DELETEHOSTEL", handleDeleteHostel)
+  yield takeEvery("DELETEHOSTEL", handleDeleteHostel)
 
 
 
