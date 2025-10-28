@@ -12,18 +12,18 @@ import RefundAmount from "./Bills/RefundAmount";
 
 
 const InvoiceTable = (props) => {
-const state = useSelector((state) => state);
+  const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [showDots, setShowDots] = useState('')
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
 
 
-const canWriteInvoice = useHasPermission("Invoice", "canWrite")
-const canUpdateInvoice = useHasPermission("Invoice", "canUpdate")
-const canDeleteInvoice = useHasPermission("Invoice", "canDelete")
- const [WriteoffForm,setWriteOffForm] = useState(false)
-  const [payapleform,setPayableForm] =useState(false)
+  const canWriteInvoice = useHasPermission("Invoice", "canWrite")
+  const canUpdateInvoice = useHasPermission("Invoice", "canUpdate")
+  const canDeleteInvoice = useHasPermission("Invoice", "canDelete")
+  const [WriteoffForm, setWriteOffForm] = useState(false)
+  const [payapleform, setPayableForm] = useState(false)
   const [refundDetails, setRefundDetails] = useState('')
 
 
@@ -53,34 +53,34 @@ const canDeleteInvoice = useHasPermission("Invoice", "canDelete")
     props.OnHandleshowDeleteform(props)
   }
 
- 
-const handleWriteOffFrom=(item)=>{
- 
-  setWriteOffForm(true)
-  setPayableForm(false)
-}
-const handleCloseWriteOffForm=()=>{
-  setWriteOffForm(false)
-}
-const handleRefundAmount=(details)=>{
- setRefundDetails(details.item)
-  setPayableForm(true)
 
-}
-const handleCloseRefundAmount=()=>{
-  setPayableForm(false)
-}
+  const handleWriteOffFrom = (item) => {
 
-useEffect(() => {
-        if (state.InvoiceList.createRefundStatusCode === 200) {
-            setPayableForm(false)
-             dispatch({ type: "MANUALINVOICESLIST", payload: state?.login?.selectedHostel_Id})
-            setTimeout(() => {
-                dispatch({ type: 'REMOVE_CREATE_REFUND' })
-            }, 100)
-        }
+    setWriteOffForm(true)
+    setPayableForm(false)
+  }
+  const handleCloseWriteOffForm = () => {
+    setWriteOffForm(false)
+  }
+  const handleRefundAmount = (details) => {
+    setRefundDetails(details.item)
+    setPayableForm(true)
 
-    }, [state.InvoiceList.createRefundStatusCode])
+  }
+  const handleCloseRefundAmount = () => {
+    setPayableForm(false)
+  }
+
+  useEffect(() => {
+    if (state.InvoiceList.createRefundStatusCode === 200) {
+      setPayableForm(false)
+      dispatch({ type: "MANUALINVOICESLIST", payload: state?.login?.selectedHostel_Id })
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_CREATE_REFUND' })
+      }, 100)
+    }
+
+  }, [state.InvoiceList.createRefundStatusCode])
 
 
 
@@ -125,11 +125,11 @@ useEffect(() => {
 
 
   const handleDownload = (item) => {
-        if(item){
-    // dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: item.hostelId, invoiceId: item.invoiceId}})
-   props.DisplayInvoice(true, item)
-}
-     }
+    if (item) {
+      // dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: item.hostelId, invoiceId: item.invoiceId}})
+      props.DisplayInvoice(true, item)
+    }
+  }
 
 
   return (
@@ -180,48 +180,88 @@ useEffect(() => {
         </td>
 
         <td
-  style={{
-    border: "none",
-    textAlign: "start",
-    verticalAlign: "middle",
-    fontSize: 13,
-    fontWeight: 500,
-    fontFamily: "Gilroy",
-    color: props.item?.paymentStatus === "Paid" ? "green" : "red",
-    borderBottom: "1px solid #E8E8E8",
-  }}
-  className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
->
-  {(props.item?.paymentStatus === "Pending" ||
-    props.item?.paymentStatus === "Partial Payment") && (
-    <span
-      style={{
-        backgroundColor: "#FFD9D9",
-        color: "#000",
-        borderRadius: "14px",
-        fontFamily: "Gilroy",
-        padding: "8px 12px",
-      }}
-    >
-      {props.item?.paymentStatus}
-    </span>
-  )}
+          style={{
+            border: "none",
+            textAlign: "start",
+            verticalAlign: "middle",
+            fontSize: 13,
+            fontWeight: 500,
+            fontFamily: "Gilroy",
+            color:
+              props.item?.paymentStatus === "Paid"
+                ? "green"
+                : props.item?.paymentStatus === "Refunded"
+                  ? "#d97706" // orange shade
+                  : props.item?.paymentStatus === "Pending Refund"
+                    ? "#b45309" // darker amber
+                    : "red",
+            borderBottom: "1px solid #E8E8E8",
+          }}
+          className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
+        >
 
-  {props.item?.paymentStatus === "Paid" && (
-    <span
-      style={{
-        cursor: "pointer",
-        backgroundColor: "#D9FFD9",
-        fontFamily: "Gilroy",
-        color: "#000",
-        borderRadius: "14px",
-        padding: "8px 12px",
-      }}
-    >
-      {props.item?.paymentStatus}
-    </span>
-  )}
-</td>
+          {(props.item?.paymentStatus === "Pending" ||
+            props.item?.paymentStatus === "Partial Payment") && (
+              <span
+                style={{
+                  backgroundColor: "#FFD9D9",
+                  color: "#000",
+                  borderRadius: "14px",
+                  fontFamily: "Gilroy",
+                  padding: "8px 12px",
+                }}
+              >
+                {props.item?.paymentStatus}
+              </span>
+            )}
+
+          {/* Paid */}
+          {props.item?.paymentStatus === "Paid" && (
+            <span
+              style={{
+                cursor: "pointer",
+                backgroundColor: "#D9FFD9",
+                fontFamily: "Gilroy",
+                color: "#000",
+                borderRadius: "14px",
+                padding: "8px 12px",
+              }}
+            >
+              {props.item?.paymentStatus}
+            </span>
+          )}
+
+
+          {props.item?.paymentStatus === "Refunded" && (
+            <span
+              style={{
+                backgroundColor: "#FFF3CD",
+                color: "#8B8000",
+                borderRadius: "14px",
+                fontFamily: "Gilroy",
+                padding: "8px 12px",
+              }}
+            >
+              {props.item?.paymentStatus}
+            </span>
+          )}
+
+
+          {props.item?.paymentStatus === "Pending Refund" && (
+            <span
+              style={{
+                backgroundColor: "#FFE6B3",
+                color: "#b45309",
+                borderRadius: "14px",
+                fontFamily: "Gilroy",
+                padding: "8px 12px",
+              }}
+            >
+              {props.item?.paymentStatus}
+            </span>
+          )}
+        </td>
+
 
 
         <td style={{ textAlign: 'center', verticalAlign: 'middle', border: "none", borderBottom: "1px solid #E8E8E8" }} className=''>
@@ -262,13 +302,13 @@ useEffect(() => {
                         borderTopRightRadius: 10,
                         backgroundColor: "#F9F9F9",
                         padding: "8px 12px",
-                         opacity: !canUpdateInvoice ? 0.5 : 1,
+                        opacity: !canUpdateInvoice ? 0.5 : 1,
                       }}
                       onClick={() => {
                         if (canUpdateInvoice) handleEdit(props);
                       }}
                       onMouseEnter={(e) => {
-                         e.currentTarget.style.backgroundColor = "#EDF2FF";
+                        e.currentTarget.style.backgroundColor = "#EDF2FF";
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.backgroundColor = "#F9F9F9";
@@ -288,8 +328,8 @@ useEffect(() => {
                           fontSize: 14,
                           fontWeight: 500,
                           fontFamily: "Gilroy, sans-serif",
-                          color:  "#222",
-                           cursor: !canUpdateInvoice ? "not-allowed" : "pointer",
+                          color: "#222",
+                          cursor: !canUpdateInvoice ? "not-allowed" : "pointer",
                         }}
                       >
                         Edit
@@ -298,14 +338,15 @@ useEffect(() => {
 
                     <div
                       className="d-flex justify-content-start align-items-center gap-2 "
-                      onClick={() => {if (canWriteInvoice) {handleInvoicepdf(props.item)}}}
+                      onClick={() => { if (canWriteInvoice) { handleInvoicepdf(props.item) } }}
                       style={{
                         cursor: !canWriteInvoice ? "not-allowed" : "pointer",
                         padding: "8px 12px",
-                         opacity: !canWriteInvoice ? 0.5 : 1,
+                        opacity: !canWriteInvoice ? 0.5 : 1,
                       }}
-                      onMouseEnter={(e) => { 
-                     e.currentTarget.style.backgroundColor = "#EDF2FF"}}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = "#EDF2FF"
+                      }}
                       onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#F9F9F9")}
                     >
                       <img src={Download} alt="Download" style={{ height: 16, width: 16 }} />
@@ -315,7 +356,7 @@ useEffect(() => {
                           fontWeight: 500,
                           fontFamily: "Gilroy, sans-serif",
                           color: "#222",
-                           cursor: !canWriteInvoice ? "not-allowed" : "pointer",
+                          cursor: !canWriteInvoice ? "not-allowed" : "pointer",
                         }}
                       >
                         Download
@@ -335,7 +376,7 @@ useEffect(() => {
                           if (canWriteInvoice) handleShowform(props);
                         }}
                         onMouseEnter={(e) => {
-                           e.currentTarget.style.backgroundColor = "#EDF2FF";
+                          e.currentTarget.style.backgroundColor = "#EDF2FF";
                         }}
                         onMouseLeave={(e) => {
                           e.currentTarget.style.backgroundColor = "#F9F9F9";
@@ -355,17 +396,17 @@ useEffect(() => {
                             fontSize: 14,
                             fontWeight: 500,
                             fontFamily: "Gilroy, sans-serif",
-                            color:  "#222",
-                             cursor: !canWriteInvoice ? "not-allowed" : "pointer",
+                            color: "#222",
+                            cursor: !canWriteInvoice ? "not-allowed" : "pointer",
                           }}
                         >
                           Record Payment
                         </label>
                       </div>
                     )}
-{props.item?.invoiceAmount < 0 && (
-                    <div
-                     className={`d-flex justify-content-start align-items-center gap-2 ${!canWriteInvoice ? 'disabled' : ''}`}
+                    {props.item?.invoiceAmount < 0 && (
+                      <div
+                        className={`d-flex justify-content-start align-items-center gap-2 ${!canWriteInvoice ? 'disabled' : ''}`}
                         style={{
                           cursor: !canWriteInvoice ? "not-allowed" : "pointer",
                           padding: "8px 12px",
@@ -395,53 +436,53 @@ useEffect(() => {
                             fontSize: 14,
                             fontWeight: 500,
                             fontFamily: "Gilroy, sans-serif",
-                            color:  "#222",
-                             cursor: !canWriteInvoice ? "not-allowed" : "pointer",
+                            color: "#222",
+                            cursor: !canWriteInvoice ? "not-allowed" : "pointer",
                           }}
                         >
-                         Refund Amount
+                          Refund Amount
                         </label>
                       </div>
-)}
-<div
-                       className={`d-flex justify-content-start align-items-center gap-2 ${!canWriteInvoice ? 'disabled' : ''}`}
+                    )}
+                    <div
+                      className={`d-flex justify-content-start align-items-center gap-2 ${!canWriteInvoice ? 'disabled' : ''}`}
 
-                        style={{
-                          cursor: !canWriteInvoice ? "not-allowed" : "pointer",
-                          padding: "8px 12px",
-                          opacity: !canWriteInvoice ? 0.5 : 1,
-                        }}
-                        onClick={() => {
-                          if (canWriteInvoice) handleWriteOffFrom(props.item);
-                        }}
-                        onMouseEnter={(e) => {
+                      style={{
+                        cursor: !canWriteInvoice ? "not-allowed" : "pointer",
+                        padding: "8px 12px",
+                        opacity: !canWriteInvoice ? 0.5 : 1,
+                      }}
+                      onClick={() => {
+                        if (canWriteInvoice) handleWriteOffFrom(props.item);
+                      }}
+                      onMouseEnter={(e) => {
                         e.currentTarget.style.backgroundColor = "#EDF2FF";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = "#F9F9F9";
+                      }}
+                    >
+                      <img
+                        src={Assign}
+                        alt="Record"
+                        style={{
+                          height: 16,
+                          width: 16,
+                          filter: !canWriteInvoice ? "grayscale(100%)" : "none",
                         }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.backgroundColor = "#F9F9F9";
+                      />
+                      <label
+                        style={{
+                          fontSize: 14,
+                          fontWeight: 500,
+                          fontFamily: "Gilroy, sans-serif",
+                          color: "#222",
+                          cursor: !canWriteInvoice ? "not-allowed" : "pointer",
                         }}
                       >
-                        <img
-                          src={Assign}
-                          alt="Record"
-                          style={{
-                            height: 16,
-                            width: 16,
-                            filter: !canWriteInvoice ? "grayscale(100%)" : "none",
-                          }}
-                        />
-                        <label
-                          style={{
-                            fontSize: 14,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy, sans-serif",
-                            color:  "#222",
-                             cursor: !canWriteInvoice ? "not-allowed" : "pointer",
-                          }}
-                        >
-                         Write_Off
-                        </label>
-                      </div>
+                        Write_Off
+                      </label>
+                    </div>
 
 
                     <div
@@ -477,8 +518,8 @@ useEffect(() => {
                           fontSize: 14,
                           fontWeight: 500,
                           fontFamily: "Gilroy, sans-serif",
-                          color:  "#FF0000",
-                           cursor: !canDeleteInvoice ? "not-allowed" : "pointer",
+                          color: "#FF0000",
+                          cursor: !canDeleteInvoice ? "not-allowed" : "pointer",
                         }}
                       >
                         Delete
@@ -494,13 +535,13 @@ useEffect(() => {
       </tr>
 
       {
-        (WriteoffForm) &&(
-          <WriteOffForm  WriteoffForm={WriteoffForm} handleCloseWriteOffForm={handleCloseWriteOffForm}  handleCloseRefundAmount={handleCloseRefundAmount}/>
+        (WriteoffForm) && (
+          <WriteOffForm WriteoffForm={WriteoffForm} handleCloseWriteOffForm={handleCloseWriteOffForm} handleCloseRefundAmount={handleCloseRefundAmount} />
         )
       }
 
       {
-        payapleform && <RefundAmount  show={payapleform}  handleClose={handleCloseRefundAmount} refundDetails={refundDetails}/>
+        payapleform && <RefundAmount show={payapleform} handleClose={handleCloseRefundAmount} refundDetails={refundDetails} />
       }
     </>
   )

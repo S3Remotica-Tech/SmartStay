@@ -250,32 +250,45 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
 
 
 
-    useEffect(() => {
-        if (finalSettlementList?.customerInfo?.listDeductions?.length > 0) {
-            const mappedFields = finalSettlementList.customerInfo.listDeductions.map(item => ({
-                reason_name: item.type || "Deduction",
-                amount: item.amount || "",
-                showInput: item.type === "others" ? true : false,
-                customReason: item.type === "others" ? item.type : "",
-                isSystemGenerated: item.type === "DueAmount",
-            }));
-            setFields(mappedFields);
-        }
-    }, [finalSettlementList]);
+  useEffect(() => {
+  if (finalSettlementList?.customerInfo?.listDeductions?.length > 0) {
+    const mappedFields = finalSettlementList.customerInfo.listDeductions.map(item => ({
+      reason_name: item.type || "Deduction",
+      amount: item.amount || "",
+      showInput: item.type === "others" ? true : false,
+      customReason: item.type === "others" ? item.type : "",
+      isSystemGenerated: item.type === "DueAmount",
+    }));
+    setFields(mappedFields);
+  }
+}, [finalSettlementList]);
+
+const apiDeductions = finalSettlementList?.customerInfo?.listDeductions || [];
 
 
-    const apiDeductions = finalSettlementList?.customerInfo?.listDeductions || [];
-    const totalApiDeductions = apiDeductions.reduce(
-        (sum, item) => sum + (Number(item.amount) || 0),
-        0
-    );
+const totalApiDeductions = apiDeductions.reduce(
+  (sum, item) => sum + (Number(item.amount) || 0),
+  0
+);
 
-    const totalUserDeductions = fields?.reduce(
-        (sum, item) => sum + (Number(item.amount) || 0),
-        0
-    );
-console.log("fields",fields)
-    const totalDeductions = totalApiDeductions + totalUserDeductions;
+
+const userAddedDeductions = fields?.filter(
+  (item) => !apiDeductions.some((apiItem) => apiItem.type === item.reason_name)
+);
+
+
+const totalUserDeductions = userAddedDeductions?.reduce(
+  (sum, item) => sum + (Number(item.amount) || 0),
+  0
+);
+
+
+const totalDeductions = totalApiDeductions + totalUserDeductions;
+
+console.log("API total:", totalApiDeductions);
+console.log("User added total:", totalUserDeductions);
+console.log("Final Total:", totalDeductions);
+
 
 const handleClickGenerate = ()=>{
  const Finalsettelmenntdata = fields
