@@ -483,9 +483,49 @@ export async function getCheckOutCustomer(datum) {
 }
 
 
+// export async function editBasicDetails(basic) {
+//   console.log("basic",basic)
+//   return await AxiosConfigV2.put(`/v2/customers/update/${basic.customerId}`, basic,{
+//       data: basic
+//     });
+// }
+
+export async function editBasicDetails(params) {
 
 
+  const formData = new FormData();
 
+  if (params.profilePic) {
+    formData.append("profilePic", params.profilePic);
+  }
+
+
+  if (params.payloads) {
+    const payloadBlob = new Blob(
+      [JSON.stringify(params.payloads)],
+      { type: "application/json" }
+    );
+    formData.append("payloads", payloadBlob);
+  }
+
+  try {
+    const response = await AxiosConfigV2.put(
+      `/v2/customers/update/${params.customerId}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        timeout: 100000000,
+
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error("Axios Error", error);
+    throw error;
+  }
+}
 
 
 export async function AddCheckOutCustomer(checkout) {

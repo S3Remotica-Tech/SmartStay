@@ -195,12 +195,7 @@ function UserList(props) {
         });
         setLoading(true)
       }
-      if (value === "2") {
-        dispatch({
-          type: "GET_BOOKING_LIST",
-          payload: { hostel_id: state.login.selectedHostel_Id },
-        });
-      } else if (value === "3") {
+      else if (value === "3") {
         dispatch({
           type: "CHECKOUTCUSTOMERLIST",
           payload: { hostel_id: state.login.selectedHostel_Id },
@@ -1284,14 +1279,14 @@ console.log("customernameeeeeeeeeeeeeeeee",customername)
 
 
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({
-        type: "CHECKOUTCUSTOMERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
-    }
-  }, [state.login.selectedHostel_Id]);
+  // useEffect(() => {
+  //   if (state.login.selectedHostel_Id) {
+  //     dispatch({
+  //       type: "CHECKOUTCUSTOMERLIST",
+  //       payload: { hostel_id: state.login.selectedHostel_Id },
+  //     });
+  //   }
+  // }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
     if (state.UsersList.GetCheckOutCustomerStatusCode === 200) {
@@ -1676,7 +1671,7 @@ useEffect(() => {
   const handleAddBookings = (userData) => {
     setHostelIds(userData.Hostel_Id);
     setBookingDet(userData)
-    setId(userData.ID);
+    setId(userData.customerId);
     sethosName(userData.HostelName);
     setcustomerUser_Id(userData.User_Id);
     setAddBookingsShow(true);

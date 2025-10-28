@@ -152,7 +152,8 @@ export const initialState = {
     chrckoutError: '',
     finalError: '',
     cancelCheckoutStatusCode: 0,
-    cancelCheckoutError: ""
+    cancelCheckoutError: "",
+    editBasicSuccessStatusCode: 0,
 
 }
 
@@ -170,6 +171,19 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, cancelCheckoutStatusCode: action.payload.statusCode }
         case 'REMOVE_CANCEL_CHECKOUT':
             return { ...state, cancelCheckoutStatusCode: 0 }
+
+        case 'EDIT_BASIC_DETAILS':
+            return { ...state, editBasicSuccessStatusCode: action.payload.statusCode }
+        case 'REMOVE_EDIT_BASIC_DETAILS':
+            return { ...state, editBasicSuccessStatusCode: 0 }
+
+
+
+
+
+
+
+
         case 'INITIALIZE_CANCEL_BOOKING':
             return { ...state, initializeCancelBookingList: action.payload.response }
 

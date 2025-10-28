@@ -156,17 +156,16 @@ function UserListRoomDetail(props) {
   const { customerId, hostelId, name, totriggerBillTap } = location.state || {};
 
 
- useEffect(() => {
-  if (location?.state?.totriggerBillTap) {
-    setValue("3");
-  }
-}, [location?.state?.totriggerBillTap]);
+  useEffect(() => {
+    if (location?.state?.totriggerBillTap) {
+      setValue("3");
+    }
+  }, [location?.state?.totriggerBillTap]);
 
 
 
 
-
-
+ 
 
 
 
@@ -555,6 +554,22 @@ function UserListRoomDetail(props) {
   useEffect(() => {
     dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: props.id } });
   }, [props]);
+
+  useEffect(() => {
+    if (state.UsersList.editBasicSuccessStatusCode === 200) {
+         dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
+      setEditBasicDetailsShow(false)
+      setEditAddressDetailsShow(false)
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_EDIT_BASIC_DETAILS" });
+      }, 100);
+    }
+  }, [state.UsersList.editBasicSuccessStatusCode]);
+
+
+
+
 
   useEffect(() => {
     if (state.UsersList.statusCodeForCustomerAllDetails === 200) {
@@ -1883,7 +1898,7 @@ function UserListRoomDetail(props) {
 
   useEffect(() => {
     if (state.UsersList.statusCodeForUploadDocument === 200) {
-      dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.id } });
+      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
       setTimeout(() => {
         dispatch({ type: "CLEAR_UPLOAD_DOCUMENT" });
         dispatch({ type: "CLEAR_ADHAR_UPLOAD_ERROR_STATUSCODE" });
@@ -1894,7 +1909,7 @@ function UserListRoomDetail(props) {
 
   useEffect(() => {
     if (state.UsersList.statusCodeForOtherDocu === 200) {
-      dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.id } });
+      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
       setTimeout(() => {
         dispatch({ type: "CLEAR_UPLOAD_OTHER_DOCUMENT" });
       }, 100);
@@ -1927,7 +1942,7 @@ function UserListRoomDetail(props) {
   useEffect(() => {
     if (state.UsersList.statusCodeForGenerateAdvance === 200) {
       handleCloseGenerateFormShow();
-      dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.id } });
+      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
       dispatch({ type: "USERLIST", payload: { hostel_id: hostel_Id } });
       setTimeout(() => {
         dispatch({ type: "REMOVE_GENERATE_ADVANCE" });
@@ -2141,7 +2156,6 @@ function UserListRoomDetail(props) {
   const kycPic = state.UsersList?.KycCustomerDetails?.pic;
 
   const CustomerOverView = state.UsersList.customerdetails;
-  console.log("state.UsersList.customerdetails",state.UsersList.customerdetails)
 
   const imageUrl = imagePreview
     ? imagePreview
@@ -2191,14 +2205,14 @@ function UserListRoomDetail(props) {
 
 
 
-const [advanceList,setAdvanceList] = useState("")
+  const [advanceList, setAdvanceList] = useState("")
 
-useEffect(() => {
+  useEffect(() => {
     setAdvanceList(state.UsersList.customerdetails.advanceInfo);
   }, [state.UsersList.customerdetails.advanceInfo]);
 
 
-console.log("advanceList",advanceList)
+
 
   return (
 
@@ -3771,11 +3785,86 @@ console.log("advanceList",advanceList)
                               >
 
 
-                                  <div className="card-body">
-                                    {CustomerOverView.hostelInfo?.advanceAmount > 0 ? (
-                                      <div>
-                                        <div className="row mb-3">
-                                          <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
+                                <div className="card-body">
+                                  {CustomerOverView.hostelInfo?.advanceAmount > 0 ? (
+                                    <div>
+                                      <div className="row mb-3">
+                                        <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
+                                          <div
+                                            style={{
+                                              fontSize: 12,
+                                              fontWeight: 500,
+                                              fontFamily: "Gilroy",
+                                            }}
+                                          >
+                                            Advance
+                                          </div>
+                                          <p
+                                            style={{
+                                              fontSize: 14,
+                                              fontWeight: 600,
+                                              fontFamily: "Gilroy",
+                                            }}
+                                          >
+                                            <img src={MoneyImage} alt="Money Icon" height={14} width={14} className="me-1" />{" "}
+                                            ₹{advanceList?.advanceAmount}
+                                            {/* {CustomerOverView.hostelInfo?.advanceAmount} */}
+
+                                          </p>
+                                        </div>
+
+                                        <div className="col-sm-4 d-flex flex-column align-items-start">
+                                          <div
+                                            style={{
+                                              fontSize: 12,
+                                              fontWeight: 500,
+                                              fontFamily: "Gilroy",
+                                            }}
+                                          >
+                                            Rent
+                                          </div>
+                                          <p
+                                            style={{
+                                              fontSize: 14,
+                                              fontWeight: 600,
+                                              fontFamily: "Gilroy",
+                                              color: 'rgba(30, 69, 225, 1)',
+                                              paddingTop: 7
+                                            }}
+                                          >
+
+                                            ₹ {CustomerOverView.hostelInfo?.monthlyRent ?? 0}
+                                          </p>
+                                        </div>
+
+                                        <div className="col-sm-4 d-flex flex-column align-items-start">
+                                          <div
+                                            style={{
+                                              fontSize: 12,
+                                              fontWeight: 500,
+                                              fontFamily: "Gilroy",
+                                            }}
+                                          >
+                                            Booking
+                                          </div>
+                                          <p
+                                            style={{
+                                              fontSize: 14,
+                                              fontWeight: 600,
+                                              fontFamily: "Gilroy",
+                                              color: 'rgba(30, 69, 225, 1)',
+                                              paddingTop: 7
+                                            }}
+                                          >
+
+                                            ₹
+                                            {/* {CustomerOverView.hostelInfo?.monthlyRent ?? 0} */}
+                                          </p>
+                                        </div>
+
+                                        {
+                                          CustomerOverView.hostelInfo?.maintenance !== null &&
+                                          <div className="col-sm-4 d-flex flex-column align-items-start">
                                             <div
                                               style={{
                                                 fontSize: 12,
@@ -3783,122 +3872,47 @@ console.log("advanceList",advanceList)
                                                 fontFamily: "Gilroy",
                                               }}
                                             >
-                                              Advance
+                                              Maintenance
                                             </div>
                                             <p
                                               style={{
                                                 fontSize: 14,
                                                 fontWeight: 600,
                                                 fontFamily: "Gilroy",
+                                                // color: 'rgba(30, 69, 225, 1)',
+                                                paddingTop: 7
                                               }}
                                             >
-                                              <img src={MoneyImage} alt="Money Icon" height={14} width={14} className="me-1" />{" "}
-                                              ₹{advanceList?.advanceAmount}
-                                              {/* {CustomerOverView.hostelInfo?.advanceAmount} */}
-
+                                              ₹ {CustomerOverView.hostelInfo?.maintenance ?? 0}
                                             </p>
                                           </div>
 
-                                         <div className="col-sm-4 d-flex flex-column align-items-start">
-                                <div
-                                  style={{
-                                    fontSize: 12,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                  }}
-                                >
-                                  Rent
-                                </div>
-                                <p
-                                  style={{
-                                    fontSize: 14,
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy",
-                                    color: 'rgba(30, 69, 225, 1)',
-                                    paddingTop: 7
-                                  }}
-                                >
+                                        }
+                                        {CustomerOverView?.hostelInfo?.otherDeductionsBreakup?.map((item, index) => (
+                                          <div key={index} className="col-sm-4 d-flex flex-column align-items-start mb-2">
+                                            <div
+                                              style={{
+                                                fontSize: 12,
+                                                fontWeight: 500,
+                                                fontFamily: "Gilroy",
+                                              }}
+                                            >
+                                              {item.type ? item.type : ""}
+                                            </div>
+                                            <p
+                                              style={{
+                                                fontSize: 14,
+                                                fontWeight: 600,
+                                                fontFamily: "Gilroy",
+                                                paddingTop: 7,
+                                              }}
+                                            >
+                                              ₹ {item.amount}
+                                            </p>
+                                          </div>
+                                        ))}
 
-                                  ₹ {CustomerOverView.hostelInfo?.monthlyRent ?? 0}
-                                </p>
-                              </div>
-
-                                            <div className="col-sm-4 d-flex flex-column align-items-start">
-                                <div
-                                  style={{
-                                    fontSize: 12,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                  }}
-                                >
-                                  Booking
-                                </div>
-                                <p
-                                  style={{
-                                    fontSize: 14,
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy",
-                                    color: 'rgba(30, 69, 225, 1)',
-                                    paddingTop: 7
-                                  }}
-                                >
-
-                                  ₹ 
-                                  {/* {CustomerOverView.hostelInfo?.monthlyRent ?? 0} */}
-                                </p>
-                              </div>
-
-                               {
-                                CustomerOverView.hostelInfo?.maintenance !== null &&
-                                <div className="col-sm-4 d-flex flex-column align-items-start">
-                                  <div
-                                    style={{
-                                      fontSize: 12,
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy",
-                                    }}
-                                  >
-                                    Maintenance
-                                  </div>
-                                  <p
-                                    style={{
-                                      fontSize: 14,
-                                      fontWeight: 600,
-                                      fontFamily: "Gilroy",
-                                      // color: 'rgba(30, 69, 225, 1)',
-                                      paddingTop: 7
-                                    }}
-                                  >
-                                    ₹ {CustomerOverView.hostelInfo?.maintenance ?? 0}
-                                  </p>
-                                </div>
-
-                              }
-                              {CustomerOverView?.hostelInfo?.otherDeductionsBreakup?.map((item, index) => (
-                                <div key={index} className="col-sm-4 d-flex flex-column align-items-start mb-2">
-                                  <div
-                                    style={{
-                                      fontSize: 12,
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy",
-                                    }}
-                                  >
-                                    {item.type ? item.type : ""}
-                                  </div>
-                                  <p
-                                    style={{
-                                      fontSize: 14,
-                                      fontWeight: 600,
-                                      fontFamily: "Gilroy",
-                                      paddingTop: 7,
-                                    }}
-                                  >
-                                    ₹ {item.amount}
-                                  </p>
-                                </div>
-                              ))}
-
-                               <div className="col-sm-4 d-flex flex-column align-items-start">
+                                        <div className="col-sm-4 d-flex flex-column align-items-start">
                                           <strong
                                             style={{
                                               fontSize: 12,
@@ -3922,10 +3936,10 @@ console.log("advanceList",advanceList)
                                               marginTop: "5px",
                                             }}
                                           >
-                                          
-                                              {advanceList?.paymentStatus}
-                                            </p>
-                                          </div>
+
+                                            {advanceList?.paymentStatus}
+                                          </p>
+                                        </div>
 
                                         {/* <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-center">
                                           <Button
@@ -3955,8 +3969,8 @@ console.log("advanceList",advanceList)
                                           </Button>
                                         </div> */}
 
-                                        </div>
-                                        {/* <div className="row mb-3">
+                                      </div>
+                                      {/* <div className="row mb-3">
                                           <div className="col-sm-4 d-flex flex-column align-items-start">
                                             <div
                                               style={{

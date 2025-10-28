@@ -41,25 +41,6 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
 
     useEffect(() => {
         if (addressDetails) {
-
-            const phoneNumber = String(addressDetails.mobileNo || "");
-            const countryCode = addressDetails.countryCode || "";
-            const mobileNumber = phoneNumber.slice(-10);
-
-
-            if (addressDetails.firstName || addressDetails.lastName) {
-                setFirstname(addressDetails.firstName || "");
-                setLastname(addressDetails.lastName || "");
-            } else if (addressDetails.fullName) {
-                let value = addressDetails.fullName.trim().split(" ");
-                setFirstname(value[0] || "");
-                setLastname(value[1] || "");
-            } else {
-                setFirstname("");
-                setLastname("");
-            }
-
-
             setHouseNo(addressDetails.address?.houseNo || "");
             setStreet(addressDetails.address?.streetName || "");
             setLandmark(addressDetails.address?.landmark || "");
@@ -74,12 +55,6 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
                     ? addressDetails.address.state
                     : ""
             );
-
-
-            setPhone(mobileNumber);
-            setCountryCode(countryCode);
-
-
             setInitialstate({
                 Address: addressDetails.address?.houseNo || "",
                 area: addressDetails.address?.streetName || "",
@@ -96,6 +71,7 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
             });
         }
     }, [addressDetails]);
+
 
 
 
@@ -183,67 +159,6 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
 
 
 
-    //     useEffect(() => {
-    //   const rawAddress = state.UsersList.KycCustomerDetails?.address || "";
-
-    //   if (rawAddress) {
-    //     const parts = rawAddress.split(",").map((part) => part.trim());
-
-    //     // Remove "S/O..." and get the rest of the parts
-    //     const addressParts = parts.slice(1);
-
-    //     // pincode is always the last element
-    //     const pincodePart = addressParts[addressParts.length - 1];
-
-    //     // The rest of the address without pincode
-    //     const withoutPincode = addressParts.slice(0, -1);
-
-    //     const [
-    //       streetNumber,
-    //       streetName,
-    //       areaPart,
-    //       landmarkPart,
-    //       _repeatedLandmark,
-    //       cityPart,
-    //       statePart,
-    //     ] = withoutPincode;
-
-    //     setHouseNo(`${streetNumber} ${streetName}`);
-    //     setStreet(areaPart);
-    //     setLandmark(landmarkPart);
-    //     setCity(cityPart);
-    //     setStateName(statePart);
-    //     setPincode(pincodePart);
-    //   }
-    // }, [state.UsersList.KycCustomerDetails?.address]);
-
-
-    //  useEffect(() => {
-    //     const rawAddress = state.UsersList.KycCustomerDetails?.address || "";
-
-    //     if (rawAddress) {
-    //       const parts = rawAddress.split(",").map((part) => part.trim());
-
-    //       const [
-    //         streetNumber,
-    //         streetName,
-    //         areaPart,
-    //         landmarkPart,
-    //         _repeatedLandmark,
-    //         cityPart,
-    //         statePart,
-    //         pincodePart,
-    //       ] = parts.slice(1); 
-    //       setHouseNo(`${streetNumber} ${streetName}`);
-    //       setStreet(areaPart);
-    //       setLandmark(landmarkPart);
-    //       setCity(cityPart);
-    //       setStateName(statePart);
-    //       setPincode(pincodePart);
-    //     }
-    //   }, [state.UsersList.KycCustomerDetails?.address]);
-
-
 
 
 
@@ -302,28 +217,61 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
 
     }, [state.createAccount?.networkError])
 
-    const MobileNumber = `${countryCode}${phone}`;
+    
     const pincodeRef = useRef(null);
 
     const handleSubmitAddress = () => {
-        const focusedRef = { current: false };
-        const cleanedPincode = String(pincode || "").trim();
+        let focused = false;
+        let hasError = false;
 
-        if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode)) {
-            setPincodeError("Pin Code Must Be Exactly 6 Digits");
+        const pinString = String(pincode || "").trim();
 
-            if (!focusedRef.current && pincodeRef?.current) {
-                pincodeRef.current.focus();
-                focusedRef.current = true;
+
+        if (!/^\d+$/.test(pinString)) {
+            setPincodeError("Pin Code Must Be Numeric");
+            if (!focused) {
+                pincodeRef.current?.focus();
+                focused = true;
             }
-
-            return;
+            hasError = true;
+        } else if (pinString.length !== 6) {
+            setPincodeError("Pin Code Must Be Exactly 6 Digits");
+            if (!focused) {
+                pincodeRef.current?.focus();
+                focused = true;
+            }
+            hasError = true;
+        } else if (pinString === "000000") {
+            setPincodeError("Pin Code cannot be all zeros");
+            if (!focused) {
+                pincodeRef.current?.focus();
+                focused = true;
+            }
+            hasError = true;
+        } else if (pinString[0] === "0") {
+            setPincodeError("Pin Code cannot start with 0");
+            if (!focused) {
+                pincodeRef.current?.focus();
+                focused = true;
+            }
+            hasError = true;
+        } else if (pinString.slice(-3) === "000") {
+            setPincodeError("Last 3 digits cannot be 000");
+            if (!focused) {
+                pincodeRef.current?.focus();
+                focused = true;
+            }
+            hasError = true;
         } else {
             setPincodeError("");
         }
 
+        if (hasError) return;
+
+        
         if (!initialState) return;
 
+        
         const noChanges =
             houseNo === initialState.Address &&
             street === initialState.area &&
@@ -336,55 +284,31 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
             setFormError("No changes detected");
             return;
         }
-        const capitalizeFirstLetter = (str) => {
-            return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-        };
 
-        const capitalizedFirstname = capitalizeFirstLetter(firstName);
-        const capitalizedLastname = capitalizeFirstLetter(lastname);
-        const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
+        
+        const capitalizeFirstLetter = (str) =>
+            str ? str.charAt(0).toUpperCase() + str.slice(1).toLowerCase() : "";
 
-        const payload = {
-            profile: addressDetails[0].profile,
-            firstname: capitalizedFirstname,
-            lastname: capitalizedLastname,
-            Phone: normalizedPhoneNumber,
-            Email: addressDetails[0].Email,
-            Address: houseNo,
-            area: street,
-            landmark: landmark,
-            city: city,
-            pincode: pincode,
-            state: stateName,
-            HostelName: addressDetails[0].HostelName,
-            hostel_Id: addressDetails[0].Hostel_Id,
-            Floor: addressDetails[0].Floor,
-            Rooms: addressDetails[0].hstl_Rooms,
-            Bed: addressDetails[0].hstl_Bed,
-            joining_date: addressDetails[0].Bed,
-            AdvanceAmount: addressDetails[0].AdvanceAmount,
-            RoomRent: addressDetails[0].RoomRent,
-            ID: addressDetails[0].ID,
-
-        };
+         
         dispatch({
-            type: "ADDUSER",
-            payload: payload,
+            type: "EDITBASICDETAILS",
+            payload: {
+                customerId: addressDetails?.customerId,
+                payloads: {
+                    houseNo: houseNo || "",
+                    street: street || "",
+                    landmark: landmark || "",
+                    pincode: pinString || "",
+                    city: city || "",
+                    state: stateName || "",
+                },
+                profilePic: addressDetails?.profilePic || "",
+            },
         });
-    }
+    };
 
-    useEffect(() => {
-        if (state.UsersList.statusCodeForAddUser === 201) {
-            dispatch({ type: "USERLIST", payload: { hostel_id: addressDetails[0].Hostel_Id } });
-            dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: addressDetails[0].ID } });
 
-            handleClose()
 
-            setTimeout(() => {
-                dispatch({ type: "CLEAR_STATUS_CODES" });
-            }, 100);
-        }
-    }, [state.UsersList.statusCodeForAddUser]);
 
 
     return (
@@ -544,6 +468,7 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
 
                                     </Form.Label>
                                     <Form.Control
+                                    ref={pincodeRef}
                                         value={pincode}
                                         onChange={handlePincodeChange}
                                         type="tel"

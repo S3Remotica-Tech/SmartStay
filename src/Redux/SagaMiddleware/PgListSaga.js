@@ -1449,7 +1449,8 @@ function* handleDeleteHostel(action) {
       refreshToken(response);
     }
 
-  } catch (error) {
+  } 
+  catch (error) {
     if (error.code === 'ERR_BAD_REQUEST') {
       if (error.status === 400) {
 
