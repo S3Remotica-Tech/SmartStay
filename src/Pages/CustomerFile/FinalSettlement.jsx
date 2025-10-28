@@ -21,7 +21,7 @@ import ErrorMessage from '../../Components/ErrorMessage'
 
 
 function FinalSettlement({ show, handleClose, data, customerID }) {
-    console.log("data",data)
+    console.log("data", data)
 
 
     const state = useSelector((state) => state);
@@ -43,7 +43,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
 
     useEffect(() => {
         if (data?.customerId || data?.currentTenantCustomerId) {
-            dispatch({ type: "GETFINALSETTLEMENT", payload: data?.customerId  || data?.currentTenantCustomerId});
+            dispatch({ type: "GETFINALSETTLEMENT", payload: data?.customerId || data?.currentTenantCustomerId });
             setFormLoading(true)
         }
     }, [data])
@@ -67,11 +67,11 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
         }
     }, [state.UsersList.StatusCodeForDateUpdate])
     useEffect(() => {
-            if (state.UsersList?.finalError) {
-                 setFormLoading(false)
-            }
-    
-        }, [state.UsersList?.finalError])
+        if (state.UsersList?.finalError) {
+            setFormLoading(false)
+        }
+
+    }, [state.UsersList?.finalError])
 
 
 
@@ -250,67 +250,68 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
 
 
 
-  useEffect(() => {
-  if (finalSettlementList?.customerInfo?.listDeductions?.length > 0) {
-    const mappedFields = finalSettlementList.customerInfo.listDeductions.map(item => ({
-      reason_name: item.type || "Deduction",
-      amount: item.amount || "",
-      showInput: item.type === "others" ? true : false,
-      customReason: item.type === "others" ? item.type : "",
-      isSystemGenerated: item.type === "DueAmount",
-    }));
-    setFields(mappedFields);
-  }
-}, [finalSettlementList]);
+    useEffect(() => {
+        if (finalSettlementList?.customerInfo?.listDeductions?.length > 0) {
+            const mappedFields = finalSettlementList.customerInfo.listDeductions.map(item => ({
+                reason_name: item.type || "Deduction",
+                amount: item.amount || "",
+                showInput: item.type === "others" ? true : false,
+                customReason: item.type === "others" ? item.type : "",
+                isSystemGenerated: item.type === "DueAmount",
+            }));
+            setFields(mappedFields);
+        }
+    }, [finalSettlementList]);
 
-const apiDeductions = finalSettlementList?.customerInfo?.listDeductions || [];
-
-
-const totalApiDeductions = apiDeductions.reduce(
-  (sum, item) => sum + (Number(item.amount) || 0),
-  0
-);
+    const apiDeductions = finalSettlementList?.customerInfo?.listDeductions || [];
 
 
-const userAddedDeductions = fields?.filter(
-  (item) => !apiDeductions.some((apiItem) => apiItem.type === item.reason_name)
-);
+    const totalApiDeductions = apiDeductions.reduce(
+        (sum, item) => sum + (Number(item.amount) || 0),
+        0
+    );
 
 
-const totalUserDeductions = userAddedDeductions?.reduce(
-  (sum, item) => sum + (Number(item.amount) || 0),
-  0
-);
+    const userAddedDeductions = fields?.filter(
+        (item) => !apiDeductions.some((apiItem) => apiItem.type === item.reason_name)
+    );
 
 
-const totalDeductions = totalApiDeductions + totalUserDeductions;
+    const totalUserDeductions = userAddedDeductions?.reduce(
+        (sum, item) => sum + (Number(item.amount) || 0),
+        0
+    );
 
-console.log("API total:", totalApiDeductions);
-console.log("User added total:", totalUserDeductions);
-console.log("Final Total:", totalDeductions);
+
+    const totalDeductions = totalApiDeductions + totalUserDeductions;
+
+    console.log("API total:", totalApiDeductions);
+    console.log("User added total:", totalUserDeductions);
+    console.log("Final Total:", totalDeductions);
 
 
-const handleClickGenerate = ()=>{
- const Finalsettelmenntdata = fields
-  .filter(f => f.reason_name && f.amount)
-  .map(f => ({ item: f.reason_name, amount: Number(f.amount) }))
+    const handleClickGenerate = () => {
+        const Finalsettelmenntdata = fields
+            .filter(f => f.reason_name && f.amount)
+            .map(f => ({ item: f.reason_name, amount: Number(f.amount) }))
 
-    if(data.customerId || data.currentTenantCustomerId){
- dispatch({
+        if (data.customerId || data.currentTenantCustomerId) {
+            dispatch({
                 type: "FINALSETTLEMENT",
-                payload: { customerId:data.customerId || data.currentTenantCustomerId,
-                    data : Finalsettelmenntdata
- 
-                 },
+                payload: {
+                    customerId: data.customerId || data.currentTenantCustomerId,
+                    data: Finalsettelmenntdata
+
+                },
             })
+        }
+
     }
-    
-}
-useEffect(()=>{
-    if(state.UsersList.statusCodeForFinalSettlement === 201){
-         setFormLoading(false)
+    useEffect(() => {
+        if (state.UsersList.statusCodeForFinalSettlement === 201) {
+            setFormLoading(false)
             handleClose()
-         dispatch({
+            dispatch({
                 type: "USERLIST",
                 payload: { hostel_id: state.login.selectedHostel_Id },
             })
@@ -318,8 +319,8 @@ useEffect(()=>{
                 dispatch({ type: "CLEAR_FINAL_GENERATE" });
             }, 500);
 
-    }
-},[state.UsersList.statusCodeForFinalSettlement])
+        }
+    }, [state.UsersList.statusCodeForFinalSettlement])
 
 
     return (
@@ -846,7 +847,7 @@ useEffect(()=>{
                                                     </thead>
 
                                                     <tbody>
-                                                       <tr>
+                                                        <tr>
                                                             <td
                                                                 className="fw-normal"
                                                                 style={{
@@ -888,9 +889,9 @@ useEffect(()=>{
                                                                 ).toFixed(0)}
                                                                 ) */}
                                                                 Actual Stay Days (
-  {finalSettlementList?.currentMonthRentInfo?.stayDays ?? 0} days × ₹
-  {Number(finalSettlementList?.currentMonthRentInfo?.rentPerDay || 0)}
-)
+                                                                {finalSettlementList?.currentMonthRentInfo?.stayDays ?? 0} days × ₹
+                                                                {Number(finalSettlementList?.currentMonthRentInfo?.rentPerDay || 0)}
+                                                                )
 
                                                             </td>
                                                             <td
@@ -1016,9 +1017,9 @@ useEffect(()=>{
                                     />
                                 </div>
 
-{state.UsersList?.finalError && (
-                    <ErrorMessage message={state.UsersList?.finalError} type="error" />
-                )}
+                                {state.UsersList?.finalError && (
+                                    <ErrorMessage message={state.UsersList?.finalError} type="error" />
+                                )}
 
                                 <div className="text-end mt-4">
                                     <Button variant="" className="me-2" onClick={handleClose} style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400 }}>
@@ -1027,7 +1028,7 @@ useEffect(()=>{
                                     <Button
                                         // disabled={activeTab !== "writeoff" && ReturnAmount < 0}
                                         style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400, backgroundColor: "#1E45E1" }}
-                                    onClick={handleClickGenerate}
+                                        onClick={handleClickGenerate}
                                     >Generate</Button>
                                 </div>
                             </div>
