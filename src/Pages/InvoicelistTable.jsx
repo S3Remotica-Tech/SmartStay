@@ -404,7 +404,7 @@ const InvoiceTable = (props) => {
                         </label>
                       </div>
                     )}
-                    {props.item?.invoiceAmount < 0 && (
+                    {props.item?.invoiceAmount < 0 && props.item?.paymentStatus !== "Refunded" && (
                       <div
                         className={`d-flex justify-content-start align-items-center gap-2 ${!canWriteInvoice ? 'disabled' : ''}`}
                         style={{

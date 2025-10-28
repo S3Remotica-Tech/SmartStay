@@ -89,7 +89,7 @@ const InvoicePage = () => {
     transaction: "",
   });
   const [showSearchFilter, setShowSearchFilter] = useState(false);
-const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
+  const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
 
   const [showLoader, setShowLoader] = useState(false);
   const [statusfilter, setStatusfilter] = useState("");
@@ -157,6 +157,7 @@ const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
 
+   const [transactionId, setTransactionId] = useState("");
   const [hostelId, setHostelId] = useState("");
   const [receiptdata, setReceiptData] = useState([]);
   const [receiptLoader, setReceiptLoader] = useState(false);
@@ -180,7 +181,7 @@ const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
   const [bed_name, setBedName] = useState("")
   const [profile_pic, setProfilePic] = useState(null)
   const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);
-    const [selectedTransactionId, setSelectedTransactionId] = useState(null);
+  const [selectedTransactionId, setSelectedTransactionId] = useState(null);
   const [activeStay, setActiveStay] = useState("long_stay");
 
 
@@ -279,7 +280,7 @@ const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
   }, [state.login.selectedHostel_Id]);
   useEffect(() => {
     if (hostelId) {
-            dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
+      dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
     }
   }, [hostelId]);
 
@@ -387,6 +388,11 @@ const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
     setAccount("");
   };
 
+
+
+  const handleChange = (e) => {
+    setTransactionId(e.target.value);
+  };
 
   const bankingOptions = Array.isArray(state.bankingDetails?.bankingList?.listBanks)
     ? state.bankingDetails?.bankingList?.listBanks.map((item) => {
@@ -641,19 +647,24 @@ const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
   const formatDateForPayload = (date) => {
     if (!date) return null;
     const offset = date.getTimezoneOffset();
-    date.setMinutes(date.getMinutes() - offset);
-    return date.toISOString().split("T")[0];
+    const localDate = new Date(date.getTime() - offset * 60 * 1000);
+
+    const day = String(localDate.getDate()).padStart(2, "0");
+    const month = String(localDate.getMonth() + 1).padStart(2, "0");
+    const year = localDate.getFullYear();
+
+    return `${day}-${month}-${year}`;
   };
 
 
   const [payableAmount, setPayableAmount] = useState("");
   const [balance, setBalance] = useState(0);
 
-  
+
   const handleAmount = (e) => {
     let value = e.target.value;
 
-       if (value !== "") {
+    if (value !== "") {
       let numValue = Number(value);
       if (numValue > (invoiceList.balanceDue || 0)) {
         numValue = invoiceList.balanceDue || 0;
@@ -671,7 +682,7 @@ const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
   };
 
 
- 
+
 
 
 
@@ -714,7 +725,7 @@ const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
       setCustomerName(invoiceDetails?.ID);
     }
 
-    
+
     if (invoiceDetails?.DueDate) {
       const parsedDate = new Date(invoiceDetails.DueDate);
       if (!isNaN(parsedDate.getTime())) {
@@ -946,7 +957,7 @@ const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
   }
 
   const handleCloseForm = () => {
-
+setTransactionId('')
     setPaymodeErrmsg("")
     setAccountError("")
     setDateErrmsg("")
@@ -1043,7 +1054,7 @@ const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
           data: {
             bankId: invoiceList.transaction,
             paymentDate: formatpaiddate,
-            referenceId: "",
+            referenceId: transactionId,
             amount: payableAmount
           }
         },
@@ -1510,19 +1521,19 @@ const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
       .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
 
     dispatch({
-  type: "MANUAL-INVOICE-ADD",
-  payload: {
-    customerId: customername,
-    invoiceDate: formatinvoicedate,
-    dueDate: formatduedate,
-    invoiceNumber: invoicenumber,
-    total_amount: totalAmount,
-    items: newRows.map((row) => ({
-      invoiceItem: row.am_name,
-      amount: parseFloat(row.amount) || 0,
-    })),
-  },
-});
+      type: "MANUAL-INVOICE-ADD",
+      payload: {
+        customerId: customername,
+        invoiceDate: formatinvoicedate,
+        dueDate: formatduedate,
+        invoiceNumber: invoicenumber,
+        total_amount: totalAmount,
+        items: newRows.map((row) => ({
+          invoiceItem: row.am_name,
+          amount: parseFloat(row.amount) || 0,
+        })),
+      },
+    });
 
     setFormLoading(true)
 
@@ -2031,7 +2042,7 @@ const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
     setDownloadInvoice(isVisible);
     setShowPdfModal(true);
     setRowData(rowData);
-          setSelectedInvoiceId(rowData.invoiceId);
+    setSelectedInvoiceId(rowData.invoiceId);
     if (rowData) {
       dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: rowData.hostelId, invoiceId: rowData.invoiceId } })
 
@@ -2044,10 +2055,10 @@ const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
     setDownloadReceipt(isVisible);
     setShowPdfReceiptModal(true);
     setRowData(rowData);
-      setSelectedTransactionId(rowData?.transactionId);
-    if (rowData?.transactionId && state.login.selectedHostel_Id ) {
-      console.log("rowData**************",rowData)
-      dispatch({ type: "RECEIPTPDF_NEWCHANGES", payload: { hostelId: state.login.selectedHostel_Id , transactionId : rowData.transactionId } })
+    setSelectedTransactionId(rowData?.transactionId);
+    if (rowData?.transactionId && state.login.selectedHostel_Id) {
+      console.log("rowData**************", rowData)
+      dispatch({ type: "RECEIPTPDF_NEWCHANGES", payload: { hostelId: state.login.selectedHostel_Id, transactionId: rowData.transactionId } })
     }
 
   };
@@ -2452,7 +2463,7 @@ const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
 
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceAddStatusCode === 201) {
-         navigate('/invoice')
+      navigate('/invoice')
       setShowManualInvoice(false)
       setFormLoading(false)
       setShowRecurringBillForm(false);
@@ -4059,8 +4070,8 @@ const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
                                             borderRadius: 8,
                                           }}
                                           placeholder="Enter Transaction ID"
-                                        // value={invoiceList.balanceDue}
-                                        // disabled
+                                          value={transactionId}
+                                          onChange={handleChange}
                                         />
                                       </Form.Group>
                                     </div>
@@ -4283,8 +4294,10 @@ const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
                                                     ? item.profilePic
                                                     : User
                                                 }
-                                                style={{ height: 40, width: 40 ,borderRadius: "50%",  
-    objectFit: "cover", }}
+                                                style={{
+                                                  height: 40, width: 40, borderRadius: "50%",
+                                                  objectFit: "cover",
+                                                }}
                                                 alt="User"
                                               />
                                             </span>
@@ -4301,7 +4314,7 @@ const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
                                                   color: hoveredInvoiceId === item.invoiceId ? "#1E45E1" : "#222222",
                                                   textDecoration: "underline",
                                                   fontStyle: "normal",
-                                                  lineHeight: "normal", 
+                                                  lineHeight: "normal",
                                                   fontWeight: 600,
                                                   cursor: "pointer",
                                                 }}
@@ -4584,7 +4597,7 @@ const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
                                             > Action</th>
                                           </tr>
                                         </thead>
-                                      
+
                                         <tbody style={{ fontSize: "10px", minHeight: "200px", position: "relative" }}>
                                           <PaginationList>
                                             {sortedData.map((item) => (
@@ -5379,7 +5392,7 @@ const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
                                   <>
                                     <div
                                       className="mb-3  shadow-sm rounded"
-                                      style={{ padding: "12px 12px" ,  cursor: "pointer",backgroundColor: String(selectedTransactionId) === String(item.transactionId) ? "#F8F9FF" : "#FFFFFF"}}
+                                      style={{ padding: "12px 12px", cursor: "pointer", backgroundColor: String(selectedTransactionId) === String(item.transactionId) ? "#F8F9FF" : "#FFFFFF" }}
                                     >
                                       <div className="d-flex align-items-start justify-content-between">
                                         <div>
@@ -5392,8 +5405,8 @@ const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
                                             alt="User"
                                             style={{
                                               height: 40,
-                                              width: 40,borderRadius: "50%",  
-    objectFit: "cover",
+                                              width: 40, borderRadius: "50%",
+                                              objectFit: "cover",
 
                                             }}
                                           />
@@ -5410,10 +5423,10 @@ const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
                                                 color: "#222",
                                                 cursor: "pointer",
                                               }}
-                                              onClick={() =>{
+                                              onClick={() => {
                                                 setSelectedTransactionId(item.transactionId);
                                                 handleDisplayReceiptDownload(true, item)
-                                              } }
+                                              }}
                                             >
                                               {item.fullName || "Unnamed"}
                                             </div>
