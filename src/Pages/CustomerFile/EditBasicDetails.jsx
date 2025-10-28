@@ -27,15 +27,16 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
     const [phoneError, setPhoneError] = useState("")
     const [initialValues, setInitialValues] = useState(null);
     const [isChanged, setIsChanged] = useState("")
-    const [emailError,setEmailError] =useState("")
+    const [emailError, setEmailError] = useState("")
 
-   
+
+
     const handleFirstNameChange = (e) => {
-        const lettersOnly = e.target.value.replace(/[^A-Za-z\s]/g, ""); 
+        const lettersOnly = e.target.value.replace(/[^A-Za-z\s]/g, "");
         setFirstName(lettersOnly);
         setFirstNameError("")
         setIsChanged("")
-        
+
     };
 
     const handleLastNameChange = (e) => {
@@ -44,27 +45,27 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
         setIsChanged("")
     };
 
-    
 
-   const handleEmailChange = (e) => {
-    const emailValue = e.target.value.toLowerCase();
-    setEmail(emailValue);
 
-    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
-    const isValidEmail = emailRegex.test(emailValue);
-    if (!emailValue) {
-      setEmailError("");
-     ;
-    } else if (!isValidEmail) {
-     
-      setEmailError("Please Enter  Valid Email Id");
-    } else {
-      setEmailError("");
-     
-    }
-    dispatch({ type: "CLEAR_EMAIL_ERROR" });
-    setIsChanged("")
-  };
+    const handleEmailChange = (e) => {
+        const emailValue = e.target.value.toLowerCase();
+        setEmail(emailValue);
+
+        const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+        const isValidEmail = emailRegex.test(emailValue);
+        if (!emailValue) {
+            setEmailError("");
+            ;
+        } else if (!isValidEmail) {
+
+            setEmailError("Please Enter  Valid Email Id");
+        } else {
+            setEmailError("");
+
+        }
+        dispatch({ type: "CLEAR_EMAIL_ERROR" });
+        setIsChanged("")
+    };
 
     const handlePhoneChange = (e) => {
         const input = e.target.value.replace(/\D/g, "");
@@ -78,53 +79,32 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
             setPhoneError("");
         }
 
-setIsChanged("")
+        setIsChanged("")
 
         dispatch({ type: "CLEAR_PHONE_ERROR" });
     };
 
 
-   
+
 
 
     useEffect(() => {
-        if (basicDetails && basicDetails[0]) {
-            const phoneNumber = String(basicDetails[0].Phone || "");
-            const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
-            const mobileNumber = phoneNumber.slice(-10);
+        if (basicDetails) {
 
-            let fname = "";
-            let lname = "";
+            setFirstName(basicDetails?.firstName);
+            setLastName(basicDetails?.lastName);
+            setPhone(basicDetails?.mobileNo);
+            setCountryCode(basicDetails?.countryCode);
+            setId(basicDetails.customerId);
+            setEmail(basicDetails?.emailId)
 
-            if (basicDetails[0].Name) {
-                const value = basicDetails[0].Name.trim().split(" ");
-                fname = value[0] || "";
-                lname = value[1] || "";
-                setFirstName(fname);
-                setLastName(lname);
-            } else {
-                setFirstName("");
-                setLastName("");
-            }
 
-            setPhone(mobileNumber);
-            setCountryCode(countryCode);
-            setId(basicDetails[0].ID);
-            setEmail(basicDetails[0].Email || "")
-
-          
             setInitialValues({
-                profile: basicDetails[0].profile,
-                firstname: fname,
-                lastname: lname,
-                Phone: mobileNumber,
-                Email: basicDetails[0].Email || "",
-                Address: basicDetails[0].Address,
-                area: basicDetails[0].area,
-                landmark: basicDetails[0].landmark,
-                city: basicDetails[0].city,
-                pincode: basicDetails[0].pincode,
-                state: basicDetails[0].state,
+                profile: basicDetails?.profilePic,
+                firstname: basicDetails?.firstName,
+                lastname: basicDetails?.lastName,
+                Phone: basicDetails?.mobileNo,
+                Email: basicDetails?.emailId,
             });
         }
     }, [basicDetails]);
@@ -132,7 +112,7 @@ setIsChanged("")
 
 
 
-  
+
 
 
     useEffect(() => {
@@ -146,12 +126,12 @@ setIsChanged("")
 
 
 
-    const MobileNumber = `${countryCode}${phone}`;
+    const MobileNumber = `${phone}`;
 
 
 
 
-   
+
     const handleSubmit = () => {
         if (!firstName) {
             setFirstNameError("Please Enter First Name");
@@ -164,9 +144,9 @@ setIsChanged("")
             setPhoneError("Please Enter Mobile Number");
             return;
         }
-         if (emailError) {
-        return;
-    }
+        if (emailError) {
+            return;
+        }
 
         const capitalizeFirstLetter = (str) => {
             return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
@@ -177,17 +157,12 @@ setIsChanged("")
         const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
 
         const currentValues = {
-            profile: basicDetails[0].profile,
+            profile: basicDetails?.profilePic,
             firstname: capitalizedFirstname,
             lastname: capitalizedLastname,
             Phone: normalizedPhoneNumber,
             Email: email,
-            Address: basicDetails[0].Address,
-            area: basicDetails[0].area,
-            landmark: basicDetails[0].landmark,
-            city: basicDetails[0].city,
-            pincode: basicDetails[0].pincode,
-            state: basicDetails[0].state,
+
         };
 
 
@@ -214,7 +189,7 @@ setIsChanged("")
 
 
 
-       
+
 
 
         if (!isChanged) {
@@ -222,37 +197,24 @@ setIsChanged("")
             return;
         }
 
-        const payload = {
-            ...currentValues,
-            HostelName: basicDetails[0].HostelName,
-            hostel_Id: basicDetails[0].Hostel_Id,
-            Floor: basicDetails[0].Floor,
-            Rooms: basicDetails[0].room_id,
-            Bed: basicDetails[0].hstl_Bed,
-            joining_date: basicDetails[0].user_join_date,
-            AdvanceAmount: basicDetails[0].AdvanceAmount,
-            RoomRent: basicDetails[0].RoomRent,
-            ID: id,
-        };
+console.log("calllledeeeeeee")
 
         dispatch({
-            type: "ADDUSER",
-            payload: payload,
+            type: "EDITBASICDETAILS",
+            payload: {
+                customerId: basicDetails?.customerId,
+                payloads: {
+                    firstName: capitalizedFirstname || "",
+                    lastName: capitalizedLastname || "",
+                    mailId: email || "",
+                                   },
+                profilePic: basicDetails?.profilePic || "",
+            },
         });
+
     };
 
-  useEffect(() => {
-        if (state.UsersList.statusCodeForAddUser === 201) {
-          dispatch({ type: "USERLIST", payload: { hostel_id: basicDetails[0].Hostel_Id } });
-          dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: basicDetails[0].ID } });
-        
-           handleClose()
-      
-          setTimeout(() => {
-            dispatch({ type: "CLEAR_STATUS_CODES" });
-          }, 100);
-        }
-      }, [state.UsersList.statusCodeForAddUser]);
+    
 
     return (
         <div
@@ -328,7 +290,7 @@ setIsChanged("")
                                     />
                                 </Form.Group>
                                 {firstNameError && (
-                                  <ErrorMessage message={firstNameError} type="error" />
+                                    <ErrorMessage message={firstNameError} type="error" />
                                 )}
 
                             </div>
@@ -402,11 +364,11 @@ setIsChanged("")
                                     />
                                 </Form.Group>
                                 {emailError && (
-                                  <ErrorMessage message={emailError} type="error" />
+                                    <ErrorMessage message={emailError} type="error" />
                                 )}
 
                             </div>
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <Form.Group controlId="exampleForm.ControlInput1">
                                     <Form.Label
                                         style={{
@@ -443,8 +405,8 @@ setIsChanged("")
                                             }}
                                         >
 
-                                            <option value = "91" >
-                                                + 91 
+                                            <option value="91" >
+                                                + 91
                                             </option>
 
                                         </Form.Select>
@@ -469,12 +431,12 @@ setIsChanged("")
                                             }}
                                         />
                                     </InputGroup>
-                                   
+
                                 </Form.Group>
                                 {phoneError && (
                                     <ErrorMessage message={phoneError} type="error" />
                                 )}
-                            </div>
+                            </div> */}
                         </div>
 
 
@@ -483,11 +445,11 @@ setIsChanged("")
                     </Modal.Body>
 
 
-                   
+
 
                     {isChanged ?
                         <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                           <ErrorMessage message={isChanged} type="error" />
+                            <ErrorMessage message={isChanged} type="error" />
                         </div>
                         : null}
 

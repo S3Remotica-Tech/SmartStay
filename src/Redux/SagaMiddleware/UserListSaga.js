@@ -1,7 +1,8 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import {CancelCheckOutCustomer, getParticularCustomerReading, getParticularRoomReading, getCustomerReading,
+import {
+   editBasicDetails, CancelCheckOutCustomer, getParticularCustomerReading, getParticularRoomReading, getCustomerReading,
    cancelBookingGet, bookingToCheckIn, addRoomReading, getRoomReading,
    bookedDetails, availableBedDetailsForDate, checkoutDetailView, customerSaveInfo, CheckIn, GetAllFloor, getParticularHostelList, ConfirmCheckout_Due_Customer, deleteCustomer,
    AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer,
@@ -9,7 +10,7 @@ import {CancelCheckOutCustomer, getParticularCustomerReading, getParticularRoomR
    userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, CustomerDetails, amenitieshistory, amnitiesnameList,
    amenitieAddUser, availableBedDetails, countrylist, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut, customerReAssignBed,
    customerAddContact, customerAllContact, deleteContact, generateAdvance, uploadDocument, hostelDetailsId, EditConfirmCheckOut,
-   handleKycVerify, handlegetCustomerDetailsKyc, CustomerUnAssign, backtoCheckin,GenerateDetails,conformCheckout
+   handleKycVerify, handlegetCustomerDetailsKyc, CustomerUnAssign, backtoCheckin, GenerateDetails, conformCheckout
 } from "../Action/UserListAction"
 
 import Cookies from 'universal-cookie';
@@ -27,6 +28,47 @@ function* handleApiError(error) {
 }
 
 
+function* handleEditBasicDetails(reading) {
+   try {
+      const response = yield call(editBasicDetails, reading.payload)
+
+      if (response.status === 200) {
+         yield put({ type: 'EDIT_BASIC_DETAILS', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      }
+
+      if (response) {
+         refreshToken(response)
+      }
+   }
+   catch (error) {
+      yield* handleApiError(error);
+      if (error.code === 'ERR_BAD_REQUEST') {
+         if (error.status === 400) {
+            yield put({ type: '', payload: error.response.data });
+         }
+      } else if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function* handleCancelCheckout(reading) {
    try {
@@ -35,14 +77,14 @@ function* handleCancelCheckout(reading) {
       if (response.status === 200) {
          yield put({ type: 'CANCEL_CHECKOUT', payload: { response: response.data, statusCode: response.status || response.statusCode } })
       }
-     
+
       if (response) {
          refreshToken(response)
       }
    }
    catch (error) {
- yield* handleApiError(error);
-     if (error.code === 'ERR_BAD_REQUEST') {
+      yield* handleApiError(error);
+      if (error.code === 'ERR_BAD_REQUEST') {
          if (error.status === 400) {
             yield put({ type: 'CANCEL_CHECKOUT_ERROR', payload: error.response.data });
          }
@@ -50,7 +92,7 @@ function* handleCancelCheckout(reading) {
          yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
       }
    }
-   
+
 
 
 }
@@ -72,13 +114,13 @@ function* handleGetParticularCustomerReading(reading) {
       if (response.status === 200) {
          yield put({ type: 'GET_PARTICULAR_CUSTOMER_READING', payload: { response: response.data, statusCode: response.status || response.statusCode } })
       }
-     
+
       if (response) {
          refreshToken(response)
       }
    }
    catch (err) {
- yield* handleApiError(err);
+      yield* handleApiError(err);
       const error = err || {};
 
       yield put({
@@ -106,7 +148,7 @@ function* handleGetCustomerReading(reading) {
       if (response.status === 200) {
          yield put({ type: 'GET_CUSTOMER_READING', payload: { response: response.data, statusCode: response.status || response.statusCode } })
       }
-     
+
       if (response) {
          refreshToken(response)
       }
@@ -134,7 +176,7 @@ function* handleGetParticularRoomReading(reading) {
       if (response.status === 200) {
          yield put({ type: 'GET_PARTICULAR_ROOM_READING', payload: { response: response.data, statusCode: response.status || response.statusCode } })
       }
-     
+
       if (response) {
          refreshToken(response)
       }
@@ -908,50 +950,72 @@ function* handleCheckOut(action) {
 }
 
 function* handleDeleteFloor(hosteID) {
-   const response = yield call(deleteFloor, hosteID.payload)
+   try {
+      const response = yield call(deleteFloor, hosteID.payload)
 
-   var toastStyle = {
-      backgroundColor: "#E6F6E6",
-      color: "black",
-      width: "100%",
-      borderRadius: "60px",
-      height: "20px",
-      fontFamily: "Gilroy",
-      fontWeight: 600,
-      fontSize: 14,
-      textAlign: "start",
-      display: "flex",
-      alignItems: "center",
-      padding: "10px",
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center",
+         padding: "10px",
 
-   };
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'DELETE_FLOOR', payload: { message: response.data.message, statusCode: response.status || response.statusCode } })
+      };
+      if (response.status === 200 || response.statusCode === 200) {
+         yield put({ type: 'DELETE_FLOOR', payload: { message: response.data.message, statusCode: response.status || response.statusCode } })
 
-      toast.success('Deleted successfully!', {
-         position: "bottom-center",
-         autoClose: 2000,
-         hideProgressBar: true,
-         closeButton: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-         style: toastStyle,
-      });
+         toast.success('Deleted successfully!', {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
 
 
+      }
+
+      if (response) {
+         refreshToken(response)
+      }
    }
-   else if (response.status === 201 || response.statusCode === 201) {
-      yield put({ type: 'DELETE_FLOOR_ERROR', payload: response.data.message })
+   catch (error) {
+      if (error.code === 'ERR_BAD_REQUEST') {
+         if (error.status === 400) {
 
-   }
-   if (response) {
-      refreshToken(response)
+            toast.error(`${error.response.data}`, {
+               style: { fontFamily: "Gilroy", font: "#000", borderBottom: "5px solid red" },
+               position: "top-right",
+               autoClose: 2000,
+               hideProgressBar: true,
+               closeButton: false,
+               closeOnClick: true,
+               pauseOnHover: true,
+               draggable: true,
+               progress: undefined,
+
+            });
+
+         }
+      } else if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
    }
 }
 
 function* handleDeleteRoom(roomDetails) {
+   try{
    const response = yield call(deleteRoom, roomDetails.payload)
 
 
@@ -988,12 +1052,31 @@ function* handleDeleteRoom(roomDetails) {
 
 
    }
-   else if (response.status === 201 || response.statusCode === 201) {
-      yield put({ type: 'DELETE_ROOM_ERROR', payload: response.data.message })
-
-   }
+   
    if (response) {
       refreshToken(response)
+   }
+}catch (error) {
+      if (error.code === 'ERR_BAD_REQUEST') {
+         if (error.status === 400) {
+
+            toast.error(`${error.response.data}`, {
+               style: { fontFamily: "Gilroy", font: "#000", borderBottom: "5px solid red" },
+               position: "top-right",
+               autoClose: 2000,
+               hideProgressBar: true,
+               closeButton: false,
+               closeOnClick: true,
+               pauseOnHover: true,
+               draggable: true,
+               progress: undefined,
+
+            });
+
+         }
+      } else if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
    }
 }
 
@@ -1017,9 +1100,9 @@ function refreshToken(response) {
 
 function* handlecustomerdetails(userDetails) {
    const response = yield call(CustomerDetails, userDetails.payload)
-   console.log("handlecustomerdetails",response)
+   console.log("handlecustomerdetails", response)
    if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'CUSTOMER_DETAILS', payload:{response : response.data, statusCode: response.status || response.statusCode  } })
+      yield put({ type: 'CUSTOMER_DETAILS', payload: { response: response.data, statusCode: response.status || response.statusCode } })
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -1493,7 +1576,7 @@ function* handleAddCheckoutCustomer(action) {
    }
    catch (error) {
       yield* handleApiError(error);
-        if (error.code === 'ERR_BAD_REQUEST') {
+      if (error.code === 'ERR_BAD_REQUEST') {
          if (error.status === 400) {
             yield put({ type: 'ADD_CHECKOUT_CUSTOMER_LIST_ERROR', payload: error.response.data });
          }
@@ -1864,7 +1947,7 @@ function* handleCheckoutExportDetails(action) {
 function* handleReAssignPage(action) {
    try {
       const { hostelId, customerId, datum } = action.payload;
-     const response = yield call(customerReAssignBed, hostelId, customerId, datum);
+      const response = yield call(customerReAssignBed, hostelId, customerId, datum);
 
       // const response = yield call(customerReAssignBed, action.payload);
 
@@ -2541,9 +2624,9 @@ function* handleGetAllFloor(floor) {
 
 function* handleGenerateDetails(reading) {
    try {
-      const {customerId , data} = reading.payload
-      const response = yield call(GenerateDetails, customerId , data )
-      console.log("handleGenerateDetails",response)
+      const { customerId, data } = reading.payload
+      const response = yield call(GenerateDetails, customerId, data)
+      console.log("handleGenerateDetails", response)
 
       if (response.status === 201 || response.status === 200) {
          yield put({ type: 'FINAL_GENERATE', payload: { response: response.data, statusCode: response.status } })
@@ -2607,9 +2690,9 @@ function* handleGenerateDetails(reading) {
 function* handleConformCheckout(reading) {
    try {
       const response = yield call(conformCheckout, reading.payload)
-      console.log("handleConformCheckout",response)
+      console.log("handleConformCheckout", response)
 
-      if (response.status === 200 ) {
+      if (response.status === 200) {
          yield put({ type: 'CONFORM_CHECKOUT', payload: { response: response.data, statusCode: response.status } })
 
          var toastStyle = {
@@ -2687,10 +2770,11 @@ function* handleCheckoutProfile(action) {
 
 
 function* UserListSaga() {
+   yield takeEvery('EDITBASICDETAILS', handleEditBasicDetails)
    yield takeEvery('CANCELCHECKOUT', handleCancelCheckout)
    yield takeEvery('GETCUSTOMERREADING', handleGetCustomerReading)
-   yield takeEvery('GETPARTICULARCUSTOMERREADING',handleGetParticularCustomerReading)
-    yield takeEvery('GETPARTICULARROOMREADING', handleGetParticularRoomReading)
+   yield takeEvery('GETPARTICULARCUSTOMERREADING', handleGetParticularCustomerReading)
+   yield takeEvery('GETPARTICULARROOMREADING', handleGetParticularRoomReading)
    yield takeEvery('GETROOMREADING', handleGetRoomReading)
    yield takeEvery('BOOKINGTOCHECKIN', handleBookingToCheckIn)
    yield takeEvery('INITIALIZECANCELBOOKING', handleCancelBookingGet)
@@ -2754,8 +2838,8 @@ function* UserListSaga() {
    yield takeEvery('UNASSIGNCUSTOMER', handlecustomerUnAssign)
    yield takeEvery('BACKTOCHECKIN', handleBackToCheckin)
    yield takeEvery('CHECKOUTPROFILEDETAILS', handleCheckoutProfile)
-   yield takeEvery('FINALSETTLEMENT',handleGenerateDetails)
-   yield takeEvery ('CONFIRMCHECKOUT',handleConformCheckout)
+   yield takeEvery('FINALSETTLEMENT', handleGenerateDetails)
+   yield takeEvery('CONFIRMCHECKOUT', handleConformCheckout)
 
 
 }
