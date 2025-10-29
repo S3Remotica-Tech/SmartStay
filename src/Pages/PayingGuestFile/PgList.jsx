@@ -84,13 +84,13 @@ function PgList() {
   const [loading, setLoading] = useState(false)
 
 
-useEffect(() => {
-  if (!canReadPayingGuests) {
-    setLoading(false);
-  }else{
-    setLoading(true);
-  }
-}, [canReadPayingGuests]);
+  useEffect(() => {
+    if (!canReadPayingGuests) {
+      setLoading(false);
+    } else {
+      setLoading(true);
+    }
+  }, [canReadPayingGuests]);
 
 
 
@@ -127,7 +127,7 @@ useEffect(() => {
     if (hostel_Id) {
       dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } });
       dispatch({ type: 'ALLFLOORLIST', payload: { hostel_id: hostel_Id } })
-      setLoading(true)
+      // setLoading(true)
     }
   }, [hostel_Id]);
 
@@ -338,7 +338,7 @@ useEffect(() => {
   useEffect(() => {
     if (state.PgList?.createPgStatusCode === 201) {
       dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
-      dispatch({ type: "HOSTELLIST"});
+      dispatch({ type: "HOSTELLIST" });
 
       setShowAddPg(false);
       setTimeout(() => {
@@ -731,11 +731,12 @@ useEffect(() => {
 
 
   const handleCloseChangeBed = () => {
-
     dispatch(triggerPG(false))
   }
 
-
+  useEffect(() => {
+    dispatch(triggerPG(false))
+  }, [])
 
 
   return (

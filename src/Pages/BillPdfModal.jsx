@@ -431,7 +431,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
               >
 
                 <div className=" p-2 position-relative" style={{
-                  borderTopLeftRadius: "8px", borderTopRightRadius: "8px", height: "80px",
+                  borderTopLeftRadius: "8px", borderTopRightRadius: "8px", height: "",
                 }}>
                   <div className="d-flex justify-content-between align-items-center ps-3 pe-3">
                     <div className="d-flex" >

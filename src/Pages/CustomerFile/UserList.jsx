@@ -198,14 +198,15 @@ function UserList(props) {
       else if (value === "3") {
         dispatch({
           type: "CHECKOUTCUSTOMERLIST",
-          payload: { hostel_id: state.login.selectedHostel_Id },
-        });
-      } else if (value === "4") {
-        dispatch({
-          type: "WALKINCUSTOMERLIST",
-          payload: { hostel_id: state.login.selectedHostel_Id },
+          payload: { hostelId: state.login.selectedHostel_Id },
         });
       }
+      //  else if (value === "4") {
+      //   dispatch({
+      //     type: "WALKINCUSTOMERLIST",
+      //     payload: { hostel_id: state.login.selectedHostel_Id },
+      //   });
+      // }
     }
   }, [value, state.login.selectedHostel_Id]);
 
@@ -1231,16 +1232,18 @@ console.log("customernameeeeeeeeeeeeeeeee",customername)
 
   const [checkOutCustomer, setCheckOutCustomer] = useState([]);
 
+console.log("checkOutCustomer",checkOutCustomer)
+
   const [walkingCustomer, setWalkingCustomer] = useState([]);
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({
-        type: "WALKINCUSTOMERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
-    }
-  }, [state.login.selectedHostel_Id]);
+  // useEffect(() => {
+  //   if (state.login.selectedHostel_Id) {
+  //     dispatch({
+  //       type: "WALKINCUSTOMERLIST",
+  //       payload: { hostel_id: state.login.selectedHostel_Id },
+  //     });
+  //   }
+  // }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
     if (state.UsersList?.getWalkInStatusCode === 200) {
@@ -1279,18 +1282,18 @@ console.log("customernameeeeeeeeeeeeeeeee",customername)
 
 
 
-  // useEffect(() => {
-  //   if (state.login.selectedHostel_Id) {
-  //     dispatch({
-  //       type: "CHECKOUTCUSTOMERLIST",
-  //       payload: { hostel_id: state.login.selectedHostel_Id },
-  //     });
-  //   }
-  // }, [state.login.selectedHostel_Id]);
+  useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      dispatch({
+        type: "CHECKOUTCUSTOMERLIST",
+        payload: { hostelId: state.login.selectedHostel_Id },
+      });
+    }
+  }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
     if (state.UsersList.GetCheckOutCustomerStatusCode === 200) {
-      setCheckOutCustomer(state.UsersList.CheckOutCustomerList);
+      setCheckOutCustomer(state.UsersList?.CheckOutCustomerList);
       setTimeout(() => {
         dispatch({ type: "CLEAR_CHECKOUT_CUSTOMER_LIST" });
       }, 2000);
@@ -1332,7 +1335,7 @@ useEffect(() => {
   useEffect(() => {
     if (value === "1") {
       const FilterUser = Array.isArray(userListDetail)
-        ? userListDetail.filter((item) =>
+        ? userListDetail?.filter((item) =>
           item.firstName.toLowerCase().includes(filterInput.toLowerCase())
         )
         : [];
@@ -1342,7 +1345,7 @@ useEffect(() => {
 
     if (value === "2") {
       const FilterUsertwo = Array.isArray(customerBooking)
-        ? customerBooking.filter((item) => {
+        ? customerBooking?.filter((item) => {
           const fullName = `${item.first_name || ""} ${item.last_name || ""
             }`.toLowerCase();
           return fullName.includes(filterInput.toLowerCase());
@@ -1355,7 +1358,7 @@ useEffect(() => {
     if (value === "3") {
       const FilterUsertwo = Array.isArray(checkOutCustomer)
         ? checkOutCustomer?.filter((item) => {
-          return item.Name.toLowerCase().includes(filterInput?.toLowerCase());
+          return item.firstName.toLowerCase().includes(filterInput?.toLowerCase());
         })
         : [];
 
@@ -2501,7 +2504,7 @@ useEffect(() => {
     if (state.UsersList.statusCodeAddConfirmCheckout === 200) {
       setDueCustomerShow(false)
 
-      dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+      dispatch({ type: "CHECKOUTCUSTOMERLIST",payload: { hostelId: state.login.selectedHostel_Id } });
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_CONFIRM_CHECK_OUT_CUSTOMER" })
       }, 1000)
