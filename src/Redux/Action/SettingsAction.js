@@ -544,6 +544,7 @@ export async function GetBillsNotificationTypes() {
 }
 
 export async function SettingsGetRecurring(reccurring) {
+  console.log("reccurring",reccurring)
   return await AxiosConfigV2.get(`/v2/hostel/config/billing/${reccurring.hostelId}`);
 }
 

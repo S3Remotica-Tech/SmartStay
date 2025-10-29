@@ -218,38 +218,64 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
     }, []);
 
 
+
+
+
     useEffect(() => {
         if (finalSettlementList?.settlementInfo) {
             const { isRefundable, amountTobePaid } = finalSettlementList.settlementInfo;
 
-            const allDeductions = fields || [];
-            const totalDeductions = allDeductions.reduce(
-                (sum, item) => sum + (Number(item.amount) || 0),
-                0
+
+            const apiDeductions = finalSettlementList?.customerInfo?.listDeductions || [];
+
+
+            const apiMap = new Map(
+                apiDeductions.map(item => [item.type?.toLowerCase(), Number(item.amount) || 0])
             );
 
-            let finalAmount = 0;
 
+            const totalUserDeductions = (fields || []).reduce((sum, item) => {
+                const reasonName = item.reason_name?.toLowerCase();
+                const userAmount = Number(item.amount) || 0;
+                const apiAmount = apiMap.get(reasonName);
+
+
+                if (item.customReason && item.customReason.trim() !== "") {
+                    return sum + userAmount;
+                }
+
+                if (apiAmount !== undefined) {
+
+                    const diff = userAmount - apiAmount;
+                    return sum + (diff > 0 ? diff : 0);
+                } else {
+                    return sum + userAmount;
+                }
+            }, 0);
+
+
+            let finalAmount = 0;
             if (amountTobePaid < 0) {
                 finalAmount = isRefundable
-                    ? amountTobePaid + totalDeductions
-                    : amountTobePaid - totalDeductions;
+                    ? amountTobePaid + totalUserDeductions
+                    : amountTobePaid - totalUserDeductions;
             } else {
-
                 finalAmount = isRefundable
-                    ? amountTobePaid - totalDeductions
-                    : amountTobePaid + totalDeductions;
+                    ? amountTobePaid - totalUserDeductions
+                    : amountTobePaid + totalUserDeductions;
             }
 
+            console.log("Final Amount:", finalAmount);
             setReturnAmount(finalAmount);
         }
     }, [finalSettlementList?.settlementInfo, fields]);
 
 
-
-
-
-
+    const apiDeductions = finalSettlementList?.customerInfo?.listDeductions || [];
+    const totalApiDeductions = apiDeductions.reduce(
+        (sum, item) => sum + (Number(item.amount) || 0),
+        0
+    );
     useEffect(() => {
         if (finalSettlementList?.customerInfo?.listDeductions?.length > 0) {
             const mappedFields = finalSettlementList.customerInfo.listDeductions.map(item => ({
@@ -263,31 +289,40 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
         }
     }, [finalSettlementList]);
 
-    const apiDeductions = finalSettlementList?.customerInfo?.listDeductions || [];
 
-
-    const totalApiDeductions = apiDeductions.reduce(
-        (sum, item) => sum + (Number(item.amount) || 0),
-        0
+    const apiMap = new Map(
+        apiDeductions.map(item => [item.type?.toLowerCase(), Number(item.amount) || 0])
     );
 
+    const totalUserDeductions = (fields || []).reduce((sum, item) => {
+        const reasonName = item.reason_name?.toLowerCase();
+        const userAmount = Number(item.amount) || 0;
+        const apiAmount = apiMap.get(reasonName);
 
-    const userAddedDeductions = fields?.filter(
-        (item) => !apiDeductions.some((apiItem) => apiItem.type === item.reason_name)
-    );
-
-
-    const totalUserDeductions = userAddedDeductions?.reduce(
-        (sum, item) => sum + (Number(item.amount) || 0),
-        0
-    );
-
+        if (apiAmount !== undefined) {
+            const diff = userAmount - apiAmount;
+            return sum + (diff > 0 ? diff : 0);
+        } else {
+            return sum + userAmount;
+        }
+    }, 0);
 
     const totalDeductions = totalApiDeductions + totalUserDeductions;
 
-    console.log("API total:", totalApiDeductions);
+    console.log("api total:", totalApiDeductions);
     console.log("User added total:", totalUserDeductions);
     console.log("Final Total:", totalDeductions);
+
+
+
+
+
+
+
+
+
+
+
 
 
     const handleClickGenerate = () => {
@@ -402,7 +437,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                 </span>
                             </div>
                             <div className="d-flex justify-content-between mb-3">
-                                <span style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>Checkout Date</span>
+                                <span style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}> Actual Checkout Date</span>
                                 <span style={{ fontSize: "1rem", fontFamily: "Gilroy", fontWeight: 600 }}> {finalSettlementList?.stayInfo?.checkoutDate}
 
                                 </span>
