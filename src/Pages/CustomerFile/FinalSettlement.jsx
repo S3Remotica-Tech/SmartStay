@@ -437,7 +437,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                 </span>
                             </div>
                             <div className="d-flex justify-content-between mb-3">
-                                <span style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>Checkout Date</span>
+                                <span style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}> Actual Checkout Date</span>
                                 <span style={{ fontSize: "1rem", fontFamily: "Gilroy", fontWeight: 600 }}> {finalSettlementList?.stayInfo?.checkoutDate}
 
                                 </span>
