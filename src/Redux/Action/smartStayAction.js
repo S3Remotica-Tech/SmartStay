@@ -17,8 +17,7 @@ export async function login(EmailId, Password) {
 // v2
 
 export async function loginV2(loginInfo) {
-  console.log("loginInfo%%%%%%%%%%%%",loginInfo)
-  return await axios.post(`${ConfigV2.apiBaseUrl}/v2/users/login`,loginInfo, {
+    return await axios.post(`${ConfigV2.apiBaseUrl}/v2/users/login`,loginInfo, {
    data:loginInfo
 
   });
@@ -208,4 +207,11 @@ export const checkoutCustomerProfile = (checoutprofile) => ({
 export const  triggerPG = (pg) => ({
   type: "TRIGGER_PG",
   payload: pg,
+});
+
+
+
+export const  clickedBedForChange = (bed) => ({
+  type: "SET_CLICKED_BED",
+  payload: bed,
 });

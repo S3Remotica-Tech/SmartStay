@@ -35,6 +35,7 @@ import Tick from '../../Assets/v2Images/Tick.svg'
 import ConfirmChangeBed from './NoticePeriod/ConfirmChangedBed';
 import { useHasPermission } from '../../Utils/Permission';
 import BackToCheckIn from "../CustomerFile/BackToCheckIn";
+import {clickedBedForChange} from '../../Redux/Action/smartStayAction'
 
 function BedDetailsMap({ room, propsValue }) {
 
@@ -72,10 +73,16 @@ function BedDetailsMap({ room, propsValue }) {
     const [showConfirmChangeBedModal, setShowConfirmChangeBedModal] = useState(false)
     const [clickedBed, setClickedBed] = useState('')
     const [changeBedClicked, setChangedBedClicked] = useState('')
-     const [bactocheckinForm, setBacktoCheckInForm] = useState(false)
+    const [bactocheckinForm, setBacktoCheckInForm] = useState(false)
+
+console.log(clickedBed,"clickedBed")
+
+console.log("changeBedClicked",changeBedClicked)
+
+console.log("state",state)
 
 
- const canWritePayingGuests = useHasPermission("Paying Guests", "canWrite");
+    const canWritePayingGuests = useHasPermission("Paying Guests", "canWrite");
 
     const handleshowfinalsettlement = (isvisible, customerId) => {
         setCustomerId(customerId)
@@ -95,9 +102,9 @@ function BedDetailsMap({ room, propsValue }) {
         setShowReservedBed(false)
     }
 
-const handleCloseBackToCheckIn = () => {
-    setBacktoCheckInForm(false)
-  }
+    const handleCloseBackToCheckIn = () => {
+        setBacktoCheckInForm(false)
+    }
 
 
     const handleCloseReassignForm = () => {
@@ -226,6 +233,8 @@ const handleCloseBackToCheckIn = () => {
 
     }
     const handleclickBed = (bed, room) => {
+console.log("calledddddddd")
+dispatch(clickedBedForChange(bed));
 
         setClickedBed(bed)
         dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { bedId: bed.id } })
@@ -266,12 +275,12 @@ const handleCloseBackToCheckIn = () => {
         setNoticePeriodBed(false)
     }
 
-     const handleOpenCancelCheckout = () =>{
+    const handleOpenCancelCheckout = () => {
         setNoticePeriodBed(false)
-    setBacktoCheckInForm(true)
+        setBacktoCheckInForm(true)
 
 
-     }
+    }
 
 
     const handleCloseInActive = () => {
@@ -290,6 +299,7 @@ const handleCloseBackToCheckIn = () => {
 
 
     const handleCloseChangedBed = () => {
+        // dispatch(triggerPG(false))
         setShowConfirmChangeBedModal(false)
     }
 
@@ -385,10 +395,7 @@ const handleCloseBackToCheckIn = () => {
     const filteredBeds = state.login.isTrigger
         ? bedsForRoom.filter(
             (bed) =>
-                // include only when NOT booked & NOT occupied
                 (!bed.isBooked && !bed.isOccupied) ||
-
-                // or when onNotice === true BUT still not booked & not occupied
                 (bed.onNotice === true && !bed.isBooked && !bed.isOccupied)
         )
         : bedsForRoom;
@@ -442,21 +449,21 @@ const handleCloseBackToCheckIn = () => {
 
 
 
-useEffect(() => {
-    if (state.Booking.StatusCodeInactiveCode === 200) {
-          setShowInActive(false)
-      dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
-       dispatch({
+    useEffect(() => {
+        if (state.Booking.StatusCodeInactiveCode === 200) {
+            setShowInActive(false)
+            dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+            dispatch({
                 type: "GETALLBEDSLIST",
                 payload: { roomId: room.id }
             });
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_BOOKING_InActive' })
-      }, 1000)
+            setTimeout(() => {
+                dispatch({ type: 'CLEAR_BOOKING_InActive' })
+            }, 1000)
 
-    }
+        }
 
-  }, [state.Booking.StatusCodeInactiveCode])
+    }, [state.Booking.StatusCodeInactiveCode])
 
 
 
@@ -465,10 +472,10 @@ useEffect(() => {
 
         <div>
 
-{
-        bactocheckinForm && <BackToCheckIn show={bactocheckinForm} handleClose={handleCloseBackToCheckIn} checkInDetails={customer} />
+            {
+                bactocheckinForm && <BackToCheckIn show={bactocheckinForm} handleClose={handleCloseBackToCheckIn} checkInDetails={customer} />
 
-      }
+            }
 
 
 
@@ -536,7 +543,7 @@ useEffect(() => {
             {
                 showConfirmChangeBedModal &&
 
-                <ConfirmChangeBed show={showConfirmChangeBedModal} handleClose={handleCloseChangedBed} previousBed={clickedBed} currentBed={changeBedClicked} />
+                <ConfirmChangeBed show={showConfirmChangeBedModal} handleClose={handleCloseChangedBed} previousBed={clickedBed} currentBed={changeBedClicked}  customer={customer}/>
 
             }
 
@@ -611,7 +618,7 @@ useEffect(() => {
             }
 
             <div className='row g-2 overflow-auto' style={{ maxHeight: 240 }}>
-                {Array.isArray(filteredBeds) && filteredBeds.length > 0 &&
+                {Array.isArray(filteredBeds) && filteredBeds.length > 0 ?
                     filteredBeds?.map((bed) => (
                         <div key={bed.id}
                             className={`col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center ${propsValue.addPermissionError ? 'disabled' : ''}`}
@@ -622,7 +629,7 @@ useEffect(() => {
                                 <div style={{ position: "relative", width: 34, height: 41 }}>
 
 
-                                    {state.login.isTrigger && Number(clickedBed?.id) === Number(bed.id) && (
+                                    {state.login.isTrigger && Number(changeBedClicked?.id) === Number(bed.id) && (
                                         <div
                                             style={{
                                                 position: "absolute",
@@ -725,27 +732,38 @@ useEffect(() => {
                                 </div>
                             </div>
                         </div>
-                    ))}
+                    ))
+                    :
+                    <div className='d-flex justify-content-center'>
+                        <label style={{fontFamily:"Gilroy", color:"#4B4B4B", fontSize:12}}>
+                            No beds available
+                        </label>
+                    </div>
 
+                }
 
-                <div
-                    className={`col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center ${propsValue.addPermissionError ? 'disabled' : ''}`}
-                    onClick={() => {
-                        if (canWritePayingGuests) {
-                            handleAddBed(propsValue, room.id);
-                        }
-                    }}
-                    style={{ cursor: propsValue.addPermissionError ? 'not-allowed' : 'pointer' }}
-                >
-                    <div className='d-flex flex-column align-items-center w-100'>
-                        <div>
-                            <FaSquarePlus style={{ height: 41, width: 34, color: propsValue.addPermissionError ? "#888888" : "#1E45E1" }} />
-                        </div>
-                        <div className="pt-2" style={{ fontSize: 12, fontWeight: 600, fontFamily: "Montserrat", color: !canWritePayingGuests ? "#888888" : "#1E45E1" }}>
-                            Add bed
+                {
+                    !state.login.isTrigger &&
+
+                    <div
+                        className={`col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center ${propsValue.addPermissionError ? 'disabled' : ''}`}
+                        onClick={() => {
+                            if (canWritePayingGuests) {
+                                handleAddBed(propsValue, room.id);
+                            }
+                        }}
+                        style={{ cursor: propsValue.addPermissionError ? 'not-allowed' : 'pointer' }}
+                    >
+                        <div className='d-flex flex-column align-items-center w-100'>
+                            <div>
+                                <FaSquarePlus style={{ height: 41, width: 34, color: propsValue.addPermissionError ? "#888888" : "#1E45E1" }} />
+                            </div>
+                            <div className="pt-2" style={{ fontSize: 12, fontWeight: 600, fontFamily: "Montserrat", color: !canWritePayingGuests ? "#888888" : "#1E45E1" }}>
+                                Add bed
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
             </div>
 
 

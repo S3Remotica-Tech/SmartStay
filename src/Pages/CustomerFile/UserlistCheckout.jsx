@@ -31,17 +31,17 @@ function CheckOut(props) {
 
  const calledOnceRef = useRef(false);
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id && !calledOnceRef.current) {
-      calledOnceRef.current = true;
-      // setWalkingLoader(true);
-      dispatch({
-        type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id, type: 'checkout' },
-      });
+  // useEffect(() => {
+  //   if (state.login.selectedHostel_Id && !calledOnceRef.current) {
+  //     calledOnceRef.current = true;
+  //     // setWalkingLoader(true);
+  //     dispatch({
+  //       type: "USERLIST",
+  //       payload: { hostel_id: state.login.selectedHostel_Id, type: 'checkout' },
+  //     });
 
-    }
-  }, [state.login.selectedHostel_Id]);
+  //   }
+  // }, [state.login.selectedHostel_Id]);
   const [activeDotsId, setActiveDotsId] = useState(null);
   // const [modalType, setModalType] = useState(null);
   
@@ -73,9 +73,9 @@ const canWriteCheckout = useHasPermission("Checkout", "canWrite")
     dispatch(checkoutCustomerProfile(false))
     dispatch({
       type: "CHECKOUTPROFILEDETAILS",
-      payload: { hostel_id: state.login.selectedHostel_Id, id: checkout.ID },
+      payload: { hostel_id: state.login.selectedHostel_Id, id: checkout.customerId },
     });
-    dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: checkout.ID } });
+    dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: checkout.customerId } });
     // props.setUserList(false)
     // props?.show()
 
@@ -144,7 +144,7 @@ const canWriteCheckout = useHasPermission("Checkout", "canWrite")
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       setCheckOutLoader(true)
-      dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+      dispatch({ type: "CHECKOUTCUSTOMERLIST",payload: { hostelId: state.login.selectedHostel_Id } });
     }
   }, [state.login.selectedHostel_Id]);
 
@@ -176,7 +176,7 @@ const canWriteCheckout = useHasPermission("Checkout", "canWrite")
     if (state.UsersList.statusCodeAddConfirmCheckout === 200) {
 
       checkoutcloseModal()
-      dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+      dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostelId: state.login.selectedHostel_Id } });
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_CONFIRM_CHECK_OUT_CUSTOMER" })
       }, 1000)
@@ -218,7 +218,7 @@ const canWriteCheckout = useHasPermission("Checkout", "canWrite")
       state.UsersList.deleteCheckoutCustomerStatusCode === 200
     ) {
 
-      dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+      dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostelId: state.login.selectedHostel_Id } });
       setcheckoutForm(false);
       // setModalType(null);
       setTimeout(() => {
@@ -375,10 +375,10 @@ const canWriteCheckout = useHasPermission("Checkout", "canWrite")
 
 
   const handleConfirmCheckout = (checkout) => {
-    if (checkout.ID) {
+    if (checkout.customerId) {
       dispatch({
         type: "GETCONFIRMCHECKOUTCUSTOMER",
-        payload: { id: checkout.ID, hostel_id: checkout.Hostel_Id },
+        payload: { id: checkout.customerId, hostel_id: checkout.Hostel_Id },
       });
     }
     setCheckOutDetails(checkout)
@@ -442,11 +442,11 @@ const canWriteCheckout = useHasPermission("Checkout", "canWrite")
   }, [state.UsersList.statusCodegetConfirmCheckout, CheckOutDetails]);
 
 
-
+console.log("state",state)
 
   useEffect(() => {
     if (state.UsersList.statusCodeForDueCustomer === 200) {
-      dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+      dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostelId: state.login.selectedHostel_Id } });
       setDueCustomerShow(false)
       setTimeout(() => {
         dispatch({ type: "REMOVE_CONFIRM_CHECKOUT_DUE_CUSTOMER" });
@@ -461,7 +461,7 @@ const canWriteCheckout = useHasPermission("Checkout", "canWrite")
     if (state.UsersList.statusCodeAddConfirmCheckout === 200) {
       setDueCustomerShow(false)
 
-      dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+      dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostelId: state.login.selectedHostel_Id } });
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_CONFIRM_CHECK_OUT_CUSTOMER" })
       }, 1000)
@@ -812,303 +812,12 @@ const canWriteCheckout = useHasPermission("Checkout", "canWrite")
                               </th>
                             </tr>
                           </thead>
-                          {/* <tbody>
-                        {sortedData && sortedData.length > 0 && sortedData.map((checkout) => {
-
-
-                          return (
-                            <tr key={checkout.ID} className="customer-row">
-
-                              <td onClick={()=>handleCustomerProfilePage(checkout)}  style={{ verticalAlign: "middle", borderBottom: "1px solid #E8E8E8" }}>
-                                <div className="d-flex align-items-center">
-                                  <span
-                                    style={{
-                                      fontSize: "13px",
-                                      fontWeight: 600,
-                                      fontFamily: "Gilroy",
-                                      color: "blue",
-                                      paddingLeft: "4px",
-                                      textAlign: "start",
-                                      verticalAlign: "middle",
-                                      cursor:"pointer"
-                                     
-                                    }}
-                                    className=" customer-name ps-4 ps-sm-2 ps-md-3 ps-lg-4"
-                                  >
-                                    {checkout.Name}
-                                  </span>
-                                </div>
-                              </td>
-
-
-                              <td
-                                style={{
-                                  fontSize: "13px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  color: "#000000",
-                                  textAlign: "start",
-                                  verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
-                                }}
-                                className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
-                              >
-                                +
-                                {checkout &&
-                                  String(checkout.Phone).slice(
-                                    0,
-                                    String(checkout.Phone).length - 10
-                                  )}{" "}
-                                {checkout && String(checkout.Phone).slice(-10)}
-                              </td>
-
-                              <td
-                                style={{
-                                  padding: "10px",
-                                  border: "none",
-                                  textAlign: "start",
-                                  fontSize: "13px",
-                                  fontWeight: 600,
-                                  fontFamily: "Gilroy",
-                                  whiteSpace: "nowrap",
-                                  verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
-                                }}
-                                className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
-                              >
-                                <span
-                                  style={{
-                                    padding: "3px 10px",
-                                    borderRadius: "60px",
-                                    backgroundColor: "#EBEBEB",
-                                    textAlign: "start",
-                                    fontSize: "13px",
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    display: "inline-block",
-                                    overflow: "hidden",
-                                    textOverflow: "ellipsis",
-                                    whiteSpace: "nowrap",
-                                    verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
-                                  }}
-                                >
-                                  {checkout.floor_name || "_"}
-                                </span>
-                              </td>
-
-                              <td
-                                style={{
-                                  padding: "10px",
-                                  border: "none",
-                                  textAlign: "start",
-                                  fontSize: "13px",
-                                  fontWeight: 600,
-                                  fontFamily: "Gilroy",
-                                  whiteSpace: "nowrap",
-                                  verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
-                                }}
-                                className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
-                              >
-                                <span
-                                  style={{
-                                    padding: "3px 10px",
-                                    borderRadius: "60px",
-                                    backgroundColor: "#EBEBEB",
-                                    textAlign: "start",
-                                    fontSize: "11px",
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    display: "inline-block",
-                                    overflow: "hidden",
-                                    textOverflow: "ellipsis",
-                                    whiteSpace: "nowrap",
-                                    verticalAlign: "middle"
-                                  }}
-                                >
-                                  {checkout.room_name || "_"}
-                                </span>
-                              </td>
-                              <td
-                                style={{
-                                  padding: "10px",
-                                  border: "none",
-                                  textAlign: "start",
-                                  fontSize: "13px",
-                                  fontWeight: 600,
-                                  fontFamily: "Gilroy",
-                                  whiteSpace: "nowrap",
-                                  verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
-                                }}
-                                className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
-                              >
-                                <span
-                                  style={{
-                                    padding: "3px 10px",
-                                    borderRadius: "60px",
-                                    backgroundColor: "#EBEBEB",
-                                    textAlign: "start",
-                                    fontSize: "13px",
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    display: "inline-block",
-                                    overflow: "hidden",
-                                    textOverflow: "ellipsis",
-                                    whiteSpace: "nowrap",
-                                    verticalAlign: "middle"
-                                  }}
-                                >
-                                  {checkout.bed_name || "_"}
-                                </span>
-                              </td>
-                              <td
-                                style={{
-                                  padding: "10px",
-                                  border: "none",
-                                  textAlign: "start",
-                                  fontSize: "13px",
-                                  fontWeight: 600,
-                                  fontFamily: "Gilroy",
-                                  whiteSpace: "nowrap",
-                                  verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
-                                }}
-                                className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
-                              >
-                                <span
-                                  style={{
-                                    padding: "3px 10px",
-                                    borderRadius: "60px",
-                                    backgroundColor: "#EBEBEB",
-                                    textAlign: "start",
-                                    fontSize: "13px",
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    display: "inline-block",
-                                    overflow: "hidden",
-                                    textOverflow: "ellipsis",
-                                    whiteSpace: "nowrap",
-                                    verticalAlign: "middle"
-                                  }}
-                                >
-                                  {moment(checkout.CheckoutDate, "YYYY-MM-DD").format("DD MMM YYYY")}
-                                </span>
-                              </td>
-
-                              <td style={{
-                                padding: "10px",
-                                border: "none",
-                                textAlign: "start",
-                                fontSize: "13px",
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                                verticalAlign: "middle", borderBottom: "1px solid #E8E8E8",
-                                whiteSpace: "nowrap",
-                              }}
-                                className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
-                              >
-                               <span style={{backgroundColor:"pink",padding:8,borderRadius:10}}>{checkout.status}</span> </td>
-
-
-                              <td style={{ borderBottom: "1px solid #E8E8E8" }}>
-                                <div
-                                  style={{
-                                    cursor: "pointer",
-                                    height: 40,
-                                    width: 40,
-                                    borderRadius: "50%",
-                                    border: "1px solid #EFEFEF",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    position: "relative",
-                                    backgroundColor: activeDotsId === checkout.ID ? "#E7F1FF" : "white",
-                                  }}
-                                  onClick={(e) => toggleMoreOptions(checkout.ID, checkout, e)}
-                                >
-                                  <PiDotsThreeOutlineVerticalFill
-                                    style={{ height: 20, width: 20 }}
-                                  />
-                                  { checkout.isActive === 1 &&
-                                    <>
-                                   {activeDotsId === checkout.ID && (
-                                    <div
-                                      ref={popupRef}
-                                      style={{
-                                        position: "fixed",
-                                        top: popupPosition.top,
-                                        left: popupPosition.left - 20,
-                                        width: checkout.isActive === 0 ? 100 : 200,
-                                        backgroundColor: "#F9F9F9",
-                                        border: "1px solid #F9F9F9",
-                                        borderRadius: 12,
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                                        padding:10,
-                                        zIndex: 10,
-                                      }}
-                                    >
-                                      {checkout.isActive !== 0 && (
-                                    
-                                        <div
-                                          className="d-flex align-items-center "
-                                          onClick={() => {
-                                            if (!props.customerCheckoutPermission) {
-                                              handleConfirmCheckout(checkout);
-                                            }
-                                          }}
-                                          style={{
-                                            cursor: props.customerCheckoutPermission ? "not-allowed" : "pointer",
-                                            opacity: props.customerCheckoutPermission ? 0.5 : 1,
-                                            padding: "6px 8px",
-                                            borderRadius: 6,
-                                            transition: "background-color 0.2s ease",
-                                          }}
-                                          onMouseEnter={(e) => {
-                                            if (!props.customerCheckoutPermission) {
-                                              e.currentTarget.style.backgroundColor = "#FFF3F3";
-                                            }
-                                          }}
-                                          onMouseLeave={(e) => {
-                                            e.currentTarget.style.backgroundColor = "transparent";
-                                          }}
-                                        >
-                                          <img
-                                            src={Addbtn}
-                                            alt="checkout icon"
-                                            style={{ height: 16, width: 16, marginRight: 8 }}
-                                          />
-                                          <label
-                                            style={{
-                                              fontSize: 14,
-                                              fontWeight: 600,
-                                              fontFamily: "Gilroy, sans-serif",
-                                              color: props.customerCheckoutPermission ? "#A9A9A9" : "#222222",
-                                              cursor: props.customerCheckoutPermission ? "not-allowed" : "pointer",
-                                            }}
-                                          >
-                                            Confirm Check-Out
-                                          </label>
-                                        </div>
-
-
-                                      )}
-
-                                   
-
-                                    </div>
-
-                                    )}
-                                     </>
-                                     }
-                                </div>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody> */}
+          
                           <tbody>
                             <PaginationList>
                               {sortedData && sortedData.length > 0 &&
                                 sortedData.map((checkout) => (
-                                  <tr key={checkout.ID} className="customer-row">
+                                  <tr key={checkout.customerId} className="customer-row">
                                     <td
                                       onClick={() => handleCustomerProfilePage(checkout)}
                                       style={{
@@ -1130,7 +839,7 @@ const canWriteCheckout = useHasPermission("Checkout", "canWrite")
                                           }}
                                           className="customer-name ps-4 ps-sm-2 ps-md-3 ps-lg-4"
                                         >
-                                          {checkout.Name}
+                                          {checkout.firstName}
                                         </span>
                                       </div>
                                     </td>
@@ -1147,8 +856,11 @@ const canWriteCheckout = useHasPermission("Checkout", "canWrite")
                                       }}
                                       className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
                                     >
-                                      +{checkout && String(checkout.Phone).slice(0, String(checkout.Phone).length - 10)}{" "}
-                                      {checkout && String(checkout.Phone).slice(-10)}
+                                      +
+                                      {checkout &&
+                                        checkout.countryCode}
+                                      {" "}
+                                      {checkout.mobile}
                                     </td>
 
                                     <td
@@ -1181,7 +893,7 @@ const canWriteCheckout = useHasPermission("Checkout", "canWrite")
                                           verticalAlign: "middle",
                                         }}
                                       >
-                                        {checkout.floor_name || "_"}
+                                        {checkout.floorName || "_"}
                                       </span>
                                     </td>
 
@@ -1215,7 +927,7 @@ const canWriteCheckout = useHasPermission("Checkout", "canWrite")
                                           verticalAlign: "middle",
                                         }}
                                       >
-                                        {checkout.room_name || "_"}
+                                        {checkout.roomName || "_"}
                                       </span>
                                     </td>
 
@@ -1249,7 +961,7 @@ const canWriteCheckout = useHasPermission("Checkout", "canWrite")
                                           verticalAlign: "middle",
                                         }}
                                       >
-                                        {checkout.bed_name || "_"}
+                                        {checkout.bedName || "_"}
                                       </span>
                                     </td>
 
@@ -1283,7 +995,7 @@ const canWriteCheckout = useHasPermission("Checkout", "canWrite")
                                           verticalAlign: "middle",
                                         }}
                                       >
-                                        {moment(checkout.CheckoutDate, "YYYY-MM-DD").format("DD MMM YYYY")}
+                                        {checkout.CheckoutDate || "N/A"}
                                       </span>
                                     </td>
 
@@ -1308,7 +1020,7 @@ const canWriteCheckout = useHasPermission("Checkout", "canWrite")
                                           borderRadius: 10,
                                         }}
                                       >
-                                        {checkout.status}
+                                        {checkout.status || '-'}
                                       </span>
                                     </td>
 
@@ -1324,13 +1036,13 @@ const canWriteCheckout = useHasPermission("Checkout", "canWrite")
                                           justifyContent: "center",
                                           alignItems: "center",
                                           position: "relative",
-                                          backgroundColor: activeDotsId === checkout.ID ? "#E7F1FF" : "white",
+                                          backgroundColor: activeDotsId === checkout.customerId ? "#E7F1FF" : "white",
                                         }}
-                                        onClick={(e) => toggleMoreOptions(checkout.ID, checkout, e)}
+                                        onClick={(e) => toggleMoreOptions(checkout.customerId, checkout, e)}
                                       >
                                         <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
 
-                                        {checkout.isActive === 1 && activeDotsId === checkout.ID && (
+                                        {activeDotsId === checkout.customerId && (
                                           <div
                                             ref={popupRef}
                                             style={{
@@ -1403,154 +1115,7 @@ const canWriteCheckout = useHasPermission("Checkout", "canWrite")
 
                         </Table>
                       </div>
-                      {/* {((props.search || props.filterStatus) ? props.filteredUsers?.length : checkOutCustomer?.length) > 10 && (
-
-
-
-                    <nav
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "end",
-                        padding: "10px",
-                        position: "fixed",
-                        bottom: "0px",
-                        right: "0px",
-                        left: 0,
-                        backgroundColor: "#fff",
-                        borderRadius: "5px",
-                        zIndex: 1000,
-                      }}
-                    >
-                      <div>
-                        <Select
-                          options={pageOptions}
-                          value={
-                            itemsPerPage
-                              ? { value: itemsPerPage, label: `${itemsPerPage}` }
-                              : null
-                          }
-                          onChange={handleItemsPerPageChange}
-                          classNamePrefix="custom"
-                          menuPlacement="auto"
-                          noOptionsMessage={() => "No options"}
-                          styles={{
-                            control: (base) => ({
-                              ...base,
-                              height: "40px",
-                              padding: "0 5px",
-                              border: "1px solid #1E45E1",
-                              borderRadius: "5px",
-                              fontSize: "14px",
-                              color: "#1E45E1",
-                              fontWeight: 600,
-                              cursor: "pointer",
-                              fontFamily: "Gilroy",
-                              boxShadow: "0 0 0 1pxrgb(6, 8, 14)",
-                              width: 100,
-                            }),
-                            menu: (base) => ({
-                              ...base,
-                              backgroundColor: "#f8f9fa",
-                              border: "1px solid #ced4da",
-                              fontFamily: "Gilroy",
-                            }),
-                            menuList: (base) => ({
-                              ...base,
-                              maxHeight: "200px",
-                              overflowY: "auto",
-                              padding: 0,
-                            }),
-                            placeholder: (base) => ({
-                              ...base,
-                              color: "#555",
-                            }),
-                            dropdownIndicator: (base) => ({
-                              ...base,
-                              color: "#1E45E1",
-                              cursor: "pointer",
-                            }),
-                            indicatorSeparator: () => ({
-                              display: "none",
-                            }),
-                            option: (base, state) => ({
-                              ...base,
-                              backgroundColor: state.isFocused ? "#1E45E1" : "white",
-                              color: state.isFocused ? "#fff" : "#000",
-                              cursor: "pointer",
-                            }),
-                          }}
-                        />
-                      </div>
-
-                      <ul
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          listStyleType: "none",
-                          margin: 0,
-                          padding: 0,
-                        }}
-                      >
-                        <li style={{ margin: "0 10px" }}>
-                          <button
-                            style={{
-                              padding: "5px",
-                              textDecoration: "none",
-                              color: currentPage === 1 ? "#ccc" : "#1E45E1",
-                              cursor: currentPage === 1 ? "not-allowed" : "pointer",
-                              borderRadius: "50%",
-                              display: "inline-block",
-                              minWidth: "30px",
-                              textAlign: "center",
-                              backgroundColor: "transparent",
-                              border: "none",
-                            }}
-                            onClick={() => handlePageChange(currentPage - 1)}
-                            disabled={currentPage === 1}
-                          >
-                            <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
-                          </button>
-                        </li>
-
-                        <li
-                          style={{
-                            margin: "0 10px",
-                            fontSize: "14px",
-                            fontWeight: "bold",
-                          }}
-                        >
-                          {currentPage} of {totalPages}
-                        </li>
-
-                        <li style={{ margin: "0 10px" }}>
-                          <button
-                            style={{
-                              padding: "5px",
-                              textDecoration: "none",
-                              color: currentPage === totalPages ? "#ccc" : "#1E45E1",
-                              cursor: currentPage === totalPages ? "not-allowed" : "pointer",
-                              borderRadius: "50%",
-                              display: "inline-block",
-                              minWidth: "30px",
-                              textAlign: "center",
-                              backgroundColor: "transparent",
-                              border: "none",
-                            }}
-                            onClick={() => handlePageChange(currentPage + 1)}
-                            disabled={currentPage === totalPages}
-                          >
-                            <ArrowRight2
-                              size="16"
-                              color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
-                            />
-                          </button>
-                        </li>
-                      </ul>
-                    </nav>
-
-                  )} */}
-
+                    
                     </div>
 
                   ) : (!checkoutLoader && currentCustomers?.length === 0 && (

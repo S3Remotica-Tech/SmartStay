@@ -476,10 +476,8 @@ export async function DeleteWalkInCustomer(walk) {
 
 
 
-export async function getCheckOutCustomer(datum) {
-  return await AxiosConfig.post('/checkout_list', datum, {
-    data: datum
-  })
+export async function getCheckOutCustomer(hostel) {
+  return await AxiosConfigV2.get(`/v2/customers/checkout/${hostel.hostelId}`)
 }
 
 

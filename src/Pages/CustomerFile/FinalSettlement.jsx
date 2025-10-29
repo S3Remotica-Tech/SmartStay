@@ -283,7 +283,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                 amount: item.amount || "",
                 showInput: item.type === "others" ? true : false,
                 customReason: item.type === "others" ? item.type : "",
-                isSystemGenerated: item.type === "DueAmount",
+                isSystemGenerated: true,
             }));
             setFields(mappedFields);
         }
@@ -752,7 +752,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
 
                                                 <div className="col-md-1 d-flex justify-content-center align-items-center p-0">
 
-                                                    {(!item.isSystemGenerated || item.reason_name !== "DueAmount") && (
+                                                    {(!item.isSystemGenerated) && (
                                                         <Trash
                                                             size="20"
                                                             color="red"
