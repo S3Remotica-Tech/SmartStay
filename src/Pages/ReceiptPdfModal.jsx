@@ -460,12 +460,12 @@ const hasAmount  = -100
               >
 
                 <div className=" p-2 position-relative" style={{
-                  borderTopLeftRadius: "8px", borderTopRightRadius: "8px", height: "80px",
+                  borderTopLeftRadius: "8px", borderTopRightRadius: "8px", height: "",
                 }}>
-                  <div className="d-flex justify-content-between align-items-center">
+                   <div className="d-flex justify-content-between align-items-center ps-3 pe-3">
                     <div className="d-flex" >
                       <img src={pdfDetails?.configurations?.hostelLogo ? pdfDetails?.configurations?.hostelLogo : Logo} alt="logo" style={{ height: 64, minWidth: 64, maxWidth: 84, borderRadius: '4px', }} className="me-2 mt-2" />
-
+ </div>
                       <div className="mt-2" >
                         <div style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", marginRight: '20px', color: '#2B2B2B' }}>
                           {pdfDetails?.stayInfo?.hostelName}
@@ -487,8 +487,8 @@ const hasAmount  = -100
                       </div>
 
 
-                    </div>
-                    <div>
+                   
+                    {/* <div>
                       <div>
                         <label style={{ fontSize: 10, fontWeight: 600, fontFamily: "Gilroy", color: "#4B4B4B" }}>Receipt of the Month</label>
                       </div>
@@ -515,7 +515,7 @@ const hasAmount  = -100
                         </label>
 
                       </div>
-                    </div>
+                    </div> */}
 
                   </div>
                 </div>
