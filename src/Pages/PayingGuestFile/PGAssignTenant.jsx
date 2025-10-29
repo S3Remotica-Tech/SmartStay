@@ -457,7 +457,7 @@ useEffect(() => {
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-      dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostel_id: state.login.selectedHostel_Id } });
+      dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostelId: state.login.selectedHostel_Id } });
     }
   }, [state.login.selectedHostel_Id]);
 
@@ -652,7 +652,7 @@ useEffect(() => {
       // });
 
 
-      dispatch({ type: "INVOICELIST" });
+      // dispatch({ type: "INVOICELIST" });
     }
 
   };
