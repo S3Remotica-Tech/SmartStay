@@ -425,9 +425,21 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                 </span>
                             </div>
                             <div className="d-flex justify-content-between mb-3">
-                                <span style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>Total Advance Amount</span>
+                                <span style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>Advance Amount</span>
                                 <span style={{ fontSize: "1rem", fontFamily: "Gilroy", fontWeight: 600 }}>
                                     ₹{finalSettlementList?.customerInfo?.advanceAmount}
+                                </span>
+                            </div>
+                              <div className="d-flex justify-content-between mb-3">
+                                <span style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>Booking Amount</span>
+                                <span style={{ fontSize: "1rem", fontFamily: "Gilroy", fontWeight: 600 }}>
+                                    ₹{finalSettlementList?.customerInfo?.bookingAmount}
+                                </span>
+                            </div>
+                             <div className="d-flex justify-content-between mb-3">
+                                <span style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>Total Advance Amount</span>
+                                <span style={{ fontSize: "1rem", fontFamily: "Gilroy", fontWeight: 600 }}>
+                                    ₹{finalSettlementList?.customerInfo?.advancePaidAmount}
                                 </span>
                             </div>
                             <div className="d-flex justify-content-between mb-3">
