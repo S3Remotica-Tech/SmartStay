@@ -167,21 +167,52 @@ function CreateBill() {
     const [activeStay, setActiveStay] = useState("long_stay");
 
 
-    const canReadInvoice = useHasPermission("Bills", "canRead")
-    const canWriteInvoice = useHasPermission("Bills", "canWrite")
+    // const canReadInvoice = useHasPermission("Bills", "canRead")
+    // const canWriteInvoice = useHasPermission("Bills", "canWrite")
     // const canUpdateInvoice = useHasPermission("Bills", "canUpdate")
     // const canDeleteInvoice = useHasPermission("Bills", "canDelete")
 
 
+    const {
+        canWriteModule: canWriteInvoice,
+        canReadModule: canReadInvoice,
+        canUpdateModule: canUpdateInvoice,
+        canDeleteModule: canDeleteInvoice,
+    } = useHasPermission("Bills");
 
-    const canReadRecurring = useHasPermission("Recurring bills", "canRead")
+
+
+
+
+
+
+
+
+    // const canReadRecurring = useHasPermission("Recurring bills", "canRead")
     // const canWriteRecurring = useHasPermission("Recurring bills", "canWrite")
 
 
-    const canReadReceipt = useHasPermission("Receipt", "canRead")
-    const canWriteReceipt = useHasPermission("Receipt", "canWrite")
+    const {
+        canWriteModule: canWriteRecurring,
+        canReadModule: canReadRecurring,
+        // canUpdateModule: canUpdateInvoice,
+        // canDeleteModule: canDeleteInvoice,
+    } = useHasPermission("Recurring bills");
 
 
+
+
+
+    // const canReadReceipt = useHasPermission("Receipt", "canRead")
+    // const canWriteReceipt = useHasPermission("Receipt", "canWrite")
+
+
+    const {
+        canWriteModule: canWriteReceipt,
+        canReadModule: canReadReceipt,
+        // canUpdateModule: canUpdateInvoice,
+        // canDeleteModule: canDeleteInvoice,
+    } = useHasPermission("Receipt");
 
 
 
@@ -1035,14 +1066,14 @@ function CreateBill() {
         setNewRows([]);
         setDropdownValue("")
         if (state.UsersList.userRoomfor) {
-                navigate('/tenant-profile', {
-                    state: {
-                        totriggerBillTap: true
-                    }
-                })
-            } else {
-                navigate('/invoice')
-            }
+            navigate('/tenant-profile', {
+                state: {
+                    totriggerBillTap: true
+                }
+            })
+        } else {
+            navigate('/invoice')
+        }
 
     };
 
@@ -2425,10 +2456,10 @@ function CreateBill() {
             }
             setNewRows([]);
             dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
-            console.log("iddddddddddddd",id)
+            console.log("iddddddddddddd", id)
             if (id) {
-        dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: id } });
-      }
+                dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: id } });
+            }
             setLoading(false);
 
             setTimeout(() => {

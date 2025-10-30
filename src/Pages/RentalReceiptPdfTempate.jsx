@@ -43,8 +43,15 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList }) => {
   const [color, setColor] = useState({ r: 0, g: 163, b: 46, a: 1 });
     const [useGradient, setUseGradient] = useState(true);
     const defaultGradient = 'linear-gradient(to right, rgba(0,163, 46, 1), rgba(0, 163, 46, 1))';
-const canUpdateInvoice = useHasPermission("Bills", "canUpdate")
 
+// const canUpdateInvoice = useHasPermission("Bills", "canUpdate")
+
+const {
+    // canWriteModule: canWriteInvoice,
+    // canReadModule: canReadReceipt,
+    canUpdateModule: canUpdateInvoice,
+    // canDeleteModule: canDeleteInvoice,
+  } = useHasPermission("Bills");
 
   const handleColorChange = (newColor) => {
     setColor(newColor);

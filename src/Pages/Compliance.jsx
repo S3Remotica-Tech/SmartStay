@@ -71,8 +71,19 @@ const Compliance = () => {
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
-  const canReadComplaints = useHasPermission("Complaints", "canRead");
-  const canWriteComplaints = useHasPermission("Complaints", "canWrite");
+const {
+    canWriteModule: canWriteComplaints,
+    canReadModule: canReadComplaints,
+    // canUpdateModule: canUpdateBanking,
+    // canDeleteModule: canDeleteBanking,
+  } = useHasPermission("Complaints");
+
+
+
+
+
+  // const canReadComplaints = useHasPermission("Complaints", "canRead");
+  // const canWriteComplaints = useHasPermission("Complaints", "canWrite");
 
 
   const complaintList = useSelector((state) => state.Settings.Complainttypelist);

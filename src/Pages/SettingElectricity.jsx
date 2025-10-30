@@ -49,8 +49,24 @@ const SettingElectricity = ({ hostelid }) => {
 
 
 
-  const canReadElectricity = useHasPermission("Electricity", "canRead")
-  const canUpdateElectricity = useHasPermission("Electricity", "canUpdate");
+  // const canReadElectricity = useHasPermission("Electricity", "canRead")
+  // const canUpdateElectricity = useHasPermission("Electricity", "canUpdate");
+
+const {
+//     canWriteModule: canWriteComplaints,
+    canReadModule: canReadElectricity,
+    canUpdateModule: canUpdateElectricity,
+    // canDeleteModule: canDeleteComplaints,
+  } = useHasPermission("Electricity");
+
+
+
+
+
+
+
+
+
 
 useEffect(() => {
       if (!canReadElectricity) {

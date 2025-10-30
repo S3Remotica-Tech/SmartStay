@@ -487,22 +487,18 @@ function* handleRecordPaymentUpdate(action) {
             style: toastStyle
          })
       }
-      else if (response.data.statusCode === 201 || response.status === 201) {
-
-         yield put({ type: 'PAYABLE_AMOUNT', payload: response.data.message });
-      }
-      else {
-         yield put({ type: 'ERROR', payload: response.data.message })
-      }
+     
       if (response) {
          refreshToken(response)
       }
    }
    catch (error) {
          yield* handleApiError(error);
-      if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
+    if (error.code === 'ERR_BAD_REQUEST') {
+         if (error.status === 400 || error.status === 403) {
+            yield put({ type: 'PAYABLE_AMOUNT', payload: error.response.data });
+         }
+      } else if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
       }
    }

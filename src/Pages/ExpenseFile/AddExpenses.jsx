@@ -17,7 +17,7 @@ import dayjs from 'dayjs';
 import ErrorMessage from '../../Components/ErrorMessage';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {customSelectStyles} from "../../Utils/SelectStyles"
+import { customSelectStyles } from "../../Utils/SelectStyles"
 
 function StaticExample({ show, currentItem, setShowModal }) {
   const state = useSelector((state) => state);
@@ -180,7 +180,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
 
   const handleModeOfPaymentChange = (selectedOption) => {
     if (!selectedOption) return;
-  dispatch({ type: 'REMOVE_BANK_INSUFFICIANT_FUND_ERROR' })
+    dispatch({ type: 'REMOVE_BANK_INSUFFICIANT_FUND_ERROR' })
     setModeOfPayment(selectedOption);
     setGeneralError("");
     setPaymentError("");
@@ -292,13 +292,18 @@ function StaticExample({ show, currentItem, setShowModal }) {
       hasError = true;
     }
 
-    if (!count) {
-      setCountError("Please Enter Valid Unit Count");
-      hasError = true;
-    } else if (isNaN(count) || count <= 0) {
+    // if (!count) {
+    //   setCountError("Please Enter Valid Unit Count");
+    //   hasError = true;
+    // } else 
+
+    if (count !== "" && (isNaN(count) || Number(count) <= 0)) {
       setCountError("Unit Count Must be a Positive Number");
       hasError = true;
+    } else {
+      setCountError(""); 
     }
+
 
 
 
@@ -490,7 +495,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
 
 
                   <Select
-                  className="custom"
+                    className="custom"
                     options={expenseOptions}
                     onChange={handleCategoryChange}
                     value={
@@ -500,7 +505,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
                     }
                     placeholder="Select a Category"
                     classNamePrefix="custom"
-                   styles={customSelectStyles(category)}
+                    styles={customSelectStyles(category)}
                     noOptionsMessage={() => "No category available"}
                   />
 
@@ -647,51 +652,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
                 )}
               </div>
 
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Group
-                  controlId="exampleForm.ControlInput1"
-                >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
 
-                    }}
-                  >
-                    Unit Count {" "}
-                    <span
-                      style={{
-                        color: "#FF0000",
-                        fontSize: "20px",
-                      }}
-                    >
-                      *
-                    </span>
-                  </Form.Label>
-                  <Form.Control
-                    value={count}
-                    onChange={handleCountChange}
-                    type="text"
-                    placeholder="Enter Unit Count"
-                    maxLength={10}
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: count ? 600 : 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                    }}
-                  />
-                </Form.Group>
-                {countError && (
-                  <ErrorMessage message={countError} type="error" />
-                )}
-              </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
                   controlId="exampleForm.ControlInput1"
@@ -734,6 +695,52 @@ function StaticExample({ show, currentItem, setShowModal }) {
                 </Form.Group>
                 {priceError && (
                   <ErrorMessage message={priceError} type="error" />
+                )}
+              </div>
+
+              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <Form.Group
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label
+                    style={{
+                      fontSize: 14,
+                      color: "#222222",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+
+                    }}
+                  >
+                    Unit Count {" "}
+                    {/* <span
+                      style={{
+                        color: "#FF0000",
+                        fontSize: "20px",
+                      }}
+                    >
+                      *
+                    </span> */}
+                  </Form.Label>
+                  <Form.Control
+                    value={count}
+                    onChange={handleCountChange}
+                    type="text"
+                    placeholder="Enter Unit Count"
+                    maxLength={10}
+                    style={{
+                      fontSize: 16,
+                      color: "#4B4B4B",
+                      fontFamily: "Gilroy",
+                      fontWeight: count ? 600 : 500,
+                      boxShadow: "none",
+                      border: "1px solid #D9D9D9",
+                      height: 50,
+                      borderRadius: 8,
+                    }}
+                  />
+                </Form.Group>
+                {countError && (
+                  <ErrorMessage message={countError} type="error" />
                 )}
               </div>
 

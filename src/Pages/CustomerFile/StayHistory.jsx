@@ -14,8 +14,8 @@ function StayHistory({ show, handleClose }) {
   const state = useSelector((state) => state);
 
   const dispatch = useDispatch();
-  const [data,setData] = useState("")
-  console.log("StayHistory",state)
+  const [data, setData] = useState("")
+  console.log("StayHistory", state)
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
@@ -25,13 +25,13 @@ function StayHistory({ show, handleClose }) {
     }
   }, [state.createAccount?.networkError]);
 
-useEffect(()=>{
-  if(state.UsersList.customerdetails.bedHistory){
-setData(state.UsersList.customerdetails.bedHistory)
-  }
+  useEffect(() => {
+    if (state.UsersList.customerdetails.bedHistory) {
+      setData(state.UsersList.customerdetails.bedHistory)
+    }
 
-},[state.UsersList.customerdetails.bedHistory])
-console.log("setData",data)
+  }, [state.UsersList.customerdetails.bedHistory])
+  console.log("setData", data)
 
   // const data = [
   //   { room: "A-101 / Bed 1", duration: "30 Mar 2025 – 03 May 2025", reason: "Room Maintenance", rent: "₹4,000" },
@@ -50,15 +50,15 @@ console.log("setData",data)
 
   return (
     <div className="modal show" style={{
-        display: "block",
-        position: "initial",
-        fontFamily: "Gilroy",
-      }}>
-      <Modal show={show} onHide={handleClose} centered backdrop="static" >
-       <Modal.Dialog
-                 className="m-0 p-0"
-                 style={{ margin: "0 0px" }}
-               >
+      display: "block",
+      position: "initial",
+      fontFamily: "Gilroy",
+    }}>
+      <Modal show={show} onHide={handleClose} centered backdrop="static"   dialogClassName="custom-modals-style-stays">
+        <Modal.Dialog
+          className="m-0 p-0"
+          style={{ margin: "0 0px" }}
+        >
           <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
             <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>
               Stay Details
@@ -66,8 +66,14 @@ console.log("setData",data)
             <CloseCircle size="24" color="#000" onClick={handleClose} style={{ cursor: "pointer" }} />
           </Modal.Header>
 
-          <Modal.Body  style={{ maxHeight: "370px", overflowY: "scroll" }} className="show-scroll pt-1 ps-3  mt-2 me-0" >
-            <div style={{ border: "1px solid #D9E8F4", borderRadius: 8, overflow: "hidden" }}>
+          <Modal.Body
+            className="show-scroll pt-1 ps-3 mt-2 me-0"
+            style={{
+              overflowX: "visible",
+              maxHeight: "none",
+            }}
+          >
+            <div style={{ border: "1px solid #D9E8F4", borderRadius: 8, }}>
               <Table responsive bordered={false} className="m-0">
                 <thead style={{ backgroundColor: "#E9F5FE" }}>
                   <tr>
@@ -77,8 +83,8 @@ console.log("setData",data)
                       fontFamily: "Gilroy",
                       color: "#222",
                       padding: "12px 16px",
-                      whiteSpace:"nowrap"
-                      
+                      whiteSpace: "nowrap"
+
                     }}>
                       Room No / Bed
                     </th>
@@ -88,7 +94,7 @@ console.log("setData",data)
                       fontFamily: "Gilroy",
                       color: "#222",
                       padding: "12px 16px",
-                      whiteSpace:"nowrap"
+                      whiteSpace: "nowrap"
                     }}>
                       Duration
                     </th>
@@ -98,7 +104,7 @@ console.log("setData",data)
                       fontFamily: "Gilroy",
                       color: "#222",
                       padding: "12px 16px",
-                      whiteSpace:"nowrap"
+                      whiteSpace: "nowrap"
                     }}>
                       Reason
                     </th>
@@ -108,14 +114,14 @@ console.log("setData",data)
                       fontFamily: "Gilroy",
                       color: "#222",
                       padding: "12px 16px",
-                      whiteSpace:"nowrap"
+                      whiteSpace: "nowrap"
                     }}>
                       Segmental Rent
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {Array.isArray(data) && data.map((row, index) =>  (
+                  {Array.isArray(data) && data.map((row, index) => (
                     <tr key={index} style={{ borderBottom: "1px solid #E0E0E0" }}>
                       <td style={{
                         fontSize: 14,
@@ -124,7 +130,7 @@ console.log("setData",data)
                         color: "#222",
                         padding: "12px 16px",
                         verticalAlign: "middle",
-                        whiteSpace:"nowrap"
+                        whiteSpace: "nowrap"
                       }}>
                         {row.roomName}/{row.bedName}
                       </td>
@@ -135,14 +141,13 @@ console.log("setData",data)
                         color: "#222",
                         padding: "12px 16px",
                         verticalAlign: "middle",
-                        whiteSpace:"nowrap"
+                        whiteSpace: "nowrap"
                       }}>
-                      {`${dayjs(row.startDate, "DD/MM/YYYY").format("DD MMM YYYY")} - ${
-  row.endDate === "Till date"
-    ? "Till date"
-    : dayjs(row.endDate, "DD/MM/YYYY").format("DD MMM YYYY")
-}`}
-                         {/* {dayjs(row.startDate).format("DD MMM YYYY")}
+                        {`${dayjs(row.startDate, "DD/MM/YYYY").format("DD MMM YYYY")} - ${row.endDate === "Till date"
+                            ? "Till date"
+                            : dayjs(row.endDate, "DD/MM/YYYY").format("DD MMM YYYY")
+                          }`}
+                        {/* {dayjs(row.startDate).format("DD MMM YYYY")}
   {row.endDate !== "Till date" && (
     <> - {dayjs(row.endDate).format("DD MMM YYYY")}</>
   )} */}
@@ -154,9 +159,9 @@ console.log("setData",data)
                         color: "#222",
                         padding: "12px 16px",
                         verticalAlign: "middle",
-                        whiteSpace:"nowrap"
+                        whiteSpace: "nowrap"
                       }}>
-                       {row.reason ? row.reason : "N/A"}
+                        {row.reason ? row.reason : "N/A"}
                       </td>
                       <td style={{
                         fontSize: 14,
@@ -165,7 +170,7 @@ console.log("setData",data)
                         color: "#222",
                         padding: "12px 16px",
                         verticalAlign: "middle",
-                        whiteSpace:"nowrap"
+                        whiteSpace: "nowrap"
                       }}>
                         {row.rentAmount}
                       </td>
@@ -176,7 +181,7 @@ console.log("setData",data)
             </div>
           </Modal.Body>
 
-          
+
         </Modal.Dialog>
       </Modal>
     </div>
@@ -184,7 +189,7 @@ console.log("setData",data)
 }
 StayHistory.propTypes = {
   show: PropTypes.func.isRequired,
- handleClose: PropTypes.func.isRequired,
-  
+  handleClose: PropTypes.func.isRequired,
+
 };
 export default StayHistory;

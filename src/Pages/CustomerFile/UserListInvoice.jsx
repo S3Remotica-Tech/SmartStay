@@ -37,11 +37,17 @@ function UserListInvoice(props) {
   const [activeId, setActiveId] = useState(null);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
-  const canReadInvoice = useHasPermission("Bills", "canRead")
-  const canWriteInvoice = useHasPermission("Bills", "canWrite")
-  const canUpdateInvoice = useHasPermission("Bills", "canUpdate")
-  const canDeleteInvoice = useHasPermission("Bills", "canDelete")
+  // const canReadInvoice = useHasPermission("Bills", "canRead")
+  // const canWriteInvoice = useHasPermission("Bills", "canWrite")
+  // const canUpdateInvoice = useHasPermission("Bills", "canUpdate")
+  // const canDeleteInvoice = useHasPermission("Bills", "canDelete")
 
+const {
+        canWriteModule: canWriteInvoice,
+        canReadModule: canReadInvoice,
+        // canUpdateModule: canUpdateInvoice,
+        canDeleteModule: canDeleteInvoice,
+      } = useHasPermission("Bills");
 
 
 

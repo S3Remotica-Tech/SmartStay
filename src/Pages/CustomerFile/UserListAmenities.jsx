@@ -38,12 +38,18 @@ function UserListAmenities(props) {
 
 
 
-const canReadAmenities = useHasPermission("Amenities", "canRead")
-    const canWriteAmenities = useHasPermission("Amenities", "canWrite");
-    const canUpdateAmenities = useHasPermission("Amenities", "canUpdate");
-    const canDeleteAmenities = useHasPermission("Amenities", "canDelete");
+// const canReadAmenities = useHasPermission("Amenities", "canRead")
+//     const canWriteAmenities = useHasPermission("Amenities", "canWrite");
+//     const canUpdateAmenities = useHasPermission("Amenities", "canUpdate");
+//     const canDeleteAmenities = useHasPermission("Amenities", "canDelete");
 
 
+    const {
+        canWriteModule: canWriteAmenities,
+        canReadModule: canReadAmenities,
+        // canUpdateModule: canUpdateAmenities,
+        canDeleteModule: canDeleteAmenities,
+      } = useHasPermission("Amenities");
 
 
 

@@ -19,9 +19,25 @@ const InvoiceTable = (props) => {
 
 
 
-  const canWriteInvoice = useHasPermission("Invoice", "canWrite")
-  const canUpdateInvoice = useHasPermission("Invoice", "canUpdate")
-  const canDeleteInvoice = useHasPermission("Invoice", "canDelete")
+  // const canWriteInvoice = useHasPermission("Invoice", "canWrite")
+  // const canUpdateInvoice = useHasPermission("Invoice", "canUpdate")
+  // const canDeleteInvoice = useHasPermission("Invoice", "canDelete")
+
+
+
+const {
+    canWriteModule: canWriteInvoice,
+    // canReadModule: canReadReceipt,
+    canUpdateModule: canUpdateInvoice,
+    canDeleteModule: canDeleteInvoice,
+  } = useHasPermission("Invoice");
+
+
+
+
+
+
+
   const [WriteoffForm, setWriteOffForm] = useState(false)
   const [payapleform, setPayableForm] = useState(false)
   const [refundDetails, setRefundDetails] = useState('')
@@ -191,16 +207,16 @@ const InvoiceTable = (props) => {
               props.item?.paymentStatus === "Paid"
                 ? "green"
                 : props.item?.paymentStatus === "Refunded"
-                  ? "#d97706" // orange shade
+                  ? "#d97706" 
                   : props.item?.paymentStatus === "Pending Refund"
-                    ? "#b45309" // darker amber
+                    ? "#b45309" 
                     : "red",
             borderBottom: "1px solid #E8E8E8",
           }}
           className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
         >
 
-          {(props.item?.paymentStatus === "Pending" ||
+      {(props.item?.paymentStatus === "Pending" ||
             props.item?.paymentStatus === "Partial Payment") && (
               <span
                 style={{
@@ -215,7 +231,7 @@ const InvoiceTable = (props) => {
               </span>
             )}
 
-          {/* Paid */}
+         
           {props.item?.paymentStatus === "Paid" && (
             <span
               style={{
@@ -259,9 +275,87 @@ const InvoiceTable = (props) => {
             >
               {props.item?.paymentStatus}
             </span>
-          )}
+          )} 
+           {props.item?.isCancelled && (
+            <span
+              style={{
+                backgroundColor: "#FFE6B3",
+                color: "#b45309",
+                borderRadius: "14px",
+                fontFamily: "Gilroy",
+                padding: "8px 12px",
+              }}
+            >
+              Cancelled
+            </span>
+          )
+        }
+
+         
         </td>
 
+        {/* <td
+          style={{
+            border: "none",
+            textAlign: "start",
+            verticalAlign: "middle",
+            fontSize: 13,
+            fontWeight: 500,
+            fontFamily: "Gilroy",
+            borderBottom: "1px solid #E8E8E8",
+          }}
+          className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
+        >
+          {(() => {
+            let bgColor = "";
+            let textColor = "";
+             let label = (props.item?.paymentStatus || "").trim(); 
+
+            if (props.item?.isCancelled) {
+              bgColor = "#FFE6B3";
+              textColor = "#b45309";
+              label = "Cancelled";
+            } else {
+              switch (props.item?.paymentStatus) {
+                case "Paid":
+                  bgColor = "#D9FFD9";
+                  textColor = "#000";
+                  break;
+                case "Refunded":
+                  bgColor = "#FFF3CD";
+                  textColor = "#8B8000";
+                  break;
+                case "Pending Refund":
+                  bgColor = "#FFE6B3";
+                  textColor = "#b45309";
+                  break;
+                case "Pending":
+                case "Partial Payment":
+                  bgColor = "#FFD9D9";
+                  textColor = "#000";
+                  break;
+                default:
+                  bgColor = "#F3F3F3";
+                  textColor = "#000";
+              }
+            }
+
+            return (
+              <span
+                style={{
+                  cursor: "pointer",
+                  backgroundColor: bgColor,
+                  color: textColor,
+                  borderRadius: "14px",
+                  fontFamily: "Gilroy",
+                  padding: "8px 12px",
+                }}
+              >
+                {label}
+              </span>
+            );
+          })()}
+        </td> */}
 
 
         <td style={{ textAlign: 'center', verticalAlign: 'middle', border: "none", borderBottom: "1px solid #E8E8E8" }} className=''>
@@ -444,47 +538,50 @@ const InvoiceTable = (props) => {
                         </label>
                       </div>
                     )}
-                    <div
-                      className={`d-flex justify-content-start align-items-center gap-2 ${!canWriteInvoice ? 'disabled' : ''}`}
+                    {
+                      props.item?.paymentStatus !== "Refunded" &&
 
-                      style={{
-                        cursor: !canWriteInvoice ? "not-allowed" : "pointer",
-                        padding: "8px 12px",
-                        opacity: !canWriteInvoice ? 0.5 : 1,
-                      }}
-                      onClick={() => {
-                        if (canWriteInvoice) handleWriteOffFrom(props.item);
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = "#EDF2FF";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = "#F9F9F9";
-                      }}
-                    >
-                      <img
-                        src={Assign}
-                        alt="Record"
+                      <div
+                        className={`d-flex justify-content-start align-items-center gap-2 ${!canWriteInvoice ? 'disabled' : ''}`}
+
                         style={{
-                          height: 16,
-                          width: 16,
-                          filter: !canWriteInvoice ? "grayscale(100%)" : "none",
-                        }}
-                      />
-                      <label
-                        style={{
-                          fontSize: 14,
-                          fontWeight: 500,
-                          fontFamily: "Gilroy, sans-serif",
-                          color: "#222",
                           cursor: !canWriteInvoice ? "not-allowed" : "pointer",
+                          padding: "8px 12px",
+                          opacity: !canWriteInvoice ? 0.5 : 1,
+                        }}
+                        onClick={() => {
+                          if (canWriteInvoice) handleWriteOffFrom(props.item);
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor = "#EDF2FF";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = "#F9F9F9";
                         }}
                       >
-                        Write_Off
-                      </label>
-                    </div>
+                        <img
+                          src={Assign}
+                          alt="Record"
+                          style={{
+                            height: 16,
+                            width: 16,
+                            filter: !canWriteInvoice ? "grayscale(100%)" : "none",
+                          }}
+                        />
+                        <label
+                          style={{
+                            fontSize: 14,
+                            fontWeight: 500,
+                            fontFamily: "Gilroy, sans-serif",
+                            color: "#222",
+                            cursor: !canWriteInvoice ? "not-allowed" : "pointer",
+                          }}
+                        >
+                          Write_Off
+                        </label>
+                      </div>
 
-
+                    }
                     <div
                       className={`d-flex justify-content-start align-items-center gap-2  ${!canDeleteInvoice ? 'disabled' : ''}`}
                       style={{

@@ -157,7 +157,7 @@ const InvoicePage = () => {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
 
-   const [transactionId, setTransactionId] = useState("");
+  const [transactionId, setTransactionId] = useState("");
   const [hostelId, setHostelId] = useState("");
   const [receiptdata, setReceiptData] = useState([]);
   const [receiptLoader, setReceiptLoader] = useState(false);
@@ -184,20 +184,35 @@ const InvoicePage = () => {
   const [selectedTransactionId, setSelectedTransactionId] = useState(null);
   const [activeStay, setActiveStay] = useState("long_stay");
 
+  const {
+    canWriteModule: canWriteInvoice,
+    canReadModule: canReadInvoice,
+  } = useHasPermission("Bills");
 
-  const canReadInvoice = useHasPermission("Bills", "canRead")
-  const canWriteInvoice = useHasPermission("Bills", "canWrite")
+
+
+  // const canReadInvoice = useHasPermission("Bills", "canRead")
+  // const canWriteInvoice = useHasPermission("Bills", "canWrite")
   // const canUpdateInvoice = useHasPermission("Bills", "canUpdate")
   // const canDeleteInvoice = useHasPermission("Bills", "canDelete")
 
+  const {
+    canReadModule: canReadRecurring,
 
+  } = useHasPermission("Recurring bills");
 
-  const canReadRecurring = useHasPermission("Recurring bills", "canRead")
+  // const canReadRecurring = useHasPermission("Recurring bills", "canRead")
   // const canWriteRecurring = useHasPermission("Recurring bills", "canWrite")
 
 
-  const canReadReceipt = useHasPermission("Receipt", "canRead")
-  const canWriteReceipt = useHasPermission("Receipt", "canWrite")
+
+  const {
+    canWriteModule: canWriteReceipt,
+    canReadModule: canReadReceipt,
+  } = useHasPermission("Receipt");
+
+  // const canReadReceipt = useHasPermission("Receipt", "canRead")
+  // const canWriteReceipt = useHasPermission("Receipt", "canWrite")
 
 
 
@@ -957,7 +972,7 @@ const InvoicePage = () => {
   }
 
   const handleCloseForm = () => {
-setTransactionId('')
+    setTransactionId('')
     setPaymodeErrmsg("")
     setAccountError("")
     setDateErrmsg("")
@@ -4183,9 +4198,12 @@ setTransactionId('')
                               </Modal.Body>
 
 
-                              {payableamountError ?
-                                <ErrorMessage message={payableamountError} type="error" />
-                                : null}
+                              {state.InvoiceList.payapleAmountError ?
+                                <div className="d-flex justify-content-center">
+                                  <ErrorMessage message={state.InvoiceList.payapleAmountError} type="error" />
+                                </div>
+                                : null
+                              }
 
 
                               {formRecordLoading && <div

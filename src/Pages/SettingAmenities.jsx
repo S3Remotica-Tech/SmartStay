@@ -45,11 +45,18 @@ function SettingAmenities({ hostelid }) {
     const [amenitiescurrentPage, setAmenitiescurrentPage] = useState(1);
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
+const {
+    canWriteModule: canWriteAmenities,
+    canReadModule: canReadAmenities,
+    canUpdateModule: canUpdateAmenities,
+    canDeleteModule: canDeleteAmenities,
+  } = useHasPermission("Amenities");
 
-    const canReadAmenities = useHasPermission("Amenities", "canRead")
-    const canWriteAmenities = useHasPermission("Amenities", "canWrite");
-    const canUpdateAmenities = useHasPermission("Amenities", "canUpdate");
-    const canDeleteAmenities = useHasPermission("Amenities", "canDelete");
+
+    // const canReadAmenities = useHasPermission("Amenities", "canRead")
+    // const canWriteAmenities = useHasPermission("Amenities", "canWrite");
+    // const canUpdateAmenities = useHasPermission("Amenities", "canUpdate");
+    // const canDeleteAmenities = useHasPermission("Amenities", "canDelete");
 
   console.log("amenitiesFilterddata", amenitiesFilterddata);
   

@@ -21,7 +21,7 @@ import ErrorMessage from '../../Components/ErrorMessage'
 
 
 function FinalSettlement({ show, handleClose, data, customerID }) {
-    console.log("data", data)
+   
 
 
     const state = useSelector((state) => state);
@@ -34,10 +34,10 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
     const [ReturnAmount, setReturnAmount] = useState('')
     const [formLoading, setFormLoading] = useState(false)
     const [showBreakdown, setShowBreakdown] = useState(false);
-    const [finalSettlementList, setFinalSettlementList] = useState([])
+    const [finalSettlementList, setFinalSettlementList] = useState()
 
 
-    console.log("STATE", state)
+
 
 
 
@@ -156,9 +156,9 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
     }, []);
 
 
-    const handleClickInvoiceNo = () => {
-        console.log("INV654 clicked");
-    };
+    // const handleClickInvoiceNo = () => {
+    //     console.log("INV654 clicked");
+    // };
 
 
 
@@ -265,7 +265,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                     : amountTobePaid + totalUserDeductions;
             }
 
-            console.log("Final Amount:", finalAmount);
+           
             setReturnAmount(finalAmount);
         }
     }, [finalSettlementList?.settlementInfo, fields]);
@@ -309,9 +309,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
 
     const totalDeductions = totalApiDeductions + totalUserDeductions;
 
-    console.log("api total:", totalApiDeductions);
-    console.log("User added total:", totalUserDeductions);
-    console.log("Final Total:", totalDeductions);
+    
 
 
 
@@ -770,6 +768,8 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                 </div>
 
                                 <div className="mt-2 mb-2">
+{
+    finalSettlementList?.unpaidInvoices.length > 0 && 
 
                                     <div className="mb-2">
                                         <div >
@@ -809,7 +809,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                                             <tr key={user.invoiceid}>
                                                                 <td
                                                                     className="fw-normal text-decoration-underline text-primary mt-4"
-                                                                    onClick={handleClickInvoiceNo}
+                                                                    // onClick={handleClickInvoiceNo}
                                                                     style={{
                                                                         fontFamily: "Gilroy",
                                                                         fontSize: "14px",
@@ -850,6 +850,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                             </div>
                                         </div>
                                     </div>
+}
 
                                     {/* Refundable Rent */}
                                     <div className="mt-3">

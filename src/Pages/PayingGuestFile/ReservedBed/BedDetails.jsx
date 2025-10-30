@@ -25,7 +25,23 @@ function BedDetails({
     const dispatch = useDispatch();
 
     
-    const canWriteCustomers = useHasPermission("Customers", "canWrite")
+    // const canWriteCustomers = useHasPermission("Customers", "canWrite")
+
+
+
+const {
+        canWriteModule: canWriteCustomers,
+        // canReadModule: canReadPayingGuests,
+        // canUpdateModule: canUpdatePayingGuests,
+        // canDeleteModule: canDeletePayingGuests,
+    } = useHasPermission("Customers");
+
+
+
+
+
+
+
 
 
     const [showDots, setShowDots] = useState('')

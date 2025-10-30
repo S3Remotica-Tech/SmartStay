@@ -49,9 +49,15 @@ function Asset() {
   const [ExcelDownloadDates, setExcelDownloadDates] = useState([])
   const [filterexcelprice, setFilterExcelPrice] = useState('')
 
-  const canWriteAssets = useHasPermission("Assets", "canWrite");
-  const canReadAssets = useHasPermission("Assets", "canRead");
+  // const canWriteAssets = useHasPermission("Assets", "canWrite");
+  // const canReadAssets = useHasPermission("Assets", "canRead");
 
+  const {
+        canWriteModule: canWriteAssets,
+        canReadModule: canReadAssets,
+        // canUpdateModule: canUpdateUser,
+        // canDeleteModule: canDeleteUser,
+      } = useHasPermission("Assets");
 
   useEffect(() => {
     if (!canReadAssets) {

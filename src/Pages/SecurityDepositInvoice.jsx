@@ -92,10 +92,15 @@ const [edit, setEdit] = useState(false);
 
 
 
-const canUpdateInvoice = useHasPermission("Bills", "canUpdate")
+// const canUpdateInvoice = useHasPermission("Bills", "canUpdate")
 
 
-
+const {
+    // canWriteModule: canWriteInvoice,
+    // canReadModule: canReadReceipt,
+    canUpdateModule: canUpdateInvoice,
+    // canDeleteModule: canDeleteInvoice,
+  } = useHasPermission("Bills");
 
 
 

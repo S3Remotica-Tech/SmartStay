@@ -34,7 +34,23 @@ function OccupiedBedStatus({
 
 
     const popupRef = useRef(null);
-    const canWriteCustomers = useHasPermission("Customers", "canWrite");
+    // const canWriteCustomers = useHasPermission("Customers", "canWrite");
+
+
+    const {
+        canWriteModule: canWriteCustomers,
+        // canReadModule: canReadPayingGuests,
+        // canUpdateModule: canUpdatePayingGuests,
+        // canDeleteModule: canDeletePayingGuests,
+    } = useHasPermission("Customers");
+
+
+
+
+
+
+
+
     const handleReAssignBed = () => {
         handleShowReassignBed(true, currentItem)
     };
@@ -103,7 +119,7 @@ function OccupiedBedStatus({
                                         </Modal.Title>
                                     </div>
                                     <div className="d-flex align-items-center gap-3">
-                                     <label style={{
+                                        <label style={{
                                             fontSize: 14,
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
@@ -111,7 +127,7 @@ function OccupiedBedStatus({
                                         }}>
                                             {currentItem?.floorName}
                                         </label>
-                                    <span style={{
+                                        <span style={{
                                             fontSize: 14,
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
@@ -134,7 +150,7 @@ function OccupiedBedStatus({
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
-                                        }}> 
+                                        }}>
                                             {currentItem?.bedName}
                                         </span>
                                     </div>

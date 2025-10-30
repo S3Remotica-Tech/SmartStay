@@ -32,8 +32,21 @@ function BillingRule() {
   const handleShowShortStay = () => setShowShortStay(true);
   const handleCloseShortStay = () => setShowShortStay(false);
 
-  const canReadRecurring = useHasPermission("Recurring bills", "canRead")
-  const canWriteRecurring = useHasPermission("Recurring bills", "canWrite")
+  // const canReadRecurring = useHasPermission("Recurring bills", "canRead")
+  // const canWriteRecurring = useHasPermission("Recurring bills", "canWrite")
+
+
+const {
+        canWriteModule: canWriteRecurring,
+        canReadModule: canReadRecurring,
+        // canUpdateModule: canUpdatePayingGuests,
+        // canDeleteModule: canDeletePayingGuests,
+    } = useHasPermission("Recurring bills");
+
+
+
+
+
 
 
   //  Future needed this function so don't delete this command line.............

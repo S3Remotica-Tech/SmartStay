@@ -108,8 +108,17 @@ const [resetCall, setResetCall] = useState(false)
 
 
   
-const canReadInvoice = useHasPermission("Bills", "canRead")
-const canUpdateInvoice = useHasPermission("Bills", "canUpdate")
+// const canReadInvoice = useHasPermission("Bills", "canRead")
+// const canUpdateInvoice = useHasPermission("Bills", "canUpdate")
+
+
+const {
+      // canWriteModule: canWriteProfile,
+      canReadModule: canReadInvoice,
+      canUpdateModule: canUpdateInvoice,
+      // canDeleteModule: canDeleteProfile,
+    } = useHasPermission("Bills");
+
 
 useEffect(() => {
       if (!canReadInvoice) {

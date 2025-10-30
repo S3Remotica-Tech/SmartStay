@@ -153,15 +153,43 @@ function UserList(props) {
 
 
 
-  const canReadTenant = useHasPermission("Customers", "canRead")
-  const canWriteTenant = useHasPermission("Customers", "canWrite")
-  const canDeleteTenant = useHasPermission("Customers", "canDelete")
-  const canWriteWalkin = useHasPermission("Walk in", "canWrite")
+  // const canReadTenant = useHasPermission("Customers", "canRead")
+  // const canWriteTenant = useHasPermission("Customers", "canWrite")
+  // const canDeleteTenant = useHasPermission("Customers", "canDelete")
 
 
-  const canReadWalkin = useHasPermission("Walk in", "canRead")
+  const {
+    canWriteModule: canWriteTenant,
+    canReadModule: canReadTenant,
+    // canUpdateModule: canUpdateInvoice,
+    canDeleteModule: canDeleteTenant,
+  } = useHasPermission("Customers");
 
-  const canReadCheckout = useHasPermission("Checkout", "canRead")
+  // const canWriteWalkin = useHasPermission("Walk in", "canWrite")
+  // const canReadWalkin = useHasPermission("Walk in", "canRead")
+
+  const {
+    canWriteModule: canWriteWalkin,
+    canReadModule: canReadWalkin,
+
+  } = useHasPermission("Walk in");
+
+//  const canReadCheckout = useHasPermission("Checkout", "canRead")
+
+
+const {
+       canReadModule: canReadCheckout,
+
+  } = useHasPermission("Checkout");
+
+
+
+
+
+
+  
+
+ 
 
   const handleInvoiceNumber = (e) => {
     setInvoiceNumber(e.target.value)
@@ -977,7 +1005,7 @@ function UserList(props) {
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceAddStatusCode === 201) {
       navigate('/tenant-profile')
-console.log("customernameeeeeeeeeeeeeeeee",customername)
+      console.log("customernameeeeeeeeeeeeeeeee", customername)
       if (customername) {
         dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: customername } });
       }
@@ -1232,7 +1260,7 @@ console.log("customernameeeeeeeeeeeeeeeee",customername)
 
   const [checkOutCustomer, setCheckOutCustomer] = useState([]);
 
-console.log("checkOutCustomer",checkOutCustomer)
+  console.log("checkOutCustomer", checkOutCustomer)
 
   const [walkingCustomer, setWalkingCustomer] = useState([]);
 
@@ -1322,15 +1350,15 @@ console.log("checkOutCustomer",checkOutCustomer)
     }
   }, [state.Booking.statusCodeGetBooking]);
 
-useEffect(() => {
-        if (state.UsersList.cancelCheckoutStatusCode === 200) {
-            setBacktoCheckInForm(false)
-            setTimeout(() => {
-                dispatch({ type: 'REMOVE_CANCEL_CHECKOUT' })
-            }, 100)
-        }
+  useEffect(() => {
+    if (state.UsersList.cancelCheckoutStatusCode === 200) {
+      setBacktoCheckInForm(false)
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_CANCEL_CHECKOUT' })
+      }, 100)
+    }
 
-    }, [state.UsersList.cancelCheckoutStatusCode])
+  }, [state.UsersList.cancelCheckoutStatusCode])
 
   useEffect(() => {
     if (value === "1") {
@@ -1660,12 +1688,12 @@ useEffect(() => {
     // setRoomDetail(true);
     setUserList(false);
     navigate('/tenant-profile', {
-    state: {
-      customerId: userData.customerId,
-      hostelId: state.login.selectedHostel_Id,
-      name: userData.fullName,
-    },
-  });
+      state: {
+        customerId: userData.customerId,
+        hostelId: state.login.selectedHostel_Id,
+        name: userData.fullName,
+      },
+    });
     dispatch({ type: "UPDATE_USERSLIST_FALSE" });
   };
 
@@ -2390,7 +2418,7 @@ useEffect(() => {
     if (typeof props?.handleCloseBed === "function") {
       props.handleCloseBed();
     }
-
+dispatch({ type: 'REMOVE_ERROR_MAKEASINACTIVE'})
 
     setInActiveForm(false)
     // setIsACtiveDateError("")
@@ -2461,7 +2489,7 @@ useEffect(() => {
   }
 
   const handleCloseBackToCheckIn = () => {
-    dispatch({ type: 'REMOVE_CANCEL_CHECKOUT_ERROR'})
+    dispatch({ type: 'REMOVE_CANCEL_CHECKOUT_ERROR' })
     setBacktoCheckInForm(false)
   }
 
@@ -2504,7 +2532,7 @@ useEffect(() => {
     if (state.UsersList.statusCodeAddConfirmCheckout === 200) {
       setDueCustomerShow(false)
 
-      dispatch({ type: "CHECKOUTCUSTOMERLIST",payload: { hostelId: state.login.selectedHostel_Id } });
+      dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostelId: state.login.selectedHostel_Id } });
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_CONFIRM_CHECK_OUT_CUSTOMER" })
       }, 1000)

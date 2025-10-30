@@ -21,10 +21,12 @@ import PaginationList from "../../Components/PaginationList";
 import DueCustomerConfirmCheckout from "./DueCustomerConfirmCheckout";
 import ErrorMessage from '../../Components/ErrorMessage';
 import { useHasPermission } from '../../Utils/Permission';
+import { useNavigate, useLocation } from "react-router-dom";
+
 function CheckOut(props) {
 
 
-
+ const navigate = useNavigate();
 
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -57,25 +59,32 @@ function CheckOut(props) {
 
 
 
-const canReadCheckout = useHasPermission("Checkout", "canRead")
-const canWriteCheckout = useHasPermission("Checkout", "canWrite")
+// const canReadCheckout = useHasPermission("Checkout", "canRead")
+// const canWriteCheckout = useHasPermission("Checkout", "canWrite")
 //  const canUpdateCheckout = useHasPermission("Checkout", "canUpdate")
 //   const canDeleteCheckout = useHasPermission("Checkout", "canDelete")
 
+const {
+        canWriteModule: canWriteCheckout,
+        canReadModule: canReadCheckout,
+        // canUpdateModule: canUpdateCheckout,
+        canDeleteModule: canDeleteCheckout,
+      } = useHasPermission("Checkout");
 
  
 
   const handleCustomerProfilePage = (checkout) => {
         // props?.handleCheckoutOverview(false)
     setCheckoutWithoutPay(checkout)
-    setCheckoutProfile(true)
+    // setCheckoutProfile(true)
+    navigate('/tenant-checkout-profile')
     setcheckoutTableShow(false)
     dispatch(checkoutCustomerProfile(false))
-    dispatch({
-      type: "CHECKOUTPROFILEDETAILS",
-      payload: { hostel_id: state.login.selectedHostel_Id, id: checkout.customerId },
-    });
-    dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: checkout.customerId } });
+    // dispatch({
+    //   type: "CHECKOUTPROFILEDETAILS",
+    //   payload: { hostel_id: state.login.selectedHostel_Id, id: checkout.customerId },
+    // });
+    dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: checkout.customerId } });
     // props.setUserList(false)
     // props?.show()
 
@@ -995,7 +1004,7 @@ console.log("state",state)
                                           verticalAlign: "middle",
                                         }}
                                       >
-                                        {checkout.CheckoutDate || "N/A"}
+                                        {checkout.checkoutDate || "N/A"}
                                       </span>
                                     </td>
 
@@ -1020,7 +1029,7 @@ console.log("state",state)
                                           borderRadius: 10,
                                         }}
                                       >
-                                        {checkout.status || '-'}
+                                        {checkout.currentStatus || '-'}
                                       </span>
                                     </td>
 

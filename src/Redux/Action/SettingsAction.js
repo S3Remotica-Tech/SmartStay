@@ -519,8 +519,8 @@ export async function newSubscription(types) {
     data: types,
   });
 }
-export async function SubscriptionList(customerId) {
-  return await AxiosConfig.get(`/invoice_details/${customerId}`);
+export async function SubscriptionList() {
+  return await AxiosConfig.get(`/v2/plans/`);
 }
 
 export async function SubscriptionPdfDownload(id) {

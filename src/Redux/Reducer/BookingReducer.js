@@ -15,8 +15,9 @@ export const initialState = {
   ErrorAssignBooking: "",
   ErrorAssignBookingDate: '',
   ErrorAssignBookingMobile: '',
-  StatusCodeInactiveCode:0,
-  bookingBedError: ""
+  StatusCodeInactiveCode: 0,
+  bookingBedError: "",
+  bookingMakeAsError: ''
 };
 
 const BookingReducer = (state = initialState, action) => {
@@ -33,6 +34,14 @@ const BookingReducer = (state = initialState, action) => {
       return { ...state, bookingPhoneError: action.payload };
     case "CLEAR_PHONE_ERROR":
       return { ...state, bookingPhoneError: "" };
+
+    case 'ERROR_MAKEASINACTIVE':
+      return { ...state, bookingMakeAsError: action.payload };
+
+    case 'REMOVE_ERROR_MAKEASINACTIVE':
+      return { ...state, bookingMakeAsError: '' };
+
+
     case "BOOKING_EMAIL_ERROR":
       return { ...state, bookingEmailError: action.payload };
     case "CLEAR_EMAIL_ERROR":
@@ -69,7 +78,7 @@ const BookingReducer = (state = initialState, action) => {
     case "REMOVE_ERROR_BOOKING_DATE":
       return { ...state, ErrorAssignBookingDate: "" };
 
- case "ERROR_BOOKING":
+    case "ERROR_BOOKING":
       return { ...state, bookingBedError: action.payload };
     case "ERROR_BOOKING_REMOVE":
       return { ...state, bookingBedError: "" };
@@ -77,10 +86,10 @@ const BookingReducer = (state = initialState, action) => {
 
 
 
-case "ALREADY_MOBILE_ERROR":
-    return { ...state, ErrorAssignBookingMobile: action.payload };
-case "REMOVE_ALREADY_MOBILE_ERROR":
-    return { ...state, ErrorAssignBookingMobile: "" };
+    case "ALREADY_MOBILE_ERROR":
+      return { ...state, ErrorAssignBookingMobile: action.payload };
+    case "REMOVE_ALREADY_MOBILE_ERROR":
+      return { ...state, ErrorAssignBookingMobile: "" };
 
     case "ERROR_ASSIGN_BOOKING":
       return { ...state, ErrorAssignBooking: action.payload };
@@ -94,10 +103,10 @@ case "REMOVE_ALREADY_MOBILE_ERROR":
         statusCodeForBedBooking: action.payload.statusCode,
       };
 
-      case 'BOOKING_INACTIVE':
-            return { ...state, StatusCodeInactiveCode: action.payload.statusCode }
-        case 'CLEAR_BOOKING_InActive':
-            return { ...state, StatusCodeInactiveCode: 0 }
+    case 'BOOKING_INACTIVE':
+      return { ...state, StatusCodeInactiveCode: action.payload.statusCode }
+    case 'CLEAR_BOOKING_InActive':
+      return { ...state, StatusCodeInactiveCode: 0 }
     default:
       return state;
   }

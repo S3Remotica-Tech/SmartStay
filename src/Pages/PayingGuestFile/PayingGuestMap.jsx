@@ -25,13 +25,18 @@ function PayingGuestMap(props) {
 
 
 
-  const canReadPayingGuests = useHasPermission("Paying Guests", "canRead");
-  const canWritePayingGuests = useHasPermission("Paying Guests", "canWrite");
-  const canUpdatePayingGuests = useHasPermission("Paying Guests", "canUpdate");
-  const canDeletePayingGuests = useHasPermission("Paying Guests", "canDelete");
+  // const canReadPayingGuests = useHasPermission("Paying Guests", "canRead");
+  // const canWritePayingGuests = useHasPermission("Paying Guests", "canWrite");
+  // const canUpdatePayingGuests = useHasPermission("Paying Guests", "canUpdate");
+  // const canDeletePayingGuests = useHasPermission("Paying Guests", "canDelete");
 
 
-
+  const {
+    canWriteModule: canWritePayingGuests,
+    canReadModule: canReadPayingGuests,
+    canUpdateModule: canUpdatePayingGuests,
+    canDeleteModule: canDeletePayingGuests,
+  } = useHasPermission("Paying Guests");
 
 
 
@@ -40,23 +45,23 @@ function PayingGuestMap(props) {
   const handleEdit = (item) => {
     props.OnEditHostel(item);
   };
-console.log("state",state)
+  console.log("state", state)
   const handleDeletePG = (item) => {
-    console.log("handleDeletePG",item)
+    console.log("handleDeletePG", item)
     if (item) {
       dispatch({ type: "DELETEHOSTEL", payload: { hostelId: item.hostelId } });
     }
   };
 
-  useEffect(()=>{
-if(state.PgList.statusCodeDeleteHostel === 200){
-      dispatch({ type: "HOSTELLIST"});
+  useEffect(() => {
+    if (state.PgList.statusCodeDeleteHostel === 200) {
+      dispatch({ type: "HOSTELLIST" });
       handleClose()
- setTimeout(() => {
+      setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_HOSTEL_STATUS_CODE" });
       }, 1000);
-}
-  },[state.PgList.statusCodeDeleteHostel])
+    }
+  }, [state.PgList.statusCodeDeleteHostel])
 
   const handleSelectedHostel = (selectedHostel) => {
 

@@ -26,12 +26,17 @@ function ExpensesListTable(props) {
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
 
-  const canUpdateExpense = useHasPermission("Expense", "canUpdate");
-  const canDeleteExpense = useHasPermission("Expense", "canDelete");
-  const canWriteExpense = useHasPermission("Expense", "canWrite");
+  // const canUpdateExpense = useHasPermission("Expense", "canUpdate");
+  // const canDeleteExpense = useHasPermission("Expense", "canDelete");
+  // const canWriteExpense = useHasPermission("Expense", "canWrite");
 
 
-
+const {
+      canWriteModule: canWriteExpense,
+      canReadModule: canReadExpense,
+      canUpdateModule: canUpdateExpense,
+      canDeleteModule: canDeleteExpense,
+    } = useHasPermission("Expense");
 
 
 

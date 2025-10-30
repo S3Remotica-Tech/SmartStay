@@ -24,9 +24,19 @@ const state = useSelector(state => state)
   const [assign, setAssign] = useState('')
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
-const canUpdateAsset = useHasPermission("Assets", "canUpdate")
-  const canDeleteAsset = useHasPermission("Assets", "canDelete")
-const canWriteAssets = useHasPermission("Assets", "canWrite");
+
+const {
+        canWriteModule: canWriteAssets,
+        // canReadModule: canReadAssets,
+        canUpdateModule: canUpdateAsset,
+        canDeleteModule: canDeleteAsset,
+      } = useHasPermission("Assets");
+
+
+
+// const canUpdateAsset = useHasPermission("Assets", "canUpdate")
+//   const canDeleteAsset = useHasPermission("Assets", "canDelete")
+// const canWriteAssets = useHasPermission("Assets", "canWrite");
 
   const handleShowDots = (id, e) => {
     setShowDots(!showDots)

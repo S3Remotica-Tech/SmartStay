@@ -17,11 +17,17 @@ function SettingAgreement() {
 
 
   
- const canReadAgreement = useHasPermission("Agreement", "canRead")
-  const canWriteAgreement = useHasPermission("Agreement", "canWrite");
-  const canUpdateAgreement = useHasPermission("Agreement", "canUpdate");
+//  const canReadAgreement = useHasPermission("Agreement", "canRead")
+//   const canWriteAgreement = useHasPermission("Agreement", "canWrite");
+//   const canUpdateAgreement = useHasPermission("Agreement", "canUpdate");
   // const canDeleteAgreement = useHasPermission("Agreement", "canDelete");
 
+const {
+    canWriteModule: canWriteAgreement,
+    canReadModule: canReadAgreement,
+    canUpdateModule: canUpdateAgreement,
+    // canDeleteModule: canDeleteAgreement,
+  } = useHasPermission("Agreement");
 
   const execCmd = (command, value = null) => {
     if (isEditable) {

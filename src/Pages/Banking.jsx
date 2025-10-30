@@ -68,11 +68,19 @@ function Banking() {
   const [amount, setAmount] = useState("");
   const [formLoading, setFormLoading] = useState(false)
 
+const {
+    canWriteModule: canWriteBanking,
+    canReadModule: canReadBanking,
+    canUpdateModule: canUpdateBanking,
+    canDeleteModule: canDeleteBanking,
+  } = useHasPermission("Banking");
 
-  const canReadBanking = useHasPermission("Banking", "canRead");
-  const canWriteBanking = useHasPermission("Banking", "canWrite");
-  const canUpdateBanking = useHasPermission("Banking", "canUpdate");
-  const canDeleteBanking = useHasPermission("Banking", "canDelete");
+
+
+  // const canReadBanking = useHasPermission("Banking", "canRead");
+  // const canWriteBanking = useHasPermission("Banking", "canWrite");
+  // const canUpdateBanking = useHasPermission("Banking", "canUpdate");
+  // const canDeleteBanking = useHasPermission("Banking", "canDelete");
 
 
 useEffect(() => {
