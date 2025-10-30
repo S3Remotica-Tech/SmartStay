@@ -93,10 +93,18 @@ function SettingGeneral() {
   const [loading, setLoading] = useState(false)
   const [generalDeleteError, setGeneralDeleteError] = useState("")
 
-  const canReadProfile = useHasPermission("Profile", "canRead");
-  const canWriteProfile = useHasPermission("Profile", "canWrite");
-  const canUpdateProfile = useHasPermission("Profile", "canUpdate");
-  const canDeleteProfile = useHasPermission("Profile", "canDelete");
+const {
+      canWriteModule: canWriteProfile,
+      canReadModule: canReadProfile,
+      canUpdateModule: canUpdateProfile,
+      canDeleteModule: canDeleteProfile,
+    } = useHasPermission("Profile");
+
+
+  // const canReadProfile = useHasPermission("Profile", "canRead");
+  // const canWriteProfile = useHasPermission("Profile", "canWrite");
+  // const canUpdateProfile = useHasPermission("Profile", "canUpdate");
+  // const canDeleteProfile = useHasPermission("Profile", "canDelete");
 
 
 

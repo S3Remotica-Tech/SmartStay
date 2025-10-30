@@ -147,11 +147,16 @@ function UserListRoomDetail(props) {
   const [previewUrl, setPreviewUrl] = useState(null);
   const [previewUrl2, setPreviewUrl2] = useState(null)
 
-  const canUpdateTenant = useHasPermission("Customers", "canUpdate")
-  const canDeleteTenant = useHasPermission("Customers", "canDelete")
-  const canWriteTenant = useHasPermission("Customers", "canWrite")
+  // const canUpdateTenant = useHasPermission("Customers", "canUpdate")
+  // const canDeleteTenant = useHasPermission("Customers", "canDelete")
+  // const canWriteTenant = useHasPermission("Customers", "canWrite")
 
-
+const {
+        canWriteModule: canWriteTenant,
+        // canReadModule: canReadInvoice,
+        canUpdateModule: canUpdateTenant,
+        canDeleteModule: canDeleteTenant,
+      } = useHasPermission("Customers");
 
   const { customerId, hostelId, name, totriggerBillTap } = location.state || {};
 

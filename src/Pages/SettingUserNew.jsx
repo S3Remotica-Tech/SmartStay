@@ -32,12 +32,17 @@ function SettingNewUser() {
 
 
 
-  const canReadUser = useHasPermission("User", "canRead")
-  const canWriteUser = useHasPermission("User", "canWrite");
-  const canUpdateUser = useHasPermission("User", "canUpdate");
-  const canDeleteUser = useHasPermission("User", "canDelete");
+  // const canReadUser = useHasPermission("User", "canRead")
+  // const canWriteUser = useHasPermission("User", "canWrite");
+  // const canUpdateUser = useHasPermission("User", "canUpdate");
+  // const canDeleteUser = useHasPermission("User", "canDelete");
 
-
+const {
+      canWriteModule: canWriteUser,
+      canReadModule: canReadUser,
+      canUpdateModule: canUpdateUser,
+      canDeleteModule: canDeleteUser,
+    } = useHasPermission("User");
 
 
 

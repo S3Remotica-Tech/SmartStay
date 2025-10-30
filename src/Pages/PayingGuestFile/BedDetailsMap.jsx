@@ -82,7 +82,16 @@ function BedDetailsMap({ room, propsValue }) {
     console.log("state", state)
 
 
-    const canWritePayingGuests = useHasPermission("Paying Guests", "canWrite");
+    // const canWritePayingGuests = useHasPermission("Paying Guests", "canWrite");
+
+
+    const {
+          canWriteModule: canWritePayingGuests,
+        //   canReadModule: canReadExpense,
+        //   canUpdateModule: canUpdateExpense,
+        //   canDeleteModule: canDeleteExpense,
+        } = useHasPermission("Paying Guests");
+    
 
     const handleshowfinalsettlement = (isvisible, customerId) => {
         setCustomerId(customerId)

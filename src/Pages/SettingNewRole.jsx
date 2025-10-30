@@ -35,10 +35,19 @@ function SettingNewRole({ hostelid }) {
 
 
 
-  const canReadRole = useHasPermission("Role", "canRead")
-  const canWriteRole = useHasPermission("Role", "canWrite");
-  const canUpdateRole = useHasPermission("Role", "canUpdate");
-  const canDeleteRole = useHasPermission("Role", "canDelete");
+  // const canReadRole = useHasPermission("Role", "canRead")
+  // const canWriteRole = useHasPermission("Role", "canWrite");
+  // const canUpdateRole = useHasPermission("Role", "canUpdate");
+  // const canDeleteRole = useHasPermission("Role", "canDelete");
+
+const {
+      canWriteModule: canWriteRole,
+      canReadModule: canReadRole,
+      canUpdateModule: canUpdateRole,
+      canDeleteModule: canDeleteRole,
+    } = useHasPermission("Role");
+
+
 
 
 useEffect(() => {

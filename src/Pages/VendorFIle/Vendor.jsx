@@ -29,14 +29,21 @@ function Vendor() {
   const [loading, setLoading] = useState(false)
   const [currentItem, setCurrentItem] = useState('')
 
-  const canWriteVendor = useHasPermission("Vendor", "canWrite");
-  const canReadVendor = useHasPermission("Vendor", "canRead");
+  
+const {
+    canWriteModule: canWriteVendor,
+    canReadModule: canReadVendor,
+    canUpdateModule: canUpdateVendor,
+    canDeleteModule: canDeleteVendor,
+  } = useHasPermission("Vendor");
 
+
+  
 
   useEffect(() => {
     if (!canReadVendor) {
       setLoading(false);
-    }else{
+    } else {
       setLoading(true);
     }
   }, [canReadVendor]);
@@ -372,14 +379,16 @@ function Vendor() {
               {
                 !showFilterData &&
 
-                <div onClick={()=> canReadVendor && handleShowSearch()} style={{ paddingRight: 30, cursor: "pointer" }}>
+                <div onClick={() => canReadVendor && handleShowSearch()} style={{ paddingRight: 30, cursor: "pointer" }}>
                   <SearchNormal1
                     size="26"
                     color="#222"
-                    style={{cursor: canReadVendor ? "pointer" : "not-allowed",
-                  opacity: canReadVendor ? 1 : 0.4,
-                  pointerEvents: canReadVendor ? "auto" : "none",
-                  transition: "opacity 0.3s ease"}}
+                    style={{
+                      cursor: canReadVendor ? "pointer" : "not-allowed",
+                      opacity: canReadVendor ? 1 : 0.4,
+                      pointerEvents: canReadVendor ? "auto" : "none",
+                      transition: "opacity 0.3s ease"
+                    }}
                   />
                 </div>
               }
@@ -531,7 +540,7 @@ function Vendor() {
                 <ErrorMessage message={['You do not have access to view Vendor']} type="warning" />
 
               </div>
-              </>
+            </>
           ) :
 
             <div className='container show-scrolls-sidebar'

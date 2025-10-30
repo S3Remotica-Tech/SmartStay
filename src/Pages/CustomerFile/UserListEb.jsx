@@ -42,13 +42,19 @@ const ebOptions = [
 
 
 
-const canReadElectricity = useHasPermission("Electricity", "canRead")
-  const canWriteElectricity = useHasPermission("Electricity", "canWrite");
-  const canUpdateElectricity = useHasPermission("Electricity", "canUpdate");
-  const canDeleteElectricity = useHasPermission("Electricity", "canDelete");
+// const canReadElectricity = useHasPermission("Electricity", "canRead")
+//   const canWriteElectricity = useHasPermission("Electricity", "canWrite");
+//   const canUpdateElectricity = useHasPermission("Electricity", "canUpdate");
+//   const canDeleteElectricity = useHasPermission("Electricity", "canDelete");
 
 
 
+const {
+        canWriteModule: canWriteElectricity,
+        canReadModule: canReadElectricity,
+        // canUpdateModule: canUpdateElectricity,
+        canDeleteModule: canDeleteElectricity,
+      } = useHasPermission("Electricity");
 
 
 

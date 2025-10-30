@@ -66,8 +66,16 @@ function Expenses({ allPageHostel_Id }) {
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
 
-  const canReadExpense = useHasPermission("Expense", "canRead");
-  const canWriteExpense = useHasPermission("Expense", "canWrite");
+  // const canReadExpense = useHasPermission("Expense", "canRead");
+  // const canWriteExpense = useHasPermission("Expense", "canWrite");
+
+  const {
+      canWriteModule: canWriteExpense,
+      canReadModule: canReadExpense,
+      // canUpdateModule: canUpdateElectricity,
+      // canDeleteModule: canDeleteElectricity,
+    } = useHasPermission("Expense");
+  
   
 
 useEffect(() => {

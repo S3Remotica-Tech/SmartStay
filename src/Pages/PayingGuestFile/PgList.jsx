@@ -58,10 +58,24 @@ function PgList() {
   const popupRef = useRef(null);
 
 
-  const canReadPayingGuests = useHasPermission("Paying Guests", "canRead");
-  const canWritePayingGuests = useHasPermission("Paying Guests", "canWrite");
-  const canUpdatePayingGuests = useHasPermission("Paying Guests", "canUpdate");
-  const canDeletePayingGuests = useHasPermission("Paying Guests", "canDelete");
+  // const canReadPayingGuests = useHasPermission("Paying Guests", "canRead");
+  // const canWritePayingGuests = useHasPermission("Paying Guests", "canWrite");
+  // const canUpdatePayingGuests = useHasPermission("Paying Guests", "canUpdate");
+  // const canDeletePayingGuests = useHasPermission("Paying Guests", "canDelete");
+
+
+const {
+    canWriteModule: canWritePayingGuests,
+    canReadModule: canReadPayingGuests,
+    canUpdateModule: canUpdatePayingGuests,
+    canDeleteModule: canDeletePayingGuests,
+  } = useHasPermission("Paying Guests");
+
+
+
+
+
+
 
 
   const [floorClick, setFloorClick] = useState("");

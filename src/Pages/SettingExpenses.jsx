@@ -39,10 +39,17 @@ function SettingExpenses({ hostelid }) {
 
   console.log("expensesFilterddata", expensesFilterddata)
 
-  const canReadExpense = useHasPermission("Expense", "canRead");
-  const canWriteExpense = useHasPermission("Expense", "canWrite");
-  const canUpdateExpense = useHasPermission("Expense", "canUpdate");
-  const canDeleteExpense = useHasPermission("Expense", "canDelete");
+  // const canReadExpense = useHasPermission("Expense", "canRead");
+  // const canWriteExpense = useHasPermission("Expense", "canWrite");
+  // const canUpdateExpense = useHasPermission("Expense", "canUpdate");
+  // const canDeleteExpense = useHasPermission("Expense", "canDelete");
+
+  const {
+      canWriteModule: canWriteExpense,
+      canReadModule: canReadExpense,
+      canUpdateModule: canUpdateExpense,
+      canDeleteModule: canDeleteExpense,
+    } = useHasPermission("Expense");
 
   useEffect(() => {
     if (!canReadExpense) {

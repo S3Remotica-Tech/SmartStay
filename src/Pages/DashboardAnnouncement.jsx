@@ -60,12 +60,17 @@ function DashboardAnnouncement(props) {
   const [loading, setLoading] = useState(false)
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
+const {
+    canWriteModule: canWriteAnnouncement,
+    canReadModule: canReadAnnouncement,
+    canUpdateModule: canUpdateAnnouncement,
+    canDeleteModule: canDeleteAnnouncement,
+  } = useHasPermission("Announcement");
 
-
-  const canReadAnnouncement = useHasPermission("Announcement", "canRead");
-  const canWriteAnnouncement = useHasPermission("Announcement", "canWrite");
-  const canUpdateAnnouncement = useHasPermission("Announcement", "canUpdate");
-  const canDeleteAnnouncement = useHasPermission("Announcement", "canDelete");
+  // const canReadAnnouncement = useHasPermission("Announcement", "canRead");
+  // const canWriteAnnouncement = useHasPermission("Announcement", "canWrite");
+  // const canUpdateAnnouncement = useHasPermission("Announcement", "canUpdate");
+  // const canDeleteAnnouncement = useHasPermission("Announcement", "canDelete");
 
 
 

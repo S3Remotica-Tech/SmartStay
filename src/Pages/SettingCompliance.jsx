@@ -39,10 +39,20 @@ function SettingCompliance({ hostelid }) {
   const [planExpiredCompliance, setPlanExpiredCompliance] = useState("");
   const [formLoading, setFormLoading] = useState(false)
 
-  const canReadComplaints = useHasPermission("Complaints", "canRead");
-  const canWriteComplaints = useHasPermission("Complaints", "canWrite");
-  const canUpdateComplaints = useHasPermission("Complaints", "canUpdate");
-  const canDeleteComplaints = useHasPermission("Complaints", "canDelete");
+
+
+const {
+    canWriteModule: canWriteComplaints,
+    canReadModule: canReadComplaints,
+    canUpdateModule: canUpdateComplaints,
+    canDeleteModule: canDeleteComplaints,
+  } = useHasPermission("Complaints");
+
+
+  // const canReadComplaints = useHasPermission("Complaints", "canRead");
+  // const canWriteComplaints = useHasPermission("Complaints", "canWrite");
+  // const canUpdateComplaints = useHasPermission("Complaints", "canUpdate");
+  // const canDeleteComplaints = useHasPermission("Complaints", "canDelete");
 
 
 useEffect(() => {

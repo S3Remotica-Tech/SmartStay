@@ -79,9 +79,14 @@ function Dashboard() {
   const [selectAdvance, setSelectAdvance] = useState("six_month");
   const [accountList, setAccountList] = useState("");
 
-const canReadDashboard =  useHasPermission("Dashboard", "canRead");
+// const canReadDashboard =  useHasPermission("Dashboard", "canRead");
 
-
+const {
+    // canWriteModule: canWriteComplaints,
+    canReadModule: canReadDashboard,
+    // canUpdateModule: canUpdateComplaints,
+    // canDeleteModule: canDeleteComplaints,
+  } = useHasPermission("Dashboard");
 
 useEffect(() => {
   if (!canReadDashboard) {

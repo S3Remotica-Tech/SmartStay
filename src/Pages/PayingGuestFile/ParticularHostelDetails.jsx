@@ -42,12 +42,17 @@ function ParticularHostelDetails(props) {
 
 
 
-  const canWritePayingGuests = useHasPermission("Paying Guests", "canWrite");
-  const canUpdatePayingGuests = useHasPermission("Paying Guests", "canUpdate");
-  const canDeletePayingGuests = useHasPermission("Paying Guests", "canDelete");
+  // const canWritePayingGuests = useHasPermission("Paying Guests", "canWrite");
+  // const canUpdatePayingGuests = useHasPermission("Paying Guests", "canUpdate");
+  // const canDeletePayingGuests = useHasPermission("Paying Guests", "canDelete");
 
 
-
+const {
+            canWriteModule: canWritePayingGuests,
+            // canReadModule: canReadExpense,
+            canUpdateModule: canUpdatePayingGuests,
+            canDeleteModule: canDeletePayingGuests,
+          } = useHasPermission("Paying Guests");
 
 
 

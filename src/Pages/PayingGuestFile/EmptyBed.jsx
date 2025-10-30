@@ -18,8 +18,16 @@ function EmptyBed({ show, handleClose, showbed, showcustomer, showtenant }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch
 
-  const canWriteCustomers = useHasPermission("Customers", "canWrite")
+  // const canWriteCustomers = useHasPermission("Customers", "canWrite")
 
+
+  const {
+            canWriteModule: canWriteCustomers,
+          //   canReadModule: canReadExpense,
+          //   canUpdateModule: canUpdateExpense,
+          //   canDeleteModule: canDeleteExpense,
+          } = useHasPermission("Customers");
+      
 
 
   const handleShowAddCustomer = () => {

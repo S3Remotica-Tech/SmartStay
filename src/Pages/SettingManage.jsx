@@ -50,11 +50,17 @@ function SettingManage() {
 
   const popupRef = useRef(null);
 
-  const canWritePayingGuests = useHasPermission("Paying Guests", "canWrite");
-  const canUpdatePayingGuests = useHasPermission("Paying Guests", "canUpdate");
-  const canDeletePayingGuests = useHasPermission("Paying Guests", "canDelete");
-  const canReadPayingGuests = useHasPermission("Paying Guests", "canRead")
+  // const canWritePayingGuests = useHasPermission("Paying Guests", "canWrite");
+  // const canUpdatePayingGuests = useHasPermission("Paying Guests", "canUpdate");
+  // const canDeletePayingGuests = useHasPermission("Paying Guests", "canDelete");
+  // const canReadPayingGuests = useHasPermission("Paying Guests", "canRead")
 
+const {
+      canWriteModule: canWritePayingGuests,
+      canReadModule: canReadPayingGuests,
+      canUpdateModule: canUpdatePayingGuests,
+      canDeleteModule: canDeletePayingGuests,
+    } = useHasPermission("Paying Guests");
 
   useEffect(() => {
       if (!canReadPayingGuests) {
@@ -672,7 +678,7 @@ function SettingManage() {
       <div style={{ position: "relative" }}>
 
 
-        {loading &&
+        {/* {loading &&
           <div
             style={{
               position: 'fixed',
@@ -699,7 +705,7 @@ function SettingManage() {
               }}
             ></div>
           </div>
-        }
+        } */}
 
 
 

@@ -57,11 +57,17 @@ function CheckOut(props) {
 
 
 
-const canReadCheckout = useHasPermission("Checkout", "canRead")
-const canWriteCheckout = useHasPermission("Checkout", "canWrite")
+// const canReadCheckout = useHasPermission("Checkout", "canRead")
+// const canWriteCheckout = useHasPermission("Checkout", "canWrite")
 //  const canUpdateCheckout = useHasPermission("Checkout", "canUpdate")
 //   const canDeleteCheckout = useHasPermission("Checkout", "canDelete")
 
+const {
+        canWriteModule: canWriteCheckout,
+        canReadModule: canReadCheckout,
+        // canUpdateModule: canUpdateCheckout,
+        canDeleteModule: canDeleteCheckout,
+      } = useHasPermission("Checkout");
 
  
 

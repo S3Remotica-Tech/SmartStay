@@ -12,8 +12,19 @@ import { useHasPermission } from '../../Utils/Permission';
 function VendorListMap(props) {
   const [showDots, setShowDots] = useState(null);
 
-  const canUpdateVendor = useHasPermission("Vendor", "canUpdate")
-  const canDeleteVendor = useHasPermission("Vendor", "canDelete")
+  
+ const {
+     canWriteModule: canWriteVendor,
+     canReadModule: canReadVendor,
+     canUpdateModule: canUpdateVendor,
+     canDeleteModule: canDeleteVendor,
+   } = useHasPermission("Vendor");
+
+
+  // const canUpdateVendor = useHasPermission("Vendor", "canUpdate")
+  // const canDeleteVendor = useHasPermission("Vendor", "canDelete")
+
+  
 
   const popupRef = useRef(null);
 

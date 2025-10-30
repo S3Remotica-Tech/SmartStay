@@ -58,7 +58,13 @@ const [useGradient, setUseGradient] = useState(true);
   const alphaValue = Math.round(color.a * 100);
 
 
-const canUpdateInvoice = useHasPermission("Bills", "canUpdate")
+// const canUpdateInvoice = useHasPermission("Bills", "canUpdate")
+const {
+    // canWriteModule: canWriteInvoice,
+    // canReadModule: canReadReceipt,
+    canUpdateModule: canUpdateInvoice,
+    // canDeleteModule: canDeleteInvoice,
+  } = useHasPermission("Bills");
 
 
 

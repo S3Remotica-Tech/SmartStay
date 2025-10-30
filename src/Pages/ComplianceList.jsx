@@ -45,9 +45,18 @@ const ComplianceList = (props) => {
 
   const popupRef = useRef(null);
 
-  const canWriteComplaints = useHasPermission("Complaints", "canWrite");
-  const canUpdateComplaints = useHasPermission("Complaints", "canUpdate");
-  const canDeleteComplaints = useHasPermission("Complaints", "canDelete");
+
+  const {
+    canWriteModule: canWriteComplaints,
+    // canReadModule: canReadComplaints,
+    canUpdateModule: canUpdateComplaints,
+    canDeleteModule: canDeleteComplaints,
+  } = useHasPermission("Complaints");
+
+
+  // const canWriteComplaints = useHasPermission("Complaints", "canWrite");
+  // const canUpdateComplaints = useHasPermission("Complaints", "canUpdate");
+  // const canDeleteComplaints = useHasPermission("Complaints", "canDelete");
 
 
 

@@ -37,10 +37,27 @@ function Reports() {
   const [searchQuery, setSearchQuery] = useState("");
 
 
-  const canReadReports = useHasPermission("Reports", "canRead")
+  // const canReadReports = useHasPermission("Reports", "canRead")
   // const canWriteReports= useHasPermission("Reports", "canWrite");
   // const canUpdateReports = useHasPermission("Reports", "canUpdate");
   // const canDeleteReports = useHasPermission("Reports", "canDelete");
+
+const {
+        canWriteModule: canWriteReports,
+        canReadModule: canReadReports,
+        // canUpdateModule: canUpdateReports,
+        // canDeleteModule: canDeleteReports,
+    } = useHasPermission("Reports");
+
+
+
+
+
+
+
+
+
+  
 
 
   // useEffect(()=>{

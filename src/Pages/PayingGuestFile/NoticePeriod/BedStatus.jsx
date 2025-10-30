@@ -36,7 +36,21 @@ function NoticeBedStatusDetails({
   const dispatch = useDispatch();
 
   
-  const canWriteCustomers = useHasPermission("Customers", "canWrite")
+  // const canWriteCustomers = useHasPermission("Customers", "canWrite")
+
+
+const {
+    canWriteModule: canWriteCustomers,
+    // canReadModule: canReadPayingGuests,
+    // canUpdateModule: canUpdatePayingGuests,
+    // canDeleteModule: canDeletePayingGuests,
+  } = useHasPermission("Customers");
+
+
+
+
+
+
   const [recheckin, setRecheckin] = useState(false)
   const [activeMenu, setActiveMenu] = useState(null);
   const [bactocheckinForm, setBacktoCheckInForm] = useState(false)

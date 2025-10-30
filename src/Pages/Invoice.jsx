@@ -184,20 +184,35 @@ const InvoicePage = () => {
   const [selectedTransactionId, setSelectedTransactionId] = useState(null);
   const [activeStay, setActiveStay] = useState("long_stay");
 
+const {
+    canWriteModule: canWriteInvoice,
+    canReadModule: canReadInvoice,
+     } = useHasPermission("Bills");
 
-  const canReadInvoice = useHasPermission("Bills", "canRead")
-  const canWriteInvoice = useHasPermission("Bills", "canWrite")
+
+
+  // const canReadInvoice = useHasPermission("Bills", "canRead")
+  // const canWriteInvoice = useHasPermission("Bills", "canWrite")
   // const canUpdateInvoice = useHasPermission("Bills", "canUpdate")
   // const canDeleteInvoice = useHasPermission("Bills", "canDelete")
 
+const {
+        canReadModule: canReadRecurring,
+   
+  } = useHasPermission("Recurring bills");
 
-
-  const canReadRecurring = useHasPermission("Recurring bills", "canRead")
+  // const canReadRecurring = useHasPermission("Recurring bills", "canRead")
   // const canWriteRecurring = useHasPermission("Recurring bills", "canWrite")
 
 
-  const canReadReceipt = useHasPermission("Receipt", "canRead")
-  const canWriteReceipt = useHasPermission("Receipt", "canWrite")
+
+const {
+    canWriteModule: canWriteReceipt,
+    canReadModule: canReadReceipt,
+      } = useHasPermission("Receipt");
+
+  // const canReadReceipt = useHasPermission("Receipt", "canRead")
+  // const canWriteReceipt = useHasPermission("Receipt", "canWrite")
 
 
 

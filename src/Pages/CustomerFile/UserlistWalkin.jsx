@@ -36,10 +36,22 @@ function UserlistWalkin(props) {
   const [walkInDeletePermissionError, setWalkInDeletePermissionError] =
     useState("");
 
-  const canReadWalkin = useHasPermission("Walk in", "canRead")
-const canWriteWalkin = useHasPermission("Walk in", "canWrite")
-  const canUpdateWalkin = useHasPermission("Walk in", "canUpdate")
-  const canDeleteWalkin = useHasPermission("Walk in", "canDelete")
+  //   const canReadWalkin = useHasPermission("Walk in", "canRead")
+  // const canWriteWalkin = useHasPermission("Walk in", "canWrite")
+  //   const canUpdateWalkin = useHasPermission("Walk in", "canUpdate")
+  //   const canDeleteWalkin = useHasPermission("Walk in", "canDelete")
+
+
+
+  const {
+    canWriteModule: canWriteWalkin,
+    canReadModule: canReadWalkin,
+    canUpdateModule: canUpdateWalkin,
+    canDeleteModule: canDeleteWalkin,
+  } = useHasPermission("Walk in");
+
+
+
 
   useEffect(() => {
     const userType = props.customerrolePermission[0]?.user_details?.user_type;

@@ -19,9 +19,25 @@ const InvoiceTable = (props) => {
 
 
 
-  const canWriteInvoice = useHasPermission("Invoice", "canWrite")
-  const canUpdateInvoice = useHasPermission("Invoice", "canUpdate")
-  const canDeleteInvoice = useHasPermission("Invoice", "canDelete")
+  // const canWriteInvoice = useHasPermission("Invoice", "canWrite")
+  // const canUpdateInvoice = useHasPermission("Invoice", "canUpdate")
+  // const canDeleteInvoice = useHasPermission("Invoice", "canDelete")
+
+
+
+const {
+    canWriteModule: canWriteInvoice,
+    // canReadModule: canReadReceipt,
+    canUpdateModule: canUpdateInvoice,
+    canDeleteModule: canDeleteInvoice,
+  } = useHasPermission("Invoice");
+
+
+
+
+
+
+
   const [WriteoffForm, setWriteOffForm] = useState(false)
   const [payapleform, setPayableForm] = useState(false)
   const [refundDetails, setRefundDetails] = useState('')
@@ -191,9 +207,9 @@ const InvoiceTable = (props) => {
               props.item?.paymentStatus === "Paid"
                 ? "green"
                 : props.item?.paymentStatus === "Refunded"
-                  ? "#d97706" // orange shade
+                  ? "#d97706" 
                   : props.item?.paymentStatus === "Pending Refund"
-                    ? "#b45309" // darker amber
+                    ? "#b45309" 
                     : "red",
             borderBottom: "1px solid #E8E8E8",
           }}
