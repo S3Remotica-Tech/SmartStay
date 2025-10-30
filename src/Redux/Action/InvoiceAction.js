@@ -107,7 +107,7 @@ export async function getInitializeRefund(bill) {
 
 
 export async function createRefund(bill) {
-  return await AxiosConfigV2.post(`/v2/bills/refund/${bill.hostelId}/${bill.invoiceId}`, bill, {
+  return await AxiosConfigV2.post(`/v2/transaction/refund/${bill.hostelId}/${bill.invoiceId}`, bill, {
     data: bill
   })
 }
