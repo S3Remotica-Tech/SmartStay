@@ -325,7 +325,7 @@ function StaticExample({ show, setShow, currentItem }) {
     }
 
     if (!productName) {
-      setProductNameError("Please Enter Product Name");
+      setProductNameError("Please Enter Product Type");
       if (!focusedRef.current && productNameRef.current) {
         productNameRef.current.focus();
         focusedRef.current = true;
@@ -342,14 +342,14 @@ function StaticExample({ show, setShow, currentItem }) {
 
     }
 
-    if (!cleanedSerialNumber) {
-      setSerialNumberError("Please Enter Serial Number");
-      if (!focusedRef.current && serialNumberRef.current) {
-        serialNumberRef.current.focus();
-        focusedRef.current = true;
-      }
+    // if (!cleanedSerialNumber) {
+    //   setSerialNumberError("Please Enter Serial Number");
+    //   if (!focusedRef.current && serialNumberRef.current) {
+    //     serialNumberRef.current.focus();
+    //     focusedRef.current = true;
+    //   }
 
-    }
+    // }
 
     if (!selectedDate) {
       setSelectedDateError("Please Select Date");
@@ -403,7 +403,7 @@ function StaticExample({ show, setShow, currentItem }) {
       setIsChangedError("");
     }
 
-    if (productName && serialNumber && selectedDate && price && assetName) {
+    if (productName  && selectedDate && price && assetName) {
       const formattedDate = moment(selectedDate).format("DD-MM-YYYY");
       if (currentItem?.assetId) {
               
@@ -604,7 +604,7 @@ useEffect(()=>{
                         fontWeight: 500,
                       }}
                     >
-                      Product Name{" "}
+                      Product Type{" "}
                       <span style={{ color: "red", fontSize: "20px" }}>*</span>
                     </Form.Label>
                     <Form.Control
@@ -612,7 +612,7 @@ useEffect(()=>{
                       ref={productNameRef}
                       onChange={handleProductNameChange}
                       type="text"
-                      placeholder="Enter Product Name"
+                      placeholder="Enter Product Type"
                       style={{
                         fontSize: 16,
                         color: "#4B4B4B",
@@ -773,7 +773,7 @@ useEffect(()=>{
                       }}
                     >
                       Serial Number{" "}
-                      <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                      {/* <span style={{ color: "red", fontSize: "20px" }}>*</span> */}
                     </Form.Label>
                     <Form.Control className="mb-1"
                       value={serialNumber}

@@ -352,7 +352,7 @@ function Sidebar() {
 
   const handleHostelId = (id, name, mainImage, initials) => {
 
-setInitials(initials)
+    setInitials(initials)
     setPayingGuestName(name);
     setAllPageHostel_Id(id);
     setSelectedProfileImage(
@@ -382,15 +382,15 @@ setInitials(initials)
   useEffect(() => {
     if (hostelListDetail && hostelListDetail?.length > 0) {
       const firstHostel = hostelListDetail[0]
-setInitials(firstHostel.initials)
+      setInitials(firstHostel.initials)
       setAllPageHostel_Id(firstHostel.hostelId);
       setPayingGuestName(firstHostel.name);
       setSelectedProfileImage(
         firstHostel.mainImage &&
-          firstHostel.mainImage !== "0" &&
-          firstHostel.mainImage !== ""
-          && firstHostel.mainImage
-          
+        firstHostel.mainImage !== "0" &&
+        firstHostel.mainImage !== ""
+        && firstHostel.mainImage
+
       );
     }
   }, [state.UsersList.hosteListStatusCode]);
@@ -414,10 +414,10 @@ setInitials(firstHostel.initials)
         setAllPageHostel_Id(currentHostel.hostelId);
         setSelectedProfileImage(
           currentHostel.mainImage &&
-            currentHostel.mainImage !== "0" &&
-            currentHostel.mainImage !== ""
-            && currentHostel.mainImage
-            
+          currentHostel.mainImage !== "0" &&
+          currentHostel.mainImage !== ""
+          && currentHostel.mainImage
+
         );
       } else {
         const lowestIdItem = hostelListDetail?.reduce((prev, current) =>
@@ -430,10 +430,10 @@ setInitials(firstHostel.initials)
         setAllPageHostel_Id(lowestIdItem.hostelId);
         setSelectedProfileImage(
           lowestIdItem.mainImage &&
-            lowestIdItem.mainImage !== "0" &&
-            lowestIdItem.mainImage !== ""
-            && lowestIdItem.mainImage
-            
+          lowestIdItem.mainImage !== "0" &&
+          lowestIdItem.mainImage !== ""
+          && lowestIdItem.mainImage
+
         );
       }
 
@@ -445,7 +445,7 @@ setInitials(firstHostel.initials)
   ]);
 
 
-console.log("selectedProfileImage",selectedProfileImage)
+  console.log("selectedProfileImage", selectedProfileImage)
 
   useEffect(() => {
     if (state.login?.isLoggedIn && hostelListDetail?.length > 0) {
@@ -455,10 +455,10 @@ console.log("selectedProfileImage",selectedProfileImage)
       setPayingGuestName(firstHostel.name);
       setSelectedProfileImage(
         firstHostel.mainImage &&
-          firstHostel.mainImage !== "0" &&
-          firstHostel.mainImage !== ""
-          &&  firstHostel.mainImage
-          
+        firstHostel.mainImage !== "0" &&
+        firstHostel.mainImage !== ""
+        && firstHostel.mainImage
+
       );
 
       dispatch(StoreSelectedHostelAction(firstHostel.hostelId));
@@ -472,15 +472,15 @@ console.log("selectedProfileImage",selectedProfileImage)
   useEffect(() => {
     if (hostelListDetail && hostelListDetail?.length > 0) {
       const firstHostel = hostelListDetail[0]
-setInitials(firstHostel.initials)
+      setInitials(firstHostel.initials)
       setAllPageHostel_Id(firstHostel.hostelId);
       setPayingGuestName(firstHostel.name);
       setSelectedProfileImage(
         firstHostel.mainImage &&
-          firstHostel.mainImage !== "0" &&
-          firstHostel.mainImage !== ""
-          && firstHostel.mainImage
-          
+        firstHostel.mainImage !== "0" &&
+        firstHostel.mainImage !== ""
+        && firstHostel.mainImage
+
       );
     }
   }, [state.UsersList.hosteListStatusCode]);
@@ -632,159 +632,159 @@ setInitials(firstHostel.initials)
                 </button>
               </div>
 
-            
+
 
               {hostelListDetail && hostelListDetail?.length > 0 && (
-  <li
-    className={`align-items-center list-Item ${currentPage === "settingNewDesign" ? "active" : ""}`}
-    onClick={toggleDropdown}
-    style={{
-      listStyleType: "none",
-      display: "flex",
-      position: "relative",
-      cursor: "pointer",
-      fontFamily: "Gilroy",
-    }}
-  >
+                <li
+                  className={`align-items-center list-Item ${currentPage === "settingNewDesign" ? "active" : ""}`}
+                  onClick={toggleDropdown}
+                  style={{
+                    listStyleType: "none",
+                    display: "flex",
+                    position: "relative",
+                    cursor: "pointer",
+                    fontFamily: "Gilroy",
+                  }}
+                >
 
-    {selectedProfileImage && selectedProfileImage !== null  && selectedProfileImage !== "" ?  (
-      <img
-        src={selectedProfileImage}
-        style={{
-          height: 25,
-          width: 25,
-          borderRadius: "50%",
-          marginRight: 8,
-        }}
-        alt="Selected Profile"
-      />
-    ) : (
-      <div
-        style={{
-          height: 25,
-          width: 25,
-          borderRadius: "50%",
-          backgroundColor: "#1e45e1",
-          color: "white",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontWeight: 600,
-          fontSize: 12,
-          marginRight: 8,
-          textTransform: "uppercase",
-        }}
-      >
-        {initials}
-      </div>
-    )}
+                  {selectedProfileImage && selectedProfileImage !== null && selectedProfileImage !== "" ? (
+                    <img
+                      src={selectedProfileImage}
+                      style={{
+                        height: 25,
+                        width: 25,
+                        borderRadius: "50%",
+                        marginRight: 8,
+                      }}
+                      alt="Selected Profile"
+                    />
+                  ) : (
+                    <div
+                      style={{
+                        height: 25,
+                        width: 25,
+                        borderRadius: "50%",
+                        backgroundColor: "#1e45e1",
+                        color: "white",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontWeight: 600,
+                        fontSize: 12,
+                        marginRight: 8,
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      {initials}
+                    </div>
+                  )}
 
-    <span
-      className="Title"
-      style={{
-        fontSize: 14,
-        fontWeight: 600,
-        display: "inline-block",
-        fontFamily: "Gilroy",
-        maxWidth: "150px",
-        whiteSpace: "nowrap",
-        overflow: "hidden",
-        textOverflow: "ellipsis",
-        verticalAlign: "middle",
-      }}
-    >
-      {payingGuestName}
-    </span>
-    <span className="ms-auto">
-      {isDropdownOpen ? (
-        <ArrowUp2 size="16" color="#4B4B4B" />
-      ) : (
-        <ArrowDown2 size="16" color="#4B4B4B" />
-      )}
-    </span>
-
-    
-    {isDropdownOpen && (
-      <div
-        className="show-scrolls"
-        style={{
-          position: "absolute",
-          top: "100%",
-          left: 0,
-          backgroundColor: "white",
-          boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
-          padding: "5px 0",
-          borderRadius: "4px",
-          width: "100%",
-          zIndex: 10,
-          maxHeight: "200px",
-          overflowY: "auto",
-          overflowX: "hidden",
-        }}
-      >
-        <ul style={{ margin: 0, padding: 0 }}>
-          {hostelListDetail.map((item) => (
-            <OverlayTrigger
-              key={item.id}
-              placement="right"
-              overlay={<Tooltip className="custom-tooltip" id={`tooltip-${item.id}`}>{item.name}</Tooltip>}
-            >
-              <li
-                key={item.id}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  padding: "8px 12px",
-                  cursor: "pointer",
-                  color: "#1e45e1",
-                  maxWidth: "130px",
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  verticalAlign: "middle",
-                }}
-                onClick={() => handleHostelId(item.hostelId, item.name, item.mainImage, item.initials)}
-              >
-                             {item.mainImage && item.mainImage !== "0" && item.mainImage !== "" ? (
-                  <img
-                    src={item.mainImage}
+                  <span
+                    className="Title"
                     style={{
-                      height: 25,
-                      width: 25,
-                      borderRadius: "50%",
-                      marginRight: 8,
-                    }}
-                    alt={item.initials || "Default Profile"}
-                  />
-                ) : (
-                  <div
-                    style={{
-                      height: 25,
-                      width: 25,
-                      borderRadius: "50%",
-                      backgroundColor: "#1e45e1",
-                      color: "white",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
+                      fontSize: 14,
                       fontWeight: 600,
-                      fontSize: 12,
-                      marginRight: 8,
-                      textTransform: "uppercase",
+                      display: "inline-block",
+                      fontFamily: "Gilroy",
+                      maxWidth: "150px",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      verticalAlign: "middle",
                     }}
                   >
-                    {item.initials}
-                  </div>
-                )}
-                {item.name}
-              </li>
-            </OverlayTrigger>
-          ))}
-        </ul>
-      </div>
-    )}
-  </li>
-)}
+                    {payingGuestName}
+                  </span>
+                  <span className="ms-auto">
+                    {isDropdownOpen ? (
+                      <ArrowUp2 size="16" color="#4B4B4B" />
+                    ) : (
+                      <ArrowDown2 size="16" color="#4B4B4B" />
+                    )}
+                  </span>
+
+
+                  {isDropdownOpen && (
+                    <div
+                      className="show-scrolls"
+                      style={{
+                        position: "absolute",
+                        top: "100%",
+                        left: 0,
+                        backgroundColor: "white",
+                        boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
+                        padding: "5px 0",
+                        borderRadius: "4px",
+                        width: "100%",
+                        zIndex: 10,
+                        maxHeight: "200px",
+                        overflowY: "auto",
+                        overflowX: "hidden",
+                      }}
+                    >
+                      <ul style={{ margin: 0, padding: 0 }}>
+                        {hostelListDetail.map((item) => (
+                          <OverlayTrigger
+                            key={item.id}
+                            placement="right"
+                            overlay={<Tooltip className="custom-tooltip" id={`tooltip-${item.id}`}>{item.name}</Tooltip>}
+                          >
+                            <li
+                              key={item.id}
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                padding: "8px 12px",
+                                cursor: "pointer",
+                                color: "#1e45e1",
+                                maxWidth: "130px",
+                                whiteSpace: "nowrap",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                verticalAlign: "middle",
+                              }}
+                              onClick={() => handleHostelId(item.hostelId, item.name, item.mainImage, item.initials)}
+                            >
+                              {item.mainImage && item.mainImage !== "0" && item.mainImage !== "" ? (
+                                <img
+                                  src={item.mainImage}
+                                  style={{
+                                    height: 25,
+                                    width: 25,
+                                    borderRadius: "50%",
+                                    marginRight: 8,
+                                  }}
+                                  alt={item.initials || "Default Profile"}
+                                />
+                              ) : (
+                                <div
+                                  style={{
+                                    height: 25,
+                                    width: 25,
+                                    borderRadius: "50%",
+                                    backgroundColor: "#1e45e1",
+                                    color: "white",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    fontWeight: 600,
+                                    fontSize: 12,
+                                    marginRight: 8,
+                                    textTransform: "uppercase",
+                                  }}
+                                >
+                                  {item.initials}
+                                </div>
+                              )}
+                              {item.name}
+                            </li>
+                          </OverlayTrigger>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </li>
+              )}
 
 
               {!(hostelListDetail ?? []).length && (
@@ -1236,13 +1236,13 @@ setInitials(firstHostel.initials)
                       profiles === "" ||
                       profiles === 0 ||
                       profiles === "0" ? (
-                     
+
                       <div
                         style={{
                           height: "35px",
                           width: "35px",
                           borderRadius: "50%",
-                          backgroundColor: "#1e45e1", 
+                          backgroundColor: "#1e45e1",
                           color: "white",
                           display: "flex",
                           alignItems: "center",
@@ -1255,7 +1255,7 @@ setInitials(firstHostel.initials)
                         {stateData?.accountList?.initial || ""}
                       </div>
                     ) : (
-                     
+
                       <Image
                         src={profiles}
                         alt="profile-image"

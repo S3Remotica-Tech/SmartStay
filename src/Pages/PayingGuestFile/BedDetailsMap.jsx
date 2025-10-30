@@ -35,7 +35,7 @@ import Tick from '../../Assets/v2Images/Tick.svg'
 import ConfirmChangeBed from './NoticePeriod/ConfirmChangedBed';
 import { useHasPermission } from '../../Utils/Permission';
 import BackToCheckIn from "../CustomerFile/BackToCheckIn";
-import {clickedBedForChange} from '../../Redux/Action/smartStayAction'
+import { clickedBedForChange } from '../../Redux/Action/smartStayAction'
 
 function BedDetailsMap({ room, propsValue }) {
 
@@ -75,11 +75,11 @@ function BedDetailsMap({ room, propsValue }) {
     const [changeBedClicked, setChangedBedClicked] = useState('')
     const [bactocheckinForm, setBacktoCheckInForm] = useState(false)
 
-console.log(clickedBed,"clickedBed")
+    console.log(clickedBed, "clickedBed")
 
-console.log("changeBedClicked",changeBedClicked)
+    console.log("changeBedClicked", changeBedClicked)
 
-console.log("state",state)
+    console.log("state", state)
 
 
     const canWritePayingGuests = useHasPermission("Paying Guests", "canWrite");
@@ -233,10 +233,8 @@ console.log("state",state)
 
     }
     const handleclickBed = (bed, room) => {
-console.log("calledddddddd")
-dispatch(clickedBedForChange(bed));
+        console.log("calledddddddd")
 
-        setClickedBed(bed)
         dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { bedId: bed.id } })
 
         if (!state.login.isTrigger) {
@@ -258,12 +256,15 @@ dispatch(clickedBedForChange(bed));
                 setOccubiedBed(true);
             }
         }
+        dispatch(clickedBedForChange(state.PgList?.OccupiedCustomer));
+
+        setClickedBed(state.PgList?.OccupiedCustomer)
 
     };
 
     const handleclickBedForChangeBed = (bed, room) => {
         dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { bedId: bed.id } })
-        setChangedBedClicked(bed)
+        setChangedBedClicked(state.PgList?.OccupiedCustomer)
 
     }
 
@@ -317,6 +318,9 @@ dispatch(clickedBedForChange(bed));
     useEffect(() => {
         if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
             setCustomer(state.PgList?.OccupiedCustomer)
+            //     dispatch(clickedBedForChange(customer));
+            // setClickedBed(customer)
+            //  setChangedBedClicked(customer)
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE' })
             }, 2000)
@@ -543,7 +547,7 @@ dispatch(clickedBedForChange(bed));
             {
                 showConfirmChangeBedModal &&
 
-                <ConfirmChangeBed show={showConfirmChangeBedModal} handleClose={handleCloseChangedBed} previousBed={clickedBed} currentBed={changeBedClicked}  customer={customer}/>
+                <ConfirmChangeBed show={showConfirmChangeBedModal} handleClose={handleCloseChangedBed} previousBed={clickedBed} currentBed={changeBedClicked} customer={customer} />
 
             }
 
@@ -735,7 +739,7 @@ dispatch(clickedBedForChange(bed));
                     ))
                     :
                     <div className='d-flex justify-content-center'>
-                        <label style={{fontFamily:"Gilroy", color:"#4B4B4B", fontSize:12}}>
+                        <label style={{ fontFamily: "Gilroy", color: "#4B4B4B", fontSize: 12 }}>
                             No beds available
                         </label>
                     </div>
