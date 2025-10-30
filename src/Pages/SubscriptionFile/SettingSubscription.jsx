@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import { useState, useEffect , useRef} from "react";
-import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min"; 
+import { useState, useEffect, useRef } from "react";
+import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min";
 import { useDispatch, useSelector } from "react-redux";
 import crown from "../../Assets/Images/New_images/crown.png";
 import { Button, Form, FormControl } from "react-bootstrap";
@@ -38,60 +38,64 @@ function SettingSubscription() {
   const modalRef = useRef();
 
 
-const hostelDetails = getPlanActive?.[0]?.hostel_details || [];
+  const hostelDetails = getPlanActive?.[0]?.hostel_details || [];
 
 
 
-// const totalPages = Math.ceil(hostelDetails.length / itemsPerPage);
-// const indexOfLastItem = currentPage * itemsPerPage;
-//   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-//   const paginatedData = hostelDetails.slice(indexOfFirstItem, indexOfLastItem);
+  // const totalPages = Math.ceil(hostelDetails.length / itemsPerPage);
+  // const indexOfLastItem = currentPage * itemsPerPage;
+  //   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  //   const paginatedData = hostelDetails.slice(indexOfFirstItem, indexOfLastItem);
 
-//  const handlePageChange = (pageNumber) => {
-//     setCurrentPage(pageNumber);
-//   };
+  //  const handlePageChange = (pageNumber) => {
+  //     setCurrentPage(pageNumber);
+  //   };
 
-// const handleItemsPerPageChange = (selectedOption) => {
-//   setItemsPerPage(Number(selectedOption.value));
-//   setCurrentPage(1);
-// };
+  // const handleItemsPerPageChange = (selectedOption) => {
+  //   setItemsPerPage(Number(selectedOption.value));
+  //   setCurrentPage(1);
+  // };
 
 
 
-// const pageSizeOptions = [
-//   { value: 5, label: "5" },
-//   { value: 10, label: "10" },
-//   { value: 15, label: "15" }
-// ];
+  // const pageSizeOptions = [
+  //   { value: 5, label: "5" },
+  //   { value: 10, label: "10" },
+  //   { value: 15, label: "15" }
+  // ];
 
-  useEffect(() => {
-    dispatch({ type: "ACCOUNTDETAILS" });
-  }, []);
+  // useEffect(() => {
+  //   dispatch({ type: "ACCOUNTDETAILS" });
+  // }, []);
 
   const [customerDetails, setCustomerDetails] = useState("");
   // const [Subscription_hostelIds, setSubscription_HostelIds] = useState([]);
-  useEffect(() => {
-    if (state?.createAccount?.accountList[0]?.user_details) {
-      const customerDetailsPage =
-        state?.createAccount?.accountList[0]?.user_details;
-      setCustomerDetails(customerDetailsPage);
-      setUserId(customerDetails.id);
-      setCustomerId(customerDetails.customer_id);
-      setPlanType(customerDetails.plan_code);
-      // setSubscription_HostelIds(customerDetails.hostel_ids);
-    }
-  }, [state?.createAccount?.accountList[0]?.user_details]);
+  // useEffect(() => {
+  //   if (state?.Settings?.subcripitionAllDetails) {
+  //     // const customerDetailsPage =
+  //     //   state?.createAccount?.accountList[0]?.user_details;
+  //     setCustomerDetails(state?.Settings?.subcripitionAllDetails);
+  //     setUserId(state?.Settings?.subcripitionAllDetails.);
+  //     setCustomerId(customerDetails.customer_id);
+  //     setPlanType(customerDetails.plan_code);
+  //     // setSubscription_HostelIds(customerDetails.hostel_ids);
+  //   }
+  // }, [state?.Settings?.subcripitionAllDetails]);
+
+
+  console.log("state?.Settings?.subcripitionAllDetails", state?.Settings?.subcripitionAllDetails)
+
   useEffect(() => {
     if (state?.createAccount?.accountList[0]?.plan_data) {
       setGetPlanActive(state?.createAccount?.accountList[0]?.plan_data);
     }
   }, [state?.createAccount?.accountList[0]?.plan_data]);
- 
+
 
   useEffect(() => {
-   
-      dispatch({ type: "NEWSUBSCRIPTIONDETAILS" });
-    
+
+    dispatch({ type: "NEWSUBSCRIPTIONDETAILS" });
+
   }, []);
 
   useEffect(() => {
@@ -144,10 +148,10 @@ const hostelDetails = getPlanActive?.[0]?.hostel_details || [];
   // }))
   // .filter(
   //   (option) =>
-     
+
   //     !(hostelOptions || []).includes(option.value)
   // );
-  
+
 
   // const hostelOptions = state.UsersList.hostelListNewDetails.data
   // ?.map((item) => ({
@@ -159,14 +163,14 @@ const hostelDetails = getPlanActive?.[0]?.hostel_details || [];
   //     !(hostelDetails || []).includes(option.value)
   // );
   const hostelOptions = state.UsersList.hostelListNewDetails.data
-  ?.map((item) => ({
-    label: item.Name,
-    value: item.id,
-  }))
- 
-  .filter(
-    (option) => !selectedHostels.some((sel) => sel.value === option.value)
-  );
+    ?.map((item) => ({
+      label: item.Name,
+      value: item.id,
+    }))
+
+    .filter(
+      (option) => !selectedHostels.some((sel) => sel.value === option.value)
+    );
 
 
 
@@ -231,7 +235,7 @@ const hostelDetails = getPlanActive?.[0]?.hostel_details || [];
     setChangePlan(true);
   };
 
- 
+
 
 
   useEffect(() => {
@@ -279,7 +283,7 @@ const hostelDetails = getPlanActive?.[0]?.hostel_details || [];
   };
 
   return (
-    <div className="container"  style={{ overflowY: 'hidden' , height:'100vh'}}>
+    <div className="container" style={{ overflowY: 'hidden', height: '100vh' }}>
       <div style={{ marginTop: 35 }}>
         <div className="w-100 d-flex justify-content-center justify-content-md-start mt-4">
           <p
@@ -740,39 +744,39 @@ const hostelDetails = getPlanActive?.[0]?.hostel_details || [];
                         })}
                     </tbody> */}
 
-                     <tbody style={{ fontSize: "11px", verticalAlign: "middle", height: "50px" }}>
-          <PaginationList>
-            {hostelDetails.map((view, index) => {
-              let formattedDate = view.plan_start
-                ? `${new Date(view.plan_start).getDate()}/${new Date(view.plan_start).getMonth() + 1}/${new Date(view.plan_start).getFullYear()}`
-                : "-";
-              let DueformattedDate = view.plan_end
-                ? `${new Date(view.plan_end).getDate()}/${new Date(view.plan_end).getMonth() + 1}/${new Date(view.plan_end).getFullYear()}`
-                : "-";
+                    <tbody style={{ fontSize: "11px", verticalAlign: "middle", height: "50px" }}>
+                      <PaginationList>
+                        {hostelDetails.map((view, index) => {
+                          let formattedDate = view.plan_start
+                            ? `${new Date(view.plan_start).getDate()}/${new Date(view.plan_start).getMonth() + 1}/${new Date(view.plan_start).getFullYear()}`
+                            : "-";
+                          let DueformattedDate = view.plan_end
+                            ? `${new Date(view.plan_end).getDate()}/${new Date(view.plan_end).getMonth() + 1}/${new Date(view.plan_end).getFullYear()}`
+                            : "-";
 
-              return (
-                <tr key={index} style={{ marginTop: "20px" }}>
-                  <td>{index + 1}</td>
-                  <td>{view.name}</td>
-                  <td>{formattedDate}</td>
-                  <td>{DueformattedDate}</td>
-                  <td>
-                    <span style={{
-                      color: "black",
-                      backgroundColor: "#D9FFD9",
-                      padding: "3px 10px",
-                      fontSize: "11px",
-                      fontWeight: 500,
-                      borderRadius: "10px"
-                    }}>
-                      {view.plan_status === 1 ? "Active" : "Not Active"}
-                    </span>
-                  </td>
-                </tr>
-              );
-            })}
-          </PaginationList>
-        </tbody>
+                          return (
+                            <tr key={index} style={{ marginTop: "20px" }}>
+                              <td>{index + 1}</td>
+                              <td>{view.name}</td>
+                              <td>{formattedDate}</td>
+                              <td>{DueformattedDate}</td>
+                              <td>
+                                <span style={{
+                                  color: "black",
+                                  backgroundColor: "#D9FFD9",
+                                  padding: "3px 10px",
+                                  fontSize: "11px",
+                                  fontWeight: 500,
+                                  borderRadius: "10px"
+                                }}>
+                                  {view.plan_status === 1 ? "Active" : "Not Active"}
+                                </span>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </PaginationList>
+                    </tbody>
 
                   </Table>
                 </div>
@@ -782,583 +786,240 @@ const hostelDetails = getPlanActive?.[0]?.hostel_details || [];
             </div>
           </div>
         )}
-        
-         {/* {
-              hostelDetails.length > 5 &&
-              <nav 
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "end",
-                padding: "10px",
-                borderRadius: "5px",
-                position: "sticky",
-                zIndex: 1000,
-                                bottom: 0,
-                               right: 0,
-                backgroundColor: "#fff"
-              }}>
-
-                <div>
-                  <Select
-                    options={pageSizeOptions}
-                    value={itemsPerPage ? { value: itemsPerPage, label: `${itemsPerPage}` } : null}
-                    onChange={handleItemsPerPageChange}
-                    placeholder="Items per page"
-                    classNamePrefix="custom"
-                    menuPlacement="auto"
-                    noOptionsMessage={() => "No options"}
-                   styles={{
-                            control: (base) => ({
-                              ...base,
-                              height: "40px",
-                              border: "1px solid #1E45E1",
-                              borderRadius: "5px",
-                              fontSize: "14px",
-                              color: "#1E45E1",
-                              fontWeight: 600,
-                              cursor: "pointer",
-                              fontFamily: "Gilroy",
-                              boxShadow:  "0 0 0 1px #1E45E1",
-                               width:90,
-                            }),
-                            menu: (base) => ({
-                              ...base,
-                              backgroundColor: "#f8f9fa",
-                              border: "1px solid #ced4da",
-                              fontFamily: "Gilroy",
-                            }),
-                            menuList: (base) => ({
-                              ...base,
-                              backgroundColor: "#f8f9fa",
-                              maxHeight: "200px",
-                              padding: 0,
-                              overflowY: "auto",
-                            }),
-                            placeholder: (base) => ({
-                              ...base,
-                              color: "#555",
-                            }),
-                            dropdownIndicator: (base) => ({
-                              ...base,
-                              color: "#1E45E1",
-                              cursor: "pointer",
-                            }),
-                            indicatorSeparator: () => ({
-                              display: "none",
-                            }),
-                            option: (base, state) => ({
-                              ...base,
-                              cursor: "pointer",
-                              backgroundColor: state.isFocused ? "#1E45E1" : "white",
-                              color: state.isFocused ? "#fff" : "#000",
-                            }),
-                          }}
-                  />
-                </div>
 
 
-                <ul className="selectoption"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    listStyleType: "none",
-                    margin: 0,
-                    padding: 0,
-                  }}
-                >
-
-                  <li style={{ margin: "0 10px" }}>
-                    <button
-                      style={{
-                        padding: "5px",
-                        textDecoration: "none",
-                        color: currentPage === 1 ? "#ccc" : "#1E45E1",
-                        cursor: currentPage === 1 ? "not-allowed" : "pointer",
-                        borderRadius: "50%",
-                        display: "inline-block",
-                        minWidth: "30px",
-                        textAlign: "center",
-                        backgroundColor: "transparent",
-                        border: "none",
-                      }}
-                      onClick={() => handlePageChange(currentPage - 1)}
-                      disabled={currentPage === 1}
-                    >
-                      <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
-                    </button>
-                  </li>
-
-
-                  <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
-                    {currentPage} of {totalPages}
-                  </li>
-
-
-                  <li style={{ margin: "0 10px" }}>
-                    <button
-                      style={{
-                        padding: "5px",
-                        textDecoration: "none",
-                        color: currentPage === totalPages ? "#ccc" : "#1E45E1",
-                        cursor: currentPage === totalPages ? "not-allowed" : "pointer",
-                        borderRadius: "50%",
-                        display: "inline-block",
-                        minWidth: "30px",
-                        textAlign: "center",
-                        backgroundColor: "transparent",
-                        border: "none",
-                      }}
-                      onClick={() => handlePageChange(currentPage + 1)}
-                      disabled={currentPage === totalPages}
-                    >
-                      <ArrowRight2
-                        size="16"
-                        color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
-                      />
-                    </button>
-                  </li>
-                </ul>
-              </nav>
-            } */}
       </div>
 
-     
 
-           <Modal
-           show={changePlan}
-           onHide={handleCloseCurrentPlan}
-           backdrop="static"
-           centered
-           size="lg" 
-           className="change-plan-modal" >
-       
-                <Modal.Header
-                  style={{ marginBottom: "30px", position: "relative", paddingLeft:40, paddingRight:40 }}
+
+      <Modal
+        show={changePlan}
+        onHide={handleCloseCurrentPlan}
+        backdrop="static"
+        centered
+        size="lg"
+        className="change-plan-modal" >
+
+        <Modal.Header
+          style={{ marginBottom: "30px", position: "relative", paddingLeft: 40, paddingRight: 40 }}
+        >
+          <div
+            style={{
+              fontSize: 20,
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+            }}
+          >
+            Change Plan
+          </div>
+
+
+
+          <CloseCircle
+            size="24"
+            color="#000"
+            onClick={handleCloseCurrentPlan}
+            style={{ cursor: "pointer" }}
+          />
+        </Modal.Header>
+
+
+        <Modal.Body className="modal-scroll-body">
+
+
+
+
+
+          <div className="modal-body">
+            <div className="row g-3">
+              {state?.Settings?.subcripitionAllDetails?.map((plan, index) => (
+                <div
+                  key={index}
+                  className="col-12 col-sm-6 col-md-6 d-flex justify-content-center g-0"
                 >
                   <div
+                    className={`card border position-relative ${planType === plan.planCode ? "border-success" : "border-secondary"
+                      }`}
                     style={{
-                      fontSize: 20,
-                      fontWeight: 600,
-                      fontFamily: "Gilroy",
+                      borderRadius: "14px",
+                      backgroundColor: "#F8FAFC",
+                      padding: "15px",
                     }}
                   >
-                    Change Plan
-                  </div>
-              
-
-
-                  <CloseCircle
-                    size="24"
-                    color="#000"
-                    onClick={handleCloseCurrentPlan}
-                    style={{ cursor: "pointer" }}
-                  />
-                </Modal.Header>
-
-
-          <Modal.Body  className="modal-scroll-body">
-       
-            
-            
-
-
-               <div className="modal-body">
-                <div className="row g-3">
-                  <div className="col-12 col-sm-6 col-md-4 d-flex justify-content-center">
-                    <div
-                      className={`card border position-relative ${planType === "basic_smart"
-                        ? "border-success"
-                        : "border-secondary"
-                        }`}
-                      style={{
-                        borderRadius: "14px",
-                        backgroundColor: "#F8FAFC",
-                        padding: "15px",
-                      }}
-                    >
-                      <div className="card-body text-center p-0  mt-3">
-                        {planType === "basic_smart" && (
-                          <div className="position-relative text-center">
-                            <span
-                              className="badge bg-success position-absolute start-50 translate-middle"
-                              style={{
-                                top: "-30px",
-                                padding: "5px 10px",
-                                fontSize: "12px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 600,
-                              }}
-                            >
-                              Current Plan
-                            </span>
-                          </div>
-                        )}
-                        <h4 className="card-title" style={{ fontFamily: "Gilroy" }}>Basic Plan</h4>
-                        <p style={{ fontFamily: "Gilroy" }}>per agent/month billed annually</p>
-                        <p className="fs-4 fw-bold pb-2 border-bottom" style={{ fontFamily: "Gilroy" }}>₹1</p>
-                        <p className="fw-semibold text-start mt-3" style={{ fontFamily: "Gilroy" }}>
-                          Team Plan Features:
-                        </p>
-                        <ul className="list-unstyled text-start px-3">
-                          <li className="d-flex align-items-center gap-2 mb-2" style={{ fontFamily: "Gilroy" }}>
-                            <i
-                              className="bi bi-info-circle"
-                              data-bs-toggle="tooltip"
-                              data-bs-placement="top"
-                              title="This is a hover text that pops up when hovered on the icon"
-                            ></i>{" "}
-                            Paying Guest
-                          </li>
-                          <li
-                            className="d-flex align-items-center gap-2 mb-2"
-                            style={{ whiteSpace: "nowrap", fontFamily: "Gilroy" }}
-                          >
-                            <i
-                              className="bi bi-info-circle"
-                              data-bs-toggle="tooltipmanage"
-                              data-bs-placement="top"
-                              title="This is a hover text that pops up when hovered Manage"
-                            ></i>{" "}
-                            Manage Customers
-                          </li>
-                          <li className="d-flex align-items-center gap-2 mb-2" style={{ fontFamily: "Gilroy" }}>
-                            <i
-                              className="bi bi-info-circle"
-                              data-bs-toggle="tooltipvendor"
-                              data-bs-placement="top"
-                              title="This is a hover text that pops up when hovered Vendor"
-                            ></i>{" "}
-                            Manage Vendors
-                          </li>
-                          <li
-                            className="d-flex align-items-center gap-2 mb-3"
-                            style={{ whiteSpace: "nowrap", fontFamily: "Gilroy" }}
-                          >
-                            <i
-                              className="bi bi-info-circle"
-                              data-bs-toggle="tooltipassets"
-                              data-bs-placement="top"
-                              title="This is a hover text that pops up when hovered assets"
-                            ></i>{" "}
-                            Asset Management
-                          </li>
-                        </ul>
-
-                        <hr className="m-0" style={{ color: "#BCCAEB" }} />
-
-                        {planType === "basic_smart" ? (
-                          <button
-                            className="btn btn-changeplan btn-success w-100 mt-3"
-                            onClick={() => handlePlanChange(1)}
-                            style={{ fontFamily: "Gilroy" }}
-                          >
-                            Current Plan
-                          </button>
-                        ) : (
-                          <button
-                            style={{ fontFamily: "Gilroy" }}
-                            className="btn btn-changeplan btn-outline-primary w-100 mt-3"
-                            onClick={() => handlePlanChange(1)}
-                          >
-                            Change Plan
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="col-12 col-sm-6 col-md-4 d-flex justify-content-center">
-                    <div
-                      className={`card border position-relative ${planType === "advance_prod"
-                        ? "border-success"
-                        : "border-secondary"
-                        }`}
-                      style={{
-                        borderRadius: "14px",
-                        backgroundColor: "#F8FAFC",
-                        padding: "15px",
-                      }}
-                    >
-                      <div className="card-body text-center p-0   mt-3">
-
-                        {planType === "advance_prod" && (
-                          <span
-                            className="badge bg-success position-absolute start-50 translate-middle"
-                            style={{
-                              top: "-30px",
-                              padding: "5px 10px",
-                              fontSize: "12px",
-                            }}
-                          >
-                            Current Plan
-                          </span>
-                        )}
-                        <h4 className="card-title" style={{ fontFamily: "Gilroy" }}>Advance Plan</h4>
-
-                        <p style={{ fontFamily: "Gilroy" }}>per agent/month billed annually</p>
-                        <p className="fs-4 fw-bold pb-2 border-bottom" style={{ fontFamily: "Gilroy" }}>₹2</p>
-                        <p
-                          className="fw-semibold text-start mt-3"
-                          style={{ whiteSpace: "nowrap", fontFamily: "Gilroy" }}
+                    <div className="card-body text-center p-0 mt-3">
+                      {planType === plan.planCode && (
+                        <span
+                          className="badge bg-success position-absolute start-50 translate-middle"
+                          style={{
+                            top: "-30px",
+                            padding: "5px 10px",
+                            fontSize: "12px",
+                            fontFamily: "Gilroy",
+                            fontWeight: 600,
+                          }}
                         >
-                          Professional Plan Features:
-                        </p>
-                        <ul className="list-unstyled text-start px-3" style={{ fontFamily: "Gilroy" }}>
-                          <li className="d-flex align-items-center gap-2 mb-2" style={{ fontFamily: "Gilroy" }}>
+                          Current Plan
+                        </span>
+                      )}
+
+                      {/* Plan Name */}
+                      <h4 className="card-title" style={{ fontFamily: "Gilroy" }}>
+                        {plan.planName} Plan
+                      </h4>
+
+                      <p style={{ fontFamily: "Gilroy" }}>
+                        per agent/month billed {plan.frequency}
+                      </p>
+
+                      <p
+                        className="fs-4 fw-bold pb-2 border-bottom"
+                        style={{ fontFamily: "Gilroy" }}
+                      >
+                        ₹{plan.discountedPrice || plan.price}
+                      </p>
+
+                      <p
+                        className="fw-semibold text-start mt-3"
+                        style={{ fontFamily: "Gilroy" }}
+                      >
+                        Plan Features:
+                      </p>
+
+                    
+                      <ul className="list-unstyled text-start px-3">
+                        {plan.features?.map((feature, i) => (
+                          <li
+                            key={i}
+                            className="d-flex align-items-center gap-2 mb-2"
+                            style={{ fontFamily: "Gilroy" }}
+                          >
                             <i
                               className="bi bi-info-circle"
                               data-bs-toggle="tooltip"
                               data-bs-placement="top"
-                              title="This is a hover text that pops up when hovered on the icon"
-                            ></i>{" "}
-                            Paying Guest
+                              title={feature}
+                            ></i>
+                            {feature}
                           </li>
-                          <li
-                            className="d-flex align-items-center gap-2 mb-2"
-                            style={{ whiteSpace: "nowrap" }}
-                          >
-                            <i
-                              className="bi bi-info-circle"
-                              data-bs-toggle="tooltipmanage"
-                              data-bs-placement="top"
-                              title="This is a hover text that pops up when hovered Manage"
-                            ></i>{" "}
-                            Manage Customers
-                          </li>
-                          <li className="d-flex align-items-center gap-2 mb-2">
-                            <i
-                              className="bi bi-info-circle"
-                              data-bs-toggle="tooltipvendor"
-                              data-bs-placement="top"
-                              title="This is a hover text that pops up when hovered Vendor"
-                            ></i>{" "}
-                            Manage Vendors
-                          </li>
-                          <li
-                            className="d-flex align-items-center gap-2 mb-2"
-                            style={{ whiteSpace: "nowrap" }}
-                          >
-                            <i
-                              className="bi bi-info-circle"
-                              data-bs-toggle="tooltipassets"
-                              data-bs-placement="top"
-                              title="This is a hover text that pops up when hovered Assets"
-                            ></i>{" "}
-                            Asset Management
-                          </li>
-                        </ul>
-                        <hr className="m-0" style={{ color: "#BCCAEB" }} />
-                        <div>
-                          {planType === "advance_prod" ? (
-                            <button
-                              className="btn btn-changeplan btn-success w-100 mt-3"
-                              onClick={() => handlePlanChange(2)}
-                              style={{ fontFamily: "Gilroy" }}
-                            >
-                              Current Plan
-                            </button>
-                          ) : (
-                            <button
-                              className="btn btn-changeplan btn-outline-primary w-100 mt-3" style={{ fontFamily: "Gilroy" }}
-                              onClick={() => handlePlanChange(2)}
-                            >
-                              Change Plan
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                        ))}
+                      </ul>
 
-                  <div className="col-12 col-sm-6 col-md-4 d-flex justify-content-center">
-                    <div
-                      className={`card border position-relative ${planType === "smartstay_oneyear"
-                        ? "border-success"
-                        : "border-secondary"
-                        }`}
-                      style={{
-                        borderRadius: "14px",
-                        backgroundColor: "#F8FAFC",
-                        padding: "15px",
-                      }}
-                    >
-                      <div className="card-body text-center p-0   mt-3">
-                        {planType === "smartstay_oneyear" && (
-                          <span
-                            className="badge bg-success position-absolute start-50 translate-middle"
-                            style={{
-                              top: "-30px",
-                              padding: "5px 10px",
-                              fontSize: "12px",
-                              fontFamily: "Gilroy"
-                            }}
-                          >
-                            Current Plan
-                          </span>
-                        )}
+                      <hr className="m-0" style={{ color: "#BCCAEB" }} />
 
-                        <h4 className="card-title" style={{ fontFamily: "Gilroy" }}>1 Year Plan</h4>
-                        <p style={{ fontFamily: "Gilroy" }}>per agent/month billed annually</p>
-                        <p className="fs-4 fw-bold pb-2 border-bottom" style={{ fontFamily: "Gilroy" }}>₹999</p>
-                        <p className="fw-semibold text-start mt-3" style={{ fontFamily: "Gilroy" }}>
-                          Growth Plan Features:
-                        </p>
-                        <ul className="list-unstyled text-start px-3" style={{ fontFamily: "Gilroy" }}>
-                          <li className="d-flex align-items-center gap-2 mb-2" style={{ fontFamily: "Gilroy" }}>
-                            <i
-                              className="bi bi-info-circle"
-                              data-bs-toggle="tooltip"
-                              data-bs-placement="top"
-                              title="This is a hover text that pops up when hovered on the icon"
-                            ></i>{" "}
-                            Paying Guest
-                          </li>
-                          <li
-                            className="d-flex align-items-center gap-2 mb-2"
-                            style={{ whiteSpace: "nowrap" }}
-                          >
-                            <i
-                              className="bi bi-info-circle"
-                              data-bs-toggle="tooltipmanage"
-                              data-bs-placement="top"
-                              title="This is a hover text that pops up when hovered manage"
-                            ></i>{" "}
-                            Manage Customers
-                          </li>
-                          <li className="d-flex align-items-center gap-2 mb-2">
-                            <i
-                              className="bi bi-info-circle"
-                              data-bs-toggle="tooltipvendor"
-                              data-bs-placement="top"
-                              title="This is a hover text that pops up when hovered Vendor"
-                            ></i>{" "}
-                            Manage Vendors
-                          </li>
-                          <li
-                            className="d-flex align-items-center gap-2 mb-2"
-                            style={{ whiteSpace: "nowrap" }}
-                          >
-                            <i
-                              className="bi bi-info-circle"
-                              data-bs-toggle="tooltipassets"
-                              data-bs-placement="top"
-                              title="This is a hover text that pops up when hovered assets"
-                            ></i>{" "}
-                            Asset Management
-                          </li>
-                        </ul>
-                        <hr className="m-0" style={{ color: "#BCCAEB" }} />
-                        {planType === "smartstay_oneyear" ? (
-                          <button style={{ fontFamily: "Gilroy" }}
-                            className="btn btn-changeplan btn-success w-100 mt-3"
-                            onClick={() => handlePlanChange(999)}
-                          >
-                            Current Plan
-                          </button>
-                        ) : (
-                          <button style={{ fontFamily: "Gilroy" }}
-                            className="btn btn-changeplan btn-outline-primary w-100 mt-3"
-                            onClick={() => handlePlanChange(999)}
-                          >
-                            Change Plan
-                          </button>
-                        )}
-                      </div>
+                      {planType === plan.planCode ? (
+                        <button
+                          className="btn btn-changeplan btn-success w-100 mt-3"
+                          onClick={() => handlePlanChange(plan.planId)}
+                          style={{ fontFamily: "Gilroy" }}
+                        >
+                          Current Plan
+                        </button>
+                      ) : (
+                        <button
+                          className="btn btn-changeplan btn-outline-primary w-100 mt-3"
+                          onClick={() => handlePlanChange(plan.planId)}
+                          style={{ fontFamily: "Gilroy" }}
+                        >
+                          Change Plan
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>
+              ))}
+            </div>
+          </div>
+
+
+          <div style={{ textAlign: "center" }}>
+            <h4 style={{ fontFamily: "Gilroy" }}>
+              {planType === "free_plan" || planType === null
+                ? "Your plan is free trial"
+                : ""}
+            </h4>
+          </div>
+          {planType !== "free_plan" && planType !== null && (
+            <div className="p-3">
+              <div className="table-responsive border rounded">
+                <table
+                  className="table mb-0 "
+                  style={{
+                    width: "100%",
+                  }}
+                >
+                  <thead>
+                    <tr style={{ backgroundColor: "#e9f2ff", fontFamily: "Gilroy", fontWeight: 500 }}>
+                      <th style={{ fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Total Hostel</th>
+                      <th style={{ fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Plan Name</th>
+                      <th style={{ textAlign: "center", fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Plan Amount</th>
+                      <th style={{ textAlign: "center", fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Total Amount</th>
+                      <th
+                        style={{ textAlign: "center", whiteSpace: "nowrap", fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}
+                      >
+                        Plan Start Date
+                      </th>
+                      <th
+                        style={{ textAlign: "center", whiteSpace: "nowrap", fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}
+                      >
+                        Plan End Date
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr style={{ fontFamily: "Gilroy", fontWeight: 500, color: "#222" }}>
+                      <td style={{ textAlign: "center", color: "#222" }}>
+                        {" "}
+                        {getPlanActive[0]?.hostel_count}
+                      </td>
+                      <td style={{ color: "#222" }}>
+                        {getPlanActive[0]?.plan_code === "one_day" &&
+                          "Free Trail"}
+                        {getPlanActive[0]?.plan_code === "basic_smart" &&
+                          "Basic Plan"}
+                        {getPlanActive[0]?.plan_code === "advance_prod" &&
+                          "Advance PLan"}
+                      </td>
+                      <td style={{ textAlign: "center", color: "#222222" }}>
+                        ₹ {getPlanActive[0]?.amount}
+                      </td>
+                      <td style={{ textAlign: "center", color: "#222222" }}>
+                        ₹ {getPlanActive[0]?.amount}
+                      </td>
+                      <td style={{ textAlign: "center", color: "#222222" }}>
+                        {" "}
+                        {new Date(
+                          getPlanActive[0]?.plan_start
+                        ).toLocaleDateString("en-GB", {
+                          day: "2-digit",
+                          month: "long",
+                          year: "numeric",
+                        })}
+                      </td>
+                      <td style={{ textAlign: "center", color: "#222222" }}>
+                        {" "}
+                        {new Date(
+                          getPlanActive[0]?.plan_end
+                        ).toLocaleDateString("en-GB", {
+                          day: "2-digit",
+                          month: "long",
+                          year: "numeric",
+                        })}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
+            </div>
+          )}
 
-              <div style={{ textAlign: "center" }}>
-                <h4 style={{ fontFamily: "Gilroy" }}>
-                  {planType === "free_plan" || planType === null
-                    ? "Your plan is free trial"
-                    : ""}
-                </h4>
-              </div>
-              {planType !== "free_plan" && planType !== null && (
-                <div className="p-3">
-                  <div className="table-responsive border rounded">
-                    <table
-                      className="table mb-0 "
-                      style={{
-                        width: "100%",
-                      }}
-                    >
-                      <thead>
-                        <tr style={{ backgroundColor: "#e9f2ff", fontFamily: "Gilroy", fontWeight: 500 }}>
-                          <th style={{ fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Total Hostel</th>
-                          <th style={{ fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Plan Name</th>
-                          <th style={{ textAlign: "center", fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Plan Amount</th>
-                          <th style={{ textAlign: "center", fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Total Amount</th>
-                          <th
-                            style={{ textAlign: "center", whiteSpace: "nowrap", fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}
-                          >
-                            Plan Start Date
-                          </th>
-                          <th
-                            style={{ textAlign: "center", whiteSpace: "nowrap", fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}
-                          >
-                            Plan End Date
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr style={{ fontFamily: "Gilroy", fontWeight: 500, color: "#222" }}>
-                          <td style={{ textAlign: "center", color: "#222" }}>
-                            {" "}
-                            {getPlanActive[0]?.hostel_count}
-                          </td>
-                          <td style={{ color: "#222" }}>
-                            {getPlanActive[0]?.plan_code === "one_day" &&
-                              "Free Trail"}
-                            {getPlanActive[0]?.plan_code === "basic_smart" &&
-                              "Basic Plan"}
-                            {getPlanActive[0]?.plan_code === "advance_prod" &&
-                              "Advance PLan"}
-                          </td>
-                          <td style={{ textAlign: "center", color: "#222222" }}>
-                            ₹ {getPlanActive[0]?.amount}
-                          </td>
-                          <td style={{ textAlign: "center", color: "#222222" }}>
-                            ₹ {getPlanActive[0]?.amount}
-                          </td>
-                          <td style={{ textAlign: "center", color: "#222222" }}>
-                            {" "}
-                            {new Date(
-                              getPlanActive[0]?.plan_start
-                            ).toLocaleDateString("en-GB", {
-                              day: "2-digit",
-                              month: "long",
-                              year: "numeric",
-                            })}
-                          </td>
-                          <td style={{ textAlign: "center", color: "#222222" }}>
-                            {" "}
-                            {new Date(
-                              getPlanActive[0]?.plan_end
-                            ).toLocaleDateString("en-GB", {
-                              day: "2-digit",
-                              month: "long",
-                              year: "numeric",
-                            })}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              )}
 
-              
-          
-            
-            
-          </Modal.Body>
 
-          <Modal.Footer style={{ border: "none" }}></Modal.Footer>
-       
+
+
+        </Modal.Body>
+
+        <Modal.Footer style={{ border: "none" }}></Modal.Footer>
+
       </Modal>
 
       <Modal
@@ -1443,7 +1104,7 @@ const hostelDetails = getPlanActive?.[0]?.hostel_details || [];
                       <Select
                         options={hostelOptions}
                         placeholder="Select Hostel"
-                        value={null} 
+                        value={null}
                         onChange={handleHostelSelect}
                         classNamePrefix="custom"
                         menuPlacement="auto"
@@ -1458,7 +1119,7 @@ const hostelDetails = getPlanActive?.[0]?.hostel_details || [];
                             color: "rgba(34, 34, 34, 1)",
                             borderColor: "#ced4da",
                             minHeight: "40px",
-                            cursor:'pointer'
+                            cursor: 'pointer'
                           }),
                         }}
                       />
@@ -1579,7 +1240,7 @@ const hostelDetails = getPlanActive?.[0]?.hostel_details || [];
                       />
                     </Form.Group>
                     {selectedPlanError && (
-                       <ErrorMessage message={selectedPlanError} type="error" />
+                      <ErrorMessage message={selectedPlanError} type="error" />
                     )}
                   </div>
                   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 cmt">

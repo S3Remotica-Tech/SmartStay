@@ -1524,9 +1524,7 @@ function* handleNewSubscriptionpage(action) {
 
 function* handleNewSubscriptionList(action) {
    try {
-      const { customerId } = action.payload;
-
-      const response = yield call(SubscriptionList, customerId);
+           const response = yield call(SubscriptionList, action.payload);
       if (response.status === 200 || response.data.statusCode === 200) {
          yield put({ type: 'NEW_SUBSCRIPTION_LIST', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
       }

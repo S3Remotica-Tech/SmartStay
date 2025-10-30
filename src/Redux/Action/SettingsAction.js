@@ -520,7 +520,7 @@ export async function newSubscription(types) {
   });
 }
 export async function SubscriptionList() {
-  return await AxiosConfig.get(`/v2/plans/`);
+  return await AxiosConfigV2.get(`/v2/plans/`);
 }
 
 export async function SubscriptionPdfDownload(id) {
