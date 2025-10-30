@@ -60,6 +60,7 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip"
 import CreateBill from "../Pages/Bills/CreateBill";
 import UserListRoomDetail from "../Pages/CustomerFile/UserListRoomDetail";
+import CheckoutProfile from '../Pages/CustomerFile/CheckoutProfile'
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -1661,6 +1662,14 @@ function Sidebar() {
                 element={
                   <UserListRoomDetail
                   />
+                }
+              />
+
+               <Route
+                path="/tenant-checkout-profile"
+                element={
+                  <CheckoutProfile />
+                  
                 }
               />
             </Routes>

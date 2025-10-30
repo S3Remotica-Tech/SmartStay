@@ -161,6 +161,7 @@ function BedDetailsMap({ room, propsValue }) {
 
     const handleCloseMakeAsInActive = () => {
         setShowInActive(false)
+        dispatch({ type: 'REMOVE_ERROR_MAKEASINACTIVE'})
     }
 
     const handlecloseoccubiedbed = () => {

@@ -133,7 +133,7 @@ export async function AddBooking(booking) {
 
 
        export async function bookingInActive(book){
-        console.log("book&&&&&&&&&&",book)
+      
         return await AxiosConfigV2.put(`/v2/bookings/cancel/${book.customerId}`,book,{
           data:book
         })

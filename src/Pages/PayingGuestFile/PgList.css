@@ -18,6 +18,11 @@
 .custom-modals-style-stay .modal-content {
     min-width: 750px;
  }
+
+.custom-modals-style-stays .modal-content {
+    min-width: 650px;
+ }
+
  .custom-modals-record-payment-style .modal-content {
    min-width: 600px;
  }

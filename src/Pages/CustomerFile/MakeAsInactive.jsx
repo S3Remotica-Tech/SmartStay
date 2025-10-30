@@ -31,8 +31,7 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails }) {
     const [inActiveComments, setInActiveComments] = useState("")
     const [isActiveDateError, setIsACtiveDateError] = useState("")
 
-    console.log("inActiveDetails", inActiveDetails)
-
+    
 
     const handleInActiveReason = (e) => {
         setInActiveComments(e.target.value)
@@ -73,18 +72,25 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails }) {
                     bankId: state.UsersList?.initializeCancelBookingList?.listBanks[0].bankId
                 },
             });
-             setFormLoading(true);
+            setFormLoading(true);
         }
-       
+
     };
 
-useEffect(() => {
-    if (state.Booking.StatusCodeInactiveCode === 200) {
-           setFormLoading(false);
-         handleCloseInActive()
-    }
+    useEffect(() => {
+        if (state.Booking.StatusCodeInactiveCode === 200) {
+            setFormLoading(false);
+            handleCloseInActive()
+        }
 
-  }, [state.Booking.StatusCodeInactiveCode])
+    }, [state.Booking.StatusCodeInactiveCode])
+
+    useEffect(() => {
+        if (state.Booking.bookingMakeAsError) {
+            setFormLoading(false);
+        }
+
+    }, [state.Booking.bookingMakeAsError])
 
 
     useEffect(() => {
@@ -98,7 +104,7 @@ useEffect(() => {
     }, [inActiveDetails]);
 
 
-    console.log("state", state.UsersList?.initializeCancelBookingList)
+    
 
     return (
         <Modal show={show} onHide={handleCloseInActive} centered backdrop="static"   >
@@ -250,7 +256,7 @@ useEffect(() => {
                                 fontSize: 16,
                                 color: "#4B4B4B",
                                 fontFamily: "Gilroy",
-                                fontWeight:inActiveComments ? 600 : 500,
+                                fontWeight: inActiveComments ? 600 : 500,
                                 boxShadow: "none",
                                 border: "1px solid #D9D9D9",
                                 height: 50,
@@ -264,6 +270,16 @@ useEffect(() => {
                         />
                     </Form.Group>
                 </div>
+
+
+                {state.Booking.bookingMakeAsError && (
+                    <div className="d-flex justify-content-center mb-2">
+                        <ErrorMessage message={state.Booking.bookingMakeAsError} type="error" />
+                    </div>
+                )}
+
+
+
                 <Modal.Footer style={{ border: "none", padding: 0 }}>
                     <div className="d-flex  w-100 gap-3">
 

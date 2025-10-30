@@ -2418,7 +2418,7 @@ const {
     if (typeof props?.handleCloseBed === "function") {
       props.handleCloseBed();
     }
-
+dispatch({ type: 'REMOVE_ERROR_MAKEASINACTIVE'})
 
     setInActiveForm(false)
     // setIsACtiveDateError("")

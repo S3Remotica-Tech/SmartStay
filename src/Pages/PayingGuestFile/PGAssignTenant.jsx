@@ -617,42 +617,7 @@ useEffect(() => {
       })
       setFormLoading(true)
 
-      //       dispatch({
-      //   type: "ADDUSER",
-      //   payload: {
-      //     profile: selectedUser.profile,
-      //     firstname: FirstName || "",  
-      //     LastName: LastName || "",
-      //     Phone: selectedUser.Phone,
-      //     Email: selectedUser.Email,
-      //     Address: selectedUser.Address,
-      //     area: selectedUser.area,
-      //     landmark: selectedUser.landmark,
-      //     city: selectedUser.city,
-      //     pincode: selectedUser.pincode,
-      //     state: selectedUser.state,
-      //     AadharNo: selectedUser.AadharNo,
-      //     PancardNo: selectedUser.PancardNo,
-      //     licence: selectedUser.licence,
-      //     HostelName: selectedUser.HostelName,
-      //     hostel_Id: state.login.selectedHostel_Id,
-      //      Floor: currentItem?.floorId,
-      //        Rooms: currentItem?.roomId,
-      //         Bed: currentItem?.bedId,
-      //         joining_date: formattedDate,
-      //     AdvanceAmount: AdvanceAmount,
-      //     RoomRent: RoomRent,
-      //     isadvance: 1,
-      //     invoice_date: formattedDate,
-      //     due_date: formattedAdvanceDueDate,
-      //     reasons: formattedReasons,
-      //     stay_type: stay_typename,
-      //     ID:checkin_customername
-      //   },
-      // });
-
-
-      // dispatch({ type: "INVOICELIST" });
+    
     }
 
   };
@@ -673,7 +638,15 @@ useEffect(() => {
 
 
 
+useEffect(()=>{
+  if(state.UsersList?.bedAvailableError){
+     setFormLoading(false)
+     setTimeout(()=>{
+dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR'})
+     },2000)
+  }
 
+},[state.UsersList?.bedAvailableError])
 
 
   
@@ -1774,6 +1747,10 @@ useEffect(() => {
 
 
                       </div>
+
+ {state.UsersList?.bedAvailableError ?
+                           <ErrorMessage message={state.UsersList?.bedAvailableError} type="error"/>
+                          : null}
 
 
 
