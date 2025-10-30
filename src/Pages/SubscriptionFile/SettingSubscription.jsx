@@ -89,10 +89,10 @@ const hostelDetails = getPlanActive?.[0]?.hostel_details || [];
  
 
   useEffect(() => {
-    if (customerId) {
-      dispatch({ type: "NEWSUBSCRIPTIONDETAILS", payload: { customerId } });
-    }
-  }, [customerId]);
+   
+      dispatch({ type: "NEWSUBSCRIPTIONDETAILS" });
+    
+  }, []);
 
   useEffect(() => {
     if (state.Settings.statusCodeNewSubscription === 200) {
