@@ -338,7 +338,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
         categoryId: category,
         subCategory: subCategory ? Number(subCategory) : null,
         purchaseDate: formattedDate,
-        count: Number(count),
+        count: Number(count) || 1 ,
         totalAmount: Number(totalPrice),
         description: description,
         bankId: modeOfPayment,

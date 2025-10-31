@@ -519,8 +519,12 @@ export async function newSubscription(types) {
     data: types,
   });
 }
-export async function SubscriptionList() {
-  return await AxiosConfig.get(`/v2/plans/`);
+export async function SubscriptionList(hostelId) {
+  return await AxiosConfigV2.get(`/v2/subscription/${hostelId}`);
+}
+
+export async function PlanList() {
+  return await AxiosConfigV2.get(`/v2/plans/`);
 }
 
 export async function SubscriptionPdfDownload(id) {

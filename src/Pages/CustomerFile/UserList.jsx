@@ -273,10 +273,10 @@ const {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
 
 
-      dispatch({
-        type: "GET_BOOKING_LIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
+      // dispatch({
+      //   type: "GET_BOOKING_LIST",
+      //   payload: { hostel_id: state.login.selectedHostel_Id },
+      // });
       dispatch({
         type: "USERLIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
@@ -1330,16 +1330,16 @@ const {
 
   const [customerBooking, setCustomerBooking] = useState("");
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({
-        type: "GET_BOOKING_LIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
+  // useEffect(() => {
+  //   if (state.login.selectedHostel_Id) {
+  //     dispatch({
+  //       type: "GET_BOOKING_LIST",
+  //       payload: { hostel_id: state.login.selectedHostel_Id },
+  //     });
 
 
-    }
-  }, [state.login.selectedHostel_Id]);
+  //   }
+  // }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
     if (state.Booking.statusCodeGetBooking === 200) {
@@ -1352,6 +1352,11 @@ const {
 
   useEffect(() => {
     if (state.UsersList.cancelCheckoutStatusCode === 200) {
+
+dispatch({
+          type: "USERLIST",
+          payload: { hostel_id: state.login.selectedHostel_Id },
+        });
       setBacktoCheckInForm(false)
       setTimeout(() => {
         dispatch({ type: 'REMOVE_CANCEL_CHECKOUT' })

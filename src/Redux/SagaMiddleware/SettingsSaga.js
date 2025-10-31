@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { ChangeRoomHostelElectricity, getModules, RecurringRole, AddExpencesCategory, EditExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit, GetAllRoles, AddSettingRole, AddSettingPermission, editRolePermission, deleteRolePermission, addStaffUser, GetAllStaff, GetAllReport, AddGeneral, GetAllGeneral, passwordChangesinstaff, generalDelete, passwordCheck, Editcomplainttype, DeleteElectricity, newSubscription, SubscriptionList, SubscriptionPdfDownload, SettingsAddRecurring, GetBillsFrequncyTypes, GetBillsNotificationTypes, SettingsGetRecurring, AddInvoiceSettings, SettingsGetInvoice, AddBillTemplate, getTemplateList, AddGlobalSettingTemplate, SettingsGetGlobal, EditGeneral, EditStaffUser } from "../Action/SettingsAction"
+import { PlanList, ChangeRoomHostelElectricity, getModules, RecurringRole, AddExpencesCategory, EditExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit, GetAllRoles, AddSettingRole, AddSettingPermission, editRolePermission, deleteRolePermission, addStaffUser, GetAllStaff, GetAllReport, AddGeneral, GetAllGeneral, passwordChangesinstaff, generalDelete, passwordCheck, Editcomplainttype, DeleteElectricity, newSubscription, SubscriptionList, SubscriptionPdfDownload, SettingsAddRecurring, GetBillsFrequncyTypes, GetBillsNotificationTypes, SettingsGetRecurring, AddInvoiceSettings, SettingsGetInvoice, AddBillTemplate, getTemplateList, AddGlobalSettingTemplate, SettingsGetGlobal, EditGeneral, EditStaffUser } from "../Action/SettingsAction"
 
 
 import Cookies from 'universal-cookie';
@@ -1524,9 +1524,7 @@ function* handleNewSubscriptionpage(action) {
 
 function* handleNewSubscriptionList(action) {
    try {
-      const { customerId } = action.payload;
-
-      const response = yield call(SubscriptionList, customerId);
+           const response = yield call(SubscriptionList, action.payload);
       if (response.status === 200 || response.data.statusCode === 200) {
          yield put({ type: 'NEW_SUBSCRIPTION_LIST', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
       }
@@ -1541,6 +1539,32 @@ function* handleNewSubscriptionList(action) {
       yield* handleApiError(error);
    }
 }
+
+function* handlePlanList(action) {
+   try {
+           const response = yield call(PlanList, action.payload);
+      if (response.status === 200 || response.data.statusCode === 200) {
+         yield put({ type: 'NEW_PLAN_LIST', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
+      }
+      else {
+         yield put({ type: 'ERROR', payload: response.data.message })
+      }
+      if (response) {
+         refreshToken(response)
+      }
+   }
+   catch (error) {
+      yield* handleApiError(error);
+   }
+}
+
+
+
+
+
+
+
+
 
 function* handleSubscriptionPdf(action) {
    try {
@@ -1911,6 +1935,8 @@ function* SettingsSaga() {
    yield takeEvery('CHECKPASSWORD', handleCheckPassword)
    yield takeEvery('NEWSUBSCRIPTION', handleNewSubscriptionpage)
    yield takeEvery('NEWSUBSCRIPTIONDETAILS', handleNewSubscriptionList)
+   yield takeEvery('NEWPLANLIST', handlePlanList)
+   
    yield takeEvery('SUBSCRIPTIONPDF', handleSubscriptionPdf)
    yield takeEvery('SETTINGSADD_RECURRING', handleSettingsRecurring)
    yield takeEvery('FREQUENCY_TYPES_LIST', handleGetBillsFrequencyTypes)
