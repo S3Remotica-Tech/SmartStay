@@ -215,3 +215,7 @@ export const  clickedBedForChange = (bed) => ({
   type: "SET_CLICKED_BED",
   payload: bed,
 });
+export const  changeBedForChange = (bed) => ({
+  type: "SET_CHANGE_CLICKED_BED",
+  payload: bed,
+});

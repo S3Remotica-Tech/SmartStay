@@ -35,7 +35,7 @@ import Tick from '../../Assets/v2Images/Tick.svg'
 import ConfirmChangeBed from './NoticePeriod/ConfirmChangedBed';
 import { useHasPermission } from '../../Utils/Permission';
 import BackToCheckIn from "../CustomerFile/BackToCheckIn";
-import { clickedBedForChange } from '../../Redux/Action/smartStayAction'
+import { clickedBedForChange, changeBedForChange } from '../../Redux/Action/smartStayAction'
 
 function BedDetailsMap({ room, propsValue }) {
 
@@ -118,7 +118,6 @@ function BedDetailsMap({ room, propsValue }) {
 
     useEffect(() => {
         if (state.UsersList.cancelCheckoutStatusCode === 200) {
-
             dispatch({
                 type: "GETALLBEDSLIST",
                 payload: { roomId: room.id }
@@ -282,15 +281,16 @@ function BedDetailsMap({ room, propsValue }) {
                 setOccubiedBed(true);
             }
         }
-        dispatch(clickedBedForChange(state.PgList?.OccupiedCustomer));
+        // dispatch(clickedBedForChange(bed));
 
-        setClickedBed(state.PgList?.OccupiedCustomer)
+        setClickedBed(bed)
 
     };
 
     const handleclickBedForChangeBed = (bed, room) => {
         dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { bedId: bed.id } })
-        setChangedBedClicked(state.PgList?.OccupiedCustomer)
+        setChangedBedClicked(bed)
+        //   dispatch(changeBedForChange(bed));
 
     }
 
@@ -344,9 +344,7 @@ function BedDetailsMap({ room, propsValue }) {
     useEffect(() => {
         if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
             setCustomer(state.PgList?.OccupiedCustomer)
-            //     dispatch(clickedBedForChange(customer));
-            // setClickedBed(customer)
-            //  setChangedBedClicked(customer)
+
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE' })
             }, 2000)
@@ -430,7 +428,7 @@ function BedDetailsMap({ room, propsValue }) {
         )
         : bedsForRoom;
 
-
+    console.log("filteredBeds", filteredBeds)
 
 
     useEffect(() => {
@@ -494,7 +492,6 @@ function BedDetailsMap({ room, propsValue }) {
         }
 
     }, [state.Booking.StatusCodeInactiveCode])
-
 
 
 
@@ -658,8 +655,7 @@ function BedDetailsMap({ room, propsValue }) {
                             >
                                 <div style={{ position: "relative", width: 34, height: 41 }}>
 
-
-                                    {state.login.isTrigger && Number(changeBedClicked?.id) === Number(bed.id) && (
+                                    {state.login.isTrigger && Number(changeBedClicked.id) === Number(bed.id) && (
                                         <div
                                             style={{
                                                 position: "absolute",

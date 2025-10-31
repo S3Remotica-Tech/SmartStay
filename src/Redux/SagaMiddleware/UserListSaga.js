@@ -1997,16 +1997,14 @@ function* handleReAssignPage(action) {
          refreshToken(response);
       }
    }
-   catch (err) {
-      const error = err || {};
-
-      yield put({
-         type: 'NETWORK_ERROR',
-         payload:
-            error?.code === 'ERR_NETWORK'
-               ? 'Network error occurred'
-               : error?.message || 'Something went wrong',
-      });
+   catch (error) {
+      if (error.code === 'ERR_BAD_REQUEST') {
+         if (error.status === 400) {
+            yield put({ type: 'CHANGE_BED_ERROR', payload: error.response.data });
+         }
+      } else if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
    }
 }
 

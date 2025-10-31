@@ -433,43 +433,16 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                 <div className=" p-2 position-relative" style={{
                   borderTopLeftRadius: "8px", borderTopRightRadius: "8px", height: "",
                 }}>
-                  <div className="d-flex justify-content-between align-items-center ps-3 pe-3">
-                    <div className="d-flex" >
+                  <div className="row d-flex justify-content-between align-items-center ps-3 pe-3">
+                    <div className="col-6" >
                       <img src={pdfDetails?.configurations?.hostelLogo ? pdfDetails?.configurations?.hostelLogo : Logo} alt="logo" style={{ height: 64, minWidth: 64, maxWidth: 84, borderRadius: '4px', }} className="me-2 mt-2" />
 
 
 
 
                     </div>
-                    {/* <div>
-                      <div>
-                        <label style={{ fontSize: 10, fontWeight: 600, fontFamily: "Gilroy", color: "#4B4B4B" }}>Invoice of the Month</label>
-                      </div>
-                      <div>
-                        <label
-                          style={{
-                            fontSize: 12,
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
-                            color: "#16255D",
-                          }}
-                        >
-                          {pdfDetails?.invoiceInfo?.invoiceMonth
-                            ? pdfDetails?.invoiceInfo?.invoiceMonth
-                            : pdfDetails?.invoiceDate
-                              ? new Date(
-                                pdfDetails.invoiceDate.split("/").reverse().join("-")
-                              ).toLocaleDateString("en-US", {
-                                month: "short",
-                                day: "numeric",
-                                year: "numeric",
-                              })
-                              : ""}
-                        </label>
 
-                      </div>
-                    </div> */}
-                    <div className="mt-2" >
+                    <div className="mt-2 col-5" >
                       <div style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", marginRight: '20px', color: '#2B2B2B' }}>
                         {pdfDetails?.stayInfo?.hostelName}
                       </div>
@@ -491,7 +464,11 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                   </div>
                 </div>
 
-
+                  <hr className="m-0"
+                  style={{
+                    borderTop: "1px solid #D9D9D9",
+                  }}
+                />
                 <div className="container bg-white rounded-bottom  position-relative" style={{ width: "100%", }}>
                   <div className="text-center pt-2 pb-1">
                     <h5 style={{ fontSize: '17px', fontFamily: 'Gilroy', fontWeight: 600, color: '#171717', }}>
@@ -606,106 +583,6 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
 
                 </div>
-                <div className="px-4 mt-1">
-                  <div className="row">
-                    <div className="col-md-6 mb-1">
-                      <h6
-                        style={{
-                          fontSize: "11px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 700,
-                          color: "#1E45E1",
-                          letterSpacing: "1px",
-                          marginBottom: "12px",
-                        }}
-                      >
-                        ACCOUNT DETAILS
-                      </h6>
-
-                      <div className="mb-1">
-                        <label style={{ fontSize: "11px", fontWeight: 500, color: "#4B4B4B", fontFamily: "Gilroy", }}>
-                          Account No:
-                        </label>{" "}
-                        <span style={{ fontSize: "12px", fontWeight: 500, color: "#171717", fontFamily: "Gilroy", }}>
-                          {pdfDetails?.accountDetails?.accountNo || "N/A"}
-                        </span>
-                      </div>
-
-                      <div className="mb-1">
-                        <label style={{ fontSize: "11px", fontWeight: 500, color: "#4B4B4B", fontFamily: "Gilroy" }}>
-                          IFSC Code:
-                        </label>{" "}
-                        <span style={{ fontSize: "12px", fontWeight: 500, color: "#171717", fontFamily: "Gilroy" }}> {pdfDetails?.accountDetails?.ifscCode || "N/A"}</span>
-                      </div>
-
-                      <div className="mb-1">
-                        <label style={{ fontSize: "11px", fontWeight: 500, color: "#4B4B4B", fontFamily: "Gilroy" }}>
-                          Bank Name:
-                        </label>{" "}
-                        <span style={{ fontSize: "12px", fontWeight: 500, color: "#171717", fontFamily: "Gilroy" }}>{pdfDetails?.accountDetails?.bankName || "N/A"}</span>
-                      </div>
-
-                      <div>
-                        <label style={{ fontSize: "11px", fontWeight: 500, color: "#4B4B4B", fontFamily: "Gilroy" }}>
-                          UPI Details:
-                        </label>{" "}
-                        <span style={{ fontSize: "12px", fontWeight: 500, color: "#171717", fontFamily: "Gilroy" }}>{pdfDetails?.accountDetails?.upiId || "N/A"}</span>
-                      </div>
-                    </div>
-
-                    <div className="col-md-2"></div>
-
-                    <div className="col-md-4 d-flex flex-column justify-content-between">
-
-                      <div className="d-flex justify-content-center mb-2">
-                        <img
-                          src={pdfDetails?.accountDetails?.qrCode ? pdfDetails?.accountDetails?.qrCode : Barcode}
-                          alt="Barcode"
-                          style={{ height: "auto", maxWidth: 150, borderRadius: 2 }}
-                          className="img-fluid"
-                        />
-                      </div>
-
-                      <div className="d-flex justify-content-end">
-                        {[Paytm, Phonepe, Gpay].map((icon, idx) => (
-                          <img
-                            key={idx}
-                            src={icon}
-                            alt="UPI"
-                            style={{ height: 38, width: 38 }}
-                            className="ms-2"
-                          />
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-
-
-                <div className="row justify-content-between mt-4 mb-0 px-4">
-                  <div className="col-md-8">
-                    <h4 style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600, color: '#4B4B4B' }}>Terms and Conditions</h4>
-                    <p style={{ whiteSpace: "pre-line", fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: '#3D3D3D', paddingRight: 50 }}>
-                      {pdfDetails?.configurations?.termAndCondition}
-                    </p>
-                  </div>
-
-                  <div className="col-md-4 d-flex flex-column justify-content-end align-items-end">
-                    {pdfDetails?.configurations?.signatureUrl && (
-                      <img
-                        src={pdfDetails?.configurations?.signatureUrl}
-                        alt="Digital Signature" style={{ height: 60, width: 130, paddingLeft: 20 }}
-
-                      />
-                    )}
-                    <p
-                      style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(44, 44, 44, 1)', }}
-                    >Authorized Signature</p>
-                  </div>
-                </div>
-
-
 
 
                 <div className="px-4 ">
@@ -1185,7 +1062,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
 
                           <div
-                            className="d-flex justify-content-between align-items-center m-3 px-3 py-2 border rounded"
+                            className="d-flex justify-content-between align-items-center mb-3 mt-3  px-3 py-2 border rounded"
                             style={{
                               backgroundColor: "#FAFBFF",
                               fontSize: 13,
@@ -1198,12 +1075,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                           </div>
                         </>
                   }
-                  <hr
-                    style={{
-                      borderTop: "1px solid #D9D9D9",
 
-                    }}
-                  />
 
                 </div>
 
@@ -1211,14 +1083,122 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
 
 
-                <div className="ms-5 me-5">
+
+                <div className="px-4 mt-1">
+                  <div className="row">
+                    <div className="col-md-6 mb-1">
+                      <h6
+                        style={{
+                          fontSize: "11px",
+                          fontFamily: "Gilroy",
+                          fontWeight: 700,
+                          color: "#1E45E1",
+                          letterSpacing: "1px",
+                          marginBottom: "12px",
+                        }}
+                      >
+                        ACCOUNT DETAILS
+                      </h6>
+
+                      <div className="mb-1">
+                        <label style={{ fontSize: "11px", fontWeight: 500, color: "#4B4B4B", fontFamily: "Gilroy", }}>
+                          Account No:
+                        </label>{" "}
+                        <span style={{ fontSize: "12px", fontWeight: 500, color: "#171717", fontFamily: "Gilroy", }}>
+                          {pdfDetails?.accountDetails?.accountNo || "N/A"}
+                        </span>
+                      </div>
+
+                      <div className="mb-1">
+                        <label style={{ fontSize: "11px", fontWeight: 500, color: "#4B4B4B", fontFamily: "Gilroy" }}>
+                          IFSC Code:
+                        </label>{" "}
+                        <span style={{ fontSize: "12px", fontWeight: 500, color: "#171717", fontFamily: "Gilroy" }}> {pdfDetails?.accountDetails?.ifscCode || "N/A"}</span>
+                      </div>
+
+                      <div className="mb-1">
+                        <label style={{ fontSize: "11px", fontWeight: 500, color: "#4B4B4B", fontFamily: "Gilroy" }}>
+                          Bank Name:
+                        </label>{" "}
+                        <span style={{ fontSize: "12px", fontWeight: 500, color: "#171717", fontFamily: "Gilroy" }}>{pdfDetails?.accountDetails?.bankName || "N/A"}</span>
+                      </div>
+
+                      <div>
+                        <label style={{ fontSize: "11px", fontWeight: 500, color: "#4B4B4B", fontFamily: "Gilroy" }}>
+                          UPI Details:
+                        </label>{" "}
+                        <span style={{ fontSize: "12px", fontWeight: 500, color: "#171717", fontFamily: "Gilroy" }}>{pdfDetails?.accountDetails?.upiId || "N/A"}</span>
+                      </div>
+                    </div>
+
+                    <div className="col-md-2"></div>
+
+                    <div className="col-md-4 d-flex flex-column justify-content-between">
+
+                      <div className="d-flex justify-content-center mb-2">
+                        <img
+                          src={pdfDetails?.accountDetails?.qrCode ? pdfDetails?.accountDetails?.qrCode : Barcode}
+                          alt="Barcode"
+                          style={{ height: "auto", maxWidth: 150, borderRadius: 2 }}
+                          className="img-fluid"
+                        />
+                      </div>
+
+                      <div className="d-flex justify-content-end">
+                        {[Paytm, Phonepe, Gpay].map((icon, idx) => (
+                          <img
+                            key={idx}
+                            src={icon}
+                            alt="UPI"
+                            style={{ height: 38, width: 38 }}
+                            className="ms-2"
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+
+                <div className="row justify-content-between mt-4 mb-5 px-4">
+                  <div className="col-md-8">
+                    <h4 style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600, color: '#4B4B4B' }}>Terms and Conditions</h4>
+                    <p style={{ whiteSpace: "pre-line", fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: '#3D3D3D', paddingRight: 50 }}>
+                      {pdfDetails?.configurations?.termAndCondition}
+                    </p>
+                  </div>
+
+                  <div className="col-md-4 d-flex flex-column justify-content-end align-items-end">
+                    {pdfDetails?.configurations?.signatureUrl && (
+                      <img
+                        src={pdfDetails?.configurations?.signatureUrl}
+                        alt="Digital Signature" style={{ height: 60, width: 130, paddingLeft: 20 }}
+
+                      />
+                    )}
+                    <p
+                      style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(44, 44, 44, 1)', }}
+                    >Authorized Signature</p>
+                  </div>
+                </div>
+
+
+                <hr
+                  style={{
+                    borderTop: "1px solid #D9D9D9",
+                  }}
+                />
+
+                <div className="px-4">
                   <div
-                    className="text-center rounded-bottom d-flex justify-content-center gap-4"
+                    className="text-center rounded-bottom d-flex justify-content-between"
                     style={{
                       borderTopRightRadius: '38px',
                       borderTopLeftRadius: '38px',
                     }}
                   >
+
                     <p
                       className="mb-0"
                       style={{
@@ -1226,17 +1206,22 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                         fontFamily: 'Gilroy',
                         fontWeight: 500,
                         color: '#4B4B4B',
-
                       }}
                     >
-                      email:
-                      <span style={{
-                        fontSize: '13px',
-                        fontFamily: 'Gilroy',
-                        fontWeight: 600,
-                        color: '#222222',
-                      }}>{pdfDetails?.emailId}</span>
+                      Email:
+                      <span
+                        style={{
+                          fontSize: '13px',
+                          fontFamily: 'Gilroy',
+                          fontWeight: 600,
+                          color: '#222222',
+                        }}
+                      >
+                        {pdfDetails?.emailId}
+                      </span>
                     </p>
+
+
                     <p
                       className="mb-0"
                       style={{
@@ -1247,12 +1232,16 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                       }}
                     >
                       Contact:
-                      <span style={{
-                        fontSize: '13px',
-                        fontFamily: 'Gilroy',
-                        fontWeight: 600,
-                        color: '#222222',
-                      }}>{pdfDetails?.mobile && ` + ${pdfDetails?.countryCode} ${pdfDetails?.mobile}`}</span>
+                      <span
+                        style={{
+                          fontSize: '13px',
+                          fontFamily: 'Gilroy',
+                          fontWeight: 600,
+                          color: '#222222',
+                        }}
+                      >
+                        {pdfDetails?.mobile && `+${pdfDetails?.countryCode} ${pdfDetails?.mobile}`}
+                      </span>
                     </p>
                   </div>
                 </div>

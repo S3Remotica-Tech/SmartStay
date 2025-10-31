@@ -462,65 +462,42 @@ const hasAmount  = -100
                 <div className=" p-2 position-relative" style={{
                   borderTopLeftRadius: "8px", borderTopRightRadius: "8px", height: "",
                 }}>
-                   <div className="d-flex justify-content-between align-items-center ps-3 pe-3">
-                    <div className="d-flex" >
-                      <img src={pdfDetails?.configurations?.hostelLogo ? pdfDetails?.configurations?.hostelLogo : Logo} alt="logo" style={{ height: 64, minWidth: 64, maxWidth: 84, borderRadius: '4px', }} className="me-2 mt-2" />
- </div>
-                      <div className="mt-2" >
-                        <div style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", marginRight: '20px', color: '#2B2B2B' }}>
-                          {pdfDetails?.stayInfo?.hostelName}
-                        </div>
-                        <div
-                          className="d-flex flex-wrap"
-                          style={{
-                            fontSize: 12,
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
-                            color: "#4B4B4B",
-                            wordBreak: "break-word",
-                            width: 150,
-                          }}
-                        >
-                          {pdfDetails?.configurations?.address}
-                        </div>
-
-                      </div>
-
-
+                    <div className="row d-flex justify-content-between align-items-center ps-3 pe-3">
+                                       <div className="col-6" >
+                                         <img src={pdfDetails?.configurations?.hostelLogo ? pdfDetails?.configurations?.hostelLogo : Logo} alt="logo" style={{ height: 64, minWidth: 64, maxWidth: 84, borderRadius: '4px', }} className="me-2 mt-2" />
                    
-                    {/* <div>
-                      <div>
-                        <label style={{ fontSize: 10, fontWeight: 600, fontFamily: "Gilroy", color: "#4B4B4B" }}>Receipt of the Month</label>
-                      </div>
-                      <div>
-                        <label
-                          style={{
-                            fontSize: 12,
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
-                            color: "#16255D",
-                          }}
-                        >
-                          {pdfDetails?.receiptInfo?.invoiceMonth
-                            ? pdfDetails?.receiptInfo?.invoiceMonth
-                            : pdfDetails?.receiptInfo?.invoiceDate
-                              ? new Date(
-                                pdfDetails?.receiptInfo?.invoiceDate.split("/").reverse().join("-")
-                              ).toLocaleDateString("en-US", {
-                                month: "short",
-                                day: "numeric",
-                                year: "numeric",
-                              })
-                              : ""}
-                        </label>
-
-                      </div>
-                    </div> */}
-
-                  </div>
+                   
+                   
+                   
+                                       </div>
+                   
+                                       <div className="mt-2 col-5" >
+                                         <div style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", marginRight: '20px', color: '#2B2B2B' }}>
+                                           {pdfDetails?.stayInfo?.hostelName}
+                                         </div>
+                                         <div
+                                           className="d-flex flex-wrap"
+                                           style={{
+                                             fontSize: 12,
+                                             fontWeight: 600,
+                                             fontFamily: "Gilroy",
+                                             color: "#4B4B4B",
+                                             wordBreak: "break-word",
+                                             width: 150,
+                                           }}
+                                         >
+                                           {pdfDetails?.configurations?.address}
+                                         </div>
+                   
+                                       </div>
+                                     </div>
                 </div>
 
-
+ <hr className="m-0"
+                  style={{
+                    borderTop: "1px solid #D9D9D9",
+                  }}
+                />
                 <div className="container bg-white rounded-bottom  position-relative" style={{ width: "100%", }}>
                   <div className="text-center pt-2 pb-1">
                     <h5 style={{ fontSize: '17px', fontFamily: 'Gilroy', fontWeight: 600, color: '#171717', }}>
@@ -622,7 +599,7 @@ const hasAmount  = -100
 
 
 
-                  <div className="d-flex pt-1 ps-3 pe-3 pb-1">
+                  <div className="d-flex px-4">
                     <div className=""
                       style={{
                         display: "flex",
@@ -704,15 +681,15 @@ const hasAmount  = -100
 
 
 
-                <div className="row justify-content-between mt-4 mb-0 px-4">
-                  <div className="col-md-8">
+                <div className="row justify-content-between mt-4 mb-0 px-5">
+                  <div className="col-md-8 p-0">
                     <h4 style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600, color: '#4B4B4B' }}>Acknowledgment</h4>
                     <p style={{ whiteSpace: "pre-line", fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: '#3D3D3D', paddingRight: 50 }}>
                       {pdfDetails?.configurations?.termAndCondition}
                     </p>
                   </div>
 
-                  <div className="col-md-4 d-flex flex-column justify-content-end align-items-end">
+                  <div className="col-md-4 d-flex flex-column justify-content-end align-items-end p-0">
                     {pdfDetails?.configurations?.signatureUrl && (
                       <img
                         src={pdfDetails?.configurations?.signatureUrl}
@@ -727,14 +704,14 @@ const hasAmount  = -100
                 </div>
 
 
-                <div className="row justify-content-between mt-2 mb-0 px-4">
-                  <div className="col-md-8">
+                <div className="row justify-content-between mt-2 mb-0 px-5">
+                  <div className="col-md-8 p-0">
                     <p style={{ whiteSpace: "pre-line", fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: '#3D3D3D', paddingRight: 50 }}>
                       {pdfDetails?.configurations?.receiptNotes}
                     </p>
                   </div>
 
-                  <div className="col-md-4 d-flex flex-column justify-content-end align-items-end bg-white">
+                  <div className="col-md-4 p-0 d-flex flex-column justify-content-end align-items-end bg-white">
 
 {Number(pdfDetails?.invoiceAmount) > 0 ? (
   <p className="text-success fw-bold border-success d-inline-block">
@@ -1344,16 +1321,21 @@ const hasAmount  = -100
 
 
 
-                <hr className="ms-4 me-4" style={{ borderColor: "#DFDFDF" }} />
+                 <hr className="m-0"
+                  style={{
+                    borderTop: "1px solid #D9D9D9",
+                  }}
+                />
 
-                <div className="ms-5 me-5 mt-0">
+                  <div className="px-5 mt-2 mb-5">
                   <div
-                    className="text-center rounded-bottom d-flex justify-content-center gap-4"
+                    className="text-center rounded-bottom d-flex justify-content-between"
                     style={{
                       borderTopRightRadius: '38px',
                       borderTopLeftRadius: '38px',
                     }}
                   >
+
                     <p
                       className="mb-0"
                       style={{
@@ -1361,17 +1343,22 @@ const hasAmount  = -100
                         fontFamily: 'Gilroy',
                         fontWeight: 500,
                         color: '#4B4B4B',
-
                       }}
                     >
-                      email:
-                      <span style={{
-                        fontSize: '13px',
-                        fontFamily: 'Gilroy',
-                        fontWeight: 600,
-                        color: '#222222',
-                      }}>{pdfDetails?.emailId}</span>
+                      Email:
+                      <span
+                        style={{
+                          fontSize: '13px',
+                          fontFamily: 'Gilroy',
+                          fontWeight: 600,
+                          color: '#222222',
+                        }}
+                      >
+                        {pdfDetails?.emailId}
+                      </span>
                     </p>
+
+
                     <p
                       className="mb-0"
                       style={{
@@ -1382,12 +1369,16 @@ const hasAmount  = -100
                       }}
                     >
                       Contact:
-                      <span style={{
-                        fontSize: '13px',
-                        fontFamily: 'Gilroy',
-                        fontWeight: 600,
-                        color: '#222222',
-                      }}>{pdfDetails?.mobile && ` + ${pdfDetails?.countryCode} ${pdfDetails?.mobile}`}</span>
+                      <span
+                        style={{
+                          fontSize: '13px',
+                          fontFamily: 'Gilroy',
+                          fontWeight: 600,
+                          color: '#222222',
+                        }}
+                      >
+                        {pdfDetails?.mobile && `+${pdfDetails?.countryCode} ${pdfDetails?.mobile}`}
+                      </span>
                     </p>
                   </div>
                 </div>

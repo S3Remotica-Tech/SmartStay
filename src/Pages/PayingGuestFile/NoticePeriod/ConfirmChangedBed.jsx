@@ -28,19 +28,25 @@ function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer
   const selectedDateRef = useRef(null);
   const state = useSelector(state => state)
   const dispatch = useDispatch();
-  console.log("previousBed", previousBed)
-  console.log("currentBed", currentBed)
-  console.log("customer", customer)
-  console.log("satte", state.PgList.isClickedBed)
+  
+  
 
-  const isPreviousBed = state.PgList?.isClickedBed
+  // const isPreviousBed = state.PgList?.isClickedBed
+// const isCurrentBed =state.PgList?.isClickedChangeBed
+
+// console.log("isPreviousBed", isPreviousBed)
+  // console.log("isCurrentBed", isCurrentBed)
+  console.log("8888",previousBed, currentBed)
+
+
+ 
   const [selectedDate, setSelectedDate] = useState(null);
   const [newRoomRent, setNewRoomRent] = useState("");
   const [sameAsCurrent, setSameAsCurrent] = useState(false);
   const [errors, setErrors] = useState({ date: "", rent: "" });
 
 
-  const currentRoomRent = customer?.currentRent || 0;
+  const currentRoomRent = currentBed?.rentAmount || 0;
   const handleDateChange = (date) => {
     setSelectedDate(date ? date.toDate() : null);
     setErrors((prev) => ({ ...prev, date: "" }));
@@ -66,46 +72,74 @@ function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer
   };
 
 
+console.log("customer",customer)
+
+//  current month =>customer.currentTenantJoiningDate to today 
+
+// joiningDate is Prev month ah eruntha last check in bill date to today varaiukum balnce disabled 
+
+
  useEffect(() => {
   if(customer?.currentTenantCustomerId){
     dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: customer?.currentTenantCustomerId } });
   }
   }, [customer]);
 
-  const handleSubmit = () => {
-    let hasError = false;
-    const newErrors = { date: "", rent: "" };
+ const handleSubmit = () => {
+  let hasError = false;
+  const newErrors = { date: "", rent: "" };
 
-    if (!selectedDate) {
-      newErrors.date = "Please select a date";
-      hasError = true;
-    }
+  if (!selectedDate) {
+    newErrors.date = "Please select a date";
+    hasError = true;
+  }
 
-    if (isPreviousBed?.isOccupied && (!newRoomRent || newRoomRent.trim() === "")) {
-      newErrors.rent = "Please enter rent amount";
-      hasError = true;
-    }
+  if (previousBed?.isOccupied && (!newRoomRent)) {
+    newErrors.rent = "Please enter rent amount";
+    hasError = true;
+  }
 
-    setErrors(newErrors);
+  setErrors(newErrors);
 
-    if (hasError) return;
+  if (hasError) return;
 
 
+const formatToCustomDate = (date) => {
+  const d = new Date(date);
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  return `${dd}-${mm}-${yyyy}`
+}
+    const formattedDate = selectedDate ? formatToCustomDate(selectedDate) : "";
+
+
+
+
+
+
+  const datum = {
+    bedId: currentBed?.bedId,
+    rentAmount: Number(newRoomRent) || 0,
+    joiningDate:formattedDate,
+  };
+
+  if (state.login.selectedHostel_Id && datum) {
     const payload = {
-      customerId: customer?.id,
-      previousBedId: previousBed?.id,
-      newBedId: currentBed?.id,
-      changeDate: dayjs(selectedDate).format("DD-MM-YYYY"),
-      newRentAmount: Number(newRoomRent) || 0,
+      hostelId: state.login.selectedHostel_Id,
+      customerId: customer?.currentTenantCustomerId,
+      datum,
     };
 
-    console.log("payload", payload)
+   
 
-    // Example dispatch or callback
-    dispatch({ type: "CHANGE_BED_REQUEST", payload });
+    dispatch({
+      type: "CUSTOMERREASSINBED",
+      payload,
+    });
+  }
+};
 
-    handleClose();
-  };
   return (
 
 
@@ -157,7 +191,7 @@ function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer
                     style={{ width: '20px', height: '20px', verticalAlign: 'middle' }}
                     alt="building"
                   />
-                  <span style={{ position: 'relative', top: '4px', left: '3px' }}>{isPreviousBed?.floorName || 'N/A'} </span>
+                  <span style={{ position: 'relative', top: '4px', left: '3px' }}>{previousBed?.floorName || 'N/A'} </span>
                 </p>
 
                 <p className="mb-3" style={{ fontFamily: 'Gilroy', fontSize: '16px' }}>
@@ -167,7 +201,7 @@ function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer
                     style={{ width: '24px', height: '24px', verticalAlign: 'middle' }}
                     alt="Frame"
                   />
-                  <span style={{ position: 'relative', top: '2px' }}>Room {isPreviousBed?.roomName || 'N/A'} </span>
+                  <span style={{ position: 'relative', top: '2px' }}>Room {previousBed?.roomName || 'N/A'} </span>
                 </p>
 
                 <p className="mb-3" style={{ fontFamily: 'Gilroy', fontSize: '16px' }}>
@@ -177,7 +211,7 @@ function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer
                     style={{ width: '20px', height: '20px', verticalAlign: 'middle' }}
                     alt="Group"
                   />
-                  <span style={{ position: 'relative', top: '3px', left: '4px' }}>Bed {isPreviousBed?.bedName || 'N/A'} </span>
+                  <span style={{ position: 'relative', top: '3px', left: '4px' }}>Bed {previousBed?.bedName || 'N/A'} </span>
                 </p>
 
               </div>
@@ -265,7 +299,7 @@ function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer
                 )}
               </div>
               {
-                isPreviousBed?.isOccupied &&
+                previousBed?.isOccupied &&
 
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                   <Form.Group className="mb-3">
