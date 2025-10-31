@@ -281,7 +281,7 @@ function BedDetailsMap({ room, propsValue }) {
                 setOccubiedBed(true);
             }
         }
-        // dispatch(clickedBedForChange(bed));
+        dispatch(clickedBedForChange(state.PgList?.OccupiedCustomer));
 
         setClickedBed(bed)
 
@@ -494,6 +494,27 @@ function BedDetailsMap({ room, propsValue }) {
     }, [state.Booking.StatusCodeInactiveCode])
 
 
+    useEffect(() => {
+        if (state.UsersList.statusCodeForReassinBed === 200) {
+            dispatch(triggerPG(false))
+            setShowConfirmChangeBedModal(false)
+            dispatch({
+                type: "GETALLBEDSLIST",
+                payload: { roomId: room.id }
+            });
+
+            dispatch({
+                type: "USERLIST",
+                payload: { hostel_id: state.login.selectedHostel_Id },
+            });
+
+            setTimeout(() => {
+                dispatch({ type: "CLEAR_REASSIGN_BED" });
+            }, 200);
+        }
+    }, [state.UsersList.statusCodeForReassinBed]);
+
+    console.log("state.PgList?.isClickedBed", state.PgList?.isClickedBed)
 
     return (
 

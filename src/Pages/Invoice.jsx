@@ -157,7 +157,7 @@ const InvoicePage = () => {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
 
-console.log("invoiceValue",invoiceValue)
+  console.log("invoiceValue", invoiceValue)
 
   const [transactionId, setTransactionId] = useState("");
   const [hostelId, setHostelId] = useState("");
@@ -919,7 +919,7 @@ console.log("invoiceValue",invoiceValue)
   ]);
 
 
-const [tenantJoingDate, setTenantjoingDate] = useState('')
+  const [tenantJoingDate, setTenantjoingDate] = useState('')
 
   const handleShowForm = (props) => {
     setShowform(true);
@@ -941,7 +941,7 @@ const [tenantJoingDate, setTenantjoingDate] = useState('')
       setSelectedUserId(props.item.customerId);
       const userDetails = state?.UsersList?.Users.filter((u) => u.customerId === props?.item?.customerId)
 
-      console.log("userDetails",userDetails)
+      console.log("userDetails", userDetails)
       setTenantjoingDate()
 
       setName(props.item?.fullName)
@@ -1027,7 +1027,7 @@ const [tenantJoingDate, setTenantjoingDate] = useState('')
 
     if (!payableAmount) {
       setAmountErrmsg("Please Enter Amount");
-    }else{
+    } else {
       setAmountErrmsg("");
     }
 
@@ -1097,7 +1097,7 @@ const [tenantJoingDate, setTenantjoingDate] = useState('')
     minDate: null,
   };
 
-console.log("invoiceList",invoiceList)
+  console.log("invoiceList", invoiceList)
 
 
   const handleCustomerName = (selectedOption) => {
@@ -3950,10 +3950,26 @@ console.log("invoiceList",invoiceList)
                                                 setAccountError("");
                                                 setSelectedDate(date ? date.toDate() : null);
                                               }}
-                                              disabledDate={(current) => current && current > dayjs().endOf("day")}
+                                              disabledDate={(current) => {
+                                                const selectedUser = state.UsersList.Users.find(
+                                                  (item) => item.customerId === invoiceValue.customerId
+                                                );
+
+                                                
+                                                const joiningDate = selectedUser?.actualJoining
+                                                  ? dayjs(selectedUser.actualJoining, "DD/MM/YYYY").startOf("day")
+                                                  : null;
+
+                                                return (
+                                                  (joiningDate && current.isBefore(joiningDate, "day")) ||
+                                                  current.isAfter(dayjs().endOf("day"))
+                                                );
+                                              }}
+
                                               getPopupContainer={(triggerNode) =>
                                                 triggerNode.closest(".show-scroll") || document.body
                                               }
+
                                             />
 
 
