@@ -93,7 +93,9 @@ export const initialState = {
   statusCodeForSettingFetch: 0,
   getModules: [],
   getModulesSuccessStatusCode: 0,
-  ebSettingsChangesStatusCode: 0
+  ebSettingsChangesStatusCode: 0,
+  planList: [],
+  statusCodeForPlanList: 0,
 
 };
 
@@ -494,6 +496,22 @@ const SettingsReducer = (state = initialState, action) => {
       };
     case "CLEAR_NEW_SUBSCRIPTION_LIST":
       return { ...state, statusCodeForSubcripitionAllDetails: 0 };
+
+    case "NEW_PLAN_LIST":
+      return {
+        ...state,
+        planList: action.payload.response,
+        statusCodeForPlanList: action.payload.statusCode,
+      };
+    case "REMOVE_NEW_PLAN_LIST":
+      return {
+        ...state,
+        statusCodeForPlanList: 0,
+      };
+
+
+
+
 
     case "SUBSCRIPTION_PDF":
       return { ...state, SubscriptionPDF: action.payload.response, SubscriptionPdfSuccess: action.payload.statusCode, toTriggerPDF: false, };

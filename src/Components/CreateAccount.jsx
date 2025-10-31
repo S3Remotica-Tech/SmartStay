@@ -13,7 +13,7 @@ import { InputGroup } from 'react-bootstrap';
 import { Eye, EyeSlash } from 'iconsax-react';
 import { MdError } from "react-icons/md";
 import ErrorMessage from '../Components/ErrorMessage'
-
+import Cookies from 'universal-cookie';
 
 
 function CreateAccountPage() {
@@ -237,6 +237,8 @@ function CreateAccountPage() {
     navigates("/All_Landing_pages");
   };
   const handleCreateAccount = async () => {
+          const cookies = new Cookies()
+    cookies.remove('v2-token', { path: '/' });
     dispatch({ type: 'CLEAR_PASSWORD_DOESNT_ERROR' });
     dispatch({ type: 'CLEAR_MOBILE_ERROR' });
     dispatch({ type: 'CLEAR_EMAIL_MOBILE_ERROR' });

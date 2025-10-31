@@ -86,12 +86,12 @@ function BedDetailsMap({ room, propsValue }) {
 
 
     const {
-          canWriteModule: canWritePayingGuests,
+        canWriteModule: canWritePayingGuests,
         //   canReadModule: canReadExpense,
         //   canUpdateModule: canUpdateExpense,
         //   canDeleteModule: canDeleteExpense,
-        } = useHasPermission("Paying Guests");
-    
+    } = useHasPermission("Paying Guests");
+
 
     const handleshowfinalsettlement = (isvisible, customerId) => {
         setCustomerId(customerId)
@@ -114,6 +114,22 @@ function BedDetailsMap({ room, propsValue }) {
     const handleCloseBackToCheckIn = () => {
         setBacktoCheckInForm(false)
     }
+
+
+    useEffect(() => {
+        if (state.UsersList.cancelCheckoutStatusCode === 200) {
+
+            dispatch({
+                type: "GETALLBEDSLIST",
+                payload: { roomId: room.id }
+            });
+            setBacktoCheckInForm(false)
+            setTimeout(() => {
+                dispatch({ type: 'REMOVE_CANCEL_CHECKOUT' })
+            }, 100)
+        }
+
+    }, [state.UsersList.cancelCheckoutStatusCode])
 
 
     const handleCloseReassignForm = () => {
@@ -161,7 +177,7 @@ function BedDetailsMap({ room, propsValue }) {
 
     const handleCloseMakeAsInActive = () => {
         setShowInActive(false)
-        dispatch({ type: 'REMOVE_ERROR_MAKEASINACTIVE'})
+        dispatch({ type: 'REMOVE_ERROR_MAKEASINACTIVE' })
     }
 
     const handlecloseoccubiedbed = () => {

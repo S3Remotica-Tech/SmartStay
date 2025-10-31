@@ -83,7 +83,8 @@ function SettingSubscription() {
   // }, [state?.Settings?.subcripitionAllDetails]);
 
 
-  console.log("state?.Settings?.subcripitionAllDetails", state?.Settings?.subcripitionAllDetails)
+  console.log("state?.Settings?.planList", state?.Settings?.planList)
+  console.log("state", state)
 
   useEffect(() => {
     if (state?.createAccount?.accountList[0]?.plan_data) {
@@ -93,9 +94,8 @@ function SettingSubscription() {
 
 
   useEffect(() => {
-
-    dispatch({ type: "NEWSUBSCRIPTIONDETAILS" });
-
+    dispatch({ type: "NEWPLANLIST" });
+    dispatch({ type: 'NEWSUBSCRIPTIONDETAILS', payload: state.login.selectedHostel_Id })
   }, []);
 
   useEffect(() => {
@@ -132,36 +132,7 @@ function SettingSubscription() {
     setSelectedHostels(updatedList);
   };
 
-  // const hostelOptions = state.UsersList.hostelListNewDetails.data?.map(
-  //   (item) => ({
-  //     label: item.Name,
-  //     value: item.id,
-  //   })
-  //    (option) =>
-  //     !selectedHostels.some((selected) => selected.value === option.value) &&
-  //     !(Subscription_hostelIds || []).includes(option.value)
-  // );
-  // const hostelOptions = state.UsersList.hostelListNewDetails.data
-  // ?.map((item) => ({
-  //   label: item.Name,
-  //   value: item.id,
-  // }))
-  // .filter(
-  //   (option) =>
 
-  //     !(hostelOptions || []).includes(option.value)
-  // );
-
-
-  // const hostelOptions = state.UsersList.hostelListNewDetails.data
-  // ?.map((item) => ({
-  //   label: item.Name,
-  //   value: item.id,
-  // }))
-  // .filter(
-  //   (option) =>     
-  //     !(hostelDetails || []).includes(option.value)
-  // );
   const hostelOptions = state.UsersList.hostelListNewDetails.data
     ?.map((item) => ({
       label: item.Name,
@@ -175,11 +146,7 @@ function SettingSubscription() {
 
 
 
-  // const filteredOptions = (hostelOptions || []).filter(
-  //   (option) =>
-  //     !selectedHostels.some((selected) => selected.value === option.value) &&
-  //     !(Subscription_hostelIds || []).includes(option.value)
-  // );
+
 
   useEffect(() => {
     if (selectedHostels) {
@@ -359,8 +326,17 @@ function SettingSubscription() {
                   Your plan is a trial plan
                 </p>
                 <button
-                  style={{ fontFamily: "Gilroy" }}
-                  className="btn btn-primary fw-semibold fs-6"
+                  style={{
+                    backgroundColor: "#1E45E1",
+                    fontWeight: 600,
+                    borderRadius: 12,
+                    fontSize: 16,
+                    fontFamily: "Gilroy",
+                    padding: 12,
+                    border: "1px solid #1E45E1",
+                    color: "#FFF"
+                  }}
+                  className=" fw-semibold fs-6"
                   onClick={handleCurrentPlan}
                   data-bs-toggle="modal"
                   data-bs-target="#changePlanModal"
@@ -801,7 +777,7 @@ function SettingSubscription() {
         className="change-plan-modal" >
 
         <Modal.Header
-          style={{ marginBottom: "30px", position: "relative", paddingLeft: 40, paddingRight: 40 }}
+          style={{ position: "relative", paddingLeft: 40, paddingRight: 40 }}
         >
           <div
             style={{
@@ -824,7 +800,7 @@ function SettingSubscription() {
         </Modal.Header>
 
 
-        <Modal.Body className="modal-scroll-body">
+        <Modal.Body className="modal-scroll-body p-2">
 
 
 
@@ -832,13 +808,13 @@ function SettingSubscription() {
 
           <div className="modal-body">
             <div className="row g-3">
-              {state?.Settings?.subcripitionAllDetails?.map((plan, index) => (
+              {state?.Settings?.planList?.map((plan, index) => (
                 <div
                   key={index}
-                  className="col-12 col-sm-6 col-md-6 d-flex justify-content-center g-0"
+                  className="col-12 col-sm-6 col-md-6 d-flex justify-content-center"
                 >
                   <div
-                    className={`card border position-relative ${planType === plan.planCode ? "border-success" : "border-secondary"
+                    className={`card   border position-relative ${planType === plan.planName ? "border-success" : "border-secondary"
                       }`}
                     style={{
                       borderRadius: "14px",
@@ -847,7 +823,7 @@ function SettingSubscription() {
                     }}
                   >
                     <div className="card-body text-center p-0 mt-3">
-                      {planType === plan.planCode && (
+                      {planType === plan.planName && (
                         <span
                           className="badge bg-success position-absolute start-50 translate-middle"
                           style={{
@@ -885,7 +861,7 @@ function SettingSubscription() {
                         Plan Features:
                       </p>
 
-                    
+
                       <ul className="list-unstyled text-start px-3">
                         {plan.features?.map((feature, i) => (
                           <li
@@ -906,7 +882,7 @@ function SettingSubscription() {
 
                       <hr className="m-0" style={{ color: "#BCCAEB" }} />
 
-                      {planType === plan.planCode ? (
+                      {planType === plan.planName ? (
                         <button
                           className="btn btn-changeplan btn-success w-100 mt-3"
                           onClick={() => handlePlanChange(plan.planId)}
@@ -915,10 +891,19 @@ function SettingSubscription() {
                           Current Plan
                         </button>
                       ) : (
-                        <button
-                          className="btn btn-changeplan btn-outline-primary w-100 mt-3"
+                        <button className='w-100'
+                          style={{
+                            backgroundColor: "#1E45E1",
+                            fontWeight: 600,
+                            borderRadius: 12,
+                            fontSize: 16,
+                            fontFamily: "Gilroy",
+                            padding: 8,
+                            border: "1px solid #1E45E1",
+                            color: "#FFF"
+                          }}
                           onClick={() => handlePlanChange(plan.planId)}
-                          style={{ fontFamily: "Gilroy" }}
+                          
                         >
                           Change Plan
                         </button>
@@ -931,14 +916,16 @@ function SettingSubscription() {
           </div>
 
 
-          <div style={{ textAlign: "center" }}>
-            <h4 style={{ fontFamily: "Gilroy" }}>
-              {planType === "free_plan" || planType === null
-                ? "Your plan is free trial"
-                : ""}
-            </h4>
-          </div>
-          {planType !== "free_plan" && planType !== null && (
+          {/* <div style={{ textAlign: "center" }}>
+  <h4 style={{ fontFamily: "Gilroy" }}>
+    {state?.Settings?.subcripitionAllDetails?.planName?.toLowerCase() === "trial" ? (
+      "Your plan is on free trial"
+    ) : (
+      ""
+    )}
+  </h4>
+</div> */}
+          {state?.Settings?.subcripitionAllDetails && (
             <div className="p-3">
               <div className="table-responsive border rounded">
                 <table
@@ -971,13 +958,8 @@ function SettingSubscription() {
                         {" "}
                         {getPlanActive[0]?.hostel_count}
                       </td>
-                      <td style={{ color: "#222" }}>
-                        {getPlanActive[0]?.plan_code === "one_day" &&
-                          "Free Trail"}
-                        {getPlanActive[0]?.plan_code === "basic_smart" &&
-                          "Basic Plan"}
-                        {getPlanActive[0]?.plan_code === "advance_prod" &&
-                          "Advance PLan"}
+                      <td style={{ textAlign: "center", color: "#222" }}>
+                        {state?.Settings?.subcripitionAllDetails?.planName || "-"}
                       </td>
                       <td style={{ textAlign: "center", color: "#222222" }}>
                         ₹ {getPlanActive[0]?.amount}
@@ -985,25 +967,11 @@ function SettingSubscription() {
                       <td style={{ textAlign: "center", color: "#222222" }}>
                         ₹ {getPlanActive[0]?.amount}
                       </td>
-                      <td style={{ textAlign: "center", color: "#222222" }}>
-                        {" "}
-                        {new Date(
-                          getPlanActive[0]?.plan_start
-                        ).toLocaleDateString("en-GB", {
-                          day: "2-digit",
-                          month: "long",
-                          year: "numeric",
-                        })}
+                      <td style={{ textAlign: "center", color: "#222" }}>
+                        {state?.Settings?.subcripitionAllDetails?.currentPlanStartedAt || "-"}
                       </td>
-                      <td style={{ textAlign: "center", color: "#222222" }}>
-                        {" "}
-                        {new Date(
-                          getPlanActive[0]?.plan_end
-                        ).toLocaleDateString("en-GB", {
-                          day: "2-digit",
-                          month: "long",
-                          year: "numeric",
-                        })}
+                      <td style={{ textAlign: "center", color: "#222" }}>
+                        {state?.Settings?.subcripitionAllDetails?.currentPlanEndingAt || "-"}
                       </td>
                     </tr>
                   </tbody>
