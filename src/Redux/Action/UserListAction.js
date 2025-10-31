@@ -606,6 +606,7 @@ export async function exportDetails(datum) {
 // }
 
 export async function customerReAssignBed(hostelId , customerId , datum) {
+  console.log("hostelId",hostelId, "customerId",customerId)
   return await AxiosConfigV2.post(`/v2/customers/change-bed/${hostelId}/${customerId}` , datum, {
       headers: {
       "Content-Type": "application/json",

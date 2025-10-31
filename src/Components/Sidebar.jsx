@@ -738,7 +738,7 @@ function Sidebar() {
                                 padding: "8px 12px",
                                 cursor: "pointer",
                                 color: "#1e45e1",
-                                maxWidth: "130px",
+                                maxWidth: "160px",
                                 whiteSpace: "nowrap",
                                 overflow: "hidden",
                                 textOverflow: "ellipsis",

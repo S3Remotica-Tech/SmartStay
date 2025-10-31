@@ -49,10 +49,30 @@ function RefundAmount({ show, handleClose, refundDetails }) {
     })) || [];
 
     const handleRefundAmount = (e) => {
-        setRefundAmount(e.target.value);
-        if (e.target.value.trim() === "") setRefundAmountError("Please enter amount");
-        else setRefundAmountError("");
+        const value = e.target.value.trim();
+        const maxRefund = Number(state.InvoiceList?.refundDetails?.refundableAmount || 0);
+
+
+        if (!/^\d*$/.test(value)) return;
+
+
+        const numValue = Number(value);
+
+        if (value === "") {
+            setRefundAmount("");
+            setRefundAmountError("Please enter amount");
+        }
+        else if (numValue > maxRefund) {
+
+            setRefundAmountError(`Amount cannot exceed ₹${maxRefund}`);
+        }
+        else {
+
+            setRefundAmount(value);
+            setRefundAmountError("");
+        }
     };
+
 
     const handleRefundDate = (date) => {
         setRefundDate(date);
@@ -107,7 +127,7 @@ function RefundAmount({ show, handleClose, refundDetails }) {
     useEffect(() => {
         if (state.InvoiceList?.createRefundStatusCode === 200) {
             setFormRecordLoading(false)
-                   }
+        }
 
     }, [state.InvoiceList?.createRefundStatusCode])
 
@@ -181,10 +201,13 @@ function RefundAmount({ show, handleClose, refundDetails }) {
                                     {refundDetails.fullName}                   </p>
                                 <div className="d-flex mb-2">
                                     <span className="badge rounded-pill bg-warning text-dark me-2" style={{ fontSize: "0.75rem", fontFamily: "Gilroy", fontWeight: 400 }}>
-                                        Floor name
+                                        {state.InvoiceList?.refundDetails?.floorName}
                                     </span>
                                     <span className="badge rounded-pill bg-danger-subtle text-dark" style={{ fontSize: "0.75rem", fontFamily: "Gilroy", fontWeight: 400 }}>
-                                        Room : Bed :
+                                        {state.InvoiceList?.refundDetails?.roomName}
+                                    </span>
+                                    <span className="badge rounded-pill bg-danger-subtle text-dark ms-1" style={{ fontSize: "0.75rem", fontFamily: "Gilroy", fontWeight: 400 }}>
+                                        {state.InvoiceList?.refundDetails?.bedName}
                                     </span>
                                 </div>
                             </div>

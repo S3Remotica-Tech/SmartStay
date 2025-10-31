@@ -1139,6 +1139,13 @@ function UserlistForm(props) {
     dispatch(JoininDatecustomer(date ? date.toDate() : null));
   }
 
+  useEffect(() => {
+  if (!selectedDate) {
+    setSelectedDate(dayjs());
+  }
+}, []);
+
+
  useEffect(()=>{
     if(selectedDate){
       const formatDate = (date) => {

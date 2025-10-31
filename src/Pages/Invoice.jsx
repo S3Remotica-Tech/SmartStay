@@ -157,6 +157,8 @@ const InvoicePage = () => {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
 
+console.log("invoiceValue",invoiceValue)
+
   const [transactionId, setTransactionId] = useState("");
   const [hostelId, setHostelId] = useState("");
   const [receiptdata, setReceiptData] = useState([]);
@@ -677,6 +679,7 @@ const InvoicePage = () => {
 
 
   const handleAmount = (e) => {
+    setAmountErrmsg('')
     let value = e.target.value;
 
     if (value !== "") {
@@ -916,7 +919,7 @@ const InvoicePage = () => {
   ]);
 
 
-
+const [tenantJoingDate, setTenantjoingDate] = useState('')
 
   const handleShowForm = (props) => {
     setShowform(true);
@@ -937,6 +940,9 @@ const InvoicePage = () => {
       // let value = props.item.Name.split(" ");
       setSelectedUserId(props.item.customerId);
       const userDetails = state?.UsersList?.Users.filter((u) => u.customerId === props?.item?.customerId)
+
+      console.log("userDetails",userDetails)
+      setTenantjoingDate()
 
       setName(props.item?.fullName)
       setFloorName(userDetails[0]?.floorName)
@@ -1021,6 +1027,8 @@ const InvoicePage = () => {
 
     if (!payableAmount) {
       setAmountErrmsg("Please Enter Amount");
+    }else{
+      setAmountErrmsg("");
     }
 
     if (!formatpaiddate) {
@@ -1089,7 +1097,7 @@ const InvoicePage = () => {
     minDate: null,
   };
 
-
+console.log("invoiceList",invoiceList)
 
 
   const handleCustomerName = (selectedOption) => {
@@ -3836,7 +3844,7 @@ const InvoicePage = () => {
 
 
 
-                                        {amounterrormsg.trim() !== "" && (
+                                        {amounterrormsg && (
                                           <ErrorMessage message={amounterrormsg} type="error" />
                                         )}
                                       </Form.Group>

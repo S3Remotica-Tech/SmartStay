@@ -350,7 +350,7 @@ console.log("currentItem",currentItem)
 
 {/* Cancel checkout */}
 
-                          {
+                          {/* {
                             currentItem?.newTenantCustomerId &&
 
                               <div>
@@ -382,7 +382,7 @@ console.log("currentItem",currentItem)
 
 
 
-                                }
+                                } */}
                             
 
 
@@ -413,6 +413,8 @@ console.log("currentItem",currentItem)
 
                                 <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
 {/* new booking */}
+ {!currentItem?.newTenantCustomerId &&
+
                                 <div
                                   className="d-flex gap-2 align-items-center"
                                   onClick={canWriteCustomers ? () => handleNewBooking() : undefined}
@@ -431,6 +433,7 @@ console.log("currentItem",currentItem)
                                     New Booking
                                   </label>
                                 </div>
+}
                                 <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
 {/* Generate */}
                                 <div

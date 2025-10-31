@@ -97,7 +97,8 @@ export const initialState = {
     getAllBedSuccessStatus: 0,
     updateBedStatusCode: 0,
     statusCodeDeleteHostel:0,
-    isClickedBed: ''
+    isClickedBed: '',
+    isClickedChangeBed: ''
 
 
 
@@ -112,6 +113,8 @@ const PgListReducer = (state = initialState, action) => {
             return { ...state, isManageEnable: true }
             case 'SET_CLICKED_BED':
                 return { ...state, isClickedBed: action.payload }
+                case 'SET_CHANGE_CLICKED_BED':
+                     return { ...state, isClickedChangeBed: action.payload }
 
         case 'REMOVE_MANAGE_PG':
             return { ...state, isManageEnable: false }
