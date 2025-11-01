@@ -55,20 +55,20 @@ function SettingManage() {
   // const canDeletePayingGuests = useHasPermission("Paying Guests", "canDelete");
   // const canReadPayingGuests = useHasPermission("Paying Guests", "canRead")
 
-const {
-      canWriteModule: canWritePayingGuests,
-      canReadModule: canReadPayingGuests,
-      canUpdateModule: canUpdatePayingGuests,
-      canDeleteModule: canDeletePayingGuests,
-    } = useHasPermission("Paying Guests");
+  const {
+    canWriteModule: canWritePayingGuests,
+    canReadModule: canReadPayingGuests,
+    canUpdateModule: canUpdatePayingGuests,
+    canDeleteModule: canDeletePayingGuests,
+  } = useHasPermission("Paying Guests");
 
   useEffect(() => {
-      if (!canReadPayingGuests) {
-        setLoading(false);
-      }else{
-        setLoading(true);
-      }
-    }, [canReadPayingGuests]);
+    if (!canReadPayingGuests) {
+      setLoading(false);
+    } else {
+      setLoading(true);
+    }
+  }, [canReadPayingGuests]);
 
   const [hidePgList, setHidePgList] = useState(true);
 
@@ -311,7 +311,7 @@ const {
   useEffect(() => {
     if (state.PgList.createPgStatusCode === 201) {
       dispatch({ type: "HOSTELLIST" });
-
+      dispatch({ type: 'REMOVE_MANAGE_PG' })
       setShowAddPg(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_PG_STATUS_CODE" });

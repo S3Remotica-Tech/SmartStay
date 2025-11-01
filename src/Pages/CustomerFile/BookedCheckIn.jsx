@@ -230,7 +230,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
             : "";
 
 
-        
+
 
 
 
@@ -328,11 +328,15 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
 
     useEffect(() => {
-        if (state.UsersList.bedError) {
+        if (state.UsersList?.bedError) {
             setFormLoading(false)
+            setTimeout(() => {
+                dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR_BOOKED' })
+            }, 3000)
+
         }
 
-    }, [state.UsersList.bedError])
+    }, [state.UsersList?.bedError])
 
 
     return (
@@ -592,6 +596,8 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                             {joiningDateErrmsg.trim() !== "" && (
                                                 <ErrorMessage message={joiningDateErrmsg} type="error" />
                                             )}
+
+
                                         </div>
 
 
@@ -881,6 +887,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
                                     </div>
                                 }
+
 
                                 <Button
                                     className="w-100"

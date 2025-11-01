@@ -250,7 +250,7 @@ function* handleBookingToCheckIn(reading) {
 
       if (error.code === 'ERR_BAD_REQUEST') {
          if (error.status === 400) {
-            yield put({ type: 'ROOM_READING_ERROR', payload: error.response.data });
+            yield put({ type: 'BED_AVAILABLE_ERROR_BOOKED', payload: error.response.data });
          }
       } else if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
