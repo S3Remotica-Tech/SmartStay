@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 function RefundAmount({ show, handleClose, refundDetails }) {
 
 
-    console.log("refundDetails", refundDetails)
+  
 
     const state = useSelector(state => state)
     const dispatch = useDispatch();
@@ -42,7 +42,7 @@ function RefundAmount({ show, handleClose, refundDetails }) {
 
 
 
-    console.log("state", state.InvoiceList?.refundDetails)
+  
     const bankOptions = state.InvoiceList?.refundDetails?.listBanks?.map(bank => ({
         value: bank.bankId,
         label: `${bank.bankName}`

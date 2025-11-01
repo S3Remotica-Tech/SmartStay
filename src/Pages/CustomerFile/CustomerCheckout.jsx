@@ -47,7 +47,7 @@ function CustomerCheckout(props) {
 
 
 
-  console.log("props", props)
+
 
 
 
@@ -122,7 +122,7 @@ function CustomerCheckout(props) {
     }
   };
 
-  console.log("props", props)
+  
 
   const handleCheckOutCustomer = () => {
 

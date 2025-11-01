@@ -157,7 +157,7 @@ const InvoicePage = () => {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
 
-console.log("invoiceValue",invoiceValue)
+
 
   const [transactionId, setTransactionId] = useState("");
   const [hostelId, setHostelId] = useState("");
@@ -919,7 +919,7 @@ console.log("invoiceValue",invoiceValue)
   ]);
 
 
-const [tenantJoingDate, setTenantjoingDate] = useState('')
+  const [tenantJoingDate, setTenantjoingDate] = useState('')
 
   const handleShowForm = (props) => {
     setShowform(true);
@@ -941,7 +941,6 @@ const [tenantJoingDate, setTenantjoingDate] = useState('')
       setSelectedUserId(props.item.customerId);
       const userDetails = state?.UsersList?.Users.filter((u) => u.customerId === props?.item?.customerId)
 
-      console.log("userDetails",userDetails)
       setTenantjoingDate()
 
       setName(props.item?.fullName)
@@ -1027,7 +1026,7 @@ const [tenantJoingDate, setTenantjoingDate] = useState('')
 
     if (!payableAmount) {
       setAmountErrmsg("Please Enter Amount");
-    }else{
+    } else {
       setAmountErrmsg("");
     }
 
@@ -1097,7 +1096,7 @@ const [tenantJoingDate, setTenantjoingDate] = useState('')
     minDate: null,
   };
 
-console.log("invoiceList",invoiceList)
+
 
 
   const handleCustomerName = (selectedOption) => {
@@ -2080,7 +2079,7 @@ console.log("invoiceList",invoiceList)
     setRowData(rowData);
     setSelectedTransactionId(rowData?.transactionId);
     if (rowData?.transactionId && state.login.selectedHostel_Id) {
-      console.log("rowData**************", rowData)
+
       dispatch({ type: "RECEIPTPDF_NEWCHANGES", payload: { hostelId: state.login.selectedHostel_Id, transactionId: rowData.transactionId } })
     }
 
@@ -2913,12 +2912,12 @@ console.log("invoiceList",invoiceList)
 
 
   return (
-    <div style={{ height: "100vh", overflowY: "auto", }}>
+    <div style={{ height: "100%", overflowY: "auto", }}>
 
 
 
       {showAllBill && (
-        <Row>
+        <Row className="p-0">
           <Col className="p-0"
             // lg={4}
             // md={4}
@@ -3950,10 +3949,26 @@ console.log("invoiceList",invoiceList)
                                                 setAccountError("");
                                                 setSelectedDate(date ? date.toDate() : null);
                                               }}
-                                              disabledDate={(current) => current && current > dayjs().endOf("day")}
+                                              disabledDate={(current) => {
+                                                const selectedUser = state.UsersList.Users.find(
+                                                  (item) => item.customerId === invoiceValue.customerId
+                                                );
+
+
+                                                const joiningDate = selectedUser?.actualJoining
+                                                  ? dayjs(selectedUser.actualJoining, "DD/MM/YYYY").startOf("day")
+                                                  : null;
+
+                                                return (
+                                                  (joiningDate && current.isBefore(joiningDate, "day")) ||
+                                                  current.isAfter(dayjs().endOf("day"))
+                                                );
+                                              }}
+
                                               getPopupContainer={(triggerNode) =>
                                                 triggerNode.closest(".show-scroll") || document.body
                                               }
+
                                             />
 
 
@@ -4243,29 +4258,13 @@ console.log("invoiceList",invoiceList)
 
 
                               <Modal.Footer style={{ border: "none" }}>
-                                {/* <Button
-                                className="w-100"
-                                style={{
-                                  backgroundColor: "#1E45E1",
-                                  fontWeight: 600,
-                                  height: 50,
-                                  borderRadius: 12,
-                                  fontSize: 16,
-                                  fontFamily: "Montserrat, sans-serif",
-                                }}
-                                onClick={handleSaveInvoiceList}
-                              >
-                                Record payment
-                              </Button> */}
-
-
+                               
                                 <div className="text-end mt-4">
                                   <Button variant="" className="me-2" onClick={handleCloseForm} style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400 }}>
                                     Cancel
                                   </Button>
                                   <Button
-                                    // disabled={activeTab !== "writeoff" && ReturnAmount < 0}
-                                    style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400, backgroundColor: "#1E45E1" }}
+                                                                       style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400, backgroundColor: "#1E45E1" }}
                                     onClick={handleSaveInvoiceList}
                                   >Record</Button>
                                 </div>
@@ -4691,30 +4690,6 @@ console.log("invoiceList",invoiceList)
                             )}
                           </Col>
 
-                          {/* {DownloadInvoice && (
-                            <>
-
-                              <Col
-                                lg={9}
-                                md={9}
-                                sm={12}
-                                xs={12}
-                                style={{
-                                  borderLeft: DownloadInvoice
-                                    ? "1px solid #ccc"
-                                    : "none",
-                                }}
-                              >
-                                <BillPdfModal
-                                  show={showPdfModal}
-                                  handleClosed={handleClosePdfModal}
-                                  rowData={rowData}
-                                />
-
-
-                              </Col>
-                            </>
-                          )} */}
                         </Row>
                       </Container>
 
@@ -5152,179 +5127,7 @@ console.log("invoiceList",invoiceList)
 
 
 
-                    {/* {recurringbills && recurringbills.length > 10 && (
-                    <nav
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "end",
-                        padding: "10px",
-                        position: "fixed",
-                        bottom: "0px",
-                        right: "0px",
-                        left: 0,
-                        backgroundColor: "#fff",
-                        borderRadius: "5px",
-                        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                        zIndex: 1000,
-                      }}
-                    >
-
-
-                      <div>
-                        <Select
-                          options={pageSizeOptions}
-                          value={
-                            itemsPage ? { value: itemsPage, label: `${itemsPage}` } : null
-                          }
-                          onChange={handleItemsPerPage}
-                          placeholder="Items per page"
-                          classNamePrefix="custom"
-                          menuPlacement="auto"
-                          noOptionsMessage={() => "No options"}
-                          styles={{
-                            control: (base) => ({
-                              ...base,
-                              height: "40px",
-                              border: "1px solid #1E45E1",
-                              borderRadius: "5px",
-                              fontSize: "14px",
-                              color: "#1E45E1",
-                              fontWeight: 600,
-                              cursor: "pointer",
-                              fontFamily: "Gilroy",
-                              boxShadow: "0 0 0 1px #1E45E1",
-                              width: 90,
-                            }),
-                            menu: (base) => ({
-                              ...base,
-                              backgroundColor: "#f8f9fa",
-                              border: "1px solid #ced4da",
-                              fontFamily: "Gilroy",
-                            }),
-                            menuList: (base) => ({
-                              ...base,
-                              backgroundColor: "#f8f9fa",
-                              maxHeight: "200px",
-                              padding: 0,
-                              overflowY: "auto",
-                            }),
-                            placeholder: (base) => ({
-                              ...base,
-                              color: "#555",
-                            }),
-                            dropdownIndicator: (base) => ({
-                              ...base,
-                              color: "#1E45E1",
-                              cursor: "pointer",
-                            }),
-                            indicatorSeparator: () => ({
-                              display: "none",
-                            }),
-                            option: (base, state) => ({
-                              ...base,
-                              cursor: "pointer",
-                              backgroundColor: state.isFocused ? "#1E45E1" : "white",
-                              color: state.isFocused ? "#fff" : "#000",
-                            }),
-                          }}
-                        />
-                      </div>
-
-
-                      <ul
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          listStyleType: "none",
-                          margin: 0,
-                          padding: 0,
-                        }}
-                      >
-
-                        <li style={{ margin: "0 10px" }}>
-                          <button
-                            style={{
-                              padding: "5px",
-                              textDecoration: "none",
-                              color:
-                                currentRecurePage === 1 ? "#ccc" : "#1E45E1",
-                              cursor:
-                                currentRecurePage === 1
-                                  ? "not-allowed"
-                                  : "pointer",
-                              borderRadius: "50%",
-                              display: "inline-block",
-                              minWidth: "30px",
-                              textAlign: "center",
-                              backgroundColor: "transparent",
-                              border: "none",
-                            }}
-                            onClick={() =>
-                              handlePageChangeRecure(currentRecurePage - 1)
-                            }
-                            disabled={currentRecurePage === 1}
-                          >
-                            <ArrowLeft2
-                              size="16"
-                              color={
-                                currentRecurePage === 1 ? "#ccc" : "#1E45E1"
-                              }
-                            />
-                          </button>
-                        </li>
-
-
-                        <li
-                          style={{
-                            margin: "0 10px",
-                            fontSize: "14px",
-                            fontWeight: "bold",
-                          }}
-                        >
-                          {currentRecurePage} of {totalPage}
-                        </li>
-
-
-                        <li style={{ margin: "0 10px" }}>
-                          <button
-                            style={{
-                              padding: "5px",
-                              textDecoration: "none",
-                              color:
-                                currentRecurePage === totalPage
-                                  ? "#ccc"
-                                  : "#1E45E1",
-                              cursor:
-                                currentRecurePage === totalPage
-                                  ? "not-allowed"
-                                  : "pointer",
-                              borderRadius: "50%",
-                              display: "inline-block",
-                              minWidth: "30px",
-                              textAlign: "center",
-                              backgroundColor: "transparent",
-                              border: "none",
-                            }}
-                            onClick={() =>
-                              handlePageChangeRecure(currentRecurePage + 1)
-                            }
-                            disabled={currentRecurePage === totalPage}
-                          >
-                            <ArrowRight2
-                              size="16"
-                              color={
-                                currentRecurePage === totalPage
-                                  ? "#ccc"
-                                  : "#1E45E1"
-                              }
-                            />
-                          </button>
-                        </li>
-                      </ul>
-                    </nav>
-                  )} */}
-
+                   
 
                   </>
                 )}

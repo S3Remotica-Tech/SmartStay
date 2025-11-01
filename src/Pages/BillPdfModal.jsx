@@ -36,7 +36,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
   const dispatch = useDispatch();
 
 
-  console.log("rowData", rowData.invoiceType)
+  
 
   const [hoveredItem, setHoveredItem] = useState(null);
 
@@ -85,7 +85,6 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
 
 
-  console.log("state", state.InvoiceList.particularBillsDetails)
 
 
 
@@ -103,7 +102,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
         (template) => template.type === selectedType
       );
 
-      console.log(TempArray, "TempArray");
+
 
 
       setHostelDetails(TempArray)
@@ -244,11 +243,11 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
   const pdfDetails = state.InvoiceList?.particularBillsDetails
 
-  console.log("rowData", rowData)
+ 
 
   const hasTax = Number(pdfDetails?.invoiceInfo?.taxAmount) > 0;
 
-  console.log("hasTax", hasTax)
+
 
   return (
     <div style={{ position: 'sticky', top: 0, zIndex: 100, background: 'white' }}>

@@ -16,7 +16,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails }) {
     const state = useSelector((state) => state);
 
 
-    console.log("checkInDetails", checkInDetails)
+
 
     const [activeTab, setActiveTab] = useState("LONG");
     const [reason, setReason] = useState("");

@@ -58,7 +58,7 @@ const {
     // const canUpdateAmenities = useHasPermission("Amenities", "canUpdate");
     // const canDeleteAmenities = useHasPermission("Amenities", "canDelete");
 
-  console.log("amenitiesFilterddata", amenitiesFilterddata);
+ 
   
 
 

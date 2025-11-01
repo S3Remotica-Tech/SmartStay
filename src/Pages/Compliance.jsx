@@ -452,7 +452,7 @@ useEffect(() => {
     if (value === "null") {
       statusValue = null;
     }
-    console.log("statusValue", statusValue)
+   
     if (value === "All") {
       dispatch({ type: 'COMPLIANCE-LIST', payload: { hostelId: state.login.selectedHostel_Id } })
     } else {

@@ -20,7 +20,7 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
     const dispatch = useDispatch();
 
 
-    console.log("addressDetails", addressDetails)
+
 
     const [houseNo, setHouseNo] = useState("");
     const [street, setStreet] = useState("");

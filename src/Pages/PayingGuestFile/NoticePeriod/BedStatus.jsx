@@ -28,7 +28,8 @@ function NoticeBedStatusDetails({
   showfinalsettelemnet,
   handleOpenChangeBed,
   handleShowInActiveForm,
-  handleOpenCancelCheckout
+  handleOpenCancelCheckout,
+  handleDisplayCheckInForm
 }) {
 
 
@@ -121,6 +122,9 @@ console.log("currentItem",currentItem)
   }
 
 
+  const handleCheckInforBookingTenant = () => {
+handleDisplayCheckInForm(true)
+  }
 
 
   useEffect(() => {
@@ -570,11 +574,11 @@ console.log("currentItem",currentItem)
 
 
                             <div
-                              //                           onClick={
-                              //   canWriteCustomers && !currentItem.isOccupied
-                              //     ? () => handleCheckIn(currentItem)
-                              //     : undefined
-                              // }
+                                                        onClick={
+                                canWriteCustomers && !currentItem.isOccupied
+                                  ? () => handleCheckIn(currentItem)
+                                  : undefined
+                              }
                               className="d-flex gap-2 align-items-center"
                               style={{
                                 position: "relative",
@@ -582,7 +586,7 @@ console.log("currentItem",currentItem)
                                 borderBottomLeftRadius: 10,
                                 borderBottomRightRadius: 10,
                                 cursor:
-                                  canWriteCustomers && currentItem.currentTenantCustomerId ? "pointer" : "not-allowed",
+                                  canWriteCustomers && !currentItem.isOccupied ? "pointer" : "not-allowed",
                                 opacity: canWriteCustomers && !currentItem.isOccupied ? 1 : 0.6,
                               }}
                               onMouseEnter={(e) => {

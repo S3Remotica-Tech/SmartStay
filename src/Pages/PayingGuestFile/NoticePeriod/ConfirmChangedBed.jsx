@@ -28,18 +28,13 @@ function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer
   const selectedDateRef = useRef(null);
   const state = useSelector(state => state)
   const dispatch = useDispatch();
+
+
+
+  const isPreviousBed = state.PgList?.isClickedBed
   
-  
-
-  // const isPreviousBed = state.PgList?.isClickedBed
-// const isCurrentBed =state.PgList?.isClickedChangeBed
-
-// console.log("isPreviousBed", isPreviousBed)
-  // console.log("isCurrentBed", isCurrentBed)
-  console.log("8888",previousBed, currentBed)
 
 
- 
   const [selectedDate, setSelectedDate] = useState(null);
   const [newRoomRent, setNewRoomRent] = useState("");
   const [sameAsCurrent, setSameAsCurrent] = useState(false);
@@ -72,73 +67,117 @@ function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer
   };
 
 
-console.log("customer",customer)
+  useEffect(() => {
+    if (isPreviousBed?.currentTenantCustomerId) {
+      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: isPreviousBed?.currentTenantCustomerId } });
+    }
+  }, [isPreviousBed]);
 
-//  current month =>customer.currentTenantJoiningDate to today 
+  const handleSubmit = () => {
+    let hasError = false;
+    const newErrors = { date: "", rent: "" };
 
-// joiningDate is Prev month ah eruntha last check in bill date to today varaiukum balnce disabled 
+    if (!selectedDate) {
+      newErrors.date = "Please select a date";
+      hasError = true;
+    }
 
+    if (previousBed?.isOccupied && (!newRoomRent)) {
+      newErrors.rent = "Please enter rent amount";
+      hasError = true;
+    }
 
- useEffect(() => {
-  if(customer?.currentTenantCustomerId){
-    dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: customer?.currentTenantCustomerId } });
-  }
-  }, [customer]);
+    setErrors(newErrors);
 
- const handleSubmit = () => {
-  let hasError = false;
-  const newErrors = { date: "", rent: "" };
-
-  if (!selectedDate) {
-    newErrors.date = "Please select a date";
-    hasError = true;
-  }
-
-  if (previousBed?.isOccupied && (!newRoomRent)) {
-    newErrors.rent = "Please enter rent amount";
-    hasError = true;
-  }
-
-  setErrors(newErrors);
-
-  if (hasError) return;
+    if (hasError) return;
 
 
-const formatToCustomDate = (date) => {
-  const d = new Date(date);
-  const yyyy = d.getFullYear();
-  const mm = String(d.getMonth() + 1).padStart(2, '0');
-  const dd = String(d.getDate()).padStart(2, '0');
-  return `${dd}-${mm}-${yyyy}`
-}
+    const formatToCustomDate = (date) => {
+      const d = new Date(date);
+      const yyyy = d.getFullYear();
+      const mm = String(d.getMonth() + 1).padStart(2, '0');
+      const dd = String(d.getDate()).padStart(2, '0');
+      return `${dd}-${mm}-${yyyy}`
+    }
     const formattedDate = selectedDate ? formatToCustomDate(selectedDate) : "";
 
-
-
-
-
-
-  const datum = {
-    bedId: currentBed?.bedId,
-    rentAmount: Number(newRoomRent) || 0,
-    joiningDate:formattedDate,
-  };
-
-  if (state.login.selectedHostel_Id && datum) {
-    const payload = {
-      hostelId: state.login.selectedHostel_Id,
-      customerId: customer?.currentTenantCustomerId,
-      datum,
+    const datum = {
+      bedId: currentBed?.id,
+      rentAmount: Number(newRoomRent) || 0,
+      joiningDate: formattedDate,
     };
 
-   
+    if (state.login.selectedHostel_Id && datum) {
+      const payload = {
+        hostelId: state.login.selectedHostel_Id,
+        customerId: isPreviousBed?.currentTenantCustomerId,
+        datum,
+      };
+      dispatch({
+        type: "CUSTOMERREASSINBED",
+        payload,
+      });
+    }
+  };
 
-    dispatch({
-      type: "CUSTOMERREASSINBED",
-      payload,
-    });
-  }
-};
+  useEffect(() => {
+    if (state.UsersList?.changeBedError) {
+      // setFormLoading(false)
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_CHANGE_BED_ERROR" });
+      }, 3000)
+
+    }
+
+  }, [state.UsersList?.changeBedError])
+
+
+  const CustomerOverView = state.UsersList.customerdetails;
+
+  const joiningDate = dayjs(CustomerOverView?.hostelInfo?.joiningDate, "DD/MM/YYYY");
+
+
+  const invoices = CustomerOverView?.invoiceResponseList || [];
+  const lastBillDate = invoices.length > 0
+    ? dayjs(invoices[invoices.length - 1].invoiceGeneratedDate, "DD/MM/YYYY")
+    : null;
+
+
+
+  const disabledDate = (current) => {
+    const today = dayjs().endOf("day");
+    const joiningDate = dayjs(CustomerOverView?.hostelInfo?.joiningDate, "DD/MM/YYYY");
+    const invoices = CustomerOverView?.invoiceResponseList || [];
+
+    const lastBillDate = invoices.length > 0
+      ? dayjs(invoices[invoices.length - 1].invoiceGeneratedDate, "DD/MM/YYYY")
+      : null;
+
+
+    if (current.isAfter(today, "day")) {
+      return true;
+    }
+
+
+    const joinedThisMonth =
+      joiningDate.month() === dayjs().month() && joiningDate.year() === dayjs().year();
+
+    if (joinedThisMonth) {
+
+      return current.isBefore(joiningDate, "day") || current.isAfter(today, "day");
+    } else {
+
+      if (lastBillDate) {
+        return current.isBefore(lastBillDate, "day") || current.isAfter(today, "day");
+      } else {
+        return current.isBefore(joiningDate, "day") || current.isAfter(today, "day");
+      }
+    }
+  };
+
+
+
+
 
   return (
 
@@ -288,6 +327,7 @@ const formatToCustomDate = (date) => {
                     className="small-placeholder-datepicker"
                     value={selectedDate ? dayjs(selectedDate) : null}
                     onChange={handleDateChange}
+                     disabledDate={disabledDate}
                     getPopupContainer={(triggerNode) =>
                       triggerNode.closest(".datepicker-wrapper")
                     }
@@ -372,7 +412,9 @@ const formatToCustomDate = (date) => {
             </div>
 
 
-
+            {state.UsersList?.changeBedError && <div className="d-flex justify-content-center">
+              <ErrorMessage message={state.UsersList?.changeBedError} type="error" />
+            </div>}
 
             <div className="d-flex gap-3 mt-4 ">
               <Button

@@ -232,7 +232,7 @@ useEffect(() => {
   const handleProRate = () => {
     const newValue = !isProWrate;
     setProWrate(newValue);
-    console.log("isProWrate", newValue);
+ 
 
     if (newValue) {
       setRecurringForm(true);

@@ -21,7 +21,7 @@ import ErrorMessage from '../../Components/ErrorMessage'
 
 
 function FinalSettlement({ show, handleClose, data, customerID }) {
-   
+
 
 
     const state = useSelector((state) => state);
@@ -37,7 +37,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
     const [finalSettlementList, setFinalSettlementList] = useState()
 
 
-
+    console.log("fields", fields)
 
 
 
@@ -225,14 +225,15 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
         if (finalSettlementList?.settlementInfo) {
             const { isRefundable, amountTobePaid } = finalSettlementList.settlementInfo;
 
-
             const apiDeductions = finalSettlementList?.customerInfo?.listDeductions || [];
-
-
             const apiMap = new Map(
                 apiDeductions.map(item => [item.type?.toLowerCase(), Number(item.amount) || 0])
             );
 
+            const totalApiDeductions = apiDeductions.reduce(
+                (sum, item) => sum + (Number(item.amount) || 0),
+                0
+            );
 
             const totalUserDeductions = (fields || []).reduce((sum, item) => {
                 const reasonName = item.reason_name?.toLowerCase();
@@ -240,18 +241,23 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                 const apiAmount = apiMap.get(reasonName);
 
 
+                if (item.isSystemGenerated) return sum;
+
+
                 if (item.customReason && item.customReason.trim() !== "") {
                     return sum + userAmount;
                 }
 
-                if (apiAmount !== undefined) {
 
-                    const diff = userAmount - apiAmount;
-                    return sum + (diff > 0 ? diff : 0);
-                } else {
+                if (apiAmount !== undefined) {
                     return sum + userAmount;
                 }
+
+
+                return sum + userAmount;
             }, 0);
+
+            const totalDeductions = totalApiDeductions + totalUserDeductions;
 
 
             let finalAmount = 0;
@@ -265,10 +271,10 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                     : amountTobePaid + totalUserDeductions;
             }
 
-           
             setReturnAmount(finalAmount);
         }
-    }, [finalSettlementList?.settlementInfo, fields]);
+    }, [finalSettlementList, fields]);
+
 
 
     const apiDeductions = finalSettlementList?.customerInfo?.listDeductions || [];
@@ -276,6 +282,8 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
         (sum, item) => sum + (Number(item.amount) || 0),
         0
     );
+
+
     useEffect(() => {
         if (finalSettlementList?.customerInfo?.listDeductions?.length > 0) {
             const mappedFields = finalSettlementList.customerInfo.listDeductions.map(item => ({
@@ -295,51 +303,113 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
     );
 
     const totalUserDeductions = (fields || []).reduce((sum, item) => {
+        if (item.isSystemGenerated) return sum;
+
         const reasonName = item.reason_name?.toLowerCase();
         const userAmount = Number(item.amount) || 0;
         const apiAmount = apiMap.get(reasonName);
 
+
         if (apiAmount !== undefined) {
-            const diff = userAmount - apiAmount;
-            return sum + (diff > 0 ? diff : 0);
-        } else {
             return sum + userAmount;
         }
+
+        return sum + userAmount;
     }, 0);
+
 
     const totalDeductions = totalApiDeductions + totalUserDeductions;
 
-    
+
+    console.log("totalUserDeductions", totalUserDeductions, 
+        "totalApiDeductions", totalApiDeductions, 
+        "totalDeductions", totalDeductions)
 
 
 
+    // const handleClickGenerate = () => {
+    //     const Finalsettelmenntdata = fields
+    //         .filter(f => f.reason_name && f.amount)
+    //         .map(f => ({ item: f.reason_name, amount: Number(f.amount) }))
+
+    //     if (data.customerId || data.currentTenantCustomerId) {
+    //         dispatch({
+    //             type: "FINALSETTLEMENT",
+    //             payload: {
+    //                 customerId: data.customerId || data.currentTenantCustomerId,
+    //                 data: Finalsettelmenntdata
+
+    //             },
+    //         })
+    //     }
+
+    // }
 
 
 
-
-
-
-
-
-
+   
 
     const handleClickGenerate = () => {
+        const apiDeductions = finalSettlementList?.customerInfo?.listDeductions || [];
+
+       
+        const apiMap = new Map(
+            apiDeductions.map(item => [item.type?.toLowerCase(), Number(item.amount) || 0])
+        );
+
+       
         const Finalsettelmenntdata = fields
             .filter(f => f.reason_name && f.amount)
-            .map(f => ({ item: f.reason_name, amount: Number(f.amount) }))
+            .map(f => {
+                const reason = f.reason_name?.toLowerCase();
+                const userAmount = Number(f.amount) || 0;
+                const apiAmount = apiMap.get(reason);
+
+                
+                if (!apiMap.has(reason) || f.customReason?.trim() !== "") {
+                    return { item: f.reason_name, amount: userAmount };
+                }
+
+               
+                if (!f.isSystemGenerated) {
+                    return { item: f.reason_name, amount: userAmount };
+                }
+
+               
+                if (userAmount > apiAmount && f.isSystemGenerated) {
+                    return { item: f.reason_name, amount: userAmount - apiAmount };
+                }
+
+                                return null;
+            })
+            .filter(Boolean);
+
+        console.log("Finalsettelmenntdata", Finalsettelmenntdata);
 
         if (data.customerId || data.currentTenantCustomerId) {
             dispatch({
-                type: "FINALSETTLEMENT",
-                payload: {
-                    customerId: data.customerId || data.currentTenantCustomerId,
-                    data: Finalsettelmenntdata
-
-                },
-            })
+              type: "FINALSETTLEMENT",
+              payload: {
+                customerId: data.customerId || data.currentTenantCustomerId,
+                data: Finalsettelmenntdata
+              },
+            });
         }
+    };
 
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
     useEffect(() => {
         if (state.UsersList.statusCodeForFinalSettlement === 201) {
             setFormLoading(false)
@@ -428,13 +498,13 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                     ₹{finalSettlementList?.customerInfo?.advanceAmount}
                                 </span>
                             </div>
-                              <div className="d-flex justify-content-between mb-3">
+                            <div className="d-flex justify-content-between mb-3">
                                 <span style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>Booking Amount</span>
                                 <span style={{ fontSize: "1rem", fontFamily: "Gilroy", fontWeight: 600 }}>
                                     ₹{finalSettlementList?.customerInfo?.bookingAmount}
                                 </span>
                             </div>
-                             <div className="d-flex justify-content-between mb-3">
+                            <div className="d-flex justify-content-between mb-3">
                                 <span style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>Advance Paid</span>
                                 <span style={{ fontSize: "1rem", fontFamily: "Gilroy", fontWeight: 600 }}>
                                     ₹{finalSettlementList?.customerInfo?.advancePaidAmount}
@@ -728,6 +798,10 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                                         type="text"
                                                         placeholder="Enter amount"
                                                         value={item.amount}
+                                                        disabled={
+                                                            apiDeductions.some(
+                                                                (apiItem) => apiItem.type?.toLowerCase() === item.reason_name?.toLowerCase()
+                                                            ) && item.isSystemGenerated}
                                                         onChange={(e) => handleInputChange(index, "amount", e.target.value)}
                                                         className="form-control"
                                                         style={{
@@ -768,89 +842,89 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                 </div>
 
                                 <div className="mt-2 mb-2">
-{
-    finalSettlementList?.unpaidInvoices.length > 0 && 
+                                    {
+                                        finalSettlementList?.unpaidInvoices.length > 0 &&
 
-                                    <div className="mb-2">
-                                        <div >
-                                            <p style={{
-                                                fontSize: 14,
-                                                color: "black",
-                                                fontFamily: "Gilroy",
-                                                fontWeight: 500,
-                                            }}>Invoices Pending</p>
-                                            <div className="table-responsive border border-gray rounded p-2">
-                                                <table className="table table-sm align-middle mb-0">
-                                                    <thead>
-                                                        <tr>
-                                                            <th className="pb-2" style={{
-                                                                fontSize: 14,
-                                                                color: "black",
-                                                                fontFamily: "Gilroy",
-                                                                fontWeight: 500,
-                                                            }}>Invoice No</th>
-                                                            <th className="pb-2" style={{
-                                                                fontSize: 14,
-                                                                color: "black",
-                                                                fontFamily: "Gilroy",
-                                                                fontWeight: 500,
-                                                            }}>Type</th>
-                                                            <th className="pb-2 text-end" style={{
-                                                                fontSize: 14,
-                                                                color: "black",
-                                                                fontFamily: "Gilroy",
-                                                                fontWeight: 500,
-                                                            }} >Invoice Amount</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-
-                                                        {Array.isArray(finalSettlementList?.unpaidInvoices) && finalSettlementList?.unpaidInvoices.map((user) => (
-                                                            <tr key={user.invoiceid}>
-                                                                <td
-                                                                    className="fw-normal text-decoration-underline text-primary mt-4"
-                                                                    // onClick={handleClickInvoiceNo}
-                                                                    style={{
-                                                                        fontFamily: "Gilroy",
-                                                                        fontSize: "14px",
-                                                                        paddingTop: "1rem"
-                                                                    }}
-                                                                >
-                                                                    {user.invoiceNumber}
-                                                                </td>
-                                                                <td
-                                                                    className="fw-normal"
-                                                                    style={{
-                                                                        fontFamily: "Gilroy",
-                                                                        fontSize: "14px",
-                                                                        color: "black",
-                                                                        paddingTop: "1rem"
-                                                                    }}
-                                                                >
-                                                                    {user.type}
-                                                                </td>
-                                                                <td
-                                                                    className="text-end"
-                                                                    style={{
-                                                                        fontFamily: "Gilroy",
-                                                                        fontSize: "14px",
-                                                                        color: "black",
-                                                                        fontWeight: 500,
-                                                                        paddingTop: "1rem"
-                                                                    }}
-                                                                >
-                                                                    ₹{user.payableAmount}
-                                                                </td>
+                                        <div className="mb-2">
+                                            <div >
+                                                <p style={{
+                                                    fontSize: 14,
+                                                    color: "black",
+                                                    fontFamily: "Gilroy",
+                                                    fontWeight: 500,
+                                                }}>Invoices Pending</p>
+                                                <div className="table-responsive border border-gray rounded p-2">
+                                                    <table className="table table-sm align-middle mb-0">
+                                                        <thead>
+                                                            <tr>
+                                                                <th className="pb-2" style={{
+                                                                    fontSize: 14,
+                                                                    color: "black",
+                                                                    fontFamily: "Gilroy",
+                                                                    fontWeight: 500,
+                                                                }}>Invoice No</th>
+                                                                <th className="pb-2" style={{
+                                                                    fontSize: 14,
+                                                                    color: "black",
+                                                                    fontFamily: "Gilroy",
+                                                                    fontWeight: 500,
+                                                                }}>Type</th>
+                                                                <th className="pb-2 text-end" style={{
+                                                                    fontSize: 14,
+                                                                    color: "black",
+                                                                    fontFamily: "Gilroy",
+                                                                    fontWeight: 500,
+                                                                }} >Invoice Amount</th>
                                                             </tr>
-                                                        ))}
+                                                        </thead>
+                                                        <tbody>
+
+                                                            {Array.isArray(finalSettlementList?.unpaidInvoices) && finalSettlementList?.unpaidInvoices.map((user) => (
+                                                                <tr key={user.invoiceid}>
+                                                                    <td
+                                                                        className="fw-normal text-decoration-underline text-primary mt-4"
+                                                                        // onClick={handleClickInvoiceNo}
+                                                                        style={{
+                                                                            fontFamily: "Gilroy",
+                                                                            fontSize: "14px",
+                                                                            paddingTop: "1rem"
+                                                                        }}
+                                                                    >
+                                                                        {user.invoiceNumber}
+                                                                    </td>
+                                                                    <td
+                                                                        className="fw-normal"
+                                                                        style={{
+                                                                            fontFamily: "Gilroy",
+                                                                            fontSize: "14px",
+                                                                            color: "black",
+                                                                            paddingTop: "1rem"
+                                                                        }}
+                                                                    >
+                                                                        {user.type}
+                                                                    </td>
+                                                                    <td
+                                                                        className="text-end"
+                                                                        style={{
+                                                                            fontFamily: "Gilroy",
+                                                                            fontSize: "14px",
+                                                                            color: "black",
+                                                                            fontWeight: 500,
+                                                                            paddingTop: "1rem"
+                                                                        }}
+                                                                    >
+                                                                        ₹{user.payableAmount}
+                                                                    </td>
+                                                                </tr>
+                                                            ))}
 
 
-                                                    </tbody>
-                                                </table>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-}
+                                    }
 
                                     {/* Refundable Rent */}
                                     <div className="mt-3">

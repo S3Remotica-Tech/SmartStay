@@ -197,7 +197,7 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
             return;
         }
 
-console.log("calllledeeeeeee")
+
 
         dispatch({
             type: "EDITBASICDETAILS",

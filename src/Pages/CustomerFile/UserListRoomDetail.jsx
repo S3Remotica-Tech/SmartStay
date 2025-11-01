@@ -2200,16 +2200,6 @@ const {
 
 
 
-
-
-
-
-
-
-
-
-
-
   const [advanceList, setAdvanceList] = useState("")
 
   useEffect(() => {

@@ -37,7 +37,7 @@ function SettingExpenses({ hostelid }) {
   const [expensesFilterddata, setExpensesFilterddata] = useState([]);
   const [expensescurrentPage, setExpensescurrentPage] = useState(1);
 
-  console.log("expensesFilterddata", expensesFilterddata)
+
 
   // const canReadExpense = useHasPermission("Expense", "canRead");
   // const canWriteExpense = useHasPermission("Expense", "canWrite");
@@ -322,8 +322,6 @@ function SettingExpenses({ hostelid }) {
 
 
   const handleEditCategory = (item) => {
-console.log("item",item)
-
 
     setEdit(true);
     setShowForm(true);

@@ -140,7 +140,7 @@ function BankingAddForm(props) {
   cash: "Cash",
 };
 
- console.log("banking", bankking);
+
  
 
 const paymentOptions = Array.isArray(bankking)
@@ -352,7 +352,7 @@ const CustomMenuList = (props) => {
     setFormLoading(true);
   };
 
-  console.log("bankaccount" , bankaccount);
+
   
 
   const handleSubmitUpi = () => {

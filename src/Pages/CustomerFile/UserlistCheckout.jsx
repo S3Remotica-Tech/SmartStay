@@ -804,7 +804,7 @@ console.log("state",state)
                                   </div>
                                   Status</div>
                               </th>
-                              <th
+                              {/* <th
                                 style={{
                                   textAlign: "start",
                                   padding: "10px",
@@ -818,7 +818,7 @@ console.log("state",state)
                                 }}
                               >
                                 Action
-                              </th>
+                              </th> */}
                             </tr>
                           </thead>
           
@@ -1033,7 +1033,7 @@ console.log("state",state)
                                       </span>
                                     </td>
 
-                                    <td style={{ borderBottom: "1px solid #E8E8E8" }}>
+                                    {/* <td style={{ borderBottom: "1px solid #E8E8E8" }}>
                                       <div
                                         style={{
                                           cursor: "pointer",
@@ -1114,7 +1114,7 @@ console.log("state",state)
                                           </div>
                                         )}
                                       </div>
-                                    </td>
+                                    </td> */}
                                   </tr>
                                 ))
                               }

@@ -165,7 +165,7 @@ function CustomerProfile(props) {
   const CustomerOverView = state.UsersList.customerdetails;
 
 
-  console.log("CustomerOverView checkout", CustomerOverView)
+
 
 
 
