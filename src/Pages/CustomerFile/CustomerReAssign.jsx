@@ -98,7 +98,7 @@ function CustomerReAssign(props) {
     setNewRoomRent("");
   };
 
- 
+
 
 
   useEffect(() => {
@@ -179,7 +179,7 @@ function CustomerReAssign(props) {
     const selectedBed = state.UsersList?.availableBedList?.listBeds?.find(
       (bed) => String(bed.bedId) === String(selectedBedId)
     );
- 
+
 
     if (selectedBed) {
       setNewRoomRent(selectedBed.rentAmount)
@@ -229,6 +229,7 @@ function CustomerReAssign(props) {
     if (!/^\d*$/.test(newAmount)) {
       return;
     }
+     if (/^0\d+/.test(newAmount)) return;
     setNewRoomRent(newAmount);
     setRentError("");
   };
@@ -383,6 +384,11 @@ function CustomerReAssign(props) {
       return;
     }
 
+    if (Number(newRoomRent) <= 0) {
+      setRentError("Please enter  rent amount greater than 0");
+      rentRef.current?.focus();
+      hasError = true;
+    }
 
 
     if (hasError) return;

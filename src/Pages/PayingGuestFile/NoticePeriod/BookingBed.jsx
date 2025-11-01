@@ -69,6 +69,7 @@ function BookingBed({
     }
     setAmount(newAmount);
     setamountError("");
+    dispatch({ type: 'ERROR_BOOKING_REMOVE'})
   };
 
   const handleTransactionId = (e) => {
@@ -181,7 +182,11 @@ function BookingBed({
     if (!isCustomerValid || !isJoiningDateValid || !isBookingDateValid || !isAmountValid || !isModeOfPaymentValid) {
       hasError = true;
     }
-
+ if (Number(amount) <= 0) {
+    setamountError("Booking Amount must be greater than 0");
+    amountRef.current?.focus();
+    hasError = true;
+  }
     if (hasError) return;
 
     const formatDate = (date) => {
@@ -242,6 +247,11 @@ function BookingBed({
   useEffect(() => {
     if (state.Booking.bookingBedError) {
       setFormLoading(false)
+
+setTimeout(()=>{
+dispatch({ type: 'ERROR_BOOKING_REMOVE'})
+},1000)
+
     }
   }, [state.Booking.bookingBedError])
   return (

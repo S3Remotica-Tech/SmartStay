@@ -31,7 +31,7 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails }) {
     const [inActiveComments, setInActiveComments] = useState("")
     const [isActiveDateError, setIsACtiveDateError] = useState("")
 
-    
+
 
     const handleInActiveReason = (e) => {
         setInActiveComments(e.target.value)
@@ -103,8 +103,10 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails }) {
         }
     }, [inActiveDetails]);
 
+console.log("inActiveDetails",inActiveDetails)
 
-    
+
+
 
     return (
         <Modal show={show} onHide={handleCloseInActive} centered backdrop="static"   >
@@ -181,7 +183,7 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails }) {
                                 fontFamily: "Gilroy"
                             }}
                         >
-                            {inActiveDetails?.roomName} - {inActiveDetails?.bedName}
+                            {inActiveDetails?.roomName} - {inActiveDetails?.bedName} 
                         </span>
                     </div>
 
@@ -227,7 +229,7 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails }) {
                                 }}
                                 getPopupContainer={() => document.body}
                                 disabledDate={(current) => {
-                                    const bookedDate = dayjs(inActiveDetails?.bookedAt, "DD/MM/YYYY");
+                                    const bookedDate = dayjs(inActiveDetails?.bookingDate, "DD/MM/YYYY");
                                     return (
                                         current.isBefore(bookedDate, "day") ||
                                         current.isAfter(dayjs(), "day")

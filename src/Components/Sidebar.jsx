@@ -1457,7 +1457,7 @@ function Sidebar() {
             sm={{ span: 9, offset: 3 }}
             xs={{ span: 9, offset: 3 }}
             style={{
-              height: "100%",
+              height: "100vh",
               overflowY: "auto",
               zIndex: 10,
             }}
