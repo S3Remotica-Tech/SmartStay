@@ -213,8 +213,10 @@ const {
 
 
 
+
+
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
+    if (state.login.selectedHostel_Id ) {
       if (value === "1") {
 
         dispatch({
@@ -938,7 +940,7 @@ const {
       setLoading(false)
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_USER" });
-      }, 1000);
+      }, 100);
     }
   }, [state.UsersList?.UserListStatusCode]);
 
@@ -3162,7 +3164,7 @@ dispatch({ type: 'REMOVE_ERROR_MAKEASINACTIVE'})
                         color: "rgba(75, 75, 75, 1)",
                       }}
                     >
-                      No Customers available
+                      No Tenant available
                     </div>
                     <div
                       className="pb-1"
@@ -3174,7 +3176,7 @@ dispatch({ type: 'REMOVE_ERROR_MAKEASINACTIVE'})
                         color: "rgba(75, 75, 75, 1)",
                       }}
                     >
-                      There are no Customer added.
+                      There are no tenant added.
                     </div>
                   </div>
                 ) : null}

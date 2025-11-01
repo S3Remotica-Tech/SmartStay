@@ -1165,12 +1165,13 @@ const {
                                         <img className="me-1 mb-1" src={overdueimg} alt="overdue" />
                                         Overdue
                                       </p>
-                                    </>
-                                  }
-                                  <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
+                                       <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
                                     <img className="me-1 mb-1" src={noticeimg} alt="notice" />
                                     Notice Period
                                   </p>
+                                    </>
+                                  }
+                                 
                                 </div>
 
                                 {

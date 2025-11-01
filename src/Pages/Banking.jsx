@@ -240,7 +240,6 @@ useEffect(() => {
   }, []);
 
   const handleAccountTypeChange = (item) => {
-    console.log("item", item);
     
     setTypeId(item.bankingId);
     const defaultType = item.isDefault ? item.isDefault : 3;
@@ -391,7 +390,7 @@ useEffect(() => {
   }, [state.bankingDetails.statusCodeForDeleteTrans]);
 
   const handleShowAddBalance = (item) => {
-    console.log("item", item);
+    
     
     setAddBankName(`${item.accountHolderName} - ${item.accountType}`);
 

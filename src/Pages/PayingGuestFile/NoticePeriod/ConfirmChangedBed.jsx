@@ -32,12 +32,7 @@ function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer
 
 
   const isPreviousBed = state.PgList?.isClickedBed
-  // const isCurrentBed =state.PgList?.isClickedChangeBed
-
-  console.log("isPreviousBed", isPreviousBed)
-  // console.log("isCurrentBed", isCurrentBed)
-  console.log("8888", previousBed, currentBed)
-
+  
 
 
   const [selectedDate, setSelectedDate] = useState(null);
@@ -72,18 +67,11 @@ function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer
   };
 
 
-  console.log("customer", customer)
-
-  //  current month =>customer.currentTenantJoiningDate to today 
-
-  // joiningDate is Prev month ah eruntha last check in bill date to today varaiukum balnce disabled 
-
-
   useEffect(() => {
-    if (customer?.currentTenantCustomerId) {
-      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: customer?.currentTenantCustomerId } });
+    if (isPreviousBed?.currentTenantCustomerId) {
+      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: isPreviousBed?.currentTenantCustomerId } });
     }
-  }, [customer]);
+  }, [isPreviousBed]);
 
   const handleSubmit = () => {
     let hasError = false;
@@ -142,6 +130,53 @@ function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer
     }
 
   }, [state.UsersList?.changeBedError])
+
+
+  const CustomerOverView = state.UsersList.customerdetails;
+
+  const joiningDate = dayjs(CustomerOverView?.hostelInfo?.joiningDate, "DD/MM/YYYY");
+
+
+  const invoices = CustomerOverView?.invoiceResponseList || [];
+  const lastBillDate = invoices.length > 0
+    ? dayjs(invoices[invoices.length - 1].invoiceGeneratedDate, "DD/MM/YYYY")
+    : null;
+
+
+
+  const disabledDate = (current) => {
+    const today = dayjs().endOf("day");
+    const joiningDate = dayjs(CustomerOverView?.hostelInfo?.joiningDate, "DD/MM/YYYY");
+    const invoices = CustomerOverView?.invoiceResponseList || [];
+
+    const lastBillDate = invoices.length > 0
+      ? dayjs(invoices[invoices.length - 1].invoiceGeneratedDate, "DD/MM/YYYY")
+      : null;
+
+
+    if (current.isAfter(today, "day")) {
+      return true;
+    }
+
+
+    const joinedThisMonth =
+      joiningDate.month() === dayjs().month() && joiningDate.year() === dayjs().year();
+
+    if (joinedThisMonth) {
+
+      return current.isBefore(joiningDate, "day") || current.isAfter(today, "day");
+    } else {
+
+      if (lastBillDate) {
+        return current.isBefore(lastBillDate, "day") || current.isAfter(today, "day");
+      } else {
+        return current.isBefore(joiningDate, "day") || current.isAfter(today, "day");
+      }
+    }
+  };
+
+
+
 
 
   return (
@@ -292,6 +327,7 @@ function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer
                     className="small-placeholder-datepicker"
                     value={selectedDate ? dayjs(selectedDate) : null}
                     onChange={handleDateChange}
+                     disabledDate={disabledDate}
                     getPopupContainer={(triggerNode) =>
                       triggerNode.closest(".datepicker-wrapper")
                     }
@@ -376,7 +412,7 @@ function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer
             </div>
 
 
-{state.UsersList?.changeBedError && <div className="d-flex justify-content-center">
+            {state.UsersList?.changeBedError && <div className="d-flex justify-content-center">
               <ErrorMessage message={state.UsersList?.changeBedError} type="error" />
             </div>}
 

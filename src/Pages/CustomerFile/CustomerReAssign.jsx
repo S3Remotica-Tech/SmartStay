@@ -98,7 +98,7 @@ function CustomerReAssign(props) {
     setNewRoomRent("");
   };
 
-  console.log("room", state.UsersList?.roomdetails);
+ 
 
 
   useEffect(() => {
@@ -179,7 +179,7 @@ function CustomerReAssign(props) {
     const selectedBed = state.UsersList?.availableBedList?.listBeds?.find(
       (bed) => String(bed.bedId) === String(selectedBedId)
     );
-    console.log("roomrent", selectedBed);
+ 
 
     if (selectedBed) {
       setNewRoomRent(selectedBed.rentAmount)
@@ -487,7 +487,7 @@ function CustomerReAssign(props) {
   );
 
 
-  console.log("userdetails", state.UsersList.customerdetails);
+
 
 
   //   useEffect(()=>{

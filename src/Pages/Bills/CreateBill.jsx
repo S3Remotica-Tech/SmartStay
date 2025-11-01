@@ -43,7 +43,7 @@ function CreateBill() {
     const location = useLocation();
     const { id } = location.state || {};
 
-    console.log("state", id);
+
 
     const { RangePicker } = DatePicker;
     const [recurLoader, setRecurLoader] = useState(false);
@@ -2456,7 +2456,7 @@ function CreateBill() {
             }
             setNewRows([]);
             dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
-            console.log("iddddddddddddd", id)
+           
             if (id) {
                 dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: id } });
             }

@@ -22,7 +22,6 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
 
 
-    console.log("bookingDetails", bookingDetails)
 
 
     //  valdation => joing date enale, before booking darte not allowed
@@ -231,7 +230,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
             : "";
 
 
-        console.log("formattedDate", formattedDate)
+        
 
 
 

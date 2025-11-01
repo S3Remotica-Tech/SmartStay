@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 
 const Receipt = (props) => {
 
-  console.log("props", props)
+
 
   const state = useSelector((state) => state);
 

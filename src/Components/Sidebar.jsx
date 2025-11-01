@@ -446,7 +446,7 @@ function Sidebar() {
   ]);
 
 
-  console.log("selectedProfileImage", selectedProfileImage)
+
 
   useEffect(() => {
     if (state.login?.isLoggedIn && hostelListDetail?.length > 0) {
@@ -1457,7 +1457,7 @@ function Sidebar() {
             sm={{ span: 9, offset: 3 }}
             xs={{ span: 9, offset: 3 }}
             style={{
-              height: "100vh",
+              height: "100%",
               overflowY: "auto",
               zIndex: 10,
             }}

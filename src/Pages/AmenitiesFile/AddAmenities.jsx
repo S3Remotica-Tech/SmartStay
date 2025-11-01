@@ -41,7 +41,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
     }
   }, [editDetails]);
 
-  console.log("initialdata", initialState , amount);
+
   
   const handleAmenityChange = (e) => {
     const value = e.target.value;
@@ -81,7 +81,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
 
   }, [state.InvoiceList.amnitiessAddError])
 
-  console.log("editDetails", editDetails);
+
   
 
   const handleSubmit = () => {

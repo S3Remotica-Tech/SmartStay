@@ -75,12 +75,6 @@ function BedDetailsMap({ room, propsValue }) {
     const [changeBedClicked, setChangedBedClicked] = useState('')
     const [bactocheckinForm, setBacktoCheckInForm] = useState(false)
 
-    console.log(clickedBed, "clickedBed")
-
-    console.log("changeBedClicked", changeBedClicked)
-
-    console.log("state", state)
-
 
     // const canWritePayingGuests = useHasPermission("Paying Guests", "canWrite");
 
@@ -257,9 +251,20 @@ function BedDetailsMap({ room, propsValue }) {
         setEmptyBed(false)
 
     }
-    const handleclickBed = (bed, room) => {
-        console.log("calledddddddd")
 
+    const [selectedTenant, setSelectedTenant] = useState(null);
+
+    useEffect(() => {
+        if (state.PgList?.OccupiedCustomer && state.PgList?.OccupiedCustomer?.currentTenantCustomerId) {
+            //    setSelectedTenant(state.PgList?.OccupiedCustomer);
+            dispatch(clickedBedForChange(state.PgList?.OccupiedCustomer));
+        }
+    }, [state.PgList?.OccupiedCustomer]);
+
+
+
+
+    const handleclickBed = (bed, room) => {
         dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { bedId: bed.id } })
 
         if (!state.login.isTrigger) {
@@ -281,7 +286,8 @@ function BedDetailsMap({ room, propsValue }) {
                 setOccubiedBed(true);
             }
         }
-        dispatch(clickedBedForChange(state.PgList?.OccupiedCustomer));
+
+        // dispatch(clickedBedForChange(state.PgList?.OccupiedCustomer));
 
         setClickedBed(bed)
 
@@ -337,8 +343,18 @@ function BedDetailsMap({ room, propsValue }) {
 
 
 
+    const handleDisplayCheckInForm = () => {
+        setShowCheckIn(true)
+        setNoticePeriodBed(false)
+    }
 
 
+    useEffect(() => {
+        if (!state.login.isTrigger) {
+            setChangedBedClicked('')
+        }
+
+    }, [state.login.isTrigger])
 
 
     useEffect(() => {
@@ -428,7 +444,7 @@ function BedDetailsMap({ room, propsValue }) {
         )
         : bedsForRoom;
 
-    console.log("filteredBeds", filteredBeds)
+
 
 
     useEffect(() => {
@@ -514,7 +530,7 @@ function BedDetailsMap({ room, propsValue }) {
         }
     }, [state.UsersList.statusCodeForReassinBed]);
 
-    console.log("state.PgList?.isClickedBed", state.PgList?.isClickedBed)
+
 
     return (
 
@@ -608,7 +624,7 @@ function BedDetailsMap({ room, propsValue }) {
 
             {/* Notice period  */}
             {
-                Noticeperiod_bed && <NoticeBedStatusDetails show={Noticeperiod_bed}
+                Noticeperiod_bed && <NoticeBedStatusDetails show={Noticeperiod_bed} handleDisplayCheckInForm={handleDisplayCheckInForm}
                     handleCloseBed={handlecloseNoticePeriodBed} currentItem={customer}
                     showBooking={handleshowNoticePeriodBooking} showNoticeperiodCheckout={handleshowNoticePeriodCheckout} showfinalsettelemnet={handleshowfinalsettlement}
                     handleOpenChangeBed={handleOpenChangeBed} handleShowInActiveForm={handleShowInActiveForm} handleOpenCancelCheckout={handleOpenCancelCheckout}
@@ -619,7 +635,6 @@ function BedDetailsMap({ room, propsValue }) {
                 <CustomerReAssign
                     show={showReAssignBedForm}
 
-                    // reAssignBedDetail={{ ...OccupiedCustomerDetails, id: customerId }}
                     setCustomerReAssign={handleCloseReassignForm}
                 />
 
@@ -630,14 +645,7 @@ function BedDetailsMap({ room, propsValue }) {
             }
 
 
-            {/* this needed  */}
-            {/* {
-                Noticeperiod_checkout && <CheckoutTenant show={Noticeperiod_checkout} handleClose={handlecloseNoticeperiodCheckout}
-                    customerID={customerID}
 
-                    data={OccupiedCustomerDetails}
-                />
-            } */}
 
 
             {

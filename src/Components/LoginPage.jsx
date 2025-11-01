@@ -56,7 +56,7 @@ const MyComponent = () => {
     setpassword(e.target.value)
     setPasswordError('')
   }
-console.log("loading",loading)
+
 
 
   const handleCheckboxChange = (e) => {
