@@ -240,7 +240,7 @@ function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer
                     style={{ width: '24px', height: '24px', verticalAlign: 'middle' }}
                     alt="Frame"
                   />
-                  <span style={{ position: 'relative', top: '2px' }}>Room {previousBed?.roomName || 'N/A'} </span>
+                  <span style={{ position: 'relative', top: '2px' }}>{previousBed?.roomName || 'N/A'} </span>
                 </p>
 
                 <p className="mb-3" style={{ fontFamily: 'Gilroy', fontSize: '16px' }}>
@@ -250,7 +250,7 @@ function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer
                     style={{ width: '20px', height: '20px', verticalAlign: 'middle' }}
                     alt="Group"
                   />
-                  <span style={{ position: 'relative', top: '3px', left: '4px' }}>Bed {previousBed?.bedName || 'N/A'} </span>
+                  <span style={{ position: 'relative', top: '3px', left: '4px' }}>{previousBed?.bedName || 'N/A'} </span>
                 </p>
 
               </div>
@@ -293,7 +293,7 @@ function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer
                     style={{ width: '24px', height: '24px', verticalAlign: 'middle' }}
                     alt="Frame"
                   />
-                  <span style={{ position: 'relative', top: '2px' }}>Room {currentBed?.roomName || 'N/A'} </span>
+                  <span style={{ position: 'relative', top: '2px' }}>{currentBed?.roomName || 'N/A'} </span>
                 </p>
 
                 <p className="mb-3" style={{ fontFamily: 'Gilroy', fontSize: '16px' }}>
@@ -303,7 +303,7 @@ function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer
                     style={{ width: '20px', height: '20px', verticalAlign: 'middle' }}
                     alt="Group"
                   />
-                  <span style={{ position: 'relative', top: '3px', left: '4px' }}>Bed {currentBed?.bedName || 'N/A'} </span>
+                  <span style={{ position: 'relative', top: '3px', left: '4px' }}>{currentBed?.bedName || 'N/A'} </span>
                 </p>
               </div>
             </div>
