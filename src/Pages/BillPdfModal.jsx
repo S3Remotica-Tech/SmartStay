@@ -36,7 +36,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
   const dispatch = useDispatch();
 
 
-  
+
 
   const [hoveredItem, setHoveredItem] = useState(null);
 
@@ -243,11 +243,43 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
   const pdfDetails = state.InvoiceList?.particularBillsDetails
 
- 
+
 
   const hasTax = Number(pdfDetails?.invoiceInfo?.taxAmount) > 0;
 
+  console.log("pdfDetails", pdfDetails)
+  const templateColor = pdfDetails?.configurations?.templateColor;
+  const isGradient = templateColor?.includes("linear-gradient");
 
+  const textStyle = isGradient
+    ? {
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      background: templateColor,
+      WebkitBackgroundClip: "text",
+      WebkitTextFillColor: "transparent",
+    }
+    : {
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      color: templateColor || "#1E45E1",
+    };
+
+
+  const getIconStyle = (templateColor) => {
+    const isGradient = templateColor?.includes("linear-gradient");
+
+    return isGradient
+      ? {
+        background: templateColor,
+        WebkitBackgroundClip: "text",
+        WebkitTextFillColor: "transparent",
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }
+      : { color: templateColor || "#4B4B4B" };
+  };
 
   return (
     <div style={{ position: 'sticky', top: 0, zIndex: 100, background: 'white' }}>
@@ -441,7 +473,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
                     </div>
 
-                    <div className="mt-2 col-5" >
+                    <div className="mt-2 col-5 ps-4 pe-0" >
                       <div style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", marginRight: '20px', color: '#2B2B2B' }}>
                         {pdfDetails?.stayInfo?.hostelName}
                       </div>
@@ -463,20 +495,25 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                   </div>
                 </div>
 
-                  <hr className="m-0"
+                <hr className="m-0"
                   style={{
-                    borderTop: "1px solid #D9D9D9",
+                    border: "none",
+                    height: "1px",
+                    background: templateColor,
+                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                    borderRadius: "2px",
                   }}
                 />
+
                 <div className="container bg-white rounded-bottom  position-relative" style={{ width: "100%", }}>
                   <div className="text-center pt-2 pb-1">
-                    <h5 style={{ fontSize: '17px', fontFamily: 'Gilroy', fontWeight: 600, color: '#171717', }}>
+                    <h5 style={{ ...textStyle, fontSize: '17px', fontFamily: 'Gilroy', fontWeight: 600 }}>
 
                       {
                         pdfDetails?.invoiceType === 'SETTLEMENT'
                           ? "Final Settlement Invoice"
                           : pdfDetails?.configurations?.invoiceType === 'Advance'
-                            ? "Security Deposit Invoice"
+                            ? "Security Deposit"
                             : pdfDetails?.configurations?.invoiceType === 'Rent'
                               ? "Payment Invoice"
                               : "Invoice"
@@ -491,21 +528,23 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                   <div className="row px-4 mt-1">
                     <div className="col-md-5 mb-3" style={{ fontFamily: "Gilroy", fontSize: 13, color: "#222" }}>
 
-                      <div className="mb-2" style={{ fontSize: 11, fontWeight: 600, fontStyle: "italic", color: "#1E45E1" }}>
+                      <div className="mb-2" style={{ fontSize: 11, fontWeight: 600, fontStyle: "italic", ...textStyle }}>
                         Bill to:
                       </div>
 
-                      <div className="mb-1 d-flex align-items-center">
-                        <Profile
-                          size="16" color="#4B4B4B" variant="Bold"
-                        />
+                     <div className="mb-1 d-flex align-items-center">
+                        <span style={getIconStyle(templateColor)}>
+                          <Profile size="16" variant="Bold" />
+                        </span>
                         <span style={{ fontWeight: 600, color: "#171717", fontSize: 12 }} className="ms-1">
                           : {""}{pdfDetails?.customerInfo?.fullName}
                         </span>
                       </div>
 
                       <div className="mb-1 d-flex">
-                        <Call size="16" color="#4B4B4B" variant="Bold" />
+                        <span style={getIconStyle(templateColor)}>
+                          <Call size="16" variant="Bold" />
+                        </span>
                         <span style={{ color: "#171717", fontSize: 12 }} className="ms-1">
                           : {""}{pdfDetails?.customerInfo?.customerMobileNo &&
                             pdfDetails.customerInfo.customerMobileNo !== "undefined"
@@ -515,7 +554,9 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                       </div>
 
                       <div className="mb-1 d-flex">
-                        <IoBed style={{ color: "4B4B4B", fontSize: 16 }} />
+                        <span style={getIconStyle(templateColor)}>
+                          <IoBed style={{ fontSize: 16 }} />
+                        </span>
                         <span style={{ color: "#171717", fontSize: 12 }} className="d-flex align-items-center ms-1">
                           {pdfDetails?.stayInfo?.floorName && (
                             <>
@@ -538,11 +579,9 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                       </div>
 
                       <div className="d-flex ">
-                        <Location
-                          size="16"
-                          variant="Bold"
-                          color="#4B4B4B"
-                        />
+                        <span style={getIconStyle(templateColor)}>
+                          <Location size="16" variant="Bold" />
+                        </span>
 
                         <div style={{ color: "#171717", fontSize: 14 }} className="ms-1" >
                           : {""} {pdfDetails?.customerInfo?.fullAddress}
@@ -586,7 +625,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
                 <div className="px-4 ">
                   <div className="mb-1">
-                    <label style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600, color: '#3F3F3F' }}>Payment Summary</label>
+                    <label style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600, ...textStyle }}>Payment Summary</label>
                   </div>
                   {
                     pdfDetails?.invoiceType === 'SETTLEMENT' ?
@@ -1090,10 +1129,8 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                         style={{
                           fontSize: "11px",
                           fontFamily: "Gilroy",
-                          fontWeight: 700,
-                          color: "#1E45E1",
-                          letterSpacing: "1px",
-                          marginBottom: "12px",
+                          fontWeight: 800,
+                          marginBottom: "12px", ...textStyle
                         }}
                       >
                         ACCOUNT DETAILS
@@ -1162,7 +1199,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
                 <div className="row justify-content-between mt-4 mb-5 px-4">
                   <div className="col-md-8">
-                    <h4 style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600, color: '#4B4B4B' }}>Terms and Conditions</h4>
+                    <h4 style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600, ...textStyle }}>Terms and Conditions</h4>
                     <p style={{ whiteSpace: "pre-line", fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: '#3D3D3D', paddingRight: 50 }}>
                       {pdfDetails?.configurations?.termAndCondition}
                     </p>
@@ -1183,11 +1220,16 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                 </div>
 
 
-                <hr
+                <hr className="mb-2"
                   style={{
-                    borderTop: "1px solid #D9D9D9",
+                    border: "none",
+                    height: "1px",
+                    background: templateColor,
+                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                    borderRadius: "2px",
                   }}
                 />
+
 
                 <div className="px-4">
                   <div
@@ -1207,7 +1249,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                         color: '#4B4B4B',
                       }}
                     >
-                      Email:
+                      Email: {" "}
                       <span
                         style={{
                           fontSize: '13px',
@@ -1230,7 +1272,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                         color: '#4B4B4B',
                       }}
                     >
-                      Contact:
+                      Contact: {" "}
                       <span
                         style={{
                           fontSize: '13px',

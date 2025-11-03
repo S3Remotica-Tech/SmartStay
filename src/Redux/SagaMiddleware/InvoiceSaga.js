@@ -118,8 +118,11 @@ function* handleGetParticularBillsDetails(action) {
          yield put({ type: 'NETWORK_ERROR', payload: error.response.data });
       } else if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+        toast.error(error.message || 'Something went wrong' ,{
+        hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }})
       }
    }
+     
 
 }
 
@@ -141,6 +144,8 @@ function* handleGetParticularReceiptDetails(action) {
          yield put({ type: 'NETWORK_ERROR', payload: error.response.data });
       } else if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+          toast.error(error.message || 'Something went wrong' ,{
+        hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }})
       }
    }
 

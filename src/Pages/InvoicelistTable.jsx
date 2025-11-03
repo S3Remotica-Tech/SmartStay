@@ -387,6 +387,8 @@ const {
                 >
                   <div style={{ width: "100%" }}>
 
+{
+  props.item?.paymentStatus !== "Cancelled" &&
 
                     <div
                       className={`d-flex justify-content-start align-items-center gap-2 ${!canUpdateInvoice ? 'disabled' : ''}`}
@@ -430,6 +432,8 @@ const {
                       </label>
                     </div>
 
+                      }
+
                     <div
                       className="d-flex justify-content-start align-items-center gap-2 "
                       onClick={() => { if (canWriteInvoice) { handleInvoicepdf(props.item) } }}
@@ -458,7 +462,7 @@ const {
                     </div>
 
 
-                    {(props.item.dueAmount !== 0 && props.item?.invoiceAmount > 0) && (
+                    {(props.item.dueAmount !== 0 && props.item?.invoiceAmount > 0 &&  props.item?.paymentStatus !== "Cancelled") && (
                       <div
                         className={`d-flex justify-content-start align-items-center gap-2  ${!canWriteInvoice ? 'disabled' : ''}`}
                         style={{
@@ -498,7 +502,7 @@ const {
                         </label>
                       </div>
                     )}
-                    {props.item?.invoiceAmount < 0 && props.item?.paymentStatus !== "Refunded" && (
+                    {props.item?.invoiceAmount < 0 && props.item?.paymentStatus !== "Refunded" && props.item?.paymentStatus !== "Cancelled" && (
                       <div
                         className={`d-flex justify-content-start align-items-center gap-2 ${!canWriteInvoice ? 'disabled' : ''}`}
                         style={{
@@ -539,7 +543,7 @@ const {
                       </div>
                     )}
                     {
-                      props.item?.paymentStatus !== "Refunded" &&
+                      props.item?.paymentStatus !== "Refunded" &&  props.item?.paymentStatus !== "Cancelled" &&
 
                       <div
                         className={`d-flex justify-content-start align-items-center gap-2 ${!canWriteInvoice ? 'disabled' : ''}`}
@@ -582,6 +586,9 @@ const {
                       </div>
 
                     }
+                    {
+                       props.item?.paymentStatus !== "Cancelled" && 
+                    
                     <div
                       className={`d-flex justify-content-start align-items-center gap-2  ${!canDeleteInvoice ? 'disabled' : ''}`}
                       style={{
@@ -622,6 +629,7 @@ const {
                         Delete
                       </label>
                     </div>
+}
                   </div>
                 </div>
 
