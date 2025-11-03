@@ -813,10 +813,10 @@ const SecurityDepositInvoiceTemplate = ({ BillsTemplateList }) => {
       }
 
 
-      <div className="row">
+      <div className="row g-0">
 
 
-        <div className="col-lg-12 show-scroll" style={{
+        <div className="col-lg-12 show-scrolls" style={{
           maxHeight: 650,
           overflowY: "auto",
           overflowX: 'hidden',

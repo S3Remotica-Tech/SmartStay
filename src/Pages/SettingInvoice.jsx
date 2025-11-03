@@ -3594,19 +3594,6 @@ className="p-1"
           </>
         ) :
 
-
-
-
-
-
-
-
-
-
-
-
-
-
           cardshow &&
           <div className=" py-2 col-md-11">
 

@@ -451,7 +451,7 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList }) => {
 
   return (
     <>
-      <div className="row  d-flex flex-row">
+      <div className="row  d-flex flex-row g-0">
 
         {loading &&
           <div
