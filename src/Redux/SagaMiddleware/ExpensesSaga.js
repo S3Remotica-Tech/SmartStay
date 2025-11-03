@@ -19,13 +19,13 @@ function* handleApiError(error) {
 function* handleGetCategory() {
    try {
       const response = yield call(GetExpenseCatogory);
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'CATEGORY_LIST', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'CATEGORY_LIST', payload: { response: response.data.data, statusCode: response?.status  } })
 
 
       }
       else {
-         yield put({ type: 'ERROR', payload: response.data.message })
+         yield put({ type: 'ERROR', payload:  response?.data?.message })
       }
       if (response) {
          refreshToken(response)
@@ -40,11 +40,11 @@ function* handleGetExpenses(action) {
    try {
       const response = yield call(GetExpense, action.payload);
 
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'EXPENSES_LIST', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'EXPENSES_LIST', payload: { response: response.data, statusCode: response?.status  } })
       }
-      else if (response.status === 201) {
-         yield put({ type: 'NOEXPENSEDATA', payload: { statusCode: response.status } })
+      else if (response?.status === 201) {
+         yield put({ type: 'NOEXPENSEDATA', payload: { statusCode: response?.status } })
       }
       if (response) {
          refreshToken(response)
@@ -59,8 +59,8 @@ function* handleGetInitializeExpense(action) {
    try {
       const response = yield call(GetInitializeExpense, action.payload);
 
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'INITIALIZE_EXPENSES_LIST', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'INITIALIZE_EXPENSES_LIST', payload: { response: response.data, statusCode: response?.status  } })
       }
 
       if (response) {
@@ -97,8 +97,8 @@ function* handleAddExpense(action) {
 
       };
 
-      if (response.status === 201 || response.statusCode === 200) {
-         yield put({ type: 'ADD_EXPENSE', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
+      if (response?.status === 201 ) {
+         yield put({ type: 'ADD_EXPENSE', payload: { response: response.data.data, statusCode: response?.status  } })
          toast.success(`${response.data.message}`, {
             position: "bottom-center",
             autoClose: 2000,
@@ -152,8 +152,8 @@ function* handleAddExpenseTag(action) {
 
       };
 
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'ADD_EXPENSE_TAG', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'ADD_EXPENSE_TAG', payload: { response: response.data.data, statusCode: response?.status  } })
          toast.success(`${response.data.message}`, {
             position: "bottom-center",
             autoClose: 2000,
@@ -168,11 +168,11 @@ function* handleAddExpenseTag(action) {
 
 
       }
-      else if (response.status === 201 || response.statusCode === 201) {
-         yield put({ type: 'EXPENCE_NETBANKIG', payload: response.data.message })
+      else if (response?.status === 201 ) {
+         yield put({ type: 'EXPENCE_NETBANKIG', payload:  response?.data?.message })
       }
       else {
-         yield put({ type: 'ERROR', payload: response.data.message })
+         yield put({ type: 'ERROR', payload:  response?.data?.message })
       }
       if (response) {
          refreshToken(response)
@@ -207,8 +207,8 @@ function* handleDeleteExpense(action) {
 
       };
 
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'DELETE_EXPENSE', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'DELETE_EXPENSE', payload: { response: response.data.data, statusCode: response?.status  } })
 
          toast.success('Deleted successfully', {
             position: "bottom-center",
@@ -226,7 +226,7 @@ function* handleDeleteExpense(action) {
 
       }
       else {
-         yield put({ type: 'ERROR', payload: response.data.message })
+         yield put({ type: 'ERROR', payload:  response?.data?.message })
       }
       if (response) {
          refreshToken(response)
@@ -242,8 +242,8 @@ function refreshToken(response) {
       const refreshTokenGet = response.data.refresh_token
       const cookies = new Cookies()
       cookies.set('token', refreshTokenGet, { path: '/' });
-   } else if (response.status === 206) {
-      const message = response.status
+   } else if (response?.status === 206) {
+      const message = response?.status
       const cookies = new Cookies()
       cookies.set('access-denied', message, { path: '/' });
 
@@ -255,11 +255,11 @@ function refreshToken(response) {
 function* HandleTransactionHistory(action) {
    try {
       const response = yield call(transactionHistory, action.payload)
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'TRANSACTION_HISTORY', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'TRANSACTION_HISTORY', payload: { response: response.data.data, statusCode: response?.status  } })
       }
       else {
-         yield put({ type: 'ERROR', payload: response.data.message })
+         yield put({ type: 'ERROR', payload:  response?.data?.message })
       }
       refreshToken(response)
    }

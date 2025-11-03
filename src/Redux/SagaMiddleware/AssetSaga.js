@@ -23,6 +23,8 @@ function* handleGetRoleBasedPermission(action) {
    try {
       const response = yield call(getRoleBasedPermission, action.payload);
 
+console.log("response",response)
+
       if (response?.status === 200 || response?.data?.statusCode === 200) {
          yield put({ type: 'PERMISSION_ROLE_LIST', payload: { response: response?.data || [], statusCode: response?.status || response?.data?.statusCode } })
       }
@@ -51,7 +53,7 @@ function* handleGetAsset(action) {
          yield put({ type: 'ASSET_LIST', payload: { response: response?.data || [], statusCode: response?.status || response?.data?.statusCode } })
       }
       else if (response?.status === 201 || response?.statusCode === 201) {
-         yield put({ type: 'NO_ASSET_LIST', payload: { response: response?.data?.assets || [], statusCode: response.status || response.statusCode } })
+         yield put({ type: 'NO_ASSET_LIST', payload: { response: response?.data?.assets || [], statusCode: response?.status  } })
       }
       if (response) {
          refreshToken(response)
@@ -88,8 +90,8 @@ function* handleAddAsset(action) {
 
       };
 
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'ADD_ASSET', payload: { response: response.data.assets, statusCode: response.status || response.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'ADD_ASSET', payload: { response: response?.data?.assets, statusCode: response?.status  } })
          toast.success(`Created successfully`, {
             position: "bottom-center",
             autoClose: 2000,
@@ -112,16 +114,16 @@ function* handleAddAsset(action) {
    }
    catch (error) {
      yield* handleApiError(error);
-      if (error.code === 'ERR_BAD_REQUEST') {
-         if (error.status === 400 || error.status === 403) {
-            if (error.response.data === 'Serial number already exists') {
-               yield put({ type: 'SERIAL_NUMBER_ERROR', payload: error.response.data });
+      if (error?.code === 'ERR_BAD_REQUEST') {
+         if (error?.status === 400 || error?.status === 403) {
+            if (error.response?.data === 'Serial number already exists') {
+               yield put({ type: 'SERIAL_NUMBER_ERROR', payload: error.response?.data });
             } else {
-               yield put({ type: 'ASSET_NAME_ERROR', payload: error.response.data });
+               yield put({ type: 'ASSET_NAME_ERROR', payload: error.response?.data });
             }
          }
-      } else if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      } else if (error?.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: error?.message || 'Something went wrong' });
       }
    }
 
@@ -147,8 +149,8 @@ function* handleUpdateAsset(action) {
 
       };
 
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'UPDATE_ASSET', payload: { statusCode: response.status || response.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'UPDATE_ASSET', payload: { statusCode: response?.status  } })
          toast.success(`Updated successfully`, {
             position: "bottom-center",
             autoClose: 2000,
@@ -173,10 +175,10 @@ function* handleUpdateAsset(action) {
        yield* handleApiError(error);
       if (error.code === 'ERR_BAD_REQUEST') {
          if (error.status === 400 || error.status === 403) {
-            if (error.response.data === 'Serial number already exists') {
-               yield put({ type: 'SERIAL_NUMBER_ERROR', payload: error.response.data });
+            if (error.response?.data === 'Serial number already exists') {
+               yield put({ type: 'SERIAL_NUMBER_ERROR', payload: error.response?.data });
             } else {
-               yield put({ type: 'ASSET_NAME_ERROR', payload: error.response.data });
+               yield put({ type: 'ASSET_NAME_ERROR', payload: error.response?.data });
             }
          }
       } else if (error.code === 'ERR_NETWORK') {
@@ -205,8 +207,8 @@ function* handleDeleteAsset(action) {
       padding: "10px",
 
    };
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'DELETE_ASSET', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+   if (response?.status === 200 ) {
+      yield put({ type: 'DELETE_ASSET', payload: { response: response?.data, statusCode: response?.status  } })
 
       toast.success('Deleted successfully!', {
          position: "bottom-center",
@@ -225,7 +227,7 @@ function* handleDeleteAsset(action) {
 
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload: response?.data.message })
    }
    if (response) {
       refreshToken(response)
@@ -241,11 +243,11 @@ catch(error){
 
 function* handleGetHostelRooms(action) {
    const response = yield call(getHostelRooms, action.payload);
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'GET_ROOMS', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
+   if (response?.status === 200 ) {
+      yield put({ type: 'GET_ROOMS', payload: { response: response?.data?.data, statusCode: response?.status } })
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload: response?.data.message })
    }
    if (response) {
       refreshToken(response)
@@ -277,9 +279,9 @@ function* handleAssignAsset(action) {
       };
 
 
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'ASSIGN_ASSET', payload: { response: response.data, statusCode: response.status || response.statusCode } })
-         toast.success(`${response.data}`, {
+      if (response?.status === 200 ) {
+         yield put({ type: 'ASSIGN_ASSET', payload: { response: response?.data, statusCode: response?.status  } })
+         toast.success(`${response?.data}`, {
             position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: true,
@@ -320,11 +322,11 @@ function* handleAssignAsset(action) {
 
 
 function refreshToken(response) {
-   if (response.data && response.data.refresh_token) {
+   if (response?.data && response?.data?.refresh_token) {
       const refreshTokenGet = response.data.refresh_token
       const cookies = new Cookies()
       cookies.set('token', refreshTokenGet, { path: '/' });
-   } else if (response.status === 206) {
+   } else if (response?.status === 206) {
       const message = response.status
       const cookies = new Cookies()
       cookies.set('access-denied', message, { path: '/' });

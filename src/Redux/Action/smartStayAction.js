@@ -7,10 +7,13 @@ import axios from 'axios'
 
 // v1
 
-export async function login(EmailId, Password) {
-  return await axios.get(`${ConfigV1.apiBaseUrl}/login/login`, {
-    params: EmailId, Password
-  })
+export  function login(EmailId, Password) {
+  new Promise((resolve, reject) => {
+  resolve({status: 200});
+})
+  // return await axios.get(`${ConfigV1.apiBaseUrl}/login/login`, {
+  //   params: EmailId, Password
+  // })
 }
 
 
@@ -28,32 +31,35 @@ export async function loginV2(loginInfo) {
 
 
 
-export async function CreateAccountAction(params) {
+export  function CreateAccountAction(params) {
+  new Promise((resolve, reject) => {
+  resolve({status: 200});
+})
 
-  const formData = new FormData();
-  formData.append("name", params.name);
-  formData.append("mobileNo", params.mobileNo);
-  formData.append("emailId", params.emailId);
-  formData.append("Address", params.Address);
-  formData.append("Country", params.Country);
-  formData.append("City", params.City);
-  formData.append("State", params.State);
-  formData.append("id", params.id);
-  formData.append("profile", params.profile);
+  // const formData = new FormData();
+  // formData.append("name", params.name);
+  // formData.append("mobileNo", params.mobileNo);
+  // formData.append("emailId", params.emailId);
+  // formData.append("Address", params.Address);
+  // formData.append("Country", params.Country);
+  // formData.append("City", params.City);
+  // formData.append("State", params.State);
+  // formData.append("id", params.id);
+  // formData.append("profile", params.profile);
   
-  try {
-    const response = await AxiosConfig.post('/create/create-account',formData, {
-      headers: {
-        "Content-type": "multipart/form-data",
-      },
-      timeout: 100000000,
+  // try {
+  //   const response = await AxiosConfig.post('/create/create-account',formData, {
+  //     headers: {
+  //       "Content-type": "multipart/form-data",
+  //     },
+  //     timeout: 100000000,
           
       
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Axios Error", error);
-         }
+  //   });
+  //   return response.data;
+  // } catch (error) {
+  //   console.error("Axios Error", error);
+  //        }
 
 } 
 //  create-account api version 1
@@ -73,45 +79,54 @@ export async function Addaccount (datum) {
   })
 }
   
-export async function UpdateProfile (params) {
-  const formData = new FormData();
-  formData.append("first_name", params.first_name);
-  formData.append("last_name", params.last_name);
-  formData.append("phone", params.phone);
-  formData.append("email_id", params.email_id);
-  formData.append("address", params.address);
-   formData.append("id", params.id);
-  formData.append("profile", params.profile);
+export function UpdateProfile (params) {
+  new Promise((resolve, reject) => {
+  resolve({status: 200});
+})
+  // const formData = new FormData();
+  // formData.append("first_name", params.first_name);
+  // formData.append("last_name", params.last_name);
+  // formData.append("phone", params.phone);
+  // formData.append("email_id", params.email_id);
+  // formData.append("address", params.address);
+  //  formData.append("id", params.id);
+  // formData.append("profile", params.profile);
   
-  try {
-    const response = await AxiosConfig.post('/update_account_details',formData, {
-      headers: {
-        "Content-type": "multipart/form-data",
-      },
-      timeout: 100000000,
+  // try {
+  //   const response = await AxiosConfig.post('/update_account_details',formData, {
+  //     headers: {
+  //       "Content-type": "multipart/form-data",
+  //     },
+  //     timeout: 100000000,
         
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Axios Error", error);
-         }
+  //   });
+  //   return response.data;
+  // } catch (error) {
+  //   console.error("Axios Error", error);
+  //        }
 
   
 }
 
-export async function UpdatePassword (datum) {
-  return await AxiosConfig.post('/forget/select-list ',datum,{
-    data:datum
-  })
+export  function UpdatePassword (datum) {
+  new Promise((resolve, reject) => {
+  resolve({status: 200});
+})
+  // return await AxiosConfig.post('/forget/select-list ',datum,{
+  //   data:datum
+  // })
 }
 
 
 
 
-export async function TwoStepVerification(datum) {
-  return await AxiosConfig.post('/create/isEnable',datum, {
-    data: datum
-  })
+export  function TwoStepVerification(datum) {
+  new Promise((resolve, reject) => {
+  resolve({status: 200});
+})
+  // return await AxiosConfig.post('/create/isEnable',datum, {
+  //   data: datum
+  // })
 } 
 
 // export async function AccountDetails() {
@@ -156,17 +171,23 @@ export async function OTPverification(datum) {
 } 
 
 
-export async function GetAllNotification() {
-  return await AxiosConfig.get('/all_notifications',{
-  })
+export  function GetAllNotification() {
+  new Promise((resolve, reject) => {
+  resolve({status: 200});
+})
+  // return await AxiosConfig.get('/all_notifications',{
+  // })
 }
 
 
-export async function UpdateNotification(message) {
-   return await AxiosConfig.post('/update_notification',message,{
-    data:message
+export function UpdateNotification(message) {
+  new Promise((resolve, reject) => {
+  resolve({status: 200});
+})
+  //  return await AxiosConfig.post('/update_notification',message,{
+  //   data:message
    
-  })
+  // })
 }
 
 

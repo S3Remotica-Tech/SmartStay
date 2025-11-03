@@ -254,10 +254,10 @@ export async function complianceDelete(complaintId) {
 }
 
 // 
-export async function getComplianceComment(datum) {
-  return await AxiosConfig.post('/complaints/all_complaint_comments', datum, {
-    data: datum
-  })
+export  function getComplianceComment(datum) {
+ new Promise((resolve, reject) => {
+  resolve({status: 200});
+})
 }
 export async function addComplianceComment(complaintId , datum) {
   return await AxiosConfigV2.post(`/v2/complaint/add-comment/${complaintId}`, datum, {

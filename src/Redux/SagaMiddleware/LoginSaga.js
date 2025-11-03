@@ -12,18 +12,18 @@ function* handleLogin(args) {
 
  
 
-    if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'LOGIN-INFO', payload: { response: response.data, statusCode: response.status || response.statusCode } });
+    if (response?.status === 200 ) {
+      yield put({ type: 'LOGIN-INFO', payload: { response: response.data, statusCode: response?.status  } });
     }
-    else if (response.status === 201 || response.statusCode === 201) {
-      yield put({ type: 'ERROR_EMAIL', payload: { response: response.data.message, statusCode: response.status || response.statusCode } });
+    else if (response?.status === 201 ) {
+      yield put({ type: 'ERROR_EMAIL', payload: { response: response.data.message, statusCode: response?.status  } });
 
-    } else if (response.status === 202 || response.statusCode === 202) {
-      yield put({ type: 'ERROR_PASSWORD', payload: { response: response.data.message, statusCode: response.status || response.statusCode } });
+    } else if (response?.status === 202 ) {
+      yield put({ type: 'ERROR_PASSWORD', payload: { response: response.data.message, statusCode: response?.status } });
 
     }
-    else if (response.status === 203 || response.statusCode === 203) {
-      yield put({ type: 'OTP_SUCCESS', payload: { response: response.data, statusCode: response.status || response.statusCode } });
+    else if (response?.status === 203 ) {
+      yield put({ type: 'OTP_SUCCESS', payload: { response: response.data, statusCode: response?.status } });
     }
   }
   catch (error) {
@@ -50,12 +50,12 @@ function* handleLogin(args) {
 function* handleLoginV2(args) {
   try {
     const response = yield call(loginV2, args.payload);
-    if (response.status === 200) {
-      yield put({ type: 'LOGIN_VERSION_2', payload: { response: response.data, statusCode: response.status || response.statusCode } });
-      yield put({ type: 'LOGININFO', payload: { email_Id: 'shree@gmail.com', password: 'Shree@2025' } });
+    if (response?.status === 200) {
+      yield put({ type: 'LOGIN_VERSION_2', payload: { response: response.data, statusCode: response?.status  } });
+      // yield put({ type: 'LOGININFO', payload: { email_Id: 'shree@gmail.com', password: 'Shree@2025' } });
     }
-    else if (response.status === 203 || response.statusCode === 203) {
-      yield put({ type: 'OTP_SUCCESS', payload: { response: response.data, statusCode: response.status || response.statusCode } });
+    else if (response?.status === 203 ) {
+      yield put({ type: 'OTP_SUCCESS', payload: { response: response.data, statusCode: response?.status } });
     }
   }
   catch (error) {
@@ -83,11 +83,11 @@ function* handleLoginV2(args) {
 function* handleOTPVerified(args) {
   try {
     const response = yield call(OTPverification, args.payload);
-    if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'OTP_VERIFY', payload: { response: response.data, statusCode: response.status || response.statusCode } });
+    if (response?.status === 200 ) {
+      yield put({ type: 'OTP_VERIFY', payload: { response: response.data, statusCode: response?.status } });
 
-    } else if (response.status === 201 || response.statusCode === 201) {
-      yield put({ type: 'ERROR_OTP_CODE', payload: response.data.message });
+    } else if (response?.status === 201 ) {
+      yield put({ type: 'ERROR_OTP_CODE', payload:  response?.data?.message });
 
 
     }

@@ -32,8 +32,8 @@ function* handleEditBasicDetails(reading) {
    try {
       const response = yield call(editBasicDetails, reading.payload)
 
-      if (response.status === 200) {
-         yield put({ type: 'EDIT_BASIC_DETAILS', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      if (response?.status === 200) {
+         yield put({ type: 'EDIT_BASIC_DETAILS', payload: { response: response.data, statusCode: response?.status } })
       }
 
       if (response) {
@@ -74,8 +74,8 @@ function* handleCancelCheckout(reading) {
    try {
       const response = yield call(CancelCheckOutCustomer, reading.payload)
 
-      if (response.status === 200) {
-         yield put({ type: 'CANCEL_CHECKOUT', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      if (response?.status === 200) {
+         yield put({ type: 'CANCEL_CHECKOUT', payload: { response: response.data, statusCode: response?.status  } })
       }
 
       if (response) {
@@ -111,8 +111,8 @@ function* handleGetParticularCustomerReading(reading) {
    try {
       const response = yield call(getParticularCustomerReading, reading.payload)
 
-      if (response.status === 200) {
-         yield put({ type: 'GET_PARTICULAR_CUSTOMER_READING', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      if (response?.status === 200) {
+         yield put({ type: 'GET_PARTICULAR_CUSTOMER_READING', payload: { response: response.data, statusCode: response?.status } })
       }
 
       if (response) {
@@ -145,8 +145,8 @@ function* handleGetCustomerReading(reading) {
    try {
       const response = yield call(getCustomerReading, reading.payload)
 
-      if (response.status === 200) {
-         yield put({ type: 'GET_CUSTOMER_READING', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      if (response?.status === 200) {
+         yield put({ type: 'GET_CUSTOMER_READING', payload: { response: response.data, statusCode: response?.status} })
       }
 
       if (response) {
@@ -173,8 +173,8 @@ function* handleGetParticularRoomReading(reading) {
    try {
       const response = yield call(getParticularRoomReading, reading.payload)
 
-      if (response.status === 200) {
-         yield put({ type: 'GET_PARTICULAR_ROOM_READING', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      if (response?.status === 200) {
+         yield put({ type: 'GET_PARTICULAR_ROOM_READING', payload: { response: response.data, statusCode: response?.status } })
       }
 
       if (response) {
@@ -203,8 +203,8 @@ function* handleBookingToCheckIn(reading) {
    try {
       const response = yield call(bookingToCheckIn, reading.payload)
 
-      if (response.status === 201 || response.status === 200) {
-         yield put({ type: 'BOOKING_TO_CHECKIN', payload: { response: response.data, statusCode: response.status } })
+      if (response?.status === 201 || response?.status === 200) {
+         yield put({ type: 'BOOKING_TO_CHECKIN', payload: { response: response.data, statusCode: response?.status } })
 
          var toastStyle = {
             backgroundColor: "#E6F6E6",
@@ -266,11 +266,11 @@ function* handleCancelBookingGet(reading) {
    try {
       const response = yield call(cancelBookingGet, reading.payload)
 
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'INITIALIZE_CANCEL_BOOKING', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'INITIALIZE_CANCEL_BOOKING', payload: { response: response.data, statusCode: response?.status  } })
       }
       else {
-         yield put({ type: 'ERROR', payload: response.data.message })
+         yield put({ type: 'ERROR', payload: response?.data?.message })
       }
       if (response) {
          refreshToken(response)
@@ -305,11 +305,11 @@ function* handleGetRoomReading(reading) {
    try {
       const response = yield call(getRoomReading, reading.payload)
 
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'GET_ROOM_READING', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'GET_ROOM_READING', payload: { response: response.data, statusCode: response?.status } })
       }
       else {
-         yield put({ type: 'ERROR', payload: response.data.message })
+         yield put({ type: 'ERROR', payload: response?.data?.message })
       }
       if (response) {
          refreshToken(response)
@@ -336,8 +336,8 @@ function* handleAddRoomReading(reading) {
    try {
       const response = yield call(addRoomReading, reading.payload)
 
-      if (response.status === 201 || response.status === 200) {
-         yield put({ type: 'ADD_ROOM_READING', payload: { response: response.data, statusCode: response.status } })
+      if (response?.status === 201 || response?.status === 200) {
+         yield put({ type: 'ADD_ROOM_READING', payload: { response: response.data, statusCode: response?.status } })
 
          var toastStyle = {
             backgroundColor: "#E6F6E6",
@@ -404,11 +404,11 @@ function* handleAvailableBedDetailsForDate(bedDetails) {
    try {
       const response = yield call(availableBedDetailsForDate, bedDetails.payload)
 
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'AVAILABLE_BED', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'AVAILABLE_BED', payload: { response: response.data, statusCode: response?.status  } })
       }
       else {
-         yield put({ type: 'ERROR', payload: response.data.message })
+         yield put({ type: 'ERROR', payload: response?.data?.message })
       }
       if (response) {
          refreshToken(response)
@@ -434,8 +434,8 @@ function* handleAvailableBedDetailsForDate(bedDetails) {
 function* handleBookedDetails(action) {
    try {
       const response = yield call(bookedDetails, action.payload)
-      if (response.status === 200) {
-         yield put({ type: 'BOOKED_DETAILS', payload: { response: response.data, statusCode: response.status } })
+      if (response?.status === 200) {
+         yield put({ type: 'BOOKED_DETAILS', payload: { response: response.data, statusCode: response?.status } })
       }
 
       if (response) {
@@ -468,10 +468,10 @@ function* handleCheckIn(datum) {
       const response = yield call(CheckIn, datum.payload);
 
 
-      if (response.status === 201) {
+      if (response?.status === 201) {
          yield put({
             type: 'CHECK_IN',
-            payload: { response: response.message, statusCode: response.status },
+            payload: { response: response.message, statusCode: response?.status },
          });
 
 
@@ -528,15 +528,15 @@ function* handleCheckIn(datum) {
 function* handleuserlist(user) {
    try {
       const response = yield call(userlist, user.payload);
-      if (response.status === 200) {
-         yield put({ type: 'USER_LIST', payload: { response: response.data, statusCode: response.status } })
+      if (response?.status === 200) {
+         yield put({ type: 'USER_LIST', payload: { response: response.data, statusCode: response?.status } })
       }
 
-      else if (response.status === 201 || response.data.statusCode === 201) {
-         yield put({ type: 'NO_USER_LIST', payload: { response: response.data.hostelData || [], statusCode: response.status || response.data.statusCode } })
+      else if (response?.status === 201 ) {
+         yield put({ type: 'NO_USER_LIST', payload: { response: response.data.hostelData || [], statusCode: response?.status  } })
       }
       else {
-         yield put({ type: 'ERROR', payload: response.data.message })
+         yield put({ type: 'ERROR', payload: response?.data?.message })
       }
       if (response) {
          refreshToken(response)
@@ -576,8 +576,8 @@ function* handleDeleteCustomer(customer) {
 
    };
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'DELETE_CUSTOMER', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+   if (response?.status === 200 ) {
+      yield put({ type: 'DELETE_CUSTOMER', payload: { response: response.data, statusCode: response?.status  } })
 
       toast.success('Deleted successfully!', {
          position: "bottom-center",
@@ -592,7 +592,7 @@ function* handleDeleteCustomer(customer) {
       });
 
    }
-   else if (response.status === 201 || response.statusCode === 201) {
+   else if (response?.status === 201 ) {
       toast.error('Cannot delete, bed already assigned.', {
          position: "bottom-center",
          autoClose: 2000,
@@ -605,7 +605,7 @@ function* handleDeleteCustomer(customer) {
       });
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload: response?.data?.message })
    }
    if (response) {
       refreshToken(response)
@@ -624,11 +624,11 @@ function* handleHostelList(hostel) {
 
 
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'HOSTEL_LIST', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+   if (response?.status === 200 ) {
+      yield put({ type: 'HOSTEL_LIST', payload: { response: response.data, statusCode: response?.status} })
    }
-   else if (response.status === 201 || response.statusCode === 201) {
-      yield put({ type: 'NO_HOSTEL', payload: { statusCode: response.status || response.statusCode } })
+   else if (response?.status === 201 ) {
+      yield put({ type: 'NO_HOSTEL', payload: { statusCode: response?.status } })
    }
    if (response) {
       refreshToken(response)
@@ -638,11 +638,11 @@ function* handleHostelList(hostel) {
 function* handleGetParticularHostelList(action) {
    const response = yield call(getParticularHostelList, action.payload)
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'HOSTEL_LIST_All', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+   if (response?.status === 200 ) {
+      yield put({ type: 'HOSTEL_LIST_All', payload: { response: response.data, statusCode: response?.status } })
    }
-   else if (response.status === 201 || response.data.statusCode === 201) {
-      yield put({ type: 'NO_HOSTEL_DETAILS', payload: { statusCode: response.status || response.data.statusCode } })
+   else if (response?.status === 201 ) {
+      yield put({ type: 'NO_HOSTEL_DETAILS', payload: { statusCode: response?.status  } })
    }
    if (response) {
       refreshToken(response)
@@ -654,11 +654,11 @@ function* handleNumberOfRooms(ID) {
       const response = yield call(roomsCount, ID.payload)
 
 
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'ROOM_COUNT', payload: { response: response.data.responseData, statusCode: response.status || response.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'ROOM_COUNT', payload: { response: response.data.responseData, statusCode: response?.status  } })
       }
-      else if (response.status === 201) {
-         yield put({ type: 'NO_ROOMS', payload: { response: response.data.message, floor_Id: ID.payload.floor_Id, statusCode: response.status || response.statusCode } })
+      else if (response?.status === 201) {
+         yield put({ type: 'NO_ROOMS', payload: { response: response.data.message, floor_Id: ID.payload.floor_Id, statusCode: response?.status } })
       }
       if (response) {
          refreshToken(response)
@@ -679,12 +679,12 @@ function* handleNumberOfRooms(ID) {
 function* handlehosteliddetail(data) {
    try {
       const response = yield call(hosteliddetail, data.payload);
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'HOSTEL_DETAIL_LIST', payload: response.data.hostel_data, statusCode: response.status || response.statusCode })
+      if (response?.status === 200 ) {
+         yield put({ type: 'HOSTEL_DETAIL_LIST', payload: response.data.hostel_data, statusCode: response?.status  })
 
       }
       else {
-         yield put({ type: 'ERROR', payload: response.data.message })
+         yield put({ type: 'ERROR', payload: response?.data?.message })
       }
       if (response) {
          refreshToken(response)
@@ -706,11 +706,11 @@ function* handlehosteliddetail(data) {
 function* handleUserBillPaymentHistory() {
    const response = yield call(userBillPaymentHistory)
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'BILL_PAYMENT_HISTORY', payload: response.data, statusCode: response.status || response.statusCode })
+   if (response?.status === 200 ) {
+      yield put({ type: 'BILL_PAYMENT_HISTORY', payload: response.data, statusCode: response?.status  })
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload: response?.data?.message })
    }
    if (response) {
       refreshToken(response)
@@ -740,8 +740,8 @@ function* handleCreateFloor(data) {
       };
 
 
-      if (response.status === 201) {
-         yield put({ type: 'CREATE_FLOOR', payload: { response: response.data, statusCode: response.status } })
+      if (response?.status === 201) {
+         yield put({ type: 'CREATE_FLOOR', payload: { response: response.data, statusCode: response?.status } })
 
          toast.success('Created successfully!', {
             position: "bottom-center",
@@ -755,9 +755,9 @@ function* handleCreateFloor(data) {
             style: toastStyle,
          });
       }
-      else if (response.status === 202 || response.statusCode === 202) {
+      else if (response?.status === 202 ) {
 
-         yield put({ type: 'ALREADY_FLOOR_ERROR', payload: response.data.message })
+         yield put({ type: 'ALREADY_FLOOR_ERROR', payload: response?.data?.message })
 
       }
       if (response) {
@@ -779,11 +779,11 @@ function* handleRoomsDetails(ID) {
    const response = yield call(roomsCount, ID.payload)
 
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'ROOM_DETAILS', payload: response.data.responseData, statusCode: response.status || response.statusCode })
+   if (response?.status === 200 ) {
+      yield put({ type: 'ROOM_DETAILS', payload: response.data.responseData, statusCode: response?.status })
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload: response?.data?.message })
    }
    if (response) {
       refreshToken(response)
@@ -797,10 +797,10 @@ function* handleAddUser(datum) {
       const response = yield call(addUser, datum.payload);
 
 
-      if (response.status === 201) {
+      if (response?.status === 201) {
          yield put({
             type: 'ADD_USER',
-            payload: { response: response.message, statusCode: response.status },
+            payload: { response: response.message, statusCode: response?.status },
          });
 
 
@@ -857,10 +857,10 @@ function* handleCustomerSaveInfo(datum) {
       const response = yield call(customerSaveInfo, datum.payload);
 
 
-      if (response.status === 201) {
+      if (response?.status === 201) {
          yield put({
             type: 'CREATE_CUSTOMER_SAVE_INFO',
-            payload: { response: response.message, statusCode: response.status },
+            payload: { response: response.message, statusCode: response?.status },
          });
 
 
@@ -917,11 +917,11 @@ function* handleCustomerSaveInfo(datum) {
 function* handleRoomCheck(action) {
    const response = yield call(roomFullCheck, action.payload)
 
-   if ((response.status === 200 || response.statusCode === 200) && response.data.length > 0) {
-      yield put({ type: 'ROOM_FULL', payload: response.data.data, statusCode: response.status || response.statusCode })
+   if ((response?.status === 200 ) && response.data?.length > 0) {
+      yield put({ type: 'ROOM_FULL', payload: response.data.data, statusCode: response?.status  })
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload: response?.data?.message })
    }
    if (response) {
       refreshToken(response)
@@ -932,8 +932,8 @@ function* handleRoomCheck(action) {
 function* handleCheckOut(action) {
    const response = yield call(checkOutUser, action.payload)
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'CHECKOUT_USER', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+   if (response?.status === 200 ) {
+      yield put({ type: 'CHECKOUT_USER', payload: { response: response.data, statusCode: response?.status} })
       Swal.fire({
          icon: 'success',
          text: 'User Check Out Successfully',
@@ -942,7 +942,7 @@ function* handleCheckOut(action) {
 
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload: response?.data?.message })
    }
    if (response) {
       refreshToken(response)
@@ -968,8 +968,8 @@ function* handleDeleteFloor(hosteID) {
          padding: "10px",
 
       };
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'DELETE_FLOOR', payload: { message: response.data.message, statusCode: response.status || response.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'DELETE_FLOOR', payload: { message: response.data.message, statusCode: response?.status  } })
 
          toast.success('Deleted successfully!', {
             position: "bottom-center",
@@ -1035,8 +1035,8 @@ function* handleDeleteRoom(roomDetails) {
 
    };
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'DELETE_ROOM', payload: { message: response.data.message, statusCode: response.status || response.statusCode } })
+   if (response?.status === 200 ) {
+      yield put({ type: 'DELETE_ROOM', payload: { message: response.data.message, statusCode: response?.status  } })
       toast.success('Deleted successfully!', {
          position: "bottom-center",
          autoClose: 2000,
@@ -1088,8 +1088,8 @@ function refreshToken(response) {
       const refreshTokenGet = response.data.refresh_token
       const cookies = new Cookies()
       cookies.set('token', refreshTokenGet, { path: '/' });
-   } else if (response.status === 206) {
-      const message = response.status
+   } else if (response?.status === 206) {
+      const message = response?.status
       const cookies = new Cookies()
       cookies.set('access-denied', message, { path: '/' });
 
@@ -1101,11 +1101,11 @@ function refreshToken(response) {
 function* handlecustomerdetails(userDetails) {
    const response = yield call(CustomerDetails, userDetails.payload)
    console.log("handlecustomerdetails", response)
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'CUSTOMER_DETAILS', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+   if (response?.status === 200 ) {
+      yield put({ type: 'CUSTOMER_DETAILS', payload: { response: response.data, statusCode: response?.status  } })
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload: response?.data?.message })
    }
    if (response) {
       refreshToken(response)
@@ -1116,23 +1116,21 @@ function* handlecustomerdetails(userDetails) {
 function* handleAmnitiesName() {
    const response = yield call(amnitiesnameList);
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'AMNITIES_NAME', payload: response.data, statusCode: response.status || response.statusCode })
+   if (response?.status === 200 ) {
+      yield put({ type: 'AMNITIES_NAME', payload: response?.data, statusCode: response?.status })
    }
-   else {
-      yield put({ type: 'ERROR', payload: response.data.message })
-   }
+   
    if (response) {
       refreshToken(response)
    }
 }
 function* handleamenityhistory(amnityDetails) {
    const response = yield call(amenitieshistory, amnityDetails.payload)
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'AMENITIES_HISTORY', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
+   if (response?.status === 200 ) {
+      yield put({ type: 'AMENITIES_HISTORY', payload: { response: response.data.data, statusCode: response?.status  } })
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload: response?.data?.message })
    }
    if (response) {
       refreshToken(response)
@@ -1159,8 +1157,8 @@ function* handleuserAddAmnitiesName(amnity) {
          padding: "10px",
       };
 
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'ADD_USER_AMENITIES', payload: { message: response.data.message, statusCode: response.status || response.statusCode } });
+      if (response?.status === 200 ) {
+         yield put({ type: 'ADD_USER_AMENITIES', payload: { message: response.data.message, statusCode: response?.status } });
 
          toastStyle.backgroundColor = "#E6F6E6";
          toastStyle.color = "black";
@@ -1178,7 +1176,7 @@ function* handleuserAddAmnitiesName(amnity) {
          });
 
 
-      } else if (response.status === 201 || response.statusCode === 201) {
+      } else if (response?.status === 201 ) {
          toastStyle.backgroundColor = "red";
          toastStyle.color = "white";
 
@@ -1195,7 +1193,7 @@ function* handleuserAddAmnitiesName(amnity) {
             style: toastStyle,
          });
       } else {
-         yield put({ type: 'ERROR', payload: response.data.message });
+         yield put({ type: 'ERROR', payload: response?.data?.message });
 
       }
 
@@ -1221,11 +1219,11 @@ function* handlebedNumberDetails(bedDetails) {
    try {
       const response = yield call(availableBedDetails, bedDetails.payload)
 
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'BED_NUMBER_DETAILS', payload: response.data, statusCode: response.status || response.statusCode })
+      if (response?.status === 200 ) {
+         yield put({ type: 'BED_NUMBER_DETAILS', payload: response.data, statusCode: response?.status  })
       }
       else {
-         yield put({ type: 'ERROR', payload: response.data.message })
+         yield put({ type: 'ERROR', payload: response?.data?.message })
       }
       if (response) {
          refreshToken(response)
@@ -1267,8 +1265,8 @@ function* handleKYCValidate(action) {
          padding: "10px",
 
       };
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'KYC_VALIDATE', payload: { response: response.data.result.ref_id, statusCode: response.status || response.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'KYC_VALIDATE', payload: { response: response.data.result.ref_id, statusCode: response?.status  } })
 
          toast.success(`${response.data.result.message}`, {
             position: "bottom-center",
@@ -1283,7 +1281,7 @@ function* handleKYCValidate(action) {
          });
 
       }
-      else if (response.status === 201) {
+      else if (response?.status === 201) {
          toast.error('Enter valid Aadhaar No.', {
             position: "bottom-center",
             autoClose: 2000,
@@ -1337,8 +1335,8 @@ function* handleKYCValidateOtpVerify(action) {
          padding: "10px",
 
       };
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'KYC_VALIDATE_OTP_VERIFY', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'KYC_VALIDATE_OTP_VERIFY', payload: { response: response.data, statusCode: response?.status  } })
          toast.success(`${response.data.message}`, {
             position: "bottom-center",
             autoClose: 2000,
@@ -1352,8 +1350,8 @@ function* handleKYCValidateOtpVerify(action) {
          });
 
       }
-      else if (response.status === 201 || response.statusCode === 201) {
-         yield put({ type: 'ERROR', payload: response.data.message })
+      else if (response?.status === 201 ) {
+         yield put({ type: 'ERROR', payload: response?.data?.message })
          toast.error(`${response.data.message}`, {
             position: "bottom-center",
             autoClose: 2000,
@@ -1391,11 +1389,11 @@ function* handleKYCValidateOtpVerify(action) {
 function* handleCountrylist() {
    const response = yield call(countrylist);
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'COUNTRY_LIST', payload: response.data, statusCode: response.status || response.statusCode })
+   if (response?.status === 200 ) {
+      yield put({ type: 'COUNTRY_LIST', payload: response.data, statusCode: response?.status  })
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload: response?.data?.message })
    }
    if (response) {
       refreshToken(response)
@@ -1407,11 +1405,11 @@ function* handleGetWalkInCustomer(action) {
    const response = yield call(getWalkInCustomer, action.payload);
 
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'WALK_IN_CUSTOMER_LIST', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
+   if (response?.status === 200 ) {
+      yield put({ type: 'WALK_IN_CUSTOMER_LIST', payload: { response: response.data.data, statusCode: response?.status  } })
    }
-   else if (response.status === 201 || response.statusCode === 201) {
-      yield put({ type: 'WALK_IN_CUSTOMER_LIST_ERROR', payload: { statusCode: response.status || response.statusCode } })
+   else if (response?.status === 201) {
+      yield put({ type: 'WALK_IN_CUSTOMER_LIST_ERROR', payload: { statusCode: response?.status  } })
    }
    if (response) {
       refreshToken(response)
@@ -1495,8 +1493,8 @@ function* handleDeleteWalkInCustomer(action) {
 
    };
 
-   if (response.statusCode === 200 || response.status === 200) {
-      yield put({ type: 'DELETE_WALK_IN_CUSTOMER', payload: { response: response.data, statusCode: response.statusCode || response.status } })
+   if (response?.status === 200) {
+      yield put({ type: 'DELETE_WALK_IN_CUSTOMER', payload: { response: response.data, statusCode:  response?.status } })
       toast.success('Deleted Successfully', {
          position: "bottom-center",
          autoClose: 2000,
@@ -1519,11 +1517,11 @@ function* handleDeleteWalkInCustomer(action) {
 
 function* handleCheckoutCustomer(action) {
    const response = yield call(getCheckOutCustomer, action.payload);
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'CHECKOUT_CUSTOMER_LIST', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+   if (response?.status === 200 ) {
+      yield put({ type: 'CHECKOUT_CUSTOMER_LIST', payload: { response: response.data, statusCode: response?.status  } })
    }
-   else if (response.status === 201 || response.statusCode === 201) {
-      yield put({ type: 'CHECKOUT_CUSTOMER_LIST_ERROR', payload: { statusCode: response.status || response.statusCode } })
+   else if (response?.status === 201 ) {
+      yield put({ type: 'CHECKOUT_CUSTOMER_LIST_ERROR', payload: { statusCode: response?.status } })
    }
    if (response) {
       refreshToken(response)
@@ -1550,8 +1548,8 @@ function* handleAddCheckoutCustomer(action) {
 
       };
 
-      if (response.status === 201) {
-         yield put({ type: 'ADD_CHECKOUT_CUSTOMER', payload: { response: response.data, statusCode: response.statusCode || response.status } })
+      if (response?.status === 201) {
+         yield put({ type: 'ADD_CHECKOUT_CUSTOMER', payload: { response: response.data, statusCode:  response?.status } })
          toast.success(`${response.data}`, {
             position: "bottom-center",
             autoClose: 2000,
@@ -1564,8 +1562,8 @@ function* handleAddCheckoutCustomer(action) {
             style: toastStyle,
          });
       }
-      // } else if (response.status === 201 || response.statusCode === 201) {
-      //    yield put({ type: 'ADD_CHECKOUT_CUSTOMER_LIST_ERROR', payload: response.data.message })
+      // } else if (response?.status === 201 ) {
+      //    yield put({ type: 'ADD_CHECKOUT_CUSTOMER_LIST_ERROR', payload: response?.data?.message })
       // }
 
 
@@ -1607,8 +1605,8 @@ function* handleDeleteCheckOUtCustomer(action) {
 
    };
 
-   if (response.statusCode === 200 || response.status === 200) {
-      yield put({ type: 'DELETE_CHECK_OUT_CUSTOMER', payload: { response: response.data, statusCode: response.statusCode || response.status } })
+   if (response?.status === 200) {
+      yield put({ type: 'DELETE_CHECK_OUT_CUSTOMER', payload: { response: response.data, statusCode: response?.status } })
       toast.success('Deleted Successfully', {
          position: "bottom-center",
          autoClose: 2000,
@@ -1634,7 +1632,7 @@ function* handleDeleteCheckOUtCustomer(action) {
 function* handleAvailableCheckOUtCustomer(action) {
    const response = yield call(AvailableCheckOutCustomer, action.payload);
 
-   if (response.statusCode === 200 || response.status === 200) {
+   if (response?.status === 200) {
       yield put({ type: 'AVAILABLE_CHECK_OUT_CUSTOMER', payload: { response: response.data.user_list } })
    }
 
@@ -1647,8 +1645,8 @@ function* handleAvailableCheckOUtCustomer(action) {
 function* handlegetConfirmCheckOUtCustomer(action) {
    const response = yield call(GetConfirmCheckOut, action.payload);
 
-   if (response.statusCode === 200 || response.status === 200) {
-      yield put({ type: 'GET_CONFIRM_CHECK_OUT_CUSTOMER', payload: { response: response.data, statusCode: response.statusCode || response.status } })
+   if (response?.status === 200) {
+      yield put({ type: 'GET_CONFIRM_CHECK_OUT_CUSTOMER', payload: { response: response.data, statusCode: response?.status } })
    }
    if (response) {
       refreshToken(response)
@@ -1676,8 +1674,8 @@ function* handleAddConfirmCheckout(action) {
 
       };
 
-      if (response.statusCode === 200 || response.status === 200) {
-         yield put({ type: 'ADD_CONFIRM_CHECK_OUT_CUSTOMER', payload: { statusCode: response.statusCode || response.status } })
+      if (response?.status === 200) {
+         yield put({ type: 'ADD_CONFIRM_CHECK_OUT_CUSTOMER', payload: { statusCode: response?.status } })
          toast.success(`${response.data.message}`, {
             position: "bottom-center",
             autoClose: 2000,
@@ -1690,8 +1688,8 @@ function* handleAddConfirmCheckout(action) {
             style: toastStyle,
          });
       }
-      else if (response.status === 201 || response.statusCode === 201) {
-         yield put({ type: 'ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR', payload: response.data.message })
+      else if (response?.status === 201 ) {
+         yield put({ type: 'ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR', payload: response?.data?.message })
       }
       if (response) {
          refreshToken(response)
@@ -1732,8 +1730,8 @@ function* handleEditConfirmCheckout(action) {
 
       };
 
-      if (response.statusCode === 200 || response.status === 200) {
-         yield put({ type: 'EDIT_CONFIRM_CHECK_OUT_CUSTOMER', payload: { statusCode: response.statusCode || response.status } })
+      if (response?.status === 200) {
+         yield put({ type: 'EDIT_CONFIRM_CHECK_OUT_CUSTOMER', payload: { statusCode:response?.status } })
          toast.success(`${response.data.message}`, {
             position: "bottom-center",
             autoClose: 2000,
@@ -1746,8 +1744,8 @@ function* handleEditConfirmCheckout(action) {
             style: toastStyle,
          });
       }
-      else if (response.status === 201 || response.statusCode === 201) {
-         yield put({ type: 'EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR', payload: response.data.message })
+      else if (response?.status === 201) {
+         yield put({ type: 'EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR', payload: response?.data?.message })
       }
 
       if (response) {
@@ -1772,13 +1770,13 @@ function* handleEditConfirmCheckout(action) {
 
 function* handleExportDetails(action) {
    const response = yield call(exportDetails, action.payload);
-   if (response.data.status === 200 || response.data.statusCode === 200) {
-      yield put({ type: 'EXPORT_DETAILS', payload: { response: response.data, statusCode: response.data.status || response.data.statusCode } })
+   if (response?.status === 200 ) {
+      yield put({ type: 'EXPORT_DETAILS', payload: { response: response.data, statusCode: response?.status  } })
 
    }
 
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload: response?.data?.message })
    }
    if (response) {
       refreshToken(response)
@@ -1788,13 +1786,13 @@ function* handleExportDetails(action) {
 
 function* handleAssetsExportDetails(action) {
    const response = yield call(exportDetails, action.payload);
-   if (response.data.status === 200 || response.data.statusCode === 200) {
-      yield put({ type: 'EXPORT_ASSETS_DETAILS', payload: { response: response.data, statusCode: response.data.status || response.data.statusCode } })
+   if (response?.status === 200) {
+      yield put({ type: 'EXPORT_ASSETS_DETAILS', payload: { response: response.data, statusCode: response?.status } })
 
    }
 
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload: response?.data?.message })
    }
    if (response) {
       refreshToken(response)
@@ -1804,13 +1802,13 @@ function* handleAssetsExportDetails(action) {
 
 function* handleElectricityExportDetails(action) {
    const response = yield call(exportDetails, action.payload);
-   if (response.data.status === 200 || response.data.statusCode === 200) {
-      yield put({ type: 'EXPORT_EB_DETAILS', payload: { response: response.data, statusCode: response.data.status || response.data.statusCode } })
+   if (response?.status === 200) {
+      yield put({ type: 'EXPORT_EB_DETAILS', payload: { response: response.data, statusCode: response?.status } })
 
    }
 
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload: response?.data?.message })
    }
    if (response) {
       refreshToken(response)
@@ -1819,13 +1817,13 @@ function* handleElectricityExportDetails(action) {
 
 function* handleExpenceExportDetails(action) {
    const response = yield call(exportDetails, action.payload);
-   if (response.data.status === 200 || response.data.statusCode === 200) {
-      yield put({ type: 'EXPORT_EXPENSE_DETAILS', payload: { response: response.data, statusCode: response.data.status || response.data.statusCode } })
+   if (response?.status === 200) {
+      yield put({ type: 'EXPORT_EXPENSE_DETAILS', payload: { response: response.data, statusCode: response?.status  } })
 
    }
 
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload: response?.data?.message })
    }
    if (response) {
       refreshToken(response)
@@ -1833,13 +1831,13 @@ function* handleExpenceExportDetails(action) {
 }
 function* handleComplianceExportDetails(action) {
    const response = yield call(exportDetails, action.payload);
-   if (response.data.status === 200 || response.data.statusCode === 200) {
-      yield put({ type: 'EXPORT_COMPLIANCE_DETAILS', payload: { response: response.data, statusCode: response.data.status || response.data.statusCode } })
+   if (response?.status === 200) {
+      yield put({ type: 'EXPORT_COMPLIANCE_DETAILS', payload: { response: response.data, statusCode: response?.status } })
 
    }
 
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload: response?.data?.message })
    }
    if (response) {
       refreshToken(response)
@@ -1847,13 +1845,13 @@ function* handleComplianceExportDetails(action) {
 }
 function* handleBookingExportDetails(action) {
    const response = yield call(exportDetails, action.payload);
-   if (response.data.status === 200 || response.data.statusCode === 200) {
-      yield put({ type: 'EXPORT_BOOKING_DETAILS', payload: { response: response.data, statusCode: response.data.status || response.data.statusCode } })
+   if ( response?.status === 200 ) {
+      yield put({ type: 'EXPORT_BOOKING_DETAILS', payload: { response: response.data, statusCode:  response?.status } })
 
    }
 
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload: response?.data?.message })
    }
    if (response) {
       refreshToken(response)
@@ -1862,13 +1860,13 @@ function* handleBookingExportDetails(action) {
 
 function* handleWalkinExportDetails(action) {
    const response = yield call(exportDetails, action.payload);
-   if (response.data.status === 200 || response.data.statusCode === 200) {
-      yield put({ type: 'EXPORT_WALKIN_DETAILS', payload: { response: response.data, statusCode: response.data.status || response.data.statusCode } })
+   if  (response?.status === 200) {
+      yield put({ type: 'EXPORT_WALKIN_DETAILS', payload: { response: response.data, statusCode: response?.status } })
 
    }
 
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload: response?.data?.message })
    }
    if (response) {
       refreshToken(response)
@@ -1876,13 +1874,13 @@ function* handleWalkinExportDetails(action) {
 }
 function* handleCheckoutExportDetails(action) {
    const response = yield call(exportDetails, action.payload);
-   if (response.data.status === 200 || response.data.statusCode === 200) {
-      yield put({ type: 'EXPORT_CHECKOUT_DETAILS', payload: { response: response.data, statusCode: response.data.status || response.data.statusCode } })
+   if ( response?.status === 200 ) {
+      yield put({ type: 'EXPORT_CHECKOUT_DETAILS', payload: { response: response.data, statusCode:  response?.status } })
 
    }
 
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload: response?.data?.message })
    }
    if (response) {
       refreshToken(response)
@@ -1907,9 +1905,9 @@ function* handleCheckoutExportDetails(action) {
 //          padding: "10px",
 
 //       };
-//       if (response.status === 200 || response.data.statusCode === 200) {
+//       if (response?.status === 200 ) {
 
-//          yield put({ type: 'REASSIGN_BED', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
+//          yield put({ type: 'REASSIGN_BED', payload: { response: response.data, statusCode: response?.status  } })
 //          toast.success(`${response.data.message}`, {
 //             position: "bottom-center",
 //             autoClose: 2000,
@@ -1967,13 +1965,13 @@ function* handleReAssignPage(action) {
          padding: "10px",
       };
 
-      if (response.status === 200 || response.data.statusCode === 200) {
+      if (response?.status === 200 ) {
 
          yield put({
             type: 'REASSIGN_BED',
             payload: {
                response: response.data,
-               statusCode: response.status || response.data.statusCode
+               statusCode: response?.status 
             }
          });
 
@@ -2028,9 +2026,9 @@ function* handleCustomerAddContact(action) {
 
       };
 
-      if (response.status === 200 || response.data.statusCode === 200) {
+      if (response?.status === 200) {
 
-         yield put({ type: 'CUSTOMER_ADD_CONTACT', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
+         yield put({ type: 'CUSTOMER_ADD_CONTACT', payload: { response: response.data, statusCode: response?.status  } })
          toast.success(`${response.data.message}`, {
             position: "bottom-center",
             autoClose: 2000,
@@ -2043,8 +2041,8 @@ function* handleCustomerAddContact(action) {
             style: toastStyle,
          });
       }
-      else if (response.status === 201 || response.data.statusCode === 201) {
-         yield put({ type: 'CONTACT_ERROR', payload: { response: response.data.message, statusCode: response.status || response.data.statusCode } })
+      else if (response?.status === 201 ) {
+         yield put({ type: 'CONTACT_ERROR', payload: { response: response.data.message, statusCode: response?.status } })
       }
 
       else {
@@ -2075,10 +2073,10 @@ function* handleCustomerAllDetails(action) {
    try {
       const response = yield call(customerAllContact, action.payload);
 
-      if (response.status === 200 || response.data.statusCode === 200) {
-         yield put({ type: "CUSTOMER_ALL_DETAILS", payload: { response: response.data, statusCode: response.status || response.data.statusCode } });
+      if (response?.status === 200 ) {
+         yield put({ type: "CUSTOMER_ALL_DETAILS", payload: { response: response.data, statusCode: response?.status  } });
       } else {
-         yield put({ type: "ERROR", payload: response.data.message });
+         yield put({ type: "ERROR", payload: response?.data?.message });
       }
       if (response) {
          refreshToken(response);
@@ -2118,12 +2116,12 @@ function* handleDeleteContact(action) {
 
    };
 
-   if (response.status === 200 || response.data.statusCode === 200) {
+   if (response?.status === 200 ) {
       yield put({
          type: "DELETE_CONTACT",
          payload: {
             response: response.data,
-            statusCode: response.status || response.data.statusCode,
+            statusCode: response?.status ,
          },
       });
       toast.success("Deleted successfully", {
@@ -2138,7 +2136,7 @@ function* handleDeleteContact(action) {
          style: toastStyle,
       });
    } else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload: response?.data?.message })
    }
    if (response) {
       refreshToken(response);
@@ -2166,12 +2164,12 @@ function* handleGenerateAdvance(action) {
 
       };
 
-      if (response.status === 200 || response.data.statusCode === 200) {
+      if (response?.status === 200 ) {
          yield put({
             type: "GENERATE_ADVANCE",
             payload: {
                response: response.data,
-               statusCode: response.status || response.data.statusCode,
+               statusCode: response?.status ,
             },
          });
          toast.success(`${response.data.message}`, {
@@ -2186,12 +2184,12 @@ function* handleGenerateAdvance(action) {
             style: toastStyle,
          });
       }
-      else if (response.status === 201 || response.data.statusCode === 201) {
-         yield put({ type: 'GENERATE_ERROR', payload: { response: response.message, statusCode: response.status || response.data.statusCode } })
+      else if (response?.status === 201 ) {
+         yield put({ type: 'GENERATE_ERROR', payload: { response: response.message, statusCode: response?.status} })
       }
 
       else {
-         yield put({ type: 'ERROR', payload: response.data.message })
+         yield put({ type: 'ERROR', payload: response?.data?.message })
       }
       if (response) {
          refreshToken(response);
@@ -2232,8 +2230,8 @@ function* handleUploadDocument(data) {
       };
 
 
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'UPLOAD_DOCUMENT', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'UPLOAD_DOCUMENT', payload: { response: response.data, statusCode: response?.status  } })
 
          toast.success(`${response.message}`, {
             position: "bottom-center",
@@ -2247,8 +2245,8 @@ function* handleUploadDocument(data) {
             style: toastStyle,
          });
       }
-      else if (response.status === 201 || response.statusCode === 201) {
-         yield put({ type: 'ADHAR_UPLOAD_ERROR', payload: { response: response.message, statusCode: response.status || response.statusCode } })
+      else if (response?.status === 201 ) {
+         yield put({ type: 'ADHAR_UPLOAD_ERROR', payload: { response: response.message, statusCode: response?.status } })
       }
       else {
          yield put({ type: 'ERROR', payload: response.message })
@@ -2295,8 +2293,8 @@ function* handleUploadOtherDocument(data) {
       };
 
 
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'UPLOAD_OTHER_DOCUMENT', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'UPLOAD_OTHER_DOCUMENT', payload: { response: response.data, statusCode: response?.status  } })
 
          toast.success(`${response.message}`, {
             position: "bottom-center",
@@ -2335,11 +2333,11 @@ function* handleUploadOtherDocument(data) {
 
 function* handlehostelDetailsId() {
    const response = yield call(hostelDetailsId);
-   if (response.status === 200 || response.data.statusCode === 200) {
-      yield put({ type: 'HOSTEL_ID_LIST', payload: response.data, statusCode: response.status || response.data.statusCode })
+   if (response?.status === 200 ) {
+      yield put({ type: 'HOSTEL_ID_LIST', payload: response.data, statusCode: response?.status  })
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload: response?.data?.message })
    }
    if (response) {
       refreshToken(response)
@@ -2373,12 +2371,12 @@ function* handleKYCVerifyNew(action) {
          padding: "10px",
       };
 
-      if (response.status === 200 || response.statusCode === 200) {
+      if (response?.status === 200) {
          yield put({
             type: 'KYC_VERIFY_NEW',
             payload: {
                response: response.data,
-               statusCode: response.status || response.statusCode,
+               statusCode: response?.status ,
             },
          });
 
@@ -2422,12 +2420,12 @@ function* handleCustomerDetailsKyc(action) {
 
 
 
-      if (response.status === 200) {
+      if (response?.status === 200) {
          yield put({
             type: 'KYC_CUSTOMER_DETAILS',
             payload: {
                response: response.data,
-               statusCode: response.status,
+               statusCode: response?.status,
             },
          });
 
@@ -2435,11 +2433,11 @@ function* handleCustomerDetailsKyc(action) {
 
          yield call(refreshToken, response);
       }
-      else if (response.status === 201 || response.statusCode === 201) {
-         yield put({ type: 'KYC_NOT_ADDED', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      else if (response?.status === 201 ) {
+         yield put({ type: 'KYC_NOT_ADDED', payload: { response: response.data, statusCode: response?.status  } })
       }
       else {
-         yield put({ type: 'ERROR', payload: response.data.message });
+         yield put({ type: 'ERROR', payload: response?.data?.message });
       }
    }
    catch (err) {
@@ -2478,8 +2476,8 @@ function* handleConfirmCheckoutDueCustomer(data) {
       };
 
 
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'CONFIRM_CHECKOUT_DUE_CUSTOMER', payload: { statusCode: response.status || response.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'CONFIRM_CHECKOUT_DUE_CUSTOMER', payload: { statusCode: response?.status  } })
 
          toast.success('Checkouted successfully!', {
             position: "bottom-center",
@@ -2493,9 +2491,9 @@ function* handleConfirmCheckoutDueCustomer(data) {
             style: toastStyle,
          });
       }
-      else if (response.status === 201 || response.statusCode === 201) {
+      else if (response?.status === 201 ) {
 
-         yield put({ type: 'DUE_ERROR', payload: response.data.message })
+         yield put({ type: 'DUE_ERROR', payload: response?.data?.message })
 
       }
       if (response) {
@@ -2525,11 +2523,11 @@ function* handlecustomerUnAssign(action) {
 
 
 
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'UNASSIGN_CUSTOMER', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'UNASSIGN_CUSTOMER', payload: { response: response.data, statusCode: response?.status  } })
       }
       else {
-         yield put({ type: 'ERROR', payload: response.data.message })
+         yield put({ type: 'ERROR', payload: response?.data?.message })
       }
       if (response) {
          refreshToken(response)
@@ -2573,8 +2571,8 @@ function* handleBackToCheckin(action) {
 
    };
 
-   if (response.status === 200 || response.data.statusCode === 200) {
-      yield put({ type: 'BACK_TO_CHECKIN_USER', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
+   if (response?.status === 200 ) {
+      yield put({ type: 'BACK_TO_CHECKIN_USER', payload: { response: response.data, statusCode: response?.status  } })
 
       toast.success(`${response.data.message}`, {
          position: "bottom-center",
@@ -2589,7 +2587,7 @@ function* handleBackToCheckin(action) {
       });
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload: response?.data?.message })
    }
    if (response) {
       refreshToken(response)
@@ -2600,8 +2598,8 @@ function* handleBackToCheckin(action) {
 function* handleGetAllFloor(floor) {
    try {
       const response = yield call(GetAllFloor, floor.payload);
-      if (response.status === 200) {
-         yield put({ type: 'ALL_FLOOR_LIST', payload: { response: response.data, statusCode: response.status } })
+      if (response?.status === 200) {
+         yield put({ type: 'ALL_FLOOR_LIST', payload: { response: response.data, statusCode: response?.status } })
       }
 
       if (response) {
@@ -2626,8 +2624,8 @@ function* handleGenerateDetails(reading) {
       const response = yield call(GenerateDetails, customerId, data)
       console.log("handleGenerateDetails", response)
 
-      if (response.status === 201 || response.status === 200) {
-         yield put({ type: 'FINAL_GENERATE', payload: { response: response.data, statusCode: response.status } })
+      if (response?.status === 201 || response?.status === 200) {
+         yield put({ type: 'FINAL_GENERATE', payload: { response: response.data, statusCode: response?.status } })
 
          var toastStyle = {
             backgroundColor: "#E6F6E6",
@@ -2690,8 +2688,8 @@ function* handleConformCheckout(reading) {
       const response = yield call(conformCheckout, reading.payload)
       console.log("handleConformCheckout", response)
 
-      if (response.status === 200) {
-         yield put({ type: 'CONFORM_CHECKOUT', payload: { response: response.data, statusCode: response.status } })
+      if (response?.status === 200) {
+         yield put({ type: 'CONFORM_CHECKOUT', payload: { response: response.data, statusCode: response?.status } })
 
          var toastStyle = {
             backgroundColor: "#E6F6E6",
@@ -2754,12 +2752,12 @@ function* handleCheckoutProfile(action) {
 
 
 
-   if (response.status === 200 || response.data.statusCode === 200) {
-      yield put({ type: 'CHECKOUT_PROFILE_DETAILS', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
+   if (response?.status === 200 ) {
+      yield put({ type: 'CHECKOUT_PROFILE_DETAILS', payload: { response: response.data, statusCode: response?.status  } })
 
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload: response?.data?.message })
    }
    if (response) {
       refreshToken(response)

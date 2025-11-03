@@ -38,8 +38,8 @@ function* handleUpdateVendor(action) {
 
       };
 
-      if (response.status === 200) {
-         yield put({ type: 'UPDATE_VENDOR', payload: { response: response.data, statusCode: response.status } })
+      if (response?.status === 200) {
+         yield put({ type: 'UPDATE_VENDOR', payload: { response: response.data, statusCode: response?.status } })
          toast.success(`${response.data}`, {
             position: "bottom-center",
             autoClose: 2000,
@@ -77,16 +77,16 @@ function* handleParticularcompliant(action) {
       const { complaintId } = action.payload
       const response = yield call(ParticularcomplianceDetails, complaintId)
 
-      if (response.status === 200 || response.data.statusCode === 200) {
+      if (response?.status === 200) {
          yield put({
             type: 'PARTICULAR-COMPLIANT', payload: {
                response: response.data || [],
-               statusCode: response.status || response.data.statusCode
+               statusCode: response?.status 
             }
          })
       }
       else {
-         yield put({ type: 'ERROR', payload: response.data.message })
+         yield put({ type: 'ERROR', payload:  response?.data?.message })
       }
       if (response) {
          refreshToken(response)
@@ -110,16 +110,16 @@ function* handlecompliancelist(action) {
 
       const response = yield call(complianceList, action.payload)
 
-      if (response.status === 200 || response.data.statusCode === 200) {
+      if (response?.status === 200 ) {
          yield put({
             type: 'COMPLIANCE_LIST', payload: {
                response: response.data || [], filterOptions: response.data.filterOptions || [],
-               statusCode: response.status || response.data.statusCode
+               statusCode: response?.status
             }
          })
       }
       else {
-         yield put({ type: 'ERROR', payload: response.data.message })
+         yield put({ type: 'ERROR', payload:  response?.data?.message })
       }
       if (response) {
          refreshToken(response)
@@ -143,8 +143,8 @@ function* handleComplianceadd(params) {
 
 
 
-      if (response.status === 201 || response.data.statusCode === 201) {
-         yield put({ type: 'COMPLIANCE_ADD', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
+      if (response?.status === 201 ) {
+         yield put({ type: 'COMPLIANCE_ADD', payload: { response: response.data, statusCode: response?.status} })
          var toastStyle = {
             backgroundColor: "#E6F6E6",
             color: "black",
@@ -175,7 +175,7 @@ function* handleComplianceadd(params) {
          })
       }
       else {
-         yield put({ type: 'ERROR', payload: response.data.message })
+         yield put({ type: 'ERROR', payload:  response?.data?.message })
       }
       if (response) {
          refreshToken(response)
@@ -209,8 +209,8 @@ function* handleEditComplaint(action) {
          padding: "10px",
 
       };
-      if (response.status === 200) {
-         yield put({ type: "EDIT_COMPLAINT_SUCCESS", payload: { response: response.data, statusCode: response.status || response.data.statusCode } });
+      if (response?.status === 200) {
+         yield put({ type: "EDIT_COMPLAINT_SUCCESS", payload: { response: response.data, statusCode: response?.status  } });
 
          toast.success(response.data, {
             position: "bottom-center",
@@ -248,11 +248,11 @@ function* handleVendorGet(action) {
 
 
 
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'VENDOR_LIST', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'VENDOR_LIST', payload: { response: response.data, statusCode: response?.status  } })
       }
-      else if (response.status === 201 || response.statusCode === 201) {
-         yield put({ type: 'ERROR_VENDOR_LIST', payload: { statusCode: response.status || response.statusCode } })
+      else if (response?.status === 201 ) {
+         yield put({ type: 'ERROR_VENDOR_LIST', payload: { statusCode: response?.status  } })
       }
       if (response) {
          refreshToken(response)
@@ -286,8 +286,8 @@ function* handleAddVendor(action) {
 
       };
 
-      if (response.status === 201) {
-         yield put({ type: 'ADD_VENDOR', payload: { response: response.data, statusCode: response.status } })
+      if (response?.status === 201) {
+         yield put({ type: 'ADD_VENDOR', payload: { response: response.data, statusCode: response?.status } })
          toast.success(`${response.data}`, {
             position: "bottom-center",
             autoClose: 2000,
@@ -339,8 +339,8 @@ function* handleComplianceChange(action) {
 
       };
 
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'COMPLIANCE_CHANGE_STATUS', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'COMPLIANCE_CHANGE_STATUS', payload: { response: response.data, statusCode: response?.status  } })
 
 
 
@@ -399,8 +399,8 @@ function* handleComplianceChangeAssign(action) {
 
       };
 
-      if (response.statusCode === 200 || response.status === 200) {
-         yield put({ type: 'COMPLIANCE_CHANGE_ASSIGN', payload: { response: response.data, statusCode: response.statusCode || response.status } })
+      if (response?.status === 200) {
+         yield put({ type: 'COMPLIANCE_CHANGE_ASSIGN', payload: { response: response.data, statusCode:  response?.status } })
          toast.success(`${response.data}`, {
             position: "bottom-center",
             autoClose: 2000,
@@ -454,8 +454,8 @@ function* handleDeleteVendor(action) {
 
       };
 
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'DELETE_VENDOR', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'DELETE_VENDOR', payload: { response: response.data, statusCode: response?.status  } })
          toast.success('Vendor has been successfully deleted!', {
             position: "bottom-center",
             autoClose: 2000,
@@ -469,7 +469,7 @@ function* handleDeleteVendor(action) {
          });
       }
       else {
-         yield put({ type: 'ERROR', payload: response.data.message })
+         yield put({ type: 'ERROR', payload:  response?.data?.message })
       }
       if (response) {
          refreshToken(response)
@@ -505,8 +505,8 @@ function* handleDeleteCompliance(action) {
 
       };
 
-      if (response.status === 200 || response.data.statusCode === 200) {
-         yield put({ type: 'DELETE_COMPLIANCE', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'DELETE_COMPLIANCE', payload: { response: response.data, statusCode: response?.status} })
          toast.success(`${response.data}`, {
             position: "bottom-center",
             autoClose: 2000,
@@ -520,7 +520,7 @@ function* handleDeleteCompliance(action) {
          });
       }
       else {
-         yield put({ type: 'ERROR', payload: response.data.message })
+         yield put({ type: 'ERROR', payload:  response?.data?.message })
       }
       if (response) {
          refreshToken(response)
@@ -537,11 +537,11 @@ function* handleDeleteCompliance(action) {
 function* handleGetComplianceComment(action) {
    try {
       const response = yield call(getComplianceComment, action.payload);
-      if (response.status === 200 || response.data.statusCode === 200) {
-         yield put({ type: 'COMPLIANCE_COMENET_LIST', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'COMPLIANCE_COMENET_LIST', payload: { response: response.data, statusCode: response?.status } })
       }
       else {
-         yield put({ type: 'ERROR', payload: response.data.message })
+         yield put({ type: 'ERROR', payload:  response?.data?.message })
       }
       if (response) {
          refreshToken(response)
@@ -563,8 +563,8 @@ function* handleAddComplianceComment(action) {
       const { complaintId, data } = action.payload;
       const response = yield call(addComplianceComment, complaintId, data);
 
-      if (response.status === 201 || response.data.statusCode === 201) {
-         yield put({ type: 'COMPLIANCE_ADD_COMMENT', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
+      if (response?.status === 201) {
+         yield put({ type: 'COMPLIANCE_ADD_COMMENT', payload: { response: response.data, statusCode: response?.status } })
          var toastStyle = {
             backgroundColor: "#E6F6E6",
             color: "black",
@@ -595,7 +595,7 @@ function* handleAddComplianceComment(action) {
          })
       }
       else {
-         yield put({ type: 'ERROR', payload: response.data.message })
+         yield put({ type: 'ERROR', payload:  response?.data?.message })
       }
       if (response) {
          refreshToken(response)
@@ -618,8 +618,8 @@ function refreshToken(response) {
       const refreshTokenGet = response.data.refresh_token
       const cookies = new Cookies()
       cookies.set('token', refreshTokenGet, { path: '/' });
-   } else if (response.status === 206) {
-      const message = response.status
+   } else if (response?.status === 206) {
+      const message = response?.status
       const cookies = new Cookies()
       cookies.set('access-denied', message, { path: '/' });
 
