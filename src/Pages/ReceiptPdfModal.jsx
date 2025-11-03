@@ -27,7 +27,9 @@ import PropTypes from "prop-types";
 import { IoClose } from "react-icons/io5";
 import { Container, Row, Col, Table } from "react-bootstrap";
 import Payment from '../Assets/Images/New_images/Mask-group.png'
-import Refund from '../Assets/Images/New_images/Refund.png'
+import Refund from '../Assets/Images/New_images/Refund.png';
+import { Location, Call, Profile, } from 'iconsax-react'
+import { IoBed } from "react-icons/io5";
 
 
 const InvoiceCard = ({ rowData, handleClosed }) => {
@@ -273,11 +275,40 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
 
 
-const hasAmount  = -100
+  const hasAmount = -100
 
 
+  const templateColor = pdfDetails?.configurations?.templateColor;
+  const isGradient = templateColor?.includes("linear-gradient");
 
+  const textStyle = isGradient
+    ? {
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      background: templateColor,
+      WebkitBackgroundClip: "text",
+      WebkitTextFillColor: "transparent",
+    }
+    : {
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      color: templateColor || "#1E45E1",
+    };
 
+const getIconStyle = (templateColor) => {
+    const isGradient = templateColor?.includes("linear-gradient");
+
+    return isGradient
+      ? {
+        background: templateColor,
+        WebkitBackgroundClip: "text",
+        WebkitTextFillColor: "transparent",
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }
+      : { color: templateColor || "#4B4B4B" };
+  };
 
   return (
     <div style={{ position: 'sticky', top: 0, zIndex: 100, background: 'white' }}>
@@ -462,45 +493,49 @@ const hasAmount  = -100
                 <div className=" p-2 position-relative" style={{
                   borderTopLeftRadius: "8px", borderTopRightRadius: "8px", height: "",
                 }}>
-                    <div className="row d-flex justify-content-between align-items-center ps-3 pe-3">
-                                       <div className="col-6" >
-                                         <img src={pdfDetails?.configurations?.hostelLogo ? pdfDetails?.configurations?.hostelLogo : Logo} alt="logo" style={{ height: 64, minWidth: 64, maxWidth: 84, borderRadius: '4px', }} className="me-2 mt-2" />
-                   
-                   
-                   
-                   
-                                       </div>
-                   
-                                       <div className="mt-2 col-5" >
-                                         <div style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", marginRight: '20px', color: '#2B2B2B' }}>
-                                           {pdfDetails?.stayInfo?.hostelName}
-                                         </div>
-                                         <div
-                                           className="d-flex flex-wrap"
-                                           style={{
-                                             fontSize: 12,
-                                             fontWeight: 600,
-                                             fontFamily: "Gilroy",
-                                             color: "#4B4B4B",
-                                             wordBreak: "break-word",
-                                             width: 150,
-                                           }}
-                                         >
-                                           {pdfDetails?.configurations?.address}
-                                         </div>
-                   
-                                       </div>
-                                     </div>
+                  <div className="row d-flex justify-content-between align-items-center ps-3 pe-3">
+                    <div className="col-6" >
+                      <img src={pdfDetails?.configurations?.hostelLogo ? pdfDetails?.configurations?.hostelLogo : Logo} alt="logo" style={{ height: 64, minWidth: 64, maxWidth: 84, borderRadius: '4px', }} className="me-2 mt-2" />
+
+
+
+
+                    </div>
+
+                    <div className="mt-2 col-5 ps-4 pe-0" >
+                      <div style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", marginRight: '20px', color: '#2B2B2B' }}>
+                        {pdfDetails?.stayInfo?.hostelName}
+                      </div>
+                      <div
+                        className="d-flex flex-wrap"
+                        style={{
+                          fontSize: 12,
+                          fontWeight: 600,
+                          fontFamily: "Gilroy",
+                          color: "#4B4B4B",
+                          wordBreak: "break-word",
+                          width: 150,
+                        }}
+                      >
+                        {pdfDetails?.configurations?.address}
+                      </div>
+
+                    </div>
+                  </div>
                 </div>
 
- <hr className="m-0"
+                  <hr className="m-0"
                   style={{
-                    borderTop: "1px solid #D9D9D9",
+                    border: "none",
+                    height: "1px",
+                    background: templateColor,
+                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                    borderRadius: "2px",
                   }}
                 />
                 <div className="container bg-white rounded-bottom  position-relative" style={{ width: "100%", }}>
                   <div className="text-center pt-2 pb-1">
-                    <h5 style={{ fontSize: '17px', fontFamily: 'Gilroy', fontWeight: 600, color: '#171717', }}>
+                    <h5 style={{...textStyle, fontSize: '17px', fontFamily: 'Gilroy', fontWeight: 600 }}>
 
                       {
                         pdfDetails?.configurations?.receiptType === "Rent"
@@ -519,59 +554,67 @@ const hasAmount  = -100
                   <div className="row px-4 mt-1">
                     <div className="col-md-5 mb-3" style={{ fontFamily: "Gilroy", fontSize: 13, color: "#222" }}>
 
-                      <div className="mb-2" style={{ fontSize: 12, fontWeight: 400, fontStyle: "italic", color: "#1E45E1" }}>
+                      <div className="mb-2" style={{ fontSize: 12, fontWeight: 400, fontStyle: "italic", ...textStyle }}>
                         Receipt to:
                       </div>
 
-                      <div className="mb-1 d-flex align-items-center">
-                        <label style={{ fontWeight: 500, width: 90, color: "#4B4B4B", fontSize: 12 }}>Tenant Name:</label>
-                        <span style={{ fontWeight: 600, color: "#171717", fontSize: 12 }}>
-                          {pdfDetails?.customerInfo?.fullName}
-                        </span>
-                      </div>
-
-                      <div className="mb-1 d-flex">
-                        <label style={{ fontWeight: 500, width: 90, color: "#4B4B4B", fontSize: 12 }}>Mobile No:</label>
-                        <span style={{ color: "#171717", fontSize: 12 }}>
-                          {pdfDetails?.customerInfo?.customerMobileNo &&
-                            pdfDetails.customerInfo.customerMobileNo !== "undefined"
-                            ? `+${pdfDetails.customerInfo?.countryCode} ${pdfDetails.customerInfo.customerMobileNo}`
-                            : ""}
-                        </span>
-                      </div>
-
-                      <div className="mb-1 d-flex">
-                        <label style={{ fontWeight: 500, width: 90, color: "#4B4B4B", fontSize: 12 }}>Room No:</label>
-                        <span style={{ color: "#171717", fontSize: 12 }} className="d-flex align-items-center">
-                          {pdfDetails?.stayInfo?.floorName && (
-                            <>
-                              {pdfDetails.stayInfo.floorName}
-                             {""} , {""}
-                            </>
-                          )}
-
-                          {pdfDetails?.stayInfo?.roomName && (
-                            <>
-                              {pdfDetails.stayInfo.roomName} {""} - {""}
-                             
-                            </>
-                          )}
-
-                          {pdfDetails?.stayInfo?.bedName}
-                        </span>
-
-                      </div>
-
-                      <div className="d-flex ">
-                        <label style={{ fontWeight: 500, width: 90, color: "#4B4B4B", fontSize: 12 }}>Address:</label>
-
-                        <div style={{ color: "#171717", fontSize: 12 }} className="ms-5" >
-                          {pdfDetails?.customerInfo?.fullAddress}
-
-
-                        </div>
-                      </div>
-
+                     <div className="mb-1 d-flex align-items-center">
+                                             <span style={getIconStyle(templateColor)}>
+                                               <Profile size="16" variant="Bold" />
+                                             </span>
+                                             <span style={{ fontWeight: 600, color: "#171717", fontSize: 12 }} className="ms-1">
+                                               : {""}{pdfDetails?.customerInfo?.fullName}
+                                             </span>
+                                           </div>
+                     
+                                           <div className="mb-1 d-flex">
+                                             <span style={getIconStyle(templateColor)}>
+                                               <Call size="16" variant="Bold" />
+                                             </span>
+                                             <span style={{ color: "#171717", fontSize: 12 }} className="ms-1">
+                                               : {""}{pdfDetails?.customerInfo?.customerMobileNo &&
+                                                 pdfDetails.customerInfo.customerMobileNo !== "undefined"
+                                                 ? `+${pdfDetails.customerInfo?.countryCode} ${pdfDetails.customerInfo.customerMobileNo}`
+                                                 : ""}
+                                             </span>
+                                           </div>
+                     
+                                           <div className="mb-1 d-flex">
+                                             <span style={getIconStyle(templateColor)}>
+                                               <IoBed style={{ fontSize: 16 }} />
+                                             </span>
+                                             <span style={{ color: "#171717", fontSize: 12 }} className="d-flex align-items-center ms-1">
+                                               {pdfDetails?.stayInfo?.floorName && (
+                                                 <>
+                                                   : {""}{pdfDetails.stayInfo.floorName} , {""}
+                     
+                                                 </>
+                                               )}
+                     
+                                               {pdfDetails?.stayInfo?.roomName && (
+                                                 <>
+                                                   {pdfDetails.stayInfo.roomName} {""}
+                     
+                                                 </>
+                                               )} {""}
+                     
+                                               -
+                                               {""}         {pdfDetails?.stayInfo?.bedName}
+                                             </span>
+                     
+                                           </div>
+                     
+                                           <div className="d-flex ">
+                                             <span style={getIconStyle(templateColor)}>
+                                               <Location size="16" variant="Bold" />
+                                             </span>
+                     
+                                             <div style={{ color: "#171717", fontSize: 14 }} className="ms-1" >
+                                               : {""} {pdfDetails?.customerInfo?.fullAddress}
+                     
+                     
+                                             </div>
+                                           </div>
                     </div>
 
                     <div className="col-md-7 mb-1 ps-5 mt-2 ">
@@ -620,10 +663,10 @@ const hasAmount  = -100
                           fontWeight: 600,
                           fontSize: "13px",
                           color: "#000",
-                          textTransform:"capitalize"
+                          textTransform: "capitalize"
                         }}
                       >
-                       { Number(pdfDetails?.invoiceAmount) > 0 ? "TOTAL PAID AMOUNT" : "Total Refunded Amount"  }<br />
+                        {Number(pdfDetails?.invoiceAmount) > 0 ? "TOTAL PAID AMOUNT" : "Total Refunded Amount"}<br />
 
                         {
                           pdfDetails?.configurations?.receiptType !== 'Rent' && <span style={{ fontFamily: "Gilroy", color: "#6D6D6D", fontSize: 11 }}>Security Deposit (Advance)</span>
@@ -656,7 +699,7 @@ const hasAmount  = -100
                             style={{
                               height: "24px",
                               width: "3px",
-                              backgroundColor:Number(pdfDetails?.invoiceAmount) > 0 ? "#00A651" : "#FF0000",
+                              backgroundColor: Number(pdfDetails?.invoiceAmount) > 0 ? "#00A651" : "#FF0000",
                             }}
                           />
                           ₹ {pdfDetails?.receiptInfo?.paidAmount}
@@ -683,7 +726,7 @@ const hasAmount  = -100
 
                 <div className="row justify-content-between mt-4 mb-0 px-5">
                   <div className="col-md-8 p-0">
-                    <h4 style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600, color: '#4B4B4B' }}>Acknowledgment</h4>
+                    <h4 style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600,...textStyle }}>Acknowledgment</h4>
                     <p style={{ whiteSpace: "pre-line", fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: '#3D3D3D', paddingRight: 50 }}>
                       {pdfDetails?.configurations?.termAndCondition}
                     </p>
@@ -713,25 +756,25 @@ const hasAmount  = -100
 
                   <div className="col-md-4 p-0 d-flex flex-column justify-content-end align-items-end bg-white">
 
-{Number(pdfDetails?.invoiceAmount) > 0 ? (
-  <p className="text-success fw-bold border-success d-inline-block">
-    <img
-      src={Payment}
-      alt="payment received"
-      className="img-fluid"
-      style={{ transform: "rotate(0deg)" }}
-    />
-  </p>
-) : (
-  <p className="text-danger fw-bold border-danger d-inline-block">
-    <img
-      src={Refund}
-      alt="refund"
-      className="img-fluid"
-      style={{ transform: "rotate(0deg)" }}
-    />
-  </p>
-)}
+                    {Number(pdfDetails?.invoiceAmount) > 0 ? (
+                      <p className="text-success fw-bold border-success d-inline-block">
+                        <img
+                          src={Payment}
+                          alt="payment received"
+                          className="img-fluid"
+                          style={{ transform: "rotate(0deg)" }}
+                        />
+                      </p>
+                    ) : (
+                      <p className="text-danger fw-bold border-danger d-inline-block">
+                        <img
+                          src={Refund}
+                          alt="refund"
+                          className="img-fluid"
+                          style={{ transform: "rotate(0deg)" }}
+                        />
+                      </p>
+                    )}
 
                   </div>
                 </div>
@@ -1012,309 +1055,309 @@ const hasAmount  = -100
 
                     :
 
- <div
-                    className="table-responsive row justify-content-between mt-0 mb-2 px-5"
-                    style={{ fontFamily: "Gilroy, sans-serif" }}
-                  >
-                    <table className="p-0"
-                      style={{
-                        width: "100%",
-                        borderCollapse: "separate",
-                        borderSpacing: 0,
-                        border: "1px solid #dee2e6",
-                        borderRadius: "12px",
-                        overflow: "hidden",
-                        fontFamily: "Gilroy, sans-serif",
-                      }}
+                    <div
+                      className="table-responsive row justify-content-between mt-0 mb-2 px-5"
+                      style={{ fontFamily: "Gilroy, sans-serif" }}
                     >
-                      <thead>
-                        <tr>
-                          <th
+                      <table className="p-0"
+                        style={{
+                          width: "100%",
+                          borderCollapse: "separate",
+                          borderSpacing: 0,
+                          border: "1px solid #dee2e6",
+                          borderRadius: "12px",
+                          overflow: "hidden",
+                          fontFamily: "Gilroy, sans-serif",
+                        }}
+                      >
+                        <thead>
+                          <tr>
+                            <th
+                              style={{
+                                padding: "10px 14px",
+                                fontSize: "13px",
+                                fontWeight: 600,
+                                color: "#000",
+                                textAlign: "left",
+                                borderBottom: "1px solid #dee2e6",
+                                width: "10%",
+                              }}
+                            >
+                              S.NO
+                            </th>
+                            <th
+                              style={{
+                                padding: "10px 14px",
+                                fontSize: "13px",
+                                fontWeight: 600,
+                                color: "#000",
+                                textAlign: "left",
+                                borderBottom: "1px solid #dee2e6",
+                                width: "60%",
+                              }}
+                            >
+                              DESCRIPTION
+                            </th>
+                            <th
+                              style={{
+                                padding: "10px 14px",
+                                fontSize: "13px",
+                                fontWeight: 600,
+                                color: "#000",
+                                textAlign: "right",
+                                borderBottom: "1px solid #dee2e6",
+                                width: "30%",
+                              }}
+                            >
+                              AMOUNT / INR
+                            </th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          <tr
                             style={{
-                              padding: "10px 14px",
-                              fontSize: "13px",
+                              // borderBottom: "1px solid #dee2e6",
+                              backgroundColor: "#fff",
+                            }}
+                          >
+                            <td
+                              style={{
+                                padding: "10px 14px",
+                                fontSize: "13px",
+                                fontWeight: 500,
+                                textAlign: "left",
+                                verticalAlign: "middle",
+                              }}
+                            >
+                              1
+                            </td>
+                            <td
+                              style={{
+                                padding: "10px 14px",
+                                fontSize: "13px",
+                                fontWeight: 500,
+                                color: "#444",
+                                textAlign: "left",
+                                verticalAlign: "middle",
+                              }}
+                            >
+                              {pdfDetails?.configurations?.receiptType}
+                            </td>
+                            <td
+                              style={{
+                                padding: "10px 14px",
+                                fontSize: "13px",
+                                fontWeight: 500,
+                                color: "#444",
+                                textAlign: "right",
+                                verticalAlign: "middle",
+                              }}
+                            >
+                              Rs. {pdfDetails?.invoiceAmount?.toLocaleString("en-IN")}
+                            </td>
+                          </tr>
+
+
+                          <tr
+                            style={{
+                              backgroundColor: "#F9F9F9",
                               fontWeight: 600,
-                              color: "#000",
-                              textAlign: "left",
-                              borderBottom: "1px solid #dee2e6",
-                              width: "10%",
                             }}
                           >
-                            S.NO
-                          </th>
-                          <th
-                            style={{
-                              padding: "10px 14px",
-                              fontSize: "13px",
-                              fontWeight: 600,
-                              color: "#000",
-                              textAlign: "left",
-                              borderBottom: "1px solid #dee2e6",
-                              width: "60%",
-                            }}
-                          >
-                            DESCRIPTION
-                          </th>
-                          <th
-                            style={{
-                              padding: "10px 14px",
-                              fontSize: "13px",
-                              fontWeight: 600,
-                              color: "#000",
-                              textAlign: "right",
-                              borderBottom: "1px solid #dee2e6",
-                              width: "30%",
-                            }}
-                          >
-                            AMOUNT / INR
-                          </th>
-                        </tr>
-                      </thead>
+                            <td
+                              colSpan="2"
+                              style={{
+                                textAlign: "left",
+                                padding: "10px 14px",
+                                fontSize: "13px",
+                                // borderTop: "1px solid #dee2e6",
+                                color: "#000",
+                              }}
+                            >
+                              Total
+                            </td>
+                            <td
+                              style={{
+                                textAlign: "right",
+                                padding: "10px 14px",
+                                fontSize: "13px",
+                                // borderTop: "1px solid #dee2e6",
+                                color: "#000",
+                              }}
+                            >
+                              ₹ {pdfDetails?.receiptInfo?.paidAmount?.toLocaleString("en-IN")}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
 
-                      <tbody>
-                        <tr
-                          style={{
-                            // borderBottom: "1px solid #dee2e6",
-                            backgroundColor: "#fff",
-                          }}
-                        >
-                          <td
-                            style={{
-                              padding: "10px 14px",
-                              fontSize: "13px",
-                              fontWeight: 500,
-                              textAlign: "left",
-                              verticalAlign: "middle",
-                            }}
-                          >
-                            1
-                          </td>
-                          <td
-                            style={{
-                              padding: "10px 14px",
-                              fontSize: "13px",
-                              fontWeight: 500,
-                              color: "#444",
-                              textAlign: "left",
-                              verticalAlign: "middle",
-                            }}
-                          >
-                           {pdfDetails?.configurations?.receiptType}
-                          </td>
-                          <td
-                            style={{
-                              padding: "10px 14px",
-                              fontSize: "13px",
-                              fontWeight: 500,
-                              color: "#444",
-                              textAlign: "right",
-                              verticalAlign: "middle",
-                            }}
-                          >
-                            Rs. {pdfDetails?.invoiceAmount?.toLocaleString("en-IN")}
-                          </td>
-                        </tr>
+                  // <div className="mt-0 mb-2 px-5" style={{ fontFamily: "Gilroy" }}>
+                  //   <Row style={{ border: "1px solid #DFDFDF", borderRadius: 8 }}>
 
+                  //     <Col md={6} className="p-1">
+                  //       <Table responsive className="mb-0">
+                  //         <thead>
+                  //           <tr style={{ backgroundColor: "#FFF" }}>
+                  //             <th style={{ fontSize: 12, fontWeight: 600, color: "#222222" , textTransform:"capitalize"}}>Refund</th>
+                  //             <th
+                  //               style={{
+                  //                 fontSize: 12,
+                  //                 fontWeight: 600,
+                  //                 color: "#222222",
+                  //                 textAlign: "right",
+                  //               }}
+                  //             >
+                  //               AMOUNT / INR
+                  //             </th>
+                  //           </tr>
+                  //         </thead>
 
-                        <tr
-                          style={{
-                            backgroundColor: "#F9F9F9",
-                            fontWeight: 600,
-                          }}
-                        >
-                          <td
-                            colSpan="2"
-                            style={{
-                              textAlign: "left",
-                              padding: "10px 14px",
-                              fontSize: "13px",
-                              // borderTop: "1px solid #dee2e6",
-                              color: "#000",
-                            }}
-                          >
-                            Total
-                          </td>
-                          <td
-                            style={{
-                              textAlign: "right",
-                              padding: "10px 14px",
-                              fontSize: "13px",
-                              // borderTop: "1px solid #dee2e6",
-                              color: "#000",
-                            }}
-                          >
-                            ₹ {pdfDetails?.receiptInfo?.paidAmount?.toLocaleString("en-IN")}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+                  //         <tbody>
+                  //           {pdfDetails?.invoiceInfo?.invoiceItems?.map((item, index) => (
+                  //             <tr key={index}>
+                  //               <td
+                  //                 style={{
+                  //                   fontSize: 12,
+                  //                   color: "#2D2D2D",
+                  //                   fontWeight: 500,
+                  //                 }}
+                  //               >
+                  //                 {item.description}
+                  //               </td>
+                  //               <td
+                  //                 style={{
+                  //                   fontSize: 12,
+                  //                   textAlign: "right",
+                  //                   fontWeight: 600,
+                  //                   color: "#2D2D2D",
+                  //                 }}
+                  //               >
+                  //                 ₹ {Number(item.amount)}
+                  //               </td>
+                  //             </tr>
+                  //           ))}
 
-                    // <div className="mt-0 mb-2 px-5" style={{ fontFamily: "Gilroy" }}>
-                    //   <Row style={{ border: "1px solid #DFDFDF", borderRadius: 8 }}>
+                  //           <tr
+                  //             style={{
+                  //               backgroundColor: "#FAFBFF",
+                  //               fontWeight: 600,
+                  //               borderTop: "1px solid #DFDFDF",
+                  //             }}
+                  //           >
+                  //             <td
+                  //               style={{
+                  //                 fontSize: 14,
+                  //                 color: "#2D2D2D",
+                  //                 fontWeight: 500,
+                  //               }}
+                  //             >
+                  //               Total
+                  //             </td>
+                  //             <td
+                  //               style={{
+                  //                 textAlign: "right",
+                  //                 fontSize: 14,
+                  //                 fontWeight: 600,
+                  //                 color: "#2D2D2D",
+                  //               }}
+                  //             >
+                  //               ₹{" "}
+                  //               {Number(pdfDetails?.invoiceInfo?.subTotal || 0)}
+                  //             </td>
+                  //           </tr>
+                  //         </tbody>
+                  //       </Table>
 
-                    //     <Col md={6} className="p-1">
-                    //       <Table responsive className="mb-0">
-                    //         <thead>
-                    //           <tr style={{ backgroundColor: "#FFF" }}>
-                    //             <th style={{ fontSize: 12, fontWeight: 600, color: "#222222" , textTransform:"capitalize"}}>Refund</th>
-                    //             <th
-                    //               style={{
-                    //                 fontSize: 12,
-                    //                 fontWeight: 600,
-                    //                 color: "#222222",
-                    //                 textAlign: "right",
-                    //               }}
-                    //             >
-                    //               AMOUNT / INR
-                    //             </th>
-                    //           </tr>
-                    //         </thead>
-
-                    //         <tbody>
-                    //           {pdfDetails?.invoiceInfo?.invoiceItems?.map((item, index) => (
-                    //             <tr key={index}>
-                    //               <td
-                    //                 style={{
-                    //                   fontSize: 12,
-                    //                   color: "#2D2D2D",
-                    //                   fontWeight: 500,
-                    //                 }}
-                    //               >
-                    //                 {item.description}
-                    //               </td>
-                    //               <td
-                    //                 style={{
-                    //                   fontSize: 12,
-                    //                   textAlign: "right",
-                    //                   fontWeight: 600,
-                    //                   color: "#2D2D2D",
-                    //                 }}
-                    //               >
-                    //                 ₹ {Number(item.amount)}
-                    //               </td>
-                    //             </tr>
-                    //           ))}
-
-                    //           <tr
-                    //             style={{
-                    //               backgroundColor: "#FAFBFF",
-                    //               fontWeight: 600,
-                    //               borderTop: "1px solid #DFDFDF",
-                    //             }}
-                    //           >
-                    //             <td
-                    //               style={{
-                    //                 fontSize: 14,
-                    //                 color: "#2D2D2D",
-                    //                 fontWeight: 500,
-                    //               }}
-                    //             >
-                    //               Total
-                    //             </td>
-                    //             <td
-                    //               style={{
-                    //                 textAlign: "right",
-                    //                 fontSize: 14,
-                    //                 fontWeight: 600,
-                    //                 color: "#2D2D2D",
-                    //               }}
-                    //             >
-                    //               ₹{" "}
-                    //               {Number(pdfDetails?.invoiceInfo?.subTotal || 0)}
-                    //             </td>
-                    //           </tr>
-                    //         </tbody>
-                    //       </Table>
-
-                    //     </Col>
+                  //     </Col>
 
 
-                    //     <Col md={6} className="p-1">
-                    //       <Table responsive className="mb-0">
-                    //         <thead>
-                    //           <tr style={{ backgroundColor: "#FFF" }}>
-                    //             <th style={{ fontSize: 12, fontWeight: 600, color: "#222222", textTransform:"capitalize" }}>Deductions</th>
-                    //             <th
-                    //               style={{
-                    //                 fontSize: 12,
-                    //                 fontWeight: 600,
-                    //                 color: "#222222",
-                    //                 textAlign: "right",
-                    //               }}
-                    //             >
-                    //               AMOUNT / INR
-                    //             </th>
-                    //           </tr>
-                    //         </thead>
+                  //     <Col md={6} className="p-1">
+                  //       <Table responsive className="mb-0">
+                  //         <thead>
+                  //           <tr style={{ backgroundColor: "#FFF" }}>
+                  //             <th style={{ fontSize: 12, fontWeight: 600, color: "#222222", textTransform:"capitalize" }}>Deductions</th>
+                  //             <th
+                  //               style={{
+                  //                 fontSize: 12,
+                  //                 fontWeight: 600,
+                  //                 color: "#222222",
+                  //                 textAlign: "right",
+                  //               }}
+                  //             >
+                  //               AMOUNT / INR
+                  //             </th>
+                  //           </tr>
+                  //         </thead>
 
-                    //         <tbody>
+                  //         <tbody>
 
-                    //           {pdfDetails?.invoiceInfo?.taxAmount > 0 && (
-                    //             <tr>
-                    //               <td
-                    //                 style={{
-                    //                   fontSize: 12,
-                    //                   color: "#2D2D2D",
-                    //                   fontWeight: 500,
-                    //                 }}
-                    //               >
-                    //                 GST ({pdfDetails?.invoiceInfo?.taxPercentage}%)
-                    //               </td>
-                    //               <td
-                    //                 style={{
-                    //                   fontSize: 12,
-                    //                   color: "#2D2D2D",
-                    //                   fontWeight: 600,
-                    //                   textAlign: "right",
-                    //                 }}
-                    //               >
-                    //                 ₹{" "}
-                    //                 {Number(pdfDetails?.invoiceInfo?.taxAmount).toLocaleString("en-IN", {
-                    //                   minimumFractionDigits: 2,
-                    //                 })}
-                    //               </td>
-                    //             </tr>
-                    //           )}
+                  //           {pdfDetails?.invoiceInfo?.taxAmount > 0 && (
+                  //             <tr>
+                  //               <td
+                  //                 style={{
+                  //                   fontSize: 12,
+                  //                   color: "#2D2D2D",
+                  //                   fontWeight: 500,
+                  //                 }}
+                  //               >
+                  //                 GST ({pdfDetails?.invoiceInfo?.taxPercentage}%)
+                  //               </td>
+                  //               <td
+                  //                 style={{
+                  //                   fontSize: 12,
+                  //                   color: "#2D2D2D",
+                  //                   fontWeight: 600,
+                  //                   textAlign: "right",
+                  //                 }}
+                  //               >
+                  //                 ₹{" "}
+                  //                 {Number(pdfDetails?.invoiceInfo?.taxAmount).toLocaleString("en-IN", {
+                  //                   minimumFractionDigits: 2,
+                  //                 })}
+                  //               </td>
+                  //             </tr>
+                  //           )}
 
-                    //           <tr
-                    //             style={{
-                    //               backgroundColor: "#FAFBFF",
-                    //               fontWeight: 600,
-                    //               borderTop: "1px solid #DFDFDF",
-                    //             }}
-                    //           >
-                    //             <td
-                    //               style={{
-                    //                 fontSize: 14,
-                    //                 color: "#2D2D2D",
-                    //                 fontWeight: 500,
-                    //               }}
-                    //             >
-                    //               Total
-                    //             </td>
-                    //             <td
-                    //               style={{
-                    //                 textAlign: "right",
-                    //                 fontSize: 14,
-                    //                 fontWeight: 600,
-                    //                 color: "#2D2D2D",
-                    //               }}
-                    //             >
-                    //               ₹{" "}
-                    //               {Number(pdfDetails?.invoiceInfo?.taxAmount || 0)}
-                    //             </td>
-                    //           </tr>
-                    //         </tbody>
-                    //       </Table>
+                  //           <tr
+                  //             style={{
+                  //               backgroundColor: "#FAFBFF",
+                  //               fontWeight: 600,
+                  //               borderTop: "1px solid #DFDFDF",
+                  //             }}
+                  //           >
+                  //             <td
+                  //               style={{
+                  //                 fontSize: 14,
+                  //                 color: "#2D2D2D",
+                  //                 fontWeight: 500,
+                  //               }}
+                  //             >
+                  //               Total
+                  //             </td>
+                  //             <td
+                  //               style={{
+                  //                 textAlign: "right",
+                  //                 fontSize: 14,
+                  //                 fontWeight: 600,
+                  //                 color: "#2D2D2D",
+                  //               }}
+                  //             >
+                  //               ₹{" "}
+                  //               {Number(pdfDetails?.invoiceInfo?.taxAmount || 0)}
+                  //             </td>
+                  //           </tr>
+                  //         </tbody>
+                  //       </Table>
 
 
-                    //     </Col>
-                    //   </Row>
+                  //     </Col>
+                  //   </Row>
 
 
 
-                    // </div>
+                  // </div>
 
                 }
 
@@ -1323,11 +1366,15 @@ const hasAmount  = -100
 
                  <hr className="m-0"
                   style={{
-                    borderTop: "1px solid #D9D9D9",
+                    border: "none",
+                    height: "1px",
+                    background: templateColor,
+                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                    borderRadius: "2px",
                   }}
                 />
 
-                  <div className="px-5 mt-2 mb-5">
+                <div className="px-5 mt-2 mb-5">
                   <div
                     className="text-center rounded-bottom d-flex justify-content-between"
                     style={{
@@ -1345,7 +1392,7 @@ const hasAmount  = -100
                         color: '#4B4B4B',
                       }}
                     >
-                      Email:
+                      Email: {" "}
                       <span
                         style={{
                           fontSize: '13px',
@@ -1368,7 +1415,7 @@ const hasAmount  = -100
                         color: '#4B4B4B',
                       }}
                     >
-                      Contact:
+                      Contact: {" "}
                       <span
                         style={{
                           fontSize: '13px',

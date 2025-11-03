@@ -25,6 +25,12 @@ import Modal from 'react-bootstrap/Modal';
 import Questionimage from '../Assets/Images/question.png';
 import ErrorMessage from '../Components/ErrorMessage'
 import { useHasPermission } from '../Utils/Permission';
+import { Location, Call, Profile, } from 'iconsax-react'
+import { IoBed } from "react-icons/io5";
+import { Container, Row, Col, Table } from "react-bootstrap";
+import Payment from '../Assets/Images/New_images/Mask-group.png'
+import Refund from '../Assets/Images/New_images/Refund.png';
+
 
 
 const RentalReceiptPdfTemplate = ({ BillsTemplateList }) => {
@@ -41,12 +47,12 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList }) => {
   const [editErrmsg, setEditErrMessage] = useState('')
 
   const [color, setColor] = useState({ r: 0, g: 163, b: 46, a: 1 });
-    const [useGradient, setUseGradient] = useState(true);
-    const defaultGradient = 'linear-gradient(to right, rgba(0,163, 46, 1), rgba(0, 163, 46, 1))';
+  const [useGradient, setUseGradient] = useState(true);
+  const defaultGradient = 'linear-gradient(to right, rgba(0,163, 46, 1), rgba(0, 163, 46, 1))';
 
-// const canUpdateInvoice = useHasPermission("Bills", "canUpdate")
+  // const canUpdateInvoice = useHasPermission("Bills", "canUpdate")
 
-const {
+  const {
     // canWriteModule: canWriteInvoice,
     // canReadModule: canReadReceipt,
     canUpdateModule: canUpdateInvoice,
@@ -55,7 +61,7 @@ const {
 
   const handleColorChange = (newColor) => {
     setColor(newColor);
-  setUseGradient(false);
+    setUseGradient(false);
     setEditErrMessage("")
   };
 
@@ -188,7 +194,7 @@ const {
   const [MobileError, setMobileError] = useState("")
   const [email, setEmail] = useState("")
   const [emailError, setEmailError] = useState("")
- 
+
 
   const handleMobile = (e) => {
     const input = e.target.value.replace(/\D/g, "");
@@ -333,26 +339,26 @@ const {
     }
 
     if (RentalreceiptTemplate.typeId && state.login.selectedHostel_Id) {
-           dispatch({
+      dispatch({
         type: "ADDGLOBALSETTING",
         payload: {
           hostelId: state.login.selectedHostel_Id,
           templateTypeId: RentalreceiptTemplate.typeId,
-                   receiptLogo: hostel_logo,
+          receiptLogo: hostel_logo,
           receiptSign: signature,
           mobile: BillsTemplateList.mobile,
           email: BillsTemplateList.emailId,
-          receiptPhoneNumber: mobilenum, 
+          receiptPhoneNumber: mobilenum,
           receiptMailId: email,
           isMobileCustomized: BillsTemplateList?.isMobileCustomized,
           isEmailCustomized: BillsTemplateList?.isMailIdCustomized,
           isLogoCustomized: BillsTemplateList?.isLogoCustomized,
           isSignatureCustomized: BillsTemplateList?.isSignatureCustomized,
-                               receiptNotes: notes,
+          receiptNotes: notes,
           receiptTermsAndCondition: terms,
-           receiptTemplateColor: useGradient
-          ? defaultGradient
-          : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`
+          receiptTemplateColor: useGradient
+            ? defaultGradient
+            : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`
         },
       });
       setLoading(true)
@@ -376,11 +382,11 @@ const {
     }
   }, [state.Settings.settingsBillsAddTemplateSucesscode]);
 
- 
-useEffect(() => {
+
+  useEffect(() => {
     if (state.Settings.settingGlobalAddStatusCode === 200) {
       setLoading(false)
-                   setTimeout(() => {
+      setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_GLOBAL_SETTINGS" });
       }, 1000);
     }
@@ -402,7 +408,7 @@ useEffect(() => {
   );
 
 
- 
+
 
   useEffect(() => {
     if (RentalreceiptTemplate) {
@@ -410,11 +416,11 @@ useEffect(() => {
       setHostelLogo(BillsTemplateList.isLogoCustomized && RentalreceiptTemplate.receiptLogoUrl ? RentalreceiptTemplate.receiptLogoUrl : BillsTemplateList.logo)
       setMobileNum(BillsTemplateList.isMobileCustomized && RentalreceiptTemplate.receiptMobileNumber ? RentalreceiptTemplate.receiptMobileNumber : BillsTemplateList.mobile)
       setEmail(BillsTemplateList.isMailIdCustomized && RentalreceiptTemplate.receiptMailId ? RentalreceiptTemplate.receiptMailId : BillsTemplateList.emailId)
-      setSignature(BillsTemplateList.isSignatureCustomized && RentalreceiptTemplate.receiptSignatureUrl  ? RentalreceiptTemplate.receiptSignatureUrl : BillsTemplateList.signature)
-      setSignaturePreview(BillsTemplateList.isSignatureCustomized && RentalreceiptTemplate.receiptSignatureUrl ? RentalreceiptTemplate.receiptSignatureUrl: BillsTemplateList.signature)
+      setSignature(BillsTemplateList.isSignatureCustomized && RentalreceiptTemplate.receiptSignatureUrl ? RentalreceiptTemplate.receiptSignatureUrl : BillsTemplateList.signature)
+      setSignaturePreview(BillsTemplateList.isSignatureCustomized && RentalreceiptTemplate.receiptSignatureUrl ? RentalreceiptTemplate.receiptSignatureUrl : BillsTemplateList.signature)
       setNotes(RentalreceiptTemplate.receiptNotes)
       setTerms(RentalreceiptTemplate.receiptTermsAndCondition || '')
-       const templateTheme = RentalreceiptTemplate.receiptTemplateColor;
+      const templateTheme = RentalreceiptTemplate.receiptTemplateColor;
       if (templateTheme && templateTheme.trim() !== '') {
         if (templateTheme.includes('rgba')) {
           const match = templateTheme.match(/rgba\((\d+),\s*(\d+),\s*(\d+),\s*(\d+\.?\d*)\)/);
@@ -445,7 +451,7 @@ useEffect(() => {
 
   return (
     <>
-      <div className="col-12  d-flex flex-row">
+      <div className="row  d-flex flex-row">
 
         {loading &&
           <div
@@ -475,8 +481,8 @@ useEffect(() => {
             ></div>
           </div>
         }
-        <div className="col-lg-5 show-scroll" style={{
-          maxHeight: 450,
+        <div className="col-lg-4 show-scrolls" style={{
+          maxHeight: 500,
           overflowY: "auto",
           overflowX: 'hidden',
         }}>
@@ -506,7 +512,7 @@ useEffect(() => {
                         alignItems: 'center',
                         marginBottom: '6px'
                       }}>
-                        <label style={{ fontWeight: 600, fontFamily:"Gilroy" }}>Hostel/PG Logo</label>
+                        <label style={{ fontWeight: 600, fontFamily: "Gilroy" }}>Hostel/PG Logo</label>
                       </div>
                       <div className="p-3 border rounded" style={{ backgroundColor: '#F0F3FF', textAlign: 'center' }}>
 
@@ -568,7 +574,7 @@ useEffect(() => {
                               alignItems: 'center',
                               marginBottom: '6px'
                             }}>
-                              <label style={{ fontWeight: 600 ,fontFamily: 'Gilroy'}}>Contact Number</label>
+                              <label style={{ fontWeight: 600, fontFamily: 'Gilroy' }}>Contact Number</label>
                             </div>
 
                             <div style={{
@@ -623,7 +629,7 @@ useEffect(() => {
 
                             </div>
                             {MobileError && (
-                              <ErrorMessage message={MobileError} type="error"/>
+                              <ErrorMessage message={MobileError} type="error" />
                             )}
                           </div>
 
@@ -679,7 +685,7 @@ useEffect(() => {
 
                             </div>
                             {emailError && (
-                               <ErrorMessage message={emailError} type="error"/>
+                              <ErrorMessage message={emailError} type="error" />
                             )}
                           </div>
 
@@ -762,7 +768,7 @@ useEffect(() => {
 
                               </div>
                               {signature_errmsg.trim() !== "" && (
-                                <ErrorMessage message={signature_errmsg} type="error"/>
+                                <ErrorMessage message={signature_errmsg} type="error" />
                               )}
                             </div>
                           </div>
@@ -881,7 +887,7 @@ useEffect(() => {
 
 
 
-          <div className="p-3 mb-3 border col-lg-10" style={{ borderRadius: '10px' }}>
+          <div className="p-3 mb-3 border col-lg-11" style={{ borderRadius: '10px' }}>
             <h6 style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}>
               Notes
             </h6>
@@ -909,11 +915,11 @@ useEffect(() => {
               />
             </div>
             {notes_errmsg.trim() !== "" && (
-               <ErrorMessage message={notes_errmsg} type="error"/>
+              <ErrorMessage message={notes_errmsg} type="error" />
             )}
           </div>
 
-          <div className="p-3 mb-3 border col-lg-10" style={{ borderRadius: '10px' }}>
+          <div className="p-3 mb-3 border col-lg-11" style={{ borderRadius: '10px' }}>
             <h6 style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}>
               Terms & Condition</h6>
             <hr />
@@ -942,14 +948,14 @@ useEffect(() => {
               />
             </div>
             {terms_errmsg.trim() !== "" && (
-              <ErrorMessage message={terms_errmsg} type="error"/>
+              <ErrorMessage message={terms_errmsg} type="error" />
             )}
 
           </div>
 
 
-          <div className="col-lg-10" style={{ border: "1px solid #E5E7EB", borderRadius: 12, padding: 16, fontFamily: "sans-serif" }}>
-            <h6 style={{ marginBottom: 12, fontFamily:"Gilroy" }}>Template Theme</h6>
+          <div className="col-lg-11" style={{ border: "1px solid #E5E7EB", borderRadius: 12, padding: 16, fontFamily: "sans-serif" }}>
+            <h6 style={{ marginBottom: 12, fontFamily: "Gilroy" }}>Template Theme</h6>
 
             <RgbaColorPicker color={color} onChange={handleColorChange} style={{ width: "100%", }} />
 
@@ -1011,11 +1017,11 @@ useEffect(() => {
           </div>
 
           {editErrmsg.trim() !== "" && (
-        <ErrorMessage message={editErrmsg} type="error"/>
+            <ErrorMessage message={editErrmsg} type="error" />
           )}
           <div className="d-flex justify-content-end mt-2 col-lg-10">
             <Button
-            disabled={!canUpdateInvoice}
+              disabled={!canUpdateInvoice}
               style={{
                 width: 160,
                 height: 42,
@@ -1035,314 +1041,608 @@ useEffect(() => {
 
         </div>
 
-        <div className="col-lg-7 d-flex justify-content-center" style={{ backgroundColor: 'rgba(244, 246, 255, 1)' }}>
-          <div className="d-flex justify-content-center">
-            <div className="receipt-container border ps-4 pe-4 pb-4 pt-1 col-10" ref={cardRef} style={{ borderRadius: '8px', backgroundColor: 'white' }} >
-              <div className="d-flex justify-content-end ">
-                <button
-                  className="btn btn-sm border bg-white mb-2"
-                  onClick={() => setShowFullView(true)}
-                  style={{ height: 25, fontSize: 8, color: 'rgba(23, 23, 23, 1)' }}
-                >
-                  <img src={ZoomImage} alt="zoom" /> Full View
-                </button>
-              </div>
+        <div className="col-lg-8 g-0 d-flex justify-content-center ps-5 pe-5 pt-1 " style={{ backgroundColor: '#F7F8FC' }}>
 
-              <div ref={innerScrollRef}
-                className="show-scroll col-lg-12 justify-content-center"
+          <div className="" ref={cardRef} style={{
+            maxHeight: 450,
+            overflowY: "auto",
+            overflowX: 'hidden',
+          }}>
+            <div className="d-flex justify-content-end ">
+              <button
+                className="btn btn-sm border bg-white mb-2"
+                onClick={() => setShowFullView(true)}
+                style={{ height: 25, fontSize: 8, color: 'rgba(23, 23, 23, 1)' }}
+              >
+                <img src={ZoomImage} alt="zoom" /> Full View
+              </button>
+            </div>
+
+            <div ref={innerScrollRef}
+              className=" col-lg-12  justify-content-center"
+              style={{
+
+                borderBottomLeftRadius: "13px",
+                borderBottomRightRadius: "13px", borderRadius: "8px", backgroundColor: "#FFFFFF", marginBottom: 50, boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.08)",
+              }}>
+
+              <div className="p-3 position-relative"
                 style={{
-                  maxHeight: 470,
-                  overflowY: "auto",
-                  borderBottomLeftRadius: "13px",
-                  borderBottomRightRadius: "13px",
+                  backgroundColor: ""
                 }}>
-                <div className=" text-white  p-2 position-relative" style={{ minHeight: 60, backgroundColor: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})` }}>
 
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div className="d-flex gap-2 mb-2 mb-lg-0">
-                      {logoPreview ? (
-                        <img src={logoPreview} alt="Preview" style={{ height: 40, width: 50, borderRadius: '6px', }} />
-                      ) : (
-                        <img src={receiptLogo} alt="upload" style={{ height: 40, width: 50, borderRadius: '6px', }} />
-                      )}
 
-                      <div>
+                <div className="row d-flex justify-content-between align-items-center ps-3 pe-3">
+                  <div className="col-6">
+                    {logoPreview ? (
+                      <img src={logoPreview} alt="Preview" style={{ height: 40, width: 50, borderRadius: '6px', }} />
+                    ) : (
+                      <img src={receiptLogo} alt="upload" style={{ height: 40, width: 50, borderRadius: '6px', }} />
+                    )}
 
-                      </div>
+
+
+                  </div>
+
+
+                  <div className="mt-2 col-5 ps-4 pe-0">
+
+
+                    <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>{state.UsersList.hotelDetailsinPg?.name}</div>
+
+                    <div style={{ fontSize: 8, fontWeight: 600, fontFamily: "Gilroy" }}>
+                      {[
+                        [state.UsersList.hotelDetailsinPg?.street, state.UsersList.hotelDetailsinPg?.area, state.UsersList.hotelDetailsinPg?.landmark]
+                          .filter(Boolean)
+                          .join(", "),
+
+                        [state.UsersList.hotelDetailsinPg?.city, state.UsersList.hotelDetailsinPg?.state]
+                          .filter(Boolean)
+                          .join(", ") + (state.UsersList.hotelDetailsinPg?.pinCode ? ` - ${state.UsersList.hotelDetailsinPg.pinCode}` : "")
+                      ]
+                        .filter(line => line && line.trim() !== "")
+                        .map((line, idx) => (
+                          <React.Fragment key={idx}>
+                            {line}
+                            <br />
+                          </React.Fragment>
+                        ))}
                     </div>
 
-                    <div>
+                  </div>
+                </div>
+
+              </div>
+              <hr className="m-0"
+                style={{
+                  border: "none",
+                  height: "1px",
+                  background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                  borderRadius: "2px",
+                }}
+              />
+
+              <div className="container rounded-bottom  position-relative" style={{ width: "100%", }}>
+                <div className="text-center pt-2 pb-1">
+                  <h5 style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600, color: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`, }}>
+                    Payment Receipt</h5>
+                </div>
 
 
-                       <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>{state.UsersList.hotelDetailsinPg?.name}</div>
-                     
-                                             <div style={{ fontSize: 8, fontWeight: 600, fontFamily: "Gilroy" }}>
-                                               {[
-                                                 [state.UsersList.hotelDetailsinPg?.street, state.UsersList.hotelDetailsinPg?.area, state.UsersList.hotelDetailsinPg?.landmark]
-                                                   .filter(Boolean)
-                                                   .join(", "),
-                     
-                                                 [state.UsersList.hotelDetailsinPg?.city, state.UsersList.hotelDetailsinPg?.state]
-                                                   .filter(Boolean)
-                                                   .join(", ") + (state.UsersList.hotelDetailsinPg?.pinCode ? ` - ${state.UsersList.hotelDetailsinPg.pinCode}` : "")
-                                               ]
-                                                 .filter(line => line && line.trim() !== "")
-                                                 .map((line, idx) => (
-                                                   <React.Fragment key={idx}>
-                                                     {line}
-                                                     <br />
-                                                   </React.Fragment>
-                                                 ))}
-                                             </div>
+                <div className="row px-4 mt-1">
+                  <div className="col-md-6 mb-1">
+                    <p
+                      className="mb-1"
+                      style={{
+                        color: useGradient
+                          ? defaultGradient
+                          : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+                        fontSize: "11px",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                        fontStyle: "italic",
+                      }}
+                    >
+                      Receipt to:
+                    </p>
 
+
+                    <div className="d-flex align-items-center mb-1">
+                      <Profile
+                        size="16"
+                        variant="Bold"
+                        color={
+                          useGradient
+                            ? defaultGradient
+                            : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`
+                        }
+                      />
+                      <span
+                        className="ms-1"
+                        style={{
+                          fontSize: "9px",
+                          fontFamily: "Gilroy",
+                          fontWeight: 600,
+                          color: "#171717",
+                        }}
+                      >
+                        Mr. Muthuraja M
+                      </span>
+                    </div>
+
+
+                    <div className="d-flex align-items-center mb-1">
+                      <Call
+                        size="16"
+                        variant="Bold"
+                        color={
+                          useGradient
+                            ? defaultGradient
+                            : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`
+                        }
+                      />
+                      <span
+                        className="ms-1"
+                        style={{
+                          fontSize: "9px",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                          color: "#171717",
+                        }}
+                      >
+                        +91 9876543210
+                      </span>
+                    </div>
+
+
+                    <div className="d-flex align-items-center mb-1">
+                      <IoBed
+                        size="16"
+                        color={
+                          useGradient
+                            ? defaultGradient
+                            : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`
+                        }
+                      />
+                      <span
+                        className="ms-1"
+                        style={{
+                          fontSize: "9px",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                          color: "#171717",
+                        }}
+                      >
+                        No 103 - 02
+                      </span>
+                    </div>
+
+                    {/* Address */}
+                    <div className="d-flex align-items-start">
+                      <Location
+                        size="16"
+                        variant="Bold"
+                        color={
+                          useGradient
+                            ? defaultGradient
+                            : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`
+                        }
+                      />
+                      <span
+                        className="ms-1"
+                        style={{
+                          fontSize: "9px",
+                          fontFamily: "Gilroy",
+                          fontWeight: 400,
+                          color: "#171717",
+                          lineHeight: 1.4,
+                        }}
+                      >
+                        9, 8th Main Rd, Someshwara Nagar, <br />
+                        Bengaluru, Karnataka 560011
+                      </span>
+                    </div>
+                  </div>
+                  <div className="col-md-6 mb-1 ps-5">
+                    <div className="row">
+                      <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)', whiteSpace: "nowrap" }}>Receipt No :</div>
+                      <div className="col-6  text-start mt-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>#SSR001</div>
+
+                      <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)', }}>Invoice Ref :</div>
+                      <div className="col-6 text-start mt-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>#324515</div>
+
+                      <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)', }}>Date :</div>
+                      <div className="col-6  text-start mt-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>31 March 2024</div>
+
+
+
+                      <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)', whiteSpace: "nowrap" }}>Payment Mode :</div>
+                      <div className="col-6  text-start mt-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', paddingLeft: 18 }}>UPI / Net Banking </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="d-flex py-1 px-4">
+                  <div className=""
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      border: "1px solid #E6E6E6",
+                      borderRadius: "10px",
+                      backgroundColor: "#fff",
+                      width: "100%",
+                      fontFamily: "Gilroy",
+                    }}
+                  >
+                    <div
+                      style={{
+                        flex: 1,
+                        padding: "10px",
+                        borderRight: "1px solid #E6E6E6",
+                        fontWeight: 600,
+                        fontSize: "13px",
+                        color: "#000",
+                        textTransform: "capitalize"
+                      }}
+                    > TOTAL PAID AMOUNT <br />
+                      {/* {Number(pdfDetails?.invoiceAmount) > 0 ? "TOTAL PAID AMOUNT" : "Total Refunded Amount"} */}
+
+
+                      <span style={{ fontFamily: "Gilroy", color: "#6D6D6D", fontSize: 11 }}>Security Deposit (Advance)</span>
+
+
+                    </div>
+
+
+                    <div
+                      style={{
+                        flex: 2,
+                        backgroundColor: "#fff",
+                        borderRadius: 10
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "10px",
+                          color: "#000000",
+                          fontWeight: 600,
+                          fontSize: "18px",
+                          backgroundColor: "#F1FFF5",
+                          padding: 10,
+                          borderTopRightRadius: "10px",
+                        }}
+                      >
+                        <div
+                          style={{
+                            height: "24px",
+                            width: "3px",
+                            backgroundColor: "#00A651"
+                            // backgroundColor: Number(pdfDetails?.invoiceAmount) > 0 ? "#00A651" : "#FF0000",
+                          }}
+                        />
+                        ₹
+                        5000
+                      </div>
+                      <div
+                        style={{
+                          marginTop: "0px",
+                          fontSize: "12px",
+                          color: "#4B4B4B", padding: 10,
+                        }}
+                      >
+                        Five Thousand Rupees only
+                      </div>
                     </div>
                   </div>
 
                 </div>
 
-
-                <div className="container bg-white rounded-bottom border shadow-md position-relative" style={{ width: "100%", }}>
-                  <div className="text-center pt-1 pb-1">
-                    <h5 className="" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Payment Receipt</h5>
+                <div className="mt-4 mb-0 px-5 row">
+                  <div className="col-md-6 p-0">
+                    <h6 style={{ color: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`, fontSize: "10px", fontWeight: 600, fontFamily: "Gilroy" }}>Terms and Conditions</h6>
+                    <p style={{ fontSize: "9px", color: "#555", fontFamily: "Gilroy" }}>
+                      {terms}    </p>
                   </div>
 
+                  <div className="col-md-6 text-end">
+                    <p className="text-success fw-bold border-success px-4 py-2 d-inline-block">
+                    </p>
+                    {signaturePreview && (
+                      <img
+                        src={signaturePreview}
+                        alt="Digital Signature" style={{ height: 60, width: 130, paddingLeft: 30 }}
 
-                  <div className="row px-4 mt-1">
-                    <div className="col-md-6 mb-1">
-                      <p className=" mb-1" style={{ color: 'rgba(0, 163, 46, 1)', fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 400, fontStyle: 'italic' }}>Bill To :</p>
-                      <p className="mb-1 me-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(23, 23, 23, 1)', }}>Mr. <span style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 600, color: '#000000', }}>Muthuraja M</span></p>
-                      <p className="mb-1"><img src={mob} alt="mob" width={12} height={12} />
-                        <span className="ms-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: '#000000', }}>
-                          +91 85647 85332
-                        </span>
+                      />
+                    )}
+                    <p className="mt-0" style={{ fontSize: "11px", fontFamily: "Gilroy", color: "#2C2C2C", paddingRight: "5px" }}>Authorized Signature</p>
+                  </div>
+                </div>
+
+
+
+                <div className="row justify-content-between mt-2 mb-0 px-5">
+                  <div className="col-md-8 p-0">
+                    <p style={{ whiteSpace: "pre-line", fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: '#3D3D3D', paddingRight: 50 }}>
+                      {notes}
+                    </p>
+                  </div>
+
+                  <div className="col-md-4 p-0 d-flex flex-column justify-content-end align-items-end bg-white">
+
+                   
+                      <p className="text-success fw-bold border-success d-inline-block">
+                        <img
+                          src={Payment}
+                          alt="payment received"
+                          className="img-fluid"
+                          style={{ transform: "rotate(0deg)" }}
+                        />
                       </p>
-                      <p className="mb-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: '#000000', }}><img src={frame} alt="frame" width={15} height={15} className="me-1" />
-                        No 103 -02 </p>
-                      <div className="d-flex" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(34, 34, 34, 1)' }}>
-
-                        <div className="me-2">
-                          <img src={substrac} alt="subs" />
-                        </div>
-
-                        <div>
-                          <p style={{ fontSize: '9px', fontFamily: 'Gilroy', }}>
-                            9, 8th Main Rd, Someshwara Nagar, <br></br>
-                            Bengaluru, Karnataka 560011
-                          </p>
-                        </div>
-
-                      </div>
-
-                    </div>
-                    <div className="col-md-6 mb-1 ps-5">
-                      <div className="row">
-                        <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)', whiteSpace: "nowrap" }}>Receipt No :</div>
-                        <div className="col-6  text-start mt-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>#SSR001</div>
-
-                        <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)', }}>Invoice Ref :</div>
-                        <div className="col-6 text-start mt-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>#324515</div>
-
-                        <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)', }}>Date :</div>
-                        <div className="col-6  text-start mt-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>31 March 2024</div>
-
-
-
-                        <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)', whiteSpace: "nowrap" }}>Payment Mode :</div>
-                        <div className="col-6  text-start mt-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', paddingLeft: 18 }}>UPI / Net Banking </div>
-                      </div>
-                    </div>
+                  
                   </div>
+                </div>
+
+
+                <div className="px-4 py-1">
 
 
 
-
-
-                  <div className="px-4 pb-3">
-                    <div className="table-responsive">
-                      <table className="table  text-center align-middle">
-                        <thead style={{ backgroundColor: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`, color: "#FFFFFF" }}>
-                          <tr style={{ color: "white" }}>
-                            <th style={{ borderTopLeftRadius: "12px", borderBottomLeftRadius: "12px", color: "white", fontSize: '10px', fontFamily: 'Gilroy', fontWeight: 600 }}>S.NO</th>
-                            <th style={{ color: "white", fontSize: '10px', fontFamily: 'Gilroy', fontWeight: 600 }}>Inv No</th>
-                            <th style={{ color: "white", fontSize: '10px', fontFamily: 'Gilroy', fontWeight: 600 }}>Description</th>
-
-
-                            <th style={{ borderTopRightRadius: "12px", borderBottomRightRadius: "12px", color: "white", fontSize: '10px', fontFamily: 'Gilroy', fontWeight: 600 }}>Amount / INR</th>
+                 <div className="table-responsive row justify-content-between mt-0 mb-2 px-4" style={{ fontFamily: "Gilroy, sans-serif" }}>
+                      <table className="p-0"
+                        style={{
+                          width: "100%",
+                          borderCollapse: "separate",
+                          borderSpacing: 0,
+                          border: "1px solid #dee2e6",
+                          borderRadius: "12px",
+                          overflow: "hidden",
+                          fontFamily: "Gilroy, sans-serif",
+                        }}
+                      >
+                        <thead>
+                          <tr >
+                            <th
+                              style={{
+                                padding: "10px 14px",
+                                fontSize: "13px",
+                                fontWeight: 600,
+                                color: "#000",
+                                textAlign: "left",
+                                borderBottom: "1px solid #dee2e6",
+                                width: "20%",
+                              }}
+                            >
+                              INVOICE NO.
+                            </th>
+                            <th
+                              style={{
+                                padding: "10px 14px",
+                                fontSize: "13px",
+                                fontWeight: 600,
+                                color: "#000",
+                                textAlign: "left",
+                                borderBottom: "1px solid #dee2e6",
+                                width: "20%",
+                              }}
+                            >
+                              INV DATE
+                            </th>
+                            <th
+                              style={{
+                                padding: "10px 14px",
+                                fontSize: "13px",
+                                fontWeight: 600,
+                                color: "#000",
+                                textAlign: "right",
+                                borderBottom: "1px solid #dee2e6",
+                                width: "30%",
+                              }}
+                            >
+                              INVOICE AMOUNT
+                            </th>
+                            <th
+                              style={{
+                                padding: "10px 14px",
+                                fontSize: "13px",
+                                fontWeight: 600,
+                                color: "#000",
+                                textAlign: "right",
+                                borderBottom: "1px solid #dee2e6",
+                                width: "30%",
+                              }}
+                            >
+                              PAYMENT AMOUNT
+                            </th>
                           </tr>
                         </thead>
+
                         <tbody>
-                          <tr style={{ borderBottom: "1px solid #dee2e6" }}>
-                            <td style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500 }}>1</td>
-                            <td style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500 }}>INV-004</td>
-                            <td style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500 }}>payementreceipt</td>
-                            <td style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500 }}>Rs: 8,000.00</td>
-
-
+                          <tr
+                            style={{
+                              borderBottom: "1px solid #dee2e6",
+                              backgroundColor: "#fff",
+                            }}
+                          >
+                            <td
+                              style={{
+                                padding: "10px 14px",
+                                fontSize: "13px",
+                                fontWeight: 500,
+                                color: "#1E80E1",
+                                textDecoration: "underline",
+                                textAlign: "left",
+                                verticalAlign: "middle",
+                              }}
+                            >
+                            INV-501
+                            </td>
+                            <td
+                              style={{
+                                padding: "10px 14px",
+                                fontSize: "13px",
+                                fontWeight: 500,
+                                color: "#444",
+                                textAlign: "left",
+                                verticalAlign: "middle",
+                              }}
+                            >
+                              03-11-2025
+                            </td>
+                            <td
+                              style={{
+                                padding: "10px 14px",
+                                fontSize: "13px",
+                                fontWeight: 500,
+                                color: "#444",
+                                textAlign: "right",
+                                verticalAlign: "middle",
+                              }}
+                            >
+                              ₹ 3000
+                            </td>
+                            <td
+                              style={{
+                                padding: "10px 14px",
+                                fontSize: "13px",
+                                fontWeight: 500,
+                                color: "#444",
+                                textAlign: "right",
+                                verticalAlign: "middle",
+                              }}
+                            >
+                              ₹ 3000
+                            </td>
                           </tr>
                         </tbody>
                       </table>
                     </div>
-
-
-
-                    <div className="d-flex justify-content-end mt-1">
-                      <div className="w-100 w-md-50" style={{ paddingRight: "50px" }}>
-                        <div className="d-flex justify-content-end py-1">
-                          <div
-                            className="w-50 text-end"
-                            style={{
-                              fontSize: '9px',
-                              fontFamily: 'Gilroy',
-                              fontWeight: 500,
-                              color: 'rgba(23, 23, 23, 1)',
-                            }}
-                          >
-                            Sub Total
-                          </div>
-                          <div
-                            className="w-25 text-end"
-                            style={{
-                              fontSize: '9px',
-                              fontFamily: 'Gilroy',
-                              fontWeight: 500,
-                              color: 'rgba(23, 23, 23, 1)',
-                            }}
-                          >
-                            Rs: 1150.00
-                          </div>
-                        </div>
-                        <div className="d-flex justify-content-end py-2 fw-bold">
-                          <div
-                            className="w-50 text-end"
-                            style={{
-                              fontSize: '9px',
-                              fontFamily: 'Gilroy',
-                              fontWeight: 500,
-                              color: 'rgba(23, 23, 23, 1)',
-                            }}
-                          >
-                            Total
-                          </div>
-                          <div
-                            className="w-25 text-end"
-                            style={{
-                              fontSize: '9px',
-                              fontFamily: 'Gilroy',
-                              fontWeight: 500,
-                              color: 'rgba(23, 23, 23, 1)',
-                            }}
-                          >
-                            Rs: 9,150.00
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-
-
-                  </div>
-
-
-
                 </div>
-                <div className="px-4" style={{ marginTop: 10 }}>
-                  <div className="row">
-                    <div className="col-md-6 mb-3">
-                      <h6 style={{
-                        fontSize: '10px',
+
+             
+
+
+
+
+
+
+              </div>
+              {/* <div className="px-4" style={{ marginTop: 10 }}>
+                <div className="row">
+                  <div className="col-md-6 mb-3">
+                    <h6 style={{
+                      fontSize: '10px',
+                      fontFamily: 'Gilroy',
+                      fontWeight: 700,
+                      color: '#00A32E',
+                      letterSpacing: '1px'
+                    }}
+                    >PAYMENT DETAILS</h6>
+                    <p className="mb-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Payment Mode:
+                      G-Pay</p>
+
+                    <p
+                      className="mb-1"
+                      style={{
+                        fontSize: '9px',
                         fontFamily: 'Gilroy',
-                        fontWeight: 700,
-                        color: '#00A32E',
-                        letterSpacing: '1px'
+                        fontWeight: 500,
+                        color: 'rgba(23, 23, 23, 1)',
                       }}
-                      >PAYMENT DETAILS</h6>
-                      <p className="mb-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Payment Mode:
-                        G-Pay</p>
-
-                      <p
-                        className="mb-1"
-                        style={{
-                          fontSize: '9px',
-                          fontFamily: 'Gilroy',
-                          fontWeight: 500,
-                          color: 'rgba(23, 23, 23, 1)',
-                        }}
-                      >
-                        Transaction ID: GPay-2134-8482-XYZ
-                      </p>
+                    >
+                      Transaction ID: GPay-2134-8482-XYZ
+                    </p>
 
 
-                      <p style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Received By: {state.createAccount?.accountList?.roleName} - {state.createAccount?.accountList?.firstName}</p>
-                      <p style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', marginTop: "-14px" }}>Status: Paid</p>
-
-                    </div>
-                    <div className="col-md-6 text-end">
-                      <p className="text-success fw-bold  border-success px-4 py-2 d-inline-block ms-2"><img src={received} alt="received" height={71} width={152} /></p>
-
-                    </div>
-                    <div className="row">
-                      <div className="col-md-6">
-                        <h6 style={{ color: "#00A32E", fontSize: "10px", fontWeight: 600, fontFamily: "Gilroy" }}>Terms and Conditions</h6>
-                        <p style={{ fontSize: "9px", color: "#555", fontFamily: "Gilroy" }}>
-                          {terms}    </p>
-                      </div>
-
-                      <div className="col-md-6 text-end">
-                        <p className="text-success fw-bold border-success px-4 py-2 d-inline-block">
-                        </p>
-                        {signaturePreview && (
-                          <img
-                            src={signaturePreview}
-                            alt="Digital Signature" style={{ height: 60, width: 130, paddingLeft: 30 }}
-
-                          />
-                        )}
-                        <p className="mt-0" style={{ fontSize: "11px", fontFamily: "Gilroy", color: "#2C2C2C", paddingRight: "5px" }}>Authorized Signature</p>
-                      </div>
-                    </div>
+                    <p style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Received By: {state.createAccount?.accountList?.roleName} - {state.createAccount?.accountList?.firstName}</p>
+                    <p style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', marginTop: "-14px" }}>Status: Paid</p>
 
                   </div>
-                </div>
+                  <div className="col-md-6 text-end">
+                    <p className="text-success fw-bold  border-success px-4 py-2 d-inline-block ms-2"><img src={received} alt="received" height={71} width={152} /></p>
 
-                <div className="ms-5 me-5">
-                  <div
-                    className="text-white text-center py-2 rounded-bottom d-flex justify-content-center gap-4"
+                  </div>
+               
+
+                </div>
+              </div> */}
+
+
+    <hr className="m-0"
+                style={{
+                  border: "none",
+                  height: "1px",
+                  background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                  borderRadius: "2px",
+                }}
+              />
+              <div className="px-4 py-2 pb-2">
+                 <div
+                  className="text-center rounded-bottom d-flex justify-content-between"
+                  style={{
+                    borderTopRightRadius: '38px',
+                    borderTopLeftRadius: '38px',
+                  }}
+                >
+
+                  <p
+                    className="mb-0"
                     style={{
-                      backgroundColor: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
-                      // background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
-                      borderTopRightRadius: '38px',
-                      borderTopLeftRadius: '38px',
+                      fontSize: '13px',
+                      fontFamily: 'Gilroy',
+                      fontWeight: 500,
+                      color: '#4B4B4B',
                     }}
                   >
-                    <p
-                      className="mb-0"
+                    Email: {" "}
+                    <span
                       style={{
-                        fontSize: '10px',
+                        fontSize: '13px',
                         fontFamily: 'Gilroy',
                         fontWeight: 600,
-                        color: 'rgba(255, 255, 255, 1)',
+                        color: '#222222',
+                      }}
+                    >
+                      {email}
 
-                      }}
-                    >
-                      Email : {email}
-                    </p>
-                    <p
-                      className="mb-0"
+                    </span>
+                  </p>
+
+
+                  <p
+                    className="mb-0"
+                    style={{
+                      fontSize: '13px',
+                      fontFamily: 'Gilroy',
+                      fontWeight: 500,
+                      color: '#4B4B4B',
+                    }}
+                  >
+                    Contact: {" "}
+                    <span
                       style={{
-                        fontSize: '10px',
+                        fontSize: '13px',
                         fontFamily: 'Gilroy',
                         fontWeight: 600,
-                        color: 'rgba(255, 255, 255, 1)',
+                        color: '#222222',
                       }}
                     >
-                      Contact : +91 {mobilenum}
-                    </p>
-                  </div>
+                      {mobilenum}
+                    </span>
+                  </p>
                 </div>
-              </div>
+                </div>
+
             </div>
           </div>
         </div>
+
+
+
 
         {showFullView && (
           <div
@@ -1426,12 +1726,7 @@ useEffect(() => {
 
                   <div ref={innerScrollRef}
                     className="show-scroll col-lg-12 justify-content-center"
-                    style={{
-                      maxHeight: 480,
-                      overflowY: "auto",
-                      borderBottomLeftRadius: "13px",
-                      borderBottomRightRadius: "13px",
-                    }}>
+                   >
                     <div className=" text-white  p-2 position-relative" style={{ minHeight: 90, backgroundColor: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})` }}>
 
                       <div className="d-flex justify-content-between align-items-center">
@@ -1454,7 +1749,7 @@ useEffect(() => {
                           <div style={{ fontSize: 8, fontWeight: 600, fontFamily: "Gilroy" }}>
                             {[
                               [state.UsersList.hotelDetailsinPg?.street, state.UsersList.hotelDetailsinPg?.area, state.UsersList.hotelDetailsinPg?.landmark]
-                                .filter(Boolean)  
+                                .filter(Boolean)
                                 .join(", "),
 
                               [state.UsersList.hotelDetailsinPg?.city, state.UsersList.hotelDetailsinPg?.state]
@@ -1468,7 +1763,7 @@ useEffect(() => {
                                   <br />
                                 </React.Fragment>
                               ))}
-                        </div>
+                          </div>
                         </div>
                       </div>
 
@@ -1654,7 +1949,7 @@ useEffect(() => {
                         </div>
                         <div className="row">
                           <div className="col-md-6">
-                            <h6 style={{ color: "#00A32E", fontSize: "10px", fontWeight: 600, fontFamily: "Gilroy" }}>Terms and Conditions</h6>
+                            <h6 style={{ color: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`, fontSize: "10px", fontWeight: 600, fontFamily: "Gilroy" }}>Terms and Conditions</h6>
                             <p style={{ fontSize: "9px", color: "#555", fontFamily: "Gilroy" }}>
                               {terms}
                             </p>
