@@ -72,7 +72,7 @@ const checkPermission = (roleData, moduleName, action = "canRead") => {
 export const useHasPermission = (moduleName) => {
   const roleData = useSelector((state) => state.AssetList.getPermissionRoleList);
 
-console.log("roleData",roleData)
+// console.log("roleData",roleData)
   const canWriteSubscription = checkPermission(roleData, "Subscription", "canWrite");
   const canReadSubscription = checkPermission(roleData, "Subscription", "canRead");
   const canUpdateSubscription = checkPermission(roleData, "Subscription", "canUpdate");

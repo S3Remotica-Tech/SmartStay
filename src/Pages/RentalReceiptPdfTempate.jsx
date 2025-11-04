@@ -33,7 +33,7 @@ import Refund from '../Assets/Images/New_images/Refund.png';
 
 
 
-const RentalReceiptPdfTemplate = ({ BillsTemplateList }) => {
+const RentalReceiptPdfTemplate = ({ BillsTemplateList,templateReceiptThemes }) => {
 
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
@@ -48,7 +48,7 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList }) => {
 
   const [color, setColor] = useState({ r: 0, g: 163, b: 46, a: 1 });
   const [useGradient, setUseGradient] = useState(true);
-  const defaultGradient = 'linear-gradient(to right, rgba(0,163, 46, 1), rgba(0, 163, 46, 1))';
+  const defaultGradient = 'rgba(0,163, 46, 1)';
 
   // const canUpdateInvoice = useHasPermission("Bills", "canUpdate")
 
@@ -410,41 +410,124 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList }) => {
 
 
 
-  useEffect(() => {
-    if (RentalreceiptTemplate) {
-      setLogoPreview(BillsTemplateList.isLogoCustomized && RentalreceiptTemplate.receiptLogoUrl ? RentalreceiptTemplate.receiptLogoUrl : BillsTemplateList.logo)
-      setHostelLogo(BillsTemplateList.isLogoCustomized && RentalreceiptTemplate.receiptLogoUrl ? RentalreceiptTemplate.receiptLogoUrl : BillsTemplateList.logo)
-      setMobileNum(BillsTemplateList.isMobileCustomized && RentalreceiptTemplate.receiptMobileNumber ? RentalreceiptTemplate.receiptMobileNumber : BillsTemplateList.mobile)
-      setEmail(BillsTemplateList.isMailIdCustomized && RentalreceiptTemplate.receiptMailId ? RentalreceiptTemplate.receiptMailId : BillsTemplateList.emailId)
-      setSignature(BillsTemplateList.isSignatureCustomized && RentalreceiptTemplate.receiptSignatureUrl ? RentalreceiptTemplate.receiptSignatureUrl : BillsTemplateList.signature)
-      setSignaturePreview(BillsTemplateList.isSignatureCustomized && RentalreceiptTemplate.receiptSignatureUrl ? RentalreceiptTemplate.receiptSignatureUrl : BillsTemplateList.signature)
-      setNotes(RentalreceiptTemplate.receiptNotes)
-      setTerms(RentalreceiptTemplate.receiptTermsAndCondition || '')
-      const templateTheme = RentalreceiptTemplate.receiptTemplateColor;
-      if (templateTheme && templateTheme.trim() !== '') {
-        if (templateTheme.includes('rgba')) {
-          const match = templateTheme.match(/rgba\((\d+),\s*(\d+),\s*(\d+),\s*(\d+\.?\d*)\)/);
-          if (match) {
-            setColor({
-              r: parseInt(match[1]),
-              g: parseInt(match[2]),
-              b: parseInt(match[3]),
-              a: parseFloat(match[4]),
-            });
-            setUseGradient(false);
-          }
-        } else {
-          setUseGradient(true);
+  // useEffect(() => {
+  //   if (RentalreceiptTemplate || templateReceiptThemes) {
+  //     setLogoPreview(BillsTemplateList.isLogoCustomized && RentalreceiptTemplate.receiptLogoUrl ? RentalreceiptTemplate.receiptLogoUrl : BillsTemplateList.logo)
+  //     setHostelLogo(BillsTemplateList.isLogoCustomized && RentalreceiptTemplate.receiptLogoUrl ? RentalreceiptTemplate.receiptLogoUrl : BillsTemplateList.logo)
+  //     setMobileNum(BillsTemplateList.isMobileCustomized && RentalreceiptTemplate.receiptMobileNumber ? RentalreceiptTemplate.receiptMobileNumber : BillsTemplateList.mobile)
+  //     setEmail(BillsTemplateList.isMailIdCustomized && RentalreceiptTemplate.receiptMailId ? RentalreceiptTemplate.receiptMailId : BillsTemplateList.emailId)
+  //     setSignature(BillsTemplateList.isSignatureCustomized && RentalreceiptTemplate.receiptSignatureUrl ? RentalreceiptTemplate.receiptSignatureUrl : BillsTemplateList.signature)
+  //     setSignaturePreview(BillsTemplateList.isSignatureCustomized && RentalreceiptTemplate.receiptSignatureUrl ? RentalreceiptTemplate.receiptSignatureUrl : BillsTemplateList.signature)
+  //     setNotes(RentalreceiptTemplate.receiptNotes)
+  //     setTerms(RentalreceiptTemplate.receiptTermsAndCondition || '')
+  //     const templateTheme = RentalreceiptTemplate.receiptTemplateColor;
+  //     if (templateTheme && templateTheme.trim() !== '') {
+  //       if (templateTheme.includes('rgba')) {
+  //         const match = templateTheme.match(/rgba\((\d+),\s*(\d+),\s*(\d+),\s*(\d+\.?\d*)\)/);
+  //         if (match) {
+  //           setColor({
+  //             r: parseInt(match[1]),
+  //             g: parseInt(match[2]),
+  //             b: parseInt(match[3]),
+  //             a: parseFloat(match[4]),
+  //           });
+  //           setUseGradient(false);
+  //         }
+  //       } else {
+  //         setUseGradient(true);
+  //       }
+  //     } else {
+  //       setUseGradient(true);
+  //     }
+
+  //   }
+
+  // }, [RentalreceiptTemplate , templateReceiptThemes])
+
+
+useEffect(() => {
+  
+  if (templateReceiptThemes && Object.keys(templateReceiptThemes).length > 0) {
+    setLogoPreview(templateReceiptThemes.logoPreview || "");
+    setHostelLogo(templateReceiptThemes.logoPreview || "");
+    setMobileNum(templateReceiptThemes.mobilenum || "");
+    setEmail(templateReceiptThemes.email || "");
+    setSignaturePreview(templateReceiptThemes.signaturePreview || "");
+    setSignature(templateReceiptThemes.signaturePreview || "");
+    setNotes(templateReceiptThemes.notes || "");
+    setTerms(templateReceiptThemes.terms || "");
+    setColor(templateReceiptThemes.color || { r: 0, g: 0, b: 0, a: 1 });
+    setUseGradient(false);
+    return; 
+  }
+
+
+   if (BillsTemplateList && Object.keys(BillsTemplateList).length > 0 && RentalreceiptTemplate) {
+    setLogoPreview(
+      BillsTemplateList.isLogoCustomized && RentalreceiptTemplate.receiptLogoUrl
+        ? RentalreceiptTemplate.receiptLogoUrl
+        : BillsTemplateList.logo || ""
+    );
+
+    setHostelLogo(
+      BillsTemplateList.isLogoCustomized && RentalreceiptTemplate.receiptLogoUrl
+        ? RentalreceiptTemplate.receiptLogoUrl
+        : BillsTemplateList.logo || ""
+    );
+
+    setMobileNum(
+      BillsTemplateList.isMobileCustomized && RentalreceiptTemplate.receiptMobileNumber
+        ? RentalreceiptTemplate.receiptMobileNumber
+        : BillsTemplateList.mobile || ""
+    );
+
+    setEmail(
+      BillsTemplateList.isMailIdCustomized && RentalreceiptTemplate.receiptMailId
+        ? RentalreceiptTemplate.receiptMailId
+        : BillsTemplateList.emailId || ""
+    );
+
+    setSignaturePreview(
+      BillsTemplateList.isSignatureCustomized && RentalreceiptTemplate.receiptSignatureUrl
+        ? RentalreceiptTemplate.receiptSignatureUrl
+        : BillsTemplateList.signature || ""
+    );
+
+    setSignature(
+      BillsTemplateList.isSignatureCustomized && RentalreceiptTemplate.receiptSignatureUrl
+        ? RentalreceiptTemplate.receiptSignatureUrl
+        : BillsTemplateList.signature || ""
+    );
+
+    setNotes(RentalreceiptTemplate.receiptNotes || "");
+    setTerms(RentalreceiptTemplate.receiptTermsAndCondition || "");
+
+
+    const templateTheme = RentalreceiptTemplate.receiptTemplateColor;
+    if (templateTheme && templateTheme.trim() !== "") {
+      if (templateTheme.includes("rgba")) {
+        const match = templateTheme.match(
+          /rgba\((\d+),\s*(\d+),\s*(\d+),\s*(\d+\.?\d*)\)/
+        );
+        if (match) {
+          setColor({
+            r: parseInt(match[1]),
+            g: parseInt(match[2]),
+            b: parseInt(match[3]),
+            a: parseFloat(match[4]),
+          });
+          setUseGradient(false);
         }
       } else {
         setUseGradient(true);
       }
-
+    } else {
+      setUseGradient(true);
     }
 
-  }, [RentalreceiptTemplate])
-
-
+    
+  }
+}, [BillsTemplateList, RentalreceiptTemplate, templateReceiptThemes]);
 
 
 

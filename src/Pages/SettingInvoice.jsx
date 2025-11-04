@@ -360,7 +360,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
     // { label: "NOC Receipt", value: "noc_receipt" }
   ];
 
-  const defaultGradient = 'linear-gradient(to right, rgba(18, 50, 180, 1), rgba(72, 104, 234, 1))';
+  const defaultGradient ="#1E45E1";
 
   const [useGradient, setUseGradient] = useState(true);
   const [color, setColor] = useState({ r: 30, g: 69, b: 225, a: 1 });
@@ -1361,8 +1361,19 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
   const hasTax = tax;
 
 
+  const [templateThemes, setTemplateThemes] = useState('')
+ const [templateReceiptThemes, setTemplateReceiptThemes] = useState('')
 
 
+const onTemplateChange = (template) =>{
+  
+setTemplateThemes(template)
+}
+
+
+const onTemplateReceiptChange = (template) =>{
+setTemplateReceiptThemes(template)
+}
 
 
 
@@ -2383,13 +2394,18 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
                 {selectedTab === "security_deposit_invoice" &&
                   <>
 
-                    <AdvanceCustomizeSettings hostelid={hostelid} BillsTemplateList={BillsTemplateList} />
+                    <AdvanceCustomizeSettings hostelid={hostelid} BillsTemplateList={BillsTemplateList}  
+                    
+                    
+                   onTemplateChange={onTemplateChange}
+                    
+                    />
 
                   </>}
 
                 {selectedTab === "rental_receipt" &&
                   <>
-                    <ReceiptCustomize hostelid={hostelid} BillsTemplateList={BillsTemplateList} />
+                    <ReceiptCustomize hostelid={hostelid} BillsTemplateList={BillsTemplateList}  onTemplateReceiptChange={onTemplateReceiptChange}/>
 
                </> }
 
@@ -2959,10 +2975,10 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
                 </div>}
 
               {selectedTab === "security_deposit_invoice" &&
-                <><SecurityDepositInvoiceTemplate hostelid={hostelid} BillsTemplateList={BillsTemplateList} /> </>}
+                <><SecurityDepositInvoiceTemplate hostelid={hostelid} BillsTemplateList={BillsTemplateList}  templateThemes={templateThemes}/> </>}
 
               {selectedTab === "rental_receipt" &&
-                <> <RentalReceiptPdfTemplate hostelid={hostelid} BillsTemplateList={BillsTemplateList} /> </>
+                <> <RentalReceiptPdfTemplate hostelid={hostelid} BillsTemplateList={BillsTemplateList} templateReceiptThemes={templateReceiptThemes} /> </>
               }
 
 

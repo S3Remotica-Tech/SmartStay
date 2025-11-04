@@ -37,7 +37,7 @@ import { Location, Call, Profile, } from 'iconsax-react'
 import { IoBed } from "react-icons/io5";
 import { Container, Row, Col, Table } from "react-bootstrap";
 
-const SecurityDepositInvoiceTemplate = ({ BillsTemplateList }) => {
+const AdvanceCustomizeSettings = ({ BillsTemplateList,onTemplateChange}) => {
 
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
@@ -95,6 +95,14 @@ const SecurityDepositInvoiceTemplate = ({ BillsTemplateList }) => {
 
 
   // const canUpdateInvoice = useHasPermission("Bills", "canUpdate")
+
+
+
+
+
+
+
+
 
 
   const {
@@ -779,6 +787,47 @@ const SecurityDepositInvoiceTemplate = ({ BillsTemplateList }) => {
     }
 
   }, [state.Settings.settingGlobalAddStatusCode])
+
+
+
+useEffect(() => {
+    onTemplateChange({
+     logoPreview,
+    mobilenum,
+    email,
+    signaturePreview,
+    prefix,
+    suffix,
+    tax,
+    qrImage,
+    notes,
+    terms,
+    color,
+    });
+  }, [logoPreview,
+    mobilenum,
+    email,
+    signaturePreview,
+    prefix,
+    suffix,
+    tax,
+    qrImage,
+    notes,
+    terms,
+    color,]);
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   return (
     <>
@@ -1715,8 +1764,8 @@ const SecurityDepositInvoiceTemplate = ({ BillsTemplateList }) => {
     </>
   )
 }
-SecurityDepositInvoiceTemplate.propTypes = {
+AdvanceCustomizeSettings.propTypes = {
   hostelid: PropTypes.func.isRequired,
 
 }
-export default SecurityDepositInvoiceTemplate;
+export default AdvanceCustomizeSettings;

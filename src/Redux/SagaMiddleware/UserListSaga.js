@@ -156,7 +156,7 @@ function* handleGetCustomerReading(reading) {
    catch (err) {
 
       const error = err || {};
-
+ yield* handleApiError(error);
       yield put({
          type: 'NETWORK_ERROR',
          payload:
@@ -184,7 +184,7 @@ function* handleGetParticularRoomReading(reading) {
    catch (err) {
 
       const error = err || {};
-
+ yield* handleApiError(error);
       yield put({
          type: 'NETWORK_ERROR',
          payload:
@@ -247,7 +247,7 @@ function* handleBookingToCheckIn(reading) {
    }
    catch (error) {
 
-
+ yield* handleApiError(error);
       if (error.code === 'ERR_BAD_REQUEST') {
          if (error.status === 400) {
             yield put({ type: 'BED_AVAILABLE_ERROR_BOOKED', payload: error.response.data });
@@ -279,7 +279,7 @@ function* handleCancelBookingGet(reading) {
    catch (err) {
 
       const error = err || {};
-
+ yield* handleApiError(error);
       yield put({
          type: 'NETWORK_ERROR',
          payload:
@@ -318,7 +318,7 @@ function* handleGetRoomReading(reading) {
    catch (err) {
 
       const error = err || {};
-
+ yield* handleApiError(error);
       yield put({
          type: 'NETWORK_ERROR',
          payload:
@@ -380,7 +380,7 @@ function* handleAddRoomReading(reading) {
    }
    catch (error) {
 
-
+ yield* handleApiError(error);
       if (error.code === 'ERR_BAD_REQUEST') {
          if (error.status === 400) {
             yield put({ type: 'ROOM_READING_ERROR', payload: error.response.data });
@@ -417,7 +417,7 @@ function* handleAvailableBedDetailsForDate(bedDetails) {
    catch (err) {
 
       const error = err || {};
-
+ yield* handleApiError(error);
       yield put({
          type: 'NETWORK_ERROR',
          payload:
@@ -443,7 +443,7 @@ function* handleBookedDetails(action) {
       }
    }
    catch (error) {
-
+ yield* handleApiError(error);
 
       if (error.code === 'ERR_BAD_REQUEST') {
          if (error.status === 400) {
@@ -512,7 +512,7 @@ function* handleCheckIn(datum) {
    }
    catch (error) {
 
-
+ yield* handleApiError(error);
       if (error.code === 'ERR_BAD_REQUEST') {
          if (error.status === 400) {
             yield put({ type: 'BED_AVAILABLE_ERROR', payload: error.response.data });
@@ -544,6 +544,7 @@ function* handleuserlist(user) {
    }
    catch (err) {
       const error = err || {};
+       yield* handleApiError(error);
       yield put({
          type: 'NETWORK_ERROR',
          payload:
@@ -556,9 +557,8 @@ function* handleuserlist(user) {
 
 
 function* handleDeleteCustomer(customer) {
+   try{
    const response = yield call(deleteCustomer, customer.payload);
-
-
 
    var toastStyle = {
       backgroundColor: "#E6F6E6",
@@ -611,6 +611,10 @@ function* handleDeleteCustomer(customer) {
       refreshToken(response)
    }
 }
+catch(error){
+    yield* handleApiError(error);
+}
+}
 
 
 
@@ -620,6 +624,7 @@ function* handleDeleteCustomer(customer) {
 
 
 function* handleHostelList(hostel) {
+   try{
    const response = yield call(hostelList, hostel.payload)
 
 
@@ -634,8 +639,13 @@ function* handleHostelList(hostel) {
       refreshToken(response)
    }
 }
+catch(error){
+    yield* handleApiError(error);
+}
+}
 
 function* handleGetParticularHostelList(action) {
+   try{
    const response = yield call(getParticularHostelList, action.payload)
 
    if (response?.status === 200 ) {
@@ -647,6 +657,10 @@ function* handleGetParticularHostelList(action) {
    if (response) {
       refreshToken(response)
    }
+}
+catch(error){
+    yield* handleApiError(error);
+}
 }
 
 function* handleNumberOfRooms(ID) {
@@ -666,6 +680,7 @@ function* handleNumberOfRooms(ID) {
    }
    catch (err) {
       const error = err || {};
+       yield* handleApiError(error);
       yield put({
          type: 'NETWORK_ERROR',
          payload:
@@ -693,7 +708,7 @@ function* handlehosteliddetail(data) {
    catch (err) {
       const error = err || {};
 
-
+ yield* handleApiError(error);
       yield put({
          type: 'NETWORK_ERROR',
          payload:
@@ -704,6 +719,7 @@ function* handlehosteliddetail(data) {
    }
 }
 function* handleUserBillPaymentHistory() {
+   try{
    const response = yield call(userBillPaymentHistory)
 
    if (response?.status === 200 ) {
@@ -715,6 +731,10 @@ function* handleUserBillPaymentHistory() {
    if (response) {
       refreshToken(response)
    }
+}
+catch(error){
+    yield* handleApiError(error);
+}
 }
 
 function* handleCreateFloor(data) {
@@ -765,6 +785,7 @@ function* handleCreateFloor(data) {
       }
    }
    catch (error) {
+       yield* handleApiError(error);
       if (error.code === 'ERR_BAD_REQUEST') {
          if (error.status === 409) {
             yield put({ type: 'ALREADY_FLOOR_ERROR', payload: error.response.data });
@@ -776,6 +797,7 @@ function* handleCreateFloor(data) {
 }
 
 function* handleRoomsDetails(ID) {
+   try{
    const response = yield call(roomsCount, ID.payload)
 
 
@@ -788,6 +810,10 @@ function* handleRoomsDetails(ID) {
    if (response) {
       refreshToken(response)
    }
+}
+catch(error){
+    yield* handleApiError(error);
+}
 }
 
 
@@ -838,6 +864,7 @@ function* handleAddUser(datum) {
       }
    }
    catch (error) {
+       yield* handleApiError(error);
       if (error.code === 'ERR_BAD_REQUEST') {
          if (error.response.data.emailStatus !== "") {
             yield put({ type: 'EMAIL_ERROR', payload: error.response.data.emailStatus });
@@ -898,6 +925,7 @@ function* handleCustomerSaveInfo(datum) {
       }
    }
    catch (error) {
+       yield* handleApiError(error);
       if (error.code === 'ERR_BAD_REQUEST') {
          const emailError = error.response?.data?.emailStatus;
          const mobileError = error.response?.data?.mobileStatus;
@@ -915,6 +943,9 @@ function* handleCustomerSaveInfo(datum) {
 
 
 function* handleRoomCheck(action) {
+   try{
+
+
    const response = yield call(roomFullCheck, action.payload)
 
    if ((response?.status === 200 ) && response.data?.length > 0) {
@@ -927,9 +958,14 @@ function* handleRoomCheck(action) {
       refreshToken(response)
    }
 }
+catch(error){
+    yield* handleApiError(error);
+}
+}
 
 
 function* handleCheckOut(action) {
+   try{
    const response = yield call(checkOutUser, action.payload)
 
    if (response?.status === 200 ) {
@@ -947,6 +983,10 @@ function* handleCheckOut(action) {
    if (response) {
       refreshToken(response)
    }
+}
+catch(error){
+    yield* handleApiError(error);
+}
 }
 
 function* handleDeleteFloor(hosteID) {
@@ -991,6 +1031,7 @@ function* handleDeleteFloor(hosteID) {
       }
    }
    catch (error) {
+       yield* handleApiError(error);
       if (error.code === 'ERR_BAD_REQUEST') {
          if (error.status === 400) {
 
@@ -1057,6 +1098,7 @@ function* handleDeleteRoom(roomDetails) {
       refreshToken(response)
    }
 }catch (error) {
+    yield* handleApiError(error);
       if (error.code === 'ERR_BAD_REQUEST') {
          if (error.status === 400) {
 
@@ -1099,6 +1141,7 @@ function refreshToken(response) {
 
 
 function* handlecustomerdetails(userDetails) {
+   try{
    const response = yield call(CustomerDetails, userDetails.payload)
    console.log("handlecustomerdetails", response)
    if (response?.status === 200 ) {
@@ -1110,10 +1153,15 @@ function* handlecustomerdetails(userDetails) {
    if (response) {
       refreshToken(response)
    }
+}
+catch(error){
+    yield* handleApiError(error);
+}
 
 }
 
 function* handleAmnitiesName() {
+   try{
    const response = yield call(amnitiesnameList);
 
    if (response?.status === 200 ) {
@@ -1124,7 +1172,12 @@ function* handleAmnitiesName() {
       refreshToken(response)
    }
 }
+catch(error){
+    yield* handleApiError(error);
+}
+}
 function* handleamenityhistory(amnityDetails) {
+   try{
    const response = yield call(amenitieshistory, amnityDetails.payload)
    if (response?.status === 200 ) {
       yield put({ type: 'AMENITIES_HISTORY', payload: { response: response.data.data, statusCode: response?.status  } })
@@ -1135,6 +1188,10 @@ function* handleamenityhistory(amnityDetails) {
    if (response) {
       refreshToken(response)
    }
+}
+catch(error){
+    yield* handleApiError(error);
+}
 
 }
 
@@ -1203,7 +1260,7 @@ function* handleuserAddAmnitiesName(amnity) {
    }
    catch (err) {
       const error = err || {};
-
+ yield* handleApiError(error);
       yield put({
          type: 'NETWORK_ERROR',
          payload:
@@ -1232,7 +1289,7 @@ function* handlebedNumberDetails(bedDetails) {
    catch (err) {
 
       const error = err || {};
-
+ yield* handleApiError(error);
       yield put({
          type: 'NETWORK_ERROR',
          payload:
@@ -1303,7 +1360,7 @@ function* handleKYCValidate(action) {
    }
    catch (err) {
       const error = err || {};
-
+ yield* handleApiError(error);
       yield put({
          type: 'NETWORK_ERROR',
          payload:
@@ -1370,7 +1427,7 @@ function* handleKYCValidateOtpVerify(action) {
    }
    catch (err) {
       const error = err || {};
-
+ yield* handleApiError(error);
       yield put({
          type: 'NETWORK_ERROR',
          payload:
@@ -1387,6 +1444,7 @@ function* handleKYCValidateOtpVerify(action) {
 
 
 function* handleCountrylist() {
+   try{
    const response = yield call(countrylist);
 
    if (response?.status === 200 ) {
@@ -1399,9 +1457,16 @@ function* handleCountrylist() {
       refreshToken(response)
    }
 }
+catch(error){
+    yield* handleApiError(error);
+}
+}
 
 
 function* handleGetWalkInCustomer(action) {
+   try{
+
+   
    const response = yield call(getWalkInCustomer, action.payload);
 
 
@@ -1414,6 +1479,10 @@ function* handleGetWalkInCustomer(action) {
    if (response) {
       refreshToken(response)
    }
+}
+catch(error){
+    yield* handleApiError(error);
+}
 }
 
 function* handleAddWalkInCustomer(action) {
@@ -1462,7 +1531,7 @@ function* handleAddWalkInCustomer(action) {
    }
    catch (err) {
       const error = err || {};
-
+ yield* handleApiError(error);
       yield put({
          type: 'NETWORK_ERROR',
          payload:
@@ -1475,6 +1544,7 @@ function* handleAddWalkInCustomer(action) {
 
 
 function* handleDeleteWalkInCustomer(action) {
+try{
    const response = yield call(DeleteWalkInCustomer, action.payload);
 
    var toastStyle = {
@@ -1511,11 +1581,16 @@ function* handleDeleteWalkInCustomer(action) {
    if (response) {
       refreshToken(response)
    }
+}
+catch(error){
+    yield* handleApiError(error);
+}
 
 }
 
 
 function* handleCheckoutCustomer(action) {
+   try{
    const response = yield call(getCheckOutCustomer, action.payload);
    if (response?.status === 200 ) {
       yield put({ type: 'CHECKOUT_CUSTOMER_LIST', payload: { response: response.data, statusCode: response?.status  } })
@@ -1526,6 +1601,10 @@ function* handleCheckoutCustomer(action) {
    if (response) {
       refreshToken(response)
    }
+}
+catch(error){
+    yield* handleApiError(error);
+}
 }
 
 function* handleAddCheckoutCustomer(action) {
@@ -1587,6 +1666,7 @@ function* handleAddCheckoutCustomer(action) {
 
 
 function* handleDeleteCheckOUtCustomer(action) {
+   try{
    const response = yield call(DeleteCheckOutCustomer, action.payload);
 
    var toastStyle = {
@@ -1623,6 +1703,10 @@ function* handleDeleteCheckOUtCustomer(action) {
    if (response) {
       refreshToken(response)
    }
+}
+catch(error){
+    yield* handleApiError(error);
+}
 
 }
 
@@ -1630,6 +1714,7 @@ function* handleDeleteCheckOUtCustomer(action) {
 
 
 function* handleAvailableCheckOUtCustomer(action) {
+   try{
    const response = yield call(AvailableCheckOutCustomer, action.payload);
 
    if (response?.status === 200) {
@@ -1639,10 +1724,15 @@ function* handleAvailableCheckOUtCustomer(action) {
    if (response) {
       refreshToken(response)
    }
+}
+catch(error){
+    yield* handleApiError(error);
+}
 
 }
 
 function* handlegetConfirmCheckOUtCustomer(action) {
+   try{
    const response = yield call(GetConfirmCheckOut, action.payload);
 
    if (response?.status === 200) {
@@ -1651,6 +1741,10 @@ function* handlegetConfirmCheckOUtCustomer(action) {
    if (response) {
       refreshToken(response)
    }
+}
+catch(error){
+    yield* handleApiError(error);
+}
 
 }
 
@@ -1697,7 +1791,7 @@ function* handleAddConfirmCheckout(action) {
    }
    catch (err) {
       const error = err || {};
-
+ yield* handleApiError(error);
       yield put({
          type: 'NETWORK_ERROR',
          payload:
@@ -1754,7 +1848,7 @@ function* handleEditConfirmCheckout(action) {
    }
    catch (err) {
       const error = err || {};
-
+ yield* handleApiError(error);
       yield put({
          type: 'NETWORK_ERROR',
          payload:
@@ -1769,6 +1863,7 @@ function* handleEditConfirmCheckout(action) {
 
 
 function* handleExportDetails(action) {
+   try{
    const response = yield call(exportDetails, action.payload);
    if (response?.status === 200 ) {
       yield put({ type: 'EXPORT_DETAILS', payload: { response: response.data, statusCode: response?.status  } })
@@ -1782,9 +1877,14 @@ function* handleExportDetails(action) {
       refreshToken(response)
    }
 }
+catch(error){
+    yield* handleApiError(error);
+}
+}
 
 
 function* handleAssetsExportDetails(action) {
+   try{
    const response = yield call(exportDetails, action.payload);
    if (response?.status === 200) {
       yield put({ type: 'EXPORT_ASSETS_DETAILS', payload: { response: response.data, statusCode: response?.status } })
@@ -1798,9 +1898,14 @@ function* handleAssetsExportDetails(action) {
       refreshToken(response)
    }
 }
+catch(error){
+    yield* handleApiError(error);
+}
+}
 
 
 function* handleElectricityExportDetails(action) {
+   try{
    const response = yield call(exportDetails, action.payload);
    if (response?.status === 200) {
       yield put({ type: 'EXPORT_EB_DETAILS', payload: { response: response.data, statusCode: response?.status } })
@@ -1814,8 +1919,13 @@ function* handleElectricityExportDetails(action) {
       refreshToken(response)
    }
 }
+catch(error){
+    yield* handleApiError(error);
+}
+}
 
 function* handleExpenceExportDetails(action) {
+   try{
    const response = yield call(exportDetails, action.payload);
    if (response?.status === 200) {
       yield put({ type: 'EXPORT_EXPENSE_DETAILS', payload: { response: response.data, statusCode: response?.status  } })
@@ -1829,7 +1939,12 @@ function* handleExpenceExportDetails(action) {
       refreshToken(response)
    }
 }
+catch(error){
+    yield* handleApiError(error);
+}
+}
 function* handleComplianceExportDetails(action) {
+   try{
    const response = yield call(exportDetails, action.payload);
    if (response?.status === 200) {
       yield put({ type: 'EXPORT_COMPLIANCE_DETAILS', payload: { response: response.data, statusCode: response?.status } })
@@ -1841,9 +1956,13 @@ function* handleComplianceExportDetails(action) {
    }
    if (response) {
       refreshToken(response)
+   }}
+   catch(error){
+       yield* handleApiError(error);
    }
 }
 function* handleBookingExportDetails(action) {
+   try{
    const response = yield call(exportDetails, action.payload);
    if ( response?.status === 200 ) {
       yield put({ type: 'EXPORT_BOOKING_DETAILS', payload: { response: response.data, statusCode:  response?.status } })
@@ -1855,10 +1974,16 @@ function* handleBookingExportDetails(action) {
    }
    if (response) {
       refreshToken(response)
+   }}
+   catch(error){
+       yield* handleApiError(error);
    }
 }
 
 function* handleWalkinExportDetails(action) {
+   try{
+
+   
    const response = yield call(exportDetails, action.payload);
    if  (response?.status === 200) {
       yield put({ type: 'EXPORT_WALKIN_DETAILS', payload: { response: response.data, statusCode: response?.status } })
@@ -1872,7 +1997,12 @@ function* handleWalkinExportDetails(action) {
       refreshToken(response)
    }
 }
+catch(error){
+    yield* handleApiError(error);
+}
+}
 function* handleCheckoutExportDetails(action) {
+   try{
    const response = yield call(exportDetails, action.payload);
    if ( response?.status === 200 ) {
       yield put({ type: 'EXPORT_CHECKOUT_DETAILS', payload: { response: response.data, statusCode:  response?.status } })
@@ -1885,6 +2015,10 @@ function* handleCheckoutExportDetails(action) {
    if (response) {
       refreshToken(response)
    }
+}
+catch(error){
+    yield* handleApiError(error);
+}
 }
 // function* handleReAssignPage(action) {
 //    try {
@@ -1996,6 +2130,7 @@ function* handleReAssignPage(action) {
       }
    }
    catch (error) {
+       yield* handleApiError(error);
       if (error.code === 'ERR_BAD_REQUEST') {
          if (error.status === 400) {
             yield put({ type: 'CHANGE_BED_ERROR', payload: error.response.data });
@@ -2054,7 +2189,7 @@ function* handleCustomerAddContact(action) {
    }
    catch (err) {
       const error = err || {};
-
+ yield* handleApiError(error);
       yield put({
          type: 'NETWORK_ERROR',
          payload:
@@ -2084,7 +2219,7 @@ function* handleCustomerAllDetails(action) {
    }
    catch (err) {
       const error = err || {};
-
+ yield* handleApiError(error);
       yield put({
          type: 'NETWORK_ERROR',
          payload:
@@ -2098,6 +2233,7 @@ function* handleCustomerAllDetails(action) {
 
 
 function* handleDeleteContact(action) {
+   try{
    const response = yield call(deleteContact, action.payload);
 
    var toastStyle = {
@@ -2141,6 +2277,10 @@ function* handleDeleteContact(action) {
    if (response) {
       refreshToken(response);
    }
+}
+catch(error){
+    yield* handleApiError(error);
+}
 }
 
 
@@ -2197,7 +2337,7 @@ function* handleGenerateAdvance(action) {
    }
    catch (err) {
       const error = err || {};
-
+ yield* handleApiError(error);
       yield put({
          type: 'NETWORK_ERROR',
          payload:
@@ -2259,7 +2399,7 @@ function* handleUploadDocument(data) {
    }
    catch (err) {
       const error = err || {};
-
+ yield* handleApiError(error);
       yield put({
          type: 'NETWORK_ERROR',
          payload:
@@ -2319,7 +2459,7 @@ function* handleUploadOtherDocument(data) {
    }
    catch (err) {
       const error = err || {};
-
+ yield* handleApiError(error);
       yield put({
          type: 'NETWORK_ERROR',
          payload:
@@ -2400,7 +2540,7 @@ function* handleKYCVerifyNew(action) {
    }
    catch (err) {
       const error = err || {};
-
+ yield* handleApiError(error);
       yield put({
          type: 'NETWORK_ERROR',
          payload:
@@ -2443,7 +2583,7 @@ function* handleCustomerDetailsKyc(action) {
    catch (err) {
 
       const error = err || {};
-
+ yield* handleApiError(error);
       yield put({
          type: 'NETWORK_ERROR',
          payload:
@@ -2502,7 +2642,7 @@ function* handleConfirmCheckoutDueCustomer(data) {
    }
    catch (err) {
       const error = err || {};
-
+ yield* handleApiError(error);
       yield put({
          type: 'NETWORK_ERROR',
          payload:
@@ -2536,7 +2676,7 @@ function* handlecustomerUnAssign(action) {
 
    catch (err) {
       const error = err || {};
-
+ yield* handleApiError(error);
       yield put({
          type: 'NETWORK_ERROR',
          payload:
@@ -2552,6 +2692,7 @@ function* handlecustomerUnAssign(action) {
 
 
 function* handleBackToCheckin(action) {
+   try{
    const response = yield call(backtoCheckin, action.payload)
 
 
@@ -2593,6 +2734,10 @@ function* handleBackToCheckin(action) {
       refreshToken(response)
    }
 }
+catch(error){
+    yield* handleApiError(error);
+}
+}
 
 
 function* handleGetAllFloor(floor) {
@@ -2608,6 +2753,7 @@ function* handleGetAllFloor(floor) {
    }
    catch (err) {
       const error = err || {};
+       yield* handleApiError(error);
       yield put({
          type: 'NETWORK_ERROR',
          payload:
@@ -2668,7 +2814,7 @@ function* handleGenerateDetails(reading) {
    }
    catch (error) {
 
-
+ yield* handleApiError(error);
       if (error.code === 'ERR_BAD_REQUEST') {
          if (error.status === 400) {
             yield put({ type: 'FINAL_GENERATE_ERROR', payload: error.response.data });
@@ -2731,7 +2877,7 @@ function* handleConformCheckout(reading) {
       }
    }
    catch (error) {
-
+ yield* handleApiError(error);
 
       if (error.code === 'ERR_BAD_REQUEST') {
          if (error.status === 400) {
@@ -2748,6 +2894,7 @@ function* handleConformCheckout(reading) {
 
 
 function* handleCheckoutProfile(action) {
+   try{
    const response = yield call(checkoutDetailView, action.payload)
 
 
@@ -2762,6 +2909,10 @@ function* handleCheckoutProfile(action) {
    if (response) {
       refreshToken(response)
    }
+}
+catch(error){
+    yield* handleApiError(error);
+}
 }
 
 
