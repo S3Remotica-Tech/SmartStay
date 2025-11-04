@@ -22,11 +22,7 @@ function AddBed({ show, setShowBed, currentItem }) {
   const [formLoading, setFormLoading] = useState(false)
 
 
-  useEffect(() => {
-    if (state.PgList?.alreadyBedAvailable)
-      setBedAlreadyBooked(state.PgList?.alreadyBedAvailable)
-
-  }, [state.PgList?.alreadyBedAvailable])
+  
   useEffect(() => {
     const closeButton = document.querySelector(
       'button[aria-label="close-button"]'
@@ -265,11 +261,11 @@ const handleBedNoChange = (e) => {
 
 
             {generalError && (
-                           <ErrorMessage message={generalError} type="error"/>
+                           <ErrorMessage message={generalError} type="error" />
             )}
 
-            { bedAlreadyBooked && (
-                           <ErrorMessage message={bedAlreadyBooked} type="error"/>
+            { state.PgList?.alreadyBedAvailable && (
+                           <ErrorMessage message={state.PgList?.alreadyBedAvailable} type="error" />
             )}
           </Modal.Body>
 

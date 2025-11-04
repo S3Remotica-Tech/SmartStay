@@ -347,21 +347,8 @@ function Sidebar() {
   };
 
 
-useEffect(() => {
-  const handleBeforeUnload = () => {
-        document.cookie.split(";").forEach((c) => {
-      document.cookie = c
-        .replace(/^ +/, "")
-        .replace(/=.*/, `=;expires=${new Date(0).toUTCString()};path=/`);
-    });
 
-   
-    localStorage.clear();
-     };
 
-  window.addEventListener("beforeunload", handleBeforeUnload);
-  return () => window.removeEventListener("beforeunload", handleBeforeUnload);
-}, []);
 
 
 

@@ -223,6 +223,8 @@ function BedDetailsMap({ room, propsValue }) {
     }
 
     const handleCloseAssignTenant = () => {
+        dispatch({ type: "ERROR_BOOKING_REMOVE" })
+        dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR' })
         setAssignTenantForm(false)
     }
 

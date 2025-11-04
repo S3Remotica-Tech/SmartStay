@@ -231,12 +231,12 @@ const {
           payload: { hostelId: state.login.selectedHostel_Id },
         });
       }
-      //  else if (value === "4") {
-      //   dispatch({
-      //     type: "WALKINCUSTOMERLIST",
-      //     payload: { hostel_id: state.login.selectedHostel_Id },
-      //   });
-      // }
+       else if (value === "4") {
+        dispatch({
+        type: "USERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id, type: 'Inactive' },
+      });
+      }
     }
   }, [value, state.login.selectedHostel_Id]);
 
@@ -1937,8 +1937,7 @@ dispatch({
 
   useEffect(() => {
     if (id) {
-      console.log("customerId", customername)
-      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: id } });
+           dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: id } });
     }
   }, [id]);
 
@@ -2016,8 +2015,7 @@ dispatch({
   useEffect(() => {
     if (state.UsersList.statusCustomerAddUser === 200) {
       setTimeout(() => {
-        console.log("customerId", customername)
-        dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: id } });
+              dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: id } });
         dispatch({ type: "AMENITESHISTORY", payload: { user_id: id } });
       }, 1000);
 

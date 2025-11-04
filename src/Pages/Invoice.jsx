@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button ,Offcanvas} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import { FormControl } from "react-bootstrap";
@@ -2977,11 +2977,11 @@ const InvoicePage = () => {
 
                       </div>
                     )}
-                    {(!DownloadInvoice || !DownloadReceipt) && showSearchFilter && (
+                    {(!DownloadInvoice || !DownloadReceipt) && showSearchFilter && (  
                       <div className={`expand-section ${showSearchFilter ? "show" : ""}`} >
                         {search ? (
                           <>
-                            <div className="position-relative" style={{ minWidth: 160, maxWidth: 250, }}>
+                            <div className="position-relative" style={{ minWidth: 160, maxWidth: 250,}}>
 
 
                               <div
@@ -3405,6 +3405,9 @@ const InvoicePage = () => {
 
                       </div>
                     )}
+
+
+                    
                     <div className="text-center" style={{ paddingRight: 18 }} >
                       {value === "1" && (
                         <Button className="d-flex justify-content-center"

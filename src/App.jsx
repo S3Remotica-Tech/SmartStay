@@ -123,7 +123,7 @@ useEffect(()=>{
       localStorage.clear();
        localStorage.removeItem("lastPage");
        localStorage.removeItem("currentPage")
-       cookies.remove('v2-token', { path: '/' });
+      //  cookies.remove('v2-token', { path: '/' });
 
     }
   }, [state.login?.isLoggedIn]);

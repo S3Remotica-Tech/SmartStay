@@ -122,16 +122,16 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
   }, []);
 
   var toastStyle = {
-      
-      fontFamily: "Gilroy",
-      fontWeight: 600,
-      fontSize: 14,
-      textAlign: "start",
-      display: "flex",
-      alignItems: "center",
-      padding: "10px",
 
-   };
+    fontFamily: "Gilroy",
+    fontWeight: 600,
+    fontSize: 14,
+    textAlign: "start",
+    display: "flex",
+    alignItems: "center",
+    padding: "10px",
+
+  };
   useEffect(() => {
     if (state.bankingDetails.bankingList.listBanks) {
       if (state.bankingDetails?.bankingList?.listBanks.length === 0 && isTrigger) {
@@ -149,23 +149,23 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
   }, [state.bankingDetails.bankingList.listBanks]);
 
 
-useEffect(() => {
-  if (state.UsersList?.UnAssignCustomerDetails?.length === 0 && isTrigger) {
-    
-    toast.error(
-              "Please create a new tenant",
-              {
-                 hideProgressBar: true,
-         closeButton: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-                style: toastStyle
-              });
-              setIsTrigger(false)
-  }
-}, [state.UsersList?.UnAssignCustomerDetails]);
+  useEffect(() => {
+    if (state.UsersList?.UnAssignCustomerDetails?.length === 0 && isTrigger) {
+
+      toast.error(
+        "Please create a new tenant",
+        {
+          hideProgressBar: true,
+          closeButton: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          style: toastStyle
+        });
+      setIsTrigger(false)
+    }
+  }, [state.UsersList?.UnAssignCustomerDetails]);
 
 
 
@@ -617,7 +617,7 @@ useEffect(() => {
       })
       setFormLoading(true)
 
-    
+
     }
 
   };
@@ -638,18 +638,18 @@ useEffect(() => {
 
 
 
-useEffect(()=>{
-  if(state.UsersList?.bedAvailableError){
-     setFormLoading(false)
-     setTimeout(()=>{
-dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR'})
-     },2000)
-  }
+  useEffect(() => {
+    if (state.UsersList?.bedAvailableError || state.Booking?.bookingBedError) {
+      setFormLoading(false)
+     
+        
+      
+    }
 
-},[state.UsersList?.bedAvailableError])
+  }, [state.UsersList?.bedAvailableError, state.Booking?.bookingBedError])
 
 
-  
+
 
   return (
     <>
@@ -1140,7 +1140,11 @@ dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR'})
 
                       </Col>
 
-
+                      {state.Booking?.bookingBedError ?
+                        <div className="d-flex justify-content-center">
+                          <ErrorMessage message={state.Booking?.bookingBedError} type="error" />
+                        </div>
+                        : null}
 
                     </div>
 
@@ -1340,52 +1344,52 @@ dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR'})
                                 classNamePrefix="custom"
                                 menuPlacement="auto"
                                 noOptionsMessage={() => "No stay types available"}
-                                 styles={{
-                                      control: (base) => ({
-                                        ...base,
-                                        padding: "3px 5px ",
-                                        border: "1px solid #D9D9D9",
-                                        borderRadius: "8px",
-                                        fontSize: "16px",
-                                        color: "#4B4B4B",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: longStayOnly ? 600 : 500,
-                                        boxShadow: "none",
-                                      }),
-                                      menu: (base) => ({
-                                        ...base,
-                                        backgroundColor: "#f8f9fa",
-                                        border: "1px solid #ced4da",
-                                      }),
-                                      menuList: (base) => ({
-                                        ...base,
-                                        backgroundColor: "#f8f9fa",
-                                        maxHeight: "120px",
-                                        padding: 0,
-                                        scrollbarWidth: "thin",
-                                        overflowY: "auto",
-                                        fontFamily: "Gilroy"
-                                      }),
-                                      placeholder: (base) => ({
-                                        ...base,
-                                        color: "#9aa0a6",
-                                                                              fontWeight:500
-                                      }),
-                                      dropdownIndicator: (base) => ({
-                                        ...base,
-                                        color: "#555",
-                                        cursor: "pointer",
-                                      }),
-                                      indicatorSeparator: () => ({
-                                        display: "none",
-                                      }),
-                                      option: (base, state) => ({
-                                        ...base,
-                                        cursor: "pointer",
-                                        backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                                        color: "#000",
-                                      }),
-                                    }}
+                                styles={{
+                                  control: (base) => ({
+                                    ...base,
+                                    padding: "3px 5px ",
+                                    border: "1px solid #D9D9D9",
+                                    borderRadius: "8px",
+                                    fontSize: "16px",
+                                    color: "#4B4B4B",
+                                    fontFamily: "Gilroy",
+                                    fontWeight: longStayOnly ? 600 : 500,
+                                    boxShadow: "none",
+                                  }),
+                                  menu: (base) => ({
+                                    ...base,
+                                    backgroundColor: "#f8f9fa",
+                                    border: "1px solid #ced4da",
+                                  }),
+                                  menuList: (base) => ({
+                                    ...base,
+                                    backgroundColor: "#f8f9fa",
+                                    maxHeight: "120px",
+                                    padding: 0,
+                                    scrollbarWidth: "thin",
+                                    overflowY: "auto",
+                                    fontFamily: "Gilroy"
+                                  }),
+                                  placeholder: (base) => ({
+                                    ...base,
+                                    color: "#9aa0a6",
+                                    fontWeight: 500
+                                  }),
+                                  dropdownIndicator: (base) => ({
+                                    ...base,
+                                    color: "#555",
+                                    cursor: "pointer",
+                                  }),
+                                  indicatorSeparator: () => ({
+                                    display: "none",
+                                  }),
+                                  option: (base, state) => ({
+                                    ...base,
+                                    cursor: "pointer",
+                                    backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                                    color: "#000",
+                                  }),
+                                }}
                               />
 
 
@@ -1413,7 +1417,7 @@ dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR'})
                                     fontSize: 16,
                                     color: "#4B4B4B",
                                     fontFamily: "Gilroy",
-                                    fontWeight:RoomRent ? 600 :  500,
+                                    fontWeight: RoomRent ? 600 : 500,
                                     boxShadow: "none",
                                     border: "1px solid #D9D9D9",
                                     height: 50,
@@ -1748,9 +1752,13 @@ dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR'})
 
                       </div>
 
- {state.UsersList?.bedAvailableError ?
-                           <ErrorMessage message={state.UsersList?.bedAvailableError} type="error"/>
-                          : null}
+                      {state.UsersList?.bedAvailableError ?
+                      <div className="d-flex justify-content-center">
+                        <ErrorMessage message={state.UsersList?.bedAvailableError} type="error" />
+                        </div>
+                        : null}
+
+                    
 
 
 
