@@ -2,15 +2,16 @@ import AxiosConfig from "../../WebService/AxiosConfig";
 import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 
 
-export async function GetExpenseCatogory() {
-  return await AxiosConfig.post('/get/expense-category',{
-      })
+export  function GetExpenseCatogory() {
+ new Promise((resolve, reject) => {
+  resolve({status: 200});
+})
 }
 
-export async function AddExpenseTag(datum) {
-  return await AxiosConfig.post('/add_expense_tag',datum , {
-    data:datum
-      })
+export  function AddExpenseTag(datum) {
+  new Promise((resolve, reject) => {
+  resolve({status: 200});
+})
 }
 
 
@@ -29,15 +30,15 @@ export async function AddExpense(datum) {
         })
   }
 
-  export async function DeleteExpense(datum) {
-    return await AxiosConfig.post('/delete/delete-expenses',datum,{
-        data:datum
-        })
+  export function DeleteExpense(datum) {
+  new Promise((resolve, reject) => {
+  resolve({status: 200});
+})
   }
 
 
-  export async function transactionHistory(datum) {
-    return await AxiosConfig.post('/hostel/transaction-history',datum,{
-        data:datum
-        })
+  export function transactionHistory(datum) {
+    new Promise((resolve, reject) => {
+  resolve({status: 200});
+})
   }

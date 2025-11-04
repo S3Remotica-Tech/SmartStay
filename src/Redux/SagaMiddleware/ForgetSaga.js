@@ -24,8 +24,8 @@ function* handleforgetpage(rpsd) {
 
         };
 
-        if (response.status === 200 || response.statusCode === 200) {
-            yield put({ type: 'NEWPASSWORD_LIST', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+        if (response?.status === 200 ) {
+            yield put({ type: 'NEWPASSWORD_LIST', payload: { response: response.data, statusCode: response?.status  } })
 
             toast.success('updated successfully', {
                 position: "bottom-center",
@@ -41,12 +41,12 @@ function* handleforgetpage(rpsd) {
 
 
         }
-        else if (response.status === 203 || response.statusCode === 203) {
-            yield put({ type: 'ERROR', payload: response.data.message })
+        else if (response?.status === 203 ) {
+            yield put({ type: 'ERROR', payload:  response?.data?.message })
           
 
-        } else if (response.status === 201 || response.statusCode === 201) {
-            yield put({ type: 'OTP_ERROR', payload: response.data.message })
+        } else if (response?.status === 201 ) {
+            yield put({ type: 'OTP_ERROR', payload:  response?.data?.message })
           
         }
     }
@@ -79,8 +79,8 @@ function* handleSendOtp(action) {
         padding: "10px",
 
     };
-    if (response.status === 200 || response.statusCode === 200) {
-        yield put({ type: 'OTP_SEND', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+    if (response?.status === 200 ) {
+        yield put({ type: 'OTP_SEND', payload: { response: response.data, statusCode: response?.status  } })
         toast.success(`Check your inbox! We've sent you an OTP`, {
             position: "bottom-center",
             autoClose: 2000,
@@ -92,12 +92,12 @@ function* handleSendOtp(action) {
             progress: undefined,
             style: toastStyle,
         });
-    } else if (response.status === 201 || response.statusCode === 201) {
-        yield put({ type: 'EMAIL_ERROR', payload: { response: response.data.message, statusCode: response.status || response.statusCode } })
+    } else if (response?.status === 201 ) {
+        yield put({ type: 'EMAIL_ERROR', payload: { response: response.data.message, statusCode: response?.status  } })
        
     }
-    else if (response.status === 203 || response.statusCode === 203) {
-        yield put({ type: 'SEND_EMAIL_ERROR', payload: { response: response.data.message, statusCode: response.status || response.statusCode } })
+    else if (response?.status === 203 ) {
+        yield put({ type: 'SEND_EMAIL_ERROR', payload: { response: response.data.message, statusCode: response?.status  } })
        
     }
      }
@@ -113,15 +113,15 @@ function* handleSendOtp(action) {
 function* handleOtpVerifyforForgotPassword(action) {
     try{
     const response = yield call(OTPverificationForForgotPassword, action.payload);
-    if (response.status === 200 || response.statusCode === 200) {
-        yield put({ type: 'OTPVERIFY_FORGOT_PASSWORD', payload: { response: response.data, statusCode: response.status || response.statusCode } })
-    } else if (response.status === 201 || response.statusCode === 201) {
+    if (response?.status === 200 ) {
+        yield put({ type: 'OTPVERIFY_FORGOT_PASSWORD', payload: { response: response.data, statusCode: response?.status } })
+    } else if (response?.status === 201 ) {
 
-        yield put({ type: 'OTP_INVALID_ERROR', payload: response.data.message })
+        yield put({ type: 'OTP_INVALID_ERROR', payload:  response?.data?.message })
 
     }
     else {
-        yield put({ type: 'ERROR', payload: response.data.message })
+        yield put({ type: 'ERROR', payload:  response?.data?.message })
     }
  }
  catch (error) {

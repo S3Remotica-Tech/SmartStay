@@ -43,10 +43,10 @@ export async function GetAddBanking(hostelId) {
 
 
 
-export async function AddDefaultAccount(datum) {
-  return await AxiosConfig.post("/add_default_account", datum, {
-    data: datum,
-  });
+export function AddDefaultAccount(datum) {
+ new Promise((resolve, reject) => {
+  resolve({status: 200});
+})
 }
 
 export async function AddBankAmount(hostelId , data) {
@@ -54,20 +54,20 @@ export async function AddBankAmount(hostelId , data) {
   });
 }
 
-export async function editBankTrans(datum) {
-  return await AxiosConfig.post("/edit_bank_trans", datum, {
-    data: datum,
-  });
+export  function editBankTrans(datum) {
+  new Promise((resolve, reject) => {
+  resolve({status: 200});
+})
 }
-export async function DeleteBanking(datum) {
-  return await AxiosConfig.post("/delete_bank", datum, {
-    data: datum,
-  });
+export  function DeleteBanking(datum) {
+  new Promise((resolve, reject) => {
+  resolve({status: 200});
+})
 }
 
 
-export async function DeleteTransactionId(datum) {
-  return await AxiosConfig.post("/delete_bank_trans", datum, {
-    data: datum,
-  });
+export function DeleteTransactionId(datum) {
+   new Promise((resolve, reject) => {
+  resolve({status: 200});
+})
 }

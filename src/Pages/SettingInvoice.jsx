@@ -1368,7 +1368,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
 
 
   return (
-    <div className="mt-0" style={{ position: "relative"}}>
+    <div  className="ps-3" style={{ position: "relative"}}>
 
 
       {loading &&
@@ -1433,9 +1433,9 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
       {showform &&
 
         <>
-          <Row style={{backgroundColor:""}} className="" >
+          <Row className="" style={{ backgroundColor: "", height:"100vh" }}  >
             <Col md={4}
-className="p-1"
+              className="ps-0 "
             >
               <div
                 className="bg-white"
@@ -1449,7 +1449,7 @@ className="p-1"
                 }}
               >
                 <h4
-                  className="mb-2"
+                  className="mb-2 pt-2"
                   style={{
                     fontFamily: "Gilroy",
                     fontSize: 22,
@@ -1546,7 +1546,7 @@ className="p-1"
                           <>
                             <p style={{ fontFamily: 'Gilroy', fontSize: 17, fontWeight: 600, }}>Inherited Global Details</p>
 
-                            <div className="border ps-3 pe-3 pb-3 pt-2 mb-3 col-lg-10 " style={{ borderRadius: '10px', overflowY: 'auto', }}>
+                            <div className="border ps-3 pe-3 pb-3 pt-2 mb-3 col-lg-12 " style={{ borderRadius: '10px', overflowY: 'auto', }}>
                               <div className="d-flex justify-content-end">
                                 <img src={EditICon} onClick={handleShowContactNumberForm} style={{ cursor: 'pointer' }} alt="editicon" />
 
@@ -1924,7 +1924,7 @@ className="p-1"
                       </div>
 
 
-                      <div className="border p-3 mb-3 col-lg-11" style={{ borderRadius: '10px', overflowY: 'auto', }}>
+                      <div className="border p-3 mb-3 col-lg-12" style={{ borderRadius: '10px', overflowY: 'auto', }}>
 
                         <div>
                           <p
@@ -1997,7 +1997,7 @@ className="p-1"
                         </div>
                       </div>
 
-                      <div className="border p-3 mb-3 col-lg-11 " style={{ borderRadius: '10px', overflowY: 'auto', }}>
+                      <div className="border p-3 mb-3 col-lg-12" style={{ borderRadius: '10px', overflowY: 'auto', }}>
 
                         <div>
                           <p style={{ fontFamily: 'Gilroy', color: 'rgba(34, 34, 34, 1)', fontSize: 14, fontWeight: 400, fontStyle: 'normal', lineHeight: 'normal' }}>
@@ -2042,7 +2042,7 @@ className="p-1"
                           borderRadius: '10px',
                           fontFamily: 'Gilroy',
                         }}
-                        className="col-lg-11"
+                        className="col-lg-12"
                       >
                         <div
                           style={{
@@ -2152,7 +2152,7 @@ className="p-1"
                       </div>
 
 
-                      <div className="border p-3 mb-3 col-lg-11 " style={{ borderRadius: '10px', overflowY: 'auto', }}>
+                      <div className="border p-3 mb-3 col-lg-12 " style={{ borderRadius: '10px', overflowY: 'auto', }}>
 
                         <div>
                           <p style={{ fontFamily: 'Gilroy', color: 'rgba(34, 34, 34, 1)', fontSize: 14, fontWeight: 400, fontStyle: 'normal', lineHeight: 'normal' }}>
@@ -2169,8 +2169,8 @@ className="p-1"
                                 src={qrImage}
                                 alt="QR Preview"
                                 style={{
-                                  height: "150px",
-                                  width: "150px",
+                                  height: "100px",
+                                  width: "100px",
                                   objectFit: "cover",
                                   borderRadius: "8px",
                                   marginBottom: "10px",
@@ -2217,7 +2217,7 @@ className="p-1"
                       </div>
 
 
-                      <div className="p-3 mb-3 border col-lg-11" style={{ borderRadius: '10px' }}>
+                      <div className="p-3 mb-3 border col-lg-12" style={{ borderRadius: '10px' }}>
                         <h6 style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}>
                           Notes
                         </h6>
@@ -2249,7 +2249,7 @@ className="p-1"
                         )}
                       </div>
 
-                      <div className="p-3 mb-3 border col-lg-11" style={{ borderRadius: '10px' }}>
+                      <div className="p-3 mb-3 border col-lg-12" style={{ borderRadius: '10px' }}>
                         <h6 style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}>
                           Terms & Condition</h6>
                         <hr />
@@ -2284,7 +2284,7 @@ className="p-1"
                       </div>
 
 
-                      <div className="col-lg-11" style={{ border: "1px solid #E5E7EB", borderRadius: 12, padding: 16, fontFamily: "sans-serif" }}>
+                      <div className="col-lg-12" style={{ border: "1px solid #E5E7EB", borderRadius: 12, padding: 16, fontFamily: "sans-serif" }}>
                         <h6 style={{ marginBottom: 12, fontFamily: "Gilroy" }}>Template Theme</h6>
 
                         <RgbaColorPicker color={color} onChange={handleColorChange} style={{ width: "100%", }} />
@@ -2373,18 +2373,12 @@ className="p-1"
 
 
                     </div>
+
                   </div>
 
 
 
                 </>}
-
-
-
-
-
-
-
 
                 {selectedTab === "security_deposit_invoice" &&
                   <>
@@ -2397,591 +2391,13 @@ className="p-1"
                   <>
                     <ReceiptCustomize hostelid={hostelid} BillsTemplateList={BillsTemplateList} />
 
-                    {/* <div className="col-lg-12 show-scrolls" style={{
-                      maxHeight: 500,
-                      overflowY: "auto",
-                      overflowX: 'hidden',
-                    }}>
-
-
-                      {(
-                        BillsTemplateList?.isSignatureCustomized ||
-                        BillsTemplateList?.isMobileCustomized ||
-                        BillsTemplateList?.isMailIdCustomized ||
-                        BillsTemplateList?.isLogoCustomized
-                      ) &&
-
-                        (
-                          <>
-                            <p style={{ fontFamily: 'Gilroy', fontSize: 17, fontWeight: 600, }}>Inherited Global Details</p>
-
-                            <div className="border ps-3 pe-3 pb-3 pt-2 mb-3 col-lg-11" style={{ borderRadius: '10px', overflowY: 'auto', }}>
-                              <div className="d-flex justify-content-end">
-                                <img src={EditICon} onClick={handleShowContactNumberForm} style={{ cursor: 'pointer' }} alt="editicon" />
-
-                              </div>
-                              {BillsTemplateList?.isLogoCustomized &&
-                                <div>
-                                  <div style={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                    marginBottom: '6px'
-                                  }}>
-                                    <label style={{ fontWeight: 600, fontFamily: "Gilroy" }}>Hostel/PG Logo</label>
-                                  </div>
-                                  <div className="p-3 border rounded" style={{ backgroundColor: '#F0F3FF', textAlign: 'center' }}>
-
-                                    {logoPreview ? (
-                                      <img src={logoPreview} alt="Preview" style={{ height: 60, borderRadius: '6px', marginBottom: '10px' }} />
-                                    ) : (
-                                      <img src={uploadsett} alt="upload" style={{ height: 30, marginBottom: '10px' }} />
-                                    )}
-
-                                    <div>
-                                      <label
-                                        style={{
-                                          cursor: allowEditFields.hostelLogo ? 'pointer' : 'not-allowed',
-                                          color: allowEditFields.hostelLogo ? 'rgba(30, 69, 225, 1)' : '#999',
-                                          fontFamily: 'Gilroy',
-                                          fontSize: 12,
-                                          fontWeight: 400
-                                        }}
-                                      >
-                                        Choose file
-                                        <input
-                                          type="file"
-                                          accept="image/png"
-                                          className="d-none"
-                                          ref={fileInputRef}
-                                          onChange={handleFileUploadHostel}
-                                          disabled={!allowEditFields.hostelLogo}
-                                        />
-                                      </label>
-                                      <span className="ms-1" style={{ color: 'rgba(22, 21, 28, 1)', fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400 }}>
-                                        to Upload
-                                      </span>
-                                    </div>
-
-                                    <small
-                                      style={{
-                                        fontFamily: "Gilroy",
-                                        fontSize: 9,
-                                        color: "rgba(75, 75, 75, 1)",
-                                        fontWeight: 400,
-                                        display: "block",
-                                        marginTop: "5px"
-                                      }}
-                                    >
-                                      Must be in PNG Format (600px × 300px)
-                                    </small>
-                                  </div>
-                                </div>
-                              }
-
-                              {BillsTemplateList?.isMobileCustomized &&
-                                <div className=" p-3  col-lg-12" style={{ borderRadius: '10px', overflowY: 'auto', }}>
-                                  <div className='d-flex row '>
-                                    <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
-                                      <div style={{ width: '100%', fontFamily: 'Gilroy', fontSize: '14px', fontWeight: 500 }}>
-                                        <div style={{
-                                          display: 'flex',
-                                          justifyContent: 'space-between',
-                                          alignItems: 'center',
-                                          marginBottom: '6px'
-                                        }}>
-                                          <label style={{ fontWeight: 600, fontFamily: 'Gilroy' }}>Contact Number</label>
-                                        </div>
-
-                                        <div style={{
-                                          display: 'flex',
-                                          alignItems: 'center',
-                                          backgroundColor: '#F0F3FF',
-                                          borderRadius: '8px',
-                                          padding: '8px 12px',
-                                          border: '1px solid #E0E0E0',
-                                        }}>
-                                          <select style={{
-                                            border: 'none',
-                                            backgroundColor: 'transparent',
-                                            fontFamily: 'inherit',
-                                            fontSize: 'inherit',
-                                            fontWeight: 'inherit',
-                                            appearance: 'none',
-                                            paddingRight: '16px',
-                                            cursor: 'pointer',
-                                            outline: 'none',
-                                            backgroundImage: 'url("data:image/svg+xml;charset=UTF-8,%3Csvg width=\'12\' height=\'8\' viewBox=\'0 0 12 8\' fill=\'none\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M1 1L6 6L11 1\' stroke=\'%23666\' stroke-width=\'2\'/%3E%3C/svg%3E")',
-                                            backgroundRepeat: 'no-repeat',
-                                            backgroundPosition: 'right center',
-                                            backgroundSize: '10px'
-                                          }}
-                                            disabled={!allowEditFields.contact}
-                                          >
-                                            <option value="+91">+91</option>
-                                            <option value="+1">+1</option>
-                                            <option value="+44">+44</option>
-                                            <option value="+971">+971</option>
-
-                                          </select>
-
-                                          <input
-                                            type="tel"
-                                            placeholder="9876543210"
-                                            style={{
-                                              border: 'none',
-                                              backgroundColor: 'transparent',
-                                              outline: 'none',
-                                              marginLeft: '8px',
-                                              fontFamily: 'inherit',
-                                              fontSize: 'inherit',
-                                              fontWeight: 'inherit',
-                                            }}
-                                            value={mobilenum}
-                                            onChange={handleMobile}
-                                            maxLength={10}
-                                            disabled={!allowEditFields.contact}
-                                          />
-
-                                        </div>
-                                        {MobileError && (
-                                          <ErrorMessage message={MobileError} type="error" />
-                                        )}
-                                      </div>
-
-
-
-                                    </div>
-
-
-                                  </div>
-                                </div>}
-
-
-                              {BillsTemplateList?.isMailIdCustomized &&
-                                <div className=" p-3  col-lg-12 " style={{ borderRadius: '10px', overflowY: 'auto', }}>
-                                  <div className='d-flex row '>
-                                    <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
-                                      <div style={{ width: '100%', fontFamily: 'Gilroy', fontSize: '14px', fontWeight: 500 }}>
-                                        <div style={{
-                                          display: 'flex',
-                                          justifyContent: 'space-between',
-                                          alignItems: 'center',
-                                          marginBottom: '6px'
-                                        }}>
-                                          <label style={{ fontWeight: 600 }}>E-Mail Address</label>
-                                        </div>
-
-                                        <div style={{
-                                          display: 'flex',
-                                          alignItems: 'center',
-                                          backgroundColor: '#F0F3FF',
-                                          borderRadius: '8px',
-                                          padding: '8px 12px',
-                                          border: '1px solid #E0E0E0',
-                                        }}>
-
-
-                                          <input
-                                            type="tel"
-                                            placeholder="abc@gmail.com"
-                                            style={{
-                                              border: 'none',
-                                              backgroundColor: 'transparent',
-                                              outline: 'none',
-                                              marginLeft: '8px',
-                                              fontFamily: 'inherit',
-                                              fontSize: 'inherit',
-                                              fontWeight: 'inherit',
-                                            }}
-                                            disabled={!allowEditFields.email}
-                                            value={email}
-                                            onChange={handleEmail}
-                                          />
-
-                                        </div>
-                                        {emailError && (
-                                          <ErrorMessage message={emailError} type="error" />
-                                        )}
-                                      </div>
-
-
-
-                                    </div>
-
-
-                                  </div>
-
-                                </div>
-                              }
-                              {BillsTemplateList?.isSignatureCustomized &&
-                                <div className=" p-3  col-lg-12 " style={{ borderRadius: '10px', overflowY: 'auto', }}>
-                                  <div className='d-flex row '>
-                                    <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
-                                      <div style={{ width: '100%', fontFamily: 'Gilroy', fontSize: '14px', fontWeight: 500 }}>
-                                        <div style={{
-                                          display: 'flex',
-                                          justifyContent: 'space-between',
-                                          alignItems: 'center',
-                                          marginBottom: '6px'
-                                        }}>
-                                          <label style={{ fontWeight: 600 }}>Digital Signature Upload</label>
-                                        </div>
-
-                                        <div className="col-12">
-                                          <div
-                                            className="rounded mt-2 d-flex justify-content-center align-items-center"
-                                            style={{
-                                              height: '120px', borderStyle: 'dotted', borderWidth: '3px',
-                                              borderColor: '#ced4da'
-                                            }}
-                                          >
-                                            {signaturePreview ? (
-                                              <img src={signaturePreview} alt="signature" style={{ maxHeight: '100%', maxWidth: '100%' }} />
-                                            ) : (
-                                              <span className="text-muted" style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
-                                              >No signature uploaded</span>
-                                            )}
-                                          </div>
-
-                                          <div className="d-flex  flex-column justify-content-between align-items-center mt-2">
-                                            <div className="d-flex flex-row">
-                                              <label style={{
-                                                cursor: allowEditFields.digitalSignature ? 'pointer' : 'not-allowed',
-                                                color: allowEditFields.digitalSignature ? 'rgba(30, 69, 225, 1)' : '#999', fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400
-                                              }}>
-                                                Choose file
-                                                <input
-                                                  type="file"
-                                                  accept="image/*"
-                                                  className="d-none"
-                                                  ref={fileInputRef}
-                                                  onChange={handleFileSignatureChange}
-                                                  disabled={!allowEditFields.digitalSignature}
-                                                />
-                                              </label>
-                                              <span className="ms-1" style={{ color: 'rgba(22, 21, 28, 1)', fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400 }}>to Upload Image</span>
-                                            </div>
-                                            <div className="d-flex justify-content-end">
-                                              <button
-                                                className="btn btn-link text-decoration-none "
-                                                onClick={handleClear}
-                                                disabled={!signaturePreview}
-                                                style={{ color: 'rgba(75, 75, 75, 1)', fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400 }}
-                                              >
-                                                Clear
-                                              </button>
-                                              <button
-                                                className="btn btn-link text-decoration-none "
-                                                disabled={!signaturePreview}
-                                                onClick={handleSignatureDone}
-                                                style={{ color: 'rgba(30, 69, 225, 1)', fontFamily: 'Gilroy', fontSize: 12, fontWeight: 600 }}
-                                              >
-                                                Done
-                                              </button>
-                                            </div>
-
-
-                                          </div>
-                                          {signature_errmsg.trim() !== "" && (
-                                            <ErrorMessage message={signature_errmsg} type="error" />
-                                          )}
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              }
-
-                              <Modal
-                                show={contactnumberform}
-                                onHide={handleCloseContactNumberForm}
-                                centered
-                                backdrop="static"
-                                className="logout-card d-flex justify-content-center align-items-center"
-                                dialogClassName="custom-modal-width"
-                              >
-                                <Modal.Header style={{ borderBottom: "none" }}>
-                                  <Modal.Title
-                                    style={{
-                                      fontSize: "18px",
-                                      fontFamily: "Gilroy",
-                                      textAlign: "center",
-                                      fontWeight: 600,
-                                      color: "#222222",
-                                      flex: 1,
-                                      paddingTop: '20px'
-                                    }}
-                                  >
-                                    <img src={Questionimage} alt="question" className="me-2" />
-                                    Override Global Value?
-                                  </Modal.Title>
-                                </Modal.Header>
-
-                                <Modal.Body
-                                  style={{
-                                    fontSize: 14,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    color: "#646464",
-                                    textAlign: "center",
-                                    paddingLeft: "20px",
-                                    paddingRight: "20px",
-                                  }}
-                                >
-                                  You’re changing this field only for this bill.
-                                  It won’t affect the main settings.
-                                </Modal.Body>
-
-                                <Modal.Footer
-                                  style={{
-                                    justifyContent: "center",
-                                    borderTop: "none",
-                                    paddingBottom: '20px'
-                                  }}
-                                >
-                                  <Button
-                                    style={{
-                                      width: 160,
-                                      height: 52,
-                                      borderRadius: 10,
-                                      padding: "12px 20px",
-                                      background: "#fff",
-                                      color: "rgba(111, 108, 143, 1)",
-                                      fontWeight: 600,
-                                      fontFamily: "Gilroy",
-                                      fontSize: "14px",
-                                      marginRight: 10,
-                                    }}
-                                    className="border"
-                                    onClick={handleCloseContactNumberForm}
-                                  >
-                                    Cancel
-                                  </Button>
-                                  <Button
-                                    style={{
-                                      width: 160,
-                                      height: 52,
-                                      borderRadius: 10,
-                                      padding: "12px 20px",
-                                      background: "#1E45E1",
-                                      color: "#FFFFFF",
-                                      fontWeight: 600,
-                                      fontFamily: "Gilroy",
-                                      fontSize: "14px",
-                                    }}
-                                    onClick={handleEditAnyway}
-
-                                  >
-                                    Edit Anyway
-                                  </Button>
-                                </Modal.Footer>
-                              </Modal>
-                            </div>
-
-                          </>
-                        )
-
-
-                      }
-
-
-
-                      <p style={{ fontFamily: 'Gilroy', fontSize: 20, fontWeight: 600, }}>Form Specific Details</p>
-                      <p style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(99, 109, 148, 1)' }}>{`Fill the form with details you'd like to customize.`}</p>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                      <div className="p-3 mb-3 border col-lg-11" style={{ borderRadius: '10px' }}>
-                        <h6 style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}>
-                          Notes
-                        </h6>
-                        <hr />
-                        <label className="form-label" style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}>Add Notes</label>
-                        <div className="position-relative">
-                          <textarea
-                            style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
-                            className="form-control pe-5"
-                            rows="4"
-                            placeholder='Add any message...'
-                            value={notes}
-                            onChange={handleNotesChange}
-                          />
-                          <img
-                            src={TextAreaICon}
-                            alt="textarea_icon"
-                            style={{
-                              position: "absolute",
-                              right: "12px",
-                              top: "12px",
-                              color: "#666",
-                              pointerEvents: "none",
-                            }}
-                          />
-                        </div>
-                        {notes_errmsg.trim() !== "" && (
-                          <ErrorMessage message={notes_errmsg} type="error" />
-                        )}
-                      </div>
-
-                      <div className="p-3 mb-3 border col-lg-11" style={{ borderRadius: '10px' }}>
-                        <h6 style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}>
-                          Terms & Condition</h6>
-                        <hr />
-                        <label className="form-label" style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
-                        >Add T&C</label>
-
-                        <div className="position-relative">
-                          <textarea
-                            className="form-control pe-5"
-                            rows="4"
-                            placeholder='Add any message...'
-                            value={terms}
-                            onChange={handleTermsChange}
-                            style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
-                          />
-                          <img
-                            src={TextAreaICon}
-                            alt="textarea-icon"
-                            style={{
-                              position: "absolute",
-                              right: "12px",
-                              top: "12px",
-                              color: "#666",
-                              pointerEvents: "none",
-                            }}
-                          />
-                        </div>
-                        {terms_errmsg.trim() !== "" && (
-                          <ErrorMessage message={terms_errmsg} type="error" />
-                        )}
-
-                      </div>
-
-
-                      <div className="col-lg-11" style={{ border: "1px solid #E5E7EB", borderRadius: 12, padding: 16, fontFamily: "sans-serif" }}>
-                        <h6 style={{ marginBottom: 12, fontFamily: "Gilroy" }}>Template Theme</h6>
-
-                        <RgbaColorPicker color={color} onChange={handleColorChange} style={{ width: "100%", }} />
-
-                        <div style={{ display: "flex", justifyContent: "space-between", marginTop: 12 }}>
-                          <input value={hexValue} readOnly style={{ width: 80, textAlign: "center", border: "1px solid #ccc", borderRadius: 4 }} />
-                          <input value={color.r} readOnly style={{ width: 40, textAlign: "center", border: "1px solid #ccc", borderRadius: 4 }} />
-                          <input value={color.g} readOnly style={{ width: 40, textAlign: "center", border: "1px solid #ccc", borderRadius: 4 }} />
-                          <input value={color.b} readOnly style={{ width: 40, textAlign: "center", border: "1px solid #ccc", borderRadius: 4 }} />
-                          <input value={alphaValue} readOnly style={{ width: 40, textAlign: "center", border: "1px solid #ccc", borderRadius: 4 }} />
-                        </div>
-
-                        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, color: "#555", marginTop: 4, marginBottom: 12 }}>
-                          <span style={{ width: 80, textAlign: "center" }}>Hex</span>
-                          <span style={{ width: 40, textAlign: "center" }}>R</span>
-                          <span style={{ width: 40, textAlign: "center" }}>G</span>
-                          <span style={{ width: 40, textAlign: "center" }}>B</span>
-                          <span style={{ width: 40, textAlign: "center" }}>A</span>
-                        </div>
-
-                        <div style={{
-                          display: "grid",
-                          gridTemplateColumns: "repeat(9, 1fr)",
-                          gap: 8,
-                          justifyContent: "center"
-                        }}>
-                          {presetColors.map((preset, index) => (
-                            <div
-                              key={index}
-                              onClick={() => {
-                                const r = parseInt(preset.substr(1, 2), 16);
-                                const g = parseInt(preset.substr(3, 2), 16);
-                                const b = parseInt(preset.substr(5, 2), 16);
-                                setColor({ r, g, b, a: 1 });
-                              }}
-                              style={{
-                                width: 24,
-                                height: 24,
-                                borderRadius: "20%",
-                                backgroundColor: preset,
-                                cursor: "pointer",
-                                border: preset.toLowerCase() === "#ffffff" ? "1px solid #ccc" : "none"
-                              }}
-                            />
-                          ))}
-
-                          <div
-                            style={{
-                              width: 24,
-                              height: 24,
-                              borderRadius: "20%",
-                              backgroundColor: hexValue,
-                              cursor: "pointer",
-                              border: "2px solid #000"
-                            }}
-                            title="Current selected color"
-                          />
-
-                        </div>
-                      </div>
-
-                      {editErrmsg.trim() !== "" && (
-                        <ErrorMessage message={editErrmsg} type="error" />
-                      )}
-                      <div className="d-flex justify-content-end mt-2 col-lg-10">
-                        <Button
-                          disabled={!canUpdateInvoice}
-                          style={{
-                            width: 160,
-                            height: 42,
-                            borderRadius: 10,
-                            padding: "8px 16px",
-                            background: "#1E45E1",
-                            color: "#FFFFFF",
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
-                            fontSize: "14px",
-                          }}
-                          onClick={handleReceiptSaveTemplate}
-                        >
-                          Save Template
-                        </Button>
-                      </div>
-
-                    </div> */}
-
-
-                  </>
-                }
-
-                {/* {selectedTab === "security_deposit_receipt" &&
-                <>
-                  <SecurityReceiptPdfTemplate hostelid={hostelid} BillsTemplateList={BillsTemplateList} />
-                </>
-              }
-              {selectedTab === "noc_receipt" &&
-                <> <NOCReceiptPdfTemplate hostelid={hostelid} BillsTemplateList={BillsTemplateList} /> </>
-              }
- */}
-
-
-
-
-
-
+               </> }
 
 
               </div>
             </Col>
 
-            <Col md={8} className="p-1">
+            <Col md={8} className="p-0">
               {
                 selectedTab === "rental_invoice" &&
 
@@ -3594,21 +3010,8 @@ className="p-1"
           </>
         ) :
 
-
-
-
-
-
-
-
-
-
-
-
-
-
           cardshow &&
-          <div className=" py-2 col-md-11">
+          <div className=" py-2 col-md-12">
 
             <div
               className="bg-white"

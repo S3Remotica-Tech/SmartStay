@@ -19,8 +19,8 @@ function* handleCreateRefund(action) {
    try {
       const response = yield call(createRefund, action.payload)
 
-         if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'CREATE_REFUND', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+         if (response?.status === 200 ) {
+         yield put({ type: 'CREATE_REFUND', payload: { response: response.data, statusCode: response?.status  } })
       }
 
       if (response) {
@@ -49,8 +49,8 @@ function* handleGetInitializeRefund(action) {
    try {
       const response = yield call(getInitializeRefund, action.payload)
 
-         if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'GET_INITIALIZE_REFUND_DETAILS', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+         if (response?.status === 200 ) {
+         yield put({ type: 'GET_INITIALIZE_REFUND_DETAILS', payload: { response: response.data, statusCode: response?.status  } })
       }
 
       if (response) {
@@ -77,8 +77,8 @@ function* handleGetFinalSettlementList(action) {
       const response = yield call(getFinalSettlementList, action.payload)
 
 
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'GET_FINAL_SETTLEMENT', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'GET_FINAL_SETTLEMENT', payload: { response: response.data, statusCode: response?.status } })
       }
 
       if (response) {
@@ -104,8 +104,8 @@ function* handleGetParticularBillsDetails(action) {
 
       console.log("response",response)
 
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'GET_PARTICULAR_BILL_DETAILS', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'GET_PARTICULAR_BILL_DETAILS', payload: { response: response.data, statusCode: response?.status  } })
       }
 
       if (response) {
@@ -131,8 +131,8 @@ function* handleGetParticularReceiptDetails(action) {
 
    try {
       const response = yield call(getParticularReceiptDetails, action.payload)
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'GET_PARTICULAR_RECEIPT_DETAILS', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'GET_PARTICULAR_RECEIPT_DETAILS', payload: { response: response.data, statusCode: response?.status  } })
       }
       if (response) {
          refreshToken(response)
@@ -159,8 +159,8 @@ function* handleDeleteUser(action) {
       const response = yield call(DeleteUser, action.payload)
 
 
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'DELETE_USER', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'DELETE_USER', payload: { response: response.data.data, statusCode: response?.status} })
 
          var toastStyle = {
             backgroundColor: "#E6F6E6",
@@ -193,7 +193,7 @@ function* handleDeleteUser(action) {
 
       }
       else {
-         yield put({ type: 'ERROR', payload: response.data.message })
+         yield put({ type: 'ERROR', payload:  response?.data?.message })
       }
       if (response) {
          refreshToken(response)
@@ -231,8 +231,8 @@ function* handleDeleteAmenities(action) {
 
    }
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'DELETE_AMENITIES', payload: { response: response.data.data || [], statusCode: response.status || response.statusCode } })
+   if (response?.status === 200 ) {
+      yield put({ type: 'DELETE_AMENITIES', payload: { response: response.data.data || [], statusCode: response?.status  } })
 
       toast.success(response.data, {
          position: "bottom-center",
@@ -250,8 +250,8 @@ function* handleDeleteAmenities(action) {
 
 
    }
-   else if (response.status === 201 || response.statusCode === 201) {
-      yield put({ type: 'ALREADY_ASSIGN_ERROR', payload: { statusCode: response.status || response.statusCode } })
+   else if (response?.status === 201) {
+      yield put({ type: 'ALREADY_ASSIGN_ERROR', payload: { statusCode: response?.status  } })
       toast.error('This amenity is assigned and cannot be deleted', {
          position: "bottom-center",
          autoClose: 2000,
@@ -280,12 +280,12 @@ function* handleAssignAmenities(action) {
 
     const response = yield call(AssignAmenities, hostelId, amenityId, customers);
 
-    if (response.status === 200) {
+    if (response?.status === 200) {
       yield put({
         type: 'ASSIGN_AMENITIES',
         payload: {
           response: response.data.data,
-          statusCode: response.status,
+          statusCode: response?.status,
         },
       });
 
@@ -308,7 +308,7 @@ function* handleAssignAmenities(action) {
     } else {
       yield put({
         type: 'ERROR',
-        payload: response.data.message || "Failed to assign amenities",
+        payload:  response?.data?.message || "Failed to assign amenities",
       });
     }
 
@@ -334,8 +334,8 @@ function* handleUnAssignAmenities(action) {
       const response = yield call(UnAssignAmenities, hostelId, amenityId, customers);
       // const response = yield call(UnAssignAmenities, action.payload)
 
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'UN_ASSIGN_AMENITIES', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'UN_ASSIGN_AMENITIES', payload: { response: response.data.data, statusCode: response?.status  } })
 
          var toastStyle = {
             backgroundColor: "#E6F6E6",
@@ -370,7 +370,7 @@ function* handleUnAssignAmenities(action) {
 
       }
       else {
-         yield put({ type: 'ERROR', payload: response.data.message })
+         yield put({ type: 'ERROR', payload:  response?.data?.message })
       }
       if (response) {
          refreshToken(response)
@@ -395,11 +395,11 @@ function* handleGetParticularAmentityList(action) {
           console.log("response", response);
           
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'GET_ASSIGN_AMENITIES', payload: { unAssigned: response?.data?.unassignedCustomers, Assigned: response?.data?.assignedCustomers, statusCode: response.status || response.statusCode } })
+   if (response?.status === 200 ) {
+      yield put({ type: 'GET_ASSIGN_AMENITIES', payload: { unAssigned: response?.data?.unassignedCustomers, Assigned: response?.data?.assignedCustomers, statusCode: response?.status  } })
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload:  response?.data?.message })
    }
    if (response) {
       refreshToken(response)
@@ -421,11 +421,11 @@ function* handleinvoicelist() {
    try{
    const response = yield call(invoicelist);
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'invoicelist', payload: response.data, statusCode: response.status || response.statusCode })
+   if (response?.status === 200 ) {
+      yield put({ type: 'invoicelist', payload: response.data, statusCode: response?.status  })
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload:  response?.data?.message })
    }
    if (response) {
       refreshToken(response)
@@ -441,11 +441,11 @@ function* handleInvoiceList(action) {
    try{
    const response = yield call(invoiceList, action.payload)
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'INVOICE_LIST', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
+   if (response?.status === 200 ) {
+      yield put({ type: 'INVOICE_LIST', payload: { response: response.data.data, statusCode: response?.status  } })
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload:  response?.data?.message })
    }
    if (response) {
       refreshToken(response)
@@ -461,8 +461,8 @@ function* handleRecordPaymentUpdate(action) {
       const { hostelId, invoiceId, data } = action.payload
       const response = yield call(RecordPayment, hostelId, invoiceId, data)
 
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'RECORD-PAYMENT', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'RECORD-PAYMENT', payload: { response: response.data, statusCode: response?.status } })
 
          var toastStyle = {
             backgroundColor: "#E6F6E6",
@@ -513,8 +513,8 @@ function* handleInvoiceSettings(param) {
    try {
       const response = yield call(InvoiceSettings, param.payload)
 
-      if (response.statusCode === 200 || response.status === 200) {
-         yield put({ type: 'INVOICE_SETTINGS', payload: { response: response.data, statusCode: response.statusCode || response.status } })
+      if (response?.status === 200) {
+         yield put({ type: 'INVOICE_SETTINGS', payload: { response: response.data, statusCode: response?.status } })
 
 
          var toastStyle = {
@@ -585,15 +585,15 @@ function* handleInvoicePdf(action) {
          padding: "10px",
 
       };
-      if (response.status === 200 || response.statusCode === 200) {
+      if (response?.status === 200 ) {
          yield put({
             type: 'INVOICE_PDF', payload: {
-               response: response.data.pdf_url, statusCode: response.status || response.statusCode
+               response: response.data.pdf_url, statusCode: response?.status 
             }
          })
       }
-      else if (response.status === 201 || response.statusCode === 201) {
-         yield put({ type: 'PDF_ERROR', payload: { response: response.data.message, statusCode: response.status || response.statusCode } })
+      else if (response?.status === 201 ) {
+         yield put({ type: 'PDF_ERROR', payload: { response: response.data.message, statusCode: response?.status  } })
 
          toast.error(response.data.message, {
             position: "top-center",
@@ -632,8 +632,8 @@ function* handleAddAmenity(action) {
             
           console.log("response", response);
           
-        if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'AMENITIES_SETTINGS', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+        if (response?.status === 200 ) {
+         yield put({ type: 'AMENITIES_SETTINGS', payload: { response: response.data, statusCode: response?.status  } })
 
          var toastStyle = {
             backgroundColor: "#E6F6E6",
@@ -664,11 +664,11 @@ function* handleAddAmenity(action) {
          })
       }
 
-      else if (response.status === 403) {
+      else if (response?.status === 403) {
          yield put({ type: 'ERROR_AMENITIES_SETTINGS', payload: { response: response.data } })
       }
        else {
-         yield put({ type: 'ERROR', payload: response.data.message })
+         yield put({ type: 'ERROR', payload:  response?.data?.message })
       }
       if (response) {
          refreshToken(response)
@@ -677,7 +677,7 @@ function* handleAddAmenity(action) {
    catch (error) {
       console.log("response", error);
          yield* handleApiError(error);
-      if (error.status === 403 ||  error.response.status === 403) {
+      if (error.status === 403 ||  error.response?.status === 403) {
          yield put({ type: 'ERROR_AMENITIES_SETTINGS', payload: { response: error.response.data } })
       }
       if (error.code === 'ERR_NETWORK') {
@@ -695,14 +695,14 @@ function* handleGetAmenities(action) {
    console.log("response", response);
    
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'AMENITIES_LIST', payload: { response: response?.data || [], statusCode: response.status || response.statusCode } })
+   if (response?.status === 200 ) {
+      yield put({ type: 'AMENITIES_LIST', payload: { response: response?.data || [], statusCode: response?.status  } })
    }
-    else if (response.status === 201 || response.statusCode === 201) {
-       yield put({ type: 'NO_AMENITIES_LIST', payload: { statusCode: response.statusCode } })
+    else if (response?.status === 201 ) {
+       yield put({ type: 'NO_AMENITIES_LIST', payload: { statusCode: response?.status } })
      }
    else {
-      yield put({ type: 'ERROR_AMENITIES', payload: { statusCode: response.status || response.statusCode } })
+      yield put({ type: 'ERROR_AMENITIES', payload: { statusCode: response?.status  } })
    }
    if (response) {
       refreshToken(response)
@@ -719,8 +719,8 @@ function* handleUpdateAmenities(action) {
           const response = yield call(UpdateAmenities, hostelId,amenityId,data);
       // const response = yield call(UpdateAmenities, action.payload)
 
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'AMENITIES_UPDATE', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'AMENITIES_UPDATE', payload: { response: response.data, statusCode: response?.status } })
 
          var toastStyle = {
             backgroundColor: "#E6F6E6",
@@ -752,7 +752,7 @@ function* handleUpdateAmenities(action) {
 
       }
       else {
-         yield put({ type: 'ERROR', payload: response.data.message })
+         yield put({ type: 'ERROR', payload:  response?.data?.message })
       }
       if (response) {
          refreshToken(response)
@@ -760,7 +760,7 @@ function* handleUpdateAmenities(action) {
    }
    catch (error) {
          yield* handleApiError(error);
-      if (error.status === 403 ||  error.response.status === 403) {
+      if (error.status === 403 ||  error.response?.status === 403) {
          yield put({ type: 'ERROR_AMENITIES_SETTINGS', payload: { response: error.response.data } })
       }
       if (error.code === 'ERR_NETWORK') {
@@ -777,11 +777,11 @@ function* handleManualInvoice() {
    try{
    const response = yield call(ManualInvoice)
 
-   if (response.status === 200 || response.data.statusCode === 200) {
-      yield put({ type: 'MANUAL_INVOICE', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
+   if (response?.status === 200 ) {
+      yield put({ type: 'MANUAL_INVOICE', payload: { response: response.data, statusCode: response?.status} })
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload:  response?.data?.message })
    }
    if (response) {
       refreshToken(response)
@@ -796,15 +796,15 @@ function* handleManualInvoiceNumber(params) {
    try{
    const response = yield call(ManualInvoiceNumber, params.payload)
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'MANUAL_INVOICE_NUMBER_GET', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+   if (response?.status === 200 ) {
+      yield put({ type: 'MANUAL_INVOICE_NUMBER_GET', payload: { response: response.data, statusCode: response?.status  } })
    }
-   else if (response.data.statusCode === 201 || response.status === 201) {
+   else if ( response?.status === 201) {
 
-      yield put({ type: 'INVALID_DETAILS_ERROR', payload: response.data.message });
+      yield put({ type: 'INVALID_DETAILS_ERROR', payload:  response?.data?.message });
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload:  response?.data?.message })
    }
    if (response) {
       refreshToken(response)
@@ -819,8 +819,8 @@ function* handleManualInvoiceGetData(params) {
    try{
    const response = yield call(ManualInvoiceUserData, params.payload)
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'MANUAL_INVOICE_AMOUNT_GET', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+   if (response?.status === 200 ) {
+      yield put({ type: 'MANUAL_INVOICE_AMOUNT_GET', payload: { response: response.data, statusCode: response?.status  } })
       var toastStyle = {
          backgroundColor: "#E6F6E6",
          color: "black",
@@ -850,7 +850,7 @@ function* handleManualInvoiceGetData(params) {
       })
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload:  response?.data?.message })
    }
    if (response) {
       refreshToken(response)
@@ -865,8 +865,8 @@ function* handleRecurrbillamountData(params) {
    try{
    const response = yield call(RecurrInvoiceamountData, params.payload)
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'RECURRING_BILL_GET_AMOUNT', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
+   if (response?.status === 200 ) {
+      yield put({ type: 'RECURRING_BILL_GET_AMOUNT', payload: { response: response.data.data, statusCode: response?.status } })
       var toastStyle = {
          backgroundColor: "#E6F6E6",
          color: "black",
@@ -896,11 +896,11 @@ function* handleRecurrbillamountData(params) {
       })
    }
 
-   else if (response.status === 202 || response.statusCode === 202) {
-      yield put({ type: 'FAIL_ADD_RECURRING_BILL', payload: { response: response.data.recure, statusCode: response.status || response.statusCode, message: response.data.message } })
+   else if (response?.status === 202 ) {
+      yield put({ type: 'FAIL_ADD_RECURRING_BILL', payload: { response: response.data.recure, statusCode: response?.status, message:  response?.data?.message } })
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload:  response?.data?.message })
    }
    if (response) {
       refreshToken(response)
@@ -915,8 +915,8 @@ function* handleManualInvoiceAdd(params) {
    try {
       const response = yield call(AddManualInvoiceBill, params.payload);
 
-      if (response.status === 201 || response.statusCode === 200) {
-         yield put({ type: 'MANUAL_INVOICE_ADD', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      if (response?.status === 201 ) {
+         yield put({ type: 'MANUAL_INVOICE_ADD', payload: { response: response.data, statusCode: response?.status } })
          var toastStyle = {
             backgroundColor: "#E6F6E6", color: "black", width: "100%", borderRadius: "60px", height: "20px", fontFamily: "Gilroy",
             fontWeight: 600,
@@ -961,8 +961,8 @@ function* handleManualInvoiceAdd(params) {
 function* handleManualInvoiceEdit(params) {
    try {
       const response = yield call(EditManualInvoiceBill, params.payload);
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'MANUAL_INVOICE_EDIT', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'MANUAL_INVOICE_EDIT', payload: { response: response.data, statusCode: response?.status } })
          var toastStyle = {
             backgroundColor: "#E6F6E6", color: "black", width: "100%", borderRadius: "60px", height: "20px", fontFamily: "Gilroy",
             fontWeight: 600,
@@ -986,8 +986,8 @@ function* handleManualInvoiceEdit(params) {
             style: toastStyle
          })
       }
-      else if (response.status === 201 || response.statusCode === 201) {
-         yield put({ type: 'MANUAL_INVOICE_ERROR', payload: response.data.message })
+      else if (response?.status === 201 ) {
+         yield put({ type: 'MANUAL_INVOICE_ERROR', payload:  response?.data?.message })
          toast.error(response.data.message, {
             position: "top-center",
             autoClose: 2000,
@@ -1018,8 +1018,8 @@ function* handleManualInvoiceDelete(params) {
 try{
    const response = yield call(DeleteManualInvoiceBill, params.payload);
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'MANUAL_INVOICE_DELETE', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+   if (response?.status === 200 ) {
+      yield put({ type: 'MANUAL_INVOICE_DELETE', payload: { response: response.data, statusCode: response?.status  } })
       var toastStyle = {
          backgroundColor: "#E6F6E6", color: "black", width: "100%", borderRadius: "60px", height: "20px", fontFamily: "Gilroy",
          fontWeight: 600,
@@ -1043,8 +1043,8 @@ try{
          style: toastStyle
       })
    }
-   else if (response.status === 201 || response.data.statusCode === 201) {
-      yield put({ type: 'DELETE_MANUAL_ERROR', payload: response.data.message })
+   else if (response?.status === 201 ) {
+      yield put({ type: 'DELETE_MANUAL_ERROR', payload:  response?.data?.message })
 
       toast.error(response.data.message, {
          position: "top-center",
@@ -1060,7 +1060,7 @@ try{
    }
 
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload:  response?.data?.message })
    }
    if (response) {
       refreshToken(response)
@@ -1077,8 +1077,8 @@ function* handleRecurrBillsAdd(params) {
       const response = yield call(AddRecurringBill, params.payload);
 
 
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'RECURRING_BILLS_ADD', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'RECURRING_BILLS_ADD', payload: { response: response.data, statusCode: response?.status  } })
          var toastStyle = {
             backgroundColor: "#E6F6E6", color: "black", width: "100%", borderRadius: "60px", height: "20px", fontFamily: "Gilroy",
             fontWeight: 600,
@@ -1103,12 +1103,12 @@ function* handleRecurrBillsAdd(params) {
          })
       }
 
-      else if (response.status === 201 || response.data.statusCode === 201) {
-         yield put({ type: 'ERROR_RECURE', payload: { response: response.data.message, statusCode: response.status || response.data.statusCode } })
+      else if (response?.status === 201) {
+         yield put({ type: 'ERROR_RECURE', payload: { response: response.data.message, statusCode: response?.status } })
       }
 
       else {
-         yield put({ type: 'ERROR', payload: response.data.message })
+         yield put({ type: 'ERROR', payload:  response?.data?.message })
       }
       if (response) {
          refreshToken(response)
@@ -1129,14 +1129,14 @@ function* handleGetManualInvoice(action) {
    try {
       const response = yield call(GetManualInvoices, action.payload)
 
-      if (response.status === 200 || response.data.statusCode === 200) {
-         yield put({ type: 'MANUAL_INVOICES_LIST', payload: { response: response?.data || [], statusCode: response.status || response.data.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'MANUAL_INVOICES_LIST', payload: { response: response?.data || [], statusCode: response?.status  } })
       }
-      else if (response.status === 201 || response.statusCode === 201) {
-         yield put({ type: 'NODATA_BILL_LIST', payload: { response: response.message, statusCode: response.status || response.statusCode } })
+      else if (response?.status === 201 ) {
+         yield put({ type: 'NODATA_BILL_LIST', payload: { response: response.message, statusCode: response?.status } })
       }
       else {
-         yield put({ type: 'ERROR', payload: response.data.message })
+         yield put({ type: 'ERROR', payload:  response?.data?.message })
       }
       if (response) {
          refreshToken(response)
@@ -1158,14 +1158,14 @@ function* handleGetRecurrbills(action) {
    const response = yield call(GetRecurrBills, action.payload)
 
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'RECURRING_BILLS_LIST', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
+   if (response?.status === 200 ) {
+      yield put({ type: 'RECURRING_BILLS_LIST', payload: { response: response.data.data, statusCode: response?.status  } })
    }
-   else if (response.status === 201 || response.statusCode === 201) {
-      yield put({ type: 'NODATA_RECURRINGBILLS_LIST', payload: { response: response.message, statusCode: response.status || response.statusCode } })
+   else if (response?.status === 201 ) {
+      yield put({ type: 'NODATA_RECURRINGBILLS_LIST', payload: { response: response.message, statusCode: response?.status } })
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload:  response?.data?.message })
    }
    if (response) {
       refreshToken(response)
@@ -1179,8 +1179,8 @@ catch(error){
 function* handleDeleteRecuringBills(action) {
    try{
    const response = yield call(DeleteRecurrBills, action.payload);
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'DELETE_RECURRING_BILLS', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+   if (response?.status === 200 ) {
+      yield put({ type: 'DELETE_RECURRING_BILLS', payload: { response: response.data, statusCode: response?.status  } })
 
 
       var toastStyle = {
@@ -1212,7 +1212,7 @@ function* handleDeleteRecuringBills(action) {
       });
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload:  response?.data?.message })
    }
    if (response) {
       refreshToken(response)
@@ -1230,8 +1230,8 @@ function* handleAddInvoiceRecurringSettings(param) {
       const response = yield call(InvoiceRecurringsettings, param.payload)
 
 
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'SETTINGS_ADD_RECURRING', payload: { response, statusCode: response.status || response.data.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'SETTINGS_ADD_RECURRING', payload: { response, statusCode: response?.status } })
 
          var toastStyle = {
             backgroundColor: "#E6F6E6",
@@ -1262,7 +1262,7 @@ function* handleAddInvoiceRecurringSettings(param) {
          })
       }
       else {
-         yield put({ type: 'ERROR', payload: response.data.message })
+         yield put({ type: 'ERROR', payload:  response?.data?.message })
       }
       if (response) {
          refreshToken(response)
@@ -1284,14 +1284,14 @@ function* handleGetReceipts(action) {
    try {
       const response = yield call(GetReceiptData, action.payload)
 
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'RECEIPTS_LIST', payload: { response: response?.data || [], statusCode: response.status || response.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'RECEIPTS_LIST', payload: { response: response?.data || [], statusCode: response?.status  } })
       }
-      else if (response.status === 400 || response.statusCode === 400) {
-         yield put({ type: 'NODATA_RECEIPTS_LIST', payload: { response: response.message, statusCode: response.status || response.data.statusCode } })
+      else if (response?.status === 400 ) {
+         yield put({ type: 'NODATA_RECEIPTS_LIST', payload: { response: response.message, statusCode: response?.status  } })
       }
       else {
-         yield put({ type: 'ERROR', payload: response.data.message })
+         yield put({ type: 'ERROR', payload:  response?.data?.message })
       }
       if (response) {
          refreshToken(response)
@@ -1316,8 +1316,8 @@ function* handleAddReceipt(action) {
 
 
 
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'RECEIPTS_ADD', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'RECEIPTS_ADD', payload: { response: response.data, statusCode: response?.status} })
          var toastStyle = {
             backgroundColor: "#E6F6E6", color: "black", width: "100%", borderRadius: "60px", height: "20px", fontFamily: "Gilroy",
             fontWeight: 600,
@@ -1341,12 +1341,12 @@ function* handleAddReceipt(action) {
             style: toastStyle
          })
       }
-      else if (response.status === 201 || response.statusCode === 201) {
-         yield put({ type: 'ERROR_RECEIPTS_ADD', payload: { response: response.data.message, statusCode: response.status || response.statusCode } })
+      else if (response?.status === 201 ) {
+         yield put({ type: 'ERROR_RECEIPTS_ADD', payload: { response: response.data.message, statusCode: response?.status  } })
       }
 
       else {
-         yield put({ type: 'ERROR', payload: response.data.message })
+         yield put({ type: 'ERROR', payload:  response?.data?.message })
       }
       if (response) {
          refreshToken(response)
@@ -1365,8 +1365,8 @@ function* handleAddReceipt(action) {
 function* handleEditReceipt(action) {
    try {
       const response = yield call(EditReceipt, action.payload);
-      if (response.status === 200 || response.data.statusCode === 200) {
-         yield put({ type: 'RECEIPTS_EDIT', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
+      if (response?.status === 200 ) {
+         yield put({ type: 'RECEIPTS_EDIT', payload: { response: response.data, statusCode: response?.status } })
          var toastStyle = {
             backgroundColor: "#E6F6E6", color: "black", width: "100%", borderRadius: "60px", height: "20px", fontFamily: "Gilroy",
             fontWeight: 600,
@@ -1393,7 +1393,7 @@ function* handleEditReceipt(action) {
 
 
       else {
-         yield put({ type: 'ERROR', payload: response.data.message })
+         yield put({ type: 'ERROR', payload:  response?.data?.message })
       }
       if (response) {
          refreshToken(response)
@@ -1412,8 +1412,8 @@ function* handleEditReceipt(action) {
 function* handleDeleteReceipt(action) {
    try{
    const response = yield call(DeleteReceipt, action.payload);
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'DELETERECEIPT', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+   if (response?.status === 200 ) {
+      yield put({ type: 'DELETERECEIPT', payload: { response: response.data, statusCode: response?.status  } })
 
 
       var toastStyle = {
@@ -1445,7 +1445,7 @@ function* handleDeleteReceipt(action) {
       });
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload:  response?.data?.message })
    }
    if (response) {
       refreshToken(response)
@@ -1462,8 +1462,8 @@ function* handleReference_Id() {
    try{
    const response = yield call(ReferenceIdGet)
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'REFERENCEID_GET', payload: { response: response.data.reference_id, statusCode: response.status || response.statusCode } })
+   if (response?.status === 200 ) {
+      yield put({ type: 'REFERENCEID_GET', payload: { response: response.data.reference_id, statusCode: response?.status  } })
       var toastStyle = {
          backgroundColor: "#E6F6E6",
          color: "black",
@@ -1493,7 +1493,7 @@ function* handleReference_Id() {
       })
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload:  response?.data?.message })
    }
    if (response) {
       refreshToken(response)
@@ -1508,15 +1508,15 @@ function* handleReceiptPdf(action) {
    try {
       const response = yield call(ReceiptPDf, action.payload)
 
-      if (response.status === 200 || response.statusCode === 200) {
+      if (response?.status === 200 ) {
          yield put({
             type: 'RECEIPT_PDF', payload: {
-               response: response.data.pdf_url, statusCode: response.status || response.statusCode
+               response: response.data.pdf_url, statusCode: response?.status 
             }
          })
       }
       else {
-         yield put({ type: 'ERROR', payload: response.data.message })
+         yield put({ type: 'ERROR', payload:  response?.data?.message })
       }
       if (response) {
          refreshToken(response)
@@ -1536,12 +1536,12 @@ function* handleFilterRecurrCustomer(action) {
    try{
    const response = yield call(AddRecurrBillsUsers, action.payload)
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'FILTER_RECURR_CUSTOMERS', payload: { response: response.data.user_data, statusCode: response.status || response.statusCode } })
+   if (response?.status === 200 ) {
+      yield put({ type: 'FILTER_RECURR_CUSTOMERS', payload: { response: response.data.user_data, statusCode: response?.status } })
 
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload:  response?.data?.message })
    }
    if (response) {
       refreshToken(response)
@@ -1558,11 +1558,11 @@ function* handleGetBillPdfDetails(action) {
    try{
    const response = yield call(GetBillsPdfDetails, action.payload)
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'GET-BILLS-PDF-DETAILS', payload: { response: response.data.receipt, statusCode: response.status || response.statusCode } })
+   if (response?.status === 200 ) {
+      yield put({ type: 'GET-BILLS-PDF-DETAILS', payload: { response: response.data.receipt, statusCode: response?.status  } })
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload:  response?.data?.message })
    }
    if (response) {
       refreshToken(response)
@@ -1580,11 +1580,11 @@ function* handleReceiptPdfNewChanges(action) {
    try {
          const response = yield call(getParticularReceiptDetails, action.payload);
 
-      if (response.status === 200 || response.data.statusCode === 200) {
+      if (response?.status === 200 ) {
          yield put({
             type: 'RECEIPT_PDF_CHANGES',
             payload: response.data,
-            statusCode: response.status || response.data.statusCode
+            statusCode: response?.status
          });
       } else {
          yield put({
@@ -1645,8 +1645,8 @@ function* handleCustomerRecurringEnableDisable(params) {
 
 
 
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'CUSTOMER_RECURRING_ENABLE_DISABLE', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
+      if (response?.status === 200) {
+         yield put({ type: 'CUSTOMER_RECURRING_ENABLE_DISABLE', payload: { response: response.data.data, statusCode: response?.status } })
 
 
          toast.success(response.data.message, {
@@ -1662,7 +1662,7 @@ function* handleCustomerRecurringEnableDisable(params) {
          })
       }
 
-      else if (response.status === 201 || response.statusCode === 201) {
+      else if (response?.status === 201 ) {
          toast.warn(response.data.message, {
             position: "bottom-center",
             autoClose: 2000,
@@ -1676,7 +1676,7 @@ function* handleCustomerRecurringEnableDisable(params) {
          })
       }
       else {
-         yield put({ type: 'ERROR', payload: response.data.message })
+         yield put({ type: 'ERROR', payload:  response?.data?.message })
       }
       if (response) {
          refreshToken(response)
@@ -1698,8 +1698,8 @@ function refreshToken(response) {
       const refreshTokenGet = response.data.refresh_token
       const cookies = new Cookies()
       cookies.set('token', refreshTokenGet, { path: '/' });
-   } else if (response.status === 206) {
-      const message = response.status
+   } else if (response?.status === 206) {
+      const message = response?.status
       const cookies = new Cookies()
       cookies.set('access-denied', message, { path: '/' });
 

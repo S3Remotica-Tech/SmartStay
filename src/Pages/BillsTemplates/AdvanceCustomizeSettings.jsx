@@ -813,10 +813,10 @@ const SecurityDepositInvoiceTemplate = ({ BillsTemplateList }) => {
       }
 
 
-      <div className="row">
+      <div className="row g-0">
 
 
-        <div className="col-lg-12 show-scroll" style={{
+        <div className="col-lg-12 show-scrolls" style={{
           maxHeight: 650,
           overflowY: "auto",
           overflowX: 'hidden',
@@ -833,7 +833,7 @@ const SecurityDepositInvoiceTemplate = ({ BillsTemplateList }) => {
               <>
                 <p style={{ fontFamily: 'Gilroy', fontSize: 17, fontWeight: 600, }}>Inherited Global Details</p>
 
-                <div className="border ps-3 pe-3 pb-3 pt-2 mb-3 col-lg-10 " style={{ borderRadius: '10px', overflowY: 'auto', }}>
+                <div className="border ps-3 pe-3 pb-3 pt-2 mb-3 col-lg-12 " style={{ borderRadius: '10px', overflowY: 'auto', }}>
                   <div className="d-flex justify-content-end">
                     <img src={EditICon} onClick={handleShowContactNumberForm} style={{ cursor: 'pointer' }} alt="editicon" />
 
@@ -1208,7 +1208,7 @@ const SecurityDepositInvoiceTemplate = ({ BillsTemplateList }) => {
           <p style={{ fontFamily: 'Gilroy', fontSize: 17, fontWeight: 600, }}>Form Specific Details</p>
           <p style={{ fontFamily: 'Gilroy', fontSize: 13, fontWeight: 400, color: 'rgba(99, 109, 148, 1)' }}>{`Fill the form with details you'd like to customize.`}</p>
 
-          <div className="border p-3 mb-3 col-lg-11" style={{ borderRadius: '10px', overflowY: 'auto', }}>
+          <div className="border p-3 mb-3 col-lg-12" style={{ borderRadius: '10px', overflowY: 'auto', }}>
 
             <div>
               <p style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)", fontStyle: "normal", lineHeight: "normal" }}>
@@ -1279,7 +1279,7 @@ const SecurityDepositInvoiceTemplate = ({ BillsTemplateList }) => {
             </div>
           </div>
 
-          <div className="border p-3 mb-3 col-lg-11 " style={{ borderRadius: '10px', overflowY: 'auto', }}>
+          <div className="border p-3 mb-3 col-lg-12 " style={{ borderRadius: '10px', overflowY: 'auto', }}>
 
             <div>
               <p style={{ fontFamily: 'Gilroy', color: 'rgba(34, 34, 34, 1)', fontSize: 14, fontWeight: 400, fontStyle: 'normal', lineHeight: 'normal' }}>
@@ -1324,7 +1324,7 @@ const SecurityDepositInvoiceTemplate = ({ BillsTemplateList }) => {
               borderRadius: '10px',
               fontFamily: 'Gilroy',
             }}
-            className="col-lg-11"
+            className="col-lg-12"
           >
             <div
               style={{
@@ -1431,7 +1431,7 @@ const SecurityDepositInvoiceTemplate = ({ BillsTemplateList }) => {
 
           </div>
 
-          <div className="border p-3 mb-3 col-lg-11" style={{ borderRadius: "10px", overflowY: "auto" }}>
+          <div className="border p-3 mb-3 col-lg-12" style={{ borderRadius: "10px", overflowY: "auto" }}>
             <div>
               <p
                 style={{
@@ -1471,8 +1471,8 @@ const SecurityDepositInvoiceTemplate = ({ BillsTemplateList }) => {
                     src={qrImage}
                     alt="QR Preview"
                     style={{
-                      height: "150px",
-                      width: "150px",
+                      height: "100px",
+                      width: "100px",
                       objectFit: "cover",
                       borderRadius: "8px",
                       marginBottom: "10px",
@@ -1540,7 +1540,7 @@ const SecurityDepositInvoiceTemplate = ({ BillsTemplateList }) => {
           </div>
 
 
-          <div className="p-3 mb-3 border col-lg-11" style={{ borderRadius: '10px' }}>
+          <div className="p-3 mb-3 border col-lg-12" style={{ borderRadius: '10px' }}>
             <h6 style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}>
               Notes
             </h6>
@@ -1572,7 +1572,7 @@ const SecurityDepositInvoiceTemplate = ({ BillsTemplateList }) => {
             )}
           </div>
 
-          <div className="p-3 mb-3 border col-lg-11" style={{ borderRadius: '10px' }}>
+          <div className="p-3 mb-3 border col-lg-12" style={{ borderRadius: '10px' }}>
             <h6 style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}>
               Terms & Condition</h6>
             <hr />
@@ -1607,7 +1607,7 @@ const SecurityDepositInvoiceTemplate = ({ BillsTemplateList }) => {
           </div>
 
 
-          <div className="col-lg-11" style={{ border: "1px solid #E5E7EB", borderRadius: 12, padding: 16, fontFamily: "sans-serif" }}>
+          <div className="col-lg-12" style={{ border: "1px solid #E5E7EB", borderRadius: 12, padding: 16, fontFamily: "sans-serif" }}>
             <h6 style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal', marginBottom: 12 }}>Template Theme</h6>
 
             <RgbaColorPicker color={color} onChange={handleColorChange} style={{ width: "100%", }} />

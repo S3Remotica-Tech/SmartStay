@@ -96,10 +96,10 @@ useEffect(() => {
   }
 }, [canReadDashboard]);
 
+console.log("canReadDashboard",canReadDashboard)
 
 
-
-
+console.log("state",state)
 
 
   const monthNames = [
@@ -107,7 +107,7 @@ useEffect(() => {
     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
   ];
 
-  const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(item => {
+  const formattedChart = state.PgList?.dashboardFilterAdvance?.advance_data?.map(item => {
     const [year, month] = item.month.split("-");
     const monthIndex = parseInt(month, 10) - 1;
     return {
@@ -175,48 +175,48 @@ useEffect(() => {
   };
 
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    dispatch({
-      type: "DASHBOARDFILTERCASHBACK",
-      payload: {
-        type: "cashback",
-        range: selectCashback,
-        hostel_id: hostel_id,
-      },
-    });
+  //   dispatch({
+  //     type: "DASHBOARDFILTERCASHBACK",
+  //     payload: {
+  //       type: "cashback",
+  //       range: selectCashback,
+  //       hostel_id: hostel_id,
+  //     },
+  //   });
    
 
 
-  }, [selectCashback, hostel_id]);
+  // }, [selectCashback, hostel_id]);
 
 
 
-  useEffect(() => {
-    if (hostel_id) {
-      dispatch({
-        type: "DASHBOARDFILTERREVENUE",
-        payload: {
-          type: "exp_vs_rev",
-          range: selectRevenu,
-          hostel_id: hostel_id,
-        },
-      });
-    }
-  }, [selectRevenu, hostel_id]);
+  // useEffect(() => {
+  //   if (hostel_id) {
+  //     dispatch({
+  //       type: "DASHBOARDFILTERREVENUE",
+  //       payload: {
+  //         type: "exp_vs_rev",
+  //         range: selectRevenu,
+  //         hostel_id: hostel_id,
+  //       },
+  //     });
+  //   }
+  // }, [selectRevenu, hostel_id]);
 
-  useEffect(() => {
-    if (hostel_id) {
-      dispatch({
-        type: "DASHBOARDFILTERADVANCE",
-        payload: {
-          type: "advance",
-          range: selectAdvance,
-          hostel_id: hostel_id,
-        },
-      });
-    }
-  }, [selectAdvance, hostel_id]);
+  // useEffect(() => {
+  //   if (hostel_id) {
+  //     dispatch({
+  //       type: "DASHBOARDFILTERADVANCE",
+  //       payload: {
+  //         type: "advance",
+  //         range: selectAdvance,
+  //         hostel_id: hostel_id,
+  //       },
+  //     });
+  //   }
+  // }, [selectAdvance, hostel_id]);
 
 
 

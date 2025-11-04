@@ -36,8 +36,8 @@ function* handleAddBanking(action) {
 
     };
 
-    if (response.status === 201 || response.data.statusCode === 201) {
-      yield put({ type: 'ADD_USER_BANKING', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
+    if (response?.status === 201 ) {
+      yield put({ type: 'ADD_USER_BANKING', payload: { response: response.data, statusCode: response?.status } })
       toast.success(`${response.data}`, {
         position: "bottom-center",
         autoClose: 2000,
@@ -52,7 +52,7 @@ function* handleAddBanking(action) {
     }
 
     else {
-      yield put({ type: 'ERROR_BOOKING', payload: response.data.message })
+      yield put({ type: 'ERROR_BOOKING', payload:  response?.data?.message })
     }
     if (response) {
       refreshToken(response)
@@ -89,8 +89,8 @@ function* handleEditBanking(action) {
 
     };
 
-    if (response.status === 200 || response.data.statusCode === 200) {
-      yield put({ type: 'EDITBANKING', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
+    if (response?.status === 200 ) {
+      yield put({ type: 'EDITBANKING', payload: { response: response.data, statusCode:response?.status  } })
       toast.success(`${response.data}`, {
         position: "bottom-center",
         autoClose: 2000,
@@ -105,7 +105,7 @@ function* handleEditBanking(action) {
     }
 
     else {
-      yield put({ type: 'ERROR_ADDBANKING', payload: response.data.message })
+      yield put({ type: 'ERROR_ADDBANKING', payload:  response?.data?.message })
     }
     if (response) {
       refreshToken(response)
@@ -128,15 +128,15 @@ function* handleGetBanking(action) {
   const response = yield call(GetAddBanking, action.payload)
 
   
-  if (response.status === 200 || response.data.statusCode === 200) {
-    yield put({ type: 'BANKING_LIST', payload: { response: response.data || [], statusCode: response.status || response.data.statusCode } })
+  if (response?.status === 200 ) {
+    yield put({ type: 'BANKING_LIST', payload: { response: response.data || [], statusCode:response?.status} })
   }
 
-  else if (response.status === 201 || response.data.statusCode === 201) {
-    yield put({ type: 'NO_BANKING', payload: { statusCode: response.data.statusCode } })
+  else if (response?.status === 201 ) {
+    yield put({ type: 'NO_BANKING', payload: { statusCode: response?.status } })
   }
   else {
-    yield put({ type: 'ERROR', payload: response.data.message })
+    yield put({ type: 'ERROR', payload:  response?.data?.message })
   }
   if (response) {
     refreshToken(response)
@@ -170,8 +170,8 @@ function* handleDefaultAccount(action) {
 
   };
 
-  if (response.data.status === 200 || response.data.statusCode === 200) {
-    yield put({ type: 'DEFAULT_ACCOUNT', payload: { response: response.data, statusCode: response.data.status || response.data.statusCode } })
+  if (response?.status === 200 ) {
+    yield put({ type: 'DEFAULT_ACCOUNT', payload: { response: response.data, statusCode: response?.status } })
     toast.success(`${response.data.message}`, {
       position: "bottom-center",
       autoClose: 2000,
@@ -186,7 +186,7 @@ function* handleDefaultAccount(action) {
   }
 
   else {
-    yield put({ type: 'ERROR_BOOKING', payload: response.data.message })
+    yield put({ type: 'ERROR_BOOKING', payload:  response?.data?.message })
   }
   if (response) {
     refreshToken(response)
@@ -220,8 +220,8 @@ function* handleAddBankAmount(action) {
 
   };
 
-  if (response.status === 200 || response.data.statusCode === 200) {
-    yield put({ type: 'ADD_BANK_AMOUNT', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
+  if (response?.status === 200 ) {
+    yield put({ type: 'ADD_BANK_AMOUNT', payload: { response: response.data, statusCode: response?.status } })
     toast.success(`${response.data}`, {
       position: "bottom-center",
       autoClose: 2000,
@@ -236,7 +236,7 @@ function* handleAddBankAmount(action) {
   }
 
   else {
-    yield put({ type: 'ERROR_ADD_AMOUNT', payload: response.data.message })
+    yield put({ type: 'ERROR_ADD_AMOUNT', payload:  response?.data?.message })
   }
   if (response) {
     refreshToken(response)
@@ -273,8 +273,8 @@ function* handleEditBankTrans(action) {
 
   };
 
-  if (response.status === 200 || response.data.statusCode === 200) {
-    yield put({ type: 'EDIT_BANK_TRANSACTION', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
+  if (response?.status === 200 ) {
+    yield put({ type: 'EDIT_BANK_TRANSACTION', payload: { response: response.data, statusCode: response?.status } })
     toast.success(`${response.data.message}`, {
       position: "bottom-center",
       autoClose: 2000,
@@ -289,7 +289,7 @@ function* handleEditBankTrans(action) {
   }
 
   else {
-    yield put({ type: 'ERROR', payload: response.data.message })
+    yield put({ type: 'ERROR', payload:  response?.data?.message })
   }
   if (response) {
     refreshToken(response)
@@ -328,12 +328,12 @@ function* handleDeleteBanking(action) {
 
   };
 
-  if (response.status === 200 || response.data.statusCode === 200) {
+  if (response?.status === 200) {
     yield put({
       type: "DELETE_BANKING",
       payload: {
         response: response.data,
-        statusCode: response.status || response.data.statusCode,
+        statusCode: response?.status ,
       },
     });
     toast.success("Deleted successfully", {
@@ -347,8 +347,8 @@ function* handleDeleteBanking(action) {
       progress: undefined,
       style: toastStyle,
     });
-  } else if (response.status === 201 || response.data.statusCode === 201) {
-    yield put({ type: "DELETE_BANKING_ERROR", payload: response.data.message });
+  } else if (response?.status === 201 ) {
+    yield put({ type: "DELETE_BANKING_ERROR", payload:  response?.data?.message });
 
   }
   if (response) {
@@ -382,12 +382,12 @@ function* handleDeleteBankTransaction(action) {
 
   };
 
-  if (response.status === 200 || response.statusCode === 200) {
+  if (response?.status === 200) {
     yield put({
       type: "DELETE_BANKING_TRANSACTION",
       payload: {
         response: response.data,
-        statusCode: response.status || response.statusCode,
+        statusCode: response?.status ,
       },
     });
     toast.success("Deleted successfully", {
@@ -401,8 +401,8 @@ function* handleDeleteBankTransaction(action) {
       progress: undefined,
       style: toastStyle,
     });
-  } else if (response.status === 201 || response.statusCode === 201) {
-    yield put({ type: "DELETE_TRANS_ERROR", payload: response.data.message });
+  } else if (response?.status === 201 ) {
+    yield put({ type: "DELETE_TRANS_ERROR", payload:  response?.data?.message });
 
   }
   if (response) {
@@ -424,8 +424,8 @@ function refreshToken(response) {
     const refreshTokenGet = response.data.refresh_token
     const cookies = new Cookies()
     cookies.set('token', refreshTokenGet, { path: '/' });
-  } else if (response.status === 206) {
-    const message = response.status
+  } else if (response?.status === 206) {
+    const message = response?.status
     const cookies = new Cookies()
 
     cookies.set('access-denied', message, { path: '/' });

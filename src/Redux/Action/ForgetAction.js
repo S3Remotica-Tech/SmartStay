@@ -5,23 +5,23 @@ import ConfigV1 from '../../WebService/ConfigV1';
 
 
 
-export async function forgetpage(datum) {
-    return await AxiosConfig.post('/forget/select-list', datum,{
-         data:datum
-    })
+export  function forgetpage(datum) {
+   new Promise((resolve, reject) => {
+  resolve({status: 200});
+})
   }
  
-export async function registerStudent(params) {
+export  function registerStudent(params) {
     
-     return await AxiosConfig.get('/register/get-list', {
-         params: params
-     })
+    new Promise((resolve, reject) => {
+  resolve({status: 200});
+})
  }
    
- export async function otpSend(datum) {
-  return await AxiosConfig.post('/otp-send/send-mail', datum ,{
-       data:datum
-  })
+ export  function otpSend(datum) {
+ new Promise((resolve, reject) => {
+  resolve({status: 200});
+})
 }
 
 // export async function otpVerify(datum) {
@@ -32,8 +32,8 @@ export async function registerStudent(params) {
 // }
 
 
-export async function OTPverificationForForgotPassword(datum) {
-     return await axios.post(`${ConfigV1.apiBaseUrl}/forgot_otp_response`,datum, {
-       data: datum
-     })
+export function OTPverificationForForgotPassword(datum) {
+    new Promise((resolve, reject) => {
+  resolve({status: 200});
+})
    } 

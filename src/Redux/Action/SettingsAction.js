@@ -7,10 +7,13 @@ export async function AddExpencesCategory(Expences) {
   });
 }
 
-export async function EditExpencesCategory(Expences) {
-  return await AxiosConfig.post("/edit/expense_category", Expences, {
-    data: Expences,
-  });
+export function EditExpencesCategory(Expences) {
+  new Promise((resolve, reject) => {
+  resolve({status: 200});
+})
+  // return await AxiosConfig.post("/edit/expense_category", Expences, {
+  //   data: Expences,
+  // });
 }
 
 export async function ExpencesCategorylist(hostelId) {
@@ -19,10 +22,13 @@ export async function ExpencesCategorylist(hostelId) {
 
 
 
-export async function DeleteExpencesCategoryList(expences) {
-  return await AxiosConfig.post("/delete/delete-category", expences, {
-    data: expences,
-  });
+export  function DeleteExpencesCategoryList(expences) {
+  new Promise((resolve, reject) => {
+  resolve({status: 200});
+})
+  // return await AxiosConfig.post("/delete/delete-category", expences, {
+  //   data: expences,
+  // });
 }
 
 // export async function Addcomplainttype(type) {
@@ -168,10 +174,13 @@ export async function AddSettingRole(datum) {
 
 
 
-export async function AddSettingPermission(datum) {
-  return await AxiosConfig.post("/role_permissions", datum, {
-    data: datum,
-  });
+export function AddSettingPermission(datum) {
+  new Promise((resolve, reject) => {
+  resolve({status: 200});
+})
+  // return await AxiosConfig.post("/role_permissions", datum, {
+  //   data: datum,
+  // });
 }
 
 // v1
@@ -278,8 +287,11 @@ export async function GetAllStaff(hostelId) {
 
 
 
-export async function GetAllReport() {
-  return await AxiosConfig.get("/all_reports", {});
+export function GetAllReport() {
+  new Promise((resolve, reject) => {
+  resolve({status: 200});
+})
+  // return await AxiosConfig.get("/all_reports", {});
 }
 
 
@@ -460,10 +472,13 @@ export async function GetAllGeneral() {
   return await AxiosConfigV2.get("/v2/profile/admin-list", {});
 }
 
-export async function passwordChangesinstaff(datum) {
-  return await AxiosConfig.post("/settings/change_staff_password", datum, {
-    data: datum,
-  });
+export function passwordChangesinstaff(datum) {
+  new Promise((resolve, reject) => {
+  resolve({status: 200});
+})
+  // return await AxiosConfig.post("/settings/change_staff_password", datum, {
+  //   data: datum,
+  // });
 }
 
 // v1
@@ -501,23 +516,32 @@ export async function generalDelete(userId) {
 
 
 
-export async function RecurringRole(reccurring) {
-  return await AxiosConfig.post("/settings/add_recuring", reccurring, {
-    data: reccurring,
-  });
+export  function RecurringRole(reccurring) {
+  new Promise((resolve, reject) => {
+  resolve({status: 200});
+})
+  // return await AxiosConfig.post("/settings/add_recuring", reccurring, {
+  //   data: reccurring,
+  // });
 }
 
-export async function DeleteElectricity(types) {
-  return await AxiosConfig.post("/settings/delete_eb_settings", types, {
-    data: types,
-  });
+export  function DeleteElectricity(types) {
+  new Promise((resolve, reject) => {
+  resolve({status: 200});
+})
+  // return await AxiosConfig.post("/settings/delete_eb_settings", types, {
+  //   data: types,
+  // });
 }
 
 
-export async function newSubscription(types) {
-  return await AxiosConfig.post("/new_subscription", types, {
-    data: types,
-  });
+export  function newSubscription(types) {
+  new Promise((resolve, reject) => {
+  resolve({status: 200});
+})
+  // return await AxiosConfig.post("/new_subscription", types, {
+  //   data: types,
+  // });
 }
 export async function SubscriptionList(hostelId) {
   return await AxiosConfigV2.get(`/v2/subscription/${hostelId}`);
@@ -527,8 +551,11 @@ export async function PlanList() {
   return await AxiosConfigV2.get(`/v2/plans/`);
 }
 
-export async function SubscriptionPdfDownload(id) {
-  return await AxiosConfig.get(`/invoice_redirect/${id}`);
+export  function SubscriptionPdfDownload(id) {
+  new Promise((resolve, reject) => {
+  resolve({status: 200});
+})
+  // return await AxiosConfig.get(`/invoice_redirect/${id}`);
 }
 
 export async function SettingsAddRecurring(reccurring) {
@@ -537,14 +564,20 @@ export async function SettingsAddRecurring(reccurring) {
   });
 }
 
-export async function GetBillsFrequncyTypes() {
-  return await AxiosConfig.get("/frequency-types",);
+export function GetBillsFrequncyTypes() {
+  new Promise((resolve, reject) => {
+  resolve({status: 200});
+})
+  // return await AxiosConfig.get("/frequency-types",);
 }
 
-export async function GetBillsNotificationTypes() {
-  return await AxiosConfig.get("/master-types", {
-    params: { content_type: "notification_type" }
-  });
+export function GetBillsNotificationTypes() {
+  new Promise((resolve, reject) => {
+  resolve({status: 200});
+})
+  // return await AxiosConfig.get("/master-types", {
+  //   params: { content_type: "notification_type" }
+  // });
 }
 
 export async function SettingsGetRecurring(reccurring) {
@@ -556,86 +589,94 @@ export async function SettingsGetRecurring(reccurring) {
 
 
 
-export async function AddInvoiceSettings(params) {
+export  function AddInvoiceSettings(params) {
+new Promise((resolve, reject) => {
+  resolve({status: 200});
+})
+  // const formData = new FormData();
 
-  const formData = new FormData();
+  // if (params.hostelId) formData.append("hostelId", params.hostelId);
+  // if (params.bankName) formData.append("bank_name", params.bankName);
+  // if (params.accountNo) formData.append("account_no", params.accountNo);
+  // if (params.ifscCode) formData.append("ifsc_code", params.ifscCode);
+  // if (params.paymentMethods) formData.append("payment_methods", JSON.stringify(params.paymentMethods));
+  // if (params.prefix) formData.append("prefix", params.prefix);
+  // if (params.suffix) formData.append("suffix", params.suffix);
+  // if (params.tax) formData.append("tax", params.tax);
+  // if (params.notes) formData.append("notes", params.notes);
+  // if (params.privacyPolicy) formData.append("privacyPolicy", params.privacyPolicy);
+  // if (params.signature) formData.append("signature", params.signature);
+  // if (params.bank_id) formData.append("bank_id", params.bank_id);
 
-  if (params.hostelId) formData.append("hostelId", params.hostelId);
-  if (params.bankName) formData.append("bank_name", params.bankName);
-  if (params.accountNo) formData.append("account_no", params.accountNo);
-  if (params.ifscCode) formData.append("ifsc_code", params.ifscCode);
-  if (params.paymentMethods) formData.append("payment_methods", JSON.stringify(params.paymentMethods));
-  if (params.prefix) formData.append("prefix", params.prefix);
-  if (params.suffix) formData.append("suffix", params.suffix);
-  if (params.tax) formData.append("tax", params.tax);
-  if (params.notes) formData.append("notes", params.notes);
-  if (params.privacyPolicy) formData.append("privacyPolicy", params.privacyPolicy);
-  if (params.signature) formData.append("signature", params.signature);
-  if (params.bank_id) formData.append("bank_id", params.bank_id);
-
-  try {
-    const response = await AxiosConfig.post(
-      "/invoice-settings",
-      formData,
-      {
-        headers: {
-          "Content-type": "multipart/form-data",
-        },
-        timeout: 100000,
-      }
-    );
-    return response.data;
-  } catch (error) {
-    console.error("Axios Error", error);
-    throw error;
-  }
+  // try {
+  //   const response = await AxiosConfig.post(
+  //     "/invoice-settings",
+  //     formData,
+  //     {
+  //       headers: {
+  //         "Content-type": "multipart/form-data",
+  //       },
+  //       timeout: 100000,
+  //     }
+  //   );
+  //   return response.data;
+  // } catch (error) {
+  //   console.error("Axios Error", error);
+  //   throw error;
+  // }
 }
 
 
-export async function SettingsGetInvoice(Invoice) {
-  return await AxiosConfig.get(`/getInvoice-settings/${Invoice.hostel_id}`);
+export function SettingsGetInvoice(Invoice) {
+  new Promise((resolve, reject) => {
+  resolve({status: 200});
+})
+  // return await AxiosConfig.get(`/getInvoice-settings/${Invoice.hostel_id}`);
 }
 
 
 
-export async function AddBillTemplate(params) {
-  const formData = new FormData();
+export  function AddBillTemplate(params) {
+  new Promise((resolve, reject) => {
+  resolve({status: 200});
+})
+  // const formData = new FormData();
 
-  // File uploads
-  if (params.logo_url) formData.append("logo_url", params.logo_url);
-  if (params.digital_signature_url) formData.append("digital_signature_url", params.digital_signature_url);
-  if (params.qr_url) formData.append("qr_url", params.qr_url);
+  // // File uploads
+  // if (params.logo_url) formData.append("logo_url", params.logo_url);
+  // if (params.digital_signature_url) formData.append("digital_signature_url", params.digital_signature_url);
+  // if (params.qr_url) formData.append("qr_url", params.qr_url);
 
-  // Text fields
-  if (params.is_logo_specific_template) formData.append("is_logo_specific_template", params.is_logo_specific_template);
-  if (params.contact_number) formData.append("contact_number", params.contact_number);
-  if (params.is_contact_specific_template) formData.append("is_contact_specific_template", params.is_contact_specific_template);
-  if (params.email) formData.append("email", params.email);
-  if (params.is_email_specific_template) formData.append("is_email_specific_template", params.is_email_specific_template);
-  if (params.is_signature_specific_template) formData.append("is_signature_specific_template", params.is_signature_specific_template);
-  if (params.hostel_Id) formData.append("hostel_Id", params.hostel_Id);
-  if (params.id) formData.append("id", params.id);
-  if (params.prefix) formData.append("prefix", params.prefix);
-  if (params.suffix) formData.append("suffix", params.suffix);
-  if (params.banking_id) formData.append("banking_id", params.banking_id);
-  if (params.tax) formData.append("tax", params.tax);
-  if (params.notes) formData.append("notes", params.notes);
-  if (params.terms_and_condition) formData.append("terms_and_condition", params.terms_and_condition);
-  if (params.template_theme) formData.append("template_theme", params.template_theme);
+  // // Text fields
+  // if (params.is_logo_specific_template) formData.append("is_logo_specific_template", params.is_logo_specific_template);
+  // if (params.contact_number) formData.append("contact_number", params.contact_number);
+  // if (params.is_contact_specific_template) formData.append("is_contact_specific_template", params.is_contact_specific_template);
+  // if (params.email) formData.append("email", params.email);
+  // if (params.is_email_specific_template) formData.append("is_email_specific_template", params.is_email_specific_template);
+  // if (params.is_signature_specific_template) formData.append("is_signature_specific_template", params.is_signature_specific_template);
+  // if (params.hostel_Id) formData.append("hostel_Id", params.hostel_Id);
+  // if (params.id) formData.append("id", params.id);
+  // if (params.prefix) formData.append("prefix", params.prefix);
+  // if (params.suffix) formData.append("suffix", params.suffix);
+  // if (params.banking_id) formData.append("banking_id", params.banking_id);
+  // if (params.tax) formData.append("tax", params.tax);
+  // if (params.notes) formData.append("notes", params.notes);
+  // if (params.terms_and_condition) formData.append("terms_and_condition", params.terms_and_condition);
+  // if (params.template_theme) formData.append("template_theme", params.template_theme);
 
-  try {
-    const response = await AxiosConfig.post("/BillTemplateSetting", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-      timeout: 100000000,
+  // try {
+  //   const response = await AxiosConfig.post("/BillTemplateSetting", formData, {
+  //     headers: {
+  //       "Content-Type": "multipart/form-data",
+  //     },
+  //     timeout: 100000000,
      
-    });
+  //   });
 
-    return response.data;
-  } catch (error) {
-    console.error("Error uploading bill template:", error);
-  }
+  //   return response.data;
+  // } catch (error) {
+  //   console.error("Error uploading bill template:", error);
+  // }
 }
 
 // v1
@@ -803,9 +844,12 @@ export async function AddGlobalSettingTemplate(params) {
 
 
 
-export async function SettingsGetGlobal(datum) {
-  return await AxiosConfig.post("/FetchTemplateList", datum, {
-    data: datum,
-  });
+export  function SettingsGetGlobal(datum) {
+  new Promise((resolve, reject) => {
+  resolve({status: 200});
+})
+  // return await AxiosConfig.post("/FetchTemplateList", datum, {
+  //   data: datum,
+  // });
 }
 

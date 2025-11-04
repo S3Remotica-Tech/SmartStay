@@ -41,8 +41,8 @@ function* handleAddBooking(action) {
      
     };
 
-    if (response.status === 200 ){
-      yield put ({type : 'ADD_USER_BOOKING' , payload:{response:response.data, statusCode:response.status}})
+    if (response?.status === 200 ){
+      yield put ({type : 'ADD_USER_BOOKING' , payload:{response:response.data, statusCode:response?.status}})
       toast.success(`${response.data}`, {
         position: "bottom-center",
         autoClose: 2000,
@@ -56,17 +56,17 @@ function* handleAddBooking(action) {
      });
     }
 
-    else if(response.statusCode === 202 ) {
-      yield put({ type: 'BOOKING_EMAIL_ERROR', payload: response.message });
-   }
+   //  else if(response?.status === 202 ) {
+   //    yield put({ type: 'BOOKING_EMAIL_ERROR', payload: response.message });
+   // }
 
-    else if(response.statusCode === 203 )  {   
-      yield put({ type: 'BOOKING_PHONE_ERROR', payload: response.message });
-   }
+   //  else if(response?.status === 203 )  {   
+   //    yield put({ type: 'BOOKING_PHONE_ERROR', payload: response.message });
+   // }
   
-    else {
-       yield put ({type:'ERROR_BOOKING', payload:response.message})
-    }
+   //  else {
+   //     yield put ({type:'ERROR_BOOKING', payload:response.message})
+   //  }
     if(response){
        refreshToken(response)
     }
@@ -91,11 +91,11 @@ function* handleAddBooking(action) {
    try{
    const response = yield call(GetAddBooking, action.payload)
    
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'BOOKING_LIST', payload:{response: response.data, statusCode:response.status || response.statusCode}})
+   if (response?.status === 200 ) {
+      yield put({ type: 'BOOKING_LIST', payload:{response: response.data, statusCode:response?.status}})
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload:  response?.data?.message })
    }
    if(response){
       refreshToken(response)
@@ -129,12 +129,12 @@ function* handleDeleteBooking(action) {
     
    };
  
-   if (response.status === 200 || response.statusCode === 200) {
+   if (response?.status === 200 ) {
      yield put({
        type: "DELETE_BOOKING",
        payload: {
          response: response.data,
-         statusCode: response.status || response.statusCode,
+         statusCode: response?.status ,
        },
      });
      toast.success("Deleted successfully", {
@@ -148,8 +148,8 @@ function* handleDeleteBooking(action) {
        progress: undefined,
        style: toastStyle,
      });
-   } else if (response.status === 201 || response.statusCode === 201) {
-     yield put({ type: "DELETE_BOOKING_ERROR", payload: response.data.message });
+   } else if (response?.status === 201) {
+     yield put({ type: "DELETE_BOOKING_ERROR", payload:  response?.data?.message });
     
    }
    if (response) {
@@ -184,8 +184,8 @@ catch(error){
 
    
 
-   if (response.status === 200 || response.data.statusCode === 200 || response.data.status === 200 ){
-      yield put ({type : 'ASSIGN_USER_BOOKING' , payload:{response:response.data, statusCode: response.data.statusCode || response.status === 200  ||  response.data.status  }})
+   if (response?.status === 200 ){
+      yield put ({type : 'ASSIGN_USER_BOOKING' , payload:{response:response.data, statusCode:  response?.status === 200  }})
       toast.success(`${response.data.message}`, {
         position: "bottom-center",
         autoClose: 2000,
@@ -198,12 +198,12 @@ catch(error){
         style: toastStyle,
      });
    }
-    else if(response.status === 201 || response.data.statusCode === 201 || response.data.status === 201) {
+    else if(response?.status === 201) {
       yield put ({type:'ERROR_BOOKING_DATE', payload:response.data.message})
    }
-   else  if(response.status === 202 || response.data.statusCode === 202 || response.data.status === 202) {
+   else  if(response?.status === 202 ) {
       yield put ({type:'ERROR_ASSIGN_BOOKING', payload:response.data.message})
-   }else  if(response.status === 203 || response.data.statusCode === 203 || response.data.status === 203) {
+   }else  if(response?.status === 203 ) {
       yield put ({type:'ALREADY_MOBILE_ERROR', payload:response.data.message})
    }
      if(response){
@@ -224,11 +224,11 @@ catch(error){
 function* handleBookingBed(userDetails){
    try{
    const response = yield call(assignBookingBed,userDetails.payload)
-   if(response.status === 200 || response.statusCode === 200){
-      yield put({ type: 'BOOKING_BED_DETAILS', payload: response.data,statusCode:response.status || response.statusCode })
+   if(response?.status === 200 ){
+      yield put({ type: 'BOOKING_BED_DETAILS', payload: response.data,statusCode:response?.status })
    }
    else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload:  response?.data?.message })
    }
    if(response){
       refreshToken(response)
@@ -270,8 +270,8 @@ function* handleBookingInActive(action) {
      
     };
    
-   if (response.status === 200) {
-      yield put({ type: 'BOOKING_INACTIVE', payload:{response: response.data, statusCode:response.status}})
+   if (response?.status === 200) {
+      yield put({ type: 'BOOKING_INACTIVE', payload:{response: response.data, statusCode:response?.status}})
 
         toast.success(`${response.data}`, {
         position: "bottom-center",
@@ -308,8 +308,8 @@ catch(error){
        const refreshTokenGet = response.data.refresh_token
        const cookies = new Cookies()
        cookies.set('token', refreshTokenGet, { path: '/' });
-    }else if (response.status === 206) {
-      const message = response.status
+    }else if (response?.status === 206) {
+      const message = response?.status
       const cookies = new Cookies()
       
       cookies.set('access-denied', message, { path: '/' });

@@ -60,9 +60,9 @@ import { useSelector } from "react-redux";
 
 
 const checkPermission = (roleData, moduleName, action = "canRead") => {
-  if (!roleData || !Array.isArray(roleData.rolesPermissionDetails)) return false;
+  if (!roleData || !Array.isArray(roleData?.rolesPermissionDetails)) return false;
 
-  const module = roleData.rolesPermissionDetails.find(
+  const module = roleData?.rolesPermissionDetails.find(
     (m) => m.moduleName === moduleName
   );
 
@@ -72,7 +72,7 @@ const checkPermission = (roleData, moduleName, action = "canRead") => {
 export const useHasPermission = (moduleName) => {
   const roleData = useSelector((state) => state.AssetList.getPermissionRoleList);
 
-
+console.log("roleData",roleData)
   const canWriteSubscription = checkPermission(roleData, "Subscription", "canWrite");
   const canReadSubscription = checkPermission(roleData, "Subscription", "canRead");
   const canUpdateSubscription = checkPermission(roleData, "Subscription", "canUpdate");

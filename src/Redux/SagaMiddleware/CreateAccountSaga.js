@@ -26,8 +26,8 @@ function* CreateNewAccount(args) {
 
     };
 
-    if (response.status === 201 || response.statusCode === 201) {
-      yield put({ type: 'CREATEACCOUNTPAGE', payload: { response: response.data, statusCode: response.status || response.statusCode } });
+    if (response?.status === 201 ) {
+      yield put({ type: 'CREATEACCOUNTPAGE', payload: { response: response.data, statusCode: response?.status } });
 
       toast.success('created successfully', {
         position: "bottom-center",
@@ -63,10 +63,10 @@ function* CreateAccountPage(action) {
   try {
     const response = yield call(CreateAccountAction, action.payload);
 
-    if (response.statusCode === 200 || response.status === 200) {
+    if ( response?.status === 200) {
       yield put({
         type: 'CREATEACCOUNT',
-        payload: { response: response.data, statusCode: response.statusCode || response.status }
+        payload: { response: response.data, statusCode:  response?.status }
       });
 
 
@@ -88,10 +88,10 @@ function* ProfileUpdate(action) {
     const response = yield call(UpdateProfile, action.payload);
 
 
-    if (response.statusCode === 200 || response.status === 200) {
+    if ( response?.status === 200) {
       yield put({
         type: 'PROFILEUPDATE',
-        payload: { response: response.data, statusCode: response.statusCode || response.status }
+        payload: { response: response.data, statusCode:  response?.status }
       });
 
 
@@ -144,10 +144,10 @@ function* handlepasswordUpdate(action) {
     const response = yield call(UpdatePassword, action.payload);
 
 
-    if (response.statusCode === 200 || response.status === 200) {
+    if (response?.status === 200) {
       yield put({
         type: 'PASSWORD-UPDATE',
-        payload: { response: response.data, statusCode: response.statusCode || response.status, message: response.data.message }
+        payload: { response: response.data, statusCode: response?.status, message:  response?.data?.message }
 
       });
 
@@ -191,8 +191,8 @@ function* HandleTwoStepVerification(action) {
   try {
     const response = yield call(TwoStepVerification, action.payload)
 
-    if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'TWO_STEP_VERIFY', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+    if (response?.status === 200 ) {
+      yield put({ type: 'TWO_STEP_VERIFY', payload: { response: response.data, statusCode: response?.status  } })
       var toastStyle = {
         backgroundColor: "#E6F6E6",
         color: "black",
@@ -222,7 +222,7 @@ function* HandleTwoStepVerification(action) {
       })
     }
     else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload:  response?.data?.message })
     }
     if (response) {
       refreshToken(response)
@@ -241,11 +241,11 @@ function* handleAccountDetails(args) {
   try {
     const response = yield call(AccountDetails, args.payload)
 
-    if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'ACCOUNT_DETAILS', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+    if (response?.status === 200 ) {
+      yield put({ type: 'ACCOUNT_DETAILS', payload: { response: response.data, statusCode: response?.status  } })
     }
     else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload:  response?.data?.message })
     }
     if (response) {
       refreshToken(response)
@@ -263,10 +263,10 @@ function* handleAccountDetails(args) {
 function* handlenotificationlist(action) {
   const response = yield call(GetAllNotification, action.payload);
 
-  if (response.status === 200 || response.statusCode === 200) {
+  if (response?.status === 200 ) {
     yield put({ type: 'ALL_NOTIFICATION_LIST', payload: response.data.notification })
 
-  } else if (response.status === 401 || response.statusCode === 401) {
+  } else if (response?.status === 401 ) {
 
     Swal.fire({
       icon: 'warning',
@@ -275,7 +275,7 @@ function* handlenotificationlist(action) {
     });
   }
   else {
-    yield put({ type: 'ERROR', payload: response.data.message })
+    yield put({ type: 'ERROR', payload:  response?.data?.message })
   }
   refreshToken(response)
 }
@@ -284,24 +284,24 @@ function* handlenotificationlist(action) {
 function* HandleUpdateNotification(action) {
   const response = yield call(UpdateNotification, action.payload)
 
-  if (response.status === 200 || response.statusCode === 200) {
+  if (response?.status === 200 ) {
 
-    yield put({ type: 'UPDATE_NOTIFICATION', payload: { response: response.data.message, statusCode: response.status || response.statusCode } })
+    yield put({ type: 'UPDATE_NOTIFICATION', payload: { response: response.data.message, statusCode: response?.status } })
 
   }
   else {
-    yield put({ type: 'ERROR', payload: response.data.message })
+    yield put({ type: 'ERROR', payload:  response?.data?.message })
   }
   refreshToken(response)
 }
 
 function refreshToken(response) {
-  if (response.data && response.data.refresh_token) {
-    const refreshTokenGet = response.data.refresh_token
+  if (response?.data && response.data?.refresh_token) {
+    const refreshTokenGet = response.data?.refresh_token
     const cookies = new Cookies()
     cookies.set('token', refreshTokenGet, { path: '/' });
-  } else if (response.status === 206) {
-    const message = response.status
+  } else if (response?.status === 206) {
+    const message = response?.status
     const cookies = new Cookies()
     cookies.set('access-denied', message, { path: '/' });
 

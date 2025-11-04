@@ -64,10 +64,10 @@ export async function updateAsset(asset) {
   } 
 
   
-  export async function getHostelRooms(room) {
-    return await AxiosConfig.post('/list/rooms-list',room, {
-      data:room
-    })
+  export function getHostelRooms(room) {
+     new Promise((resolve, reject) => {
+  resolve({status: 200});
+})
   } 
 
  

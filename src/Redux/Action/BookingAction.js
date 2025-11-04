@@ -25,16 +25,16 @@ import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 //   if (datum.city) formData.append("city", datum.city)
 //   if (datum.pin_code) formData.append("pin_code", datum.pin_code)
 //   if (datum.state) formData.append("state", datum.state)
- 
+
 
 //   try {
-   
+
 //     const response = await AxiosConfig.post('/add_booking', formData, {
 //       headers: {
 //         'Content-type': 'multipart/form-data',
 //       },
 //       timeout: 100000000,
-      
+
 //     });
 
 //     return response.data;
@@ -73,17 +73,17 @@ import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 //   if (datum.bed_id) formData.append("bed_id", datum.bed_id)
 //   if (datum.customer_Id) formData.append("customer_Id", datum.customer_Id)
 //   if (datum.state) formData.append("state", datum.state)
-    
- 
+
+
 
 //   try {
-   
+
 //     const response = await AxiosConfig.post('/add_booking', formData, {
 //       headers: {
 //         'Content-type': 'multipart/form-data',
 //       },
 //       timeout: 100000000,
-      
+
 //     });
 
 //     return response.data;
@@ -98,43 +98,42 @@ import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 
 
 export async function AddBooking(booking) {
-    return await AxiosConfigV2.post(`/v2/customers/booking/${booking.hostelId}`,booking, {
-      data:booking
-    })
-  }
+  return await AxiosConfigV2.post(`/v2/customers/booking/${booking.hostelId}`, booking, {
+    data: booking
+  })
+}
 
 
 
 
-  export async function GetAddBooking(booking) {
-    return await AxiosConfig.post('/all_bookings',booking, {
-      data:booking
-    })
-  }
-  export async function DeleteBooking(datum) {
-    return await AxiosConfig.post("/delete_booking", datum, {
-      data: datum,
-    });
-  }
+export function GetAddBooking(booking) {
+  new Promise((resolve, reject) => {
+    resolve({ status: 200 });
+  })
+}
+export function DeleteBooking(datum) {
+  new Promise((resolve, reject) => {
+    resolve({ status: 200 });
+  })
+}
 
-  export async function assignBooking(datum){
-      const response =  await AxiosConfig.post('/assign_booking',datum,{
-        data:datum
-      }) 
-      return response
-    }
-
-
-    export async function assignBookingBed(datum){
-        return await AxiosConfig.post('/available_beds',datum,{
-          data:datum
-        })
-      }
+export function assignBooking(datum) {
+  new Promise((resolve, reject) => {
+    resolve({ status: 200 });
+  })
+}
 
 
-       export async function bookingInActive(book){
-      
-        return await AxiosConfigV2.put(`/v2/bookings/cancel/${book.customerId}`,book,{
-          data:book
-        })
-      }
+export function assignBookingBed(datum) {
+  new Promise((resolve, reject) => {
+    resolve({ status: 200 });
+  })
+}
+
+
+export async function bookingInActive(book) {
+
+  return await AxiosConfigV2.put(`/v2/bookings/cancel/${book.customerId}`, book, {
+    data: book
+  })
+}
