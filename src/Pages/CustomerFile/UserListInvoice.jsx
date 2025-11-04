@@ -23,7 +23,7 @@ import { useNavigate } from "react-router-dom";
 
 function UserListInvoice(props) {
   const state = useSelector((state) => state);
-  console.log("UserListInvoice",props)
+  console.log("UserListInvoice", props)
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -31,7 +31,7 @@ function UserListInvoice(props) {
   const [invoicerowsPerPage, setInvoicerowsPerPage] = useState(4);
   const [invoicecurrentPage, setinvoicecurrentPage] = useState(1);
   const [invoiceFilterddata, setinvoiceFilterddata] = useState([]);
-  const [tabletrue,setTableTrue] = useState(true)
+  const [tabletrue, setTableTrue] = useState(true)
   const [billMode, setBillMode] = useState("New Bill");
   const [showmanualinvoice, setShowManualInvoice] = useState(false);
   const [activeId, setActiveId] = useState(null);
@@ -42,12 +42,12 @@ function UserListInvoice(props) {
   // const canUpdateInvoice = useHasPermission("Bills", "canUpdate")
   // const canDeleteInvoice = useHasPermission("Bills", "canDelete")
 
-const {
-        canWriteModule: canWriteInvoice,
-        canReadModule: canReadInvoice,
-        // canUpdateModule: canUpdateInvoice,
-        canDeleteModule: canDeleteInvoice,
-      } = useHasPermission("Bills");
+  const {
+    canWriteModule: canWriteInvoice,
+    canReadModule: canReadInvoice,
+    canUpdateModule: canUpdateInvoice,
+    canDeleteModule: canDeleteInvoice,
+  } = useHasPermission("Bills");
 
 
 
@@ -104,7 +104,7 @@ const {
     return sorted;
   }, [currentRowinvoice, sortConfig]);
 
-  console.log("sortedData",sortedData)
+  console.log("sortedData", sortedData)
   const handleSort = (key, direction) => {
     setSortConfig({ key, direction });
   };
@@ -118,7 +118,7 @@ const {
     setinvoiceFilterddata(state.UsersList.customerdetails.invoiceResponseList);
   }, [state.UsersList.customerdetails.invoiceResponseList]);
 
-console.log("state.UsersList.invoiceResponseList",state.UsersList.customerdetails.invoiceResponseList)
+  console.log("state.UsersList.invoiceResponseList", state.UsersList.customerdetails.invoiceResponseList)
 
 
   const handleShowDots = (item, event) => {
@@ -146,7 +146,7 @@ console.log("state.UsersList.invoiceResponseList",state.UsersList.customerdetail
   const [BillsForm, setBillsForm] = useState(false)
 
   const handleEditBill = (item) => {
-    console.log("handleEditBill",item)
+    console.log("handleEditBill", item)
 
     props.handleEditItem(item)
     setBillsForm(false)
@@ -159,7 +159,7 @@ console.log("state.UsersList.invoiceResponseList",state.UsersList.customerdetail
     setBillMode("New Bill");
     // setTableTrue(false)
     // setBillsForm(true)
-      navigate('/create-bill', { state: { id: props.id } });
+    navigate('/create-bill', { state: { id: props.id } });
 
 
     // props.handleAddItem()
@@ -246,7 +246,7 @@ console.log("state.UsersList.invoiceResponseList",state.UsersList.customerdetail
             :
 
 
-           sortedData?.length > 0 ? (
+            sortedData?.length > 0 ? (
               <div
 
                 className='show-scrolls'
@@ -264,601 +264,673 @@ console.log("state.UsersList.invoiceResponseList",state.UsersList.customerdetail
                 {
                   tabletrue &&
 
-                   <Table
-                  responsive="md"
-                  style={{
-                    fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                    top: 0,
-                    zIndex: 1,
-                    borderRadius: 0
-                  }}
-                >
-                  <thead style={{
-                    fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 12, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                    top: 0,
-                    zIndex: 1
-                  }}>
-                    <tr className="" style={{ height: "30px" }}>
-                      <th
-                        style={{
-                          textAlign: "start",
-                          color: "#939393",
-                          fontWeight: 500,
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          paddingTop: "10px",
-                          paddingBottom: "10px",
-                          paddingLeft: "20px",
-                          whiteSpace: "nowrap"
-                        }}
-                      >
-                        <div className="d-flex gap-1 align-items-center justify-content-start">
-                          <div
-                            style={{
-                              display: "flex",
-                              flexDirection: "column",
-                              gap: "2px",
-                            }}
-                          >
-                            <ArrowUp2
-                              size="10"
-                              variant="Bold"
-                              color="#1E45E1"
-                              onClick={() => handleSort("Invoices", "asc")}
-                              style={{ cursor: "pointer" }}
-                            />
-                            <ArrowDown2
-                              size="10"
-                              variant="Bold"
-                              color="#1E45E1"
-                              onClick={() => handleSort("Invoices", "desc")}
-                              style={{ cursor: "pointer" }}
-                            />
-                          </div>
-                          Invoice Number
-                        </div>
-                      </th>
-                      <th
-                        style={{
-                          color: "#939393",
-                          fontWeight: 500,
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          paddingTop: "10px",
-                          paddingBottom: "10px",
-                          textAlign: "start",
-                          whiteSpace: "nowrap"
-                        }}
-                      >
-                        <div className="d-flex gap-1 align-items-center justify-content-start">
-                          <div
-                            style={{
-                              display: "flex",
-                              flexDirection: "column",
-                              gap: "2px",
-                            }}
-                          >
-                            <ArrowUp2
-                              size="10"
-                              variant="Bold"
-                              color="#1E45E1"
-                              onClick={() => handleSort("action", "asc")}
-                              style={{ cursor: "pointer" }}
-                            />
-                            <ArrowDown2
-                              size="10"
-                              variant="Bold"
-                              color="#1E45E1"
-                              onClick={() => handleSort("action", "desc")}
-                              style={{ cursor: "pointer" }}
-                            />
-                          </div>
-                          Invoice Type
-                        </div>
-                      </th>
-                      <th
-                        style={{
-                          color: "#939393",
-                          fontWeight: 500,
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          paddingTop: "10px",
-                          paddingBottom: "10px",
-                          textAlign: "start",
-                          whiteSpace: "nowrap"
-                        }}
-                      >
-                        <div className="d-flex gap-1 align-items-center justify-content-start">
-                          <div
-                            style={{
-                              display: "flex",
-                              flexDirection: "column",
-                              gap: "2px",
-                            }}
-                          >
-                            <ArrowUp2
-                              size="10"
-                              variant="Bold"
-                              color="#1E45E1"
-                              onClick={() => handleSort("Date", "asc")}
-                              style={{ cursor: "pointer" }}
-                            />
-                            <ArrowDown2
-                              size="10"
-                              variant="Bold"
-                              color="#1E45E1"
-                              onClick={() => handleSort("Date", "desc")}
-                              style={{ cursor: "pointer" }}
-                            />
-                          </div>
-                          Invoice Date
-                        </div>
-                      </th>
-                      <th
-                        style={{
-                          color: "#939393",
-                          fontWeight: 500,
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          paddingTop: "10px",
-                          paddingBottom: "10px",
-                          textAlign: "start",
-                          whiteSpace: "nowrap"
-                        }}
-                      >
-                        <div className="d-flex gap-1 align-items-center justify-content-start">
-                          <div
-                            style={{
-                              display: "flex",
-                              flexDirection: "column",
-                              gap: "2px",
-                            }}
-                          >
-                            <ArrowUp2
-                              size="10"
-                              variant="Bold"
-                              color="#1E45E1"
-                              onClick={() => handleSort("DueDate", "asc")}
-                              style={{ cursor: "pointer" }}
-                            />
-                            <ArrowDown2
-                              size="10"
-                              variant="Bold"
-                              color="#1E45E1"
-                              onClick={() => handleSort("DueDate", "desc")}
-                              style={{ cursor: "pointer" }}
-                            />
-                          </div>
-                          Due Date
-                        </div>
-                      </th>
-
-                      <th
-                        style={{
-                          color: "#939393",
-                          fontWeight: 500,
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          paddingTop: "10px",
-                          paddingBottom: "10px",
-                          textAlign: "start",
-                        }}
-                      >
-                        <div className="d-flex gap-1 align-items-center justify-content-start">
-                          <div
-                            style={{
-                              display: "flex",
-                              flexDirection: "column",
-                              gap: "2px",
-                            }}
-                          >
-                            <ArrowUp2
-                              size="10"
-                              variant="Bold"
-                              color="#1E45E1"
-                              onClick={() => handleSort("Amount", "asc")}
-                              style={{ cursor: "pointer" }}
-                            />
-                            <ArrowDown2
-                              size="10"
-                              variant="Bold"
-                              color="#1E45E1"
-                              onClick={() => handleSort("Amount", "desc")}
-                              style={{ cursor: "pointer" }}
-                            />
-                          </div>
-                          Amount
-                        </div>
-                      </th>
-                      <th
-                        style={{
-                          color: "#939393",
-                          fontWeight: 500,
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          paddingTop: "10px",
-                          paddingBottom: "10px",
-                          textAlign: "start",
-                        }}
-                      >
-                        <div className="d-flex gap-1 align-items-center justify-content-start">
-                          <div
-                            style={{
-                              display: "flex",
-                              flexDirection: "column",
-                              gap: "2px",
-                            }}
-                          >
-                            <ArrowUp2
-                              size="10"
-                              variant="Bold"
-                              color="#1E45E1"
-                              onClick={() => handleSort("BalanceDue", "asc")}
-                              style={{ cursor: "pointer" }}
-                            />
-                            <ArrowDown2
-                              size="10"
-                              variant="Bold"
-                              color="#1E45E1"
-                              onClick={() => handleSort("BalanceDue", "desc")}
-                              style={{ cursor: "pointer" }}
-                            />
-                          </div>
-                          Due
-                        </div>
-                      </th>
-
-                      <th
-                        style={{
-                          color: "#939393",
-                          fontWeight: 500,
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          paddingTop: "10px",
-                          paddingBottom: "10px",
-                          textAlign: "start",
-                        }}
-                      >
-                        <div className="d-flex gap-1 align-items-center justify-content-start">
-                          <div
-                            style={{
-                              display: "flex",
-                              flexDirection: "column",
-                              gap: "2px",
-                            }}
-                          >
-                            <ArrowUp2
-                              size="10"
-                              variant="Bold"
-                              color="#1E45E1"
-                              onClick={() => handleSort("status", "asc")}
-                              style={{ cursor: "pointer" }}
-                            />
-                            <ArrowDown2
-                              size="10"
-                              variant="Bold"
-                              color="#1E45E1"
-                              onClick={() => handleSort("status", "desc")}
-                              style={{ cursor: "pointer" }}
-                            />
-                          </div>
-                          Status
-                        </div>
-                      </th>
-                      <th style={{
-                        color: "#939393",
-                        fontWeight: 500,
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        paddingTop: "10px",
-                        paddingBottom: "10px",
-                        textAlign: "start",
-                      }}> Action</th>
-                    </tr>
-                  </thead>
-                  <tbody
+                  <Table
+                    responsive="md"
                     style={{
-                      height: "50px",
-                      fontSize: "11px",
-                      verticalAlign: "middle",
+                      fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                      top: 0,
+                      zIndex: 1,
+                      borderRadius: 0
                     }}
                   >
-                    {  sortedData?.map((view) => {
-                     
-
-                      let dueDated = new Date(view.DueDate);
-
-                      let daydue = dueDated.getDate();
-                      let monthdue = dueDated.getMonth() + 1;
-                      let yeardue = dueDated.getFullYear();
-
-                      let DueformattedDate = `${daydue}/${monthdue}/${yeardue}`;
-
-                      return (
-                        <tr key={view.id} style={{ marginTop: "20px" }}>
-                          <td
-                            style={{
-                              textAlign: "start",
-                              fontWeight: 500,
-                              fontSize: "13px",
-                              fontFamily: "Gilroy",
-                              borderBottom: "1px solid #E8E8E8",
-                            }}
-                            className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
-                          >
-                            <div style={{ marginLeft: 10 }}>  {view.invoiceNumber
-}</div>
-
-                          </td>
-                          <td
-                            style={{
-                              textAlign: "start",
-                              fontWeight: 500,
-                              fontSize: "13px",
-                              fontFamily: "Gilroy",
-                              paddingLeft: "20px", borderBottom: "1px solid #E8E8E8"
-                            }}
-                            className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
-                          >
-                            <div className="ps-1">
-                              {view.invoiceType}
+                    <thead style={{
+                      fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 12, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                      top: 0,
+                      zIndex: 1
+                    }}>
+                      <tr className="" style={{ height: "30px" }}>
+                        <th
+                          style={{
+                            textAlign: "start",
+                            color: "#939393",
+                            fontWeight: 500,
+                            fontSize: "12px",
+                            fontFamily: "Gilroy",
+                            paddingTop: "10px",
+                            paddingBottom: "10px",
+                            paddingLeft: "20px",
+                            whiteSpace: "nowrap"
+                          }}
+                        >
+                          <div className="d-flex gap-1 align-items-center justify-content-start">
+                            <div
+                              style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "2px",
+                              }}
+                            >
+                              <ArrowUp2
+                                size="10"
+                                variant="Bold"
+                                color="#1E45E1"
+                                onClick={() => handleSort("Invoices", "asc")}
+                                style={{ cursor: "pointer" }}
+                              />
+                              <ArrowDown2
+                                size="10"
+                                variant="Bold"
+                                color="#1E45E1"
+                                onClick={() => handleSort("Invoices", "desc")}
+                                style={{ cursor: "pointer" }}
+                              />
                             </div>
+                            Invoice Number
+                          </div>
+                        </th>
+                        <th
+                          style={{
+                            color: "#939393",
+                            fontWeight: 500,
+                            fontSize: "12px",
+                            fontFamily: "Gilroy",
+                            paddingTop: "10px",
+                            paddingBottom: "10px",
+                            textAlign: "start",
+                            whiteSpace: "nowrap"
+                          }}
+                        >
+                          <div className="d-flex gap-1 align-items-center justify-content-start">
+                            <div
+                              style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "2px",
+                              }}
+                            >
+                              <ArrowUp2
+                                size="10"
+                                variant="Bold"
+                                color="#1E45E1"
+                                onClick={() => handleSort("action", "asc")}
+                                style={{ cursor: "pointer" }}
+                              />
+                              <ArrowDown2
+                                size="10"
+                                variant="Bold"
+                                color="#1E45E1"
+                                onClick={() => handleSort("action", "desc")}
+                                style={{ cursor: "pointer" }}
+                              />
+                            </div>
+                            Invoice Type
+                          </div>
+                        </th>
+                        <th
+                          style={{
+                            color: "#939393",
+                            fontWeight: 500,
+                            fontSize: "12px",
+                            fontFamily: "Gilroy",
+                            paddingTop: "10px",
+                            paddingBottom: "10px",
+                            textAlign: "start",
+                            whiteSpace: "nowrap"
+                          }}
+                        >
+                          <div className="d-flex gap-1 align-items-center justify-content-start">
+                            <div
+                              style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "2px",
+                              }}
+                            >
+                              <ArrowUp2
+                                size="10"
+                                variant="Bold"
+                                color="#1E45E1"
+                                onClick={() => handleSort("Date", "asc")}
+                                style={{ cursor: "pointer" }}
+                              />
+                              <ArrowDown2
+                                size="10"
+                                variant="Bold"
+                                color="#1E45E1"
+                                onClick={() => handleSort("Date", "desc")}
+                                style={{ cursor: "pointer" }}
+                              />
+                            </div>
+                            Invoice Date
+                          </div>
+                        </th>
+                        <th
+                          style={{
+                            color: "#939393",
+                            fontWeight: 500,
+                            fontSize: "12px",
+                            fontFamily: "Gilroy",
+                            paddingTop: "10px",
+                            paddingBottom: "10px",
+                            textAlign: "start",
+                            whiteSpace: "nowrap"
+                          }}
+                        >
+                          <div className="d-flex gap-1 align-items-center justify-content-start">
+                            <div
+                              style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "2px",
+                              }}
+                            >
+                              <ArrowUp2
+                                size="10"
+                                variant="Bold"
+                                color="#1E45E1"
+                                onClick={() => handleSort("DueDate", "asc")}
+                                style={{ cursor: "pointer" }}
+                              />
+                              <ArrowDown2
+                                size="10"
+                                variant="Bold"
+                                color="#1E45E1"
+                                onClick={() => handleSort("DueDate", "desc")}
+                                style={{ cursor: "pointer" }}
+                              />
+                            </div>
+                            Due Date
+                          </div>
+                        </th>
 
-                          </td>
-                          <td style={{ textAlign: "start", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-2" >
-                            <span
+                        <th
+                          style={{
+                            color: "#939393",
+                            fontWeight: 500,
+                            fontSize: "12px",
+                            fontFamily: "Gilroy",
+                            paddingTop: "10px",
+                            paddingBottom: "10px",
+                            textAlign: "start",
+                          }}
+                        >
+                          <div className="d-flex gap-1 align-items-center justify-content-start">
+                            <div
                               style={{
-                                backgroundColor: "#EBEBEB",
-                                padding: "5px 20px",
-                                borderRadius: "14px",
-                                marginLeft: 4,
-                                lineHeight: "1.5em",
-                                margin: "0",
-                                fontSize: "11px",
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                                textAlign: "start"
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "2px",
                               }}
+                            >
+                              <ArrowUp2
+                                size="10"
+                                variant="Bold"
+                                color="#1E45E1"
+                                onClick={() => handleSort("Amount", "asc")}
+                                style={{ cursor: "pointer" }}
+                              />
+                              <ArrowDown2
+                                size="10"
+                                variant="Bold"
+                                color="#1E45E1"
+                                onClick={() => handleSort("Amount", "desc")}
+                                style={{ cursor: "pointer" }}
+                              />
+                            </div>
+                            Amount
+                          </div>
+                        </th>
+                        <th
+                          style={{
+                            color: "#939393",
+                            fontWeight: 500,
+                            fontSize: "12px",
+                            fontFamily: "Gilroy",
+                            paddingTop: "10px",
+                            paddingBottom: "10px",
+                            textAlign: "start",
+                          }}
+                        >
+                          <div className="d-flex gap-1 align-items-center justify-content-start">
+                            <div
+                              style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "2px",
+                              }}
+                            >
+                              <ArrowUp2
+                                size="10"
+                                variant="Bold"
+                                color="#1E45E1"
+                                onClick={() => handleSort("BalanceDue", "asc")}
+                                style={{ cursor: "pointer" }}
+                              />
+                              <ArrowDown2
+                                size="10"
+                                variant="Bold"
+                                color="#1E45E1"
+                                onClick={() => handleSort("BalanceDue", "desc")}
+                                style={{ cursor: "pointer" }}
+                              />
+                            </div>
+                            Due
+                          </div>
+                        </th>
 
-                            >
-                              {view?.invoiceGeneratedDate}
-                            </span>
-                          </td>
-                          <td style={{ textAlign: "start", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-2">
-                            <span
+                        <th
+                          style={{
+                            color: "#939393",
+                            fontWeight: 500,
+                            fontSize: "12px",
+                            fontFamily: "Gilroy",
+                            paddingTop: "10px",
+                            paddingBottom: "10px",
+                            textAlign: "start",
+                          }}
+                        >
+                          <div className="d-flex gap-1 align-items-center justify-content-start">
+                            <div
                               style={{
-                                backgroundColor: "#EBEBEB",
-                                padding: "5px 20px",
-                                borderRadius: "14px",
-                                marginLeft: 4,
-                                lineHeight: "1.5em",
-                                margin: "0",
-                                fontSize: "11px",
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "2px",
+                              }}
+                            >
+                              <ArrowUp2
+                                size="10"
+                                variant="Bold"
+                                color="#1E45E1"
+                                onClick={() => handleSort("status", "asc")}
+                                style={{ cursor: "pointer" }}
+                              />
+                              <ArrowDown2
+                                size="10"
+                                variant="Bold"
+                                color="#1E45E1"
+                                onClick={() => handleSort("status", "desc")}
+                                style={{ cursor: "pointer" }}
+                              />
+                            </div>
+                            Status
+                          </div>
+                        </th>
+                        <th style={{
+                          color: "#939393",
+                          fontWeight: 500,
+                          fontSize: "12px",
+                          fontFamily: "Gilroy",
+                          paddingTop: "10px",
+                          paddingBottom: "10px",
+                          textAlign: "start",
+                        }}> Action</th>
+                      </tr>
+                    </thead>
+                    <tbody
+                      style={{
+                        height: "50px",
+                        fontSize: "11px",
+                        verticalAlign: "middle",
+                      }}
+                    >
+                      {sortedData?.map((view) => {
+
+
+                        let dueDated = new Date(view.DueDate);
+
+                        let daydue = dueDated.getDate();
+                        let monthdue = dueDated.getMonth() + 1;
+                        let yeardue = dueDated.getFullYear();
+
+                        let DueformattedDate = `${daydue}/${monthdue}/${yeardue}`;
+
+                        return (
+                          <tr key={view.id} style={{ marginTop: "20px" }}>
+                            <td
+                              style={{
+                                textAlign: "start",
                                 fontWeight: 500,
+                                fontSize: "13px",
                                 fontFamily: "Gilroy",
-                                textAlign: "start"
+                                borderBottom: "1px solid #E8E8E8",
                               }}
+                              className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
                             >
-                              {view.dueDate}
-                            </span>
-                          </td>
-                          <td
-                            style={{
-                              fontWeight: 500,
-                              fontSize: "13px",
-                              fontFamily: "Gilroy",
-                              textAlign: "start"
-                              , borderBottom: "1px solid #E8E8E8"
-                            }}
-                            className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
-                          >
-                            {view?.totalAmount}
-                           </td>
-                         
-                          <td
-                            style={{
-                              fontWeight: 500,
-                              fontSize: "13px",
-                              fontFamily: "Gilroy",
-                              textAlign: "start",
-                              borderBottom: "1px solid #E8E8E8"
-                            }}
-                            className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
-                          >
-                            ₹{view.dueAmount}
-                          </td>
-                          <td style={{ textAlign: "start", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-2">
-                            <span
+                              <div style={{ marginLeft: 10 }}>  {view.invoiceNumber
+                              }</div>
+
+                            </td>
+                            <td
                               style={{
-                                color: "black",
-                                backgroundColor:
-                                  view.Status === "Success" ? "#D9FFD9" : "#FFD9D9",
-                                padding: "5px 20px",
-                                fontSize: "11px",
+                                textAlign: "start",
                                 fontWeight: 500,
-                                borderRadius: "14px",
-                                marginLeft: 4
+                                fontSize: "13px",
+                                fontFamily: "Gilroy",
+                                paddingLeft: "20px", borderBottom: "1px solid #E8E8E8"
                               }}
+                              className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
                             >
-                              {view.paymentStatus}
-                            </span>
-                          </td>
-                          <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none", borderBottom: "1px solid #E8E8E8" }} className=''>
-                            <div style={{ width: "100%", display: "flex", justifyContent: "start" }}>
-                              <div
+                              <div className="ps-1">
+                                {view.invoiceType}
+                              </div>
+
+                            </td>
+                            <td style={{ textAlign: "start", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-2" >
+                              <span
                                 style={{
-                                  cursor: "pointer",
-                                  height: 40,
-                                  width: 40,
-                                  borderRadius: 100,
-                                  border: "1px solid #EFEFEF",
-                                  display: "flex",
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                  position: "relative",
-                                  zIndex:
-                                    activeId === view.id
-                                      ? 1000
-                                      : "auto",
-                                  backgroundColor:
-                                    activeId === view.id
-                                      ? "#E7F1FF"
-                                      : "white",
+                                  backgroundColor: "#EBEBEB",
+                                  padding: "5px 20px",
+                                  borderRadius: "14px",
+                                  marginLeft: 4,
+                                  lineHeight: "1.5em",
+                                  margin: "0",
+                                  fontSize: "11px",
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  textAlign: "start"
                                 }}
-                                onClick={(e) =>
-                                  handleShowDots(view, e)
-                                }
+
                               >
-                                <PiDotsThreeOutlineVerticalFill
-                                  style={{ height: 20, width: 20 }}
-                                />
-                                {activeId === view.id && (
-                                  <div
-                                    ref={popupRef}
-                                    className="ven-popup showdots-btn"
+                                {view?.invoiceGeneratedDate}
+                              </span>
+                            </td>
+                            <td style={{ textAlign: "start", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-2">
+                              <span
+                                style={{
+                                  backgroundColor: "#EBEBEB",
+                                  padding: "5px 20px",
+                                  borderRadius: "14px",
+                                  marginLeft: 4,
+                                  lineHeight: "1.5em",
+                                  margin: "0",
+                                  fontSize: "11px",
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  textAlign: "start"
+                                }}
+                              >
+                                {view.dueDate}
+                              </span>
+                            </td>
+                            <td
+                              style={{
+                                fontWeight: 500,
+                                fontSize: "13px",
+                                fontFamily: "Gilroy",
+                                textAlign: "start"
+                                , borderBottom: "1px solid #E8E8E8"
+                              }}
+                              className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
+                            >
+                              {view?.totalAmount}
+                            </td>
+
+                            <td
+                              style={{
+                                fontWeight: 500,
+                                fontSize: "13px",
+                                fontFamily: "Gilroy",
+                                textAlign: "start",
+                                borderBottom: "1px solid #E8E8E8"
+                              }}
+                              className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
+                            >
+                              ₹{view.dueAmount}
+                            </td>
+                            <td style={{ textAlign: "start", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-2">
+                              <span
+                                style={{
+
+
+                                  padding: "5px 20px",
+                                  fontSize: "11px",
+                                  fontWeight: 500,
+                                  borderRadius: "14px",
+                                  marginLeft: 4
+                                }}
+                              >
+                                {(view.paymentStatus === "Pending" ||
+                                  view.paymentStatus === "Partial Payment") && (
+                                    <span
+                                      style={{
+                                        backgroundColor: "#FFD9D9",
+                                        color: "#000",
+                                        borderRadius: "14px",
+                                        fontFamily: "Gilroy",
+                                        padding: "8px 12px",
+                                      }}
+                                    >
+                                      {view.paymentStatus}
+                                    </span>
+                                  )}
+
+
+                                {view.paymentStatus === "Paid" && (
+                                  <span
                                     style={{
                                       cursor: "pointer",
-                                      backgroundColor: "#F9F9F9",
-                                      position: "fixed",
-                                      top: popupPosition.top,
-                                      left: popupPosition.left,
-                                      width: 160,
-                                      height: "auto",
-                                      border: "1px solid #EBEBEB",
-                                      borderRadius: 10,
-                                      display: "flex",
-                                      flexDirection: "column",
-                                      padding: 0,
-                                      alignItems: "flex-start",
-                                      zIndex: 1000,
+                                      backgroundColor: "#D9FFD9",
+                                      fontFamily: "Gilroy",
+                                      color: "#000",
+                                      borderRadius: "14px",
+                                      padding: "8px 12px",
                                     }}
                                   >
-                                    <div style={{ width: "100%", backgroundColor: "#F9F9F9", borderRadius: 10 }}>
-
-                                      <div
-                                        onClick={() => {
-                                          if (canUpdateInvoice) {
-                                            handleEditBill(view);
-                                          }
-                                        }}
-                                        onMouseEnter={(e) => {
-                                          e.currentTarget.style.backgroundColor = "#EDF2FF";
-                                        }}
-                                        onMouseLeave={(e) => {
-                                          e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                        }}
-                                        style={{
-                                          display: "flex",
-                                          alignItems: "center",
-                                          gap: "10px",
-                                          padding: "8px 12px",
-                                          width: "100%",
-                                          backgroundColor: "#F9F9F9",
-                                          cursor: !canUpdateInvoice ? "not-allowed" : "pointer",
-
-                                          opacity: !canUpdateInvoice ? 0.5 : 1,
-                                          borderTopLeftRadius: 10,
-                                          borderTopRightRadius: 10,
-                                        }}
-                                      >
-                                        <img
-                                          src={Edit}
-                                          style={{
-                                            height: 16,
-                                            width: 16,
-                                            filter: !canUpdateInvoice ? "grayscale(100%)" : "none",
-                                          }}
-                                          alt="Edit"
-                                        />
-                                        <label
-                                          style={{
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy, sans-serif",
-                                            color: !canUpdateInvoice ? "#ccc" : "#222222",
-                                            cursor: !canUpdateInvoice ? "not-allowed" : "pointer",
-                                          }}
-                                        >
-                                          Edit
-                                        </label>
-                                      </div>
-
-
-                                      <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
-
-
-                                      <div
-                                        onClick={() => {
-                                          if (canDeleteInvoice) {
-                                            handleDeleteBill(view);
-                                          }
-                                        }}
-                                        onMouseEnter={(e) => {
-                                                                                      e.currentTarget.style.backgroundColor = "#FFF0F0";
-                                        }}
-                                        onMouseLeave={(e) => {
-                                          e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                        }}
-                                        style={{
-                                          display: "flex",
-                                          alignItems: "center",
-                                          gap: "10px",
-                                          padding: "8px 12px",
-                                          width: "100%",
-                                          backgroundColor: "#F9F9F9",
-                                          cursor: !canDeleteInvoice ? "not-allowed" : "pointer",
-                                          opacity: !canDeleteInvoice ? 0.5 : 1,
-                                          borderBottomLeftRadius: 10,
-                                          borderBottomRightRadius: 10,
-                                        }}
-                                      >
-                                        <img
-                                          src={Delete}
-                                          style={{
-                                            height: 16,
-                                            width: 16,
-                                            filter: !canDeleteInvoice ? "grayscale(100%)" : "none",
-                                          }}
-                                          alt="Delete"
-                                        />
-                                        <label
-                                          style={{
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy, sans-serif",
-                                            color: !canDeleteInvoice ? "#ccc" : "#FF0000",
-                                            cursor: !canDeleteInvoice ? "not-allowed" : "pointer",
-                                          }}
-                                        >
-                                          Delete
-                                        </label>
-                                      </div>
-                                    </div>
-                                  </div>
-
+                                    {view.paymentStatus}
+                                  </span>
                                 )}
 
 
+                                {view.paymentStatus === "Refunded" && (
+                                  <span
+                                    style={{
+                                      backgroundColor: "#FFF3CD",
+                                      color: "#8B8000",
+                                      borderRadius: "14px",
+                                      fontFamily: "Gilroy",
+                                      padding: "8px 12px",
+                                    }}
+                                  >
+                                    {view.paymentStatus}
+                                  </span>
+                                )}
 
+
+                                {view.paymentStatus === "Refund" && (
+                                  <span
+                                    style={{
+                                      backgroundColor: "#FFE6B3",
+                                      color: "#b45309",
+                                      borderRadius: "14px",
+                                      fontFamily: "Gilroy",
+                                      padding: "8px 12px",
+                                    }}
+                                  >
+                                    {view.paymentStatus}
+                                  </span>
+                                )}
+                                {view?.isCancelled && (
+                                  <span
+                                    style={{
+                                      backgroundColor: "#FFE6B3",
+                                      color: "#b45309",
+                                      borderRadius: "14px",
+                                      fontFamily: "Gilroy",
+                                      padding: "8px 12px",
+                                    }}
+                                  >
+                                    Cancelled
+                                  </span>
+                                )
+                                }
+                              </span>
+                            </td>
+                            <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none", borderBottom: "1px solid #E8E8E8" }} className=''>
+                              <div style={{ width: "100%", display: "flex", justifyContent: "start" }}>
+                                <div
+                                  style={{
+                                    cursor: "pointer",
+                                    height: 40,
+                                    width: 40,
+                                    borderRadius: 100,
+                                    border: "1px solid #EFEFEF",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    position: "relative",
+                                    zIndex:
+                                      activeId === view.id
+                                        ? 1000
+                                        : "auto",
+                                    // backgroundColor:
+                                    //   activeId === view.id
+                                    //     ? "#E7F1FF"
+                                    //     : "white",
+                                  }}
+                                  onClick={(e) =>
+                                    handleShowDots(view, e)
+                                  }
+                                >
+                                  <PiDotsThreeOutlineVerticalFill
+                                    style={{ height: 20, width: 20 }}
+                                  />
+                                  {activeId === view.id && (
+                                    <div
+                                      ref={popupRef}
+                                      className="ven-popup showdots-btn"
+                                      style={{
+                                        cursor: "pointer",
+                                        backgroundColor: "#F9F9F9",
+                                        position: "fixed",
+                                        top: popupPosition.top,
+                                        left: popupPosition.left,
+                                        width: 160,
+                                        height: "auto",
+                                        border: "1px solid #EBEBEB",
+                                        borderRadius: 10,
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        padding: 0,
+                                        alignItems: "flex-start",
+                                        zIndex: 1000,
+                                      }}
+                                    >
+                                      <div style={{ width: "100%", backgroundColor: "#F9F9F9", borderRadius: 10 }}>
+
+                                        <div
+                                          onClick={() => {
+                                            if (canUpdateInvoice) {
+                                              handleEditBill(view);
+                                            }
+                                          }}
+                                          onMouseEnter={(e) => {
+                                            e.currentTarget.style.backgroundColor = "#EDF2FF";
+                                          }}
+                                          onMouseLeave={(e) => {
+                                            e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                          }}
+                                          style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            gap: "10px",
+                                            padding: "8px 12px",
+                                            width: "100%",
+                                            backgroundColor: "#F9F9F9",
+                                            cursor: !canUpdateInvoice ? "not-allowed" : "pointer",
+
+                                            opacity: !canUpdateInvoice ? 0.5 : 1,
+                                            borderTopLeftRadius: 10,
+                                            borderTopRightRadius: 10,
+                                          }}
+                                        >
+                                          <img
+                                            src={Edit}
+                                            style={{
+                                              height: 16,
+                                              width: 16,
+                                              filter: !canUpdateInvoice ? "grayscale(100%)" : "none",
+                                            }}
+                                            alt="Edit"
+                                          />
+                                          <label
+                                            style={{
+                                              fontSize: 14,
+                                              fontWeight: 600,
+                                              fontFamily: "Gilroy, sans-serif",
+                                              color: !canUpdateInvoice ? "#ccc" : "#222222",
+                                              cursor: !canUpdateInvoice ? "not-allowed" : "pointer",
+                                            }}
+                                          >
+                                            Edit
+                                          </label>
+                                        </div>
+
+
+                                        <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
+
+
+                                        <div
+                                          onClick={() => {
+                                            if (canDeleteInvoice) {
+                                              handleDeleteBill(view);
+                                            }
+                                          }}
+                                          onMouseEnter={(e) => {
+                                            e.currentTarget.style.backgroundColor = "#FFF0F0";
+                                          }}
+                                          onMouseLeave={(e) => {
+                                            e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                          }}
+                                          style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            gap: "10px",
+                                            padding: "8px 12px",
+                                            width: "100%",
+                                            backgroundColor: "#F9F9F9",
+                                            cursor: !canDeleteInvoice ? "not-allowed" : "pointer",
+                                            opacity: !canDeleteInvoice ? 0.5 : 1,
+                                            borderBottomLeftRadius: 10,
+                                            borderBottomRightRadius: 10,
+                                          }}
+                                        >
+                                          <img
+                                            src={Delete}
+                                            style={{
+                                              height: 16,
+                                              width: 16,
+                                              filter: !canDeleteInvoice ? "grayscale(100%)" : "none",
+                                            }}
+                                            alt="Delete"
+                                          />
+                                          <label
+                                            style={{
+                                              fontSize: 14,
+                                              fontWeight: 600,
+                                              fontFamily: "Gilroy, sans-serif",
+                                              color: !canDeleteInvoice ? "#ccc" : "#FF0000",
+                                              cursor: !canDeleteInvoice ? "not-allowed" : "pointer",
+                                            }}
+                                          >
+                                            Delete
+                                          </label>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                  )}
+
+
+
+                                </div>
                               </div>
-                            </div>
 
+                            </td>
+                          </tr>
+                        );
+                      })}
+                      {currentRowinvoice?.length === 0 && (
+                        <tr>
+                          <td colSpan="6" style={{ textAlign: "center", color: "red" }}>
+                            No data found
                           </td>
                         </tr>
-                      );
-                    })}
-                    {currentRowinvoice?.length === 0 && (
-                      <tr>
-                        <td colSpan="6" style={{ textAlign: "center", color: "red" }}>
-                          No data found
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </Table>
+                      )}
+                    </tbody>
+                  </Table>
 
                 }
-               
+
               </div>
             ) : <div>
               <div style={{ textAlign: "center" }}>
