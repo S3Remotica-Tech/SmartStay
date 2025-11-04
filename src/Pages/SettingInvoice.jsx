@@ -1433,9 +1433,9 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
       {showform &&
 
         <>
-          <Row style={{ backgroundColor: "", height:"100vh" }}  >
+          <Row className="" style={{ backgroundColor: "", height:"100vh" }}  >
             <Col md={4}
-              className="ps-0"
+              className="ps-0 "
             >
               <div
                 className="bg-white"
@@ -1449,7 +1449,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
                 }}
               >
                 <h4
-                  className="mb-2"
+                  className="mb-2 pt-2"
                   style={{
                     fontFamily: "Gilroy",
                     fontSize: 22,
@@ -2397,7 +2397,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
               </div>
             </Col>
 
-            <Col md={8} className="p-1">
+            <Col md={8} className="p-0">
               {
                 selectedTab === "rental_invoice" &&
 
