@@ -4,7 +4,15 @@ import Cookies from "universal-cookie";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+function* handleApiError(error) {
+   if (error?.status === 401 || error?.response?.status === 401) {
+      yield put({
+         type: "UN-AUTHORIZED",
+         payload: "Access Denied",
+      });
+   }
 
+}
 
 function* handleUpdateBed(datum) {
   try {
@@ -50,6 +58,7 @@ function* handleUpdateBed(datum) {
     }
   }
   catch (error) {
+      yield* handleApiError(error);
     if (error.code === 'ERR_BAD_REQUEST') {
       if (error.status === 409) {
         yield put({ type: 'ALREADY_BED', payload: error.response.data });
@@ -76,6 +85,7 @@ function* handleGetAllRooms(action) {
     }
   }
   catch (error) {
+      yield* handleApiError(error);
     if (error.code === 'ERR_NETWORK') {
       yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
     } else {
@@ -99,6 +109,7 @@ function* handleGetAllBed(action) {
     }
   }
   catch (error) {
+      yield* handleApiError(error);
     if (error.code === 'ERR_NETWORK') {
       yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
     } else {
@@ -180,6 +191,7 @@ function* handlePgList(datum) {
     }
   }
   catch (error) {
+      yield* handleApiError(error);
     if (error.code === 'ERR_NETWORK') {
       yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
     } else {
@@ -236,6 +248,7 @@ function* handleCreateRoom(datum) {
     }
   }
   catch (error) {
+      yield* handleApiError(error);
     if (error.code === 'ERR_BAD_REQUEST') {
       if (error.status === 409) {
         yield put({ type: 'ALREADY_ROOM_ERROR', payload: error.response.data });
@@ -291,6 +304,7 @@ function* handleUpdateRoom(datum) {
     }
   }
   catch (error) {
+      yield* handleApiError(error);
     if (error.code === 'ERR_BAD_REQUEST') {
       if (error.status === 409) {
         yield put({ type: 'ALREADY_ROOM_ERROR', payload: error.response.data });
@@ -561,7 +575,7 @@ function* handleCreateBed(action) {
   }
   catch (error) {
 
-
+  yield* handleApiError(error);
     if (error.code === 'ERR_BAD_REQUEST') {
       if (error.status === 409) {
         yield put({ type: 'ALREADY_BED', payload: error.response.data });
@@ -573,6 +587,7 @@ function* handleCreateBed(action) {
 }
 
 function* handleDeleteBed(action) {
+  try{
   const response = yield call(DeleteBed, action.payload);
 
   var toastStyle = {
@@ -616,6 +631,10 @@ function* handleDeleteBed(action) {
   }
   if (response) {
     refreshToken(response);
+  }
+}
+  catch(error){
+      yield* handleApiError(error);
   }
 }
 

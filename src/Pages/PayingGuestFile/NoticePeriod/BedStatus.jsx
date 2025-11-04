@@ -657,7 +657,7 @@ handleDisplayCheckInForm(true)
 {/* Change bed */}
                             <div
                               className="d-flex gap-2 align-items-center"
-                              onClick={canWriteCustomers ? () => handleChangeBed(currentItem) : undefined}
+                              // onClick={canWriteCustomers ? () => handleChangeBed(currentItem) : undefined}
 
                               style={{
                                 padding: "10px",
