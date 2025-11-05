@@ -99,7 +99,7 @@ function* handleAddExpense(action) {
 
       if (response?.status === 201 ) {
          yield put({ type: 'ADD_EXPENSE', payload: { response: response.data.data, statusCode: response?.status  } })
-         toast.success(`${response.data.message}`, {
+         toast.success(`${response.data}`, {
             position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: true,
