@@ -30,7 +30,7 @@ function CheckIn({
     const dispatch = useDispatch();
     const bookingDateRef = useRef("");
 
-    const [joiningDate, setJoiningDate] = useState(null);
+    const [joiningDate, setJoiningDate] = useState(dayjs());
     const [fields, setFields] = useState([]);
     const [errors, setErrors] = useState([]);
     const [customer_name, setCustomerName] = useState("")
