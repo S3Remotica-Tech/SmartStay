@@ -7,7 +7,7 @@ import Dashboards from "../Pages/Dashboard";
 import PgLists from "../Pages/PayingGuestFile/PgList";
 import UserLists from "../Pages/CustomerFile/UserList";
 import EbHostel from "../Pages/ElectrictyFile/EB_Hostel";
-import Invoices from "../Pages/Invoice";
+import Invoices from "../Pages/Bills/Invoice";
 import Compliances from "../Pages/Compliance";
 import Report from "../Reports/Reports";
 import VendorComponent from "../Pages/VendorFIle/Vendor";
@@ -44,10 +44,8 @@ import Repo2 from "../Assets/Images/New_images/clipboard-text.png";
 import Banking from "../Pages/Banking";
 import bank from "../Assets/Images/New_images/bank.png";
 import bankblank from "../Assets/Images/New_images/blank_bank.png";
-import { ArrowUp2, ArrowDown2 } from "iconsax-react";
+import { ArrowUp2, ArrowDown2, Chart2 } from "iconsax-react";
 import SettingAllPages from "../Pages/SettingAllPages";
-import hostelimage from "../Assets/Images/New_images/hostelImage.png";
-import Profile from "../Assets/Images/New_images/profile-picture.png";
 import SettingIcon from "../Assets/Images/sidebariconOne.svg";
 import HelpDocumentIcon from "../Assets/Images/sidebariconThree.svg";
 import HelpVideoIcon from "../Assets/Images/sidebariconFour.svg";
@@ -60,7 +58,24 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip"
 import CreateBill from "../Pages/Bills/CreateBill";
 import UserListRoomDetail from "../Pages/CustomerFile/UserListRoomDetail";
-import CheckoutProfile from '../Pages/CustomerFile/CheckoutProfile'
+import CheckoutProfile from '../Pages/CustomerFile/CheckoutProfile';
+import BillsDetails from '../Pages/Bills/BillsDetails';
+
+import SettingGeneral from "../Pages/SettingGeneral";
+import SettingManage from "../Pages/SettingManage";
+import SettingSecurity from "../Pages/SettingSecurityPage";
+import SettingSubscription from "../Pages/SubscriptionFile/SettingSubscription";
+import SettingIntergration from "../Pages/SettingIntergration";
+import SettingElectricity from "../Pages/SettingElectricity";
+import SettingInvoice from "../Pages/SettingInvoice";
+import SettingExpenses from "../Pages/SettingExpenses";
+import SettingCompliance from "../Pages/SettingCompliance";
+import SettingAmenities from "../Pages/SettingAmenities";
+import SettingNewUser from "../Pages/SettingUserNew";
+import SettingNewRole from "../Pages/SettingNewRole";
+import SettingsNotifications from "../Pages/SettingsNotifications";
+import SettingAgreement from "../Pages/SettingAgreement";
+import BillingRule from "../Pages/Settings/BillingRule/BillingRule";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -75,7 +90,7 @@ function Sidebar() {
   const [allPageHostel_Id, setAllPageHostel_Id] = useState("");
   const [payingGuestName, setPayingGuestName] = useState("payingGuest");
   const [isInitialized, setIsInitialized] = useState(false);
-  const [currentPage, setCurrentPage] = useState("pg-management-dashboard");
+  const [currentPage, setCurrentPage] = useState("dashboard");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const isFirstLogin = useRef(true);
   const dropdownRef = useRef(null);
@@ -83,18 +98,18 @@ function Sidebar() {
 
 
   const pageMap = {
-    "/pg-management-dashboard": "pg-management-dashboard",
-    "/pg-list": "pg-list",
-    "/user-list": "user-list",
-    "/invoice": "invoice",
-    "/vendor": "vendor",
-    "/compliance": "compliance",
-    "/asset": "asset",
-    "/reports": "reports",
-    "/eb": "eb",
-    "/expenses": "expenses",
-    "/banking": "banking",
-    "/settingNewDesign": "settingNewDesign",
+    "/dashboard/:hostelId": "dashboard",
+    "/paying-guest/:hostelId": "pg-list",
+    "/tenant/:hostelId": "user-list",
+    "/invoice/:hostelId": "invoice",
+    "/vendor/:hostelId": "vendor",
+    "/compliance/:hostelId": "compliance",
+    "/asset/:hostelId": "asset",
+    "/reports/:hostelId": "reports",
+    "/electricity/:hostelId": "eb",
+    "/expense/:hostelId": "expenses",
+    "/banking/:hostelId": "banking",
+    "/settings/:hostelId": "settingNewDesign",
   };
 
 
@@ -111,7 +126,7 @@ function Sidebar() {
     if (state.login?.isLoggedIn) {
       if (isFirstLogin.current) {
 
-        navigate("/pg-management-dashboard", { replace: true });
+        navigate(`/dashboard/${state.login.selectedHostel_Id}`, { replace: true });
         isFirstLogin.current = false;
       }
     }
@@ -128,8 +143,8 @@ function Sidebar() {
   };
   const closeSidebar = () => {
     setIsSidebarOpen(false);
-    setCurrentPage("pg-management-dashboard");
-    localStorage.setItem("currentPage", "pg-management-dashboard");
+    setCurrentPage("dashboard");
+    localStorage.setItem("currentPage", "dashboard");
   };
 
   useEffect(() => {
@@ -305,7 +320,7 @@ function Sidebar() {
 
   useEffect(() => {
     if (state.login?.isLoggedIn) {
-      setCurrentPage("pg-management-dashboard");
+      setCurrentPage("dashboardd");
     }
   }, [state.login?.isLoggedIn]);
 
@@ -388,7 +403,7 @@ function Sidebar() {
   const handleSettingspage = () => {
     handlePageClick("settingNewDesign");
     setSettingsPGShow(false);
-    navigate("/settingNewDesign")
+    navigate(`/settings/${state.login.selectedHostel_Id}`)
   };
 
   useEffect(() => {
@@ -509,7 +524,7 @@ function Sidebar() {
 
   const handleShowsettingsPG = (settingNewDesign) => {
     // handlePageClick("settingNewDesign");
-    navigate("/settingNewDesign");
+    navigate(`/settings/${state.login.selectedHostel_Id}`)
     handledisplaySettingsPG(settingNewDesign);
     dispatch({ type: "MANAGE_PG" });
     setIsSidebarOpen(false);
@@ -621,7 +636,7 @@ function Sidebar() {
                   alt="smartstay"
                   style={{ height: 25.06, width: 134 }}
                   className="Title"
-                  onClick={() => handlePageClick("pg-management-dashboard")}
+                  onClick={() => handlePageClick("dashboard")}
                 />
                 <button
                   onClick={closeSidebar}
@@ -843,11 +858,11 @@ function Sidebar() {
               >
 
                 <li
-                  className={`align-items-center  list-Item ${currentPage === "pg-management-dashboard" ? "active" : ""
+                  className={`align-items-center  list-Item ${currentPage === "dashboard" ? "active" : ""
                     }`}
                   onClick={() => {
-                    handlePageClick("pg-management-dashboard")
-                    navigate("/pg-management-dashboard")
+                    handlePageClick("dashboard")
+                    navigate(`/dashboard/${state.login.selectedHostel_Id}`)
                   }}
                   style={{
                     listStyleType: "none",
@@ -855,39 +870,15 @@ function Sidebar() {
                     alignItems: "center",
                   }}
                 >
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    stroke={currentPage === "pg-management-dashboard" ? "#1E45E1" : "#4B4B4B"}
-                  >
-                    <path
-                      d="M7.5013 18.3332H12.5013C16.668 18.3332 18.3346 16.6665 18.3346 12.4998V7.49984C18.3346 3.33317 16.668 1.6665 12.5013 1.6665H7.5013C3.33464 1.6665 1.66797 3.33317 1.66797 7.49984V12.4998C1.66797 16.6665 3.33464 18.3332 7.5013 18.3332Z"
-                      strokeWidth="1.2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M12.9167 15.4168C13.8333 15.4168 14.5833 14.6668 14.5833 13.7502V6.25016C14.5833 5.3335 13.8333 4.5835 12.9167 4.5835C12 4.5835 11.25 5.3335 11.25 6.25016V13.7502C11.25 14.6668 11.9917 15.4168 12.9167 15.4168Z"
-                      strokeWidth="1.2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M7.08464 15.4165C8.0013 15.4165 8.7513 14.6665 8.7513 13.7498V10.8332C8.7513 9.9165 8.0013 9.1665 7.08464 9.1665C6.16797 9.1665 5.41797 9.9165 5.41797 10.8332V13.7498C5.41797 14.6665 6.15964 15.4165 7.08464 15.4165Z"
-                      strokeWidth="1.2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-
+                  <Chart2
+                    size="20"
+                    color={currentPage === "dashboard" ? "#1E45E1" : "#4B4B4B"}
+                  />
                   <span
                     className="Title"
                     style={{
                       fontSize: 14,
-                      fontWeight: 500,
+                      fontWeight: 600,
                       display: "inline-block",
                       fontFamily: "Gilroy",
                     }}
@@ -946,7 +937,7 @@ function Sidebar() {
                         }`}
                       onClick={() => {
                         handlePageClick("pg-list")
-                        navigate("/pg-list")
+                        navigate(`/paying-guest/${state.login.selectedHostel_Id}`)
                       }}
                       style={{ listStyleType: "none", display: "flex" }}
                     >
@@ -972,7 +963,7 @@ function Sidebar() {
                         }`}
                       onClick={() => {
                         handlePageClick("user-list")
-                        navigate("/user-list")
+                        navigate(`/tenant/${state.login.selectedHostel_Id}`)
                       }}
                       style={{ listStyleType: "none", display: "flex" }}
                     >
@@ -998,7 +989,7 @@ function Sidebar() {
                         }`}
                       onClick={() => {
                         handlePageClick("asset")
-                        navigate("/asset")
+                        navigate(`/asset/${state.login.selectedHostel_Id}`)
                       }}
                       style={{ listStyleType: "none", display: "flex" }}
                     >
@@ -1024,7 +1015,7 @@ function Sidebar() {
                         }`}
                       onClick={() => {
                         handlePageClick("vendor")
-                        navigate("/vendor")
+                        navigate(`/vendor/${state.login.selectedHostel_Id}`)
                       }}
                       style={{ listStyleType: "none", display: "flex" }}
                     >
@@ -1053,7 +1044,7 @@ function Sidebar() {
                     }`}
                   onClick={() => {
                     handlePageClick("banking")
-                    navigate("/banking")
+                    navigate(`/banking/${state.login.selectedHostel_Id}`)
                   }}
                   style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "10px" }}
                 >
@@ -1081,7 +1072,7 @@ function Sidebar() {
                     }`}
                   onClick={() => {
                     handlePageClick("invoice")
-                    navigate("/invoice")
+                    navigate(`/invoice/${state.login.selectedHostel_Id}`)
                   }}
                   style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "10px" }}
                 >
@@ -1109,7 +1100,7 @@ function Sidebar() {
                     }`}
                   onClick={() => {
                     handlePageClick("eb")
-                    navigate("/eb")
+                    navigate(`/electricity/${state.login.selectedHostel_Id}`)
                   }}
                   style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "8px" }}
                 >
@@ -1136,7 +1127,7 @@ function Sidebar() {
                     }`}
                   onClick={() => {
                     handlePageClick("compliance")
-                    navigate("/compliance")
+                    navigate(`/compliance/${state.login.selectedHostel_Id}`)
                   }}
 
                   style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "8px" }}
@@ -1163,7 +1154,7 @@ function Sidebar() {
                     }`}
                   onClick={() => {
                     handlePageClick("expenses")
-                    navigate("/expenses")
+                    navigate(`/expense/${state.login.selectedHostel_Id}`)
                   }}
                   style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "8px" }}
                 >
@@ -1190,7 +1181,7 @@ function Sidebar() {
                     }`}
                   onClick={() => {
                     handlePageClick("reports")
-                    navigate("/reports")
+                    navigate(`/reports/${state.login.selectedHostel_Id}`)
                   }}
                   style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "8px" }}
                 >
@@ -1486,87 +1477,9 @@ function Sidebar() {
               zIndex: 10,
             }}
           >
-            {/* {currentPage === "dashboard" && (
-              <Dashboards
-                displayCompliance={handledisplaycompliace}
-                allPageHostel_Id={allPageHostel_Id}
-                setAllPageHostel_Id={setAllPageHostel_Id}
-              />
-            )}
-            {currentPage === "pg-list" && (
-              <PgLists
-                displaysettings={handledisplaySettingsPG}
-                allPageHostel_Id={allPageHostel_Id}
-                setAllPageHostel_Id={setAllPageHostel_Id}
-              />
-            )}
-            {currentPage === "user-list" && (
-              <UserLists
-                allPageHostel_Id={allPageHostel_Id}
-                setAllPageHostel_Id={setAllPageHostel_Id}
-              />
-            )}
-            {currentPage === "invoice" && (
-              <Invoices
-                allPageHostel_Id={allPageHostel_Id}
-                setAllPageHostel_Id={setAllPageHostel_Id}
-              />
-            )}
-            {currentPage === "vendor" && (
-              <VendorComponent
-                allPageHostel_Id={allPageHostel_Id}
-                setAllPageHostel_Id={setAllPageHostel_Id}
-              />
-            )}
-            {currentPage === "compliance" && (
-              <Compliances
-                allPageHostel_Id={allPageHostel_Id}
-                setAllPageHostel_Id={setAllPageHostel_Id}
-              />
-            )}
-            {currentPage === "asset" && (
-              <Assets allPageHostel_Id={allPageHostel_Id} />
-            )}
-            {currentPage === "reports" && (
-              <Report
-                allPageHostel_Id={allPageHostel_Id}
-                setAllPageHostel_Id={setAllPageHostel_Id}
-              />
-            )}
-            {currentPage === "eb" && (
-              <EbHostel
-                allPageHostel_Id={allPageHostel_Id}
-                setAllPageHostel_Id={setAllPageHostel_Id}
-              />
-            )}
-            {currentPage === "expenses" && (
-              <Expenses
-                allPageHostel_Id={allPageHostel_Id}
-                setAllPageHostel_Id={setAllPageHostel_Id}
-              />
-            )}
-
-            {currentPage === "banking" && (
-              <Banking
-                allPageHostel_Id={allPageHostel_Id}
-                setAllPageHostel_Id={setAllPageHostel_Id}
-              />
-            )}
-            {currentPage === "settingNewDesign" && (
-              <SettingAllPages
-                allPageHostel_Id={allPageHostel_Id}
-                setAllPageHostel_Id={setAllPageHostel_Id}
-                payingGuestName={payingGuestName}
-                settignspgshow={settignspgshow}
-                onhandleShowsettingsPG={handleShowsettingsPG}
-              />
-            )} */}
-
-
-
             <Routes>
               <Route
-                path="/pg-management-dashboard"
+                path="/dashboard/:hostelId"
                 element={
                   <Dashboards
                     displayCompliance={handledisplaycompliace}
@@ -1576,7 +1489,7 @@ function Sidebar() {
                 }
               />
               <Route
-                path="/pg-list"
+                path="/paying-guest/:hostelId"
                 element={
                   <PgLists
                     displaysettings={handledisplaySettingsPG}
@@ -1586,7 +1499,7 @@ function Sidebar() {
                 }
               />
               <Route
-                path="/user-list"
+                path="/tenant/:hostelId"
                 element={
                   <UserLists
                     allPageHostel_Id={allPageHostel_Id}
@@ -1595,7 +1508,7 @@ function Sidebar() {
                 }
               />
               <Route
-                path="/invoice"
+                path="/invoice/:hostelId"
                 element={
                   <Invoices
                     allPageHostel_Id={allPageHostel_Id}
@@ -1604,7 +1517,13 @@ function Sidebar() {
                 }
               />
               <Route
-                path="/vendor"
+                path="/invoice/details/:invoiceId"
+                element={
+                  <BillsDetails />
+                }
+              />
+              <Route
+                path="/vendor/:hostelId"
                 element={
                   <VendorComponent
                     allPageHostel_Id={allPageHostel_Id}
@@ -1613,7 +1532,7 @@ function Sidebar() {
                 }
               />
               <Route
-                path="/compliance"
+                path="/compliance/:hostelId"
                 element={
                   <Compliances
                     allPageHostel_Id={allPageHostel_Id}
@@ -1622,11 +1541,11 @@ function Sidebar() {
                 }
               />
               <Route
-                path="/asset"
+                path="/asset/:hostelId"
                 element={<Assets allPageHostel_Id={allPageHostel_Id} />}
               />
               <Route
-                path="/reports"
+                path="/reports/:hostelId"
                 element={
                   <Report
                     allPageHostel_Id={allPageHostel_Id}
@@ -1635,7 +1554,7 @@ function Sidebar() {
                 }
               />
               <Route
-                path="/eb"
+                path="/electricity/:hostelId"
                 element={
                   <EbHostel
                     allPageHostel_Id={allPageHostel_Id}
@@ -1644,7 +1563,7 @@ function Sidebar() {
                 }
               />
               <Route
-                path="/expenses"
+                path="/expense/:hostelId"
                 element={
                   <Expenses
                     allPageHostel_Id={allPageHostel_Id}
@@ -1653,7 +1572,7 @@ function Sidebar() {
                 }
               />
               <Route
-                path="/banking"
+                path="/banking/:hostelId"
                 element={
                   <Banking
                     allPageHostel_Id={allPageHostel_Id}
@@ -1662,7 +1581,7 @@ function Sidebar() {
                 }
               />
               <Route
-                path="/settingNewDesign"
+                path="/settings/:hostelId/*"
                 element={
                   <SettingAllPages
                     allPageHostel_Id={allPageHostel_Id}
@@ -1673,6 +1592,9 @@ function Sidebar() {
                   />
                 }
               />
+
+
+
               <Route
                 path="/create-bill"
                 element={
@@ -1682,7 +1604,7 @@ function Sidebar() {
               />
 
               <Route
-                path="/tenant-profile"
+                path="/tenant-profile/:tenantId"
                 element={
                   <UserListRoomDetail
                   />
@@ -1690,12 +1612,59 @@ function Sidebar() {
               />
 
               <Route
-                path="/tenant-checkout-profile"
+                path="/tenant-checkout-profile/:tenantId"
                 element={
                   <CheckoutProfile />
 
                 }
               />
+
+
+              {/* <Route path="/settings/general/:hostelId" element={<SettingGeneral />} />
+              <Route path="/settings/manage-pg/:hostelId" element={<SettingManage />} />
+              <Route path="/settings/security/:hostelId" element={<SettingSecurity />} />
+              <Route path="/settings/subscription/:hostelId" element={<SettingSubscription />} />
+              <Route path="/settings/integration/:hostelId" element={<SettingIntergration />} />
+              <Route path="/settings/electricity/:hostelId" element={<SettingElectricity />} />
+              <Route path="/settings/billing-rule/:hostelId" element={<BillingRule />} />
+              <Route path="/settings/notifications/:hostelId" element={<SettingsNotifications />} />
+              <Route path="/settings/invoice/:hostelId" element={<SettingInvoice
+              />} />
+              <Route path="/settings/expenses/:hostelId" element={<SettingExpenses />} />
+              <Route path="/settings/complaints/:hostelId" element={<SettingCompliance />} />
+              <Route path="/settings/amenities/:hostelId" element={<SettingAmenities />} />
+              <Route path="/settings/user/:hostelId" element={<SettingNewUser />} />
+              <Route path="/settings/role/:hostelId" element={<SettingNewRole />} />
+              <Route path="/settings/agreement/:hostelId" element={<SettingAgreement />} /> */}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             </Routes>
 
           </Col>

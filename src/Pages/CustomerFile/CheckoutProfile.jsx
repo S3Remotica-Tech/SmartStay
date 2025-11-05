@@ -147,7 +147,7 @@ function CustomerProfile(props) {
 
 
   const handleBack = () => {
-    navigate('/user-list')
+    navigate(`/tenant/${state.login.selectedHostel_Id}`)
     dispatch(checkoutCustomerProfile(true))
     props.setcheckoutTableShow(true)
     props.handleCloseCheckoutProfile(false)

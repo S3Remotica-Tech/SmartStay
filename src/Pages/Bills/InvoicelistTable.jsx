@@ -1,14 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import Edit from '../Assets/Images/Edit-blue.png';
-import Delete from '../Assets/Images/Delete_red.png';
-import Assign from '../Assets/Images/MoneyAdd-Linear-32px.png';
-import Download from '../Assets/Images/New_images/download.png';
+import Edit from '../../Assets/Images/Edit-blue.png';
+import Delete from '../../Assets/Images/Delete_red.png';
+import Assign from '../../Assets/Images/MoneyAdd-Linear-32px.png';
+import Download from '../../Assets/Images/New_images/download.png';
 import PropTypes from "prop-types"
-import WriteOffForm from "./InvoiceWriteOff";
-import { useHasPermission } from '../Utils/Permission';
+import WriteOffForm from "../InvoiceWriteOff";
+import { useHasPermission } from '../../Utils/Permission';
 import { useDispatch, useSelector } from "react-redux";
-import RefundAmount from "./Bills/RefundAmount";
+import RefundAmount from "../Bills/RefundAmount";
 
 
 const InvoiceTable = (props) => {
@@ -142,7 +142,6 @@ const {
 
   const handleDownload = (item) => {
     if (item) {
-      // dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: item.hostelId, invoiceId: item.invoiceId}})
       props.DisplayInvoice(true, item)
     }
   }

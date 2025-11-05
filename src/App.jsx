@@ -94,15 +94,15 @@ function App() {
   // }, [tokenAccessDenied]);
 
 
-useEffect(()=>{
-  if(state.AssetList?.unAuthorized){
-    dispatch({ type: 'LOG_OUT' });
-    setData(false);
-    localStorage.clear();
+  useEffect(() => {
+    if (state.AssetList?.unAuthorized) {
+      dispatch({ type: 'LOG_OUT' });
+      setData(false);
+      localStorage.clear();
 
-  }
+    }
 
-},[state.AssetList?.unAuthorized])
+  }, [state.AssetList?.unAuthorized])
 
 
   // useEffect(() => {
@@ -121,8 +121,8 @@ useEffect(()=>{
       dispatch(StoreSelectedHostelAction(""))
       cookies.set('access-denied', null, { path: '/', expires: new Date(0) });
       localStorage.clear();
-       localStorage.removeItem("lastPage");
-       localStorage.removeItem("currentPage")
+      localStorage.removeItem("lastPage");
+      localStorage.removeItem("currentPage")
       //  cookies.remove('v2-token', { path: '/' });
 
     }
@@ -143,21 +143,14 @@ useEffect(()=>{
 
 
       <Router future={{ v7_startTransition: true }}>
-        {/* <Routes> */}
         {data || state.login?.isLoggedIn ? (
           <>
-            {/* <Route path="/" element={<Sidebar />} />
-              <Route path="*" element={<Navigate to="/" replace />} /> */}
             <Sidebar />
           </>
         ) : (
           <>
             <Routes>
               <Route path="/" element={<FrontPage />} />
-              {/* <Route path="/Terms-Condition" element={<TermsAndCondition />} />
-              <Route path="/Privacy-Policy" element={<Privacy />} />
-              <Route path="/Contact-Us" element={<Contact />} />
-              <Route path="/Cookies" element={<Cookies_policy />} /> */}
               <Route path="/hostel-management-login" element={<LoginPage />} />
               <Route path="/hostel-management-signup" element={<CreateAccount />} />
               <Route path="/forget-password" element={<ForgetPassword />} />

@@ -2203,7 +2203,7 @@ function UserListRoomDetail(props) {
               alt="leftarrow"
               width={20}
               height={20}
-              onClick={() => navigate('/user-list')}
+              onClick={() => navigate(`/tenant/${state.login.selectedHostel_Id}`)}
 
               // onClick={props.handleBack}
               style={{ cursor: "pointer" }}
