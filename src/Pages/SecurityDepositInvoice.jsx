@@ -37,7 +37,7 @@ import { Location, Call, Profile, } from 'iconsax-react'
 import { IoBed } from "react-icons/io5";
 import { Container, Row, Col, Table } from "react-bootstrap";
 
-const SecurityDepositInvoiceTemplate = ({ BillsTemplateList }) => {
+const SecurityDepositInvoiceTemplate = ({ BillsTemplateList , templateThemes}) => {
 
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
@@ -184,7 +184,7 @@ const SecurityDepositInvoiceTemplate = ({ BillsTemplateList }) => {
 
 
 
-  const defaultGradient = 'linear-gradient(to right, rgba(18, 50, 180, 1), rgba(72, 104, 234, 1))';
+ const defaultGradient ="#1E45E1";
 
   const [useGradient, setUseGradient] = useState(true);
   const [color, setColor] = useState({ r: 30, g: 69, b: 225, a: 1 });
@@ -525,140 +525,7 @@ const SecurityDepositInvoiceTemplate = ({ BillsTemplateList }) => {
     }
   };
 
-  const handleSaveTemplate = () => {
-
-    const currentTemplate = {
-      hostelId: state.login.selectedHostel_Id,
-      templateTypeId: securityDepositInvoiceTemplate.typeId,
-      mobile: BillsTemplateList.mobile,
-      email: BillsTemplateList.emailId,
-      invoicePhoneNumber: mobilenum,
-      invoiceMailId: email,
-      isMobileCustomized: BillsTemplateList?.isMobileCustomized,
-      isEmailCustomized: BillsTemplateList?.isMailIdCustomized,
-      isLogoCustomized: BillsTemplateList?.isLogoCustomized,
-      isSignatureCustomized: BillsTemplateList?.isSignatureCustomized,
-      hostelLogo: BillsTemplateList?.logo,
-      billSignature: BillsTemplateList?.signature,
-      invLogo: hostel_logo,
-      invSign: signature,
-      qrCode: qrimagepreview,
-      prefix,
-      suffix,
-      gstPercentile: tax,
-      invoiceNotes: notes,
-      invoiceTermsAndCondition: terms,
-      bankId: selectedBankId,
-      invoiceTemplateColor: useGradient
-        ? defaultGradient
-        : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
-    };
-
-    const oldTemplate = {
-      hostelId: state.login.selectedHostel_Id,
-      templateTypeId: securityDepositInvoiceTemplate.typeId,
-      mobile: BillsTemplateList.mobile,
-      email: BillsTemplateList.emailId,
-      invoicePhoneNumber: securityDepositInvoiceTemplate.contact_number || "",
-      invoiceMailId: securityDepositInvoiceTemplate.email || "",
-      isMobileCustomized: BillsTemplateList?.isMobileCustomized,
-      isEmailCustomized: BillsTemplateList?.isMailIdCustomized,
-      isLogoCustomized: BillsTemplateList?.isLogoCustomized,
-      isSignatureCustomized: BillsTemplateList?.isSignatureCustomized,
-      hostelLogo: BillsTemplateList?.logo,
-      billSignature: BillsTemplateList?.signature,
-      invLogo: securityDepositInvoiceTemplate.logo_url || null,
-      invSign: securityDepositInvoiceTemplate.invoiceSignatureUrl || null,
-      qrCode: securityDepositInvoiceTemplate.qr_url || null,
-      prefix: securityDepositInvoiceTemplate.prefix || "",
-      suffix: securityDepositInvoiceTemplate.suffix || "",
-      gstPercentile: securityDepositInvoiceTemplate.tax || "",
-      invoiceNotes: securityDepositInvoiceTemplate.notes || "",
-      invoiceTermsAndCondition: securityDepositInvoiceTemplate.terms_and_condition || "",
-      bankId: Number(securityDepositInvoiceTemplate.banking_id || 0),
-      invoiceTemplateColor: securityDepositInvoiceTemplate.template_theme || "",
-    };
-
-
-
-    const isSame = JSON.stringify(currentTemplate) === JSON.stringify(oldTemplate);
-
-    if (isSame) {
-      setEditErrMessage("No changes detected");
-      setSignatureErrMsg("")
-      return;
-    }
-
-    if (securityDepositInvoiceTemplate.isSignatureCustomized) {
-      const Signatureverify = !securityDepositInvoiceTemplate.invoiceSignatureUrl
-
-      if (signature && !isSignatureConfirmed && Signatureverify) {
-        setSignatureErrMsg("Please click Done after selecting a signature");
-        return
-      }
-    }
-
-    if (securityDepositInvoiceTemplate.isMobileCustomized) {
-      if (mobilenum && mobilenum.length < 10) {
-        setMobileError(" Please Enter Valid Mobile Number");
-        return
-      }
-      else if (mobilenum.length === 10) {
-        setMobileError("");
-      }
-    }
-
-    if (securityDepositInvoiceTemplate.isMailIdCustomized) {
-      const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
-      const isValidEmail = emailRegex.test(email);
-      if (!email) {
-        setEmailError("");
-      } else if (!isValidEmail) {
-        setEmailError("Please Enter  Valid Email Id");
-      } else {
-        setEmailError("");
-      }
-    }
-
-
-
-    if (securityDepositInvoiceTemplate.typeId && state.login.selectedHostel_Id) {
-      dispatch({
-        type: "ADDGLOBALSETTING",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          templateTypeId: securityDepositInvoiceTemplate.typeId,
-          mobile: BillsTemplateList.mobile,
-          email: BillsTemplateList.emailId,
-          invoicePhoneNumber: mobilenum,
-          invoiceMailId: email,
-          isMobileCustomized: BillsTemplateList?.isMobileCustomized,
-          isEmailCustomized: BillsTemplateList?.isMailIdCustomized,
-          isLogoCustomized: BillsTemplateList?.isLogoCustomized,
-          isSignatureCustomized: BillsTemplateList?.isSignatureCustomized,
-          hostelLogo: BillsTemplateList?.logo,
-          billSignature: BillsTemplateList?.signature,
-          invLogo: hostel_logo,
-          invSign: signature,
-          qrCode: qrimagepreview,
-          prefix: prefix,
-          suffix: suffix,
-          gstPercentile: tax,
-          invoiceNotes: notes,
-          invoiceTermsAndCondition: terms,
-          bankId: selectedBankId,
-          invoiceTemplateColor: useGradient
-            ? defaultGradient
-            : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
-        },
-      });
-      setFormLoading(true)
-    }
-
-
-
-  };
-
+ 
 
 
 
@@ -706,66 +573,169 @@ const SecurityDepositInvoiceTemplate = ({ BillsTemplateList }) => {
 
 
 
-  useEffect(() => {
-    if (securityDepositInvoiceTemplate) {
-      setLogoPreview(BillsTemplateList.isLogoCustomized
-        && securityDepositInvoiceTemplate.invoiceLogoUrl ? securityDepositInvoiceTemplate.invoiceLogoUrl
-        : BillsTemplateList.logo);
-      setHostelLogo(
-        BillsTemplateList.isLogoCustomized
-          && securityDepositInvoiceTemplate.invoiceLogoUrl ? securityDepositInvoiceTemplate.invoiceLogoUrl
-          : BillsTemplateList.logo
-      );
-      setMobileNum(
-        BillsTemplateList.isMobileCustomized
-          && securityDepositInvoiceTemplate.invoiceMobileNumber ? securityDepositInvoiceTemplate.invoiceMobileNumber
-          : BillsTemplateList.mobile
-      );
-      setEmail(
-        BillsTemplateList.isMailIdCustomized
-          && securityDepositInvoiceTemplate.invoiceMailId ? securityDepositInvoiceTemplate.invoiceMailId
-          : BillsTemplateList.emailId
-      );
-      setPrefix(securityDepositInvoiceTemplate.prefix || "");
-      setSuffix(securityDepositInvoiceTemplate.suffix || "");
-      setSignature(
-        BillsTemplateList.isSignatureCustomized
-          && securityDepositInvoiceTemplate.invoiceSignatureUrl ? securityDepositInvoiceTemplate.invoiceSignatureUrl
-          : BillsTemplateList.signature
-      );
-      setSignaturePreview(BillsTemplateList.isSignatureCustomized
-        && securityDepositInvoiceTemplate.invoiceSignatureUrl ? securityDepositInvoiceTemplate.invoiceSignatureUrl
-        : BillsTemplateList.signature);
-      setTerms(securityDepositInvoiceTemplate.invoiceTermsAndCondition || "");
-      setTax(securityDepositInvoiceTemplate.gstPercentile || "");
-      setSelectedBankId(securityDepositInvoiceTemplate.selectedBankId || null);
-      setQrImage(securityDepositInvoiceTemplate.qrCodeUrl || null);
-      setQRImagePreview(securityDepositInvoiceTemplate.qrCodeUrl || null);
-      setNotes(securityDepositInvoiceTemplate.invoiceNotes || "");
+  // useEffect(() => {
+  //   if (securityDepositInvoiceTemplate || templateThemes) {
+  //     setLogoPreview(BillsTemplateList.isLogoCustomized
+  //       && securityDepositInvoiceTemplate.invoiceLogoUrl ? securityDepositInvoiceTemplate.invoiceLogoUrl
+  //       : BillsTemplateList.logo);
+  //     setHostelLogo(
+  //       BillsTemplateList.isLogoCustomized
+  //         && securityDepositInvoiceTemplate.invoiceLogoUrl ? securityDepositInvoiceTemplate.invoiceLogoUrl
+  //         : BillsTemplateList.logo
+  //     );
+  //     setMobileNum(
+  //       BillsTemplateList.isMobileCustomized
+  //         && securityDepositInvoiceTemplate.invoiceMobileNumber ? securityDepositInvoiceTemplate.invoiceMobileNumber
+  //         : BillsTemplateList.mobile
+  //     );
+  //     setEmail(
+  //       BillsTemplateList.isMailIdCustomized
+  //         && securityDepositInvoiceTemplate.invoiceMailId ? securityDepositInvoiceTemplate.invoiceMailId
+  //         : BillsTemplateList.emailId
+  //     );
+  //     setPrefix(securityDepositInvoiceTemplate.prefix || "");
+  //     setSuffix(securityDepositInvoiceTemplate.suffix || "");
+  //     setSignature(
+  //       BillsTemplateList.isSignatureCustomized
+  //         && securityDepositInvoiceTemplate.invoiceSignatureUrl ? securityDepositInvoiceTemplate.invoiceSignatureUrl
+  //         : BillsTemplateList.signature
+  //     );
+  //     setSignaturePreview(BillsTemplateList.isSignatureCustomized
+  //       && securityDepositInvoiceTemplate.invoiceSignatureUrl ? securityDepositInvoiceTemplate.invoiceSignatureUrl
+  //       : BillsTemplateList.signature);
+  //     setTerms(securityDepositInvoiceTemplate.invoiceTermsAndCondition || "");
+  //     setTax(securityDepositInvoiceTemplate.gstPercentile || "");
+  //     setSelectedBankId(securityDepositInvoiceTemplate.selectedBankId || null);
+  //     setQrImage(securityDepositInvoiceTemplate.qrCodeUrl || null);
+  //     setQRImagePreview(securityDepositInvoiceTemplate.qrCodeUrl || null);
+  //     setNotes(securityDepositInvoiceTemplate.invoiceNotes || "");
 
-      const templateTheme = securityDepositInvoiceTemplate.invoiceTemplateColor;
-      if (templateTheme && templateTheme.trim() !== "") {
-        if (templateTheme.includes("rgba")) {
-          const match = templateTheme.match(
-            /rgba\((\d+),\s*(\d+),\s*(\d+),\s*(\d+\.?\d*)\)/
-          );
-          if (match) {
-            setColor({
-              r: parseInt(match[1]),
-              g: parseInt(match[2]),
-              b: parseInt(match[3]),
-              a: parseFloat(match[4]),
-            });
-            setUseGradient(false);
-          }
-        } else {
-          setUseGradient(true);
+  //     const templateTheme = securityDepositInvoiceTemplate.invoiceTemplateColor;
+  //     if (templateTheme && templateTheme.trim() !== "") {
+  //       if (templateTheme.includes("rgba")) {
+  //         const match = templateTheme.match(
+  //           /rgba\((\d+),\s*(\d+),\s*(\d+),\s*(\d+\.?\d*)\)/
+  //         );
+  //         if (match) {
+  //           setColor({
+  //             r: parseInt(match[1]),
+  //             g: parseInt(match[2]),
+  //             b: parseInt(match[3]),
+  //             a: parseFloat(match[4]),
+  //           });
+  //           setUseGradient(false);
+  //         }
+  //       } else {
+  //         setUseGradient(true);
+  //       }
+  //     } else {
+  //       setUseGradient(true);
+  //     }
+  //   }
+  // }, [securityDepositInvoiceTemplate, templateThemes]);
+
+
+useEffect(() => {
+ 
+  if (templateThemes) {
+    setLogoPreview(templateThemes.logoPreview || "");
+    setHostelLogo(templateThemes.logoPreview || "");
+    setMobileNum(templateThemes.mobilenum || "");
+    setEmail(templateThemes.email || "");
+    setPrefix(templateThemes.prefix || "");
+    setSuffix(templateThemes.suffix || "");
+    setSignaturePreview(templateThemes.signaturePreview || "");
+    setSignature(templateThemes.signaturePreview || "");
+    setQrImage(templateThemes.qrImage || null);
+    setQRImagePreview(templateThemes.qrImage || null);
+    setNotes(templateThemes.notes || "");
+    setTerms(templateThemes.terms || "");
+    setTax(templateThemes.tax || "");
+    setColor(templateThemes.color || { r: 0, g: 0, b: 0, a: 1 });
+    setUseGradient(false);
+    return; 
+  }
+
+  
+  if (securityDepositInvoiceTemplate) {
+    setLogoPreview(
+      BillsTemplateList?.isLogoCustomized && securityDepositInvoiceTemplate?.invoiceLogoUrl
+        ? securityDepositInvoiceTemplate.invoiceLogoUrl
+        : BillsTemplateList?.logo || ""
+    );
+
+    setHostelLogo(
+      BillsTemplateList?.isLogoCustomized && securityDepositInvoiceTemplate?.invoiceLogoUrl
+        ? securityDepositInvoiceTemplate.invoiceLogoUrl
+        : BillsTemplateList?.logo || ""
+    );
+
+    setMobileNum(
+      BillsTemplateList?.isMobileCustomized && securityDepositInvoiceTemplate?.invoiceMobileNumber
+        ? securityDepositInvoiceTemplate.invoiceMobileNumber
+        : BillsTemplateList?.mobile || ""
+    );
+
+    setEmail(
+      BillsTemplateList?.isMailIdCustomized && securityDepositInvoiceTemplate?.invoiceMailId
+        ? securityDepositInvoiceTemplate.invoiceMailId
+        : BillsTemplateList?.emailId || ""
+    );
+
+    setPrefix(securityDepositInvoiceTemplate?.prefix || "");
+    setSuffix(securityDepositInvoiceTemplate?.suffix || "");
+
+    setSignaturePreview(
+      BillsTemplateList?.isSignatureCustomized && securityDepositInvoiceTemplate?.invoiceSignatureUrl
+        ? securityDepositInvoiceTemplate.invoiceSignatureUrl
+        : BillsTemplateList?.signature || ""
+    );
+    setSignature(
+      BillsTemplateList?.isSignatureCustomized && securityDepositInvoiceTemplate?.invoiceSignatureUrl
+        ? securityDepositInvoiceTemplate.invoiceSignatureUrl
+        : BillsTemplateList?.signature || ""
+    );
+
+    setTerms(securityDepositInvoiceTemplate?.invoiceTermsAndCondition || "");
+    setTax(securityDepositInvoiceTemplate?.gstPercentile || "");
+    setSelectedBankId(securityDepositInvoiceTemplate?.selectedBankId || null);
+    setQrImage(securityDepositInvoiceTemplate?.qrCodeUrl || null);
+    setQRImagePreview(securityDepositInvoiceTemplate?.qrCodeUrl || null);
+    setNotes(securityDepositInvoiceTemplate?.invoiceNotes || "");
+
+    const templateTheme = securityDepositInvoiceTemplate?.invoiceTemplateColor;
+    if (templateTheme && templateTheme.trim() !== "") {
+      if (templateTheme.includes("rgba")) {
+        const match = templateTheme.match(
+          /rgba\((\d+),\s*(\d+),\s*(\d+),\s*(\d+\.?\d*)\)/
+        );
+        if (match) {
+          setColor({
+            r: parseInt(match[1]),
+            g: parseInt(match[2]),
+            b: parseInt(match[3]),
+            a: parseFloat(match[4]),
+          });
+          setUseGradient(false);
         }
       } else {
         setUseGradient(true);
       }
+    } else {
+      setUseGradient(true);
     }
-  }, [securityDepositInvoiceTemplate]);
+  }
+}, [securityDepositInvoiceTemplate, templateThemes, BillsTemplateList]);
+
+
+
+
+
+
+
+
+
+
 
   useEffect(() => {
     if (state.Settings.settingGlobalAddStatusCode === 200) {

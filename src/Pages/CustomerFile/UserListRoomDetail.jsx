@@ -151,12 +151,12 @@ function UserListRoomDetail(props) {
   // const canDeleteTenant = useHasPermission("Customers", "canDelete")
   // const canWriteTenant = useHasPermission("Customers", "canWrite")
 
-const {
-        canWriteModule: canWriteTenant,
-        // canReadModule: canReadInvoice,
-        canUpdateModule: canUpdateTenant,
-        canDeleteModule: canDeleteTenant,
-      } = useHasPermission("Customers");
+  const {
+    canWriteModule: canWriteTenant,
+    // canReadModule: canReadInvoice,
+    canUpdateModule: canUpdateTenant,
+    canDeleteModule: canDeleteTenant,
+  } = useHasPermission("Customers");
 
   const { customerId, hostelId, name, totriggerBillTap } = location.state || {};
 
@@ -170,7 +170,7 @@ const {
 
 
 
- 
+
 
 
 
@@ -562,7 +562,7 @@ const {
 
   useEffect(() => {
     if (state.UsersList.editBasicSuccessStatusCode === 200) {
-         dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+      dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
       dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
       setEditBasicDetailsShow(false)
       setEditAddressDetailsShow(false)
@@ -1632,7 +1632,7 @@ const {
 
     setLoading(true)
     setFormShow(false);
-    dispatch({ type: "INVOICELIST" });
+    // dispatch({ type: "INVOICELIST" });
   };
 
 
@@ -2101,58 +2101,21 @@ const {
     if (!fileImage) return;
 
 
-    event.target.value = "";
-
-    const options = {
-      maxSizeMB: 1,
-      maxWidthOrHeight: 800,
-      useWebWorker: true,
-    };
-
     try {
-      const compressedFile = await imageCompression(fileImage, options);
-      const previewURL = URL.createObjectURL(compressedFile);
-      setImagePreview(previewURL);
-
-      let value = props.userData.Name ? props.userData?.Name.split(" ") : ["", ""];
-      setFirstname(value[0]?.trim());
-      setLastname(value[1] ? value[1].trim() : "");
-
-
-      const payload = {
-        profile: compressedFile,
-        firstname: value[0]?.trim(),
-        lastname: value[1] ? value[1].trim() : "",
-        Phone: MobileNumberupload,
-        Email: Email,
-        Address: house_no,
-        area: street,
-        landmark: landmark,
-        city: city,
-        pincode: pincode,
-        state: state_name,
-        AadharNo: AadharNo,
-        PancardNo: PancardNo,
-        licence: licence,
-        HostelName: HostelName,
-        hostel_Id: props.userData?.Hostel_Id,
-        Floor: props.userData?.Floor,
-        Rooms: props.userData?.hstl_Rooms,
-        Bed: props.userData?.hstl_Bed,
-        joining_date: props.userData?.joining_Date,
-        AdvanceAmount: props.userData?.AdvanceAmount,
-        RoomRent: props.userData?.RoomRent,
-        BalanceDue: BalanceDue,
-        PaymentType: PaymentType,
-        paid_advance: paid_advance,
-        paid_rent: paid_rent,
-        ID: props.userData?.ID,
-      };
-
-      dispatch({
-        type: "ADDUSER",
-        payload: payload,
-      });
+      if (fileImage) {
+        dispatch({
+          type: "EDITBASICDETAILS",
+          payload: {
+            customerId: CustomerOverView?.customerId,
+              payloads: {
+                    firstName: CustomerOverView?.firstName || "",
+                    lastName: CustomerOverView?.lastName || "",
+                    mailId: CustomerOverView?.emailId || "",
+                                   },
+            profilePic: fileImage || "",
+          },
+        });
+      }
     } catch (error) {
       console.error("Image compression error:", error);
     }
@@ -2206,7 +2169,7 @@ const {
     setAdvanceList(state.UsersList.customerdetails.advanceInfo);
   }, [state.UsersList.customerdetails.advanceInfo]);
 
-
+  console.log("CustomerOverView", CustomerOverView)
 
 
   return (

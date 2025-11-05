@@ -681,6 +681,7 @@ function* handleDeletePG(action) {
     }
   }
   catch (error) {
+    yield* handleApiError(error);
     if (error.code === 'ERR_BAD_REQUEST') {
       if (error.status === 400) {
         yield put({ type: 'DELETE_PG_ERROR', payload: error.response.data });
@@ -734,6 +735,7 @@ function* handleUpdateFloor(action) {
     }
   }
   catch (error) {
+    yield* handleApiError(error);
     if (error.code === 'ERR_BAD_REQUEST') {
       if (error.status === 409) {
         yield put({ type: 'UPDATE_FLOOR_ERROR', payload: error.response.data });
@@ -746,6 +748,7 @@ function* handleUpdateFloor(action) {
 
 
 function* handleOccupiedCustomer(action) {
+  try{
   const response = yield call(OccupiedCustomer, action.payload);
 
 
@@ -764,9 +767,14 @@ function* handleOccupiedCustomer(action) {
     refreshToken(response);
   }
 }
+catch(error){
+  yield* handleApiError(error);
+}
+}
 
 
 function* handleDeleteHostelImages(action) {
+  try{
   const response = yield call(deleteHostelImages, action.payload);
   var toastStyle = {
     backgroundColor: "#E6F6E6",
@@ -810,6 +818,10 @@ function* handleDeleteHostelImages(action) {
   if (response) {
     refreshToken(response);
   }
+}
+catch(error){
+  yield* handleApiError(error);
+}
 }
 
 function* handleEditElectricity(action) {
@@ -855,6 +867,7 @@ function* handleEditElectricity(action) {
     }
   }
   catch (error) {
+    yield* handleApiError(error);
     if (error.code === 'ERR_NETWORK') {
       yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
     } else {
@@ -864,6 +877,7 @@ function* handleEditElectricity(action) {
 }
 
 function* handleDeleteElectricity(action) {
+  try{
   const response = yield call(deleteElectricity, action.payload);
 
   var toastStyle = {
@@ -904,9 +918,16 @@ function* handleDeleteElectricity(action) {
     refreshToken(response)
   }
 }
+  catch(error){
+    yield* handleApiError(error);
+  }
+}
 
 
 function* handleDropFilter(action) {
+  try{
+
+  
   const response = yield call(dashboardFilter, action.payload);
 
   if (response?.status === 200) {
@@ -921,7 +942,12 @@ function* handleDropFilter(action) {
     refreshToken(response)
   }
 }
+catch(error){
+  yield* handleApiError(error);
+}
+}
 function* handleDropFilterCashBack(action) {
+  try{
   const response = yield call(dashboardFilter, action.payload);
   if (response?.status === 200 ) {
     yield put({ type: 'DASHBOARD_FILTER_CASHBACK', payload: { response: response.data, statusCode: response?.status } })
@@ -940,10 +966,15 @@ function* handleDropFilterCashBack(action) {
     refreshToken(response)
   }
 }
+catch(error){
+   yield* handleApiError(error);
+}
+}
 
 
 
 function* handleDropFilterRevenue(action) {
+  try{
   const response = yield call(dashboardFilter, action.payload);
 
   if (response?.status === 200 ) {
@@ -958,8 +989,13 @@ function* handleDropFilterRevenue(action) {
     refreshToken(response)
   }
 }
+catch(error){
+   yield* handleApiError(error);
+}
+}
 
 function* handleDropFilterAdvance(action) {
+  try{
   const response = yield call(dashboardFilter, action.payload);
 
   if (response?.status === 200 ) {
@@ -973,6 +1009,10 @@ function* handleDropFilterAdvance(action) {
   if (response) {
     refreshToken(response)
   }
+}
+catch(error){
+   yield* handleApiError(error);
+}
 }
 
 
@@ -1019,6 +1059,7 @@ function* handleAddHostelElectricity(action) {
     }
   }
   catch (error) {
+     yield* handleApiError(error);
     if (error.code === 'ERR_NETWORK') {
       yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
     } else {
@@ -1070,6 +1111,7 @@ function* handleHostelEditElectricity(action) {
     }
   }
   catch (error) {
+     yield* handleApiError(error);
     if (error.code === 'ERR_NETWORK') {
       yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
     } else {
@@ -1079,6 +1121,7 @@ function* handleHostelEditElectricity(action) {
 }
 
 function* handleHostelDeleteElectricity(action) {
+  try{
   const response = yield call(ebAddHostelDelete, action.payload);
 
   var toastStyle = {
@@ -1118,8 +1161,13 @@ function* handleHostelDeleteElectricity(action) {
     refreshToken(response)
   }
 }
+catch(error){
+   yield* handleApiError(error);
+}
+}
 
 function* handleHostelBasedEblist(action) {
+  try{
   const response = yield call(ebHostelBasedRead, action.payload);
   if (response?.status === 200 ) {
     yield put({ type: "EB_CUSTOMER_HOSTEL_EBLIST", payload: response.data });
@@ -1136,12 +1184,17 @@ function* handleHostelBasedEblist(action) {
     refreshToken(response);
   }
 }
+catch(error){
+   yield* handleApiError(error);
+}
+}
 
 
 
 
 
 function* handleAnnouncementList(action) {
+  try{
   const response = yield call(announcement_list, action.payload);
 
   if (response?.status === 200 ) {
@@ -1151,6 +1204,9 @@ function* handleAnnouncementList(action) {
   }
   if (response) {
     refreshToken(response);
+  }}
+  catch(error){
+     yield* handleApiError(error);
   }
 }
 
@@ -1204,6 +1260,7 @@ function* handleAddAnnounce(action) {
     }
   }
   catch (error) {
+     yield* handleApiError(error);
     if (error.code === 'ERR_NETWORK') {
       yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
     } else {
@@ -1215,6 +1272,7 @@ function* handleAddAnnounce(action) {
 
 
 function* handleDeleteAnnounce(action) {
+  try{
   const response = yield call(delete_announcement, action.payload);
   var toastStyle = {
     backgroundColor: "#E6F6E6",
@@ -1252,9 +1310,14 @@ function* handleDeleteAnnounce(action) {
     refreshToken(response)
   }
 }
+catch(error){
+   yield* handleApiError(error);
+}
+}
 
 
 function* handleGetComments(action) {
+  try{
   const response = yield call(get_comments, action.payload);
 
   if (response?.status === 200 ) {
@@ -1265,6 +1328,10 @@ function* handleGetComments(action) {
   if (response) {
     refreshToken(response)
   }
+}
+catch(error){
+   yield* handleApiError(error);
+}
 }
 
 
@@ -1310,6 +1377,7 @@ function* handleCreateComments(action) {
     }
   }
   catch (error) {
+     yield* handleApiError(error);
     if (error.code === 'ERR_NETWORK') {
       yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
     } else {
@@ -1360,6 +1428,7 @@ function* handleCreateSubComments(action) {
     }
   }
   catch (error) {
+     yield* handleApiError(error);
     if (error.code === 'ERR_NETWORK') {
       yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
     } else {
@@ -1471,6 +1540,7 @@ function* handleDeleteHostel(action) {
 
   } 
   catch (error) {
+     yield* handleApiError(error);
     if (error.code === 'ERR_BAD_REQUEST') {
       if (error.status === 400) {
 
@@ -1546,8 +1616,6 @@ function* PgListSaga() {
   yield takeEvery("GETCOMMENTS", handleGetComments)
   yield takeEvery("CREATESUBCOMMENTS", handleCreateSubComments)
   yield takeEvery("DELETEHOSTEL", handleDeleteHostel)
-
-
 
 }
 export default PgListSaga;

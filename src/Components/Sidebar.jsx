@@ -78,7 +78,7 @@ function Sidebar() {
   const [currentPage, setCurrentPage] = useState("pg-management-dashboard");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const isFirstLogin = useRef(true);
-
+  const dropdownRef = useRef(null);
 
 
 
@@ -142,6 +142,21 @@ function Sidebar() {
       localStorage.setItem("manageOpen", true);
     }
   }, [currentPage]);
+
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const [hostelListDetail, setHostelDetail] = useState("");
 
@@ -324,10 +339,14 @@ function Sidebar() {
     localStorage.setItem("emilidd", "");
     localStorage.setItem("selectedHostelId", "");
     localStorage.setItem("selectedHostelName", "");
+    localStorage.removeItem("lastPage");
+    localStorage.removeItem("currentPage")
     const cookies = new Cookies();
     cookies.remove('v2-token', { path: '/' });
     cookies.remove('token', { path: '/' });
   };
+
+
 
 
 
@@ -636,7 +655,7 @@ function Sidebar() {
 
 
               {hostelListDetail && hostelListDetail?.length > 0 && (
-                <li
+                <li ref={dropdownRef}
                   className={`align-items-center list-Item ${currentPage === "settingNewDesign" ? "active" : ""}`}
                   onClick={toggleDropdown}
                   style={{
@@ -662,8 +681,10 @@ function Sidebar() {
                   ) : (
                     <div
                       style={{
+                        flexShrink: 0,
                         height: 25,
                         width: 25,
+                        minWidth: 25,
                         borderRadius: "50%",
                         backgroundColor: "#1e45e1",
                         color: "white",
@@ -674,6 +695,7 @@ function Sidebar() {
                         fontSize: 12,
                         marginRight: 8,
                         textTransform: "uppercase",
+                        lineHeight: "1",
                       }}
                     >
                       {initials}
@@ -760,6 +782,8 @@ function Sidebar() {
                               ) : (
                                 <div
                                   style={{
+                                    flexShrink: 0,
+                                    minWidth: 25,
                                     height: 25,
                                     width: 25,
                                     borderRadius: "50%",
@@ -1665,11 +1689,11 @@ function Sidebar() {
                 }
               />
 
-               <Route
+              <Route
                 path="/tenant-checkout-profile"
                 element={
                   <CheckoutProfile />
-                  
+
                 }
               />
             </Routes>

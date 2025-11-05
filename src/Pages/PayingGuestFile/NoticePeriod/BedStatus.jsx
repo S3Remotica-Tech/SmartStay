@@ -36,11 +36,11 @@ function NoticeBedStatusDetails({
   const state = useSelector(state => state)
   const dispatch = useDispatch();
 
-  
+
   // const canWriteCustomers = useHasPermission("Customers", "canWrite")
 
 
-const {
+  const {
     canWriteModule: canWriteCustomers,
     // canReadModule: canReadPayingGuests,
     // canUpdateModule: canUpdatePayingGuests,
@@ -59,7 +59,7 @@ const {
   const isNoticeAndBooked = currentItem?.newTenantCustomerId !== null
 
 
-console.log("currentItem",currentItem)
+  console.log("currentItem", currentItem)
 
   const handleShowDots = (type) => {
     setActiveMenu((prev) => (prev === type ? null : type));
@@ -77,9 +77,9 @@ console.log("currentItem",currentItem)
 
 
 
-const handleMakeAsInActive = () =>{
-   handleShowInActiveForm(true)
-}
+  const handleMakeAsInActive = () => {
+    handleShowInActiveForm(true)
+  }
 
 
   const handleRecheckInBed = () => {
@@ -97,7 +97,7 @@ const handleMakeAsInActive = () =>{
   }
 
   const handleCheckout = (currentItem) => {
-    
+
 
     showNoticeperiodCheckout(true)
     dispatch({
@@ -108,10 +108,10 @@ const handleMakeAsInActive = () =>{
 
   }
   const matchedData = state?.UsersList?.Users?.filter(
-  (user) => user.customerId === currentItem.currentTenantCustomerId
-);
-console.log("matchedData",matchedData)
-console.log("currentItem",currentItem)
+    (user) => user.customerId === currentItem.currentTenantCustomerId
+  );
+  console.log("matchedData", matchedData)
+  console.log("currentItem", currentItem)
 
   const handleFinalsettelmentGenerate = () => {
     showfinalsettelemnet(true)
@@ -123,7 +123,7 @@ console.log("currentItem",currentItem)
 
 
   const handleCheckInforBookingTenant = () => {
-handleDisplayCheckInForm(true)
+    handleDisplayCheckInForm(true)
   }
 
 
@@ -150,45 +150,45 @@ handleDisplayCheckInForm(true)
   }, []);
 
 
-  useEffect(()=>{
-      if(state.UsersList.statusCodeForFinalSettlement === 201){
-            handleCloseBed()
-           dispatch({
-                  type: "USERLIST",
-                  payload: { hostel_id: state.login.selectedHostel_Id },
-              })
-              dispatch({
-                type: "GETALLBEDSLIST",
-                payload: { roomId: currentItem.roomId }
-            });
-              setTimeout(() => {
-                  dispatch({ type: "CLEAR_FINAL_GENERATE" });
-              }, 500);
-  
-      }
-  },[state.UsersList.statusCodeForFinalSettlement])
+  useEffect(() => {
+    if (state.UsersList.statusCodeForFinalSettlement === 201) {
+      handleCloseBed()
+      dispatch({
+        type: "USERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      })
+      dispatch({
+        type: "GETALLBEDSLIST",
+        payload: { roomId: currentItem.roomId }
+      });
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_FINAL_GENERATE" });
+      }, 500);
+
+    }
+  }, [state.UsersList.statusCodeForFinalSettlement])
 
 
 
-  useEffect(()=>{
-      if(state.UsersList.statuscodeForConformCheckout === 200){
-         handleCloseBed()
-   dispatch({
-            type: "USERLIST",
-            payload: { hostel_id: state.login.selectedHostel_Id },
-          });
-           dispatch({
-                type: "GETALLBEDSLIST",
-                payload: { roomId: currentItem.roomId }
-            });
-   setTimeout(() => {
-                  dispatch({ type: "REMOVE_CONFORM_CHECKOUT" });
-              }, 500);
-      }
-  },[state.UsersList.statuscodeForConformCheckout])
-  useEffect(()=>{
-     dispatch({ type: 'USERLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
-  },[state.login.selectedHostel_Id])
+  useEffect(() => {
+    if (state.UsersList.statuscodeForConformCheckout === 200) {
+      handleCloseBed()
+      dispatch({
+        type: "USERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
+      dispatch({
+        type: "GETALLBEDSLIST",
+        payload: { roomId: currentItem.roomId }
+      });
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_CONFORM_CHECKOUT" });
+      }, 500);
+    }
+  }, [state.UsersList.statuscodeForConformCheckout])
+  useEffect(() => {
+    dispatch({ type: 'USERLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+  }, [state.login.selectedHostel_Id])
 
   useEffect(() => {
     if (state.UsersList?.StatusCodeBacktoCheckin === 200) {
@@ -267,7 +267,7 @@ handleDisplayCheckInForm(true)
                     </Modal.Title>
                   </div>
                   <div className="d-flex align-items-center gap-3">
-                      <label style={{
+                    <label style={{
                       fontSize: 14,
                       color: "#1E45E1",
                       fontFamily: "Gilroy",
@@ -327,7 +327,7 @@ handleDisplayCheckInForm(true)
                         justifyContent: "center",
                         alignItems: "center",
                         position: "relative",
-                        zIndex: activeMenu === 'reserved' ? 1000 : "auto",
+                        zIndex: activeMenu === 'reserved' ? 0 : "auto",
                         backgroundColor: "white",
                       }}
 
@@ -347,77 +347,43 @@ handleDisplayCheckInForm(true)
                             backgroundColor: "#f9f9f9",
                             display: "flex",
                             flexDirection: "column",
-                            zIndex: 1000,
+                            zIndex: 100,
                             boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
                           }}
                         >
 
-{/* Cancel checkout */}
+                         
 
-                          {/* {
-                            currentItem?.newTenantCustomerId &&
-
-                              <div>
-                                <div
-                                  className="d-flex gap-2 align-items-center"
-                                 onClick={() => handleRecheckInBed()}
-
-
-                                  style={{
-                                    padding: "10px",
-                                    borderBottomLeftRadius: 10,
-                                    borderBottomRightRadius: 10,
-
-                                    cursor: canWriteCustomers ? "pointer" : "not-allowed",
-                                    opacity: canWriteCustomers ? 1 : 0.5,
-                                  }}
-                                  onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
-                                  onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
-                                >
-                                  <img src={Checkouts} alt="Checkout" style={{ filter: canWriteCustomers ? "none" : "grayscale(100%)" }} />
-                                  <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#A0A0A0", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed" }}>Cancel Checkout</label>
-                                </div>
-
-
-                              
-
-
-                              </div>
-
-
-
-                                } */}
-                            
 
 
                           {
                             matchedData[0]?.currentStatus === "Notice Period" &&
-                              <div>
+                            <div>
 
-{/* cancel checkout */}
-                                <div
-                                  className="d-flex gap-2 align-items-center"
-                                  onClick={() => handleRecheckInBed()}
+                              {/* cancel checkout */}
+                              <div
+                                className="d-flex gap-2 align-items-center"
+                                onClick={() => handleRecheckInBed()}
 
 
-                                  style={{
-                                    padding: "10px",
-                                    borderTopLeftRadius: 10,
-                                    borderTopRightRadius: 10,
-                                    cursor: canWriteCustomers ? "pointer" : "not-allowed",
-                                    opacity: canWriteCustomers ? 1 : 0.5,
-                                  }}
-                                  onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#F0F4FF"; }}
-                                  onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
-                                >
+                                style={{
+                                  padding: "10px",
+                                  borderTopLeftRadius: 10,
+                                  borderTopRightRadius: 10,
+                                  cursor: canWriteCustomers ? "pointer" : "not-allowed",
+                                  opacity: canWriteCustomers ? 1 : 0.5,
+                                }}
+                                onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#F0F4FF"; }}
+                                onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
+                              >
 
-                                  <img src={CalenderTick} alt="Re-Assign Bed" style={{ filter: canWriteCustomers ? "none" : "grayscale(100%)" }} />
-                                  <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#A0A0A0", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed", }}>Cancel Checkout</label>
-                                </div>
+                                <img src={CalenderTick} alt="Re-Assign Bed" style={{ filter: canWriteCustomers ? "none" : "grayscale(100%)" }} />
+                                <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#A0A0A0", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed", }}>Cancel Checkout</label>
+                              </div>
 
-                                <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
-{/* new booking */}
- {!currentItem?.newTenantCustomerId &&
+                              <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
+                              {/* new booking */}
+                              {!currentItem?.newTenantCustomerId &&
 
                                 <div
                                   className="d-flex gap-2 align-items-center"
@@ -437,51 +403,51 @@ handleDisplayCheckInForm(true)
                                     New Booking
                                   </label>
                                 </div>
-}
-                                <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
-{/* Generate */}
-                                <div
-                                  className="d-flex gap-2 align-items-center"
-                                  onClick={() => canWriteCustomers && handleFinalsettelmentGenerate(currentItem)}
+                              }
+                              <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
+                              {/* Generate */}
+                              <div
+                                className="d-flex gap-2 align-items-center"
+                                onClick={() => canWriteCustomers && handleFinalsettelmentGenerate(currentItem)}
 
-                                  style={{
-                                    padding: "10px",
-                                    borderBottomLeftRadius: 10,
-                                    borderBottomRightRadius: 10,
-                                    cursor: canWriteCustomers ? "pointer" : "not-allowed",
-                                    opacity: canWriteCustomers ? 1 : 0.5,
-                                  }}
-                                  onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
-                                  onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
-                                >
-                                  <img src={logout} alt="Checkout" style={{ filter: canWriteCustomers ? "none" : "grayscale(100%)" }} />
-                                  <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#A0A0A0", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed" }}>Generate</label>
-                                </div>
+                                style={{
+                                  padding: "10px",
+                                  borderBottomLeftRadius: 10,
+                                  borderBottomRightRadius: 10,
+                                  cursor: canWriteCustomers ? "pointer" : "not-allowed",
+                                  opacity: canWriteCustomers ? 1 : 0.5,
+                                }}
+                                onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
+                                onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
+                              >
+                                <img src={logout} alt="Checkout" style={{ filter: canWriteCustomers ? "none" : "grayscale(100%)" }} />
+                                <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#A0A0A0", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed" }}>Generate</label>
                               </div>
+                            </div>
                           }
- {/* Checkout */}
+                          {/* Checkout */}
                           {
                             matchedData[0]?.currentStatus === "Settlement Generated" &&
-                             <div
-                                  className="d-flex gap-2 align-items-center"
-                                  onClick={canWriteCustomers ? () => handleCheckout(currentItem) : undefined}
+                            <div
+                              className="d-flex gap-2 align-items-center"
+                              onClick={canWriteCustomers ? () => handleCheckout(currentItem) : undefined}
 
-                                  style={{
-                                    padding: "10px",
-                                    borderBottomLeftRadius: 10,
-                                    borderBottomRightRadius: 10,
+                              style={{
+                                padding: "10px",
+                                borderBottomLeftRadius: 10,
+                                borderBottomRightRadius: 10,
 
-                                    cursor: canWriteCustomers ? "pointer" : "not-allowed",
-                                    opacity: canWriteCustomers ? 1 : 0.5,
-                                  }}
-                                  onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
-                                  onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
-                                >
-                                  <img src={logout} alt="Checkout" style={{ filter: canWriteCustomers ? "none" : "grayscale(100%)" }} />
-                                  <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#A0A0A0", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed" }}>Checkout</label>
-                                </div>
+                                cursor: canWriteCustomers ? "pointer" : "not-allowed",
+                                opacity: canWriteCustomers ? 1 : 0.5,
+                              }}
+                              onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
+                              onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
+                            >
+                              <img src={logout} alt="Checkout" style={{ filter: canWriteCustomers ? "none" : "grayscale(100%)" }} />
+                              <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#A0A0A0", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed" }}>Checkout</label>
+                            </div>
                           }
-                           
+
 
                         </div>
                       )}
@@ -565,16 +531,16 @@ handleDisplayCheckInForm(true)
                               backgroundColor: "#f9f9f9",
                               display: "flex",
                               flexDirection: "column",
-                              zIndex: 1000,
+                              zIndex: 3000,
                               boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
                             }}
                           >
 
-{/* Check in   */}
+                            {/* Check in   */}
 
 
                             <div
-                                                        onClick={
+                              onClick={
                                 canWriteCustomers && !currentItem.isOccupied
                                   ? () => handleCheckIn(currentItem)
                                   : undefined
@@ -639,7 +605,7 @@ handleDisplayCheckInForm(true)
                                   position: "absolute",
                                   top: "-100px",
                                   left: 0,
-                                  backgroundColor: "#FFF3F3",
+                                  backgroundColor: "#FFDADA",
                                   padding: "5px 10px",
                                   borderRadius: "6px",
                                   color: "#222",
@@ -647,14 +613,15 @@ handleDisplayCheckInForm(true)
                                   fontFamily: "Gilroy",
                                   fontWeight: 500,
                                   boxShadow: "0px 2px 6px rgba(0,0,0,0.2)",
-                                  zIndex: 100,
+                                  zIndex: 4000,
+
                                 }}
                               >
                                 <img src={Settings} alt="alt" /> Complete the Checkout Process for the Occupied tenant, then the button will appear
                               </div>
                             </div>
 
-{/* Change bed */}
+                            {/* Change bed */}
                             <div
                               className="d-flex gap-2 align-items-center"
                               // onClick={canWriteCustomers ? () => handleChangeBed(currentItem) : undefined}
@@ -675,10 +642,10 @@ handleDisplayCheckInForm(true)
                               }} />
                               <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#dcdcdc", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed", }}>Change Bed</label>
                             </div>
-{/* make as Inactive */}
+                            {/* make as Inactive */}
                             <div
                               className="d-flex gap-2 align-items-center"
-                               onClick={canWriteCustomers ? () => handleMakeAsInActive() : undefined}
+                              onClick={canWriteCustomers ? () => handleMakeAsInActive() : undefined}
 
                               style={{
                                 padding: "10px",
