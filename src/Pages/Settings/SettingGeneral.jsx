@@ -8,26 +8,25 @@ import {
   FormControl,
   InputGroup,
 } from "react-bootstrap";
-import img2 from "../Assets/Images/New_images/settingeye.png";
+import img2 from "../../Assets/Images/New_images/settingeye.png";
 import Image from "react-bootstrap/Image";
 import imageCompression from "browser-image-compression";
-import Profile from "../Assets/Images/New_images/profile-picture.png";
-import EmptyState from "../Assets/Images/New_images/empty_image.png";
-import Plus from "../Assets/Images/New_images/add-circle.png";
+import Profile from "../../Assets/Images/New_images/profile-picture.png";
+import EmptyState from "../../Assets/Images/New_images/empty_image.png";
+import Plus from "../../Assets/Images/New_images/add-circle.png";
 import Select from "react-select";
-import "./Settings.css";
-import eye from "../Assets/Images/login-password.png";
-import eyeClosed from "../Assets/Images/Show_password.png";
-import Edit from "../Assets/Images/Edit-blue.png";
-import Delete from "../Assets/Images/Delete_red.png";
-import { MdError } from "react-icons/md";
-import './SettingAll.css'
+import "../Settings.css";
+import eye from "../../Assets/Images/login-password.png";
+import eyeClosed from "../../Assets/Images/Show_password.png";
+import Edit from "../../Assets/Images/Edit-blue.png";
+import Delete from "../../Assets/Images/Delete_red.png";
+import '../SettingAll.css'
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { CloseCircle } from "iconsax-react";
-import './SettingGeneral.css';
-import ErrorMessage from '../Components/ErrorMessage'
-import { useHasPermission } from '../Utils/Permission';
-import Emptystate from "../Assets/Images/Empty-State.jpg";
+import '../SettingGeneral.css';
+import ErrorMessage from '../../Components/ErrorMessage'
+import { useHasPermission } from '../../Utils/Permission';
+import Emptystate from "../../Assets/Images/Empty-State.jpg";
 
 function SettingGeneral() {
   const state = useSelector((state) => state);

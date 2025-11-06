@@ -61,21 +61,7 @@ import UserListRoomDetail from "../Pages/CustomerFile/UserListRoomDetail";
 import CheckoutProfile from '../Pages/CustomerFile/CheckoutProfile';
 import BillsDetails from '../Pages/Bills/BillsDetails';
 
-import SettingGeneral from "../Pages/SettingGeneral";
-import SettingManage from "../Pages/SettingManage";
-import SettingSecurity from "../Pages/SettingSecurityPage";
-import SettingSubscription from "../Pages/SubscriptionFile/SettingSubscription";
-import SettingIntergration from "../Pages/SettingIntergration";
-import SettingElectricity from "../Pages/SettingElectricity";
-import SettingInvoice from "../Pages/SettingInvoice";
-import SettingExpenses from "../Pages/SettingExpenses";
-import SettingCompliance from "../Pages/SettingCompliance";
-import SettingAmenities from "../Pages/SettingAmenities";
-import SettingNewUser from "../Pages/SettingUserNew";
-import SettingNewRole from "../Pages/SettingNewRole";
-import SettingsNotifications from "../Pages/SettingsNotifications";
-import SettingAgreement from "../Pages/SettingAgreement";
-import BillingRule from "../Pages/Settings/BillingRule/BillingRule";
+
 
 function Sidebar() {
   const navigate = useNavigate();

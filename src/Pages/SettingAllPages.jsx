@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import SettingGeneral from "./SettingGeneral";
+import SettingGeneral from "./Settings/SettingGeneral";
 import SettingManage from "./SettingManage";
 import blueArrow from "../Assets/Images/New_images/arrow-leftblue.png";
 import blackArrow from "../Assets/Images/New_images/arrow-leftblack.png";

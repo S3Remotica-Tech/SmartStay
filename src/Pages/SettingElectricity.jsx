@@ -76,15 +76,17 @@ useEffect(() => {
       }
     }, [canReadElectricity]);
 
+    console.log("canReadElectricity",canReadElectricity)
+
   useEffect(() => {
-    if (hostelid) {
+    if (state.login.selectedHostel_Id) {
       // setLoading(true)
       dispatch({
         type: "EB-BILLING-UNIT-LIST",
-        payload: hostelid
+        payload: state.login.selectedHostel_Id
       });
     }
-  }, [hostelid]);
+  }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
     if (
@@ -93,7 +95,7 @@ useEffect(() => {
     ) {
       dispatch({
         type: "EB-BILLING-UNIT-LIST",
-        payload: hostelid,
+        payload: state.login.selectedHostel_Id,
       });
       setFormLoading(false)
       handleClose();
@@ -120,7 +122,7 @@ useEffect(() => {
 
   const [showPopup, setShowPopup] = useState(false);
   const handleShowFormElectricity = () => {
-    if (!hostelid) {
+    if (!state.login.selectedHostel_Id) {
       setShowPopup(true);
       return;
     }
@@ -132,7 +134,7 @@ useEffect(() => {
   const [edit, setEdit] = useState(false);
 
   const handleEditElectricity = (item) => {
-    if (!hostelid) {
+    if (!state.login.selectedHostel_Id) {
       setShowPopup(true);
       return;
     }
@@ -184,7 +186,7 @@ useEffect(() => {
         type: "EB-BILLING-UNIT-ADD",
 
         payload: {
-          hostelId: hostelid,
+          hostelId: state.login.selectedHostel_Id,
           unitPrice: Number(amount),
         },
       });
@@ -194,7 +196,7 @@ useEffect(() => {
         type: "EB-BILLING-UNIT-ADD",
 
         payload: {
-          hostelId: hostelid,
+          hostelId: state.login.selectedHostel_Id,
           unitPrice: Number(amount),
         },
       });
@@ -206,7 +208,7 @@ useEffect(() => {
     setRecurringForm(false);
     dispatch({
       type: "EB-BILLING-UNIT-LIST",
-      payload: hostelid,
+      payload: state.login.selectedHostel_Id,
     });
     setCalculatedstartdateErrmsg("");
     setCalculatedEnddateErrMsg("");
@@ -218,7 +220,7 @@ useEffect(() => {
   //   // dispatch({
   //   //   type: "ROOMHOSTELEBCHANGE",
   //   //   payload: {
-  //   //     hostelId: hostelid,
+  //   //     hostelId: state.login.selectedHostel_Id,
   //   //     isHostelBased: hostelBasedCalculation,
   //   //     isRoomBased: roomBasedCalculation,
   //   //     isProRate: isProWrate
@@ -240,7 +242,7 @@ useEffect(() => {
       dispatch({
         type: "ROOMHOSTELEBCHANGE",
         payload: {
-          hostelId: hostelid,
+          hostelId: state.login.selectedHostel_Id,
           isProRate: false,
         },
       });
@@ -266,7 +268,7 @@ useEffect(() => {
       dispatch({
         type: "ROOMHOSTELEBCHANGE",
         payload: {
-          hostelId: hostelid,
+          hostelId: state.login.selectedHostel_Id,
           // isHostelBased: true,
           //  isRoomBased: false,
           isProRate: true,
@@ -277,7 +279,7 @@ useEffect(() => {
       // dispatch({
       //   type: "SETTINGSADDRECURRING",
       //   payload: {
-      //     hostel_id: Number(hostelid),
+      //     hostel_id: Number(state.login.selectedHostel_Id),
       //     type: "electricity",
       //     recure: 1,
       //     start_date: Number(calculatedstartdate),
@@ -296,7 +298,7 @@ useEffect(() => {
 
       dispatch({
         type: "EB-BILLING-UNIT-LIST",
-        payload: hostelid,
+        payload: state.login.selectedHostel_Id,
       });
       setRecurringForm(false);
       setTimeout(() => {
@@ -314,7 +316,7 @@ useEffect(() => {
     dispatch({
       type: "ROOMHOSTELEBCHANGE",
       payload: {
-        hostelId: hostelid,
+        hostelId: state.login.selectedHostel_Id,
         isHostelBased: true,
         isRoomBased: false,
       },
@@ -327,7 +329,7 @@ useEffect(() => {
     dispatch({
       type: "ROOMHOSTELEBCHANGE",
       payload: {
-        hostelId: hostelid,
+        hostelId: state.login.selectedHostel_Id,
         isHostelBased: false,
         isRoomBased: true,
 
@@ -349,7 +351,7 @@ useEffect(() => {
       setRecurringForm(false)
       dispatch({
         type: "EB-BILLING-UNIT-LIST",
-        payload: hostelid,
+        payload: state.login.selectedHostel_Id,
       });
       setTimeout(() => {
         dispatch({ type: "REMOVE_ROOM_HOSTEL_EB_CHANGE" });
