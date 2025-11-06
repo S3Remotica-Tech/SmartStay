@@ -323,11 +323,13 @@ console.log("current bed",currentBed)
 
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
                 <Form.Group className="mb-3">
-                  <Form.Label style={{ marginBottom: 4, fontSize: 14, fontFamily: "Gilroy" }}>Date</Form.Label>
+                  <Form.Label style={{ marginBottom: 4, fontSize: 14, fontFamily: "Gilroy" }}>Date {" "} <span style={{ color: "red", fontSize: "20px" }}>
+                        *
+                      </span></Form.Label>
                   <DatePicker
                     style={{
                       width: "100%",
-                      height: 48,
+                      height: 48, 
                       border: "1px solid lightgrey",
                       cursor: "pointer",
                       fontFamily: "Gilroy",

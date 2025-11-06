@@ -39,8 +39,8 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
   const [formLoading, setFormLoading] = useState(false)
   const checkOutDateRef = useRef(null);
   const modeOfPaymentRef = useRef(null);
-  const [customer_details , setCustomerDetails] = useState({})
-  const [RequestDate , setRequestDate] = useState(null);
+  const [customer_details, setCustomerDetails] = useState({})
+  const [RequestDate, setRequestDate] = useState(null);
 
 
   const reasonOptions = [
@@ -68,38 +68,49 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
     dispatch({ type: "CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
   };
 
-   const handleInputChange = (index, field, value) => {
-        const updatedFields = [...fields];
-        const updatedErrors = [...errors];
+  const handleInputChange = (index, field, value) => {
+    const updatedFields = [...fields];
+    const updatedErrors = [...errors];
 
-        if (field === "reason" || field === "customReason") {
-                       const cleanedValue = value.replace(/[^A-Za-z ]/g, "");
+    if (field === "reason" || field === "customReason") {
+      const cleanedValue = value.replace(/[^A-Za-z ]/g, "");
 
-            if (field === "reason") {
-                if (cleanedValue.toLowerCase() === "others") {
-                    updatedFields[index].showInput = true;
-                    updatedFields[index].reason_name = "others";
-                    updatedFields[index].customReason = "";
-                } else {
-                    updatedFields[index].showInput = false;
-                    updatedFields[index].reason = cleanedValue;
-                    updatedFields[index].reason_name = cleanedValue;
-                    updatedFields[index].customReason = "";
-                }
-            } else if (field === "customReason") {
-                updatedFields[index].customReason = cleanedValue;
-            }
-
-            if (updatedErrors[index]) updatedErrors[index].reason = "";
-        } else if (field === "amount") {
-            const numericValue = value.replace(/[^0-9]/g, "");
-            updatedFields[index].amount = numericValue;
-            if (updatedErrors[index]) updatedErrors[index].amount = "";
+      if (field === "reason") {
+        if (cleanedValue.toLowerCase() === "others") {
+          updatedFields[index].showInput = true;
+          updatedFields[index].reason_name = "others";
+          updatedFields[index].customReason = "";
+        } else {
+          updatedFields[index].showInput = false;
+          updatedFields[index].reason = cleanedValue;
+          updatedFields[index].reason_name = cleanedValue;
+          updatedFields[index].customReason = "";
         }
+      } else if (field === "customReason") {
+        updatedFields[index].customReason = cleanedValue;
+      }
 
-        setFields(updatedFields);
-        setErrors(updatedErrors);
-    };
+      if (updatedErrors[index]) updatedErrors[index].reason = "";
+    } else if (field === "amount") {
+      let numericValue = value.replace(/[^0-9]/g, "");
+
+      if (numericValue.startsWith("0")) {
+        numericValue = numericValue.replace(/^0+/, "");
+      }
+
+
+      if (numericValue === "") {
+        numericValue = "";
+      }
+
+      updatedFields[index].amount = numericValue;
+
+      if (updatedErrors[index]) updatedErrors[index].amount = "";
+    }
+
+    setFields(updatedFields);
+    setErrors(updatedErrors);
+  };
 
   const handleRemoveField = (index) => {
     const updatedFields = [...fields];
@@ -129,18 +140,18 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
   // useEffect(()=>{
   //   const userId = state.UsersList.Users.map((item)=>{
   //     return item.ID === customerID
-   
+
   //   })
   //   
 
   // },[])
- useEffect(() => {
-  const userData = state.UsersList.Users.filter((item) => item.ID === customerID);
- 
-}, [state.UsersList, customerID]);
+  useEffect(() => {
+    const userData = state.UsersList.Users.filter((item) => item.ID === customerID);
+
+  }, [state.UsersList, customerID]);
   const handleConfirmCheckout = () => {
 
-    
+
     dispatch({ type: 'CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR' })
     let hasReasonAmountError = false;
     let newErrors = [];
@@ -244,7 +255,7 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
             reasons: formattedReasons,
             payment_id: modeOfPayment,
           };
-       
+
           dispatch({
             type: "ADDCONFIRMCHECKOUTCUSTOMER",
             payload,
@@ -262,7 +273,7 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
           reason_note: rightOffNote,
           profile: uploadFile,
         };
-     
+
         dispatch({
           type: "CONFIRMCHECKOUTDUECUSTOMER",
           payload,
@@ -278,12 +289,12 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-         dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id});
+      dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
     }
 
 
   }, [state.login.selectedHostel_Id]);
-  
+
 
   useEffect(() => {
     const Hostel_Id = data?.room.Hostel_Id;
@@ -311,39 +322,39 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
   }, [state.PgList.OccupiedCustomerGetStatusCode, state.PgList.OccupiedCustomer])
 
 
-  
-    
-  
-            useEffect(() => {
-  
-          const usersList = state?.UsersList?.Users;
-          const userDetails = state?.PgList?.OccupiedCustomer; 
-          
-          if (
-              Array.isArray(usersList) &&
-              Array.isArray(userDetails) &&
-              usersList.length > 0 &&
-              userDetails.length > 0
-          ) {
-              const targetUserId = userDetails[0]?.User_Id?.trim()?.toLowerCase();
-      
-              const foundCustomer = usersList.find(
-                  (user) => user.User_Id?.trim()?.toLowerCase() === targetUserId
-              );
-      
-              setCustomerDetails(foundCustomer || null);
-          }
-      }, [state?.UsersList?.Users , state?.PgList?.OccupiedCustomer]);
 
 
-           useEffect(() => {
-                    if(customer_details){
-                      const RequestDate = customer_details?.req_date ? dayjs(customer_details?.req_date) : null;
-                      setRequestDate(RequestDate)
-                    }
-            },[customer_details])
-      
-      
+
+  useEffect(() => {
+
+    const usersList = state?.UsersList?.Users;
+    const userDetails = state?.PgList?.OccupiedCustomer;
+
+    if (
+      Array.isArray(usersList) &&
+      Array.isArray(userDetails) &&
+      usersList.length > 0 &&
+      userDetails.length > 0
+    ) {
+      const targetUserId = userDetails[0]?.User_Id?.trim()?.toLowerCase();
+
+      const foundCustomer = usersList.find(
+        (user) => user.User_Id?.trim()?.toLowerCase() === targetUserId
+      );
+
+      setCustomerDetails(foundCustomer || null);
+    }
+  }, [state?.UsersList?.Users, state?.PgList?.OccupiedCustomer]);
+
+
+  useEffect(() => {
+    if (customer_details) {
+      const RequestDate = customer_details?.req_date ? dayjs(customer_details?.req_date) : null;
+      setRequestDate(RequestDate)
+    }
+  }, [customer_details])
+
+
 
   useEffect(() => {
     if (state.UsersList.statusCodegetConfirmCheckout) {
@@ -354,7 +365,7 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
       const deduction_details = state?.UsersList?.nonRefundable_details?.filter(
         (deduction) => deduction.amount > 0
       );
-     
+
 
       const invoiceTotal = Array.isArray(validInvoices)
         ? validInvoices.reduce((total, invoice) => total + Number(invoice.balance || 0), 0)
@@ -397,7 +408,7 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-         dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id});
+      dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
     }
   }, [state.login.selectedHostel_Id]);
 
@@ -460,7 +471,7 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
         className="m-0 p-0"
 
       >
-       
+
         <Modal.Header
           className="pt-0 pb-2 mb-3"
           style={{
@@ -517,10 +528,10 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
                     roundedCircle
                     style={{ height: 55, width: 55, cursor: "pointer" }}
                   />
-               
+
 
                   <div className="d-flex align-items-center gap-3 mb-3 ms-3">
-                   
+
                     <div>
                       <p className="mb-1"
                         style={{ fontWeight: 600, fontSize: "14px", marginBottom: "4px", color: "#1B1B1B" }}>
@@ -540,7 +551,7 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
                 </div>
               </div>
 
-        
+
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group className="mb-2" controlId="purchaseDate">
@@ -579,29 +590,29 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
                     /> */}
 
                     <DatePicker
-  ref={checkOutDateRef}
-  style={{
-    width: "100%", height: 48, cursor: "pointer",
-    backgroundColor: "#FFF",
-    color: "#000",
-    fontFamily: "Gilroy"
-  }}
-  format="DD/MM/YYYY"
-  placeholder="DD/MM/YYYY"
- value={checkOutDate ? dayjs(checkOutDate) : null}
+                      ref={checkOutDateRef}
+                      style={{
+                        width: "100%", height: 48, cursor: "pointer",
+                        backgroundColor: "#FFF",
+                        color: "#000",
+                        fontFamily: "Gilroy"
+                      }}
+                      format="DD/MM/YYYY"
+                      placeholder="DD/MM/YYYY"
+                      value={checkOutDate ? dayjs(checkOutDate) : null}
                       onChange={(date) => {
                         setCheckOutDate(date ? date.toDate() : null);
                         setCheckOutDateError("");
                       }}
-  getPopupContainer={() => document.body}
-  disabledDate={(current) => {
-    // RequestDate set aagum bodhu mattum check pannanum
-    if (RequestDate) {
-      return current && current < RequestDate.startOf("day");
-    }
-    return false; // illa na ellam allow
-  }}
-/>
+                      getPopupContainer={() => document.body}
+                      disabledDate={(current) => {
+                        // RequestDate set aagum bodhu mattum check pannanum
+                        if (RequestDate) {
+                          return current && current < RequestDate.startOf("day");
+                        }
+                        return false; // illa na ellam allow
+                      }}
+                    />
 
                   </div>
                 </Form.Group>
@@ -843,15 +854,15 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
 
                         <div className="col-md-1 d-flex justify-content-center align-items-center p-0">
 
-                       
-                            <Trash
-                              size="20"
-                              color="red"
-                              variant="Bold"
-                              style={{ cursor: "pointer" }}
-                              onClick={() => handleRemoveField(index)}
-                            />
-                        
+
+                          <Trash
+                            size="20"
+                            color="red"
+                            variant="Bold"
+                            style={{ cursor: "pointer" }}
+                            onClick={() => handleRemoveField(index)}
+                          />
+
                         </div>
                       </div>
                     );
@@ -1198,7 +1209,7 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
 
         </Modal.Body>
 
-       
+
         {formLoading &&
           <div
             style={{
