@@ -2169,7 +2169,6 @@ function UserListRoomDetail(props) {
     setAdvanceList(state.UsersList.customerdetails.advanceInfo);
   }, [state.UsersList.customerdetails.advanceInfo]);
 
-  console.log("CustomerOverView", CustomerOverView)
 
 
   return (

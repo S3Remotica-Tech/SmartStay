@@ -811,7 +811,7 @@ useEffect(() => {
                 }}>
                 <div className="row d-flex justify-content-between align-items-center ps-3 pe-3">
                   <div className="col-6">
-                    <img src={logoPreview ? logoPreview : Logo} alt="logo" style={{ height: 40, width: 50 }} />
+                    <img src={logoPreview ? logoPreview : Logo} alt="logo"  style={{ height: 54, width: "50%", }} />
                     <div>
                     </div>
                   </div>
@@ -1023,7 +1023,7 @@ useEffect(() => {
                                 fontSize: 12,
                                 fontWeight: 600,
                                 color: "#222222",
-                                textAlign: "right", textTransform: "capitalize"
+                                textAlign: "", textTransform: "capitalize"
                               }}
                             >
                               DESCRIPTION

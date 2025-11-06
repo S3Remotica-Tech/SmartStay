@@ -191,12 +191,10 @@ function* handlePgList(datum) {
     }
   }
   catch (error) {
-      yield* handleApiError(error);
-    if (error.code === 'ERR_NETWORK') {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-    } else {
-      yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-    }
+           console.log("error",error)
+             yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+           yield* handleApiError(error);
+    
   }
 }
 

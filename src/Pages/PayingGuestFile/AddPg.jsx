@@ -1352,6 +1352,11 @@ function AddPg({ show, handleClose, currentItem }) {
             })}
           </div>
 
+
+          {
+            state.createAccount?.networkError &&   <ErrorMessage message={state.createAccount?.networkError} type="error" />
+          }
+
         </Modal.Body>
         {formLoading && <div
           style={{
@@ -1393,6 +1398,7 @@ function AddPg({ show, handleClose, currentItem }) {
 
 
           <Button
+          disabled={formLoading}
             onClick={handleCreatePayingGuest}
             className="w-100"
             style={{
