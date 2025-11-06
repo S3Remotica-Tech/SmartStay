@@ -338,6 +338,7 @@ function BedDetailsMap({ room, propsValue }) {
     const handleCloseChangedBed = () => {
         // dispatch(triggerPG(false))
         setShowConfirmChangeBedModal(false)
+        setChangedBedClicked('')
     }
 
 
@@ -440,6 +441,8 @@ function BedDetailsMap({ room, propsValue }) {
     const bedsForRoom = state.PgList?.bedList?.[room.id] || [];
 
 
+console.log("bedsForRoom",bedsForRoom)
+
     const filteredBeds = state.login.isTrigger
         ? bedsForRoom.filter(
             (bed) =>
@@ -534,6 +537,8 @@ function BedDetailsMap({ room, propsValue }) {
         }
     }, [state.UsersList.statusCodeForReassinBed]);
 
+
+console.log("state.PgList?.isClickedBed",state.PgList?.isClickedBed)
 
 
     return (
@@ -882,7 +887,7 @@ function BedDetailsMap({ room, propsValue }) {
                                     fontFamily: "Gilroy",
                                 }}
                             >
-                                {`Room ${customer?.roomName || "N/A"} | Bed ${customer.bedName || "-"}`}
+                               { ` ${customer?.floorName || "N/A"} | ${customer?.roomName || "N/A"} | ${customer.bedName || "-"}`}
                             </span>
                         </p>
                     </div>

@@ -64,7 +64,7 @@ function PgList() {
   // const canDeletePayingGuests = useHasPermission("Paying Guests", "canDelete");
 
 
-const {
+  const {
     canWriteModule: canWritePayingGuests,
     canReadModule: canReadPayingGuests,
     canUpdateModule: canUpdatePayingGuests,
@@ -578,30 +578,11 @@ const {
   };
 
 
-
-
-
-
-
-
   const handleCloses = () => {
     setShowAddPg(false);
- dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+    dispatch({ type: 'CLEAR_NETWORK_ERROR' })
 
   };
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -754,6 +735,9 @@ const {
   }, [])
 
 
+
+  console.log("state", state)
+
   return (
     <>
 
@@ -834,21 +818,11 @@ const {
 
 
 
-                  <div
-                    style={{
-                      position: "relative",
-                      width: "60px",
-                      height: "60px",
-                      marginRight: "10px",
-                    }}
-                  >
+                  {state.PgList?.isClickedBed?.currentTenantProfilePic ? (
+                    // ✅ Show profile image if available
                     <img
-                      src={
-                        state.PgList?.OccupiedCustomer?.profilePic
-                        || Profiles
-                      }
-
-                      alt={"Default Profile"}
+                      src={state.PgList?.OccupiedCustomer?.currentTenantProfilePic || Profiles}
+                      alt="Tenant Profile"
                       style={{
                         height: "60px",
                         width: "60px",
@@ -860,9 +834,27 @@ const {
                         e.target.src = Profiles;
                       }}
                     />
+                  ) : (
 
-
-                  </div>
+                    <div
+                      style={{
+                        height: "60px",
+                        width: "60px",
+                        borderRadius: "50%",
+                        backgroundColor: "#1E45E1",
+                        color: "white",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontWeight: "bold",
+                        fontFamily: "Gilroy",
+                        fontSize: "18px",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      {state.PgList?.isClickedBed?.currentTenantInitials || "?"}
+                    </div>
+                  )}
 
 
 
@@ -874,12 +866,12 @@ const {
                     <span
                       className="card-title mb-0"
                       style={{
-                        fontSize: "20px",
+                        fontSize: "18px",
                         fontWeight: 600,
                         fontFamily: "Gilroy",
                       }}
                     >
-                      {state.PgList?.OccupiedCustomer?.fullName}
+                      {state.PgList?.isClickedBed?.currentTenantFullName}
 
                     </span>
 
@@ -887,13 +879,13 @@ const {
 
                     <div style={{ display: 'flex', flexDirection: 'row', gap: '25px' }}>
                       <div style={{ fontSize: 12, fontFamily: "Gilroy", }}>
-                        <img src={Floorimage} alt="Floorimage" size="16" color="#1E45E1" className="me-1" /> {state.PgList?.OccupiedCustomer?.floorName}
+                        <img src={Floorimage} alt="Floorimage" size="16" color="#1E45E1" className="me-1" /> {state.PgList?.isClickedBed?.floorName}
                       </div>
                       <div style={{ fontSize: 12, fontFamily: "Gilroy", }}>
-                        <img src={RoomImage} alt="RoomImage" size="16" color="#1E45E1" className="me-1" /> {state.PgList?.OccupiedCustomer?.roomName}
+                        <img src={RoomImage} alt="RoomImage" size="16" color="#1E45E1" className="me-1" /> {state.PgList?.isClickedBed?.roomName}
                       </div>
                       <div style={{ fontSize: 12, fontFamily: "Gilroy", }}>
-                        <img src={Group} alt="bedimage" size="16" color="#1E45E1" className="me-1" /> {state.PgList?.OccupiedCustomer?.bedName}
+                        <img src={Group} alt="bedimage" size="16" color="#1E45E1" className="me-1" /> {state.PgList?.isClickedBed?.bedName}
                       </div>
 
                     </div>
@@ -1166,13 +1158,13 @@ const {
                                         <img className="me-1 mb-1" src={overdueimg} alt="overdue" />
                                         Overdue
                                       </p>
-                                       <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
-                                    <img className="me-1 mb-1" src={noticeimg} alt="notice" />
-                                    Notice Period
-                                  </p>
+                                      <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
+                                        <img className="me-1 mb-1" src={noticeimg} alt="notice" />
+                                        Notice Period
+                                      </p>
                                     </>
                                   }
-                                 
+
                                 </div>
 
                                 {
