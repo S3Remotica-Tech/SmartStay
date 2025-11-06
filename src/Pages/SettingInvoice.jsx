@@ -2449,7 +2449,7 @@ setTemplateReceiptThemes(template)
                                   : Logo
                               }
                               alt="logo"
-                              style={{ height: 40, width: 50 }}
+                              style={{ height: 54, width: "50%", }}
                             />
 
                           </div>

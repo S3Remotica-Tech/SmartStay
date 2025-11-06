@@ -466,11 +466,8 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                 }}>
                   <div className="row d-flex justify-content-between align-items-center ps-3 pe-3">
                     <div className="col-6" >
-                      <img src={pdfDetails?.configurations?.hostelLogo ? pdfDetails?.configurations?.hostelLogo : Logo} alt="logo" style={{ height: 64, minWidth: 64, maxWidth: 84, borderRadius: '4px', }} className="me-2 mt-2" />
-
-
-
-
+                      <img src={pdfDetails?.configurations?.hostelLogo ? pdfDetails?.configurations?.hostelLogo : Logo} alt="logo"
+                        style={{ height: 54, width: "50%", borderRadius: '4px', }} className="mt-2" />
                     </div>
 
                     <div className="mt-2 col-5 ps-4 pe-0" >
@@ -480,12 +477,19 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                       <div
                         className="d-flex flex-wrap"
                         style={{
-                          fontSize: 12,
-                          fontWeight: 600,
+                          fontSize: 11,
+                          fontWeight: 500,
                           fontFamily: "Gilroy",
                           color: "#4B4B4B",
+                          lineHeight: "1.2rem",
+                          width: 220,
+                          whiteSpace: "normal",
                           wordBreak: "break-word",
-                          width: 150,
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          display: "-webkit-box",
+                          WebkitLineClamp: 5,
+                          WebkitBoxOrient: "vertical",
                         }}
                       >
                         {pdfDetails?.configurations?.address}
@@ -532,7 +536,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                         Bill to:
                       </div>
 
-                     <div className="mb-1 d-flex align-items-center">
+                      <div className="mb-1 d-flex align-items-center">
                         <span style={getIconStyle(templateColor)}>
                           <Profile size="16" variant="Bold" />
                         </span>

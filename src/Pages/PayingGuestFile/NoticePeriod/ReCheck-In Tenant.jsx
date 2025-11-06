@@ -107,9 +107,20 @@ function ReCheckInTenant(props) {
 
             if (updatedErrors[index]) updatedErrors[index].reason = "";
         } else if (field === "amount") {
-            const numericValue = value.replace(/[^0-9]/g, "");
-            updatedFields[index].amount = numericValue;
-            if (updatedErrors[index]) updatedErrors[index].amount = "";
+            let numericValue = value.replace(/[^0-9]/g, "");
+
+      if (numericValue.startsWith("0")) {
+        numericValue = numericValue.replace(/^0+/, "");
+      }
+
+
+      if (numericValue === "") {
+        numericValue = "";
+      }
+
+      updatedFields[index].amount = numericValue;
+
+      if (updatedErrors[index]) updatedErrors[index].amount = "";
         }
 
         setFields(updatedFields);

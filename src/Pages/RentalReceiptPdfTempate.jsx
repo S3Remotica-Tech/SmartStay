@@ -592,9 +592,9 @@ useEffect(() => {
                 <div className="row d-flex justify-content-between align-items-center ps-3 pe-3">
                   <div className="col-6">
                     {logoPreview ? (
-                      <img src={logoPreview} alt="Preview" style={{ height: 40, width: 50, borderRadius: '6px', }} />
+                      <img src={logoPreview} alt="Preview" style={{ height: 54, width: "50%", borderRadius: '4px', }} />
                     ) : (
-                      <img src={receiptLogo} alt="upload" style={{ height: 40, width: 50, borderRadius: '6px', }} />
+                      <img src={receiptLogo} alt="upload" style={{ height: 54, width: "50%", borderRadius: '4px', }} />
                     )}
 
 

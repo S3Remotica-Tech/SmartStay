@@ -10,7 +10,7 @@ export const initialState = {
   statusEditTrasactionCode: 0,
   statusCodeDeleteBank: 0,
   statusCodeForDeleteTrans: 0,
-  bankingError: ''
+  bankingCreateError: ""
 };
 
 const BankingReducer = (state = initialState, action) => {
@@ -25,11 +25,21 @@ const BankingReducer = (state = initialState, action) => {
     case "CLEAR_ADD_USER_BANKING":
       return { ...state, statusCodeForAddBanking: 0 };
 
-    case 'ERROR_BOOKING':
-      return { ...state, bankingError: action.payload }
+    // case 'ERROR_BOOKING':
+    //   return { ...state, bankingError: action.payload }
 
-    case 'REMOVE_ERROR_BOOKING':
-      return { ...state, bankingError: '' }
+    // case 'REMOVE_ERROR_BOOKING':
+    //   return { ...state, bankingError: '' }
+
+case 'CREATE_BANKING_ERROR':
+    return { ...state, bankingCreateError: action.payload }
+
+case 'REMOVE_CREATE_BANKING_ERROR':
+    return { ...state, bankingCreateError: "" }
+
+
+
+
 
     case "EDIT_BANK_TRANSACTION":
       return {
