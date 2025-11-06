@@ -218,7 +218,7 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
           amount: item.amount?.toString() || "",
           showInput: !!item.showInput
         };
-      });
+      }).filter((item) => item.type !== "" || item.amount !== "")
 
       setErrors(newErrors)
 

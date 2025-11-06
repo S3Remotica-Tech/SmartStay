@@ -625,15 +625,15 @@ function UserlistForm(props) {
     if (!validateAssignField(RoomRent, "RoomRent"));
 
     if (Floor === "Selected Floor" || floorError) {
-      setfloorError("Please Select a Valid PG");
+      setfloorError("Please Select Floor");
       return;
     }
     if (Rooms === "Selected Room" || roomError) {
-      setRoomError("Please Select a Valid PG");
+      setRoomError("Please Select Room");
       return;
     }
     if (Bed === "Selected Bed" || bedError) {
-      setBedError("Please Select a Valid PG");
+      setBedError("Please Select Bed");
       return;
     }
 
@@ -683,9 +683,8 @@ function UserlistForm(props) {
       return {
         type: reason_name,
         amount: item.amount || "",
-        // showInput: !!item.showInput
-      };
-    });
+             };
+    }).filter((item) => item.type !== "" || item.amount !== "")
 
     setErrors(newErrors)
 
@@ -706,13 +705,7 @@ function UserlistForm(props) {
       : "";
 
 
-    // const capitalizeFirstLetter = (str) => {
-    //   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-    // };
-
-    // const capitalizedFirstname = capitalizeFirstLetter(firstname);
-
-    // const capitalizedLastname = capitalizeFirstLetter(lastname);
+  
 
 
 
@@ -721,8 +714,7 @@ function UserlistForm(props) {
     const dueDateObj = new Date(invoiceDateObj);
     dueDateObj.setDate(dueDateObj.getDate() + (state?.Settings?.SettingsBillsGetRecurring?.dueDateOfMonth || 0));
 
-    // const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
-
+   
     if (
       Floor !== "Selected Floor" &&
       Rooms !== "Selected Room" &&
@@ -1571,7 +1563,7 @@ function UserlistForm(props) {
 
                 {activeTab === "LONG" ? <>
                   <div style={{ maxHeight: "300px", overflowY: "scroll" }} className="show-scroll p-2 mt-2 me-1">
-                    <div className="row d-flex align-items-center">
+                    <div className="row d-flex align-items-stretch">
 
                       <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
                         <Form.Group controlId="purchaseDate">

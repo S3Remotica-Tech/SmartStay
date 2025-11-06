@@ -331,33 +331,39 @@ function CheckIn({
 
         setErrors(newErrors)
 
-        const formattedReasons = fields.map((item) => {
-            let reason_name = "";
+        const formattedReasons = fields
+    .map((item) => {
+      let reason_name = "";
 
-            if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
-                reason_name = item.customReason || item["custom Reason"] || "";
-            } else {
-                reason_name = item.reason || item.reason_name || "";
-            }
+      if (
+        item.reason?.toLowerCase() === "others" ||
+        item.reason_name?.toLowerCase() === "others"
+      ) {
+        reason_name = item.customReason || item["custom Reason"] || "";
+      } else {
+        reason_name = item.reason || item.reason_name || "";
+      }
 
-            const error = { reason: "", amount: "" };
-            if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
-                error.amount = "Please enter amount";
-                hasReasonAmountError = true;
-            }
+      const error = { reason: "", amount: "" };
 
+      if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
+        error.amount = "Please enter amount";
+        hasReasonAmountError = true;
+      }
 
-            if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
-                error.reason = "Please enter reason";
-                hasReasonAmountError = true;
-            }
+      if ((!reason_name || reason_name.trim() === "") && item.amount) {
+        error.reason = "Please enter reason";
+        hasReasonAmountError = true;
+      }
 
-            newErrors.push(error);
-            return {
-                type: reason_name,
-                amount: item.amount || "",
-            };
-        });
+      newErrors.push(error);
+
+      return {
+        type: reason_name?.trim() || "",
+        amount: item.amount || "",
+      };
+    }).filter((item) => item.type !== "" || item.amount !== "");
+
 
         if (hasReasonAmountError) return;
 
@@ -377,10 +383,7 @@ function CheckIn({
                     advanceAmount: Number(AdvanceAmount),
                     rentalAmount: Number(RoomRent),
                     stayType: stay_typename,
-                    deductions: formattedReasons?.map(item => ({
-                        type: item.type,
-                        amount: Number(item.amount),
-                    })),
+                    deductions: formattedReasons ,
                     isAdvanceIncludedInBooking: true
                 }
             });

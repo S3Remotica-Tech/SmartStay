@@ -262,7 +262,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                 type: reason_name,
                 amount: item.amount || "",
             };
-        });
+        }).filter((item) => item.type !== "" || item.amount !== "")
 
         if (hasReasonAmountError) return;
 

@@ -226,14 +226,16 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
   const [bookingDateErrmsg, setBookingDateErrmsg] = useState('')
   const [formLoading, setFormLoading] = useState(false)
 
-  const handleAmount = (e) => {
-    const newAmount = e.target.value;
-    if (!/^\d*$/.test(newAmount)) {
-      return;
-    }
-    setAmount(newAmount);
-    setamountError("");
-  };
+ const handleAmount = (e) => {
+  const value = e.target.value;
+   if (!/^\d*$/.test(value)) return;
+ 
+  if (value.startsWith("0")) return;
+
+  setAmount(value);
+  setamountError("");
+};
+
 
   const [paymentError, setPaymentError] = useState("");
   const [modeOfPayment, setModeOfPayment] = useState("");
@@ -553,7 +555,10 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
         amount: item.amount || "",
         showInput: !!item.showInput
       };
-    });
+    }).filter((item) => item.type !== "" || item.amount !== "")
+
+
+
     setErrors(newErrors)
 
 
@@ -562,18 +567,6 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
     if (hasError) return
 
 
-
-    // const selectedUser = state?.UsersList?.Users.find(
-    //   item => item.ID === checkin_customername
-    // );
-
-
-
-    // const fullName = selectedUser?.Name?.trim() || "";
-
-    // const [FirstName, ...lastNameParts] = fullName.split(" ");
-
-    // const LastName = lastNameParts.join(" ") || "";
 
     const incrementDateAndFormat = (date) => {
       const newDate = new Date(date);
@@ -670,7 +663,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
         show={show}
         onHide={handleClose}
         backdrop="static"
-        centered
+        centered dialogClassName="custom-modals-style"
       >
         <Modal.Dialog
           style={{
@@ -764,7 +757,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
                 {activeTab === "LONG" ? <>
                   <div style={{ maxHeight: "350px", overflowY: "scroll" }} className="show-scroll p-2 mt-2 me-1">
-                    <div className="row d-flex align-items-center">
+                    <div className="row d-flex align-items-stretch">
 
 
                       <div style={{ display: 'flex', flexDirection: 'row' }}>
