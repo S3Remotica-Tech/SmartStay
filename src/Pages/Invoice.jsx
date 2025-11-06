@@ -2912,10 +2912,7 @@ const InvoicePage = () => {
 
 
   return (
-    <div style={{ height: "100%", overflowY: "auto", }}>
-
-
-
+    <div style={{ overflowY: "auto",  backgroundColor:"" }}>
       {showAllBill && (
         <Row className="p-0">
           <Col className="p-0"
@@ -4445,7 +4442,7 @@ const InvoicePage = () => {
 
                                   <div
                                     className=" booking-table-userlist  booking-table   ms-2 me-4"
-                                    style={{ paddingBottom: "20px", marginLeft: "-22px" }}
+                                    style={{ marginLeft: "-22px", }}
                                   >
                                     <div
 

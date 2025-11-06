@@ -93,8 +93,20 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
       if (updatedErrors[index]) updatedErrors[index].reason = "";
     } else if (field === "amount") {
-      const numericValue = value.replace(/[^0-9]/g, "");
+      let numericValue = value.replace(/[^0-9]/g, "");
+
+
+      if (numericValue.startsWith("0")) {
+        numericValue = numericValue.replace(/^0+/, "");
+      }
+
+
+      if (numericValue === "") {
+        numericValue = "";
+      }
+
       updatedFields[index].amount = numericValue;
+
       if (updatedErrors[index]) updatedErrors[index].amount = "";
     }
 
@@ -641,9 +653,9 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
   useEffect(() => {
     if (state.UsersList?.bedAvailableError || state.Booking?.bookingBedError) {
       setFormLoading(false)
-     
-        
-      
+
+
+
     }
 
   }, [state.UsersList?.bedAvailableError, state.Booking?.bookingBedError])
@@ -1753,12 +1765,12 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                       </div>
 
                       {state.UsersList?.bedAvailableError ?
-                      <div className="d-flex justify-content-center">
-                        <ErrorMessage message={state.UsersList?.bedAvailableError} type="error" />
+                        <div className="d-flex justify-content-center">
+                          <ErrorMessage message={state.UsersList?.bedAvailableError} type="error" />
                         </div>
                         : null}
 
-                    
+
 
 
 

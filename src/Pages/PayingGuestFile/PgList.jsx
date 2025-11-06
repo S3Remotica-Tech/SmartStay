@@ -586,6 +586,7 @@ const {
 
   const handleCloses = () => {
     setShowAddPg(false);
+ dispatch({ type: 'CLEAR_NETWORK_ERROR' })
 
   };
 

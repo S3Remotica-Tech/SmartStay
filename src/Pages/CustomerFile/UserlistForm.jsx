@@ -348,7 +348,7 @@ function UserlistForm(props) {
         case "RoomRent":
           setRoomRentError("");
           break;
-       
+
         default:
           break;
       }
@@ -372,18 +372,18 @@ function UserlistForm(props) {
     setRoomError("");
   };
 
- 
-  useEffect(() => {
-      if (Rooms) {
-        const filteredBed = state.UsersList?.availableBedList?.listBeds?.filter((view) => {
-          return view.floorId === Floor && view.roomId === Rooms
-        });
-        setAvailableBed(filteredBed)
-      }
-  
-    }, [Rooms, selectedDate,  state.UsersList?.availableBedList?.listBeds])
 
- 
+  useEffect(() => {
+    if (Rooms) {
+      const filteredBed = state.UsersList?.availableBedList?.listBeds?.filter((view) => {
+        return view.floorId === Floor && view.roomId === Rooms
+      });
+      setAvailableBed(filteredBed)
+    }
+
+  }, [Rooms, selectedDate, state.UsersList?.availableBedList?.listBeds])
+
+
 
 
   const handleBed = (selectedOption) => {
@@ -758,7 +758,7 @@ function UserlistForm(props) {
   };
 
 
-  
+
 
 
   useEffect(() => {
@@ -937,7 +937,7 @@ function UserlistForm(props) {
   const [bookingBedId, setBookingBedId] = useState("")
 
 
- 
+
 
   // const bookingDateRef = useRef("");
 
@@ -1102,34 +1102,44 @@ function UserlistForm(props) {
     const updatedErrors = [...errors];
 
     if (field === "reason" || field === "customReason") {
-         const cleanedValue = value.replace(/[^A-Za-z ]/g, "");
+      const cleanedValue = value.replace(/[^A-Za-z ]/g, "");
 
-        if (field === "reason") {
-            if (cleanedValue.toLowerCase() === "others") {
-                updatedFields[index].showInput = true;
-                updatedFields[index].reason_name = "others";
-                updatedFields[index].customReason = "";
-            } else {
-                updatedFields[index].showInput = false;
-                updatedFields[index].reason = cleanedValue;
-                updatedFields[index].reason_name = cleanedValue;
-                updatedFields[index].customReason = "";
-            }
-        } else if (field === "customReason") {
-            updatedFields[index].customReason = cleanedValue;
+      if (field === "reason") {
+        if (cleanedValue.toLowerCase() === "others") {
+          updatedFields[index].showInput = true;
+          updatedFields[index].reason_name = "others";
+          updatedFields[index].customReason = "";
+        } else {
+          updatedFields[index].showInput = false;
+          updatedFields[index].reason = cleanedValue;
+          updatedFields[index].reason_name = cleanedValue;
+          updatedFields[index].customReason = "";
         }
+      } else if (field === "customReason") {
+        updatedFields[index].customReason = cleanedValue;
+      }
 
-        if (updatedErrors[index]) updatedErrors[index].reason = "";
+      if (updatedErrors[index]) updatedErrors[index].reason = "";
     } else if (field === "amount") {
-            const numericValue = value.replace(/[^0-9]/g, "");
-        updatedFields[index].amount = numericValue;
+      let numericValue = value.replace(/[^0-9]/g, "");
 
-        if (updatedErrors[index]) updatedErrors[index].amount = "";
+      if (numericValue.startsWith("0")) {
+        numericValue = numericValue.replace(/^0+/, "");
+      }
+
+
+      if (numericValue === "") {
+        numericValue = "";
+      }
+
+      updatedFields[index].amount = numericValue;
+
+      if (updatedErrors[index]) updatedErrors[index].amount = "";
     }
 
     setFields(updatedFields);
     setErrors(updatedErrors);
-};
+  };
 
 
   const handleJoiningDateChange = (date) => {
@@ -1140,30 +1150,30 @@ function UserlistForm(props) {
   }
 
   useEffect(() => {
-  if (!selectedDate) {
-    setSelectedDate(dayjs());
-  }
-}, []);
+    if (!selectedDate) {
+      setSelectedDate(dayjs());
+    }
+  }, []);
 
 
- useEffect(()=>{
-    if(selectedDate){
+  useEffect(() => {
+    if (selectedDate) {
       const formatDate = (date) => {
-      if (!date) return "";
-      const d = new Date(date);
-      const day = String(d.getDate()).padStart(2, "0");
-      const month = String(d.getMonth() + 1).padStart(2, "0");
-      const year = d.getFullYear();
-      return `${day}-${month}-${year}`;
-    };
+        if (!date) return "";
+        const d = new Date(date);
+        const day = String(d.getDate()).padStart(2, "0");
+        const month = String(d.getMonth() + 1).padStart(2, "0");
+        const year = d.getFullYear();
+        return `${day}-${month}-${year}`;
+      };
 
-    const joiningDateForFormatted = formatDate(selectedDate);
-      dispatch({ type: 'AVAILBALEBEDDETAILS', payload:{ hostelId: state.login.selectedHostel_Id, joiningDate: joiningDateForFormatted}})
+      const joiningDateForFormatted = formatDate(selectedDate);
+      dispatch({ type: 'AVAILBALEBEDDETAILS', payload: { hostelId: state.login.selectedHostel_Id, joiningDate: joiningDateForFormatted } })
     }
 
-  },[selectedDate])
+  }, [selectedDate])
 
- 
+
   const handleCloseBacktoCheckin = () => {
     if (props?.setBacktoCheckInForm) props.setBacktoCheckInForm(false);
     if (props?.handleCloseBed) props.handleCloseBed();
@@ -1396,7 +1406,7 @@ function UserlistForm(props) {
 
   const handleSaveBacktoCheckin = () => {
     setRecheckinDateError("");
- 
+
     if (!reason) {
       setReasonError("Please Enter Reason");
       reasonRef.current?.focus();
@@ -1603,11 +1613,11 @@ function UserlistForm(props) {
                         </Form.Group>
 
                         {dateError && (
-                          <ErrorMessage message={dateError} type="error"/>
+                          <ErrorMessage message={dateError} type="error" />
                         )}
 
                         {joiningDateErrmsg.trim() !== "" && (
-                          <ErrorMessage message={joiningDateErrmsg} type="error"/>
+                          <ErrorMessage message={joiningDateErrmsg} type="error" />
                         )}
                       </div>
 
@@ -1628,7 +1638,7 @@ function UserlistForm(props) {
                         </Form.Label>
 
                         <Select
-                        isDisabled={!selectedDate}
+                          isDisabled={!selectedDate}
                           options={
                             state.UsersList.floorList?.map((u) => ({
                               value: u.id,
@@ -1705,7 +1715,7 @@ function UserlistForm(props) {
                         />
 
                         {floorError && (
-                         <ErrorMessage message={floorError} type="error"/>
+                          <ErrorMessage message={floorError} type="error" />
                         )}
                       </div>
 
@@ -1804,7 +1814,7 @@ function UserlistForm(props) {
                         />
 
                         {roomError && (
-                          <ErrorMessage message={roomError} type="error"/>
+                          <ErrorMessage message={roomError} type="error" />
                         )}
                       </div>
 
@@ -1887,7 +1897,7 @@ function UserlistForm(props) {
                             placeholder: (base) => ({
                               ...base,
                               color: "#9aa0a6",
-                              fontWeight:500
+                              fontWeight: 500
                             }),
                             dropdownIndicator: (base) => ({
                               ...base,
@@ -1912,14 +1922,14 @@ function UserlistForm(props) {
                         />
 
                         {state.UsersList?.bedAvailableError ?
-                           <ErrorMessage message={state.UsersList?.bedAvailableError} type="error"/>
+                          <ErrorMessage message={state.UsersList?.bedAvailableError} type="error" />
                           : null}
                         {bedWarning ?
-                          <ErrorMessage message={bedWarning} type="error"/>
+                          <ErrorMessage message={bedWarning} type="error" />
                           : null}
 
                         {bedError && (
-                          <ErrorMessage message={bedError} type="error"/>
+                          <ErrorMessage message={bedError} type="error" />
                         )}
                       </div>
 
@@ -1952,7 +1962,7 @@ function UserlistForm(props) {
                           />
                         </Form.Group>
                         {advanceAmountError && (
-                         <ErrorMessage message={advanceAmountError} type="error"/>
+                          <ErrorMessage message={advanceAmountError} type="error" />
                         )}
                       </div>
 
@@ -1975,7 +1985,7 @@ function UserlistForm(props) {
                               fontSize: 16,
                               color: "#4B4B4B",
                               fontFamily: "Gilroy",
-                              fontWeight:RoomRent? 600 : 500,
+                              fontWeight: RoomRent ? 600 : 500,
                               boxShadow: "none",
                               border: "1px solid #D9D9D9",
                               height: 50,
@@ -1984,7 +1994,7 @@ function UserlistForm(props) {
                           />
                         </Form.Group>
                         {roomrentError && (
-                           <ErrorMessage message={roomrentError} type="error"/>
+                          <ErrorMessage message={roomrentError} type="error" />
                         )}
                       </div>
 
@@ -2140,7 +2150,7 @@ function UserlistForm(props) {
                                 </>
                               )}
                               {errors[index]?.reason && (
-                                <ErrorMessage message={errors[index]?.reason} type="error"/>
+                                <ErrorMessage message={errors[index]?.reason} type="error" />
                               )}
                             </div>
 
@@ -2166,7 +2176,7 @@ function UserlistForm(props) {
 
                               />
                               {errors[index]?.amount && (
-                               <ErrorMessage message={errors[index]?.amount} type="error"/>
+                                <ErrorMessage message={errors[index]?.amount} type="error" />
                               )}
                             </div>
 
@@ -2201,7 +2211,7 @@ function UserlistForm(props) {
 
                   </div>
 
-                 
+
 
 
 
@@ -2430,7 +2440,7 @@ function UserlistForm(props) {
                       </div>
                     </Form.Group>
                     {advanceDateError && (
-                     <ErrorMessage message={advanceDateError} type="error"/>
+                      <ErrorMessage message={advanceDateError} type="error" />
                     )}
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -2475,7 +2485,7 @@ function UserlistForm(props) {
                       </div>
                     </Form.Group>
                     {advanceDueDateError && (
-                      <ErrorMessage message={advanceDueDateError} type="error"/>
+                      <ErrorMessage message={advanceDueDateError} type="error" />
                     )}
                   </div>
                 </div>
@@ -2570,7 +2580,7 @@ function UserlistForm(props) {
       </Modal>
 
 
-       
+
 
     </div>
   );

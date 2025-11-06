@@ -25,12 +25,7 @@ export async function createPgList(params) {
       formData.append("mainImage", params.mainImage);
     } else {
       
-      // formData.append(
-      //   "mainImage",
-      //   new Blob([], { type: "application/octet-stream" }),
-      //   "empty.txt"
-      // );
-    }
+        }
 
        if (params.additionalImages && params.additionalImages.length > 0) {
       params.additionalImages.forEach((img) => {
@@ -57,6 +52,27 @@ export async function createPgList(params) {
     console.error("Axios Error", error);
   }
 }
+
+
+
+// export async function createPgList(params) {
+//   try {
+   
+//     throw { response: { status: 500,  message: "Internal Server Error (mocked)"  } };
+
+   
+//   } catch (error) {
+//     console.error("Axios Error", error);
+//     return error;
+//   }
+// }
+
+
+
+
+
+
+
 
 
 export  function Checkeblist(datum) {
