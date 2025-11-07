@@ -356,6 +356,9 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
             onHide={handleClose}
             backdrop="static"
             centered
+            dialogClassName="custom-modals-style"
+
+
         >
             <Modal.Dialog
                 style={{
@@ -737,7 +740,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                             });
 
                                             return (
-                                                <div className="row px-4 mb-3" key={index}>
+                                                <div className="row px-4 mb-3 d-flex align-items-stretch" key={index}>
                                                     <div className="col-md-6">
 
 
@@ -861,7 +864,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                                     </div>
 
 
-                                                    <div className="col-md-1 d-flex justify-content-center align-items-center p-0">
+                                                    <div className="col-md-1 d-flex justify-content-center mt-3 p-0">
 
 
                                                         <Trash

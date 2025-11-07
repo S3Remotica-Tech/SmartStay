@@ -3580,7 +3580,7 @@ dispatch({ type: 'REMOVE_ERROR_MAKEASINACTIVE'})
                                           handleRoomDetailsPage(user)
                                         }
                                       >
-                                        {user.firstName}
+                                        {user?.firstName} {user?.lastName}
                                       </span>
                                     </td>
                                     <td className=""
