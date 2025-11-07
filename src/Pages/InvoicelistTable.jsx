@@ -228,7 +228,7 @@ useEffect(() => {
         >
 
       {(props.item?.paymentStatus === "Pending" ||
-            props.item?.paymentStatus === "Partial Payment") && (
+            props.item?.paymentStatus === "Partial Payment" ) && (
               <span
                 style={{
                   backgroundColor: "#FFD9D9",
@@ -259,7 +259,7 @@ useEffect(() => {
           )}
 
 
-          {props.item?.paymentStatus === "Refunded" && (
+          {(props.item?.paymentStatus === "Refunded" ||  props.item?.paymentStatus === "Partially Refunded") && (
             <span
               style={{
                 backgroundColor: "#FFF3CD",

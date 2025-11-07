@@ -333,7 +333,7 @@ const [CustomerOverView, setCustomerOverView] = useState([]);
             <div className="mb-4">
               <ErrorMessage
                 message={[
-                  ' Please add a &apos;Amenities&apos; option in Settings, accessible after assign an amenities',
+                  'Please add a Amenities option in Settings, accessible after assign an amenities',
                 ]}
                 type="error"
               />

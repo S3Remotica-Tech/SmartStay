@@ -56,6 +56,7 @@ function CustomerReAssign(props) {
 
   const handleCloseReAssign = () => {
     props.setCustomerReAssign(false);
+    dispatch({ type: "REMOVE_CHANGE_BED_ERROR" });
     setRentError("");
     setRoomError("");
     setBedError("");
@@ -171,6 +172,7 @@ function CustomerReAssign(props) {
 
 
   const handleBed = (selectedOption) => {
+    dispatch({ type: "REMOVE_CHANGE_BED_ERROR" });
     dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR' })
     setBedWarning("");
     const selectedBedId = selectedOption?.value || "";
@@ -649,10 +651,8 @@ function CustomerReAssign(props) {
   useEffect(() => {
     if (state.UsersList?.changeBedError) {
       setFormLoading(false)
-      setTimeout(() => {
-        dispatch({ type: "REMOVE_CHANGE_BED_ERROR" });
-      }, 3000)
-
+     
+        
     }
 
   }, [state.UsersList?.changeBedError])
