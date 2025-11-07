@@ -26,7 +26,7 @@ import ErrorMessage from '../../Components/ErrorMessage'
 
 
 
-function AddHostelReading({ show, handleClose, selectedRowDetails }) {
+function AddHostelReading({ show, handleClose, selectedRowDetails, roomReadingList }) {
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
 
@@ -78,7 +78,7 @@ function AddHostelReading({ show, handleClose, selectedRowDetails }) {
                     hostelId: state.login.selectedHostel_Id,
                     reading: Number(currentReading),
                     readingDate: formattedDate,
-                                   }
+                }
             })
             setLoading(true)
 
@@ -104,7 +104,7 @@ function AddHostelReading({ show, handleClose, selectedRowDetails }) {
     }, [state.UsersList?.roomReadingError])
 
 
-
+    
 
 
     return (
@@ -178,7 +178,7 @@ function AddHostelReading({ show, handleClose, selectedRowDetails }) {
                     <ErrorMessage message={state.UsersList?.roomReadingError} type="error" />
                 )}
 
- <Form.Group className="mt-0">
+                <Form.Group className="mt-0">
 
                     <Form.Label
                         style={{
@@ -229,7 +229,7 @@ function AddHostelReading({ show, handleClose, selectedRowDetails }) {
 
                 </Form.Group>
 
-                <Form.Group  className="mt-2">
+                <Form.Group className="mt-2">
                     <div
                         style={{
                             display: 'flex',
@@ -251,10 +251,10 @@ function AddHostelReading({ show, handleClose, selectedRowDetails }) {
                                 padding: 0
                             }}
                         >
-                           Reading   <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                            Reading   <span style={{ color: "red", fontSize: "20px" }}>*</span>
                         </Form.Label>
 
-                        {/* <span
+                        <span
                             style={{
                                 fontFamily: 'Gilroy',
                                 fontWeight: 400,
@@ -265,10 +265,16 @@ function AddHostelReading({ show, handleClose, selectedRowDetails }) {
                                 color: "gray"
                             }}
                         >
-                            Last Reading: <span style={{ color: '#1E45E1', fontFamily: "Gilroy" }}>
-                                {selectedRowDetails?.currentReading}
-                                </span>
-                        </span> */}
+                            Last Reading : {" "}
+                            <span style={{ color: '#1E45E1', fontFamily: "Gilroy" }}>
+                                {
+                                    roomReadingList
+                                        ?.filter(item => item.readingId !== 0)
+                                        .reduce((sum, item) => sum + (item.consumption || 0), 0)
+                                        .toFixed(0) 
+                                }
+                            </span>
+                        </span>
                     </div>
 
                     <Form.Control
@@ -292,7 +298,7 @@ function AddHostelReading({ show, handleClose, selectedRowDetails }) {
 
 
                 </Form.Group>
-               
+
 
 
 

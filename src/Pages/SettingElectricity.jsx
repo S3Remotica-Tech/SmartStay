@@ -166,6 +166,9 @@ useEffect(() => {
     }
   };
 
+
+console.log("editHostel",editHostel)
+
   const handleAddElectricity = () => {
     if (amount === "") {
       setAmountErr("Please Enter Amount");
@@ -175,7 +178,7 @@ useEffect(() => {
     if (
       edit &&
       editHostel &&
-      String(editHostel.chargerPerUnit) === String(amount)
+      String(editHostel.editamount) === String(amount)
     ) {
       setTotalErr("No Changes Deducted");
       return;
@@ -865,7 +868,10 @@ useEffect(() => {
               </div>
               <div className="">
                 {totalErr && (
+                  <div className=" d-flex align-items-center justify-content-center">
+
                   <ErrorMessage message={totalErr} type="error" />
+                  </div>
                 )}
               </div>
             </div>
