@@ -711,7 +711,7 @@ function UserListInvoice(props) {
                                 )}
 
 
-                                {view.paymentStatus === "Refunded" && (
+                                {(view.paymentStatus === "Refunded" ||  view?.paymentStatus === "Partially Refunded") && (
                                   <span
                                     style={{
                                       backgroundColor: "#FFF3CD",

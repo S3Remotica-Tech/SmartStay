@@ -48,7 +48,7 @@ import isBetween from "dayjs/plugin/isBetween";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import leftarrow from "../../Assets/Images/arrow-left.png";
-import { Routes, Route ,Outlet ,Navigate} from "react-router-dom";
+import { Routes, Route, Outlet, Navigate } from "react-router-dom";
 
 // import { CloseCircle } from "iconsax-react";
 import Addbook from "../../Assets/Images/New_images/calendar-tick.svg";
@@ -175,11 +175,11 @@ function UserList(props) {
 
   } = useHasPermission("Walk in");
 
-//  const canReadCheckout = useHasPermission("Checkout", "canRead")
+  //  const canReadCheckout = useHasPermission("Checkout", "canRead")
 
 
-const {
-       canReadModule: canReadCheckout,
+  const {
+    canReadModule: canReadCheckout,
 
   } = useHasPermission("Checkout");
 
@@ -188,9 +188,9 @@ const {
 
 
 
-  
 
- 
+
+
 
   const handleInvoiceNumber = (e) => {
     setInvoiceNumber(e.target.value)
@@ -217,7 +217,7 @@ const {
 
 
   useEffect(() => {
-    if (state.login.selectedHostel_Id ) {
+    if (state.login.selectedHostel_Id) {
       if (value === "1") {
 
         dispatch({
@@ -232,11 +232,11 @@ const {
           payload: { hostelId: state.login.selectedHostel_Id },
         });
       }
-       else if (value === "4") {
+      else if (value === "4") {
         dispatch({
-        type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id, type: 'Inactive' },
-      });
+          type: "USERLIST",
+          payload: { hostel_id: state.login.selectedHostel_Id, type: 'Inactive' },
+        });
       }
     }
   }, [value, state.login.selectedHostel_Id]);
@@ -1356,10 +1356,10 @@ const {
   useEffect(() => {
     if (state.UsersList.cancelCheckoutStatusCode === 200) {
 
-dispatch({
-          type: "USERLIST",
-          payload: { hostel_id: state.login.selectedHostel_Id },
-        });
+      dispatch({
+        type: "USERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
       setBacktoCheckInForm(false)
       setTimeout(() => {
         dispatch({ type: 'REMOVE_CANCEL_CHECKOUT' })
@@ -1493,6 +1493,8 @@ dispatch({
   const [addBasicDetail, setAddBasicDetail] = useState("");
   const [activeRow, setActiveRow] = useState(null);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+  const [showAbove, setShowAbove] = useState(false);
+
 
   const handleShowDots = (id, event) => {
 
@@ -1504,11 +1506,23 @@ dispatch({
     setSearch(false);
 
     const { top, left, height } = event.target.getBoundingClientRect();
-    const popupTop = top + height / 2;
-    const popupLeft = left - 200;
+    const popupTop = top + (height / 2);
+    const popupLeft = left - 210;
 
     setPopupPosition({ top: popupTop, left: popupLeft });
   };
+
+
+  useEffect(() => {
+    if (popupRef.current) {
+      const popupHeight = popupRef.current.offsetHeight;
+      const windowHeight = window.innerHeight;
+      const spaceBelow = windowHeight - popupPosition.top;
+
+
+      setShowAbove(spaceBelow < popupHeight + 20);
+    }
+  }, [popupPosition]);
 
   useEffect(() => {
     const handleClickOutsideAccount = (event) => {
@@ -1664,10 +1678,10 @@ dispatch({
     setIsDownloadTriggered(false);
     setFilterInput("");
     setFilterStatus("");
-// console.log("newValue",newValue)
-// if(String(newValue) === "3"){
-//   navigate(`/checkout/${state.login.selectedHostel_Id}`)
-// }
+    // console.log("newValue",newValue)
+    // if(String(newValue) === "3"){
+    //   navigate(`/checkout/${state.login.selectedHostel_Id}`)
+    // }
 
 
 
@@ -1945,7 +1959,7 @@ dispatch({
 
   useEffect(() => {
     if (id) {
-           dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: id } });
+      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: id } });
     }
   }, [id]);
 
@@ -2023,7 +2037,7 @@ dispatch({
   useEffect(() => {
     if (state.UsersList.statusCustomerAddUser === 200) {
       setTimeout(() => {
-              dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: id } });
+        dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: id } });
         dispatch({ type: "AMENITESHISTORY", payload: { user_id: id } });
       }, 1000);
 
@@ -2431,7 +2445,7 @@ dispatch({
     if (typeof props?.handleCloseBed === "function") {
       props.handleCloseBed();
     }
-dispatch({ type: 'REMOVE_ERROR_MAKEASINACTIVE'})
+    dispatch({ type: 'REMOVE_ERROR_MAKEASINACTIVE' })
 
     setInActiveForm(false)
     // setIsACtiveDateError("")
@@ -3580,7 +3594,7 @@ dispatch({ type: 'REMOVE_ERROR_MAKEASINACTIVE'})
                                           handleRoomDetailsPage(user)
                                         }
                                       >
-                                        {user.firstName}
+                                        {user?.firstName} {user?.lastName}
                                       </span>
                                     </td>
                                     <td className=""
@@ -3755,7 +3769,9 @@ dispatch({ type: 'REMOVE_ERROR_MAKEASINACTIVE'})
                                             ref={popupRef}
                                             style={{
                                               position: "fixed",
-                                              top: popupPosition.top - 25,
+                                              top: showAbove
+                                                ? popupPosition.top - (popupRef.current?.offsetHeight || 100) - 20
+                                                : popupPosition.top - 35,
                                               left: popupPosition.left,
                                               boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
                                               width: "auto",
@@ -4515,7 +4531,7 @@ dispatch({ type: 'REMOVE_ERROR_MAKEASINACTIVE'})
               <TabPanel value="3">
 
 
-                  {/* <Route
+                {/* <Route
                 path="/checkout/:hostelId"
                 element={
                   <UserlistCheckout />}

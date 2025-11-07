@@ -26,7 +26,6 @@ const EBRoomOverview = ({ onBack, room }) => {
 
 
 
-    console.log("state", state)
 
     useEffect(() => {
         if (room.hostelId && room.roomId) {
@@ -104,13 +103,13 @@ const formattedTenantReadings = tenantReadingList?.map((item) => {
     });
 
 
-    console.log("tenantReadingList",tenantReadingList)
+   
     
     return (
         <>
 
             <div>
-                <div className="mb-5  mx-4">
+                <div className="mb-5 px-4">
 
                     <div
                         className="d-flex align-items-center"
@@ -119,7 +118,7 @@ const formattedTenantReadings = tenantReadingList?.map((item) => {
                             top: 4,
                             zIndex: 1000,
                             backgroundColor: "#fff",
-                            padding: "12px 20px",
+                            padding: "12px 5px",
                             height: "60px",
                         }}
                     >

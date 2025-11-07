@@ -197,7 +197,6 @@ const {
   const [filters, setFilters] = useState([]);
 
 
-  console.log("showModal", showModal)
 
 
 
@@ -331,7 +330,7 @@ const {
 
   const handleMonthChange = (selectedOption) => {
     setSelectedMonth(selectedOption);
-    console.log("Selected:", selectedOption.value);
+    
   };
 
 
@@ -1118,7 +1117,7 @@ const {
       )}
 
       {showHostelModal && (
-        <AddHostelReading show={showHostelModal} handleClose={handleCloseHostelShowModal} />
+        <AddHostelReading show={showHostelModal} handleClose={handleCloseHostelShowModal}  roomReadingList={roomReadingList}/>
       )}
     </>
 

@@ -118,6 +118,10 @@ function BedDetailsMap({ room, propsValue }) {
                 type: "GETALLBEDSLIST",
                 payload: { roomId: room.id }
             });
+             dispatch({
+          type: "USERLIST",
+          payload: { hostel_id: state.login.selectedHostel_Id },
+        });
             setBacktoCheckInForm(false)
             setTimeout(() => {
                 dispatch({ type: 'REMOVE_CANCEL_CHECKOUT' })
@@ -429,6 +433,10 @@ function BedDetailsMap({ room, propsValue }) {
                 type: "GETALLBEDSLIST",
                 payload: { roomId: room.id }
             });
+             dispatch({
+          type: "USERLIST",
+          payload: { hostel_id: state.login.selectedHostel_Id },
+        });
             setAssignTenantForm(false)
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_STATUS_CODES_CHECK_IN' })
@@ -457,7 +465,10 @@ console.log("bedsForRoom",bedsForRoom)
     useEffect(() => {
         if (state?.Booking?.statusCodeForAddBooking === 200) {
             handleCloseAssignTenant()
-
+ dispatch({
+          type: "USERLIST",
+          payload: { hostel_id: state.login.selectedHostel_Id },
+        });
             dispatch({
                 type: "GETALLBEDSLIST",
                 payload: { roomId: room.id }
@@ -489,6 +500,10 @@ console.log("bedsForRoom",bedsForRoom)
                 type: "GETALLBEDSLIST",
                 payload: { roomId: room.id }
             });
+             dispatch({
+          type: "USERLIST",
+          payload: { hostel_id: state.login.selectedHostel_Id },
+        });
             setTimeout(() => {
                 dispatch({ type: 'REMOVE_BOOKING_TO_CHECKIN' })
             }, 100)
