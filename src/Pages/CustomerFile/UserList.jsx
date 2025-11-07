@@ -1006,7 +1006,7 @@ const {
 
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceAddStatusCode === 201) {
-      navigate('/tenant-profile')
+      navigate(`/tenant/details/${customername}`)
       console.log("customernameeeeeeeeeeeeeeeee", customername)
       if (customername) {
         dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: customername } });
@@ -1694,7 +1694,7 @@ dispatch({
     setcustomerUser_Id(userData.customerId);
     // setRoomDetail(true);
     setUserList(false);
-    navigate('/tenant-profile', {
+    navigate(`/tenant/details/${userData.customerId}`, {
       state: {
         customerId: userData.customerId,
         hostelId: state.login.selectedHostel_Id,

@@ -2481,7 +2481,7 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceAddStatusCode === 201) {
-      navigate('/invoice')
+      navigate(`/invoice/${state.login.selectedHostel_Id}`)
       setShowManualInvoice(false)
       setFormLoading(false)
       setShowRecurringBillForm(false);

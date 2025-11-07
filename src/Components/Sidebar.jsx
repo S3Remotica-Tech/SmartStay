@@ -1590,7 +1590,7 @@ function Sidebar() {
               />
 
               <Route
-                path="/tenant-profile/:tenantId"
+                path="/tenant/details/:tenantId"
                 element={
                   <UserListRoomDetail
                   />
