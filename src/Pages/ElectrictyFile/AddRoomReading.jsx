@@ -56,7 +56,7 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
         let hasError = false;
 
         if (!currentReading) {
-            setReadingError("Please enter current reading");
+            setReadingError("Please enter  reading");
             hasError = true;
         } else {
             setReadingError("");
@@ -180,68 +180,7 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
                 {state.UsersList?.roomReadingError && (
                     <ErrorMessage message={state.UsersList?.roomReadingError} type="error" />
                 )}
-                <Form.Group className="mt-4">
-                    <div
-                        style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            width: '100%',
-                            marginBottom: 5
-                        }}
-                    >
-                        <Form.Label
-                            style={{
-                                fontFamily: 'Gilroy',
-                                fontWeight: 500,
-                                fontStyle: 'normal',
-                                fontSize: '14px',
-                                lineHeight: '100%',
-                                letterSpacing: '0',
-                                marginBottom: 0,
-                                padding: 0
-                            }}
-                        >
-                            Current Reading   <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                        </Form.Label>
-
-                        <span
-                            style={{
-                                fontFamily: 'Gilroy',
-                                fontWeight: 400,
-                                fontStyle: 'normal',
-                                fontSize: '14px',
-                                lineHeight: '100%',
-                                letterSpacing: '0',
-                                color: "gray"
-                            }}
-                        >
-                            Last Reading: <span style={{ color: '#1E45E1', fontFamily: "Gilroy" }}>{selectedRowDetails?.currentReading}</span>
-                        </span>
-                    </div>
-
-                    <Form.Control
-                        style={{ marginTop: 10, fontSize: 14, fontWeight: currentReading ? 600 : 500, padding: "12px 14px", fontFamily: "Gilroy" }}
-                        type="number"
-                        placeholder="Enter Reading"
-
-                        value={currentReading}
-                        onChange={handleCurrentReadingChange}
-                    />
-
-
-                    {readingError && (
-                        <ErrorMessage message={readingError} type="error" />
-
-                    )}
-
-
-
-
-
-
-                </Form.Group>
-                <Form.Group className="mt-2">
+ <Form.Group className="mt-2">
 
                     <Form.Label
                         style={{
@@ -291,6 +230,71 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
 
 
                 </Form.Group>
+
+
+
+                <Form.Group className="mt-2">
+                    <div
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            width: '100%',
+                            marginBottom: 5
+                        }}
+                    >
+                        <Form.Label
+                            style={{
+                                fontFamily: 'Gilroy',
+                                fontWeight: 500,
+                                fontStyle: 'normal',
+                                fontSize: '14px',
+                                lineHeight: '100%',
+                                letterSpacing: '0',
+                                marginBottom: 0,
+                                padding: 0
+                            }}
+                        >
+                           Reading   <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                        </Form.Label>
+
+                        <span
+                            style={{
+                                fontFamily: 'Gilroy',
+                                fontWeight: 400,
+                                fontStyle: 'normal',
+                                fontSize: '14px',
+                                lineHeight: '100%',
+                                letterSpacing: '0',
+                                color: "gray"
+                            }}
+                        >
+                            Last Reading: <span style={{ color: '#1E45E1', fontFamily: "Gilroy" }}>{selectedRowDetails?.currentReading}</span>
+                        </span>
+                    </div>
+
+                    <Form.Control
+                        style={{ marginTop: 10, fontSize: 14, fontWeight: currentReading ? 600 : 500, padding: "12px 14px", fontFamily: "Gilroy" }}
+                        type="number"
+                        placeholder="Enter Reading"
+
+                        value={currentReading}
+                        onChange={handleCurrentReadingChange}
+                    />
+
+
+                    {readingError && (
+                        <ErrorMessage message={readingError} type="error" />
+
+                    )}
+
+
+
+
+
+
+                </Form.Group>
+               
 
 
 

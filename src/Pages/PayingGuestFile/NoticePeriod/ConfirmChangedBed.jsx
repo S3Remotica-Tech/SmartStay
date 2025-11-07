@@ -15,7 +15,8 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 dayjs.extend(customParseFormat);
 import { useDispatch, useSelector } from 'react-redux';
-import ErrorMessage from '../../../Components/ErrorMessage'
+import ErrorMessage from '../../../Components/ErrorMessage';
+import { LiaBedSolid } from "react-icons/lia";
 
 function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer }) {
   ConfirmChangeBed.propTypes = {
@@ -225,9 +226,11 @@ console.log("current bed",currentBed)
           </Modal.Header>
 
 
-          <Modal.Body className="" style={{}} >
+          <Modal.Body 
+          style={{ maxHeight: "450px", overflowY: "scroll" }} className="show-scroll mt-1 me-3"
+          >
 
-            <div className="d-flex justify-content-between align-items-start mb-3" >
+            <div className="d-flex justify-content-between align-items-start mb-1" >
 
               <div>
                 <p className="mb-2" style={{ fontFamily: 'Gilroy' }}>Current Bed</p>
@@ -254,13 +257,9 @@ console.log("current bed",currentBed)
                 </p>
 
                 <p className="mb-3" style={{ fontFamily: 'Gilroy', fontSize: '16px' }}>
-                  <img
-                    src={Group}
-                    className="me-2"
-                    style={{ width: '20px', height: '20px', verticalAlign: 'middle' }}
-                    alt="Group"
-                  />
-                  <span style={{ position: 'relative', top: '3px', left: '4px' }}>{isPreviousBed?.bedName || 'N/A'} </span>
+                 
+                  <LiaBedSolid  style={{ width: '20px', height: '20px', verticalAlign: 'middle' , color:"#1E45E1"}}/>
+                  <span  className="ms-2" style={{ position: 'relative', top: '3px', left: '4px' }}>{isPreviousBed?.bedName || 'N/A'} </span>
                 </p>
 
               </div>
@@ -307,13 +306,8 @@ console.log("current bed",currentBed)
                 </p>
 
                 <p className="mb-3" style={{ fontFamily: 'Gilroy', fontSize: '16px' }}>
-                  <img
-                    src={Group}
-                    className="me-2"
-                    style={{ width: '20px', height: '20px', verticalAlign: 'middle' }}
-                    alt="Group"
-                  />
-                  <span style={{ position: 'relative', top: '3px', left: '4px' }}>{currentBed?.bedName || 'N/A'} </span>
+                  <LiaBedSolid  style={{ width: '20px', height: '20px', verticalAlign: 'middle' , color:"#1E45E1"}}/>
+                  <span className="ms-2" style={{ position: 'relative', top: '3px', left: '4px' }}>{currentBed?.bedName || 'N/A'} </span>
                 </p>
               </div>
             </div>
@@ -322,7 +316,7 @@ console.log("current bed",currentBed)
             <div className="row" style={{ fontSize: 13 }}>
 
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-1">
                   <Form.Label style={{ marginBottom: 4, fontSize: 14, fontFamily: "Gilroy" }}>Date {" "} <span style={{ color: "red", fontSize: "20px" }}>
                         *
                       </span></Form.Label>
@@ -427,7 +421,7 @@ console.log("current bed",currentBed)
               <ErrorMessage message={state.UsersList?.changeBedError} type="error" />
             </div>}
 
-            <div className="d-flex gap-3 mt-4 ">
+            <div className="d-flex gap-3 mt-1 ">
               <Button
                 variant="light"
                 className="px-4"

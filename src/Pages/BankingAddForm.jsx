@@ -248,6 +248,7 @@ function BankingAddForm(props) {
 
 
   const handleClose = () => {
+     dispatch({ type: 'REMOVE_CREATE_BANKING_ERROR'})
     dispatch({ type: 'REMOVE_ERROR_BOOKING' })
     props.setShowForm(false);
     props.setEdit(false);
