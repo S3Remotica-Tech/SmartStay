@@ -77,7 +77,7 @@ const {
         // props?.handleCheckoutOverview(false)
     setCheckoutWithoutPay(checkout)
     // setCheckoutProfile(true)
-    navigate('/tenant-checkout-profile')
+    navigate(`/tenant/checkout/details/${checkout.customerId}`)
     setcheckoutTableShow(false)
     dispatch(checkoutCustomerProfile(false))
     // dispatch({
@@ -96,23 +96,23 @@ const {
 
 
 
-  useEffect(() => {
-    const userType = props.customerrolePermission[0]?.user_details?.user_type;
-    const isAdmin = userType === "admin" || userType === "agent";
-    if (isAdmin) {
-      if (state?.login?.planStatus === 0) {
-        setcheckOutPermissionError("");
-        // setcheckOutEditPermissionError("Permission Denied");
-        // setcheckOutDeletePermissionError("Permission Denied");
+  // useEffect(() => {
+  //   const userType = props?.customerrolePermission[0]?.user_details?.user_type;
+  //   const isAdmin = userType === "admin" || userType === "agent";
+  //   if (isAdmin) {
+  //     if (state?.login?.planStatus === 0) {
+  //       setcheckOutPermissionError("");
+  //       // setcheckOutEditPermissionError("Permission Denied");
+  //       // setcheckOutDeletePermissionError("Permission Denied");
 
-      } else if (state?.login?.planStatus === 1) {
-        setcheckOutPermissionError("");
-        // setcheckOutEditPermissionError("");
-        // setcheckOutDeletePermissionError("");
-      }
-    }
+  //     } else if (state?.login?.planStatus === 1) {
+  //       setcheckOutPermissionError("");
+  //       // setcheckOutEditPermissionError("");
+  //       // setcheckOutDeletePermissionError("");
+  //     }
+  //   }
 
-  }, [state?.login?.planStatus, state?.login?.selectedHostel_Id, props.customerrolePermission])
+  // }, [state?.login?.planStatus, state?.login?.selectedHostel_Id, props.customerrolePermission])
 
   useEffect(() => {
     const checkoutPermission = props.customerrolePermission[0]?.role_permissions?.find(

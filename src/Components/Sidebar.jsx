@@ -50,7 +50,7 @@ import SettingIcon from "../Assets/Images/sidebariconOne.svg";
 import HelpDocumentIcon from "../Assets/Images/sidebariconThree.svg";
 import HelpVideoIcon from "../Assets/Images/sidebariconFour.svg";
 import Logout from "../Assets/Images/turn-off.png";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation ,Navigate} from "react-router-dom";
 import { Route, Routes, } from "react-router-dom";
 import Cookies from 'universal-cookie';
 import { checkoutCustomerProfile } from "../Redux/Action/smartStayAction";
@@ -60,6 +60,7 @@ import CreateBill from "../Pages/Bills/CreateBill";
 import UserListRoomDetail from "../Pages/CustomerFile/UserListRoomDetail";
 import CheckoutProfile from '../Pages/CustomerFile/CheckoutProfile';
 import BillsDetails from '../Pages/Bills/BillsDetails';
+import UserlistCheckout from '../Pages/CustomerFile/UserlistCheckout'
 
 
 
@@ -109,16 +110,15 @@ function Sidebar() {
 
 
   useEffect(() => {
-    if (state.login?.isLoggedIn) {
-      if (isFirstLogin.current) {
-
-        navigate(`/dashboard/${state.login.selectedHostel_Id}`, { replace: true });
-        isFirstLogin.current = false;
-      }
+  if (state.login?.isLoggedIn && state.login.selectedHostel_Id) {
+    if (isFirstLogin.current) {
+      navigate(`/dashboard/${state.login.selectedHostel_Id}`, { replace: true });
+      isFirstLogin.current = false;
     }
+  }
+}, [state.login?.isLoggedIn, state.login.selectedHostel_Id]);
 
-  }, [state.login?.isLoggedIn]);
-
+console.log("(state.login?.isLoggedIn",state.login?.isLoggedIn)
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -1464,6 +1464,8 @@ function Sidebar() {
             }}
           >
             <Routes>
+
+
               <Route
                 path="/dashboard/:hostelId"
                 element={
@@ -1598,12 +1600,14 @@ function Sidebar() {
               />
 
               <Route
-                path="/tenant-checkout-profile/:tenantId"
+                path="/tenant/checkout/details/:tenantId"
                 element={
                   <CheckoutProfile />
 
                 }
               />
+
+            
 
 
               {/* <Route path="/settings/general/:hostelId" element={<SettingGeneral />} />
