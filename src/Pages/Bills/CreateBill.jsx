@@ -1066,13 +1066,13 @@ function CreateBill() {
         setNewRows([]);
         setDropdownValue("")
         if (state.UsersList.userRoomfor) {
-            navigate('/tenant-profile', {
+            navigate(`/tenant/details/${customername}`, {
                 state: {
                     totriggerBillTap: true
                 }
             })
         } else {
-            navigate('/invoice')
+            navigate(`/invoice/${state.login.selectedHostel_Id}`)
         }
 
     };
@@ -2446,13 +2446,13 @@ function CreateBill() {
             setInvoiceDueDate("");
             setTotalAmount("");
             if (state.UsersList.userRoomfor) {
-                navigate('/tenant-profile', {
+                navigate(`/tenant/details/${id}`, {
                     state: {
                         totriggerBillTap: true
                     }
                 })
             } else {
-                navigate('/invoice')
+                navigate(`/invoice/${state.login.selectedHostel_Id}`)
             }
             setNewRows([]);
             dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })

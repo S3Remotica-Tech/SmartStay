@@ -48,6 +48,7 @@ import isBetween from "dayjs/plugin/isBetween";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import leftarrow from "../../Assets/Images/arrow-left.png";
+import { Routes, Route ,Outlet ,Navigate} from "react-router-dom";
 
 // import { CloseCircle } from "iconsax-react";
 import Addbook from "../../Assets/Images/New_images/calendar-tick.svg";
@@ -1006,7 +1007,7 @@ const {
 
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceAddStatusCode === 201) {
-      navigate('/tenant-profile')
+      navigate(`/tenant/details/${customername}`)
       console.log("customernameeeeeeeeeeeeeeeee", customername)
       if (customername) {
         dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: customername } });
@@ -1663,6 +1664,13 @@ dispatch({
     setIsDownloadTriggered(false);
     setFilterInput("");
     setFilterStatus("");
+// console.log("newValue",newValue)
+// if(String(newValue) === "3"){
+//   navigate(`/checkout/${state.login.selectedHostel_Id}`)
+// }
+
+
+
   };
 
   useEffect(() => {
@@ -1694,7 +1702,7 @@ dispatch({
     setcustomerUser_Id(userData.customerId);
     // setRoomDetail(true);
     setUserList(false);
-    navigate('/tenant-profile', {
+    navigate(`/tenant/details/${userData.customerId}`, {
       state: {
         customerId: userData.customerId,
         hostelId: state.login.selectedHostel_Id,
@@ -4505,6 +4513,14 @@ dispatch({ type: 'REMOVE_ERROR_MAKEASINACTIVE'})
                 />
               </TabPanel>
               <TabPanel value="3">
+
+
+                  {/* <Route
+                path="/checkout/:hostelId"
+                element={
+                  <UserlistCheckout />}
+              /> */}
+
                 <UserlistCheckout
                   id={props.id}
                   customerrolePermission={customerrolePermission}

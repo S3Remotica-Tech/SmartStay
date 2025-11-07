@@ -9,50 +9,47 @@ import { FormControl } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import { Table } from "react-bootstrap";
 import { Form } from "react-bootstrap";
-import User from "../Assets/Images/New_images/profile-picture.png";
+import User from "../../Assets/Images/New_images/profile-picture.png";
 import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
-import moment from "moment";
 import "sweetalert2/dist/sweetalert2.min.css";
-import LoaderComponent from "./LoaderComponent";
-import './Invoices.css';
-import InvoiceTable from "./InvoicelistTable";
-import Profile from "../Assets/Images/New_images/profile-picture.png";
+import LoaderComponent from "../LoaderComponent";
+import '../Invoices.css';
+import InvoiceTable from "../Bills/InvoicelistTable";
+import Profile from "../../Assets/Images/New_images/profile-picture.png";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import Calendars from "../Assets/Images/New_images/calendar.png";
+import Calendars from "../../Assets/Images/New_images/calendar.png";
 import "flatpickr/dist/themes/material_blue.css";
-import { MdError } from "react-icons/md";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
-import Emptystate from "../Assets/Images/Empty-State.jpg";
-import BillPdfModal from "../Pages/BillPdfModal";
+import Emptystate from "../../Assets/Images/Empty-State.jpg";
+import BillPdfModal from "../../Pages/BillPdfModal";
 import "react-toastify/dist/ReactToastify.css";
-import Closebtn from "../Assets/Images/CloseCircle.png";
 import "react-datepicker/dist/react-datepicker.css";
-import RecurringBill from "../Pages/RecurringBills";
-import RecurringBillList from "../Pages/RecurringBillList";
-import closecircle from "../Assets/Images/New_images/close-circle.png";
-import searchteam from "../Assets/Images/New_images/Search Team.png";
-import Filters from "../Assets/Images/Filters.svg";
-import Receipt from "./Receipt";
-import AddReceiptForm from "./AddReceipt";
-import ReceiptPdfCard from "./ReceiptPdfModal";
-import leftarrow from "../Assets/Images/arrow-left.png"
+import RecurringBill from "../../Pages/RecurringBills";
+import RecurringBillList from "../../Pages/RecurringBillList";
+import closecircle from "../../Assets/Images/New_images/close-circle.png";
+import searchteam from "../../Assets/Images/New_images/Search Team.png";
+import Filters from "../../Assets/Images/Filters.svg";
+import Receipt from "../Receipt";
+import AddReceiptForm from "../AddReceipt";
+import ReceiptPdfCard from "../ReceiptPdfModal";
+import leftarrow from "../../Assets/Images/arrow-left.png"
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import { CloseCircle, ArrowUp2, ArrowDown2, } from "iconsax-react";
-import './BillPdfModal.css';
-import AxiosConfig from "../WebService/AxiosConfig";
+import '../BillPdfModal.css';
+import AxiosConfig from "../../WebService/AxiosConfig";
 import Swal from 'sweetalert2';
-import PaginationList from "../Components/PaginationList";
-import ErrorMessage from '../Components/ErrorMessage'
-import { useHasPermission } from '../Utils/Permission';
+import PaginationList from "../../Components/PaginationList";
+import ErrorMessage from '../../Components/ErrorMessage'
+import { useHasPermission } from '../../Utils/Permission';
 import { HiMiniBars3BottomLeft } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 
@@ -2069,7 +2066,6 @@ const InvoicePage = () => {
       dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: rowData.hostelId, invoiceId: rowData.invoiceId } })
 
     }
-    // dispatch({ type: 'BILL_PDF_DETAILS', payload: { bill_id: rowData.id } })
   };
 
 
@@ -2485,7 +2481,7 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceAddStatusCode === 201) {
-      navigate('/invoice')
+      navigate(`/invoice/${state.login.selectedHostel_Id}`)
       setShowManualInvoice(false)
       setFormLoading(false)
       setShowRecurringBillForm(false);

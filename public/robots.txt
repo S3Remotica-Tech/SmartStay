@@ -12,7 +12,7 @@ Disallow: /eb
 Disallow: /compliance
 Disallow: /expenses
 Disallow: /reports
-Disallow: /settingNewDesign
+Disallow: NewDesign
 
 Allow: /sitemap.xml
 

@@ -142,21 +142,14 @@ function App() {
 
 
       <Router future={{ v7_startTransition: true }}>
-        {/* <Routes> */}
         {data || state.login?.isLoggedIn ? (
           <>
-            {/* <Route path="/" element={<Sidebar />} />
-              <Route path="*" element={<Navigate to="/" replace />} /> */}
             <Sidebar />
           </>
         ) : (
           <>
             <Routes>
               <Route path="/" element={<FrontPage />} />
-              {/* <Route path="/Terms-Condition" element={<TermsAndCondition />} />
-              <Route path="/Privacy-Policy" element={<Privacy />} />
-              <Route path="/Contact-Us" element={<Contact />} />
-              <Route path="/Cookies" element={<Cookies_policy />} /> */}
               <Route path="/hostel-management-login" element={<LoginPage />} />
               <Route path="/hostel-management-signup" element={<CreateAccount />} />
               <Route path="/forget-password" element={<ForgetPassword />} />

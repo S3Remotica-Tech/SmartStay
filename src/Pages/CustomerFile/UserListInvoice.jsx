@@ -16,7 +16,7 @@ import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import Select from "react-select";
 import ErrorMessage from '../../Components/ErrorMessage'
 import { useHasPermission } from '../../Utils/Permission';
-import InvoicePage from "../Invoice";
+// import InvoicePage from "../../Invoice";
 import { useNavigate } from "react-router-dom";
 
 
