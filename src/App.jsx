@@ -116,14 +116,13 @@ function App() {
 
   useEffect(() => {
     if (!state.login?.isLoggedIn && !data) {
-
       dispatch({ type: 'CLEAR_DASHBOARD' })
       dispatch(StoreSelectedHostelAction(""))
       cookies.set('access-denied', null, { path: '/', expires: new Date(0) });
       localStorage.clear();
       localStorage.removeItem("lastPage");
       localStorage.removeItem("currentPage")
-      //  cookies.remove('v2-token', { path: '/' });
+      // cookies.remove('v2-token', { path: '/' });
 
     }
   }, [state.login?.isLoggedIn]);

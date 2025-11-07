@@ -19,13 +19,9 @@ import ErrorMessage from '../../Components/ErrorMessage'
 function UserListAmenities(props) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-   const [formLoading, setFormLoading] = useState(false)
+  const [formLoading, setFormLoading] = useState(false)
 
-  useEffect(() => {
-    if (props.id) {
-      dispatch({ type: "AMENITESHISTORY", payload: { user_id: props.id } });
-    }
-  }, [props.id]);
+
   const [selectAmneties, setselectAmneties] = useState("");
 
   const [addamenityShow, setaddamenityShow] = useState(false);
@@ -35,28 +31,38 @@ function UserListAmenities(props) {
 
 
 
+  console.log("createby", createby)
+
+
+  // const canReadAmenities = useHasPermission("Amenities", "canRead")
+  //     const canWriteAmenities = useHasPermission("Amenities", "canWrite");
+  //     const canUpdateAmenities = useHasPermission("Amenities", "canUpdate");
+  //     const canDeleteAmenities = useHasPermission("Amenities", "canDelete");
+
+
+  const {
+    canWriteModule: canWriteAmenities,
+    canReadModule: canReadAmenities,
+    // canUpdateModule: canUpdateAmenities,
+    canDeleteModule: canDeleteAmenities,
+  } = useHasPermission("Amenities");
+
+
+const [CustomerOverView, setCustomerOverView] = useState([]);
 
 
 
-// const canReadAmenities = useHasPermission("Amenities", "canRead")
-//     const canWriteAmenities = useHasPermission("Amenities", "canWrite");
-//     const canUpdateAmenities = useHasPermission("Amenities", "canUpdate");
-//     const canDeleteAmenities = useHasPermission("Amenities", "canDelete");
-
-
-    const {
-        canWriteModule: canWriteAmenities,
-        canReadModule: canReadAmenities,
-        // canUpdateModule: canUpdateAmenities,
-        canDeleteModule: canDeleteAmenities,
-      } = useHasPermission("Amenities");
+ useEffect(() => {
+  if (state.UsersList?.customerdetails?.amenities) {
+    setCustomerOverView(state.UsersList.customerdetails.amenities);
+  } else {
+    setCustomerOverView([]); 
+  }
+}, [state.UsersList?.customerdetails?.amenities]);
 
 
 
-
-
-
-  const handleselect = (selectedOption) => {
+ const handleselect = (selectedOption) => {
     const value = selectedOption?.value || "";
 
     setselectAmneties(value);
@@ -68,37 +74,26 @@ function UserListAmenities(props) {
     } else {
       setamnityError("");
     }
+    setaddamenityShow(true);
+    setstatusShow(false);
 
-    const amenitiesHistory = state.UsersList?.amnetieshistory?.filter(
-      (item) => {
-        return String(item.amenity_Id) === String(value);
-      }
-    );
-
-    if (amenitiesHistory && amenitiesHistory.length > 0) {
-      if (amenitiesHistory[0].status === 0) {
-        setaddamenityShow(true);
-        setstatusShow(false);
-      }
-    } else {
-      setaddamenityShow(true);
-      setstatusShow(false);
-    }
   };
 
   useEffect(() => {
     if (
-      state.UsersList.customerdetails.all_amenities &&
-      state.UsersList.customerdetails.all_amenities.length > 0 &&
+      state.InvoiceList.AmenitiesList &&
+      state.InvoiceList.AmenitiesList.length > 0 &&
       selectAmneties
     ) {
       const AmnitiesNamelist =
-        state.UsersList.customerdetails.all_amenities.filter((item) => {
-          return String(item.Amnities_Id) === String(selectAmneties);
+        state.InvoiceList.AmenitiesList.filter((item) => {
+          return String(item.amenityId) === String(selectAmneties);
         });
       setcreateby(AmnitiesNamelist);
     }
-  }, [state.UsersList?.customerdetails?.all_amenities, selectAmneties]);
+  }, [state.InvoiceList.AmenitiesList, selectAmneties]);
+
+
   const uniqueAmenities = [];
   const seenNames = new Set();
 
@@ -155,40 +150,60 @@ function UserListAmenities(props) {
   };
 
   const handleAmnitiesSelect = () => {
-  if (!validateAssignField(statusAmni, "statusAmni")) return;
+    if (!validateAssignField(statusAmni, "statusAmni")) return;
 
-  if (statusAmni && statusShow) {
-    dispatch({
-      type: "AddUserAmnities",
-      payload: {
-        userID: props.customerUser_Id,
-        amenityID: selectAmneties,
-        Status: statusAmni,
-        hostelID: props.hostelIds,
-      },
-    });
-    setFormLoading(true);
-    setStatusAmni("");
-    setselectAmneties("");
-  }
-};
-
-  const handleAddUserAmnities = () => {
-    if (selectAmneties) {
+    if (statusAmni && statusShow) {
       dispatch({
         type: "AddUserAmnities",
         payload: {
-          hostelID: props.hostelIds,
           userID: props.customerUser_Id,
           amenityID: selectAmneties,
+          Status: statusAmni,
+          hostelID: props.hostelIds,
         },
       });
-       setFormLoading(true)
+      setFormLoading(true);
+      setStatusAmni("");
+      setselectAmneties("");
+    }
+  };
+
+  const handleAddUserAmnities = () => {
+    if (selectAmneties) {
+      dispatch({ type: 'ASSIGNAMENITIES', 
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          amenityId: createby[0]?.amenityId,
+          customers: [state.UsersList?.customerdetails?.customerId]
+          },
+    })
+            setFormLoading(true)
     }
 
     setStatusAmni("");
     setselectAmneties("");
   };
+
+
+ useEffect(() => {
+
+    if (state.InvoiceList.assignAmenitiesSuccessStatusCode === 200) {
+      setFormLoading(false)
+      setaddamenityShow(false);
+        dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: state.UsersList?.customerdetails?.customerId } });
+     setTimeout(() => {
+        dispatch({ type: 'REMOVE_ASSIGN_AMENITIES_STATUS_CODE' })
+      }, 100)
+
+
+    }
+   
+  }, [state.InvoiceList?.assignAmenitiesSuccessStatusCode])
+
+
+
+
+
   const [activeDotsId, setActiveDotsId] = useState(null);
   const handleEdit = (v) => {
     setActiveDotsId((prev) => (prev === v.id ? null : v.id));
@@ -197,17 +212,17 @@ function UserListAmenities(props) {
     setselectAmneties(v.amenity_Id);
   };
   const handleFormClose = () => {
-     setselectAmneties("");
+    setselectAmneties("");
     setSelectError("");
     setaddamenityShow(false);
     setActiveDotsId(null)
     setStatusAmni(false)
-   
+
     dispatch({ type: "CLEAR_ERROR_USER_AMENITIES" });
   };
   useEffect(() => {
     if (state.UsersList.statusCustomerAddUser === 200) {
-       setFormLoading(false)
+      setFormLoading(false)
       handleFormClose();
     }
   }, [state.UsersList.statusCustomerAddUser]);
@@ -255,21 +270,21 @@ function UserListAmenities(props) {
 
   const handleAmnitiesPageChange = (amnitiespageNumber) => {
     setAmnitycurrentPage(amnitiespageNumber);
-    
+
   };
 
-const amenitiesOptions = [
-  { value: 2, label: "2" },
-  { value: 5, label: "5" },
-  { value: 10, label: "10" },
-  { value: 50, label: "50" },
-  { value: 100, label: "100" },
-]
+  const amenitiesOptions = [
+    { value: 2, label: "2" },
+    { value: 5, label: "5" },
+    { value: 10, label: "10" },
+    { value: 50, label: "50" },
+    { value: 100, label: "100" },
+  ]
 
   const handleItemsPerPageChange = (selectedOption) => {
-  setAmentiesrowsPerPage(selectedOption.value);
-  setAmnitycurrentPage(1);
-};
+    setAmentiesrowsPerPage(selectedOption.value);
+    setAmnitycurrentPage(1);
+  };
   const totalPagesAmnities = Math.ceil(
     amnitiesFilterddata?.length / amentiesrowsPerPage
   );
@@ -278,7 +293,7 @@ const amenitiesOptions = [
     setamnitiesFilterddata(state.UsersList?.amnetieshistory);
   }, [state.UsersList?.amnetieshistory]);
 
-useEffect(() => {
+  useEffect(() => {
     if (state.createAccount?.networkError) {
       setFormLoading(false)
       setTimeout(() => {
@@ -288,26 +303,44 @@ useEffect(() => {
 
   }, [state.createAccount?.networkError])
 
+
+  useEffect(() => {
+
+    if (state.login.selectedHostel_Id) {
+      dispatch({ type: 'AMENITIESLIST', payload: state.login.selectedHostel_Id })
+    }
+
+
+  }, [state.login.selectedHostel_Id])
+
+
+
+
+
+
+
+
+
+
+
+
+
   return (
     <div className="container mt-3">
-      {state.UsersList?.customerdetails?.all_amenities &&
-        state.UsersList?.customerdetails?.all_amenities.length === 0 && (
+      {state.InvoiceList.AmenitiesList &&
+        state.InvoiceList.AmenitiesList.length === 0 && (
           <>
-            <label
-              className="pb-1"
-              style={{
-                fontSize: 14,
-                color: "red",
-                fontFamily: "Gilroy",
-                fontWeight: 500,
-              }}
-            >
-              {" "}
-              Please add a &apos;Amenities&apos; option in Settings, accessible
-              after assign an amenities.
-            </label>
+            <div className="mb-4">
+              <ErrorMessage
+                message={[
+                  'Please add a Amenities option in Settings, accessible after assign an amenities',
+                ]}
+                type="error"
+              />
+            </div>
           </>
         )}
+
 
       <div
         className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
@@ -319,32 +352,36 @@ useEffect(() => {
           Amenities
         </Form.Label>
         <Select
-        isDisabled={!canWriteAmenities}
+          isDisabled={!canWriteAmenities}
           placeholder="Select an Amenities"
           value={
-            state.UsersList?.customerdetails?.all_amenities?.find(
-              (item) => item.Amnities_Id === selectAmneties
+            state.InvoiceList.AmenitiesList?.find(
+              (item) => item.amenityId === selectAmneties
             )
               ? {
-                  value: selectAmneties,
-                  label: state.UsersList.customerdetails.all_amenities.find(
-                    (item) => item.Amnities_Id === selectAmneties
-                  )?.Amnities_Name,
-                }
+                value: selectAmneties,
+                label: state.InvoiceList.AmenitiesList.find(
+                  (item) => item.amenityId === selectAmneties
+                )?.amenityName,
+              }
               : null
           }
-          
           onChange={(e) => {
-  if (!props.customerAdd) {
-    handleselect(e);
-  }
-}}
-          options={state.UsersList?.customerdetails?.all_amenities?.map(
-            (item) => ({
-              value: item.Amnities_Id,
-              label: item.Amnities_Name,
-            })
-          )}
+            if (!props.customerAdd) {
+              handleselect(e);
+            }
+          }}
+          options={state.InvoiceList.AmenitiesList
+            ?.filter(
+              (item) =>
+                !CustomerOverView?.some(
+                  (c) => c.amenityId === item.amenityId
+                )
+            )
+            ?.map((item) => ({
+              value: item.amenityId,
+              label: item.amenityName,
+            }))}
           classNamePrefix="custom"
           menuPlacement="auto"
           styles={{
@@ -381,7 +418,7 @@ useEffect(() => {
             }),
             option: (base, state) => ({
               ...base,
-               cursor: props.customerAdd ? "not-allowed" : "pointer",
+              cursor: props.customerAdd ? "not-allowed" : "pointer",
               backgroundColor: state.isFocused ? "#f0f0f0" : "white",
               opacity: props.customerAdd ? 0.5 : 1,
               color: "#000",
@@ -411,7 +448,7 @@ useEffect(() => {
           >
             Add Amenities
           </div>
-        
+
           <CloseCircle
             size="24"
             color="#000"
@@ -433,14 +470,14 @@ useEffect(() => {
               aria-label="Recipient's username"
               className="border custom-input"
               aria-describedby="basic-addon2"
-              value={createby[0]?.Amnities_Name}
+              value={createby[0]?.amenityName}
               style={{
                 fontSize: 16,
                 fontWeight: "500",
                 opacity: 1,
                 borderRadius: "8px",
                 height: 45,
-                 fontFamily: "Gilroy",
+                fontFamily: "Gilroy",
                 color: "gray",
                 "::placeholder": { color: "gray", fontSize: 12 },
               }}
@@ -448,7 +485,7 @@ useEffect(() => {
             />
           </div>
           {amnityError && (
-           <ErrorMessage message={amnityError} type="error" />
+            <ErrorMessage message={amnityError} type="error" />
           )}
           <div className="mb-3 ps-2 pe-2">
             <label
@@ -462,18 +499,18 @@ useEffect(() => {
               aria-label="Recipient's username"
               className="border custom-input"
               aria-describedby="basic-addon2"
-              value={props.hostelName}
+              value={state.UsersList.hotelDetailsinPg?.name}
               style={{
                 fontSize: 16,
                 fontWeight: "500",
                 height: 45,
                 opacity: 1,
-                 fontFamily: "Gilroy",
+                fontFamily: "Gilroy",
                 borderRadius: "8px",
                 color: "gray",
                 "::placeholder": { color: "gray", fontSize: 12 },
               }}
-               disabled
+              disabled
             />
           </div>
 
@@ -489,18 +526,18 @@ useEffect(() => {
               aria-label="Recipient's username"
               className="border custom-input"
               aria-describedby="basic-addon2"
-              value={createby[0]?.Amount}
+              value={createby[0]?.amenityAmount}
               style={{
                 fontSize: 16,
                 fontWeight: "500",
-                 fontFamily: "Gilroy",
+                fontFamily: "Gilroy",
                 opacity: 1,
                 borderRadius: "8px",
                 height: 45,
                 color: "gray",
                 "::placeholder": { color: "gray", fontSize: 12 },
               }}
-               disabled
+              disabled
             />
           </div>
           {statusShow && (
@@ -510,10 +547,10 @@ useEffect(() => {
                 style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}
               >
                 Select Status{" "}
-                          <span style={{ color: "red", fontSize: "20px" }}>
-                            {" "}
-                            *{" "}
-                          </span>
+                <span style={{ color: "red", fontSize: "20px" }}>
+                  {" "}
+                  *{" "}
+                </span>
               </label>
               <Form.Select
                 aria-label="Default select example"
@@ -528,9 +565,9 @@ useEffect(() => {
                   opacity: 1,
                   fontWeight: 500,
                   fontFamily: "Gilroy",
-                  color:"grey",
-                  cursor:"pointer"
-                  
+                  color: "grey",
+                  cursor: "pointer"
+
                 }}
               >
                 <option
@@ -538,28 +575,28 @@ useEffect(() => {
                     fontSize: 16,
                     fontWeight: 500,
                     fontFamily: "Gilroy",
-                    opacity:1
+                    opacity: 1
                   }}
                 >
                   Select Status
                 </option>
 
-                <option value="1"   style={{
-                    fontSize: 16,
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
-                    opacity:1,
-                    color: "gray",
-                    cursor:"pointer"
-                  }}>Active</option>
-                <option value="0"  style={{
-                    fontSize: 16,
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
-                    opacity:1,
-                    color: "gray",
-                    cursor:"pointer"
-                  }}>In Active</option>
+                <option value="1" style={{
+                  fontSize: 16,
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  opacity: 1,
+                  color: "gray",
+                  cursor: "pointer"
+                }}>Active</option>
+                <option value="0" style={{
+                  fontSize: 16,
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  opacity: 1,
+                  color: "gray",
+                  cursor: "pointer"
+                }}>In Active</option>
               </Form.Select>
               {selectError && (
                 <ErrorMessage message={selectError} type="error" />
@@ -567,40 +604,40 @@ useEffect(() => {
             </div>
           )}
         </Modal.Body>
- 
-
-  {formLoading &&
-                    <div
-                      style={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        backgroundColor: 'transparent',
-                        opacity: 0.75,
-                        zIndex: 10,
-                      }}
-                    >
-                      <div
-                        style={{
-                          borderTop: '4px solid #1E45E1',
-                          borderRight: '4px solid transparent',
-                          borderRadius: '50%',
-                          width: '40px',
-                          height: '40px',
-                          animation: 'spin 1s linear infinite',
-                        }}
-                      ></div>
-                    </div>
-                  }
 
 
+        {formLoading &&
+          <div
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>
+        }
 
 
-        <Modal.Footer className="d-flex justify-content-center pt-0" style={{borderTop:"none"}}>
+
+
+        <Modal.Footer className="d-flex justify-content-center pt-0" style={{ borderTop: "none" }}>
           <Button
             className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
             style={{
@@ -610,7 +647,7 @@ useEffect(() => {
               borderRadius: 12,
               fontSize: 16,
               fontFamily: "Gilroy",
-              
+
             }}
             onClick={() => {
               if (statusShow) {
@@ -624,609 +661,440 @@ useEffect(() => {
           </Button>
         </Modal.Footer>
       </Modal>
-{
+      {
 
-!canReadAmenities ? (
+        !canReadAmenities ? (
 
- <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                              minHeight:"45vh"
-                              }}
-            >
-              
-              <ErrorMessage message={['You do not have access to view Amenities']} type="warning"/>
-
-            </div>
-
-)
-:
-(
-  <>
- <div className="d-flex flex-wrap mt-2">
-        {state.UsersList.amnetieshistory &&
-          [
-            ...new Map(
-              state.UsersList.amnetieshistory.map((item) => [
-                item["Amnities_Name"],
-                item,
-              ])
-            ).values(),
-          ].map((v) => {
-            return (
-              <div style={{ marginTop: 20 }} key={v.Amnities_Name}>
-                <span
-                  className="btn btn-sm rounded-pill"
-                  style={{
-                    backgroundColor: "#D9E9FF",
-                    margin: 10,
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    fontSize: 14,
-                  }}
-                >
-                  {v.Amnities_Name} - ₹{v.Amount}/m
-                  <img
-                    src={cross}
-                    width={15}
-                    height={15}
-                    alt="Remove"
-                    style={{ marginLeft: "10px", cursor: "pointer" }}
-                  />
-                </span>
-              </div>
-            );
-          })}
-      </div>
-      <div
-        className=" booking-table-userlist  booking-table"
-      >
-          {sortedData?.length > 0 && (
-        <div
-          className="show-scrolls"
-          style={{
-            height:
-              sortedData?.length >= 2 || sortedData?.length >= 2
-                ? "130px"
-                : "auto",
-            overflow: "auto",
-            borderTop: "1px solid #E8E8E8",
-            marginBottom: 20,
-            paddingRight: 0,
-            paddingLeft: 0,
-          }}
-        >
-          <Table
-            responsive="md"
+          <div
             style={{
-              fontFamily: "Gilroy",
-              color: "rgba(34, 34, 34, 1)",
-              fontSize: 14,
-              fontStyle: "normal",
-              fontWeight: 500,
-              position: "sticky",
-              top: 0,
-              zIndex: 1,
-              borderRadius: 0,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              minHeight: "45vh"
             }}
           >
-            <thead
-              style={{
-                fontFamily: "Gilroy",
-                backgroundColor: "rgba(231, 241, 255, 1)",
-                color: "rgba(34, 34, 34, 1)",
-                fontSize: 12,
-                fontStyle: "normal",
-                fontWeight: 500,
-                position: "sticky",
-                top: 0,
-                zIndex: 1,
-              }}
-            >
-              <tr>
-                <th
-                  scope="col"
-                  style={{
-                    textAlign: "center",
-                    color: "#939393",
-                    fontWeight: 500,
-                    fontSize: "12px",
-                    fontFamily: "Gilroy",
-                    paddingTop: "5px",
-                    paddingBottom: "10px",
-                  }}
-                >
-                  <div className="d-flex gap-1 align-items-center justify-content-start">
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "2px",
-                      }}
-                    >
-                      <ArrowUp2
-                        size="10"
-                        variant="Bold"
-                        color="#1E45E1"
-                        onClick={() => handleSort("Amnities_Name", "asc")}
-                        style={{ cursor: "pointer" }}
-                      />
-                      <ArrowDown2
-                        size="10"
-                        variant="Bold"
-                        color="#1E45E1"
-                        onClick={() => handleSort("Amnities_Name", "desc")}
-                        style={{ cursor: "pointer" }}
-                      />
-                    </div>
-                    Amenities
-                  </div>
-                </th>
-                <th
-                  scope="col"
-                  style={{
-                    color: "#939393",
-                    fontWeight: 500,
-                    fontSize: "12px",
-                    fontFamily: "Gilroy",
-                   
-                  }}
-                >
-                  <div className="d-flex gap-1 align-items-center justify-content-start">
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "2px",
-                      }}
-                    >
-                      <ArrowUp2
-                        size="10"
-                        variant="Bold"
-                        color="#1E45E1"
-                        onClick={() => handleSort("created_At", "asc")}
-                        style={{ cursor: "pointer" }}
-                      />
-                      <ArrowDown2
-                        size="10"
-                        variant="Bold"
-                        color="#1E45E1"
-                        onClick={() => handleSort("created_At", "desc")}
-                        style={{ cursor: "pointer" }}
-                      />
-                    </div>
-                    Date
-                  </div>
-                </th>
-                <th
-                  scope="col"
-                  style={{
-                    color: "#939393",
-                    fontWeight: 500,
-                    fontSize: "12px",
-                    fontFamily: "Gilroy",
-                  
-                  }}
-                >
-                  <div className="d-flex gap-1 align-items-center justify-content-start">
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "2px",
-                      }}
-                    >
-                      <ArrowUp2
-                        size="10"
-                        variant="Bold"
-                        color="#1E45E1"
-                        onClick={() => handleSort("month_name", "asc")}
-                        style={{ cursor: "pointer" }}
-                      />
-                      <ArrowDown2
-                        size="10"
-                        variant="Bold"
-                        color="#1E45E1"
-                        onClick={() => handleSort("month_name", "desc")}
-                        style={{ cursor: "pointer" }}
-                      />
-                    </div>
-                    Subscription
-                  </div>
-                </th>
-                <th
-                  scope="col"
-                  style={{
-                    color: "#939393",
-                    fontWeight: 500,
-                    fontSize: "12px",
-                    fontFamily: "Gilroy",
-                    
-                  }}
-                >
-                  <div className="d-flex gap-1 align-items-center justify-content-start">
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "2px",
-                      }}
-                    >
-                      <ArrowUp2
-                        size="10"
-                        variant="Bold"
-                        color="#1E45E1"
-                        onClick={() => handleSort("Amount", "asc")}
-                        style={{ cursor: "pointer" }}
-                      />
-                      <ArrowDown2
-                        size="10"
-                        variant="Bold"
-                        color="#1E45E1"
-                        onClick={() => handleSort("Amount", "desc")}
-                        style={{ cursor: "pointer" }}
-                      />
-                    </div>
-                    Amount
-                  </div>
-                </th>
-                <th
-                  scope="col"
-                  style={{
-                    color: "#939393",
-                    fontWeight: 500,
-                    fontSize: "12px",
-                    fontFamily: "Gilroy",
-                   
-                  }}
-                >
-                  <div className="d-flex gap-1 align-items-center justify-content-start">
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "2px",
-                      }}
-                    >
-                      <ArrowUp2
-                        size="10"
-                        variant="Bold"
-                        color="#1E45E1"
-                        onClick={() => handleSort("status", "asc")}
-                        style={{ cursor: "pointer" }}
-                      />
-                      <ArrowDown2
-                        size="10"
-                        variant="Bold"
-                        color="#1E45E1"
-                        onClick={() => handleSort("status", "desc")}
-                        style={{ cursor: "pointer" }}
-                      />
-                    </div>
-                    Status
-                  </div>
-                </th>
-                <th
-                  scope="col"
-                  style={{
-                    color: "#939393",
-                    fontWeight: 500,
-                    fontSize: "12px",
-                    fontFamily: "Gilroy",
-                  
-                  }}
-                >
-                  Action
-                </th>
-              </tr>
-            </thead>
 
-            <tbody style={{ verticalAlign: "middle" }}>
-              {sortedData &&
-                sortedData?.map((v) => {
-                  let Datform = new Date(v.created_At);
+            <ErrorMessage message={['You do not have access to view Amenities']} type="warning" />
 
-                  let day = Datform.getDate();
-                  let month = Datform.getMonth() + 1;
-                  let year = Datform.getFullYear();
+          </div>
 
-                  let formattedDate = `${day}/${month}/${year}`;
+        )
+          :
+          (
+            <>
+              <div className="d-flex flex-wrap mt-2">
+                {CustomerOverView?.map((v) => (
+                  <span
+                    key={v.amenityId}
+                    className="btn btn-sm rounded-pill d-flex align-items-center"
+                    style={{
+                      backgroundColor: "#D9E9FF",
+                      margin: "6px 8px",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                      fontSize: 14,
+                      color: "#000",
+                    }}
+                  >
+                    {v.amenityName} - ₹{v.amenityAmount}/m
+                    <img
+                      src={cross}
+                      width={13}
+                      height={13}
+                      alt="Remove"
+                      style={{ marginLeft: 8, cursor: "pointer" }}
+                    />
+                  </span>
+                ))}
+              </div>
 
-                  return (
-                    <tr key={v.amenity_Id}>
-                      <td
+              <div
+                className=" booking-table-userlist  booking-table"
+              >
+                {sortedData?.length > 0 && (
+                  <div
+                    className="show-scrolls"
+                    style={{
+                      height:
+                        sortedData?.length >= 2 || sortedData?.length >= 2
+                          ? "130px"
+                          : "auto",
+                      overflow: "auto",
+                      borderTop: "1px solid #E8E8E8",
+                      marginBottom: 20,
+                      paddingRight: 0,
+                      paddingLeft: 0,
+                    }}
+                  >
+                    <Table
+                      responsive="md"
+                      style={{
+                        fontFamily: "Gilroy",
+                        color: "rgba(34, 34, 34, 1)",
+                        fontSize: 14,
+                        fontStyle: "normal",
+                        fontWeight: 500,
+                        position: "sticky",
+                        top: 0,
+                        zIndex: 1,
+                        borderRadius: 0,
+                      }}
+                    >
+                      <thead
                         style={{
-                          textAlign: "start",
-                          fontWeight: 500,
-                          fontSize: "13px",
                           fontFamily: "Gilroy",
-                          paddingLeft:20, borderBottom: "1px solid #E8E8E8"
-
-                        }}
-                        className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
-                      >
-                        <div className="ps-1">{v.Amnities_Name}</div>
-                     
-                      </td>
-                      <td style={{borderBottom: "1px solid #E8E8E8"}} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
-                        <span
-                          style={{
-                            backgroundColor: "#EBEBEB",
-                            padding: "3px 3px 3px 3px",
-                            borderRadius: "10px",
-                            lineHeight: "1.5em",
-                            margin: "0",
-                            marginLeft:4,
-                            fontSize: 13,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"
-                          }}
-                        >
-                          {formattedDate}
-                        </span>
-                      </td>
-                      <td
-                        style={{
+                          backgroundColor: "rgba(231, 241, 255, 1)",
+                          color: "rgba(34, 34, 34, 1)",
+                          fontSize: 12,
+                          fontStyle: "normal",
                           fontWeight: 500,
-                          fontSize: "13px",
-                          fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"
+                          position: "sticky",
+                          top: 0,
+                          zIndex: 1,
                         }}
-                        className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                       >
-                        <div className="ps-1">{v.month_name}</div>
-                      </td>
-                      <td
-                        style={{
-                          fontWeight: 500,
-                          fontSize: "13px",
-                          fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"
-                        }}
-                        className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
-                      >
-                         <div style={{marginLeft:7}}>{v.Amount}</div>
-                      </td>
-                      <td
-                        style={{
-                          fontWeight: 500,
-                          fontSize: "13px",
-                          fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"
-                        }}
-                        className="ps-2 ps-sm-2 ps-md-3 ps-lg-2" 
-                      >
-                        <span
-                          style={{
-                            color: "black",
-                            backgroundColor:
-                              v.status === 1 ? "#D9FFD9" : "#FFD9D9", 
-                            paddingTop: "2px",
-                            paddingLeft: "10px",
-                            paddingRight: "10px",
-                            paddingBottom: "2px",
-                            borderRadius: "5px",
-                            marginLeft:5
-                          }}
-                        >
-                          {v.status === 1 ? "Active" : "Inactive"}
-                        </span>
-                      </td>
-                      <td style={{ borderBottom: "1px solid #E8E8E8"}}>
-                        <div
-                          
-                            onClick={() => {
-                                              if (!props.customerAdd) {
-                                                handleEdit(v);
-                                              }
-                                            }}
-                          style={{
-                            cursor: "pointer",
-                            height: 40,
-                            width: 40,
-                            borderRadius: 100,
-                            border: "1px solid #EFEFEF",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            position: "relative",
-                            backgroundColor: activeDotsId === v.id ? "#E7F1FF" : "white", 
+                        <tr>
+                          <th
+                            scope="col"
+                            style={{
+                              textAlign: "center",
+                              color: "#939393",
+                              fontWeight: 500,
+                              fontSize: "12px",
+                              fontFamily: "Gilroy",
+                              paddingTop: "5px",
+                              paddingBottom: "10px",
+                            }}
+                          >
+                            <div className="d-flex gap-1 align-items-center justify-content-start">
+                              <div
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  gap: "2px",
+                                }}
+                              >
+                                <ArrowUp2
+                                  size="10"
+                                  variant="Bold"
+                                  color="#1E45E1"
+                                  onClick={() => handleSort("Amnities_Name", "asc")}
+                                  style={{ cursor: "pointer" }}
+                                />
+                                <ArrowDown2
+                                  size="10"
+                                  variant="Bold"
+                                  color="#1E45E1"
+                                  onClick={() => handleSort("Amnities_Name", "desc")}
+                                  style={{ cursor: "pointer" }}
+                                />
+                              </div>
+                              Amenities
+                            </div>
+                          </th>
+                          <th
+                            scope="col"
+                            style={{
+                              color: "#939393",
+                              fontWeight: 500,
+                              fontSize: "12px",
+                              fontFamily: "Gilroy",
 
-                          }}
-                        >
-                          <PiDotsThreeOutlineVerticalFill
-                            style={{ height: 20, width: 20, color: props.customerAdd
-                                            ? "#CCCCCC"
-                                            : "#000",
-                                         }}
-                          />
-                        </div>
+                            }}
+                          >
+                            <div className="d-flex gap-1 align-items-center justify-content-start">
+                              <div
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  gap: "2px",
+                                }}
+                              >
+                                <ArrowUp2
+                                  size="10"
+                                  variant="Bold"
+                                  color="#1E45E1"
+                                  onClick={() => handleSort("created_At", "asc")}
+                                  style={{ cursor: "pointer" }}
+                                />
+                                <ArrowDown2
+                                  size="10"
+                                  variant="Bold"
+                                  color="#1E45E1"
+                                  onClick={() => handleSort("created_At", "desc")}
+                                  style={{ cursor: "pointer" }}
+                                />
+                              </div>
+                              Date
+                            </div>
+                          </th>
+                          <th
+                            scope="col"
+                            style={{
+                              color: "#939393",
+                              fontWeight: 500,
+                              fontSize: "12px",
+                              fontFamily: "Gilroy",
 
-                      </td>
-                    </tr>
-                  );
-                })}
-              {currentRowAmnities.length === 0 && (
-                <tr>
-                  <td colSpan="6" style={{ textAlign: "center", color: "red" }}>
-                    No data found
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </Table>
-        </div>
-          )}
-      </div>
+                            }}
+                          >
+                            <div className="d-flex gap-1 align-items-center justify-content-start">
+                              <div
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  gap: "2px",
+                                }}
+                              >
+                                <ArrowUp2
+                                  size="10"
+                                  variant="Bold"
+                                  color="#1E45E1"
+                                  onClick={() => handleSort("month_name", "asc")}
+                                  style={{ cursor: "pointer" }}
+                                />
+                                <ArrowDown2
+                                  size="10"
+                                  variant="Bold"
+                                  color="#1E45E1"
+                                  onClick={() => handleSort("month_name", "desc")}
+                                  style={{ cursor: "pointer" }}
+                                />
+                              </div>
+                              Subscription
+                            </div>
+                          </th>
+                          <th
+                            scope="col"
+                            style={{
+                              color: "#939393",
+                              fontWeight: 500,
+                              fontSize: "12px",
+                              fontFamily: "Gilroy",
 
-     
-      </>
-    )
+                            }}
+                          >
+                            <div className="d-flex gap-1 align-items-center justify-content-start">
+                              <div
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  gap: "2px",
+                                }}
+                              >
+                                <ArrowUp2
+                                  size="10"
+                                  variant="Bold"
+                                  color="#1E45E1"
+                                  onClick={() => handleSort("Amount", "asc")}
+                                  style={{ cursor: "pointer" }}
+                                />
+                                <ArrowDown2
+                                  size="10"
+                                  variant="Bold"
+                                  color="#1E45E1"
+                                  onClick={() => handleSort("Amount", "desc")}
+                                  style={{ cursor: "pointer" }}
+                                />
+                              </div>
+                              Amount
+                            </div>
+                          </th>
+                          <th
+                            scope="col"
+                            style={{
+                              color: "#939393",
+                              fontWeight: 500,
+                              fontSize: "12px",
+                              fontFamily: "Gilroy",
 
-}
- </div>
-//       {amnitiesFilterddata?.length > 2 && (
-//         <>
-//           <nav style={{
-//             display: "flex",
-//             alignItems: "center",
-//             justifyContent: "end",
-//             padding: "10px",
-//             position: "fixed",
-//             bottom: "0px",
-//             right: "0px",
-//             backgroundColor: "#fff",
-//             borderRadius: "5px",
-//             zIndex: 1000,
-//           }}
+                            }}
+                          >
+                            <div className="d-flex gap-1 align-items-center justify-content-start">
+                              <div
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  gap: "2px",
+                                }}
+                              >
+                                <ArrowUp2
+                                  size="10"
+                                  variant="Bold"
+                                  color="#1E45E1"
+                                  onClick={() => handleSort("status", "asc")}
+                                  style={{ cursor: "pointer" }}
+                                />
+                                <ArrowDown2
+                                  size="10"
+                                  variant="Bold"
+                                  color="#1E45E1"
+                                  onClick={() => handleSort("status", "desc")}
+                                  style={{ cursor: "pointer" }}
+                                />
+                              </div>
+                              Status
+                            </div>
+                          </th>
+                          <th
+                            scope="col"
+                            style={{
+                              color: "#939393",
+                              fontWeight: 500,
+                              fontSize: "12px",
+                              fontFamily: "Gilroy",
 
-//           >
-//            <div>
-//   <Select
-//     value={amenitiesOptions.find((opt) => opt.value === amentiesrowsPerPage)}
-//     onChange={handleItemsPerPageChange}
-//     options={amenitiesOptions}
-//     placeholder="Items per page"
-//     classNamePrefix="custom"
-//     menuPlacement="auto"
-//     noOptionsMessage={() => "No options"}
-//     styles={{
-//       control: (base) => ({
-//         ...base,
-//         height: "40px",
-//         borderRadius: "6px",
-//         fontSize: "14px",
-//         color: "#1E45E1",
-//         fontFamily: "Gilroy",
-//         fontWeight: 600,
-//         border: "1px solid #1E45E1",
-//         boxShadow: "0 0 0 1px #1E45E1",
-//         cursor: "pointer",
-//         width: 90,
-//       }),
-//       menu: (base) => ({
-//         ...base,
-//         backgroundColor: "#f8f9fa",
-//         border: "1px solid #ced4da",
-//         fontFamily: "Gilroy",
-//       }),
-//       menuList: (base) => ({
-//         ...base,
-//         backgroundColor: "#f8f9fa",
-//         maxHeight: "200px",
-//         padding: 0,
-//         scrollbarWidth: "thin",
-//         overflowY: "auto",
-//         fontFamily: "Gilroy",
-//       }),
-//       placeholder: (base) => ({
-//         ...base,
-//         color: "#555",
-//       }),
-//       dropdownIndicator: (base) => ({
-//         ...base,
-//         color: "#1E45E1",
-//         cursor: "pointer",
-//       }),
-//       indicatorSeparator: () => ({
-//         display: "none",
-//       }),
-//       option: (base, state) => ({
-//         ...base,
-//         cursor: "pointer",
-//         backgroundColor: state.isFocused ? "#1E45E1" : "white",
-//         color: state.isFocused ? "#fff" : "#000",
-//       }),
-//     }}
-//   />
-// </div>
+                            }}
+                          >
+                            Action
+                          </th>
+                        </tr>
+                      </thead>
 
-//             <ul
-//               style={{
-//                 display: "flex",
-//                 alignItems: "center",
-//                 listStyleType: "none",
-//                 margin: 0,
-//                 padding: 0,
-//               }}
-//             >
-//               <li style={{ margin: "0 10px" }}>
-//                 <button
-//                   style={{
-//                     padding: "5px",
-//                     textDecoration: "none",
-//                     color: amnitiescurrentPage === 1 ? "#ccc" : "#1E45E1",
-//                     cursor:
-//                       amnitiescurrentPage === 1 ? "not-allowed" : "pointer",
-//                     borderRadius: "50%",
-//                     display: "inline-block",
-//                     minWidth: "30px",
-//                     textAlign: "center",
-//                     backgroundColor: "transparent",
-//                     border: "none",
-//                   }}
-//                   onClick={() =>
-//                     handleAmnitiesPageChange(amnitiescurrentPage - 1)
-//                   }
-//                   disabled={amnitiescurrentPage === 1}
-//                 >
-//                   <ArrowLeft2
-//                     size="16"
-//                     color={amnitiescurrentPage === 1 ? "#ccc" : "#1E45E1"}
-//                   />
-//                 </button>
-//               </li>
+                      <tbody style={{ verticalAlign: "middle" }}>
+                        {sortedData &&
+                          sortedData?.map((v) => {
+                            let Datform = new Date(v.created_At);
 
-//               <li
-//                 style={{
-//                   margin: "0 10px",
-//                   fontSize: "14px",
-//                   fontWeight: "bold",
-//                 }}
-//               >
-//                 {amnitiescurrentPage} of {totalPagesAmnities}
-//               </li>
+                            let day = Datform.getDate();
+                            let month = Datform.getMonth() + 1;
+                            let year = Datform.getFullYear();
 
-//               <li style={{ margin: "0 10px" }}>
-//                 <button
-//                   style={{
-//                     padding: "5px",
-//                     textDecoration: "none",
-//                     color:
-//                       amnitiescurrentPage === totalPagesAmnities
-//                         ? "#ccc"
-//                         : "#1E45E1",
-//                     cursor:
-//                       amnitiescurrentPage === totalPagesAmnities
-//                         ? "not-allowed"
-//                         : "pointer",
-//                     borderRadius: "50%",
-//                     display: "inline-block",
-//                     minWidth: "30px",
-//                     textAlign: "center",
-//                     backgroundColor: "transparent",
-//                     border: "none",
-//                   }}
-//                   onClick={() =>
-//                     handleAmnitiesPageChange(amnitiescurrentPage + 1)
-//                   }
-//                   disabled={amnitiescurrentPage === totalPagesAmnities}
-//                 >
-//                   <ArrowRight2
-//                     size="16"
-//                     color={
-//                       amnitiescurrentPage === totalPagesAmnities
-//                         ? "#ccc"
-//                         : "#1E45E1"
-//                     }
-//                   />
-//                 </button>
-//               </li>
-//             </ul>
-//           </nav>
-//         </>
-//       )}
-   
+                            let formattedDate = `${day}/${month}/${year}`;
+
+                            return (
+                              <tr key={v.amenity_Id}>
+                                <td
+                                  style={{
+                                    textAlign: "start",
+                                    fontWeight: 500,
+                                    fontSize: "13px",
+                                    fontFamily: "Gilroy",
+                                    paddingLeft: 20, borderBottom: "1px solid #E8E8E8"
+
+                                  }}
+                                  className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
+                                >
+                                  <div className="ps-1">{v.Amnities_Name}</div>
+
+                                </td>
+                                <td style={{ borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
+                                  <span
+                                    style={{
+                                      backgroundColor: "#EBEBEB",
+                                      padding: "3px 3px 3px 3px",
+                                      borderRadius: "10px",
+                                      lineHeight: "1.5em",
+                                      margin: "0",
+                                      marginLeft: 4,
+                                      fontSize: 13,
+                                      fontWeight: 500,
+                                      fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"
+                                    }}
+                                  >
+                                    {formattedDate}
+                                  </span>
+                                </td>
+                                <td
+                                  style={{
+                                    fontWeight: 500,
+                                    fontSize: "13px",
+                                    fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"
+                                  }}
+                                  className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
+                                >
+                                  <div className="ps-1">{v.month_name}</div>
+                                </td>
+                                <td
+                                  style={{
+                                    fontWeight: 500,
+                                    fontSize: "13px",
+                                    fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"
+                                  }}
+                                  className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
+                                >
+                                  <div style={{ marginLeft: 7 }}>{v.Amount}</div>
+                                </td>
+                                <td
+                                  style={{
+                                    fontWeight: 500,
+                                    fontSize: "13px",
+                                    fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"
+                                  }}
+                                  className="ps-2 ps-sm-2 ps-md-3 ps-lg-2"
+                                >
+                                  <span
+                                    style={{
+                                      color: "black",
+                                      backgroundColor:
+                                        v.status === 1 ? "#D9FFD9" : "#FFD9D9",
+                                      paddingTop: "2px",
+                                      paddingLeft: "10px",
+                                      paddingRight: "10px",
+                                      paddingBottom: "2px",
+                                      borderRadius: "5px",
+                                      marginLeft: 5
+                                    }}
+                                  >
+                                    {v.status === 1 ? "Active" : "Inactive"}
+                                  </span>
+                                </td>
+                                <td style={{ borderBottom: "1px solid #E8E8E8" }}>
+                                  <div
+
+                                    onClick={() => {
+                                      if (!props.customerAdd) {
+                                        handleEdit(v);
+                                      }
+                                    }}
+                                    style={{
+                                      cursor: "pointer",
+                                      height: 40,
+                                      width: 40,
+                                      borderRadius: 100,
+                                      border: "1px solid #EFEFEF",
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      alignItems: "center",
+                                      position: "relative",
+                                      backgroundColor: activeDotsId === v.id ? "#E7F1FF" : "white",
+
+                                    }}
+                                  >
+                                    <PiDotsThreeOutlineVerticalFill
+                                      style={{
+                                        height: 20, width: 20, color: props.customerAdd
+                                          ? "#CCCCCC"
+                                          : "#000",
+                                      }}
+                                    />
+                                  </div>
+
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        {currentRowAmnities.length === 0 && (
+                          <tr>
+                            <td colSpan="6" style={{ textAlign: "center", color: "red" }}>
+                              No data found
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </Table>
+                  </div>
+                )}
+              </div>
+
+
+            </>
+          )
+
+      }
+    </div>
+    
   );
 }
 UserListAmenities.propTypes = {

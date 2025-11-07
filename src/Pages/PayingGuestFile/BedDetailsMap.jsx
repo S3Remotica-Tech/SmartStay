@@ -6,6 +6,7 @@ import White from '../../Assets/Images/New_images/empty_bed.png';
 import { FaSquarePlus } from "react-icons/fa6";
 import recerverimg from "../../Assets/Images/New_images/recervedimg.png";
 import noticeimg from "../../Assets/Images/New_images/noticeperiodimg.png";
+import overDude from "../../Assets/Images/New_images/overDue.png";
 import AddBedUI from './AddBed';
 import PropTypes from "prop-types"
 import EmptyBed from './EmptyBed';
@@ -35,7 +36,8 @@ import Tick from '../../Assets/v2Images/Tick.svg'
 import ConfirmChangeBed from './NoticePeriod/ConfirmChangedBed';
 import { useHasPermission } from '../../Utils/Permission';
 import BackToCheckIn from "../CustomerFile/BackToCheckIn";
-import { clickedBedForChange, changeBedForChange } from '../../Redux/Action/smartStayAction'
+import { clickedBedForChange, changeBedForChange } from '../../Redux/Action/smartStayAction';
+
 
 function BedDetailsMap({ room, propsValue }) {
 
@@ -336,6 +338,7 @@ function BedDetailsMap({ room, propsValue }) {
     const handleCloseChangedBed = () => {
         // dispatch(triggerPG(false))
         setShowConfirmChangeBedModal(false)
+        setChangedBedClicked('')
     }
 
 
@@ -438,6 +441,8 @@ function BedDetailsMap({ room, propsValue }) {
     const bedsForRoom = state.PgList?.bedList?.[room.id] || [];
 
 
+console.log("bedsForRoom",bedsForRoom)
+
     const filteredBeds = state.login.isTrigger
         ? bedsForRoom.filter(
             (bed) =>
@@ -532,6 +537,8 @@ function BedDetailsMap({ room, propsValue }) {
         }
     }, [state.UsersList.statusCodeForReassinBed]);
 
+
+console.log("state.PgList?.isClickedBed",state.PgList?.isClickedBed)
 
 
     return (
@@ -751,6 +758,25 @@ function BedDetailsMap({ room, propsValue }) {
                                         />
                                     )}
 
+
+                                    {
+                                        bed.overDue && (
+                                          <img
+                                            src={overDude}
+                                            alt="overDude"
+                                            height={20}
+                                            width={20}
+                                            style={{
+                                                position: "absolute",
+                                                top: 1,
+                                                right: -10,
+                                                cursor: "pointer",
+                                            }}
+
+                                        />
+                                        )
+                                    }
+
                                     {bed.onNotice && !bed.isBooked && (
                                         <img
                                             src={noticeimg}
@@ -861,7 +887,7 @@ function BedDetailsMap({ room, propsValue }) {
                                     fontFamily: "Gilroy",
                                 }}
                             >
-                                {`Room ${customer?.roomName || "N/A"} | Bed ${customer.bedName || "-"}`}
+                               { ` ${customer?.floorName || "N/A"} | ${customer?.roomName || "N/A"} | ${customer.bedName || "-"}`}
                             </span>
                         </p>
                     </div>

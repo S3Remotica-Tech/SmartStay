@@ -56,6 +56,7 @@ function CustomerReAssign(props) {
 
   const handleCloseReAssign = () => {
     props.setCustomerReAssign(false);
+    dispatch({ type: "REMOVE_CHANGE_BED_ERROR" });
     setRentError("");
     setRoomError("");
     setBedError("");
@@ -171,6 +172,7 @@ function CustomerReAssign(props) {
 
 
   const handleBed = (selectedOption) => {
+    dispatch({ type: "REMOVE_CHANGE_BED_ERROR" });
     dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR' })
     setBedWarning("");
     const selectedBedId = selectedOption?.value || "";
@@ -649,10 +651,8 @@ function CustomerReAssign(props) {
   useEffect(() => {
     if (state.UsersList?.changeBedError) {
       setFormLoading(false)
-      setTimeout(() => {
-        dispatch({ type: "REMOVE_CHANGE_BED_ERROR" });
-      }, 3000)
-
+     
+        
     }
 
   }, [state.UsersList?.changeBedError])
@@ -731,7 +731,7 @@ function CustomerReAssign(props) {
                         />
 
                         <div>
-                          <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px" }}>
+                          <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px"  , fontFamily:"Gilroy"}}>
                             {customerName || userDetails?.Name}
                           </p>
                           <div className="d-flex gap-2">
@@ -742,7 +742,7 @@ function CustomerReAssign(props) {
                                 fontSize: "12px",
                                 padding: "2px 8px",
                                 borderRadius: "12px",
-                                fontWeight: 500,
+                                fontWeight: 500,  fontFamily:"Gilroy"
                               }}
                             >
                               {currentFloor}
@@ -754,7 +754,7 @@ function CustomerReAssign(props) {
                                 fontSize: "12px",
                                 padding: "2px 8px",
                                 borderRadius: "12px",
-                                fontWeight: 500,
+                                fontWeight: 500,  fontFamily:"Gilroy"
                               }}
                             >
                               {currentRoom} - {currentBed}
@@ -777,7 +777,7 @@ function CustomerReAssign(props) {
 
                   <div className="show-scroll p-2 mt-0 me-0">
 
-                    <div className="row  d-flex align-items-center">
+                    <div className="row  d-flex align-items-stretch">
 
                       <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <Form.Group className="mb-2" controlId="purchaseDate">
@@ -801,21 +801,7 @@ function CustomerReAssign(props) {
                             className="datepicker-wrapper"
                             style={{ position: "relative", width: "100%" }}
                           >
-                            {/* <DatePicker
-                              style={{ width: "100%", height: 48, border: "1px solid lightgrey", cursor: "pointer", fontFamily: "Gilroy", }}
-                              format="DD/MM/YYYY"
-                              placeholder="DD/MM/YYYY"
-                              value={selectedDate ? dayjs(selectedDate) : null}
-                              ref={selectedDateRef}
-                              onChange={(date) => {
-                                setDateError("");
-                                setSelectedDate(date ? date.toDate() : null);
-                              }}
-                              getPopupContainer={(triggerNode) =>
-                                triggerNode.closest(".datepicker-wrapper")
-                              }
-                              disabledDate={(current) => current && current > dayjs().endOf("day")}
-                            /> */}
+                           
 
                             <DatePicker
                               style={{

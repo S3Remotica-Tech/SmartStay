@@ -226,10 +226,9 @@ useEffect(() => {
 
 
     useEffect(() => {
-
-        const hostelid = state.login.selectedHostel_Id 
-        if(hostelid){
-        dispatch({ type: 'AMENITIESLIST', payload: hostelid })
+      
+        if(state.login.selectedHostel_Id ){
+        dispatch({ type: 'AMENITIESLIST', payload: state.login.selectedHostel_Id  })
         }
 
 

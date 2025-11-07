@@ -28,16 +28,16 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
   const [formLoading, setFormLoading] = useState(false)
 
 
-   
+  console.log("assignedCheckedUsers", assignedCheckedUsers)
 
   useEffect(() => {
     dispatch({
-  type: 'GET_PARTICULAR_AMENITIES',
-  payload: {
-    hostelId: state.login.selectedHostel_Id,
-    amenityId: assignAmenitiesDetails.amenityId,
-  },
-});
+      type: 'GET_PARTICULAR_AMENITIES',
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        amenityId: assignAmenitiesDetails.amenityId,
+      },
+    });
   }, [])
 
 
@@ -58,37 +58,35 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
   // }, [assignAmenitiesDetails])
 
 
-    useEffect(() => {
+  useEffect(() => {
     if (state.InvoiceList.getAssignAmenitiesSuccessStatusCode === 200) {
       setAssignedList(state?.InvoiceList?.GetAssignAmenitiesList || [])
       setUnassignedList(state?.InvoiceList?.GetUnAssignAmenitiesList || [])
-      
+
     }
 
-   setTimeout(() => {
-        dispatch({ type: 'REMOVE_GET_ASSIGN_AMENITIES_STATUS_CODE' })
-      }, 500)
+    setTimeout(() => {
+      dispatch({ type: 'REMOVE_GET_ASSIGN_AMENITIES_STATUS_CODE' })
+    }, 500)
 
 
   }, [state.InvoiceList.getAssignAmenitiesSuccessStatusCode])
 
- 
-  
+
+
 
   useEffect(() => {
 
     if (state.InvoiceList.assignAmenitiesSuccessStatusCode) {
       setFormLoading(false)
-        dispatch({
-  type: 'GET_PARTICULAR_AMENITIES',
-  payload: {
-    hostelId: state.login.selectedHostel_Id,
-    amenityId: assignAmenitiesDetails.amenityId,
-  },
-});
-
-
-      setTimeout(() => {
+      dispatch({
+        type: 'GET_PARTICULAR_AMENITIES',
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          amenityId: assignAmenitiesDetails.amenityId,
+        },
+      });
+     setTimeout(() => {
         dispatch({ type: 'REMOVE_ASSIGN_AMENITIES_STATUS_CODE' })
       }, 100)
 
@@ -103,13 +101,13 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
 
     if (state.InvoiceList.UnAssignAmenitiesSuccessStatusCode === 200) {
       setFormLoading(false)
-        dispatch({
-  type: 'GET_PARTICULAR_AMENITIES',
-  payload: {
-    hostelId: state.login.selectedHostel_Id,
-    amenityId: assignAmenitiesDetails.amenityId,
-  },
-});
+      dispatch({
+        type: 'GET_PARTICULAR_AMENITIES',
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          amenityId: assignAmenitiesDetails.amenityId,
+        },
+      });
 
       setTimeout(() => {
         dispatch({ type: 'REMOVE_UN_ASSIGN_AMENITIES_STATUS_CODE' })
@@ -150,13 +148,14 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
 
 
 
-    dispatch({ type: 'ASSIGNAMENITIES', 
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          amenityId: assignAmenitiesDetails.amenityId,
-          customers:  assignedCheckedUsers
-  
-        },
+    dispatch({
+      type: 'ASSIGNAMENITIES',
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        amenityId: assignAmenitiesDetails.amenityId,
+        customers: assignedCheckedUsers
+
+      },
     })
     setFormLoading(true)
 
@@ -170,14 +169,15 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
       return;
     }
 
-    dispatch({ type: 'UNASSIGNAMENITIES',
-     payload: {
-          hostelId: state.login.selectedHostel_Id,
-          amenityId: assignAmenitiesDetails.amenityId,
-          customers:  unAssignedCheckedUsers
-  
-        },
-      })
+    dispatch({
+      type: 'UNASSIGNAMENITIES',
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        amenityId: assignAmenitiesDetails.amenityId,
+        customers: unAssignedCheckedUsers
+
+      },
+    })
     setFormLoading(true)
   }
 
@@ -219,11 +219,11 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
           </Modal.Header>
           <Modal.Body style={{ border: "none" }}>
             {errorAssign && (
-               <ErrorMessage message={errorAssign} type="error" />
+              <ErrorMessage message={errorAssign} type="error" />
             )}
 
             {errorUnAssign && (
-               <ErrorMessage message={errorUnAssign} type="error" />
+              <ErrorMessage message={errorUnAssign} type="error" />
             )}
 
             <div className="row">
@@ -339,7 +339,7 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
 
           </Modal.Body>
 
-         
+
 
           {formLoading &&
             <div

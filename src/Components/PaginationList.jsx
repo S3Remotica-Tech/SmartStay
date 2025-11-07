@@ -74,7 +74,7 @@ if (totalItems === 0) return null;
           display: "flex",
           alignItems: "center",
           justifyContent: "end",
-          padding: "10px",
+          padding: "0px",
           borderRadius: "5px",
           position: "fixed",
           zIndex: 1000,

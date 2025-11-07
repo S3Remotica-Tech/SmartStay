@@ -15,7 +15,8 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 dayjs.extend(customParseFormat);
 import { useDispatch, useSelector } from 'react-redux';
-import ErrorMessage from '../../../Components/ErrorMessage'
+import ErrorMessage from '../../../Components/ErrorMessage';
+import { LiaBedSolid } from "react-icons/lia";
 
 function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer }) {
   ConfirmChangeBed.propTypes = {
@@ -33,7 +34,8 @@ function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer
 
   const isPreviousBed = state.PgList?.isClickedBed
   
-
+console.log("isPreviousBed",isPreviousBed)
+console.log("current bed",currentBed)
 
   const [selectedDate, setSelectedDate] = useState(null);
   const [newRoomRent, setNewRoomRent] = useState("");
@@ -49,10 +51,19 @@ function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer
 
 
   const handleRentChange = (e) => {
-    const value = e.target.value.replace(/[^0-9]/g, "");
-    setNewRoomRent(value);
-    setErrors((prev) => ({ ...prev, rent: "" }));
-  };
+  let value = e.target.value.replace(/[^0-9]/g, ""); 
+
+ 
+  if (/^0+$/.test(value)) {
+    value = ""; 
+  } else if (value.length > 1 && value.startsWith("0")) {
+    value = value.replace(/^0+/, "");
+  }
+
+  setNewRoomRent(value);
+  setErrors((prev) => ({ ...prev, rent: "" }));
+};
+
 
 
   const handleSameAsCurrent = (e) => {
@@ -82,7 +93,7 @@ function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer
       hasError = true;
     }
 
-    if (previousBed?.isOccupied && (!newRoomRent)) {
+    if (isPreviousBed?.isOccupied && (!newRoomRent)) {
       newErrors.rent = "Please enter rent amount";
       hasError = true;
     }
@@ -215,9 +226,11 @@ function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer
           </Modal.Header>
 
 
-          <Modal.Body className="" style={{}} >
+          <Modal.Body 
+          style={{ maxHeight: "450px", overflowY: "scroll" }} className="show-scroll mt-1 me-3"
+          >
 
-            <div className="d-flex justify-content-between align-items-start mb-3" >
+            <div className="d-flex justify-content-between align-items-start mb-1" >
 
               <div>
                 <p className="mb-2" style={{ fontFamily: 'Gilroy' }}>Current Bed</p>
@@ -230,7 +243,7 @@ function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer
                     style={{ width: '20px', height: '20px', verticalAlign: 'middle' }}
                     alt="building"
                   />
-                  <span style={{ position: 'relative', top: '4px', left: '3px' }}>{previousBed?.floorName || 'N/A'} </span>
+                  <span style={{ position: 'relative', top: '4px', left: '3px' }}>{isPreviousBed?.floorName || 'N/A'} </span>
                 </p>
 
                 <p className="mb-3" style={{ fontFamily: 'Gilroy', fontSize: '16px' }}>
@@ -240,17 +253,13 @@ function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer
                     style={{ width: '24px', height: '24px', verticalAlign: 'middle' }}
                     alt="Frame"
                   />
-                  <span style={{ position: 'relative', top: '2px' }}>{previousBed?.roomName || 'N/A'} </span>
+                  <span style={{ position: 'relative', top: '2px' }}>{isPreviousBed?.roomName || 'N/A'} </span>
                 </p>
 
                 <p className="mb-3" style={{ fontFamily: 'Gilroy', fontSize: '16px' }}>
-                  <img
-                    src={Group}
-                    className="me-2"
-                    style={{ width: '20px', height: '20px', verticalAlign: 'middle' }}
-                    alt="Group"
-                  />
-                  <span style={{ position: 'relative', top: '3px', left: '4px' }}>{previousBed?.bedName || 'N/A'} </span>
+                 
+                  <LiaBedSolid  style={{ width: '20px', height: '20px', verticalAlign: 'middle' , color:"#1E45E1"}}/>
+                  <span  className="ms-2" style={{ position: 'relative', top: '3px', left: '4px' }}>{isPreviousBed?.bedName || 'N/A'} </span>
                 </p>
 
               </div>
@@ -297,13 +306,8 @@ function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer
                 </p>
 
                 <p className="mb-3" style={{ fontFamily: 'Gilroy', fontSize: '16px' }}>
-                  <img
-                    src={Group}
-                    className="me-2"
-                    style={{ width: '20px', height: '20px', verticalAlign: 'middle' }}
-                    alt="Group"
-                  />
-                  <span style={{ position: 'relative', top: '3px', left: '4px' }}>{currentBed?.bedName || 'N/A'} </span>
+                  <LiaBedSolid  style={{ width: '20px', height: '20px', verticalAlign: 'middle' , color:"#1E45E1"}}/>
+                  <span className="ms-2" style={{ position: 'relative', top: '3px', left: '4px' }}>{currentBed?.bedName || 'N/A'} </span>
                 </p>
               </div>
             </div>
@@ -312,12 +316,14 @@ function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer
             <div className="row" style={{ fontSize: 13 }}>
 
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
-                <Form.Group className="mb-3">
-                  <Form.Label style={{ marginBottom: 4, fontSize: 14, fontFamily: "Gilroy" }}>Date</Form.Label>
+                <Form.Group className="mb-1">
+                  <Form.Label style={{ marginBottom: 4, fontSize: 14, fontFamily: "Gilroy" }}>Date {" "} <span style={{ color: "red", fontSize: "20px" }}>
+                        *
+                      </span></Form.Label>
                   <DatePicker
                     style={{
                       width: "100%",
-                      height: 48,
+                      height: 48, 
                       border: "1px solid lightgrey",
                       cursor: "pointer",
                       fontFamily: "Gilroy",
@@ -338,8 +344,7 @@ function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer
                   <ErrorMessage message={errors.date} type="error" />
                 )}
               </div>
-              {
-                previousBed?.isOccupied &&
+             
 
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                   <Form.Group className="mb-3">
@@ -407,7 +412,7 @@ function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer
 
                 </div>
 
-              }
+              
 
             </div>
 
@@ -416,7 +421,7 @@ function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer
               <ErrorMessage message={state.UsersList?.changeBedError} type="error" />
             </div>}
 
-            <div className="d-flex gap-3 mt-4 ">
+            <div className="d-flex gap-3 mt-1 ">
               <Button
                 variant="light"
                 className="px-4"

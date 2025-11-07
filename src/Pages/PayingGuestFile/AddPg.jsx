@@ -45,7 +45,7 @@ function AddPg({ show, handleClose, currentItem }) {
   const [state_nameError, setStateNameError] = useState("");
   const [hostel_Id, setHostel_Id] = useState("");
   const [formLoading, setFormLoading] = useState(false)
-
+const errorRef = useRef(null);
   const pgNameRef = useRef(null);
   const countryCodeRef = useRef(null);
   const mobileRef = useRef(null);
@@ -262,6 +262,7 @@ function AddPg({ show, handleClose, currentItem }) {
   const handleCreatePayingGuest = () => {
     let hasError = false;
     let focused = false;
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
 
     setGeneralError("");
     setPgNameError("");
@@ -504,7 +505,7 @@ function AddPg({ show, handleClose, currentItem }) {
     setHostel_Id(state.login.selectedHostel_Id);
   }, [state?.login?.selectedHostel_Id]);
 
-
+console.log("state",state)
 
   useEffect(() => {
     if (currentItem) {
@@ -650,9 +651,6 @@ function AddPg({ show, handleClose, currentItem }) {
   useEffect(() => {
     if (state.createAccount?.networkError) {
       setFormLoading(false)
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-      }, 3000)
     }
 
   }, [state.createAccount?.networkError])
@@ -1352,6 +1350,11 @@ function AddPg({ show, handleClose, currentItem }) {
             })}
           </div>
 
+
+          {/* {
+            state.createAccount?.networkError &&   <ErrorMessage message={state.createAccount?.networkError} type="error" />
+          } */}
+
         </Modal.Body>
         {formLoading && <div
           style={{
@@ -1393,6 +1396,7 @@ function AddPg({ show, handleClose, currentItem }) {
 
 
           <Button
+          disabled={formLoading}
             onClick={handleCreatePayingGuest}
             className="w-100"
             style={{

@@ -18,7 +18,7 @@ const InvoiceTable = (props) => {
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
 
-
+  const [showAbove, setShowAbove] = useState(false);
   // const canWriteInvoice = useHasPermission("Invoice", "canWrite")
   // const canUpdateInvoice = useHasPermission("Invoice", "canUpdate")
   // const canDeleteInvoice = useHasPermission("Invoice", "canDelete")
@@ -34,7 +34,16 @@ const {
 
 
 
+useEffect(() => {
+    if (popupRef.current) {
+      const popupHeight = popupRef.current.offsetHeight;
+      const windowHeight = window.innerHeight;
+      const spaceBelow = windowHeight - popupPosition.top;
 
+
+      setShowAbove(spaceBelow < popupHeight + 20);
+    }
+  }, [popupPosition]);
 
 
 
@@ -46,9 +55,9 @@ const {
   const handleShowDots = (event) => {
     setShowDots(!showDots)
 
-    const { top, left } = event.target.getBoundingClientRect();
-    const popupTop = top - 14;
-    const popupLeft = left - 180;
+   const { top, left, height } = event.target.getBoundingClientRect();
+    const popupTop = top + (height / 2);
+    const popupLeft = left - 200;
 
     setPopupPosition({ top: popupTop, left: popupLeft });
   }
@@ -147,6 +156,8 @@ const {
   }
 
 
+
+
   return (
 
     <>
@@ -216,7 +227,7 @@ const {
         >
 
       {(props.item?.paymentStatus === "Pending" ||
-            props.item?.paymentStatus === "Partial Payment") && (
+            props.item?.paymentStatus === "Partial Payment" ) && (
               <span
                 style={{
                   backgroundColor: "#FFD9D9",
@@ -247,7 +258,7 @@ const {
           )}
 
 
-          {props.item?.paymentStatus === "Refunded" && (
+          {(props.item?.paymentStatus === "Refunded" ||  props.item?.paymentStatus === "Partially Refunded") && (
             <span
               style={{
                 backgroundColor: "#FFF3CD",
@@ -373,8 +384,10 @@ const {
                     cursor: "pointer",
                     backgroundColor: "#F9F9F9",
                     position: "fixed",
-                    top: popupPosition.top,
-                    left: popupPosition.left - 10,
+                   top: showAbove
+                    ? popupPosition.top - (popupRef.current?.offsetHeight || 100) - 20
+                    : popupPosition.top - 35,
+                  left: popupPosition.left,
                     width: 170,
                     height: "auto",
                     border: "1px solid #EBEBEB",
