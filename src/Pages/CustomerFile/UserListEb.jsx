@@ -13,7 +13,7 @@ import PaginationList from "../../Components/PaginationList";
 function UserEb(props) {
   const state = useSelector(state => state)
 
-console.log("props",props)
+
   const dispatch = useDispatch();
 
   const [EbrowsPerPage, setEbrowsPerPage] = useState(4);
@@ -98,7 +98,7 @@ const {
 
 
 
-console.log("sortedData",sortedData)
+
 
 
 

@@ -166,7 +166,7 @@ useEffect(()=>{
   };
 
 
-console.log("editHostel",editHostel)
+
 
   const handleAddElectricity = () => {
     if (amount === "") {

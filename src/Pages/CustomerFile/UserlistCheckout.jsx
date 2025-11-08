@@ -451,7 +451,7 @@ const {
   }, [state.UsersList.statusCodegetConfirmCheckout, CheckOutDetails]);
 
 
-console.log("state",state)
+
 
   useEffect(() => {
     if (state.UsersList.statusCodeForDueCustomer === 200) {

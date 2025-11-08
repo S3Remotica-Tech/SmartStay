@@ -133,7 +133,7 @@ function Sidebar() {
     }
   }, [state.login?.isLoggedIn, state.login.selectedHostel_Id]);
 
-  console.log("(state.login?.isLoggedIn", state.login?.isLoggedIn)
+  
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);

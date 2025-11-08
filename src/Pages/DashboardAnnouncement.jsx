@@ -84,7 +84,7 @@ useEffect(() => {
   }
 }, [canReadAnnouncement]);
 
-console.log("canReadAnnouncement",canReadAnnouncement)
+
 
 
 

@@ -28,7 +28,7 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
   const [formLoading, setFormLoading] = useState(false)
 
 
-  console.log("assignedCheckedUsers", assignedCheckedUsers)
+  
 
   useEffect(() => {
     dispatch({
