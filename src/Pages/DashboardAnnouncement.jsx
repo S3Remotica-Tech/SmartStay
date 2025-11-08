@@ -1484,9 +1484,9 @@ useEffect(() => {
               </div>
             )}
           </Modal.Body>
-          {state.createAccount?.networkError ?
+          {/* {state.createAccount?.networkError ?
             <ErrorMessage message={state.createAccount?.networkError} />
-            : null}
+            : null} */}
 
           {formCommentsLoading && <div
             style={{
@@ -1832,9 +1832,9 @@ useEffect(() => {
             </div>
           )}
 
-          {state.createAccount?.networkError ?
+          {/* {state.createAccount?.networkError ?
             <ErrorMessage message={state.createAccount?.networkError} />
-            : null}
+            : null} */}
 
           <Button
             className="col-lg-6 col-md-6 col-sm-12 col-xs-12"

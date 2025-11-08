@@ -33,12 +33,6 @@ export async function createPgList(params) {
           formData.append("additionalImages", img);
         }
       });
-    }else {
-            // formData.append(
-      //   "additionalImages",
-      //   new Blob([], { type: "application/octet-stream" }),
-      //   "empty.txt"
-      // );
     }
 
     const response = await AxiosConfigV2.post("/v2/hostel", formData, {
@@ -58,7 +52,7 @@ export async function createPgList(params) {
 // export async function createPgList(params) {
 //   try {
    
-//     throw { response: { status: 500,  message: "Internal Server Error (mocked)"  } };
+//     throw { response: { status: 500,  message: "Internal Server Error "  } };
 
    
 //   } catch (error) {

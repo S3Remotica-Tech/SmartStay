@@ -5,13 +5,57 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function* handleApiError(error) {
-   if (error?.status === 401 || error?.response?.status === 401) {
+   const status = error?.response?.status || error?.status;
+
+   if (status === 401) {
       yield put({
          type: "UN-AUTHORIZED",
          payload: "Access Denied",
       });
    }
-
+   else if (status === 500) {
+      yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
+      toast.error("Network error occurred", {
+         style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
+         position: "top-right",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+      });
+   }
+   else if (error.code === "ERR_NETWORK") {
+      yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
+      toast.error("Network error occurred", {
+         style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
+         position: "top-right",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+      });
+   }
+   // else {
+   //    const msg = error?.message || "Something went wrong";
+   //    yield put({ type: "NETWORK_ERROR", payload: msg });
+   //    toast.error(msg, {
+   //       style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
+   //       position: "top-right",
+   //       autoClose: 2000,
+   //       hideProgressBar: true,
+   //       closeButton: false,
+   //       closeOnClick: true,
+   //       pauseOnHover: true,
+   //       draggable: true,
+   //       progress: undefined,
+   //    });
+   // }
 }
 
 function* handleCreateRefund(action) {
@@ -29,11 +73,7 @@ function* handleCreateRefund(action) {
    }
    catch (error) {
          yield* handleApiError(error);
-      if (error.code === 'ERR_BAD_REQUEST') {
-         yield put({ type: 'NETWORK_ERROR', payload: error.response.data });
-      } else if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
+      
    }
 
 }
@@ -59,11 +99,7 @@ function* handleGetInitializeRefund(action) {
    }
    catch (error) {
          yield* handleApiError(error);
-      if (error.code === 'ERR_BAD_REQUEST') {
-         yield put({ type: 'NETWORK_ERROR', payload: error.response.data });
-      } else if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
+     
    }
 
 }
@@ -87,11 +123,7 @@ function* handleGetFinalSettlementList(action) {
    }
    catch (error) {
       yield* handleApiError(error);
-      if (error.code === 'ERR_BAD_REQUEST') {
-         yield put({ type: 'NETWORK_ERROR', payload: error.response.data });
-      } else if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
+    
    }
 
 }
@@ -114,13 +146,7 @@ function* handleGetParticularBillsDetails(action) {
    }
    catch (error) {
          yield* handleApiError(error);
-      if (error.code === 'ERR_BAD_REQUEST') {
-         yield put({ type: 'NETWORK_ERROR', payload: error.response.data });
-      } else if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-        toast.error(error.message || 'Something went wrong' ,{
-        hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }})
-      }
+     
    }
      
 
@@ -140,13 +166,7 @@ function* handleGetParticularReceiptDetails(action) {
    }
    catch (error) {
          yield* handleApiError(error);
-      if (error.code === 'ERR_BAD_REQUEST') {
-         yield put({ type: 'NETWORK_ERROR', payload: error.response.data });
-      } else if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-          toast.error(error.message || 'Something went wrong' ,{
-        hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }})
-      }
+     
    }
 
 }
@@ -201,11 +221,7 @@ function* handleDeleteUser(action) {
    }
    catch (error) {
          yield* handleApiError(error);
-      if (error.code === 'ERR_BAD_REQUEST') {
-         yield put({ type: 'NETWORK_ERROR', payload: error.response.data });
-      } else if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
+     
    }
 
 }
@@ -317,12 +333,7 @@ function* handleAssignAmenities(action) {
     }
   } catch (error) {
          yield* handleApiError(error);
-    const errorMsg =
-      error.code === 'ERR_NETWORK'
-        ? 'Network error occurred'
-        : error.message || 'Something went wrong';
-
-    yield put({ type: 'NETWORK_ERROR', payload: errorMsg });
+   
   }
 }
 
@@ -378,11 +389,7 @@ function* handleUnAssignAmenities(action) {
    }
    catch (error) {
          yield* handleApiError(error);
-      if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
+     
    }
 }
 
@@ -503,9 +510,7 @@ function* handleRecordPaymentUpdate(action) {
          if (error.status === 400 || error.status === 403) {
             yield put({ type: 'PAYABLE_AMOUNT', payload: error.response.data });
          }
-      } else if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
+      } 
    }
 }
 
@@ -557,11 +562,7 @@ function* handleInvoiceSettings(param) {
    }
    catch (error) {
          yield* handleApiError(error);
-      if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
+     
    }
 
 }
@@ -616,11 +617,7 @@ function* handleInvoicePdf(action) {
    }
    catch (error) {
          yield* handleApiError(error);
-      if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
+    
    }
 }
 
@@ -680,11 +677,7 @@ function* handleAddAmenity(action) {
       if (error.status === 403 ||  error.response?.status === 403) {
          yield put({ type: 'ERROR_AMENITIES_SETTINGS', payload: { response: error.response.data } })
       }
-      if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
+      
    }
 }
 
@@ -763,11 +756,7 @@ function* handleUpdateAmenities(action) {
       if (error.status === 403 ||  error.response?.status === 403) {
          yield put({ type: 'ERROR_AMENITIES_SETTINGS', payload: { response: error.response.data } })
       }
-      if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
+      
    }
 }
 
@@ -951,8 +940,6 @@ function* handleManualInvoiceAdd(params) {
          if (error.status === 400 || error.status === 403) {
             yield put({ type: 'UNABLE_ADD_INVOICE_DETAILS', payload: error.response.data });
          }
-      } else if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
       }
    }
 }
@@ -1005,11 +992,7 @@ function* handleManualInvoiceEdit(params) {
    }
    catch (error) {
          yield* handleApiError(error);
-      if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
+     
    }
 }
 
@@ -1116,11 +1099,7 @@ function* handleRecurrBillsAdd(params) {
    }
    catch (error) {
          yield* handleApiError(error);
-      if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
+     
    }
 }
 
@@ -1144,11 +1123,7 @@ function* handleGetManualInvoice(action) {
    }
    catch (error) {
          yield* handleApiError(error);
-      if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
+     
    }
 
 }
@@ -1270,11 +1245,7 @@ function* handleAddInvoiceRecurringSettings(param) {
    }
    catch (error) {
          yield* handleApiError(error);
-      if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
+     
    }
 }
 
@@ -1299,11 +1270,7 @@ function* handleGetReceipts(action) {
    }
    catch (error) {
          yield* handleApiError(error);
-      if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
+    
    }
 
 
@@ -1354,11 +1321,7 @@ function* handleAddReceipt(action) {
    }
    catch (error) {
          yield* handleApiError(error);
-      if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
+     
    }
 }
 
@@ -1401,11 +1364,7 @@ function* handleEditReceipt(action) {
    }
    catch (error) {
          yield* handleApiError(error);
-      if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
+    
    }
 }
 
@@ -1524,11 +1483,7 @@ function* handleReceiptPdf(action) {
    }
    catch (error) {
          yield* handleApiError(error);
-      if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
+     
    }
 }
 
@@ -1598,11 +1553,7 @@ function* handleReceiptPdfNewChanges(action) {
       }
    } catch (error) {
          yield* handleApiError(error);
-      if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
+     
    }
 }
 
@@ -1684,11 +1635,7 @@ function* handleCustomerRecurringEnableDisable(params) {
    }
    catch (error) {
          yield* handleApiError(error);
-      if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
+    
    }
 }
 

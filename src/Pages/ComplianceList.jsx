@@ -1332,9 +1332,9 @@ const ComplianceList = (props) => {
 
 
 
-                      {state.createAccount?.networkError ?
+                      {/* {state.createAccount?.networkError ?
                         <ErrorMessage message={state.createAccount?.networkError} type="error" />
-                        : null}
+                        : null} */}
 
                       <Modal.Footer style={{ border: "none" }} className="p-0">
                         <div
@@ -1539,9 +1539,9 @@ const ComplianceList = (props) => {
                           )}
                         </div>
                       </div>
-                      {state.createAccount?.networkError ?
+                      {/* {state.createAccount?.networkError ?
                         <ErrorMessage message={state.createAccount?.networkError} type="error" />
-                        : null}
+                        : null} */}
                     </Modal.Body>
 
 
@@ -1812,10 +1812,10 @@ const ComplianceList = (props) => {
                         </div>
                       </div>
 
-                      {state.createAccount?.networkError ?
+                      {/* {state.createAccount?.networkError ?
                         <ErrorMessage message={state.createAccount?.networkError} type="error" />
 
-                        : null}
+                        : null} */}
                     </Modal.Body>
                     {formAssignCompliantLoading && <div
                       style={{

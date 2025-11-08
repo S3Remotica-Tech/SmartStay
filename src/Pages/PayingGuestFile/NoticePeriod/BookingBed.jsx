@@ -69,7 +69,7 @@ function BookingBed({
     }
     setAmount(newAmount);
     setamountError("");
-    dispatch({ type: 'ERROR_BOOKING_REMOVE'})
+    dispatch({ type: 'ERROR_BOOKING_REMOVE' })
   };
 
   const handleTransactionId = (e) => {
@@ -182,11 +182,11 @@ function BookingBed({
     if (!isCustomerValid || !isJoiningDateValid || !isBookingDateValid || !isAmountValid || !isModeOfPaymentValid) {
       hasError = true;
     }
- if (Number(amount) <= 0) {
-    setamountError("Booking Amount must be greater than 0");
-    amountRef.current?.focus();
-    hasError = true;
-  }
+    if (Number(amount) <= 0) {
+      setamountError("Booking Amount must be greater than 0");
+      amountRef.current?.focus();
+      hasError = true;
+    }
     if (hasError) return;
 
     const formatDate = (date) => {
@@ -248,12 +248,34 @@ function BookingBed({
     if (state.Booking.bookingBedError) {
       setFormLoading(false)
 
-setTimeout(()=>{
-dispatch({ type: 'ERROR_BOOKING_REMOVE'})
-},1000)
+      setTimeout(() => {
+        dispatch({ type: 'ERROR_BOOKING_REMOVE' })
+      }, 1000)
 
     }
   }, [state.Booking.bookingBedError])
+
+
+
+useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setFormLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
+
+  }, [state.createAccount?.networkError])
+
+
+
+
+
+
+
+
+
+
   return (
     <div>
       <Modal
@@ -463,7 +485,7 @@ dispatch({ type: 'ERROR_BOOKING_REMOVE'})
                         fontSize: 14,
                         fontWeight: 500,
                         fontFamily: "Gilroy",
-                       }}
+                      }}
                     >
                       Booking Amount {" "}
                       <span style={{ color: "red", fontSize: "20px" }}> *</span>
@@ -483,7 +505,7 @@ dispatch({ type: 'ERROR_BOOKING_REMOVE'})
                           fontSize: 16,
                           color: "#4B4B4B",
                           fontFamily: "Gilroy",
-                          fontWeight: amount? 600 : 500,
+                          fontWeight: amount ? 600 : 500,
                           boxShadow: "none",
                           border: "1px solid #D9D9D9",
                           height: 50,
@@ -505,7 +527,7 @@ dispatch({ type: 'ERROR_BOOKING_REMOVE'})
                         color: "#222222",
                         fontFamily: "Gilroy",
                         fontWeight: 500,
-                         
+
                       }}
                     >
                       Joining Date (Tentative){" "}
@@ -524,7 +546,7 @@ dispatch({ type: 'ERROR_BOOKING_REMOVE'})
                           height: 48,
                           cursor: "pointer",
                           fontFamily: "Gilroy",
-                          padding:"6px 12px"
+                          padding: "6px 12px"
                         }}
                         format="DD/MM/YYYY"
                         placeholder="DD/MM/YYYY"
@@ -691,7 +713,7 @@ dispatch({ type: 'ERROR_BOOKING_REMOVE'})
                         fontSize: 16,
                         color: "#4B4B4B",
                         fontFamily: "Gilroy",
-                        fontWeight:transactionId ? 600 : 500,
+                        fontWeight: transactionId ? 600 : 500,
                         boxShadow: "none",
                         border: "1px solid #D9D9D9",
                         height: 50,
@@ -708,12 +730,16 @@ dispatch({ type: 'ERROR_BOOKING_REMOVE'})
 
 
             </div>
-            <div className="d-flex justify-content-center">
+            
               {
-                state.Booking.bookingBedError && <ErrorMessage message={state.Booking.bookingBedError} type="error" />
+                state.Booking.bookingBedError && <div className="d-flex justify-content-center"><ErrorMessage message={state.Booking.bookingBedError} type="error" /> </div>
               }
 
-            </div>
+           
+             {/* {state.createAccount?.networkError ?
+                         <div className="d-flex justify-content-center mt-1 mb-1">
+                          <ErrorMessage message={state.createAccount?.networkError} type="error"/></div>
+                          : null} */}
 
             <div
               style={{

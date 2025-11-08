@@ -416,6 +416,18 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
 
   useEffect(() => {
+      if (state.createAccount?.networkError) {
+        setFormLoading(false)
+        setTimeout(() => {
+          dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+        }, 3000)
+      }
+  
+    }, [state.createAccount?.networkError])
+  
+  
+
+  useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
       setFormLoading(false)
       setJoingDateErrmsg('');
@@ -1182,7 +1194,10 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                       ></div>
                     </div>
                   }
-
+ {/* {state.createAccount?.networkError ?
+             <div className="d-flex justify-content-center mt-1 mb-1">
+              <ErrorMessage message={state.createAccount?.networkError} type="error"/></div>
+              : null} */}
                   <div className="d-flex justify-content-end">
                     <Button
                       style={{

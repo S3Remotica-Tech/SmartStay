@@ -71,7 +71,7 @@ const Compliance = () => {
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
-const {
+  const {
     canWriteModule: canWriteComplaints,
     canReadModule: canReadComplaints,
     // canUpdateModule: canUpdateBanking,
@@ -92,13 +92,13 @@ const {
   const filterOptions = useSelector((state) => state.ComplianceList.filterOptions);
 
 
-useEffect(() => {
-      if (!canReadComplaints) {
-        setLoading(false);
-      }else{
-        setLoading(true);
-      }
-    }, [canReadComplaints]);
+  useEffect(() => {
+    if (!canReadComplaints) {
+      setLoading(false);
+    } else {
+      setLoading(true);
+    }
+  }, [canReadComplaints]);
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
@@ -452,7 +452,7 @@ useEffect(() => {
     if (value === "null") {
       statusValue = null;
     }
-   
+
     if (value === "All") {
       dispatch({ type: 'COMPLIANCE-LIST', payload: { hostelId: state.login.selectedHostel_Id } })
     } else {
@@ -1140,12 +1140,14 @@ useEffect(() => {
                   <div className='me-2' style={{ cursor: "pointer" }}>
                     <Image
                       src={searchteam}
-                      style={{ height: "24px", width: "24px",
-                         cursor: canReadComplaints ? "pointer" : "not-allowed",
-                  opacity: canReadComplaints ? 1 : 0.4,
-                  pointerEvents: canReadComplaints ? "auto" : "none",
-                  transition: "opacity 0.3s ease" }}
-                      onClick={()=>canReadComplaints && handleSearch()}
+                      style={{
+                        height: "24px", width: "24px",
+                        cursor: canReadComplaints ? "pointer" : "not-allowed",
+                        opacity: canReadComplaints ? 1 : 0.4,
+                        pointerEvents: canReadComplaints ? "auto" : "none",
+                        transition: "opacity 0.3s ease"
+                      }}
+                      onClick={() => canReadComplaints && handleSearch()}
                     />
                   </div>
                 )}
@@ -1153,10 +1155,12 @@ useEffect(() => {
                 <div className='me-2' style={{ cursor: "pointer" }}>
                   <Image
                     src={Filters}
-                    style={{ height: "50px", width: "50px", cursor: canReadComplaints ? "pointer" : "not-allowed",
-                  opacity: canReadComplaints ? 1 : 0.4,
-                  pointerEvents: canReadComplaints ? "auto" : "none",
-                  transition: "opacity 0.3s ease" }}
+                    style={{
+                      height: "50px", width: "50px", cursor: canReadComplaints ? "pointer" : "not-allowed",
+                      opacity: canReadComplaints ? 1 : 0.4,
+                      pointerEvents: canReadComplaints ? "auto" : "none",
+                      transition: "opacity 0.3s ease"
+                    }}
                     onClick={handleFilterd}
                   />
                 </div>
@@ -1202,10 +1206,12 @@ useEffect(() => {
                     width={38}
                     height={38}
                     onClick={handleComplianceeExcel}
-                    style={{ cursor: canReadComplaints ? "pointer" : "not-allowed",
-                  opacity: canReadComplaints ? 1 : 0.4,
-                  pointerEvents: canReadComplaints ? "auto" : "none",
-                  transition: "opacity 0.3s ease"}}
+                    style={{
+                      cursor: canReadComplaints ? "pointer" : "not-allowed",
+                      opacity: canReadComplaints ? 1 : 0.4,
+                      pointerEvents: canReadComplaints ? "auto" : "none",
+                      transition: "opacity 0.3s ease"
+                    }}
                   />
                 </div>
 
@@ -1865,6 +1871,11 @@ useEffect(() => {
                 )}
 
 
+                {/* {state.createAccount?.networkError ?
+                  <div className="d-flex justify-content-center mt-1 mb-1">
+                    <ErrorMessage message={state.createAccount?.networkError} type="error" /></div>
+                  : null} */}
+
 
 
 
@@ -1928,7 +1939,10 @@ useEffect(() => {
 
 
 
-
+                {/* {state.createAccount?.networkError ?
+                  <div className="d-flex justify-content-center mt-1 mb-1">
+                    <ErrorMessage message={state.createAccount?.networkError} type="error" /></div>
+                  : null} */}
 
                 <Modal.Footer style={{ border: "none" }}>
 

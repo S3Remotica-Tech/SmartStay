@@ -27,7 +27,11 @@ function BillingRule() {
   const [showLongStay, setShowLongStay] = useState(false);
 
   const handleShowLongStay = () => setShowLongStay(true);
-  const handleCloseLongStay = () => setShowLongStay(false);
+  const handleCloseLongStay = () => {
+    dispatch({ type: 'REMOVE_BILLING_RULE_ERROR' })
+   setShowLongStay(false)
+  }
+
 
   const handleShowShortStay = () => setShowShortStay(true);
   const handleCloseShortStay = () => setShowShortStay(false);

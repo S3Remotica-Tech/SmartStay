@@ -2191,9 +2191,11 @@ useEffect(() => {
 
 
 
-                {state.createAccount?.networkError ?
+                {/* {state.createAccount?.networkError ?
+                <div className="d-flex justify-content-center mt-1 mb-1">
                   <ErrorMessage message={state.createAccount?.networkError} type="error" />
-                  : null}
+                  </div>
+                  : null} */}
 
 
 

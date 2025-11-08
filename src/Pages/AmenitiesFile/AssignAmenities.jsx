@@ -226,6 +226,12 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
               <ErrorMessage message={errorUnAssign} type="error" />
             )}
 
+               {/* {state.createAccount?.networkError ?
+                         <div className="d-flex justify-content-center mt-1 mb-1">
+                          <ErrorMessage message={state.createAccount?.networkError} type="error"/></div>
+                          : null}
+             */}
+
             <div className="row">
               <div className="col-lg-5 col-md-4 col-sm-12 col-xs-12">
                 <Card style={{ border: "1px solid #DCDCDC", borderRadius: 8, cursor: "pointer" }} className='h-100 ' >

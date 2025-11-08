@@ -5,14 +5,59 @@ import { toast } from 'react-toastify';
 
 
 function* handleApiError(error) {
-  if (error?.status === 401 || error?.response?.status === 401) {
-    yield put({
-      type: "UN-AUTHORIZED",
-      payload: "Access Denied",
-    });
-  } 
-  
+   const status = error?.response?.status || error?.status;
+
+   if (status === 401) {
+      yield put({
+         type: "UN-AUTHORIZED",
+         payload: "Access Denied",
+      });
+   }
+   else if (status === 500) {
+      yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
+      toast.error("Network error occurred", {
+         style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
+         position: "top-right",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+      });
+   }
+   else if (error.code === "ERR_NETWORK") {
+      yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
+      toast.error("Network error occurred", {
+         style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
+         position: "top-right",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+      });
+   }
+   // else {
+   //    const msg = error?.message || "Something went wrong";
+   //    yield put({ type: "NETWORK_ERROR", payload: msg });
+   //    toast.error(msg, {
+   //       style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
+   //       position: "top-right",
+   //       autoClose: 2000,
+   //       hideProgressBar: true,
+   //       closeButton: false,
+   //       closeOnClick: true,
+   //       pauseOnHover: true,
+   //       draggable: true,
+   //       progress: undefined,
+   //    });
+   // }
 }
+
 
 
 
@@ -23,7 +68,7 @@ function* handleGetRoleBasedPermission(action) {
    try {
       const response = yield call(getRoleBasedPermission, action.payload);
 
-console.log("response",response)
+
 
       if (response?.status === 200 || response?.data?.statusCode === 200) {
          yield put({ type: 'PERMISSION_ROLE_LIST', payload: { response: response?.data || [], statusCode: response?.status || response?.data?.statusCode } })
@@ -36,11 +81,8 @@ console.log("response",response)
 
    catch (error) {
       yield* handleApiError(error);
-      if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
+     
+  
    }
 }
 
@@ -62,11 +104,7 @@ function* handleGetAsset(action) {
 
    catch (error) {
          yield* handleApiError(error);
-      if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
+      
    }
 }
 
@@ -122,8 +160,6 @@ function* handleAddAsset(action) {
                yield put({ type: 'ASSET_NAME_ERROR', payload: error.response?.data });
             }
          }
-      } else if (error?.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: error?.message || 'Something went wrong' });
       }
    }
 
@@ -181,9 +217,7 @@ function* handleUpdateAsset(action) {
                yield put({ type: 'ASSET_NAME_ERROR', payload: error.response?.data });
             }
          }
-      } else if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
+      } 
    }
 
 
@@ -300,11 +334,7 @@ function* handleAssignAsset(action) {
    }
    catch (error) {
       yield* handleApiError(error);
-      if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
+      
    }
 
 

@@ -7,13 +7,57 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 function* handleApiError(error) {
-   if (error?.status === 401 || error?.response?.status === 401) {
+   const status = error?.response?.status || error?.status;
+
+   if (status === 401) {
       yield put({
          type: "UN-AUTHORIZED",
          payload: "Access Denied",
       });
    }
-
+   else if (status === 500) {
+      yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
+      toast.error("Network error occurred", {
+         style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
+         position: "top-right",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+      });
+   }
+   else if (error.code === "ERR_NETWORK") {
+      yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
+      toast.error("Network error occurred", {
+         style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
+         position: "top-right",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+      });
+   }
+   // else {
+   //    const msg = error?.message || "Something went wrong";
+   //    yield put({ type: "NETWORK_ERROR", payload: msg });
+   //    toast.error(msg, {
+   //       style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
+   //       position: "top-right",
+   //       autoClose: 2000,
+   //       hideProgressBar: true,
+   //       closeButton: false,
+   //       closeOnClick: true,
+   //       pauseOnHover: true,
+   //       draggable: true,
+   //       progress: undefined,
+   //    });
+   // }
 }
 
 function* handleUpdateVendor(action) {
@@ -63,9 +107,7 @@ function* handleUpdateVendor(action) {
          if (error.status === 400) {
             yield put({ type: 'ALREADY_VENDOR_ERROR', payload: error.response.data });
          }
-      } else if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
+      } 
    }
 }
 
@@ -94,11 +136,7 @@ function* handleParticularcompliant(action) {
    }
    catch (error) {
       yield* handleApiError(error);
-      if (error.code === 'ERR_BAD_REQUEST') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
+      
    }
 
 }
@@ -127,11 +165,7 @@ function* handlecompliancelist(action) {
    }
    catch (error) {
       yield* handleApiError(error);
-      if (error.code === 'ERR_BAD_REQUEST') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
+     
    }
 
 }
@@ -140,8 +174,6 @@ function* handleComplianceadd(params) {
    try {
 
       const response = yield call(Compliancedetails, params.payload);
-
-
 
       if (response?.status === 201 ) {
          yield put({ type: 'COMPLIANCE_ADD', payload: { response: response.data, statusCode: response?.status} })
@@ -174,20 +206,14 @@ function* handleComplianceadd(params) {
             style: toastStyle
          })
       }
-      else {
-         yield put({ type: 'ERROR', payload:  response?.data?.message })
-      }
+     
       if (response) {
          refreshToken(response)
       }
    }
    catch (error) {
       yield* handleApiError(error);
-      if (error.code === 'ERR_BAD_REQUEST') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
+     
    }
 }
 
@@ -233,11 +259,7 @@ function* handleEditComplaint(action) {
    }
    catch (error) {
       yield* handleApiError(error);
-      if (error.code === 'ERR_BAD_REQUEST') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
+     
    }
 }
 
@@ -267,8 +289,6 @@ function* handleVendorGet(action) {
 function* handleAddVendor(action) {
    try {
       const response = yield call(addVendor, action.payload);
-
-
 
       var toastStyle = {
          backgroundColor: "#E6F6E6",
@@ -311,9 +331,7 @@ function* handleAddVendor(action) {
          if (error.status === 400) {
             yield put({ type: 'ALREADY_VENDOR_ERROR', payload: error.response.data });
          }
-      } else if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
+      } 
    }
 }
 
@@ -365,11 +383,7 @@ function* handleComplianceChange(action) {
    }
    catch (error) {
       yield* handleApiError(error);
-      if (error.code === 'ERR_BAD_REQUEST') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
+     
    }
 
 }
@@ -422,11 +436,7 @@ function* handleComplianceChangeAssign(action) {
    }
    catch (error) {
       yield* handleApiError(error);
-      if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
+     
    }
 
 }
@@ -603,11 +613,7 @@ function* handleAddComplianceComment(action) {
    }
    catch (error) {
        yield* handleApiError(error);
-      if (error.code === 'ERR_BAD_REQUEST') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
+     
    }
 }
 
