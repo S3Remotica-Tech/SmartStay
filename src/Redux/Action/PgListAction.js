@@ -172,13 +172,9 @@ export function CheckBedDetails(datum) {
   // });
 }
 
-export function createAllPGDetails(datum) {
-  new Promise((resolve, reject) => {
-  resolve({status: 200});
-})
-  // return await AxiosConfig.post("/list/dashboard", datum, {
-  //   data: datum,
-  // });
+export async function dashboardReports(hostelId) {
+ 
+  return await AxiosConfigV2.get(`/v2/dashboard/${hostelId}`, );
 }
 
 // v1

@@ -38,7 +38,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
   const dispatch = useDispatch();
 
 
-  console.log("rowData", rowData)
+
 
   const [hoveredItem, setHoveredItem] = useState(null);
 
@@ -267,9 +267,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
   const pdfDetails = state.InvoiceList?.newReceiptchanges
 
 
-  console.log("pdfDetailsreceiptType", pdfDetails?.configurations?.receiptType)
-
-  console.log("pdfDetails", pdfDetails)
+ 
 
 
 

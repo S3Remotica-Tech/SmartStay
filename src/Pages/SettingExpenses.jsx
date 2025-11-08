@@ -60,6 +60,20 @@ function SettingExpenses({ hostelid }) {
   }, [canReadExpense]);
 
 
+
+ useEffect(() => {
+    if (expensesFilterddata.length === 0) {
+      setLoading(false);
+    }
+
+  }, [expensesFilterddata])
+
+
+
+
+
+
+
   const [showPopup, setShowPopup] = useState(false);
 
   const handleShow = () => {
@@ -803,7 +817,7 @@ useEffect(() => {
                       justifyContent: "center",
                       alignItems: "center",
                       marginTop: 90,
-                      paddingLeft: "250px",
+                     
                     }}
                   >
                     <div style={{ textAlign: "center" }}>

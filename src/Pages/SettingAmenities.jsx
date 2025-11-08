@@ -71,6 +71,13 @@ useEffect(() => {
     }, [canReadAmenities]);
 
 
+    useEffect(() => {
+        if (amenitiesFilterddata.length === 0) {
+          setLoading(false);
+        }
+    
+      }, [amenitiesFilterddata])
+
     const handleEditAmenities = (amenity) => {
         setEditDetails(amenity)
         setOpenAmenitiesForm(true)
@@ -104,26 +111,6 @@ useEffect(() => {
 
 
 
-    // useEffect(() => {
-    //     if (isChecked === null) return;
-
-    //     if (isChecked) {
-    //         setIsFormSubmitted(false);
-    //     } else {
-
-    //         dispatch({
-    //             type: 'RECURRINGROLE',
-    //             payload: {
-    //                 type: "amenities",
-    //                 recure: 0,
-    //                 hostel_id: state.login.selectedHostel_Id,
-    //                 start_date: '0',
-    //                 end_date: '0',
-    //                 am_id: amenityDetails?.id,
-    //             },
-    //         });
-    //     }
-    // }, [isChecked]);
 
 
 

@@ -63,7 +63,12 @@ useEffect(() => {
       }
     }, [canReadComplaints]);
 
+useEffect(() => {
+    if (complianceFilterddata.length === 0) {
+      setLoading(false);
+    }
 
+  }, [complianceFilterddata])
 
   const handleDeleteClick = () => {
     dispatch({ type: "ALREADY_ASSIGNCOMPLAINTTYPE_ERROR" });

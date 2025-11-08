@@ -201,7 +201,7 @@ const {
 
 
   useEffect(() => {
-    if (!canReadElectricity) {
+    if (!canReadElectricity ) {
       setLoading(false);
     } else {
       setLoading(true);
@@ -209,7 +209,12 @@ const {
   }, [canReadElectricity]);
  
 
+useEffect(()=>{
+  if(roomReadingList.length === 0){
+      setLoading(false);
+  }
 
+},[roomReadingList])
 
 
   const removeFilter = (item) => {

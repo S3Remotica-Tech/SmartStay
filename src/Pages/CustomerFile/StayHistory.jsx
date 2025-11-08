@@ -15,7 +15,7 @@ function StayHistory({ show, handleClose }) {
 
   const dispatch = useDispatch();
   const [data, setData] = useState("")
-  console.log("StayHistory", state)
+  
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
@@ -31,7 +31,7 @@ function StayHistory({ show, handleClose }) {
     }
 
   }, [state.UsersList.customerdetails.bedHistory])
-  console.log("setData", data)
+
 
   // const data = [
   //   { room: "A-101 / Bed 1", duration: "30 Mar 2025 – 03 May 2025", reason: "Room Maintenance", rent: "₹4,000" },

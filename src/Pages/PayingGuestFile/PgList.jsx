@@ -108,7 +108,12 @@ function PgList() {
 
 
 
+useEffect(()=>{
+  if(floorList.length === 0){
+    setLoading(false);
+  }
 
+},[floorList])
 
 
 
@@ -744,7 +749,8 @@ function PgList() {
 
 
 
-      {loading && <div
+      {loading && 
+      <div
         style={{
           position: 'absolute',
           top: '50%',

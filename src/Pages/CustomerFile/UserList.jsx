@@ -67,7 +67,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 function UserList(props) {
   const state = useSelector((state) => state);
   const navigate = useNavigate();
-  console.log("UserList", state)
+
   const { RangePicker } = DatePicker;
   dayjs.extend(isBetween);
   const dispatch = useDispatch();
@@ -291,7 +291,6 @@ function UserList(props) {
       }, 500);
     }
   }, [state?.Booking?.statusCodeForAddBooking]);
-  console.log("state.UsersList.invoiceResponseList", state.UsersList.customerdetails.invoiceResponseList)
 
   useEffect(() => {
     if (state.UsersList.customerdetails.invoiceResponseList) {
@@ -336,7 +335,7 @@ function UserList(props) {
     // setTimeout(() => {
     //   setCurrentView(details);
     // }, 0);
-    console.log("curerrereer", currentView)
+
   };
 
   useEffect(() => {
@@ -682,7 +681,7 @@ function UserList(props) {
     const rentAmount = newRows
       .filter((row) => row.am_name?.replace(/\s/g, "").toLowerCase() === "roomrent")
       .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
-    console.log("newRows", newRows)
+
     const ebAmount = newRows
       .filter((row) => row.am_name?.toLowerCase() === "eb")
       .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
@@ -726,7 +725,7 @@ function UserList(props) {
   useEffect(() => {
     if (billsAddshow && id) {
       const customeraId = state.UsersList?.Users?.find((u) => u.customerId === id);
-      console.log("filtercustomer", customeraId);
+
 
       if (customeraId) {
         setCustomerName(customeraId.customerId);
@@ -895,7 +894,6 @@ function UserList(props) {
 
     }
   }, [state.UsersList?.CustomerdetailsgetStatuscode])
-  console.log("state.UsersList?.CustomerdetailsgetStatuscode", state.UsersList?.CustomerdetailsgetStatuscode)
 
   useEffect(() => {
     if (newRows) {
@@ -933,6 +931,13 @@ function UserList(props) {
 
   const [userListDetail, setUserListDetail] = useState([]);
 
+
+  useEffect(()=>{
+    if(userListDetail.length === 0){
+       setLoading(false)
+    }
+
+  },[userListDetail])
 
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode === 200) {
@@ -976,7 +981,7 @@ function UserList(props) {
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceEditStatusCode === 200) {
       setBillLoading(false)
-      console.log("customerId", customername)
+    
       dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: id } });
 
       setLoading(false);
@@ -1008,7 +1013,7 @@ function UserList(props) {
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceAddStatusCode === 201) {
       navigate(`/tenant/details/${customername}`)
-      console.log("customernameeeeeeeeeeeeeeeee", customername)
+  
       if (customername) {
         dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: customername } });
       }
@@ -1026,7 +1031,7 @@ function UserList(props) {
 
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceDeleteStatusCode === 200) {
-      console.log("customerId", customername)
+  
       dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: id } });
       setLoading(false);
 
@@ -1263,7 +1268,7 @@ function UserList(props) {
 
   const [checkOutCustomer, setCheckOutCustomer] = useState([]);
 
-  console.log("checkOutCustomer", checkOutCustomer)
+
 
   const [walkingCustomer, setWalkingCustomer] = useState([]);
 
@@ -1678,7 +1683,7 @@ function UserList(props) {
     setIsDownloadTriggered(false);
     setFilterInput("");
     setFilterStatus("");
-    // console.log("newValue",newValue)
+   
     // if(String(newValue) === "3"){
     //   navigate(`/checkout/${state.login.selectedHostel_Id}`)
     // }
@@ -1707,9 +1712,7 @@ function UserList(props) {
   const [userDatafull, setUserData] = useState("")
 
   const handleRoomDetailsPage = (userData) => {
-    console.log("customer", userData);
-
-    setHostelIds(userData.Hostel_Id);
+        setHostelIds(userData.Hostel_Id);
     setUserData(userData)
     setId(userData?.customerId);
     sethosName(userData.HostelName);

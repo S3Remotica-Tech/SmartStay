@@ -312,7 +312,12 @@ const InvoicePage = () => {
 
   }, [state.InvoiceList.CustomerRecurringEnableDisableStatusCode])
 
+useEffect(()=>{
+  if(bills.length === 0){
+     setLoading(false);
+  }
 
+},[bills])
 
 
 

@@ -63,6 +63,13 @@ useEffect(() => {
   }, [])
 
 
+   useEffect(() => {
+          if (roleList.length === 0) {
+            setLoading(false);
+          }
+      
+        }, [roleList])
+
   const handleAddRole = () => {
 
     if (!hostelid) {

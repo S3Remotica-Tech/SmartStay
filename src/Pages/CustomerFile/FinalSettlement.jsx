@@ -37,8 +37,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
     const [finalSettlementList, setFinalSettlementList] = useState()
 
 
-    console.log("fields", fields)
-
+    
 
 
     useEffect(() => {
@@ -321,10 +320,6 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
     const totalDeductions = totalApiDeductions + totalUserDeductions;
 
 
-    console.log("totalUserDeductions", totalUserDeductions, 
-        "totalApiDeductions", totalApiDeductions, 
-        "totalDeductions", totalDeductions)
-
 
 
     // const handleClickGenerate = () => {
@@ -384,7 +379,6 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
             })
             .filter(Boolean);
 
-        console.log("Finalsettelmenntdata", Finalsettelmenntdata);
 
         if (data.customerId || data.currentTenantCustomerId) {
             dispatch({

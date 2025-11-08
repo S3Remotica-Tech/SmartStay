@@ -62,12 +62,6 @@ const {
 
 
 
-
-
-
-
-
-
 useEffect(() => {
       if (!canReadElectricity) {
         setLoading(false);
@@ -76,7 +70,12 @@ useEffect(() => {
       }
     }, [canReadElectricity]);
 
-    console.log("canReadElectricity",canReadElectricity)
+useEffect(()=>{
+  if(EbList.length === 0){
+      setLoading(false);
+  }
+
+},[EbList])
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
@@ -167,7 +166,7 @@ useEffect(() => {
   };
 
 
-console.log("editHostel",editHostel)
+
 
   const handleAddElectricity = () => {
     if (amount === "") {

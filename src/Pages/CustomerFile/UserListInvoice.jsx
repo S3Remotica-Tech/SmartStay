@@ -23,7 +23,7 @@ import { useNavigate } from "react-router-dom";
 
 function UserListInvoice(props) {
   const state = useSelector((state) => state);
-  console.log("UserListInvoice", props)
+  
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -104,7 +104,6 @@ function UserListInvoice(props) {
     return sorted;
   }, [currentRowinvoice, sortConfig]);
 
-  console.log("sortedData", sortedData)
   const handleSort = (key, direction) => {
     setSortConfig({ key, direction });
   };
@@ -118,7 +117,6 @@ function UserListInvoice(props) {
     setinvoiceFilterddata(state.UsersList.customerdetails.invoiceResponseList);
   }, [state.UsersList.customerdetails.invoiceResponseList]);
 
-  console.log("state.UsersList.invoiceResponseList", state.UsersList.customerdetails.invoiceResponseList)
 
 
   const handleShowDots = (item, event) => {
@@ -146,7 +144,6 @@ function UserListInvoice(props) {
   const [BillsForm, setBillsForm] = useState(false)
 
   const handleEditBill = (item) => {
-    console.log("handleEditBill", item)
 
     props.handleEditItem(item)
     setBillsForm(false)

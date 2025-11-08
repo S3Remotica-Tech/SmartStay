@@ -55,7 +55,7 @@ function Dashboard() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
-  const [dashboardList, setDashboardList] = useState([]);
+  const [dashboardList, setDashboardList] = useState('');
   const [lablesdata, setLables] = useState([]);
   const [totalAmount, setTotalAmount] = useState([]);
   const [rolePermission, setRolePermission] = useState("");
@@ -96,10 +96,8 @@ useEffect(() => {
   }
 }, [canReadDashboard]);
 
-console.log("canReadDashboard",canReadDashboard)
 
 
-console.log("state",state)
 
 
   const monthNames = [
@@ -117,11 +115,11 @@ console.log("state",state)
     };
   });
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      setHostel_Id(state.login.selectedHostel_Id);
-    }
-  }, [state.login.selectedHostel_Id]);
+  // useEffect(() => {
+  //   if (state.login.selectedHostel_Id) {
+  //     setHostel_Id(state.login.selectedHostel_Id);
+  //   }
+  // }, [state.login.selectedHostel_Id]);
 
 
 
@@ -158,11 +156,11 @@ console.log("state",state)
   };
 
   useEffect(() => {
-    if (hostel_id) {
-      dispatch({ type: "PGDASHBOARD", payload: { hostel_id: hostel_id } });
+    if (state.login.selectedHostel_Id) {
+      dispatch({ type: "PGDASHBOARD", payload:  state.login.selectedHostel_Id  });
       //  setLoading(true);
     }
-  }, [hostel_id]);
+  }, [state.login.selectedHostel_Id]);
 
   const handleSelectedReceived = (e) => {
     setSelectCashback(e.target.value);
@@ -182,28 +180,28 @@ console.log("state",state)
   //     payload: {
   //       type: "cashback",
   //       range: selectCashback,
-  //       hostel_id: hostel_id,
+  //       hostel_id: state.login.selectedHostel_Id,
   //     },
   //   });
    
 
 
-  // }, [selectCashback, hostel_id]);
+  // }, [selectCashback, state.login.selectedHostel_Id]);
 
 
 
   // useEffect(() => {
-  //   if (hostel_id) {
+  //   if (state.login.selectedHostel_Id) {
   //     dispatch({
   //       type: "DASHBOARDFILTERREVENUE",
   //       payload: {
   //         type: "exp_vs_rev",
   //         range: selectRevenu,
-  //         hostel_id: hostel_id,
+  //         hostel_id: state.login.selectedHostel_Id,
   //       },
   //     });
   //   }
-  // }, [selectRevenu, hostel_id]);
+  // }, [selectRevenu, state.login.selectedHostel_Id]);
 
   // useEffect(() => {
   //   if (hostel_id) {
@@ -216,7 +214,7 @@ console.log("state",state)
   //       },
   //     });
   //   }
-  // }, [selectAdvance, hostel_id]);
+  // }, [selectAdvance, state.login.selectedHostel_Id]);
 
 
 
@@ -265,18 +263,18 @@ console.log("state",state)
     setSelectExpence(e.target.value);
 
   };
-  useEffect(() => {
-    if (hostel_id) {
-      dispatch({
-        type: "DASHBOARDFILTER",
-        payload: {
-          type: "expenses",
-          range: selectExpence,
-          hostel_id: hostel_id,
-        },
-      });
-    }
-  }, [selectExpence, hostel_id]);
+  // useEffect(() => {
+  //   if (state.login.selectedHostel_Id) {
+  //     dispatch({
+  //       type: "DASHBOARDFILTER",
+  //       payload: {
+  //         type: "expenses",
+  //         range: selectExpence,
+  //         hostel_id: state.login.selectedHostel_Id,
+  //       },
+  //     });
+  //   }
+  // }, [selectExpence, state.login.selectedHostel_Id]);
 
   const handleChanges = (event, newValue) => {
     setValue(newValue);
@@ -436,10 +434,10 @@ useEffect(() => {
   }, [state.PgList.statuscodeForDashboard]);
 
   useEffect(() => {
-    if (state.PgList?.dashboardDetails?.dashboardList) {
-      setDashboardList(state.PgList.dashboardDetails.dashboardList);
+    if (state.PgList?.dashboardDetails) {
+      setDashboardList(state.PgList?.dashboardDetails);
     }
-  }, [state.PgList.dashboardDetails.dashboardList]);
+  }, [state.PgList?.dashboardDetails]);
 
 
 
@@ -724,7 +722,7 @@ useEffect(() => {
                             </div>
                             <h6 className="text-muted mb-1" style={{ fontFamily: "Gilroy" }}>Total Rooms</h6>
                             <h5 className="mb-0" style={{ fontFamily: "Gilroy" }}>
-                              {dashboardList[0]?.roomCount || 0}
+                              {dashboardList?.totalRooms || 0}
                             </h5>
                           </div>
                         </div>
@@ -734,7 +732,7 @@ useEffect(() => {
                             <div>
                               <h6 className="text-muted mb-1" style={{ fontFamily: "Gilroy" }}>Total Beds</h6>
                               <h5 className="mb-0" style={{ fontFamily: "Gilroy" }}>
-                                {dashboardList[0]?.TotalBed || 0}
+                                {dashboardList?.totalBeds || 0}
                               </h5>
                             </div>
                             <img
@@ -748,7 +746,7 @@ useEffect(() => {
                             <div>
                               <h6 className="text-muted mb-1" style={{ fontFamily: "Gilroy" }}>Free Beds</h6>
                               <h5 className="mb-0" style={{ fontFamily: "Gilroy" }}>
-                                {dashboardList[0]?.availableBed || 0}
+                                 {dashboardList?.freeBeds || 0}
                               </h5>
                             </div>
                             <img
@@ -774,7 +772,7 @@ useEffect(() => {
                                         Occupied Beds
                                       </h6>
                                       <h5 className="mb-0 counts" style={{ fontFamily: "Gilroy" }}>
-                                        {dashboardList[0]?.occupied_Bed || 0}
+                                        {dashboardList?.occupiedBeds || 0}
                                       </h5>
                                     </div>
                                   </div>
@@ -784,7 +782,7 @@ useEffect(() => {
                                         Next Month Projection
                                       </h6>
                                       <h5 className="mb-0 counts" style={{ fontFamily: "Gilroy" }}>
-                                        {dashboardList[0]?.project_amount || 0}
+                                         {dashboardList?.nextMonthProjection || 0}
                                       </h5>
                                     </div>
                                   </div>
@@ -794,7 +792,7 @@ useEffect(() => {
                                         Total Customers
                                       </h6>
                                       <h5 className="mb-0 counts" style={{ fontFamily: "Gilroy" }}>
-                                        {dashboardList[0]?.customer_count || 0}
+                                         {dashboardList?.totalCustomers || 0}
                                       </h5>
                                     </div>
                                   </div>
@@ -804,7 +802,7 @@ useEffect(() => {
                                         EB Amount
                                       </h6>
                                       <h5 className="mb-0 counts" style={{ fontFamily: "Gilroy" }}>
-                                        {dashboardList[0]?.eb_amount || 0}
+                                         {dashboardList?.electricityAmount || 0}
                                       </h5>
                                     </div>
                                   </div>
@@ -827,7 +825,7 @@ useEffect(() => {
                                     Total Asset Value
                                   </p>
                                   <h5 className="mt-1" style={{ fontFamily: "Gilroy" }}>
-                                    {dashboardList[0]?.asset_amount || 0}
+                                     {dashboardList?.totalAssetsValue || 0}
                                   </h5>
                                 </div>
                               </div>
@@ -846,7 +844,7 @@ useEffect(() => {
                           <div className="me-3  text-primary"><img src={advancedHand} alt="advancedhand" width={32} height={32} /></div>
                           <div>
                             <h6 className="text-muted " style={{ fontFamily: "Gilroy" }}>Advance in Hand</h6>
-                            <div className="fw-semibold fs-5" style={{ fontFamily: "Gilroy" }}>₹ {dashboardList[0]?.advance_inhand || 0}</div>
+                            <div className="fw-semibold fs-5" style={{ fontFamily: "Gilroy" }}>₹  {dashboardList?.advances || 0}</div>
                           </div>
                         </div>
                       </div>
@@ -857,7 +855,7 @@ useEffect(() => {
                           <div className="me-3  text-primary"><img src={activeImage} alt="activeImage" width={32} height={32} /></div>
                           <div>
                             <h6 className="text-muted " style={{ fontFamily: "Gilroy" }}>Active Complaint</h6>
-                            <div className="fw-semibold fs-5" style={{ fontFamily: "Gilroy" }}>{dashboardList[0]?.active_complaint || 0}</div>
+                            <div className="fw-semibold fs-5" style={{ fontFamily: "Gilroy" }}>{dashboardList?.activeComplaint || 0}</div>
                           </div>
                         </div>
                       </div>
@@ -867,7 +865,7 @@ useEffect(() => {
                           <div className="me-3 text-primary"><img src={currentMatch} alt="currentMatch" width={32} height={32} /></div>
                           <div>
                             <h6 className="text-muted " style={{ fontFamily: "Gilroy" }}>Current Month Profit</h6>
-                            <div className="fw-semibold fs-5" style={{ fontFamily: "Gilroy" }}>₹ {state.PgList.dashboardDetails.this_month_profit || 0}</div>
+                            <div className="fw-semibold fs-5" style={{ fontFamily: "Gilroy" }}>₹  {dashboardList.currentMonthProfit || 0}</div>
                           </div>
                         </div>
                       </div>
@@ -878,7 +876,7 @@ useEffect(() => {
                           <div className="me-3  text-primary"><img src={coinImage} alt="coinImage" width={32} height={32} /></div>
                           <div>
                             <h6 className="text-muted " style={{ fontFamily: "Gilroy" }}>Other Profit</h6>
-                            <div className="fw-semibold fs-5" style={{ fontFamily: "Gilroy" }}>₹{state.PgList.dashboardDetails.this_month_other_income || 0}</div>
+                            <div className="fw-semibold fs-5" style={{ fontFamily: "Gilroy" }}>₹ {dashboardList.otherProfit || 0}</div>
                           </div>
                         </div>
                       </div>
@@ -889,7 +887,7 @@ useEffect(() => {
                           <div className="me-3  text-primary"><img src={pendingimg} alt="coinImage" width={32} height={32} /></div>
                           <div>
                             <h6 className="text-muted " style={{ fontFamily: "Gilroy" }}>Pending invoice count</h6>
-                            <div className="fw-semibold fs-5" style={{ fontFamily: "Gilroy" }}>{dashboardList[0]?.pending_invoice || 0}</div>
+                            <div className="fw-semibold fs-5" style={{ fontFamily: "Gilroy" }}> {dashboardList.pendingInvoiceCount || 0}</div>
                           </div>
                         </div>
                       </div>
@@ -900,7 +898,7 @@ useEffect(() => {
                           <div className="me-3  text-primary"><img src={newBooking} alt="coinImage" width={32} height={32} /></div>
                           <div>
                             <h6 className="text-muted " style={{ fontFamily: "Gilroy" }}>New booking</h6>
-                            <div className="fw-semibold fs-5" style={{ fontFamily: "Gilroy" }}>{dashboardList[0]?.new_booking || 0}</div>
+                            <div className="fw-semibold fs-5" style={{ fontFamily: "Gilroy" }}>{dashboardList.bookedBeds || 0}</div>
                           </div>
                         </div>
                       </div>
