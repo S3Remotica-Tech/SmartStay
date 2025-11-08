@@ -46,21 +46,21 @@ function* handleApiError(error) {
       progress: undefined,
     });
   } 
-  else {
-    const msg = error?.message || "Something went wrong";
-    yield put({ type: "NETWORK_ERROR", payload: msg });
-    toast.error(msg, {
-      style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
-      position: "top-right",
-      autoClose: 2000,
-      hideProgressBar: true,
-      closeButton: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  }
+//   else {
+//     const msg = error?.message || "Something went wrong";
+//     yield put({ type: "NETWORK_ERROR", payload: msg });
+//     toast.error(msg, {
+//       style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
+//       position: "top-right",
+//       autoClose: 2000,
+//       hideProgressBar: true,
+//       closeButton: false,
+//       closeOnClick: true,
+//       pauseOnHover: true,
+//       draggable: true,
+//       progress: undefined,
+//     });
+//   }
 }
 
 
@@ -1600,6 +1600,7 @@ function* handleSettingsRecurring(action) {
    }
    catch (error) {
       yield* handleApiError(error);
+      console.log("error",error)
       if (error.status === 403 || error.status === 400) {
          yield put({ type: 'BILLING_RULE_ERROR', payload: error.response.data || 'Something went wrong' });
       } 

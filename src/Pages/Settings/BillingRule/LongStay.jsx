@@ -146,7 +146,7 @@ function LongStayRecurringModal({ handleClose, show }) {
 
 
 
-
+console.log("state.Settings.billingRuleError",state.Settings.billingRuleError)
 
 
     return (

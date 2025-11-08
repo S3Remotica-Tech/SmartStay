@@ -41,21 +41,21 @@ function* handleApiError(error) {
          progress: undefined,
       });
    }
-   else {
-      const msg = error?.message || "Something went wrong";
-      yield put({ type: "NETWORK_ERROR", payload: msg });
-      toast.error(msg, {
-         style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
-         position: "top-right",
-         autoClose: 2000,
-         hideProgressBar: true,
-         closeButton: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-      });
-   }
+   // else {
+   //    const msg = error?.message || "Something went wrong";
+   //    yield put({ type: "NETWORK_ERROR", payload: msg });
+   //    toast.error(msg, {
+   //       style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
+   //       position: "top-right",
+   //       autoClose: 2000,
+   //       hideProgressBar: true,
+   //       closeButton: false,
+   //       closeOnClick: true,
+   //       pauseOnHover: true,
+   //       draggable: true,
+   //       progress: undefined,
+   //    });
+   // }
 }
 
 
