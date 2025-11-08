@@ -96,6 +96,7 @@ export const initialState = {
   ebSettingsChangesStatusCode: 0,
   planList: [],
   statusCodeForPlanList: 0,
+  billingRuleError: ""
 
 };
 
@@ -219,7 +220,10 @@ const SettingsReducer = (state = initialState, action) => {
     case "ALREADY_ASSIGNCOMPLAINTTYPE_ERROR":
       return { ...state, alreadyAssignComplainterror: "" };
 
-
+case 'BILLING_RULE_ERROR':
+   return { ...state, billingRuleError: action.payload };
+   case 'REMOVE_BILLING_RULE_ERROR':
+   return { ...state, billingRuleError: "" };
 
     case "PLAN-EXPIRED":
       return { ...state, planExpired: action.payload };

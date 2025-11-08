@@ -5,13 +5,57 @@ import { toast } from 'react-toastify';
 
 
 function* handleApiError(error) {
-   if (error?.status === 401 || error?.response?.status === 401) {
+   const status = error?.response?.status || error?.status;
+
+   if (status === 401) {
       yield put({
          type: "UN-AUTHORIZED",
          payload: "Access Denied",
       });
    }
-
+   else if (status === 500) {
+      yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
+      toast.error("Network error occurred", {
+         style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
+         position: "top-right",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+      });
+   }
+   else if (error.code === "ERR_NETWORK") {
+      yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
+      toast.error("Network error occurred", {
+         style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
+         position: "top-right",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+      });
+   }
+   else {
+      const msg = error?.message || "Something went wrong";
+      yield put({ type: "NETWORK_ERROR", payload: msg });
+      toast.error(msg, {
+         style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
+         position: "top-right",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+      });
+   }
 }
 
 
@@ -19,13 +63,13 @@ function* handleApiError(error) {
 function* handleGetCategory() {
    try {
       const response = yield call(GetExpenseCatogory);
-      if (response?.status === 200 ) {
-         yield put({ type: 'CATEGORY_LIST', payload: { response: response.data.data, statusCode: response?.status  } })
+      if (response?.status === 200) {
+         yield put({ type: 'CATEGORY_LIST', payload: { response: response.data.data, statusCode: response?.status } })
 
 
       }
       else {
-         yield put({ type: 'ERROR', payload:  response?.data?.message })
+         yield put({ type: 'ERROR', payload: response?.data?.message })
       }
       if (response) {
          refreshToken(response)
@@ -40,8 +84,8 @@ function* handleGetExpenses(action) {
    try {
       const response = yield call(GetExpense, action.payload);
 
-      if (response?.status === 200 ) {
-         yield put({ type: 'EXPENSES_LIST', payload: { response: response.data, statusCode: response?.status  } })
+      if (response?.status === 200) {
+         yield put({ type: 'EXPENSES_LIST', payload: { response: response.data, statusCode: response?.status } })
       }
       else if (response?.status === 201) {
          yield put({ type: 'NOEXPENSEDATA', payload: { statusCode: response?.status } })
@@ -59,8 +103,8 @@ function* handleGetInitializeExpense(action) {
    try {
       const response = yield call(GetInitializeExpense, action.payload);
 
-      if (response?.status === 200 ) {
-         yield put({ type: 'INITIALIZE_EXPENSES_LIST', payload: { response: response.data, statusCode: response?.status  } })
+      if (response?.status === 200) {
+         yield put({ type: 'INITIALIZE_EXPENSES_LIST', payload: { response: response.data, statusCode: response?.status } })
       }
 
       if (response) {
@@ -97,8 +141,8 @@ function* handleAddExpense(action) {
 
       };
 
-      if (response?.status === 201 ) {
-         yield put({ type: 'ADD_EXPENSE', payload: { response: response.data.data, statusCode: response?.status  } })
+      if (response?.status === 201) {
+         yield put({ type: 'ADD_EXPENSE', payload: { response: response.data.data, statusCode: response?.status } })
          toast.success(`${response.data}`, {
             position: "bottom-center",
             autoClose: 2000,
@@ -124,12 +168,14 @@ function* handleAddExpense(action) {
             yield put({ type: 'BANK_INSUFFICIANT_FUND_ERROR', payload: error.response.data });
 
          }
-      } else if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
       }
    }
-
+   
 }
+
+
+
+
 
 
 function* handleAddExpenseTag(action) {
@@ -152,8 +198,8 @@ function* handleAddExpenseTag(action) {
 
       };
 
-      if (response?.status === 200 ) {
-         yield put({ type: 'ADD_EXPENSE_TAG', payload: { response: response.data.data, statusCode: response?.status  } })
+      if (response?.status === 200) {
+         yield put({ type: 'ADD_EXPENSE_TAG', payload: { response: response.data.data, statusCode: response?.status } })
          toast.success(`${response.data.message}`, {
             position: "bottom-center",
             autoClose: 2000,
@@ -168,11 +214,11 @@ function* handleAddExpenseTag(action) {
 
 
       }
-      else if (response?.status === 201 ) {
-         yield put({ type: 'EXPENCE_NETBANKIG', payload:  response?.data?.message })
+      else if (response?.status === 201) {
+         yield put({ type: 'EXPENCE_NETBANKIG', payload: response?.data?.message })
       }
       else {
-         yield put({ type: 'ERROR', payload:  response?.data?.message })
+         yield put({ type: 'ERROR', payload: response?.data?.message })
       }
       if (response) {
          refreshToken(response)
@@ -180,11 +226,7 @@ function* handleAddExpenseTag(action) {
    }
    catch (error) {
       yield* handleApiError(error);
-      if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
+     
    }
 }
 
@@ -207,8 +249,8 @@ function* handleDeleteExpense(action) {
 
       };
 
-      if (response?.status === 200 ) {
-         yield put({ type: 'DELETE_EXPENSE', payload: { response: response.data.data, statusCode: response?.status  } })
+      if (response?.status === 200) {
+         yield put({ type: 'DELETE_EXPENSE', payload: { response: response.data.data, statusCode: response?.status } })
 
          toast.success('Deleted successfully', {
             position: "bottom-center",
@@ -226,7 +268,7 @@ function* handleDeleteExpense(action) {
 
       }
       else {
-         yield put({ type: 'ERROR', payload:  response?.data?.message })
+         yield put({ type: 'ERROR', payload: response?.data?.message })
       }
       if (response) {
          refreshToken(response)
@@ -255,11 +297,11 @@ function refreshToken(response) {
 function* HandleTransactionHistory(action) {
    try {
       const response = yield call(transactionHistory, action.payload)
-      if (response?.status === 200 ) {
-         yield put({ type: 'TRANSACTION_HISTORY', payload: { response: response.data.data, statusCode: response?.status  } })
+      if (response?.status === 200) {
+         yield put({ type: 'TRANSACTION_HISTORY', payload: { response: response.data.data, statusCode: response?.status } })
       }
       else {
-         yield put({ type: 'ERROR', payload:  response?.data?.message })
+         yield put({ type: 'ERROR', payload: response?.data?.message })
       }
       refreshToken(response)
    }

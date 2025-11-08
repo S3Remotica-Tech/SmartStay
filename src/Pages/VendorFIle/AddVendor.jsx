@@ -1471,9 +1471,9 @@ else {
              <ErrorMessage message={generalError}  type="error"/>
           )}
 
-          {state.createAccount?.networkError ?
+          {/* {state.createAccount?.networkError ?
             <ErrorMessage message={state.createAccount?.networkError}  type="error"/>
-            : null}
+            : null} */}
           {isChangedError && (
             <div className="d-flex align-items-center justify-content-center" >
               <ErrorMessage message={isChangedError} />

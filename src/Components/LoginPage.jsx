@@ -229,10 +229,10 @@ const MyComponent = () => {
             <p className='p_font'>Enter your details below to get onto your SmartStay account.</p>
           </div>
 
-          {state.createAccount?.networkError ?
+          {/* {state.createAccount?.networkError ?
 
             <ErrorMessage message={state.createAccount?.networkError} type="error" />
-            : null}
+            : null} */}
 
           {state.login.invalidCredential ?
             <ErrorMessage message={state.login.invalidCredential} type="error" />

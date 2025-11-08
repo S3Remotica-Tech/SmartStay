@@ -131,9 +131,9 @@ function BankingAddForm(props) {
     // setAllFieldErrmsg("");
     // setPaymentError("");
     setBankAccountError("")
-    console.log("selectedOption",selectedOption)
-     const holderName = selectedOption.label.split(" - ")[0] || "";
-   setBankHolderName(holderName);
+    console.log("selectedOption", selectedOption)
+    const holderName = selectedOption.label.split(" - ")[0] || "";
+    setBankHolderName(holderName);
     setBankAccount(selectedOption.value);
   };
 
@@ -248,7 +248,7 @@ function BankingAddForm(props) {
 
 
   const handleClose = () => {
-     dispatch({ type: 'REMOVE_CREATE_BANKING_ERROR'})
+    dispatch({ type: 'REMOVE_CREATE_BANKING_ERROR' })
     dispatch({ type: 'REMOVE_ERROR_BOOKING' })
     props.setShowForm(false);
     props.setEdit(false);
@@ -276,98 +276,97 @@ function BankingAddForm(props) {
 
 
 
- const handleSubmitBank = () => {
-  let isHas = false; 
+  const handleSubmitBank = () => {
+    let isHas = false;
 
-  
-  setError("");
-  setaccountNumberError("");
-  setIsChangedError("");
 
- 
-  if (props.edit) {
-    const isChanged =
-      accountName !== initialStateAssign.accountName ||
-      Number(accountNo) !== Number(initialStateAssign.accountNo) ||
-      bankName !== initialStateAssign.bankName ||
-      ifscCode !== initialStateAssign.ifscCode ||
-      description !== initialStateAssign.description;
+    setError("");
+    setaccountNumberError("");
+    setIsChangedError("");
 
-    if (!isChanged) {
-      setIsChangedError("No Changes Detected");
+
+    if (props.edit) {
+      const isChanged =
+        accountName !== initialStateAssign.accountName ||
+        Number(accountNo) !== Number(initialStateAssign.accountNo) ||
+        bankName !== initialStateAssign.bankName ||
+        ifscCode !== initialStateAssign.ifscCode ||
+        description !== initialStateAssign.description;
+
+      if (!isChanged) {
+        setIsChangedError("No Changes Detected");
+        isHas = true;
+      }
+    }
+
+
+    if (!accountName.trim()) {
+      setError("Please Enter Beneficiary Name");
       isHas = true;
     }
-  }
 
- 
-  if (!accountName.trim()) {
-    setError("Please Enter Beneficiary Name");
-    isHas = true;
-  }
 
- 
-  if (!accountNo) {
-    setaccountNumberError("Please Enter Account No");
-    isHas = true;
-  } else if (accountNo.length < 9 || accountNo.length > 18) {
-    setaccountNumberError("Account Number Must Be 9–18 Digits");
-    isHas = true;
-  }
+    if (!accountNo) {
+      setaccountNumberError("Please Enter Account No");
+      isHas = true;
+    } else if (accountNo.length < 9 || accountNo.length > 18) {
+      setaccountNumberError("Account Number Must Be 9–18 Digits");
+      isHas = true;
+    }
 
- 
-  if (isHas) return;
 
- 
-  if (props.edit) {
-    dispatch({
-      type: "EDIT_BANKING",
-      payload: {
-        hostelId: hostel_id,
-        bankId: bankId,
-        data: {
-          accountType: "BANK",
-          holderName: accountName,
-          accountNo: Number(accountNo),
-          bankName,
-          ifscCode,
-          description,
-          branchName: "",
-          branchCode: "",
-          isDefault: true,
-          upiId: "",
-          cardType: "",
-          cardNumber: "",
-          isActive: true,
+    if (isHas) return;
+
+
+    if (props.edit) {
+      dispatch({
+        type: "EDIT_BANKING",
+        payload: {
+          hostelId: hostel_id,
+          bankId: bankId,
+          data: {
+            accountType: "BANK",
+            holderName: accountName,
+            accountNo: Number(accountNo),
+            bankName,
+            ifscCode,
+            description,
+            branchName: "",
+            branchCode: "",
+            isDefault: true,
+            upiId: "",
+            cardType: "",
+            cardNumber: "",
+            isActive: true,
+          },
         },
-      },
-    });
-  } else {
-    dispatch({
-      type: "ADD_BANKING",
-      payload: {
-        hostelId: hostel_id,
-        data: {
-          accountType: "BANK",
-          holderName: accountName,
-          accountNo: Number(accountNo),
-          bankName,
-          ifscCode,
-          description,
-          branchName: "",
-          branchCode: "",
-          isDefault: true,
-          upiId: "",
-          cardType: "",
-          cardNumber: "",
+      });
+    } else {
+      dispatch({
+        type: "ADD_BANKING",
+        payload: {
+          hostelId: hostel_id,
+          data: {
+            accountType: "BANK",
+            holderName: accountName,
+            accountNo: Number(accountNo),
+            bankName,
+            ifscCode,
+            description,
+            branchName: "",
+            branchCode: "",
+            isDefault: true,
+            upiId: "",
+            cardType: "",
+            cardNumber: "",
+          },
         },
-      },
-    });
-    setFormLoading(true);
-  }
-};
+      });
+      setFormLoading(true);
+    }
+  };
 
 
-    console.log("bankHolderName",accountName,"bankaccount",bankaccount)
 
 
 
@@ -557,7 +556,7 @@ function BankingAddForm(props) {
   }
   const handleSubmitCash = () => {
 
-    dispatch({ type: 'REMOVE_CREATE_BANKING_ERROR'})
+    dispatch({ type: 'REMOVE_CREATE_BANKING_ERROR' })
 
 
     if (!accountName) {
@@ -637,7 +636,7 @@ function BankingAddForm(props) {
       setAccountName("")
       setFormLoading(false)
       handleClose();
- dispatch({ type: 'REMOVE_CREATE_BANKING_ERROR'})
+      dispatch({ type: 'REMOVE_CREATE_BANKING_ERROR' })
       dispatch({ type: "BANKINGLIST", payload: hostel_id });
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_USER_BANKING" });
@@ -677,11 +676,10 @@ function BankingAddForm(props) {
       }, 3000)
     }
 
-  }, [state.createAccount?.networkError , state.bankingDetails.bankingCreateError])
+  }, [state.createAccount?.networkError, state.bankingDetails.bankingCreateError])
 
 
 
-console.log("state",state)
 
 
 
@@ -979,6 +977,15 @@ console.log("state",state)
                   <ErrorMessage message={state.bankingDetails.bankingCreateError} type="error" />
                 </div>
               }
+
+              {/* {state.createAccount?.networkError ?
+                <div className="d-flex justify-content-center mt-1 mb-1">
+                  <ErrorMessage message={state.createAccount?.networkError} type="error" />
+                </div>
+                : null} */}
+
+
+
 
               <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
                 <Button

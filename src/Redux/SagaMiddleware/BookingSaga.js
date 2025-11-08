@@ -7,13 +7,57 @@ import Cookies from 'universal-cookie';
 
 
 function* handleApiError(error) {
-  if (error?.status === 401 || error?.response?.status === 401) {
+  const status = error?.response?.status || error?.status;
+
+  if (status === 401) {
     yield put({
       type: "UN-AUTHORIZED",
       payload: "Access Denied",
     });
   } 
-  
+  else if (status === 500) {
+    yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
+    toast.error("Network error occurred", {
+      style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeButton: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  } 
+  else if (error.code === "ERR_NETWORK") {
+    yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
+    toast.error("Network error occurred", {
+      style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeButton: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  } 
+  else {
+    const msg = error?.message || "Something went wrong";
+    yield put({ type: "NETWORK_ERROR", payload: msg });
+    toast.error(msg, {
+      style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeButton: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  }
 }
 
 
@@ -56,17 +100,7 @@ function* handleAddBooking(action) {
      });
     }
 
-   //  else if(response?.status === 202 ) {
-   //    yield put({ type: 'BOOKING_EMAIL_ERROR', payload: response.message });
-   // }
-
-   //  else if(response?.status === 203 )  {   
-   //    yield put({ type: 'BOOKING_PHONE_ERROR', payload: response.message });
-   // }
-  
-   //  else {
-   //     yield put ({type:'ERROR_BOOKING', payload:response.message})
-   //  }
+ 
     if(response){
        refreshToken(response)
     }
@@ -78,9 +112,7 @@ function* handleAddBooking(action) {
              if (error.status === 400) {
                 yield put({ type: 'ERROR_BOOKING', payload: error.response.data });
              }
-          } else if (error.code === 'ERR_NETWORK') {
-             yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-          }
+          } 
        }
  }
 
@@ -212,11 +244,7 @@ catch(error){
     }
     catch (error) {
        yield* handleApiError(error);
-          if (error.code === 'ERR_NETWORK') {
-             yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-          } else {
-             yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-          }
+         
        }
 }
 
@@ -236,11 +264,7 @@ function* handleBookingBed(userDetails){
  }
 catch (error) {
     yield* handleApiError(error);
-      if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
+     
    }
 
    
@@ -251,7 +275,7 @@ function* handleBookingInActive(action) {
    try{
    const response = yield call(bookingInActive, action.payload)
   
-   console.log("response",response)
+
 
 
     var toastStyle = {
@@ -296,9 +320,7 @@ catch(error){
              if (error.status === 400) {
                 yield put({ type: 'ERROR_MAKEASINACTIVE', payload: error.response.data });
              }
-          } else if (error.code === 'ERR_NETWORK') {
-             yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-          }
+          } 
 }
 }
 

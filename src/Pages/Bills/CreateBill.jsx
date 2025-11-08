@@ -432,6 +432,7 @@ function CreateBill() {
     useEffect(() => {
         if (state.createAccount?.networkError) {
             setLoading(false)
+              setFormLoading(false)
             setShowLoader(false);
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_NETWORK_ERROR' })
@@ -440,21 +441,7 @@ function CreateBill() {
 
     }, [state.createAccount?.networkError])
 
-    //   const handleReceiptDetail = (item) => {
-
-
-    //     if (item.user_id) {
-
-    //       dispatch({
-    //         type: "RECEIPTPDF",
-    //         payload: {
-    //           id: item.id,
-    //         },
-    //       });
-
-    //       setShowLoader(true);
-    //     }
-    //   };
+    
 
 
 
@@ -2853,16 +2840,7 @@ function CreateBill() {
 
 
 
-    useEffect(() => {
-        if (state.createAccount?.networkError) {
-            setFormLoading(false)
-            setTimeout(() => {
-                dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-            }, 3000)
-        }
-
-    }, [state.createAccount?.networkError])
-
+   
 
 
 
@@ -3335,6 +3313,10 @@ function CreateBill() {
                     state.InvoiceList.unableAddInvoiceDetailsError &&
                     <ErrorMessage message={state.InvoiceList.unableAddInvoiceDetailsError} type="error" />
                 }
+                   {/* {state.createAccount?.networkError ?
+                             <div className="d-flex justify-content-center mt-1 mb-1">
+                              <ErrorMessage message={state.createAccount?.networkError} type="error"/></div>
+                              : null} */}
             </div>
 
 

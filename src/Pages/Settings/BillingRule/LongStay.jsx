@@ -84,7 +84,7 @@ function LongStayRecurringModal({ handleClose, show }) {
 
 
     const handleSave = () => {
-        
+        dispatch({ type: 'REMOVE_BILLING_RULE_ERROR' })
         const newErrors = {};
         if (!billingDate) {
             newErrors.billingDate = "Please select billing date of month";
@@ -134,14 +134,15 @@ function LongStayRecurringModal({ handleClose, show }) {
 
 
     useEffect(() => {
-        if (state.createAccount?.networkError) {
+        if (state.createAccount?.networkError || state.Settings.billingRuleError) {
             setFormLoading(false)
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+                
             }, 3000)
         }
 
-    }, [state.createAccount?.networkError])
+    }, [state.createAccount?.networkError, state.Settings.billingRuleError])
 
 
 
@@ -253,8 +254,8 @@ function LongStayRecurringModal({ handleClose, show }) {
                             <ErrorMessage message={errors.notice} type="error" />
                         )}
                     </Form.Group>
-                    {state.createAccount?.networkError ?
-                                <ErrorMessage message={state.createAccount?.networkError} type="error" />
+                    {state.Settings.billingRuleError ?
+                                <ErrorMessage message={state.Settings.billingRuleError} type="error" />
                                 : null}
 
                     <div

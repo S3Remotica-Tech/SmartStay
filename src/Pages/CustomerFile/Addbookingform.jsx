@@ -461,7 +461,15 @@ useEffect(() => {
     setFloorError("");
   };
 
+useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setFormLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
 
+  }, [state.createAccount?.networkError])
     
 
   return (
@@ -1169,7 +1177,10 @@ useEffect(() => {
 
           </Row>
 
-
+ {/* {state.createAccount?.networkError ?
+             <div className="d-flex justify-content-center mt-1 mb-1">
+              <ErrorMessage message={state.createAccount?.networkError} type="error"/></div>
+              : null} */}
 
         </Modal.Body>
 
