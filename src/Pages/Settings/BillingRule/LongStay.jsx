@@ -5,7 +5,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { CloseCircle } from "iconsax-react";
 import Select from "react-select";
 import PropTypes from "prop-types";
-import { MdError } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import ErrorMessage from '../../../Components/ErrorMessage';
 
@@ -19,6 +18,7 @@ function LongStayRecurringModal({ handleClose, show }) {
     const [noticePeriod, setNoticePeriod] = useState(null);
     const [errors, setErrors] = useState({});
     const [formLoading, setFormLoading] = useState(false)
+
 
     const dayOptions = Array.from({ length: 31 }, (_, i) => ({
         value: (i + 1).toString().padStart(2, '0'),
@@ -84,6 +84,7 @@ function LongStayRecurringModal({ handleClose, show }) {
 
 
     const handleSave = () => {
+        
         const newErrors = {};
         if (!billingDate) {
             newErrors.billingDate = "Please select billing date of month";
@@ -94,6 +95,11 @@ function LongStayRecurringModal({ handleClose, show }) {
         if(!noticePeriod){
              newErrors.notice = "Please select notice period";
         }
+
+
+        if (billingDate && dueDate && Number(dueDate.value) < Number(billingDate.value)) {
+        newErrors.dueDate = "Due date cannot be before billing date";
+    }
 
         setErrors(newErrors);
 
@@ -107,7 +113,7 @@ function LongStayRecurringModal({ handleClose, show }) {
                     noticeDays: Number(noticePeriod?.value) || 0,
                 }
                 })
-            setFormLoading(false)
+            setFormLoading(true)
         }
     };
 
@@ -247,6 +253,9 @@ function LongStayRecurringModal({ handleClose, show }) {
                             <ErrorMessage message={errors.notice} type="error" />
                         )}
                     </Form.Group>
+                    {state.createAccount?.networkError ?
+                                <ErrorMessage message={state.createAccount?.networkError} type="error" />
+                                : null}
 
                     <div
                         style={{

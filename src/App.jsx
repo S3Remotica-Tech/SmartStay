@@ -21,6 +21,7 @@ import LoaderComponent from './Pages/LoaderComponent';
 // import Contact from './NewLandingPage/Contact';
 import ThankYou from './NewLandingPage/ThankYou';
 import Sidebar from './Components/Sidebar';
+import Dashboards from "./Pages/Dashboard";
 
 function App() {
   const cookies = new Cookies();
@@ -145,6 +146,7 @@ function App() {
         {data || state.login?.isLoggedIn ? (
           <>
             <Sidebar />
+           
           </>
         ) : (
           <>

@@ -133,15 +133,12 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
     }
   }, [canReadInvoice]);
 
-  // useEffect(() => {
-  //   if (state.Settings.statusCodeForSettingFetch === 200) {
-  //     setGetData(state.Settings.FetchGlobal.message)
-  //     setTimeout(() => {
-  //       dispatch({ type: "CLEAR_GET_GLOBAL_SETTING" });
-  //     }, 1000);
-  //   }
+  useEffect(() => {
+    if (BillsTemplateList.length === 0) {
+      setLoading(false);
+    }
 
-  // }, [state.Settings.statusCodeForSettingFetch])
+  }, [BillsTemplateList])
 
 
 
@@ -360,7 +357,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
     // { label: "NOC Receipt", value: "noc_receipt" }
   ];
 
-  const defaultGradient ="#1E45E1";
+  const defaultGradient = "#1E45E1";
 
   const [useGradient, setUseGradient] = useState(true);
   const [color, setColor] = useState({ r: 30, g: 69, b: 225, a: 1 });
@@ -1362,24 +1359,24 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
 
 
   const [templateThemes, setTemplateThemes] = useState('')
- const [templateReceiptThemes, setTemplateReceiptThemes] = useState('')
+  const [templateReceiptThemes, setTemplateReceiptThemes] = useState('')
 
 
-const onTemplateChange = (template) =>{
-  
-setTemplateThemes(template)
-}
+  const onTemplateChange = (template) => {
+
+    setTemplateThemes(template)
+  }
 
 
-const onTemplateReceiptChange = (template) =>{
-setTemplateReceiptThemes(template)
-}
+  const onTemplateReceiptChange = (template) => {
+    setTemplateReceiptThemes(template)
+  }
 
 
 
 
   return (
-    <div  className="ps-3" style={{ position: "relative"}}>
+    <div className="ps-3" style={{ position: "relative" }}>
 
 
       {loading &&
@@ -1444,7 +1441,7 @@ setTemplateReceiptThemes(template)
       {showform &&
 
         <>
-          <Row className="" style={{ backgroundColor: "", height:"100vh" }}  >
+          <Row className="" style={{ backgroundColor: "", height: "100vh" }}  >
             <Col md={4}
               className="ps-0 "
             >
@@ -2394,20 +2391,20 @@ setTemplateReceiptThemes(template)
                 {selectedTab === "security_deposit_invoice" &&
                   <>
 
-                    <AdvanceCustomizeSettings hostelid={hostelid} BillsTemplateList={BillsTemplateList}  
-                    
-                    
-                   onTemplateChange={onTemplateChange}
-                    
+                    <AdvanceCustomizeSettings hostelid={hostelid} BillsTemplateList={BillsTemplateList}
+
+
+                      onTemplateChange={onTemplateChange}
+
                     />
 
                   </>}
 
                 {selectedTab === "rental_receipt" &&
                   <>
-                    <ReceiptCustomize hostelid={hostelid} BillsTemplateList={BillsTemplateList}  onTemplateReceiptChange={onTemplateReceiptChange}/>
+                    <ReceiptCustomize hostelid={hostelid} BillsTemplateList={BillsTemplateList} onTemplateReceiptChange={onTemplateReceiptChange} />
 
-               </> }
+                  </>}
 
 
               </div>
@@ -2975,7 +2972,7 @@ setTemplateReceiptThemes(template)
                 </div>}
 
               {selectedTab === "security_deposit_invoice" &&
-                <><SecurityDepositInvoiceTemplate hostelid={hostelid} BillsTemplateList={BillsTemplateList}  templateThemes={templateThemes}/> </>}
+                <><SecurityDepositInvoiceTemplate hostelid={hostelid} BillsTemplateList={BillsTemplateList} templateThemes={templateThemes} /> </>}
 
               {selectedTab === "rental_receipt" &&
                 <> <RentalReceiptPdfTemplate hostelid={hostelid} BillsTemplateList={BillsTemplateList} templateReceiptThemes={templateReceiptThemes} /> </>

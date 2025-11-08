@@ -282,7 +282,7 @@ useEffect(() => {
 
 
 
-console.log("state",state)
+
 
   useEffect(() => {
     if (dates.length === 2) {
@@ -297,124 +297,7 @@ console.log("state",state)
     } 
   }, [dates, state.login.selectedHostel_Id]);
 
-  // useEffect(() => {
-  //   if (selectedValue === "All") {
-  //     dispatch({
-  //       type: "EXPENSELIST",
-  //       payload: { hostelId: state.login.selectedHostel_Id },
-  //     });
-  //     setCategoryValue("");
-  //     setAssetValue("");
-  //     setVendorValue("");
-  //     setModeValue("");
-  //     setSelectedValue("");
-  //     setDates("");
-  //     setAmountValue("");
-  //     setMinAmount("");
-  //     setMaxAmount("");
-  //   } else if (categoryValue) {
-  //     dispatch({
-  //       type: "EXPENSELIST",
-  //       payload: {
-  //         category: categoryValue,
-  //         hostelId: state.login.selectedHostel_Id,
-  //       },
-  //     });
-  //     setCategoryValue("");
-  //     setAssetValue("");
-  //     setVendorValue("");
-  //     setModeValue("");
-  //     setSelectedValue("");
-  //     setDates("");
-  //     setAmountValue("");
-  //     setMinAmount("");
-  //     setMaxAmount("");
-  //   } else if (assetValue) {
-  //     dispatch({
-  //       type: "EXPENSELIST",
-  //       payload: {
-  //         asset_id: assetValue,
-  //         hostelId: state.login.selectedHostel_Id,
-  //       },
-  //     });
-  //     setCategoryValue("");
-  //     setAssetValue("");
-  //     setVendorValue("");
-  //     setModeValue("");
-  //     setSelectedValue("");
-  //     setDates("");
-  //     setAmountValue("");
-  //     setMinAmount("");
-  //     setMaxAmount("");
-  //   } else if (vendorValue) {
-  //     dispatch({
-  //       type: "EXPENSELIST",
-  //       payload: {
-  //         vendor_id: vendorValue,
-  //         hostelId: state.login.selectedHostel_Id,
-  //       },
-  //     });
-  //     setCategoryValue("");
-  //     setAssetValue("");
-  //     setVendorValue("");
-  //     setModeValue("");
-  //     setSelectedValue("");
-  //     setDates("");
-  //     setAmountValue("");
-  //     setMinAmount("");
-  //     setMaxAmount("");
-  //   } else if (modeValue) {
-  //     dispatch({
-  //       type: "EXPENSELIST",
-  //       payload: {
-  //         payment_mode: modeValue,
-  //         hostelId: state.login.selectedHostel_Id,
-  //       },
-  //     });
-  //     setCategoryValue("");
-  //     setAssetValue("");
-  //     setVendorValue("");
-  //     setModeValue("");
-  //     setSelectedValue("");
-  //     setDates("");
-  //     setAmountValue("");
-  //     setMinAmount("");
-  //     setMaxAmount("");
-  //   }
-
-  //   else if (minAmount || maxAmount) {
-  //     dispatch({
-  //       type: "EXPENSELIST",
-  //       payload: {
-  //         min_amount: minAmount,
-  //         max_amount: maxAmount,
-  //         hostelId: state.login.selectedHostel_Id,
-  //       },
-  //     });
-  //     setCategoryValue("");
-  //     setAssetValue("");
-  //     setVendorValue("");
-  //     setModeValue("");
-  //     setSelectedValue("");
-  //     setDates("");
-  //     setAmountValue("");
-  //     setMinAmount("");
-  //     setMaxAmount("");
-  //   }
-  // }, [
-  //   selectedValue,
-  //   categoryValue,
-  //   assetValue,
-  //   vendorValue,
-  //   modeValue,
-  //   dates,
-  //   minAmount,
-  //   maxAmount,
  
-  //   state.login.selectedHostel_Id,
-  // ]);
-
-
   const handleShow = () => {
     if (!state.login.selectedHostel_Id) {
       toast.error("Please add a hostel before adding expense information.", {
@@ -549,7 +432,12 @@ console.log("state",state)
     setShowFilter(!showFilter);
   };
 
+useEffect(()=>{
+  if(getData.length === 0){
+    setLoading(false)
+  }
 
+},[getData])
 
   // const [currentPage, setCurrentPage] = useState(1);
   // const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -562,73 +450,7 @@ console.log("state",state)
     [getData]
   );
 
-  // useEffect(() => {
-  //   if (filteredData && filteredData.length > 0) {
-  //     const slicedItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-  //     const pages = Math.ceil(filteredData.length / itemsPerPage);
 
-  //     setCurrentItems(slicedItems);
-  //     setTotalPages(pages);
-  //   } else {
-  //     setCurrentItems([]);
-  //     setTotalPages(0);
-  //   }
-  // }, [filteredData, indexOfFirstItem, indexOfLastItem, itemsPerPage]);
-
-  // const [currentItems, setCurrentItems] = useState([]);
-  // const [totalPages, setTotalPages] = useState(0);
-
-  // useEffect(() => {
-  //   if (filteredData && filteredData.length > 0) {
-  //     const slicedItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-  //     const pages = Math.ceil(filteredData.length / itemsPerPage);
-
-  //     setCurrentItems(slicedItems);
-  //     setTotalPages(pages);
-  //   } else {
-  //     setCurrentItems([]);
-  //     setTotalPages(0);
-  //   }
-  // }, [filteredData, indexOfFirstItem, indexOfLastItem, itemsPerPage]);
-
-  //   const handleChangeItemsPerPage = (selectedOption) => {
-  //   const value = Number(selectedOption?.value) || 5; 
-  //   if (typeof onItemsPerPageChange === "function") onItemsPerPageChange(value);
-  //   if (typeof onPageChange === "function") onPageChange(1);
-  // };
-
-
-  //   const handlePageChange = (pageNumber) => {
-  //     setCurrentPage(pageNumber);
-  //   };
-
-  //   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
-
-  //   const sortedData = React.useMemo(() => {
-  //     if (!sortConfig.key) return currentItems;
-
-  //     const sorted = [...currentItems].sort((a, b) => {
-  //       const valueA = a[sortConfig.key];
-  //       const valueB = b[sortConfig.key];
-
-
-  //       if (!isNaN(valueA) && !isNaN(valueB)) {
-  //         return sortConfig.direction === 'asc'
-  //           ? valueA - valueB
-  //           : valueB - valueA;
-  //       }
-
-  //       if (typeof valueA === 'string' && typeof valueB === 'string') {
-  //         return sortConfig.direction === 'asc'
-  //           ? valueA.localeCompare(valueB)
-  //           : valueB.localeCompare(valueA);
-  //       }
-
-  //       return 0;
-  //     });
-
-  //     return sorted;
-  //   }, [currentItems, sortConfig]);
 
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
@@ -657,6 +479,8 @@ console.log("state",state)
     return sorted;
   }, [filteredData, sortConfig]);
 
+
+  console.log("filteredData",filteredData)
 
   const handleSort = (key, direction) => {
     setSortConfig({ key, direction });
@@ -1546,160 +1370,7 @@ style={{ursor: canReadExpense ? "pointer" : "not-allowed",
           )}
 
 
-          {/* {filteredData.length > 10 && (
-            <nav
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "end",
-                padding: "10px",
-                position: "fixed",
-                bottom: "0px",
-                right: "0px",
-                left: 0,
-                backgroundColor: "#fff",
-                borderRadius: "5px",
-                zIndex: 1000,
-              }}
-            >
-
-
-              <div>
-                <Select
-                  options={pageOptions}
-                  value={
-                    itemsPerPage
-                      ? { value: itemsPerPage, label: `${itemsPerPage}` }
-                      : null
-                  }
-                  onChange={handleItemsPerPageChange}
-                  placeholder="Items per page"
-                  classNamePrefix="custom"
-                  menuPlacement="auto"
-                  noOptionsMessage={() => "No options"}
-                  styles={{
-                    control: (base) => ({
-                      ...base,
-                      height: "40px",
-                      padding: "0 5px",
-                      border: "1px solid #1E45E1",
-                      borderRadius: "5px",
-                      fontSize: "14px",
-                      color: "#1E45E1",
-                      fontWeight: 600,
-                      cursor: "pointer",
-                      fontFamily: "Gilroy",
-                      boxShadow: "0 0 0 1px #1E45E1",
-                      width: 90,
-                    }),
-                    menu: (base) => ({
-                      ...base,
-                      backgroundColor: "#f8f9fa",
-                      border: "1px solid #ced4da",
-                      fontFamily: "Gilroy",
-                    }),
-                    menuList: (base) => ({
-                      ...base,
-                      maxHeight: "200px",
-                      overflowY: "auto",
-                      padding: 0,
-                    }),
-                    placeholder: (base) => ({
-                      ...base,
-                      color: "#555",
-                    }),
-                    dropdownIndicator: (base) => ({
-                      ...base,
-                      color: "#1E45E1",
-                      cursor: "pointer",
-                    }),
-                    indicatorSeparator: () => ({
-                      display: "none",
-                    }),
-                    option: (base, state) => ({
-                      ...base,
-                      backgroundColor: state.isFocused ? "#1E45E1" : "white",
-                      color: state.isFocused ? "#fff" : "#000",
-                      cursor: "pointer",
-                    }),
-                  }}
-                />
-
-              </div>
-
-
-              <ul className="selectoption"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  listStyleType: "none",
-                  margin: 0,
-                  padding: 0,
-                }}
-              >
-
-                <li style={{ margin: "0 10px" }}>
-                  <button
-                    style={{
-                      padding: "5px",
-                      textDecoration: "none",
-                      color: currentPage === 1 ? "#ccc" : "#1E45E1",
-                      cursor: currentPage === 1 ? "not-allowed" : "pointer",
-                      borderRadius: "50%",
-                      display: "inline-block",
-                      minWidth: "30px",
-                      textAlign: "center",
-                      backgroundColor: "transparent",
-                      border: "none",
-                    }}
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
-                  >
-                    <ArrowLeft2
-                      size="16"
-                      color={currentPage === 1 ? "#ccc" : "#1E45E1"}
-                    />
-                  </button>
-                </li>
-
-
-                <li
-                  style={{
-                    margin: "0 10px",
-                    fontSize: "14px",
-                    fontWeight: "bold",
-                  }}
-                >
-                  {currentPage} of {totalPages}
-                </li>
-
-                <li style={{ margin: "0 10px" }}>
-                  <button
-                    style={{
-                      padding: "5px",
-                      textDecoration: "none",
-                      color: currentPage === totalPages ? "#ccc" : "#1E45E1",
-                      cursor:
-                        currentPage === totalPages ? "not-allowed" : "pointer",
-                      borderRadius: "50%",
-                      display: "inline-block",
-                      minWidth: "30px",
-                      textAlign: "center",
-                      backgroundColor: "transparent",
-                      border: "none",
-                    }}
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                  >
-                    <ArrowRight2
-                      size="16"
-                      color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
-                    />
-                  </button>
-                </li>
-              </ul>
-            </nav>
-          )} */}
+     
         </div>
      
 

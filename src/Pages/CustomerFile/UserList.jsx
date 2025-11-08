@@ -934,6 +934,13 @@ function UserList(props) {
   const [userListDetail, setUserListDetail] = useState([]);
 
 
+  useEffect(()=>{
+    if(userListDetail.length === 0){
+       setLoading(false)
+    }
+
+  },[userListDetail])
+
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode === 200) {
 

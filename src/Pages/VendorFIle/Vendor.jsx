@@ -40,20 +40,14 @@ const {
 
   
 
-  // useEffect(() => {
-  //   if (!canReadVendor) {
-  //     setLoading(false);
-  //   } else {
-  //     setLoading(true);
-  //   }
-  // }, [canReadVendor]);
+  
 
   useEffect(() => {
   setLoading(!canReadVendor);
 }, [canReadVendor]);
 
 
-console.log("canReadVendor:", canReadVendor, "type:", typeof canReadVendor);
+
 
 
   const [vendorrolePermission, setVendorRolePermission] = useState("");

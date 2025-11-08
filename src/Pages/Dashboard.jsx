@@ -117,11 +117,11 @@ console.log("state",state)
     };
   });
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      setHostel_Id(state.login.selectedHostel_Id);
-    }
-  }, [state.login.selectedHostel_Id]);
+  // useEffect(() => {
+  //   if (state.login.selectedHostel_Id) {
+  //     setHostel_Id(state.login.selectedHostel_Id);
+  //   }
+  // }, [state.login.selectedHostel_Id]);
 
 
 
@@ -158,11 +158,11 @@ console.log("state",state)
   };
 
   useEffect(() => {
-    if (hostel_id) {
-      dispatch({ type: "PGDASHBOARD", payload: { hostel_id: hostel_id } });
+    if (state.login.selectedHostel_Id) {
+      dispatch({ type: "PGDASHBOARD", payload: { hostel_id: state.login.selectedHostel_Id } });
       //  setLoading(true);
     }
-  }, [hostel_id]);
+  }, [state.login.selectedHostel_Id]);
 
   const handleSelectedReceived = (e) => {
     setSelectCashback(e.target.value);
@@ -182,28 +182,28 @@ console.log("state",state)
   //     payload: {
   //       type: "cashback",
   //       range: selectCashback,
-  //       hostel_id: hostel_id,
+  //       hostel_id: state.login.selectedHostel_Id,
   //     },
   //   });
    
 
 
-  // }, [selectCashback, hostel_id]);
+  // }, [selectCashback, state.login.selectedHostel_Id]);
 
 
 
   // useEffect(() => {
-  //   if (hostel_id) {
+  //   if (state.login.selectedHostel_Id) {
   //     dispatch({
   //       type: "DASHBOARDFILTERREVENUE",
   //       payload: {
   //         type: "exp_vs_rev",
   //         range: selectRevenu,
-  //         hostel_id: hostel_id,
+  //         hostel_id: state.login.selectedHostel_Id,
   //       },
   //     });
   //   }
-  // }, [selectRevenu, hostel_id]);
+  // }, [selectRevenu, state.login.selectedHostel_Id]);
 
   // useEffect(() => {
   //   if (hostel_id) {
@@ -216,7 +216,7 @@ console.log("state",state)
   //       },
   //     });
   //   }
-  // }, [selectAdvance, hostel_id]);
+  // }, [selectAdvance, state.login.selectedHostel_Id]);
 
 
 
@@ -265,18 +265,18 @@ console.log("state",state)
     setSelectExpence(e.target.value);
 
   };
-  useEffect(() => {
-    if (hostel_id) {
-      dispatch({
-        type: "DASHBOARDFILTER",
-        payload: {
-          type: "expenses",
-          range: selectExpence,
-          hostel_id: hostel_id,
-        },
-      });
-    }
-  }, [selectExpence, hostel_id]);
+  // useEffect(() => {
+  //   if (state.login.selectedHostel_Id) {
+  //     dispatch({
+  //       type: "DASHBOARDFILTER",
+  //       payload: {
+  //         type: "expenses",
+  //         range: selectExpence,
+  //         hostel_id: state.login.selectedHostel_Id,
+  //       },
+  //     });
+  //   }
+  // }, [selectExpence, state.login.selectedHostel_Id]);
 
   const handleChanges = (event, newValue) => {
     setValue(newValue);

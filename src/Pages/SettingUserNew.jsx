@@ -29,7 +29,7 @@ function SettingNewUser() {
   const [loading, setLoading] = useState(false);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [edit, setEdit] = useState(false);
-
+ const [showAbove, setShowAbove] = useState(false);
 
 
   // const canReadUser = useHasPermission("User", "canRead")
@@ -37,34 +37,49 @@ function SettingNewUser() {
   // const canUpdateUser = useHasPermission("User", "canUpdate");
   // const canDeleteUser = useHasPermission("User", "canDelete");
 
-const {
-      canWriteModule: canWriteUser,
-      canReadModule: canReadUser,
-      canUpdateModule: canUpdateUser,
-      canDeleteModule: canDeleteUser,
-    } = useHasPermission("User");
+  const {
+    canWriteModule: canWriteUser,
+    canReadModule: canReadUser,
+    canUpdateModule: canUpdateUser,
+    canDeleteModule: canDeleteUser,
+  } = useHasPermission("User");
 
 
 
-useEffect(() => {
-      if (!canReadUser) {
-        setLoading(false);
-      }else{
-        setLoading(true);
-      }
-    }, [canReadUser]);
+  useEffect(() => {
+    if (!canReadUser) {
+      setLoading(false);
+    } else {
+      setLoading(true);
+    }
+  }, [canReadUser]);
 
 
 
   const handleDotsClick = (index, event) => {
     event.stopPropagation();
     setShowDots((prev) => (prev === index ? null : index));
-    const { top, left, height } = event.target.getBoundingClientRect();
-    const popupTop = top + height / 2;
-    const popupLeft = left - 150;
 
-    setPopupPosition({ top: popupTop, left: popupLeft });
+    const { top, left, height } = event.target.getBoundingClientRect();
+        const popupTop = top + (height / 2);
+        const popupLeft = left - 200;
+    
+        setPopupPosition({ top: popupTop, left: popupLeft });
+    
   };
+
+   useEffect(() => {
+      if (popupRef.current) {
+        const popupHeight = popupRef.current.offsetHeight;
+        const windowHeight = window.innerHeight;
+        const spaceBelow = windowHeight - popupPosition.top;
+  
+  
+        setShowAbove(spaceBelow < popupHeight + 20);
+      }
+    }, [popupPosition]);
+
+
 
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
@@ -159,6 +174,15 @@ useEffect(() => {
       }, 200);
     }
   }, [state.Settings?.StatusForaddSettingStaffList]);
+
+
+  useEffect(() => {
+            if (usersFilterddata.length === 0) {
+              setLoading(false);
+            }
+        
+          }, [usersFilterddata])
+  
 
   useEffect(() => {
     if (state.Settings?.StatusForNoStaffList === 204) {
@@ -679,6 +703,7 @@ useEffect(() => {
                                   style={{
                                     textAlign: "center",
                                     display: "flex",
+                                      paddingTop: 17,
                                     justifyContent: "center",
                                     alignItems: "center",
                                     borderBottom: "1px solid #E8E8E8",
@@ -715,7 +740,9 @@ useEffect(() => {
                                         style={{
                                           backgroundColor: "#fff",
                                           position: "fixed",
-                                          top: popupPosition.top,
+                                          top: showAbove
+                                            ? popupPosition.top - (popupRef.current?.offsetHeight || 100) - 20
+                                            : popupPosition.top - 35,
                                           left: popupPosition.left,
                                           border: "1px solid #E0E0E0",
                                           borderRadius: 10,

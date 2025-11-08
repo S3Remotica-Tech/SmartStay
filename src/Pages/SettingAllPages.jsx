@@ -1,32 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import SettingGeneral from "./Settings/SettingGeneral";
-import SettingManage from "./SettingManage";
 import blueArrow from "../Assets/Images/New_images/arrow-leftblue.png";
 import blackArrow from "../Assets/Images/New_images/arrow-leftblack.png";
-import SettingSecurity from "./SettingSecurityPage";
-import SettingSubscription from "./SubscriptionFile/SettingSubscription";
-import SettingIntergration from "./SettingIntergration";
-import SettingElectricity from "./SettingElectricity";
-import SettingInvoice from "./SettingInvoice";
-import SettingExpenses from "./SettingExpenses";
-import SettingCompliance from "./SettingCompliance";
-import SettingAmenities from "./SettingAmenities";
-import SettingNewUser from "./SettingUserNew";
-import SettingNewRole from "./SettingNewRole";
 import "./Settings.css";
 import './SettingAll.css';
 import { useSelector } from 'react-redux';
 import { ArrowRight2, ArrowLeft2 } from 'iconsax-react'
 // import SettingsBills from "./SettingsBills";
-import SettingsNotifications from "./SettingsNotifications";
-import SettingAgreement from "./SettingAgreement";
-import BillingRule from "./Settings/BillingRule/BillingRule";
-import { Routes, Route ,useNavigate,Outlet ,Navigate} from "react-router-dom";
+import { Routes, Route, useNavigate, Outlet, Navigate } from "react-router-dom";
 
 function SettingAllPages() {
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
 
   const state = useSelector(state => state);
@@ -68,12 +53,22 @@ const navigate = useNavigate();
 
   };
 
+const handleSettingsNavigate = (tabName, pageKey) => {
+    handleTabClick(pageKey);
+    const hostelId = state.login?.selectedHostel_Id;
+    if (hostelId) {
+      navigate(`/settings/${hostelId}/${tabName}`);
+    } else {
+      navigate(`/settings/${tabName}`);
+    }
+  };
 
 
+ 
 
   return (
     <>
-     <Outlet />
+      
       <div
         className={`col-12 col-lg-12 col-md-9 ${isInvoiceAddMode ? 'd-none d-md-block' : ''
           }`}
@@ -142,10 +137,8 @@ const navigate = useNavigate();
                 >
                   <p
 
-                    onClick={() => {
-    handleTabClick('General');
-    navigate(`general`);
-  }}
+                  
+                    onClick={() => handleSettingsNavigate("general", "General")}
                     style={{
                       fontWeight: 500,
                       fontFamily: "Gilroy",
@@ -169,10 +162,8 @@ const navigate = useNavigate();
                   <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
                   <p
 
-                    onClick={() =>{ handleTabClick('Manage PG');
-                      navigate(`manage-pg`)
-
-                    }}
+                  
+                    onClick={() => handleSettingsNavigate("manage-pg", "Manage PG")}
                     style={{
                       fontWeight: 500,
                       fontFamily: "Gilroy",
@@ -197,9 +188,7 @@ const navigate = useNavigate();
 
                   <p
 
-                    onClick={() =>{ handleTabClick('Security');
-                        navigate(`security`)
-                    }}
+                   onClick={() => handleSettingsNavigate("security", "Security")}
                     style={{
                       fontWeight: 500,
                       fontFamily: "Gilroy",
@@ -223,10 +212,7 @@ const navigate = useNavigate();
                   <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
                   <p
 
-                    onClick={() => {
-                       handleTabClick('Subscription');
-                       navigate(`subscription`)
-                    }}
+                 onClick={() => handleSettingsNavigate("subscription", "Subscription")}
                     style={{
                       fontWeight: 500,
                       fontFamily: "Gilroy",
@@ -251,9 +237,7 @@ const navigate = useNavigate();
                   <p
 
 
-                    onClick={() => { handleTabClick('Integration');
-                      navigate(`integration`)
-                    }}
+                   onClick={() => handleSettingsNavigate("integration", "Integration")}
                     style={{
                       fontWeight: 500,
                       fontFamily: "Gilroy",
@@ -302,11 +286,7 @@ const navigate = useNavigate();
                     }} >
                     <p
 
-                      onClick={() => { handleTabClick('Electricity');
-                         navigate(`electricity`)
-                        
-                      }
-                    }
+                     onClick={() => handleSettingsNavigate("electricity", "Electricity")}
                       style={{
                         fontWeight: 500,
                         fontFamily: "Gilroy",
@@ -329,37 +309,11 @@ const navigate = useNavigate();
                     </p>
                     <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
 
-                    {/* <p
-
-                  onClick={() => handleTabClick('Bills')}
-                  style={{
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
-                    fontSize: 15,
-                    marginTop: "-8px",
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    color: activePage === "Bills" ? "#4a90e2" : "#000000",
-                    cursor: "pointer",
-                  }}
-                >
-                  Bills
-                  <img
-                    src={activePage === "Bills" ? blueArrow : blackArrow}
-                    width={16}
-                    height={16}
-                    alt="Arrow Icon"
-                  />
-                </p>
-                  <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} /> */}
+              
 
                     <p
 
-                      onClick={() => {handleTabClick('Billing_Rule');
-                         navigate(`billing-rule`) 
-                      }
-                      }
+                     onClick={() => handleSettingsNavigate("billing-rule", "Billing_Rule")}
                       style={{
                         fontWeight: 500,
                         fontFamily: "Gilroy",
@@ -383,10 +337,7 @@ const navigate = useNavigate();
                     <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
 
                     <p
-                      onClick={() =>{
-                        handleTabClick('SettingsNotifications')
-                        navigate(`notifications`) 
-                      }}
+                      onClick={() => handleSettingsNavigate("notifications", "SettingsNotifications")}
                       style={{
                         fontWeight: 500,
                         fontFamily: "Gilroy",
@@ -410,10 +361,7 @@ const navigate = useNavigate();
                     <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
                     <p
 
-                      onClick={() => {
-                        handleTabClick('Invoice');
-                         navigate(`invoice`) 
-                      }}
+                     onClick={() => handleSettingsNavigate("invoice", "Invoice")}
                       style={{
                         fontWeight: 500,
                         fontFamily: "Gilroy",
@@ -438,10 +386,7 @@ const navigate = useNavigate();
 
                     <p
 
-                      onClick={() => {
-                        handleTabClick('Expenses');
-                        navigate(`expenses`) 
-                      }}
+                      onClick={() => handleSettingsNavigate("expenses", "Expenses")}
                       style={{
                         fontWeight: 500,
                         fontFamily: "Gilroy",
@@ -465,9 +410,7 @@ const navigate = useNavigate();
                     <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
                     <p
 
-                      onClick={() => {
-                        handleTabClick('Complaints');
-                       navigate(`complaints`) }}
+                     onClick={() => handleSettingsNavigate("complaints", "Complaints")}
                       style={{
                         fontWeight: 500,
                         fontFamily: "Gilroy",
@@ -491,9 +434,7 @@ const navigate = useNavigate();
                     <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
                     <p
 
-                      onClick={() => {handleTabClick('Amenities');
-                        navigate(`amenities`)
-                      }}
+                     onClick={() => handleSettingsNavigate("amenities", "Amenities")}
                       style={{
                         fontWeight: 500,
                         fontFamily: "Gilroy",
@@ -520,10 +461,7 @@ const navigate = useNavigate();
                     <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
                     <p
 
-                      onClick={() => {
-                        handleTabClick('User');
-                      navigate(`user`)
-                    }}
+                    onClick={() => handleSettingsNavigate("user", "User")}
                       style={{
                         fontWeight: 500,
                         fontFamily: "Gilroy",
@@ -549,10 +487,7 @@ const navigate = useNavigate();
                     <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
                     <p
 
-                      onClick={() => {
-                        handleTabClick('Role');
-                         navigate(`role`)
-                      }}
+                     onClick={() => handleSettingsNavigate("role", "Role")}
                       style={{
                         fontWeight: 500,
                         fontFamily: "Gilroy",
@@ -580,10 +515,7 @@ const navigate = useNavigate();
                     <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
                     <p
 
-                      onClick={() => { 
-                        handleTabClick('agreement');
-                         navigate(`agreement`)
-                      }}
+                     onClick={() => handleSettingsNavigate("agreement", "agreement")}
                       style={{
                         fontWeight: 500,
                         fontFamily: "Gilroy",
@@ -625,61 +557,8 @@ const navigate = useNavigate();
                 height: "100vh",
               }}
             >
-
-              {/* {activePage === 'General' && <SettingGeneral />}
-              {activePage === 'Manage PG' && <SettingManage />}
-              {activePage === 'Security' && <SettingSecurity />}
-              {activePage === 'Subscription' && <SettingSubscription />}
-              {activePage === 'Integration' && <SettingIntergration />}
-              {activePage === 'Electricity' && <SettingElectricity hostelid={hostel_Id} />}
-              {activePage === 'Billing_Rule' && <BillingRule hostelid={hostel_Id} />}
-              {activePage === 'SettingsNotifications' && <SettingsNotifications hostelid={hostel_Id} />}
-              {activePage === 'Invoice' && <SettingInvoice hostelid={hostel_Id}
-                handleAddInvoiceClick={handleAddInvoiceClick}
-                setIsInvoiceAddMode={setIsInvoiceAddMode}
-                setIsSidebarOpen={setIsSidebarOpen} />}
-              {activePage === 'Expenses' && <SettingExpenses hostelid={hostel_Id} />}
-              {activePage === 'Complaints' && <SettingCompliance hostelid={hostel_Id} />}
-              {activePage === 'Amenities' && <SettingAmenities hostelid={hostel_Id} />}
-              {activePage === 'User' && <SettingNewUser hostelid={hostel_Id} />}
-              {activePage === 'Role' && <SettingNewRole hostelid={hostel_Id} />}
-              {activePage === 'acrement' && <SettingAgreement hostelid={hostel_Id} />} */}
-
-
-
- 
- <Routes>
-   <Route index element={<Navigate to={`general`} replace />} />
- <Route path="general" element={<SettingGeneral />} />
-  <Route path="manage-pg" element={<SettingManage />} />
-  <Route path="security" element={<SettingSecurity />} />
-  <Route path="subscription" element={<SettingSubscription />} />
-  <Route path="integration" element={<SettingIntergration />} />
-  <Route path="electricity" element={<SettingElectricity />} />
-  <Route path="billing-rule" element={<BillingRule />} />
-  <Route path="notifications" element={<SettingsNotifications />} />
-  <Route
-    path="invoice"
-    element={
-      <SettingInvoice
-        handleAddInvoiceClick={handleAddInvoiceClick}
-        setIsInvoiceAddMode={setIsInvoiceAddMode}
-        setIsSidebarOpen={setIsSidebarOpen}
-      />
-    }
-  />
-  <Route path="expenses" element={<SettingExpenses />} />
-  <Route path="complaints" element={<SettingCompliance />} />
-  <Route path="amenities" element={<SettingAmenities />} />
-  <Route path="user" element={<SettingNewUser />} />
-  <Route path="role" element={<SettingNewRole />} />
-  <Route path="agreement" element={<SettingAgreement />} />
-
- </Routes>
-
-
-
-            </div>
+              <Outlet />
+                         </div>
           </div>
         </div>
       </div>

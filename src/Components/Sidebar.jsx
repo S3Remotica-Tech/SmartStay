@@ -50,7 +50,7 @@ import SettingIcon from "../Assets/Images/sidebariconOne.svg";
 import HelpDocumentIcon from "../Assets/Images/sidebariconThree.svg";
 import HelpVideoIcon from "../Assets/Images/sidebariconFour.svg";
 import Logout from "../Assets/Images/turn-off.png";
-import { useNavigate, useLocation ,Navigate} from "react-router-dom";
+import { useNavigate, useLocation, Navigate } from "react-router-dom";
 import { Route, Routes, } from "react-router-dom";
 import Cookies from 'universal-cookie';
 import { checkoutCustomerProfile } from "../Redux/Action/smartStayAction";
@@ -61,8 +61,21 @@ import UserListRoomDetail from "../Pages/CustomerFile/UserListRoomDetail";
 import CheckoutProfile from '../Pages/CustomerFile/CheckoutProfile';
 import BillsDetails from '../Pages/Bills/BillsDetails';
 import UserlistCheckout from '../Pages/CustomerFile/UserlistCheckout'
-
-
+import SettingSecurity from "../Pages/SettingSecurityPage";
+import SettingSubscription from "../Pages/SubscriptionFile/SettingSubscription";
+import SettingIntergration from "../Pages/SettingIntergration";
+import SettingElectricity from "../Pages/SettingElectricity";
+import SettingInvoice from "../Pages/SettingInvoice";
+import SettingExpenses from "../Pages/SettingExpenses";
+import SettingCompliance from "../Pages/SettingCompliance";
+import SettingAmenities from "../Pages/SettingAmenities";
+import SettingNewUser from "../Pages/SettingUserNew";
+import SettingNewRole from "../Pages/SettingNewRole";
+import SettingsNotifications from "../Pages/SettingsNotifications";
+import SettingAgreement from "../Pages/SettingAgreement";
+import BillingRule from "../Pages/Settings/BillingRule/BillingRule";
+import SettingGeneral from "../Pages/Settings/SettingGeneral";
+import SettingManage from "../Pages/SettingManage";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -110,15 +123,17 @@ function Sidebar() {
 
 
   useEffect(() => {
-  if (state.login?.isLoggedIn && state.login.selectedHostel_Id) {
-    if (isFirstLogin.current) {
-      navigate(`/dashboard/${state.login.selectedHostel_Id}`, { replace: true });
-      isFirstLogin.current = false;
+    if (state.login?.isLoggedIn && state.login.selectedHostel_Id) {
+      if (isFirstLogin.current) {
+        navigate(`/dashboard/${state.login.selectedHostel_Id}`, { replace: true });
+        isFirstLogin.current = false;
+      }
+    } else if (!state.login.selectedHostel_Id) {
+      navigate(`/dashboard`)
     }
-  }
-}, [state.login?.isLoggedIn, state.login.selectedHostel_Id]);
+  }, [state.login?.isLoggedIn, state.login.selectedHostel_Id]);
 
-console.log("(state.login?.isLoggedIn",state.login?.isLoggedIn)
+  console.log("(state.login?.isLoggedIn", state.login?.isLoggedIn)
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -389,7 +404,12 @@ console.log("(state.login?.isLoggedIn",state.login?.isLoggedIn)
   const handleSettingspage = () => {
     handlePageClick("settingNewDesign");
     setSettingsPGShow(false);
-    navigate(`/settings/${state.login.selectedHostel_Id}`)
+     const hostelId = state.login?.selectedHostel_Id;
+  if (hostelId) {
+    navigate(`/settings/${hostelId}`);
+  } else {
+    navigate(`/settings`);
+  }
   };
 
   useEffect(() => {
@@ -510,7 +530,12 @@ console.log("(state.login?.isLoggedIn",state.login?.isLoggedIn)
 
   const handleShowsettingsPG = (settingNewDesign) => {
     // handlePageClick("settingNewDesign");
-    navigate(`/settings/${state.login.selectedHostel_Id}`)
+   const hostelId = state.login?.selectedHostel_Id;
+  if (hostelId) {
+    navigate(`/settings/${hostelId}`);
+  } else {
+    navigate(`/settings`);
+  }
     handledisplaySettingsPG(settingNewDesign);
     dispatch({ type: "MANAGE_PG" });
     setIsSidebarOpen(false);
@@ -847,9 +872,16 @@ console.log("(state.login?.isLoggedIn",state.login?.isLoggedIn)
                   className={`align-items-center  list-Item ${currentPage === "dashboard" ? "active" : ""
                     }`}
                   onClick={() => {
-                    handlePageClick("dashboard")
-                    navigate(`/dashboard/${state.login.selectedHostel_Id}`)
+                    handlePageClick("dashboard");
+
+                    const hostelId = state.login?.selectedHostel_Id;
+                    if (hostelId) {
+                      navigate(`/dashboard/${hostelId}`);
+                    } else {
+                      navigate(`/dashboard`);
+                    }
                   }}
+
                   style={{
                     listStyleType: "none",
                     display: "flex",
@@ -922,9 +954,16 @@ console.log("(state.login?.isLoggedIn",state.login?.isLoggedIn)
                       className={`align-items-center list-sub-Item ${currentPage === "pg-list" ? "active" : ""
                         }`}
                       onClick={() => {
-                        handlePageClick("pg-list")
-                        navigate(`/paying-guest/${state.login.selectedHostel_Id}`)
+                        handlePageClick("pg-list");
+
+                        const hostelId = state.login?.selectedHostel_Id;
+                        if (hostelId) {
+                          navigate(`/paying-guest/${hostelId}`);
+                        } else {
+                          navigate(`/paying-guest`);
+                        }
                       }}
+
                       style={{ listStyleType: "none", display: "flex" }}
                     >
                       <img
@@ -948,9 +987,16 @@ console.log("(state.login?.isLoggedIn",state.login?.isLoggedIn)
                       className={`align-items-center list-sub-Item ${currentPage === "user-list" ? "active" : ""
                         }`}
                       onClick={() => {
-                        handlePageClick("user-list")
-                        navigate(`/tenant/${state.login.selectedHostel_Id}`)
+                        handlePageClick("user-list");
+
+                        const hostelId = state.login?.selectedHostel_Id;
+                        if (hostelId) {
+                          navigate(`/tenant/${hostelId}`);
+                        } else {
+                          navigate(`/tenant`);
+                        }
                       }}
+
                       style={{ listStyleType: "none", display: "flex" }}
                     >
                       <img
@@ -974,9 +1020,16 @@ console.log("(state.login?.isLoggedIn",state.login?.isLoggedIn)
                       className={`align-items-center list-sub-Item ${currentPage === "asset" ? "active" : ""
                         }`}
                       onClick={() => {
-                        handlePageClick("asset")
-                        navigate(`/asset/${state.login.selectedHostel_Id}`)
+                        handlePageClick("asset");
+
+                        const hostelId = state.login?.selectedHostel_Id;
+                        if (hostelId) {
+                          navigate(`/asset/${hostelId}`);
+                        } else {
+                          navigate(`/asset`);
+                        }
                       }}
+
                       style={{ listStyleType: "none", display: "flex" }}
                     >
                       <img
@@ -1000,9 +1053,16 @@ console.log("(state.login?.isLoggedIn",state.login?.isLoggedIn)
                       className={`align-items-center list-sub-Item ${currentPage === "vendor" ? "active" : ""
                         }`}
                       onClick={() => {
-                        handlePageClick("vendor")
-                        navigate(`/vendor/${state.login.selectedHostel_Id}`)
+                        handlePageClick("vendor");
+
+                        const hostelId = state.login?.selectedHostel_Id;
+                        if (hostelId) {
+                          navigate(`/vendor/${hostelId}`);
+                        } else {
+                          navigate(`/vendor`);
+                        }
                       }}
+
                       style={{ listStyleType: "none", display: "flex" }}
                     >
                       <img
@@ -1029,9 +1089,16 @@ console.log("(state.login?.isLoggedIn",state.login?.isLoggedIn)
                   className={`align-items-center list-Item ${currentPage === "banking" ? "active" : ""
                     }`}
                   onClick={() => {
-                    handlePageClick("banking")
-                    navigate(`/banking/${state.login.selectedHostel_Id}`)
+                    handlePageClick("banking");
+
+                    const hostelId = state.login?.selectedHostel_Id;
+                    if (hostelId) {
+                      navigate(`/banking/${hostelId}`);
+                    } else {
+                      navigate(`/banking`);
+                    }
                   }}
+
                   style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "10px" }}
                 >
                   <img
@@ -1057,9 +1124,16 @@ console.log("(state.login?.isLoggedIn",state.login?.isLoggedIn)
                   className={`align-items-center list-Item ${currentPage === "invoice" ? "active" : ""
                     }`}
                   onClick={() => {
-                    handlePageClick("invoice")
-                    navigate(`/invoice/${state.login.selectedHostel_Id}`)
+                    handlePageClick("invoice");
+
+                    const hostelId = state.login?.selectedHostel_Id;
+                    if (hostelId) {
+                      navigate(`/invoice/${hostelId}`);
+                    } else {
+                      navigate(`/invoice`);
+                    }
                   }}
+
                   style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "10px" }}
                 >
                   <img
@@ -1085,9 +1159,16 @@ console.log("(state.login?.isLoggedIn",state.login?.isLoggedIn)
                   className={`align-items-center list-Item ${currentPage === "eb" ? "active" : ""
                     }`}
                   onClick={() => {
-                    handlePageClick("eb")
-                    navigate(`/electricity/${state.login.selectedHostel_Id}`)
+                    handlePageClick("eb");
+
+                    const hostelId = state.login?.selectedHostel_Id;
+                    if (hostelId) {
+                      navigate(`/electricity/${hostelId}`);
+                    } else {
+                      navigate(`/electricity`);
+                    }
                   }}
+
                   style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "8px" }}
                 >
                   <img
@@ -1112,9 +1193,16 @@ console.log("(state.login?.isLoggedIn",state.login?.isLoggedIn)
                   className={` align-items-center list-Item ${currentPage === "compliance" ? "active" : ""
                     }`}
                   onClick={() => {
-                    handlePageClick("compliance")
-                    navigate(`/compliance/${state.login.selectedHostel_Id}`)
+                    handlePageClick("compliance");
+
+                    const hostelId = state.login?.selectedHostel_Id;
+                    if (hostelId) {
+                      navigate(`/compliance/${hostelId}`);
+                    } else {
+                      navigate(`/compliance`);
+                    }
                   }}
+
 
                   style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "8px" }}
                 >
@@ -1139,9 +1227,16 @@ console.log("(state.login?.isLoggedIn",state.login?.isLoggedIn)
                   className={`align-items-center list-Item ${currentPage === "expenses" ? "active" : ""
                     }`}
                   onClick={() => {
-                    handlePageClick("expenses")
-                    navigate(`/expense/${state.login.selectedHostel_Id}`)
+                    handlePageClick("expenses");
+
+                    const hostelId = state.login?.selectedHostel_Id;
+                    if (hostelId) {
+                      navigate(`/expense/${hostelId}`);
+                    } else {
+                      navigate(`/expense`);
+                    }
                   }}
+
                   style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "8px" }}
                 >
                   <img
@@ -1166,9 +1261,16 @@ console.log("(state.login?.isLoggedIn",state.login?.isLoggedIn)
                   className={` align-items-center list-Item ${currentPage === "reports" ? "active" : ""
                     }`}
                   onClick={() => {
-                    handlePageClick("reports")
-                    navigate(`/reports/${state.login.selectedHostel_Id}`)
+                    handlePageClick("reports");
+
+                    const hostelId = state.login?.selectedHostel_Id;
+                    if (hostelId) {
+                      navigate(`/reports/${hostelId}`);
+                    } else {
+                      navigate(`/reports`);
+                    }
                   }}
+
                   style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "8px" }}
                 >
                   <img
@@ -1467,7 +1569,7 @@ console.log("(state.login?.isLoggedIn",state.login?.isLoggedIn)
 
 
               <Route
-                path="/dashboard/:hostelId"
+                path="/dashboard/:hostelId?"
                 element={
                   <Dashboards
                     displayCompliance={handledisplaycompliace}
@@ -1477,7 +1579,7 @@ console.log("(state.login?.isLoggedIn",state.login?.isLoggedIn)
                 }
               />
               <Route
-                path="/paying-guest/:hostelId"
+                path="/paying-guest/:hostelId?"
                 element={
                   <PgLists
                     displaysettings={handledisplaySettingsPG}
@@ -1486,8 +1588,9 @@ console.log("(state.login?.isLoggedIn",state.login?.isLoggedIn)
                   />
                 }
               />
+
               <Route
-                path="/tenant/:hostelId"
+                path="/tenant/:hostelId?"
                 element={
                   <UserLists
                     allPageHostel_Id={allPageHostel_Id}
@@ -1496,7 +1599,7 @@ console.log("(state.login?.isLoggedIn",state.login?.isLoggedIn)
                 }
               />
               <Route
-                path="/invoice/:hostelId"
+                path="/invoice/:hostelId?"
                 element={
                   <Invoices
                     allPageHostel_Id={allPageHostel_Id}
@@ -1511,7 +1614,7 @@ console.log("(state.login?.isLoggedIn",state.login?.isLoggedIn)
                 }
               />
               <Route
-                path="/vendor/:hostelId"
+                path="/vendor/:hostelId?"
                 element={
                   <VendorComponent
                     allPageHostel_Id={allPageHostel_Id}
@@ -1520,7 +1623,7 @@ console.log("(state.login?.isLoggedIn",state.login?.isLoggedIn)
                 }
               />
               <Route
-                path="/compliance/:hostelId"
+                path="/compliance/:hostelId?"
                 element={
                   <Compliances
                     allPageHostel_Id={allPageHostel_Id}
@@ -1529,11 +1632,11 @@ console.log("(state.login?.isLoggedIn",state.login?.isLoggedIn)
                 }
               />
               <Route
-                path="/asset/:hostelId"
+                path="/asset/:hostelId?"
                 element={<Assets allPageHostel_Id={allPageHostel_Id} />}
               />
               <Route
-                path="/reports/:hostelId"
+                path="/reports/:hostelId?"
                 element={
                   <Report
                     allPageHostel_Id={allPageHostel_Id}
@@ -1542,7 +1645,7 @@ console.log("(state.login?.isLoggedIn",state.login?.isLoggedIn)
                 }
               />
               <Route
-                path="/electricity/:hostelId"
+                path="/electricity/:hostelId?"
                 element={
                   <EbHostel
                     allPageHostel_Id={allPageHostel_Id}
@@ -1551,7 +1654,7 @@ console.log("(state.login?.isLoggedIn",state.login?.isLoggedIn)
                 }
               />
               <Route
-                path="/expense/:hostelId"
+                path="/expense/:hostelId?"
                 element={
                   <Expenses
                     allPageHostel_Id={allPageHostel_Id}
@@ -1560,7 +1663,7 @@ console.log("(state.login?.isLoggedIn",state.login?.isLoggedIn)
                 }
               />
               <Route
-                path="/banking/:hostelId"
+                path="/banking/:hostelId?"
                 element={
                   <Banking
                     allPageHostel_Id={allPageHostel_Id}
@@ -1568,18 +1671,7 @@ console.log("(state.login?.isLoggedIn",state.login?.isLoggedIn)
                   />
                 }
               />
-              <Route
-                path="/settings/:hostelId/*"
-                element={
-                  <SettingAllPages
-                    allPageHostel_Id={allPageHostel_Id}
-                    setAllPageHostel_Id={setAllPageHostel_Id}
-                    payingGuestName={payingGuestName}
-                    settignspgshow={settignspgshow}
-                    onhandleShowsettingsPG={handleShowsettingsPG}
-                  />
-                }
-              />
+           
 
 
 
@@ -1607,53 +1699,49 @@ console.log("(state.login?.isLoggedIn",state.login?.isLoggedIn)
                 }
               />
 
-            
 
 
-              {/* <Route path="/settings/general/:hostelId" element={<SettingGeneral />} />
-              <Route path="/settings/manage-pg/:hostelId" element={<SettingManage />} />
-              <Route path="/settings/security/:hostelId" element={<SettingSecurity />} />
-              <Route path="/settings/subscription/:hostelId" element={<SettingSubscription />} />
-              <Route path="/settings/integration/:hostelId" element={<SettingIntergration />} />
-              <Route path="/settings/electricity/:hostelId" element={<SettingElectricity />} />
-              <Route path="/settings/billing-rule/:hostelId" element={<BillingRule />} />
-              <Route path="/settings/notifications/:hostelId" element={<SettingsNotifications />} />
-              <Route path="/settings/invoice/:hostelId" element={<SettingInvoice
-              />} />
-              <Route path="/settings/expenses/:hostelId" element={<SettingExpenses />} />
-              <Route path="/settings/complaints/:hostelId" element={<SettingCompliance />} />
-              <Route path="/settings/amenities/:hostelId" element={<SettingAmenities />} />
-              <Route path="/settings/user/:hostelId" element={<SettingNewUser />} />
-              <Route path="/settings/role/:hostelId" element={<SettingNewRole />} />
-              <Route path="/settings/agreement/:hostelId" element={<SettingAgreement />} /> */}
+   <Route
+                path="/settings/:hostelId?/*"
+                element={
+                  <SettingAllPages
+                    allPageHostel_Id={allPageHostel_Id}
+                    setAllPageHostel_Id={setAllPageHostel_Id}
+                    payingGuestName={payingGuestName}
+                    settignspgshow={settignspgshow}
+                    onhandleShowsettingsPG={handleShowsettingsPG}
+                  />
+                }
+              >
 
+             <Route index element={<Navigate to="general" replace />} />
+                <Route path="general" element={<SettingGeneral />} />
+                <Route path="manage-pg" element={<SettingManage />} />
+                <Route path="security" element={<SettingSecurity />} />
+                <Route path="subscription" element={<SettingSubscription />} />
+                <Route path="integration" element={<SettingIntergration />} />
+                <Route path="electricity" element={<SettingElectricity />} />
+                <Route path="billing-rule" element={<BillingRule />} />
+                <Route path="notifications" element={<SettingsNotifications />} />
+                <Route
+                  path="invoice"
+                  element={
+                    <SettingInvoice
+                      // handleAddInvoiceClick={handleAddInvoiceClick}
+                      // setIsInvoiceAddMode={setIsInvoiceAddMode}
+                      // setIsSidebarOpen={setIsSidebarOpen}
+                    />
+                  }
+                />
+                <Route path="expenses" element={<SettingExpenses />} />
+                <Route path="complaints" element={<SettingCompliance />} />
+                <Route path="amenities" element={<SettingAmenities />} />
+                <Route path="user" element={<SettingNewUser />} />
+                <Route path="role" element={<SettingNewRole />} />
+                <Route path="agreement" element={<SettingAgreement />} />
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+             
+  </Route>
 
             </Routes>
 
