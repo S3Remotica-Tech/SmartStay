@@ -92,11 +92,11 @@ function CustomerCheckout(props) {
 
 
   useEffect(() => {
-    if (props.bedData.actualJoining) {
-      setJoiningDate(props.bedData.actualJoining)
+    if (props.bedData.actualJoining || props.bedData.currentTenantJoiningDate) {
+      setJoiningDate(props.bedData.actualJoining || props.bedData.currentTenantJoiningDate)
     }
 
-  }, [props.bedData.actualJoining])
+  }, [props.bedData.actualJoining,props.bedData.currentTenantJoiningDate])
 
 
 
@@ -201,6 +201,10 @@ function CustomerCheckout(props) {
       }, 1000);
     }
   }, [state.UsersList.addCheckoutCustomerStatusCode])
+
+
+console.log("props",props)
+
 
   return (
     <>
