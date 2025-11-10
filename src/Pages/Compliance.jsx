@@ -1787,11 +1787,11 @@ const Compliance = () => {
                                 (item) => item.customerId === userid
                               );
 
-                              if (!selectedUser || !selectedUser.bookedAt) {
+                              if (!selectedUser || !selectedUser.actualJoining) {
                                 return current && current > dayjs().endOf("day");
                               }
 
-                              const bookedDate = dayjs(selectedUser.bookedAt, "DD/MM/YYYY");
+                              const bookedDate = dayjs(selectedUser.actualJoining, "DD/MM/YYYY");
                               return (
                                 (current && current < bookedDate.startOf("day")) ||
                                 (current && current > dayjs().endOf("day"))

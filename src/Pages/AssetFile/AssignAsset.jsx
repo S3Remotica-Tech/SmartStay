@@ -255,7 +255,7 @@ function StaticExample({ show, handleClose, currentItem }) {
   }, [state.createAccount?.networkError, state.AssetList.assetError])
 
 
-
+console.log("currentItem",currentItem?.purchaseDate)
 
 
   return (
@@ -526,22 +526,32 @@ function StaticExample({ show, handleClose, currentItem }) {
                     className="datepicker-wrapper"
                     style={{ position: "relative", width: "100%", cursor: "pointer" }}
                   >
-                    <DatePicker
-                      style={{ width: "100%", height: 48, fontFamily: "Gilroy", }}
-                      format="DD/MM/YYYY"
-                      placeholder="DD/MM/YYYY"
-                      value={selectedDate ? dayjs(selectedDate) : null}
-                      onChange={(date) => {
-                        setGeneralError('')
-                        setDateError('')
-                        setNoChangeError('')
-                        setSelectedDate(date ? date.toDate() : null);
-                      }}
-                      disabledDate={(current) => current && current > dayjs().endOf("day")}
-                      getPopupContainer={(triggerNode) =>
-                        triggerNode.closest(".datepicker-wrapper")
-                      }
-                    />
+                   <DatePicker
+  style={{ width: "100%", height: 48, fontFamily: "Gilroy" }}
+  format="DD/MM/YYYY"
+  placeholder="DD/MM/YYYY"
+  value={selectedDate ? dayjs(selectedDate) : null}
+  onChange={(date) => {
+    setGeneralError("");
+    setDateError("");
+    setNoChangeError("");
+    setSelectedDate(date ? date.toDate() : null);
+  }}
+  // ✅ Disable dates before purchaseDate and after today
+  disabledDate={(current) => {
+    if (!currentItem?.purchaseDate) return current && current > dayjs().endOf("day");
+    
+    const purchaseDate = dayjs(currentItem.purchaseDate, "DD/MM/YYYY");
+    const today = dayjs().endOf("day");
+
+    // disable if date < purchaseDate OR date > today
+    return current && (current < purchaseDate.startOf("day") || current > today);
+  }}
+  getPopupContainer={(triggerNode) =>
+    triggerNode.closest(".datepicker-wrapper")
+  }
+/>
+
                   </div>
                 </Form.Group>
                 {dateError && (
