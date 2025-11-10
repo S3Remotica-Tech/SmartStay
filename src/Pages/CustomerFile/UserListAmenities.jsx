@@ -48,21 +48,21 @@ function UserListAmenities(props) {
   } = useHasPermission("Amenities");
 
 
-const [CustomerOverView, setCustomerOverView] = useState([]);
+  const [CustomerOverView, setCustomerOverView] = useState([]);
 
 
 
- useEffect(() => {
-  if (state.UsersList?.customerdetails?.amenities) {
-    setCustomerOverView(state.UsersList.customerdetails.amenities);
-  } else {
-    setCustomerOverView([]); 
-  }
-}, [state.UsersList?.customerdetails?.amenities]);
+  useEffect(() => {
+    if (state.UsersList?.customerdetails?.amenities) {
+      setCustomerOverView(state.UsersList.customerdetails.amenities);
+    } else {
+      setCustomerOverView([]);
+    }
+  }, [state.UsersList?.customerdetails?.amenities]);
 
 
 
- const handleselect = (selectedOption) => {
+  const handleselect = (selectedOption) => {
     const value = selectedOption?.value || "";
 
     setselectAmneties(value);
@@ -170,38 +170,65 @@ const [CustomerOverView, setCustomerOverView] = useState([]);
 
   const handleAddUserAmnities = () => {
     if (selectAmneties) {
-      dispatch({ type: 'ASSIGNAMENITIES', 
+      dispatch({
+        type: 'ASSIGNAMENITIES',
         payload: {
           hostelId: state.login.selectedHostel_Id,
           amenityId: createby[0]?.amenityId,
           customers: [state.UsersList?.customerdetails?.customerId]
-          },
-    })
-            setFormLoading(true)
+        },
+      })
+      setFormLoading(true)
     }
 
     setStatusAmni("");
     setselectAmneties("");
   };
 
+  const handleUnAssignAmenities = (amenities) => {
+    console.log("amenities", amenities)
 
- useEffect(() => {
+    dispatch({
+      type: 'UNASSIGNAMENITIES',
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        amenityId: amenities.amenityId,
+        customers: [state.UsersList?.customerdetails?.customerId]
+
+      },
+    })
+  }
+
+
+  useEffect(() => {
 
     if (state.InvoiceList.assignAmenitiesSuccessStatusCode === 200) {
       setFormLoading(false)
       setaddamenityShow(false);
-        dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: state.UsersList?.customerdetails?.customerId } });
-     setTimeout(() => {
+      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: state.UsersList?.customerdetails?.customerId } });
+      setTimeout(() => {
         dispatch({ type: 'REMOVE_ASSIGN_AMENITIES_STATUS_CODE' })
       }, 100)
 
 
     }
-   
+
   }, [state.InvoiceList?.assignAmenitiesSuccessStatusCode])
 
 
+  useEffect(() => {
 
+    if (state.InvoiceList.UnAssignAmenitiesSuccessStatusCode === 200) {
+
+      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: state.UsersList?.customerdetails?.customerId } });
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_UN_ASSIGN_AMENITIES_STATUS_CODE' })
+      }, 100)
+
+
+    }
+    
+  }, [state.InvoiceList.UnAssignAmenitiesSuccessStatusCode])
 
 
   const [activeDotsId, setActiveDotsId] = useState(null);
@@ -446,7 +473,7 @@ const [CustomerOverView, setCustomerOverView] = useState([]);
               textAlign: "start",
             }}
           >
-            Add Amenities
+            Assign Amenities
           </div>
 
           <CloseCircle
@@ -657,7 +684,7 @@ const [CustomerOverView, setCustomerOverView] = useState([]);
               }
             }}
           >
-            Add Amenities
+            Assign Amenities
           </Button>
         </Modal.Footer>
       </Modal>
@@ -699,6 +726,8 @@ const [CustomerOverView, setCustomerOverView] = useState([]);
                   >
                     {v.amenityName} - ₹{v.amenityAmount}/m
                     <img
+
+                      onClick={() => handleUnAssignAmenities(v)}
                       src={cross}
                       width={13}
                       height={13}
@@ -1094,7 +1123,7 @@ const [CustomerOverView, setCustomerOverView] = useState([]);
 
       }
     </div>
-    
+
   );
 }
 UserListAmenities.propTypes = {

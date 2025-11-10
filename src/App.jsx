@@ -159,6 +159,7 @@ function App() {
               <Route path="/hostel-software-pricing" element={<FrontPage />} />
               <Route path="/pg-software-contact" element={<FrontPage />} />
               <Route path="/privacy-policy" element={<FrontPage />} />
+              <Route path="/refund_policy" element={<FrontPage />} />
               <Route path="*" element={<Navigate to="/" replace />} />
               <Route path="/thankyou" element={<ThankYou />} />
             </Routes>

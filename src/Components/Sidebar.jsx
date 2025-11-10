@@ -401,8 +401,8 @@ function Sidebar() {
     setIsSidebarOpen(false);
   };
 
-  const handleSettingspage = () => {
-    handlePageClick("settingNewDesign");
+  const handleSettingspage = (view) => {
+       handlePageClick("settingNewDesign");
     setSettingsPGShow(false);
      const hostelId = state.login?.selectedHostel_Id;
   if (hostelId) {
@@ -529,8 +529,8 @@ function Sidebar() {
 
 
   const handleShowsettingsPG = (settingNewDesign) => {
-    // handlePageClick("settingNewDesign");
-   const hostelId = state.login?.selectedHostel_Id;
+    console.log("settingNewDesign",settingNewDesign)
+       const hostelId = state.login?.selectedHostel_Id;
   if (hostelId) {
     navigate(`/settings/${hostelId}`);
   } else {
@@ -848,7 +848,7 @@ function Sidebar() {
                     fontFamily: "Gilroy",
                     fontWeight: 500,
                   }}
-                  onClick={() => handleShowsettingsPG()}
+                  onClick={() => handleShowsettingsPG("manage-pg", "Manage PG")}
                 >
                   + Add PG
                 </li>

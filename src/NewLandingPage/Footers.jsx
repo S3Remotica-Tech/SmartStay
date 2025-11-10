@@ -103,6 +103,8 @@ const Footers = (props) => {
                   <p style={{ color: '#FFF', fontFamily: 'Gilroy', fontSize: '16px', fontWeight: 200, lineHeight: '160%', cursor: "pointer" }} onClick={() => handleLink('terms_use')}>Terms of use</p>
                   <p style={{ color: '#FFF', fontFamily: 'Gilroy', fontSize: '16px', fontWeight: 200, lineHeight: '160%', cursor: "pointer" }} onClick={() => handleLink('cookies')}>Cookies</p>
                   <p style={{ color: '#FFF', fontFamily: 'Gilroy', fontSize: '16px', fontWeight: 200, lineHeight: '160%', cursor: "pointer" }} onClick={() => handleLink('privacy_policy')}>Privacy policy</p>
+                                    <p style={{ color: '#FFF', fontFamily: 'Gilroy', fontSize: '16px', fontWeight: 200, lineHeight: '160%', cursor: "pointer" }} onClick={() => handleLink('refund_policy')}>Refund policy</p>
+
                 </div>
 
               </div>

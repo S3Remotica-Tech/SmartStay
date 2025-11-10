@@ -30,11 +30,13 @@ function SettingAllPages() {
   }, [state?.login?.selectedHostel_Id]);
 
   useEffect(() => {
-    if (state.PgList.isManageEnable) {
+    if (state.PgList?.isManageEnable) {
       setActivePage('Manage PG');
+       navigate(`/settings/${'manage-pg'}`);
+      
     }
 
-  }, [state.PgList.isManageEnable]);
+  }, [state.PgList?.isManageEnable]);
 
 
   const handleTabClick = (itemName) => {
