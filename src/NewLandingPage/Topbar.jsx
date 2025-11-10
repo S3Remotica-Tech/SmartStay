@@ -8,7 +8,6 @@ import Startup from "./Startup";
 import StatsSection from "./StatSection";
 import TestimonialSlider from "./ImageSlider";
 import Getanswer from "./Getanswer";
-// import KeyFeatures from "./Keyfeature";
 import KeyFeaturesNew from "./KeyFeaturesNew";
 import Logo from "../Assets/Images/New_images/Smartstay_LOGO.svg";
 import RightArrow from "../Assets/Images/landingpageimages/right_arrow.png";
@@ -19,6 +18,7 @@ import RoomManagement from "./ManagementTabs";
 import Condition from "./Terms";
 import Policy from "./PrivacyPolicy";
 import CookiesPolicy from "./CookiesPolicy";
+import Refundpolicy from './Refundpolicy'
 
 function FrontPage() {
   useEffect(() => {
@@ -38,6 +38,7 @@ function FrontPage() {
   const [activeSection, setActiveSection] = useState("firstPage");
 
   const handleSetActive = (section) => {
+    console.log("section",section)
     setActiveSection(section);
     switch (section) {
       case "keyFeature":
@@ -51,6 +52,9 @@ function FrontPage() {
         break;
       case "privacy_policy":
         navigate("/privacy-policy");
+        break;
+        case "refund_policy":
+          navigate("/refund_policy");
         break;
       case "firstPage":
         navigate("/");
@@ -79,6 +83,10 @@ function FrontPage() {
     else if (path === "/privacy-policy") {
       setActiveSection("privacy_policy");
       scroll.scrollTo(document.getElementById("privacy_policy")?.offsetTop - 70 || 0);
+    }
+    else if (path === "/refund_policy") {
+      setActiveSection("refund_policy");
+      scroll.scrollTo(document.getElementById("refund_policy")?.offsetTop - 70 || 0);
     }
     else {
       setActiveSection("firstPage");
@@ -246,6 +254,12 @@ function FrontPage() {
         </Element>
       )}
 
+      
+{activeSection === "refund_policy" && (
+        <Element name="refund_policy" style={{ paddingTop: "70px", display: "flex", flexDirection: "column" }}>
+          <Refundpolicy />
+        </Element>
+      )}
       <Element name="footer">
         <Footers handleLinkName={handleSetActive} />
       </Element>

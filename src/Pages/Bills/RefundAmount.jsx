@@ -17,11 +17,12 @@ import { useDispatch, useSelector } from 'react-redux';
 function RefundAmount({ show, handleClose, refundDetails }) {
 
 
-  
+
 
     const state = useSelector(state => state)
     const dispatch = useDispatch();
 
+    console.log("refundDetails", refundDetails.invoiceDate)
 
     const [refundAmount, setRefundAmount] = useState("");
     const [refundDate, setRefundDate] = useState(null);
@@ -42,7 +43,7 @@ function RefundAmount({ show, handleClose, refundDetails }) {
 
 
 
-  
+
     const bankOptions = state.InvoiceList?.refundDetails?.listBanks?.map(bank => ({
         value: bank.bankId,
         label: `${bank.bankName}`
@@ -131,15 +132,15 @@ function RefundAmount({ show, handleClose, refundDetails }) {
 
     }, [state.InvoiceList?.createRefundStatusCode])
 
-useEffect(() => {
-    if (state.createAccount?.networkError) {
-     setFormRecordLoading(false)
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-      }, 3000)
-    }
+    useEffect(() => {
+        if (state.createAccount?.networkError) {
+            setFormRecordLoading(false)
+            setTimeout(() => {
+                dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+            }, 3000)
+        }
 
-  }, [state.createAccount?.networkError])
+    }, [state.createAccount?.networkError])
 
 
     return (
@@ -387,7 +388,17 @@ useEffect(() => {
                                                 placeholder="DD/MM/YYYY"
                                                 value={refundDate ? dayjs(refundDate) : null}
                                                 onChange={handleRefundDate}
-                                                disabledDate={(current) => current && current > dayjs().endOf("day")}
+                                                disabledDate={(current) => {
+                                                    if (!refundDetails?.invoiceDate) {
+                                                        return current && current > dayjs().endOf("day");
+                                                    }
+
+                                                    const invoiceDate = dayjs(refundDetails.invoiceDate, "DD/MM/YYYY");
+                                                    const today = dayjs().endOf("day");
+
+
+                                                    return current && (current < invoiceDate.startOf("day") || current > today);
+                                                }}
                                                 getPopupContainer={(triggerNode) =>
                                                     triggerNode.closest(".show-scroll") || document.body
                                                 }
@@ -542,7 +553,7 @@ useEffect(() => {
                 </Modal.Body>
 
 
-            {/* {state.createAccount?.networkError ?
+                {/* {state.createAccount?.networkError ?
              <div className="d-flex justify-content-center mt-1 mb-1">
               <ErrorMessage message={state.createAccount?.networkError} type="error"/></div>
               : null} */}

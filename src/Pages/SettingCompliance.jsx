@@ -99,24 +99,24 @@ useEffect(() => {
   };
 
   // useEffect(() => {
-  //   if (hostelid) {
+  //   if (state.login.selectedHostel_Id) {
   //     setLoading(true);
   //     dispatch({
   //       type: "COMPLAINT-TYPE-LIST",
-  //       payload: { hostel_id: hostelid },
+  //       payload: { hostel_id: state.login.selectedHostel_Id },
   //     });
   //   }
-  // }, [hostelid]);
+  // }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
-    if (hostelid) {
+    if (state.login.selectedHostel_Id) {
       // setLoading(true);
       dispatch({
         type: "COMPLAINT-TYPE-LIST",
-        payload: { hostel_id: hostelid },
+        payload: { hostel_id: state.login.selectedHostel_Id },
       });
     }
-  }, [hostelid]);
+  }, [state.login.selectedHostel_Id]);
 
 
 
@@ -168,7 +168,7 @@ useEffect(() => {
   };
 
   const handleShowForm = () => {
-    if (!hostelid) {
+    if (!state.login.selectedHostel_Id) {
       toast.error('Please add a hostel before adding Complaints information.', {
         hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
       });
@@ -189,7 +189,7 @@ useEffect(() => {
     } else {
       dispatch({
         type: "COMPLAINT-TYPE-ADD",
-        payload: { complaintTypeName: complaintTypeName, hostelId: hostelid },
+        payload: { complaintTypeName: complaintTypeName, hostelId: state.login.selectedHostel_Id },
       });
       setFormLoading(true)
       setComplaintError("");
@@ -209,7 +209,7 @@ useEffect(() => {
       //   type: "COMPLAINT-TYPE-EDIT",
       //   payload: {
       //     complaint_name: complaintTypeName,
-      //     hostel_id: hostelid,
+      //     hostel_id: state.login.selectedHostel_Id,
       //     id: id,
       //   },
       // });
@@ -220,7 +220,7 @@ useEffect(() => {
           id,
           complaintTypeName: complaintTypeName,
           isActive: true,
-          hostelId: hostelid
+          hostelId: state.login.selectedHostel_Id
         },
       });
 
@@ -300,7 +300,7 @@ useEffect(() => {
       setFormLoading(false)
       dispatch({
         type: "COMPLAINT-TYPE-LIST",
-        payload: { hostel_id: hostelid },
+        payload: { hostel_id: state.login.selectedHostel_Id },
       });
       handleClose();
       setTimeout(() => {
@@ -314,7 +314,7 @@ useEffect(() => {
       setFormLoading(false)
       dispatch({
         type: "COMPLAINT-TYPE-LIST",
-        payload: { hostel_id: hostelid },
+        payload: { hostel_id: state.login.selectedHostel_Id },
       });
       // handleClose();
       setShowPopup(false);
@@ -329,7 +329,7 @@ useEffect(() => {
       setFormLoading(false)
       dispatch({
         type: "COMPLAINT-TYPE-LIST",
-        payload: { hostel_id: hostelid },
+        payload: { hostel_id: state.login.selectedHostel_Id },
       });
       handleClose();
       setTimeout(() => {

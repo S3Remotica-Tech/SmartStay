@@ -84,7 +84,7 @@ function BookingModal(props) {
       }
       setTimeout(() => {
         dispatch({ type: "CLEAR_EMAIL_ERROR" });
-        // dispatch({ type: "ERROR_BOOKING_REMOVE" })
+       
       }, 2000);
     }
   }, [state.Booking.bookingEmailError, state.Booking?.bookingBedError]);
@@ -353,7 +353,7 @@ useEffect(() => {
 
 
   const handleBookingSubmit = () => {
-
+ dispatch({ type: "ERROR_BOOKING_REMOVE" })
     let isValid = true;
 
     if (!bookingDate) {
