@@ -400,7 +400,7 @@ useEffect(() => {
                   <div style={{ width: "100%" }}>
 
 {
-  props.item?.paymentStatus !== "Cancelled" &&
+ (props.item?.paymentStatus !== "Cancelled" &&  props.item?.paymentStatus !== "Paid") &&
 
                     <div
                       className={`d-flex justify-content-start align-items-center gap-2 ${!canUpdateInvoice ? 'disabled' : ''}`}
@@ -474,7 +474,7 @@ useEffect(() => {
                     </div>
 
 
-                    {(props.item.dueAmount !== 0 && props.item?.invoiceAmount > 0 &&  props.item?.paymentStatus !== "Cancelled") && (
+                    {(props.item.dueAmount !== 0 && props.item?.invoiceAmount > 0 &&  props.item?.paymentStatus !== "Cancelled" && props.item?.paymentStatus !== "Paid") && (
                       <div
                         className={`d-flex justify-content-start align-items-center gap-2  ${!canWriteInvoice ? 'disabled' : ''}`}
                         style={{
@@ -599,7 +599,7 @@ useEffect(() => {
 
                     }
                     {
-                       props.item?.paymentStatus !== "Cancelled" && 
+                       (props.item?.paymentStatus !== "Cancelled" &&  props.item?.paymentStatus !== "Paid") && 
                     
                     <div
                       className={`d-flex justify-content-start align-items-center gap-2  ${!canDeleteInvoice ? 'disabled' : ''}`}

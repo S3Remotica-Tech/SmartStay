@@ -150,9 +150,8 @@ export async function ChangeRoomHostelElectricity(change) {
 // }
 
 // v2 
-
 export async function GetAllRoles(hostelId) {
-  return await AxiosConfigV2.get(`/v2/role/hostel/${hostelId}`);
+   return await AxiosConfigV2.get(`/v2/role/hostel/${hostelId}`);
 }
 
 

@@ -2125,15 +2125,16 @@ function UserListRoomDetail(props) {
 
   const CustomerOverView = state.UsersList.customerdetails;
 
-  const imageUrl = imagePreview
-    ? imagePreview
-    : kycPic
-      ? kycPic.startsWith("data:image")
-        ? kycPic
-        : `data:image/jpeg;base64,${kycPic}`
-      : CustomerOverView.profilePic
-        ? CustomerOverView.profilePic
-        : Profiles;
+ const imageUrl = imagePreview
+  ? imagePreview
+  : kycPic
+  ? kycPic.startsWith("data:image")
+    ? kycPic
+    : `data:image/jpeg;base64,${kycPic}`
+  : CustomerOverView.profilePic
+  ? CustomerOverView.profilePic
+  : null;
+
 
 
 
@@ -2239,20 +2240,48 @@ function UserListRoomDetail(props) {
                   onMouseEnter={() => setIsHovered(true)}
                   onMouseLeave={() => setIsHovered(false)}
                 >
-                  <img
-                    src={imageUrl}
-                    alt={CustomerOverView.fullName || "Default Profile"}
-                    style={{
-                      height: "80px",
-                      width: "80px",
-                      borderRadius: "50%",
-                      objectFit: "cover",
-                    }}
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = Profiles;
-                    }}
-                  />
+                 {imageUrl ? (
+    <img
+      src={imageUrl}
+      alt={CustomerOverView.fullName || "Default Profile"}
+      style={{
+        height: "80px",
+        width: "80px",
+        borderRadius: "50%",
+        objectFit: "cover",
+      }}
+      onError={(e) => {
+        e.target.onerror = null;
+        e.target.src = Profiles;
+      }}
+    />
+  ) : (
+   
+    <div
+      style={{
+        height: "80px",
+        width: "80px",
+        borderRadius: "50%",
+        backgroundColor: "#1E45E1", 
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontSize: "24px",
+        fontWeight: "600",
+        color: "#FFF",
+        fontFamily: "Gilroy",
+      }}
+    >
+      {CustomerOverView?.initials
+        ? CustomerOverView.initials
+        : CustomerOverView?.fullName
+        ? CustomerOverView.fullName
+            .split(" ")
+            .map((w) => w[0]?.toUpperCase())
+            .join("")
+        : "NA"}
+    </div>
+  )}
 
                   {!state.UsersList?.KycCustomerDetails?.pic && isHovered && (
                     <div
@@ -2329,7 +2358,7 @@ function UserListRoomDetail(props) {
                         type="primary"
                         style={{
                           borderRadius: "20px",
-                          backgroundColor: "#1848f1",
+                          backgroundColor: "#1E45E1",
                           border: "none",
                           padding: "0 16px",
                           height: "32px",
@@ -2384,7 +2413,7 @@ function UserListRoomDetail(props) {
                         onClick={handleKYCSubmit}
                         style={{
                           borderRadius: "20px",
-                          backgroundColor: "#1848f1",
+                          backgroundColor: "#1E45E1",
                           border: "none",
                           padding: "0 16px",
                           height: "32px",
@@ -2419,7 +2448,7 @@ function UserListRoomDetail(props) {
                         type="primary"
                         style={{
                           borderRadius: "20px",
-                          backgroundColor: "#1848f1",
+                          backgroundColor: "#1E45E1",
                           border: "none",
                           padding: "0 16px",
                           height: "32px",

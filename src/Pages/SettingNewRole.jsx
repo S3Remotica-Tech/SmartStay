@@ -72,7 +72,7 @@ useEffect(() => {
 
   const handleAddRole = () => {
 
-    if (!hostelid) {
+    if (!state.login.selectedHostel_Id) {
       toast.error('Please add a hostel before adding Role information.', {
         hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
       });
@@ -134,12 +134,15 @@ useEffect(() => {
 
 
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({ type: 'SETTING_ROLE_LIST', payload: state.login.selectedHostel_Id });
-      // setLoading(true)
-    }
-  }, [state.login.selectedHostel_Id]);
+ useEffect(() => {
+  const hostelId = state?.login?.selectedHostel_Id;
+
+  if (!hostelId || hostelId === "null" || hostelId === "undefined" || hostelId === "") return;
+
+  dispatch({ type: 'SETTING_ROLE_LIST', payload: hostelId });
+}, [state?.login?.selectedHostel_Id]);
+
+
 
 
 
@@ -187,7 +190,7 @@ useEffect(() => {
 
 
   useEffect(() => {
-    if (state.Settings.statusCodeForAddRole === 201)
+    if (state.Settings.statusCodeForAddRole === 201 && state.login.selectedHostel_Id)
 
       setShowRole(false)
     dispatch({ type: 'SETTING_ROLE_LIST', payload: state.login.selectedHostel_Id });
@@ -199,7 +202,7 @@ useEffect(() => {
 
 
   useEffect(() => {
-    if (state.Settings.StatusForDeletePermission === 204) {
+    if (state.Settings.StatusForDeletePermission === 204 && state.login.selectedHostel_Id) {
       setDeleteRole(false)
       dispatch({ type: 'SETTING_ROLE_LIST', payload: state.login.selectedHostel_Id });
       setTimeout(() => {
@@ -210,7 +213,7 @@ useEffect(() => {
 
 
   useEffect(() => {
-    if (state.Settings.StatusForEditPermission === 200) {
+    if (state.Settings.StatusForEditPermission === 200 && state.login.selectedHostel_Id) {
       setShowRole(false)
       dispatch({ type: 'SETTING_ROLE_LIST', payload: state.login.selectedHostel_Id });
       setTimeout(() => {
@@ -220,7 +223,6 @@ useEffect(() => {
     }
 
   }, [state.Settings.StatusForEditPermission])
-
 
 
 
@@ -522,7 +524,7 @@ useEffect(() => {
 
 
       {
-        showRole && <AddRole showRole={showRole} addRole={addRole} hostelid={hostelid} editRoleDetails={editRoleDetails} setShowRole={setShowRole} />
+        showRole && <AddRole showRole={showRole} addRole={addRole} hostelid={state.login.selectedHostel_Id} editRoleDetails={editRoleDetails} setShowRole={setShowRole} />
       }
 
 
