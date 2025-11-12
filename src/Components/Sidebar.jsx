@@ -94,6 +94,7 @@ function Sidebar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const isFirstLogin = useRef(true);
   const dropdownRef = useRef(null);
+  const [isVisibleSidebar, setIsVisibleSidebar] = useState(false)
 
 
 
@@ -312,6 +313,7 @@ function Sidebar() {
   }, [currentPage]);
 
   const handlePageClick = (page) => {
+    handleFormPage(false)
     setCurrentPage(page);
     setIsDropdownOpen(false);
     localStorage.setItem("currentPage", page);
@@ -529,8 +531,7 @@ function Sidebar() {
 
 
   const handleShowsettingsPG = (settingNewDesign) => {
-    console.log("settingNewDesign",settingNewDesign)
-       const hostelId = state.login?.selectedHostel_Id;
+           const hostelId = state.login?.selectedHostel_Id;
   if (hostelId) {
     navigate(`/settings/${hostelId}`);
   } else {
@@ -583,7 +584,9 @@ function Sidebar() {
     }
   }, [state.createAccount.accountList.roleId])
 
-
+const handleFormPage = (isVisible) =>{
+setIsVisibleSidebar(isVisible)
+}
 
 
   return (
@@ -1710,6 +1713,7 @@ function Sidebar() {
                     payingGuestName={payingGuestName}
                     settignspgshow={settignspgshow}
                     onhandleShowsettingsPG={handleShowsettingsPG}
+                    isVisibleSidebar={isVisibleSidebar}
                   />
                 }
               >
@@ -1727,9 +1731,7 @@ function Sidebar() {
                   path="invoice"
                   element={
                     <SettingInvoice
-                      // handleAddInvoiceClick={handleAddInvoiceClick}
-                      // setIsInvoiceAddMode={setIsInvoiceAddMode}
-                      // setIsSidebarOpen={setIsSidebarOpen}
+                                            handleFormPage={handleFormPage}
                     />
                   }
                 />

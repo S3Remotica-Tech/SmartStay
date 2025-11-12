@@ -8,7 +8,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import mob from "../Assets/Images/New_images/Rectangle 77.png";
 import substrac from "../Assets/Images/New_images/Subtract.png";
 import frame from "../Assets/Images/New_images/FramePDF.png";
-import receiptLogo from '../Assets/Images/New_images/receiptlogo.png';
+// import receiptLogo from '../Assets/Images/New_images/receiptlogo.png';
+import receiptLogo from "../Assets/Images/New_images/Group_Logo.png";
 import received from '../Assets/Images/New_images/received.png'
 import Button from 'react-bootstrap/Button';
 import "react-toastify/dist/ReactToastify.css";
@@ -592,9 +593,9 @@ useEffect(() => {
                 <div className="row d-flex justify-content-between align-items-center ps-3 pe-3">
                   <div className="col-6">
                     {logoPreview ? (
-                      <img src={logoPreview} alt="Preview" style={{ height: 54, width: "50%", borderRadius: '4px', }} />
+                      <img src={logoPreview} alt="Preview" style={{ height: 25, maxWidth: 134, borderRadius: '4px', objectFit: "contain", }} />
                     ) : (
-                      <img src={receiptLogo} alt="upload" style={{ height: 54, width: "50%", borderRadius: '4px', }} />
+                      <img src={receiptLogo} alt="upload" style={{ height: 25, maxWidth: 134, borderRadius: '4px', objectFit: "contain", }} />
                     )}
 
 

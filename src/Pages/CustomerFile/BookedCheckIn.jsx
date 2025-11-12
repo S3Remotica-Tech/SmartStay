@@ -493,12 +493,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
                             {activeTab === "LONG" ? <>
                                 <div style={{ maxHeight: "300px", overflowY: "scroll" }} className="show-scroll p-2 mt-2 me-1">
-                                    <div className="row d-flex align-items-center">
-
-
-
-
-                                        <div className="d-flex justify-content-between align-items-center mb-2">
+                                      <div className="d-flex justify-content-between align-items-center mb-2">
                                             <div>
                                                 <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
                                                     Booking Date
@@ -547,10 +542,16 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                                 padding: 0,
                                             }}
                                         />
+                                    <div className="row d-flex align-items-stretch">
+
+
+
+
+                                      
 
 
                                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <Form.Group controlId="purchaseDate">
+                                            <Form.Group className="" controlId="purchaseDate">
                                                 <Form.Label
                                                     style={{
                                                         fontSize: 14,

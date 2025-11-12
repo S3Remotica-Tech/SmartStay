@@ -258,7 +258,7 @@ const {
                         className="d-flex justify-content-between mb-2"
                         style={{ fontSize: 14, color: "#4B4B4B" }}
                       >
-                        <span>Bill Due Date:</span>
+                        <span>Bill Due Days:</span>
                         <span style={{ fontWeight: 600, color: "#1E45E1" }}>
                           {recurringBills.billDueDate}
                         </span>

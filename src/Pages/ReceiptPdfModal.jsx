@@ -12,7 +12,7 @@ import Mail_white from '../Assets/Images/gmail_white.png'
 import Message_text from '../Assets/Images/message-text.png'
 import Message_text_white from '../Assets/Images/message-white.png'
 import Close from '../Assets/Images/New_images/circlie.png'
-import Logo from '../Assets/Images/get.png'
+import Logo from "../Assets/Images/New_images/Group_Logo.png";
 import Dial from '../Assets/Images/dial.png'
 import Room from '../Assets/Images/Car.png'
 import Locat from '../Assets/Images/location 03.png'
@@ -494,7 +494,7 @@ const getIconStyle = (templateColor) => {
                   <div className="row d-flex justify-content-between align-items-center ps-3 pe-3">
                     <div className="col-6" >
                       <img src={pdfDetails?.configurations?.hostelLogo ? pdfDetails?.configurations?.hostelLogo : Logo} alt="logo" 
-                      style={{ height: 54, width: "50%", borderRadius: '4px', }} className="mt-2" />
+                       style={{height: 25, maxWidth: 134, borderRadius: '4px', objectFit: "contain", }} className="mt-2" />
 
 
 

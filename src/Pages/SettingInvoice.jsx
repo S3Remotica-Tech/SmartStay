@@ -5,7 +5,7 @@ import "../Pages/Settings.css";
 import { useDispatch, useSelector } from "react-redux";
 import leftarrow from "../Assets/Images/arrow-left.png"
 import { MdError } from "react-icons/md";
-import Logo from '../Assets/Images/get.png'
+import Logo from "../Assets/Images/New_images/Group_Logo.png";
 import Dial from '../Assets/Images/dial.png'
 import Room from '../Assets/Images/Car.png'
 import Locat from '../Assets/Images/location 03.png'
@@ -46,7 +46,7 @@ import { IoBed } from "react-icons/io5";
 import { Container, Row, Col, Table } from "react-bootstrap";
 import AdvanceCustomizeSettings from './BillsTemplates/AdvanceCustomizeSettings'
 import ReceiptCustomize from './BillsTemplates/ReceiptCustomize'
-function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
+function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handleFormPage }) {
 
 
   const dispatch = useDispatch();
@@ -854,8 +854,9 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
       return;
     }
     // dispatch({ type: 'GET_TEMPLATE_LIST', payload: state.login.selectedHostel_Id })
-    setIsInvoiceAddMode(true)
-    setIsSidebarOpen(false)
+    // setIsInvoiceAddMode(true)
+    // setIsSidebarOpen(false)
+    handleFormPage(true)
     setSelectedard(type)
     setShowForm(true);
     setEdit(false);
@@ -873,8 +874,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
     setPrefix('')
     setSelectedDate('')
     setInvoiceDueDate('')
-    setIsInvoiceAddMode(false)
-    setIsSidebarOpen(true)
+     handleFormPage(false)
     setEditFormErrMessage("")
   };
 
@@ -2446,7 +2446,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
                                   : Logo
                               }
                               alt="logo"
-                              style={{ height: 54, width: "50%", }}
+                              style={{ height: 25, maxWidth: 134, borderRadius: '4px', objectFit: "contain", }}
                             />
 
                           </div>

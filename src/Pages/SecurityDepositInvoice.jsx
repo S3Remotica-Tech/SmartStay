@@ -4,7 +4,7 @@ import Form from "react-bootstrap/Form";
 import "../Pages/Settings.css";
 import { useDispatch, useSelector } from "react-redux";
 import { MdError } from "react-icons/md";
-import Logo from '../Assets/Images/get.png'
+import Logo from "../Assets/Images/New_images/Group_Logo.png";
 import Dial from '../Assets/Images/dial.png'
 import Room from '../Assets/Images/Car.png'
 import Locat from '../Assets/Images/location 03.png'
@@ -811,7 +811,7 @@ useEffect(() => {
                 }}>
                 <div className="row d-flex justify-content-between align-items-center ps-3 pe-3">
                   <div className="col-6">
-                    <img src={logoPreview ? logoPreview : Logo} alt="logo"  style={{ height: 54, width: "50%", }} />
+                    <img src={logoPreview ? logoPreview : Logo} alt="logo"  style={{ height: 25, maxWidth: 134, borderRadius: '4px', objectFit: "contain",  }} />
                     <div>
                     </div>
                   </div>
