@@ -10,7 +10,7 @@ import { ArrowRight2, ArrowLeft2 } from 'iconsax-react'
 // import SettingsBills from "./SettingsBills";
 import { Routes, Route, useNavigate, Outlet, Navigate } from "react-router-dom";
 
-function SettingAllPages() {
+function SettingAllPages({ isVisibleSidebar }) {
   const navigate = useNavigate();
 
 
@@ -32,14 +32,15 @@ function SettingAllPages() {
   useEffect(() => {
     if (state.PgList?.isManageEnable) {
       setActivePage('Manage PG');
-       navigate(`/settings/${'manage-pg'}`);
-      
+      navigate(`/settings/${'manage-pg'}`);
+
     }
 
   }, [state.PgList?.isManageEnable]);
 
 
   const handleTabClick = (itemName) => {
+
     setActivePage(itemName);
     if (window.innerWidth < 768) {
       setIsSidebarOpen(false);
@@ -55,7 +56,7 @@ function SettingAllPages() {
 
   };
 
-const handleSettingsNavigate = (tabName, pageKey) => {
+  const handleSettingsNavigate = (tabName, pageKey) => {
     handleTabClick(pageKey);
     const hostelId = state.login?.selectedHostel_Id;
     if (hostelId) {
@@ -66,11 +67,20 @@ const handleSettingsNavigate = (tabName, pageKey) => {
   };
 
 
- 
+  useEffect(() => {
+    if (isVisibleSidebar) {
+      setIsSidebarOpen(false);
+      setIsInvoiceAddMode(true);
+    } else {
+      setIsSidebarOpen(true);
+      setIsInvoiceAddMode(false);
+    }
+
+  }, [isVisibleSidebar])
 
   return (
     <>
-      
+
       <div
         className={`col-12 col-lg-12 col-md-9 ${isInvoiceAddMode ? 'd-none d-md-block' : ''
           }`}
@@ -139,7 +149,7 @@ const handleSettingsNavigate = (tabName, pageKey) => {
                 >
                   <p
 
-                  
+
                     onClick={() => handleSettingsNavigate("general", "General")}
                     style={{
                       fontWeight: 500,
@@ -164,7 +174,7 @@ const handleSettingsNavigate = (tabName, pageKey) => {
                   <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
                   <p
 
-                  
+
                     onClick={() => handleSettingsNavigate("manage-pg", "Manage PG")}
                     style={{
                       fontWeight: 500,
@@ -190,7 +200,7 @@ const handleSettingsNavigate = (tabName, pageKey) => {
 
                   <p
 
-                   onClick={() => handleSettingsNavigate("security", "Security")}
+                    onClick={() => handleSettingsNavigate("security", "Security")}
                     style={{
                       fontWeight: 500,
                       fontFamily: "Gilroy",
@@ -214,7 +224,7 @@ const handleSettingsNavigate = (tabName, pageKey) => {
                   <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
                   <p
 
-                 onClick={() => handleSettingsNavigate("subscription", "Subscription")}
+                    onClick={() => handleSettingsNavigate("subscription", "Subscription")}
                     style={{
                       fontWeight: 500,
                       fontFamily: "Gilroy",
@@ -239,7 +249,7 @@ const handleSettingsNavigate = (tabName, pageKey) => {
                   <p
 
 
-                   onClick={() => handleSettingsNavigate("integration", "Integration")}
+                    onClick={() => handleSettingsNavigate("integration", "Integration")}
                     style={{
                       fontWeight: 500,
                       fontFamily: "Gilroy",
@@ -288,7 +298,7 @@ const handleSettingsNavigate = (tabName, pageKey) => {
                     }} >
                     <p
 
-                     onClick={() => handleSettingsNavigate("electricity", "Electricity")}
+                      onClick={() => handleSettingsNavigate("electricity", "Electricity")}
                       style={{
                         fontWeight: 500,
                         fontFamily: "Gilroy",
@@ -311,11 +321,11 @@ const handleSettingsNavigate = (tabName, pageKey) => {
                     </p>
                     <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
 
-              
+
 
                     <p
 
-                     onClick={() => handleSettingsNavigate("billing-rule", "Billing_Rule")}
+                      onClick={() => handleSettingsNavigate("billing-rule", "Billing_Rule")}
                       style={{
                         fontWeight: 500,
                         fontFamily: "Gilroy",
@@ -363,7 +373,7 @@ const handleSettingsNavigate = (tabName, pageKey) => {
                     <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
                     <p
 
-                     onClick={() => handleSettingsNavigate("invoice", "Invoice")}
+                      onClick={() => handleSettingsNavigate("invoice", "Invoice")}
                       style={{
                         fontWeight: 500,
                         fontFamily: "Gilroy",
@@ -412,7 +422,7 @@ const handleSettingsNavigate = (tabName, pageKey) => {
                     <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
                     <p
 
-                     onClick={() => handleSettingsNavigate("complaints", "Complaints")}
+                      onClick={() => handleSettingsNavigate("complaints", "Complaints")}
                       style={{
                         fontWeight: 500,
                         fontFamily: "Gilroy",
@@ -436,7 +446,7 @@ const handleSettingsNavigate = (tabName, pageKey) => {
                     <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
                     <p
 
-                     onClick={() => handleSettingsNavigate("amenities", "Amenities")}
+                      onClick={() => handleSettingsNavigate("amenities", "Amenities")}
                       style={{
                         fontWeight: 500,
                         fontFamily: "Gilroy",
@@ -463,7 +473,7 @@ const handleSettingsNavigate = (tabName, pageKey) => {
                     <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
                     <p
 
-                    onClick={() => handleSettingsNavigate("user", "User")}
+                      onClick={() => handleSettingsNavigate("user", "User")}
                       style={{
                         fontWeight: 500,
                         fontFamily: "Gilroy",
@@ -489,7 +499,7 @@ const handleSettingsNavigate = (tabName, pageKey) => {
                     <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
                     <p
 
-                     onClick={() => handleSettingsNavigate("role", "Role")}
+                      onClick={() => handleSettingsNavigate("role", "Role")}
                       style={{
                         fontWeight: 500,
                         fontFamily: "Gilroy",
@@ -517,7 +527,7 @@ const handleSettingsNavigate = (tabName, pageKey) => {
                     <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
                     <p
 
-                     onClick={() => handleSettingsNavigate("agreement", "agreement")}
+                      onClick={() => handleSettingsNavigate("agreement", "agreement")}
                       style={{
                         fontWeight: 500,
                         fontFamily: "Gilroy",
@@ -560,7 +570,7 @@ const handleSettingsNavigate = (tabName, pageKey) => {
               }}
             >
               <Outlet />
-                         </div>
+            </div>
           </div>
         </div>
       </div>

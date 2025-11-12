@@ -146,7 +146,6 @@ function LongStayRecurringModal({ handleClose, show }) {
 
 
 
-console.log("state.Settings.billingRuleError",state.Settings.billingRuleError)
 
 
     return (
@@ -216,7 +215,7 @@ console.log("state.Settings.billingRuleError",state.Settings.billingRuleError)
                                 color: "#222222",
                                 fontFamily: "Gilroy",
                                 fontWeight: 500,
-                            }}>Due Date of Month {" "}
+                            }}>Due Days {" "}
                     <span style={{ color: "#FF0000", display: "inline-block", fontSize: "20px" }}>
                       *
                     </span></Form.Label>

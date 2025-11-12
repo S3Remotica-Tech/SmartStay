@@ -46,7 +46,7 @@ import { IoBed } from "react-icons/io5";
 import { Container, Row, Col, Table } from "react-bootstrap";
 import AdvanceCustomizeSettings from './BillsTemplates/AdvanceCustomizeSettings'
 import ReceiptCustomize from './BillsTemplates/ReceiptCustomize'
-function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
+function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handleFormPage }) {
 
 
   const dispatch = useDispatch();
@@ -854,8 +854,9 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
       return;
     }
     // dispatch({ type: 'GET_TEMPLATE_LIST', payload: state.login.selectedHostel_Id })
-    setIsInvoiceAddMode(true)
-    setIsSidebarOpen(false)
+    // setIsInvoiceAddMode(true)
+    // setIsSidebarOpen(false)
+    handleFormPage(true)
     setSelectedard(type)
     setShowForm(true);
     setEdit(false);
@@ -873,8 +874,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
     setPrefix('')
     setSelectedDate('')
     setInvoiceDueDate('')
-    setIsInvoiceAddMode(false)
-    setIsSidebarOpen(true)
+     handleFormPage(false)
     setEditFormErrMessage("")
   };
 
