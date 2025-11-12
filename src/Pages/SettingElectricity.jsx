@@ -160,9 +160,9 @@ useEffect(()=>{
       setTotalErr("");
     }
 
-    if (editHostel && String(editHostel.editamount) === String(newAmount)) {
-      setTotalErr("No Changes Deducted");
-    }
+    // if (editHostel && String(editHostel.editamount) === String(newAmount)) {
+    //   setTotalErr("No Changes Deducted");
+    // }
   };
 
 

@@ -124,7 +124,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails }) {
                         />
                     </Modal.Header>
 
-                    {/* Profile + Floor/Room Info */}
+                   
                     <div className="d-flex align-items-center gap-3 mb-3 ms-3">
                         <img
                             src={
@@ -176,7 +176,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails }) {
                         </div>
                     </div>
 
-                    {/* Tabs */}
+          
                     <div
                         style={{
                             backgroundColor: "#F7F9FF",
@@ -267,7 +267,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails }) {
                                     {reasonError && <ErrorMessage message={reasonError} type="error" />}
                                 </div>
 
-                                {/* Recheck-In Date */}
+                            
                                 <div className="datepicker-wrapper relative z-10">
                                     <Form.Label
                                         style={{

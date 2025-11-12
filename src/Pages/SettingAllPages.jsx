@@ -78,6 +78,8 @@ function SettingAllPages({ isVisibleSidebar }) {
 
   }, [isVisibleSidebar])
 
+  console.log("isVisibleSidebar",isVisibleSidebar)
+
   return (
     <>
 

@@ -313,6 +313,7 @@ function Sidebar() {
   }, [currentPage]);
 
   const handlePageClick = (page) => {
+    handleFormPage(false)
     setCurrentPage(page);
     setIsDropdownOpen(false);
     localStorage.setItem("currentPage", page);
@@ -530,8 +531,7 @@ function Sidebar() {
 
 
   const handleShowsettingsPG = (settingNewDesign) => {
-    console.log("settingNewDesign",settingNewDesign)
-       const hostelId = state.login?.selectedHostel_Id;
+           const hostelId = state.login?.selectedHostel_Id;
   if (hostelId) {
     navigate(`/settings/${hostelId}`);
   } else {

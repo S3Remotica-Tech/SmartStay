@@ -37,7 +37,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
     const [finalSettlementList, setFinalSettlementList] = useState()
 
 
-    
+
 
 
     useEffect(() => {
@@ -113,12 +113,20 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
         }
         if (field === "amount") {
 
-            if (/^\d*$/.test(value)) {
-                fieldData.amount = value;
-                if (updatedErrors[index]) {
-                    updatedErrors[index].amount = "";
-                }
+            let numericValue = value.replace(/[^0-9]/g, "");
+
+            if (numericValue.startsWith("0")) {
+                numericValue = numericValue.replace(/^0+/, "");
             }
+
+
+            if (numericValue === "") {
+                numericValue = "";
+            }
+
+            updatedFields[index].amount = numericValue;
+
+            if (updatedErrors[index]) updatedErrors[index].amount = "";
         }
 
         updatedFields[index] = fieldData;
@@ -342,17 +350,17 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
 
 
 
-   
+
 
     const handleClickGenerate = () => {
         const apiDeductions = finalSettlementList?.customerInfo?.listDeductions || [];
 
-       
+
         const apiMap = new Map(
             apiDeductions.map(item => [item.type?.toLowerCase(), Number(item.amount) || 0])
         );
 
-       
+
         const Finalsettelmenntdata = fields
             .filter(f => f.reason_name && f.amount)
             .map(f => {
@@ -360,33 +368,33 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                 const userAmount = Number(f.amount) || 0;
                 const apiAmount = apiMap.get(reason);
 
-                
+
                 if (!apiMap.has(reason) || f.customReason?.trim() !== "") {
                     return { item: f.reason_name, amount: userAmount };
                 }
 
-               
+
                 if (!f.isSystemGenerated) {
                     return { item: f.reason_name, amount: userAmount };
                 }
 
-               
+
                 if (userAmount > apiAmount && f.isSystemGenerated) {
                     return { item: f.reason_name, amount: userAmount - apiAmount };
                 }
 
-                                return null;
+                return null;
             })
             .filter(Boolean);
 
 
         if (data.customerId || data.currentTenantCustomerId) {
             dispatch({
-              type: "FINALSETTLEMENT",
-              payload: {
-                customerId: data.customerId || data.currentTenantCustomerId,
-                data: Finalsettelmenntdata
-              },
+                type: "FINALSETTLEMENT",
+                payload: {
+                    customerId: data.customerId || data.currentTenantCustomerId,
+                    data: Finalsettelmenntdata
+                },
             });
         }
     };
