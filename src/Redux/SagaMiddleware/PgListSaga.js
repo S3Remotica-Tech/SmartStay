@@ -5,8 +5,9 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function* handleApiError(error) {
+  console.log("callllllllllllllllllllllllleeeeeeeeeeeeeeee")
    const status = error?.response?.status || error?.status;
-
+console.log("statussss",status)
    if (status === 401) {
       yield put({
          type: "UN-AUTHORIZED",
@@ -57,6 +58,15 @@ function* handleApiError(error) {
    //    });
    // }
 }
+
+
+
+
+
+
+
+
+
 
 function* handleUpdateBed(datum) {
   try {
@@ -197,15 +207,16 @@ function* handlePgList(datum) {
       });
     }
 
-    if (response?.response?.status === 500) {
-      throw response;
-    }
+    // if (response?.response?.status === 500) {
+    //   throw response;
+    // }
     if (response) {
       refreshToken(response);
     }
   }
   catch (error) {
-    yield* handleApiError(error);
+    console.log("error",error)
+ yield* handleApiError(error);
 
   }
 }

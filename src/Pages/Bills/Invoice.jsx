@@ -925,6 +925,7 @@ useEffect(()=>{
 
   const handleShowForm = (props) => {
     setShowform(true);
+    console.log("props",props)
     setInvoiceValue(props.item);
 
     if (props.item.invoiceId !== undefined) {
@@ -1020,7 +1021,7 @@ useEffect(()=>{
     setShowDeleteform(false);
   };
 
-
+console.log("invoiceValue",invoiceValue)
   const handleSaveInvoiceList = () => {
     const formatpaiddate = formatDateForPayload(selectedDate);
     const billDate = new Date(invoiceValue.Date);
@@ -3951,17 +3952,17 @@ useEffect(()=>{
                                                 setSelectedDate(date ? date.toDate() : null);
                                               }}
                                               disabledDate={(current) => {
-                                                const selectedUser = state.UsersList.Users.find(
-                                                  (item) => item.customerId === invoiceValue.customerId
-                                                );
+                                                // const selectedUser = state.UsersList.Users.find(
+                                                //   (item) => item.customerId === invoiceValue.customerId
+                                                // );
 
 
-                                                const joiningDate = selectedUser?.actualJoining
-                                                  ? dayjs(selectedUser.actualJoining, "DD/MM/YYYY").startOf("day")
+                                                const invoiceDate = invoiceValue?.invoiceDate
+                                                  ? dayjs(invoiceValue?.invoiceDate, "DD/MM/YYYY").startOf("day")
                                                   : null;
 
                                                 return (
-                                                  (joiningDate && current.isBefore(joiningDate, "day")) ||
+                                                  (invoiceDate && current.isBefore(invoiceDate, "day")) ||
                                                   current.isAfter(dayjs().endOf("day"))
                                                 );
                                               }}

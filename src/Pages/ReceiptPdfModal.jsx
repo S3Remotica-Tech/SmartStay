@@ -494,7 +494,7 @@ const getIconStyle = (templateColor) => {
                   <div className="row d-flex justify-content-between align-items-center ps-3 pe-3">
                     <div className="col-6" >
                       <img src={pdfDetails?.configurations?.hostelLogo ? pdfDetails?.configurations?.hostelLogo : Logo} alt="logo" 
-                       style={{height: 25, maxWidth: 134, borderRadius: '4px', objectFit: "contain", }} className="mt-2" />
+                       style={{height:pdfDetails?.configurations?.hostelLogo ?50 :  25, maxWidth: 134, borderRadius: '4px', objectFit: "contain", }} className="mt-2" />
 
 
 
