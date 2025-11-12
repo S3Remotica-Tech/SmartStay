@@ -43,7 +43,7 @@ export async function createPgList(params) {
 
     return response;
   } catch (error) {
-    console.error("Axios Error", error);
+    throw error;
   }
 }
 

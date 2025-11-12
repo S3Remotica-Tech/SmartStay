@@ -736,7 +736,7 @@ function UserListInvoice(props) {
                                     {view.paymentStatus}
                                   </span>
                                 )}
-                                {view?.isCancelled && (
+                                {view?.paymentStatus === "Cancelled" && (
                                   <span
                                     style={{
                                       backgroundColor: "#FFE6B3",

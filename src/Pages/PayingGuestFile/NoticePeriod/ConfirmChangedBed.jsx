@@ -10,10 +10,12 @@ import repeatOne from "/src/Assets/Images/New_images/repeate-one.svg";
 import { FormControl } from "react-bootstrap";
 import "react-datepicker/dist/react-datepicker.css";
 import { DatePicker } from "antd";
-// import Error_Icon from "/src/Assets/Images/New_images/Error_warning.png";
 import dayjs from "dayjs";
+import minMax from "dayjs/plugin/minMax";
+
 import customParseFormat from "dayjs/plugin/customParseFormat";
 dayjs.extend(customParseFormat);
+dayjs.extend(minMax);
 import { useDispatch, useSelector } from 'react-redux';
 import ErrorMessage from '../../../Components/ErrorMessage';
 import { LiaBedSolid } from "react-icons/lia";
@@ -34,8 +36,7 @@ function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer
 
   const isPreviousBed = state.PgList?.isClickedBed
   
-console.log("isPreviousBed",isPreviousBed)
-console.log("current bed",currentBed)
+
 
   const [selectedDate, setSelectedDate] = useState(null);
   const [newRoomRent, setNewRoomRent] = useState("");
@@ -145,7 +146,7 @@ console.log("current bed",currentBed)
 
   const CustomerOverView = state.UsersList.customerdetails;
 
-  const joiningDate = dayjs(CustomerOverView?.hostelInfo?.joiningDate, "DD/MM/YYYY");
+
 
 
   const invoices = CustomerOverView?.invoiceResponseList || [];
@@ -155,36 +156,56 @@ console.log("current bed",currentBed)
 
 
 
-  const disabledDate = (current) => {
-    const today = dayjs().endOf("day");
-    const joiningDate = dayjs(CustomerOverView?.hostelInfo?.joiningDate, "DD/MM/YYYY");
-    const invoices = CustomerOverView?.invoiceResponseList || [];
-
-    const lastBillDate = invoices.length > 0
-      ? dayjs(invoices[invoices.length - 1].invoiceGeneratedDate, "DD/MM/YYYY")
-      : null;
 
 
-    if (current.isAfter(today, "day")) {
-      return true;
-    }
+const disabledDate = (current) => {
+  const today = dayjs().endOf("day");
+  const joiningDate = dayjs(CustomerOverView?.hostelInfo?.joiningDate, "DD/MM/YYYY");
+  const invoices = CustomerOverView?.invoiceResponseList || [];
+  const bedHistory = CustomerOverView?.bedHistory || [];
 
+  const lastBillDate = invoices.length > 0
+    ? dayjs(invoices[invoices.length - 1].invoiceGeneratedDate, "DD/MM/YYYY")
+    : null;
 
-    const joinedThisMonth =
-      joiningDate.month() === dayjs().month() && joiningDate.year() === dayjs().year();
-
-    if (joinedThisMonth) {
-
-      return current.isBefore(joiningDate, "day") || current.isAfter(today, "day");
+  
+  let latestBedChangeDate = null;
+  if (bedHistory.length > 0) {
+   
+    const lastRecord = bedHistory[bedHistory.length - 1];
+    if (lastRecord.endDate === "Till date") {
+      latestBedChangeDate = dayjs(lastRecord.startDate, "DD/MM/YYYY");
     } else {
-
-      if (lastBillDate) {
-        return current.isBefore(lastBillDate, "day") || current.isAfter(today, "day");
-      } else {
-        return current.isBefore(joiningDate, "day") || current.isAfter(today, "day");
+     
+      const validDates = bedHistory
+        .filter((b) => b.startDate)
+        .map((b) => dayjs(b.startDate, "DD/MM/YYYY"));
+      if (validDates.length > 0) {
+        latestBedChangeDate = dayjs.max(validDates);
       }
     }
-  };
+  }
+
+
+  if (current.isAfter(today, "day")) {
+    return true;
+  }
+
+ 
+  const joinedThisMonth =
+    joiningDate.month() === dayjs().month() && joiningDate.year() === dayjs().year();
+
+  if (joinedThisMonth) {
+    return current.isBefore(joiningDate, "day") || current.isAfter(today, "day");
+  }
+
+ 
+  const compareDate =
+    latestBedChangeDate || lastBillDate || joiningDate;
+
+  return current.isBefore(compareDate, "day") || current.isAfter(today, "day");
+};
+
 
 
 

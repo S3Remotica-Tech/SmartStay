@@ -505,7 +505,7 @@ const errorRef = useRef(null);
     setHostel_Id(state.login.selectedHostel_Id);
   }, [state?.login?.selectedHostel_Id]);
 
-console.log("state",state)
+
 
   useEffect(() => {
     if (currentItem) {
@@ -654,9 +654,6 @@ console.log("state",state)
     }
 
   }, [state.createAccount?.networkError])
-
-
-
 
 
 

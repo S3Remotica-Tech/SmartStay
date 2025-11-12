@@ -89,14 +89,14 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, customerID }) {
                     reason_name: item.reason || "",
                     amount: Number(item.amount) || 0,
                     showInput: false,
-                    isDefault: false, // backend la irunthu vanthathu illana false
+                    isDefault: false, 
                 }));
 
                 formattedFields.unshift({
                     reason_name: "DueAmount",
                     amount: invoiceTotal,
                     showInput: false,
-                    isDefault: true, // Backend la irunthu vanthathu
+                    isDefault: true, 
                 });
 
                 setFields(formattedFields);
@@ -105,13 +105,9 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, customerID }) {
                     { reason_name: "DueAmount", amount: invoiceTotal, showInput: false, isDefault: true },
                 ]);
             }
-            // const rentBalance =
-            //   state?.UsersList?.GetconfirmcheckoutBillDetails?.find(
-            //     (item) => String(item.action).toLowerCase() === "rent"
-            //   )?.balance ?? 0;
-            // setRentalBalance(rentBalance)
+            
             setDetuction(state?.UsersList?.Deduction)
-            // setReFundableDetails(state?.UsersList?.Refundable_details)
+            
 
 
             setHostelData(state?.UsersList?.hostelData)
@@ -135,7 +131,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, customerID }) {
     }, [fields, advanceAmount])
 
 
-
+console.log("data",data)
 
 
 
@@ -333,7 +329,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, customerID }) {
                         </div>
                         <div className="ms-auto text-end mt-2">
                             <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "#4B4B4B", padding: 0, margin: 0 }}>Checkout Date</p>
-                            <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600, }}>{data.bookedAt}</p>
+                            <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600, }}>{data.currentTenantLeavingOn}</p>
                         </div>
                     </div>
 
