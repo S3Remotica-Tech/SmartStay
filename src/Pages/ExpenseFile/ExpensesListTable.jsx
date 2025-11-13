@@ -31,12 +31,12 @@ function ExpensesListTable(props) {
   // const canWriteExpense = useHasPermission("Expense", "canWrite");
 
 
-const {
-      canWriteModule: canWriteExpense,
-      canReadModule: canReadExpense,
-      canUpdateModule: canUpdateExpense,
-      canDeleteModule: canDeleteExpense,
-    } = useHasPermission("Expense");
+  const {
+    canWriteModule: canWriteExpense,
+    canReadModule: canReadExpense,
+    canUpdateModule: canUpdateExpense,
+    canDeleteModule: canDeleteExpense,
+  } = useHasPermission("Expense");
 
 
 
@@ -230,7 +230,7 @@ const {
 
 
 
-      <td style={{ textAlign: 'center', verticalAlign: 'middle', border: "none", borderBottom: "1px solid #E8E8E8", whiteSpace: "nowrap" }} className=''>
+      <td style={{ textAlign: 'center', verticalAlign: 'middle', border: "none", borderBottom: "1px solid #E8E8E8", whiteSpace: "nowrap", position: "relative" }} className=''>
         <div style={{ width: "100%", display: "flex", justifyContent: "left" }}>
           <div style={{ cursor: "pointer", backgroundColor: showDots ? "#E7F1FF" : "white", height: 40, width: 40, borderRadius: 100, border: "1px solid #EBEBEB", display: "flex", justifyContent: "center", alignItems: "center", position: "relative" }} onClick={(e) => handleShowDots(e)}>
             <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, }} />
@@ -242,11 +242,14 @@ const {
                 style={{
                   cursor: "pointer",
                   backgroundColor: "#F9F9F9",
-                  position: "fixed",
-                  top: showAbove
-                    ? popupPosition.top - (popupRef.current?.offsetHeight || 100) - 20
-                    : popupPosition.top - 35,
-                  left: popupPosition.left,
+                  // position: "fixed",
+                  // top: showAbove
+                  //   ? popupPosition.top - (popupRef.current?.offsetHeight || 100) - 20
+                  //   : popupPosition.top - 35,
+                  // left: popupPosition.left,
+                  position: "absolute", // 👈 changed from fixed
+                  top: showAbove ? "120%" : "100%", // 👈 simple relative positioning
+                  left:-180,
                   width: 160,
                   height: "auto",
                   border: "1px solid #EBEBEB",
@@ -254,7 +257,7 @@ const {
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "flex-start",
-                  zIndex: showDots ? 1000 : "auto",
+                  zIndex: showDots ? 10 : "auto",
                 }}
               >
 

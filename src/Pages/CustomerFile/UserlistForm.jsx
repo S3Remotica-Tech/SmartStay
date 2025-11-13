@@ -34,6 +34,7 @@ function UserlistForm(props) {
   const [Rooms, setRooms] = useState("");
   const [Bed, setBed] = useState("");
   const [RoomRent, setRoomRent] = useState("");
+  const [placeHolderRoomRent, setPlaceHolderRoomRent] = useState("");
   // const [BalanceDue, setBalanceDue] = useState("");
   // const [PaymentType, setPaymentType] = useState("");
   const [AdvanceAmount, setAdvanceAmount] = useState("");
@@ -396,20 +397,40 @@ function UserlistForm(props) {
       (bed) => String(bed.bedId) === String(selectedBedId)
     );
 
-    if (selectedBed) {
-      setRoomRent(selectedBed.rentAmount)
-      if (selectedBed.showWarning) {
-        setBedWarning(selectedBed.warningMessage);
-      } else {
-        setBedWarning("");
-      }
+    // if (selectedBed) {
+    //   setRoomRent(selectedBed.rentAmount)
+    //   if (selectedBed.showWarning) {
+    //     setBedWarning(selectedBed.warningMessage);
+    //   } else {
+    //     setBedWarning("");
+    //   }
 
-    }
+    // }
 
     setBedError("");
     setRoomRentError("");
   };
 
+  useEffect(() => {
+    if (Bed) {
+      const selectedBed = state.UsersList?.availableBedList?.listBeds?.find(
+        (bed) => String(bed.bedId) === String(Bed)
+      );
+      if (selectedBed) {
+        setPlaceHolderRoomRent(selectedBed.rentAmount)
+        if (selectedBed.showWarning) {
+          setBedWarning(selectedBed.warningMessage);
+        } else {
+          setBedWarning("");
+        }
+
+      }
+
+      setBedError("");
+      setRoomRentError("");
+    }
+
+  }, [Bed])
 
 
   const handleRoomRent = (e) => {
@@ -683,7 +704,7 @@ function UserlistForm(props) {
       return {
         type: reason_name,
         amount: item.amount || "",
-             };
+      };
     }).filter((item) => item.type !== "" || item.amount !== "")
 
     setErrors(newErrors)
@@ -705,7 +726,7 @@ function UserlistForm(props) {
       : "";
 
 
-  
+
 
 
 
@@ -714,7 +735,7 @@ function UserlistForm(props) {
     const dueDateObj = new Date(invoiceDateObj);
     dueDateObj.setDate(dueDateObj.getDate() + (state?.Settings?.SettingsBillsGetRecurring?.dueDateOfMonth || 0));
 
-   
+
     if (
       Floor !== "Selected Floor" &&
       Rooms !== "Selected Room" &&
@@ -1970,8 +1991,11 @@ function UserlistForm(props) {
                           </Form.Label>
                           <FormControl
                             type="text"
-                            placeholder="Enter Amount"
-                            value={RoomRent}
+                            placeholder={
+                              placeHolderRoomRent
+                                ? `Selected Bed Rent is ${placeHolderRoomRent}`
+                                : "Enter Amount"
+                            }
                             onChange={handleRoomRent}
                             style={{
                               fontSize: 16,

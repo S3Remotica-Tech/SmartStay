@@ -42,7 +42,7 @@ function CheckIn({
     const [advanceAmountError, setAdvanceAmountError] = useState("");
     const [roomrentError, setRoomRentError] = useState("");
     const [formLoading, setFormLoading] = useState(false);
-
+ const [placeHolderRoomRent, setPlaceHolderRoomRent] = useState("");
 
     useEffect(() => {
         if (currentItem?.newTenantCustomerId) {
@@ -58,7 +58,7 @@ function CheckIn({
 
             setBookingDate(bookedDateString ? dayjs(bookedDateString, "DD/MM/YYYY") : null);
             setBookingAmount(state.UsersList.bookedDetails?.bookingAmount);
-            setRoomRent(state.UsersList.bookedDetails?.rent)
+            setPlaceHolderRoomRent(state.UsersList.bookedDetails?.rent)
         }
     }, [state.UsersList?.bookedDetails]);
 
@@ -478,35 +478,7 @@ function CheckIn({
                                             Check-In Tenant
                                         </Modal.Title>
                                     </div>
-                                    {/* <div className="d-flex align-items-center gap-3 mt-1">
-                                        <label style={{
-                                            fontSize: 14,
-                                            color: "#1E45E1",   
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                        }}>  {currentItem?.floorName} </label> <span style={{
-                                            fontSize: 14,
-                                            color: "#1E45E1",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                        }}>|</span>
-                                        <label style={{
-                                            fontSize: 14,
-                                            color: "#1E45E1",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                        }}> {currentItem?.roomName} </label> <span style={{
-                                            fontSize: 14,
-                                            color: "#1E45E1",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                        }}>|</span> <span style={{
-                                            fontSize: 14,
-                                            color: "#1E45E1",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                        }}>{currentItem?.bedName}</span>
-                                    </div> */}
+                                  
                                 </div>
 
 
@@ -635,106 +607,7 @@ function CheckIn({
                                     }}
                                 />
 
-                                {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    <Form.Group
-                                        className="mb-2"
-                                        controlId="exampleForm.ControlInput1"
-                                    >
-                                        <Form.Label
-                                            style={{
-                                                fontSize: 14,
-                                                color: "#222222",
-                                                fontFamily: "Gilroy",
-                                                fontWeight: 500,
-                                            }}
-                                        >
-                                            Select Tenant {" "}
-                                            <span style={{ color: 'red', fontSize: '20px' }}>*</span>
-                                        </Form.Label>
-                                        <Select
-                                            styles={customStyles}
-                                            value={formatOptions()?.[0] || null}
-                                            isDisabled
-                                            options={formatOptions()}
-                                            placeholder="Select a Tenant"
-                                            classNamePrefix="custom"
-                                            menuPlacement="auto"
-                                        />
-                                    </Form.Group>
-
-
-                                </div> */}
-
-                                {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <Form.Group className="mb-2" controlId="purchaseDate">
-                                        <Form.Label
-                                            style={{
-                                                fontSize: 14,
-                                                color: "#222222",
-                                                fontFamily: "Gilroy",
-                                                fontWeight: 500,
-                                            }}
-                                        >
-                                            Booking Date {" "}
-                                            <span style={{ color: 'red', fontSize: '20px' }}>*</span>
-                                        </Form.Label>
-
-                                        <Form.Control
-
-                                            value={bookingDate ? bookingDate.format("DD/MM/YYYY") : ""}
-                                            type="text"
-                                            placeholder="Booking Date"
-                                            style={{
-                                                fontSize: 16,
-                                                color: "#4B4B4B",
-                                                fontFamily: "Gilroy",
-                                                fontWeight: 600,
-                                                boxShadow: "none",
-                                                border: "1px solid #D9D9D9",
-                                                height: 50,
-                                                borderRadius: 8,
-                                                backgroundColor: "#EFF2FF"
-                                            }}
-                                        />
-
-
-                                    </Form.Group>
-                                </div>
-
-                                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <Form.Group
-                                        className="mb-2"
-                                        controlId="exampleForm.ControlInput1"
-                                    >
-                                        <Form.Label
-                                            style={{
-                                                fontSize: 14,
-                                                color: "#222222",
-                                                fontFamily: "Gilroy",
-                                                fontWeight: 500,
-                                            }}
-                                        >
-                                            Booking Amount
-                                            <span style={{ color: 'red', fontSize: '20px' }}>*</span>
-                                        </Form.Label>
-                                        <Form.Control
-                                            value={bookingAmount}
-                                            type="text"
-                                            placeholder="Booking Amount"
-                                            style={{
-                                                fontSize: 16,
-                                                color: "#4B4B4B",
-                                                fontFamily: "Gilroy",
-                                                fontWeight: 600,
-                                                boxShadow: "none",
-                                                border: "1px solid #D9D9D9",
-                                                height: 50,
-                                                borderRadius: 8,
-                                                backgroundColor: "#EFF2FF"
-                                            }}
-                                        />
-                                    </Form.Group>
-                                </div> */}
+                              
 
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <Form.Group
@@ -839,7 +712,11 @@ function CheckIn({
                                             value={RoomRent}
                                             onChange={handleRoomRent}
                                             type="text"
-                                            placeholder="Enter Rental Amount"
+                                             placeholder={
+                              placeHolderRoomRent
+                                ? `Selected Bed Rent is ${placeHolderRoomRent}`
+                                : "Enter Amount"
+                            }
                                             style={{
                                                 fontSize: 16,
                                                 color: "#4B4B4B",

@@ -52,7 +52,7 @@ function AddHostelReading({ show, handleClose, selectedRowDetails, roomReadingLi
 
 
     const handleSubmit = () => {
-
+ dispatch({ type: 'REMOVE_ROOM_READING_ERROR' })
         let hasError = false;
 
         if (!currentReading) {

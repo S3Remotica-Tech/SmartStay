@@ -52,7 +52,7 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
 
 
     const handleSubmit = () => {
-
+ dispatch({ type: 'REMOVE_ROOM_READING_ERROR' })
         let hasError = false;
 
         if (!currentReading) {

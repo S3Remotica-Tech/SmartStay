@@ -33,6 +33,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
   const [checkin_joiningDate, setCheckinJoiningDate] = useState(new Date());
   const [Checkin_joiningDateErrmsg, setCheckinJoingDateErrmsg] = useState('')
   const [isTrigger, setIsTrigger] = useState(false)
+    const [placeHolderRoomRent, setPlaceHolderRoomRent] = useState("");
   const reasonOptions = [
     { value: "maintenance", label: "Maintenance" },
     { value: "others", label: "Others" },
@@ -42,7 +43,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
   useEffect(() => {
     if (currentItem) {
-      setRoomRent(currentItem?.rentAmount);
+      setPlaceHolderRoomRent(currentItem?.rentAmount);
     }
   }, [currentItem]);
 
@@ -1430,7 +1431,11 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                 </Form.Label>
                                 <FormControl
                                   type="text"
-                                  placeholder="Enter Amount"
+                                    placeholder={
+                              placeHolderRoomRent
+                                ? `Selected Bed Rent is ${placeHolderRoomRent}`
+                                : "Enter Amount"
+                            }
                                   value={RoomRent}
                                   onChange={handleRoomRent}
                                   style={{
