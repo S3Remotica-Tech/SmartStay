@@ -223,7 +223,7 @@ function RefundAmount({ show, handleClose, refundDetails }) {
                             <div className="ms-auto text-end mt-2">
                                 <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "#4B4B4B", padding: 0, margin: 0 }}>Refund Amount</p>
                                 <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600, }}>
-                                    {state.InvoiceList?.refundDetails?.refundableAmount}
+                                    {state.InvoiceList?.refundDetails?.pendingRefund}
                                 </p>
                             </div>
                         </div>
@@ -335,7 +335,7 @@ function RefundAmount({ show, handleClose, refundDetails }) {
                                         placeholder="Enter Amount"
                                         className="no-spinner"
                                         value={
-                                            (Number(state.InvoiceList?.refundDetails?.refundableAmount) || 0) -
+                                            Math.abs(Number(state.InvoiceList?.refundDetails?.pendingRefund) || 0) -
                                             (Number(refundAmount) || 0)
                                         }
 
