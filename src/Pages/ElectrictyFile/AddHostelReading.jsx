@@ -62,12 +62,12 @@ function AddHostelReading({ show, handleClose, selectedRowDetails, roomReadingLi
             setReadingError("");
         }
 
-        // if (!readingDate) {
-        //     setDateError("Please select reading date");
-        //     hasError = true;
-        // } else {
-        //     setDateError("");
-        // }
+        if (!readingDate) {
+            setDateError("Please select reading date");
+            hasError = true;
+        } else {
+            setDateError("");
+        }
 
         if (hasError) return;
         const formattedDate = readingDate ? dayjs(readingDate).format("DD-MM-YYYY") : "";
@@ -104,7 +104,7 @@ function AddHostelReading({ show, handleClose, selectedRowDetails, roomReadingLi
     }, [state.UsersList?.roomReadingError])
 
 
-    
+    console.log("roomReadingList",roomReadingList)
 
 
     return (
@@ -133,44 +133,7 @@ function AddHostelReading({ show, handleClose, selectedRowDetails, roomReadingLi
 
 
 
-                {/* <div className="d-flex justify-content-between align-items-center" style={{ width: "100%", borderBottom: "1px solid #E0E0E0", paddingBottom: 10, marginTop: "-15px" }}>
-                    <div className="d-flex align-items-center">
-                        <span
-                            style={{
-                                display: "flex",
-                                alignItems: "center",
-                                background: "#E7F1FF",
-                                borderRadius: "50%",
-                                width: 46,
-                                height: 46,
-                                justifyContent: "center",
-                                marginRight: 10,
-                            }}
-                        >
-                            <img
-                                src={electricity}
-                                alt="electricity"
-                                style={{ width: 20, height: 20 }}
-                            />
-                        </span>
-                        <span
-                            style={{
-                                fontFamily: "Gilroy",
-                                fontSize: 14,
-                                color: "#222",
-                                fontWeight: 600,
-                            }}
-                        >
-                            {selectedRowDetails.roomName}
-                            <div className="d-flex justify-content-start align-items-center" style={{ gap: 6, marginTop: 4 }}>
-                                <img src={building} height="14" width="14" alt="Ground Floor" />
-                                <div style={{ color: "#4B4B4B", fontSize: 12, fontFamily: "Gilroy" }}>{selectedRowDetails.floorName}</div>
-                            </div>
-                        </span>
-                    </div>
-
-
-                </div> */}
+              
 
 
 
@@ -192,7 +155,7 @@ function AddHostelReading({ show, handleClose, selectedRowDetails, roomReadingLi
                             padding: 0
                         }}
                     >
-                        Reading Date
+                        Reading Date {" "}  <span style={{ color: "red", fontSize: "20px" }}>*</span>
                     </Form.Label>
 
                     <div
@@ -251,7 +214,7 @@ function AddHostelReading({ show, handleClose, selectedRowDetails, roomReadingLi
                                 padding: 0
                             }}
                         >
-                            Reading   <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                            Reading  {" "}  <span style={{ color: "red", fontSize: "20px" }}>*</span>
                         </Form.Label>
 
                         <span
@@ -270,7 +233,7 @@ function AddHostelReading({ show, handleClose, selectedRowDetails, roomReadingLi
                                 {
                                     roomReadingList
                                         ?.filter(item => item.readingId !== 0)
-                                        .reduce((sum, item) => sum + (item.consumption || 0), 0)
+                                        .reduce((sum, item) => sum + (item.currentReading || 0), 0)
                                         .toFixed(0) 
                                 }
                             </span>

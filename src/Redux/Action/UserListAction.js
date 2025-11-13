@@ -875,3 +875,17 @@ export async function conformCheckout(customer) {
     data: customer
   })
 }
+
+
+
+
+
+export async function EditTenantAmount(rent) {
+  return await AxiosConfigV2.post(`/v2/`, rent, {
+    data: rent
+  })
+}
+
+
+
+

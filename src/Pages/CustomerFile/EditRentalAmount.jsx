@@ -22,7 +22,7 @@ function EditRentalAmount({ show, handleClose }) {
     const dispatch = useDispatch();
     const [monthlyRent, setMonthlyRent] = useState("");
     const [monthlyRentError, setMonthlyRentError] = useState("");
-
+    const [loading, setLoading] = useState(false)
     const [effectiveFrom, setEffectiveFrom] = useState("");
     const [effectiveFromError, setEffectiveFromError] = useState("");
     const [reason, setReason] = useState(null);
@@ -90,10 +90,37 @@ function EditRentalAmount({ show, handleClose }) {
 
         if (!isValid) return;
 
+        dispatch({ type: '' })
 
-
+        setLoading(true)
 
     };
+
+
+
+
+    useEffect(() => {
+        if (state.createAccount?.networkError) {
+            setLoading(false)
+
+            setTimeout(() => {
+                dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+            }, 3000)
+        }
+
+    }, [state.createAccount?.networkError])
+
+
+    useEffect(() => {
+        if (state?.UsersList.editAmountSuccessStatusCode === 200) {
+setLoading(false)
+            setTimeout(() => {
+                dispatch({ type: 'REMOVE_EDIT_AMOUNT_DETAILS' })
+            }, 100)
+
+
+        }
+    }, [state?.UsersList.editAmountSuccessStatusCode])
 
     return (
         <div
@@ -343,6 +370,33 @@ function EditRentalAmount({ show, handleClose }) {
 
 
                     </Modal.Body>
+                    {loading && <div
+                        style={{
+                            position: 'absolute',
+                            top: 100,
+                            right: 0,
+                            bottom: 0,
+                            left: 0,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            backgroundColor: 'transparent',
+                            opacity: 0.75,
+                            zIndex: 10,
+                        }}
+                    >
+                        <div
+                            style={{
+                                borderTop: '4px solid #1E45E1',
+                                borderRight: '4px solid transparent',
+                                borderRadius: '50%',
+                                width: '40px',
+                                height: '40px',
+                                animation: 'spin 1s linear infinite',
+                            }}
+                        ></div>
+                    </div>}
+
 
 
 

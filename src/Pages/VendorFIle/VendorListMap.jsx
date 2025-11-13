@@ -12,19 +12,19 @@ import { useHasPermission } from '../../Utils/Permission';
 function VendorListMap(props) {
   const [showDots, setShowDots] = useState(null);
 
-  
- const {
-     canWriteModule: canWriteVendor,
-     canReadModule: canReadVendor,
-     canUpdateModule: canUpdateVendor,
-     canDeleteModule: canDeleteVendor,
-   } = useHasPermission("Vendor");
+
+  const {
+    canWriteModule: canWriteVendor,
+    canReadModule: canReadVendor,
+    canUpdateModule: canUpdateVendor,
+    canDeleteModule: canDeleteVendor,
+  } = useHasPermission("Vendor");
 
 
   // const canUpdateVendor = useHasPermission("Vendor", "canUpdate")
   // const canDeleteVendor = useHasPermission("Vendor", "canDelete")
 
-  
+
 
   const popupRef = useRef(null);
 
@@ -91,17 +91,37 @@ function VendorListMap(props) {
         <Card.Body style={{ padding: 20 }}>
           <div className="d-flex justify-content-between align-items-center flex-wrap">
             <div className="d-flex gap-2">
-              <div className="">
-                <Image
-                  src={
-                    props.vendor && props.vendor.profilePic
-                      ? props.vendor.profilePic
-                      : Vendors
-                  }
-                  roundedCircle
-                  style={{ height: "60px", width: "60px" }}
-                />
+              <div
+                style={{
+                  height: "60px",
+                  width: "60px",
+                  borderRadius: "50%",
+                  backgroundColor: "#C6D1FF",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "20px",
+                  fontWeight: "600",
+                  color: "#1E45E1",
+                  textTransform: "uppercase",
+                }}
+              >
+                {props.vendor?.profilePic && props.vendor.profilePic.trim() !== "" ? (
+                  <Image
+                    src={props.vendor.profilePic}
+                    roundedCircle
+                    style={{
+                      height: "60px",
+                      width: "60px",
+                      objectFit: "cover",
+                    }}
+                    alt={props.vendor?.fullName || "Vendor"}
+                  />
+                ) : (
+                  `${(props.vendor?.firstName?.[0] || "")}${(props.vendor?.lastName?.[0] || "")}`
+                )}
               </div>
+
               <div>
                 <div className="">
                   <label
@@ -199,7 +219,7 @@ function VendorListMap(props) {
                           width: "100%",
                           backgroundColor: "#F9F9F9",
                           cursor: !canUpdateVendor ? "not-allowed" : "pointer",
-                                                   opacity: !canUpdateVendor ? 0.5 : 1,
+                          opacity: !canUpdateVendor ? 0.5 : 1,
                           borderTopLeftRadius: 10,
                           borderTopRightRadius: 10,
                         }}
@@ -244,7 +264,7 @@ function VendorListMap(props) {
                           width: "100%",
                           backgroundColor: "#F9F9F9",
                           cursor: !canDeleteVendor ? "not-allowed" : "pointer",
-                                                   opacity: !canDeleteVendor ? 0.5 : 1,
+                          opacity: !canDeleteVendor ? 0.5 : 1,
                           borderBottomLeftRadius: 10,
                           borderBottomRightRadius: 10,
                         }}
@@ -261,7 +281,7 @@ function VendorListMap(props) {
                             fontFamily: "Gilroy",
 
                             color: !canDeleteVendor ? "#A9A9A9" : "#FF0000",
-                            cursor:!canDeleteVendor ? "not-allowed" : "pointer",
+                            cursor: !canDeleteVendor ? "not-allowed" : "pointer",
                           }}
                         >
                           Delete

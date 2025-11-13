@@ -774,34 +774,48 @@ function UserListRoomDetail(props) {
 
 
 
-const handleUpdateChange = () =>{
-setShowUpdateRentForm(true)
-}
+  const handleUpdateChange = () => {
+    setShowUpdateRentForm(true)
+  }
 
 
-const handleCloseUpdateChange  = () =>{
-  setShowUpdateRentForm(false)
-}
+  const handleCloseUpdateChange = () => {
+    setShowUpdateRentForm(false)
+  }
 
 
-const handleUpdateAdvanceChange = () =>{
-setShowUpdateAdvanceForm(true)
-}
+  const handleUpdateAdvanceChange = () => {
+    setShowUpdateAdvanceForm(true)
+  }
 
 
-const handleCloseUpdateAdvanceChange  = () =>{
-  setShowUpdateAdvanceForm(false)
-}
+  const handleCloseUpdateAdvanceChange = () => {
+    setShowUpdateAdvanceForm(false)
+  }
 
-const handleUpdateJoiningChange = () =>{
-setShowUpdateJoiningForm(true)
-}
+  const handleUpdateJoiningChange = () => {
+    setShowUpdateJoiningForm(true)
+  }
 
 
-const handleCloseUpdateJoiningChange  = () =>{
-  setShowUpdateJoiningForm(false)
-}
+  const handleCloseUpdateJoiningChange = () => {
+    setShowUpdateJoiningForm(false)
+  }
 
+
+
+  useEffect(() => {
+    if (state?.UsersList.editAmountSuccessStatusCode === 200) {
+      setShowUpdateJoiningForm(false)
+      setShowUpdateAdvanceForm(false)
+      setShowUpdateRentForm(false)
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_EDIT_AMOUNT_DETAILS' })
+      }, 100)
+
+
+    }
+  }, [state?.UsersList.editAmountSuccessStatusCode])
 
   useEffect(() => {
     if (Bednum) {
@@ -2132,11 +2146,11 @@ const handleCloseUpdateJoiningChange  = () =>{
           type: "EDITBASICDETAILS",
           payload: {
             customerId: CustomerOverView?.customerId,
-              payloads: {
-                    firstName: CustomerOverView?.firstName || "",
-                    lastName: CustomerOverView?.lastName || "",
-                    mailId: CustomerOverView?.emailId || "",
-                                   },
+            payloads: {
+              firstName: CustomerOverView?.firstName || "",
+              lastName: CustomerOverView?.lastName || "",
+              mailId: CustomerOverView?.emailId || "",
+            },
             profilePic: fileImage || "",
           },
         });
@@ -2150,15 +2164,15 @@ const handleCloseUpdateJoiningChange  = () =>{
 
   const CustomerOverView = state.UsersList.customerdetails;
 
- const imageUrl = imagePreview
-  ? imagePreview
-  : kycPic
-  ? kycPic.startsWith("data:image")
-    ? kycPic
-    : `data:image/jpeg;base64,${kycPic}`
-  : CustomerOverView.profilePic
-  ? CustomerOverView.profilePic
-  : null;
+  const imageUrl = imagePreview
+    ? imagePreview
+    : kycPic
+      ? kycPic.startsWith("data:image")
+        ? kycPic
+        : `data:image/jpeg;base64,${kycPic}`
+      : CustomerOverView.profilePic
+        ? CustomerOverView.profilePic
+        : null;
 
 
 
@@ -2265,48 +2279,48 @@ const handleCloseUpdateJoiningChange  = () =>{
                   onMouseEnter={() => setIsHovered(true)}
                   onMouseLeave={() => setIsHovered(false)}
                 >
-                 {imageUrl ? (
-    <img
-      src={imageUrl}
-      alt={CustomerOverView.fullName || "Default Profile"}
-      style={{
-        height: "80px",
-        width: "80px",
-        borderRadius: "50%",
-        objectFit: "cover",
-      }}
-      onError={(e) => {
-        e.target.onerror = null;
-        e.target.src = Profiles;
-      }}
-    />
-  ) : (
-   
-    <div
-      style={{
-        height: "80px",
-        width: "80px",
-        borderRadius: "50%",
-        backgroundColor: "#1E45E1", 
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        fontSize: "24px",
-        fontWeight: "600",
-        color: "#FFF",
-        fontFamily: "Gilroy",
-      }}
-    >
-      {CustomerOverView?.initials
-        ? CustomerOverView.initials
-        : CustomerOverView?.fullName
-        ? CustomerOverView.fullName
-            .split(" ")
-            .map((w) => w[0]?.toUpperCase())
-            .join("")
-        : "NA"}
-    </div>
-  )}
+                  {imageUrl ? (
+                    <img
+                      src={imageUrl}
+                      alt={CustomerOverView.fullName || "Default Profile"}
+                      style={{
+                        height: "80px",
+                        width: "80px",
+                        borderRadius: "50%",
+                        objectFit: "cover",
+                      }}
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = Profiles;
+                      }}
+                    />
+                  ) : (
+
+                    <div
+                      style={{
+                        height: "80px",
+                        width: "80px",
+                        borderRadius: "50%",
+                        backgroundColor: "#1E45E1",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontSize: "24px",
+                        fontWeight: "600",
+                        color: "#FFF",
+                        fontFamily: "Gilroy",
+                      }}
+                    >
+                      {CustomerOverView?.initials
+                        ? CustomerOverView.initials
+                        : CustomerOverView?.fullName
+                          ? CustomerOverView.fullName
+                            .split(" ")
+                            .map((w) => w[0]?.toUpperCase())
+                            .join("")
+                          : "NA"}
+                    </div>
+                  )}
 
                   {!state.UsersList?.KycCustomerDetails?.pic && isHovered && (
                     <div
@@ -3464,7 +3478,7 @@ const handleCloseUpdateJoiningChange  = () =>{
                           }}
                         >
                           <div
-                            className="card-header d-flex flex-column justify-content-between "
+                            className="card-header d-flex flex-column justify-content-between border-0"
                             style={{
                               backgroundColor: "transparent",
                             }}
@@ -3645,7 +3659,7 @@ const handleCloseUpdateJoiningChange  = () =>{
                                 </p>
                               </div>
 
-                           
+
                               <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
                                 <p
                                   style={{
@@ -3704,7 +3718,7 @@ const handleCloseUpdateJoiningChange  = () =>{
                                   </span>
                                 </p>
                               </div>
-                               <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
+                              <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
                                 <p
                                   style={{
                                     fontSize: 12,
@@ -3713,7 +3727,7 @@ const handleCloseUpdateJoiningChange  = () =>{
                                     // marginLeft: 29
                                   }}
                                 >
-                               Booking Date
+                                  Booking Date
                                 </p>
                                 <p
                                   onClick={() => {
@@ -3775,17 +3789,17 @@ const handleCloseUpdateJoiningChange  = () =>{
                                     // marginLeft: 29
                                   }}
                                 >
-                                  Joined Date  <img className="ms-2" onClick={()=> canUpdateTenant && handleUpdateJoiningChange()}
-                                      src={EditImage}
-                                      alt="EditImage"
-                                      style={{
-                                        height: 14,
-                                        width: 14,
-                                        color: !canUpdateTenant
-                                          ? "#CCCCCC"
-                                          : "#000",cursor:"pointer"
-                                      }}
-                                    />
+                                  Joined Date  <img className="ms-2" onClick={() => canUpdateTenant && handleUpdateJoiningChange()}
+                                    src={EditImage}
+                                    alt="EditImage"
+                                    style={{
+                                      height: 14,
+                                      width: 14,
+                                      color: !canUpdateTenant
+                                        ? "#CCCCCC"
+                                        : "#000", cursor: "pointer"
+                                    }}
+                                  />
                                 </p>
                                 <p
                                   onClick={() => {
@@ -3845,10 +3859,10 @@ const handleCloseUpdateJoiningChange  = () =>{
                             </div>
 
 
-                            <label className="mt-2" style={{
+                            <label className="mt-2 mb-2" style={{
                               fontSize: 16,
                               fontWeight: 600,
-                              fontFamily: "Gilroy", 
+                              fontFamily: "Gilroy",
 
                             }}>Financial details</label>
 
@@ -3866,11 +3880,11 @@ const handleCloseUpdateJoiningChange  = () =>{
                               >
 
 
-                                <div className="card-body border-0">
+                                <div className="card-body border-0 p-0">
                                   {CustomerOverView.hostelInfo?.advanceAmount > 0 ? (
                                     <div>
                                       <div className="row mb-3">
-                                         <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
+                                        <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
                                           <div
                                             style={{
                                               fontSize: 12,
@@ -3878,19 +3892,19 @@ const handleCloseUpdateJoiningChange  = () =>{
                                               fontFamily: "Gilroy",
                                             }}
                                           >
-                                           Monthly Rent   
-                                           <img className="ms-2" 
-                                           onClick={()=>canUpdateTenant && handleUpdateChange()}
-                                      src={EditImage}
-                                      alt="EditImage"
-                                      style={{
-                                        height: 14,
-                                        width: 14,
-                                        color: !canUpdateTenant
-                                          ? "#CCCCCC"
-                                          : "#000",cursor:"pointer"
-                                      }}
-                                    />
+                                            Monthly Rent
+                                            <img className="ms-2"
+                                              onClick={() => canUpdateTenant && handleUpdateChange()}
+                                              src={EditImage}
+                                              alt="EditImage"
+                                              style={{
+                                                height: 14,
+                                                width: 14,
+                                                color: !canUpdateTenant
+                                                  ? "#CCCCCC"
+                                                  : "#000", cursor: "pointer"
+                                              }}
+                                            />
                                           </div>
                                           <p
                                             style={{
@@ -3913,23 +3927,23 @@ const handleCloseUpdateJoiningChange  = () =>{
                                               fontFamily: "Gilroy",
                                             }}
                                           >
-                                           Advance Amount  <img className="ms-2" onClick={()=>canUpdateTenant && handleUpdateAdvanceChange()}
-                                      src={EditImage}
-                                      alt="EditImage"
-                                      style={{
-                                        height: 14,
-                                        width: 14,
-                                        color: !canUpdateTenant
-                                          ? "#CCCCCC"
-                                          : "#000",cursor:"pointer"
-                                      }}
-                                    />
+                                            Advance Amount  <img className="ms-2" onClick={() => canUpdateTenant && handleUpdateAdvanceChange()}
+                                              src={EditImage}
+                                              alt="EditImage"
+                                              style={{
+                                                height: 14,
+                                                width: 14,
+                                                color: !canUpdateTenant
+                                                  ? "#CCCCCC"
+                                                  : "#000", cursor: "pointer"
+                                              }}
+                                            />
                                           </div>
                                           <p
                                             style={{
                                               fontSize: 14,
                                               fontWeight: 600,
-                                              fontFamily: "Gilroy",paddingTop: 7
+                                              fontFamily: "Gilroy", paddingTop: 7
                                             }}
                                           >
                                             ₹ {advanceList?.advanceAmount}
@@ -3938,7 +3952,7 @@ const handleCloseUpdateJoiningChange  = () =>{
                                           </p>
                                         </div>
 
-                                       
+
 
                                         <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
                                           <div
@@ -3948,7 +3962,7 @@ const handleCloseUpdateJoiningChange  = () =>{
                                               fontFamily: "Gilroy",
                                             }}
                                           >
-                                         Booking Amount
+                                            Booking Amount
                                           </div>
                                           <p
                                             style={{
@@ -3959,8 +3973,8 @@ const handleCloseUpdateJoiningChange  = () =>{
                                               paddingTop: 7
                                             }}
                                           >
-N/A
-                                            
+                                            N/A
+
                                             {/* {CustomerOverView.hostelInfo?.monthlyRent ?? 0} */}
                                           </p>
                                         </div>
@@ -4015,7 +4029,7 @@ N/A
                                           </div>
                                         ))}
 
-                                        <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
+                                        {/* <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
                                           <strong
                                             style={{
                                               fontSize: 12,
@@ -4042,11 +4056,11 @@ N/A
 
                                             {advanceList?.paymentStatus}
                                           </p>
-                                        </div>
+                                        </div> */}
 
 
                                       </div>
-                                      
+
 
 
                                     </div>
@@ -4068,7 +4082,7 @@ N/A
 
                               </div>
                             </div>
-                          
+
                           </div>
 
                         </div>
@@ -6387,16 +6401,16 @@ N/A
           }
 
           {
-            showUpdateRentForm && <EditRentalAmount show={showUpdateRentForm} handleClose={handleCloseUpdateChange}/>
+            showUpdateRentForm && <EditRentalAmount show={showUpdateRentForm} handleClose={handleCloseUpdateChange} />
           }
 
-{
-  showUpdateAdvanceForm && <EditAdvanceAmount show={showUpdateAdvanceForm} handleClose={handleCloseUpdateAdvanceChange}/>
-}
+          {
+            showUpdateAdvanceForm && <EditAdvanceAmount show={showUpdateAdvanceForm} handleClose={handleCloseUpdateAdvanceChange} />
+          }
 
-{
-  showUpdateJoiningForm && <EditJoiningDate show={showUpdateJoiningForm} handleClose={handleCloseUpdateJoiningChange}/>
-}
+          {
+            showUpdateJoiningForm && <EditJoiningDate show={showUpdateJoiningForm} handleClose={handleCloseUpdateJoiningChange} />
+          }
 
         </div>
         <Modal show={showModal} onHide={handleClose} size="md" centered>

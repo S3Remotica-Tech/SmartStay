@@ -26,7 +26,7 @@ function EditAdvanceAmount({ show, handleClose }) {
     const [effectiveFrom, setEffectiveFrom] = useState("");
     const [effectiveFromError, setEffectiveFromError] = useState("");
     const [reason, setReason] = useState(null);
-
+const [loading, setLoading] = useState(false)
     const rentInputRef = useRef(null);
     const dateRef = useRef(null);
 
@@ -90,7 +90,7 @@ function EditAdvanceAmount({ show, handleClose }) {
 
         if (!isValid) return;
 
-
+    setLoading(true)
 
 
     };
@@ -344,6 +344,32 @@ function EditAdvanceAmount({ show, handleClose }) {
 
                     </Modal.Body>
 
+ {loading && <div
+                  style={{
+                    position: 'absolute',
+                    top: 100,
+                    right: 0,
+                    bottom: 0,
+                    left: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: 'transparent',
+                    opacity: 0.75,
+                    zIndex: 10,
+                  }}
+                >
+                  <div
+                    style={{
+                      borderTop: '4px solid #1E45E1',
+                      borderRight: '4px solid transparent',
+                      borderRadius: '50%',
+                      width: '40px',
+                      height: '40px',
+                      animation: 'spin 1s linear infinite',
+                    }}
+                  ></div>
+                </div>}
 
 
                     <Modal.Footer style={{ border: "none", paddingTop: 0 }}>

@@ -30,7 +30,7 @@ function EditJoiningDate({ show, handleClose }) {
     const rentInputRef = useRef(null);
     const dateRef = useRef(null);
 
-
+ const [loading, setLoading] = useState(false)
     const reasonOptions = [
         { value: "Annual Rent Revision", label: "Annual Rent Revision" },
         { value: "Room Upgrade / Change", label: "Room Upgrade / Change" },
@@ -71,6 +71,17 @@ function EditJoiningDate({ show, handleClose }) {
     };
 
 
+    useEffect(() => {
+            if (state?.UsersList.editAmountSuccessStatusCode === 200) {
+    setLoading(false)
+                setTimeout(() => {
+                    dispatch({ type: 'REMOVE_EDIT_AMOUNT_DETAILS' })
+                }, 100)
+    
+    
+            }
+        }, [state?.UsersList.editAmountSuccessStatusCode])
+
     const handleSubmit = () => {
         let isValid = true;
 
@@ -87,7 +98,7 @@ function EditJoiningDate({ show, handleClose }) {
         if (!isValid) return;
 
 
-
+ setLoading(true)
 
     };
 
@@ -292,6 +303,32 @@ function EditJoiningDate({ show, handleClose }) {
                     </Modal.Body>
 
 
+ {loading && <div
+                  style={{
+                    position: 'absolute',
+                    top: 100,
+                    right: 0,
+                    bottom: 0,
+                    left: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: 'transparent',
+                    opacity: 0.75,
+                    zIndex: 10,
+                  }}
+                >
+                  <div
+                    style={{
+                      borderTop: '4px solid #1E45E1',
+                      borderRight: '4px solid transparent',
+                      borderRadius: '50%',
+                      width: '40px',
+                      height: '40px',
+                      animation: 'spin 1s linear infinite',
+                    }}
+                  ></div>
+                </div>}
 
                     <Modal.Footer style={{ border: "none", paddingTop: 0 }}>
                         <div className="d-flex justify-content-end gap-3">
