@@ -131,7 +131,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, customerID }) {
     }, [fields, advanceAmount])
 
 
-console.log("data",data)
+
 
 
 
@@ -388,11 +388,14 @@ console.log("data",data)
                             onChange={handleCommentsChange}
                         />
                     </Form.Group>
-                    {/* } */}
+              
 
                 </Modal.Body>
-                {state.UsersList?.chrckoutError && (
-                    <ErrorMessage message={state.UsersList?.chrckoutError} type="error" />
+                {state.UsersList?.chrckoutError && ( 
+                    <div className="d-flex justify-content-center">
+<ErrorMessage message={state.UsersList?.chrckoutError} type="error" />
+                    </div>
+                    
                 )}
                 <Modal.Footer style={{ borderTop: "none", marginTop: "-10px" }}>
                     <Button style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400 }} className="btn btn-light" onClick={handleClosecheck}>
