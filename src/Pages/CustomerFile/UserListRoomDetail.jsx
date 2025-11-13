@@ -62,6 +62,9 @@ import FileAdd from '../../Assets/Images/New_images/file_add.svg'
 import ErrorMessage from '../../Components/ErrorMessage'
 import { useHasPermission } from '../../Utils/Permission';
 import { useNavigate, useLocation } from "react-router-dom";
+import EditRentalAmount from "./EditRentalAmount";
+import EditAdvanceAmount from "./EditAdvanceAmount";
+import EditJoiningDate from "./EditJoiningDate";
 
 
 function UserListRoomDetail(props) {
@@ -659,7 +662,9 @@ function UserListRoomDetail(props) {
 
   const [activeRow, setActiveRow] = useState(null);
   const [initialReasonFields, setInitialReasonFields] = useState([]);
-
+  const [showUpdateRentForm, setShowUpdateRentForm] = useState(false)
+  const [showUpdateAdvanceForm, setShowUpdateAdvanceForm] = useState(false)
+  const [showUpdateJoiningForm, setShowUpdateJoiningForm] = useState(false)
 
   const handleShowEditBed = (item) => {
 
@@ -769,13 +774,33 @@ function UserListRoomDetail(props) {
 
 
 
+const handleUpdateChange = () =>{
+setShowUpdateRentForm(true)
+}
 
 
+const handleCloseUpdateChange  = () =>{
+  setShowUpdateRentForm(false)
+}
 
 
+const handleUpdateAdvanceChange = () =>{
+setShowUpdateAdvanceForm(true)
+}
 
 
+const handleCloseUpdateAdvanceChange  = () =>{
+  setShowUpdateAdvanceForm(false)
+}
 
+const handleUpdateJoiningChange = () =>{
+setShowUpdateJoiningForm(true)
+}
+
+
+const handleCloseUpdateJoiningChange  = () =>{
+  setShowUpdateJoiningForm(false)
+}
 
 
   useEffect(() => {
@@ -3750,7 +3775,7 @@ function UserListRoomDetail(props) {
                                     // marginLeft: 29
                                   }}
                                 >
-                                  Joined Date  <img className="ms-2"
+                                  Joined Date  <img className="ms-2" onClick={()=> canUpdateTenant && handleUpdateJoiningChange()}
                                       src={EditImage}
                                       alt="EditImage"
                                       style={{
@@ -3854,7 +3879,8 @@ function UserListRoomDetail(props) {
                                             }}
                                           >
                                            Monthly Rent   
-                                           <img className="ms-2"
+                                           <img className="ms-2" 
+                                           onClick={()=>canUpdateTenant && handleUpdateChange()}
                                       src={EditImage}
                                       alt="EditImage"
                                       style={{
@@ -3887,7 +3913,7 @@ function UserListRoomDetail(props) {
                                               fontFamily: "Gilroy",
                                             }}
                                           >
-                                           Advance Amount  <img className="ms-2"
+                                           Advance Amount  <img className="ms-2" onClick={()=>canUpdateTenant && handleUpdateAdvanceChange()}
                                       src={EditImage}
                                       alt="EditImage"
                                       style={{
@@ -6359,6 +6385,18 @@ N/A
           {
             stayDetailsShow && <StayHistory show={stayDetailsShow} handleClose={handleCloseStayHistory} />
           }
+
+          {
+            showUpdateRentForm && <EditRentalAmount show={showUpdateRentForm} handleClose={handleCloseUpdateChange}/>
+          }
+
+{
+  showUpdateAdvanceForm && <EditAdvanceAmount show={showUpdateAdvanceForm} handleClose={handleCloseUpdateAdvanceChange}/>
+}
+
+{
+  showUpdateJoiningForm && <EditJoiningDate show={showUpdateJoiningForm} handleClose={handleCloseUpdateJoiningChange}/>
+}
 
         </div>
         <Modal show={showModal} onHide={handleClose} size="md" centered>
