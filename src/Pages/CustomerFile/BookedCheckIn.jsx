@@ -43,6 +43,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
     const [AdvanceAmount, setAdvanceAmount] = useState("");
     const [advanceAmountError, setAdvanceAmountError] = useState("");
     const [RoomRent, setRoomRent] = useState("");
+     const [placeHolderRoomRent, setPlaceHolderRoomRent] = useState("");
     const [roomrentError, setRoomRentError] = useState("");
     const [errors, setErrors] = useState('')
     const [bookingAmount, setBookingAmount] = useState('')
@@ -322,7 +323,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
     useEffect(() => {
         if (state.UsersList?.bookedDetails || bookingDetails) {
             setBookingAmount(state.UsersList.bookedDetails?.bookingAmount)
-            setRoomRent(state.UsersList.bookedDetails?.rent)
+            setPlaceHolderRoomRent(state.UsersList.bookedDetails?.rent)
         }
 
     }, [state.UsersList?.bookedDetails, bookingDetails])
@@ -660,7 +661,11 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                                 </Form.Label>
                                                 <FormControl
                                                     type="text"
-                                                    placeholder="Enter Amount"
+                                                     placeholder={
+                              placeHolderRoomRent
+                                ? `Selected Bed Rent is ${placeHolderRoomRent}`
+                                : "Enter Amount"
+                            }
                                                     value={RoomRent}
                                                     onChange={handleRoomRent}
                                                     style={{

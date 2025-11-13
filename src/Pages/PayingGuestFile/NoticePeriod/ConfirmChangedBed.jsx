@@ -164,19 +164,18 @@ const disabledDate = (current) => {
   const invoices = CustomerOverView?.invoiceResponseList || [];
   const bedHistory = CustomerOverView?.bedHistory || [];
 
+
   const lastBillDate = invoices.length > 0
     ? dayjs(invoices[invoices.length - 1].invoiceGeneratedDate, "DD/MM/YYYY")
     : null;
 
-  
+ 
   let latestBedChangeDate = null;
   if (bedHistory.length > 0) {
-   
     const lastRecord = bedHistory[bedHistory.length - 1];
     if (lastRecord.endDate === "Till date") {
       latestBedChangeDate = dayjs(lastRecord.startDate, "DD/MM/YYYY");
     } else {
-     
       const validDates = bedHistory
         .filter((b) => b.startDate)
         .map((b) => dayjs(b.startDate, "DD/MM/YYYY"));
@@ -186,27 +185,26 @@ const disabledDate = (current) => {
     }
   }
 
-
+  
   if (current.isAfter(today, "day")) {
     return true;
   }
 
- 
+
   const joinedThisMonth =
     joiningDate.month() === dayjs().month() && joiningDate.year() === dayjs().year();
 
   if (joinedThisMonth) {
-    return current.isBefore(joiningDate, "day") || current.isAfter(today, "day");
+
+    const compareDate =
+      bedHistory.length > 0 ? latestBedChangeDate : joiningDate;
+    return current.isBefore(compareDate, "day") || current.isAfter(today, "day");
   }
 
- 
-  const compareDate =
-    latestBedChangeDate || lastBillDate || joiningDate;
 
+  const compareDate = latestBedChangeDate || lastBillDate || joiningDate;
   return current.isBefore(compareDate, "day") || current.isAfter(today, "day");
 };
-
-
 
 
 

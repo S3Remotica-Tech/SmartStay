@@ -154,7 +154,8 @@ export const initialState = {
     cancelCheckoutStatusCode: 0,
     cancelCheckoutError: "",
     editBasicSuccessStatusCode: 0,
-    changeBedError: ''
+    changeBedError: '',
+    editAmountSuccessStatusCode: 0
 
 }
 
@@ -178,10 +179,14 @@ const UserListReducer = (state = initialState, action) => {
         case 'REMOVE_EDIT_BASIC_DETAILS':
             return { ...state, editBasicSuccessStatusCode: 0 }
 
+        case 'EDIT_AMOUNT_DETAILS':
+            return { ...state, editAmountSuccessStatusCode: action.payload.statusCode }
+        case 'REMOVE_EDIT_AMOUNT_DETAILS':
+            return { ...state, editAmountSuccessStatusCode: 0 }
         case 'CHANGE_BED_ERROR':
             return { ...state, changeBedError: action.payload }
-            case 'REMOVE_CHANGE_BED_ERROR':
-  return { ...state, changeBedError: ''}
+        case 'REMOVE_CHANGE_BED_ERROR':
+            return { ...state, changeBedError: '' }
 
         case 'INITIALIZE_CANCEL_BOOKING':
             return { ...state, initializeCancelBookingList: action.payload.response }

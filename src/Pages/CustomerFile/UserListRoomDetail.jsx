@@ -62,6 +62,9 @@ import FileAdd from '../../Assets/Images/New_images/file_add.svg'
 import ErrorMessage from '../../Components/ErrorMessage'
 import { useHasPermission } from '../../Utils/Permission';
 import { useNavigate, useLocation } from "react-router-dom";
+import EditRentalAmount from "./EditRentalAmount";
+import EditAdvanceAmount from "./EditAdvanceAmount";
+import EditJoiningDate from "./EditJoiningDate";
 
 
 function UserListRoomDetail(props) {
@@ -659,7 +662,9 @@ function UserListRoomDetail(props) {
 
   const [activeRow, setActiveRow] = useState(null);
   const [initialReasonFields, setInitialReasonFields] = useState([]);
-
+  const [showUpdateRentForm, setShowUpdateRentForm] = useState(false)
+  const [showUpdateAdvanceForm, setShowUpdateAdvanceForm] = useState(false)
+  const [showUpdateJoiningForm, setShowUpdateJoiningForm] = useState(false)
 
   const handleShowEditBed = (item) => {
 
@@ -769,14 +774,48 @@ function UserListRoomDetail(props) {
 
 
 
+  const handleUpdateChange = () => {
+    setShowUpdateRentForm(true)
+  }
+
+
+  const handleCloseUpdateChange = () => {
+    setShowUpdateRentForm(false)
+  }
+
+
+  const handleUpdateAdvanceChange = () => {
+    setShowUpdateAdvanceForm(true)
+  }
+
+
+  const handleCloseUpdateAdvanceChange = () => {
+    setShowUpdateAdvanceForm(false)
+  }
+
+  const handleUpdateJoiningChange = () => {
+    setShowUpdateJoiningForm(true)
+  }
+
+
+  const handleCloseUpdateJoiningChange = () => {
+    setShowUpdateJoiningForm(false)
+  }
 
 
 
+  useEffect(() => {
+    if (state?.UsersList.editAmountSuccessStatusCode === 200) {
+      setShowUpdateJoiningForm(false)
+      setShowUpdateAdvanceForm(false)
+      setShowUpdateRentForm(false)
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_EDIT_AMOUNT_DETAILS' })
+      }, 100)
 
 
-
-
-
+    }
+  }, [state?.UsersList.editAmountSuccessStatusCode])
 
   useEffect(() => {
     if (Bednum) {
@@ -2107,11 +2146,11 @@ function UserListRoomDetail(props) {
           type: "EDITBASICDETAILS",
           payload: {
             customerId: CustomerOverView?.customerId,
-              payloads: {
-                    firstName: CustomerOverView?.firstName || "",
-                    lastName: CustomerOverView?.lastName || "",
-                    mailId: CustomerOverView?.emailId || "",
-                                   },
+            payloads: {
+              firstName: CustomerOverView?.firstName || "",
+              lastName: CustomerOverView?.lastName || "",
+              mailId: CustomerOverView?.emailId || "",
+            },
             profilePic: fileImage || "",
           },
         });
@@ -2125,15 +2164,15 @@ function UserListRoomDetail(props) {
 
   const CustomerOverView = state.UsersList.customerdetails;
 
- const imageUrl = imagePreview
-  ? imagePreview
-  : kycPic
-  ? kycPic.startsWith("data:image")
-    ? kycPic
-    : `data:image/jpeg;base64,${kycPic}`
-  : CustomerOverView.profilePic
-  ? CustomerOverView.profilePic
-  : null;
+  const imageUrl = imagePreview
+    ? imagePreview
+    : kycPic
+      ? kycPic.startsWith("data:image")
+        ? kycPic
+        : `data:image/jpeg;base64,${kycPic}`
+      : CustomerOverView.profilePic
+        ? CustomerOverView.profilePic
+        : null;
 
 
 
@@ -2240,48 +2279,48 @@ function UserListRoomDetail(props) {
                   onMouseEnter={() => setIsHovered(true)}
                   onMouseLeave={() => setIsHovered(false)}
                 >
-                 {imageUrl ? (
-    <img
-      src={imageUrl}
-      alt={CustomerOverView.fullName || "Default Profile"}
-      style={{
-        height: "80px",
-        width: "80px",
-        borderRadius: "50%",
-        objectFit: "cover",
-      }}
-      onError={(e) => {
-        e.target.onerror = null;
-        e.target.src = Profiles;
-      }}
-    />
-  ) : (
-   
-    <div
-      style={{
-        height: "80px",
-        width: "80px",
-        borderRadius: "50%",
-        backgroundColor: "#1E45E1", 
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        fontSize: "24px",
-        fontWeight: "600",
-        color: "#FFF",
-        fontFamily: "Gilroy",
-      }}
-    >
-      {CustomerOverView?.initials
-        ? CustomerOverView.initials
-        : CustomerOverView?.fullName
-        ? CustomerOverView.fullName
-            .split(" ")
-            .map((w) => w[0]?.toUpperCase())
-            .join("")
-        : "NA"}
-    </div>
-  )}
+                  {imageUrl ? (
+                    <img
+                      src={imageUrl}
+                      alt={CustomerOverView.fullName || "Default Profile"}
+                      style={{
+                        height: "80px",
+                        width: "80px",
+                        borderRadius: "50%",
+                        objectFit: "cover",
+                      }}
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = Profiles;
+                      }}
+                    />
+                  ) : (
+
+                    <div
+                      style={{
+                        height: "80px",
+                        width: "80px",
+                        borderRadius: "50%",
+                        backgroundColor: "#1E45E1",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontSize: "24px",
+                        fontWeight: "600",
+                        color: "#FFF",
+                        fontFamily: "Gilroy",
+                      }}
+                    >
+                      {CustomerOverView?.initials
+                        ? CustomerOverView.initials
+                        : CustomerOverView?.fullName
+                          ? CustomerOverView.fullName
+                            .split(" ")
+                            .map((w) => w[0]?.toUpperCase())
+                            .join("")
+                          : "NA"}
+                    </div>
+                  )}
 
                   {!state.UsersList?.KycCustomerDetails?.pic && isHovered && (
                     <div
@@ -3439,7 +3478,7 @@ function UserListRoomDetail(props) {
                           }}
                         >
                           <div
-                            className="card-header d-flex flex-column justify-content-between "
+                            className="card-header d-flex flex-column justify-content-between border-0"
                             style={{
                               backgroundColor: "transparent",
                             }}
@@ -3530,7 +3569,7 @@ function UserListRoomDetail(props) {
 
 
                             <div className="row">
-                              <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
+                              <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
                                 <p
                                   style={{
                                     fontSize: 12,
@@ -3560,7 +3599,7 @@ function UserListRoomDetail(props) {
                                   </span>
                                 </p>
                               </div>
-                              <div className="col-sm-4 col-lg-6  d-flex flex-column align-items-center">
+                              <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
                                 <p
                                   style={{
                                     fontSize: 12,
@@ -3620,10 +3659,8 @@ function UserListRoomDetail(props) {
                                 </p>
                               </div>
 
-                            </div>
 
-                            <div className="row">
-                              <div className="col-sm-4 col-lg-6  d-flex flex-column ">
+                              <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
                                 <p
                                   style={{
                                     fontSize: 12,
@@ -3681,16 +3718,16 @@ function UserListRoomDetail(props) {
                                   </span>
                                 </p>
                               </div>
-                              <div className="col-sm-4 col-lg-6  d-flex flex-column align-items-center">
+                              <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
                                 <p
                                   style={{
                                     fontSize: 12,
                                     fontWeight: 500,
                                     fontFamily: "Gilroy",
-                                    marginLeft: 29
+                                    // marginLeft: 29
                                   }}
                                 >
-                                  Joined Date
+                                  Booking Date
                                 </p>
                                 <p
                                   onClick={() => {
@@ -3708,7 +3745,79 @@ function UserListRoomDetail(props) {
                                       ? 0.6
                                       : 1,
                                     marginTop: "-10px",
-                                    marginLeft: 50
+                                    // marginLeft: 50
+                                  }}
+                                >
+                                  <img
+                                    src={LinkImage}
+                                    alt="group"
+                                    style={{
+                                      cursor: !canUpdateTenant
+                                        ? "not-allowed"
+                                        : "pointer",
+                                      filter: !canUpdateTenant
+                                        ? "grayscale(100%)"
+                                        : "none",
+                                    }}
+                                  />
+                                  <span
+                                    style={{
+                                      marginLeft: 5,
+                                      fontSize: 14,
+                                      fontWeight: 600,
+                                      fontFamily: "Gilroy",
+                                      cursor: !canUpdateTenant
+                                        ? "not-allowed"
+                                        : "pointer",
+                                      color: !canUpdateTenant
+                                        ? "#888888"
+                                        : "#000000",
+                                    }}
+                                  >
+                                    {CustomerOverView.hostelInfo?.bookingDate
+                                      ? CustomerOverView.hostelInfo?.bookingDate
+                                      : "N/A"}
+                                  </span>
+                                </p>
+                              </div>
+                              <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
+                                <p
+                                  style={{
+                                    fontSize: 12,
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                    // marginLeft: 29
+                                  }}
+                                >
+                                  Joined Date  <img className="ms-2" onClick={() => canUpdateTenant && handleUpdateJoiningChange()}
+                                    src={EditImage}
+                                    alt="EditImage"
+                                    style={{
+                                      height: 14,
+                                      width: 14,
+                                      color: !canUpdateTenant
+                                        ? "#CCCCCC"
+                                        : "#000", cursor: "pointer"
+                                    }}
+                                  />
+                                </p>
+                                <p
+                                  onClick={() => {
+                                    if (canUpdateTenant) {
+                                      handleShowEditBed(
+                                        customerDetails
+                                      );
+                                    }
+                                  }}
+                                  style={{
+                                    cursor: !canUpdateTenant
+                                      ? "not-allowed"
+                                      : "pointer",
+                                    opacity: !canUpdateTenant
+                                      ? 0.6
+                                      : 1,
+                                    marginTop: "-10px",
+                                    // marginLeft: 50
                                   }}
                                 >
                                   <img
@@ -3750,28 +3859,28 @@ function UserListRoomDetail(props) {
                             </div>
 
 
-                            <p style={{
+                            <label className="mt-2 mb-2" style={{
                               fontSize: 16,
                               fontWeight: 600,
                               fontFamily: "Gilroy",
 
-                            }}>Financial details</p>
+                            }}>Financial details</label>
 
                             <div
-                              className="col-md-12 col-lg-12 mb-3 mb-md-0"
+                              className="col-md-12 col-lg-12 mb-md-0"
 
                             >
                               <div
-                                className="card"
+                                className="card border-0 p-0"
                                 style={{
                                   borderRadius: "10px",
-                                  backgroundColor: 'rgba(247, 249, 255, 1)'
+                                  // backgroundColor: 'rgba(247, 249, 255, 1)'
 
                                 }}
                               >
 
 
-                                <div className="card-body">
+                                <div className="card-body border-0 p-0">
                                   {CustomerOverView.hostelInfo?.advanceAmount > 0 ? (
                                     <div>
                                       <div className="row mb-3">
@@ -3783,31 +3892,19 @@ function UserListRoomDetail(props) {
                                               fontFamily: "Gilroy",
                                             }}
                                           >
-                                            Advance
-                                          </div>
-                                          <p
-                                            style={{
-                                              fontSize: 14,
-                                              fontWeight: 600,
-                                              fontFamily: "Gilroy",
-                                            }}
-                                          >
-                                            <img src={MoneyImage} alt="Money Icon" height={14} width={14} className="me-1" />{" "}
-                                            ₹{advanceList?.advanceAmount}
-                                            {/* {CustomerOverView.hostelInfo?.advanceAmount} */}
-
-                                          </p>
-                                        </div>
-
-                                        <div className="col-sm-4 d-flex flex-column align-items-start">
-                                          <div
-                                            style={{
-                                              fontSize: 12,
-                                              fontWeight: 500,
-                                              fontFamily: "Gilroy",
-                                            }}
-                                          >
-                                            Rent
+                                            Monthly Rent
+                                            <img className="ms-2"
+                                              onClick={() => canUpdateTenant && handleUpdateChange()}
+                                              src={EditImage}
+                                              alt="EditImage"
+                                              style={{
+                                                height: 14,
+                                                width: 14,
+                                                color: !canUpdateTenant
+                                                  ? "#CCCCCC"
+                                                  : "#000", cursor: "pointer"
+                                              }}
+                                            />
                                           </div>
                                           <p
                                             style={{
@@ -3822,8 +3919,7 @@ function UserListRoomDetail(props) {
                                             ₹ {CustomerOverView.hostelInfo?.monthlyRent ?? 0}
                                           </p>
                                         </div>
-
-                                        <div className="col-sm-4 d-flex flex-column align-items-start">
+                                        <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
                                           <div
                                             style={{
                                               fontSize: 12,
@@ -3831,26 +3927,61 @@ function UserListRoomDetail(props) {
                                               fontFamily: "Gilroy",
                                             }}
                                           >
-                                            Booking
+                                            Advance Amount  <img className="ms-2" onClick={() => canUpdateTenant && handleUpdateAdvanceChange()}
+                                              src={EditImage}
+                                              alt="EditImage"
+                                              style={{
+                                                height: 14,
+                                                width: 14,
+                                                color: !canUpdateTenant
+                                                  ? "#CCCCCC"
+                                                  : "#000", cursor: "pointer"
+                                              }}
+                                            />
+                                          </div>
+                                          <p
+                                            style={{
+                                              fontSize: 14,
+                                              fontWeight: 600,
+                                              fontFamily: "Gilroy", paddingTop: 7
+                                            }}
+                                          >
+                                            ₹ {advanceList?.advanceAmount}
+                                            {/* {CustomerOverView.hostelInfo?.advanceAmount} */}
+
+                                          </p>
+                                        </div>
+
+
+
+                                        <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
+                                          <div
+                                            style={{
+                                              fontSize: 12,
+                                              fontWeight: 500,
+                                              fontFamily: "Gilroy",
+                                            }}
+                                          >
+                                            Booking Amount
                                           </div>
                                           <p
                                             style={{
                                               fontSize: 14,
                                               fontWeight: 600,
                                               fontFamily: "Gilroy",
-                                              color: 'rgba(30, 69, 225, 1)',
+                                              color: '#222',
                                               paddingTop: 7
                                             }}
                                           >
+                                            N/A
 
-                                            ₹
                                             {/* {CustomerOverView.hostelInfo?.monthlyRent ?? 0} */}
                                           </p>
                                         </div>
 
                                         {
                                           CustomerOverView.hostelInfo?.maintenance !== null &&
-                                          <div className="col-sm-4 d-flex flex-column align-items-start">
+                                          <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
                                             <div
                                               style={{
                                                 fontSize: 12,
@@ -3875,7 +4006,7 @@ function UserListRoomDetail(props) {
 
                                         }
                                         {CustomerOverView?.hostelInfo?.otherDeductionsBreakup?.map((item, index) => (
-                                          <div key={index} className="col-sm-4 d-flex flex-column align-items-start mb-2">
+                                          <div key={index} className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
                                             <div
                                               style={{
                                                 fontSize: 12,
@@ -3898,7 +4029,7 @@ function UserListRoomDetail(props) {
                                           </div>
                                         ))}
 
-                                        <div className="col-sm-4 d-flex flex-column align-items-start">
+                                        {/* <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
                                           <strong
                                             style={{
                                               fontSize: 12,
@@ -3925,111 +4056,11 @@ function UserListRoomDetail(props) {
 
                                             {advanceList?.paymentStatus}
                                           </p>
-                                        </div>
-
-                                        {/* <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-center">
-                                          <Button
-                                            disabled={!canWriteTenant}
-                                            style={{
-                                              width: 102,
-                                              height: 31,
-                                              display: "flex",
-                                              justifyContent: "center",
-                                              alignItems: "center",
-                                              fontFamily: "Gilroy",
-                                              fontSize: 14,
-                                              fontWeight: 500,
-                                              backgroundColor: "#1E45E1",
-
-                                              borderRadius: "10px",
-                                              marginTop: "10px",
-                                            }}
-
-                                            onClick={() => {
-                                              if (!advanceDetail[0]?.inv_id) {
-                                                handlegenerateForm();
-                                              }
-                                            }}
-                                          >
-                                            <img src={!advanceDetail[0]?.inv_id ? whiteaddcircle : EyeIcon} alt="plusicon" className="me-1" /> {!advanceDetail[0]?.inv_id ? "Generate" : "Invoice"}
-                                          </Button>
                                         </div> */}
+
 
                                       </div>
-                                      {/* <div className="row mb-3">
-                                          <div className="col-sm-4 d-flex flex-column align-items-start">
-                                            <div
-                                              style={{
-                                                fontSize: 12,
-                                                fontWeight: 500,
-                                                fontFamily: "Gilroy",
-                                              }}
-                                            >
-                                              Invoice Date
-                                            </div>
-                                            <p
-                                              style={{
-                                                fontSize: 14,
-                                                fontWeight: 600,
-                                                fontFamily: "Gilroy",
-                                              }}
-                                            >
-                                            
-                                                {advanceList?.invoiceDate}
-                                            </p>
-                                          </div>
 
-                                          <div className="col-sm-4 d-flex flex-column align-items-start">
-                                            <div
-                                              style={{
-                                                fontSize: 12,
-                                                fontWeight: 500,
-                                                fontFamily: "Gilroy",
-                                              }}
-                                            >
-                                              Due Date
-                                            </div>
-                                            <p
-                                              style={{
-                                                fontSize: 14,
-                                                fontWeight: 600,
-                                                fontFamily: "Gilroy",
-                                              }}
-                                            >
-                                            
-                                                 {advanceList?.invoiceDate}
-                                            </p>
-                                          </div>
-
-                                        <div className="col-sm-4 d-flex flex-column align-items-start">
-                                          <strong
-                                            style={{
-                                              fontSize: 12,
-                                              fontWeight: 500,
-                                              fontFamily: "Gilroy",
-                                              textAlign: "start",
-                                              paddingRight: 15,
-                                            }}
-                                          >
-                                            Bill Status
-                                          </strong>
-                                          <p
-                                            style={{
-                                              backgroundColor: "#D9FFD9",
-                                              padding: "2px 12px",
-                                              borderRadius: "10px",
-                                              display: "inline-block",
-                                              fontFamily: "Gilroy",
-                                              fontSize: "14px",
-                                              fontWeight: "500",
-                                              marginTop: "5px",
-                                            }}
-                                          >
-                                          
-                                              {advanceList?.paymentStatus}
-                                            </p>
-                                          </div>
-                                        </div> */}
 
 
                                     </div>
@@ -4051,82 +4082,7 @@ function UserListRoomDetail(props) {
 
                               </div>
                             </div>
-                            {/* <div className="row  mt-2 ms-2">
-                              <div className="col-sm-4 d-flex flex-column align-items-start">
-                                <div
-                                  style={{
-                                    fontSize: 12,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                  }}
-                                >
-                                  Monthly Rent
-                                </div>
-                                <p
-                                  style={{
-                                    fontSize: 14,
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy",
-                                    color: 'rgba(30, 69, 225, 1)',
-                                    paddingTop: 7
-                                  }}
-                                >
 
-                                  ₹ {CustomerOverView.hostelInfo?.monthlyRent ?? 0}
-                                </p>
-                              </div>
-
-                              {
-                                CustomerOverView.hostelInfo?.maintenance !== null &&
-                                <div className="col-sm-4 d-flex flex-column align-items-start">
-                                  <div
-                                    style={{
-                                      fontSize: 12,
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy",
-                                    }}
-                                  >
-                                    Maintenance
-                                  </div>
-                                  <p
-                                    style={{
-                                      fontSize: 14,
-                                      fontWeight: 600,
-                                      fontFamily: "Gilroy",
-                                      // color: 'rgba(30, 69, 225, 1)',
-                                      paddingTop: 7
-                                    }}
-                                  >
-                                    ₹ {CustomerOverView.hostelInfo?.maintenance ?? 0}
-                                  </p>
-                                </div>
-
-                              }
-                              {CustomerOverView?.hostelInfo?.otherDeductionsBreakup?.map((item, index) => (
-                                <div key={index} className="col-sm-4 d-flex flex-column align-items-start mb-2">
-                                  <div
-                                    style={{
-                                      fontSize: 12,
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy",
-                                    }}
-                                  >
-                                    {item.type ? item.type : ""}
-                                  </div>
-                                  <p
-                                    style={{
-                                      fontSize: 14,
-                                      fontWeight: 600,
-                                      fontFamily: "Gilroy",
-                                      paddingTop: 7,
-                                    }}
-                                  >
-                                    ₹ {item.amount}
-                                  </p>
-                                </div>
-                              ))}
-
-                            </div> */}
                           </div>
 
                         </div>
@@ -6442,6 +6398,18 @@ function UserListRoomDetail(props) {
 
           {
             stayDetailsShow && <StayHistory show={stayDetailsShow} handleClose={handleCloseStayHistory} />
+          }
+
+          {
+            showUpdateRentForm && <EditRentalAmount show={showUpdateRentForm} handleClose={handleCloseUpdateChange} />
+          }
+
+          {
+            showUpdateAdvanceForm && <EditAdvanceAmount show={showUpdateAdvanceForm} handleClose={handleCloseUpdateAdvanceChange} />
+          }
+
+          {
+            showUpdateJoiningForm && <EditJoiningDate show={showUpdateJoiningForm} handleClose={handleCloseUpdateJoiningChange} />
           }
 
         </div>

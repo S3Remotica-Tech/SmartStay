@@ -90,16 +90,16 @@ function LongStayRecurringModal({ handleClose, show }) {
             newErrors.billingDate = "Please select billing date of month";
         }
         if (!dueDate) {
-            newErrors.dueDate = "Please select due date of month";
+            newErrors.dueDate = "Please select due days";
         }
         if(!noticePeriod){
              newErrors.notice = "Please select notice period";
         }
 
 
-        if (billingDate && dueDate && Number(dueDate.value) < Number(billingDate.value)) {
-        newErrors.dueDate = "Due date cannot be before billing date";
-    }
+    //     if (billingDate && dueDate && Number(dueDate.value) < Number(billingDate.value)) {
+    //     newErrors.dueDate = "Due date cannot be before billing date";
+    // }
 
         setErrors(newErrors);
 
@@ -219,7 +219,7 @@ function LongStayRecurringModal({ handleClose, show }) {
                     <span style={{ color: "#FF0000", display: "inline-block", fontSize: "20px" }}>
                       *
                     </span></Form.Label>
-                        <Select options={dayOptions} styles={selectStyle} placeholder="Select Due Date"
+                        <Select options={dayOptions} styles={selectStyle} placeholder="Select Due Days"
                             value={dueDate}
                             onChange={(selected) => {
                                 setDueDate(selected);

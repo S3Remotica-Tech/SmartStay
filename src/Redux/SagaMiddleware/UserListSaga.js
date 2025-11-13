@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import {
+import {EditTenantAmount, 
    editBasicDetails, CancelCheckOutCustomer, getParticularCustomerReading, getParticularRoomReading, getCustomerReading,
    cancelBookingGet, bookingToCheckIn, addRoomReading, getRoomReading,
    bookedDetails, availableBedDetailsForDate, checkoutDetailView, customerSaveInfo, CheckIn, GetAllFloor, getParticularHostelList, ConfirmCheckout_Due_Customer, deleteCustomer,
@@ -124,7 +124,52 @@ function* handleEditBasicDetails(reading) {
 
 
 
+function* handleEditTenantAmount(args) {
+   try {
+      const response = yield call(EditTenantAmount, args.payload)
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center",
+         padding: "10px",
 
+      };
+      if (response?.status === 200) {
+         yield put({ type: 'EDIT_AMOUNT_DETAILS', payload: { response: response.data, statusCode: response?.status } })
+
+         toast.success(response.data, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
+      }
+
+      if (response) {
+         refreshToken(response)
+      }
+   }
+   catch (error) {
+      yield* handleApiError(error);
+      
+   }
+
+
+
+}
 
 
 
@@ -2746,6 +2791,7 @@ function* handleCheckoutProfile(action) {
 
 
 function* UserListSaga() {
+   yield takeEvery('EDITAMOUNTDETAILS',handleEditTenantAmount)
    yield takeEvery('EDITBASICDETAILS', handleEditBasicDetails)
    yield takeEvery('CANCELCHECKOUT', handleCancelCheckout)
    yield takeEvery('GETCUSTOMERREADING', handleGetCustomerReading)

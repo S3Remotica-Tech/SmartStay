@@ -52,7 +52,7 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
 
 
     const handleSubmit = () => {
-
+        dispatch({ type: 'REMOVE_ROOM_READING_ERROR' })
         let hasError = false;
 
         if (!currentReading) {
@@ -62,12 +62,12 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
             setReadingError("");
         }
 
-        // if (!readingDate) {
-        //     setDateError("Please select reading date");
-        //     hasError = true;
-        // } else {
-        //     setDateError("");
-        // }
+        if (!readingDate) {
+            setDateError("Please select reading date");
+            hasError = true;
+        } else {
+            setDateError("");
+        }
 
         if (hasError) return;
         const formattedDate = readingDate ? dayjs(readingDate).format("DD-MM-YYYY") : "";
@@ -180,7 +180,7 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
                 {state.UsersList?.roomReadingError && (
                     <ErrorMessage message={state.UsersList?.roomReadingError} type="error" />
                 )}
- <Form.Group className="mt-2">
+                <Form.Group className="mt-2">
 
                     <Form.Label
                         style={{
@@ -194,7 +194,7 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
                             padding: 0
                         }}
                     >
-                        Reading Date
+                        Reading Date {" "}  <span style={{ color: "red", fontSize: "20px" }}>*</span>
                     </Form.Label>
 
                     <div
@@ -255,7 +255,7 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
                                 padding: 0
                             }}
                         >
-                           Reading   <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                            Reading   <span style={{ color: "red", fontSize: "20px" }}>*</span>
                         </Form.Label>
 
                         <span
@@ -294,7 +294,7 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
 
 
                 </Form.Group>
-               
+
 
 
 
