@@ -35,12 +35,12 @@ function EditStayDetails({ show, handleClose,stayDetais }) {
 
     useEffect(()=>{
         if(stayDetais){
-            setFloor(stayDetais[0].Floor)
-            setRooms(stayDetais[0].Rooms)
-            setBed(stayDetais[0].Bed)
-            setSelectedDate(stayDetais[0].user_join_date)
-            setAdvanceAmount(stayDetais[0].AdvanceAmount)
-            setRoomRent(stayDetais[0].RoomRent)
+            setFloor(stayDetais.hostelInfo.floorName)
+            setRooms(stayDetais.hostelInfo.roomName)
+            setBed(stayDetais.hostelInfo.bedName)
+           setSelectedDate(dayjs(stayDetais.hostelInfo.joiningDate, "DD/MM/YYYY"));
+            setAdvanceAmount(stayDetais.hostelInfo.advanceAmount)
+            setRoomRent(stayDetais.hostelInfo.monthlyRent)
 
         }
 
@@ -71,14 +71,14 @@ function EditStayDetails({ show, handleClose,stayDetais }) {
     }
     }, [state.login.selectedHostel_Id]);
 
-    useEffect(() => {
-        if (state.login.selectedHostel_Id && Floor) {
-            dispatch({
-                type: "ROOMDETAILS",
-                payload: { hostel_Id: state.login.selectedHostel_Id, floor_Id: Floor },
-            });
-        }
-    }, [Floor]);
+    // useEffect(() => {
+    //     if (state.login.selectedHostel_Id && Floor) {
+    //         dispatch({
+    //             type: "ROOMDETAILS",
+    //             payload: { hostel_Id: state.login.selectedHostel_Id, floor_Id: Floor },
+    //         });
+    //     }
+    // }, [Floor]);
 
 
     useEffect(() => {
@@ -395,7 +395,7 @@ function EditStayDetails({ show, handleClose,stayDetais }) {
                                 </Form.Group>
 
                             </div> */}
- {stayDetais[0].reasonData?.map((item, index) => (
+ {/* {stayDetais[0].reasonData?.map((item, index) => (
   <div
     key={index}
     className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2"
@@ -425,7 +425,7 @@ function EditStayDetails({ show, handleClose,stayDetais }) {
       />
     </Form.Group>
   </div>
-))}
+))} */}
 
 
                         </div>

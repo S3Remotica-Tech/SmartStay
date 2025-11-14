@@ -379,7 +379,7 @@ function UserListAmenities(props) {
           Amenities
         </Form.Label>
         <Select
-          isDisabled={!canWriteAmenities}
+          isDisabled={!canWriteAmenities || state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED"}
           placeholder="Select an Amenities"
           value={
             state.InvoiceList.AmenitiesList?.find(

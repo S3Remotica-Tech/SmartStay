@@ -230,12 +230,7 @@ function AddHostelReading({ show, handleClose, selectedRowDetails, roomReadingLi
                         >
                             Last Reading : {" "}
                             <span style={{ color: '#1E45E1', fontFamily: "Gilroy" }}>
-                                {
-                                    roomReadingList
-                                        ?.filter(item => item.readingId !== 0)
-                                        .reduce((sum, item) => sum + (item.currentReading || 0), 0)
-                                        .toFixed(0) 
-                                }
+                                {state.UsersList?.getRoomReadingList?.lastReading}
                             </span>
                         </span>
                     </div>

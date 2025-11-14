@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { Modal, Button ,Offcanvas} from "react-bootstrap";
+import { Modal, Button, Offcanvas } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import { FormControl } from "react-bootstrap";
@@ -312,12 +312,12 @@ const InvoicePage = () => {
 
   }, [state.InvoiceList.CustomerRecurringEnableDisableStatusCode])
 
-useEffect(()=>{
-  if(bills.length === 0){
-     setLoading(false);
-  }
+  useEffect(() => {
+    if (bills.length === 0) {
+      setLoading(false);
+    }
 
-},[bills])
+  }, [bills])
 
 
 
@@ -925,7 +925,7 @@ useEffect(()=>{
 
   const handleShowForm = (props) => {
     setShowform(true);
-    console.log("props",props)
+    console.log("props", props)
     setInvoiceValue(props.item);
 
     if (props.item.invoiceId !== undefined) {
@@ -1021,7 +1021,7 @@ useEffect(()=>{
     setShowDeleteform(false);
   };
 
-console.log("invoiceValue",invoiceValue)
+  console.log("invoiceValue", invoiceValue)
   const handleSaveInvoiceList = () => {
     const formatpaiddate = formatDateForPayload(selectedDate);
     const billDate = new Date(invoiceValue.Date);
@@ -2022,7 +2022,9 @@ console.log("invoiceValue",invoiceValue)
 
   const handleChanges = (event, newValue) => {
 
-
+    setShowSearchFilter(false)
+    setShowPdfModal(false)
+    setShowPdfReceiptModal(false)
 
     if (newValue === "1") {
       setLoading(true);
@@ -2066,6 +2068,8 @@ console.log("invoiceValue",invoiceValue)
   const handleDisplayInvoiceDownload = (isVisible, rowData) => {
     setDownloadInvoice(isVisible);
     setShowPdfModal(true);
+    setStatusfilter(false)
+    setSearch(false)
     setRowData(rowData);
     setSelectedInvoiceId(rowData.invoiceId);
     if (rowData) {
@@ -2078,6 +2082,8 @@ console.log("invoiceValue",invoiceValue)
   const handleDisplayReceiptDownload = (isVisible, rowData) => {
     setDownloadReceipt(isVisible);
     setShowPdfReceiptModal(true);
+    setStatusfilter(false)
+    setSearch(false)
     setRowData(rowData);
     setSelectedTransactionId(rowData?.transactionId);
     if (rowData?.transactionId && state.login.selectedHostel_Id) {
@@ -2101,10 +2107,12 @@ console.log("invoiceValue",invoiceValue)
 
   const handleClosePdfReceipt = () => {
     setDownloadReceipt(false);
+    setShowPdfReceiptModal(false)
   };
 
   const handleClosePdfModal = () => {
     setDownloadInvoice(false);
+    setShowPdfModal(false)
   };
 
   useEffect(() => {
@@ -2161,6 +2169,7 @@ console.log("invoiceValue",invoiceValue)
     if (state.InvoiceList.RecordPaymentUpdateStatusCode === 200) {
       setPayableAmount("")
       setBalance("")
+      setTransactionId('')
       setSelectedDate(null);
       setFormRecordLoading(false)
       setShowform(false)
@@ -2771,6 +2780,7 @@ console.log("invoiceValue",invoiceValue)
       setOriginalRecuiring(recurringbills);
     }
   }, [recurringbills]);
+
   const handleSearch = () => {
     setSearch(!search);
 
@@ -2914,7 +2924,7 @@ console.log("invoiceValue",invoiceValue)
 
 
   return (
-    <div style={{ overflowY: "auto",  backgroundColor:"" }}>
+    <div style={{ overflowY: "auto", }}>
       {showAllBill && (
         <Row className="p-0">
           <Col className="p-0"
@@ -2949,7 +2959,7 @@ console.log("invoiceValue",invoiceValue)
                   <div className="d-flex flex-wrap align-items-center gap-2" style={{ paddingLeft: 25 }}>
                     {(DownloadInvoice || DownloadReceipt) && (
                       <div className="d-flex align-items-center mt-1" style={{}}>
-                        <button
+                        <button disabled
                           onClick={() => setShowSearchFilter(!showSearchFilter)}
                           style={{
                             fontFamily: "Gilroy",
@@ -2976,11 +2986,11 @@ console.log("invoiceValue",invoiceValue)
 
                       </div>
                     )}
-                    {(!DownloadInvoice || !DownloadReceipt) && showSearchFilter && (  
-                      <div className={`expand-section ${showSearchFilter ? "show" : ""}`} >
+                    {(!showPdfModal && !showPdfReceiptModal) && (
+                      <div className={` d-flex align-items-center`} >
                         {search ? (
                           <>
-                            <div className="position-relative" style={{ minWidth: 160, maxWidth: 250,}}>
+                            <div className="position-relative" style={{ minWidth: 160, maxWidth: 250, }}>
 
 
                               <div
@@ -3406,7 +3416,7 @@ console.log("invoiceValue",invoiceValue)
                     )}
 
 
-                    
+
                     <div className="text-center" style={{ paddingRight: 18 }} >
                       {value === "1" && (
                         <Button className="d-flex justify-content-center"
@@ -3462,7 +3472,7 @@ console.log("invoiceValue",invoiceValue)
             </div>
 
 
-            <TabContext value={value} >
+            <TabContext value={value} style={{}} >
               <div
                 style={{
                   position: "sticky",
@@ -3472,7 +3482,7 @@ console.log("invoiceValue",invoiceValue)
                   zIndex: 1000,
                   backgroundColor: search ? undefined : "#FFFFFF",
                   height: "auto",
-                  marginBottom: 10
+                  marginBottom: 10, marginTop: showSearchFilter ? 100 : 0, backgroundColor: ""
                 }}
               >
                 <Box
@@ -4260,13 +4270,13 @@ console.log("invoiceValue",invoiceValue)
 
 
                               <Modal.Footer style={{ border: "none" }}>
-                               
+
                                 <div className="text-end mt-4">
                                   <Button variant="" className="me-2" onClick={handleCloseForm} style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400 }}>
                                     Cancel
                                   </Button>
                                   <Button
-                                                                       style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400, backgroundColor: "#1E45E1" }}
+                                    style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400, backgroundColor: "#1E45E1" }}
                                     onClick={handleSaveInvoiceList}
                                   >Record</Button>
                                 </div>
@@ -5129,7 +5139,7 @@ console.log("invoiceValue",invoiceValue)
 
 
 
-                   
+
 
                   </>
                 )}

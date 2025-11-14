@@ -433,23 +433,27 @@ function UserlistForm(props) {
   }, [Bed])
 
 
-  const handleRoomRent = (e) => {
-    const newAmount = e.target.value;
-    if (!/^\d*$/.test(newAmount)) {
-      return;
-    }
-    setRoomRent(newAmount);
-    setRoomRentError("");
-  };
+ const handleRoomRent = (e) => {
+  const value = e.target.value;
 
-  const handleAdvanceAmount = (e) => {
-    const advanceAmount = e.target.value;
-    if (!/^\d*$/.test(advanceAmount)) {
-      return;
-    }
-    setAdvanceAmount(advanceAmount);
+
+  if (value === "" || /^[1-9]\d*$/.test(value)) {
+    setRoomRent(value);
+    setRoomRentError("");
+  }
+};
+
+
+
+ const handleAdvanceAmount = (e) => {
+  const value = e.target.value;
+
+if (value === "" || /^[1-9]\d*$/.test(value)) {
+    setAdvanceAmount(value);
     setAdvanceAmountError("");
-  };
+  }
+};
+
 
   // const handleHouseNo = (e) => {
   //   setHouseNo(e.target.value);
@@ -1991,6 +1995,7 @@ function UserlistForm(props) {
                           </Form.Label>
                           <FormControl
                             type="text"
+                             value={RoomRent}   
                             placeholder={
                               placeHolderRoomRent
                                 ? `Selected Bed Rent is ${placeHolderRoomRent}`
