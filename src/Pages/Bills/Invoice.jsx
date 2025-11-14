@@ -154,7 +154,7 @@ const InvoicePage = () => {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
 
-console.log("showPdfReceiptModal",showPdfReceiptModal)
+
 
   const [transactionId, setTransactionId] = useState("");
   const [hostelId, setHostelId] = useState("");
@@ -2169,6 +2169,7 @@ console.log("showPdfReceiptModal",showPdfReceiptModal)
     if (state.InvoiceList.RecordPaymentUpdateStatusCode === 200) {
       setPayableAmount("")
       setBalance("")
+      setTransactionId('')
       setSelectedDate(null);
       setFormRecordLoading(false)
       setShowform(false)
@@ -2923,7 +2924,7 @@ console.log("showPdfReceiptModal",showPdfReceiptModal)
 
 
   return (
-    <div style={{ overflowY: "auto", backgroundColor: "" }}>
+    <div style={{ overflowY: "auto", }}>
       {showAllBill && (
         <Row className="p-0">
           <Col className="p-0"
