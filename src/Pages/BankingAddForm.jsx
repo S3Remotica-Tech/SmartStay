@@ -722,6 +722,7 @@ function BankingAddForm(props) {
             setBankAccountError("")
             setCardTypeError("")
             setIsChangedError("")
+            setaccountNumberError("")
           }}
 
           className="justify-content-start ms-2 me-2"

@@ -28,31 +28,31 @@ function* handleApiError(error) {
    }
    else if (status === 500) {
       yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
-      toast.error("Network error occurred", {
-         style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
-         position: "top-right",
-         autoClose: 2000,
-         hideProgressBar: true,
-         closeButton: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-      });
+      // toast.error("Network error occurred", {
+      //    style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
+      //    position: "top-right",
+      //    autoClose: 2000,
+      //    hideProgressBar: true,
+      //    closeButton: false,
+      //    closeOnClick: true,
+      //    pauseOnHover: true,
+      //    draggable: true,
+      //    progress: undefined,
+      // });
    }
    else if (error.code === "ERR_NETWORK") {
       yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
-      toast.error("Network error occurred", {
-         style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
-         position: "top-right",
-         autoClose: 2000,
-         hideProgressBar: true,
-         closeButton: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-      });
+      // toast.error("Network error occurred", {
+      //    style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
+      //    position: "top-right",
+      //    autoClose: 2000,
+      //    hideProgressBar: true,
+      //    closeButton: false,
+      //    closeOnClick: true,
+      //    pauseOnHover: true,
+      //    draggable: true,
+      //    progress: undefined,
+      // });
    }
    // else {
    //    const msg = error?.message || "Something went wrong";

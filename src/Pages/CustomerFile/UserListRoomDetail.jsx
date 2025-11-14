@@ -578,7 +578,6 @@ function UserListRoomDetail(props) {
 
 
 
-
   useEffect(() => {
     if (state.UsersList.statusCodeForCustomerAllDetails === 200) {
       setTimeout(() => {
@@ -643,6 +642,8 @@ function UserListRoomDetail(props) {
     setValue(newValue);
     setFormShow(false);
     setKycDetailForm(false);
+
+
   };
   const handleChangesupload = (event, newValue) => {
     setDocumentValue(newValue);
@@ -2164,6 +2165,7 @@ function UserListRoomDetail(props) {
 
   const CustomerOverView = state.UsersList.customerdetails;
 
+console.log("CustomerOverView",CustomerOverView)
   const imageUrl = imagePreview
     ? imagePreview
     : kycPic
@@ -2610,7 +2612,7 @@ function UserListRoomDetail(props) {
                     }}
                   />
 
-                  <Tab
+                  <Tab  
                     label="Amenities"
                     value="4"
                     style={{
