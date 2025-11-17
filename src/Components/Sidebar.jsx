@@ -625,7 +625,7 @@ setIsVisibleSidebar(isVisible)
             md={2}
             sm={3}
             xs={12}
-            className={`sidebar h-100 
+            className={`sidebar 
               ${isSidebarOpen ? "sidebar-open" : "sidebar-closed"} d-md-block`}
             style={{
               cursor: "pointer",
@@ -639,8 +639,8 @@ setIsVisibleSidebar(isVisible)
               minWidth: 210,
             }}
           >
-
-            <div className="container" style={{ position: "relative" }}>
+<div style={{display:"flex", justifyContent:"space-between", flexDirection:"column", height:manageOpen && "100vh" ,}}>
+            <div className="container" style={{ position: "relative",  }}>
               <div
                 className="d-flex align-items-center justify-content-between"
                 style={{ padding: "16px 10px" }}
@@ -865,7 +865,7 @@ setIsVisibleSidebar(isVisible)
                   alignItems: "start",
                   position: "relative",
                   marginBottom: "20px",
-                  maxHeight: manageOpen ? "400px" : "500px",
+                  maxHeight:manageOpen ? "400px" : "420px",
                   overflowY: manageOpen ? "auto" : "hidden",
                   paddingBottom: "10px",
                 }}
@@ -950,8 +950,12 @@ setIsVisibleSidebar(isVisible)
 
                 {manageOpen && (
                   <ul
-                    className="p-1"
-                    style={{ marginLeft: 10, zIndex: 1, position: "relative" }}
+                    className="p-1 "
+                    style={{ marginLeft: 10, zIndex: 100, position: "relative" ,
+                  //       maxHeight: manageOpen ? "100px" :"400px",
+                  // overflowY: manageOpen ? "auto" : "hidden", backgroundColor:"",
+                  
+                }}
                   >
                     <li
                       className={`align-items-center list-sub-Item ${currentPage === "pg-list" ? "active" : ""
@@ -1102,7 +1106,7 @@ setIsVisibleSidebar(isVisible)
                     }
                   }}
 
-                  style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "10px" }}
+                  style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "5px" : "10px" }}
                 >
                   <img
                     src={currentPage === "banking" ? bank : bankblank}
@@ -1299,20 +1303,20 @@ setIsVisibleSidebar(isVisible)
             </div>
 
             <div
-              style={{
-                position: "absolute",
-                bottom: 0,
-                left: 0,
-                right: 0,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                height: "auto",
-                padding: "12px 0",
-                backgroundColor: "#E0ECFF",
+              // style={{
+              //   position: "absolute",
+              //   bottom: 0,
+              //   left: 0,
+              //   right: 0,
+              //   display: "flex",
+              //   flexDirection: "column",
+              //   alignItems: "center",
+              //   justifyContent: "center",
+              //   height: "auto",
+              //   padding: "12px 0",
+              //   backgroundColor: "#E0ECFF",
 
-              }}
+              // }}
             >
               <div
                 style={{
@@ -1554,8 +1558,12 @@ setIsVisibleSidebar(isVisible)
                 </div>
               </div>
             </div>
-
+</div>
           </Col>
+
+
+
+
           <Col
             className="bg-white main-content"
             lg={{ span: 10, offset: 2 }}
