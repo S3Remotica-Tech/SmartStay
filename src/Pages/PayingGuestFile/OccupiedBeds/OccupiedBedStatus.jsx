@@ -11,7 +11,7 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Image from 'react-bootstrap/Image';
 import { FiCalendar, } from "react-icons/fi";
 import { useHasPermission } from '../../../Utils/Permission';
-
+import {  Edit } from 'iconsax-react';
 
 
 
@@ -20,7 +20,8 @@ function OccupiedBedStatus({
     handleCloseBed,
     currentItem,
     handleShowReassignBed,
-    handleShowNoticePeriod
+    handleShowNoticePeriod,
+    showEditBed
 }) {
 
 
@@ -44,11 +45,17 @@ function OccupiedBedStatus({
         // canDeleteModule: canDeletePayingGuests,
     } = useHasPermission("Customers");
 
+    const {
+        canUpdateModule: canUpdatePayingGuests,
+        canDeleteModule: canDeletePayingGuests,
+
+    } = useHasPermission("Paying Guests");
 
 
 
-
-
+    const handleEditBed = () => {
+        showEditBed(true)
+    }
 
 
     const handleReAssignBed = () => {
@@ -246,6 +253,45 @@ function OccupiedBedStatus({
                                                     Move To Notice Period
                                                 </label>
                                             </div>
+                                            <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
+
+                                            <div
+                                                className="d-flex gap-2 align-items-center"
+                                               
+                                                onClick={() => canUpdatePayingGuests ? handleEditBed() : undefined}
+
+                                                 style={{
+                                                    padding: "15px",
+                                                    borderBottomLeftRadius: 10,
+                                                    borderBottomRightRadius: 10,
+                                                    cursor: canUpdatePayingGuests ? "pointer" : "not-allowed",
+                                                    opacity: canUpdatePayingGuests ? 1 : 0.6,
+                                                }}
+                                                  onMouseEnter={(e) => {
+                                                    e.currentTarget.style.backgroundColor = "#FFF3F3";
+                                                }}
+                                                onMouseLeave={(e) => {
+                                                    e.currentTarget.style.backgroundColor = "transparent";
+                                                }}
+                                            >
+                                 <Edit size="16" color={!canUpdatePayingGuests ? "#888888" : "#1E45E1"}  className="ms-1"/>
+
+                                                <label
+                                                    style={{
+                                                        fontSize: 13,
+                                                        fontWeight: 500,
+                                                        color: canUpdatePayingGuests ? "#222222" : "#A9A9A9",
+                                                        marginBottom: 0,
+                                                        fontFamily: "Gilroy",
+                                                        cursor: canUpdatePayingGuests ? "pointer" : "not-allowed",
+                                                    }}
+                                                >
+                                                    Edit
+                                                </label>
+
+                                            </div>
+
+                                            
 
                                         </div>
                                     )}

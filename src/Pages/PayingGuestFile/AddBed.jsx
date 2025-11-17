@@ -9,7 +9,7 @@ import { CloseCircle } from "iconsax-react";
 import PropTypes from "prop-types";
 import ErrorMessage from '../../Components/ErrorMessage'
 
-function AddBed({ show, setShowBed, currentItem }) {
+function AddBed({ show, setShowBed, currentItem, editBedMode, isOccupied }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -22,7 +22,9 @@ function AddBed({ show, setShowBed, currentItem }) {
   const [formLoading, setFormLoading] = useState(false)
 
 
-  
+
+
+
   useEffect(() => {
     const closeButton = document.querySelector(
       'button[aria-label="close-button"]'
@@ -49,15 +51,15 @@ function AddBed({ show, setShowBed, currentItem }) {
 
 
 
-const handleBedNoChange = (e) => {
-  let value = e.target.value;
-  value = value.replace(/^\s+/, "");
-  setBedNo(value);
-  setGeneralError("");
-  setBedError("");
-  setBedAlreadyBooked("");
-  dispatch({ type: "CLEAR_ALREADY_BED" });
-};
+  const handleBedNoChange = (e) => {
+    let value = e.target.value;
+    value = value.replace(/^\s+/, "");
+    setBedNo(value);
+    setGeneralError("");
+    setBedError("");
+    setBedAlreadyBooked("");
+    dispatch({ type: "CLEAR_ALREADY_BED" });
+  };
 
 
   const handleAmountChange = (e) => {
@@ -92,9 +94,40 @@ const handleBedNoChange = (e) => {
     } else {
       setAmountError("");
     }
-    if (
+
+    const isChanged = () => {
+      return (
+        bedNo !== (isOccupied?.bedName || "") ||
+        amount !== (isOccupied?.rentAmount || "")
+      );
+    };
+
+
+    if (editBedMode && !isChanged()) {
+      setGeneralError("No changes detected");
+      return;
+    }
+
+
+
+
+
+
+    if (editBedMode) {
+      dispatch({
+        type: 'UPDATEBED', payload: {
+          bedName: bedNo,
+          isActive: true,
+          amount: amount,
+          bedId: isOccupied?.bedId
+        }
+      })
+      setFormLoading(true)
+      return;
+    }
+    else if (
       currentItem.item.hostel_Id &&
-            currentItem.Room_Id &&
+      currentItem.Room_Id &&
       bedNo &&
       amount
       && amount > 0
@@ -110,10 +143,7 @@ const handleBedNoChange = (e) => {
         },
       });
 
-// dispatch({ type: 'UPDATEBED', payload: {
-//   bedName: bedNo,
-//   isActive: true
-// }})
+
 
       setFormLoading(true)
       setGeneralError("");
@@ -142,6 +172,13 @@ const handleBedNoChange = (e) => {
 
 
 
+  useEffect(() => {
+    if (editBedMode) {
+      setBedNo(isOccupied?.bedName)
+      setAmount(isOccupied?.rentAmount)
+    }
+
+  }, [editBedMode])
 
 
 
@@ -173,7 +210,7 @@ const handleBedNoChange = (e) => {
                 fontWeight: 600,
               }}
             >
-              Add bed
+              {editBedMode ? 'Edit bed' : 'Add bed'}
             </Modal.Title>
 
             <CloseCircle size="24" color="#000" onClick={handleClose} style={{ cursor: "pointer" }} />
@@ -216,7 +253,7 @@ const handleBedNoChange = (e) => {
                 </Form.Group>
                 {bedError && (
 
-                  <ErrorMessage message={bedError} type="error"/>
+                  <ErrorMessage message={bedError} type="error" />
                 )}
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -254,18 +291,20 @@ const handleBedNoChange = (e) => {
                 </Form.Group>
 
                 {amountError && (
-                <ErrorMessage message={amountError} type="error"/>
+                  <ErrorMessage message={amountError} type="error" />
                 )}
               </div>
             </div>
 
 
             {generalError && (
-                           <ErrorMessage message={generalError} type="error" />
+              <div className="d-flex justify-content-center">
+              <ErrorMessage message={generalError} type="error" />
+              </div>
             )}
 
-            { state.PgList?.alreadyBedAvailable && (
-                           <ErrorMessage message={state.PgList?.alreadyBedAvailable} type="error" />
+            {state.PgList?.alreadyBedAvailable && (
+              <ErrorMessage message={state.PgList?.alreadyBedAvailable} type="error" />
             )}
           </Modal.Body>
 
@@ -294,9 +333,9 @@ const handleBedNoChange = (e) => {
               }}
             ></div>
           </div>}
-         
+
           <Modal.Footer style={{ border: "none", paddingTop: 0 }}>
-            <Button
+            <Button disabled={editBedMode}
               onClick={() => { handleSubmit() }}
               className="w-100 mt-1"
               style={{
@@ -311,7 +350,7 @@ const handleBedNoChange = (e) => {
                 paddingRight: 12
               }}
             >
-              Add bed
+              {editBedMode ? 'Save Changes' : 'Add bed'}
             </Button>
           </Modal.Footer>
         </Modal.Dialog>
@@ -323,6 +362,6 @@ AddBed.propTypes = {
   currentItem: PropTypes.func.isRequired,
   setShowBed: PropTypes.func.isRequired,
   show: PropTypes.func.isRequired,
-         
+
 };
 export default AddBed;

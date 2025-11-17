@@ -76,7 +76,7 @@ function BedDetailsMap({ room, propsValue }) {
     const [clickedBed, setClickedBed] = useState('')
     const [changeBedClicked, setChangedBedClicked] = useState('')
     const [bactocheckinForm, setBacktoCheckInForm] = useState(false)
-
+    const [editBedMode, setEditBedMode] = useState(false)
 
     // const canWritePayingGuests = useHasPermission("Paying Guests", "canWrite");
 
@@ -118,10 +118,10 @@ function BedDetailsMap({ room, propsValue }) {
                 type: "GETALLBEDSLIST",
                 payload: { roomId: room.id }
             });
-             dispatch({
-          type: "USERLIST",
-          payload: { hostel_id: state.login.selectedHostel_Id },
-        });
+            dispatch({
+                type: "USERLIST",
+                payload: { hostel_id: state.login.selectedHostel_Id },
+            });
             setBacktoCheckInForm(false)
             setTimeout(() => {
                 dispatch({ type: 'REMOVE_CANCEL_CHECKOUT' })
@@ -253,6 +253,16 @@ function BedDetailsMap({ room, propsValue }) {
     const handleAddBed = (item, Room_Id) => {
         setShowBed(true)
         setDetails({ item, Room_Id });
+        setEditBedMode(false)
+    }
+
+    const handleEditBed = () => {
+        setEmptyBed(false)
+        setOccubiedBed(false)
+        setShowBed(true)
+        setEditBedMode(true)
+        setNoticePeriodBed(false)
+        setShowReservedBed(false)
     }
 
     const handlecloseBed = () => {
@@ -433,10 +443,10 @@ function BedDetailsMap({ room, propsValue }) {
                 type: "GETALLBEDSLIST",
                 payload: { roomId: room.id }
             });
-             dispatch({
-          type: "USERLIST",
-          payload: { hostel_id: state.login.selectedHostel_Id },
-        });
+            dispatch({
+                type: "USERLIST",
+                payload: { hostel_id: state.login.selectedHostel_Id },
+            });
             setAssignTenantForm(false)
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_STATUS_CODES_CHECK_IN' })
@@ -449,7 +459,7 @@ function BedDetailsMap({ room, propsValue }) {
     const bedsForRoom = state.PgList?.bedList?.[room.id] || [];
 
 
-console.log("bedsForRoom",bedsForRoom)
+
 
     const filteredBeds = state.login.isTrigger
         ? bedsForRoom.filter(
@@ -465,10 +475,10 @@ console.log("bedsForRoom",bedsForRoom)
     useEffect(() => {
         if (state?.Booking?.statusCodeForAddBooking === 200) {
             handleCloseAssignTenant()
- dispatch({
-          type: "USERLIST",
-          payload: { hostel_id: state.login.selectedHostel_Id },
-        });
+            dispatch({
+                type: "USERLIST",
+                payload: { hostel_id: state.login.selectedHostel_Id },
+            });
             dispatch({
                 type: "GETALLBEDSLIST",
                 payload: { roomId: room.id }
@@ -500,10 +510,10 @@ console.log("bedsForRoom",bedsForRoom)
                 type: "GETALLBEDSLIST",
                 payload: { roomId: room.id }
             });
-             dispatch({
-          type: "USERLIST",
-          payload: { hostel_id: state.login.selectedHostel_Id },
-        });
+            dispatch({
+                type: "USERLIST",
+                payload: { hostel_id: state.login.selectedHostel_Id },
+            });
             setTimeout(() => {
                 dispatch({ type: 'REMOVE_BOOKING_TO_CHECKIN' })
             }, 100)
@@ -553,7 +563,7 @@ console.log("bedsForRoom",bedsForRoom)
     }, [state.UsersList.statusCodeForReassinBed]);
 
 
-console.log("state.PgList?.isClickedBed",state.PgList?.isClickedBed)
+
 
 
     return (
@@ -567,7 +577,7 @@ console.log("state.PgList?.isClickedBed",state.PgList?.isClickedBed)
 
 
 
-            {showBed && <AddBedUI show={showBed} setShowBed={setShowBed} currentItem={details} />}
+            {showBed && <AddBedUI show={showBed} setShowBed={setShowBed} currentItem={details} editBedMode={editBedMode} isOccupied={customer} />}
 
             {
                 showDeleteBed && <DeleteBed show={showDeleteBed} handleClose={handleCloseDeleteBed} deleteBedDetails={deleteBedDetails} />
@@ -584,6 +594,7 @@ console.log("state.PgList?.isClickedBed",state.PgList?.isClickedBed)
                     showbed={handleShowBed}
                     showcustomer={handleShowAddCustomer}
                     showtenant={handleShowAssignTenant}
+                    showEditBed={handleEditBed}
                 />
 
             }
@@ -608,7 +619,7 @@ console.log("state.PgList?.isClickedBed",state.PgList?.isClickedBed)
             {
                 showReservedBed && <BedDetails show={handleShowReservedBed} handleCloseBed={handleCloseReservedBed}
                     handleShowCheck_In={handleShowCheck_In} MakeAsInActive={handleShowMakeAsInActive}
-                    currentItem={customer} handleShowInActiveForm={handleShowInActiveForm}
+                    currentItem={customer} handleShowInActiveForm={handleShowInActiveForm} showEditBed={handleEditBed}
                 />
             }
 
@@ -639,7 +650,7 @@ console.log("state.PgList?.isClickedBed",state.PgList?.isClickedBed)
             {/* Occubied bed Details */}
 
             {
-                Occubied_bed && <OccupiedBedStatus show={Occubied_bed}
+                Occubied_bed && <OccupiedBedStatus show={Occubied_bed} showEditBed={handleEditBed}
                     handleCloseBed={handlecloseoccubiedbed} currentItem={customer} handleShowReassignBed={handleShowReAssignBedPopup} handleShowNoticePeriod={handleShowNoticePeriod} />
             }
 
@@ -648,7 +659,7 @@ console.log("state.PgList?.isClickedBed",state.PgList?.isClickedBed)
 
             {/* Notice period  */}
             {
-                Noticeperiod_bed && <NoticeBedStatusDetails show={Noticeperiod_bed} handleDisplayCheckInForm={handleDisplayCheckInForm}
+                Noticeperiod_bed && <NoticeBedStatusDetails showEditBed={handleEditBed} show={Noticeperiod_bed} handleDisplayCheckInForm={handleDisplayCheckInForm}
                     handleCloseBed={handlecloseNoticePeriodBed} currentItem={customer}
                     showBooking={handleshowNoticePeriodBooking} showNoticeperiodCheckout={handleshowNoticePeriodCheckout} showfinalsettelemnet={handleshowfinalsettlement}
                     handleOpenChangeBed={handleOpenChangeBed} handleShowInActiveForm={handleShowInActiveForm} handleOpenCancelCheckout={handleOpenCancelCheckout}
@@ -776,19 +787,19 @@ console.log("state.PgList?.isClickedBed",state.PgList?.isClickedBed)
 
                                     {
                                         bed.overDue && (
-                                          <img
-                                            src={overDude}
-                                            alt="overDude"
-                                            height={20}
-                                            width={20}
-                                            style={{
-                                                position: "absolute",
-                                                top: 1,
-                                                right: -10,
-                                                cursor: "pointer",
-                                            }}
+                                            <img
+                                                src={overDude}
+                                                alt="overDude"
+                                                height={20}
+                                                width={20}
+                                                style={{
+                                                    position: "absolute",
+                                                    top: 1,
+                                                    right: -10,
+                                                    cursor: "pointer",
+                                                }}
 
-                                        />
+                                            />
                                         )
                                     }
 
@@ -902,7 +913,7 @@ console.log("state.PgList?.isClickedBed",state.PgList?.isClickedBed)
                                     fontFamily: "Gilroy",
                                 }}
                             >
-                               { ` ${customer?.floorName || "N/A"} | ${customer?.roomName || "N/A"} | ${customer.bedName || "-"}`}
+                                {` ${customer?.floorName || "N/A"} | ${customer?.roomName || "N/A"} | ${customer.bedName || "-"}`}
                             </span>
                         </p>
                     </div>

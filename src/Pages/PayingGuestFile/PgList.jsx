@@ -741,7 +741,6 @@ useEffect(()=>{
 
 
 
-  console.log("state", state)
 
   return (
     <>
