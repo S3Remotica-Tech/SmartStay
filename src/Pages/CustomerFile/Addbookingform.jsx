@@ -519,8 +519,34 @@ useEffect(() => {
                 position: "relative",
               }}
             >
+               {props.userDetail?.profilePic &&
+                                    props.userDetail?.profilePic !== "0" ? (
+                                    <Image
+                                        src={props.userDetail?.profilePic}
+                                        roundedCircle
+                                        style={{ height: 50, width: 50 }}
+                                        alt="image"
+                                    />
+                                ) : (
+                                    <div
+                                        style={{
+                                            height: 50,
+                                            width: 50,
+                                            borderRadius: "50%",
+                                            backgroundColor: "#1E45E1",
+                                            display: "flex",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                            fontSize: 20,
+                                            fontWeight: "600",
+                                            color: "white", fontFamily: "Gilroy"
+                                        }}
+                                    >
+                                        {props.userDetail?.initials || "-"}
+                                    </div>
+                                )}
 
-              <Image onChange={handleFileChange}
+              {/* <Image onChange={handleFileChange}
                 src={
                   file
                     ? (typeof file === "string" ? file : URL.createObjectURL(file))
@@ -535,7 +561,7 @@ useEffect(() => {
                 alt="Profile"
                 roundedCircle
                 style={{ height: 60, width: 60 }}
-              />
+              /> */}
 
 
 

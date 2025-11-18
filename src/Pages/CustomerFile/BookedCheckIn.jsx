@@ -43,7 +43,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
     const [AdvanceAmount, setAdvanceAmount] = useState("");
     const [advanceAmountError, setAdvanceAmountError] = useState("");
     const [RoomRent, setRoomRent] = useState("");
-     const [placeHolderRoomRent, setPlaceHolderRoomRent] = useState("");
+    const [placeHolderRoomRent, setPlaceHolderRoomRent] = useState("");
     const [roomrentError, setRoomRentError] = useState("");
     const [errors, setErrors] = useState('')
     const [bookingAmount, setBookingAmount] = useState('')
@@ -394,8 +394,33 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                 />
                             </Modal.Header>
                             <div className="d-flex align-items-center gap-3 mb-3 ms-3">
-
-                                <img
+                                {bookingDetails?.profilePic &&
+                                    bookingDetails?.profilePic !== "0" ? (
+                                    <Image
+                                        src={bookingDetails?.profilePic}
+                                        roundedCircle
+                                        style={{ height: 50, width: 50 }}
+                                        alt="image"
+                                    />
+                                ) : (
+                                    <div
+                                        style={{
+                                            height: 50,
+                                            width: 50,
+                                            borderRadius: "50%",
+                                            backgroundColor: "#1E45E1",
+                                            display: "flex",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                            fontSize: 20,
+                                            fontWeight: "600",
+                                            color: "white", fontFamily: "Gilroy"
+                                        }}
+                                    >
+                                        {bookingDetails?.initials || "-"}
+                                    </div>
+                                )}
+                                {/* <img
                                     src={
                                         typeof bookingDetails?.profilePic === "string" && bookingDetails?.profilePic.trim()
                                             ? bookingDetails?.profilePic
@@ -411,7 +436,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                         e.target.onerror = null;
                                         e.target.src = Profileimage;
                                     }}
-                                />
+                                /> */}
                                 <div>
                                     <div>
                                         <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px", fontFamily: "Gilroy" }}>
@@ -494,61 +519,61 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
                             {activeTab === "LONG" ? <>
                                 <div style={{ maxHeight: "300px", overflowY: "scroll" }} className="show-scroll p-2 mt-2 me-1">
-                                      <div className="d-flex justify-content-between align-items-center mb-2">
-                                            <div>
-                                                <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
-                                                    Booking Date
-                                                </label>
-                                            </div>
-                                            <div>
-                                                <label
-                                                    style={{
-                                                        fontSize: 14,
-                                                        color: "#222222",
-                                                        fontFamily: "Gilroy",
-                                                        fontWeight: 600,
-                                                    }}
-                                                >
-                                                    {state.UsersList.bookedDetails?.bookedDate}
-                                                </label>
-                                            </div>
+                                    <div className="d-flex justify-content-between align-items-center mb-2">
+                                        <div>
+                                            <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                                Booking Date
+                                            </label>
                                         </div>
-
-                                        <div className="d-flex justify-content-between align-items-center mb-2">
-                                            <div>
-                                                <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
-                                                    Booking Amount
-                                                </label>
-                                            </div>
-                                            <div>
-                                                <label
-                                                    style={{
-                                                        fontSize: 14,
-                                                        color: "#222222",
-                                                        fontFamily: "Gilroy",
-                                                        fontWeight: 600,
-                                                    }}
-                                                >
-                                                    {bookingAmount}
-                                                </label>
-                                            </div>
+                                        <div>
+                                            <label
+                                                style={{
+                                                    fontSize: 14,
+                                                    color: "#222222",
+                                                    fontFamily: "Gilroy",
+                                                    fontWeight: 600,
+                                                }}
+                                            >
+                                                {state.UsersList.bookedDetails?.bookedDate}
+                                            </label>
                                         </div>
+                                    </div>
 
-                                        <hr
-                                            style={{
-                                                border: "none",
-                                                height: "1px",
-                                                backgroundColor: "#D9D9D9",
-                                                margin: "8px 0",
-                                                padding: 0,
-                                            }}
-                                        />
+                                    <div className="d-flex justify-content-between align-items-center mb-2">
+                                        <div>
+                                            <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                                Booking Amount
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label
+                                                style={{
+                                                    fontSize: 14,
+                                                    color: "#222222",
+                                                    fontFamily: "Gilroy",
+                                                    fontWeight: 600,
+                                                }}
+                                            >
+                                                {bookingAmount}
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <hr
+                                        style={{
+                                            border: "none",
+                                            height: "1px",
+                                            backgroundColor: "#D9D9D9",
+                                            margin: "8px 0",
+                                            padding: 0,
+                                        }}
+                                    />
                                     <div className="row d-flex align-items-stretch">
 
 
 
 
-                                      
+
 
 
                                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -661,11 +686,11 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                                 </Form.Label>
                                                 <FormControl
                                                     type="text"
-                                                     placeholder={
-                              placeHolderRoomRent
-                                ? `Selected Bed Rent is ${placeHolderRoomRent}`
-                                : "Enter Amount"
-                            }
+                                                    placeholder={
+                                                        placeHolderRoomRent
+                                                            ? `Selected Bed Rent is ${placeHolderRoomRent}`
+                                                            : "Enter Amount"
+                                                    }
                                                     value={RoomRent}
                                                     onChange={handleRoomRent}
                                                     style={{

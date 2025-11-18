@@ -307,18 +307,17 @@ function CustomerCheckout(props) {
                               : (
                                 <div
                                   style={{
-                                    height: 60,
-                                    width: 60,
-                                    borderRadius: "50%",
-                                    backgroundColor: "#1E45E1",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    fontSize: 24,
-                                    fontWeight: 600,
-                                    color: "#FFF",
-                                    textTransform: "uppercase",
-                                  }}
+                                            height: 50,
+                                            width: 50,
+                                            borderRadius: "50%",
+                                            backgroundColor: "#1E45E1",
+                                            display: "flex",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                            fontSize: 20,
+                                            fontWeight: "600",
+                                            color: "white", fontFamily: "Gilroy"
+                                        }}
                                 >
                                   {props.bedData?.initials || props.bedData?.currentTenantInitials || "-"}
                                 </div>
