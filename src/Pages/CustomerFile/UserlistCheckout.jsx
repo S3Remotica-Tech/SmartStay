@@ -1128,7 +1128,7 @@ const {
                     </div>
 
                   ) : (!checkoutLoader && currentCustomers?.length === 0 && (
-                    <div style={{ marginTop: 30, height: "60vh" }} className="animated-text">
+                    <div style={{ marginTop: 30,  }} className="animated-text">
                       <div style={{ textAlign: "center" }}>
                         {" "}
                         <img src={Emptystate} alt="emptystate" />

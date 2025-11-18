@@ -910,7 +910,7 @@ function UserlistWalkin(props) {
             )}
 
             {!walkinLoader && walkInCustomer?.length === 0 && (
-              <div style={{ marginTop: 30 }} className="animated-text">
+              <div style={{ marginTop: 30, }} className="animated-text">
                 <div style={{ textAlign: "center" }}>
                   <img src={Emptystate} alt="emptystate" />
                 </div>

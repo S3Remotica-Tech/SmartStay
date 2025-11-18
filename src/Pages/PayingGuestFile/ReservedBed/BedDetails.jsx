@@ -208,7 +208,7 @@ function BedDetails({
                                         alignItems: "center",
                                         position: "relative",
                                         zIndex: showDots ? 1000 : "auto",
-                                        backgroundColor: "white",
+                                        backgroundColor: String(activeRoomId) === String(1) ? "#E0ECFF" : "white",
                                     }}>
                                     <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
                                     {String(activeRoomId) === String(1) && (

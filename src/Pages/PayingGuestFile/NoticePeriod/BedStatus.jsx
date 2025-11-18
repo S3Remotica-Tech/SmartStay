@@ -334,8 +334,9 @@ const {
                         justifyContent: "center",
                         alignItems: "center",
                         position: "relative",
-                        zIndex: activeMenu === 'reserved' ? 0 : "auto",
-                        backgroundColor: "white",
+                        // zIndex: activeMenu === 'occupied' ? 0 : "auto",
+                        backgroundColor:activeMenu === 'occupied' ? "#E0ECFF" :  "white",
+                        borderRadius: activeMenu === 'occupied' && 100,
                       }}
 
 
@@ -558,7 +559,8 @@ const {
                           alignItems: "center",
                           position: "relative",
                           zIndex: activeMenu === 'reserved' ? 1000 : "auto",
-                          backgroundColor: "white",
+                          backgroundColor:activeMenu === 'reserved' ? "#E0ECFF" :  "white",
+                          borderRadius: activeMenu === 'reserved' && 100,
                         }}
 
 
@@ -711,7 +713,41 @@ const {
                               <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#dcdcdc", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed" }}>Make as Inactive</label>
                             </div>
 
+ <div
+                            className="d-flex gap-2 align-items-center"
 
+                            onClick={() => canUpdatePayingGuests ? handleEditBed() : undefined}
+
+                            style={{
+                              padding: "15px",
+                              borderBottomLeftRadius: 10,
+                              borderBottomRightRadius: 10,
+                              cursor: canUpdatePayingGuests ? "pointer" : "not-allowed",
+                              opacity: canUpdatePayingGuests ? 1 : 0.6,
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.backgroundColor = "#FFF3F3";
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.backgroundColor = "transparent";
+                            }}
+                          >
+                            <Edit size="16" color={!canUpdatePayingGuests ? "#888888" : "#1E45E1"} className="ms-0" />
+
+                            <label
+                              style={{
+                                fontSize: 14,
+                                fontWeight: 500,
+                                color: canUpdatePayingGuests ? "#222222" : "#A9A9A9",
+                                marginBottom: 0,
+                                fontFamily: "Gilroy",
+                                cursor: canUpdatePayingGuests ? "pointer" : "not-allowed",
+                              }}
+                            >
+                              Edit
+                            </label>
+
+                          </div>
 
 
 
