@@ -307,8 +307,32 @@ function OccupiedBedStatus({
 
                                     <div className="d-flex gap-3 align-items-center">
                                         <div>
-                                            <Image src={currentItem?.currentTenantProfilePic && currentItem?.currentTenantProfilePic !== "0" ? currentItem?.currentTenantProfilePic : Profile} roundedCircle style={{ height: 50, width: 50 }} alt="image" />
-                                        </div>
+ {currentItem?.currentTenantProfilePic &&
+                          currentItem?.currentTenantProfilePic !== "0" ? (
+                          <Image
+                            src={currentItem.currentTenantProfilePic}
+                            roundedCircle
+                            style={{ height: 50, width: 50 }}
+                            alt="image"
+                          />
+                        ) : (
+                          <div
+                            style={{
+                              height: 50,
+                              width: 50,
+                              borderRadius: "50%",
+                              backgroundColor: "#1E45E1",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              fontSize: 20,
+                              fontWeight: "600",
+                              color: "white", fontFamily:"Gilroy"
+                            }}
+                          >
+                            {currentItem?.currentTenantInitials || "-"}
+                          </div>
+                        )}                                        </div>
                                         <div className="mt-2">
                                             <div>
                                                 <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600 }} > {currentItem.currentTenantFullName || "N/A"}</label>

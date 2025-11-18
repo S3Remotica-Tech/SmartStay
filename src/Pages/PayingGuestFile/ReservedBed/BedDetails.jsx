@@ -330,7 +330,33 @@ function BedDetails({
 
                                     <div className="d-flex gap-3 align-items-center">
                                         <div>
-                                            <Image src={currentItem?.newTenantProfilePic && currentItem?.newTenantProfilePic !== "0" ? currentItem?.newTenantProfilePic : Profile} roundedCircle style={{ height: 50, width: 50 }} alt="image" />
+                                             {currentItem?.newTenantProfilePic &&
+                                                                      currentItem?.newTenantProfilePic !== "0" ? (
+                                                                      <Image
+                                                                        src={currentItem.newTenantProfilePic}
+                                                                        roundedCircle
+                                                                        style={{ height: 50, width: 50 }}
+                                                                        alt="image"
+                                                                      />
+                                                                    ) : (
+                                                                      <div
+                                                                        style={{
+                                                                          height: 50,
+                                                                          width: 50,
+                                                                          borderRadius: "50%",
+                                                                          backgroundColor: "#1E45E1",
+                                                                          display: "flex",
+                                                                          justifyContent: "center",
+                                                                          alignItems: "center",
+                                                                          fontSize: 20,
+                                                                          fontWeight: "600",
+                                                                          color: "white", fontFamily:"Gilroy"
+                                                                        }}
+                                                                      >
+                                                                        {currentItem?.newTenantInitials || "-"}
+                                                                      </div>
+                                                                    )}
+                                            {/* <Image src={currentItem?.newTenantProfilePic && currentItem?.newTenantProfilePic !== "0" ? currentItem?.newTenantProfilePic : Profile} roundedCircle style={{ height: 50, width: 50 }} alt="image" /> */}
                                         </div>
                                         <div className="mt-2">
                                             <div>
