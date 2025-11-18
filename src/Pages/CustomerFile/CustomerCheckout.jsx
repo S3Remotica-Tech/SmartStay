@@ -572,7 +572,7 @@ console.log("props",props)
                       }}
                       onClick={handleCheckOutCustomer}
                     >
-                      CheckOut
+                 Save Changes
                     </Button>
                   </div>
 

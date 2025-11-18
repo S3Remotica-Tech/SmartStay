@@ -762,7 +762,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                         fontFamily: "Gilroy"
                       }}
                     >
-                      Check-in
+                      Check-In
                     </button>
                   </div>
 
@@ -1816,7 +1816,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                           }}
                           onClick={handleSaveCheckin}
                         >
-                          Check-in
+                          Check-In
                         </Button>
                       </div>
                     </>

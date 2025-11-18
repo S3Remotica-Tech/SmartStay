@@ -1055,7 +1055,7 @@ function CustomerProfile(props) {
           </TabPanel>
           <TabPanel value="2" className="px-0 mt-2">
            <UserEb
-                          // id={customerId}
+                          id={state.UsersList?.customerdetails?.customerId}
                         
           
                         />

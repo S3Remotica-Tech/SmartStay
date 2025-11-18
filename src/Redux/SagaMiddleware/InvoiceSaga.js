@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { createRefund, getInitializeRefund, getParticularReceiptDetails, getParticularBillsDetails, getFinalSettlementList, CustomerRecurringEnableDisable, UnAssignAmenities, ParticularAmentityList, AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList, RecordPayment, InvoiceSettings, InvoicePDf, GetAmenities, UpdateAmenities, AddAmenity, ManualInvoice, ManualInvoiceUserData, AddManualInvoiceBill, EditManualInvoiceBill, DeleteManualInvoiceBill, ManualInvoiceNumber, GetManualInvoices, RecurrInvoiceamountData, AddRecurringBill, GetRecurrBills, DeleteRecurrBills, InvoiceRecurringsettings, GetReceiptData, AddReceipt, ReferenceIdGet, DeleteReceipt, EditReceipt, ReceiptPDf, AddRecurrBillsUsers, GetBillsPdfDetails, ReceiptPDFNewChanges } from "../Action/InvoiceAction";
+import { AssignAmenitiesForTenant, UnAssignAmenitiesForTenant, createRefund, getInitializeRefund, getParticularReceiptDetails, getParticularBillsDetails, getFinalSettlementList, CustomerRecurringEnableDisable, UnAssignAmenities, ParticularAmentityList, AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList, RecordPayment, InvoiceSettings, InvoicePDf, GetAmenities, UpdateAmenities, AddAmenity, ManualInvoice, ManualInvoiceUserData, AddManualInvoiceBill, EditManualInvoiceBill, DeleteManualInvoiceBill, ManualInvoiceNumber, GetManualInvoices, RecurrInvoiceamountData, AddRecurringBill, GetRecurrBills, DeleteRecurrBills, InvoiceRecurringsettings, GetReceiptData, AddReceipt, ReferenceIdGet, DeleteReceipt, EditReceipt, ReceiptPDf, AddRecurrBillsUsers, GetBillsPdfDetails, ReceiptPDFNewChanges } from "../Action/InvoiceAction";
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -80,9 +80,45 @@ function* handleCreateRefund(action) {
 
 
 
+function* handleAssignAmenitiesForTenant(action) {
 
+   try {
+      const response = yield call(AssignAmenitiesForTenant, action.payload)
 
+         if (response?.status === 201 ) {
+         yield put({ type: 'TENANT_ASSIGN_AMENITIES', payload: { response: response.data, statusCode: response?.status  } })
+      }
 
+      if (response) {
+         refreshToken(response)
+      }
+   }
+   catch (error) {
+         yield* handleApiError(error);
+      
+   }
+
+}
+
+function* handleUnAssignAmenitiesForTenant(action) {
+
+   try {
+      const response = yield call(UnAssignAmenitiesForTenant, action.payload)
+
+         if (response?.status === 201 ) {
+         yield put({ type: 'TENANT_UNASSIGN_AMENITIES', payload: { response: response.data, statusCode: response?.status  } })
+      }
+
+      if (response) {
+         refreshToken(response)
+      }
+   }
+   catch (error) {
+         yield* handleApiError(error);
+      
+   }
+
+}
 
 function* handleGetInitializeRefund(action) {
 
@@ -1656,6 +1692,8 @@ function refreshToken(response) {
 
 
 function* InvoiceSaga() {
+  yield takeEvery('TENANTUNASSIGNAMENITIES', handleUnAssignAmenitiesForTenant)
+   yield takeEvery('TENANTASSIGNAMENITIES',handleAssignAmenitiesForTenant)
    yield takeEvery('CREATEREFUND',handleCreateRefund)
    yield takeEvery('GETINITIALIZEREFUNDDETAILS',handleGetInitializeRefund)
    yield takeEvery('GETPARTICULARRECEIPTSDETAILS', handleGetParticularReceiptDetails)
