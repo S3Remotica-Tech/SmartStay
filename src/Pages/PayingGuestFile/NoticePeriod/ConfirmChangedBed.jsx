@@ -91,12 +91,12 @@ function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer
     const newErrors = { date: "", rent: "" };
 
     if (!selectedDate) {
-      newErrors.date = "Please select a date";
+      newErrors.date = "Please Select a  Date";
       hasError = true;
     }
 
     if (isPreviousBed?.isOccupied && (!newRoomRent)) {
-      newErrors.rent = "Please enter rent amount";
+      newErrors.rent = "Please Enter Rent Amount";
       hasError = true;
     }
 

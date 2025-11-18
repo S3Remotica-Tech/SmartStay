@@ -107,7 +107,7 @@ function BookingBed({
     if (!value || value === "Select a PG") {
       switch (fieldName) {
         case "bookingcustomername":
-          setError("Please Select Customer");
+          setError("Please Select Tenant");
           break;
         case "joiningDate":
           setError("Please Select Joining Date");

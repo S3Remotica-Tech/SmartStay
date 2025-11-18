@@ -689,7 +689,7 @@ function CustomerReAssign(props) {
           show={true}
           onHide={handleCloseReAssign}
           backdrop="static"
-          centered
+          centered  dialogClassName="custom-modal-style"
         >
           <Modal.Dialog
             style={{
@@ -715,7 +715,7 @@ function CustomerReAssign(props) {
               <CloseCircle size="24" color="#000" onClick={handleCloseReAssign}
                 style={{ cursor: 'pointer' }} />
             </Modal.Header>
-            <Modal.Body className="pb-1 pt-0">
+            <Modal.Body style={{ maxHeight: "400px", overflowY: "scroll" }} className="show-scroll mt-1 me-3" >
               <div className="d-flex align-items-center">
                 <div >
 

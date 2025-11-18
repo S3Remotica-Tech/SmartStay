@@ -423,7 +423,7 @@ function UserList(props) {
     setAllFieldErrmsg("");
 
     if (!customername) {
-      setCustomerErrmsg("Please Select Customer");
+      setCustomerErrmsg("Please Select Tenant");
       isValid = false;
     }
 
@@ -609,7 +609,7 @@ function UserList(props) {
     let hasError = false;
 
     if (!customername) {
-      setCustomerErrmsg("Please Select Customer");
+      setCustomerErrmsg("Please Select Tenant");
       hasError = true;
     } else {
       setCustomerErrmsg("");

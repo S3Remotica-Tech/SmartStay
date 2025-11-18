@@ -1385,7 +1385,7 @@ function CreateBill() {
         dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS' })
 
         if (!customername) {
-            setCustomerErrmsg("Please Select Customer");
+            setCustomerErrmsg("Please Select Tenant");
             hasError = true;
         } else {
             setCustomerErrmsg("");
@@ -1512,7 +1512,7 @@ function CreateBill() {
 
 
         if (!customername) {
-            setCustomerErrmsg("Please Select Customer");
+            setCustomerErrmsg("Please Select Tenant");
             isValid = false;
         }
 
