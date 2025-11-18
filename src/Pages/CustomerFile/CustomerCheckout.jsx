@@ -96,7 +96,7 @@ function CustomerCheckout(props) {
       setJoiningDate(props.bedData.actualJoining || props.bedData.currentTenantJoiningDate)
     }
 
-  }, [props.bedData.actualJoining,props.bedData.currentTenantJoiningDate])
+  }, [props.bedData.actualJoining, props.bedData.currentTenantJoiningDate])
 
 
 
@@ -122,7 +122,7 @@ function CustomerCheckout(props) {
     }
   };
 
-  
+
 
   const handleCheckOutCustomer = () => {
 
@@ -203,7 +203,6 @@ function CustomerCheckout(props) {
   }, [state.UsersList.addCheckoutCustomerStatusCode])
 
 
-console.log("props",props)
 
 
   return (
@@ -279,30 +278,53 @@ console.log("props",props)
                           }}
                         >
 
-                          <Image
-                            src={
-                              props.bedData
-                                ? props.bedData.currentTenantProfilePic && props.bedData.currentTenantProfilePic !== ""
-                                  ? typeof props.bedData.currentTenantProfilePic === "string"
-                                    ? props.bedData.currentTenantProfilePic
-                                    : URL.createObjectURL(props.bedData.currentTenantProfilePic)
-                                  : props.bedData.profilePic && props.bedData.profilePic !== ""
-                                    ? typeof props.bedData.profilePic === "string"
-                                      ? props.bedData.profilePic
-                                      : URL.createObjectURL(props.bedData.profilePic)
-                                    : Profiles
-                                : Profiles
-                            }
+                          {
+                            props.bedData &&
+                              (
+                                props.bedData.currentTenantProfilePic && props.bedData.currentTenantProfilePic !== "" ||
+                                props.bedData.profilePic && props.bedData.profilePic !== ""
+                              )
+                              ? (
+                                <Image
+                                  src={
+                                    props.bedData.currentTenantProfilePic && props.bedData.currentTenantProfilePic !== ""
+                                      ? typeof props.bedData.currentTenantProfilePic === "string"
+                                        ? props.bedData.currentTenantProfilePic
+                                        : URL.createObjectURL(props.bedData.currentTenantProfilePic)
+                                      : typeof props.bedData.profilePic === "string"
+                                        ? props.bedData.profilePic
+                                        : URL.createObjectURL(props.bedData.profilePic)
+                                  }
+                                  alt="Profile"
+                                  roundedCircle
+                                  style={{ height: 60, width: 60 }}
+                                  onError={(e) => {
+                                    e.target.onerror = null;
+                                    e.target.src = Profiles;
+                                  }}
+                                />
+                              )
+                              : (
+                                <div
+                                  style={{
+                                    height: 60,
+                                    width: 60,
+                                    borderRadius: "50%",
+                                    backgroundColor: "#1E45E1",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    fontSize: 24,
+                                    fontWeight: 600,
+                                    color: "#FFF",
+                                    textTransform: "uppercase",
+                                  }}
+                                >
+                                  {props.bedData?.initials || props.bedData?.currentTenantInitials || "-"}
+                                </div>
+                              )
+                          }
 
-                            alt="Profile"
-                            roundedCircle
-                            style={{ height: 60, width: 60 }}
-                            onError={(e) => {
-
-                              e.target.onerror = null;
-                              e.target.src = Profiles;
-                            }}
-                          />
 
 
                         </div>
@@ -406,10 +428,10 @@ console.log("props",props)
                                 if (joining && current.isBefore(joining.startOf("day"))) {
                                   return true;
                                 }
-                                 if (current.isAfter(dayjs().endOf("day"))) {
-    return true;
-  }
-                               return false;
+                                if (current.isAfter(dayjs().endOf("day"))) {
+                                  return true;
+                                }
+                                return false;
                               }}
                             />
 
@@ -572,7 +594,7 @@ console.log("props",props)
                       }}
                       onClick={handleCheckOutCustomer}
                     >
-                      CheckOut
+                      Save Changes
                     </Button>
                   </div>
 

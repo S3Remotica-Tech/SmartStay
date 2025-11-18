@@ -84,9 +84,11 @@ export const initialState = {
     billsGetStatusCode: 0,
     particularReceiptDetails: [],
     receiptGetStatusCode: 0,
-    createRefundStatusCode:0,
-    refundDetails:[],
-    refundDetailsStatusCode:0,
+    createRefundStatusCode: 0,
+    refundDetails: [],
+    refundDetailsStatusCode: 0,
+    tenantAssignStatus: 0,
+    tenantUnAssignStatus: 0,
     whatsappSettings:
         JSON.parse(localStorage.getItem('whatsappSettings')) || {
             0: false,
@@ -107,6 +109,19 @@ const InvoiceReducer = (state = initialState, action) => {
 
         case 'REMOVE_ERROR_AMENITIES':
             return { ...state, errorAmenities: 0 }
+
+        case 'TENANT_ASSIGN_AMENITIES':
+            return { ...state, tenantAssignStatus: action.payload.statusCode }
+
+        case 'REMOVE_TENANT_ASSIGN_AMENITIES':
+            return { ...state, tenantAssignStatus: 0 }
+
+        case 'TENANT_UNASSIGN_AMENITIES':
+            return { ...state, tenantUnAssignStatus: action.payload.statusCode }
+
+        case 'REMOVE_TENANT_UNASSIGN_AMENITIES':
+            return { ...state, tenantUnAssignStatus: 0 }
+
         case 'GET_FINAL_SETTLEMENT':
             return { ...state, finalSettlementDetails: action.payload.response, finalSettlementGetStatusCode: action.payload.statusCode }
         case 'REMOVE_GET_FINAL_SETTLEMENT':

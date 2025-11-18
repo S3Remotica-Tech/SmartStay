@@ -423,7 +423,7 @@ function UserList(props) {
     setAllFieldErrmsg("");
 
     if (!customername) {
-      setCustomerErrmsg("Please Select Customer");
+      setCustomerErrmsg("Please Select Tenant");
       isValid = false;
     }
 
@@ -609,7 +609,7 @@ function UserList(props) {
     let hasError = false;
 
     if (!customername) {
-      setCustomerErrmsg("Please Select Customer");
+      setCustomerErrmsg("Please Select Tenant");
       hasError = true;
     } else {
       setCustomerErrmsg("");
@@ -2613,7 +2613,7 @@ function UserList(props) {
 
   }, [state.InvoiceList.unableAddInvoiceDetailsError])
   return (
-    <div>
+    <div style={{overflow:"hidden" }}>
       {/* <Addbooking
         show={showbookingForm}
         handleClose={closeModal}
@@ -2640,7 +2640,7 @@ function UserList(props) {
       />
 
       {userList && (
-        <div className="container p-0">
+        <div className="container p-0" style={{  backgroundColor:""}}>
           <div className="header-container">
             <div
               className="d-flex justify-content-between align-items-center flex-wrap"
@@ -3173,7 +3173,7 @@ function UserList(props) {
                     <ErrorMessage message={['You do not have access to view Tenant']} type="warning" />
                   </div>
                 ) : !loading && Array.isArray(currentItems) && currentItems.length === 0 ? (
-                  <div style={{ marginTop: 30 }} className="animated-text">
+                  <div style={{ marginTop: 30, height:"auto" }} className="animated-text">
                     <div style={{ textAlign: "center" }}>
                       <img src={Emptystate} alt="emptystate" />
                     </div>

@@ -213,7 +213,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
     setCheckinCustomerName(selectedOption?.value || '');
     if (!selectedOption) {
-      setCheckinCustomerErrmsg("Please Select Customer");
+      setCheckinCustomerErrmsg("Please Select Tenant");
     } else {
       setCheckinCustomerErrmsg("");
     }
@@ -284,7 +284,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
       switch (fieldName) {
         case "bookingcustomername":
-          setError("Please Select Customer");
+          setError("Please Select Tenant");
           break;
         case "joiningDate":
           setError("Please Select Joining Date");
@@ -322,7 +322,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
     if (!trimmedValue) {
       switch (fieldName) {
         case "checkin_customername":
-          setCheckinCustomerErrmsg("Please Select Customer");
+          setCheckinCustomerErrmsg("Please Select Tenant");
           break;
         case "stay_typename":
           setStayTypeNameErrMsg("Please Select Staytype");
@@ -762,7 +762,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                         fontFamily: "Gilroy"
                       }}
                     >
-                      Check-in
+                      Check-In
                     </button>
                   </div>
 
@@ -1816,7 +1816,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                           }}
                           onClick={handleSaveCheckin}
                         >
-                          Check-in
+                          Check-In
                         </Button>
                       </div>
                     </>

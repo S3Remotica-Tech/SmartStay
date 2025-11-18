@@ -63,14 +63,26 @@ function BookingBed({
   };
 
   const handleAmount = (e) => {
-    const newAmount = e.target.value;
-    if (!/^\d*$/.test(newAmount)) {
-      return;
-    }
-    setAmount(newAmount);
-    setamountError("");
-    dispatch({ type: 'ERROR_BOOKING_REMOVE' })
-  };
+  const newAmount = e.target.value;
+
+  if (!/^\d*$/.test(newAmount)) {
+    return;
+  }
+
+   if (/^0+$/.test(newAmount)) {
+    return;
+  }
+
+  
+  if (/^0\d+/.test(newAmount)) {
+    return;
+  }
+
+  setAmount(newAmount);
+  setamountError("");
+  dispatch({ type: "ERROR_BOOKING_REMOVE" });
+};
+
 
   const handleTransactionId = (e) => {
     const value = e.target.value;
@@ -107,7 +119,7 @@ function BookingBed({
     if (!value || value === "Select a PG") {
       switch (fieldName) {
         case "bookingcustomername":
-          setError("Please Select Customer");
+          setError("Please Select Tenant");
           break;
         case "joiningDate":
           setError("Please Select Joining Date");
@@ -183,7 +195,7 @@ function BookingBed({
       hasError = true;
     }
     if (Number(amount) <= 0) {
-      setamountError("Booking Amount must be greater than 0");
+      setamountError("Please Enter Booking Amount");
       amountRef.current?.focus();
       hasError = true;
     }

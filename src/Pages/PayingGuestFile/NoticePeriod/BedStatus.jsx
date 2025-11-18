@@ -19,7 +19,7 @@ import MakeAsInAcive from "../../../Assets/v2Images/Inactive.svg"
 import Checkouts from '../../../Assets/v2Images/calendar-tick.svg'
 import Settings from '../../../Assets/v2Images/info-circle.svg'
 import { useHasPermission } from '../../../Utils/Permission';
-import {  Edit } from 'iconsax-react';
+import { Edit } from 'iconsax-react';
 function NoticeBedStatusDetails({
   show,
   handleCloseBed,
@@ -40,7 +40,7 @@ function NoticeBedStatusDetails({
 
 
   // const canWriteCustomers = useHasPermission("Customers", "canWrite")
-
+  console.log("currentItem", currentItem)
 
   const {
     canWriteModule: canWriteCustomers,
@@ -51,11 +51,11 @@ function NoticeBedStatusDetails({
 
 
 
-const {
-        canUpdateModule: canUpdatePayingGuests,
-        canDeleteModule: canDeletePayingGuests,
+  const {
+    canUpdateModule: canUpdatePayingGuests,
+    canDeleteModule: canDeletePayingGuests,
 
-    } = useHasPermission("Paying Guests");
+  } = useHasPermission("Paying Guests");
 
 
   const [recheckin, setRecheckin] = useState(false)
@@ -334,8 +334,9 @@ const {
                         justifyContent: "center",
                         alignItems: "center",
                         position: "relative",
-                        zIndex: activeMenu === 'reserved' ? 0 : "auto",
-                        backgroundColor: "white",
+                        // zIndex: activeMenu === 'occupied' ? 0 : "auto",
+                        backgroundColor: activeMenu === 'occupied' ? "#E0ECFF" : "white",
+                        borderRadius: activeMenu === 'occupied' && 100,
                       }}
 
 
@@ -504,17 +505,39 @@ const {
                   <div className="d-flex gap-3 align-items-center justify-content-between">
                     <div className="d-flex gap-3 align-items-center">
                       <div>
-                        <Image src={currentItem?.currentTenantProfilePic && currentItem?.currentTenantProfilePic !== "0" ? currentItem?.currentTenantProfilePic : Profile} roundedCircle style={{ height: 50, width: 50 }} alt="image" />
+                        {currentItem?.currentTenantProfilePic &&
+                          currentItem?.currentTenantProfilePic !== "0" ? (
+                          <Image
+                            src={currentItem.currentTenantProfilePic}
+                            roundedCircle
+                            style={{ height: 50, width: 50 }}
+                            alt="image"
+                          />
+                        ) : (
+                          <div
+                            style={{
+                              height: 50,
+                              width: 50,
+                              borderRadius: "50%",
+                              backgroundColor: "#1E45E1",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              fontSize: 20,
+                              fontWeight: "600",
+                              color: "white", fontFamily:"Gilroy"
+                            }}
+                          >
+                            {currentItem?.currentTenantInitials || "-"}
+                          </div>
+                        )}
                       </div>
                       <div className="mt-2">
                         <div>
                           <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600 }} >{currentItem?.currentTenantFullName || "N/A"}</label>
                         </div>
                         <div><label style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}>
-                          {/* {currentItem?.customerMobile
-                          ? `+${String(currentItem?.customerMobile).slice(0, -10)} ${String(currentItem?.customerMobile).slice(-10)}`
-                          : "No phone"} */}
-
+                         
                           {currentItem?.currentTenantMobile ? `+ ${currentItem?.countryCode} ${String(currentItem?.currentTenantMobile)}` : 'No phone'}
 
 
@@ -558,7 +581,8 @@ const {
                           alignItems: "center",
                           position: "relative",
                           zIndex: activeMenu === 'reserved' ? 1000 : "auto",
-                          backgroundColor: "white",
+                          backgroundColor: activeMenu === 'reserved' ? "#E0ECFF" : "white",
+                          borderRadius: activeMenu === 'reserved' && 100,
                         }}
 
 
@@ -711,7 +735,41 @@ const {
                               <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#dcdcdc", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed" }}>Make as Inactive</label>
                             </div>
 
+                            <div
+                              className="d-flex gap-2 align-items-center"
 
+                              onClick={() => canUpdatePayingGuests ? handleEditBed() : undefined}
+
+                              style={{
+                                padding: "15px",
+                                borderBottomLeftRadius: 10,
+                                borderBottomRightRadius: 10,
+                                cursor: canUpdatePayingGuests ? "pointer" : "not-allowed",
+                                opacity: canUpdatePayingGuests ? 1 : 0.6,
+                              }}
+                              onMouseEnter={(e) => {
+                                e.currentTarget.style.backgroundColor = "#FFF3F3";
+                              }}
+                              onMouseLeave={(e) => {
+                                e.currentTarget.style.backgroundColor = "transparent";
+                              }}
+                            >
+                              <Edit size="16" color={!canUpdatePayingGuests ? "#888888" : "#1E45E1"} className="ms-0" />
+
+                              <label
+                                style={{
+                                  fontSize: 14,
+                                  fontWeight: 500,
+                                  color: canUpdatePayingGuests ? "#222222" : "#A9A9A9",
+                                  marginBottom: 0,
+                                  fontFamily: "Gilroy",
+                                  cursor: canUpdatePayingGuests ? "pointer" : "not-allowed",
+                                }}
+                              >
+                                Edit
+                              </label>
+
+                            </div>
 
 
 
@@ -724,7 +782,33 @@ const {
                     <div className="d-flex gap-3 align-items-center justify-content-between">
                       <div className="d-flex gap-3 align-items-center">
                         <div>
-                          <Image src={currentItem?.newTenantProfilePic && currentItem?.newTenantProfilePic !== "0" ? currentItem?.newTenantProfilePic : Profile} roundedCircle style={{ height: 50, width: 50 }} alt="image" />
+                           {currentItem?.newTenantProfilePic &&
+                          currentItem?.newTenantProfilePic !== "0" ? (
+                          <Image
+                            src={currentItem.newTenantProfilePic}
+                            roundedCircle
+                            style={{ height: 50, width: 50 }}
+                            alt="image"
+                          />
+                        ) : (
+                          <div
+                            style={{
+                              height: 50,
+                              width: 50,
+                              borderRadius: "50%",
+                              backgroundColor: "#1E45E1",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              fontSize: 20,
+                              fontWeight: "600",
+                              color: "white", fontFamily:"Gilroy"
+                            }}
+                          >
+                            {currentItem?.newTenantInitials || "-"}
+                          </div>
+                        )}
+                          {/* <Image src={currentItem?.newTenantProfilePic && currentItem?.newTenantProfilePic !== "0" ? currentItem?.newTenantProfilePic : Profile} roundedCircle style={{ height: 50, width: 50 }} alt="image" /> */}
                         </div>
                         <div className="mt-2">
                           <div>

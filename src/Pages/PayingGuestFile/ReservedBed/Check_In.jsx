@@ -1078,7 +1078,7 @@ function CheckIn({
                                         color: "#1E45E1",
                                         fontWeight: 600,
                                         borderRadius: 12,
-                                        fontSize: 16,
+                                        fontSize: 14,
                                         fontFamily: "Gilroy",
                                         padding: "8px 40px"
                                     }}
@@ -1093,13 +1093,13 @@ function CheckIn({
                                         backgroundColor: "#1E45E1",
                                         fontWeight: 600,
                                         borderRadius: 12,
-                                        fontSize: 16,
+                                        fontSize: 14,
                                         fontFamily: "Gilroy",
-                                        padding: "8px 30px"
+                                        padding: "8px 40px", whiteSpace:"nowrap"
                                     }}
                                     onClick={handleCheckin}
                                 >
-                                    Checkin
+                                    Check-In
                                 </Button>
                             </div>
                         </Modal.Footer>

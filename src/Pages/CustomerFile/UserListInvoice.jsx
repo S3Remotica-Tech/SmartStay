@@ -198,9 +198,12 @@ function UserListInvoice(props) {
   return (
     <>
       <div className="d-flex justify-content-end col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        {
+          state.UsersList.customerdetails?.customerCurrentStatus !== "VACATED" &&
+        
         <Button
           onClick={handleAddBill}
-          disabled={props.customerAdd || !canWriteInvoice}
+          disabled={props.customerAdd || !canWriteInvoice }
           style={{
             fontFamily: "Gilroy",
             fontSize: "14px",
@@ -217,6 +220,7 @@ function UserListInvoice(props) {
           {" "}
           + Create Bill
         </Button>
+}
       </div>
 
       <div
@@ -542,6 +546,9 @@ function UserListInvoice(props) {
                             Status
                           </div>
                         </th>
+                        {
+                          state.UsersList.customerdetails?.customerCurrentStatus !== "VACATED" && 
+                        
                         <th style={{
                           color: "#939393",
                           fontWeight: 500,
@@ -551,6 +558,7 @@ function UserListInvoice(props) {
                           paddingBottom: "10px",
                           textAlign: "start",
                         }}> Action</th>
+                      }
                       </tr>
                     </thead>
                     <tbody
@@ -569,7 +577,7 @@ function UserListInvoice(props) {
                         let monthdue = dueDated.getMonth() + 1;
                         let yeardue = dueDated.getFullYear();
 
-                        let DueformattedDate = `${daydue}/${monthdue}/${yeardue}`;
+                      
 
                         return (
                           <tr key={view.id} style={{ marginTop: "20px" }}>
@@ -583,8 +591,7 @@ function UserListInvoice(props) {
                               }}
                               className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
                             >
-                              <div style={{ marginLeft: 10 }}>  {view.invoiceNumber
-                              }</div>
+                              <div style={{ marginLeft: 10 }}>  {view.invoiceNumber}</div>
 
                             </td>
                             <td
@@ -752,6 +759,10 @@ function UserListInvoice(props) {
                                 }
                               </span>
                             </td>
+                            {
+                              
+                          state.UsersList.customerdetails?.customerCurrentStatus !== "VACATED" && 
+                        
                             <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none", borderBottom: "1px solid #E8E8E8" }} className=''>
                               <div style={{ width: "100%", display: "flex", justifyContent: "start" }}>
                                 <div
@@ -913,6 +924,7 @@ function UserListInvoice(props) {
                               </div>
 
                             </td>
+                      }
                           </tr>
                         );
                       })}

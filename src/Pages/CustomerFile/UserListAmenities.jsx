@@ -11,10 +11,10 @@ import cross from "../../Assets/Images/cross.png";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import "./UserList.css";
-import { CloseCircle } from "iconsax-react";
+import { CloseCircle, AddSquare } from "iconsax-react";
 import { useHasPermission } from '../../Utils/Permission';
 import ErrorMessage from '../../Components/ErrorMessage'
-
+import Image from "react-bootstrap/Image";
 
 function UserListAmenities(props) {
   const state = useSelector((state) => state);
@@ -68,12 +68,20 @@ function UserListAmenities(props) {
     setselectAmneties(value);
 
     if (value === "") {
-      setamnityError("Please select a valid amenity Id");
+      setamnityError("Please select a valid amenity");
       setaddamenityShow(false);
       return;
     } else {
       setamnityError("");
     }
+    setaddamenityShow(true);
+    setstatusShow(false);
+
+  };
+
+
+  const handleShowAssignAmenities = () => {
+
     setaddamenityShow(true);
     setstatusShow(false);
 
@@ -90,8 +98,10 @@ function UserListAmenities(props) {
           return String(item.amenityId) === String(selectAmneties);
         });
       setcreateby(AmnitiesNamelist);
+    } else {
+      setcreateby('');
     }
-  }, [state.InvoiceList.AmenitiesList, selectAmneties]);
+  }, [state.InvoiceList.AmenitiesList, selectAmneties, state.InvoiceList.tenantAssignStatus]);
 
 
   const uniqueAmenities = [];
@@ -149,6 +159,8 @@ function UserListAmenities(props) {
     }
   };
 
+  console.log("statusAmni", statusAmni)
+
   const handleAmnitiesSelect = () => {
     if (!validateAssignField(statusAmni, "statusAmni")) return;
 
@@ -169,13 +181,21 @@ function UserListAmenities(props) {
   };
 
   const handleAddUserAmnities = () => {
+    if (!selectAmneties) {
+      setamnityError("Please select a valid amenity");
+      return;
+    }
+
+
+    setamnityError("");
+
     if (selectAmneties) {
       dispatch({
-        type: 'ASSIGNAMENITIES',
+        type: 'TENANTASSIGNAMENITIES',
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          amenityId: createby[0]?.amenityId,
-          customers: [state.UsersList?.customerdetails?.customerId]
+          newAmenities: [createby[0]?.amenityId],
+          customerId: state.UsersList?.customerdetails?.customerId
         },
       })
       setFormLoading(true)
@@ -186,34 +206,58 @@ function UserListAmenities(props) {
   };
 
   const handleUnAssignAmenities = (amenities) => {
-    console.log("amenities", amenities)
 
-    dispatch({
-      type: 'UNASSIGNAMENITIES',
-      payload: {
-        hostelId: state.login.selectedHostel_Id,
-        amenityId: amenities.amenityId,
-        customers: [state.UsersList?.customerdetails?.customerId]
 
-      },
-    })
+    // dispatch({
+    //   type: 'TENANTUNASSIGNAMENITIES',
+    //   payload: {
+    //     hostelId: state.login.selectedHostel_Id,
+    //     amenityId: amenities.amenityId,
+    //     customers: [state.UsersList?.customerdetails?.customerId]
+
+    //   },
+    // })
   }
+
+
+  // useEffect(() => {
+
+  //   if (state.InvoiceList.assignAmenitiesSuccessStatusCode === 200) {
+  //     setFormLoading(false)
+
+  //     setaddamenityShow(false);
+  //     dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: state.UsersList?.customerdetails?.customerId } });
+  //     setTimeout(() => {
+  //       dispatch({ type: 'REMOVE_ASSIGN_AMENITIES_STATUS_CODE' })
+  //     }, 100)
+
+
+  //   }
+
+  // }, [state.InvoiceList?.assignAmenitiesSuccessStatusCode])
+
 
 
   useEffect(() => {
 
-    if (state.InvoiceList.assignAmenitiesSuccessStatusCode === 200) {
+    if (state.InvoiceList.tenantAssignStatus === 201 || state.InvoiceList?.tenantUnAssignStatus === 201) {
       setFormLoading(false)
+
       setaddamenityShow(false);
       dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: state.UsersList?.customerdetails?.customerId } });
       setTimeout(() => {
-        dispatch({ type: 'REMOVE_ASSIGN_AMENITIES_STATUS_CODE' })
+        dispatch({ type: 'REMOVE_TENANT_ASSIGN_AMENITIES' })
+        dispatch({ type: 'REMOVE_TENANT_UNASSIGN_AMENITIES' })
+
       }, 100)
 
 
     }
 
-  }, [state.InvoiceList?.assignAmenitiesSuccessStatusCode])
+  }, [state.InvoiceList?.tenantAssignStatus, state.InvoiceList?.tenantUnAssignStatus])
+
+
+
 
 
   useEffect(() => {
@@ -227,7 +271,7 @@ function UserListAmenities(props) {
 
 
     }
-    
+
   }, [state.InvoiceList.UnAssignAmenitiesSuccessStatusCode])
 
 
@@ -244,6 +288,7 @@ function UserListAmenities(props) {
     setaddamenityShow(false);
     setActiveDotsId(null)
     setStatusAmni(false)
+    setamnityError("");
 
     dispatch({ type: "CLEAR_ERROR_USER_AMENITIES" });
   };
@@ -342,6 +387,11 @@ function UserListAmenities(props) {
 
 
 
+  const isDisabled =
+    !canWriteAmenities ||
+    state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" ||
+    state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" ||
+    state.UsersList.customerdetails?.customerCurrentStatus === "VACATED";
 
 
 
@@ -354,7 +404,8 @@ function UserListAmenities(props) {
 
   return (
     <div className="container mt-3">
-      {state.InvoiceList.AmenitiesList &&
+
+      {state.UsersList.customerdetails?.customerCurrentStatus !== "VACATED" && state.InvoiceList.AmenitiesList &&
         state.InvoiceList.AmenitiesList.length === 0 && (
           <>
             <div className="mb-4">
@@ -369,94 +420,41 @@ function UserListAmenities(props) {
         )}
 
 
+
+
+
       <div
-        className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
-        style={{ marginTop: "-10px" }}
+        className="d-flex justify-content-start ms-3"
+
       >
-        <Form.Label
-          style={{ fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}
+        <Button
+          disabled={!canWriteAmenities || state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" || state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" || state.UsersList.customerdetails?.customerCurrentStatus === "VACATED"}
+
+          style={{
+            backgroundColor: "#1E45E1",
+            fontWeight: 600,
+            height: 40,
+            borderRadius: 12,
+            fontSize: 16,
+            fontFamily: "Gilroy",
+            display: "flex",
+            alignItems: "center", gap: 2
+
+          }}
+          onClick={() => handleShowAssignAmenities()}
         >
-          Amenities
-        </Form.Label>
-        <Select
-          isDisabled={!canWriteAmenities || state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED"}
-          placeholder="Select an Amenities"
-          value={
-            state.InvoiceList.AmenitiesList?.find(
-              (item) => item.amenityId === selectAmneties
-            )
-              ? {
-                value: selectAmneties,
-                label: state.InvoiceList.AmenitiesList.find(
-                  (item) => item.amenityId === selectAmneties
-                )?.amenityName,
-              }
-              : null
-          }
-          onChange={(e) => {
-            if (!props.customerAdd) {
-              handleselect(e);
-            }
-          }}
-          options={state.InvoiceList.AmenitiesList
-            ?.filter(
-              (item) =>
-                !CustomerOverView?.some(
-                  (c) => c.amenityId === item.amenityId
-                )
-            )
-            ?.map((item) => ({
-              value: item.amenityId,
-              label: item.amenityName,
-            }))}
-          classNamePrefix="custom"
-          menuPlacement="auto"
-          styles={{
-            menu: (base) => ({
-              ...base,
-              maxHeight: "170px",
-              overflowY: "auto",
-              zIndex: 9999,
-              fontFamily: "Gilroy",
-            }),
-            menuList: (base) => ({
-              ...base,
-              maxHeight: "170px",
-              overflowY: "auto",
-              padding: 0,
-              scrollbarWidth: "thin",
-              cursor: "pointer",
-              fontFamily: "Gilroy",
-            }),
-            control: (base) => ({
-              ...base,
-              fontSize: 16,
-              borderRadius: 8,
-              border: "1px solid #D9D9D9",
-              height: 50,
-              fontWeight: 500,
-              fontFamily: "Gilroy, sans-serif",
-              boxShadow: "none",
-              boxShadowColor: "none",
-            }),
-            dropdownIndicator: (base) => ({
-              ...base,
-              cursor: "pointer",
-            }),
-            option: (base, state) => ({
-              ...base,
-              cursor: props.customerAdd ? "not-allowed" : "pointer",
-              backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-              opacity: props.customerAdd ? 0.5 : 1,
-              color: "#000",
-              fontFamily: "Gilroy",
-            }),
-          }}
-        />
-        {amnityError && (
-          <ErrorMessage message={amnityError} type="error" />
-        )}
+          <AddSquare
+            size="18"
+            color="#FFFFFF"
+            variant="Bold"
+          />  Assign
+        </Button>
+
       </div>
+
+
+
+
 
       <Modal
         show={addamenityShow}
@@ -484,8 +482,194 @@ function UserListAmenities(props) {
           />
         </Modal.Header>
 
-        <Modal.Body className="pb-1">
-          <div className="mb-3 ps-2 pe-2">
+        <Modal.Body className="pb-1 pt-2">
+          <div className="row">
+
+            <div className="d-flex align-items-center mb-3 ">
+              <div
+
+              >
+
+                {state.UsersList.customerdetails?.profilePic ? (
+                  <Image
+                    src={state.UsersList.customerdetails.profilePic}
+                    alt="Profile"
+                    roundedCircle
+                    style={{ height: 60, width: 60 }}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = Profiles;
+                    }}
+                  />
+                ) : (
+                  <div
+                    style={{
+                      height: 60,
+                      width: 60,
+                      borderRadius: "50%",
+                      backgroundColor: "#1E45E1",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      fontSize: 24,
+                      fontWeight: "600",
+                      color: "#FFFFFF",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    {state.UsersList.customerdetails?.initials || "-"}
+                  </div>
+                )}
+
+
+
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <div className="ps-3">
+                  <div>
+                    <label
+                      style={{
+                        fontSize: 16,
+                        fontWeight: 500,
+                        color: "#222222",
+                        fontFamily: "Gilroy",
+                      }}
+                    >
+                      {state.UsersList.customerdetails.fullName}
+                    </label>
+                  </div>
+
+                </div>
+
+                <div className="d-flex flex-wrap gap-2 ms-2">
+
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      background: "#FFEFCF",
+                      padding: "6px 12px",
+                      borderRadius: "60px",
+                      fontFamily: "Gilroy",
+                      fontSize: 12,
+                      color: "#222",
+                      fontWeight: 500,
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {state.UsersList.customerdetails?.hostelInfo?.floorName}
+                  </div>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      background: "#FFE0D9",
+                      padding: "6px 12px",
+                      borderRadius: "60px",
+                      fontFamily: "Gilroy",
+                      fontSize: 12,
+                      color: "#222",
+                      fontWeight: 500,
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {state.UsersList.customerdetails?.hostelInfo?.roomName}  -  {state.UsersList.customerdetails?.hostelInfo?.bedName}
+                  </div>
+
+
+                </div>
+              </div>
+            </div>
+            <div
+              className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3"
+              style={{ marginTop: "-10px" }}
+            >
+              <Form.Label
+                style={{ fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}
+              >
+                Amenities
+              </Form.Label>
+              <Select
+                isDisabled={!canWriteAmenities || state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" || state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" || state.UsersList.customerdetails?.customerCurrentStatus === "VACATED"}
+                placeholder="Select an Amenities"
+                value={
+                  state.InvoiceList.AmenitiesList?.find(
+                    (item) => item.amenityId === selectAmneties
+                  )
+                    ? {
+                      value: selectAmneties,
+                      label: state.InvoiceList.AmenitiesList.find(
+                        (item) => item.amenityId === selectAmneties
+                      )?.amenityName,
+                    }
+                    : null
+                }
+                onChange={(e) => {
+                  if (!props.customerAdd) {
+                    handleselect(e);
+                  }
+                }}
+                options={state.InvoiceList.AmenitiesList
+                  ?.filter(
+                    (item) =>
+                      !CustomerOverView?.some(
+                        (c) => c.amenityId === item.amenityId
+                      )
+                  )
+                  ?.map((item) => ({
+                    value: item.amenityId,
+                    label: item.amenityName,
+                  }))}
+                classNamePrefix="custom"
+                menuPlacement="auto"
+                styles={{
+                  menu: (base) => ({
+                    ...base,
+                    maxHeight: "170px",
+                    overflowY: "auto",
+                    zIndex: 9999,
+                    fontFamily: "Gilroy",
+                  }),
+                  menuList: (base) => ({
+                    ...base,
+                    maxHeight: "170px",
+                    overflowY: "auto",
+                    padding: 0,
+                    scrollbarWidth: "thin",
+                    cursor: "pointer",
+                    fontFamily: "Gilroy",
+                  }),
+                  control: (base) => ({
+                    ...base,
+                    fontSize: 16,
+                    borderRadius: 8,
+                    border: "1px solid #D9D9D9",
+                    height: 50,
+                    fontWeight: 500,
+                    fontFamily: "Gilroy, sans-serif",
+                    boxShadow: "none",
+                    boxShadowColor: "none",
+                  }),
+                  dropdownIndicator: (base) => ({
+                    ...base,
+                    cursor: "pointer",
+                  }),
+                  option: (base, state) => ({
+                    ...base,
+                    cursor: props.customerAdd ? "not-allowed" : "pointer",
+                    backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                    opacity: props.customerAdd ? 0.5 : 1,
+                    color: "#000",
+                    fontFamily: "Gilroy",
+                  }),
+                }}
+              />
+              {amnityError && (
+                <ErrorMessage message={amnityError} type="error" />
+              )}
+            </div>
+            {/* <div className="mb-3 ps-2 pe-2">
             <label
               className="mb-1"
               style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}
@@ -510,11 +694,9 @@ function UserListAmenities(props) {
               }}
               disabled
             />
-          </div>
-          {amnityError && (
-            <ErrorMessage message={amnityError} type="error" />
-          )}
-          <div className="mb-3 ps-2 pe-2">
+          </div> */}
+
+            {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 ps-2 pe-2">
             <label
               className="mb-1"
               style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}
@@ -539,97 +721,98 @@ function UserListAmenities(props) {
               }}
               disabled
             />
-          </div>
+          </div> */}
 
-          <div className="mb-3 ps-2 pe-2">
-            <label
-              className="mb-1"
-              style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}
-            >
-              Amount
-            </label>
-            <Form.Control
-              placeholder="Amount"
-              aria-label="Recipient's username"
-              className="border custom-input"
-              aria-describedby="basic-addon2"
-              value={createby[0]?.amenityAmount}
-              style={{
-                fontSize: 16,
-                fontWeight: "500",
-                fontFamily: "Gilroy",
-                opacity: 1,
-                borderRadius: "8px",
-                height: 45,
-                color: "gray",
-                "::placeholder": { color: "gray", fontSize: 12 },
-              }}
-              disabled
-            />
-          </div>
-          {statusShow && (
-            <div className="mb-3 ps-2  pe-2 ">
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-3 ps-2 pe-2">
               <label
                 className="mb-1"
                 style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}
               >
-                Select Status{" "}
-                <span style={{ color: "red", fontSize: "20px" }}>
-                  {" "}
-                  *{" "}
-                </span>
+                Amount
               </label>
-              <Form.Select
-                aria-label="Default select example"
-                value={statusAmni}
-                className="border"
-                onChange={(e) => handleStatusAmnities(e)}
+              <Form.Control
+                placeholder="Amount"
+                aria-label="Recipient's username"
+                className="border custom-input"
+                aria-describedby="basic-addon2"
+                value={createby[0]?.amenityAmount}
                 style={{
                   fontSize: 16,
-                  backgroundColor: "transparent",
-                  height: 45,
-                  borderRadius: 8,
-                  opacity: 1,
-                  fontWeight: 500,
+                  fontWeight: "500",
                   fontFamily: "Gilroy",
-                  color: "grey",
-                  cursor: "pointer"
-
+                  opacity: 1,
+                  borderRadius: "8px",
+                  height: 45,
+                  color: "gray",
+                  "::placeholder": { color: "gray", fontSize: 12 },
                 }}
-              >
-                <option
+                disabled
+              />
+            </div>
+            {statusShow && (
+              <div className="mb-3 ps-2  pe-2 ">
+                <label
+                  className="mb-1"
+                  style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}
+                >
+                  Select Status{" "}
+                  <span style={{ color: "red", fontSize: "20px" }}>
+                    {" "}
+                    *{" "}
+                  </span>
+                </label>
+                <Form.Select
+                  aria-label="Default select example"
+                  value={statusAmni}
+                  className="border"
+                  onChange={(e) => handleStatusAmnities(e)}
                   style={{
+                    fontSize: 16,
+                    backgroundColor: "transparent",
+                    height: 45,
+                    borderRadius: 8,
+                    opacity: 1,
+                    fontWeight: 500,
+                    fontFamily: "Gilroy",
+                    color: "grey",
+                    cursor: "pointer"
+
+                  }}
+                >
+                  <option
+                    style={{
+                      fontSize: 16,
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
+                      opacity: 1
+                    }}
+                  >
+                    Select Status
+                  </option>
+
+                  <option value="1" style={{
                     fontSize: 16,
                     fontWeight: 500,
                     fontFamily: "Gilroy",
-                    opacity: 1
-                  }}
-                >
-                  Select Status
-                </option>
-
-                <option value="1" style={{
-                  fontSize: 16,
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  opacity: 1,
-                  color: "gray",
-                  cursor: "pointer"
-                }}>Active</option>
-                <option value="0" style={{
-                  fontSize: 16,
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  opacity: 1,
-                  color: "gray",
-                  cursor: "pointer"
-                }}>In Active</option>
-              </Form.Select>
-              {selectError && (
-                <ErrorMessage message={selectError} type="error" />
-              )}
-            </div>
-          )}
+                    opacity: 1,
+                    color: "gray",
+                    cursor: "pointer"
+                  }}>Active</option>
+                  <option value="0" style={{
+                    fontSize: 16,
+                    fontWeight: 500,
+                    fontFamily: "Gilroy",
+                    opacity: 1,
+                    color: "gray",
+                    cursor: "pointer"
+                  }}>In Active</option>
+                </Form.Select>
+                {selectError && (
+                  <ErrorMessage message={selectError} type="error" />
+                )}
+              </div>
+            )}
+          </div>
         </Modal.Body>
 
 
@@ -664,13 +847,29 @@ function UserListAmenities(props) {
 
 
 
-        <Modal.Footer className="d-flex justify-content-center pt-0" style={{ borderTop: "none" }}>
+        <Modal.Footer className="d-flex justify-content-end pt-0" style={{ borderTop: "none" }}>
           <Button
-            className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+            style={{
+              backgroundColor: "white",
+              fontWeight: 400,
+              height: 40,
+              borderRadius: 10,
+              fontSize: 16,
+              fontFamily: "Gilroy",
+              color: 'rgba(75, 75, 75, 1)',
+              border: '1px solid white'
+            }}
+            onClick={handleFormClose}
+          >
+            Cancel
+          </Button>
+          <Button
+            disabled={!canWriteAmenities || state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" || state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" || state.UsersList.customerdetails?.customerCurrentStatus === "VACATED"}
+            className=""
             style={{
               backgroundColor: "#1E45E1",
               fontWeight: 600,
-              height: 50,
+              height: 40,
               borderRadius: 12,
               fontSize: 16,
               fontFamily: "Gilroy",
@@ -684,7 +883,7 @@ function UserListAmenities(props) {
               }
             }}
           >
-            Assign Amenities
+            Assign
           </Button>
         </Modal.Footer>
       </Modal>
@@ -710,7 +909,7 @@ function UserListAmenities(props) {
           :
           (
             <>
-              <div className="d-flex flex-wrap mt-2">
+              <div className="d-flex flex-wrap mt-2 ms-2">
                 {CustomerOverView?.map((v) => (
                   <span
                     key={v.amenityId}
@@ -726,13 +925,21 @@ function UserListAmenities(props) {
                   >
                     {v.amenityName} - ₹{v.amenityAmount}/m
                     <img
-
-                      onClick={() => handleUnAssignAmenities(v)}
+                      onClick={() => {
+                        if (!isDisabled) {
+                          handleUnAssignAmenities(v);
+                        }
+                      }}
                       src={cross}
                       width={13}
                       height={13}
                       alt="Remove"
-                      style={{ marginLeft: 8, cursor: "pointer" }}
+                      style={{
+                        marginLeft: 8,
+                        cursor: isDisabled ? "not-allowed" : "pointer",
+                        opacity: isDisabled ? 0.4 : 1,
+                        pointerEvents: isDisabled ? "none" : "auto"
+                      }}
                     />
                   </span>
                 ))}

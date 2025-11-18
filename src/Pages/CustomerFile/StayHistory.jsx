@@ -15,7 +15,7 @@ function StayHistory({ show, handleClose }) {
 
   const dispatch = useDispatch();
   const [data, setData] = useState("")
-  
+
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
@@ -33,20 +33,7 @@ function StayHistory({ show, handleClose }) {
   }, [state.UsersList.customerdetails.bedHistory])
 
 
-  // const data = [
-  //   { room: "A-101 / Bed 1", duration: "30 Mar 2025 – 03 May 2025", reason: "Room Maintenance", rent: "₹4,000" },
-  //   { room: "B-205 / Bed 2", duration: "30 Mar 2025 – 03 May 2025", reason: "Shifting 2 to 3 Sharing", rent: "₹5,500" },
-  //   { room: "C-310 / Bed 3", duration: "30 Mar 2025 – 03 May 2025", reason: "Shifting 5 to 2 Sharing", rent: "₹6000" },
-  //   { room: "D-413 / Bed 6", duration: "03 May 2025", reason: "Shifting 2 to 3 Sharing", rent: "₹4000" },
-  //       { room: "D-413 / Bed 6", duration: "03 May 2025", reason: "Shifting 2 to 3 Sharing", rent: "₹4000" },
-  //           { room: "D-413 / Bed 6", duration: "03 May 2025", reason: "Shifting 2 to 3 Sharing", rent: "₹4000" },
-  //               { room: "D-413 / Bed 6", duration: "03 May 2025", reason: "Shifting 2 to 3 Sharing", rent: "₹4000" },
-  //                   { room: "D-413 / Bed 6", duration: "03 May 2025", reason: "Shifting 2 to 3 Sharing", rent: "₹4000" },
-
-
-
-
-  // ];
+  console.log("data", data)
 
   return (
     <div className="modal show" style={{
@@ -54,7 +41,7 @@ function StayHistory({ show, handleClose }) {
       position: "initial",
       fontFamily: "Gilroy",
     }}>
-      <Modal show={show} onHide={handleClose} centered backdrop="static"   dialogClassName="custom-modals-style-stays">
+      <Modal show={show} onHide={handleClose} centered backdrop="static" dialogClassName="custom-modals-style-stays">
         <Modal.Dialog
           className="m-0 p-0"
           style={{ margin: "0 0px" }}
@@ -145,12 +132,12 @@ function StayHistory({ show, handleClose }) {
                       }}>
                         {`${dayjs(row.startDate, "DD/MM/YYYY").format("DD MMM YYYY")} - ${row.endDate === "Till date"
                             ? "Till date"
-                            : dayjs(row.endDate, "DD/MM/YYYY").format("DD MMM YYYY")
+                            : row.endDate
+                              ? dayjs(row.endDate, "DD/MM/YYYY").format("DD MMM YYYY")
+                              : "N/A"
                           }`}
-                        {/* {dayjs(row.startDate).format("DD MMM YYYY")}
-  {row.endDate !== "Till date" && (
-    <> - {dayjs(row.endDate).format("DD MMM YYYY")}</>
-  )} */}
+
+
                       </td>
                       <td style={{
                         fontSize: 14,

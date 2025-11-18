@@ -596,8 +596,7 @@ const [zoom, setZoom] = useState('')
  useEffect(() => {
   const handleZoomDetect = () => {
     const zoom = getZoomLevel();
-    console.log("Zoom: ", zoom,);
-    setZoom(zoom); 
+      setZoom(zoom); 
   };
 
   window.addEventListener("resize", handleZoomDetect);

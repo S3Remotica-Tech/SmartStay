@@ -284,7 +284,7 @@ const CheckOutForm = ({
 
 
     if (!selectedCustomer) {
-      setCustomerError("Please Select Customer");
+      setCustomerError("Please Select Tenant");
 
     }
 

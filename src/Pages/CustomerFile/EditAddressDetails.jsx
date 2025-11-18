@@ -266,13 +266,14 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
 
         
         const noChanges =
-            houseNo === initialState.Address &&
-            street === initialState.area &&
-            landmark === initialState.landmark &&
-            city === initialState.city &&
-            pincode === initialState.pincode &&
-            stateName === initialState.state;
+    houseNo === initialState.Address &&
+    street === initialState.area &&
+    landmark === initialState.landmark &&
+    city === initialState.city &&
+    String(pincode) === String(initialState.pincode) &&
+    stateName === initialState.state;
 
+console.log("pincode === initialState.pincode",pincode === initialState.pincode, pincode,"initialState.pincode",initialState.pincode )
         if (noChanges) {
             setFormError("No changes detected");
             return;

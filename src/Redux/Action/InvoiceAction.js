@@ -359,6 +359,31 @@ export async function ParticularAmentityList(hostelId, amenityId) {
 }
 
 
+
+export async function AssignAmenitiesForTenant(datum) {
+  return await AxiosConfigV2.put(
+    `/v2/amenity/assign/customer/${datum.hostelId}`,datum ,{
+      data: datum
+    });
+}
+
+export async function UnAssignAmenitiesForTenant(datum) {
+  return await AxiosConfigV2.put(
+    `/v2/amenity/assign/customer/${datum.hostelId}`,datum ,{
+      data: datum
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
 export function GetBillsPdfDetails(datum) {
   // return await AxiosConfig.get(`/get_bill_details/${datum.bill_id}`);
   new Promise((resolve, reject) => {
