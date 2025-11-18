@@ -273,13 +273,8 @@ function UserList(props) {
     setDropdownValue("");
   };
   useEffect(() => {
-    if (state?.Booking?.statusCodeForAddBooking === 200) {
+    if (state?.Booking?.statusCodeForAddBooking === 200 && value === "1") {
 
-
-      // dispatch({
-      //   type: "GET_BOOKING_LIST",
-      //   payload: { hostel_id: state.login.selectedHostel_Id },
-      // });
       dispatch({
         type: "USERLIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
@@ -2329,7 +2324,7 @@ function UserList(props) {
 
 
   useEffect(() => {
-    if (state.UsersList.statusCodeForCheckInCustomer === 201) {
+    if (state.UsersList.statusCodeForCheckInCustomer === 201 && value === "1") {
       dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
       setShowAssignMenu(false)
       setTimeout(() => {
