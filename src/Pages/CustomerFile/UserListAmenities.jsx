@@ -354,7 +354,8 @@ function UserListAmenities(props) {
 
   return (
     <div className="container mt-3">
-      {state.InvoiceList.AmenitiesList &&
+      
+      { state.UsersList.customerdetails?.customerCurrentStatus !== "VACATED" &&  state.InvoiceList.AmenitiesList &&
         state.InvoiceList.AmenitiesList.length === 0 && (
           <>
             <div className="mb-4">
@@ -379,7 +380,7 @@ function UserListAmenities(props) {
           Amenities
         </Form.Label>
         <Select
-          isDisabled={!canWriteAmenities || state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" || state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE"}
+          isDisabled={!canWriteAmenities || state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" || state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" || state.UsersList.customerdetails?.customerCurrentStatus === "VACATED" }
           placeholder="Select an Amenities"
           value={
             state.InvoiceList.AmenitiesList?.find(
