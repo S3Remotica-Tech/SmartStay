@@ -12,6 +12,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import minMax from "dayjs/plugin/minMax";
+import { CloseCircle } from "iconsax-react";
 
 import customParseFormat from "dayjs/plugin/customParseFormat";
 dayjs.extend(customParseFormat);
@@ -35,7 +36,7 @@ function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer
 
 
   const isPreviousBed = state.PgList?.isClickedBed
-  
+
 
 
   const [selectedDate, setSelectedDate] = useState(null);
@@ -52,18 +53,18 @@ function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer
 
 
   const handleRentChange = (e) => {
-  let value = e.target.value.replace(/[^0-9]/g, ""); 
+    let value = e.target.value.replace(/[^0-9]/g, "");
 
- 
-  if (/^0+$/.test(value)) {
-    value = ""; 
-  } else if (value.length > 1 && value.startsWith("0")) {
-    value = value.replace(/^0+/, "");
-  }
 
-  setNewRoomRent(value);
-  setErrors((prev) => ({ ...prev, rent: "" }));
-};
+    if (/^0+$/.test(value)) {
+      value = "";
+    } else if (value.length > 1 && value.startsWith("0")) {
+      value = value.replace(/^0+/, "");
+    }
+
+    setNewRoomRent(value);
+    setErrors((prev) => ({ ...prev, rent: "" }));
+  };
 
 
 
@@ -158,53 +159,53 @@ function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer
 
 
 
-const disabledDate = (current) => {
-  const today = dayjs().endOf("day");
-  const joiningDate = dayjs(CustomerOverView?.hostelInfo?.joiningDate, "DD/MM/YYYY");
-  const invoices = CustomerOverView?.invoiceResponseList || [];
-  const bedHistory = CustomerOverView?.bedHistory || [];
+  const disabledDate = (current) => {
+    const today = dayjs().endOf("day");
+    const joiningDate = dayjs(CustomerOverView?.hostelInfo?.joiningDate, "DD/MM/YYYY");
+    const invoices = CustomerOverView?.invoiceResponseList || [];
+    const bedHistory = CustomerOverView?.bedHistory || [];
 
 
-  const lastBillDate = invoices.length > 0
-    ? dayjs(invoices[invoices.length - 1].invoiceGeneratedDate, "DD/MM/YYYY")
-    : null;
+    const lastBillDate = invoices.length > 0
+      ? dayjs(invoices[invoices.length - 1].invoiceGeneratedDate, "DD/MM/YYYY")
+      : null;
 
- 
-  let latestBedChangeDate = null;
-  if (bedHistory.length > 0) {
-    const lastRecord = bedHistory[bedHistory.length - 1];
-    if (lastRecord.endDate === "Till date") {
-      latestBedChangeDate = dayjs(lastRecord.startDate, "DD/MM/YYYY");
-    } else {
-      const validDates = bedHistory
-        .filter((b) => b.startDate)
-        .map((b) => dayjs(b.startDate, "DD/MM/YYYY"));
-      if (validDates.length > 0) {
-        latestBedChangeDate = dayjs.max(validDates);
+
+    let latestBedChangeDate = null;
+    if (bedHistory.length > 0) {
+      const lastRecord = bedHistory[bedHistory.length - 1];
+      if (lastRecord.endDate === "Till date") {
+        latestBedChangeDate = dayjs(lastRecord.startDate, "DD/MM/YYYY");
+      } else {
+        const validDates = bedHistory
+          .filter((b) => b.startDate)
+          .map((b) => dayjs(b.startDate, "DD/MM/YYYY"));
+        if (validDates.length > 0) {
+          latestBedChangeDate = dayjs.max(validDates);
+        }
       }
     }
-  }
-
-  
-  if (current.isAfter(today, "day")) {
-    return true;
-  }
 
 
-  const joinedThisMonth =
-    joiningDate.month() === dayjs().month() && joiningDate.year() === dayjs().year();
+    if (current.isAfter(today, "day")) {
+      return true;
+    }
 
-  if (joinedThisMonth) {
 
-    const compareDate =
-      bedHistory.length > 0 ? latestBedChangeDate : joiningDate;
+    const joinedThisMonth =
+      joiningDate.month() === dayjs().month() && joiningDate.year() === dayjs().year();
+
+    if (joinedThisMonth) {
+
+      const compareDate =
+        bedHistory.length > 0 ? latestBedChangeDate : joiningDate;
+      return current.isBefore(compareDate, "day") || current.isAfter(today, "day");
+    }
+
+
+    const compareDate = latestBedChangeDate || lastBillDate || joiningDate;
     return current.isBefore(compareDate, "day") || current.isAfter(today, "day");
-  }
-
-
-  const compareDate = latestBedChangeDate || lastBillDate || joiningDate;
-  return current.isBefore(compareDate, "day") || current.isAfter(today, "day");
-};
+  };
 
 
 
@@ -241,12 +242,12 @@ const disabledDate = (current) => {
               Confirm Change Bed
             </div>
 
-
+ <CloseCircle size="24" color="#000" onClick={handleClose} style={{ cursor: "pointer" }} />
           </Modal.Header>
 
 
-          <Modal.Body 
-          style={{ maxHeight: "450px", overflowY: "scroll" }} className="show-scroll mt-1 me-3"
+          <Modal.Body
+            style={{ maxHeight: "380px", overflowY: "scroll" }} className="show-scroll mt-1 me-3"
           >
 
             <div className="d-flex justify-content-between align-items-start mb-1" >
@@ -276,9 +277,9 @@ const disabledDate = (current) => {
                 </p>
 
                 <p className="mb-3" style={{ fontFamily: 'Gilroy', fontSize: '16px' }}>
-                 
-                  <LiaBedSolid  style={{ width: '20px', height: '20px', verticalAlign: 'middle' , color:"#1E45E1"}}/>
-                  <span  className="ms-2" style={{ position: 'relative', top: '3px', left: '4px' }}>{isPreviousBed?.bedName || 'N/A'} </span>
+
+                  <LiaBedSolid style={{ width: '20px', height: '20px', verticalAlign: 'middle', color: "#1E45E1" }} />
+                  <span className="ms-2" style={{ position: 'relative', top: '3px', left: '4px' }}>{isPreviousBed?.bedName || 'N/A'} </span>
                 </p>
 
               </div>
@@ -325,7 +326,7 @@ const disabledDate = (current) => {
                 </p>
 
                 <p className="mb-3" style={{ fontFamily: 'Gilroy', fontSize: '16px' }}>
-                  <LiaBedSolid  style={{ width: '20px', height: '20px', verticalAlign: 'middle' , color:"#1E45E1"}}/>
+                  <LiaBedSolid style={{ width: '20px', height: '20px', verticalAlign: 'middle', color: "#1E45E1" }} />
                   <span className="ms-2" style={{ position: 'relative', top: '3px', left: '4px' }}>{currentBed?.bedName || 'N/A'} </span>
                 </p>
               </div>
@@ -337,12 +338,12 @@ const disabledDate = (current) => {
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
                 <Form.Group className="mb-1">
                   <Form.Label style={{ marginBottom: 4, fontSize: 14, fontFamily: "Gilroy" }}>Date {" "} <span style={{ color: "red", fontSize: "20px" }}>
-                        *
-                      </span></Form.Label>
+                    *
+                  </span></Form.Label>
                   <DatePicker
                     style={{
                       width: "100%",
-                      height: 48, 
+                      height: 48,
                       border: "1px solid lightgrey",
                       cursor: "pointer",
                       fontFamily: "Gilroy",
@@ -352,7 +353,7 @@ const disabledDate = (current) => {
                     className="small-placeholder-datepicker"
                     value={selectedDate ? dayjs(selectedDate) : null}
                     onChange={handleDateChange}
-                     disabledDate={disabledDate}
+                    disabledDate={disabledDate}
                     getPopupContainer={(triggerNode) =>
                       triggerNode.closest(".datepicker-wrapper")
                     }
@@ -363,75 +364,75 @@ const disabledDate = (current) => {
                   <ErrorMessage message={errors.date} type="error" />
                 )}
               </div>
-             
-
-                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                  <Form.Group className="mb-3">
-                    <Form.Label
-                      style={{
-                        fontSize: 14,
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        display: "flex",
-                        alignItems: "center",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      New Rent Amount {" "} <span style={{ color: "red", fontSize: "20px" }}>
-                        *
-                      </span>
-                      <Form.Check className="ms-3">
-                        <Form.Check.Input
-
-                          type="checkbox"
-                          checked={sameAsCurrent}
-                          onChange={handleSameAsCurrent}
-                          style={{ cursor: "pointer" }}
-                        />
-                        <Form.Check.Label>
-                          <span
-                            style={{
-                              color: "#1E45E1",
-                              fontWeight: 500,
-                              whiteSpace: "nowrap",
-                              fontSize: 11,
-                              fontFamily: "Gilroy",
-                            }}
-                          >
-                            Same as Current
-                          </span>
-                        </Form.Check.Label>
-                      </Form.Check>
-
-                    </Form.Label>
-                    <FormControl
-                      value={newRoomRent}
-                      onChange={handleRentChange}
-                      type="text"
-                      id="form-controls"
-                      placeholder="Enter Amount"
-                      className="small-placeholder"
-                      style={{
-                        fontSize: 16,
-                        color: "#4B4B4B",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        boxShadow: "none",
-                        border: "1px solid #D9D9D9",
-                        height: 50,
-                        borderRadius: 8,
-                        marginTop: 8,
-                      }}
-                    />
-                    {errors.rent && (
-                      <ErrorMessage message={errors.rent} type="error" />
-                    )}
-                  </Form.Group>
 
 
-                </div>
+              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <Form.Group className="mb-3">
+                  <Form.Label
+                    style={{
+                      fontSize: 14,
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
+                      display: "flex",
+                      alignItems: "center",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    New Rent Amount {" "} <span style={{ color: "red", fontSize: "20px" }}>
+                      *
+                    </span>
+                    <Form.Check className="ms-3">
+                      <Form.Check.Input
 
-              
+                        type="checkbox"
+                        checked={sameAsCurrent}
+                        onChange={handleSameAsCurrent}
+                        style={{ cursor: "pointer" }}
+                      />
+                      <Form.Check.Label>
+                        <span
+                          style={{
+                            color: "#1E45E1",
+                            fontWeight: 500,
+                            whiteSpace: "nowrap",
+                            fontSize: 11,
+                            fontFamily: "Gilroy",
+                          }}
+                        >
+                          Same as Current
+                        </span>
+                      </Form.Check.Label>
+                    </Form.Check>
+
+                  </Form.Label>
+                  <FormControl
+                    value={newRoomRent}
+                    onChange={handleRentChange}
+                    type="text"
+                    id="form-controls"
+                    placeholder="Enter Amount"
+                    className="small-placeholder"
+                    style={{
+                      fontSize: 16,
+                      color: "#4B4B4B",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                      boxShadow: "none",
+                      border: "1px solid #D9D9D9",
+                      height: 50,
+                      borderRadius: 8,
+                      marginTop: 8,
+                    }}
+                  />
+                  {errors.rent && (
+                    <ErrorMessage message={errors.rent} type="error" />
+                  )}
+                </Form.Group>
+
+
+              </div>
+
+
 
             </div>
 
@@ -440,33 +441,33 @@ const disabledDate = (current) => {
               <ErrorMessage message={state.UsersList?.changeBedError} type="error" />
             </div>}
 
-            <div className="d-flex gap-3 mt-1 ">
-              <Button
-                variant="light"
-                className="px-4"
-                style={{ border: "1px solid #ddd", width: "260px", backgroundColor: "white", fontSize: 16, fontFamily: "Gilroy" }}
-                onClick={handleClose}
-              >
-                Cancel
-              </Button>
 
-              <Button
-                variant="primary"
-                className="px-4"
-                onClick={handleSubmit}
-                style={{
-                  backgroundColor: "#1E45E1",
-                  borderRadius: "8px",
-                  width: "260px", fontSize: 16, fontFamily: "Gilroy"
-                }}
-              >
-                <img src={repeatOne} alt="icon" className="me-2" />
-                Assign
-              </Button>
-
-            </div>
           </Modal.Body>
+          <div className="d-flex gap-3 mt-1 ms-3 me-3  mb-3 ">
+            <Button
+              variant="light"
+              className="px-4"
+              style={{ border: "1px solid #ddd", width: "260px", backgroundColor: "white", fontSize: 16, fontFamily: "Gilroy" }}
+              onClick={handleClose}
+            >
+              Cancel
+            </Button>
 
+            <Button
+              variant="primary"
+              className="px-4"
+              onClick={handleSubmit}
+              style={{
+                backgroundColor: "#1E45E1",
+                borderRadius: "8px",
+                width: "260px", fontSize: 16, fontFamily: "Gilroy"
+              }}
+            >
+              <img src={repeatOne} alt="icon" className="me-2" />
+              Assign
+            </Button>
+
+          </div>
 
         </Modal.Dialog>
       </Modal>

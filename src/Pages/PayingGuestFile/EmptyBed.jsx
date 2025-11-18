@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import Modal from 'react-bootstrap/Modal';
-import { CloseCircle } from 'iconsax-react';
+import { CloseCircle, Edit } from 'iconsax-react';
 import PropTypes from "prop-types";
 import AddSquare from '../../Assets/Images/add-square.png'
 import AssignTenant from '../../Assets/Images/assign_tenant.png'
@@ -12,22 +12,28 @@ import { useHasPermission } from '../../Utils/Permission';
 
 
 
-function EmptyBed({ show, handleClose, showbed, showcustomer, showtenant }) {
+function EmptyBed({ show, handleClose, showbed, showcustomer, showtenant, showEditBed }) {
 
 
   const state = useSelector((state) => state);
   const dispatch = useDispatch
 
-  // const canWriteCustomers = useHasPermission("Customers", "canWrite")
+  
 
 
   const {
-            canWriteModule: canWriteCustomers,
-          //   canReadModule: canReadExpense,
-          //   canUpdateModule: canUpdateExpense,
-          //   canDeleteModule: canDeleteExpense,
-          } = useHasPermission("Customers");
-      
+    canWriteModule: canWriteCustomers,
+    //   canReadModule: canReadExpense,
+    // canUpdateModule: canUpdateCustomers,
+    //   canDeleteModule: canDeleteExpense,
+  } = useHasPermission("Customers");
+
+  const {
+    canUpdateModule: canUpdatePayingGuests,
+    canDeleteModule: canDeletePayingGuests,
+
+  } = useHasPermission("Paying Guests");
+
 
 
   const handleShowAddCustomer = () => {
@@ -43,6 +49,9 @@ function EmptyBed({ show, handleClose, showbed, showcustomer, showtenant }) {
     showbed(true)
   }
 
+  const handleEditBed = () => {
+    showEditBed(true)
+  }
 
   useEffect(() => {
     const closeButton = document.querySelector('button[aria-label="close-button"]');
@@ -123,12 +132,12 @@ function EmptyBed({ show, handleClose, showbed, showcustomer, showtenant }) {
           <Modal.Body className="px-4 pb-4">
             <div className="d-flex flex-column gap-3">
 
-             
+
               <div
                 className="d-flex justify-content-between align-items-center"
                 style={{
                   cursor: canWriteCustomers ? "pointer" : "not-allowed",
-                  opacity: canWriteCustomers ? 1 : 0.5,   
+                  opacity: canWriteCustomers ? 1 : 0.5,
                 }}
                 onClick={canWriteCustomers ? handleShowAddCustomer : undefined}
               >
@@ -148,7 +157,7 @@ function EmptyBed({ show, handleClose, showbed, showcustomer, showtenant }) {
                   width={20}
                   alt="addcustomer"
                   style={{
-                    filter: canWriteCustomers ? "none" : "grayscale(100%)", 
+                    filter: canWriteCustomers ? "none" : "grayscale(100%)",
                   }}
                 />
               </div>
@@ -179,19 +188,39 @@ function EmptyBed({ show, handleClose, showbed, showcustomer, showtenant }) {
                   }}
                 />
               </div>
-
               <div
                 className="d-flex justify-content-between align-items-center"
                 style={{
-                  cursor: canWriteCustomers ? "pointer" : "not-allowed",
-                  opacity: canWriteCustomers ? 1 : 0.5,
+                  cursor: canUpdatePayingGuests ? "pointer" : "not-allowed",
+                  opacity: canUpdatePayingGuests ? 1 : 0.5,
                 }}
-                onClick={canWriteCustomers ? handleDeleteBed : undefined}
+                onClick={() => canUpdatePayingGuests ? handleEditBed() : undefined}
               >
                 <span
                   style={{
                     fontSize: 14,
-                    color: canWriteCustomers ? "#FF0000" : "#A0A0A0",
+                    color: canUpdatePayingGuests ? "#1E45E1" : "#A0A0A0",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  Edit
+                </span>
+                <Edit size="16" color={!canUpdatePayingGuests ? "#888888" : "#1E45E1"} />
+
+              </div>
+              <div
+                className="d-flex justify-content-between align-items-center"
+                style={{
+                  cursor: canDeletePayingGuests ? "pointer" : "not-allowed",
+                  opacity: canDeletePayingGuests ? 1 : 0.5,
+                }}
+                onClick={canDeletePayingGuests ? handleDeleteBed : undefined}
+              >
+                <span
+                  style={{
+                    fontSize: 14,
+                    color: canDeletePayingGuests ? "#FF0000" : "#A0A0A0",
                     fontFamily: "Gilroy",
                     fontWeight: 400,
                   }}
@@ -204,7 +233,7 @@ function EmptyBed({ show, handleClose, showbed, showcustomer, showtenant }) {
                   width={20}
                   alt="deleteicon"
                   style={{
-                    filter: canWriteCustomers ? "none" : "grayscale(100%)",
+                    filter: canDeletePayingGuests ? "none" : "grayscale(100%)",
                   }}
                 />
               </div>

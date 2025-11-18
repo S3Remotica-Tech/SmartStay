@@ -28,6 +28,7 @@ import { IoClose } from "react-icons/io5";
 import { Container, Row, Col, Table } from "react-bootstrap";
 import { Location, Call, Profile, } from 'iconsax-react'
 import { IoBed } from "react-icons/io5";
+import { BsQrCode } from "react-icons/bs";
 
 
 const InvoiceCard = ({ rowData, handleClosed }) => {
@@ -519,7 +520,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                           : pdfDetails?.configurations?.invoiceType === 'Advance'
                             ? "Security Deposit"
                             : pdfDetails?.configurations?.invoiceType === 'Rent'
-                              ? "Payment Invoice"
+                              ? "Payment Bills"
                               : "Invoice"
                       }
 
@@ -1176,12 +1177,15 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                     <div className="col-md-4 d-flex flex-column justify-content-between">
 
                       <div className="d-flex justify-content-center mb-2">
+                        {pdfDetails?.accountDetails?.qrCode ? 
                         <img
-                          src={pdfDetails?.accountDetails?.qrCode ? pdfDetails?.accountDetails?.qrCode : Barcode}
+                          src={pdfDetails?.accountDetails?.qrCode ? pdfDetails?.accountDetails?.qrCode : ""}
                           alt="Barcode"
                           style={{ height: "auto", maxWidth: 150, borderRadius: 2 }}
                           className="img-fluid"
                         />
+                        :
+                       ""}
                       </div>
 
                       <div className="d-flex justify-content-end">

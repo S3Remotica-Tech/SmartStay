@@ -36,6 +36,7 @@ import { useHasPermission } from '../Utils/Permission';
 import { Location, Call, Profile, } from 'iconsax-react'
 import { IoBed } from "react-icons/io5";
 import { Container, Row, Col, Table } from "react-bootstrap";
+import { BsQrCode } from "react-icons/bs";
 
 const SecurityDepositInvoiceTemplate = ({ BillsTemplateList , templateThemes}) => {
 
@@ -1179,15 +1180,22 @@ useEffect(() => {
 
                   <div className="col-md-4 d-flex flex-column align-items-end " style={{}}>
                     <div className="text-end">
+                      {
+                        qrImage ? 
+                      
                       <img
-                        src={qrImage ? qrImage : Barcode}
+                        src={qrImage }
                         alt="QR Code"
                         className="img-fluid"
                         style={{
                           maxWidth: '150px',
                           height: 'auto',
-                        }}
-                      />
+                        }}/>
+                        :
+                                                    <BsQrCode  style={{ height: 89, width: 89, borderRadius: '2px' , color: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`}}/>
+                        
+                      }
+                      
                     </div>
 
                     <div className="d-flex">

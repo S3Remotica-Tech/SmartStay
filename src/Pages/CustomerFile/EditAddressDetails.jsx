@@ -227,14 +227,7 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
         const pinString = String(pincode || "").trim();
 
 
-        if (!/^\d+$/.test(pinString)) {
-            setPincodeError("Pin Code Must Be Numeric");
-            if (!focused) {
-                pincodeRef.current?.focus();
-                focused = true;
-            }
-            hasError = true;
-        } else if (pinString.length !== 6) {
+       if (pinString && pinString.length !== 6) {
             setPincodeError("Pin Code Must Be Exactly 6 Digits");
             if (!focused) {
                 pincodeRef.current?.focus();

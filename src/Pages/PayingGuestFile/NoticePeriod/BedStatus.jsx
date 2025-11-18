@@ -19,6 +19,7 @@ import MakeAsInAcive from "../../../Assets/v2Images/Inactive.svg"
 import Checkouts from '../../../Assets/v2Images/calendar-tick.svg'
 import Settings from '../../../Assets/v2Images/info-circle.svg'
 import { useHasPermission } from '../../../Utils/Permission';
+import {  Edit } from 'iconsax-react';
 function NoticeBedStatusDetails({
   show,
   handleCloseBed,
@@ -29,7 +30,8 @@ function NoticeBedStatusDetails({
   handleOpenChangeBed,
   handleShowInActiveForm,
   handleOpenCancelCheckout,
-  handleDisplayCheckInForm
+  handleDisplayCheckInForm,
+  showEditBed
 }) {
 
 
@@ -49,7 +51,11 @@ function NoticeBedStatusDetails({
 
 
 
+const {
+        canUpdateModule: canUpdatePayingGuests,
+        canDeleteModule: canDeletePayingGuests,
 
+    } = useHasPermission("Paying Guests");
 
 
   const [recheckin, setRecheckin] = useState(false)
@@ -59,7 +65,9 @@ function NoticeBedStatusDetails({
   const isNoticeAndBooked = currentItem?.newTenantCustomerId !== null
 
 
-  console.log("currentItem", currentItem)
+  const handleEditBed = () => {
+    showEditBed(true)
+  }
 
   const handleShowDots = (type) => {
     setActiveMenu((prev) => (prev === type ? null : type));
@@ -110,8 +118,7 @@ function NoticeBedStatusDetails({
   const matchedData = state?.UsersList?.Users?.filter(
     (user) => user.customerId === currentItem.currentTenantCustomerId
   );
-  console.log("matchedData", matchedData)
-  console.log("currentItem", currentItem)
+
 
   const handleFinalsettelmentGenerate = () => {
     showfinalsettelemnet(true)
@@ -352,7 +359,7 @@ function NoticeBedStatusDetails({
                           }}
                         >
 
-                         
+
 
 
 
@@ -447,6 +454,45 @@ function NoticeBedStatusDetails({
                               <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#A0A0A0", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed" }}>Checkout</label>
                             </div>
                           }
+
+                          <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
+
+                          <div
+                            className="d-flex gap-2 align-items-center"
+
+                            onClick={() => canUpdatePayingGuests ? handleEditBed() : undefined}
+
+                            style={{
+                              padding: "15px",
+                              borderBottomLeftRadius: 10,
+                              borderBottomRightRadius: 10,
+                              cursor: canUpdatePayingGuests ? "pointer" : "not-allowed",
+                              opacity: canUpdatePayingGuests ? 1 : 0.6,
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.backgroundColor = "#FFF3F3";
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.backgroundColor = "transparent";
+                            }}
+                          >
+                            <Edit size="16" color={!canUpdatePayingGuests ? "#888888" : "#1E45E1"} className="ms-0" />
+
+                            <label
+                              style={{
+                                fontSize: 14,
+                                fontWeight: 500,
+                                color: canUpdatePayingGuests ? "#222222" : "#A9A9A9",
+                                marginBottom: 0,
+                                fontFamily: "Gilroy",
+                                cursor: canUpdatePayingGuests ? "pointer" : "not-allowed",
+                              }}
+                            >
+                              Edit
+                            </label>
+
+                          </div>
+
 
 
                         </div>

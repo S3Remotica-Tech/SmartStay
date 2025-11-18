@@ -51,6 +51,7 @@ import { FiArrowRight } from "react-icons/fi";
 import { RiPercentLine } from "react-icons/ri";
 import { FiCode } from "react-icons/fi";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { BsQrCode } from "react-icons/bs";
 function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handleFormPage }) {
 
 
@@ -2874,11 +2875,16 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handl
 
                           <div className="col-md-4 d-flex flex-column justify-content-between" style={{ height: "100%" }}>
                             <div className="d-flex justify-content-end mt-auto">
+                           {
+qrImage ? 
                               <img
-                                src={qrImage ? qrImage : Barcode}
+                                src={qrImage}
                                 alt="QR Code"
                                 style={{ height: 89, width: 89, borderRadius: '2px' }}
                               />
+                              :
+                            <BsQrCode  style={{ height: 89, width: 89, borderRadius: '2px' , color: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`}}/>
+                           }
                             </div>
                             <div className="d-flex flex-row justify-content-end">
                               <img src={Paytm} alt="Paytm" style={{ height: 38, width: 38 }} className="m-2" />
