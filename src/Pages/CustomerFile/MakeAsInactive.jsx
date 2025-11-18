@@ -132,23 +132,34 @@ console.log("inActiveDetails",inActiveDetails)
             </Modal.Header>
             <div className="d-flex align-items-center gap-3 mb-3 ms-3">
 
-                <img
-                    src={
-                        typeof inActiveDetails.profilePic === "string" && inActiveDetails.profilePic.trim()
-                            ? inActiveDetails.profilePic
-                            : inActiveDetails.profilePic instanceof File
-                                ? URL.createObjectURL(inActiveDetails.profilePic)
-                                : Profile
-                    }
-                    alt="Profile"
-                    className="rounded-circle"
-                    width="35"
-                    height="35"
-                    onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = Profile;
-                    }}
-                />
+               
+
+                 {inActiveDetails.profilePic || inActiveDetails.newTenantProfilePic &&
+                                    (inActiveDetails.profilePic !== "0" || inActiveDetails.newTenantProfilePic !== "0")  ? (
+                                    <Image
+                                        src={inActiveDetails.profilePic || inActiveDetails?.newTenantProfilePic}
+                                        roundedCircle
+                                        style={{ height: 50, width: 50 }}
+                                        alt="image"
+                                    />
+                                ) : (
+                                    <div
+                                        style={{
+                                            height: 50,
+                                            width: 50,
+                                            borderRadius: "50%",
+                                            backgroundColor: "#1E45E1",
+                                            display: "flex",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                            fontSize: 20,
+                                            fontWeight: "600",
+                                            color: "white", fontFamily: "Gilroy"
+                                        }}
+                                    >
+                                        {inActiveDetails?.initials || inActiveDetails?.newTenantInitials ||  "-"}
+                                    </div>
+                                )}
                 <div >
                     <div>
                         <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px", fontFamily: "Gilroy" }}>

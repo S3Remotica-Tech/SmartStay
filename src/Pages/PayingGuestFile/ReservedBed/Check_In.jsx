@@ -493,23 +493,32 @@ function CheckIn({
 
                             <div className="d-flex align-items-center gap-3 mb-3 ms-3">
 
-                                <img
-                                    src={
-                                        typeof currentItem?.newTenantProfilePic === "string" && currentItem?.newTenantProfilePic.trim()
-                                            ? currentItem?.newTenantProfilePic
-                                            : currentItem?.newTenantProfilePic instanceof File
-                                                ? URL.createObjectURL(currentItem?.newTenantProfilePic)
-                                                : Profileimage
-                                    }
-                                    alt="Profile"
-                                    className="rounded-circle"
-                                    width="45"
-                                    height="45"
-                                    onError={(e) => {
-                                        e.target.onerror = null;
-                                        e.target.src = Profileimage;
-                                    }}
-                                />
+                              {currentItem?.newTenantProfilePic &&
+                                                                      currentItem?.newTenantProfilePic !== "0" ? (
+                                                                      <Image
+                                                                        src={currentItem.newTenantProfilePic}
+                                                                        roundedCircle
+                                                                        style={{ height: 50, width: 50 }}
+                                                                        alt="image"
+                                                                      />
+                                                                    ) : (
+                                                                      <div
+                                                                        style={{
+                                                                          height: 50,
+                                                                          width: 50,
+                                                                          borderRadius: "50%",
+                                                                          backgroundColor: "#1E45E1",
+                                                                          display: "flex",
+                                                                          justifyContent: "center",
+                                                                          alignItems: "center",
+                                                                          fontSize: 20,
+                                                                          fontWeight: "600",
+                                                                          color: "white", fontFamily:"Gilroy"
+                                                                        }}
+                                                                      >
+                                                                        {currentItem?.newTenantInitials || "-"}
+                                                                      </div>
+                                                                    )}
                                 <div>
                                     <div>
                                         <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px", fontFamily: "Gilroy" }}>
