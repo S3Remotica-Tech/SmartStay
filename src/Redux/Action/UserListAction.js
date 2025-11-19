@@ -881,10 +881,20 @@ export async function conformCheckout(customer) {
 
 
 export async function EditTenantAmount(change) {
-  return await AxiosConfigV2.post(`/v2/bookings/rent/${change.hostelId}/${change.bookingId}`, change, {
-    data: change
-  })
+  return await AxiosConfigV2.put(
+    `/v2/bookings/rent/${change.hostelId}/${change.bookingId}`,
+    {},
+    {
+      params: {
+        joiningDate: change.updateInfo.joiningDate,
+        reason: change.updateInfo.reason,
+        effectiveDate : change.updateInfo.effectiveDate,
+        newRent: change.updateInfo.newRent
+      }
+    }
+  );
 }
+
 
 
 

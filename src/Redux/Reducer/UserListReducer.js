@@ -155,7 +155,8 @@ export const initialState = {
     cancelCheckoutError: "",
     editBasicSuccessStatusCode: 0,
     changeBedError: '',
-    editAmountSuccessStatusCode: 0
+    editAmountSuccessStatusCode: 0,
+    updateTenantError: ''
 
 }
 
@@ -331,6 +332,12 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, phoneError: action.payload }
         case 'CLEAR_PHONE_ERROR':
             return { ...state, phoneError: '' }
+
+        case 'TENANT_UPDATE_ERROR':
+            return { ...state, updateTenantError: action.payload }
+        case 'REMOVE_TENANT_UPDATE_ERROR':
+            return { ...state, updateTenantError: '' }
+
         case 'ERROR':
             return { ...state, errorMessage: action.payload, roomdetails: [], bednumberdetails: [] }
         case 'HOSTEL_LIST':

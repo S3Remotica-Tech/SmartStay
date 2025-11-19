@@ -16,8 +16,6 @@ import dayjs from 'dayjs';
 
 function EditJoiningDate({ show, handleClose }) {
 
-
-
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
     const [monthlyRent, setMonthlyRent] = useState("");
@@ -48,6 +46,7 @@ function EditJoiningDate({ show, handleClose }) {
 
 
     const handleReasonChange = (selectedOption) => {
+          dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' })
         if (selectedOption?.value !== "Others") {
             setReason(selectedOption);
         } else {
@@ -69,6 +68,7 @@ function EditJoiningDate({ show, handleClose }) {
 
 
     const handleEffectiveFromChange = (date, dateString) => {
+          dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' })
         setEffectiveFrom(dateString);
         setEffectiveFromError("");
     };
@@ -85,7 +85,16 @@ function EditJoiningDate({ show, handleClose }) {
         }
     }, [state?.UsersList.editAmountSuccessStatusCode])
 
+useEffect(()=>{
+    if(state.UsersList?.updateTenantError){
+        setLoading(false)
+    }
+
+},[state.UsersList?.updateTenantError])
+
+
     const handleSubmit = () => {
+         dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' })
         let isValid = true;
 
 
@@ -117,10 +126,10 @@ function EditJoiningDate({ show, handleClose }) {
     };
 
 
-    const previousJoiningDate = dayjs(
-        CustomerOverView?.hostelInfo?.joiningDate,
-        "DD/MM/YYYY"
-    );
+    // const previousJoiningDate = dayjs(
+    //     CustomerOverView?.hostelInfo?.joiningDate,
+    //     "DD/MM/YYYY"
+    // );
 
 
     return (
@@ -164,11 +173,6 @@ function EditJoiningDate({ show, handleClose }) {
                     <Modal.Body style={{ maxHeight: "370px", overflowY: "scroll" }} className="show-scroll p-3 mt-0 me-3" >
                         <div className="row mb-0">
 
-
-
-
-
-
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
                                 <Form.Group className="">
                                     <Form.Label
@@ -206,8 +210,7 @@ function EditJoiningDate({ show, handleClose }) {
                                             disabledDate={(current) =>
                                                 current &&
                                                 (
-                                                    current < previousJoiningDate.startOf("day") ||
-                                                    current > dayjs().endOf("day")
+                                                                                                       current > dayjs().endOf("day")
                                                 )
                                             }
                                         />
@@ -322,7 +325,9 @@ function EditJoiningDate({ show, handleClose }) {
                             </div>
                         </div>
 
-
+{
+    state.UsersList?.updateTenantError && <ErrorMessage message={ state.UsersList.updateTenantError} type="error" />
+}
 
 
                     </Modal.Body>

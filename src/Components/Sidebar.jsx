@@ -188,10 +188,11 @@ const [zoom, setZoom] = useState('')
 
  
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
+    if (state.login.selectedHostel_Id || state.PgList?.createPgStatusCode === 201) {
        dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } })
+      
     }
-  }, [state.login.selectedHostel_Id]);
+  }, [state.login.selectedHostel_Id,state.PgList.createPgStatusCode]);
 
 
 

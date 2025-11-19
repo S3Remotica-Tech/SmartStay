@@ -776,11 +776,13 @@ function UserListRoomDetail(props) {
 
 
   const handleUpdateChange = () => {
+     dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' })
     setShowUpdateRentForm(true)
   }
 
 
   const handleCloseUpdateChange = () => {
+     dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' })
     setShowUpdateRentForm(false)
   }
 
@@ -795,11 +797,13 @@ function UserListRoomDetail(props) {
   }
 
   const handleUpdateJoiningChange = () => {
+     dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' })
     setShowUpdateJoiningForm(true)
   }
 
 
   const handleCloseUpdateJoiningChange = () => {
+      dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' })
     setShowUpdateJoiningForm(false)
   }
 
