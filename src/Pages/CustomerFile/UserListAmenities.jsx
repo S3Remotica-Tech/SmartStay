@@ -587,8 +587,15 @@ function UserListAmenities(props) {
             >
               <Form.Label
                 style={{ fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}
-              >
-                Amenities
+              > 
+                Amenities {" "} <span
+                                            style={{
+                                                color: "red",
+                                                fontSize: "20px",
+                                            }}
+                                        >
+                                            *
+                                        </span>
               </Form.Label>
               <Select
                 isDisabled={!canWriteAmenities || state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" || state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" || state.UsersList.customerdetails?.customerCurrentStatus === "VACATED"}
