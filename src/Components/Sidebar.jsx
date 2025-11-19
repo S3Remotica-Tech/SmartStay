@@ -186,12 +186,13 @@ const [zoom, setZoom] = useState('')
   }, []);
 
 
-  // need this command line
-  // useEffect(() => {
-  //   if (state.login.selectedHostel_Id) {
-  //     dispatch({ type: "ACCOUNTDETAILS" });
-  //   }
-  // }, [state.login.selectedHostel_Id]);
+ 
+  useEffect(() => {
+    if (state.login.selectedHostel_Id || state.PgList?.createPgStatusCode === 201) {
+       dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } })
+      
+    }
+  }, [state.login.selectedHostel_Id,state.PgList.createPgStatusCode]);
 
 
 

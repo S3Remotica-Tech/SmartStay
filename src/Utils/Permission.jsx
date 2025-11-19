@@ -71,22 +71,24 @@ const checkPermission = (roleData, moduleName, action = "canRead") => {
 
 export const useHasPermission = (moduleName) => {
   const roleData = useSelector((state) => state.AssetList.getPermissionRoleList);
+  const isValidSubscription = useSelector((state) => state.UsersList?.hotelDetailsinPg.isSubscriptionActive);
 
 // console.log("roleData",roleData)
-  const canWriteSubscription = checkPermission(roleData, "Subscription", "canWrite");
-  const canReadSubscription = checkPermission(roleData, "Subscription", "canRead");
-  const canUpdateSubscription = checkPermission(roleData, "Subscription", "canUpdate");
-  const canDeleteSubscription = checkPermission(roleData, "Subscription", "canDelete");
+  // const canWriteSubscription = checkPermission(roleData, "Subscription", "canWrite");
+  // const canReadSubscription = checkPermission(roleData, "Subscription", "canRead");
+  // const canUpdateSubscription = checkPermission(roleData, "Subscription", "canUpdate");
+  // const canDeleteSubscription = checkPermission(roleData, "Subscription", "canDelete");
 
+ 
 
   const canWriteModule =
-    !!canWriteSubscription && checkPermission(roleData, moduleName, "canWrite");
+   isValidSubscription && checkPermission(roleData, moduleName, "canWrite");
   const canReadModule =
-    !!canReadSubscription && checkPermission(roleData, moduleName, "canRead");
+    isValidSubscription && checkPermission(roleData, moduleName, "canRead");
   const canUpdateModule =
-    !!canUpdateSubscription && checkPermission(roleData, moduleName, "canUpdate");
+   isValidSubscription && checkPermission(roleData, moduleName, "canUpdate");
   const canDeleteModule =
-    !!canDeleteSubscription && checkPermission(roleData, moduleName, "canDelete");
+   isValidSubscription && checkPermission(roleData, moduleName, "canDelete");
 
   return {
     canWriteModule,

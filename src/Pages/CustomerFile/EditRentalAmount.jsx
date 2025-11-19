@@ -31,6 +31,9 @@ function EditRentalAmount({ show, handleClose }) {
     const dateRef = useRef(null);
 
 
+
+    const CustomerOverView = state.UsersList.customerdetails;
+
     const reasonOptions = [
         { value: "Annual Rent Revision", label: "Annual Rent Revision" },
         { value: "Room Upgrade / Change", label: "Room Upgrade / Change" },
@@ -45,6 +48,7 @@ function EditRentalAmount({ show, handleClose }) {
 
 
     const handleReasonChange = (selectedOption) => {
+        dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' })
         if (selectedOption?.value !== "Others") {
             setReason(selectedOption);
         } else {
@@ -54,6 +58,7 @@ function EditRentalAmount({ show, handleClose }) {
     };
 
     const handleMonthlyRentChange = (e) => {
+        dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' })
         const value = e.target.value;
 
         if (/^[0-9\b]*$/.test(value)) {
@@ -66,12 +71,21 @@ function EditRentalAmount({ show, handleClose }) {
 
 
     const handleEffectiveFromChange = (date, dateString) => {
+        dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' })
         setEffectiveFrom(dateString);
         setEffectiveFromError("");
     };
 
+    useEffect(() => {
+        if (state.UsersList?.updateTenantError) {
+            setLoading(false)
+        }
+
+    }, [state.UsersList?.updateTenantError])
+
 
     const handleSubmit = () => {
+        dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' })
         let isValid = true;
 
         if (!monthlyRent || Number(monthlyRent) <= 0) {
@@ -80,17 +94,32 @@ function EditRentalAmount({ show, handleClose }) {
             isValid = false;
         }
 
-        if (!effectiveFrom) {
-            setEffectiveFromError("Please select an effective date");
-            dateRef.current?.focus();
-            isValid = false;
-        }
+        // if (!effectiveFrom) {
+        //     setEffectiveFromError("Please select an effective date");
+        //     dateRef.current?.focus();
+        //     isValid = false;
+        // }
 
 
 
         if (!isValid) return;
+        let formattedDate = "";
 
-        dispatch({ type: '' })
+        if (effectiveFrom && dayjs(effectiveFrom, "DD/MM/YYYY").isValid()) {
+            formattedDate = dayjs(effectiveFrom, "DD/MM/YYYY").format("DD-MM-YYYY");
+        }
+        console.log("formattedDate", formattedDate)
+        dispatch({
+            type: 'EDITAMOUNTDETAILS', payload: {
+                hostelId: state.login.selectedHostel_Id,
+                bookingId: CustomerOverView?.bookingId,
+                updateInfo: {
+                    effectiveDate: formattedDate,
+                    reason: reason || "",
+                    newRent: monthlyRent
+                }
+            }
+        })
 
         setLoading(true)
 
@@ -113,7 +142,7 @@ function EditRentalAmount({ show, handleClose }) {
 
     useEffect(() => {
         if (state?.UsersList.editAmountSuccessStatusCode === 200) {
-setLoading(false)
+            setLoading(false)
             setTimeout(() => {
                 dispatch({ type: 'REMOVE_EDIT_AMOUNT_DETAILS' })
             }, 100)
@@ -228,14 +257,7 @@ setLoading(false)
                                         }}
                                     >
                                         Effective From  {" "}
-                                        <span
-                                            style={{
-                                                color: "red",
-                                                fontSize: "20px",
-                                            }}
-                                        >
-                                            *
-                                        </span>
+
                                     </Form.Label>
                                     <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
                                         <DatePicker ref={dateRef}
@@ -366,7 +388,9 @@ setLoading(false)
                             </div>
                         </div>
 
-
+                        {
+                            state.UsersList?.updateTenantError && <ErrorMessage message={state.UsersList.updateTenantError} type="error" />
+                        }
 
 
                     </Modal.Body>

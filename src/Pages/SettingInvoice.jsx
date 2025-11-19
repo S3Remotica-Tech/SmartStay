@@ -2875,16 +2875,16 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handl
 
                           <div className="col-md-4 d-flex flex-column justify-content-between" style={{ height: "100%" }}>
                             <div className="d-flex justify-content-end mt-auto">
-                           {
-qrImage ? 
-                              <img
-                                src={qrImage}
-                                alt="QR Code"
-                                style={{ height: 89, width: 89, borderRadius: '2px' }}
-                              />
-                              :
-                            <BsQrCode  style={{ height: 89, width: 89, borderRadius: '2px' , color: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`}}/>
-                           }
+                              {
+                                qrImage ?
+                                  <img
+                                    src={qrImage}
+                                    alt="QR Code"
+                                    style={{ height: 89, width: 89, borderRadius: '2px' }}
+                                  />
+                                  :
+                                  <BsQrCode style={{ height: 89, width: 89, borderRadius: '2px', color: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})` }} />
+                              }
                             </div>
                             <div className="d-flex flex-row justify-content-end">
                               <img src={Paytm} alt="Paytm" style={{ height: 38, width: 38 }} className="m-2" />
@@ -3118,9 +3118,7 @@ qrImage ?
                       Add your basic billing details here. These will appear on all invoices unless you choose to customize them in individual templates.
                     </p>
                   </div>
-                  {fieldError && (
-                    <ErrorMessage message={fieldError} type="error" />
-                  )}
+
                   <div className="mb-5" style={{ marginTop: "-25px" }}>
                     <div className="row mb-5 align-items-center">
                       <div className="col-md-4">
@@ -3220,8 +3218,14 @@ qrImage ?
                         </div>
 
                       </div>
+                      {fieldError && (
+                        <div className="d-flex mb-5 mt-0 justify-content-center">
+                          <ErrorMessage message={fieldError} type="error" />
+                        </div>
+                      )}
 
                     </div>
+
 
                     <div className="row mb-4 align-items-center" style={{ marginTop: "-20px" }}>
                       <div className="col-md-4">

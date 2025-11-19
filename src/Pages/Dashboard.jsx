@@ -60,10 +60,10 @@ function Dashboard() {
   const [totalAmount, setTotalAmount] = useState([]);
   const [rolePermission, setRolePermission] = useState("");
   const [permissionError, setPermissionError] = useState("");
- 
-  const [AnnouncementAddPermission,setAnnouncementAddPermission] = useState("");
-   const [AnnouncementEditPermission,setAnnouncementEditPermission] = useState("")
-    const [AnnouncementDeletePermission,setAnnouncementDeletePermission] = useState("")
+
+  const [AnnouncementAddPermission, setAnnouncementAddPermission] = useState("");
+  const [AnnouncementEditPermission, setAnnouncementEditPermission] = useState("")
+  const [AnnouncementDeletePermission, setAnnouncementDeletePermission] = useState("")
   const [updatePermissionError, setupdatePermissionError] = useState("");
   const [value, setValue] = React.useState("1");
   const theme = useTheme();
@@ -79,25 +79,25 @@ function Dashboard() {
   const [selectAdvance, setSelectAdvance] = useState("six_month");
   const [accountList, setAccountList] = useState("");
 
-// const canReadDashboard =  useHasPermission("Dashboard", "canRead");
+  // const canReadDashboard =  useHasPermission("Dashboard", "canRead");
 
-const {
+  const {
     // canWriteModule: canWriteComplaints,
     canReadModule: canReadDashboard,
     // canUpdateModule: canUpdateComplaints,
     // canDeleteModule: canDeleteComplaints,
   } = useHasPermission("Dashboard");
 
-useEffect(() => {
-  if (!canReadDashboard) {
-    setLoading(false);
-  }else{
-    setLoading(false);
-  }
-}, [canReadDashboard]);
+  useEffect(() => {
+    if (!canReadDashboard) {
+      setLoading(false);
+    } else {
+      setLoading(false);
+    }
+  }, [canReadDashboard]);
 
 
-
+  console.log("canReadDashboard", canReadDashboard)
 
 
   const monthNames = [
@@ -132,23 +132,18 @@ useEffect(() => {
     }
   }, [state?.createAccount?.accountList[0]?.plan_data]);
 
-  
 
+
+
+  const remainingDays = state.UsersList?.hotelDetailsinPg?.remainingDaysLeft
 
   useEffect(() => {
-  if (accountList?.length > 0 && accountList[0]?.plan_end) {
-    const planEndDate = new Date(accountList[0].plan_end);
-    const currentDate = new Date();
+    if (remainingDays !== undefined && remainingDays !== null) {
+      setDaysLeft(remainingDays);
+      setShowWarning(remainingDays <= 15);
+    }
+  }, [remainingDays]);
 
-    const diffInDays = Math.ceil(
-      (planEndDate - currentDate) / (1000 * 60 * 60 * 24)
-    );
-
-    setDaysLeft(diffInDays);
-
-    setShowWarning(diffInDays <= 19);
-  }
-}, [accountList]);
 
 
   const handleOkClick = () => {
@@ -157,7 +152,8 @@ useEffect(() => {
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-      dispatch({ type: "PGDASHBOARD", payload:  state.login.selectedHostel_Id  });
+      dispatch({ type: "PGDASHBOARD", payload: state.login.selectedHostel_Id });
+
       //  setLoading(true);
     }
   }, [state.login.selectedHostel_Id]);
@@ -183,7 +179,7 @@ useEffect(() => {
   //       hostel_id: state.login.selectedHostel_Id,
   //     },
   //   });
-   
+
 
 
   // }, [selectCashback, state.login.selectedHostel_Id]);
@@ -215,7 +211,6 @@ useEffect(() => {
   //     });
   //   }
   // }, [selectAdvance, state.login.selectedHostel_Id]);
-
 
 
   useEffect(() => {
@@ -290,89 +285,89 @@ useEffect(() => {
 
 
 
- useEffect(() => {
- const userType = rolePermission[0]?.user_details?.user_type 
-     const isAdmin = userType   === "admin" ||  userType   === "agent" ;
-     if (isAdmin) {
-    if (state?.login?.planStatus === 0) {
-      setPermissionError("");
-      setAnnouncementAddPermission("Permission Denied");
-      setAnnouncementEditPermission("Permission Denied");
-      setAnnouncementDeletePermission("Permission Denied");
+  useEffect(() => {
+    const userType = rolePermission[0]?.user_details?.user_type
+    const isAdmin = userType === "admin" || userType === "agent";
+    if (isAdmin) {
+      if (state?.login?.planStatus === 0) {
+        setPermissionError("");
+        setAnnouncementAddPermission("Permission Denied");
+        setAnnouncementEditPermission("Permission Denied");
+        setAnnouncementDeletePermission("Permission Denied");
 
-    } else if (state?.login?.planStatus === 1) {
-      setPermissionError("");
-      setAnnouncementAddPermission("");
-      setAnnouncementEditPermission("");
-      setAnnouncementDeletePermission("");
+      } else if (state?.login?.planStatus === 1) {
+        setPermissionError("");
+        setAnnouncementAddPermission("");
+        setAnnouncementEditPermission("");
+        setAnnouncementDeletePermission("");
+      }
     }
-  }
 
-  }, [state?.login?.planStatus, state?.login?.selectedHostel_Id,rolePermission])
+  }, [state?.login?.planStatus, state?.login?.selectedHostel_Id, rolePermission])
 
 
-      
 
-   
-      
-   useEffect(() => {
-       const DashboardPermission = rolePermission[0]?.role_permissions?.find(
-         (perm) => perm.permission_name === "Dashboard"
-       );
-     
-       const isOwner = rolePermission[0]?.user_details?.user_type === "staff";
-       const planActive = state?.login?.planStatus === 1;
-      
-       if (!DashboardPermission || !isOwner) return;
-     
-       
-       if (DashboardPermission.per_view === 1 && planActive) {
-         setPermissionError("");
-       } else {
-         setPermissionError("Permission Denied");
-       }
-        
-   
-     }, [rolePermission, state?.login?.planStatus,state?.login?.selectedHostel_Id]);
-  
 
-useEffect(() => {
-     const AnnounceMentPermission = rolePermission[0]?.role_permissions?.find(
-       (perm) => perm.permission_name === "Announcement"
-     );
-   
-     const isOwner = rolePermission[0]?.user_details?.user_type === "staff";
-     const planActive = state?.login?.planStatus === 1;
-    
-     if (!AnnounceMentPermission || !isOwner) return;
-   
-     
-     if (AnnounceMentPermission.per_view === 1 && planActive) {
-       setPermissionError("");
-     } else {
-       setPermissionError("Permission Denied");
-     }
-   
-     
-     if (AnnounceMentPermission.per_create === 1 && planActive) {
-       setAnnouncementAddPermission("");
-     } else {
-       setAnnouncementAddPermission("Permission Denied");
-     }
-   
-    
-     if (AnnounceMentPermission.per_edit === 1 && planActive) {
-       setAnnouncementEditPermission("");
-     } else {
-       setAnnouncementEditPermission("Permission Denied");
-     }
-   
-     if (AnnounceMentPermission.per_delete === 1 && planActive) {
-       setAnnouncementDeletePermission("");
-     } else {
-       setAnnouncementDeletePermission("Permission Denied");
-     }
-   }, [rolePermission, state?.login?.planStatus,state?.login?.selectedHostel_Id]);
+
+
+  useEffect(() => {
+    const DashboardPermission = rolePermission[0]?.role_permissions?.find(
+      (perm) => perm.permission_name === "Dashboard"
+    );
+
+    const isOwner = rolePermission[0]?.user_details?.user_type === "staff";
+    const planActive = state?.login?.planStatus === 1;
+
+    if (!DashboardPermission || !isOwner) return;
+
+
+    if (DashboardPermission.per_view === 1 && planActive) {
+      setPermissionError("");
+    } else {
+      setPermissionError("Permission Denied");
+    }
+
+
+  }, [rolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
+
+
+  useEffect(() => {
+    const AnnounceMentPermission = rolePermission[0]?.role_permissions?.find(
+      (perm) => perm.permission_name === "Announcement"
+    );
+
+    const isOwner = rolePermission[0]?.user_details?.user_type === "staff";
+    const planActive = state?.login?.planStatus === 1;
+
+    if (!AnnounceMentPermission || !isOwner) return;
+
+
+    if (AnnounceMentPermission.per_view === 1 && planActive) {
+      setPermissionError("");
+    } else {
+      setPermissionError("Permission Denied");
+    }
+
+
+    if (AnnounceMentPermission.per_create === 1 && planActive) {
+      setAnnouncementAddPermission("");
+    } else {
+      setAnnouncementAddPermission("Permission Denied");
+    }
+
+
+    if (AnnounceMentPermission.per_edit === 1 && planActive) {
+      setAnnouncementEditPermission("");
+    } else {
+      setAnnouncementEditPermission("Permission Denied");
+    }
+
+    if (AnnounceMentPermission.per_delete === 1 && planActive) {
+      setAnnouncementDeletePermission("");
+    } else {
+      setAnnouncementDeletePermission("Permission Denied");
+    }
+  }, [rolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
 
 
 
@@ -571,54 +566,54 @@ useEffect(() => {
   return (
     <>
       <div className="container px-3 py-3">
-   <Marquee pauseOnHover gradient={false}>
-  {showWarning && (
-    <div
-      className={`alert mt-3 d-flex justify-content-between align-items-center px-4 py-2  rounded-3`}
-      style={{
-        backgroundColor: daysLeft > 0 ? "#fff3cd" : "#f8d7da",
-        color: daysLeft > 0 ? "#856404" : "#721c24",
-        border: `1px solid ${daysLeft > 0 ? "#ffeeba" : "#f5c6cb"}`,
-        fontFamily: "Gilroy",
-        width: "100%",
-        maxWidth: "900px",
-        margin: "auto",
-        fontSize: "16px",
-      }}
-      role="alert"
-    >
-      <div className="d-flex align-items-center">
-        {daysLeft > 0 ? (
-          <>
-            <MdWarningAmber size={24} color="#ffc107" style={{ marginRight: "8px" }} />
-            <span>
-              Your plan will expire in <strong>{daysLeft}</strong> day
-              {daysLeft > 1 ? "s" : ""} !
-            </span>
-          </>
-        ) : (
-          <>
-                       <span style={{fontFamily: "Gilroy",}}>
-              <strong>Your plan has expired!</strong>
-            </span>
-          </>
-        )}
-      </div>
-      <button
-        className="btn btn-sm ms-3"
-        style={{
-          fontFamily: "Gilroy",
-          backgroundColor: daysLeft > 0 ? "#ffc107" : "#dc3545",
-          color: "#fff",
-          border: "none",
-        }}
-        onClick={handleOkClick}
-      >
-        OK
-      </button>
-    </div>
-  )}
-</Marquee>
+        <Marquee pauseOnHover gradient={false}>
+          {showWarning && (
+            <div
+              className={`alert mt-3 d-flex justify-content-between align-items-center px-4 py-2  rounded-3`}
+              style={{
+                backgroundColor: daysLeft > 0 ? "#fff3cd" : "#f8d7da",
+                color: daysLeft > 0 ? "#856404" : "#721c24",
+                border: `1px solid ${daysLeft > 0 ? "#ffeeba" : "#f5c6cb"}`,
+                fontFamily: "Gilroy",
+                width: "100%",
+                maxWidth: "900px",
+                margin: "auto",
+                fontSize: "16px",
+              }}
+              role="alert"
+            >
+              <div className="d-flex align-items-center">
+                {daysLeft > 0 ? (
+                  <>
+                    <MdWarningAmber size={24} color="#ffc107" style={{ marginRight: "8px" }} />
+                    <span>
+                      Your plan will expire in <strong>{daysLeft}</strong> day
+                      {daysLeft > 1 ? "s" : ""} !
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <span style={{ fontFamily: "Gilroy", }}>
+                      <strong>Your plan has expired!</strong>
+                    </span>
+                  </>
+                )}
+              </div>
+              <button
+                className="btn btn-sm ms-3"
+                style={{
+                  fontFamily: "Gilroy",
+                  backgroundColor: daysLeft > 0 ? "#ffc107" : "#dc3545",
+                  color: "#fff",
+                  border: "none",
+                }}
+                onClick={handleOkClick}
+              >
+                OK
+              </button>
+            </div>
+          )}
+        </Marquee>
 
         <TabContext value={value}>
           <div
@@ -685,27 +680,27 @@ useEffect(() => {
 
           <div >
             <TabPanel value="1">
-              {(!canReadDashboard && !loading ) ? (
+              {(!canReadDashboard && !loading) ? (
                 <div
                   style={{
-                    display: "flex", 
+                    display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
                     justifyContent: "center",
-                    marginTop:100
+                    marginTop: 100
                   }}
                 >
 
                   <img
                     src={Emptystate}
                     alt="Empty State"
-                    
+
                   />
 
 
-                 
-                    <ErrorMessage message={['You do not have access to view Dashboard']} type="warning" />
-                 
+
+                  <ErrorMessage message={['You do not have access to view Dashboard']} type="warning" />
+
                 </div>
               ) : (
                 <>
@@ -746,7 +741,7 @@ useEffect(() => {
                             <div>
                               <h6 className="text-muted mb-1" style={{ fontFamily: "Gilroy" }}>Free Beds</h6>
                               <h5 className="mb-0" style={{ fontFamily: "Gilroy" }}>
-                                 {dashboardList?.freeBeds || 0}
+                                {dashboardList?.freeBeds || 0}
                               </h5>
                             </div>
                             <img
@@ -782,7 +777,7 @@ useEffect(() => {
                                         Next Month Projection
                                       </h6>
                                       <h5 className="mb-0 counts" style={{ fontFamily: "Gilroy" }}>
-                                         {dashboardList?.nextMonthProjection || 0}
+                                        {dashboardList?.nextMonthProjection || 0}
                                       </h5>
                                     </div>
                                   </div>
@@ -792,7 +787,7 @@ useEffect(() => {
                                         Total Customers
                                       </h6>
                                       <h5 className="mb-0 counts" style={{ fontFamily: "Gilroy" }}>
-                                         {dashboardList?.totalCustomers || 0}
+                                        {dashboardList?.totalCustomers || 0}
                                       </h5>
                                     </div>
                                   </div>
@@ -802,7 +797,7 @@ useEffect(() => {
                                         EB Amount
                                       </h6>
                                       <h5 className="mb-0 counts" style={{ fontFamily: "Gilroy" }}>
-                                         {dashboardList?.electricityAmount || 0}
+                                        {dashboardList?.electricityAmount || 0}
                                       </h5>
                                     </div>
                                   </div>
@@ -825,7 +820,7 @@ useEffect(() => {
                                     Total Asset Value
                                   </p>
                                   <h5 className="mt-1" style={{ fontFamily: "Gilroy" }}>
-                                     {dashboardList?.totalAssetsValue || 0}
+                                    {dashboardList?.totalAssetsValue || 0}
                                   </h5>
                                 </div>
                               </div>
@@ -1209,12 +1204,12 @@ useEffect(() => {
                                   width: "40%",
                                   marginLeft: 15,
                                   marginTop: 5,
-                                   fontFamily: "Gilroy",
+                                  fontFamily: "Gilroy",
                                 }}
                               >
                                 <CircularProgressbar
                                   value={percentage}
-                                  
+
                                   text={`₹${currentvalue || 0}`}
                                   circleRatio={0.5}
                                   styles={buildStyles({
@@ -1626,10 +1621,10 @@ useEffect(() => {
 
             <TabPanel value="2" >
               <DashboardAnnouncement
-               
-                AnnouncementAddPermission = {AnnouncementAddPermission}
-                AnnouncementEditPermission = {AnnouncementEditPermission}
-                AnnouncementDeletePermission = {AnnouncementDeletePermission}
+
+                AnnouncementAddPermission={AnnouncementAddPermission}
+                AnnouncementEditPermission={AnnouncementEditPermission}
+                AnnouncementDeletePermission={AnnouncementDeletePermission}
               />
             </TabPanel>
 

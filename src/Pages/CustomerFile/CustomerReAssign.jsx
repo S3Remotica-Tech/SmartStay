@@ -231,7 +231,7 @@ function CustomerReAssign(props) {
     if (!/^\d*$/.test(newAmount)) {
       return;
     }
-     if (/^0\d+/.test(newAmount)) return;
+    if (/^0\d+/.test(newAmount)) return;
     setNewRoomRent(newAmount);
     setRentError("");
   };
@@ -491,11 +491,11 @@ function CustomerReAssign(props) {
   const [customerProfile, setCustomerProfile] = useState("")
 
   const userDetails = state?.UsersList?.Users?.find(
-    (user) => String(user.ID) === String(props.customerId)
+    (user) => String(user.customerId) === String(props.customerId)
   );
 
 
-
+  console.log("userDetails", userDetails, "props.customerId", props.customerId)
 
 
   //   useEffect(()=>{
@@ -651,36 +651,47 @@ function CustomerReAssign(props) {
   useEffect(() => {
     if (state.UsersList?.changeBedError) {
       setFormLoading(false)
-     
-        
+
+
     }
 
   }, [state.UsersList?.changeBedError])
 
   const getImageSrc = () => {
-    if (customerProfile && typeof customerProfile === "string" && customerProfile.trim() !== "") {
-      return customerProfile.startsWith("/9j/")
-        ? `data:image/jpeg;base64,${customerProfile}`
-        : customerProfile;
-    }
+  if (
+    customerProfile &&
+    typeof customerProfile === "string" &&
+    customerProfile.trim() !== ""
+  ) {
+    return customerProfile.startsWith("/9j/")
+      ? `data:image/jpeg;base64,${customerProfile}`
+      : customerProfile;
+  }
 
-    if (customerProfile && typeof customerProfile !== "string") {
-      return URL.createObjectURL(customerProfile);
-    }
+  if (customerProfile && typeof customerProfile !== "string") {
+    return URL.createObjectURL(customerProfile);
+  }
 
-    if (userDetails?.profile && typeof userDetails.profile === "string" && userDetails.profile.trim() !== "") {
-      return userDetails.profile.startsWith("/9j/")
-        ? `data:image/jpeg;base64,${userDetails.profile}`
-        : userDetails.profile;
-    }
+  if (
+    userDetails?.profile &&
+    typeof userDetails.profile === "string" &&
+    userDetails.profile.trim() !== ""
+  ) {
+    return userDetails.profile.startsWith("/9j/")
+      ? `data:image/jpeg;base64,${userDetails.profile}`
+      : userDetails.profile;
+  }
 
-    if (userDetails?.profile && typeof userDetails.profile !== "string") {
-      return URL.createObjectURL(userDetails.profile);
-    }
+  if (userDetails?.profile && typeof userDetails.profile !== "string") {
+    return URL.createObjectURL(userDetails.profile);
+  }
+ 
+  return null;
+};
 
 
-    return Profileimage;
-  };
+
+ 
 
   return (
     <>
@@ -689,7 +700,7 @@ function CustomerReAssign(props) {
           show={true}
           onHide={handleCloseReAssign}
           backdrop="static"
-          centered  dialogClassName="custom-modal-style"
+          centered dialogClassName="custom-modal-style"
         >
           <Modal.Dialog
             style={{
@@ -715,23 +726,47 @@ function CustomerReAssign(props) {
               <CloseCircle size="24" color="#000" onClick={handleCloseReAssign}
                 style={{ cursor: 'pointer' }} />
             </Modal.Header>
-            <Modal.Body style={{ maxHeight: "400px", overflowY: "scroll" }} className="show-scroll mt-1 me-3" >
+            <Modal.Body style={{ maxHeight: "400px", overflowY: "scroll" }} className="show-scroll mt-1 me-3 pt-1" >
               <div className="d-flex align-items-center">
                 <div >
 
                   <div className="row">
-                    <div className="d-flex justify-content-between align-items-center mb-2 mt-2 ms-3">
+                    <div className="d-flex justify-content-between align-items-center mb-2 mt-1 ms-3">
 
                       <div className="d-flex align-items-center gap-3">
-                        <img
-                          src={getImageSrc()}
-                          alt="Profile"
-                          style={{ width: 40, height: 40, borderRadius: "50%" }}
-                          onError={(e) => { e.target.src = Profileimage; }}
-                        />
+                        {getImageSrc() ? (
+                          <img
+                            src={getImageSrc()}
+                            alt="Profile"
+                            style={{
+                              width: 40,
+                              height: 40,
+                              borderRadius: "50%"
+                            }}
+                            onError={(e) => { e.target.src = Profileimage; }}
+                          />
+                        ) : (
+                          <div
+                            style={{
+                              width: 50,
+                              height: 50,
+                              borderRadius: "50%",
+                              background: "#1E45E1",
+                              color: "white",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              fontWeight: "600px",
+                              fontSize: 16,fontFamily:"Gilroy"
+                            }}
+                          >
+                            {state.UsersList?.customerdetails?.initials}
+                          </div>
+                        )}
+
 
                         <div>
-                          <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px"  , fontFamily:"Gilroy"}}>
+                          <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px", fontFamily: "Gilroy" }}>
                             {customerName || userDetails?.Name}
                           </p>
                           <div className="d-flex gap-2">
@@ -742,7 +777,7 @@ function CustomerReAssign(props) {
                                 fontSize: "12px",
                                 padding: "2px 8px",
                                 borderRadius: "12px",
-                                fontWeight: 500,  fontFamily:"Gilroy"
+                                fontWeight: 500, fontFamily: "Gilroy"
                               }}
                             >
                               {currentFloor}
@@ -754,7 +789,7 @@ function CustomerReAssign(props) {
                                 fontSize: "12px",
                                 padding: "2px 8px",
                                 borderRadius: "12px",
-                                fontWeight: 500,  fontFamily:"Gilroy"
+                                fontWeight: 500, fontFamily: "Gilroy"
                               }}
                             >
                               {currentRoom} - {currentBed}
@@ -801,7 +836,7 @@ function CustomerReAssign(props) {
                             className="datepicker-wrapper"
                             style={{ position: "relative", width: "100%" }}
                           >
-                           
+
 
                             <DatePicker
                               style={{

@@ -620,16 +620,16 @@ function CustomerProfile(props) {
                       <div className="col-4">
                         <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "grey" }} className="mb-1 ">Checkout Date</p>
                         <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}><img src={LinkImage} alt="Floorimage" size="16" color="#1E45E1" />
-                         {CustomerOverView.hostelInfo?.checkoutDate
-                                      ? CustomerOverView.hostelInfo?.checkoutDate
+                         {CustomerOverView.checkoutInfo?.checkoutDate
+                                      ? CustomerOverView.checkoutInfo?.checkoutDate
                                       : "N/A"}
                           </p>
                       </div>
                       <div className="col-4">
                         <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "grey" }} className="mb-1 ">Booking Date</p>
                         <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}><img src={LinkImage} alt="Floorimage" size="16" color="#1E45E1" />
-                       {CustomerOverView.hostelInfo?.checkoutDate
-                                      ? CustomerOverView.hostelInfo?.checkoutDate
+                       {CustomerOverView.bookingInfo?.bookingDate
+                                      ? CustomerOverView.bookingInfo?.bookingDate
                                       : "N/A"}</p>
                       </div>
                     </div>
@@ -724,8 +724,10 @@ function CustomerProfile(props) {
                                                                }}
                                                              >
                    
-                                                               ₹
-                                                               {/* {CustomerOverView.hostelInfo?.monthlyRent ?? 0} */}
+                                                                {CustomerOverView.bookingInfo?.bookingAmount != null
+                                            ? `₹${CustomerOverView.bookingInfo.bookingAmount}`
+                                            : 0
+                                          }
                                                              </p>
                                                            </div>
                    

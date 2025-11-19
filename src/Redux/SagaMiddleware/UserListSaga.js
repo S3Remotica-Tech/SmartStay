@@ -164,7 +164,11 @@ function* handleEditTenantAmount(args) {
    }
    catch (error) {
       yield* handleApiError(error);
-      
+       if (error.code === 'ERR_BAD_REQUEST') {
+         if (error.status === 400) {
+            yield put({ type: 'TENANT_UPDATE_ERROR', payload: error.response.data });
+         }
+      }
    }
 
 
