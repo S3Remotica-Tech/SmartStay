@@ -126,6 +126,13 @@ useEffect(()=>{
     };
 
 
+    useEffect(() => {
+        if (state.createAccount?.networkError) {
+          setLoading(false)
+        }
+    
+      }, [state.createAccount?.networkError])
+
     // const previousJoiningDate = dayjs(
     //     CustomerOverView?.hostelInfo?.joiningDate,
     //     "DD/MM/YYYY"
