@@ -89,14 +89,14 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, customerID }) {
                     reason_name: item.reason || "",
                     amount: Number(item.amount) || 0,
                     showInput: false,
-                    isDefault: false, 
+                    isDefault: false,
                 }));
 
                 formattedFields.unshift({
                     reason_name: "DueAmount",
                     amount: invoiceTotal,
                     showInput: false,
-                    isDefault: true, 
+                    isDefault: true,
                 });
 
                 setFields(formattedFields);
@@ -105,9 +105,9 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, customerID }) {
                     { reason_name: "DueAmount", amount: invoiceTotal, showInput: false, isDefault: true },
                 ]);
             }
-            
+
             setDetuction(state?.UsersList?.Deduction)
-            
+
 
 
             setHostelData(state?.UsersList?.hostelData)
@@ -275,8 +275,19 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, customerID }) {
     }, [state.UsersList.statuscodeForConformCheckout])
 
 
+    console.log("data", data, "dataBed", dataBed)
 
+    const getProfileImage = () => {
+        if (data?.user_profile && data?.user_profile !== "0") {
+            return data.user_profile;
+        }
 
+        if (data?.currentTenantProfilePic && data?.currentTenantProfilePic !== "0") {
+            return data?.currentTenantProfilePic;
+        }
+
+        return null;
+    };
 
     return (
         <div>
@@ -303,19 +314,37 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, customerID }) {
                 </Modal.Header>
                 <Modal.Body>
 
-                    <div className="d-flex align-items-center " style={{ marginTop: "-30px" }}>
-                        <img
-                            src={
-                                data?.user_profile && data?.user_profile !== "0"
-                                    ? data?.user_profile
-                                    : dataBed[0]?.profile && dataBed[0]?.profile !== "0"
-                                        ? dataBed[0].profile
-                                        : Profile2
-                            }
-                            style={{ height: 55, width: 55, cursor: "pointer" }}
-                            alt="profile"
-                            className="rounded-circle me-3"
-                        />
+                    <div className="d-flex align-items-center  gap-3" style={{ marginTop: "-30px" }}>
+                        {getProfileImage() ? (
+                            <img
+                                src={getProfileImage()}
+                                style={{ height: 55, width: 55, cursor: "pointer" }}
+                                alt="profile"
+                                className="rounded-circle me-3"
+                            />
+                        ) : (
+                            <div
+                                style={{
+                                    width: 55,
+                                    height: 55,
+                                    borderRadius: "50%",
+                                    background: "#1E45E1",
+                                    color: "white",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    fontWeight: 600,
+                                    fontSize: 16,
+                                    fontFamily: "Gilroy",
+                                    cursor: "pointer"
+                                }}
+                            >
+                                {data?.initials || data.currentTenantInitials || 
+                                    
+                                    "--"}
+                            </div>
+                        )}
+
                         <div>
                             <p style={{ fontSize: "1.25rem", fontFamily: "Gilroy", fontWeight: 600 }} className="mb-0">{data?.firstName || data?.currentTenantFirstName}</p>
                             <div className="d-flex mb-2">
@@ -388,14 +417,14 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, customerID }) {
                             onChange={handleCommentsChange}
                         />
                     </Form.Group>
-              
+
 
                 </Modal.Body>
-                {state.UsersList?.chrckoutError && ( 
+                {state.UsersList?.chrckoutError && (
                     <div className="d-flex justify-content-center">
-<ErrorMessage message={state.UsersList?.chrckoutError} type="error" />
+                        <ErrorMessage message={state.UsersList?.chrckoutError} type="error" />
                     </div>
-                    
+
                 )}
                 <Modal.Footer style={{ borderTop: "none", marginTop: "-10px" }}>
                     <Button style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400 }} className="btn btn-light" onClick={handleClosecheck}>

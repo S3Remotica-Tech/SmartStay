@@ -94,6 +94,14 @@ function BackToCheckIn({ show, handleClose, checkInDetails }) {
         }
 
     }, [state.UsersList?.cancelCheckoutError])
+    console.log("checkInDetails", checkInDetails)
+
+    const imgsrc =
+        checkInDetails?.currentTenantProfilePic && checkInDetails.currentTenantProfilePic.trim() !== ""
+            ? checkInDetails.currentTenantProfilePic
+            : checkInDetails?.profilePic && checkInDetails.profilePic.trim() !== ""
+                ? checkInDetails.profilePic
+                : null;
 
     return (
         <Modal show={show} onHide={handleClose} backdrop="static" centered>
@@ -124,21 +132,39 @@ function BackToCheckIn({ show, handleClose, checkInDetails }) {
                         />
                     </Modal.Header>
 
-                   
+
                     <div className="d-flex align-items-center gap-3 mb-3 ms-3">
-                        <img
-                            src={
-                                checkInDetails?.currentTenantProfilePic
-                                    ? checkInDetails.currentTenantProfilePic
-                                    : checkInDetails?.profilePic && checkInDetails?.profilePic !== ""
-                                        ? checkInDetails.profilePic
-                                        : Profileimage
-                            }
-                            alt="Profile"
-                            className="rounded-circle"
-                            width="35"
-                            height="35"
-                        />
+                        {
+                            imgsrc ? (
+                                <img
+                                    src={imgsrc}
+                                    alt="Profile"
+                                    className="rounded-circle"
+                                    width="35"
+                                    height="35"
+                                />
+                            ) : (
+                                <div
+                                    style={{
+                                        width: 50,
+                                        height: 50,
+                                        borderRadius: "50%",
+                                        background: "#1E45E1",
+                                        color: "white",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        fontWeight: 600,
+                                        fontSize: 16,
+                                        fontFamily: "Gilroy"
+                                    }}
+                                >
+                                    {checkInDetails?.initials || checkInDetails?.currentTenantInitials}
+
+                                </div>
+                            )
+                        }
+
                         <div>
                             <p
                                 className="mb-1"
@@ -176,7 +202,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails }) {
                         </div>
                     </div>
 
-          
+
                     <div
                         style={{
                             backgroundColor: "#F7F9FF",
@@ -267,7 +293,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails }) {
                                     {reasonError && <ErrorMessage message={reasonError} type="error" />}
                                 </div>
 
-                            
+
                                 <div className="datepicker-wrapper relative z-10">
                                     <Form.Label
                                         style={{

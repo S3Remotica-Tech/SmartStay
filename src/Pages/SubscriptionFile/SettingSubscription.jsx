@@ -17,6 +17,8 @@ import { Table } from "react-bootstrap";
 import "./SettingSubscription.css";
 import PaginationList from '../../Components/PaginationList';
 import ErrorMessage from '../../Components/ErrorMessage';
+import { useHasPermission } from '../../Utils/Permission';
+import Emptystate from "../../Assets/Images/Empty-State.jpg";
 
 function SettingSubscription() {
   const state = useSelector((state) => state);
@@ -68,7 +70,20 @@ function SettingSubscription() {
   //   dispatch({ type: "ACCOUNTDETAILS" });
   // }, []);
 
-  const [customerDetails, setCustomerDetails] = useState("");
+
+
+
+
+  const {
+    canWriteModule: canWriteSubscription,
+    canReadModule: canReadSubscription,
+    canUpdateModule: canUpdateSubscription,
+    canDeleteModule: canDeleteSubscription,
+  } = useHasPermission("Subscription");
+
+
+  console.log("canWriteSubscription", canWriteSubscription)
+
   // const [Subscription_hostelIds, setSubscription_HostelIds] = useState([]);
   // useEffect(() => {
   //   if (state?.Settings?.subcripitionAllDetails) {
@@ -83,7 +98,7 @@ function SettingSubscription() {
   // }, [state?.Settings?.subcripitionAllDetails]);
 
 
-  console.log("state?.Settings?.planList", state?.Settings?.planList)
+
   console.log("state", state)
 
   useEffect(() => {
@@ -262,11 +277,10 @@ function SettingSubscription() {
         </div>
       </div>
 
-      <div className="row g-3">
-        <div className="col-12 col-md-6">
 
-          <div className="card p-3 cardnewsubs" >
-            {getPlanActive?.length > 0 && getPlanActive[0]?.amount > 0 ? (
+
+
+      {/* {getPlanActive?.length > 0 && getPlanActive[0]?.amount > 0 ? (
               <>
                 <div
                   className="d-flex align-items-center justify-content-center rounded-circle bg-light"
@@ -320,266 +334,297 @@ function SettingSubscription() {
                   </button>
                 </div>
               </>
-            ) : (
-              <div className="mt-2 text-center">
-                <p className="text-dark fw-semibold fs-6 mb-3" style={{ fontFamily: "Gilroy" }}>
-                  Your plan is a trial plan
-                </p>
-                <button
-                  style={{
-                    backgroundColor: "#1E45E1",
-                    fontWeight: 600,
-                    borderRadius: 12,
-                    fontSize: 16,
-                    fontFamily: "Gilroy",
-                    padding: 12,
-                    border: "1px solid #1E45E1",
-                    color: "#FFF"
-                  }}
-                  className=" fw-semibold fs-6"
-                  onClick={handleCurrentPlan}
-                  data-bs-toggle="modal"
-                  data-bs-target="#changePlanModal"
-                >
-                  Upgrade Plan
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
+            ) :  (
+             
+            ) */}
 
-        {getPlanActive?.length > 0 && getPlanActive[0]?.amount > 0 && (
-          <div className="col-lg-12 col-md-12 col-sm-10 mt-3">
-            <div
-              className="  me-2"
-              style={{ paddingBottom: "20px" }}
-            >
-              {getPlanActive?.length > 0 && (
-                <div
-                  className="show-scrolls"
+      {!canReadSubscription ?
+        (
+
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+
+            }}
+          >
+            <img
+              src={Emptystate}
+              alt="Empty State"
+
+            />
+            <ErrorMessage message={['You do not have access to view Subscription']} type="warning" />
+          </div>
+        )
+        :
+        (
+
+          <div className="row g-3">
+            <div className="col-12 col-md-6">
+              <div className="card p-3 cardnewsubs" >
+                <div className="mt-2 text-center">
+                  <p className="text-dark fw-semibold fs-6 mb-3" style={{ fontFamily: "Gilroy" }}>
+                    Your plan is a trial plan
+                  </p>
+                  <Button disabled={!canWriteSubscription}
+                    style={{
+                      backgroundColor: "#1E45E1",
+                      fontWeight: 600,
+                      borderRadius: 12,
+                      fontSize: 16,
+                      fontFamily: "Gilroy",
+                      padding: 12,
+                      border: "1px solid #1E45E1",
+                      color: "#FFF"
+                    }}
+                    className=" fw-semibold fs-6"
+                    onClick={handleCurrentPlan}
+                    
+                  >
+                    Upgrade Plan
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+      }
+
+
+      {getPlanActive?.length > 0 && getPlanActive[0]?.amount > 0 && (
+        <div className="col-lg-12 col-md-12 col-sm-10 mt-3">
+          <div
+            className="  me-2"
+            style={{ paddingBottom: "20px" }}
+          >
+            {getPlanActive?.length > 0 && (
+              <div
+                className="show-scrolls"
+                style={{
+                  maxHeight: "200px",
+                  overflowY: "auto",
+                  borderTop: "1px solid #E8E8E8",
+                  marginBottom: 20,
+                  marginTop: "20px",
+                  paddingRight: 0,
+                  paddingLeft: 0,
+                }}
+              >
+                <Table
+                  responsive="md"
                   style={{
-                    maxHeight: "200px",
-                    overflowY: "auto",
-                    borderTop: "1px solid #E8E8E8",
-                    marginBottom: 20,
-                    marginTop: "20px",
-                    paddingRight: 0,
-                    paddingLeft: 0,
+                    fontFamily: "Gilroy",
+                    color: "rgba(34, 34, 34, 1)",
+                    fontSize: 14,
+                    fontStyle: "normal",
+                    fontWeight: 500,
+                    position: "sticky",
+                    top: 0,
+                    zIndex: 1,
+                    borderRadius: 0,
                   }}
                 >
-                  <Table
-                    responsive="md"
+                  <thead
                     style={{
                       fontFamily: "Gilroy",
+                      backgroundColor: "rgba(231, 241, 255, 1)",
                       color: "rgba(34, 34, 34, 1)",
-                      fontSize: 14,
+                      fontSize: 12,
                       fontStyle: "normal",
                       fontWeight: 500,
                       position: "sticky",
                       top: 0,
                       zIndex: 1,
-                      borderRadius: 0,
                     }}
                   >
-                    <thead
-                      style={{
-                        fontFamily: "Gilroy",
-                        backgroundColor: "rgba(231, 241, 255, 1)",
-                        color: "rgba(34, 34, 34, 1)",
-                        fontSize: 12,
-                        fontStyle: "normal",
-                        fontWeight: 500,
-                        position: "sticky",
-                        top: 0,
-                        zIndex: 1,
-                      }}
-                    >
-                      <tr className="" style={{ height: "30px" }}>
-                        <th
-                          style={{
-                            textAlign: "start",
-                            color: "#939393",
-                            fontWeight: 500,
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            paddingTop: "10px",
-                            paddingBottom: "10px",
-                            paddingLeft: "20px",
-                            whiteSpace: "nowrap",
-                          }}
-                        >
-                          <div className="d-flex gap-1 align-items-center justify-content-start">
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                gap: "2px",
-                              }}
-                            >
-                              <ArrowUp2
-                                size="10"
-                                variant="Bold"
-                                color="#1E45E1"
-                                style={{ cursor: "pointer" }}
-                              />
-                              <ArrowDown2
-                                size="10"
-                                variant="Bold"
-                                color="#1E45E1"
-                                style={{ cursor: "pointer" }}
-                              />
-                            </div>
-                            S.No
+                    <tr className="" style={{ height: "30px" }}>
+                      <th
+                        style={{
+                          textAlign: "start",
+                          color: "#939393",
+                          fontWeight: 500,
+                          fontSize: "12px",
+                          fontFamily: "Gilroy",
+                          paddingTop: "10px",
+                          paddingBottom: "10px",
+                          paddingLeft: "20px",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        <div className="d-flex gap-1 align-items-center justify-content-start">
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              gap: "2px",
+                            }}
+                          >
+                            <ArrowUp2
+                              size="10"
+                              variant="Bold"
+                              color="#1E45E1"
+                              style={{ cursor: "pointer" }}
+                            />
+                            <ArrowDown2
+                              size="10"
+                              variant="Bold"
+                              color="#1E45E1"
+                              style={{ cursor: "pointer" }}
+                            />
                           </div>
-                        </th>
-                        <th
-                          style={{
-                            color: "#939393",
-                            fontWeight: 500,
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            paddingTop: "10px",
-                            paddingBottom: "10px",
-                            textAlign: "start",
-                            whiteSpace: "nowrap",
-                          }}
-                        >
-                          <div className="d-flex gap-1 align-items-center justify-content-start">
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                gap: "2px",
-                              }}
-                            >
-                              <ArrowUp2
-                                size="10"
-                                variant="Bold"
-                                color="#1E45E1"
-                                style={{ cursor: "pointer" }}
-                              />
-                              <ArrowDown2
-                                size="10"
-                                variant="Bold"
-                                color="#1E45E1"
-                                style={{ cursor: "pointer" }}
-                              />
-                            </div>
-                            Hostel Name
+                          S.No
+                        </div>
+                      </th>
+                      <th
+                        style={{
+                          color: "#939393",
+                          fontWeight: 500,
+                          fontSize: "12px",
+                          fontFamily: "Gilroy",
+                          paddingTop: "10px",
+                          paddingBottom: "10px",
+                          textAlign: "start",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        <div className="d-flex gap-1 align-items-center justify-content-start">
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              gap: "2px",
+                            }}
+                          >
+                            <ArrowUp2
+                              size="10"
+                              variant="Bold"
+                              color="#1E45E1"
+                              style={{ cursor: "pointer" }}
+                            />
+                            <ArrowDown2
+                              size="10"
+                              variant="Bold"
+                              color="#1E45E1"
+                              style={{ cursor: "pointer" }}
+                            />
                           </div>
-                        </th>
-                        <th
-                          style={{
-                            color: "#939393",
-                            fontWeight: 500,
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            paddingTop: "10px",
-                            paddingBottom: "10px",
-                            textAlign: "start",
-                            whiteSpace: "nowrap",
-                          }}
-                        >
-                          <div className="d-flex gap-1 align-items-center justify-content-start">
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                gap: "2px",
-                              }}
-                            >
-                              <ArrowUp2
-                                size="10"
-                                variant="Bold"
-                                color="#1E45E1"
-                                style={{ cursor: "pointer" }}
-                              />
-                              <ArrowDown2
-                                size="10"
-                                variant="Bold"
-                                color="#1E45E1"
-                                style={{ cursor: "pointer" }}
-                              />
-                            </div>
-                            Plan startDate
+                          Hostel Name
+                        </div>
+                      </th>
+                      <th
+                        style={{
+                          color: "#939393",
+                          fontWeight: 500,
+                          fontSize: "12px",
+                          fontFamily: "Gilroy",
+                          paddingTop: "10px",
+                          paddingBottom: "10px",
+                          textAlign: "start",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        <div className="d-flex gap-1 align-items-center justify-content-start">
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              gap: "2px",
+                            }}
+                          >
+                            <ArrowUp2
+                              size="10"
+                              variant="Bold"
+                              color="#1E45E1"
+                              style={{ cursor: "pointer" }}
+                            />
+                            <ArrowDown2
+                              size="10"
+                              variant="Bold"
+                              color="#1E45E1"
+                              style={{ cursor: "pointer" }}
+                            />
                           </div>
-                        </th>
-                        <th
-                          style={{
-                            color: "#939393",
-                            fontWeight: 500,
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            paddingTop: "10px",
-                            paddingBottom: "10px",
-                            textAlign: "start",
-                            whiteSpace: "nowrap",
-                          }}
-                        >
-                          <div className="d-flex gap-1 align-items-center justify-content-start">
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                gap: "2px",
-                              }}
-                            >
-                              <ArrowUp2
-                                size="10"
-                                variant="Bold"
-                                color="#1E45E1"
-                                style={{ cursor: "pointer" }}
-                              />
-                              <ArrowDown2
-                                size="10"
-                                variant="Bold"
-                                color="#1E45E1"
-                                style={{ cursor: "pointer" }}
-                              />
-                            </div>
-                            Plan EndDate
+                          Plan startDate
+                        </div>
+                      </th>
+                      <th
+                        style={{
+                          color: "#939393",
+                          fontWeight: 500,
+                          fontSize: "12px",
+                          fontFamily: "Gilroy",
+                          paddingTop: "10px",
+                          paddingBottom: "10px",
+                          textAlign: "start",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        <div className="d-flex gap-1 align-items-center justify-content-start">
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              gap: "2px",
+                            }}
+                          >
+                            <ArrowUp2
+                              size="10"
+                              variant="Bold"
+                              color="#1E45E1"
+                              style={{ cursor: "pointer" }}
+                            />
+                            <ArrowDown2
+                              size="10"
+                              variant="Bold"
+                              color="#1E45E1"
+                              style={{ cursor: "pointer" }}
+                            />
                           </div>
-                        </th>
+                          Plan EndDate
+                        </div>
+                      </th>
 
-                        <th
-                          style={{
-                            color: "#939393",
-                            fontWeight: 500,
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            paddingTop: "10px",
-                            paddingBottom: "10px",
-                            textAlign: "start",
-                          }}
-                        >
-                          <div className="d-flex gap-1 align-items-center justify-content-start">
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                gap: "2px",
-                              }}
-                            >
-                              <ArrowUp2
-                                size="10"
-                                variant="Bold"
-                                color="#1E45E1"
-                                style={{ cursor: "pointer" }}
-                              />
-                              <ArrowDown2
-                                size="10"
-                                variant="Bold"
-                                color="#1E45E1"
-                                style={{ cursor: "pointer" }}
-                              />
-                            </div>
-                            Status
+                      <th
+                        style={{
+                          color: "#939393",
+                          fontWeight: 500,
+                          fontSize: "12px",
+                          fontFamily: "Gilroy",
+                          paddingTop: "10px",
+                          paddingBottom: "10px",
+                          textAlign: "start",
+                        }}
+                      >
+                        <div className="d-flex gap-1 align-items-center justify-content-start">
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              gap: "2px",
+                            }}
+                          >
+                            <ArrowUp2
+                              size="10"
+                              variant="Bold"
+                              color="#1E45E1"
+                              style={{ cursor: "pointer" }}
+                            />
+                            <ArrowDown2
+                              size="10"
+                              variant="Bold"
+                              color="#1E45E1"
+                              style={{ cursor: "pointer" }}
+                            />
                           </div>
-                        </th>
+                          Status
+                        </div>
+                      </th>
 
-                      </tr>
-                    </thead>
-                    {/* <tbody
+                    </tr>
+                  </thead>
+                  {/* <tbody
                       style={{
                         height: "50px",
                         fontSize: "11px",
@@ -720,51 +765,51 @@ function SettingSubscription() {
                         })}
                     </tbody> */}
 
-                    <tbody style={{ fontSize: "11px", verticalAlign: "middle", height: "50px" }}>
-                      <PaginationList>
-                        {hostelDetails.map((view, index) => {
-                          let formattedDate = view.plan_start
-                            ? `${new Date(view.plan_start).getDate()}/${new Date(view.plan_start).getMonth() + 1}/${new Date(view.plan_start).getFullYear()}`
-                            : "-";
-                          let DueformattedDate = view.plan_end
-                            ? `${new Date(view.plan_end).getDate()}/${new Date(view.plan_end).getMonth() + 1}/${new Date(view.plan_end).getFullYear()}`
-                            : "-";
+                  <tbody style={{ fontSize: "11px", verticalAlign: "middle", height: "50px" }}>
+                    <PaginationList>
+                      {hostelDetails.map((view, index) => {
+                        let formattedDate = view.plan_start
+                          ? `${new Date(view.plan_start).getDate()}/${new Date(view.plan_start).getMonth() + 1}/${new Date(view.plan_start).getFullYear()}`
+                          : "-";
+                        let DueformattedDate = view.plan_end
+                          ? `${new Date(view.plan_end).getDate()}/${new Date(view.plan_end).getMonth() + 1}/${new Date(view.plan_end).getFullYear()}`
+                          : "-";
 
-                          return (
-                            <tr key={index} style={{ marginTop: "20px" }}>
-                              <td>{index + 1}</td>
-                              <td>{view.name}</td>
-                              <td>{formattedDate}</td>
-                              <td>{DueformattedDate}</td>
-                              <td>
-                                <span style={{
-                                  color: "black",
-                                  backgroundColor: "#D9FFD9",
-                                  padding: "3px 10px",
-                                  fontSize: "11px",
-                                  fontWeight: 500,
-                                  borderRadius: "10px"
-                                }}>
-                                  {view.plan_status === 1 ? "Active" : "Not Active"}
-                                </span>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </PaginationList>
-                    </tbody>
+                        return (
+                          <tr key={index} style={{ marginTop: "20px" }}>
+                            <td>{index + 1}</td>
+                            <td>{view.name}</td>
+                            <td>{formattedDate}</td>
+                            <td>{DueformattedDate}</td>
+                            <td>
+                              <span style={{
+                                color: "black",
+                                backgroundColor: "#D9FFD9",
+                                padding: "3px 10px",
+                                fontSize: "11px",
+                                fontWeight: 500,
+                                borderRadius: "10px"
+                              }}>
+                                {view.plan_status === 1 ? "Active" : "Not Active"}
+                              </span>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </PaginationList>
+                  </tbody>
 
-                  </Table>
-                </div>
-              )}
+                </Table>
+              </div>
+            )}
 
 
-            </div>
           </div>
-        )}
+        </div>
+      )}
 
 
-      </div>
+
 
 
 
@@ -883,15 +928,15 @@ function SettingSubscription() {
                       <hr className="m-0" style={{ color: "#BCCAEB" }} />
 
                       {planType === plan.planName ? (
-                        <button
+                        <Button
                           className="btn btn-changeplan btn-success w-100 mt-3"
                           onClick={() => handlePlanChange(plan.planId)}
                           style={{ fontFamily: "Gilroy" }}
                         >
                           Current Plan
-                        </button>
+                        </Button>
                       ) : (
-                        <button className='w-100'
+                        <Button disabled={!canWriteSubscription} className='w-100'
                           style={{
                             backgroundColor: "#1E45E1",
                             fontWeight: 600,
@@ -903,10 +948,10 @@ function SettingSubscription() {
                             color: "#FFF"
                           }}
                           onClick={() => handlePlanChange(plan.planId)}
-                          
+
                         >
                           Change Plan
-                        </button>
+                        </Button>
                       )}
                     </div>
                   </div>
@@ -1266,6 +1311,7 @@ function SettingSubscription() {
         </Modal.Dialog>
       </Modal>
     </div>
+
   );
 }
 export default SettingSubscription;

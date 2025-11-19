@@ -435,21 +435,41 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                     <div className="d-flex" style={{ height: "90vh" }}>
 
                         <div className="p-4 border-end rounded" style={{ flex: "0 0 35%", background: "#f9f9f9" }}>
-                            <div className="d-flex align-items-center">
+                            <div className="d-flex align-items-center gap-3">
+                                {
+                                    finalSettlementList?.customerInfo?.profilePic ?
 
-                                <img
-                                    src={
-                                        finalSettlementList?.customerInfo?.profilePic &&
-                                            finalSettlementList?.customerInfo?.profilePic !== "0"
-                                            ? finalSettlementList.customerInfo.profilePic
-                                            : Profile2
-                                    }
 
-                                    style={{ height: 55, width: 55, cursor: "pointer" }}
-                                    alt="profile"
-                                    className="rounded-circle me-3"
-                                />
+                                        <img
+                                            src={
+                                                finalSettlementList?.customerInfo?.profilePic &&
+                                                    finalSettlementList?.customerInfo?.profilePic !== "0"
+                                                    ? finalSettlementList.customerInfo.profilePic
+                                                    : Profile2
+                                            }
 
+                                            style={{ height: 55, width: 55, cursor: "pointer" }}
+                                            alt="profile"
+                                            className="rounded-circle me-3"
+                                        />
+                                        :
+                                        <div
+                                            style={{
+                                                width: 50,
+                                                height: 50,
+                                                borderRadius: "50%",
+                                                background: "#1E45E1",
+                                                color: "white",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                fontWeight: "600px",
+                                                fontSize: 16, fontFamily: "Gilroy"
+                                            }}
+                                        >
+                                            {finalSettlementList?.customerInfo?.initials}
+                                        </div>
+                                }
                                 <div>
                                     <p style={{ fontSize: "1.25rem", fontFamily: "Gilroy", fontWeight: 600 }} className="mb-0">{finalSettlementList?.customerInfo?.fullName}</p>
                                     <div className="d-flex mb-2">

@@ -97,7 +97,7 @@ useEffect(() => {
 }, [canReadDashboard]);
 
 
-
+console.log("canReadDashboard",canReadDashboard)
 
 
   const monthNames = [
@@ -158,6 +158,7 @@ useEffect(() => {
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       dispatch({ type: "PGDASHBOARD", payload:  state.login.selectedHostel_Id  });
+      
       //  setLoading(true);
     }
   }, [state.login.selectedHostel_Id]);
@@ -215,7 +216,6 @@ useEffect(() => {
   //     });
   //   }
   // }, [selectAdvance, state.login.selectedHostel_Id]);
-
 
 
   useEffect(() => {
