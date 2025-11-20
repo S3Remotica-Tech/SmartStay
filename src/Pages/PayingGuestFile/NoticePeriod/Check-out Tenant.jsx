@@ -793,7 +793,11 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
                                 option: (base, state) => ({
                                   ...base,
                                   cursor: state.isDisabled ? "not-allowed" : "pointer",
-                                  backgroundColor: state.isDisabled ? "#f0f0f0" : "white",
+                                   backgroundColor: state.isFocused
+                                                                            ? "#E7F1FF"
+                                                                            : state.isDisabled
+                                                                                ? "#f0f0f0"
+                                                                                : "#fff",
                                   color: state.isDisabled ? "#aaa" : "#000",
                                 }),
                               }}

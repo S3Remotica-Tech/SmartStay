@@ -3536,7 +3536,7 @@ function UserListRoomDetail(props) {
                                       : 1,
                                   }}
                                 >
-                                  <div
+                                  {/* <div
                                     onClick={() => {
                                       if (canUpdateTenant) {
                                         handleEditStayDetails(CustomerOverView);
@@ -3568,7 +3568,7 @@ function UserListRoomDetail(props) {
                                           : "#000",
                                       }}
                                     />
-                                  </div>
+                                  </div> */}
                                 </div>
                               </div>
                             </div>
@@ -5692,7 +5692,11 @@ function UserListRoomDetail(props) {
                                           option: (base, state) => ({
                                             ...base,
                                             cursor: state.isDisabled ? "not-allowed" : "pointer",
-                                            backgroundColor: state.isDisabled ? "#f0f0f0" : "white",
+                                             backgroundColor: state.isFocused
+                                                                            ? "#E7F1FF"
+                                                                            : state.isDisabled
+                                                                                ? "#f0f0f0"
+                                                                                : "#fff",
                                             color: state.isDisabled ? "#aaa" : "#000",
                                           }),
                                         }}
