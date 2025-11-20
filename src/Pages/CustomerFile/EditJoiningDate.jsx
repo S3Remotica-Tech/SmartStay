@@ -44,16 +44,22 @@ function EditJoiningDate({ show, handleClose }) {
 
     const CustomerOverView = state.UsersList.customerdetails;
 
+    console.log("reason", reason)
+
+    const [isOthers, setIsOthers] = useState(false);
 
     const handleReasonChange = (selectedOption) => {
-          dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' })
-        if (selectedOption?.value !== "Others") {
-            setReason(selectedOption);
+        dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' });
+
+        if (selectedOption?.value === "Others") {
+            setIsOthers(true);
+            setReason(""); 
         } else {
-            setReason({ value: "Others", label: "Others" });
+            setIsOthers(false);
+            setReason(selectedOption.value);
         }
-        setReasonError("");
     };
+
 
     const handleMonthlyRentChange = (e) => {
         const value = e.target.value;
@@ -68,7 +74,7 @@ function EditJoiningDate({ show, handleClose }) {
 
 
     const handleEffectiveFromChange = (date, dateString) => {
-          dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' })
+        dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' })
         setEffectiveFrom(dateString);
         setEffectiveFromError("");
     };
@@ -85,16 +91,16 @@ function EditJoiningDate({ show, handleClose }) {
         }
     }, [state?.UsersList.editAmountSuccessStatusCode])
 
-useEffect(()=>{
-    if(state.UsersList?.updateTenantError){
-        setLoading(false)
-    }
+    useEffect(() => {
+        if (state.UsersList?.updateTenantError) {
+            setLoading(false)
+        }
 
-},[state.UsersList?.updateTenantError])
+    }, [state.UsersList?.updateTenantError])
 
 
     const handleSubmit = () => {
-         dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' })
+        dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' })
         let isValid = true;
 
 
@@ -128,10 +134,10 @@ useEffect(()=>{
 
     useEffect(() => {
         if (state.createAccount?.networkError) {
-          setLoading(false)
+            setLoading(false)
         }
-    
-      }, [state.createAccount?.networkError])
+
+    }, [state.createAccount?.networkError])
 
     // const previousJoiningDate = dayjs(
     //     CustomerOverView?.hostelInfo?.joiningDate,
@@ -177,7 +183,7 @@ useEffect(()=>{
                             style={{ cursor: "pointer" }} />
                     </Modal.Header>
 
-                    <Modal.Body style={{ maxHeight: "370px", overflowY: "scroll" }} className="show-scroll p-3 mt-0 me-3" >
+                    <Modal.Body style={{}} className="show-scroll p-3 mt-0 me-3" >
                         <div className="row mb-0">
 
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
@@ -217,7 +223,7 @@ useEffect(()=>{
                                             disabledDate={(current) =>
                                                 current &&
                                                 (
-                                                                                                       current > dayjs().endOf("day")
+                                                    current > dayjs().endOf("day")
                                                 )
                                             }
                                         />
@@ -248,16 +254,13 @@ useEffect(()=>{
                                         Reason
                                     </Form.Label>
 
-                                    {reason?.label === "Others" ? (
+                                    {isOthers ? (
                                         <div style={{ position: "relative" }}>
                                             <FormControl
                                                 type="text"
                                                 placeholder="Enter your reason"
-                                                value={reason?.value === "Others" ? "" : reason?.value}
-                                                onChange={(e) => {
-                                                    const customReason = e.target.value;
-                                                    setReason({ value: customReason, label: "Others" });
-                                                }}
+                                                value={reason}
+                                                onChange={(e) => setReason(e.target.value)}
                                                 style={{
                                                     fontSize: 16,
                                                     color: "#4B4B4B",
@@ -275,7 +278,10 @@ useEffect(()=>{
 
 
                                                 variant="link"
-                                                onClick={() => setReason(null)}
+                                                onClick={() => {
+                                                    setIsOthers(false);
+                                                    setReason("");
+                                                }}
                                                 style={{
                                                     position: "absolute",
                                                     right: 10,
@@ -285,19 +291,19 @@ useEffect(()=>{
                                                     color: "#1E45E1",
                                                     textDecoration: "none",
                                                     fontWeight: 500,
-                                                    fontFamily: "Gilroy", cursor: "Po"
+                                                    fontFamily: "Gilroy", cursor: "pointer"
                                                 }}
                                             >
 
                                             </Trash>
                                         </div>) : (
                                         <Select
-                                            value={reason}
+                                            value={reasonOptions.find((opt) => opt.value === reason) || null}
                                             onChange={handleReasonChange}
                                             options={reasonOptions}
                                             placeholder="Select Reason"
                                             classNamePrefix="custom"
-                                            menuPlacement="auto"
+                                            // menuPlacement="auto"
                                             noOptionsMessage={() => "No reason available"}
                                             styles={{
                                                 control: (base) => ({
@@ -332,9 +338,9 @@ useEffect(()=>{
                             </div>
                         </div>
 
-{
-    state.UsersList?.updateTenantError && <ErrorMessage message={ state.UsersList.updateTenantError} type="error" />
-}
+                        {
+                            state.UsersList?.updateTenantError && <ErrorMessage message={state.UsersList.updateTenantError} type="error" />
+                        }
 
 
                     </Modal.Body>

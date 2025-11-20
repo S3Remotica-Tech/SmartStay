@@ -3795,14 +3795,14 @@ function UserListRoomDetail(props) {
                                     // marginLeft: 29
                                   }}
                                 >
-                                  Joined Date  <img className="ms-2" onClick={() => canUpdateTenant && handleUpdateJoiningChange()}
+                                  Joined Date  <img className="ms-2" onClick={() => (canUpdateTenant && CustomerOverView.hostelInfo?.joiningDate) && handleUpdateJoiningChange()}
                                     src={EditImage}
                                     alt="EditImage"
                                     style={{
                                       height: 14,
                                       width: 14,
-                                      color: !canUpdateTenant
-                                        ? "#CCCCCC"
+                                      color: !canUpdateTenant || !CustomerOverView.hostelInfo?.joiningDate
+                                        ? "#1E45E1"
                                         : "#000", cursor: "pointer"
                                     }}
                                   />
@@ -3900,7 +3900,7 @@ function UserListRoomDetail(props) {
                                         >
                                           Monthly Rent
                                           <img className="ms-2"
-                                            onClick={() => canUpdateTenant && handleUpdateChange()}
+                                            onClick={() => (canUpdateTenant && CustomerOverView.hostelInfo?.monthlyRent) && handleUpdateChange()}
                                             src={EditImage}
                                             alt="EditImage"
                                             style={{
@@ -3935,7 +3935,7 @@ function UserListRoomDetail(props) {
                                             fontFamily: "Gilroy",
                                           }}
                                         >
-                                          Advance Amount  <img className="ms-2" onClick={() => canUpdateTenant && handleUpdateAdvanceChange()}
+                                          Advance Amount  <img className="ms-2" onClick={() =>( canUpdateTenant && advanceList?.advanceAmount) && handleUpdateAdvanceChange()}
                                             src={EditImage}
                                             alt="EditImage"
                                             style={{

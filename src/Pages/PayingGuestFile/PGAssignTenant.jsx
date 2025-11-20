@@ -496,7 +496,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
 
   const handleSaveCheckin = () => {
-
+  dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR' })
     let hasReasonAmountError = false;
     let newErrors = [];
 

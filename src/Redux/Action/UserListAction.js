@@ -881,6 +881,7 @@ export async function conformCheckout(customer) {
 
 
 export async function EditTenantAmount(change) {
+  console.log("changes joing", change)
   return await AxiosConfigV2.put(
     `/v2/bookings/rent/${change.hostelId}/${change.bookingId}`,
     {},
