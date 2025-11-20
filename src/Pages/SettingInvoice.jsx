@@ -1038,25 +1038,9 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handl
 
 
 
-const normalize = (value) => {
-  if (value === null || value === "" || value === undefined || value === 0) {
-    return null;
-  }
-  return value;
-};
-
-const isChanged = (current, oldData) => {
-  const keys = Object.keys(current);
-
-  for (let key of keys) {
-    if (normalize(current[key]) !== normalize(oldData[key])) {
-      return true;      
-    }
-  }
-  return false;         
-};
 
   const handleSaveRentalTemplate = () => {
+    setEditFormErrMessage('')
     const currentTemplate = {
       hostelId: Number(state.login.selectedHostel_Id),
       templateTypeId: RentalinvoiceTemplate.typeId,
@@ -1102,48 +1086,25 @@ const isChanged = (current, oldData) => {
     };
 
 
-    // const isChanged =
-    //   currentTemplate.invSign !== oldTemplate.invSign ||
-    //   currentTemplate.invoicePhoneNumber !== oldTemplate.invoicePhoneNumber ||
-    //   currentTemplate.invoiceMailId !== oldTemplate.invoiceMailId ||
-    //   currentTemplate.invLogo !== oldTemplate.invLogo ||
-    //   currentTemplate.qrCode !== oldTemplate.qrCode ||
-    //   currentTemplate.prefix !== oldTemplate.prefix ||
-    //   currentTemplate.suffix !== oldTemplate.suffix ||
-    //   currentTemplate.gstPercentile !== oldTemplate.gstPercentile ||
-    //   currentTemplate.invoiceNotes !== oldTemplate.invoiceNotes ||
-    //   currentTemplate.invoiceTermsAndCondition !== oldTemplate.invoiceTermsAndCondition ||
-    //   currentTemplate.bankId !== oldTemplate.bankId ||
-    //   currentTemplate.invoiceTemplateColor !== oldTemplate.invoiceTemplateColor;
-
-
-console.log("=== DEBUG TEMPLATE VALIDATION ===");
-console.log("currentTemplate:", currentTemplate);
-console.log("oldTemplate:", oldTemplate);
-
-console.log("invSign:", currentTemplate.invSign, oldTemplate.invSign, currentTemplate.invSign !== oldTemplate.invSign);
-console.log("invoicePhoneNumber:", currentTemplate.invoicePhoneNumber, oldTemplate.invoicePhoneNumber, currentTemplate.invoicePhoneNumber !== oldTemplate.invoicePhoneNumber);
-console.log("invoiceMailId:", currentTemplate.invoiceMailId, oldTemplate.invoiceMailId, currentTemplate.invoiceMailId !== oldTemplate.invoiceMailId);
-console.log("invLogo:", currentTemplate.invLogo, oldTemplate.invLogo, currentTemplate.invLogo !== oldTemplate.invLogo);
-console.log("qrCode:", currentTemplate.qrCode, oldTemplate.qrCode, currentTemplate.qrCode !== oldTemplate.qrCode);
-console.log("prefix:", currentTemplate.prefix, oldTemplate.prefix, currentTemplate.prefix !== oldTemplate.prefix);
-console.log("suffix:", currentTemplate.suffix, oldTemplate.suffix, currentTemplate.suffix !== oldTemplate.suffix);
-console.log("gstPercentile:", currentTemplate.gstPercentile, oldTemplate.gstPercentile, currentTemplate.gstPercentile !== oldTemplate.gstPercentile);
-console.log("invoiceNotes:", currentTemplate.invoiceNotes, oldTemplate.invoiceNotes, currentTemplate.invoiceNotes !== oldTemplate.invoiceNotes);
-console.log("invoiceTermsAndCondition:", currentTemplate.invoiceTermsAndCondition, oldTemplate.invoiceTermsAndCondition, currentTemplate.invoiceTermsAndCondition !== oldTemplate.invoiceTermsAndCondition);
-console.log("bankId:", currentTemplate.bankId, oldTemplate.bankId, currentTemplate.bankId !== oldTemplate.bankId);
-console.log("invoiceTemplateColor:", currentTemplate.invoiceTemplateColor, oldTemplate.invoiceTemplateColor, currentTemplate.invoiceTemplateColor !== oldTemplate.invoiceTemplateColor);
+    const isChanged =
+   
+  currentTemplate.qrCode !== oldTemplate.qrCode ||
+  currentTemplate.prefix !== oldTemplate.prefix ||
+  currentTemplate.suffix !== oldTemplate.suffix ||
+  currentTemplate.gstPercentile !== oldTemplate.gstPercentile ||
+  currentTemplate.invoiceNotes !== oldTemplate.invoiceNotes ||
+  currentTemplate.invoiceTermsAndCondition !== oldTemplate.invoiceTermsAndCondition ||
+  currentTemplate.bankId !== oldTemplate.bankId ||
+  currentTemplate.invoiceTemplateColor !== oldTemplate.invoiceTemplateColor;
 
 
 
 
 
 
-const changed = isChanged(currentTemplate, oldTemplate);
 
 
-
-    if (!changed) {
+    if (!isChanged) {
       setEditFormErrMessage("No changes detected");
       setSignatureErrMsg("");
       return;
@@ -2417,7 +2378,9 @@ const changed = isChanged(currentTemplate, oldTemplate);
 
 
                       {editformErrmsg.trim() !== "" && (
+                          <div className="d-flex justify-content-center">
                         <ErrorMessage message={editformErrmsg} type="error" />
+                        </div>
                       )}
 
                       <div className="d-flex justify-content-end mt-2 col-lg-10">
