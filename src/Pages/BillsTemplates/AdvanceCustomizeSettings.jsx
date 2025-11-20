@@ -519,6 +519,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList,onTemplateChange}) => {
     }
   };
 
+  console.log("notes",notes)
 
   const [qrImage, setQrImage] = useState(null);
   const [qrimagepreview, setQRImagePreview] = useState(null)
@@ -532,7 +533,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList,onTemplateChange}) => {
       setEditErrMessage("")
     }
   };
-
+ 
   const handleSaveTemplate = () => {
 
     const currentTemplate = {
@@ -540,23 +541,23 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList,onTemplateChange}) => {
       templateTypeId: securityDepositInvoiceTemplate.typeId,
       mobile: BillsTemplateList.mobile,
       email: BillsTemplateList.emailId,
-      invoicePhoneNumber: mobilenum,
-      invoiceMailId: email,
+      // invoicePhoneNumber: mobilenum,
+      // invoiceMailId: email,
       isMobileCustomized: BillsTemplateList?.isMobileCustomized,
       isEmailCustomized: BillsTemplateList?.isMailIdCustomized,
       isLogoCustomized: BillsTemplateList?.isLogoCustomized,
       isSignatureCustomized: BillsTemplateList?.isSignatureCustomized,
       hostelLogo: BillsTemplateList?.logo,
       billSignature: BillsTemplateList?.signature,
-      invLogo: hostel_logo,
-      invSign: signature,
+      // invLogo: hostel_logo,
+      // invSign: signature,
       qrCode: qrimagepreview,
       prefix,
       suffix,
       gstPercentile: tax,
       invoiceNotes: notes,
       invoiceTermsAndCondition: terms,
-      bankId: selectedBankId,
+      bankId:  Number(selectedBankId),
       invoiceTemplateColor: useGradient
         ? defaultGradient
         : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
@@ -567,31 +568,52 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList,onTemplateChange}) => {
       templateTypeId: securityDepositInvoiceTemplate.typeId,
       mobile: BillsTemplateList.mobile,
       email: BillsTemplateList.emailId,
-      invoicePhoneNumber: securityDepositInvoiceTemplate.contact_number || "",
-      invoiceMailId: securityDepositInvoiceTemplate.email || "",
+      // invoicePhoneNumber: securityDepositInvoiceTemplate.contact_number || "",
+      // invoiceMailId: securityDepositInvoiceTemplate.email || "",
       isMobileCustomized: BillsTemplateList?.isMobileCustomized,
       isEmailCustomized: BillsTemplateList?.isMailIdCustomized,
       isLogoCustomized: BillsTemplateList?.isLogoCustomized,
       isSignatureCustomized: BillsTemplateList?.isSignatureCustomized,
       hostelLogo: BillsTemplateList?.logo,
       billSignature: BillsTemplateList?.signature,
-      invLogo: securityDepositInvoiceTemplate.logo_url || null,
-      invSign: securityDepositInvoiceTemplate.invoiceSignatureUrl || null,
-      qrCode: securityDepositInvoiceTemplate.qr_url || null,
+      // invLogo: securityDepositInvoiceTemplate.logo_url || null,
+      // invSign: securityDepositInvoiceTemplate.invoiceSignatureUrl || null,
+      qrCode: securityDepositInvoiceTemplate.invoiceLogoUrl || null,
       prefix: securityDepositInvoiceTemplate.prefix || "",
       suffix: securityDepositInvoiceTemplate.suffix || "",
-      gstPercentile: securityDepositInvoiceTemplate.tax || "",
-      invoiceNotes: securityDepositInvoiceTemplate.notes || "",
-      invoiceTermsAndCondition: securityDepositInvoiceTemplate.terms_and_condition || "",
-      bankId: Number(securityDepositInvoiceTemplate.banking_id || 0),
-      invoiceTemplateColor: securityDepositInvoiceTemplate.template_theme || "",
+      gstPercentile: securityDepositInvoiceTemplate.gstPercentile || "",
+      invoiceNotes: securityDepositInvoiceTemplate.invoiceNotes || "",
+      invoiceTermsAndCondition: securityDepositInvoiceTemplate.invoiceTermsAndCondition || "",
+     bankId:  Number(securityDepositInvoiceTemplate.selectedBankId) ,
+      invoiceTemplateColor: securityDepositInvoiceTemplate.invoiceTemplateColor || "",
     };
 
 
 
-    const isSame = JSON.stringify(currentTemplate) === JSON.stringify(oldTemplate);
+   const normalize = (val) => {
+  if (val === null || val === undefined) return "";
+  const v = String(val).trim();
+  return v === "null" || v === "undefined" ? "" : v;
+};
 
-    if (isSame) {
+console.log("currentTemplate",currentTemplate)
+console.log("oldTemplate",oldTemplate)
+
+const isChanged =
+  normalize(currentTemplate.qrCode) !== normalize(oldTemplate.qrCode) ||
+  normalize(currentTemplate.prefix) !== normalize(oldTemplate.prefix) ||
+  normalize(currentTemplate.suffix) !== normalize(oldTemplate.suffix) ||
+  normalize(currentTemplate.gstPercentile) !== normalize(oldTemplate.gstPercentile) ||
+  normalize(currentTemplate.invoiceNotes) !== normalize(oldTemplate.invoiceNotes) ||
+  normalize(currentTemplate.invoiceTermsAndCondition) !== normalize(oldTemplate.invoiceTermsAndCondition) ||
+  normalize(currentTemplate.bankId) !== normalize(oldTemplate.bankId) ||
+  normalize(currentTemplate.invoiceTemplateColor) !== normalize(oldTemplate.invoiceTemplateColor);
+
+
+ 
+
+
+    if (!isChanged) {
       setEditErrMessage("No changes detected");
       setSignatureErrMsg("")
       return;
@@ -788,6 +810,8 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList,onTemplateChange}) => {
 
   }, [state.Settings.settingGlobalAddStatusCode])
 
+
+  console.log("securityDepositInvoiceTemplate",securityDepositInvoiceTemplate)
 
 
 useEffect(() => {
@@ -1719,7 +1743,9 @@ useEffect(() => {
           </div>
 
           {editErrmsg.trim() !== "" && (
+            <div className="d-flex justify-content-center">
             <ErrorMessage message={editErrmsg} type="error" />
+            </div>
           )}
 
           <div className="d-flex justify-content-end mt-2 col-lg-10">

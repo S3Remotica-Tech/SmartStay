@@ -839,7 +839,7 @@ useEffect(()=>{
                     fontWeight: 500,
                   }}
                 >
-                  Amount/Unit{" "}
+                  Amount/Unit {" "} <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
                 <FormControl
                   type="text"

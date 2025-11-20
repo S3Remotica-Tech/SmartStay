@@ -496,7 +496,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
 
   const handleSaveCheckin = () => {
-
+  dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR' })
     let hasReasonAmountError = false;
     let newErrors = [];
 
@@ -1688,7 +1688,11 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                         option: (base, state) => ({
                                           ...base,
                                           cursor: state.isDisabled ? "not-allowed" : "pointer",
-                                          backgroundColor: state.isDisabled ? "#f0f0f0" : "white",
+                                          backgroundColor: state.isFocused
+                                                                            ? "#E7F1FF"
+                                                                            : state.isDisabled
+                                                                                ? "#f0f0f0"
+                                                                                : "#fff",
                                           color: state.isDisabled ? "#aaa" : "#000",
                                         }),
                                       }}

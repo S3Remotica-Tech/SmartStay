@@ -43,18 +43,38 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
 
 
   
+  // const handleAmenityChange = (e) => {
+  //   const value = e.target.value;
+  //   const pattern = /^[a-zA-Z\s]*$/;
+  //   if (!pattern.test(value)) {
+  //     return;
+  //   }
+  //   setAmenity(value);
+  //   setErrorAmenity("");
+  //   setIsChangedError("");
+  //   setAmnitiesError("")
+  //   dispatch({ type: 'REMOVE_ERROR_AMENITIES_SETTINGS' })
+  // };
+
   const handleAmenityChange = (e) => {
-    const value = e.target.value;
+  let value = e.target.value;
+ 
+  value = value.trimStart();
+    value = value.replace(/\s+/g, " ");
+
     const pattern = /^[a-zA-Z\s]*$/;
-    if (!pattern.test(value)) {
-      return;
-    }
-    setAmenity(value);
-    setErrorAmenity("");
-    setIsChangedError("");
-    setAmnitiesError("")
-    dispatch({ type: 'REMOVE_ERROR_AMENITIES_SETTINGS' })
-  };
+  if (!pattern.test(value)) {
+    return;
+  }
+
+  setAmenity(value);
+  setErrorAmenity("");
+  setIsChangedError("");
+  setAmnitiesError("");
+  dispatch({ type: 'REMOVE_ERROR_AMENITIES_SETTINGS' });
+};
+
+
 
   const handleAmountChange = (e) => {
     const newAmount = e.target.value;
@@ -336,9 +356,9 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
               </div>
             }
 
-            {amnitiesError && (
+            {state.InvoiceList.amnitiessAddError && (
               <div className="d-flex justify-content-center align-items-center">
-                <ErrorMessage message={amnitiesError} type="error" />
+                <ErrorMessage message={state.InvoiceList.amnitiessAddError} type="error" />
               
               </div>
             )}

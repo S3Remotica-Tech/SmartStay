@@ -278,26 +278,25 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList ,onTemplateReceiptChange})
 
 
 
-
   const handleSaveTemplate = () => {
     const currentData = {
-      contact_number: mobilenum,
-      email: email,
-      receiptSignatureUrl: signature || '',
+      // contact_number: mobilenum,
+      // email: email,
+      // receiptSignatureUrl: signature || '',
       notes: notes?.replace(/"/g, '') || '',
       terms_and_condition: terms || '',
       template_theme: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
-      logo_url: hostel_logo || '',
+      // logo_url: hostel_logo || '',
     };
 
     const originalData = {
-      contact_number: RentalreceiptTemplate.contact_number,
-      email: RentalreceiptTemplate.email,
-      receiptSignatureUrl: RentalreceiptTemplate.receiptSignatureUrl || '',
-      notes: RentalreceiptTemplate.notes?.replace(/"/g, '') || '',
-      terms_and_condition: RentalreceiptTemplate.terms_and_condition || '',
-      template_theme: RentalreceiptTemplate.template_theme || '',
-      logo_url: RentalreceiptTemplate.logo_url || ''
+      // contact_number: RentalreceiptTemplate.receiptMobileNumber,
+      // email: RentalreceiptTemplate.receiptMailId,
+      // receiptSignatureUrl: RentalreceiptTemplate.receiptSignatureUrl || '',
+      notes: RentalreceiptTemplate.receiptNotes?.replace(/"/g, '') || '',
+      terms_and_condition: RentalreceiptTemplate.receiptTermsAndCondition || '',
+      template_theme: RentalreceiptTemplate.receiptTemplateColor || '',
+      // logo_url: RentalreceiptTemplate.receiptLogoUrl || ''
     };
 
     if (JSON.stringify(currentData) === JSON.stringify(originalData)) {
@@ -468,6 +467,7 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList ,onTemplateReceiptChange})
 
 
 
+console.log("RentalreceiptTemplate",RentalreceiptTemplate)
 
   return (
     <>
@@ -1039,7 +1039,9 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList ,onTemplateReceiptChange})
           </div>
 
           {editErrmsg.trim() !== "" && (
+             <div className="d-flex justify-content-center">
             <ErrorMessage message={editErrmsg} type="error" />
+            </div>
           )}
           <div className="d-flex justify-content-end mt-2 col-lg-10">
             <Button

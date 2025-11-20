@@ -1040,6 +1040,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handl
 
 
   const handleSaveRentalTemplate = () => {
+    setEditFormErrMessage('')
     const currentTemplate = {
       hostelId: Number(state.login.selectedHostel_Id),
       templateTypeId: RentalinvoiceTemplate.typeId,
@@ -1086,18 +1087,22 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handl
 
 
     const isChanged =
-      currentTemplate.invSign !== oldTemplate.invSign ||
-      currentTemplate.invoicePhoneNumber !== oldTemplate.invoicePhoneNumber ||
-      currentTemplate.invoiceMailId !== oldTemplate.invoiceMailId ||
-      currentTemplate.invLogo !== oldTemplate.invLogo ||
-      currentTemplate.qrCode !== oldTemplate.qrCode ||
-      currentTemplate.prefix !== oldTemplate.prefix ||
-      currentTemplate.suffix !== oldTemplate.suffix ||
-      currentTemplate.gstPercentile !== oldTemplate.gstPercentile ||
-      currentTemplate.invoiceNotes !== oldTemplate.invoiceNotes ||
-      currentTemplate.invoiceTermsAndCondition !== oldTemplate.invoiceTermsAndCondition ||
-      currentTemplate.bankId !== oldTemplate.bankId ||
-      currentTemplate.invoiceTemplateColor !== oldTemplate.invoiceTemplateColor;
+   
+  currentTemplate.qrCode !== oldTemplate.qrCode ||
+  currentTemplate.prefix !== oldTemplate.prefix ||
+  currentTemplate.suffix !== oldTemplate.suffix ||
+  currentTemplate.gstPercentile !== oldTemplate.gstPercentile ||
+  currentTemplate.invoiceNotes !== oldTemplate.invoiceNotes ||
+  currentTemplate.invoiceTermsAndCondition !== oldTemplate.invoiceTermsAndCondition ||
+  currentTemplate.bankId !== oldTemplate.bankId ||
+  currentTemplate.invoiceTemplateColor !== oldTemplate.invoiceTemplateColor;
+
+
+
+
+
+
+
 
     if (!isChanged) {
       setEditFormErrMessage("No changes detected");
@@ -2373,7 +2378,9 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handl
 
 
                       {editformErrmsg.trim() !== "" && (
+                          <div className="d-flex justify-content-center">
                         <ErrorMessage message={editformErrmsg} type="error" />
+                        </div>
                       )}
 
                       <div className="d-flex justify-content-end mt-2 col-lg-10">

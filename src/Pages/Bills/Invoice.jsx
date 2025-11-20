@@ -2918,13 +2918,8 @@ const InvoicePage = () => {
 
 
 
-
-
-
-
-
   return (
-    <div style={{ overflowY: "auto", }}>
+    <div style={{ overflowY: "auto", overflowX:"hidden"}}>
       {showAllBill && (
         <Row className="p-0">
           <Col className="p-0"

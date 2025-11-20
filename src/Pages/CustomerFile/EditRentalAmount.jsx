@@ -47,15 +47,19 @@ function EditRentalAmount({ show, handleClose }) {
     ];
 
 
-    const handleReasonChange = (selectedOption) => {
-        dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' })
-        if (selectedOption?.value !== "Others") {
-            setReason(selectedOption);
-        } else {
-            setReason({ value: "Others", label: "Others" });
-        }
-        setReasonError("");
-    };
+     const [isOthers, setIsOthers] = useState(false);
+    
+        const handleReasonChange = (selectedOption) => {
+            dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' });
+    
+            if (selectedOption?.value === "Others") {
+                setIsOthers(true);
+                setReason("");  
+            } else {
+                setIsOthers(false);
+                setReason(selectedOption.value);
+            }
+        };
 
     const handleMonthlyRentChange = (e) => {
         dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' })
@@ -304,16 +308,13 @@ function EditRentalAmount({ show, handleClose }) {
                                         Reason
                                     </Form.Label>
 
-                                    {reason?.label === "Others" ? (
+                                    {isOthers ? (
                                         <div style={{ position: "relative" }}>
                                             <FormControl
                                                 type="text"
                                                 placeholder="Enter your reason"
-                                                value={reason?.value === "Others" ? "" : reason?.value}
-                                                onChange={(e) => {
-                                                    const customReason = e.target.value;
-                                                    setReason({ value: customReason, label: "Others" });
-                                                }}
+                                                value={reason}
+                                                onChange={(e) => setReason(e.target.value)}
                                                 style={{
                                                     fontSize: 16,
                                                     color: "#4B4B4B",
@@ -331,7 +332,10 @@ function EditRentalAmount({ show, handleClose }) {
 
 
                                                 variant="link"
-                                                onClick={() => setReason(null)}
+                                                onClick={() => {
+                                                    setIsOthers(false);
+                                                    setReason("");
+                                                }}
                                                 style={{
                                                     position: "absolute",
                                                     right: 10,
@@ -341,14 +345,14 @@ function EditRentalAmount({ show, handleClose }) {
                                                     color: "#1E45E1",
                                                     textDecoration: "none",
                                                     fontWeight: 500,
-                                                    fontFamily: "Gilroy", cursor: "Po"
+                                                    fontFamily: "Gilroy", cursor: "pointer"
                                                 }}
                                             >
 
                                             </Trash>
                                         </div>) : (
                                         <Select
-                                            value={reason}
+                                            value={reasonOptions.find((opt) => opt.value === reason) || null}
                                             onChange={handleReasonChange}
                                             options={reasonOptions}
                                             placeholder="Select Reason"
