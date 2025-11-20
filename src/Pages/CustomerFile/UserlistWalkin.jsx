@@ -778,7 +778,7 @@ function UserlistWalkin(props) {
                                       position: "relative",
                                       borderBottom: "1px solid #E8E8E8",
                                       backgroundColor:
-                                        dotsButton === v.id ? "#E7F1FF" : "white",
+                                        dotsButton === v.customerId ? "#E7F1FF" : "white",
                                     }}
                                     onClick={(e) => handleDotsClick(v.customerId, e)}
                                   >

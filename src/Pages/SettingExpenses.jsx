@@ -372,50 +372,112 @@ function SettingExpenses({ hostelid }) {
 
 
 
+const cleanInput = (value) => {
+  return value
+    .replace(/[^a-zA-Z\s]/g, "")   
+    .replace(/\s{2,}/g, " ");     
+};
 
 
 
 
-  const handleCreate = (inputValue) => {
+  // const handleCreate = (inputValue) => {
 
-    const existingCategoryIndex = options.findIndex(option => option.value === selectedOptions?.value);
-
-
-    if (existingCategoryIndex !== -1) {
-
-      const updatedOptions = [...options];
-      updatedOptions[existingCategoryIndex] = { ...updatedOptions[existingCategoryIndex], label: inputValue };
-
-      setOptions(updatedOptions);
-      setSelectedOptions(updatedOptions[existingCategoryIndex]);
-      setType(updatedOptions[existingCategoryIndex]);
-
-      dispatch({
-        type: 'EDIT_EXPENCES_CATEGORY',
-        payload: { id: selectedOptions.value, hostel_id: state.login.selectedHostel_Id, name: inputValue, type: 1 }
-      });
-      setFormLoading(true)
+  //   const existingCategoryIndex = options.findIndex(option => option.value === selectedOptions?.value);
 
 
-    } else {
+  //   if (existingCategoryIndex !== -1) {
 
-      const newOption = { value: inputValue, label: inputValue };
-      setOptions((prev) => [...prev, newOption]);
-      setSelectedOptions(newOption);
-      setType(newOption);
+  //     const updatedOptions = [...options];
+  //     updatedOptions[existingCategoryIndex] = { ...updatedOptions[existingCategoryIndex], label: inputValue };
 
-      dispatch({
-        type: 'EXPENCES-CATEGORY-ADD',
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          categoryName: inputValue,
-        }
-      });
-      setFormLoading(true)
-    }
-  };
+  //     setOptions(updatedOptions);
+  //     setSelectedOptions(updatedOptions[existingCategoryIndex]);
+  //     setType(updatedOptions[existingCategoryIndex]);
+
+  //     dispatch({
+  //       type: 'EDIT_EXPENCES_CATEGORY',
+  //       payload: { id: selectedOptions.value, hostel_id: state.login.selectedHostel_Id, name: inputValue, type: 1 }
+  //     });
+  //     setFormLoading(true)
 
 
+  //   } else {
+
+  //     const newOption = { value: inputValue, label: inputValue };
+  //     setOptions((prev) => [...prev, newOption]);
+  //     setSelectedOptions(newOption);
+  //     setType(newOption);
+
+  //     dispatch({
+  //       type: 'EXPENCES-CATEGORY-ADD',
+  //       payload: {
+  //         hostelId: state.login.selectedHostel_Id,
+  //         categoryName: inputValue,
+  //       }
+  //     });
+  //     setFormLoading(true)
+  //   }
+  // };
+
+
+const handleCreate = (inputValue) => {
+
+  const cleanedValue = cleanInput(inputValue);
+
+ 
+  if (!cleanedValue.trim()) {
+    setCategoryErrmsg("Enter valid category");
+    return;
+  }
+
+  const existingCategoryIndex = options.findIndex(
+    (option) => option.value === selectedOptions?.value
+  );
+
+  if (existingCategoryIndex !== -1) {
+
+    const updatedOptions = [...options];
+    updatedOptions[existingCategoryIndex] = { 
+      ...updatedOptions[existingCategoryIndex], 
+      label: cleanedValue 
+    };
+
+    setOptions(updatedOptions);
+    setSelectedOptions(updatedOptions[existingCategoryIndex]);
+    setType(updatedOptions[existingCategoryIndex]);
+
+    dispatch({
+      type: 'EDIT_EXPENCES_CATEGORY',
+      payload: { 
+        id: selectedOptions.value, 
+        hostel_id: state.login.selectedHostel_Id, 
+        name: cleanedValue, 
+        type: 1 
+      }
+    });
+
+    setFormLoading(true);
+
+  } else {
+
+    const newOption = { value: cleanedValue, label: cleanedValue };
+
+    setOptions((prev) => [...prev, newOption]);
+    setSelectedOptions(newOption);
+    setType(newOption);
+
+    dispatch({
+      type: 'EXPENCES-CATEGORY-ADD',
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        categoryName: cleanedValue,
+      }
+    });
+
+    setFormLoading(true);
+  }
+};
 
 
 

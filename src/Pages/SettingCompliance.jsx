@@ -230,18 +230,22 @@ useEffect(() => {
   };
 
   const handleComplaintType = (e) => {
-    dispatch({ type: "CLEAR_ALREADY_COMPLAINTTYPE_ERROR" });
-    setIsChangedError("");
-    const value = e.target.value;
+  dispatch({ type: "CLEAR_ALREADY_COMPLAINTTYPE_ERROR" });
+  setIsChangedError("");
+  let value = e.target.value;
+  value = value.trimStart();
+   value = value.replace(/\s+/g, " ");
     const pattern = /^[a-zA-Z\s]*$/;
-    if (!pattern.test(value)) {
-      return;
-    }
-    setComplaintTypeName(value);
-    if (e.target.value) {
-      setComplaintError("");
-    }
-  };
+  if (!pattern.test(value)) {
+    return;
+  }
+  setComplaintTypeName(value);
+
+  if (value) {
+    setComplaintError("");
+  }
+};
+
 
   useEffect(() => {
     if (state.Settings.getcomplainttypeStatuscode === 200) {

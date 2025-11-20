@@ -811,6 +811,7 @@ function UserListRoomDetail(props) {
 
   useEffect(() => {
     if (state?.UsersList.editAmountSuccessStatusCode === 200) {
+      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
       setShowUpdateJoiningForm(false)
       setShowUpdateAdvanceForm(false)
       setShowUpdateRentForm(false)
