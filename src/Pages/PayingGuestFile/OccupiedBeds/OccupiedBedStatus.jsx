@@ -11,7 +11,7 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Image from 'react-bootstrap/Image';
 import { FiCalendar, } from "react-icons/fi";
 import { useHasPermission } from '../../../Utils/Permission';
-import {  Edit } from 'iconsax-react';
+import { Edit } from 'iconsax-react';
 
 
 
@@ -257,24 +257,24 @@ function OccupiedBedStatus({
 
                                             <div
                                                 className="d-flex gap-2 align-items-center"
-                                               
+
                                                 onClick={() => canUpdatePayingGuests ? handleEditBed() : undefined}
 
-                                                 style={{
+                                                style={{
                                                     padding: "15px",
                                                     borderBottomLeftRadius: 10,
                                                     borderBottomRightRadius: 10,
                                                     cursor: canUpdatePayingGuests ? "pointer" : "not-allowed",
                                                     opacity: canUpdatePayingGuests ? 1 : 0.6,
                                                 }}
-                                                  onMouseEnter={(e) => {
+                                                onMouseEnter={(e) => {
                                                     e.currentTarget.style.backgroundColor = "#FFF3F3";
                                                 }}
                                                 onMouseLeave={(e) => {
                                                     e.currentTarget.style.backgroundColor = "transparent";
                                                 }}
                                             >
-                                 <Edit size="16" color={!canUpdatePayingGuests ? "#888888" : "#1E45E1"}  className="ms-1"/>
+                                                <Edit size="16" color={!canUpdatePayingGuests ? "#888888" : "#1E45E1"} className="ms-1" />
 
                                                 <label
                                                     style={{
@@ -291,7 +291,7 @@ function OccupiedBedStatus({
 
                                             </div>
 
-                                            
+
 
                                         </div>
                                     )}
@@ -307,32 +307,32 @@ function OccupiedBedStatus({
 
                                     <div className="d-flex gap-3 align-items-center">
                                         <div>
- {currentItem?.currentTenantProfilePic &&
-                          currentItem?.currentTenantProfilePic !== "0" ? (
-                          <Image
-                            src={currentItem.currentTenantProfilePic}
-                            roundedCircle
-                            style={{ height: 50, width: 50 }}
-                            alt="image"
-                          />
-                        ) : (
-                          <div
-                            style={{
-                              height: 50,
-                              width: 50,
-                              borderRadius: "50%",
-                              backgroundColor: "#1E45E1",
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              fontSize: 20,
-                              fontWeight: "600",
-                              color: "white", fontFamily:"Gilroy"
-                            }}
-                          >
-                            {currentItem?.currentTenantInitials || "-"}
-                          </div>
-                        )}                                        </div>
+                                            {currentItem?.currentTenantProfilePic &&
+                                                currentItem?.currentTenantProfilePic !== "0" ? (
+                                                <Image
+                                                    src={currentItem.currentTenantProfilePic}
+                                                    roundedCircle
+                                                    style={{ height: 50, width: 50 }}
+                                                    alt="image"
+                                                />
+                                            ) : (
+                                                <div
+                                                    style={{
+                                                        height: 50,
+                                                        width: 50,
+                                                        borderRadius: "50%",
+                                                        backgroundColor: "#1E45E1",
+                                                        display: "flex",
+                                                        justifyContent: "center",
+                                                        alignItems: "center",
+                                                        fontSize: 20,
+                                                        fontWeight: "600",
+                                                        color: "white", fontFamily: "Gilroy"
+                                                    }}
+                                                >
+                                                    {currentItem?.currentTenantInitials || "-"}
+                                                </div>
+                                            )}                                        </div>
                                         <div className="mt-2">
                                             <div>
                                                 <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600 }} > {currentItem.currentTenantFullName || "N/A"}</label>
