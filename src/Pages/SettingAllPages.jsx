@@ -78,7 +78,7 @@ function SettingAllPages({ isVisibleSidebar }) {
 
   }, [isVisibleSidebar])
 
-  
+
 
   return (
     <>

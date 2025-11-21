@@ -242,7 +242,7 @@ function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer
               Confirm Change Bed
             </div>
 
- <CloseCircle size="24" color="#000" onClick={handleClose} style={{ cursor: "pointer" }} />
+            <CloseCircle size="24" color="#000" onClick={handleClose} style={{ cursor: "pointer" }} />
           </Modal.Header>
 
 
@@ -368,43 +368,48 @@ function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer
 
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <Form.Group className="mb-3">
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                      display: "flex",
-                      alignItems: "center",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    New Rent Amount {" "} <span style={{ color: "red", fontSize: "20px" }}>
-                      *
-                    </span>
-                    <Form.Check className="ms-3">
-                      <Form.Check.Input
+                  <div className="d-flex align-items-center">
 
+
+                    <Form.Label
+                      style={{
+                        fontSize: 14,
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                        display: "flex",
+                        alignItems: "center",
+                        whiteSpace: "nowrap",
+                        marginBottom: 0,
+                      }}
+                    >
+                      New Rent Amount{" "}
+                      <span style={{ color: "red", fontSize: 20 }}>*</span>
+                    </Form.Label>
+
+
+                    <div className="d-flex align-items-center ms-3">
+                      <Form.Check.Input
                         type="checkbox"
                         checked={sameAsCurrent}
                         onChange={handleSameAsCurrent}
                         style={{ cursor: "pointer" }}
                       />
-                      <Form.Check.Label>
-                        <span
-                          style={{
-                            color: "#1E45E1",
-                            fontWeight: 500,
-                            whiteSpace: "nowrap",
-                            fontSize: 11,
-                            fontFamily: "Gilroy",
-                          }}
-                        >
-                          Same as Current
-                        </span>
-                      </Form.Check.Label>
-                    </Form.Check>
+                      <span className="mt-1"
+                        style={{
+                          marginLeft: 4,
+                          color: "#1E45E1",
+                          fontWeight: 500,
+                          whiteSpace: "nowrap",
+                          fontSize: 11,
+                          fontFamily: "Gilroy",
+                        }}
+                      >
+                        Same as Current
+                      </span>
+                    </div>
 
-                  </Form.Label>
+                  </div>
+
                   <FormControl
                     value={newRoomRent}
                     onChange={handleRentChange}

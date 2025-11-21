@@ -184,9 +184,9 @@ useEffect(() => {
     dispatch({ type: "CLEAR_PLAN-EXPIRED" })
 
 
-    if (!complaintTypeName) {
-      setComplaintError("Please Enter Complaint Type");
-    } else {
+      if (!complaintTypeName.trim()) {
+        setComplaintError("Please Enter Complaint Type");
+      } else {
       dispatch({
         type: "COMPLAINT-TYPE-ADD",
         payload: { complaintTypeName: complaintTypeName, hostelId: state.login.selectedHostel_Id },

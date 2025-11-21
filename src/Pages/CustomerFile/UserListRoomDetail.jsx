@@ -35,7 +35,7 @@ import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-import { CloseCircle } from "iconsax-react";
+import { CloseCircle, ArchiveAdd, TickCircle, MinusCirlce } from "iconsax-react";
 import { RightOutlined } from '@ant-design/icons';
 import timehalf from "../../Assets/Images/New_images/time-half past.png";
 // import html2canvas from "html2canvas";
@@ -65,6 +65,9 @@ import { useNavigate, useLocation } from "react-router-dom";
 import EditRentalAmount from "./EditRentalAmount";
 import EditAdvanceAmount from "./EditAdvanceAmount";
 import EditJoiningDate from "./EditJoiningDate";
+import { AddSquare, Tag2 } from "iconsax-react";
+import TenantAmenities from "./TenantAssignAmenities";
+import RequestedAmenities from "./RequestedAmenities";
 
 
 function UserListRoomDetail(props) {
@@ -150,6 +153,13 @@ function UserListRoomDetail(props) {
   const [previewUrl, setPreviewUrl] = useState(null);
   const [previewUrl2, setPreviewUrl2] = useState(null)
 
+  const [showModal, setShowModal] = useState(false);
+  const [basicDetails, setBasicDetails] = useState("")
+  const [imagePreview, setImagePreview] = useState(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const [advanceList, setAdvanceList] = useState("")
+  const [addamenityShow, setaddamenityShow] = useState(false);
+
   // const canUpdateTenant = useHasPermission("Customers", "canUpdate")
   // const canDeleteTenant = useHasPermission("Customers", "canDelete")
   // const canWriteTenant = useHasPermission("Customers", "canWrite")
@@ -160,6 +170,18 @@ function UserListRoomDetail(props) {
     canUpdateModule: canUpdateTenant,
     canDeleteModule: canDeleteTenant,
   } = useHasPermission("Customers");
+
+
+
+
+
+
+  const {
+    canWriteModule: canWriteAmenities,
+    canReadModule: canReadAmenities,
+    // canUpdateModule: canUpdateAmenities,
+    canDeleteModule: canDeleteAmenities,
+  } = useHasPermission("Amenities");
 
   const { customerId, hostelId, name, totriggerBillTap } = location.state || {};
 
@@ -2016,7 +2038,6 @@ function UserListRoomDetail(props) {
   //   });
   // };
 
-  const [showModal, setShowModal] = useState(false);
 
   // const handleViewKYC = () => {
   //   setShowModal(true);
@@ -2093,7 +2114,6 @@ function UserListRoomDetail(props) {
 
 
 
-  const [basicDetails, setBasicDetails] = useState("")
 
 
 
@@ -2135,8 +2155,8 @@ function UserListRoomDetail(props) {
   const handleCloseStayHistory = () => {
     setStayDetailsShow(false)
   }
-  const [imagePreview, setImagePreview] = useState(null);
-  const [isHovered, setIsHovered] = useState(false);
+
+
 
   const MobileNumberupload = `${props.userData?.Phone}`;
 
@@ -2210,11 +2230,42 @@ function UserListRoomDetail(props) {
 
 
 
-  const [advanceList, setAdvanceList] = useState("")
 
   useEffect(() => {
     setAdvanceList(state.UsersList.customerdetails.advanceInfo);
   }, [state.UsersList.customerdetails.advanceInfo]);
+
+
+  const handleShowAssignAmenities = () => {
+    setaddamenityShow(true);
+  };
+
+
+  const handleCloseAddamenityShow = () => {
+    setaddamenityShow(false);
+  }
+
+  const isDisabled =
+    !canWriteAmenities ||
+    state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" ||
+    state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" ||
+    state.UsersList.customerdetails?.customerCurrentStatus === "VACATED";
+
+
+
+
+  useEffect(() => {
+
+    if (state.InvoiceList.tenantAssignStatus === 201 || state.InvoiceList?.tenantUnAssignStatus === 201) {
+      setaddamenityShow(false);
+    }
+
+  }, [state.InvoiceList?.tenantAssignStatus, state.InvoiceList?.tenantUnAssignStatus])
+
+
+
+
+
 
 
 
@@ -2618,7 +2669,7 @@ function UserListRoomDetail(props) {
                   />
 
                   <Tab
-                    label="Amenities"
+                    label="Transactions"
                     value="4"
                     style={{
                       fontSize: 16,
@@ -4124,14 +4175,7 @@ function UserListRoomDetail(props) {
                             >
                               Additional Contact
                             </div>
-                            {/* <button
-                                      disabled={props.customerAddPermission}
-                                      className="btn btn-link fw-medium text-decoration-none"
-                                      style={{ fontSize: 14, fontFamily: "Gilroy" }}
-                                      onClick={handleAdditionalForm}
-                                    >
-                                      + Add Contact
-                                    </button> */}
+
                           </div>
 
                           <div className="card-body" style={{ fontFamily: "Gilroy" }}>
@@ -4402,6 +4446,111 @@ function UserListRoomDetail(props) {
                 </div>
 
 
+
+
+
+                <div className="row ms-1">
+
+                  <div
+                    className="col-md-12 col-lg-12 "
+                    style={{
+
+                      marginTop: 30,
+                    }}
+                  >
+                    <div
+                      className="card m-"
+                      style={{
+                        borderRadius: "14px",
+
+                      }}
+                    >
+                      <div
+                        className="card-header d-flex justify-content-between align-items-center"
+                        style={{
+                          backgroundColor: "transparent",
+                          borderBottom: "1px solid #e0e0e0",
+                        }}
+                      >
+                        <div
+                          className="fw-semibold"
+                          style={{
+                            fontSize: 16,
+                            lineHeight: "40px",
+                            fontFamily: "Gilroy", color:"#000"
+                          }}
+                        >
+                          Amenities provided
+                        </div>
+
+                        <div
+                          className="d-flex justify-content-start ms-3"
+
+                        >
+                          <Button
+                            disabled={!canWriteAmenities || state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" || state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" || state.UsersList.customerdetails?.customerCurrentStatus === "VACATED"}
+
+                            style={{
+                              backgroundColor: "#1E45E1",
+                              fontWeight: 600,
+                              height: 35,
+                              borderRadius: 12,
+                              fontSize: 14,
+                              fontFamily: "Gilroy",
+                              display: "flex",
+                              alignItems: "center", gap: 2
+
+                            }}
+                            onClick={() => handleShowAssignAmenities()}
+                          >
+                            <AddSquare
+                              size="18"
+                              color="#FFFFFF"
+                              variant="Bold"
+                            />  Assign
+                          </Button>
+
+                        </div>
+
+                      </div>
+
+                      <div className="card-body" style={{ fontFamily: "Gilroy", }}>
+
+
+                        <div>
+                          <UserListAmenities
+                            id={props.id}
+                            setcustomerUser_Id={props?.setcustomerUser_Id}
+                            customerUser_Id={customerId}
+                            setHostelIds={props.setHostelIds}
+                            hostelIds={props.hostelIds}
+                            hostelName={props.hostelName}
+                            sethosName={props.sethosName}
+                            statusAmni={props.statusAmni}
+                            customerAdd={props.customerAddPermission}
+                            customerEdit={props.customerEditPermission}
+                            customerDelete={props.customerDeletePermission}
+                          />
+                        </div>
+
+                        <div className="mt-1">
+
+                          <RequestedAmenities />
+
+
+                        </div>
+
+                      </div>
+
+
+                    </div>
+                  </div>
+
+
+                </div>
+
+
+
                 {kycdetailsForm === true ? (
                   <UserListKyc
                     kycdetailsForm={kycdetailsForm}
@@ -4419,6 +4568,39 @@ function UserListRoomDetail(props) {
                     setEditAdditional={setEditAdditional}
                   />
                 ) : null}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
               </>
             </TabPanel>
 
@@ -6365,19 +6547,7 @@ function UserListRoomDetail(props) {
             </TabPanel>
 
             <TabPanel value="4">
-              <UserListAmenities
-                id={props.id}
-                setcustomerUser_Id={props?.setcustomerUser_Id}
-                customerUser_Id={customerId}
-                setHostelIds={props.setHostelIds}
-                hostelIds={props.hostelIds}
-                hostelName={props.hostelName}
-                sethosName={props.sethosName}
-                statusAmni={props.statusAmni}
-                customerAdd={props.customerAddPermission}
-                customerEdit={props.customerEditPermission}
-                customerDelete={props.customerDeletePermission}
-              />
+             
             </TabPanel>
           </TabContext>
 
@@ -6516,6 +6686,20 @@ function UserListRoomDetail(props) {
             </div>
           </Modal.Body>
         </Modal>
+
+        {
+          addamenityShow && <TenantAmenities show={addamenityShow} handleClose={handleCloseAddamenityShow} />
+        }
+
+
+
+
+
+
+
+
+
+
       </>
       {/* )} */}
     </>

@@ -20,6 +20,7 @@ import Checkouts from '../../../Assets/v2Images/calendar-tick.svg'
 import Settings from '../../../Assets/v2Images/info-circle.svg'
 import { useHasPermission } from '../../../Utils/Permission';
 import { Edit } from 'iconsax-react';
+import { useNavigate, useLocation } from "react-router-dom";
 function NoticeBedStatusDetails({
   show,
   handleCloseBed,
@@ -37,10 +38,10 @@ function NoticeBedStatusDetails({
 
   const state = useSelector(state => state)
   const dispatch = useDispatch();
-
+ const navigate = useNavigate();
 
   // const canWriteCustomers = useHasPermission("Customers", "canWrite")
-  console.log("currentItem", currentItem)
+ 
 
   const {
     canWriteModule: canWriteCustomers,
@@ -207,34 +208,36 @@ function NoticeBedStatusDetails({
     }
   }, [state.UsersList?.StatusCodeBacktoCheckin]);
 
-  // useEffect(() => {
-  //   const usersList = state?.UsersList?.Users;
-  //   const userDetails = customer;
+  
 
 
-  //   const ParticularcustomerDetails = userDetails.filter((user) => user.RoomRent > 0)
+  const handleNavigateTenantProfile = (tenantDetails) => {
+    if(tenantDetails){
+        dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: tenantDetails.currentTenantCustomerId || tenantDetails.newTenantCustomerId } });
+        navigate(`/tenant/details/${tenantDetails.currentTenantCustomerId || tenantDetails.newTenantCustomerId}`, {
+            state: {
+                customerId: tenantDetails.currentTenantCustomerId || tenantDetails.newTenantCustomerId,
+                hostelId: state.login.selectedHostel_Id,
+                name: tenantDetails.currentTenantFullName || tenantDetails.newTenantFullName,
+            },
+        });
+        dispatch({ type: "UPDATE_USERSLIST_FALSE" });
+      }
+    }
 
-  //   setCustomerId(ParticularcustomerDetails[0]?.id)
-
-
-  //   if (
-  //     Array.isArray(usersList) &&
-  //     Array.isArray(ParticularcustomerDetails) &&
-  //     usersList.length > 0 &&
-  //     ParticularcustomerDetails.length > 0
-  //   ) {
-  //     const targetUserId = ParticularcustomerDetails[0]?.User_Id?.trim()?.toLowerCase();
-
-  //     const foundCustomer = usersList.find(
-  //       (user) => user.User_Id?.trim()?.toLowerCase() === targetUserId
-  //     );
-
-  //     setCustomerDetails(foundCustomer || null);
-  //   }
-  // }, [state?.UsersList?.Users, customer]);
-
-
-
+    const handleNavigateReservedTenantProfile = (tenantDetails) => {
+    if(tenantDetails){
+        dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: tenantDetails.newTenantCustomerId } });
+        navigate(`/tenant/details/${tenantDetails.newTenantCustomerId}`, {
+            state: {
+                customerId: tenantDetails.newTenantCustomerId,
+                hostelId: state.login.selectedHostel_Id,
+                name:tenantDetails.newTenantFullName,
+            },
+        });
+        dispatch({ type: "UPDATE_USERSLIST_FALSE" });
+      }
+    }
 
   return (
     <>
@@ -312,7 +315,28 @@ function NoticeBedStatusDetails({
                   </div>
                 </div>
 
+                <div
 
+                  className=" m-0"
+                  style={{
+                    color: "#DE0202",
+                    border: "1px solid #FFF0F0",
+                    fontWeight: 600,
+                    borderRadius: 60,
+                    fontFamily: "Gilroy",
+                    padding: 10,
+                    fontSize: 14,
+                    fontFamily: "Gilroy",
+                    padding: "2px 6px",
+                    backgroundColor: "#FFF0F0",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "5px",
+                    height: "fit-content"
+                  }}
+                >
+                  Notice Period
+                </div>
 
               </div>
             </Modal.Header>
@@ -525,7 +549,7 @@ function NoticeBedStatusDetails({
                               alignItems: "center",
                               fontSize: 20,
                               fontWeight: "600",
-                              color: "white", fontFamily:"Gilroy"
+                              color: "white", fontFamily: "Gilroy"
                             }}
                           >
                             {currentItem?.currentTenantInitials || "-"}
@@ -534,10 +558,10 @@ function NoticeBedStatusDetails({
                       </div>
                       <div className="mt-2">
                         <div>
-                          <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600 }} >{currentItem?.currentTenantFullName || "N/A"}</label>
+                          <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600,cursor:"pointer", textDecoration:"underline"}}  onClick={() => handleNavigateTenantProfile(currentItem)} >{currentItem?.currentTenantFullName || "N/A"}</label>
                         </div>
                         <div><label style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}>
-                         
+
                           {currentItem?.currentTenantMobile ? `+ ${currentItem?.countryCode} ${String(currentItem?.currentTenantMobile)}` : 'No phone'}
 
 
@@ -554,6 +578,34 @@ function NoticeBedStatusDetails({
                     </div>
                   </div>
 
+                  <div className="d-flex justify-content-between mb-2 mt-1">
+                    <div>
+                      <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Rental Amount</label>
+                    </div>
+                    <div>
+                      <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>500</label>
+                    </div>
+                  </div>
+
+                  <div className="d-flex justify-content-between mb-2">
+                    <div>
+                      <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Check-In Date</label>
+                    </div>
+                    <div>
+                      <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>20-Aug-2025</label>
+                    </div>
+                  </div>
+
+
+                  <div className="d-flex justify-content-between mb-2">
+                    <div>
+                      <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Last Invoice</label>
+                    </div>
+                    <div>
+                      <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>INV563 & 2 more</label>
+                    </div>
+                  </div>
+
 
 
 
@@ -564,7 +616,10 @@ function NoticeBedStatusDetails({
 
               {
                 isNoticeAndBooked &&
+
+
                 <div className="row mt-1">
+                  <hr style={{border:"1px solid #E0ECFF"}}/>
                   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
                     <div className="d-flex justify-content-between align-items-center">
@@ -782,37 +837,37 @@ function NoticeBedStatusDetails({
                     <div className="d-flex gap-3 align-items-center justify-content-between">
                       <div className="d-flex gap-3 align-items-center">
                         <div>
-                           {currentItem?.newTenantProfilePic &&
-                          currentItem?.newTenantProfilePic !== "0" ? (
-                          <Image
-                            src={currentItem.newTenantProfilePic}
-                            roundedCircle
-                            style={{ height: 50, width: 50 }}
-                            alt="image"
-                          />
-                        ) : (
-                          <div
-                            style={{
-                              height: 50,
-                              width: 50,
-                              borderRadius: "50%",
-                              backgroundColor: "#1E45E1",
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              fontSize: 20,
-                              fontWeight: "600",
-                              color: "white", fontFamily:"Gilroy"
-                            }}
-                          >
-                            {currentItem?.newTenantInitials || "-"}
-                          </div>
-                        )}
+                          {currentItem?.newTenantProfilePic &&
+                            currentItem?.newTenantProfilePic !== "0" ? (
+                            <Image
+                              src={currentItem.newTenantProfilePic}
+                              roundedCircle
+                              style={{ height: 50, width: 50 }}
+                              alt="image"
+                            />
+                          ) : (
+                            <div
+                              style={{
+                                height: 50,
+                                width: 50,
+                                borderRadius: "50%",
+                                backgroundColor: "#1E45E1",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                fontSize: 20,
+                                fontWeight: "600",
+                                color: "white", fontFamily: "Gilroy"
+                              }}
+                            >
+                              {currentItem?.newTenantInitials || "-"}
+                            </div>
+                          )}
                           {/* <Image src={currentItem?.newTenantProfilePic && currentItem?.newTenantProfilePic !== "0" ? currentItem?.newTenantProfilePic : Profile} roundedCircle style={{ height: 50, width: 50 }} alt="image" /> */}
                         </div>
                         <div className="mt-2">
                           <div>
-                            <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600 }} >{currentItem?.newTenantFullName || "N/A"}</label>
+                            <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600,cursor:"pointer", textDecoration:"underline"}}  onClick={() => handleNavigateReservedTenantProfile(currentItem)}  >{currentItem?.newTenantFullName || "N/A"}</label>
                           </div>
                           <div><label style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}>
 
@@ -833,7 +888,33 @@ function NoticeBedStatusDetails({
                     </div>
 
 
+  <div className="d-flex justify-content-between mb-2 mt-1">
+                    <div>
+                      <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Booking Amount</label>
+                    </div>
+                    <div>
+                      <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>500</label>
+                    </div>
+                  </div>
 
+                  <div className="d-flex justify-content-between mb-2">
+                    <div>
+                      <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Check-In Date</label>
+                    </div>
+                    <div>
+                      <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>20-Aug-2025</label>
+                    </div>
+                  </div>
+
+
+                  <div className="d-flex justify-content-between mb-2">
+                    <div>
+                      <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Last Invoice</label>
+                    </div>
+                    <div>
+                      <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>INV563 & 2 more</label>
+                    </div>
+                  </div>
 
 
                   </div>
@@ -848,28 +929,12 @@ function NoticeBedStatusDetails({
 
 
             </Modal.Body>
-            <Modal.Footer style={{ border: "none", padding: 15 }} className="mt-1">
+            {/* <Modal.Footer style={{ border: "none", padding: 15 }} className="mt-1">
 
               <div className="d-flex w-100 gap-2">
 
 
-                <Button
 
-                  className="w-100 m-0"
-                  style={{
-                    color: "red",
-                    border: "1px solid red",
-                    fontWeight: 600,
-                    borderRadius: 60,
-                    fontSize: 16,
-                    fontFamily: "Gilroy",
-                    padding: 10,
-                    backgroundColor: "#fff"
-
-                  }}
-                >
-                  Notice Period
-                </Button>
                 {
                   isNoticeAndBooked &&
                   <Button
@@ -891,7 +956,7 @@ function NoticeBedStatusDetails({
                   </Button>
                 }
               </div>
-            </Modal.Footer>
+            </Modal.Footer> */}
           </Modal.Dialog>
         </Modal>
       </div>

@@ -45,11 +45,11 @@ function SettingExpenses({ hostelid }) {
   // const canDeleteExpense = useHasPermission("Expense", "canDelete");
 
   const {
-      canWriteModule: canWriteExpense,
-      canReadModule: canReadExpense,
-      canUpdateModule: canUpdateExpense,
-      canDeleteModule: canDeleteExpense,
-    } = useHasPermission("Expense");
+    canWriteModule: canWriteExpense,
+    canReadModule: canReadExpense,
+    canUpdateModule: canUpdateExpense,
+    canDeleteModule: canDeleteExpense,
+  } = useHasPermission("Expense");
 
   useEffect(() => {
     if (!canReadExpense) {
@@ -61,7 +61,7 @@ function SettingExpenses({ hostelid }) {
 
 
 
- useEffect(() => {
+  useEffect(() => {
     if (expensesFilterddata.length === 0) {
       setLoading(false);
     }
@@ -290,7 +290,7 @@ function SettingExpenses({ hostelid }) {
 
   const addType = () => {
     dispatch({ type: 'CLEAR_ALREADY_EXPENCE_CATEGORY_ERROR' });
-    if (!selectedOptions.value) {
+    if (!selectedOptions.value.trim()) {
       setCategoryErrmsg("Please Select  Category");
       return;
     }
@@ -305,7 +305,7 @@ function SettingExpenses({ hostelid }) {
         type: "EXPENCES-CATEGORY-ADD",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-                 categoryId: type.value,
+          categoryId: type.value.trim(),
           subCategory: subType,
         },
       });
@@ -363,6 +363,7 @@ function SettingExpenses({ hostelid }) {
 
 
   const handleChange = (selected) => {
+    dispatch({ type: 'CLEAR_ALREADY_EXPENCE_CATEGORY_ERROR' })
     setSelectedOptions(selected);
 
     setType(selected)
@@ -372,68 +373,10 @@ function SettingExpenses({ hostelid }) {
 
 
 
-const cleanInput = (value) => {
-  return value
-    .replace(/[^a-zA-Z\s]/g, "")   
-    .replace(/\s{2,}/g, " ");     
-};
+  const handleCreate = (inputValue) => {
+    dispatch({ type: 'CLEAR_ALREADY_EXPENCE_CATEGORY_ERROR' })
+    const existingCategoryIndex = options.findIndex(option => option.value === selectedOptions?.value);
 
-
-
-
-  // const handleCreate = (inputValue) => {
-
-  //   const existingCategoryIndex = options.findIndex(option => option.value === selectedOptions?.value);
-
-
-  //   if (existingCategoryIndex !== -1) {
-
-  //     const updatedOptions = [...options];
-  //     updatedOptions[existingCategoryIndex] = { ...updatedOptions[existingCategoryIndex], label: inputValue };
-
-  //     setOptions(updatedOptions);
-  //     setSelectedOptions(updatedOptions[existingCategoryIndex]);
-  //     setType(updatedOptions[existingCategoryIndex]);
-
-  //     dispatch({
-  //       type: 'EDIT_EXPENCES_CATEGORY',
-  //       payload: { id: selectedOptions.value, hostel_id: state.login.selectedHostel_Id, name: inputValue, type: 1 }
-  //     });
-  //     setFormLoading(true)
-
-
-  //   } else {
-
-  //     const newOption = { value: inputValue, label: inputValue };
-  //     setOptions((prev) => [...prev, newOption]);
-  //     setSelectedOptions(newOption);
-  //     setType(newOption);
-
-  //     dispatch({
-  //       type: 'EXPENCES-CATEGORY-ADD',
-  //       payload: {
-  //         hostelId: state.login.selectedHostel_Id,
-  //         categoryName: inputValue,
-  //       }
-  //     });
-  //     setFormLoading(true)
-  //   }
-  // };
-
-
-const handleCreate = (inputValue) => {
-
-  const cleanedValue = cleanInput(inputValue);
-
- 
-  if (!cleanedValue.trim()) {
-    setCategoryErrmsg("Enter valid category");
-    return;
-  }
-
-  const existingCategoryIndex = options.findIndex(
-    (option) => option.value === selectedOptions?.value
-  );
 
   if (existingCategoryIndex !== -1) {
 
@@ -447,17 +390,12 @@ const handleCreate = (inputValue) => {
     setSelectedOptions(updatedOptions[existingCategoryIndex]);
     setType(updatedOptions[existingCategoryIndex]);
 
-    dispatch({
-      type: 'EDIT_EXPENCES_CATEGORY',
-      payload: { 
-        id: selectedOptions.value, 
-        hostel_id: state.login.selectedHostel_Id, 
-        name: cleanedValue, 
-        type: 1 
-      }
-    });
+      dispatch({
+        type: 'EDIT_EXPENCES_CATEGORY',
+        payload: { id: selectedOptions.value, hostel_id: state.login.selectedHostel_Id, name: inputValue.trim(), type: 1 }
+      });
+      // setFormLoading(true)
 
-    setFormLoading(true);
 
   } else {
 
@@ -467,17 +405,16 @@ const handleCreate = (inputValue) => {
     setSelectedOptions(newOption);
     setType(newOption);
 
-    dispatch({
-      type: 'EXPENCES-CATEGORY-ADD',
-      payload: {
-        hostelId: state.login.selectedHostel_Id,
-        categoryName: cleanedValue,
-      }
-    });
-
-    setFormLoading(true);
-  }
-};
+      dispatch({
+        type: 'EXPENCES-CATEGORY-ADD',
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          categoryName: inputValue.trim(),
+        }
+      });
+      // setFormLoading(true)
+    }
+  };
 
 
 
@@ -549,24 +486,24 @@ const handleCreate = (inputValue) => {
     }
   };
 
-useEffect(() => {
+  useEffect(() => {
     const handleClickOutside = (event) => {
-        if (
-      event.target.closest(".dropdown-content") ||
-      event.target.closest(".bi-chevron-down") ||
-      event.target.closest(".bi-chevron-up")
-    ) {
-      return;
-    }
-  
-    setExpandedCategoryId(null);
-  };
- 
-  document.addEventListener("click", handleClickOutside);
-   return () => {
-    document.removeEventListener("click", handleClickOutside);
-  };
-}, []);
+      if (
+        event.target.closest(".dropdown-content") ||
+        event.target.closest(".bi-chevron-down") ||
+        event.target.closest(".bi-chevron-up")
+      ) {
+        return;
+      }
+
+      setExpandedCategoryId(null);
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
 
   //   const indexOfLastRowExpense = expensescurrentPage * expensesrowsPerPage;
@@ -879,7 +816,7 @@ useEffect(() => {
                       justifyContent: "center",
                       alignItems: "center",
                       marginTop: 90,
-                     
+
                     }}
                   >
                     <div style={{ textAlign: "center" }}>

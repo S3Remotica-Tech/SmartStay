@@ -11,12 +11,12 @@ import cross from "../../Assets/Images/cross.png";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import "./UserList.css";
-import { CloseCircle, AddSquare, Tag2 } from "iconsax-react";
+import { CloseCircle, AddSquare } from "iconsax-react";
 import { useHasPermission } from '../../Utils/Permission';
 import ErrorMessage from '../../Components/ErrorMessage'
 import Image from "react-bootstrap/Image";
 
-function UserListAmenities(props) {
+function TenantAmenities({show, handleClose}) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [formLoading, setFormLoading] = useState(false)
@@ -30,8 +30,6 @@ function UserListAmenities(props) {
 
 
 
-
-  console.log("createby", createby)
 
 
   // const canReadAmenities = useHasPermission("Amenities", "canRead")
@@ -159,26 +157,8 @@ function UserListAmenities(props) {
     }
   };
 
-  console.log("statusAmni", statusAmni)
 
-  const handleAmnitiesSelect = () => {
-    if (!validateAssignField(statusAmni, "statusAmni")) return;
-
-    if (statusAmni && statusShow) {
-      dispatch({
-        type: "AddUserAmnities",
-        payload: {
-          userID: props.customerUser_Id,
-          amenityID: selectAmneties,
-          Status: statusAmni,
-          hostelID: props.hostelIds,
-        },
-      });
-      setFormLoading(true);
-      setStatusAmni("");
-      setselectAmneties("");
-    }
-  };
+  
 
   const handleAddUserAmnities = () => {
     if (!selectAmneties) {
@@ -205,36 +185,7 @@ function UserListAmenities(props) {
     setselectAmneties("");
   };
 
-  const handleUnAssignAmenities = (amenities) => {
-
-
-    // dispatch({
-    //   type: 'TENANTUNASSIGNAMENITIES',
-    //   payload: {
-    //     hostelId: state.login.selectedHostel_Id,
-    //     amenityId: amenities.amenityId,
-    //     customers: [state.UsersList?.customerdetails?.customerId]
-
-    //   },
-    // })
-  }
-
-
-  // useEffect(() => {
-
-  //   if (state.InvoiceList.assignAmenitiesSuccessStatusCode === 200) {
-  //     setFormLoading(false)
-
-  //     setaddamenityShow(false);
-  //     dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: state.UsersList?.customerdetails?.customerId } });
-  //     setTimeout(() => {
-  //       dispatch({ type: 'REMOVE_ASSIGN_AMENITIES_STATUS_CODE' })
-  //     }, 100)
-
-
-  //   }
-
-  // }, [state.InvoiceList?.assignAmenitiesSuccessStatusCode])
+ 
 
 
 
@@ -289,7 +240,7 @@ function UserListAmenities(props) {
     setActiveDotsId(null)
     setStatusAmni(false)
     setamnityError("");
-
+handleClose()
     dispatch({ type: "CLEAR_ERROR_USER_AMENITIES" });
   };
   useEffect(() => {
@@ -387,11 +338,7 @@ function UserListAmenities(props) {
 
 
 
-  const isDisabled =
-    !canWriteAmenities ||
-    state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" ||
-    state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" ||
-    state.UsersList.customerdetails?.customerCurrentStatus === "VACATED";
+  
 
 
 
@@ -403,30 +350,12 @@ function UserListAmenities(props) {
 
 
   return (
-    <div className="">
-
-      {state.UsersList.customerdetails?.customerCurrentStatus !== "VACATED" && state.InvoiceList.AmenitiesList &&
-        state.InvoiceList.AmenitiesList.length === 0 && (
-          <>
-            <div className="mb-4">
-              <ErrorMessage
-                message={[
-                  'Please add a Amenities option in Settings, accessible after assign an amenities',
-                ]}
-                type="error"
-              />
-            </div>
-          </>
-        )}
+    <div className="container mt-3">
 
 
-
-
-
-     
 
       <Modal
-        show={addamenityShow}
+        show={show}
         onHide={handleFormClose}
         backdrop="static"
         centered
@@ -556,15 +485,15 @@ function UserListAmenities(props) {
             >
               <Form.Label
                 style={{ fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}
-              >
+              > 
                 Amenities {" "} <span
-                  style={{
-                    color: "red",
-                    fontSize: "20px",
-                  }}
-                >
-                  *
-                </span>
+                                            style={{
+                                                color: "red",
+                                                fontSize: "20px",
+                                            }}
+                                        >
+                                            *
+                                        </span>
               </Form.Label>
               <Select
                 isDisabled={!canWriteAmenities || state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" || state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" || state.UsersList.customerdetails?.customerCurrentStatus === "VACATED"}
@@ -582,9 +511,9 @@ function UserListAmenities(props) {
                     : null
                 }
                 onChange={(e) => {
-                  if (!props.customerAdd) {
+                  
                     handleselect(e);
-                  }
+                  
                 }}
                 options={state.InvoiceList.AmenitiesList
                   ?.filter(
@@ -633,9 +562,9 @@ function UserListAmenities(props) {
                   }),
                   option: (base, state) => ({
                     ...base,
-                    cursor: props.customerAdd ? "not-allowed" : "pointer",
+                    cursor: "pointer",
                     backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                    opacity: props.customerAdd ? 0.5 : 1,
+                    opacity:  1,
                     color: "#000",
                     fontFamily: "Gilroy",
                   }),
@@ -852,134 +781,25 @@ function UserListAmenities(props) {
 
             }}
             onClick={() => {
-              if (statusShow) {
-                handleAmnitiesSelect();
-              } else {
+              
                 handleAddUserAmnities();
-              }
+              
             }}
           >
             Assign
           </Button>
         </Modal.Footer>
       </Modal>
-      {
-
-        !canReadAmenities ? (
-
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              minHeight: "45vh"
-            }}
-          >
-
-            <ErrorMessage message={['You do not have access to view Amenities']} type="warning" />
-
-          </div>
-
-        )
-          :
-          (
-            <>
-              <div className="row d-flex flex-wrap g-2">
-                {CustomerOverView?.map((v) => (
-
-                  <div className="col-md-4 col-12">
-                    <div className="card " style={{
-                      backgroundColor: "#FFF", padding: 14,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      fontSize: 14,
-                      color: "#000",border:"1px solid #EFF2FF"
-                    }}>
-                      <div className="d-flex align-items-center gap-3">
-                      <div style={{ backgroundColor: "#EFF2FF", padding: 8, borderRadius: 8 }}>
-                        <Tag2
-                          size="32"
-                          color="#1E45E1"
-                        />
-                      </div>
-
-                      <div>
-
-
-
-                        <div>
-                          <span
-                            key={v.amenityId}
-                            className="d-flex align-items-center"
-                            style={{
-                              fontFamily: "Gilroy",
-                              fontWeight: 600,
-                              fontSize: 16,
-                              color: "#222",
-                            }}
-                          >
-                            {v.amenityName}
-
-                          </span>
-                        </div>
-                        <div>
-                          <span
-                            key={v.amenityId}
-                            className="d-flex align-items-center"
-                            style={{
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                              fontSize: 14,
-                              color: "#4B4B4B",
-                            }}
-                          >
-                            ₹{v.amenityAmount}/m
-
-                          </span>
-                        </div>
-                      </div>
-
-   </div>
-
-
-
-
-
-
-
-
-
-
-                    </div>
-
-
-
-
-
-
-
-                  </div>
-
-                ))}
-              </div>
-
-
-
-
-            </>
-          )
-
-      }
+      
     </div>
 
   );
 }
-UserListAmenities.propTypes = {
+TenantAmenities.propTypes = {
   hostelIds: PropTypes.func.isRequired,
   customerUser_Id: PropTypes.func.isRequired,
   hostelName: PropTypes.func.isRequired,
   id: PropTypes.func.isRequired,
   customerAdd: PropTypes.func.isRequired,
 };
-export default UserListAmenities;
+export default TenantAmenities;
