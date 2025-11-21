@@ -119,12 +119,12 @@ function BedDetails({
     }
 
     const handleNavigateTenantProfile = (tenantDetails) => {
-        dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: tenantDetails.newTenantCustomerId } });
-        navigate(`/tenant/details/${tenantDetails.newTenantCustomerId}`, {
+        dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: tenantDetails?.newTenantCustomerId } });
+        navigate(`/tenant/details/${tenantDetails?.newTenantCustomerId}`, {
             state: {
-                customerId: tenantDetails.newTenantCustomerId,
-                hostelId: state.login.selectedHostel_Id,
-                name: tenantDetails.newTenantFullName,
+                customerId: tenantDetails?.newTenantCustomerId,
+                hostelId: state.login?.selectedHostel_Id,
+                name: tenantDetails?.newTenantFullName,
             },
         });
         dispatch({ type: "UPDATE_USERSLIST_FALSE" });
@@ -413,29 +413,29 @@ function BedDetails({
 
                                     <div className="d-flex justify-content-between mb-2 mt-1">
                                         <div>
-                                            <label style={{ fontFamily: "Gilroy", fontSize: 12, color: "#222222" }}>Booking Amount</label>
+                                            <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Booking Amount</label>
                                         </div>
                                         <div>
-                                            <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222", fontWeight: 600 }}>500</label>
+                                            <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>500</label>
                                         </div>
                                     </div>
 
                                     <div className="d-flex justify-content-between mb-2">
                                         <div>
-                                            <label style={{ fontFamily: "Gilroy", fontSize: 12, color: "#222222" }}>Check-In Date</label>
+                                            <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Check-In Date</label>
                                         </div>
                                         <div>
-                                            <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222", fontWeight: 600 }}>20-Aug-2025</label>
+                                            <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>20-Aug-2025</label>
                                         </div>
                                     </div>
 
 
                                     <div className="d-flex justify-content-between mb-2">
                                         <div>
-                                            <label style={{ fontFamily: "Gilroy", fontSize: 12, color: "#222222" }}>Last Invoice</label>
+                                            <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Last Invoice</label>
                                         </div>
                                         <div>
-                                            <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222", fontWeight: 600 }}>202025</label>
+                                            <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>202025</label>
                                         </div>
                                     </div>
 
@@ -455,9 +455,7 @@ function BedDetails({
 
 
 
-                        <Modal.Footer style={{ border: "none", padding: 15 }} className="mt-1">
-
-                        </Modal.Footer>
+                        
                     </Modal.Dialog>
                 </Modal>
             </div>
