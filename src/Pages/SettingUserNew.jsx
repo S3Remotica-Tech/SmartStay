@@ -585,7 +585,7 @@ function SettingNewUser() {
                                   style={{ cursor: "pointer" }}
                                 />
                               </div>
-                              Roless
+                              Roles
                             </div>
                           </th>
                           <th
