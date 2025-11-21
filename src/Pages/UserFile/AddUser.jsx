@@ -1,6 +1,6 @@
 
 
- /* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import { InputGroup, FormControl } from "react-bootstrap";
@@ -38,20 +38,21 @@ function User({ show, editDetails, setAddUserForm, edit }) {
   const [error, setError] = useState("");
   const [formLoading, setFormLoading] = useState(false)
 
-    const [hostel_Id, setHostel_Id] = useState("")
-    const [user_Id, setUser_Id] = useState("")
-    
-    
-      useEffect(() => {
-        if (state.login.selectedHostel_Id) {
-          setHostel_Id(state.login.selectedHostel_Id);
-        }
-      }, [state?.login?.selectedHostel_Id]);
+  const [hostel_Id, setHostel_Id] = useState("")
+  const [user_Id, setUser_Id] = useState("")
+
+  console.log("passwordError", passwordError)
+
+  useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      setHostel_Id(state.login.selectedHostel_Id);
+    }
+  }, [state?.login?.selectedHostel_Id]);
 
 
   useEffect(() => {
 
-     dispatch({ type: 'SETTING_ROLE_LIST', payload:  state.login.selectedHostel_Id});
+    dispatch({ type: 'SETTING_ROLE_LIST', payload: state.login.selectedHostel_Id });
   }, []);
 
 
@@ -82,7 +83,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
     }
   }, [editDetails]);
 
- 
+
 
 
   const handleNameChange = (e) => {
@@ -147,35 +148,43 @@ function User({ show, editDetails, setAddUserForm, edit }) {
     setDescription(e.target.value);
     setError("");
   };
-const handlePassword = (e) => {
-  const newPassword = e.target.value;
-  setPassword(newPassword);
-  setError("");
 
-  const hasUppercase = /[A-Z]/.test(newPassword);
-  const hasNumber = /[0-9]/.test(newPassword);
-  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
+  const handlePassword = (e) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
 
-  let errorMessage = "";
+    const hasUppercase = /[A-Z]/.test(newPassword);
+    const hasNumber = /[0-9]/.test(newPassword);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
 
-  if (!hasUppercase) {
-    errorMessage += "At least 1 capital letter\n";
-  }
-  if (!hasNumber) {
-    errorMessage += "At least 1 number\n";
-  }
-  if (!hasSpecialChar) {
-    errorMessage += "At least 1 special character\n";
-  }
+    let errorMessage = "";
 
-  if (errorMessage) {
+
+    if (newPassword.length < 8) {
+      errorMessage += "Password must be at least 8 characters\n";
+    }
+
+
+    if (!hasUppercase) {
+      errorMessage += "At least 1 capital letter\n";
+    }
+
+
+    if (!hasNumber) {
+      errorMessage += "At least 1 number\n";
+    }
+
+    if (!hasSpecialChar) {
+      errorMessage += "At least 1 special character\n";
+    }
+
     setPasswordError(errorMessage.trim());
-  } else {
-    setPasswordError("");
-  }
-};
+  };
 
-  
+
+
+
+
 
   const handleCloseForm = () => {
     setAddUserForm(false);
@@ -203,148 +212,148 @@ const handlePassword = (e) => {
     type: "CLEAR_EMAIL_ID_ERROR",
   });
 
-const handleSubmit = () => {
-  dispatch(clearPhoneError());
-  dispatch(clearEmailError());
+  const handleSubmit = () => {
+    dispatch(clearPhoneError());
+    dispatch(clearEmailError());
 
-  let isValid = true;
+    let isValid = true;
 
-  setNameError("");
-  setEmailError("");
-  setMobileError("");
-  setCountryCodeError("");
-  setRoleError("");
-  setPasswordError("");
-  setError("");
+    setNameError("");
+    setEmailError("");
+    setMobileError("");
+    setCountryCodeError("");
+    setRoleError("");
+    setPasswordError("");
+    setError("");
 
-  const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+    const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
 
-  if (!name) {
-    setNameError("Please Enter Name");
-    isValid = false;
-  }
+    if (!name) {
+      setNameError("Please Enter Name");
+      isValid = false;
+    }
 
-  if (!email) {
-    setEmailError("Please Enter Email ID");
-    isValid = false;
-  } else if (!emailRegex.test(email)) {
-    setEmailError("Please Enter Valid Email ID");
-    isValid = false;
-  }
+    if (!email) {
+      setEmailError("Please Enter Email ID");
+      isValid = false;
+    } else if (!emailRegex.test(email)) {
+      setEmailError("Please Enter Valid Email ID");
+      isValid = false;
+    }
 
-  if (!countryCode) {
-    setCountryCodeError("Please Select Country Code");
-    isValid = false;
-  }
+    if (!countryCode) {
+      setCountryCodeError("Please Select Country Code");
+      isValid = false;
+    }
 
- if (!mobile) {
-  setMobileError("Please Enter Mobile Number");
-  isValid = false;
-} else if (!/^(?!0{10})[1-9][0-9]{9}$/.test(mobile)) {
-   setMobileError("Please Enter Valid Mobile Number");
-  isValid = false;
-} else {
-  setMobileError(""); 
-}
-
-
-  if (!role) {
-    setRoleError("Please Select Role");
-    isValid = false;
-  }
-
-  if (!editDetails) {
-    if (!password) {
-      setPasswordError("Please Enter Password");
+    if (!mobile) {
+      setMobileError("Please Enter Mobile Number");
+      isValid = false;
+    } else if (!/^(?!0{10})[1-9][0-9]{9}$/.test(mobile)) {
+      setMobileError("Please Enter Valid Mobile Number");
       isValid = false;
     } else {
-      const hasUppercase = /[A-Z]/.test(password);
-      const hasNumber = /[0-9]/.test(password);
-      const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+      setMobileError("");
+    }
 
-      if (!hasUppercase || !hasNumber || !hasSpecialChar) {
-        setPasswordError("Please Enter correct Password");
+
+    if (!role) {
+      setRoleError("Please Select Role");
+      isValid = false;
+    }
+
+    if (!editDetails) {
+      if (!password) {
+        setPasswordError("Please Enter Password");
         isValid = false;
+      } else {
+        const hasUppercase = /[A-Z]/.test(password);
+        const hasNumber = /[0-9]/.test(password);
+        const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+        if (!hasUppercase || !hasNumber || !hasSpecialChar) {
+          setPasswordError("Please Enter correct Password");
+          isValid = false;
+        }
       }
     }
-  }
 
-  const hasChanges =
-    name !== initialState.name ||
-    email !== initialState.email ||
-    mobile !== initialState.mobile ||
-    countryCode !== initialState.countryCode ||
-    role !== initialState.role ||
-    description !== initialState.description;
+    const hasChanges =
+      name !== initialState.name ||
+      email !== initialState.email ||
+      mobile !== initialState.mobile ||
+      countryCode !== initialState.countryCode ||
+      role !== initialState.role ||
+      description !== initialState.description;
 
-  if (editDetails && !hasChanges) {
-    setError("No Changes Detected");
-    isValid = false;
-  }
-
-  if (mobileError) {
-    isValid = false;
-  }
-
-  if (isValid) {
-    const MobileNumber = `${mobile}`;
-
-    const data = {
-      name,
-      mobile: MobileNumber,
-      emailId: email,
-      roleId: role,
-      description,
-      password,
-    };
-
-    const Editdata = {
-      name,
-      mobile: MobileNumber,
-      emailId: email,
-      role,
-      description,
-    };
-
-    if (editDetails && edit && user_Id && hostel_Id) {
-      // EDIT API
-      dispatch({
-        type: "EDITSTAFFUSER",
-        payload: { hostelId: hostel_Id, userId: user_Id, data: Editdata },
-      });
-    } else {
-      // ADD API
-      dispatch({
-        type: "ADDSTAFFUSER",
-        payload: { hostelId: hostel_Id, data },
-      });
+    if (editDetails && !hasChanges) {
+      setError("No Changes Detected");
+      isValid = false;
     }
 
-    setFormLoading(true);
-  }
-};
+    if (mobileError) {
+      isValid = false;
+    }
+
+    if (isValid) {
+      const MobileNumber = `${mobile}`;
+
+      const data = {
+        name,
+        mobile: MobileNumber,
+        emailId: email,
+        roleId: role,
+        description,
+        password,
+      };
+
+      const Editdata = {
+        name,
+        mobile: MobileNumber,
+        emailId: email,
+        role,
+        description,
+      };
+
+      if (editDetails && edit && user_Id && hostel_Id) {
+        // EDIT API
+        dispatch({
+          type: "EDITSTAFFUSER",
+          payload: { hostelId: hostel_Id, userId: user_Id, data: Editdata },
+        });
+      } else {
+        // ADD API
+        dispatch({
+          type: "ADDSTAFFUSER",
+          payload: { hostelId: hostel_Id, data },
+        });
+      }
+
+      setFormLoading(true);
+    }
+  };
 
 
 
-  
-  
+
+
 
   useEffect(() => {
     if (state.Settings.StatusForaddSettingUser === 201) {
       setFormLoading(false)
       handleCloseForm();
-      dispatch({type: "GETUSERSTAFF" ,   payload: { hostelId: hostel_Id } });
+      dispatch({ type: "GETUSERSTAFF", payload: { hostelId: hostel_Id } });
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_STAFF_USER" });
       }, 200);
     }
   }, [state.Settings.StatusForaddSettingUser]);
 
-    useEffect(() => {
+  useEffect(() => {
     if (state.Settings.StatusForEditSettingUser === 200) {
       setFormLoading(false)
       handleCloseForm();
-      dispatch({type: "GETUSERSTAFF" ,   payload: { hostelId: hostel_Id } });
+      dispatch({ type: "GETUSERSTAFF", payload: { hostelId: hostel_Id } });
       setTimeout(() => {
         dispatch({ type: "CLEAR_EDIT_STAFF_USER" });
       }, 200);
@@ -361,7 +370,7 @@ const handleSubmit = () => {
   }, [state.Settings.emailIdError, state.Settings.phoneNumError])
 
 
- useEffect(() => {
+  useEffect(() => {
     if (state.createAccount?.networkError) {
       setFormLoading(false)
       setTimeout(() => {
@@ -445,7 +454,7 @@ const handleSubmit = () => {
                   />
                 </Form.Group>
                 {nameError && (
-                  <ErrorMessage message={nameError} type="error"/>
+                  <ErrorMessage message={nameError} type="error" />
                 )}
               </div>
 
@@ -486,11 +495,11 @@ const handleSubmit = () => {
                 </Form.Group>
 
                 {emailError && (
-                  <ErrorMessage message={emailError} type="error"/>
+                  <ErrorMessage message={emailError} type="error" />
                 )}
 
                 {state.Settings.emailIdError && (
-                  <ErrorMessage message={state.Settings.emailIdError} type="error"/>
+                  <ErrorMessage message={state.Settings.emailIdError} type="error" />
                 )}
               </div>
 
@@ -554,19 +563,19 @@ const handleSubmit = () => {
                       }}
                     />
                   </InputGroup>
-                 
+
                 </Form.Group>
 
                 {mobileError && (
-                 <ErrorMessage message={mobileError} type="error"/>
+                  <ErrorMessage message={mobileError} type="error" />
                 )}
 
                 {countryCodeError && (
-                    <ErrorMessage message={countryCodeError} type="error"/>
+                  <ErrorMessage message={countryCodeError} type="error" />
                 )}
 
                 {state.Settings.phoneNumError && (
-                  <ErrorMessage message={state.Settings.phoneNumError} type="error"/>
+                  <ErrorMessage message={state.Settings.phoneNumError} type="error" />
                 )}
               </div>
               {!edit && (
@@ -639,10 +648,13 @@ const handleSubmit = () => {
                       </InputGroup.Text>
                     </InputGroup>
                   </Form.Group>
-                 
+
+
 
                   {passwordError && (
+
                     <ErrorMessage message={passwordError} type="error" />
+
                   )}
 
                 </div>
@@ -744,7 +756,7 @@ const handleSubmit = () => {
                 </Form.Group>
 
                 {roleError && (
-                  <ErrorMessage message={roleError} type="error"/>
+                  <ErrorMessage message={roleError} type="error" />
                 )}
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -785,16 +797,16 @@ const handleSubmit = () => {
               {error && (
                 <div
                   className="d-flex align-items-center justify-content-center"
-                
+
                 >
-                 <ErrorMessage message={error} type="error"/>
+                  <ErrorMessage message={error} type="error" />
                 </div>
               )}
             </div>
           </Modal.Body>
 
 
- 
+
 
 
 
@@ -826,7 +838,7 @@ const handleSubmit = () => {
               ></div>
             </div>
           }
-          
+
           <Modal.Footer
             style={{ border: "none", marginTop: "-10px" }}
           >

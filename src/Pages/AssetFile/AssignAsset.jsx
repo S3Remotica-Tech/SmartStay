@@ -30,7 +30,7 @@ function StaticExample({ show, handleClose, currentItem }) {
   const [formLoading, setFormLoading] = useState(false)
   const [selectedDate, setSelectedDate] = useState(null);
   const calendarRef = useRef(null);
-  
+
 
   const [initialState, setInitialState] = useState({
     pglist: "",
@@ -52,25 +52,27 @@ function StaticExample({ show, handleClose, currentItem }) {
     setPgList(state.login.selectedHostel_Id);
   }, []);
 
- useEffect(() => {
-  if (currentItem) {
-    setPgList(currentItem.hostelId);
-    setRoom(currentItem.roomId);
-    setSelectedDate(
-      currentItem.assignedAt
-        ? dayjs(currentItem.assignedAt, "DD-MM-YYYY").toDate()
-        : null
-    );
+  useEffect(() => {
+    if (currentItem) {
+      setPgList(currentItem.hostelId);
+      setRoom(currentItem.roomId);
+      setSelectedDate(
+        currentItem.assignedAt
+          ? dayjs(currentItem.assignedAt, "DD-MM-YYYY").toDate()
+          : null
+      );
 
-    setFloor(currentItem.floorId);
-    setInitialState({
-      pglist: currentItem.hostelId || "",
-      room: currentItem.roomId || "",
-      selectedDate: currentItem.assignedAt,
-      floor_id: currentItem.floorId || "",
-    });
-  }
-}, [currentItem]);
+      setFloor(currentItem.floorId);
+      setInitialState({
+        pglist: currentItem.hostelId || "",
+        room: currentItem.roomId || "",
+      selectedDate: currentItem.assignedAt
+    ? dayjs(currentItem.assignedAt, "DD/MM/YYYY").toDate()
+    : null,
+        floor_id: currentItem.floorId || "",
+      });
+    }
+  }, [currentItem]);
 
 
 
@@ -129,7 +131,7 @@ function StaticExample({ show, handleClose, currentItem }) {
   }, [Floor]);
 
 
- 
+console.log("initialState",initialState)
   const handleAddAssignAsset = () => {
 
     dispatch({ type: 'CLEAR_NETWORK_ERROR' })
@@ -174,15 +176,15 @@ function StaticExample({ show, handleClose, currentItem }) {
     }
 
 
-   if (currentItem?.purchaseDate) {
-  const purchaseDate = dayjs(currentItem.purchaseDate, "DD/MM/YYYY");
-  const assignDate = dayjs(selectedDate);
+    if (currentItem?.purchaseDate) {
+      const purchaseDate = dayjs(currentItem.purchaseDate, "DD/MM/YYYY");
+      const assignDate = dayjs(selectedDate);
 
-  if (assignDate.isBefore(purchaseDate, "day")) {
-    setDateError("Before purchase date not allowed");
-    return;
-  }
-}
+      if (assignDate.isBefore(purchaseDate, "day")) {
+        setDateError("Before purchase date not allowed");
+        return;
+      }
+    }
 
 
 
@@ -205,13 +207,28 @@ function StaticExample({ show, handleClose, currentItem }) {
       formattedInitialDate = "";
     }
 
-    const isChanged =
-      Number(initialState.pglist) !== Number(pglist) ||
-      Number(initialState.room) !== Number(room) ||
-      formattedInitialDate !== formattedSelectedDate ||
-      Number(initialState.floor_id) !== Number(Floor);
+console.log("formattedInitialDate",formattedInitialDate)
+console.log("formattedSelectedDate",formattedSelectedDate)
 
-    if (!isChanged) {
+    const normalize = (val) => {
+      if (val === null || val === "" || val === undefined) return null;
+      return isNaN(val) ? String(val).trim() : Number(val);
+    };
+
+    const isChanged =
+      normalize(initialState.pglist) !== normalize(pglist) ||
+      normalize(initialState.room) !== normalize(room) ||
+      normalize(formattedInitialDate) !== normalize(formattedSelectedDate) ||
+      normalize(initialState.floor_id) !== normalize(Floor);
+
+    console.log("Initial pglist:", initialState.pglist, "Now:", pglist);
+    console.log("Initial room:", initialState.room, "Now:", room);
+    console.log("Initial floor:", initialState.floor_id, "Now:", Floor);
+    console.log("Initial date:", formattedInitialDate, "Now:", formattedSelectedDate);
+    console.log("isChanged:", isChanged);
+
+
+    if (!isChanged && currentItem?.assignmentStatus === "Assigned") {
       setNoChangeError("No Changes Detected");
       return;
     }
@@ -255,7 +272,7 @@ function StaticExample({ show, handleClose, currentItem }) {
   }, [state.createAccount?.networkError, state.AssetList.assetError])
 
 
-console.log("currentItem",currentItem?.purchaseDate)
+  console.log("currentItem", currentItem)
 
 
   return (
@@ -286,7 +303,7 @@ console.log("currentItem",currentItem?.purchaseDate)
                 fontWeight: 600,
               }}
             >
-              {currentItem?.assignmentStatus  === "Assigned"  ? "Reassign asset " : "Assign asset"}
+              {currentItem?.assignmentStatus === "Assigned" ? "Reassign asset " : "Assign asset"}
             </Modal.Title>
 
             <CloseCircle
@@ -299,14 +316,14 @@ console.log("currentItem",currentItem?.purchaseDate)
           <Modal.Body style={{ padding: "10px 15px" }}>
 
             {generalError && (
-              <ErrorMessage message={generalError} type="error"/>
+              <ErrorMessage message={generalError} type="error" />
             )}
 
 
 
 
             {state.AssetList.assetError ?
-              <ErrorMessage message={state.AssetList.assetError} type="error"/>
+              <ErrorMessage message={state.AssetList.assetError} type="error" />
 
               : null}
 
@@ -402,7 +419,7 @@ console.log("currentItem",currentItem?.purchaseDate)
                 />
 
                 {floorError && (
-                               <ErrorMessage message={floorError} type="error"/>
+                  <ErrorMessage message={floorError} type="error" />
 
                 )}
               </div>
@@ -502,7 +519,7 @@ console.log("currentItem",currentItem?.purchaseDate)
 
                 </Form.Group>
                 {roomError && (
-                                                 <ErrorMessage message={roomError} type="error"/>
+                  <ErrorMessage message={roomError} type="error" />
 
                 )}
               </div>
@@ -526,36 +543,36 @@ console.log("currentItem",currentItem?.purchaseDate)
                     className="datepicker-wrapper"
                     style={{ position: "relative", width: "100%", cursor: "pointer" }}
                   >
-                   <DatePicker
-  style={{ width: "100%", height: 48, fontFamily: "Gilroy" }}
-  format="DD/MM/YYYY"
-  placeholder="DD/MM/YYYY"
-  value={selectedDate ? dayjs(selectedDate) : null}
-  onChange={(date) => {
-    setGeneralError("");
-    setDateError("");
-    setNoChangeError("");
-    setSelectedDate(date ? date.toDate() : null);
-  }}
-  // ✅ Disable dates before purchaseDate and after today
-  disabledDate={(current) => {
-    if (!currentItem?.purchaseDate) return current && current > dayjs().endOf("day");
-    
-    const purchaseDate = dayjs(currentItem.purchaseDate, "DD/MM/YYYY");
-    const today = dayjs().endOf("day");
+                    <DatePicker
+                      style={{ width: "100%", height: 48, fontFamily: "Gilroy" }}
+                      format="DD/MM/YYYY"
+                      placeholder="DD/MM/YYYY"
+                      value={selectedDate ? dayjs(selectedDate) : null}
+                      onChange={(date) => {
+                        setGeneralError("");
+                        setDateError("");
+                        setNoChangeError("");
+                        setSelectedDate(date ? date.toDate() : null);
+                      }}
 
-    // disable if date < purchaseDate OR date > today
-    return current && (current < purchaseDate.startOf("day") || current > today);
-  }}
-  getPopupContainer={(triggerNode) =>
-    triggerNode.closest(".datepicker-wrapper")
-  }
-/>
+                      disabledDate={(current) => {
+                        if (!currentItem?.purchaseDate) return current && current > dayjs().endOf("day");
+
+                        const purchaseDate = dayjs(currentItem.purchaseDate, "DD/MM/YYYY");
+                        const today = dayjs().endOf("day");
+
+
+                        return current && (current < purchaseDate.startOf("day") || current > today);
+                      }}
+                      getPopupContainer={(triggerNode) =>
+                        triggerNode.closest(".datepicker-wrapper")
+                      }
+                    />
 
                   </div>
                 </Form.Group>
                 {dateError && (
-                  <ErrorMessage message={dateError} type="error"/>
+                  <ErrorMessage message={dateError} type="error" />
                 )}
               </div>
             </div>
@@ -586,12 +603,12 @@ console.log("currentItem",currentItem?.purchaseDate)
                 }}
               ></div>
             </div>}
-         
+
           {noChangeError && (
             <div
-              className="d-flex align-items-center mt-1 mb-1"
-                          >
-             <ErrorMessage message={noChangeError} type="error"/>
+              className="d-flex justify-content-center mt-1 mb-1"
+            >
+              <ErrorMessage message={noChangeError} type="error" />
             </div>
           )}
           <Modal.Footer style={{ border: "none" }} className="mt-1 pt-1">
@@ -607,8 +624,8 @@ console.log("currentItem",currentItem?.purchaseDate)
                 padding: 12,
               }}
             >
-               {currentItem?.assignmentStatus  === "Assigned"  ? "Save Changes " : "Assign asset"}
-                         </Button>
+              {currentItem?.assignmentStatus === "Assigned" ? "Save Changes " : "Assign asset"}
+            </Button>
           </Modal.Footer>
         </Modal.Dialog>
       </Modal>

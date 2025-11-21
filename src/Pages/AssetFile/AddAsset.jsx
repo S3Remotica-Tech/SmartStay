@@ -255,9 +255,9 @@ function StaticExample({ show, setShow, currentItem }) {
 
   const handleSerialNumberChange = (e) => {
     const value = e.target.value;
-    if (!/^\d*$/.test(value)) {
-      return;
-    }
+    // if (!/^\d*$/.test(value)) {
+    //   return;
+    // }
     setSerialNumberError("");
     dispatch({ type: "CLEAR_SERIAL_NUMBER_ERROR" });
     setIsChangedError("");
