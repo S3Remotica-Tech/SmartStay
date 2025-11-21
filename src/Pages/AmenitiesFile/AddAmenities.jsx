@@ -92,7 +92,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
       setHostelError("Pleae Select a Hostel");
     }
 
-    if (!amenity) {
+    if (!amenity?.trim()) {
       setErrorAmenity("Please Enter Amenity");
       isValid = false;
     }
@@ -151,7 +151,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
           hostelId: state.login.selectedHostel_Id,
           amenityId: editDetails.amenityId,
           data: {
-            amenityName: amenity,
+            amenityName: amenity.trim(),
             amount: amount,   
             proRate: isChecked,
           }
@@ -165,7 +165,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
           payload: {
           hostelId: state.login.selectedHostel_Id,
           data: {
-            amenityName: amenity,
+            amenityName:amenity.trim(), 
             amount: amount,   
             proRate: isChecked,
           }

@@ -45,11 +45,11 @@ function SettingExpenses({ hostelid }) {
   // const canDeleteExpense = useHasPermission("Expense", "canDelete");
 
   const {
-      canWriteModule: canWriteExpense,
-      canReadModule: canReadExpense,
-      canUpdateModule: canUpdateExpense,
-      canDeleteModule: canDeleteExpense,
-    } = useHasPermission("Expense");
+    canWriteModule: canWriteExpense,
+    canReadModule: canReadExpense,
+    canUpdateModule: canUpdateExpense,
+    canDeleteModule: canDeleteExpense,
+  } = useHasPermission("Expense");
 
   useEffect(() => {
     if (!canReadExpense) {
@@ -61,7 +61,7 @@ function SettingExpenses({ hostelid }) {
 
 
 
- useEffect(() => {
+  useEffect(() => {
     if (expensesFilterddata.length === 0) {
       setLoading(false);
     }
@@ -290,7 +290,7 @@ function SettingExpenses({ hostelid }) {
 
   const addType = () => {
     dispatch({ type: 'CLEAR_ALREADY_EXPENCE_CATEGORY_ERROR' });
-    if (!selectedOptions.value) {
+    if (!selectedOptions.value.trim()) {
       setCategoryErrmsg("Please Select  Category");
       return;
     }
@@ -305,7 +305,7 @@ function SettingExpenses({ hostelid }) {
         type: "EXPENCES-CATEGORY-ADD",
         payload: {
           hostelId: state.login.selectedHostel_Id,
-                 categoryId: type.value,
+          categoryId: type.value.trim(),
           subCategory: subType,
         },
       });
@@ -363,6 +363,7 @@ function SettingExpenses({ hostelid }) {
 
 
   const handleChange = (selected) => {
+    dispatch({ type: 'CLEAR_ALREADY_EXPENCE_CATEGORY_ERROR' })
     setSelectedOptions(selected);
 
     setType(selected)
@@ -377,7 +378,7 @@ function SettingExpenses({ hostelid }) {
 
 
   const handleCreate = (inputValue) => {
-
+    dispatch({ type: 'CLEAR_ALREADY_EXPENCE_CATEGORY_ERROR' })
     const existingCategoryIndex = options.findIndex(option => option.value === selectedOptions?.value);
 
 
@@ -392,9 +393,9 @@ function SettingExpenses({ hostelid }) {
 
       dispatch({
         type: 'EDIT_EXPENCES_CATEGORY',
-        payload: { id: selectedOptions.value, hostel_id: state.login.selectedHostel_Id, name: inputValue, type: 1 }
+        payload: { id: selectedOptions.value, hostel_id: state.login.selectedHostel_Id, name: inputValue.trim(), type: 1 }
       });
-      setFormLoading(true)
+      // setFormLoading(true)
 
 
     } else {
@@ -408,10 +409,10 @@ function SettingExpenses({ hostelid }) {
         type: 'EXPENCES-CATEGORY-ADD',
         payload: {
           hostelId: state.login.selectedHostel_Id,
-          categoryName: inputValue,
+          categoryName: inputValue.trim(),
         }
       });
-      setFormLoading(true)
+      // setFormLoading(true)
     }
   };
 
@@ -487,24 +488,24 @@ function SettingExpenses({ hostelid }) {
     }
   };
 
-useEffect(() => {
+  useEffect(() => {
     const handleClickOutside = (event) => {
-        if (
-      event.target.closest(".dropdown-content") ||
-      event.target.closest(".bi-chevron-down") ||
-      event.target.closest(".bi-chevron-up")
-    ) {
-      return;
-    }
-  
-    setExpandedCategoryId(null);
-  };
- 
-  document.addEventListener("click", handleClickOutside);
-   return () => {
-    document.removeEventListener("click", handleClickOutside);
-  };
-}, []);
+      if (
+        event.target.closest(".dropdown-content") ||
+        event.target.closest(".bi-chevron-down") ||
+        event.target.closest(".bi-chevron-up")
+      ) {
+        return;
+      }
+
+      setExpandedCategoryId(null);
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
 
   //   const indexOfLastRowExpense = expensescurrentPage * expensesrowsPerPage;
@@ -817,7 +818,7 @@ useEffect(() => {
                       justifyContent: "center",
                       alignItems: "center",
                       marginTop: 90,
-                     
+
                     }}
                   >
                     <div style={{ textAlign: "center" }}>
