@@ -290,14 +290,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, customerID }) {
     };
 
     
-const CustomerOverView = state.UsersList.customerdetails;
-    console.log("CustomerOverView",CustomerOverView)
 
-    useEffect(() => {
-        if(data.customerId){
-        dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: data.customerId } });
-        }
-      }, [data.customerId]);
 
 
 

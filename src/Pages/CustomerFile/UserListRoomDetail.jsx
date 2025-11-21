@@ -833,6 +833,7 @@ function UserListRoomDetail(props) {
 
   useEffect(() => {
     if (state?.UsersList.editAmountSuccessStatusCode === 200) {
+      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
       setShowUpdateJoiningForm(false)
       setShowUpdateAdvanceForm(false)
       setShowUpdateRentForm(false)
@@ -3586,7 +3587,7 @@ function UserListRoomDetail(props) {
                                       : 1,
                                   }}
                                 >
-                                  <div
+                                  {/* <div
                                     onClick={() => {
                                       if (canUpdateTenant) {
                                         handleEditStayDetails(CustomerOverView);
@@ -3618,7 +3619,7 @@ function UserListRoomDetail(props) {
                                           : "#000",
                                       }}
                                     />
-                                  </div>
+                                  </div> */}
                                 </div>
                               </div>
                             </div>
@@ -3846,14 +3847,14 @@ function UserListRoomDetail(props) {
                                     // marginLeft: 29
                                   }}
                                 >
-                                  Joined Date  <img className="ms-2" onClick={() => canUpdateTenant && handleUpdateJoiningChange()}
+                                  Joined Date  <img className="ms-2" onClick={() => (canUpdateTenant && CustomerOverView.hostelInfo?.joiningDate) && handleUpdateJoiningChange()}
                                     src={EditImage}
                                     alt="EditImage"
                                     style={{
                                       height: 14,
                                       width: 14,
-                                      color: !canUpdateTenant
-                                        ? "#CCCCCC"
+                                      color: !canUpdateTenant || !CustomerOverView.hostelInfo?.joiningDate
+                                        ? "#1E45E1"
                                         : "#000", cursor: "pointer"
                                     }}
                                   />
@@ -3951,7 +3952,7 @@ function UserListRoomDetail(props) {
                                         >
                                           Monthly Rent
                                           <img className="ms-2"
-                                            onClick={() => canUpdateTenant && handleUpdateChange()}
+                                            onClick={() => (canUpdateTenant && CustomerOverView.hostelInfo?.monthlyRent) && handleUpdateChange()}
                                             src={EditImage}
                                             alt="EditImage"
                                             style={{
@@ -3986,7 +3987,7 @@ function UserListRoomDetail(props) {
                                             fontFamily: "Gilroy",
                                           }}
                                         >
-                                          Advance Amount  <img className="ms-2" onClick={() => canUpdateTenant && handleUpdateAdvanceChange()}
+                                          Advance Amount  <img className="ms-2" onClick={() =>( canUpdateTenant && advanceList?.advanceAmount) && handleUpdateAdvanceChange()}
                                             src={EditImage}
                                             alt="EditImage"
                                             style={{
@@ -5873,7 +5874,11 @@ function UserListRoomDetail(props) {
                                           option: (base, state) => ({
                                             ...base,
                                             cursor: state.isDisabled ? "not-allowed" : "pointer",
-                                            backgroundColor: state.isDisabled ? "#f0f0f0" : "white",
+                                             backgroundColor: state.isFocused
+                                                                            ? "#E7F1FF"
+                                                                            : state.isDisabled
+                                                                                ? "#f0f0f0"
+                                                                                : "#fff",
                                             color: state.isDisabled ? "#aaa" : "#000",
                                           }),
                                         }}

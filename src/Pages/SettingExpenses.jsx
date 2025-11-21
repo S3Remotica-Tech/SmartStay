@@ -378,14 +378,17 @@ function SettingExpenses({ hostelid }) {
     const existingCategoryIndex = options.findIndex(option => option.value === selectedOptions?.value);
 
 
-    if (existingCategoryIndex !== -1) {
+  if (existingCategoryIndex !== -1) {
 
-      const updatedOptions = [...options];
-      updatedOptions[existingCategoryIndex] = { ...updatedOptions[existingCategoryIndex], label: inputValue };
+    const updatedOptions = [...options];
+    updatedOptions[existingCategoryIndex] = { 
+      ...updatedOptions[existingCategoryIndex], 
+      label: cleanedValue 
+    };
 
-      setOptions(updatedOptions);
-      setSelectedOptions(updatedOptions[existingCategoryIndex]);
-      setType(updatedOptions[existingCategoryIndex]);
+    setOptions(updatedOptions);
+    setSelectedOptions(updatedOptions[existingCategoryIndex]);
+    setType(updatedOptions[existingCategoryIndex]);
 
       dispatch({
         type: 'EDIT_EXPENCES_CATEGORY',
@@ -394,12 +397,13 @@ function SettingExpenses({ hostelid }) {
       // setFormLoading(true)
 
 
-    } else {
+  } else {
 
-      const newOption = { value: inputValue, label: inputValue };
-      setOptions((prev) => [...prev, newOption]);
-      setSelectedOptions(newOption);
-      setType(newOption);
+    const newOption = { value: cleanedValue, label: cleanedValue };
+
+    setOptions((prev) => [...prev, newOption]);
+    setSelectedOptions(newOption);
+    setType(newOption);
 
       dispatch({
         type: 'EXPENCES-CATEGORY-ADD',
@@ -411,8 +415,6 @@ function SettingExpenses({ hostelid }) {
       // setFormLoading(true)
     }
   };
-
-
 
 
 

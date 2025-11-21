@@ -42,7 +42,7 @@ function CheckIn({
     const [advanceAmountError, setAdvanceAmountError] = useState("");
     const [roomrentError, setRoomRentError] = useState("");
     const [formLoading, setFormLoading] = useState(false);
- const [placeHolderRoomRent, setPlaceHolderRoomRent] = useState("");
+    const [placeHolderRoomRent, setPlaceHolderRoomRent] = useState("");
 
     useEffect(() => {
         if (currentItem?.newTenantCustomerId) {
@@ -478,7 +478,7 @@ function CheckIn({
                                             Check-In Tenant
                                         </Modal.Title>
                                     </div>
-                                  
+
                                 </div>
 
 
@@ -493,32 +493,32 @@ function CheckIn({
 
                             <div className="d-flex align-items-center gap-3 mb-3 ms-3">
 
-                              {currentItem?.newTenantProfilePic &&
-                                                                      currentItem?.newTenantProfilePic !== "0" ? (
-                                                                      <Image
-                                                                        src={currentItem.newTenantProfilePic}
-                                                                        roundedCircle
-                                                                        style={{ height: 50, width: 50 }}
-                                                                        alt="image"
-                                                                      />
-                                                                    ) : (
-                                                                      <div
-                                                                        style={{
-                                                                          height: 50,
-                                                                          width: 50,
-                                                                          borderRadius: "50%",
-                                                                          backgroundColor: "#1E45E1",
-                                                                          display: "flex",
-                                                                          justifyContent: "center",
-                                                                          alignItems: "center",
-                                                                          fontSize: 20,
-                                                                          fontWeight: "600",
-                                                                          color: "white", fontFamily:"Gilroy"
-                                                                        }}
-                                                                      >
-                                                                        {currentItem?.newTenantInitials || "-"}
-                                                                      </div>
-                                                                    )}
+                                {currentItem?.newTenantProfilePic &&
+                                    currentItem?.newTenantProfilePic !== "0" ? (
+                                    <Image
+                                        src={currentItem.newTenantProfilePic}
+                                        roundedCircle
+                                        style={{ height: 50, width: 50 }}
+                                        alt="image"
+                                    />
+                                ) : (
+                                    <div
+                                        style={{
+                                            height: 50,
+                                            width: 50,
+                                            borderRadius: "50%",
+                                            backgroundColor: "#1E45E1",
+                                            display: "flex",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                            fontSize: 20,
+                                            fontWeight: "600",
+                                            color: "white", fontFamily: "Gilroy"
+                                        }}
+                                    >
+                                        {currentItem?.newTenantInitials || "-"}
+                                    </div>
+                                )}
                                 <div>
                                     <div>
                                         <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px", fontFamily: "Gilroy" }}>
@@ -616,7 +616,7 @@ function CheckIn({
                                     }}
                                 />
 
-                              
+
 
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <Form.Group
@@ -721,11 +721,11 @@ function CheckIn({
                                             value={RoomRent}
                                             onChange={handleRoomRent}
                                             type="text"
-                                             placeholder={
-                              placeHolderRoomRent
-                                ? `Selected Bed Rent is ${placeHolderRoomRent}`
-                                : "Enter Amount"
-                            }
+                                            placeholder={
+                                                placeHolderRoomRent
+                                                    ? `Selected Bed Rent is ${placeHolderRoomRent}`
+                                                    : "Enter Amount"
+                                            }
                                             style={{
                                                 fontSize: 16,
                                                 color: "#4B4B4B",
@@ -957,7 +957,11 @@ function CheckIn({
                                                                     option: (base, state) => ({
                                                                         ...base,
                                                                         cursor: state.isDisabled ? "not-allowed" : "pointer",
-                                                                        backgroundColor: state.isDisabled ? "#f0f0f0" : "white",
+                                                                        backgroundColor: state.isFocused
+                                                                            ? "#E7F1FF"
+                                                                            : state.isDisabled
+                                                                                ? "#f0f0f0"
+                                                                                : "#fff",
                                                                         color: state.isDisabled ? "#aaa" : "#000",
                                                                     }),
                                                                 }}
@@ -1104,7 +1108,7 @@ function CheckIn({
                                         borderRadius: 12,
                                         fontSize: 14,
                                         fontFamily: "Gilroy",
-                                        padding: "8px 40px", whiteSpace:"nowrap"
+                                        padding: "8px 40px", whiteSpace: "nowrap"
                                     }}
                                     onClick={handleCheckin}
                                 >

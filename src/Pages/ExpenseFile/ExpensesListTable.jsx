@@ -16,7 +16,7 @@ import Select from "react-select";
 function ExpensesListTable(props) {
 
 
-  const [showDots, setShowDots] = useState('')
+  const [showDots, setShowDots] = useState(null)
   const popupRef = useRef(null);
   const state = useSelector(state => state)
   const dispatch = useDispatch();
@@ -40,37 +40,45 @@ function ExpensesListTable(props) {
 
 
 
+const [showAbove, setShowAbove] = useState(false);
 
 
 
 
 
+  const [showTagAsset, setshowTagAsset] = useState(false);
 
 
 
 
-  const handleShowDots = (event) => {
-    setShowDots(!showDots)
-    const { top, left, height } = event.target.getBoundingClientRect();
-    const popupTop = top + (height / 2);
-    const popupLeft = left - 200;
+  const handleShowDots = (event, rowId) => {
+    console.log("rowId",rowId)
+  const { top, left, height } = event.target.getBoundingClientRect();
+  const popupTop = top + (height / 2);
+    const popupLeft = left - 210;
 
     setPopupPosition({ top: popupTop, left: popupLeft });
+  setShowDots(prev => (prev === rowId ? null : rowId));
+};
+
+  
+
+ useEffect(() => {
+     if (popupRef.current) {
+       const popupHeight = popupRef.current.offsetHeight;
+       const windowHeight = window.innerHeight;
+       const spaceBelow = windowHeight - popupPosition.top;
+ 
+ 
+       setShowAbove(spaceBelow < popupHeight + 20);
+     }
+   }, [popupPosition]);
 
 
-  }
-  const [showAbove, setShowAbove] = useState(false);
-
-  useEffect(() => {
-    if (popupRef.current) {
-      const popupHeight = popupRef.current.offsetHeight;
-      const windowHeight = window.innerHeight;
-      const spaceBelow = windowHeight - popupPosition.top;
 
 
-      setShowAbove(spaceBelow < popupHeight + 20);
-    }
-  }, [popupPosition]);
+
+
 
   const handleEditExpense = (item) => {
     props.OnEditExpense(item)
@@ -85,11 +93,30 @@ function ExpensesListTable(props) {
 
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
-      setShowDots(false);
+      setShowDots(null);
+    }
+  };
+  
+useEffect(() => {
+  const handleClickOutside = (event) => {
+    if (
+      popupRef.current &&
+      !popupRef.current.contains(event.target) &&
+           !showTagAsset &&
+      !showDeletePopup
+    ) {
+      setShowDots(null);
     }
   };
 
-  const [showTagAsset, setshowTagAsset] = useState(false);
+  document.addEventListener("mousedown", handleClickOutside);
+  return () => document.removeEventListener("mousedown", handleClickOutside);
+}, [popupRef,  showTagAsset, showDeletePopup]);
+
+
+
+
+
 
   const handleShowTagAsset = () => {
 
@@ -99,24 +126,7 @@ function ExpensesListTable(props) {
   };
 
 
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (
-        popupRef.current &&
-        !popupRef.current.contains(event.target) &&
-        !showTagAsset &&
-        !showDeletePopup
-      ) {
-        setShowDots(false);
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [popupRef, showTagAsset, showDeletePopup]);
-
+ 
 
 
   const [assetname, setAssetName] = useState('')
@@ -197,7 +207,7 @@ function ExpensesListTable(props) {
 
 
   return (<>
-    <tr style={{ fontFamily: "Gilroy", border: "none" }} key={props.item.id}>
+    <tr style={{ fontFamily: "Gilroy", border: "none" }} key={props.item.expenseId}>
 
       <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }}><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: 13, fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }}>{props.item.transactionDate}</span></td>
 
@@ -232,24 +242,17 @@ function ExpensesListTable(props) {
 
       <td style={{ textAlign: 'center', verticalAlign: 'middle', border: "none", borderBottom: "1px solid #E8E8E8", whiteSpace: "nowrap", position: "relative" }} className=''>
         <div style={{ width: "100%", display: "flex", justifyContent: "left" }}>
-          <div style={{ cursor: "pointer", backgroundColor: showDots ? "#E7F1FF" : "white", height: 40, width: 40, borderRadius: 100, border: "1px solid #EBEBEB", display: "flex", justifyContent: "center", alignItems: "center", position: "relative" }} onClick={(e) => handleShowDots(e)}>
+          <div style={{ cursor: "pointer", backgroundColor: showDots === props.item.expenseId ? "#E7F1FF" : "white", height: 40, width: 40, borderRadius: 100, border: "1px solid #EBEBEB", display: "flex", justifyContent: "center", alignItems: "center", position: "relative" }} onClick={(e) => handleShowDots(e, props.item.expenseId)}>
             <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, }} />
 
-            {showDots && <>
+            {showDots === props.item.expenseId && <>
               <div
                 ref={popupRef}
-                className="dots-popup"
-                style={{
+                                style={{
                   cursor: "pointer",
                   backgroundColor: "#F9F9F9",
-                  // position: "fixed",
-                  // top: showAbove
-                  //   ? popupPosition.top - (popupRef.current?.offsetHeight || 100) - 20
-                  //   : popupPosition.top - 35,
-                  // left: popupPosition.left,
-                  position: "absolute", // 👈 changed from fixed
-                  top: showAbove ? "120%" : "100%", // 👈 simple relative positioning
-                  left:-180,
+                  position: "absolute",
+                                                    left: -180,
                   width: 160,
                   height: "auto",
                   border: "1px solid #EBEBEB",
@@ -257,7 +260,7 @@ function ExpensesListTable(props) {
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "flex-start",
-                  zIndex: showDots ? 10 : "auto",
+                  zIndex: showDots === props.item.expenseId ? 1000 : "auto",
                 }}
               >
 

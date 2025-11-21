@@ -95,6 +95,13 @@ const [loading, setLoading] = useState(false)
 
     };
 
+    useEffect(() => {
+            if (state.createAccount?.networkError) {
+              setLoading(false)
+            }
+        
+          }, [state.createAccount?.networkError])
+
     return (
         <div
             className="modal show"

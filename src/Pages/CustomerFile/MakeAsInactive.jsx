@@ -103,9 +103,20 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails }) {
         }
     }, [inActiveDetails]);
 
-console.log("inActiveDetails",inActiveDetails)
 
 
+    const CustomerOverView = state.UsersList.customerdetails;
+
+
+    useEffect(() => {
+        if (inActiveDetails?.customerId || inActiveDetails?.newTenantCustomerId) {
+            dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: inActiveDetails.customerId || inActiveDetails.newTenantCustomerId } });
+
+        }
+    }, [inActiveDetails]);
+
+    console.log("CustomerOverView", CustomerOverView)
+    console.log("inActiveDetails.newTenantCustomerId", inActiveDetails.newTenantCustomerId)
 
 
     return (
@@ -132,34 +143,34 @@ console.log("inActiveDetails",inActiveDetails)
             </Modal.Header>
             <div className="d-flex align-items-center gap-3 mb-3 ms-3">
 
-               
 
-                 {inActiveDetails.profilePic || inActiveDetails.newTenantProfilePic &&
-                                    (inActiveDetails.profilePic !== "0" || inActiveDetails.newTenantProfilePic !== "0")  ? (
-                                    <Image
-                                        src={inActiveDetails.profilePic || inActiveDetails?.newTenantProfilePic}
-                                        roundedCircle
-                                        style={{ height: 50, width: 50 }}
-                                        alt="image"
-                                    />
-                                ) : (
-                                    <div
-                                        style={{
-                                            height: 50,
-                                            width: 50,
-                                            borderRadius: "50%",
-                                            backgroundColor: "#1E45E1",
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            alignItems: "center",
-                                            fontSize: 20,
-                                            fontWeight: "600",
-                                            color: "white", fontFamily: "Gilroy"
-                                        }}
-                                    >
-                                        {inActiveDetails?.initials || inActiveDetails?.newTenantInitials ||  "-"}
-                                    </div>
-                                )}
+
+                {inActiveDetails.profilePic || inActiveDetails.newTenantProfilePic &&
+                    (inActiveDetails.profilePic !== "0" || inActiveDetails.newTenantProfilePic !== "0") ? (
+                    <Image
+                        src={inActiveDetails.profilePic || inActiveDetails?.newTenantProfilePic}
+                        roundedCircle
+                        style={{ height: 50, width: 50 }}
+                        alt="image"
+                    />
+                ) : (
+                    <div
+                        style={{
+                            height: 50,
+                            width: 50,
+                            borderRadius: "50%",
+                            backgroundColor: "#1E45E1",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            fontSize: 20,
+                            fontWeight: "600",
+                            color: "white", fontFamily: "Gilroy"
+                        }}
+                    >
+                        {inActiveDetails?.initials || inActiveDetails?.newTenantInitials || "-"}
+                    </div>
+                )}
                 <div >
                     <div>
                         <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px", fontFamily: "Gilroy" }}>
@@ -194,7 +205,7 @@ console.log("inActiveDetails",inActiveDetails)
                                 fontFamily: "Gilroy"
                             }}
                         >
-                            {inActiveDetails?.roomName} - {inActiveDetails?.bedName} 
+                            {inActiveDetails?.roomName} - {inActiveDetails?.bedName}
                         </span>
                     </div>
 
@@ -240,7 +251,7 @@ console.log("inActiveDetails",inActiveDetails)
                                 }}
                                 getPopupContainer={() => document.body}
                                 disabledDate={(current) => {
-                                    const bookedDate = dayjs(inActiveDetails?.bookingDate, "DD/MM/YYYY");
+                                    const bookedDate = dayjs(CustomerOverView?.bookingInfo?.bookingDate, "DD/MM/YYYY");
                                     return (
                                         current.isBefore(bookedDate, "day") ||
                                         current.isAfter(dayjs(), "day")

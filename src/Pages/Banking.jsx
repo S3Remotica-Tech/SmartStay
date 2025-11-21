@@ -412,6 +412,9 @@ useEffect(() => {
     if (!/^\d*$/.test(value)) {
       return;
     }
+     if (/^0+$/.test(value)) {
+    return;
+  }
     setAddBankAmount(value);
     setAmountError("");
   };

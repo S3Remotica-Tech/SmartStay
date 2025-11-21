@@ -277,6 +277,7 @@ function BankingAddForm(props) {
 
 
   const handleSubmitBank = () => {
+     dispatch({ type: 'REMOVE_CREATE_BANKING_ERROR' })
     let isHas = false;
 
 
@@ -371,6 +372,7 @@ function BankingAddForm(props) {
 
 
   const handleSubmitUpi = () => {
+     dispatch({ type: 'REMOVE_CREATE_BANKING_ERROR' })
     if (!bankaccount || !upiId) {
       if (!bankaccount) {
         setBankAccountError("Please Select Bank");
@@ -472,6 +474,7 @@ function BankingAddForm(props) {
   // };
 
   const handleSubmitCard = () => {
+     dispatch({ type: 'REMOVE_CREATE_BANKING_ERROR' })
     if (!bankaccount || !cardType) {
       if (!bankaccount) {
         setBankAccountError("Please Select Bank");
@@ -723,6 +726,7 @@ function BankingAddForm(props) {
             setCardTypeError("")
             setIsChangedError("")
             setaccountNumberError("")
+             dispatch({ type: 'REMOVE_CREATE_BANKING_ERROR' })
           }}
 
           className="justify-content-start ms-2 me-2"
