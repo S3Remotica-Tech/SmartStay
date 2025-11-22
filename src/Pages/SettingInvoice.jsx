@@ -571,6 +571,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handl
 
 
   const handleFileChange = (e) => {
+     setEditFormErrMessage('')
     const file = e.target.files[0];
     if (file && file.type.startsWith("image/")) {
       const objectUrl = URL.createObjectURL(file);
@@ -957,6 +958,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handl
 
 
   const handleBankClick = (id) => {
+     setEditFormErrMessage('')
         setSelectedBankId(id);
   };
 

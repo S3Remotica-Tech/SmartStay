@@ -488,7 +488,7 @@ function SettingAllPages({ isVisibleSidebar }) {
                         cursor: "pointer",
                       }}
                     >
-                      User
+                      Staff
                       <img
                         src={activePage === "User" ? blueArrow : blackArrow}
                         width={16}

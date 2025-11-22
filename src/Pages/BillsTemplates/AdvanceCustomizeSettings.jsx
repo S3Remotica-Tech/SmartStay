@@ -462,6 +462,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
 
 
   const handleBankClick = (id) => {
+      setEditErrMessage("")
     setSelectedBankId(id);
   };
 

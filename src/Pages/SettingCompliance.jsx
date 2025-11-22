@@ -189,7 +189,7 @@ useEffect(() => {
       } else {
       dispatch({
         type: "COMPLAINT-TYPE-ADD",
-        payload: { complaintTypeName: complaintTypeName, hostelId: state.login.selectedHostel_Id },
+        payload: { complaintTypeName: complaintTypeName.trim(), hostelId: state.login.selectedHostel_Id },
       });
       setFormLoading(true)
       setComplaintError("");
@@ -218,7 +218,7 @@ useEffect(() => {
         type: "COMPLAINT-TYPE-EDIT",
         payload: {
           id,
-          complaintTypeName: complaintTypeName,
+          complaintTypeName: complaintTypeName.trim(),
           isActive: true,
           hostelId: state.login.selectedHostel_Id
         },
