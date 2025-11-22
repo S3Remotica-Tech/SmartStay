@@ -92,12 +92,12 @@ function SettingGeneral() {
   const [loading, setLoading] = useState(false)
   const [generalDeleteError, setGeneralDeleteError] = useState("")
 
-const {
-      canWriteModule: canWriteProfile,
-      canReadModule: canReadProfile,
-      canUpdateModule: canUpdateProfile,
-      canDeleteModule: canDeleteProfile,
-    } = useHasPermission("Profile");
+  const {
+    canWriteModule: canWriteProfile,
+    canReadModule: canReadProfile,
+    canUpdateModule: canUpdateProfile,
+    canDeleteModule: canDeleteProfile,
+  } = useHasPermission("Profile");
 
 
   // const canReadProfile = useHasPermission("Profile", "canRead");
@@ -107,13 +107,13 @@ const {
 
 
 
-useEffect(() => {
-      if (!canReadProfile) {
-        setLoading(false);
-      }else{
-        setLoading(true);
-      }
-    }, [canReadProfile]);
+  useEffect(() => {
+    if (!canReadProfile) {
+      setLoading(false);
+    } else {
+      setLoading(true);
+    }
+  }, [canReadProfile]);
 
 
 
@@ -254,7 +254,15 @@ useEffect(() => {
 
   const handleCheckPasswordChange = () => {
     dispatch({ type: 'CLEAR_PASSWORD_ERROR' })
-    if (!CheckvalidateField(checkPassword, "checkPassword"));
+    if (!checkPassword) {
+      setPassError("Please Enter Password");
+      return
+    }
+    if (checkPassword && checkPassword.length < 8) {
+      setPassError("Password must be at least 8 characters");
+      return
+    }
+
 
     const hasUppercase = /[A-Z]/.test(checkPassword);
     const hasNumber = /[0-9]/.test(checkPassword);
@@ -510,19 +518,29 @@ useEffect(() => {
     setPassword(newPassword);
     setPasswordError("");
 
-
     const hasUppercase = /[A-Z]/.test(newPassword);
     const hasNumber = /[0-9]/.test(newPassword);
     const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
 
+
+    if (!newPassword) {
+      setPasswordError("Please Enter Password");
+      return;
+    }
+    if (newPassword && newPassword.length < 8) {
+      setPasswordError("Password must be at least 8 characters long");
+      return;
+    }
+
     if (!hasUppercase || !hasNumber || !hasSpecialChar) {
       setPasswordError(
-        "Password must include a capital letter, a number, and a special character."
+        "Password must include a capital letter, a number, and a special character"
       );
-    } else {
-      setPasswordError("");
-      setFormError("");
+      return;
     }
+
+    // If valid setPasswordError("");
+    setFormError("");
   };
 
 
@@ -660,6 +678,7 @@ useEffect(() => {
       validateField(firstName, "firstName"),
       validateField(emilId, "emilId"),
       validateField(Phone, "Phone"),
+      validateField(password, "password"),
       validateField(city, "City"),
       validateField(pincode, "Pincode"),
       validateField(state_name, "state_name"),
@@ -676,6 +695,13 @@ useEffect(() => {
       setPhoneError("");
     }
 
+    if (!password) {
+      setPasswordError("Please Enter Password");
+      hasError = true;
+    } else if (password.length < 8) {
+      setPasswordError("Password must be at least 8 characters long");
+      hasError = true;
+    }
 
 
 
@@ -839,7 +865,7 @@ useEffect(() => {
     }, 2000);
 
     return () => clearTimeout(timeout);
-  }, []);
+  }, [state.login.selectedHostel_Id]);
 
 
 
@@ -1050,6 +1076,14 @@ useEffect(() => {
 
   }, [state.createAccount?.networkError])
 
+
+
+
+
+
+
+
+
   return (
     <>
 
@@ -1231,7 +1265,7 @@ useEffect(() => {
                         </div>
                       </div>
                       <div className="d-flex align-items-center flex-wrap">
-                        <img src={img2} width="20" height="20" alt="icon" style={{filter :canWriteProfile ? "none": "grayscale(100%) brightness(70%)" }} />
+                        <img src={img2} width="20" height="20" alt="icon" style={{ filter: canWriteProfile ? "none" : "grayscale(100%) brightness(70%)" }} />
                         <p
                           onClick={() => canWriteProfile && handleChangePassword(item)}
                           className="mb-0 mx-2 text-wrap"
@@ -1308,7 +1342,7 @@ useEffect(() => {
                                       fontSize: 14,
                                       fontWeight: 500,
                                       fontFamily: "Gilroy, sans-serif",
-                                                                            color: canUpdateProfile ? "#000000" : "#999999",
+                                      color: canUpdateProfile ? "#000000" : "#999999",
                                       cursor: canUpdateProfile ? "pointer" : "not-allowed",
                                     }}
                                   >
@@ -1342,7 +1376,7 @@ useEffect(() => {
                                       fontSize: 14,
                                       fontWeight: 500,
                                       fontFamily: "Gilroy, sans-serif",
-                                                                           color: canDeleteProfile ? "#FF0000" : "#999999",
+                                      color: canDeleteProfile ? "#FF0000" : "#999999",
                                       cursor: canDeleteProfile ? "pointer" : "not-allowed",
                                     }}
                                   >
@@ -1491,11 +1525,450 @@ useEffect(() => {
 
 
       <Modal
+        show={deleteForm}
+        onHide={handleCloseDeleteFormShow}
+        centered
+        backdrop="static"
+        dialogClassName="custom-delete-modal"
+
+
+      >
+        <Modal.Header style={{ borderBottom: "none" }}>
+          <Modal.Title
+            className="w-100 text-center mt-1"
+            style={{
+              fontSize: "18px",
+              fontFamily: "Gilroy",
+
+              fontWeight: 600,
+              color: "#222222",
+              flex: 1,
+            }}
+          >
+            Delete General?
+          </Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body
+          className="text-center"
+          style={{
+            fontSize: 14,
+            fontWeight: 500,
+            fontFamily: "Gilroy",
+            color: "#646464",
+            textAlign: "center",
+            marginTop: "-27px",
+          }}
+        >
+          Are you sure you want to delete this General?
+        </Modal.Body>
+        {generalDeleteError && (
+          <div className="d-flex justify-content-center align-items-center">
+            <ErrorMessage message={generalDeleteError} type="error" />
+          </div>
+        )}
+        <Modal.Footer
+          className="d-flex justify-content-center"
+          style={{
+            borderTop: "none",
+            marginTop: "-10px",
+          }}
+        >
+          <Button
+            className="me-2"
+            style={{
+
+              width: "100%",
+              maxWidth: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: "12px 20px",
+              background: "#fff",
+              color: "#1E45E1",
+              border: "1px solid #1E45E1",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              fontSize: "14px",
+              marginRight: 10,
+            }}
+            onClick={handleCloseDeleteFormShow}
+          >
+            Cancel
+          </Button>
+          <Button
+            style={{
+              width: "100%",
+              maxWidth: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: "12px 20px",
+              background: "#1E45E1",
+              color: "#FFFFFF",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              fontSize: "14px",
+            }}
+            onClick={handleConformDelete}
+          >
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal
+        show={changePassword}
+        onHide={() => handleCloseChangepassword()}
+        backdrop="static"
+        centered
+      // dialogClassName="custom-modal"
+
+      >
+        <Modal.Header style={{
+
+          position: "relative"
+        }}>
+          <div
+            style={{
+              fontSize: "1.25rem",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+            }}
+          >
+            Change Password
+          </div>
+
+          <CloseCircle size="24" color="#000" onClick={handleCloseChangepassword}
+            style={{ cursor: 'pointer' }} />
+
+        </Modal.Header>
+        <Modal.Body style={{ marginTop: '0px', paddingTop: 2 }}>
+
+          <Form.Group className="">
+            <Form.Label
+              style={{
+                fontSize: 14,
+                color: "#222222",
+                fontFamily: "Gilroy",
+                fontWeight: 500,
+                marginTop: 0,
+                paddingTop: 0,
+              }}
+            >
+              New Password {" "}
+              <span style={{ color: "red", fontSize: "20px" }}> * </span>
+            </Form.Label>
+            <InputGroup>
+              <FormControl
+                id="form-controls"
+                placeholder="Enter password"
+                type={showPassword ? "text" : "password"}
+                value={checkPassword}
+                onChange={(e) => handleCheckPassword(e)}
+                className="custom-input"
+                style={{
+                  fontSize: 16,
+                  color: "#4B4B4B",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                  boxShadow: "none",
+                  border: "1px solid #D9D9D9",
+                  borderRight: "none",
+                  height: "50px",
+                  borderRadius: "8px 0 0 8px",
+                }}
+              />
+              <InputGroup.Text
+                className="border-start-0"
+                onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? "Hide Password" : "Show Password"}
+                style={{
+                  backgroundColor: "#fff",
+                  border: "1px solid #D9D9D9",
+                  borderLeft: "none",
+                  cursor: "pointer",
+                  borderRadius: "0 8px 8px 0",
+                }}
+              >
+                {showPassword ? (
+                  <img src={eye} alt="Hide Password" width={20} height={20} />
+                ) : (
+                  <img
+                    src={eyeClosed}
+                    alt="Show Password"
+                    width={20}
+                    height={20}
+                  />
+                )}
+              </InputGroup.Text>
+            </InputGroup>
+          </Form.Group>
+          {passError && (
+            <ErrorMessage message={passError} type="error" />
+          )}
+
+
+        </Modal.Body>
+        {verifyLoading && <div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'transparent',
+            opacity: 0.75,
+            zIndex: 10,
+          }}
+        >
+          <div
+            style={{
+              borderTop: '4px solid #1E45E1',
+              borderRight: '4px solid transparent',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              animation: 'spin 1s linear infinite',
+            }}
+          ></div>
+        </div>}
+        <Modal.Footer className="d-flex justify-content-center m-0 pt-1" style={{ border: "none" }}>
+          <Button
+
+            className="w-100 custom-button mt-2"
+            style={{
+              backgroundColor: "#1E45E1",
+              fontWeight: 600,
+              height: "50px",
+              borderRadius: "12px",
+              fontSize: "14px",
+              fontFamily: "Montserrat, sans-serif",
+              marginTop: "-5px",
+            }}
+            onClick={() => handleCheckPasswordChange()}
+          >
+            Update
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+
+      <Modal
+        show={confirmPass}
+        onHide={() => handleCloseConfirmPass()}
+        backdrop="static"
+        centered
+
+      >
+
+        <Modal.Header style={{ marginBottom: "", position: "relative" }}>
+          <div
+            style={{
+              fontSize: "1.25rem",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+            }}
+          >
+            Confirm Password
+          </div>
+
+          <CloseCircle size="24" color="#000" onClick={handleCloseConfirmPass}
+            style={{ cursor: 'pointer' }} />
+        </Modal.Header>
+        <Modal.Body className="pt-2">
+          <div className="col-lg-12 
+           col-md-12 col-sm-12 col-xs-12"
+          >
+
+            <Form.Group className="mb-3">
+              <Form.Label
+                style={{
+                  fontSize: 14,
+                  color: "#222222",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                New Password {" "}
+                <span style={{ color: "red", fontSize: "20px" }}> * </span>
+              </Form.Label>
+              <InputGroup>
+                <FormControl
+                  id="form-controls"
+                  placeholder="Enter password"
+                  type={showPassword ? "text" : "password"}
+                  value={newPassword}
+                  onChange={(e) => handleNewPassword(e)}
+                  className="custom-input"
+                  style={{
+                    fontSize: 16,
+                    color: "#4B4B4B",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    boxShadow: "none",
+                    border: "1px solid #D9D9D9",
+                    borderRight: "none",
+                    height: "50px",
+                    borderRadius: "8px 0 0 8px",
+                  }}
+                />
+                <InputGroup.Text
+                  className="border-start-0"
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? "Hide Password" : "Show Password"}
+                  style={{
+                    backgroundColor: "#fff",
+                    border: "1px solid #D9D9D9",
+                    borderLeft: "none",
+                    cursor: "pointer",
+                    borderRadius: "0 8px 8px 0",
+                  }}
+                >
+                  {showPassword ? (
+                    <img src={eye} alt="Hide Password" width={20} height={20} />
+                  ) : (
+                    <img
+                      src={eyeClosed}
+                      alt="Show Password"
+                      width={20}
+                      height={20}
+                    />
+                  )}
+                </InputGroup.Text>
+              </InputGroup>
+              {newPassError && (
+                <ErrorMessage message={newPassError} type="error" />
+
+              )}
+
+
+            </Form.Group>
+
+
+          </div>
+          <div className="col-lg-12 
+           col-md-12 col-sm-12 col-xs-12"
+          >
+            <Form.Group className="mb-3">
+              <Form.Label
+                style={{
+                  fontSize: 14,
+                  color: "#222222",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                Confirm Password {" "}
+                <span style={{ color: "red", fontSize: "20px" }}> * </span>
+              </Form.Label>
+              <InputGroup>
+                <FormControl
+                  id="form-controls"
+                  placeholder="Enter password"
+                  type={conformShowPassword ? "text" : "password"}
+                  value={confirmPassword}
+                  onChange={(e) => handleConfirmPassword(e)}
+                  style={{
+                    fontSize: 16,
+                    color: "#4B4B4B",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    boxShadow: "none",
+                    border: "1px solid #D9D9D9",
+                    borderRight: "none",
+                    height: "50px",
+                    borderRadius: "8px 0 0 8px",
+                  }}
+                />
+                <InputGroup.Text
+                  className="border-start-0"
+                  onClick={() => setConFormShowPassword(!conformShowPassword)}
+                  aria-label={
+                    conformShowPassword ? "Hide Password" : "Show Password"
+                  }
+                  style={{
+                    backgroundColor: "#fff",
+                    border: "1px solid #D9D9D9",
+                    borderLeft: "none",
+                    cursor: "pointer",
+                    borderRadius: "0 8px 8px 0",
+                  }}
+                >
+                  {conformShowPassword ? (
+                    <img src={eye} alt="Hide Password" width={20} height={20} />
+                  ) : (
+                    <img
+                      src={eyeClosed}
+                      alt="Show Password"
+                      width={20}
+                      height={20}
+                    />
+                  )}
+                </InputGroup.Text>
+              </InputGroup>
+              {conformPasswordError && (
+                <ErrorMessage message={conformPasswordError} type="error" />
+              )}
+
+            </Form.Group>
+
+
+
+
+          </div>
+        </Modal.Body>
+        {changeLoading && <div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'transparent',
+            opacity: 0.75,
+            zIndex: 10,
+          }}
+        >
+          <div
+            style={{
+              borderTop: '4px solid #1E45E1',
+              borderRight: '4px solid transparent',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              animation: 'spin 1s linear infinite',
+            }}
+          ></div>
+        </div>}
+        <Modal.Footer className="d-flex justify-content-center " style={{ border: "done" }}>
+          <Button
+            className="col-12"
+            style={{
+              backgroundColor: "#1E45E1",
+              fontWeight: 600,
+              height: "50px",
+              borderRadius: "12px",
+              fontSize: "14px",
+              fontFamily: "Montserrat, sans-serif",
+
+            }}
+            onClick={handleSavePassword}
+          >
+            Save Password
+          </Button>
+        </Modal.Footer>
+
+      </Modal>
+
+      <Modal
         show={showFormGeneral}
         onHide={() => handleClose()}
         backdrop="static"
         centered
-        dialogClassName="custom-modal"
+      // dialogClassName="custom-modal"
       >
 
 
@@ -2179,445 +2652,6 @@ useEffect(() => {
             {edit ? "Save changes" : "Add General"}
           </Button>
         </Modal.Footer>
-      </Modal>
-
-      <Modal
-        show={deleteForm}
-        onHide={handleCloseDeleteFormShow}
-        centered
-        backdrop="static"
-        dialogClassName="custom-delete-modal"
-
-
-      >
-        <Modal.Header style={{ borderBottom: "none" }}>
-          <Modal.Title
-            className="w-100 text-center mt-1"
-            style={{
-              fontSize: "18px",
-              fontFamily: "Gilroy",
-
-              fontWeight: 600,
-              color: "#222222",
-              flex: 1,
-            }}
-          >
-            Delete General?
-          </Modal.Title>
-        </Modal.Header>
-
-        <Modal.Body
-          className="text-center"
-          style={{
-            fontSize: 14,
-            fontWeight: 500,
-            fontFamily: "Gilroy",
-            color: "#646464",
-            textAlign: "center",
-            marginTop: "-27px",
-          }}
-        >
-          Are you sure you want to delete this General?
-        </Modal.Body>
-        {generalDeleteError && (
-          <div className="d-flex justify-content-center align-items-center">
-            <ErrorMessage message={generalDeleteError} type="error" />
-          </div>
-        )}
-        <Modal.Footer
-          className="d-flex justify-content-center"
-          style={{
-            borderTop: "none",
-            marginTop: "-10px",
-          }}
-        >
-          <Button
-            className="me-2"
-            style={{
-
-              width: "100%",
-              maxWidth: 160,
-              height: 52,
-              borderRadius: 8,
-              padding: "12px 20px",
-              background: "#fff",
-              color: "#1E45E1",
-              border: "1px solid #1E45E1",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-              marginRight: 10,
-            }}
-            onClick={handleCloseDeleteFormShow}
-          >
-            Cancel
-          </Button>
-          <Button
-            style={{
-              width: "100%",
-              maxWidth: 160,
-              height: 52,
-              borderRadius: 8,
-              padding: "12px 20px",
-              background: "#1E45E1",
-              color: "#FFFFFF",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-            }}
-            onClick={handleConformDelete}
-          >
-            Delete
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
-      <Modal
-        show={changePassword}
-        onHide={() => handleCloseChangepassword()}
-        backdrop="static"
-        centered
-        dialogClassName="custom-modal"
-
-      >
-        <Modal.Header style={{
-
-          position: "relative"
-        }}>
-          <div
-            style={{
-              fontSize: "1.25rem",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-            }}
-          >
-            Change Password
-          </div>
-
-          <CloseCircle size="24" color="#000" onClick={handleCloseChangepassword}
-            style={{ cursor: 'pointer' }} />
-
-        </Modal.Header>
-        <Modal.Body style={{ marginTop: '0px', paddingTop: 2 }}>
-
-          <Form.Group className="">
-            <Form.Label
-              style={{
-                fontSize: 14,
-                color: "#222222",
-                fontFamily: "Gilroy",
-                fontWeight: 500,
-                marginTop: 0,
-                paddingTop: 0,
-              }}
-            >
-              New Password {" "}
-              <span style={{ color: "red", fontSize: "20px" }}> * </span>
-            </Form.Label>
-            <InputGroup>
-              <FormControl
-                id="form-controls"
-                placeholder="Enter password"
-                type={showPassword ? "text" : "password"}
-                value={checkPassword}
-                onChange={(e) => handleCheckPassword(e)}
-                className="custom-input"
-                style={{
-                  fontSize: 16,
-                  color: "#4B4B4B",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                  boxShadow: "none",
-                  border: "1px solid #D9D9D9",
-                  borderRight: "none",
-                  height: "50px",
-                  borderRadius: "8px 0 0 8px",
-                }}
-              />
-              <InputGroup.Text
-                className="border-start-0"
-                onClick={() => setShowPassword(!showPassword)}
-                aria-label={showPassword ? "Hide Password" : "Show Password"}
-                style={{
-                  backgroundColor: "#fff",
-                  border: "1px solid #D9D9D9",
-                  borderLeft: "none",
-                  cursor: "pointer",
-                  borderRadius: "0 8px 8px 0",
-                }}
-              >
-                {showPassword ? (
-                  <img src={eye} alt="Hide Password" width={20} height={20} />
-                ) : (
-                  <img
-                    src={eyeClosed}
-                    alt="Show Password"
-                    width={20}
-                    height={20}
-                  />
-                )}
-              </InputGroup.Text>
-            </InputGroup>
-          </Form.Group>
-          {passError && (
-            <ErrorMessage message={passError} type="error" />
-          )}
-
-
-        </Modal.Body>
-        {verifyLoading && <div
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'transparent',
-            opacity: 0.75,
-            zIndex: 10,
-          }}
-        >
-          <div
-            style={{
-              borderTop: '4px solid #1E45E1',
-              borderRight: '4px solid transparent',
-              borderRadius: '50%',
-              width: '40px',
-              height: '40px',
-              animation: 'spin 1s linear infinite',
-            }}
-          ></div>
-        </div>}
-        <Modal.Footer className="d-flex justify-content-center m-0 pt-1" style={{ border: "none" }}>
-          <Button
-
-            className="w-100 custom-button mt-2"
-            style={{
-              backgroundColor: "#1E45E1",
-              fontWeight: 600,
-              height: "50px",
-              borderRadius: "12px",
-              fontSize: "14px",
-              fontFamily: "Montserrat, sans-serif",
-              marginTop: "-5px",
-            }}
-            onClick={() => handleCheckPasswordChange()}
-          >
-            Update
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
-
-      <Modal
-        show={confirmPass}
-        onHide={() => handleCloseConfirmPass()}
-        backdrop="static"
-        centered
-
-      >
-
-        <Modal.Header style={{ marginBottom: "", position: "relative" }}>
-          <div
-            style={{
-              fontSize: "1.25rem",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-            }}
-          >
-            Confirm Password
-          </div>
-
-          <CloseCircle size="24" color="#000" onClick={handleCloseConfirmPass}
-            style={{ cursor: 'pointer' }} />
-        </Modal.Header>
-        <Modal.Body className="pt-2">
-          <div className="col-lg-12 
-           col-md-12 col-sm-12 col-xs-12"
-          >
-
-            <Form.Group className="mb-3">
-              <Form.Label
-                style={{
-                  fontSize: 14,
-                  color: "#222222",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                New Password {" "}
-                <span style={{ color: "red", fontSize: "20px" }}> * </span>
-              </Form.Label>
-              <InputGroup>
-                <FormControl
-                  id="form-controls"
-                  placeholder="Enter password"
-                  type={showPassword ? "text" : "password"}
-                  value={newPassword}
-                  onChange={(e) => handleNewPassword(e)}
-                  className="custom-input"
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    borderRight: "none",
-                    height: "50px",
-                    borderRadius: "8px 0 0 8px",
-                  }}
-                />
-                <InputGroup.Text
-                  className="border-start-0"
-                  onClick={() => setShowPassword(!showPassword)}
-                  aria-label={showPassword ? "Hide Password" : "Show Password"}
-                  style={{
-                    backgroundColor: "#fff",
-                    border: "1px solid #D9D9D9",
-                    borderLeft: "none",
-                    cursor: "pointer",
-                    borderRadius: "0 8px 8px 0",
-                  }}
-                >
-                  {showPassword ? (
-                    <img src={eye} alt="Hide Password" width={20} height={20} />
-                  ) : (
-                    <img
-                      src={eyeClosed}
-                      alt="Show Password"
-                      width={20}
-                      height={20}
-                    />
-                  )}
-                </InputGroup.Text>
-              </InputGroup>
-              {newPassError && (
-                <ErrorMessage message={newPassError} type="error" />
-
-              )}
-
-
-            </Form.Group>
-
-
-          </div>
-          <div className="col-lg-12 
-           col-md-12 col-sm-12 col-xs-12"
-          >
-            <Form.Group className="mb-3">
-              <Form.Label
-                style={{
-                  fontSize: 14,
-                  color: "#222222",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                Confirm Password {" "}
-                <span style={{ color: "red", fontSize: "20px" }}> * </span>
-              </Form.Label>
-              <InputGroup>
-                <FormControl
-                  id="form-controls"
-                  placeholder="Enter password"
-                  type={conformShowPassword ? "text" : "password"}
-                  value={confirmPassword}
-                  onChange={(e) => handleConfirmPassword(e)}
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    borderRight: "none",
-                    height: "50px",
-                    borderRadius: "8px 0 0 8px",
-                  }}
-                />
-                <InputGroup.Text
-                  className="border-start-0"
-                  onClick={() => setConFormShowPassword(!conformShowPassword)}
-                  aria-label={
-                    conformShowPassword ? "Hide Password" : "Show Password"
-                  }
-                  style={{
-                    backgroundColor: "#fff",
-                    border: "1px solid #D9D9D9",
-                    borderLeft: "none",
-                    cursor: "pointer",
-                    borderRadius: "0 8px 8px 0",
-                  }}
-                >
-                  {conformShowPassword ? (
-                    <img src={eye} alt="Hide Password" width={20} height={20} />
-                  ) : (
-                    <img
-                      src={eyeClosed}
-                      alt="Show Password"
-                      width={20}
-                      height={20}
-                    />
-                  )}
-                </InputGroup.Text>
-              </InputGroup>
-              {conformPasswordError && (
-                <ErrorMessage message={conformPasswordError} type="error" />
-              )}
-
-            </Form.Group>
-
-
-
-
-          </div>
-        </Modal.Body>
-        {changeLoading && <div
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'transparent',
-            opacity: 0.75,
-            zIndex: 10,
-          }}
-        >
-          <div
-            style={{
-              borderTop: '4px solid #1E45E1',
-              borderRight: '4px solid transparent',
-              borderRadius: '50%',
-              width: '40px',
-              height: '40px',
-              animation: 'spin 1s linear infinite',
-            }}
-          ></div>
-        </div>}
-        <Modal.Footer className="d-flex justify-content-center " style={{ border: "done" }}>
-          <Button
-            className="col-12"
-            style={{
-              backgroundColor: "#1E45E1",
-              fontWeight: 600,
-              height: "50px",
-              borderRadius: "12px",
-              fontSize: "14px",
-              fontFamily: "Montserrat, sans-serif",
-
-            }}
-            onClick={handleSavePassword}
-          >
-            Save Password
-          </Button>
-        </Modal.Footer>
-
       </Modal>
 
 

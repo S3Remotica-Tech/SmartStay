@@ -185,18 +185,24 @@ const handleCheckboxChange = (rowName, index) => {
         dispatch({ type: "CLEAR_ROLE_EDIT_ERROR" })
     }
 
-    const handleRoleName = (e) => {
-        const value = e.target.value
-        setErrorForm('')
-        setRoleName(value);
-        setErrorIsChanged("")
-        setErrorIsChanged("")
-        setRoleError("")
-        setEditRoleError("")
-        dispatch({ type: "CLEAR_ROLE_ERROR" })
-        dispatch({ type: "CLEAR_ROLE_EDIT_ERROR" })
+   const handleRoleName = (e) => {
+    let value = e.target.value;
 
+    const valid = /^[A-Za-z0-9 ]*$/.test(value);
+
+    if (!valid) {
+        return;   
     }
+
+    setErrorForm('');
+    setRoleName(value);
+    setErrorIsChanged("");
+    setRoleError("");
+    setEditRoleError("");
+    dispatch({ type: "CLEAR_ROLE_ERROR" });
+    dispatch({ type: "CLEAR_ROLE_EDIT_ERROR" });
+};
+
 
     useEffect(() => {
         if (state.Settings.roleError) {
@@ -315,13 +321,13 @@ const handleCheckboxChange = (rowName, index) => {
             payload = {
                 id: editRoleDetails.id || null,
                 hostelId: state.login.selectedHostel_Id,
-                roleName: roleName,
+                roleName: roleName?.trim(),
                 permissionList: formattedPermissionList,
             };
         } else {
             payload = {
                 hostelId: state.login.selectedHostel_Id,
-                roleName: roleName,
+                roleName: roleName.trim(),
                 permissionList: formattedPermissionList,
             };
         }
@@ -386,7 +392,7 @@ const handleCheckboxChange = (rowName, index) => {
                 bottom: 0,
                 zIndex: 1050,
                 overflow: "hidden",
-                backgroundColor: "rgba(0, 0, 0, 0.3)",
+                
             }}
         >
             <Modal
