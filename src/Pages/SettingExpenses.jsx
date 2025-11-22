@@ -373,10 +373,56 @@ function SettingExpenses({ hostelid }) {
 
 
 
-  const handleCreate = (inputValue) => {
-    dispatch({ type: 'CLEAR_ALREADY_EXPENCE_CATEGORY_ERROR' })
-    const existingCategoryIndex = options.findIndex(option => option.value === selectedOptions?.value);
+  // const handleCreate = (inputValue) => {
+  //   // dispatch({ type: 'CLEAR_ALREADY_EXPENCE_CATEGORY_ERROR' })
+  //   const existingCategoryIndex = options.findIndex(option => option.value === selectedOptions?.value);
 
+  //   console.log("inputValue",inputValue)
+
+  // if (existingCategoryIndex !== -1) {
+
+  //   const updatedOptions = [...options];
+  //   updatedOptions[existingCategoryIndex] = { 
+  //     ...updatedOptions[existingCategoryIndex], 
+  //     label: cleanedValue 
+  //   };
+
+  //   setOptions(updatedOptions);
+  //   setSelectedOptions(updatedOptions[existingCategoryIndex]);
+  //   setType(updatedOptions[existingCategoryIndex]);
+
+  //     dispatch({
+  //       type: 'EDIT_EXPENCES_CATEGORY',
+  //       payload: { id: selectedOptions.value, hostel_id: state.login.selectedHostel_Id, name: inputValue.trim(), type: 1 }
+  //     });
+  //     // setFormLoading(true)
+
+
+  // } else {
+
+  //   const newOption = { value: cleanedValue, label: cleanedValue };
+
+  //   setOptions((prev) => [...prev, newOption]);
+  //   setSelectedOptions(newOption);
+  //   setType(newOption);
+
+  //     dispatch({
+  //       type: 'EXPENCES-CATEGORY-ADD',
+  //       payload: {
+  //         hostelId: state.login.selectedHostel_Id,
+  //         categoryName: inputValue.trim(),
+  //       }
+  //     });
+  //     // setFormLoading(true)
+  //   }
+  // };
+
+const handleCreate = (inputValue) => {
+  const cleanedValue = inputValue.trim();   
+  
+  const existingCategoryIndex = options.findIndex(
+    option => option.value === selectedOptions?.value
+  );
 
   if (existingCategoryIndex !== -1) {
 
@@ -390,12 +436,15 @@ function SettingExpenses({ hostelid }) {
     setSelectedOptions(updatedOptions[existingCategoryIndex]);
     setType(updatedOptions[existingCategoryIndex]);
 
-      dispatch({
-        type: 'EDIT_EXPENCES_CATEGORY',
-        payload: { id: selectedOptions.value, hostel_id: state.login.selectedHostel_Id, name: inputValue.trim(), type: 1 }
-      });
-      // setFormLoading(true)
-
+    dispatch({
+      type: 'EDIT_EXPENCES_CATEGORY',
+      payload: { 
+        id: selectedOptions.value,
+        hostel_id: state.login.selectedHostel_Id,
+        name: cleanedValue,
+        type: 1 
+      }
+    });
 
   } else {
 
@@ -405,17 +454,15 @@ function SettingExpenses({ hostelid }) {
     setSelectedOptions(newOption);
     setType(newOption);
 
-      dispatch({
-        type: 'EXPENCES-CATEGORY-ADD',
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          categoryName: inputValue.trim(),
-        }
-      });
-      // setFormLoading(true)
-    }
-  };
-
+    dispatch({
+      type: 'EXPENCES-CATEGORY-ADD',
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        categoryName: cleanedValue,
+      }
+    });
+  }
+};
 
 
   useEffect(() => {

@@ -348,7 +348,7 @@ function SettingNewUser() {
               fontWeight: 600,
             }}
           >
-            Users
+        Staff
           </label>
         </div>
         <div className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0">
@@ -371,7 +371,7 @@ function SettingNewUser() {
             }}
           >
             {" "}
-            + User
+            + Staff
           </Button>
         </div>
       </div>
@@ -477,7 +477,7 @@ function SettingNewUser() {
                                   style={{ cursor: "pointer" }}
                                 />
                               </div>
-                              Users
+                              Staff Name
                             </div>
                           </th>
                           <th

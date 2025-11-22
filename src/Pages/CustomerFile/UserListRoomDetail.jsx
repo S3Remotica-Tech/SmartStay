@@ -68,6 +68,7 @@ import EditJoiningDate from "./EditJoiningDate";
 import { AddSquare, Tag2 } from "iconsax-react";
 import TenantAmenities from "./TenantAssignAmenities";
 import RequestedAmenities from "./RequestedAmenities";
+import TransactionHistory from "./TransactionHistory";
 
 
 function UserListRoomDetail(props) {
@@ -6547,7 +6548,7 @@ function UserListRoomDetail(props) {
             </TabPanel>
 
             <TabPanel value="4">
-             
+             <TransactionHistory />
             </TabPanel>
           </TabContext>
 

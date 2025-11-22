@@ -32,6 +32,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import UserEb from "./UserListEb";
 import UserListInvoice from "./UserListInvoice";
 import UserListAmenities from "./UserListAmenities";
+import TransactionHistory from "./TransactionHistory";
+import RequestedAmenities from "./RequestedAmenities";
 function CustomerProfile(props) {
   const state = useSelector((state) => state);
 
@@ -47,7 +49,7 @@ function CustomerProfile(props) {
   const [stayDetailsShow, setStayDetailsShow] = useState(false)
   const [previewUrl, setPreviewUrl] = useState(null);
   const [previewUrl2, setPreviewUrl2] = useState(null)
-
+  const [advanceList, setAdvanceList] = useState("")
 
   const handleShowStayHistory = () => {
     setStayDetailsShow(true)
@@ -137,6 +139,12 @@ function CustomerProfile(props) {
 
   const [advanceReturn, setAdvanceReturn] = useState(null);
   const [otherDetails, setOtherDetails] = useState([]);
+
+
+  
+    useEffect(() => {
+      setAdvanceList(state.UsersList.customerdetails.advanceInfo);
+    }, [state.UsersList.customerdetails.advanceInfo]);
 
   useEffect(() => {
     if (Array.isArray(deductionDetails) && deductionDetails.length > 0) {
@@ -401,7 +409,7 @@ function CustomerProfile(props) {
                 />
 
                 <Tab
-                  label="Amenities"
+                  label="Transaction"
                   value="4"
                   style={{
                     fontSize: 16,
@@ -430,7 +438,7 @@ function CustomerProfile(props) {
                   <div className="card  p-3 mb-3" style={{ borderRadius: 10, border: "1px solid #DCDCDC" }}>
 
                     <div className="d-flex justify-content-between align-items-center mb-3">
-                      <p style={{ fontSize: 18, fontFamily: "Gilroy", fontWeight: 400 }} className="mb-0">
+                      <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 400 }} className="mb-0">
                         Basic Details
                       </p>
 
@@ -440,20 +448,20 @@ function CustomerProfile(props) {
 
                     <div className="row">
                       <div className="col-6">
-                        <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "grey" }} className="mb-1 ">First Name</p>
-                        <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>  {CustomerOverView?.firstName}</p>
+                        <p style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 400, color: "#4B4B4B" }} className="mb-1 ">First Name</p>
+                        <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 600 }}>  {CustomerOverView?.firstName}</p>
                       </div>
                       <div className="col-6">
-                        <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "grey" }} className="mb-1">Last Name</p>
-                        <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}> {CustomerOverView?.lastName}</p>
+                        <p style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 400, color: "#4B4B4B" }} className="mb-1">Last Name</p>
+                        <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 600 }}> {CustomerOverView?.lastName}</p>
                       </div>
                       <div className="col-6">
-                        <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "grey" }} className="mb-1">Email</p>
-                        <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}><Sms size="16" color="#1E45E1" className="me-0" style={{ flexShrink: 0 }} />{CustomerOverView?.emailId || "N/A"}</p>
+                        <p style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 400, color: "#4B4B4B" }} className="mb-1">Email</p>
+                        <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 600 }}><Sms size="16" color="#1E45E1" className="me-0" style={{ flexShrink: 0 }} />{CustomerOverView?.emailId || "N/A"}</p>
                       </div>
                       <div className="col-6">
-                        <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "grey" }} className="mb-1 ">Mobile no.</p>
-                        <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}> <Call size="16" color="#1E45E1" className="me-0" />{CustomerOverView && CustomerOverView.mobileNo ? `+ ${CustomerOverView.countryCode} ${CustomerOverView.mobileNo}` : ''}</p>
+                        <p style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 400, color: "#4B4B4B" }} className="mb-1 ">Mobile no.</p>
+                        <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 600 }}> <Call size="16" color="#1E45E1" className="me-0" />{CustomerOverView && CustomerOverView.mobileNo ? `+ ${CustomerOverView.countryCode} ${CustomerOverView.mobileNo}` : ''}</p>
                       </div>
                     </div>
                   </div>
@@ -462,7 +470,7 @@ function CustomerProfile(props) {
                   <div className="card p-3" style={{ borderRadius: 10, border: "1px solid #DCDCDC" }}>
 
                     <div className="d-flex justify-content-between align-items-center mb-3">
-                      <p style={{ fontSize: 18, fontFamily: "Gilroy", fontWeight: 400 }} className="mb-0">
+                      <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 400 }} className="mb-0">
                         Address Details
                       </p>
 
@@ -470,8 +478,8 @@ function CustomerProfile(props) {
                     <hr style={{ marginTop: "-10px" }} />
                     <div className="row">
                       <div className="col-6">
-                        <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "grey" }} className="mb-1">House No / Apartment</p>
-                        <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>  <House
+                        <p style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 400, color: "#4B4B4B" }} className="mb-1">House No / Apartment</p>
+                        <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 600 }}>  <House
                           size="18"
                           color="#1E45E1"
                           className="me-2"
@@ -479,7 +487,7 @@ function CustomerProfile(props) {
                         />  {CustomerOverView.address?.houseNo}</p>
                       </div>
                       <div className="col-6">
-                        <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "grey" }} className="mb-1">Street / Area</p>
+                        <p style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 400, color: "#4B4B4B" }} className="mb-1">Street / Area</p>
                         <div className="d-flex align-items-center gap-2">
                           <img src={Areaimage} alt="area" style={{ width: 16, height: 16 }} />
                           <span
@@ -499,7 +507,7 @@ function CustomerProfile(props) {
                         </div>
                       </div>
                       <div className="col-6">
-                        <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "grey" }} className="mb-1">Landmark</p>
+                        <p style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 400, color: "#4B4B4B" }} className="mb-1">Landmark</p>
                         <div className="d-flex align-items-center gap-2">
                           <img src={Landamrkimage} alt="landmark" style={{ width: 16, height: 16 }} />
                           <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
@@ -508,7 +516,7 @@ function CustomerProfile(props) {
                         </div>
                       </div>
                       <div className="col-6">
-                        <p className="mb-1 text-muted">Pincode</p>
+                        <p className="mb-1 " style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "#4B4B4B" }}>Pincode</p>
                         <div className="d-flex align-items-center gap-2">
                           <img src={PincodeImage} alt="pincode" style={{ width: 16, height: 16 }} />
                           <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
@@ -517,7 +525,7 @@ function CustomerProfile(props) {
                         </div>
                       </div>
                       <div className="col-6">
-                        <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "grey" }} className="mb-1">City</p>
+                        <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "#4B4B4B" }} className="mb-1">City</p>
                         <div className="d-flex align-items-center gap-2">
                           <img src={CityImage} alt="city" style={{ width: 16, height: 16 }} />
                           <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
@@ -526,7 +534,7 @@ function CustomerProfile(props) {
                         </div>
                       </div>
                       <div className="col-6">
-                        <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "grey" }} className="mb-1">State</p>
+                        <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "#4B4B4B" }} className="mb-1">State</p>
                         <div className="d-flex align-items-center gap-2">
                           <img src={CityImage} alt="state" style={{ width: 16, height: 16 }} />
                           <span
@@ -558,7 +566,7 @@ function CustomerProfile(props) {
                   <div className="card  mb-3" style={{ borderRadius: 10, border: "1px solid #DCDCDC", paddingLeft: 10, paddingRight: 20, paddingTop: 2 }}>
 
                     <div className="d-flex justify-content-between align-items-center mb-3">
-                      <p style={{ fontSize: 18, fontFamily: "Gilroy", fontWeight: 400 }} className="mb-0">
+                      <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 400 }} className="mb-0">
                         Stay details
                       </p>
 
@@ -570,7 +578,7 @@ function CustomerProfile(props) {
                           display: "flex",
                           justifyContent: "center",
                           alignItems: "center",
-                          cursor: "pointer"
+                          cursor: "pointer" 
                         }}
                       >
                         <img
@@ -578,7 +586,7 @@ function CustomerProfile(props) {
                           src={Stayhistory}
                           className="me-2"
                           alt="Edit"
-                          style={{ width: "30px", height: "30px" }}
+                          style={{ width: "25px", height: "25px" }}
                         />
 
 
@@ -588,49 +596,49 @@ function CustomerProfile(props) {
                     <hr style={{ marginTop: "-10px" }} />
                     <div className="row">
                       <div className="col-4">
-                        <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "grey" }} className="mb-1">Floor</p>
-                        <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}> 
+                        <p style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 400, color: "#4B4B4B" }} className="mb-1">Floor</p>
+                        <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 600 }}>
                           <img src={Floorimage} alt="Floorimage" size="16" color="#1E45E1" /> {" "}
-                                    {CustomerOverView.hostelInfo?.floorName &&
-                                      CustomerOverView.hostelInfo?.floorName !== "undefined" &&
-                                      CustomerOverView.hostelInfo?.floorName !== 0 &&
-                                      CustomerOverView.hostelInfo?.floorName !== "null"
-                                      ? CustomerOverView.hostelInfo?.floorName
-                                      : "N/A"}</p>
+                          {CustomerOverView.hostelInfo?.floorName &&
+                            CustomerOverView.hostelInfo?.floorName !== "undefined" &&
+                            CustomerOverView.hostelInfo?.floorName !== 0 &&
+                            CustomerOverView.hostelInfo?.floorName !== "null"
+                            ? CustomerOverView.hostelInfo?.floorName
+                            : "N/A"}</p>
                       </div>
                       <div className="col-4">
-                        <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "grey" }} className="mb-1">Room</p>
-                        <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>
+                        <p style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 400, color: "#4B4B4B" }} className="mb-1">Room</p>
+                        <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 600 }}>
                           <img src={RoomImage} alt="Floorimage" size="16" color="#1E45E1" />
-                         {CustomerOverView?.hostelInfo?.roomName ? CustomerOverView?.hostelInfo?.roomName : "N/A"}
-                          </p>
+                          {CustomerOverView?.hostelInfo?.roomName ? CustomerOverView?.hostelInfo?.roomName : "N/A"}
+                        </p>
                       </div>
                       <div className="col-4">
-                        <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "grey" }} className="mb-1">Bed</p>
-                        <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}><img src={Group} alt="Floorimage" size="16" color="#1E45E1" />   {CustomerOverView?.hostelInfo?.bedName ? CustomerOverView?.hostelInfo?.bedName : "N/A"}</p>
+                        <p style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 400, color: "#4B4B4B" }} className="mb-1">Bed</p>
+                        <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 600 }}><img src={Group} alt="Floorimage" size="16" color="#1E45E1" />   {CustomerOverView?.hostelInfo?.bedName ? CustomerOverView?.hostelInfo?.bedName : "N/A"}</p>
                       </div>
                     </div>
                     <div className="row">
                       <div className="col-4">
-                        <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "grey" }} className="mb-1">Joined Date</p>
-                        <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}><img src={LinkImage} alt="Floorimage" size="16" color="#1E45E1" />  {CustomerOverView.hostelInfo?.joiningDate
-                                      ? CustomerOverView.hostelInfo?.joiningDate
-                                      : "N/A"}</p>
+                        <p style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 400, color: "#4B4B4B" }} className="mb-1">Joined Date</p>
+                        <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 600 }}><img src={LinkImage} alt="Floorimage" size="16" color="#1E45E1" />  {CustomerOverView.hostelInfo?.joiningDate
+                          ? CustomerOverView.hostelInfo?.joiningDate
+                          : "N/A"}</p>
                       </div>
                       <div className="col-4">
-                        <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "grey" }} className="mb-1 ">Checkout Date</p>
-                        <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}><img src={LinkImage} alt="Floorimage" size="16" color="#1E45E1" />
-                         {CustomerOverView.checkoutInfo?.checkoutDate
-                                      ? CustomerOverView.checkoutInfo?.checkoutDate
-                                      : "N/A"}
-                          </p>
+                        <p style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 400, color: "#4B4B4B" }} className="mb-1 ">Checkout Date</p>
+                        <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 600 }}><img src={LinkImage} alt="Floorimage" size="16" color="#1E45E1" />
+                          {CustomerOverView.checkoutInfo?.checkoutDate
+                            ? CustomerOverView.checkoutInfo?.checkoutDate
+                            : "N/A"}
+                        </p>
                       </div>
                       <div className="col-4">
-                        <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "grey" }} className="mb-1 ">Booking Date</p>
-                        <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}><img src={LinkImage} alt="Floorimage" size="16" color="#1E45E1" />
-                       {CustomerOverView.bookingInfo?.bookingDate
-                                      ? CustomerOverView.bookingInfo?.bookingDate
-                                      : "N/A"}</p>
+                        <p style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 400, color: "#4B4B4B" }} className="mb-1 ">Booking Date</p>
+                        <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 600 }}><img src={LinkImage} alt="Floorimage" size="16" color="#1E45E1" />
+                          {CustomerOverView.bookingInfo?.bookingDate
+                            ? CustomerOverView.bookingInfo?.bookingDate
+                            : "N/A"}</p>
                       </div>
                     </div>
 
@@ -638,202 +646,172 @@ function CustomerProfile(props) {
                     <hr />
 
                     <p style={{ fontSize: 18, fontFamily: "Gilroy", fontWeight: 400 }} className="">Financial details</p>
-                   <div
-                                                 className="col-md-12 col-lg-12 mb-3 mb-md-0"
-                   
-                                               >
-                                                 <div
-                                                   className="card"
-                                                   style={{
-                                                     borderRadius: "10px",
-                                                     backgroundColor: 'rgba(247, 249, 255, 1)'
-                   
-                                                   }}
-                                                 >
-                   
-                   
-                                                   <div className="card-body">
-                                                     {CustomerOverView.hostelInfo?.advanceAmount > 0 ? (
-                                                       <div>
-                                                         <div className="row mb-3">
-                                                           <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
-                                                             <div
-                                                               style={{
-                                                                 fontSize: 12,
-                                                                 fontWeight: 500,
-                                                                 fontFamily: "Gilroy",
-                                                               }}
-                                                             >
-                                                               Advance
-                                                             </div>
-                                                             <p
-                                                               style={{
-                                                                 fontSize: 14,
-                                                                 fontWeight: 600,
-                                                                 fontFamily: "Gilroy",
-                                                               }}
-                                                             >
-                                                               <img src={MoneyImage} alt="Money Icon" height={14} width={14} className="me-1" />{" "}
-                                                               ₹{state.UsersList.customerdetails.advanceInfo?.advanceAmount}
-                                                               {/* {CustomerOverView.hostelInfo?.advanceAmount} */}
-                   
-                                                             </p>
-                                                           </div>
-                   
-                                                           <div className="col-sm-4 d-flex flex-column align-items-start">
-                                                             <div
-                                                               style={{
-                                                                 fontSize: 12,
-                                                                 fontWeight: 500,
-                                                                 fontFamily: "Gilroy",
-                                                               }}
-                                                             >
-                                                               Rent
-                                                             </div>
-                                                             <p
-                                                               style={{
-                                                                 fontSize: 14,
-                                                                 fontWeight: 600,
-                                                                 fontFamily: "Gilroy",
-                                                                 color: 'rgba(30, 69, 225, 1)',
-                                                                 paddingTop: 7
-                                                               }}
-                                                             >
-                   
-                                                               ₹ {CustomerOverView.hostelInfo?.monthlyRent ?? 0}
-                                                             </p>
-                                                           </div>
-                   
-                                                           <div className="col-sm-4 d-flex flex-column align-items-start">
-                                                             <div
-                                                               style={{
-                                                                 fontSize: 12,
-                                                                 fontWeight: 500,
-                                                                 fontFamily: "Gilroy",
-                                                               }}
-                                                             >
-                                                               Booking
-                                                             </div>
-                                                             <p
-                                                               style={{
-                                                                 fontSize: 14,
-                                                                 fontWeight: 600,
-                                                                 fontFamily: "Gilroy",
-                                                                 color: 'rgba(30, 69, 225, 1)',
-                                                                 paddingTop: 7
-                                                               }}
-                                                             >
-                   
-                                                                {CustomerOverView.bookingInfo?.bookingAmount != null
-                                            ? `₹${CustomerOverView.bookingInfo.bookingAmount}`
-                                            : 0
-                                          }
-                                                             </p>
-                                                           </div>
-                   
-                                                           {
-                                                             CustomerOverView.hostelInfo?.maintenance !== null &&
-                                                             <div className="col-sm-4 d-flex flex-column align-items-start">
-                                                               <div
-                                                                 style={{
-                                                                   fontSize: 12,
-                                                                   fontWeight: 500,
-                                                                   fontFamily: "Gilroy",
-                                                                 }}
-                                                               >
-                                                                 Maintenance
-                                                               </div>
-                                                               <p
-                                                                 style={{
-                                                                   fontSize: 14,
-                                                                   fontWeight: 600,
-                                                                   fontFamily: "Gilroy",
-                                                                   // color: 'rgba(30, 69, 225, 1)',
-                                                                   paddingTop: 7
-                                                                 }}
-                                                               >
-                                                                 ₹ {CustomerOverView.hostelInfo?.maintenance ?? 0}
-                                                               </p>
-                                                             </div>
-                   
-                                                           }
-                                                           {CustomerOverView?.hostelInfo?.otherDeductionsBreakup?.map((item, index) => (
-                                                             <div key={index} className="col-sm-4 d-flex flex-column align-items-start mb-2">
-                                                               <div
-                                                                 style={{
-                                                                   fontSize: 12,
-                                                                   fontWeight: 500,
-                                                                   fontFamily: "Gilroy",
-                                                                 }}
-                                                               >
-                                                                 {item.type ? item.type : ""}
-                                                               </div>
-                                                               <p
-                                                                 style={{
-                                                                   fontSize: 14,
-                                                                   fontWeight: 600,
-                                                                   fontFamily: "Gilroy",
-                                                                   paddingTop: 7,
-                                                                 }}
-                                                               >
-                                                                 ₹ {item.amount}
-                                                               </p>
-                                                             </div>
-                                                           ))}
-                   
-                                                           <div className="col-sm-4 d-flex flex-column align-items-start">
-                                                             <strong
-                                                               style={{
-                                                                 fontSize: 12,
-                                                                 fontWeight: 500,
-                                                                 fontFamily: "Gilroy",
-                                                                 textAlign: "start",
-                                                                 paddingRight: 15,
-                                                               }}
-                                                             >
-                                                               Bill Status
-                                                             </strong>
-                                                             <p
-                                                               style={{
-                                                                 backgroundColor: "#D9FFD9",
-                                                                 padding: "2px 12px",
-                                                                 borderRadius: "10px",
-                                                                 display: "inline-block",
-                                                                 fontFamily: "Gilroy",
-                                                                 fontSize: "14px",
-                                                                 fontWeight: "500",
-                                                                 marginTop: "5px",
-                                                               }}
-                                                             >
-                   
-                                                               {state.UsersList.customerdetails?.advanceInfo?.paymentStatus}
-                                                             </p>
-                                                           </div>
-                   
+                    <div
+                                                className="col-md-12 col-lg-12 mb-md-0"
+                  
+                                              >
+                                                <div
+                                                  className="card border-0 p-0"
+                                                  style={{
+                                                    borderRadius: "10px",
+                                                    // backgroundColor: 'rgba(247, 249, 255, 1)'
+                  
+                                                  }}
+                                                >
+                  
+                  
+                                                  <div className="card-body border-0 p-0">
+                  
+                                                    <div>
+                                                      <div className="row mb-3">
+                                                        <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
+                                                          <div
+                                                            style={{
+                                                              fontSize: 12,
+                                                              fontWeight: 500,
+                                                              fontFamily: "Gilroy", color:"#4B4B4B"
+                                                            }}
+                                                          >
+                                                            Monthly Rent
+                                                            
+                                                          </div>
+                                                          <p
+                                                            style={{
+                                                              fontSize: 14,
+                                                              fontWeight: 600,
+                                                              fontFamily: "Gilroy",
+                                                              color: 'rgba(30, 69, 225, 1)',
+                                                              paddingTop: 7
+                                                            }}
+                                                          >
+                                                            {CustomerOverView.hostelInfo?.monthlyRent != null
+                                                              ? `₹${CustomerOverView.hostelInfo?.monthlyRent}`
+                                                              : 0
+                                                            }
+                                                          </p>
+                                                        </div>
+                                                        <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
+                                                          <div
+                                                            style={{
+                                                              fontSize: 12,
+                                                              fontWeight: 500,
+                                                              fontFamily: "Gilroy", color:"#4B4B4B"
+                                                            }}
+                                                          >
+                                                            Advance Amount  
+                                                          
+                                                          </div>
+                                                          <p
+                                                            style={{
+                                                              fontSize: 14,
+                                                              fontWeight: 600,
+                                                              fontFamily: "Gilroy", paddingTop: 7
+                                                            }}
+                                                          >
+                                                            {advanceList?.advanceAmount != null
+                                                              ? `₹${advanceList?.advanceAmount}`
+                                                              : 0
+                                                            }
+                  
+                  
+                  
+                                                          </p>
+                                                        </div>
+                  
+                  
+                  
+                                                        <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
+                                                          <div
+                                                            style={{
+                                                              fontSize: 12,
+                                                              fontWeight: 500,
+                                                              fontFamily: "Gilroy", color:"#4B4B4B"
+                                                            }}
+                                                          >
+                                                            Booking Amount
+                                                          </div>
+                                                          <p
+                                                            style={{
+                                                              fontSize: 14,
+                                                              fontWeight: 600,
+                                                              fontFamily: "Gilroy",
+                                                              color: '#222',
+                                                              paddingTop: 7
+                                                            }}
+                                                          >
+                  
+                                                            {CustomerOverView.bookingInfo?.bookingAmount != null
+                                                              ? `₹${CustomerOverView.bookingInfo.bookingAmount}`
+                                                              : 0
+                                                            }
+                                                          </p>
+                                                        </div>
+                  
+                                                        {
+                                                          CustomerOverView.hostelInfo?.maintenance !== null &&
+                                                          <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
+                                                            <div
+                                                              style={{
+                                                                fontSize: 12,
+                                                                fontWeight: 500,
+                                                                fontFamily: "Gilroy", color:"#4B4B4B"
+                                                              }}
+                                                            >
+                                                              Maintenance
+                                                            </div>
+                                                            <p
+                                                              style={{
+                                                                fontSize: 14,
+                                                                fontWeight: 600,
+                                                                fontFamily: "Gilroy",
+                                                                // color: 'rgba(30, 69, 225, 1)',
+                                                                paddingTop: 7
+                                                              }}
+                                                            >
+                                                              ₹ {CustomerOverView.hostelInfo?.maintenance ?? 0}
+                                                            </p>
+                                                          </div>
+                  
+                                                        }
+                                                        {CustomerOverView?.hostelInfo?.otherDeductionsBreakup?.map((item, index) => (
+                                                          <div key={index} className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
+                                                            <div
+                                                              style={{
+                                                                fontSize: 12,
+                                                                fontWeight: 500,
+                                                                fontFamily: "Gilroy",
+                                                              }}
+                                                            >
+                                                              {item.type ? item.type : ""}
+                                                            </div>
+                                                            <p
+                                                              style={{
+                                                                fontSize: 14,
+                                                                fontWeight: 600,
+                                                                fontFamily: "Gilroy",
+                                                                paddingTop: 7,
+                                                              }}
+                                                            >
+                                                              ₹ {item.amount}
+                                                            </p>
+                                                          </div>
+                                                        ))}
+                  
                                                        
-                   
-                                                         </div>
-                                                        
-                   
-                                                       </div>
-                   
-                                                     ) : (
-                                                       <div
-                                                         className="d-flex text-center justify-content-center"
-                                                       >
-                                                         <label style={{
-                                                           fontSize: 16,
-                                                           fontWeight: 600,
-                                                           textAlign: "center",
-                                                           fontFamily: "Gilroy"
-                                                         }}> In this User Not Assigned</label>
-                                                       </div>
-                                                     )}
-                                                   </div>
-                   
-                   
-                                                 </div>
-                                               </div>
+                  
+                  
+                                                      </div>
+                  
+                  
+                  
+                                                    </div>
+                  
+                  
+                                                  </div>
+                  
+                  
+                                                </div>
+                                              </div>
                   </div>
                 </div>
 
@@ -850,7 +828,12 @@ function CustomerProfile(props) {
 
                     <div className="row">
                       {!details?.doc1 && !details?.doc2 && (
-                        <p className="text-muted text-center">No documents uploaded</p>
+                        <p className="text-center" style={{
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                          fontSize: 14,
+                          color: "#4B4B4B"
+                        }}>No documents uploaded</p>
                       )}
                       {details?.doc1 && (
                         <div className="col-md-6 col-sm-6 mb-3">
@@ -1053,24 +1036,91 @@ function CustomerProfile(props) {
                   </div>
                 </div>
               </div>
+
+              <div className="row">
+
+                <div
+                  className="col-md-12 col-lg-12 "
+                  style={{
+
+                    marginTop: 30,
+                  }}
+                >
+                  <div
+                    className="card m-"
+                    style={{
+                      borderRadius: "14px",
+
+                    }}
+                  >
+                    <div
+                      className="card-header d-flex justify-content-between align-items-center"
+                      style={{
+                        backgroundColor: "transparent",
+                        borderBottom: "1px solid #e0e0e0",
+                      }}
+                    >
+                      <div
+                        className="fw-semibold"
+                        style={{
+                          fontSize: 16,
+                          lineHeight: "40px",
+                          fontFamily: "Gilroy", color: "#000"
+                        }}
+                      >
+                        Amenities provided
+                      </div>
+
+                      <div
+                        className="d-flex justify-content-start ms-3"
+
+                      >
+
+
+                      </div>
+
+                    </div>
+
+                    <div className="card-body" style={{ fontFamily: "Gilroy", }}>
+
+
+                      <div>
+                        <UserListAmenities
+
+                        />
+                      </div>
+
+                      {/* <div className="mt-1">
+              
+                                        <RequestedAmenities />
+              
+              
+                                      </div> */}
+
+                    </div>
+
+
+                  </div>
+                </div>
+
+
+              </div>
             </div>
           </TabPanel>
           <TabPanel value="2" className="px-0 mt-2">
-           <UserEb
-                          id={state.UsersList?.customerdetails?.customerId}
-                        
-          
-                        />
+            <UserEb
+              id={state.UsersList?.customerdetails?.customerId}
+
+
+            />
           </TabPanel>
           <TabPanel value="3" className="px-0 mt-2">
-             <UserListInvoice
-                        
-                         />
+            <UserListInvoice
+
+            />
           </TabPanel>
           <TabPanel value="4" className="px-0 mt-2">
-           <UserListAmenities
-                         
-                        />
+            <TransactionHistory />
           </TabPanel>
         </TabContext>
       </div>

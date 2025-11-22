@@ -468,7 +468,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                   <div className="row d-flex justify-content-between align-items-center ps-3 pe-3">
                     <div className="col-6" >
                       <img src={pdfDetails?.configurations?.hostelLogo ? pdfDetails?.configurations?.hostelLogo : Logo} alt="logo"
-                        style={{height: pdfDetails?.configurations?.hostelLogo ? 50: 25, maxWidth: 134, borderRadius: '4px', objectFit: "contain", }} className="mt-2" />
+                        style={{ height: pdfDetails?.configurations?.hostelLogo ? 50 : 25, maxWidth: 134, borderRadius: '4px', objectFit: "contain", }} className="mt-2" />
                     </div>
 
                     <div className="mt-2 col-5 ps-4 pe-0" >
@@ -1102,20 +1102,57 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
 
 
+                          <div className="mb-3 mt-3  px-3 py-2 border rounded" style={{
+                            backgroundColor: "#FAFBFF",
+                            fontSize: 13,
+                            fontWeight: 600,
+                          }}>
 
 
-                          <div
-                            className="d-flex justify-content-between align-items-center mb-3 mt-3  px-3 py-2 border rounded"
-                            style={{
-                              backgroundColor: "#FAFBFF",
-                              fontSize: 13,
-                              fontWeight: 600,
-                            }}
-                          >
-                            <div style={{ color: "#4B4B4B", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>Grand Total</div>
-                            <div style={{ fontSize: 14, fontWeight: 700, color: "#1E1E1E", fontFamily: "Gilroy" }}>₹{" "}
-                              {Number(pdfDetails?.invoiceInfo?.totalAmount || 0)}</div>
+
+
+                            <div
+                              className="d-flex justify-content-between align-items-center mb-2"
+                              style={{
+                                backgroundColor: "#FAFBFF",
+                                fontSize: 13,
+                                fontWeight: 600,
+                              }}
+                            >
+
+                              <div style={{ color: "#4B4B4B", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>Grand Total</div>
+                              <div style={{ fontSize: 14, fontWeight: 600, color: "#4B4B4B", fontFamily: "Gilroy" }}>₹{" "}
+                                {Number(pdfDetails?.invoiceInfo?.totalAmount || 0)}</div>
+                            </div>
+                            <div
+                              className="d-flex justify-content-between align-items-center mb-2"
+                              style={{
+                                backgroundColor: "#FAFBFF",
+                                fontSize: 13,
+                                fontWeight: 600,
+                              }}
+                            >
+
+                              <div style={{ color: "#4B4B4B", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>Payment Made</div>
+                              <div style={{ fontSize: 14, fontWeight: 600, color: "#4B4B4B", fontFamily: "Gilroy" }}>₹{" "}
+                                {Number(pdfDetails?.invoiceInfo?.paidAmount || 0)}</div>
+                            </div>
+
+                             <div
+                              className="d-flex justify-content-between align-items-center mb-2"
+                              style={{
+                                backgroundColor: "#FAFBFF",
+                                fontSize: 13,
+                                fontWeight: 600,
+                              }}
+                            >
+
+                              <div style={{ color: "#4B4B4B", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>Balance Due</div>
+                              <div style={{ fontSize: 14, fontWeight: 600, color: "#4B4B4B", fontFamily: "Gilroy" }}>₹{" "}
+                                {Number(pdfDetails?.invoiceInfo?.balanceAmount || 0)}</div>
+                            </div>
                           </div>
+
                         </>
                   }
 
@@ -1177,15 +1214,15 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                     <div className="col-md-4 d-flex flex-column justify-content-between">
 
                       <div className="d-flex justify-content-center mb-2">
-                        {pdfDetails?.accountDetails?.qrCode ? 
-                        <img
-                          src={pdfDetails?.accountDetails?.qrCode ? pdfDetails?.accountDetails?.qrCode : ""}
-                          alt="Barcode"
-                          style={{ height: "auto", maxWidth: 150, borderRadius: 2 }}
-                          className="img-fluid"
-                        />
-                        :
-                       ""}
+                        {pdfDetails?.accountDetails?.qrCode ?
+                          <img
+                            src={pdfDetails?.accountDetails?.qrCode ? pdfDetails?.accountDetails?.qrCode : ""}
+                            alt="Barcode"
+                            style={{ height: "auto", maxWidth: 150, borderRadius: 2 }}
+                            className="img-fluid"
+                          />
+                          :
+                          ""}
                       </div>
 
                       <div className="d-flex justify-content-end">

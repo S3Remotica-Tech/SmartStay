@@ -518,9 +518,7 @@ function SettingGeneral() {
     setPassword(newPassword);
     setPasswordError("");
 
-    const hasUppercase = /[A-Z]/.test(newPassword);
-    const hasNumber = /[0-9]/.test(newPassword);
-    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
+
 
 
     if (!newPassword) {
@@ -531,7 +529,9 @@ function SettingGeneral() {
       setPasswordError("Password must be at least 8 characters long");
       return;
     }
-
+    const hasUppercase = /[A-Z]/.test(newPassword);
+    const hasNumber = /[0-9]/.test(newPassword);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
     if (!hasUppercase || !hasNumber || !hasSpecialChar) {
       setPasswordError(
         "Password must include a capital letter, a number, and a special character"
@@ -695,6 +695,10 @@ function SettingGeneral() {
       setPhoneError("");
     }
 
+    const hasUppercase = /[A-Z]/.test(newPassword);
+    const hasNumber = /[0-9]/.test(newPassword);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
+
     if (!password) {
       setPasswordError("Please Enter Password");
       hasError = true;
@@ -703,7 +707,12 @@ function SettingGeneral() {
       hasError = true;
     }
 
-
+    if (!hasUppercase || !hasNumber || !hasSpecialChar) {
+      setPasswordError(
+        "Password must include a capital letter, a number, and a special character"
+      );
+      hasError = true;
+    }
 
 
 

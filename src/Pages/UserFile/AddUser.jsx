@@ -266,17 +266,25 @@ function User({ show, editDetails, setAddUserForm, edit }) {
       if (!password) {
         setPasswordError("Please Enter Password");
         isValid = false;
-      } else {
+      }
+      else if (password.length < 8) {
+        setPasswordError("Password must be at least 8 characters");
+        isValid = false;
+      }
+      else {
         const hasUppercase = /[A-Z]/.test(password);
         const hasNumber = /[0-9]/.test(password);
         const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
 
         if (!hasUppercase || !hasNumber || !hasSpecialChar) {
-          setPasswordError("Please Enter correct Password");
+          setPasswordError(
+            "Password must include a capital letter, a number, and a special character"
+          );
           isValid = false;
         }
       }
     }
+
 
     const hasChanges =
       name !== initialState.name ||
