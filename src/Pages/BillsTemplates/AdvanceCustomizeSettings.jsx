@@ -37,7 +37,7 @@ import { Location, Call, Profile, } from 'iconsax-react'
 import { IoBed } from "react-icons/io5";
 import { Container, Row, Col, Table } from "react-bootstrap";
 
-const AdvanceCustomizeSettings = ({ BillsTemplateList,onTemplateChange}) => {
+const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
 
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
@@ -519,7 +519,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList,onTemplateChange}) => {
     }
   };
 
-  console.log("notes",notes)
+
 
   const [qrImage, setQrImage] = useState(null);
   const [qrimagepreview, setQRImagePreview] = useState(null)
@@ -533,84 +533,86 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList,onTemplateChange}) => {
       setEditErrMessage("")
     }
   };
- 
+
+
+
   const handleSaveTemplate = () => {
 
     const currentTemplate = {
-      hostelId: state.login.selectedHostel_Id,
-      templateTypeId: securityDepositInvoiceTemplate.typeId,
-      mobile: BillsTemplateList.mobile,
-      email: BillsTemplateList.emailId,
+      // hostelId: state.login.selectedHostel_Id,
+      // templateTypeId: securityDepositInvoiceTemplate.typeId,
+      // mobile: BillsTemplateList.mobile,
+      // email: BillsTemplateList.emailId,
       // invoicePhoneNumber: mobilenum,
       // invoiceMailId: email,
-      isMobileCustomized: BillsTemplateList?.isMobileCustomized,
-      isEmailCustomized: BillsTemplateList?.isMailIdCustomized,
-      isLogoCustomized: BillsTemplateList?.isLogoCustomized,
-      isSignatureCustomized: BillsTemplateList?.isSignatureCustomized,
-      hostelLogo: BillsTemplateList?.logo,
-      billSignature: BillsTemplateList?.signature,
+      // isMobileCustomized: BillsTemplateList?.isMobileCustomized,
+      // isEmailCustomized: BillsTemplateList?.isMailIdCustomized,
+      // isLogoCustomized: BillsTemplateList?.isLogoCustomized,
+      // isSignatureCustomized: BillsTemplateList?.isSignatureCustomized,
+      // hostelLogo: BillsTemplateList?.logo,
+      // billSignature: BillsTemplateList?.signature,
       // invLogo: hostel_logo,
       // invSign: signature,
       qrCode: qrimagepreview,
-      prefix,
-      suffix,
+      prefix: prefix,
+      suffix: suffix,
       gstPercentile: tax,
       invoiceNotes: notes,
       invoiceTermsAndCondition: terms,
-      bankId:  Number(selectedBankId),
+      bankId: selectedBankId || "",
       invoiceTemplateColor: useGradient
         ? defaultGradient
         : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
     };
 
     const oldTemplate = {
-      hostelId: state.login.selectedHostel_Id,
-      templateTypeId: securityDepositInvoiceTemplate.typeId,
-      mobile: BillsTemplateList.mobile,
-      email: BillsTemplateList.emailId,
+      // hostelId: state.login.selectedHostel_Id,
+      // templateTypeId: securityDepositInvoiceTemplate.typeId,
+      // mobile: BillsTemplateList.mobile,
+      // email: BillsTemplateList.emailId,
       // invoicePhoneNumber: securityDepositInvoiceTemplate.contact_number || "",
       // invoiceMailId: securityDepositInvoiceTemplate.email || "",
-      isMobileCustomized: BillsTemplateList?.isMobileCustomized,
-      isEmailCustomized: BillsTemplateList?.isMailIdCustomized,
-      isLogoCustomized: BillsTemplateList?.isLogoCustomized,
-      isSignatureCustomized: BillsTemplateList?.isSignatureCustomized,
-      hostelLogo: BillsTemplateList?.logo,
-      billSignature: BillsTemplateList?.signature,
+      // isMobileCustomized: BillsTemplateList?.isMobileCustomized,
+      // isEmailCustomized: BillsTemplateList?.isMailIdCustomized,
+      // isLogoCustomized: BillsTemplateList?.isLogoCustomized,
+      // isSignatureCustomized: BillsTemplateList?.isSignatureCustomized,
+      // hostelLogo: BillsTemplateList?.logo,
+      // billSignature: BillsTemplateList?.signature,
       // invLogo: securityDepositInvoiceTemplate.logo_url || null,
       // invSign: securityDepositInvoiceTemplate.invoiceSignatureUrl || null,
-      qrCode: securityDepositInvoiceTemplate.invoiceLogoUrl || null,
+      qrCode: securityDepositInvoiceTemplate.qrCodeUrl || null,
       prefix: securityDepositInvoiceTemplate.prefix || "",
       suffix: securityDepositInvoiceTemplate.suffix || "",
       gstPercentile: securityDepositInvoiceTemplate.gstPercentile || "",
       invoiceNotes: securityDepositInvoiceTemplate.invoiceNotes || "",
       invoiceTermsAndCondition: securityDepositInvoiceTemplate.invoiceTermsAndCondition || "",
-     bankId:  Number(securityDepositInvoiceTemplate.selectedBankId) ,
+      bankId: securityDepositInvoiceTemplate.selectedBankId || "",
       invoiceTemplateColor: securityDepositInvoiceTemplate.invoiceTemplateColor || "",
     };
 
 
 
-   const normalize = (val) => {
-  if (val === null || val === undefined) return "";
-  const v = String(val).trim();
-  return v === "null" || v === "undefined" ? "" : v;
-};
+    const normalize = (val) => {
+      if (val === null || val === undefined) return "";
+      const v = String(val).trim();
+      return v === "null" || v === "undefined" ? "" : v;
+    };
 
-console.log("currentTemplate",currentTemplate)
-console.log("oldTemplate",oldTemplate)
+    console.log("currentTemplate", currentTemplate)
+    console.log("oldTemplate", oldTemplate)
 
-const isChanged =
-  normalize(currentTemplate.qrCode) !== normalize(oldTemplate.qrCode) ||
-  normalize(currentTemplate.prefix) !== normalize(oldTemplate.prefix) ||
-  normalize(currentTemplate.suffix) !== normalize(oldTemplate.suffix) ||
-  normalize(currentTemplate.gstPercentile) !== normalize(oldTemplate.gstPercentile) ||
-  normalize(currentTemplate.invoiceNotes) !== normalize(oldTemplate.invoiceNotes) ||
-  normalize(currentTemplate.invoiceTermsAndCondition) !== normalize(oldTemplate.invoiceTermsAndCondition) ||
-  normalize(currentTemplate.bankId) !== normalize(oldTemplate.bankId) ||
-  normalize(currentTemplate.invoiceTemplateColor) !== normalize(oldTemplate.invoiceTemplateColor);
+    const isChanged =
+      normalize(currentTemplate.qrCode) !== normalize(oldTemplate.qrCode) ||
+      normalize(currentTemplate.prefix) !== normalize(oldTemplate.prefix) ||
+      normalize(currentTemplate.suffix) !== normalize(oldTemplate.suffix) ||
+      normalize(currentTemplate.gstPercentile) !== normalize(oldTemplate.gstPercentile) ||
+      normalize(currentTemplate.invoiceNotes) !== normalize(oldTemplate.invoiceNotes) ||
+      normalize(currentTemplate.invoiceTermsAndCondition) !== normalize(oldTemplate.invoiceTermsAndCondition) ||
+      normalize(currentTemplate.bankId) !== normalize(oldTemplate.bankId) ||
+      normalize(currentTemplate.invoiceTemplateColor) !== normalize(oldTemplate.invoiceTemplateColor);
 
 
- 
+
 
 
     if (!isChanged) {
@@ -811,22 +813,22 @@ const isChanged =
   }, [state.Settings.settingGlobalAddStatusCode])
 
 
-  console.log("securityDepositInvoiceTemplate",securityDepositInvoiceTemplate)
+  console.log("securityDepositInvoiceTemplate", securityDepositInvoiceTemplate)
 
 
-useEffect(() => {
+  useEffect(() => {
     onTemplateChange({
-     logoPreview,
-    mobilenum,
-    email,
-    signaturePreview,
-    prefix,
-    suffix,
-    tax,
-    qrImage,
-    notes,
-    terms,
-    color,
+      logoPreview,
+      mobilenum,
+      email,
+      signaturePreview,
+      prefix,
+      suffix,
+      tax,
+      qrImage,
+      notes,
+      terms,
+      color,
     });
   }, [logoPreview,
     mobilenum,
@@ -1744,7 +1746,7 @@ useEffect(() => {
 
           {editErrmsg.trim() !== "" && (
             <div className="d-flex justify-content-center">
-            <ErrorMessage message={editErrmsg} type="error" />
+              <ErrorMessage message={editErrmsg} type="error" />
             </div>
           )}
 
@@ -1771,9 +1773,9 @@ useEffect(() => {
 
         </div>
 
-       
 
-       
+
+
 
       </div>
 

@@ -1131,12 +1131,12 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
 
                                                             <span style={{ marginLeft: 6 }} >
                                                                 {showDetails ? (
-                                                                    <span 
+                                                                    <span
                                                                         style={{
                                                                             backgroundColor: "#E7F1FF",
                                                                             borderRadius: 5,
                                                                             padding: 4,
-                                                                            
+
 
                                                                         }}
                                                                     >
@@ -1155,69 +1155,43 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                                                     </span>
                                                                 )}
                                                             </span>
-                                                            {showDetails && (
-                                                                <>
-                                                                <div className="px-1 mt-2 col-md-12">
-                                                                    <div className="d-flex justify-content-between py-1 gap-2">
-                                                                        <span
-                                                                            style={{
-                                                                                fontFamily: "Gilroy",
-                                                                                fontSize: 10, color: "#1E45E1", textAlign: "left",
-                                                                            }}
-                                                                        >Floor Name </span> {" "}
-                                                                        <span style={{ height: 18 , border:"1px solid #D9D9D9"}}></span>
-                                                                        <span
-                                                                            style={{
-                                                                                fontFamily: "Gilroy",
-                                                                                fontSize: 10, color: "#1E45E1"
-                                                                            }}
-                                                                        >Room Name </span>  -   <span
-                                                                            style={{
-                                                                                fontFamily: "Gilroy",
-                                                                                fontSize: 10, color: "#1E45E1"
-                                                                            }}
-                                                                        >Bed Name </span>
-                                                                        <span style={{
-                                                                                fontFamily: "Gilroy",
-                                                                                fontSize: 10, color: "#1E45E1"
-                                                                            }}>(10 days * 300)</span>
-                                                                    </div>
+                                                            {showDetails &&
+                                                                finalSettlementList?.currentMonthRentInfo?.rentLists?.map((item, index) => (
+                                                                    <div key={index} className="px-1 mt-2 col-md-12">
 
-                                                                 
-                                                                </div>
-                                                                <div className="px-1 mt-0 col-md-12">
-                                                                    <div className="d-flex justify-content-between py-1 gap-2">
-                                                                        <span
+                                                                        <div
+                                                                            className="row py-1"
                                                                             style={{
                                                                                 fontFamily: "Gilroy",
-                                                                                fontSize: 10, color: "#1E45E1", textAlign: "left",
+                                                                                fontSize: 10,
+                                                                                color: "#1E45E1",
                                                                             }}
-                                                                        >Floor Name </span> {" "}
-                                                                        <span style={{ height: 18 , border:"1px solid #D9D9D9"}}></span>
-                                                                        <span
-                                                                            style={{
-                                                                                fontFamily: "Gilroy",
-                                                                                fontSize: 10, color: "#1E45E1"
-                                                                            }}
-                                                                        >Room Name </span>  -   <span
-                                                                            style={{
-                                                                                fontFamily: "Gilroy",
-                                                                                fontSize: 10, color: "#1E45E1"
-                                                                            }}
-                                                                        >Bed Name </span>
-                                                                        <span style={{
-                                                                                fontFamily: "Gilroy",
-                                                                                fontSize: 10, color: "#1E45E1"
-                                                                            }}>(6 days* 200)</span>
-                                                                    </div>
+                                                                        >
 
-                                                                    
-                                                                </div>
-                                                                </>
-                                                            )}
+
+                                                                            <div className="col-3 d-flex align-items-center">
+                                                                                Floor Name
+                                                                            </div>
+
+
+                                                                            <div className="col-5 d-flex align-items-center">
+                                                                                Room Name - Bed Name
+                                                                            </div>
+
+                                                                            <div className="col-4 text-start ">
+                                                                                ({item.noOfDays} days = {item.rent})
+                                                                            </div>
+
+                                                                        </div>
+
+                                                                    </div>
+                                                                ))
+                                                            }
+
+
                                                         </div>
 
-                                                        {/* Amount Right Side */}
+
                                                         <div
                                                             style={{
                                                                 fontFamily: "Gilroy",
@@ -1229,7 +1203,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                                         </div>
                                                     </div>
 
-                                                    {/* Expanded Details Section */}
+
 
 
 
