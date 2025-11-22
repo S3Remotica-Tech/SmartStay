@@ -886,7 +886,7 @@ function UserListAmenities(props) {
           (
             <>
               <div className="row d-flex flex-wrap g-2">
-                {CustomerOverView?.map((v) => (
+                {CustomerOverView.length > 0 ? CustomerOverView.map((v) => (
 
                   <div className="col-md-4 col-12">
                     <div className="card " style={{
@@ -961,7 +961,16 @@ function UserListAmenities(props) {
 
                   </div>
 
-                ))}
+                ))
+              :
+              <div className="d-flex align-items-center justify-content-center">
+                <label style={{fontFamily: "Gilroy",
+                              fontWeight: 500,
+                              fontSize: 14,
+                              color: "#4B4B4B",}}>No amenities assigned</label>
+                </div>
+              
+              }
               </div>
 
 

@@ -840,7 +840,7 @@ const {
                                             fontSize: "13px",
                                             fontWeight: 600,
                                             fontFamily: "Gilroy",
-                                            color: "blue",
+                                            color: "#1E45E1",
                                             paddingLeft: "4px",
                                             textAlign: "start",
                                             verticalAlign: "middle",
