@@ -7,7 +7,7 @@ import "./UserList.css";
 import { InputGroup } from "react-bootstrap";
 import { MdError } from "react-icons/md";
 import PropTypes from "prop-types";
-import { CloseCircle } from "iconsax-react";
+import { CloseCircle, Trash } from "iconsax-react";
 import Select from "react-select";
 import ErrorMessage from '../../Components/ErrorMessage'
 
@@ -17,7 +17,7 @@ function UserAdditionalContact(props) {
   const dispatch = useDispatch();
 
   const [userName, setUserName] = useState("");
-  const [guardian, setGuardian] = useState("");
+  const [guardian, setGuardian] = useState(null);
   const [Phone, setPhone] = useState("");
 
   const [house_no, setHouseNo] = useState("");
@@ -41,6 +41,11 @@ function UserAdditionalContact(props) {
   const [state_nameError, setStateNameError] = useState("");
   const MobileNumber = `${countryCode}${Phone}`;
   const [formLoading, setFormLoading] = useState(false)
+  const [isOthers, setIsOthers] = useState(false);
+  const [guardianOccupation, setGuardianOccupation] = useState("");
+  const [isOccupationOther, setIsOccupationOther] = useState(false);
+  const [occupationError, setOccupationError] = useState("");
+
 
   const [initialState, setInitialState] = useState({
     userName: "",
@@ -140,16 +145,7 @@ function UserAdditionalContact(props) {
     setFormError("");
     setUserNameError("");
   };
-  const handleGuardian = (e) => {
-    const value = e.target.value
-    const pattern = /^[a-zA-Z\s]*$/;
-    if (!pattern.test(value)) {
-      return;
-    }
-    setGuardian(value);
-    setFormError("");
-    setGuardianError("");
-  };
+
 
 
   const handleHouseNo = (e) => {
@@ -454,7 +450,55 @@ function UserAdditionalContact(props) {
 
   }, [state.createAccount?.networkError])
 
+  const reasonOptions = [
+    { value: "father", label: "Father" },
+    { value: "mother", label: "Mother" },
+    { value: "brother", label: "Brother" },
+    { value: "sister", label: "Sister" },
+    {
+      value: "Others",
+      label: "Others",
+      color: "#1E45E1"
+    },
+  ];
 
+  const occupationOptions = [
+    { value: "govt", label: "Govt Employee" },
+    { value: "private", label: "Private Employee" },
+    { value: "business", label: "Business / Self-employed" },
+    { value: "farmer", label: "Farmer" },
+    { value: "daily", label: "Daily Wage / Labour" },
+    { value: "home", label: "Homemaker" },
+    { value: "retired", label: "Retired Employee" },
+    { value: "abroad", label: "Abroad (Working Overseas)" },
+    { value: "other", label: "Other" },
+  ];
+
+
+  const handleGuardian = (selectedOption) => {
+    setFormError("");
+    setGuardianError("");
+    if (selectedOption?.value === "Others") {
+      setIsOthers(true);
+      setGuardian("");
+    } else {
+      setIsOthers(false);
+      setGuardian(selectedOption.value);
+    }
+  };
+
+
+  const handleOccupation = (selectedOption) => {
+    setOccupationError("");
+
+    if (selectedOption?.value === "other") {
+      setIsOccupationOther(true);
+      setGuardianOccupation("");
+    } else {
+      setIsOccupationOther(false);
+      setGuardianOccupation(selectedOption.value);
+    }
+  };
 
 
   return (
@@ -487,7 +531,7 @@ function UserAdditionalContact(props) {
                       fontFamily: "Gilroy",
                     }}
                   >
-                    Add Contact
+                    Add Parent/Guardian Details
                   </div>
 
                   <CloseCircle size="24" color="#000" onClick={handleCloseAdditionalForm}
@@ -495,7 +539,7 @@ function UserAdditionalContact(props) {
                 </Modal.Header>
                 <div style={{ maxHeight: "400px", overflowY: "scroll", overflowX: "hidden" }} className="show-scroll p-2 mt-1 me-0">
                   <div className="row mt-1">
-                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                       <Form.Group className="mb-3">
                         <Form.Label
                           style={{
@@ -505,14 +549,14 @@ function UserAdditionalContact(props) {
 
                           }}
                         >
-                          Name {" "} <span style={{ color: "red", fontSize: "20px" }}> *</span>
+                          Guardian Full Name {" "} <span style={{ color: "red", fontSize: "20px" }}> *</span>
 
 
                         </Form.Label>
                         <FormControl
                           type="text"
                           id="form-controls"
-                          placeholder="Enter User Name"
+                          placeholder="Enter Guardian Name"
                           onChange={(e) => handleUserName(e)}
                           value={userName}
                           ref={usernameRef}
@@ -535,7 +579,7 @@ function UserAdditionalContact(props) {
                       )}
                     </div>
 
-                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                       <Form.Group className="mb-3">
                         <Form.Label
                           style={{
@@ -551,30 +595,187 @@ function UserAdditionalContact(props) {
                             *{" "}
                           </span>
                         </Form.Label>
-                        <FormControl
-                          type="text"
-                          id="form-controls"
-                          placeholder="Enter Guardian Name"
-                          onChange={(e) => handleGuardian(e)}
-                          value={guardian}
-                          ref={guardianRef}
-                          style={{
-                            fontSize: 16,
-                            color: "#4B4B4B",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            boxShadow: "none",
-                            border: "1px solid #D9D9D9",
-                            height: 50,
-                            borderRadius: 8,
-                            marginTop: 0,
-                          }}
-                        />
+                        {isOthers ? (
+                          <div style={{ position: "relative" }}>
+                            <FormControl
+                              type="text"
+                              placeholder="Enter Relationship"
+                              value={guardian}
+                              onChange={(e) => setGuardian(e.target.value)}
+                              style={{
+                                fontSize: 16,
+                                color: "#4B4B4B",
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                                border: "1px solid #D9D9D9",
+                                borderRadius: 8,
+                                height: 50,
+                                boxShadow: "none",
+                              }}
+                            />
+                            <Trash
+                              size="18"
+                              color="#FF0000"
+                              variant="link"
+                              onClick={() => {
+                                setIsOthers(false);
+                                setGuardian("");
+                              }}
+                              style={{
+                                position: "absolute",
+                                right: 10,
+                                top: "50%",
+                                transform: "translateY(-50%)",
+                                fontSize: 14,
+                                color: "#1E45E1",
+                                textDecoration: "none",
+                                fontWeight: 500,
+                                fontFamily: "Gilroy", cursor: "pointer"
+                              }}
+                            >
+
+                            </Trash>
+                          </div>) : (
+
+                          <Select ref={guardianRef}
+                            value={reasonOptions.find((opt) => opt.value === guardian) || null}
+                            onChange={handleGuardian}
+                            options={reasonOptions}
+                            placeholder="Select Relationship"
+                            classNamePrefix="custom"
+                            menuPlacement="auto"
+                            noOptionsMessage={() => "No Relationship available"}
+                            styles={{
+                              control: (base) => ({
+                                ...base,
+                                height: "50px",
+                                border: "1px solid #D9D9D9",
+                                borderRadius: "8px",
+                                fontSize: "16px",
+                                color: "#4B4B4B",
+                                fontFamily: "Gilroy",
+                                boxShadow: "none",
+                              }),
+                              option: (base, state) => ({
+                                ...base,
+                                cursor: "pointer",
+                                fontFamily: "Gilroy",
+                                backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                                color: state.data.value === "Others" ? "#1E45E1" : "#000",
+                              }),
+                              placeholder: (base) => ({
+                                ...base,
+                                color: "#555",
+                              }),
+                              indicatorSeparator: () => ({ display: "none" }),
+                              menuList: (base) => ({
+                                ...base,
+                                maxHeight: "150px",
+                                overflowY: "auto", scrollbarWidth: "thin",
+                                msOverflowStyle: "auto",
+                              }),
+                            }}
+                          />
+                        )}
+
                       </Form.Group>
 
                       {guardianError && (
                         <ErrorMessage message={guardianError} type="error" />
                       )}
+                    </div>
+                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                      <Form.Group className="mb-3">
+                        <Form.Label
+                          style={{
+                            fontSize: 14,
+                            fontWeight: 500,
+                            fontFamily: "Gilroy",
+                          }}
+                        >
+                          Guardian Occupation{" "}
+                          <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                        </Form.Label>
+
+                        {isOccupationOther ? (
+                          <div style={{ position: "relative" }}>
+                            <FormControl
+                              type="text"
+                              placeholder="Enter Occupation"
+                              value={guardianOccupation}
+                              onChange={(e) => setGuardianOccupation(e.target.value)}
+                              style={{
+                                fontSize: 16,
+                                color: "#4B4B4B",
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                                border: "1px solid #D9D9D9",
+                                borderRadius: 8,
+                                height: 50,
+                                boxShadow: "none",
+                              }}
+                            />
+
+                            <Trash
+                              size="18"
+                              color="#FF0000"
+                              variant="link"
+                              onClick={() => {
+                                setIsOccupationOther(false);
+                                setGuardianOccupation("");
+                              }}
+                              style={{
+                                position: "absolute",
+                                right: 10,
+                                top: "50%",
+                                transform: "translateY(-50%)",
+                                cursor: "pointer",
+                              }}
+                            />
+                          </div>
+                        ) : (
+                          <Select
+                            value={occupationOptions.find(
+                              (opt) => opt.value === guardianOccupation
+                            )}
+                            onChange={handleOccupation}
+                            options={occupationOptions}
+                            placeholder="Select Occupation"
+                            classNamePrefix="custom"
+                            menuPlacement="auto"
+                            styles={{
+                              control: (base) => ({
+                                ...base,
+                                height: "50px",
+                                border: "1px solid #D9D9D9",
+                                borderRadius: "8px",
+                                fontSize: "16px",
+                                color: "#4B4B4B",
+                                fontFamily: "Gilroy",
+                                boxShadow: "none",
+                              }),
+                              option: (base, state) => ({
+                                ...base,
+                                cursor: "pointer",
+                                fontFamily: "Gilroy",
+                                backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                                color: state.data.value === "Others" ? "#1E45E1" : "#000"
+                              }),
+                              indicatorSeparator: () => ({ display: "none" }),
+                              menuList: (base) => ({
+                                ...base,
+                                maxHeight: "150px",
+                                overflowY: "auto", scrollbarWidth: "thin",
+                                msOverflowStyle: "auto",
+                              }),
+                            }}
+                          />
+                        )}
+
+                        {occupationError && (
+                          <ErrorMessage message={occupationError} type="error" />
+                        )}
+                      </Form.Group>
                     </div>
 
                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -649,7 +850,7 @@ function UserAdditionalContact(props) {
                       </Form.Group>
                     </div>
 
-                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                       <Form.Group className="mb-3">
                         <Form.Label
                           style={{
@@ -702,18 +903,13 @@ function UserAdditionalContact(props) {
                             marginTop: 8,
                           }}
                         />
-                        {/* {house_noError && (
-                      <div style={{ color: "red" }}>
-                        <MdError style={{ fontFamily: "Gilroy", fontSize: '12px', marginRight: "5px", marginBottom: "1px" }} />
-                        <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{house_noError}</span>
-                      </div>
-                    )} */}
+                       
                       </Form.Group>
 
 
-                    </div>
+                    </div> */}
 
-                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
+                    {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
                       <Form.Group className="">
                         <Form.Label
                           style={{
@@ -746,9 +942,9 @@ function UserAdditionalContact(props) {
                       {house_noError && (
                         <ErrorMessage message={house_noError} type="error" />
                       )}
-                    </div>
+                    </div> */}
 
-                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
+                    {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
                       <Form.Group className="">
                         <Form.Label
                           style={{
@@ -781,9 +977,9 @@ function UserAdditionalContact(props) {
                       {streetError && (
                         <ErrorMessage message={streetError} type="error" />
                       )}
-                    </div>
+                    </div> */}
 
-                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
+                    {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
                       <Form.Group className="">
                         <Form.Label
                           style={{
@@ -816,9 +1012,9 @@ function UserAdditionalContact(props) {
                       {landmarkError && (
                         <ErrorMessage message={landmarkError} type="error" />
                       )}
-                    </div>
+                    </div> */}
 
-                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                       <Form.Group
                         className="mb-3"
                         controlId="exampleForm.ControlInput1"
@@ -860,9 +1056,9 @@ function UserAdditionalContact(props) {
 
 
                       </Form.Group>
-                    </div>
+                    </div> */}
 
-                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
+                    {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
                       <Form.Group className="">
                         <Form.Label
                           style={{
@@ -897,9 +1093,9 @@ function UserAdditionalContact(props) {
                       {cityError && (
                         <ErrorMessage message={cityError} type="error" />
                       )}
-                    </div>
+                    </div> */}
 
-                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                       <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
                         <Form.Label
                           style={{
@@ -991,7 +1187,7 @@ function UserAdditionalContact(props) {
                         )}
                       </Form.Group>
 
-                    </div>
+                    </div> */}
 
 
                     {formError && (
@@ -1008,23 +1204,45 @@ function UserAdditionalContact(props) {
                 {guardianAlreadyError && (
                   <ErrorMessage message={guardianAlreadyError} type="error" />
                 )}
+                <Modal.Footer style={{ border: "none", paddingTop: 0 }}>
+                  <div className="d-flex justify-content-end gap-3">
 
 
-                <Button
-                  className="w-100"
-                  style={{
-                    backgroundColor: "#1E45E1",
-                    fontWeight: 600,
-                    height: 50,
-                    borderRadius: 12,
-                    fontSize: 16,
-                    fontFamily: "Montserrat",
-                    marginTop: "8px"
-                  }}
-                  onClick={handleSubmitContact}
-                >
-                  Add Contact
-                </Button>
+                    <Button
+                      onClick={handleCloseAdditionalForm}
+                      className="w-100 mt-1"
+                      style={{
+                        backgroundColor: "#fff",
+                        border: "none",
+                        color: "#1E45E1",
+                        fontWeight: 600,
+                        borderRadius: 12,
+                        fontSize: 16,
+                        fontFamily: "Gilroy",
+                        padding: "8px 40px"
+                      }}
+                    >
+                      Cancel
+                    </Button>
+
+                    <Button
+                      onClick={handleSubmitContact}
+                      className="w-100 mt-1"
+                      style={{
+                        backgroundColor: "#1E45E1",
+                        fontWeight: 600,
+                        borderRadius: 12,
+                        fontSize: 16,
+                        fontFamily: "Gilroy",
+                        padding: "8px 40px"
+                      }}
+                    >
+                      Add
+                    </Button>
+                  </div>
+                </Modal.Footer>
+
+
               </div>
             </div>
           </Modal.Body>

@@ -814,10 +814,10 @@ const getIconStyle = (templateColor) => {
                               color: "#000",
                               textAlign: "left",
                               borderBottom: "1px solid #dee2e6",
-                              width: "10%",
+                              width: "20%",
                             }}
                           >
-                            S.NO
+                            Invoice Number
                           </th>
                           <th
                             style={{
@@ -825,7 +825,7 @@ const getIconStyle = (templateColor) => {
                               fontSize: "13px",
                               fontWeight: 600,
                               color: "#000",
-                              textAlign: "left",
+                              textAlign: "center",
                               borderBottom: "1px solid #dee2e6",
                               width: "60%",
                             }}
@@ -840,7 +840,7 @@ const getIconStyle = (templateColor) => {
                               color: "#000",
                               textAlign: "right",
                               borderBottom: "1px solid #dee2e6",
-                              width: "30%",
+                              width: "20%",
                             }}
                           >
                             AMOUNT / INR
@@ -862,18 +862,20 @@ const getIconStyle = (templateColor) => {
                               fontWeight: 500,
                               textAlign: "left",
                               verticalAlign: "middle",
+                               width: "20%",
                             }}
                           >
-                            1
-                          </td>
+                            {pdfDetails?.invoiceNumber}
+                                                      </td>
                           <td
                             style={{
                               padding: "10px 14px",
                               fontSize: "13px",
                               fontWeight: 500,
                               color: "#444",
-                              textAlign: "left",
+                              textAlign: "center",
                               verticalAlign: "middle",
+                               width: "60%",
                             }}
                           >
                             Security Deposit (Advance) - Deductions
@@ -885,7 +887,7 @@ const getIconStyle = (templateColor) => {
                               fontWeight: 500,
                               color: "#444",
                               textAlign: "right",
-                              verticalAlign: "middle",
+                              verticalAlign: "middle",width: "20%",
                             }}
                           >
                             Rs. {pdfDetails?.receiptInfo?.paidAmount?.toLocaleString("en-IN")}

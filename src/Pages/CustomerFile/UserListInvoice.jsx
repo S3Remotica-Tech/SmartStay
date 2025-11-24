@@ -684,7 +684,7 @@ function UserListInvoice(props) {
                                 }}
                               >
                                 {(view.paymentStatus === "Pending" ||
-                                  view.paymentStatus === "Partial Payment") && (
+                                  view.paymentStatus === "Partial Payment" || view.paymentStatus === "Partial payment") && (
                                     <span
                                       style={{
                                         backgroundColor: "#FFD9D9",

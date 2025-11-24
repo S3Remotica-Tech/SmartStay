@@ -521,23 +521,23 @@ function SettingGeneral() {
 
 
 
-    if (!newPassword) {
-      setPasswordError("Please Enter Password");
-      return;
-    }
-    if (newPassword && newPassword.length < 8) {
-      setPasswordError("Password must be at least 8 characters long");
-      return;
-    }
-    const hasUppercase = /[A-Z]/.test(newPassword);
-    const hasNumber = /[0-9]/.test(newPassword);
-    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
-    if (!hasUppercase || !hasNumber || !hasSpecialChar) {
-      setPasswordError(
-        "Password must include a capital letter, a number, and a special character"
-      );
-      return;
-    }
+    // if (!newPassword) {
+    //   setPasswordError("Please Enter Password");
+    //   return;
+    // }
+    // if (newPassword && newPassword.length < 8) {
+    //   setPasswordError("Password must be at least 8 characters long");
+    //   return;
+    // }
+    // const hasUppercase = /[A-Z]/.test(newPassword);
+    // const hasNumber = /[0-9]/.test(newPassword);
+    // const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
+    // if (!hasUppercase || !hasNumber || !hasSpecialChar) {
+    //   setPasswordError(
+    //     "Password must include a capital letter, a number, and a special character"
+    //   );
+    //   return;
+    // }
 
     // If valid setPasswordError("");
     setFormError("");
@@ -695,9 +695,7 @@ function SettingGeneral() {
       setPhoneError("");
     }
 
-    const hasUppercase = /[A-Z]/.test(newPassword);
-    const hasNumber = /[0-9]/.test(newPassword);
-    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
+
 
     if (!password) {
       setPasswordError("Please Enter Password");
@@ -707,12 +705,19 @@ function SettingGeneral() {
       hasError = true;
     }
 
-    if (!hasUppercase || !hasNumber || !hasSpecialChar) {
-      setPasswordError(
-        "Password must include a capital letter, a number, and a special character"
-      );
-      hasError = true;
+    if (password) {
+      const hasUppercase = /[A-Z]/.test(password);
+      const hasNumber = /[0-9]/.test(password);
+      const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+      if (!hasUppercase || !hasNumber || !hasSpecialChar) {
+        setPasswordError(
+          "Password must include a capital letter, a number, and a special character"
+        );
+        hasError = true;
+      }
     }
+
 
 
 

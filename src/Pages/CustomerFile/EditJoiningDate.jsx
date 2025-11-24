@@ -25,7 +25,6 @@ function EditJoiningDate({ show, handleClose }) {
     const [effectiveFromError, setEffectiveFromError] = useState("");
     const [reason, setReason] = useState(null);
 
-    const rentInputRef = useRef(null);
     const dateRef = useRef(null);
 
     const [loading, setLoading] = useState(false)
@@ -44,7 +43,7 @@ function EditJoiningDate({ show, handleClose }) {
 
     const CustomerOverView = state.UsersList.customerdetails;
 
-    console.log("reason", reason)
+   
 
     const [isOthers, setIsOthers] = useState(false);
 

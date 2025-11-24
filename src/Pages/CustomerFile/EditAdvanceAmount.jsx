@@ -26,7 +26,7 @@ function EditAdvanceAmount({ show, handleClose }) {
     const [effectiveFrom, setEffectiveFrom] = useState("");
     const [effectiveFromError, setEffectiveFromError] = useState("");
     const [reason, setReason] = useState(null);
-const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false)
     const rentInputRef = useRef(null);
     const dateRef = useRef(null);
 
@@ -90,17 +90,17 @@ const [loading, setLoading] = useState(false)
 
         if (!isValid) return;
 
-    setLoading(true)
+        setLoading(true)
 
 
     };
 
     useEffect(() => {
-            if (state.createAccount?.networkError) {
-              setLoading(false)
-            }
-        
-          }, [state.createAccount?.networkError])
+        if (state.createAccount?.networkError) {
+            setLoading(false)
+        }
+
+    }, [state.createAccount?.networkError])
 
     return (
         <div
@@ -247,103 +247,108 @@ const [loading, setLoading] = useState(false)
 
 
 
-                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
-                                                           <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-                                                               <Form.Label
-                                                                   style={{
-                                                                       fontFamily: "Gilroy",
-                                                                       fontSize: 14,
-                                                                       fontWeight: 500,
-                                                                       color: "#222",
-                                                                       fontStyle: "normal",
-                                                                       lineHeight: "normal",
-                                                                   }}
-                                                               >
-                                                                   Reason
-                                                               </Form.Label>
-                           
-                                                               {reason?.label === "Others" ? (
-                                                                   <div style={{ position: "relative" }}>
-                                                                       <FormControl
-                                                                           type="text"
-                                                                           placeholder="Enter your reason"
-                                                                           value={reason?.value === "Others" ? "" : reason?.value}
-                                                                           onChange={(e) => {
-                                                                               const customReason = e.target.value;
-                                                                               setReason({ value: customReason, label: "Others" });
-                                                                           }}
-                                                                           style={{
-                                                                               fontSize: 16,
-                                                                               color: "#4B4B4B",
-                                                                               fontFamily: "Gilroy",
-                                                                               fontWeight: 500,
-                                                                               border: "1px solid #D9D9D9",
-                                                                               borderRadius: 8,
-                                                                               height: 50,
-                                                                               boxShadow: "none",
-                                                                           }}
-                                                                       />
-                                                                       <Trash
-                                                                           size="18"
-                                                                           color="#FF0000"
-                           
-                           
-                                                                           variant="link"
-                                                                           onClick={() => setReason(null)}
-                                                                           style={{
-                                                                               position: "absolute",
-                                                                               right: 10,
-                                                                               top: "50%",
-                                                                               transform: "translateY(-50%)",
-                                                                               fontSize: 14,
-                                                                               color: "#1E45E1",
-                                                                               textDecoration: "none",
-                                                                               fontWeight: 500,
-                                                                               fontFamily: "Gilroy", cursor: "Po"
-                                                                           }}
-                                                                       >
-                           
-                                                                       </Trash>
-                                                                   </div>) : (
-                                                                   <Select
-                                                                       value={reason}
-                                                                       onChange={handleReasonChange}
-                                                                       options={reasonOptions}
-                                                                       placeholder="Select Reason"
-                                                                       classNamePrefix="custom"
-                                                                       menuPlacement="auto"
-                                                                       noOptionsMessage={() => "No reason available"}
-                                                                       styles={{
-                                                                           control: (base) => ({
-                                                                               ...base,
-                                                                               height: "50px",
-                                                                               border: "1px solid #D9D9D9",
-                                                                               borderRadius: "8px",
-                                                                               fontSize: "16px",
-                                                                               color: "#4B4B4B",
-                                                                               fontFamily: "Gilroy",
-                                                                               boxShadow: "none",
-                                                                           }),
-                                                                           option: (base, state) => ({
-                                                                               ...base,
-                                                                               cursor: "pointer",
-                                                                               fontFamily: "Gilroy",
-                                                                               backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                                                                               color: state.data.value === "Others" ? "#1E45E1" : "#000",
-                                                                           }),
-                                                                           placeholder: (base) => ({
-                                                                               ...base,
-                                                                               color: "#555",
-                                                                           }),
-                                                                           indicatorSeparator: () => ({ display: "none" }),
-                                                                       }}
-                                                                   />
-                                                               )}
-                           
-                                                           </Form.Group>
-                           
-                           
-                                                       </div>
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
+                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
+                                    <Form.Label
+                                        style={{
+                                            fontFamily: "Gilroy",
+                                            fontSize: 14,
+                                            fontWeight: 500,
+                                            color: "#222",
+                                            fontStyle: "normal",
+                                            lineHeight: "normal",
+                                        }}
+                                    >
+                                        Reason
+                                    </Form.Label>
+
+                                    {reason?.label === "Others" ? (
+                                        <div style={{ position: "relative" }}>
+                                            <FormControl
+                                                type="text"
+                                                placeholder="Enter your reason"
+                                                value={reason?.value === "Others" ? "" : reason?.value}
+                                                onChange={(e) => {
+                                                    const customReason = e.target.value;
+                                                    setReason({ value: customReason, label: "Others" });
+                                                }}
+                                                style={{
+                                                    fontSize: 16,
+                                                    color: "#4B4B4B",
+                                                    fontFamily: "Gilroy",
+                                                    fontWeight: 500,
+                                                    border: "1px solid #D9D9D9",
+                                                    borderRadius: 8,
+                                                    height: 50,
+                                                    boxShadow: "none",
+                                                }}
+                                            />
+                                            <Trash
+                                                size="18"
+                                                color="#FF0000"
+
+
+                                                variant="link"
+                                                onClick={() => setReason(null)}
+                                                style={{
+                                                    position: "absolute",
+                                                    right: 10,
+                                                    top: "50%",
+                                                    transform: "translateY(-50%)",
+                                                    fontSize: 14,
+                                                    color: "#1E45E1",
+                                                    textDecoration: "none",
+                                                    fontWeight: 500,
+                                                    fontFamily: "Gilroy", cursor: "Po"
+                                                }}
+                                            >
+
+                                            </Trash>
+                                        </div>) : (
+                                        <Select
+                                            value={reason}
+                                            onChange={handleReasonChange}
+                                            options={reasonOptions}
+                                            placeholder="Select Reason"
+                                            classNamePrefix="custom"
+                                            // menuPlacement="auto"
+                                            noOptionsMessage={() => "No reason available"}
+                                            styles={{
+                                                control: (base) => ({
+                                                    ...base,
+                                                    height: "50px",
+                                                    border: "1px solid #D9D9D9",
+                                                    borderRadius: "8px",
+                                                    fontSize: "16px",
+                                                    color: "#4B4B4B",
+                                                    fontFamily: "Gilroy",
+                                                    boxShadow: "none",
+                                                }),
+                                                option: (base, state) => ({
+                                                    ...base,
+                                                    cursor: "pointer",
+                                                    fontFamily: "Gilroy",
+                                                    backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                                                    color: state.data.value === "Others" ? "#1E45E1" : "#000",
+                                                }),
+                                                placeholder: (base) => ({
+                                                    ...base,
+                                                    color: "#555",
+                                                }),
+                                                indicatorSeparator: () => ({ display: "none" }), menuList: (base) => ({
+                                                    ...base,
+                                                    maxHeight: "150px",
+                                                    overflowY: "auto", scrollbarWidth: "thin",
+                                                    msOverflowStyle: "auto",
+                                                }),
+                                            }}
+                                        />
+                                    )}
+
+                                </Form.Group>
+
+
+                            </div>
                         </div>
 
 
@@ -351,32 +356,32 @@ const [loading, setLoading] = useState(false)
 
                     </Modal.Body>
 
- {loading && <div
-                  style={{
-                    position: 'absolute',
-                    top: 100,
-                    right: 0,
-                    bottom: 0,
-                    left: 0,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor: 'transparent',
-                    opacity: 0.75,
-                    zIndex: 10,
-                  }}
-                >
-                  <div
-                    style={{
-                      borderTop: '4px solid #1E45E1',
-                      borderRight: '4px solid transparent',
-                      borderRadius: '50%',
-                      width: '40px',
-                      height: '40px',
-                      animation: 'spin 1s linear infinite',
-                    }}
-                  ></div>
-                </div>}
+                    {loading && <div
+                        style={{
+                            position: 'absolute',
+                            top: 100,
+                            right: 0,
+                            bottom: 0,
+                            left: 0,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            backgroundColor: 'transparent',
+                            opacity: 0.75,
+                            zIndex: 10,
+                        }}
+                    >
+                        <div
+                            style={{
+                                borderTop: '4px solid #1E45E1',
+                                borderRight: '4px solid transparent',
+                                borderRadius: '50%',
+                                width: '40px',
+                                height: '40px',
+                                animation: 'spin 1s linear infinite',
+                            }}
+                        ></div>
+                    </div>}
 
 
                     <Modal.Footer style={{ border: "none", paddingTop: 0 }}>

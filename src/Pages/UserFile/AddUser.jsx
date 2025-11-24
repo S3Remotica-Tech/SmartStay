@@ -415,7 +415,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                 fontWeight: 600,
               }}
             >
-              {edit ? "Edit User" : "Add User"}
+              {edit ? "Edit Staff" : "Add Staff"}
             </Modal.Title>
 
             <CloseCircle
@@ -866,7 +866,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                 fontFamily: "Gilroy",
               }}
             >
-              {edit ? "Save Changes" : " + Create User"}
+              {edit ? "Save Changes" : " + Staff"}
             </Button>
           </Modal.Footer>
         </Modal.Dialog>

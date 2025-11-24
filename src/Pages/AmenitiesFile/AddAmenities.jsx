@@ -243,6 +243,10 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
                 <ErrorMessage message={hostelError} type="error" />
               )}
 
+
+  
+
+
               <div className="row mt-2">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                   <Form.Group

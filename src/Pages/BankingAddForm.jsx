@@ -48,19 +48,29 @@ function BankingAddForm(props) {
     setaccountnameError("")
     dispatch({ type: 'REMOVE_ERROR_BOOKING' })
   };
-  const handleAccountNo = (e) => {
-    const value = e.target.value;
 
+
+  const handleAccountNo = (e) => {
+    let value = e.target.value;
+
+    value = value.replace(/\s+/g, "");
 
     if (!/^\d*$/.test(value)) {
       return;
     }
 
+    if (value.length > 18) {
+      return;
+    }
     setAccountNo(value);
     setError("");
     setIsChangedError("");
     dispatch({ type: "REMOVE_ERROR_BOOKING" });
 
+    if (value.length > 0 && /^0+$/.test(value)) {
+      setaccountNumberError("Account Number cannot be all zeros");
+      return;
+    }
 
     if (value.length > 0 && (value.length < 9 || value.length > 18)) {
       setaccountNumberError("Account Number Must Be 9–18 Digits");
@@ -68,6 +78,8 @@ function BankingAddForm(props) {
       setaccountNumberError("");
     }
   };
+
+
 
   const handleBankName = (e) => {
     const value = e.target.value
@@ -277,7 +289,7 @@ function BankingAddForm(props) {
 
 
   const handleSubmitBank = () => {
-     dispatch({ type: 'REMOVE_CREATE_BANKING_ERROR' })
+    dispatch({ type: 'REMOVE_CREATE_BANKING_ERROR' })
     let isHas = false;
 
 
@@ -310,7 +322,10 @@ function BankingAddForm(props) {
     if (!accountNo) {
       setaccountNumberError("Please Enter Account No");
       isHas = true;
-    } else if (accountNo.length < 9 || accountNo.length > 18) {
+    }  else if (/^0+$/.test(accountNo)) {
+    setaccountNumberError("Account Number cannot be zeros");
+    isHas = true;
+  }else if (accountNo.length < 9 || accountNo.length > 18) {
       setaccountNumberError("Account Number Must Be 9–18 Digits");
       isHas = true;
     }
@@ -372,7 +387,7 @@ function BankingAddForm(props) {
 
 
   const handleSubmitUpi = () => {
-     dispatch({ type: 'REMOVE_CREATE_BANKING_ERROR' })
+    dispatch({ type: 'REMOVE_CREATE_BANKING_ERROR' })
     if (!bankaccount || !upiId) {
       if (!bankaccount) {
         setBankAccountError("Please Select Bank");
@@ -474,7 +489,7 @@ function BankingAddForm(props) {
   // };
 
   const handleSubmitCard = () => {
-     dispatch({ type: 'REMOVE_CREATE_BANKING_ERROR' })
+    dispatch({ type: 'REMOVE_CREATE_BANKING_ERROR' })
     if (!bankaccount || !cardType) {
       if (!bankaccount) {
         setBankAccountError("Please Select Bank");
@@ -726,7 +741,7 @@ function BankingAddForm(props) {
             setCardTypeError("")
             setIsChangedError("")
             setaccountNumberError("")
-             dispatch({ type: 'REMOVE_CREATE_BANKING_ERROR' })
+            dispatch({ type: 'REMOVE_CREATE_BANKING_ERROR' })
           }}
 
           className="justify-content-start ms-2 me-2"

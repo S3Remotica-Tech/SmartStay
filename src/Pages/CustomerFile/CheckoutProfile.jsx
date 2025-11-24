@@ -34,6 +34,12 @@ import UserListInvoice from "./UserListInvoice";
 import UserListAmenities from "./UserListAmenities";
 import TransactionHistory from "./TransactionHistory";
 import RequestedAmenities from "./RequestedAmenities";
+import { useHasPermission } from '../../Utils/Permission';
+import EditImage from "../../Assets/Images/New_images/cus_edit.svg"
+import FileAdd from '../../Assets/Images/New_images/file_add.svg';
+import ParentsGuardian from "./Parents&Guardian";
+import KYCDocuments from "./KYCDocuments";
+import ManualDocumentsDetails from "./ManualDocumentsDetails";
 function CustomerProfile(props) {
   const state = useSelector((state) => state);
 
@@ -50,6 +56,14 @@ function CustomerProfile(props) {
   const [previewUrl, setPreviewUrl] = useState(null);
   const [previewUrl2, setPreviewUrl2] = useState(null)
   const [advanceList, setAdvanceList] = useState("")
+  const [documentvalue, setDocumentValue] = useState("1")
+const [activeTab, setActiveTab] = useState("kyc");
+
+
+  const handleChangesupload = (event, newValue) => {
+    setDocumentValue(newValue);
+
+  };
 
   const handleShowStayHistory = () => {
     setStayDetailsShow(true)
@@ -58,7 +72,10 @@ function CustomerProfile(props) {
     setStayDetailsShow(false)
   }
 
+  const [documents, setDocuments] = useState([
 
+
+  ]);
 
   const getFileName = (url) => {
     if (!url) return "";
@@ -141,10 +158,10 @@ function CustomerProfile(props) {
   const [otherDetails, setOtherDetails] = useState([]);
 
 
-  
-    useEffect(() => {
-      setAdvanceList(state.UsersList.customerdetails.advanceInfo);
-    }, [state.UsersList.customerdetails.advanceInfo]);
+
+  useEffect(() => {
+    setAdvanceList(state.UsersList.customerdetails.advanceInfo);
+  }, [state.UsersList.customerdetails.advanceInfo]);
 
   useEffect(() => {
     if (Array.isArray(deductionDetails) && deductionDetails.length > 0) {
@@ -177,7 +194,12 @@ function CustomerProfile(props) {
 
 
 
-
+  const {
+    canWriteModule: canWriteTenant,
+    // canReadModule: canReadInvoice,
+    canUpdateModule: canUpdateTenant,
+    canDeleteModule: canDeleteTenant,
+  } = useHasPermission("Customers");
 
 
 
@@ -469,90 +491,273 @@ function CustomerProfile(props) {
 
                   <div className="card p-3" style={{ borderRadius: 10, border: "1px solid #DCDCDC" }}>
 
-                    <div className="d-flex justify-content-between align-items-center mb-3">
-                      <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 400 }} className="mb-0">
-                        Address Details
-                      </p>
-
-                    </div>
-                    <hr style={{ marginTop: "-10px" }} />
-                    <div className="row">
-                      <div className="col-6">
-                        <p style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 400, color: "#4B4B4B" }} className="mb-1">House No / Apartment</p>
-                        <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 600 }}>  <House
-                          size="18"
-                          color="#1E45E1"
-                          className="me-2"
-                          style={{ marginBottom: "2px" }}
-                        />  {CustomerOverView.address?.houseNo}</p>
-                      </div>
-                      <div className="col-6">
-                        <p style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 400, color: "#4B4B4B" }} className="mb-1">Street / Area</p>
-                        <div className="d-flex align-items-center gap-2">
-                          <img src={Areaimage} alt="area" style={{ width: 16, height: 16 }} />
-                          <span
-                            title={CustomerOverView.address?.streetName}
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 600,
-                              fontFamily: "Gilroy",
-                              whiteSpace: "nowrap",
-                              overflow: "hidden",
-                              textOverflow: "ellipsis",
-                              maxWidth: "200px",
-                            }}
-                          >
-                            {CustomerOverView.address?.streetName}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="col-6">
-                        <p style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 400, color: "#4B4B4B" }} className="mb-1">Landmark</p>
-                        <div className="d-flex align-items-center gap-2">
-                          <img src={Landamrkimage} alt="landmark" style={{ width: 16, height: 16 }} />
-                          <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
-                            {CustomerOverView.address?.landmark}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="col-6">
-                        <p className="mb-1 " style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "#4B4B4B" }}>Pincode</p>
-                        <div className="d-flex align-items-center gap-2">
-                          <img src={PincodeImage} alt="pincode" style={{ width: 16, height: 16 }} />
-                          <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
-                            {CustomerOverView.address?.pincode}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="col-6">
-                        <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "#4B4B4B" }} className="mb-1">City</p>
-                        <div className="d-flex align-items-center gap-2">
-                          <img src={CityImage} alt="city" style={{ width: 16, height: 16 }} />
-                          <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
-                            {CustomerOverView.address?.city}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="col-6">
-                        <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "#4B4B4B" }} className="mb-1">State</p>
-                        <div className="d-flex align-items-center gap-2">
-                          <img src={CityImage} alt="state" style={{ width: 16, height: 16 }} />
-                          <span
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 600,
-                              fontFamily: "Gilroy",
-                              whiteSpace: "nowrap",
-                              overflow: "hidden",
-                              textOverflow: "ellipsis",
-                              maxWidth: "200px",
-                            }}
-                          >
-                            {CustomerOverView.address?.state}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
+                      <div className="card-header p-0 border-0" style={{ background: "transparent", width: "100%" }}>
+                                             <div className="d-flex gap-5 align-items-center justify-content-center border-0" style={{ width: "100%" }}>
+                   
+                   
+                                               <div className="d-flex align-items-center "
+                                                 onClick={() => setActiveTab("kyc")}
+                                                 style={{
+                                                   cursor: "pointer",
+                                                   padding: "6px 12px",
+                                                   borderBottom: activeTab === "kyc" ? "2px solid #1E45E1" : "2px solid transparent",
+                                                   color: activeTab === "kyc" ? "#1E45E1" : "#555",
+                                                   fontWeight: 600,
+                                                   fontFamily: "Gilroy"
+                                                 }}
+                                               >
+                                                 KYC Address
+                                               </div>
+                   
+                                               <div className="d-flex align-items-center "
+                                                 onClick={() => setActiveTab("manual")}
+                                                 style={{
+                                                   cursor: "pointer",
+                                                   padding: "6px 12px",
+                                                   borderBottom: activeTab === "manual" ? "2px solid #1E45E1" : "2px solid transparent",
+                                                   color: activeTab === "manual" ? "#1E45E1" : "#555",
+                                                   fontWeight: 600,
+                                                   fontFamily: "Gilroy"
+                                                 }}
+                                               >
+                                                 Manual Address
+                   
+                                               </div>
+                                               
+                                               {activeTab === "manual" &&
+                                                 <span
+                                                   style={{
+                                                     cursor: !canUpdateTenant ? "not-allowed" : "pointer",
+                                                     opacity: !canUpdateTenant ? 0.6 : 1,
+                                                   }}
+                                                 >
+                                                  
+                                                 </span>
+                   
+                                               }
+                                             </div>
+                                           </div>
+                                           <div className="card-body">
+                        {
+                     
+                                              activeTab === "manual" ?
+                                                <div>
+                                                  <div className="row p-0">
+                    
+                                                    <div className="col-sm-6 col-lg-6 d-flex flex-column align-items-start">
+                                                      <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                                        House No / Apartment
+                                                      </p>
+                                                      <div className="d-flex align-items-center gap-2">
+                                                        <House size="18" color="#1E45E1" />
+                                                        <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                                          {CustomerOverView.address?.houseNo}
+                                                        </span>
+                                                      </div>
+                                                    </div>
+                    
+                                                    <div className="col-sm-6 col-lg-6 d-flex flex-column align-items-start">
+                                                      <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                                        Street / Area
+                                                      </p>
+                                                      <div className="d-flex align-items-center gap-2">
+                                                        <img src={Areaimage} alt="area" style={{ width: 16, height: 16 }} />
+                                                        <span
+                                                          title={CustomerOverView.address?.streetName}
+                                                          style={{
+                                                            fontSize: 14,
+                                                            fontWeight: 600,
+                                                            fontFamily: "Gilroy",
+                                                            whiteSpace: "nowrap",
+                                                            overflow: "hidden",
+                                                            textOverflow: "ellipsis",
+                                                            maxWidth: "200px",
+                                                          }}
+                                                        >
+                                                          {CustomerOverView.address?.streetName}
+                                                        </span>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                    
+                    
+                                                  <div className="row mt-3">
+                    
+                                                    <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
+                                                      <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                                        Landmark
+                                                      </p>
+                                                      <div className="d-flex align-items-center gap-2">
+                                                        <img src={Landamrkimage} alt="landmark" style={{ width: 16, height: 16 }} />
+                                                        <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                                          {CustomerOverView.address?.landmark}
+                                                        </span>
+                                                      </div>
+                                                    </div>
+                    
+                    
+                                                    <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
+                                                      <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                                        Pincode
+                                                      </p>
+                                                      <div className="d-flex align-items-center gap-2">
+                                                        <img src={PincodeImage} alt="pincode" style={{ width: 16, height: 16 }} />
+                                                        <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                                          {CustomerOverView.address?.pincode}
+                                                        </span>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                    
+                    
+                                                  <div className="row mt-3">
+                    
+                                                    <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
+                                                      <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                                        City
+                                                      </p>
+                                                      <div className="d-flex align-items-center gap-2">
+                                                        <img src={CityImage} alt="city" style={{ width: 16, height: 16 }} />
+                                                        <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                                          {CustomerOverView.address?.city}
+                                                        </span>
+                                                      </div>
+                                                    </div>
+                    
+                    
+                                                    <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
+                                                      <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                                        State
+                                                      </p>
+                                                      <div className="d-flex align-items-center gap-2">
+                                                        <img src={CityImage} alt="state" style={{ width: 16, height: 16 }} />
+                                                        <span
+                                                          style={{
+                                                            fontSize: 14,
+                                                            fontWeight: 600,
+                                                            fontFamily: "Gilroy",
+                                                            whiteSpace: "nowrap",
+                                                            overflow: "hidden",
+                                                            textOverflow: "ellipsis",
+                                                            maxWidth: "200px",
+                                                          }}
+                                                        >
+                                                          {CustomerOverView.address?.state}
+                                                        </span>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                :
+                                                <div>
+                                                  <div className="row p-0">
+                    
+                                                    <div className="col-sm-6 col-lg-6 d-flex flex-column align-items-start">
+                                                      <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                                        House No / Apartment
+                                                      </p>
+                                                      <div className="d-flex align-items-center gap-2">
+                                                        <House size="18" color="#1E45E1" />
+                                                        <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                                          {/* {CustomerOverView.address?.houseNo} */}
+                                                        </span>
+                                                      </div>
+                                                    </div>
+                    
+                                                    <div className="col-sm-6 col-lg-6 d-flex flex-column align-items-start">
+                                                      <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                                        Street / Area
+                                                      </p>
+                                                      <div className="d-flex align-items-center gap-2">
+                                                        <img src={Areaimage} alt="area" style={{ width: 16, height: 16 }} />
+                                                        <span
+                                                          // title={CustomerOverView.address?.streetName}
+                                                          style={{
+                                                            fontSize: 14,
+                                                            fontWeight: 600,
+                                                            fontFamily: "Gilroy",
+                                                            whiteSpace: "nowrap",
+                                                            overflow: "hidden",
+                                                            textOverflow: "ellipsis",
+                                                            maxWidth: "200px",
+                                                          }}
+                                                        >
+                                                          {/* {CustomerOverView.address?.streetName} */}
+                                                        </span>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                    
+                    
+                                                  <div className="row mt-3">
+                    
+                                                    <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
+                                                      <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                                        Landmark
+                                                      </p>
+                                                      <div className="d-flex align-items-center gap-2">
+                                                        <img src={Landamrkimage} alt="landmark" style={{ width: 16, height: 16 }} />
+                                                        <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                                          {/* {CustomerOverView.address?.landmark} */}
+                                                        </span>
+                                                      </div>
+                                                    </div>
+                    
+                    
+                                                    <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
+                                                      <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                                        Pincode
+                                                      </p>
+                                                      <div className="d-flex align-items-center gap-2">
+                                                        <img src={PincodeImage} alt="pincode" style={{ width: 16, height: 16 }} />
+                                                        <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                                          {/* {CustomerOverView.address?.pincode} */}
+                                                        </span>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                    
+                    
+                                                  <div className="row mt-3">
+                    
+                                                    <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
+                                                      <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                                        City
+                                                      </p>
+                                                      <div className="d-flex align-items-center gap-2">
+                                                        <img src={CityImage} alt="city" style={{ width: 16, height: 16 }} />
+                                                        <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                                          {/* {CustomerOverView.address?.city} */}
+                                                        </span>
+                                                      </div>
+                                                    </div>
+                    
+                    
+                                                    <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
+                                                      <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                                        State
+                                                      </p>
+                                                      <div className="d-flex align-items-center gap-2">
+                                                        <img src={CityImage} alt="state" style={{ width: 16, height: 16 }} />
+                                                        <span
+                                                          style={{
+                                                            fontSize: 14,
+                                                            fontWeight: 600,
+                                                            fontFamily: "Gilroy",
+                                                            whiteSpace: "nowrap",
+                                                            overflow: "hidden",
+                                                            textOverflow: "ellipsis",
+                                                            maxWidth: "200px",
+                                                          }}
+                                                        >
+                                                          {/* {CustomerOverView.address?.state} */}
+                                                        </span>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                            }
+                                              </div>  
                   </div>
 
                 </div>
@@ -560,9 +765,6 @@ function CustomerProfile(props) {
 
 
                 <div className="col-md-6 row " >
-
-
-
                   <div className="card  mb-3" style={{ borderRadius: 10, border: "1px solid #DCDCDC", paddingLeft: 10, paddingRight: 20, paddingTop: 2 }}>
 
                     <div className="d-flex justify-content-between align-items-center mb-3">
@@ -578,7 +780,7 @@ function CustomerProfile(props) {
                           display: "flex",
                           justifyContent: "center",
                           alignItems: "center",
-                          cursor: "pointer" 
+                          cursor: "pointer"
                         }}
                       >
                         <img
@@ -647,394 +849,333 @@ function CustomerProfile(props) {
 
                     <p style={{ fontSize: 18, fontFamily: "Gilroy", fontWeight: 400 }} className="">Financial details</p>
                     <div
-                                                className="col-md-12 col-lg-12 mb-md-0"
-                  
-                                              >
-                                                <div
-                                                  className="card border-0 p-0"
-                                                  style={{
-                                                    borderRadius: "10px",
-                                                    // backgroundColor: 'rgba(247, 249, 255, 1)'
-                  
-                                                  }}
-                                                >
-                  
-                  
-                                                  <div className="card-body border-0 p-0">
-                  
-                                                    <div>
-                                                      <div className="row mb-3">
-                                                        <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
-                                                          <div
-                                                            style={{
-                                                              fontSize: 12,
-                                                              fontWeight: 500,
-                                                              fontFamily: "Gilroy", color:"#4B4B4B"
-                                                            }}
-                                                          >
-                                                            Monthly Rent
-                                                            
-                                                          </div>
-                                                          <p
-                                                            style={{
-                                                              fontSize: 14,
-                                                              fontWeight: 600,
-                                                              fontFamily: "Gilroy",
-                                                              color: 'rgba(30, 69, 225, 1)',
-                                                              paddingTop: 7
-                                                            }}
-                                                          >
-                                                            {CustomerOverView.hostelInfo?.monthlyRent != null
-                                                              ? `₹${CustomerOverView.hostelInfo?.monthlyRent}`
-                                                              : 0
-                                                            }
-                                                          </p>
-                                                        </div>
-                                                        <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
-                                                          <div
-                                                            style={{
-                                                              fontSize: 12,
-                                                              fontWeight: 500,
-                                                              fontFamily: "Gilroy", color:"#4B4B4B"
-                                                            }}
-                                                          >
-                                                            Advance Amount  
-                                                          
-                                                          </div>
-                                                          <p
-                                                            style={{
-                                                              fontSize: 14,
-                                                              fontWeight: 600,
-                                                              fontFamily: "Gilroy", paddingTop: 7
-                                                            }}
-                                                          >
-                                                            {advanceList?.advanceAmount != null
-                                                              ? `₹${advanceList?.advanceAmount}`
-                                                              : 0
-                                                            }
-                  
-                  
-                  
-                                                          </p>
-                                                        </div>
-                  
-                  
-                  
-                                                        <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
-                                                          <div
-                                                            style={{
-                                                              fontSize: 12,
-                                                              fontWeight: 500,
-                                                              fontFamily: "Gilroy", color:"#4B4B4B"
-                                                            }}
-                                                          >
-                                                            Booking Amount
-                                                          </div>
-                                                          <p
-                                                            style={{
-                                                              fontSize: 14,
-                                                              fontWeight: 600,
-                                                              fontFamily: "Gilroy",
-                                                              color: '#222',
-                                                              paddingTop: 7
-                                                            }}
-                                                          >
-                  
-                                                            {CustomerOverView.bookingInfo?.bookingAmount != null
-                                                              ? `₹${CustomerOverView.bookingInfo.bookingAmount}`
-                                                              : 0
-                                                            }
-                                                          </p>
-                                                        </div>
-                  
-                                                        {
-                                                          CustomerOverView.hostelInfo?.maintenance !== null &&
-                                                          <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
-                                                            <div
-                                                              style={{
-                                                                fontSize: 12,
-                                                                fontWeight: 500,
-                                                                fontFamily: "Gilroy", color:"#4B4B4B"
-                                                              }}
-                                                            >
-                                                              Maintenance
-                                                            </div>
-                                                            <p
-                                                              style={{
-                                                                fontSize: 14,
-                                                                fontWeight: 600,
-                                                                fontFamily: "Gilroy",
-                                                                // color: 'rgba(30, 69, 225, 1)',
-                                                                paddingTop: 7
-                                                              }}
-                                                            >
-                                                              ₹ {CustomerOverView.hostelInfo?.maintenance ?? 0}
-                                                            </p>
-                                                          </div>
-                  
-                                                        }
-                                                        {CustomerOverView?.hostelInfo?.otherDeductionsBreakup?.map((item, index) => (
-                                                          <div key={index} className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
-                                                            <div
-                                                              style={{
-                                                                fontSize: 12,
-                                                                fontWeight: 500,
-                                                                fontFamily: "Gilroy",
-                                                              }}
-                                                            >
-                                                              {item.type ? item.type : ""}
-                                                            </div>
-                                                            <p
-                                                              style={{
-                                                                fontSize: 14,
-                                                                fontWeight: 600,
-                                                                fontFamily: "Gilroy",
-                                                                paddingTop: 7,
-                                                              }}
-                                                            >
-                                                              ₹ {item.amount}
-                                                            </p>
-                                                          </div>
-                                                        ))}
-                  
-                                                       
-                  
-                  
-                                                      </div>
-                  
-                  
-                  
-                                                    </div>
-                  
-                  
-                                                  </div>
-                  
-                  
-                                                </div>
-                                              </div>
-                  </div>
-                </div>
+                      className="col-md-12 col-lg-12 mb-md-0"
 
+                    >
+                      <div
+                        className="card border-0 p-0"
+                        style={{
+                          borderRadius: "10px",
+                          // backgroundColor: 'rgba(247, 249, 255, 1)'
 
-
-                <div className="mt-2" style={{ paddingLeft: 15, paddingRight: 18 }}>
-                  <div className="card p-3 mb-0">
-                    <div className="d-flex justify-content-between align-items-center mb-3">
-                      <h6 className="mb-0" style={{ fontFamily: "Gilroy", fontWeight: 600 }}>
-                        Documents
-                      </h6>
-
-                    </div>
-
-                    <div className="row">
-                      {!details?.doc1 && !details?.doc2 && (
-                        <p className="text-center" style={{
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          fontSize: 14,
-                          color: "#4B4B4B"
-                        }}>No documents uploaded</p>
-                      )}
-                      {details?.doc1 && (
-                        <div className="col-md-6 col-sm-6 mb-3">
-                          <div
-                            className="p-3 rounded"
-                            style={{ backgroundColor: "#f6f9ff", border: "1px solid #e0e7ff" }}
-                          >
-                            <div className="d-flex align-items-center mb-2">
-                              <img
-                                src="https://cdn-icons-png.flaticon.com/512/337/337946.png"
-                                alt="PDF"
-                                style={{ width: "20px", height: "20px", marginRight: "8px" }}
-                                onClick={() => setShow(true)}
-                              />
-                              <span style={{ fontSize: "0.875rem", fontWeight: 500 }}>
-                                {cleanFileName(details.doc1)}
-                              </span>
-                            </div>
-                            <div className="d-flex justify-content-between align-items-center">
-                              <small>PDF Document</small>
-                              <div>
-
-                                <img
-                                  src={viewdoc}
-                                  alt="View Document"
-
-                                  onClick={() => handleFileOpen(details?.doc1)}
-                                  style={{
-                                    width: 20,
-                                    height: 20,
-                                    marginLeft: "10px",
-                                    cursor: "pointer",
-                                  }}
-                                />
-
-
-                                <i
-                                  className="bi bi-download"
-                                  style={{ cursor: "pointer", fontSize: "1rem" }}
-
-                                  onClick={() =>
-                                    window.open(
-                                      details?.doc1,
-                                      "_blank"
-                                    )
-                                  }
-                                ></i>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-
-
-
-                      {details?.doc2 && (
-                        <div className="col-md-6 col-sm-6 mb-3">
-                          <div
-                            className="p-3 rounded"
-                            style={{ backgroundColor: "#f6f9ff", border: "1px solid #e0e7ff" }}
-                          >
-                            <div className="d-flex align-items-center mb-2">
-                              <img
-                                src="https://cdn-icons-png.flaticon.com/512/337/337946.png"
-                                alt="PDF"
-                                style={{ width: "20px", height: "20px", marginRight: "8px" }}
-                              />
-                              <span style={{ fontSize: "0.875rem", fontWeight: 500 }}>
-
-                                {cleanFileName(details.doc2)}
-                              </span>
-                            </div>
-                            <div className="d-flex justify-content-between align-items-center">
-                              <small>PDF Document</small>
-                              <div>
-
-
-                                <img
-                                  src={viewdoc}
-                                  alt="View Document"
-
-                                  onClick={() => handleFileOpen2(details?.doc2)}
-                                  style={{
-                                    width: 20,
-                                    height: 20,
-                                    marginLeft: "10px",
-                                    cursor: "pointer",
-                                  }}
-                                />
-
-
-                                <i
-                                  className="bi bi-download"
-                                  style={{ cursor: "pointer", fontSize: "1rem" }}
-
-                                  onClick={() =>
-                                    window.open(
-                                      details?.doc2,
-                                      "_blank"
-                                    )
-                                  }
-                                ></i>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-
-
-
-
-                      <Modal
-                        show={show}
-                        onHide={() => setShow(false)}
-                        size="lg"
-                        centered
-                        backdrop="static"
+                        }}
                       >
-                        <Modal.Body
-                          style={{
-                            padding: "20px",
-                            position: "relative",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            minHeight: "300px",
-                          }}
-                        >
-                          <Button
-                            variant="light"
-                            onClick={() => setShow(false)}
-                            style={{
-                              position: "absolute",
-                              top: 10,
-                              right: 10,
-                              border: "none",
-                              fontSize: "20px",
-                              zIndex: 1,
-                            }}
-                          >
-                            &times;
-                          </Button>
-                          {previewUrl && previewUrl.match(/\.(jpeg|jpg|png|gif)$/i) ? (
-                            <img src={previewUrl} alt="Document Preview" style={{ maxWidth: "100%", maxHeight: "600px" }} />
-                          ) : (
-                            <iframe
-                              src={`https://docs.google.com/gview?url=${encodeURIComponent(previewUrl)}&embedded=true`}
-                              style={{ width: "100%", height: "600px", border: "none" }}
-                              title="Document Preview"
-                            />
-                          )}
-                        </Modal.Body>
-                      </Modal>
+
+
+                        <div className="card-body border-0 p-0">
+
+                          <div>
+                            <div className="row mb-3">
+                              <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
+                                <div
+                                  style={{
+                                    fontSize: 12,
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy", color: "#4B4B4B"
+                                  }}
+                                >
+                                  Monthly Rent
+
+                                </div>
+                                <p
+                                  style={{
+                                    fontSize: 14,
+                                    fontWeight: 600,
+                                    fontFamily: "Gilroy",
+                                    color: 'rgba(30, 69, 225, 1)',
+                                    paddingTop: 7
+                                  }}
+                                >
+                                  {CustomerOverView.hostelInfo?.monthlyRent != null
+                                    ? `₹${CustomerOverView.hostelInfo?.monthlyRent}`
+                                    : 0
+                                  }
+                                </p>
+                              </div>
+                              <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
+                                <div
+                                  style={{
+                                    fontSize: 12,
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy", color: "#4B4B4B"
+                                  }}
+                                >
+                                  Advance Amount
+
+                                </div>
+                                <p
+                                  style={{
+                                    fontSize: 14,
+                                    fontWeight: 600,
+                                    fontFamily: "Gilroy", paddingTop: 7
+                                  }}
+                                >
+                                  {advanceList?.advanceAmount != null
+                                    ? `₹${advanceList?.advanceAmount}`
+                                    : 0
+                                  }
+
+
+
+                                </p>
+                              </div>
+
+
+
+                              <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
+                                <div
+                                  style={{
+                                    fontSize: 12,
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy", color: "#4B4B4B"
+                                  }}
+                                >
+                                  Booking Amount
+                                </div>
+                                <p
+                                  style={{
+                                    fontSize: 14,
+                                    fontWeight: 600,
+                                    fontFamily: "Gilroy",
+                                    color: '#222',
+                                    paddingTop: 7
+                                  }}
+                                >
+
+                                  {CustomerOverView.bookingInfo?.bookingAmount != null
+                                    ? `₹${CustomerOverView.bookingInfo.bookingAmount}`
+                                    : 0
+                                  }
+                                </p>
+                              </div>
+
+                              {
+                                CustomerOverView.hostelInfo?.maintenance !== null &&
+                                <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
+                                  <div
+                                    style={{
+                                      fontSize: 12,
+                                      fontWeight: 500,
+                                      fontFamily: "Gilroy", color: "#4B4B4B"
+                                    }}
+                                  >
+                                    Maintenance
+                                  </div>
+                                  <p
+                                    style={{
+                                      fontSize: 14,
+                                      fontWeight: 600,
+                                      fontFamily: "Gilroy",
+                                      // color: 'rgba(30, 69, 225, 1)',
+                                      paddingTop: 7
+                                    }}
+                                  >
+                                    ₹ {CustomerOverView.hostelInfo?.maintenance ?? 0}
+                                  </p>
+                                </div>
+
+                              }
+                              {CustomerOverView?.hostelInfo?.otherDeductionsBreakup?.map((item, index) => (
+                                <div key={index} className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
+                                  <div
+                                    style={{
+                                      fontSize: 12,
+                                      fontWeight: 500,
+                                      fontFamily: "Gilroy",
+                                    }}
+                                  >
+                                    {item.type ? item.type : ""}
+                                  </div>
+                                  <p
+                                    style={{
+                                      fontSize: 14,
+                                      fontWeight: 600,
+                                      fontFamily: "Gilroy",
+                                      paddingTop: 7,
+                                    }}
+                                  >
+                                    ₹ {item.amount}
+                                  </p>
+                                </div>
+                              ))}
 
 
 
 
-                      <Modal show={showDoc2} onHide={() => setShowDoc2(false)} size="lg" centered backdrop="static">
-                        <Modal.Body
-                          style={{
-                            padding: "20px",
-                            position: "relative",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            minHeight: "300px",
-                          }}
-                        >
-                          <Button
-                            variant="light"
-                            onClick={() => setShowDoc2(false)}
-                            style={{
-                              position: "absolute",
-                              top: 10,
-                              right: 10,
-                              border: "none",
-                              fontSize: "20px",
-                              zIndex: 1,
-                            }}
-                          >
-                            &times;
-                          </Button>
+                            </div>
 
 
-                          {previewUrl2 && previewUrl2.match(/\.(jpeg|jpg|png|gif)$/i) ? (
-                            <img src={previewUrl2} alt="Document Preview" style={{ maxWidth: "100%", maxHeight: "600px" }} />
-                          ) : (
-                            <iframe
-                              src={`https://docs.google.com/gview?url=${encodeURIComponent(previewUrl)}&embedded=true`}
-                              style={{ width: "100%", height: "600px", border: "none" }}
-                              title="Document Preview"
-                            />
-                          )}
-                        </Modal.Body>
-                      </Modal>
+
+                          </div>
+
+
+                        </div>
+
+
+                      </div>
                     </div>
+                  </div>
+                </div>
+                <div className="mt-2 col-md-6 p-0" style={{ paddingLeft: 15, paddingRight: 18 }}>
+                  <div className="card mt-4" style={{ marginLeft:10, borderRadius: 10 }}>
+                    <div className="card-body">
+
+                      <TabContext value={documentvalue}>
+                        <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
+                          <TabList
+                            onChange={handleChangesupload}
+                            aria-label="custom tabs"
+                            className="d-flex flex-column flex-sm-row"
+                            TabIndicatorProps={{ style: { display: "none" } }}
+                          >
+                            <Tab
+                              label="KYC Documents"
+                              value="1"
+                              sx={{
+                                textTransform: "capitalize",
+                                fontSize: 16,
+                                fontWeight: 600,
+                                fontFamily: "Gilroy",
+                                color: documentvalue === "1" ? "#1E45E1" : "#4B4B4B",
+                                borderBottom: documentvalue === "1" ? "2px solid #1E45E1" : "2px solid transparent",
+                                minWidth: "auto",
+                              }}
+                            />
+                            <Tab
+                              label="Manual Documents"
+                              value="2"
+                              sx={{
+                                textTransform: "capitalize",
+                                fontSize: 16,
+                                fontWeight: 600,
+                                fontFamily: "Gilroy",
+                                color: documentvalue === "2" ? "#1E45E1" : "#4B4B4B",
+                                borderBottom: documentvalue === "2" ? "2px solid #1E45E1" : "2px solid transparent",
+                                minWidth: "auto",
+                              }}
+                            />
+
+                          </TabList>
+                        </Box>
+
+                        <TabPanel value="1">
+                          <KYCDocuments />
+                        </TabPanel>
+                        <TabPanel value="2">
+                          <div
+                            className="row mt-3"
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                            }}
+                          >
+
+                            <div className="col-md-12">
+                              <div
+                                className="d-flex align-items-center"
+                                style={{ position: "relative" }}
+                              >
+                                <div className="d-flex align-items-center flex-wrap" style={{ width: "100%", }}>
+                                  {documents.length > 0 ? (
+                                    <ManualDocumentsDetails documents={documents} />
+                                  ) : (
+                                    <div
+                                      className="text-center"
+                                      style={{
+                                        fontSize: 14,
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 400,
+                                        width: "100%", backgroundColor: ""
+                                      }}
+                                    >
+                                      No Manual Documents are there!
+                                     
+                                    </div>
+                                  )}
+                                </div>
 
 
+                                {documents.length > 0 && (
+                                  <div className="d-flex" onClick={() =>
+                                    handlePreview()
+                                  }
+                                    style={{
+                                      position: "absolute",
+                                      bottom: 0,
+                                      right: 0,
+                                      backgroundColor: "#00A32E",
+                                      borderRadius: "50%",
+                                      padding: "12px 12px", cursor: "pointer"
+                                    }}
+                                  >
+                                    <DocumentUpload
+                                      size="20"
+                                      color="#FFFFFF"
+                                    />
+                                  </div>
+                                )}
+
+
+
+                              </div>
+                            </div>
+
+
+
+                          </div>
+                        </TabPanel>
+                      </TabContext>
+
+
+
+                    </div>
 
                   </div>
                 </div>
+                <div
+                  className="col-md-6"
+                  style={{
+                    paddingLeft: 20,
+                    paddingRight: 20,
+                    marginTop: 30,
+                    marginLeft:0
+                  }}
+                >
+                  <div
+                    className="card"
+                    style={{
+                      borderRadius: "20px",
+                      padding: "8px",marginLeft:0
+                    }}
+                  >
+                    <div
+                      className="card-header d-flex justify-content-between align-items-center"
+                      style={{
+                        backgroundColor: "transparent",
+                        borderBottom: "1px solid #e0e0e0",
+                      }}
+                    >
+                      <div
+                        className="fw-semibold"
+                        style={{
+                          fontSize: 16,
+                          lineHeight: "40px",
+                          fontFamily: "Gilroy"
+                        }}
+                      >
+                        Parent/Guardian Details
+                      </div>
+                   
+
+                    </div>
+
+                    <div className="card-body" style={{ fontFamily: "Gilroy" }}>
+                      <ParentsGuardian />
+                    </div>
+                  </div>
+                </div>
+
+
               </div>
 
               <div className="row">
