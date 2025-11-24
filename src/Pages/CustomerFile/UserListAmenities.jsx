@@ -405,19 +405,7 @@ function UserListAmenities(props) {
   return (
     <div className="">
 
-      {state.UsersList.customerdetails?.customerCurrentStatus !== "VACATED" && state.InvoiceList.AmenitiesList &&
-        state.InvoiceList.AmenitiesList.length === 0 && (
-          <>
-            <div className="mb-4">
-              <ErrorMessage
-                message={[
-                  'Please add a Amenities option in Settings, accessible after assign an amenities',
-                ]}
-                type="error"
-              />
-            </div>
-          </>
-        )}
+    
 
 
 

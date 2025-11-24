@@ -751,7 +751,7 @@ export async function AddGlobalSettingTemplate(params) {
   try {
     const formData = new FormData();
 
-
+console.log("params",params)
     if (params.hostelLogo) formData.append("hostelLogo", params.hostelLogo);
     if (params.billSignature) formData.append("billSignature", params.billSignature);
     if (params.invLogo) formData.append("invLogo", params.invLogo);
@@ -787,16 +787,19 @@ export async function AddGlobalSettingTemplate(params) {
       (key) => key !== "templateTypeId"
     );
 
-    if (hasAnyDetail) {
-      filteredPayload.templateTypeId = params.templateTypeId;
+    // if (hasAnyDetail) {
+    //   filteredPayload.templateTypeId = params.templateTypeId;
 
-      formData.append(
+    //   formData.append(
+    //     "request",
+    //     new Blob([JSON.stringify(requestPayload)], { type: "application/json" })
+    //   );
+    // }
+
+formData.append(
         "request",
-        new Blob([JSON.stringify(filteredPayload)], { type: "application/json" })
+        new Blob([JSON.stringify(requestPayload)], { type: "application/json" })
       );
-    }
-
-
 
     const queryParams = new URLSearchParams({
       mobile: params.mobile,

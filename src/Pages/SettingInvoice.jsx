@@ -571,7 +571,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handl
 
 
   const handleFileChange = (e) => {
-     setEditFormErrMessage('')
+    setEditFormErrMessage('')
     const file = e.target.files[0];
     if (file && file.type.startsWith("image/")) {
       const objectUrl = URL.createObjectURL(file);
@@ -958,8 +958,8 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handl
 
 
   const handleBankClick = (id) => {
-     setEditFormErrMessage('')
-        setSelectedBankId(id);
+    setEditFormErrMessage('')
+    setSelectedBankId(id);
   };
 
   useEffect(() => {
@@ -969,8 +969,8 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handl
     }
   }, [banking]);
 
-// console.log("banking",banking)
-// console.log("selectedBankId",selectedBankId)
+  // console.log("banking",banking)
+  // console.log("selectedBankId",selectedBankId)
 
   useEffect(() => {
     if (selectedDate && isNaN(new Date(selectedDate).getTime())) {
@@ -1036,7 +1036,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handl
     }
   };
 
-const RentalinvoiceTemplate = BillsTemplateList && BillsTemplateList.templates?.find(
+  const RentalinvoiceTemplate = BillsTemplateList && BillsTemplateList.templates?.find(
     (template) => template.type === "RENTAL"
   );
 
@@ -1102,12 +1102,12 @@ const RentalinvoiceTemplate = BillsTemplateList && BillsTemplateList.templates?.
       // invLogo: hostel_logo,
       // isLogoCustomized: isCheckedLogo,
       qrCode: qrimagepreview,
-      prefix : prefix,
-      suffix:suffix,
+      prefix: prefix,
+      suffix: suffix,
       gstPercentile: tax,
       invoiceNotes: notes,
       invoiceTermsAndCondition: terms,
-      bankId:selectedBankId || "",
+      bankId: selectedBankId || "",
       invoiceTemplateColor: useGradient
         ? defaultGradient
         : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
@@ -1134,21 +1134,21 @@ const RentalinvoiceTemplate = BillsTemplateList && BillsTemplateList.templates?.
       invoiceTemplateColor: RentalinvoiceTemplate.invoiceTemplateColor || "",
     };
 
-console.log("currentTemplate",currentTemplate)
-console.log("oldTemplate",oldTemplate)
+    console.log("currentTemplate", currentTemplate)
+    console.log("oldTemplate", oldTemplate)
 
-console.log("RentalinvoiceTemplate",RentalinvoiceTemplate)
+    console.log("RentalinvoiceTemplate", RentalinvoiceTemplate)
 
     const isChanged =
-   
-  currentTemplate.qrCode !== oldTemplate.qrCode ||
-  currentTemplate.prefix !== oldTemplate.prefix ||
-  currentTemplate.suffix !== oldTemplate.suffix ||
-  currentTemplate.gstPercentile !== oldTemplate.gstPercentile ||
-  currentTemplate.invoiceNotes !== oldTemplate.invoiceNotes ||
-  currentTemplate.invoiceTermsAndCondition !== oldTemplate.invoiceTermsAndCondition ||
-  currentTemplate.bankId !== oldTemplate.bankId ||
-  currentTemplate.invoiceTemplateColor !== oldTemplate.invoiceTemplateColor;
+
+      currentTemplate.qrCode !== oldTemplate.qrCode ||
+      currentTemplate.prefix !== oldTemplate.prefix ||
+      currentTemplate.suffix !== oldTemplate.suffix ||
+      currentTemplate.gstPercentile !== oldTemplate.gstPercentile ||
+      currentTemplate.invoiceNotes !== oldTemplate.invoiceNotes ||
+      currentTemplate.invoiceTermsAndCondition !== oldTemplate.invoiceTermsAndCondition ||
+      currentTemplate.bankId !== oldTemplate.bankId ||
+      currentTemplate.invoiceTemplateColor !== oldTemplate.invoiceTemplateColor;
 
 
 
@@ -1264,7 +1264,7 @@ console.log("RentalinvoiceTemplate",RentalinvoiceTemplate)
 
 
 
-  
+
 
 
 
@@ -2142,7 +2142,7 @@ console.log("RentalinvoiceTemplate",RentalinvoiceTemplate)
                                     name="bank"
                                     checked={String(selectedBankId) === String(bank.bankingId)}
                                     onChange={() => handleBankClick(bank.bankingId)}
-                                    style={{ accentColor: '#1E45E1', marginRight: 10, height: 16, width: 16, cursor:"pointer" }}
+                                    style={{ accentColor: '#1E45E1', marginRight: 10, height: 16, width: 16, cursor: "pointer" }}
                                   />
                                   <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                                     <div
@@ -2215,8 +2215,9 @@ console.log("RentalinvoiceTemplate",RentalinvoiceTemplate)
                                 src={qrImage}
                                 alt="QR Preview"
                                 style={{
-                                  height: "100px",
-                                  width: "100px",
+                                  width: "100%",
+                                  maxWidth: "100px",
+                                  height: "auto",
                                   objectFit: "cover",
                                   borderRadius: "8px",
                                   marginBottom: "10px",
@@ -2394,8 +2395,8 @@ console.log("RentalinvoiceTemplate",RentalinvoiceTemplate)
 
 
                       {editformErrmsg.trim() !== "" && (
-                          <div className="d-flex justify-content-center">
-                        <ErrorMessage message={editformErrmsg} type="error" />
+                        <div className="d-flex justify-content-center">
+                          <ErrorMessage message={editformErrmsg} type="error" />
                         </div>
                       )}
 

@@ -856,7 +856,7 @@ function SettingNewUser() {
                           color: "rgba(75, 75, 75, 1)",
                         }}
                       >
-                        No Users{" "}
+                        No Staff{" "}
                       </div>
                       <div
                         className="pb-1"
@@ -868,7 +868,7 @@ function SettingNewUser() {
                           color: "rgba(75, 75, 75, 1)",
                         }}
                       >
-                        There are no Users available.{" "}
+                        There are no staff's available{" "}
                       </div>
 
                     </div>
