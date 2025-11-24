@@ -35,7 +35,7 @@ import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-import { CloseCircle, ArchiveAdd, TickCircle, MinusCirlce } from "iconsax-react";
+import { CloseCircle, ArchiveAdd, TickCircle, MinusCirlce, DocumentUpload } from "iconsax-react";
 import { RightOutlined } from '@ant-design/icons';
 import timehalf from "../../Assets/Images/New_images/time-half past.png";
 // import html2canvas from "html2canvas";
@@ -69,6 +69,11 @@ import { AddSquare, Tag2 } from "iconsax-react";
 import TenantAmenities from "./TenantAssignAmenities";
 import RequestedAmenities from "./RequestedAmenities";
 import TransactionHistory from "./TransactionHistory";
+import { FamilyRestroomRounded } from "@mui/icons-material";
+import ManualDocumentsUpload from "./ManualDocumentsUpload";
+import ParentsGuardian from "./Parents&Guardian";
+import KYCDocuments from "./KYCDocuments";
+import ManualDocumentsDetails from "./ManualDocumentsDetails";
 
 
 function UserListRoomDetail(props) {
@@ -129,6 +134,7 @@ function UserListRoomDetail(props) {
   const [landmarkError, setLandmarkError] = useState("");
   const [pincodeError, setPincodeError] = useState("");
   const [cityError, setCityError] = useState("");
+  const [activeTab, setActiveTab] = useState("kyc");
 
   const [kycdetailsForm, setKycDetailForm] = useState(false);
   const [additionalForm, setAdditionalForm] = useState(false);
@@ -153,7 +159,7 @@ function UserListRoomDetail(props) {
   const [documentvalue, setDocumentValue] = useState("1")
   const [previewUrl, setPreviewUrl] = useState(null);
   const [previewUrl2, setPreviewUrl2] = useState(null)
-
+  const [loadingFile, setLoadingFile] = useState(false)
   const [showModal, setShowModal] = useState(false);
   const [basicDetails, setBasicDetails] = useState("")
   const [imagePreview, setImagePreview] = useState(null);
@@ -2206,30 +2212,28 @@ function UserListRoomDetail(props) {
 
 
   const [documents, setDocuments] = useState([
-    { name: "Rental Agreement.pdf", size: "180 KB", type: "PDF" },
-    { name: "Aadhar.pdf", size: "180 KB", type: "PDF" },
-    { name: "License.pdf", size: "180 KB", type: "PDF" },
-    { name: "Pancard.pdf", size: "180 KB", type: "PDF" },
+
+
   ]);
 
-  const handleFileUpload = (index, e) => {
-    const file = e.target.files[0];
+  // const handleFileUpload = (index, e) => {
+  //   const file = e.target.files[0];
 
-    if (!file) return;
+  //   if (!file) return;
 
-    const updatedDoc = {
-      name: file.name,
-      size: `${Math.round(file.size / 1024)} KB`,
-      type: file.name.split(".").pop().toUpperCase(),
-    };
+  //   const updatedDoc = {
+  //     name: file.name,
+  //     size: `${Math.round(file.size / 1024)} KB`,
+  //     type: file.name.split(".").pop().toUpperCase(),
+  //   };
 
-    const newDocuments = [...documents];
-    newDocuments[index] = updatedDoc;
-    setDocuments(newDocuments);
-  };
+  //   const newDocuments = [...documents];
+  //   newDocuments[index] = updatedDoc;
+  //   setDocuments(newDocuments);
+  // };
 
 
-
+  console.log("documents", documents)
 
 
   useEffect(() => {
@@ -2264,629 +2268,600 @@ function UserListRoomDetail(props) {
   }, [state.InvoiceList?.tenantAssignStatus, state.InvoiceList?.tenantUnAssignStatus])
 
 
+  const [showPreview, setShowPreview] = useState(false);
 
 
+  const handlePreview = () => {
 
+    setShowPreview(true);
+  };
 
+  const handleClosePreview = () => {
+
+    setShowPreview(false);
+  };
 
 
   return (
 
-    <>
-      {/* {props.roomDetail && ( */}
-      <>
 
+    <>
+
+      <div
+        key={CustomerOverView?.customerId}
+        className="container mt-2"
+        style={{
+          marginLeft: "-20px",
+          height: "90vh",
+          overflowY: "auto",
+        }}
+      >
         <div
-          key={CustomerOverView?.customerId}
-          className="container mt-2"
+          className="d-flex align-items-center"
           style={{
-            marginLeft: "-20px",
-            height: "90vh",
-            overflowY: "auto",
+            position: "sticky",
+            top: 0,
+            zIndex: 1000,
+            backgroundColor: "#fff",
+            padding: "12px 20px",
+            height: "60px",
           }}
         >
-          <div
-            className="d-flex align-items-center"
+          <img
+            src={leftarrow}
+            alt="leftarrow"
+            width={20}
+            height={20}
+            onClick={() => navigate(`/tenant/${state.login.selectedHostel_Id}`)}
+
+            // onClick={props.handleBack}
+            style={{ cursor: "pointer" }}
+          />
+          <span
             style={{
-              position: "sticky",
-              top: 0,
-              zIndex: 1000,
-              backgroundColor: "#fff",
-              padding: "12px 20px",
-              height: "60px",
+              fontWeight: 600,
+              fontSize: "18px",
+              fontFamily: "Gilroy",
+              paddingLeft: "10px",
             }}
           >
-            <img
-              src={leftarrow}
-              alt="leftarrow"
-              width={20}
-              height={20}
-              onClick={() => navigate(`/tenant/${state.login.selectedHostel_Id}`)}
+            Tenant Profile
+          </span>
+        </div>
 
-              // onClick={props.handleBack}
-              style={{ cursor: "pointer" }}
-            />
-            <span
-              style={{
-                fontWeight: 600,
-                fontSize: "18px",
-                fontFamily: "Gilroy",
-                paddingLeft: "10px",
-              }}
-            >
-              Tenant Profile
-            </span>
-          </div>
+        <div
+          className="card mt-3"
+          style={{ borderRadius: "24px", marginLeft: "20px" }}
+        >
+          <div className="card-body d-flex flex-column flex-md-row align-items-center justify-content-between">
+            <div className="d-flex align-items-center mb-3 mb-md-0">
 
-          <div
-            className="card mt-3"
-            style={{ borderRadius: "24px", marginLeft: "20px" }}
-          >
-            <div className="card-body d-flex flex-column flex-md-row align-items-center justify-content-between">
-              <div className="d-flex align-items-center mb-3 mb-md-0">
-
-
-
-
-                <div
-                  style={{
-                    position: "relative",
-                    width: "80px",
-                    height: "80px",
-                    marginRight: "10px",
-                  }}
-                  onMouseEnter={() => setIsHovered(true)}
-                  onMouseLeave={() => setIsHovered(false)}
-                >
-                  {imageUrl ? (
-                    <img
-                      src={imageUrl}
-                      alt={CustomerOverView.fullName || "Default Profile"}
-                      style={{
-                        height: "80px",
-                        width: "80px",
-                        borderRadius: "50%",
-                        objectFit: "cover",
-                      }}
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = Profiles;
-                      }}
-                    />
-                  ) : (
-
-                    <div
-                      style={{
-                        height: "80px",
-                        width: "80px",
-                        borderRadius: "50%",
-                        backgroundColor: "#1E45E1",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        fontSize: "24px",
-                        fontWeight: "600",
-                        color: "#FFF",
-                        fontFamily: "Gilroy",
-                      }}
-                    >
-                      {CustomerOverView?.initials
-                        ? CustomerOverView.initials
-                        : CustomerOverView?.fullName
-                          ? CustomerOverView.fullName
-                            .split(" ")
-                            .map((w) => w[0]?.toUpperCase())
-                            .join("")
-                          : "NA"}
-                    </div>
-                  )}
-
-                  {!state.UsersList?.KycCustomerDetails?.pic && isHovered && (
-                    <div
-                      style={{
-                        position: "absolute",
-                        top: 0,
-                        left: 0,
-                        height: "100%",
-                        width: "100%",
-                        borderRadius: "50%",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        background: "rgba(0,0,0,0.3)",
-                        cursor: "pointer",
-                      }}
-                      onClick={() => {
-                        if (!state.UsersList?.KycCustomerDetails?.pic) {
-                          document.getElementById("fileInput").click();
-                        }
-                      }}
-                    >
-                      <div
-                        style={{
-                          backgroundColor: "#fff",
-                          borderRadius: "50%",
-                          padding: "6px",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
-                        <img
-                          src={EditImage}
-                          alt="Edit"
-                          style={{ width: "16px", height: "16px" }}
-                        />
-                      </div>
-                    </div>
-                  )}
-
-                  <input
-                    id="fileInput"
-                    type="file"
-                    accept="image/*"
-                    style={{ display: "none" }}
-                    onChange={handleImageUpload}
-                  />
-                </div>
-
-
-
-
-
-
-
-                <div style={{ marginLeft: 10 }}>
-                  <span
-                    className="card-title mb-0"
+              <div
+                style={{
+                  position: "relative",
+                  width: "80px",
+                  height: "80px",
+                  marginRight: "10px",
+                }}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+              >
+                {imageUrl ? (
+                  <img
+                    src={imageUrl}
+                    alt={CustomerOverView.fullName || "Default Profile"}
                     style={{
-                      fontSize: "20px",
-                      fontWeight: 600,
+                      height: "80px",
+                      width: "80px",
+                      borderRadius: "50%",
+                      objectFit: "cover",
+                    }}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = Profiles;
+                    }}
+                  />
+                ) : (
+
+                  <div
+                    style={{
+                      height: "80px",
+                      width: "80px",
+                      borderRadius: "50%",
+                      backgroundColor: "#1E45E1",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: "24px",
+                      fontWeight: "600",
+                      color: "#FFF",
                       fontFamily: "Gilroy",
                     }}
                   >
-                    {CustomerOverView.fullName}
-                  </span>
+                    {CustomerOverView?.initials
+                      ? CustomerOverView.initials
+                      : CustomerOverView?.fullName
+                        ? CustomerOverView.fullName
+                          .split(" ")
+                          .map((w) => w[0]?.toUpperCase())
+                          .join("")
+                        : "NA"}
+                  </div>
+                )}
 
+                {!state.UsersList?.KycCustomerDetails?.pic && isHovered && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      height: "100%",
+                      width: "100%",
+                      borderRadius: "50%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      background: "rgba(0,0,0,0.3)",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => {
+                      if (!state.UsersList?.KycCustomerDetails?.pic) {
+                        document.getElementById("fileInput").click();
+                      }
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: "#fff",
+                        borderRadius: "50%",
+                        padding: "6px",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <img
+                        src={EditImage}
+                        alt="Edit"
+                        style={{ width: "16px", height: "16px" }}
+                      />
+                    </div>
+                  </div>
+                )}
 
-                  {state.UsersList?.KycCustomerDetails?.message === "KYC Completed" &&
-                    <>
-                      <Button
-                        disabled={!canWriteTenant}
-                        type="primary"
-                        style={{
-                          borderRadius: "20px",
-                          backgroundColor: "#1E45E1",
-                          border: "none",
-                          padding: "0 16px",
-                          height: "32px",
-                          display: "flex",
-                          alignItems: "center",
-                          fontSize: "14px",
-
-                        }}
-                      >
-                        KYC Verified
-                      </Button>
-                    </>
-                  }
-
-
-
-                  {state.UsersList?.KycCustomerDetails?.retry_completed === false &&
-                    <>
-                      <Button
-                        style={{
-                          borderRadius: "20px",
-                          backgroundColor: "#f59e0b",
-                          border: "none",
-                          padding: "0 16px",
-                          height: "32px",
-                          display: "flex",
-                          alignItems: "center",
-                          fontSize: "14px",
-                          color: "#fff",
-                        }}
-
-                      >
-                        <img src={timehalf} alt="time" style={{ width: "16px", marginRight: 8 }} />
-                        Pending
-                      </Button>
-                      <p
-                        style={{
-                          fontSize: 14,
-                          fontWeight: 400,
-                          fontFamily: "Gilroy",
-                          marginTop: 4,
-                        }}
-                      >
-                        Last Attempt: {state.UsersList?.KycCustomerDetails?.updated_at}
-                      </p>
-                    </>
-                  }
-
-                  {state.UsersList?.KycCustomerDetails?.retry_completed === true &&
-                    <>
-                      <Button
-                        onClick={handleKYCSubmit}
-                        style={{
-                          borderRadius: "20px",
-                          backgroundColor: "#1E45E1",
-                          border: "none",
-                          padding: "0 16px",
-                          height: "32px",
-                          display: "flex",
-                          alignItems: "center",
-                          fontSize: "14px",
-                          color: "#fff",
-                        }}
-
-                      >
-                        <img src={Retry} alt="time" style={{ width: "16px", marginRight: 8 }} />
-                        Retry KYC
-                      </Button>
-                      <p
-                        style={{
-                          fontSize: 14,
-                          fontWeight: 400,
-                          fontFamily: "Gilroy",
-                          marginTop: 4,
-                        }}
-                      >
-                        Last Attempt: {state.UsersList?.KycCustomerDetails?.updated_at}
-                      </p>
-                    </>
-                  }
-
-                  {
-                    state.UsersList?.KycCustomerDetails?.message === "KYC ID not found for this customer" &&
-                    <>
-                      <Button
-                        disabled={!canWriteTenant}
-                        type="primary"
-                        style={{
-                          borderRadius: "20px",
-                          backgroundColor: "#1E45E1",
-                          border: "none",
-                          padding: "0 16px",
-                          height: "32px",
-                          display: "flex",
-                          alignItems: "center",
-                          fontSize: "14px",
-                          fontFamily: "Gilroy",
-                        }}
-                        onClick={handleKYCSubmit}
-                      >
-                        Verify KYC <RightOutlined style={{ fontSize: "12px", marginLeft: 6, fontFamily: "Gilroy", }} />
-                      </Button>
-                      <p
-                        style={{
-                          fontSize: 14,
-                          fontWeight: 400,
-                          fontFamily: "Gilroy",
-                          marginTop: 4,
-                        }}
-                      >
-                        Verify your Customer KYC Details via DigiLocker.
-                      </p>
-                    </>
-                  }
-
-
-
-
-                </div>
+                <input
+                  id="fileInput"
+                  type="file"
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  onChange={handleImageUpload}
+                />
               </div>
 
 
 
-              {/* <div
 
+
+
+
+              <div style={{ marginLeft: 10 }}>
+                <span
+                  className="card-title mb-0"
                   style={{
-                    cursor: props.customerEditPermission && !CustomerOverView.hostelInfo?.bedId
-                      ? "not-allowed"
-                      : "pointer",
-                    height: 40,
-                    width: 40,
-                    borderRadius: 100,
-                    border: "1px solid #EFEFEF",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    position: "relative",
-                    zIndex: activeRow === CustomerOverView.customerId ? 1000 : "auto",
-                    backgroundColor:
-                      activeRow === CustomerOverView.customerId ? "#E7F1FF" : "white",
+                    fontSize: "20px",
+                    fontWeight: 600,
+                    fontFamily: "Gilroy",
                   }}
-                // onClick={() => {
-                //   if (!props.customerEditPermission && customerDetails[0]?.Bed) {
-                //     handleShowEditBed(customerDetails);
-                //   }
-                // }}
                 >
-                  <PiDotsThreeOutlineVerticalFill
-                    style={{
-                      height: 20,
-                      width: 20,
-                      color: props.customerEditPermission
-                        ? "#CCCCCC"
-                        : "#000",
-                    }}
-                  />
-                </div> */}
+                  {CustomerOverView.fullName}
+                </span>
+
+
+                {state.UsersList?.KycCustomerDetails?.message === "KYC Completed" &&
+                  <>
+                    <Button
+                      disabled={!canWriteTenant}
+                      type="primary"
+                      style={{
+                        borderRadius: "20px",
+                        backgroundColor: "#1E45E1",
+                        border: "none",
+                        padding: "0 16px",
+                        height: "32px",
+                        display: "flex",
+                        alignItems: "center",
+                        fontSize: "14px",
+
+                      }}
+                    >
+                      KYC Verified
+                    </Button>
+                  </>
+                }
+
+
+
+                {state.UsersList?.KycCustomerDetails?.retry_completed === false &&
+                  <>
+                    <Button
+                      style={{
+                        borderRadius: "20px",
+                        backgroundColor: "#f59e0b",
+                        border: "none",
+                        padding: "0 16px",
+                        height: "32px",
+                        display: "flex",
+                        alignItems: "center",
+                        fontSize: "14px",
+                        color: "#fff",
+                      }}
+
+                    >
+                      <img src={timehalf} alt="time" style={{ width: "16px", marginRight: 8 }} />
+                      Pending
+                    </Button>
+                    <p
+                      style={{
+                        fontSize: 14,
+                        fontWeight: 400,
+                        fontFamily: "Gilroy",
+                        marginTop: 4,
+                      }}
+                    >
+                      Last Attempt: {state.UsersList?.KycCustomerDetails?.updated_at}
+                    </p>
+                  </>
+                }
+
+                {state.UsersList?.KycCustomerDetails?.retry_completed === true &&
+                  <>
+                    <Button
+                      onClick={handleKYCSubmit}
+                      style={{
+                        borderRadius: "20px",
+                        backgroundColor: "#1E45E1",
+                        border: "none",
+                        padding: "0 16px",
+                        height: "32px",
+                        display: "flex",
+                        alignItems: "center",
+                        fontSize: "14px",
+                        color: "#fff",
+                      }}
+
+                    >
+                      <img src={Retry} alt="time" style={{ width: "16px", marginRight: 8 }} />
+                      Retry KYC
+                    </Button>
+                    <p
+                      style={{
+                        fontSize: 14,
+                        fontWeight: 400,
+                        fontFamily: "Gilroy",
+                        marginTop: 4,
+                      }}
+                    >
+                      Last Attempt: {state.UsersList?.KycCustomerDetails?.updated_at}
+                    </p>
+                  </>
+                }
+
+                {
+                  state.UsersList?.KycCustomerDetails?.message === "KYC ID not found for this customer" &&
+                  <>
+                    <Button
+                      disabled={!canWriteTenant}
+                      type="primary"
+                      style={{
+                        borderRadius: "20px",
+                        backgroundColor: "#1E45E1",
+                        border: "none",
+                        padding: "0 16px",
+                        height: "32px",
+                        display: "flex",
+                        alignItems: "center",
+                        fontSize: "14px",
+                        fontFamily: "Gilroy",
+                      }}
+                      onClick={handleKYCSubmit}
+                    >
+                      Verify KYC <RightOutlined style={{ fontSize: "12px", marginLeft: 6, fontFamily: "Gilroy", }} />
+                    </Button>
+                    <p
+                      style={{
+                        fontSize: 14,
+                        fontWeight: 400,
+                        fontFamily: "Gilroy",
+                        marginTop: 4,
+                      }}
+                    >
+                      Verify your Customer KYC Details via DigiLocker.
+                    </p>
+                  </>
+                }
+
+
+
+
+              </div>
             </div>
+
+
+
+
           </div>
+        </div>
 
-          <TabContext value={value}>
-            <div>
-              <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
-                <TabList
-                  orientation={
-                    isSmallScreen ? "vertical" : "horizontal"
-                  }
-                  onChange={handleChanges}
-                  aria-label="lab API tabs example"
-                  style={{ marginLeft: "20px" }}
-                  className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
-                >
-                  <Tab
-                    label="Overview"
-                    value="1"
-                    style={{
-                      fontSize: 16,
-                      fontFamily: "Gilroy",
-                      color: value === "1" ? "#222222" : "#4B4B4B",
-                      lineHeight: "normal",
-                      fontStyle: "normal",
-                      fontWeight: 500,
-                      textTransform: "none",
-                    }}
-                  />
-                  <Tab
-                    label="EB Reading"
-                    value="2"
-                    style={{
-                      fontSize: 16,
-                      fontFamily: "Gilroy",
-                      color: value === "2" ? "#222222" : "#4B4B4B",
-                      lineHeight: "normal",
-                      fontStyle: "normal",
-                      fontWeight: 500,
-                      textTransform: "none",
-                    }}
-                  />
-                  <Tab
-                    label="Bill"
-                    value="3"
-                    style={{
-                      fontSize: 16,
-                      fontFamily: "Gilroy",
-                      color: value === "3" ? "#222222" : "#4B4B4B",
-                      lineHeight: "normal",
-                      fontStyle: "normal",
-                      fontWeight: 500,
-                      textTransform: "none",
-                    }}
-                  />
+        <TabContext value={value}>
+          <div>
+            <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
+              <TabList
+                orientation={
+                  isSmallScreen ? "vertical" : "horizontal"
+                }
+                onChange={handleChanges}
+                aria-label="lab API tabs example"
+                style={{ marginLeft: "20px" }}
+                className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
+              >
+                <Tab
+                  label="Overview"
+                  value="1"
+                  style={{
+                    fontSize: 16,
+                    fontFamily: "Gilroy",
+                    color: value === "1" ? "#222222" : "#4B4B4B",
+                    lineHeight: "normal",
+                    fontStyle: "normal",
+                    fontWeight: 500,
+                    textTransform: "none",
+                  }}
+                />
+                <Tab
+                  label="EB Reading"
+                  value="2"
+                  style={{
+                    fontSize: 16,
+                    fontFamily: "Gilroy",
+                    color: value === "2" ? "#222222" : "#4B4B4B",
+                    lineHeight: "normal",
+                    fontStyle: "normal",
+                    fontWeight: 500,
+                    textTransform: "none",
+                  }}
+                />
+                <Tab
+                  label="Bill"
+                  value="3"
+                  style={{
+                    fontSize: 16,
+                    fontFamily: "Gilroy",
+                    color: value === "3" ? "#222222" : "#4B4B4B",
+                    lineHeight: "normal",
+                    fontStyle: "normal",
+                    fontWeight: 500,
+                    textTransform: "none",
+                  }}
+                />
 
-                  <Tab
-                    label="Transactions"
-                    value="4"
-                    style={{
-                      fontSize: 16,
-                      fontFamily: "Gilroy",
-                      color: value === "5" ? "#222222" : "#4B4B4B",
-                      lineHeight: "normal",
-                      fontStyle: "normal",
-                      fontWeight: 500,
-                      textTransform: "none",
-                    }}
-                  />
-                </TabList>
-              </Box>
-            </div>
-            <TabPanel value="1" className="px-0 mt-2">
-              <>
-                <div className="roomdetailscard">
-                  <div style={{ flex: 1 }}>
-                    <div className="col-md-12 mb-3 mb-md-0">
+                <Tab
+                  label="Transactions"
+                  value="4"
+                  style={{
+                    fontSize: 16,
+                    fontFamily: "Gilroy",
+                    color: value === "5" ? "#222222" : "#4B4B4B",
+                    lineHeight: "normal",
+                    fontStyle: "normal",
+                    fontWeight: 500,
+                    textTransform: "none",
+                  }}
+                />
+              </TabList>
+            </Box>
+          </div>
+          <TabPanel value="1" className="px-0 mt-2">
+            <>
+              <div className="roomdetailscard">
+                <div style={{ flex: 1 }}>
+                  <div className="col-md-12 mb-3 mb-md-0">
+                    <div
+                      className="card"
+                      style={{
+                        borderRadius: "20px",
+                        padding: "10px",
+                        marginLeft: "20px",
+                      }}
+                    >
                       <div
-                        className="card"
-                        style={{
-                          borderRadius: "20px",
-                          padding: "10px",
-                          marginLeft: "20px",
-                        }}
+                        className="card-header d-flex justify-content-between align-items-center"
+                        style={{ backgroundColor: "transparent" }}
                       >
                         <div
-                          className="card-header d-flex justify-content-between align-items-center"
-                          style={{ backgroundColor: "transparent" }}
+                          style={{
+                            fontSize: 16,
+                            fontWeight: 600,
+                            fontFamily: "Gilroy",
+                          }}
+                        >
+                          Basic Details
+                        </div>
+                        <div
+                          style={{
+                            cursor: !canUpdateTenant
+                              ? "not-allowed"
+                              : "pointer",
+                            opacity: !canUpdateTenant
+                              ? 0.6
+                              : 1,
+                          }}
                         >
                           <div
-                            style={{
-                              fontSize: 16,
-                              fontWeight: 600,
-                              fontFamily: "Gilroy",
+                            onClick={() => {
+                              if (canUpdateTenant) {
+                                handleEditBasicDetails(CustomerOverView);
+                              }
                             }}
-                          >
-                            Basic Details
-                          </div>
-                          <div
                             style={{
                               cursor: !canUpdateTenant
                                 ? "not-allowed"
                                 : "pointer",
-                              opacity: !canUpdateTenant
-                                ? 0.6
-                                : 1,
+                              height: 40,
+                              width: 40,
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              position: "relative",
+                              zIndex: 1000,
+
                             }}
                           >
-                            <div
-                              onClick={() => {
-                                if (canUpdateTenant) {
-                                  handleEditBasicDetails(CustomerOverView);
-                                }
-                              }}
+                            <img
+                              src={EditImage}
+                              alt="editimage"
                               style={{
-                                cursor: !canUpdateTenant
-                                  ? "not-allowed"
-                                  : "pointer",
-                                height: 40,
-                                width: 40,
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                position: "relative",
-                                zIndex: 1000,
+                                height: 16,
+                                width: 16,
+                                color: !canUpdateTenant
+                                  ? "#CCCCCC"
+                                  : "#000",
+                              }}
+                            />
+                          </div>
+                        </div>
+                      </div>
 
+                      <div className="card-body">
+                        <div className="row ">
+                          <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start mb-3">
+                            <p
+                              style={{
+                                fontSize: 12,
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
                               }}
                             >
-                              <img
-                                src={EditImage}
-                                alt="editimage"
+                              First Name
+                            </p>
+                            <div
+                              style={{
+                                display: "flex",
+                                marginTop: "-10px",
+                                gap: "6px",
+                                width: "100%",
+                              }}
+                            >
+                              <span
                                 style={{
-                                  height: 16,
-                                  width: 16,
-                                  color: !canUpdateTenant
-                                    ? "#CCCCCC"
-                                    : "#000",
+                                  fontSize: 14,
+                                  fontWeight: 600,
+                                  fontFamily: "Gilroy",
+                                  wordBreak: "break-word",
+                                  overflowWrap: "break-word",
+                                  minWidth: 0,
+                                  marginTop: -3,
                                 }}
-                              />
+                              >
+                                {CustomerOverView?.firstName}
+                              </span>
                             </div>
+                          </div>
+
+                          <div
+                            className="col-sm-4 col-lg-6 d-flex flex-column align-items-center"
+                            style={{ whiteSpace: "nowrap" }}
+                          >
+                            <p
+                              style={{
+                                fontSize: 12,
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                              }}
+                            >
+                              Last Name
+                            </p>
+                            <p style={{
+                              marginTop: "-10px", fontSize: 14,
+                              fontWeight: 600,
+                              fontFamily: "Gilroy",
+                              wordBreak: "break-word",
+                              overflowWrap: "break-word",
+                              minWidth: 0, marginRight: 15
+                            }}>
+                              {CustomerOverView?.lastName}
+                            </p>
                           </div>
                         </div>
 
-                        <div className="card-body">
-                          <div className="row ">
-                            <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start mb-3">
-                              <p
-                                style={{
-                                  fontSize: 12,
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                }}
-                              >
-                                First Name
-                              </p>
-                              <div
-                                style={{
-                                  display: "flex",
-                                  marginTop: "-10px",
-                                  gap: "6px",
-                                  width: "100%",
-                                }}
-                              >
-                                <span
-                                  style={{
-                                    fontSize: 14,
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy",
-                                    wordBreak: "break-word",
-                                    overflowWrap: "break-word",
-                                    minWidth: 0,
-                                    marginTop: -3,
-                                  }}
-                                >
-                                  {CustomerOverView?.firstName}
-                                </span>
-                              </div>
-                            </div>
 
-                            <div
-                              className="col-sm-4 col-lg-6 d-flex flex-column align-items-center"
-                              style={{ whiteSpace: "nowrap" }}
+                        <div className="row">
+                          <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
+                            <p
+                              style={{
+                                fontSize: 12,
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                              }}
                             >
-                              <p
+                              Email ID
+                            </p>
+                            <div
+                              style={{
+                                display: "flex",
+                                marginTop: "-10px",
+                                gap: "6px",
+                                width: "100%",
+                              }}
+                            >
+                              <Sms size="16" color="#1E45E1" style={{ flexShrink: 0 }} />
+                              <span
                                 style={{
-                                  fontSize: 12,
-                                  fontWeight: 500,
+                                  fontSize: 14,
+                                  fontWeight: 600,
                                   fontFamily: "Gilroy",
+                                  wordBreak: "break-word",
+                                  overflowWrap: "break-word",
+                                  minWidth: 0,
+                                  marginTop: -3
                                 }}
                               >
-                                Last Name
-                              </p>
-                              <p style={{
-                                marginTop: "-10px", fontSize: 14,
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                                wordBreak: "break-word",
-                                overflowWrap: "break-word",
-                                minWidth: 0, marginRight: 15
-                              }}>
-                                {CustomerOverView?.lastName}
-                              </p>
+                                {CustomerOverView?.emailId || "N/A"}
+                              </span>
                             </div>
                           </div>
-
-
-                          <div className="row">
-                            <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
-                              <p
-                                style={{
-                                  fontSize: 12,
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                }}
-                              >
-                                Email ID
-                              </p>
-                              <div
-                                style={{
-                                  display: "flex",
-                                  marginTop: "-10px",
-                                  gap: "6px",
-                                  width: "100%",
-                                }}
-                              >
-                                <Sms size="16" color="#1E45E1" style={{ flexShrink: 0 }} />
-                                <span
-                                  style={{
-                                    fontSize: 14,
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy",
-                                    wordBreak: "break-word",
-                                    overflowWrap: "break-word",
-                                    minWidth: 0,
-                                    marginTop: -3
-                                  }}
-                                >
-                                  {CustomerOverView?.emailId || "N/A"}
-                                </span>
-                              </div>
-                            </div>
-                            <div
-                              className="col-sm-4 col-lg-6 d-flex flex-column align-items-center"
-                              style={{ whiteSpace: "nowrap" }}
+                          <div
+                            className="col-sm-4 col-lg-6 d-flex flex-column align-items-center"
+                            style={{ whiteSpace: "nowrap" }}
+                          >
+                            <p
+                              style={{
+                                fontSize: 12,
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                              }}
                             >
-                              <p
+                              Mobile No
+                            </p>
+                            <p style={{ marginTop: "-10px", marginLeft: 60 }}>
+                              <Call size="16" color="#1E45E1" />
+                              <span
                                 style={{
-                                  fontSize: 12,
-                                  fontWeight: 500,
+                                  marginLeft: 5,
+                                  fontSize: 14,
+                                  fontWeight: 600,
                                   fontFamily: "Gilroy",
+                                  whiteSpace: "nowrap",
                                 }}
                               >
-                                Mobile No
-                              </p>
-                              <p style={{ marginTop: "-10px", marginLeft: 60 }}>
-                                <Call size="16" color="#1E45E1" />
-                                <span
-                                  style={{
-                                    marginLeft: 5,
-                                    fontSize: 14,
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy",
-                                    whiteSpace: "nowrap",
-                                  }}
-                                >
 
-                                  {CustomerOverView && CustomerOverView.mobileNo ? `+ ${CustomerOverView.countryCode} ${CustomerOverView.mobileNo}` : ''}
+                                {CustomerOverView && CustomerOverView.mobileNo ? `+ ${CustomerOverView.countryCode} ${CustomerOverView.mobileNo}` : ''}
 
 
 
-                                </span>
-                              </p>
-                            </div>
-                            {/* <div className="col-sm-4 d-flex flex-column align-items-end">
+                              </span>
+                            </p>
+                          </div>
+                          {/* <div className="col-sm-4 d-flex flex-column align-items-end">
                                       <p
                                         style={{
                                           fontSize: 12,
@@ -2915,28 +2890,28 @@ function UserListRoomDetail(props) {
                                         </span>
                                       </p>
                                     </div> */}
-                          </div>
-
-
                         </div>
+
+
                       </div>
                     </div>
+                  </div>
 
-                    <div className="col-md-12 mb-3 mb-md-0 mt-3">
+                  <div className="col-md-12 mb-3 mb-md-0 mt-3">
+                    <div
+                      className="card"
+                      style={{
+                        borderRadius: "20px",
+                        // padding: "5px 10px",
+                        marginLeft: "20px",
+                      }}
+                    >
+
                       <div
-                        className="card"
-                        style={{
-                          borderRadius: "20px",
-                          padding: "5px 10px",
-                          marginLeft: "20px",
-                        }}
+                        className="card-header d-flex justify-content-between align-items-center border-0"
+                        style={{ backgroundColor: "transparent" }}
                       >
-
-                        <div
-                          className="card-header d-flex justify-content-between align-items-center"
-                          style={{ backgroundColor: "transparent" }}
-                        >
-                          <div
+                        {/* <div
                             style={{
                               fontSize: 16,
                               fontWeight: 600,
@@ -2944,2355 +2919,2162 @@ function UserListRoomDetail(props) {
                             }}
                           >
                             Address Details
-                          </div>
+                          </div> */}
+                        <div className="card-header p-0 border-0" style={{ background: "transparent", width: "100%" }}>
+                          <div className="d-flex gap-5 align-items-center justify-content-center border-0" style={{ width: "100%" }}>
 
 
-                          <div
-                            style={{
-                              cursor: !canUpdateTenant ? "not-allowed" : "pointer",
-                              opacity: !canUpdateTenant ? 0.6 : 1,
-                            }}
-                          >
-                            <div
-                              onClick={() => {
-                                if (canUpdateTenant) {
-                                  handleEditAddressDetailsShow(CustomerOverView);
-                                }
-                              }}
+                            <div className="d-flex align-items-center "
+                              onClick={() => setActiveTab("kyc")}
                               style={{
-                                height: 40,
-                                width: 40,
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                position: "relative",
-                                zIndex: 1000,
+                                cursor: "pointer",
+                                padding: "6px 12px",
+                                borderBottom: activeTab === "kyc" ? "2px solid #1E45E1" : "2px solid transparent",
+                                color: activeTab === "kyc" ? "#1E45E1" : "#555",
+                                fontWeight: 600,
+                                fontFamily: "Gilroy"
                               }}
                             >
-                              <img
-                                src={EditImage}
-                                alt="edit"
-                                style={{
-                                  height: 16,
-                                  width: 16,
-                                  color: !canUpdateTenant ? "#CCCCCC" : "#000",
-                                }}
-                              />
-                            </div>
-                          </div>
-                        </div>
-
-
-                        <div className="card-body">
-
-                          <div className="row p-0">
-
-                            <div className="col-sm-6 col-lg-6 d-flex flex-column align-items-start">
-                              <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
-                                House No / Apartment
-                              </p>
-                              <div className="d-flex align-items-center gap-2">
-                                <House size="18" color="#1E45E1" />
-                                <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
-                                  {CustomerOverView.address?.houseNo}
-                                </span>
-                              </div>
+                              KYC Address
                             </div>
 
-                            <div className="col-sm-6 col-lg-6 d-flex flex-column align-items-start">
-                              <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
-                                Street / Area
-                              </p>
-                              <div className="d-flex align-items-center gap-2">
-                                <img src={Areaimage} alt="area" style={{ width: 16, height: 16 }} />
-                                <span
-                                  title={CustomerOverView.address?.streetName}
-                                  style={{
-                                    fontSize: 14,
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy",
-                                    whiteSpace: "nowrap",
-                                    overflow: "hidden",
-                                    textOverflow: "ellipsis",
-                                    maxWidth: "200px",
-                                  }}
-                                >
-                                  {CustomerOverView.address?.streetName}
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-
-
-                          <div className="row mt-3">
-
-                            <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
-                              <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
-                                Landmark
-                              </p>
-                              <div className="d-flex align-items-center gap-2">
-                                <img src={Landamrkimage} alt="landmark" style={{ width: 16, height: 16 }} />
-                                <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
-                                  {CustomerOverView.address?.landmark}
-                                </span>
-                              </div>
-                            </div>
-
-
-                            <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
-                              <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
-                                Pincode
-                              </p>
-                              <div className="d-flex align-items-center gap-2">
-                                <img src={PincodeImage} alt="pincode" style={{ width: 16, height: 16 }} />
-                                <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
-                                  {CustomerOverView.address?.pincode}
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-
-
-                          <div className="row mt-3">
-
-                            <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
-                              <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
-                                City
-                              </p>
-                              <div className="d-flex align-items-center gap-2">
-                                <img src={CityImage} alt="city" style={{ width: 16, height: 16 }} />
-                                <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
-                                  {CustomerOverView.address?.city}
-                                </span>
-                              </div>
-                            </div>
-
-
-                            <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
-                              <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
-                                State
-                              </p>
-                              <div className="d-flex align-items-center gap-2">
-                                <img src={CityImage} alt="state" style={{ width: 16, height: 16 }} />
-                                <span
-                                  style={{
-                                    fontSize: 14,
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy",
-                                    whiteSpace: "nowrap",
-                                    overflow: "hidden",
-                                    textOverflow: "ellipsis",
-                                    maxWidth: "200px",
-                                  }}
-                                >
-                                  {CustomerOverView.address?.state}
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-
-                    <div className="card mt-4" style={{ marginLeft: 25, borderRadius: 10 }}>
-                      <div className="card-body">
-                        {/* <ul class="nav nav-tabs mb-3">
-    <li class="nav-item">
-      <a class="nav-link active" data-bs-toggle="tab" href="#kycDocs">KYC Documents</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" data-bs-toggle="tab" href="#manualDocs">Manual Documents</a>
-    </li>
-  </ul> */}
-                        <TabContext value={documentvalue}>
-                          <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
-                            <TabList
-                              onChange={handleChangesupload}
-                              aria-label="custom tabs"
-                              className="d-flex flex-column flex-sm-row"
-                              TabIndicatorProps={{ style: { display: "none" } }}
+                            <div className="d-flex align-items-center "
+                              onClick={() => setActiveTab("manual")}
+                              style={{
+                                cursor: "pointer",
+                                padding: "6px 12px",
+                                borderBottom: activeTab === "manual" ? "2px solid #1E45E1" : "2px solid transparent",
+                                color: activeTab === "manual" ? "#1E45E1" : "#555",
+                                fontWeight: 600,
+                                fontFamily: "Gilroy"
+                              }}
                             >
-                              <Tab
-                                label="KYC Documents"
-                                value="1"
-                                sx={{
-                                  textTransform: "capitalize",
-                                  fontSize: 16,
-                                  fontWeight: 600,
-                                  fontFamily: "Gilroy",
-                                  color: documentvalue === "1" ? "#1E45E1" : "#4B4B4B",
-                                  borderBottom: documentvalue === "1" ? "2px solid #1E45E1" : "2px solid transparent",
-                                  minWidth: "auto",
+                              Manual Address
+
+                            </div>
+                            {activeTab === "manual" &&
+                              <span
+                                style={{
+                                  cursor: !canUpdateTenant ? "not-allowed" : "pointer",
+                                  opacity: !canUpdateTenant ? 0.6 : 1,
                                 }}
-                              />
-                              <Tab
-                                label="Manual Documents"
-                                value="2"
-                                sx={{
-                                  textTransform: "capitalize",
-                                  fontSize: 16,
-                                  fontWeight: 600,
-                                  fontFamily: "Gilroy",
-                                  color: documentvalue === "2" ? "#1E45E1" : "#4B4B4B",
-                                  borderBottom: documentvalue === "2" ? "2px solid #1E45E1" : "2px solid transparent",
-                                  minWidth: "auto",
-                                }}
-                              />
-
-                            </TabList>
-                          </Box>
-
-                          <TabPanel value="1">
-                            <div className="row mt-3">
-                              {documents.map((doc, index) => (
-                                <div className="col-md-6 mt-2" key={index}>
-                                  <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
-                                    <div className="d-flex align-items-center">
-                                      <img
-                                        src={upload}
-                                        alt="upload"
-                                        width={20}
-                                        height={20}
-                                        style={{ marginRight: "8px", cursor: "pointer" }}
-                                        onClick={() =>
-                                          document.getElementById(`fileUpload-${index}`).click()
-                                        }
-                                      />
-                                      <div>
-                                        <p
-                                          className="mb-0 fw-semibold small text-truncate"
-                                          style={{ maxWidth: "120px", fontFamily: "Gilroy" }}
-                                          title={doc.name}
-                                        >
-                                          {doc.name}
-                                        </p>
-                                        <small className="text-muted">
-                                          {doc.size} • {doc.type}
-                                        </small>
-                                      </div>
-                                    </div>
-                                    <div className="d-flex gap-2">
-                                      <img src={viewdoc} alt="viewdoc" />
-                                      <img src={docDown} alt="docDown" />
-                                    </div>
-                                  </div>
-
-                                  {/* Hidden file input per card */}
-                                  <input
-                                    type="file"
-                                    id={`fileUpload-${index}`}
-                                    style={{ display: "none" }}
-                                    onChange={(e) => handleFileUpload(index, e)}
+                              >
+                                <div
+                                  onClick={() => {
+                                    if (canUpdateTenant) {
+                                      handleEditAddressDetailsShow(CustomerOverView);
+                                    }
+                                  }}
+                                  style={{
+                                    height: 40,
+                                    width: 40,
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    position: "relative",
+                                    zIndex: 1000,
+                                  }}
+                                >
+                                  <img
+                                    src={EditImage}
+                                    alt="edit"
+                                    style={{
+                                      height: 16,
+                                      width: 16,
+                                      color: !canUpdateTenant ? "#CCCCCC" : "#000",
+                                    }}
                                   />
                                 </div>
-                              ))}
-                            </div>
-                          </TabPanel>
-                          <TabPanel value="2">
-                            <div
-                              className="row mt-3"
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                              }}
-                            >
-                              {/* <div className="col-6 text-start" style={{backgroundColor:"#EFF4FF",padding:10,marginTop:"-20px",height:54,borderRadius:10,width:250}}> */}
+                              </span>
 
-                              <div className="col-md-6">
-                                <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
-                                  <div className="d-flex align-items-center">
+                            }
+                          </div>
+                        </div>
 
-                                    <button
-                                      className="btn"
-                                      // disabled={props.customerAddPermission}
-                                      style={{
-                                        borderRadius: "10px",
-                                        padding: "5px 10px",
-                                        fontSize: "14px",
-                                        // border: "1px solid #D9D9D9",
-                                        fontFamily: "Gilroy",
-
-
-                                      }}
-                                      onClick={() => handleUploadClick(aadharInputRef)}
-                                    >
-                                      <img
-                                        src={upload}
-                                        alt="upload"
-                                        width={20}
-                                        height={20}
-                                        style={{ marginRight: "8px" }}
-                                      />
-                                      {/* Upload Document */} {advanceDetail[0]?.doc1
-                                        ? cleanFileName(advanceDetail[0].doc1)
-                                        : "Upload Document"}
-
-                                    </button>
-
-
-                                    <input
-                                      type="file"
-                                      ref={aadharInputRef}
-                                      style={{ display: "none" }}
-                                      onChange={(e) => handleFileChange(e, "doc1")}
-                                    />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                    {advanceDetail[0]?.doc1 && (
-                                      <>
-
-                                        <a
-                                          href={advanceDetail[0]?.doc1}
-                                          target="_blank"
-                                          rel="noopener noreferrer"
-                                        >
-                                          <img
-                                            src={docDown}
-                                            alt="Download Document"
-                                            style={{
-                                              width: 20,
-                                              height: 20,
-                                              marginLeft: "10px",
-                                              cursor: "pointer",
-                                            }}
-                                          />
-                                        </a>
-
-
-                                        <img
-                                          src={viewdoc}
-                                          alt="View Document"
-                                          // onClick={() => setShowDocModal(true)}
-                                          onClick={() => handleFileOpen(advanceDetail[0]?.doc1)}
-                                          style={{
-                                            width: 20,
-                                            height: 20,
-                                            marginLeft: "10px",
-                                            cursor: "pointer",
-                                          }}
-                                        />
-                                      </>
-                                    )}
-
-
-
-                                    {uploadError && (
-                                      <ErrorMessage message={uploadError} type="error" />
-                                    )}
-                                  </div>
-
-                                </div>
-                              </div>
-
-
-                              <Modal
-                                show={showDocModal}
-                                onHide={() => setShowDocModal(false)}
-                                size="md"
-                                centered
-                                backdrop="static"
-                              >
-                                <Modal.Body
-                                  style={{
-                                    padding: "20px",
-                                    position: "relative",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    minHeight: "300px",
-                                  }}
-                                >
-                                  <Button
-                                    variant="light"
-                                    onClick={() => setShowDocModal(false)}
-                                    style={{
-                                      position: "absolute",
-                                      top: 10,
-                                      right: 10,
-                                      border: "none",
-                                      fontSize: "20px",
-                                      zIndex: 1,
-                                    }}
-                                  >
-                                    &times;
-                                  </Button>
-                                  {previewUrl && previewUrl.match(/\.(jpeg|jpg|png|gif)$/i) ? (
-                                    <img src={previewUrl} alt="Document Preview" style={{ maxWidth: "100%", maxHeight: "600px" }} />
-                                  ) : (
-                                    <iframe
-                                      src={`https://docs.google.com/gview?url=${encodeURIComponent(previewUrl)}&embedded=true`}
-                                      style={{ width: "100%", height: "600px", border: "none" }}
-                                      title="Document Preview"
-                                    />
-                                  )}
-                                </Modal.Body>
-                              </Modal>
-
-
-                              {/* <div className="col-6 text-start" style={{backgroundColor:"#EFF4FF",padding:10,marginTop:"-20px",height:54,borderRadius:10}}> */}
-                              <div className="col-md-6">
-                                <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
-                                  <div className="d-flex align-items-center">
-                                    <button
-                                      className="btn "
-                                      // disabled={props.customerAddPermission}
-                                      style={{
-                                        borderRadius: "10px",
-                                        padding: "5px 10px",
-                                        fontSize: "14px",
-                                        fontFamily: "Gilroy",
-                                        // border: "1px solid #D9D9D9",
-                                      }}
-                                      onClick={() =>
-                                        handleOtherUploadClick(otherDocInputRef)
-                                      }
-                                    >
-                                      <img
-                                        src={upload}
-                                        alt="upload"
-                                        width={20}
-                                        height={20}
-                                        style={{ marginRight: "8px" }}
-                                      />
-                                      {/* Upload Document */}
-                                      {cleanFileName(advanceDetail[0]?.doc2) || "Untitled Document"}
-                                    </button>
-                                    <input
-                                      type="file"
-                                      ref={otherDocInputRef}
-                                      style={{ display: "none" }}
-                                      onChange={(e) =>
-                                        handleFileChange(e, "doc2")
-                                      }
-                                    />
-
-                                    {advanceDetail &&
-                                      advanceDetail[0]?.doc2 && (
-                                        <>
-                                          <img
-                                            src={docDown}
-                                            style={{
-                                              width: 20,
-                                              height: 20,
-                                              marginLeft: "10px",
-                                              cursor: "pointer",
-                                            }}
-                                            alt="Download Document"
-                                            onClick={() =>
-                                              window.open(
-                                                advanceDetail[0]?.doc2,
-                                                "_blank"
-                                              )
-                                            }
-                                          />
-                                          <img
-                                            src={viewdoc}
-                                            alt="docdown"
-                                            //  onClick={() => setShowDocModaldoc2(true)}
-                                            onClick={() => handleFileOpen2(advanceDetail[0]?.doc2)}
-                                            style={{
-                                              width: 20,
-                                              height: 20,
-                                              marginLeft: "10px",
-
-                                            }}
-                                          />
-                                        </>
-                                      )}
-                                  </div>
-                                </div>
-                              </div>
-
-                              {/* <Modal
-  show={showDocModaldoc2}
-  onHide={() => setShowDocModaldoc2(false)}
-  size="lg"
-  centered
-  backdrop="static"
->
-  <Modal.Body
-    style={{
-      padding: "20px",
-      position: "relative",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      minHeight: "300px", 
-    }}
-  >
-    <Button
-      variant="light"
-      onClick={() => setShowDocModaldoc2(false)}
-      style={{
-        position: "absolute",
-        top: 10,
-        right: 10,
-        border: "none",
-        fontSize: "20px",
-        zIndex: 1,
-      }}
-    >
-      &times;
-    </Button>
-
-    <img
-      src={advanceDetail[0]?.doc2}
-      alt="Document Preview"
-      style={{
-        maxWidth: "100%",
-        maxHeight: "70vh",
-        height: "auto",
-        width: "auto",
-        borderRadius: "10px",
-        objectFit: "contain",
-      }}
-    />
-  </Modal.Body>
-</Modal> */}
-
-
-
-                              <Modal
-                                show={showDocModaldoc2}
-                                onHide={() => setShowDocModaldoc2(false)}
-                                size="lg"
-                                centered
-                                backdrop="static"
-                              >
-                                <Modal.Body
-                                  style={{
-                                    padding: "20px",
-                                    position: "relative",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    minHeight: "300px",
-                                  }}
-                                >
-                                  <Button
-                                    variant="light"
-                                    onClick={() => setShowDocModaldoc2(false)}
-                                    style={{
-                                      position: "absolute",
-                                      top: 10,
-                                      right: 10,
-                                      border: "none",
-                                      fontSize: "20px",
-                                      zIndex: 1,
-                                    }}
-                                  >
-                                    &times;
-                                  </Button>
-                                  {previewUrl2 && previewUrl2.match(/\.(jpeg|jpg|png|gif)$/i) ? (
-                                    <img src={previewUrl2} alt="Document Preview" style={{ maxWidth: "100%", maxHeight: "600px" }} />
-                                  ) : (
-                                    <iframe
-                                      src={`https://docs.google.com/gview?url=${encodeURIComponent(previewUrl)}&embedded=true`}
-                                      style={{ width: "100%", height: "600px", border: "none" }}
-                                      title="Document Preview"
-                                    />
-                                  )}
-                                </Modal.Body>
-                              </Modal>
-                            </div>
-                          </TabPanel>
-                        </TabContext>
 
 
 
                       </div>
 
-                    </div>
 
+                      <div className="card-body">
+                        {
+                          activeTab === "manual" ?
+                            <div>
+                              <div className="row p-0">
+
+                                <div className="col-sm-6 col-lg-6 d-flex flex-column align-items-start">
+                                  <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                    House No / Apartment
+                                  </p>
+                                  <div className="d-flex align-items-center gap-2">
+                                    <House size="18" color="#1E45E1" />
+                                    <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                      {CustomerOverView.address?.houseNo}
+                                    </span>
+                                  </div>
+                                </div>
+
+                                <div className="col-sm-6 col-lg-6 d-flex flex-column align-items-start">
+                                  <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                    Street / Area
+                                  </p>
+                                  <div className="d-flex align-items-center gap-2">
+                                    <img src={Areaimage} alt="area" style={{ width: 16, height: 16 }} />
+                                    <span
+                                      title={CustomerOverView.address?.streetName}
+                                      style={{
+                                        fontSize: 14,
+                                        fontWeight: 600,
+                                        fontFamily: "Gilroy",
+                                        whiteSpace: "nowrap",
+                                        overflow: "hidden",
+                                        textOverflow: "ellipsis",
+                                        maxWidth: "200px",
+                                      }}
+                                    >
+                                      {CustomerOverView.address?.streetName}
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+
+
+                              <div className="row mt-3">
+
+                                <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
+                                  <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                    Landmark
+                                  </p>
+                                  <div className="d-flex align-items-center gap-2">
+                                    <img src={Landamrkimage} alt="landmark" style={{ width: 16, height: 16 }} />
+                                    <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                      {CustomerOverView.address?.landmark}
+                                    </span>
+                                  </div>
+                                </div>
+
+
+                                <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
+                                  <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                    Pincode
+                                  </p>
+                                  <div className="d-flex align-items-center gap-2">
+                                    <img src={PincodeImage} alt="pincode" style={{ width: 16, height: 16 }} />
+                                    <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                      {CustomerOverView.address?.pincode}
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+
+
+                              <div className="row mt-3">
+
+                                <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
+                                  <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                    City
+                                  </p>
+                                  <div className="d-flex align-items-center gap-2">
+                                    <img src={CityImage} alt="city" style={{ width: 16, height: 16 }} />
+                                    <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                      {CustomerOverView.address?.city}
+                                    </span>
+                                  </div>
+                                </div>
+
+
+                                <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
+                                  <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                    State
+                                  </p>
+                                  <div className="d-flex align-items-center gap-2">
+                                    <img src={CityImage} alt="state" style={{ width: 16, height: 16 }} />
+                                    <span
+                                      style={{
+                                        fontSize: 14,
+                                        fontWeight: 600,
+                                        fontFamily: "Gilroy",
+                                        whiteSpace: "nowrap",
+                                        overflow: "hidden",
+                                        textOverflow: "ellipsis",
+                                        maxWidth: "200px",
+                                      }}
+                                    >
+                                      {CustomerOverView.address?.state}
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            :
+                            <div>
+                              <div className="row p-0">
+
+                                <div className="col-sm-6 col-lg-6 d-flex flex-column align-items-start">
+                                  <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                    House No / Apartment
+                                  </p>
+                                  <div className="d-flex align-items-center gap-2">
+                                    <House size="18" color="#1E45E1" />
+                                    <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                      {/* {CustomerOverView.address?.houseNo} */}
+                                    </span>
+                                  </div>
+                                </div>
+
+                                <div className="col-sm-6 col-lg-6 d-flex flex-column align-items-start">
+                                  <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                    Street / Area
+                                  </p>
+                                  <div className="d-flex align-items-center gap-2">
+                                    <img src={Areaimage} alt="area" style={{ width: 16, height: 16 }} />
+                                    <span
+                                      // title={CustomerOverView.address?.streetName}
+                                      style={{
+                                        fontSize: 14,
+                                        fontWeight: 600,
+                                        fontFamily: "Gilroy",
+                                        whiteSpace: "nowrap",
+                                        overflow: "hidden",
+                                        textOverflow: "ellipsis",
+                                        maxWidth: "200px",
+                                      }}
+                                    >
+                                      {/* {CustomerOverView.address?.streetName} */}
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+
+
+                              <div className="row mt-3">
+
+                                <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
+                                  <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                    Landmark
+                                  </p>
+                                  <div className="d-flex align-items-center gap-2">
+                                    <img src={Landamrkimage} alt="landmark" style={{ width: 16, height: 16 }} />
+                                    <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                      {/* {CustomerOverView.address?.landmark} */}
+                                    </span>
+                                  </div>
+                                </div>
+
+
+                                <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
+                                  <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                    Pincode
+                                  </p>
+                                  <div className="d-flex align-items-center gap-2">
+                                    <img src={PincodeImage} alt="pincode" style={{ width: 16, height: 16 }} />
+                                    <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                      {/* {CustomerOverView.address?.pincode} */}
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+
+
+                              <div className="row mt-3">
+
+                                <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
+                                  <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                    City
+                                  </p>
+                                  <div className="d-flex align-items-center gap-2">
+                                    <img src={CityImage} alt="city" style={{ width: 16, height: 16 }} />
+                                    <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                      {/* {CustomerOverView.address?.city} */}
+                                    </span>
+                                  </div>
+                                </div>
+
+
+                                <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
+                                  <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                                    State
+                                  </p>
+                                  <div className="d-flex align-items-center gap-2">
+                                    <img src={CityImage} alt="state" style={{ width: 16, height: 16 }} />
+                                    <span
+                                      style={{
+                                        fontSize: 14,
+                                        fontWeight: 600,
+                                        fontFamily: "Gilroy",
+                                        whiteSpace: "nowrap",
+                                        overflow: "hidden",
+                                        textOverflow: "ellipsis",
+                                        maxWidth: "200px",
+                                      }}
+                                    >
+                                      {/* {CustomerOverView.address?.state} */}
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                        }
+
+
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div className="card mt-4" style={{ marginLeft: 25, borderRadius: 10 }}>
+                    <div className="card-body">
+
+                      <TabContext value={documentvalue} className="d-flex  justify-content-center flex-sm-row">
+                        <Box sx={{ borderBottom: 0, borderColor: "divider" }} className="d-flex  justify-content-center flex-sm-row">
+                          <TabList
+                            onChange={handleChangesupload}
+                            aria-label="custom tabs"
+                            className="d-flex  justify-content-center flex-sm-row"
+                            TabIndicatorProps={{ style: { display: "none" } }}
+                          >
+                            <Tab
+                              label="KYC Documents"
+                              value="1"
+                              sx={{
+                                textTransform: "capitalize",
+                                fontSize: 16,
+                                fontWeight: 600,
+                                fontFamily: "Gilroy",
+                                color: documentvalue === "1" ? "#1E45E1" : "#4B4B4B",
+                                borderBottom: documentvalue === "1" ? "2px solid #1E45E1" : "2px solid transparent",
+                                minWidth: "auto",
+                              }}
+                            />
+                            <Tab
+                              label="Manual Documents"
+                              value="2"
+                              sx={{
+                                textTransform: "capitalize",
+                                fontSize: 16,
+                                fontWeight: 600,
+                                fontFamily: "Gilroy",
+                                color: documentvalue === "2" ? "#1E45E1" : "#4B4B4B",
+                                borderBottom: documentvalue === "2" ? "2px solid #1E45E1" : "2px solid transparent",
+                                minWidth: "auto",
+                              }}
+                            />
+
+                          </TabList>
+                        </Box>
+
+                        <TabPanel value="1">
+                          <KYCDocuments />
+                        </TabPanel>
+                        <TabPanel value="2">
+                          <div
+                            className="row mt-3"
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                            }}
+                          >
+
+                            <div className="col-md-12">
+                              <div
+                                className="d-flex align-items-center"
+                                style={{ position: "relative" }}
+                              >
+                                <div className="d-flex align-items-center flex-wrap" style={{ width: "100%", }}>
+                                  {documents.length > 0 ? (
+                                    <ManualDocumentsDetails documents={documents} />
+                                  ) : (
+                                    <div
+                                      className="text-center"
+                                      style={{
+                                        fontSize: 14,
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 400,
+                                        width: "100%", backgroundColor: ""
+                                      }}
+                                    >
+                                      No Manual Documents are there!
+                                      <p>
+                                        <button onClick={() => handlePreview()}
+
+                                          type="button"
+                                          className="btn mt-2"
+                                          disabled={!canWriteTenant}
+                                          style={{
+                                            backgroundColor: "#1E45E1",
+                                            fontWeight: 600,
+                                            borderRadius: 12,
+                                            fontSize: 14,
+                                            fontFamily: "Gilroy",
+                                            padding: "8px 10px",
+                                            color: "#fff",
+                                          }}
+
+                                        >
+                                          <img src={FileAdd} alt="" /> Upload Document
+                                        </button>
+                                      </p>
+                                    </div>
+                                  )}
+                                </div>
+
+
+                                {documents.length > 0 && (
+                                  <div className="d-flex" onClick={() =>
+                                    handlePreview()
+                                  }
+                                    style={{
+                                      position: "absolute",
+                                      bottom: 0,
+                                      right: 0,
+                                      backgroundColor: "#00A32E",
+                                      borderRadius: "50%",
+                                      padding: "12px 12px", cursor: "pointer"
+                                    }}
+                                  >
+                                    <DocumentUpload
+                                      size="20"
+                                      color="#FFFFFF"
+                                    />
+                                  </div>
+                                )}
+
+
+
+                              </div>
+                            </div>
+
+
+
+                            <Modal
+                              show={showDocModal}
+                              onHide={() => setShowDocModal(false)}
+                              size="md"
+                              centered
+                              backdrop="static"
+                            >
+                              <Modal.Body
+                                style={{
+                                  padding: "20px",
+                                  position: "relative",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                  minHeight: "300px",
+                                }}
+                              >
+                                <Button
+                                  variant="light"
+                                  onClick={() => setShowDocModal(false)}
+                                  style={{
+                                    position: "absolute",
+                                    top: 10,
+                                    right: 10,
+                                    border: "none",
+                                    fontSize: "20px",
+                                    zIndex: 1,
+                                  }}
+                                >
+                                  &times;
+                                </Button>
+                                {previewUrl && previewUrl.match(/\.(jpeg|jpg|png|gif)$/i) ? (
+                                  <img src={previewUrl} alt="Document Preview" style={{ maxWidth: "100%", maxHeight: "600px" }} />
+                                ) : (
+                                  <iframe
+                                    src={`https://docs.google.com/gview?url=${encodeURIComponent(previewUrl)}&embedded=true`}
+                                    style={{ width: "100%", height: "600px", border: "none" }}
+                                    title="Document Preview"
+                                  />
+                                )}
+                              </Modal.Body>
+                            </Modal>
+
+
+
+
+
+                            <Modal
+                              show={showDocModaldoc2}
+                              onHide={() => setShowDocModaldoc2(false)}
+                              size="lg"
+                              centered
+                              backdrop="static"
+                            >
+                              <Modal.Body
+                                style={{
+                                  padding: "20px",
+                                  position: "relative",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                  minHeight: "300px",
+                                }}
+                              >
+                                <Button
+                                  variant="light"
+                                  onClick={() => setShowDocModaldoc2(false)}
+                                  style={{
+                                    position: "absolute",
+                                    top: 10,
+                                    right: 10,
+                                    border: "none",
+                                    fontSize: "20px",
+                                    zIndex: 1,
+                                  }}
+                                >
+                                  &times;
+                                </Button>
+                                {previewUrl2 && previewUrl2.match(/\.(jpeg|jpg|png|gif)$/i) ? (
+                                  <img src={previewUrl2} alt="Document Preview" style={{ maxWidth: "100%", maxHeight: "600px" }} />
+                                ) : (
+                                  <iframe
+                                    src={`https://docs.google.com/gview?url=${encodeURIComponent(previewUrl)}&embedded=true`}
+                                    style={{ width: "100%", height: "600px", border: "none" }}
+                                    title="Document Preview"
+                                  />
+                                )}
+                              </Modal.Body>
+                            </Modal>
+                          </div>
+                        </TabPanel>
+                      </TabContext>
+
+
+
+                    </div>
 
                   </div>
 
-                  <div style={{ flex: 1 }}>
-                    <div>
-                      <div className="d-flex flex-column col-md-12 col-lg-12 mb-md-0"
-                        style={{
-                          paddingLeft: 20,
-                          paddingRight: 20,
 
-                        }}>
+                </div>
+
+                <div style={{ flex: 1 }}>
+                  <div>
+                    <div className="d-flex flex-column col-md-12 col-lg-12 mb-md-0"
+                      style={{
+                        paddingLeft: 20,
+                        paddingRight: 20,
+
+                      }}>
+                      <div
+                        className="card"
+                        style={{
+                          borderRadius: "20px",
+                          padding: "15px",
+                        }}
+                      >
                         <div
-                          className="card"
+                          className="card-header d-flex flex-column justify-content-between border-0"
                           style={{
-                            borderRadius: "20px",
-                            padding: "15px",
+                            backgroundColor: "transparent",
                           }}
                         >
-                          <div
-                            className="card-header d-flex flex-column justify-content-between border-0"
-                            style={{
-                              backgroundColor: "transparent",
-                            }}
-                          >
-                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <div
+                              style={{
+                                fontSize: 16,
+                                fontWeight: 600,
+                                fontFamily: "Gilroy",
+
+                              }}
+                            >
+                              Stay details
+                            </div>
+
+
+                            <div className="d-flex flex-row">
+                              <div style={{
+                                cursor: !canUpdateTenant
+                                  ? "not-allowed"
+                                  : "pointer",
+                                opacity: !canUpdateTenant
+                                  ? 0.6
+                                  : 1,
+                              }}>
+                                <img src={Stayhistory} alt="stayhistoryicon"
+                                  onClick={() => {
+
+                                    if (canUpdateTenant) {
+                                      handleShowStayHistory(CustomerOverView);
+                                    }
+                                  }}
+                                  style={{
+                                    height: 18, width: 18,
+                                    cursor: !canUpdateTenant
+                                      ? "not-allowed"
+                                      : "pointer",
+                                  }} />
+                              </div>
                               <div
                                 style={{
-                                  fontSize: 16,
-                                  fontWeight: 600,
-                                  fontFamily: "Gilroy",
-
-                                }}
-                              >
-                                Stay details
-                              </div>
-
-
-                              <div className="d-flex flex-row">
-                                <div style={{
                                   cursor: !canUpdateTenant
                                     ? "not-allowed"
                                     : "pointer",
                                   opacity: !canUpdateTenant
                                     ? 0.6
                                     : 1,
-                                }}>
-                                  <img src={Stayhistory} alt="stayhistoryicon"
-                                    onClick={() => {
-
-                                      if (canUpdateTenant) {
-                                        handleShowStayHistory(CustomerOverView);
-                                      }
-                                    }}
-                                    style={{
-                                      height: 18, width: 18,
-                                      cursor: !canUpdateTenant
-                                        ? "not-allowed"
-                                        : "pointer",
-                                    }} />
-                                </div>
-                                <div
-                                  style={{
-                                    cursor: !canUpdateTenant
-                                      ? "not-allowed"
-                                      : "pointer",
-                                    opacity: !canUpdateTenant
-                                      ? 0.6
-                                      : 1,
-                                  }}
-                                >
-                                  {/* <div
-                                    onClick={() => {
-                                      if (canUpdateTenant) {
-                                        handleEditStayDetails(CustomerOverView);
-                                      }
-                                    }}
-                                    style={{
-                                      cursor: !canUpdateTenant
-                                        ? "not-allowed"
-                                        : "pointer",
-                                      height: 30,
-                                      width: 30,
-
-                                      display: "flex",
-                                      justifyContent: "center",
-                                      alignItems: "center",
-                                      position: "relative",
-                                      zIndex: 1000,
-
-                                    }}
-                                  >
-                                    <img
-                                      src={EditImage}
-                                      alt="EditImage"
-                                      style={{
-                                        height: 16,
-                                        width: 16,
-                                        color: !canUpdateTenant
-                                          ? "#CCCCCC"
-                                          : "#000",
-                                      }}
-                                    />
-                                  </div> */}
-                                </div>
-                              </div>
-                            </div>
-                            <hr />
-
-
-                            <div className="row">
-                              <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
-                                <p
-                                  style={{
-                                    fontSize: 12,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                  }}
-                                >
-                                  Floor
-                                </p>
-                                <p style={{ marginTop: "-10px" }}>
-                                  <img src={Floorimage} alt="Floorimage" size="16" color="#1E45E1" />
-                                  <span
-                                    style={{
-                                      fontSize: 14,
-                                      fontWeight: 600,
-                                      fontFamily: "Gilroy",
-                                      marginLeft: 5,
-                                    }}
-                                  >
-                                    {" "}
-                                    {CustomerOverView.hostelInfo?.floorName &&
-                                      CustomerOverView.hostelInfo?.floorName !== "undefined" &&
-                                      CustomerOverView.hostelInfo?.floorName !== 0 &&
-                                      CustomerOverView.hostelInfo?.floorName !== "null"
-                                      ? CustomerOverView.hostelInfo?.floorName
-                                      : "N/A"}
-                                  </span>
-                                </p>
-                              </div>
-                              <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
-                                <p
-                                  style={{
-                                    fontSize: 12,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                  }}
-                                >
-                                  Room
-                                </p>
-                                <p
-                                  onClick={() => {
-                                    if (canUpdateTenant && CustomerOverView?.hostelInfo?.bedId) {
-                                      handleShowEditBed(
-                                        CustomerOverView
-                                      );
-                                    }
-                                  }}
-                                  style={{
-                                    cursor: !canUpdateTenant
-                                      ? "not-allowed"
-                                      : "pointer",
-                                    opacity: !canUpdateTenant
-                                      ? 0.6
-                                      : 1,
-                                    marginTop: "-10px",
-                                  }}
-                                >
-                                  <img
-                                    src={RoomImage}
-                                    alt="group"
-                                    style={{
-                                      cursor: !canUpdateTenant
-                                        ? "not-allowed"
-                                        : "pointer",
-                                      filter: !canUpdateTenant
-                                        ? "grayscale(100%)"
-                                        : "none",
-                                    }}
-                                  />
-                                  <span
-                                    style={{
-                                      marginLeft: 5,
-                                      fontSize: 14,
-                                      fontWeight: 600,
-                                      fontFamily: "Gilroy",
-                                      marginTop: "-10px",
-                                      cursor: !canUpdateTenant
-                                        ? "not-allowed"
-                                        : "pointer",
-                                      color: !canUpdateTenant
-                                        ? "#888888"
-                                        : "#000000",
-                                    }}
-                                  >
-                                    {CustomerOverView?.hostelInfo?.roomName ? CustomerOverView?.hostelInfo?.roomName : "N/A"}
-                                  </span>
-                                </p>
-                              </div>
-
-
-                              <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
-                                <p
-                                  style={{
-                                    fontSize: 12,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                  }}
-                                >
-                                  Bed
-                                </p>
-                                <p
-                                  onClick={() => {
-                                    if (canUpdateTenant) {
-                                      handleShowEditBed(
-                                        customerDetails
-                                      );
-                                    }
-                                  }}
-                                  style={{
-                                    cursor: !canUpdateTenant
-                                      ? "not-allowed"
-                                      : "pointer",
-                                    opacity: !canUpdateTenant
-                                      ? 0.6
-                                      : 1,
-                                    marginTop: "-10px",
-                                  }}
-                                >
-                                  <img
-                                    src={Group}
-                                    alt="group"
-                                    style={{
-                                      cursor: !canUpdateTenant
-                                        ? "not-allowed"
-                                        : "pointer",
-                                      filter: !canUpdateTenant
-                                        ? "grayscale(100%)"
-                                        : "none",
-                                    }}
-                                  />
-                                  <span
-                                    style={{
-                                      marginLeft: 5,
-                                      fontSize: 14,
-                                      fontWeight: 600,
-                                      fontFamily: "Gilroy",
-                                      cursor: !canUpdateTenant
-                                        ? "not-allowed"
-                                        : "pointer",
-                                      color: !canUpdateTenant
-                                        ? "#888888"
-                                        : "#000000",
-                                    }}
-                                  >
-                                    {CustomerOverView?.hostelInfo?.bedName ? CustomerOverView?.hostelInfo?.bedName : "N/A"}
-                                  </span>
-                                </p>
-                              </div>
-                              <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
-                                <p
-                                  style={{
-                                    fontSize: 12,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    // marginLeft: 29
-                                  }}
-                                >
-                                  Booking Date
-                                </p>
-                                <p
-                                  onClick={() => {
-                                    if (canUpdateTenant) {
-                                      handleShowEditBed(
-                                        customerDetails
-                                      );
-                                    }
-                                  }}
-                                  style={{
-                                    cursor: !canUpdateTenant
-                                      ? "not-allowed"
-                                      : "pointer",
-                                    opacity: !canUpdateTenant
-                                      ? 0.6
-                                      : 1,
-                                    marginTop: "-10px",
-                                    // marginLeft: 50
-                                  }}
-                                >
-                                  <img
-                                    src={LinkImage}
-                                    alt="group"
-                                    style={{
-                                      cursor: !canUpdateTenant
-                                        ? "not-allowed"
-                                        : "pointer",
-                                      filter: !canUpdateTenant
-                                        ? "grayscale(100%)"
-                                        : "none",
-                                    }}
-                                  />
-                                  <span
-                                    style={{
-                                      marginLeft: 5,
-                                      fontSize: 14,
-                                      fontWeight: 600,
-                                      fontFamily: "Gilroy",
-                                      cursor: !canUpdateTenant
-                                        ? "not-allowed"
-                                        : "pointer",
-                                      color: !canUpdateTenant
-                                        ? "#888888"
-                                        : "#000000",
-                                    }}
-                                  >
-                                    {CustomerOverView.bookingInfo?.bookingDate
-                                      ? CustomerOverView.bookingInfo?.bookingDate
-                                      : "N/A"}
-                                  </span>
-                                </p>
-                              </div>
-                              <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
-                                <p
-                                  style={{
-                                    fontSize: 12,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    // marginLeft: 29
-                                  }}
-                                >
-                                  Joined Date  <img className="ms-2" onClick={() => (canUpdateTenant && CustomerOverView.hostelInfo?.joiningDate) && handleUpdateJoiningChange()}
-                                    src={EditImage}
-                                    alt="EditImage"
-                                    style={{
-                                      height: 14,
-                                      width: 14,
-                                      color: !canUpdateTenant || !CustomerOverView.hostelInfo?.joiningDate
-                                        ? "#1E45E1"
-                                        : "#000", cursor: "pointer"
-                                    }}
-                                  />
-                                </p>
-                                <p
-                                  onClick={() => {
-                                    if (canUpdateTenant) {
-                                      handleShowEditBed(
-                                        customerDetails
-                                      );
-                                    }
-                                  }}
-                                  style={{
-                                    cursor: !canUpdateTenant
-                                      ? "not-allowed"
-                                      : "pointer",
-                                    opacity: !canUpdateTenant
-                                      ? 0.6
-                                      : 1,
-                                    marginTop: "-10px",
-                                    // marginLeft: 50
-                                  }}
-                                >
-                                  <img
-                                    src={LinkImage}
-                                    alt="group"
-                                    style={{
-                                      cursor: !canUpdateTenant
-                                        ? "not-allowed"
-                                        : "pointer",
-                                      filter: !canUpdateTenant
-                                        ? "grayscale(100%)"
-                                        : "none",
-                                    }}
-                                  />
-                                  <span
-                                    style={{
-                                      marginLeft: 5,
-                                      fontSize: 14,
-                                      fontWeight: 600,
-                                      fontFamily: "Gilroy",
-                                      cursor: !canUpdateTenant
-                                        ? "not-allowed"
-                                        : "pointer",
-                                      color: !canUpdateTenant
-                                        ? "#888888"
-                                        : "#000000",
-                                    }}
-                                  >
-                                    {CustomerOverView.hostelInfo?.joiningDate
-                                      ? CustomerOverView.hostelInfo?.joiningDate
-                                      : "N/A"}
-                                  </span>
-                                </p>
-                              </div>
-
-
-
-
-                            </div>
-
-
-                            <label className="mt-2 mb-2" style={{
-                              fontSize: 16,
-                              fontWeight: 600,
-                              fontFamily: "Gilroy",
-
-                            }}>Financial details</label>
-
-                            <div
-                              className="col-md-12 col-lg-12 mb-md-0"
-
-                            >
-                              <div
-                                className="card border-0 p-0"
-                                style={{
-                                  borderRadius: "10px",
-                                  // backgroundColor: 'rgba(247, 249, 255, 1)'
-
                                 }}
                               >
 
+                              </div>
+                            </div>
+                          </div>
+                          <hr />
 
-                                <div className="card-body border-0 p-0">
 
-                                  <div>
-                                    <div className="row mb-3">
-                                      <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
-                                        <div
+                          <div className="row">
+                            <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
+                              <p
+                                style={{
+                                  fontSize: 12,
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                }}
+                              >
+                                Floor
+                              </p>
+                              <p style={{ marginTop: "-10px" }}>
+                                <img src={Floorimage} alt="Floorimage" size="16" color="#1E45E1" />
+                                <span
+                                  style={{
+                                    fontSize: 14,
+                                    fontWeight: 600,
+                                    fontFamily: "Gilroy",
+                                    marginLeft: 5,
+                                  }}
+                                >
+                                  {" "}
+                                  {CustomerOverView.hostelInfo?.floorName &&
+                                    CustomerOverView.hostelInfo?.floorName !== "undefined" &&
+                                    CustomerOverView.hostelInfo?.floorName !== 0 &&
+                                    CustomerOverView.hostelInfo?.floorName !== "null"
+                                    ? CustomerOverView.hostelInfo?.floorName
+                                    : "N/A"}
+                                </span>
+                              </p>
+                            </div>
+                            <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
+                              <p
+                                style={{
+                                  fontSize: 12,
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                }}
+                              >
+                                Room
+                              </p>
+                              <p
+                                onClick={() => {
+                                  if (canUpdateTenant && CustomerOverView?.hostelInfo?.bedId) {
+                                    handleShowEditBed(
+                                      CustomerOverView
+                                    );
+                                  }
+                                }}
+                                style={{
+                                  cursor: !canUpdateTenant
+                                    ? "not-allowed"
+                                    : "pointer",
+                                  opacity: !canUpdateTenant
+                                    ? 0.6
+                                    : 1,
+                                  marginTop: "-10px",
+                                }}
+                              >
+                                <img
+                                  src={RoomImage}
+                                  alt="group"
+                                  style={{
+                                    cursor: !canUpdateTenant
+                                      ? "not-allowed"
+                                      : "pointer",
+                                    filter: !canUpdateTenant
+                                      ? "grayscale(100%)"
+                                      : "none",
+                                  }}
+                                />
+                                <span
+                                  style={{
+                                    marginLeft: 5,
+                                    fontSize: 14,
+                                    fontWeight: 600,
+                                    fontFamily: "Gilroy",
+                                    marginTop: "-10px",
+                                    cursor: !canUpdateTenant
+                                      ? "not-allowed"
+                                      : "pointer",
+                                    color: !canUpdateTenant
+                                      ? "#888888"
+                                      : "#000000",
+                                  }}
+                                >
+                                  {CustomerOverView?.hostelInfo?.roomName ? CustomerOverView?.hostelInfo?.roomName : "N/A"}
+                                </span>
+                              </p>
+                            </div>
+
+
+                            <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
+                              <p
+                                style={{
+                                  fontSize: 12,
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                }}
+                              >
+                                Bed
+                              </p>
+                              <p
+                                onClick={() => {
+                                  if (canUpdateTenant) {
+                                    handleShowEditBed(
+                                      customerDetails
+                                    );
+                                  }
+                                }}
+                                style={{
+                                  cursor: !canUpdateTenant
+                                    ? "not-allowed"
+                                    : "pointer",
+                                  opacity: !canUpdateTenant
+                                    ? 0.6
+                                    : 1,
+                                  marginTop: "-10px",
+                                }}
+                              >
+                                <img
+                                  src={Group}
+                                  alt="group"
+                                  style={{
+                                    cursor: !canUpdateTenant
+                                      ? "not-allowed"
+                                      : "pointer",
+                                    filter: !canUpdateTenant
+                                      ? "grayscale(100%)"
+                                      : "none",
+                                  }}
+                                />
+                                <span
+                                  style={{
+                                    marginLeft: 5,
+                                    fontSize: 14,
+                                    fontWeight: 600,
+                                    fontFamily: "Gilroy",
+                                    cursor: !canUpdateTenant
+                                      ? "not-allowed"
+                                      : "pointer",
+                                    color: !canUpdateTenant
+                                      ? "#888888"
+                                      : "#000000",
+                                  }}
+                                >
+                                  {CustomerOverView?.hostelInfo?.bedName ? CustomerOverView?.hostelInfo?.bedName : "N/A"}
+                                </span>
+                              </p>
+                            </div>
+                            <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
+                              <p
+                                style={{
+                                  fontSize: 12,
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  // marginLeft: 29
+                                }}
+                              >
+                                Booking Date
+                              </p>
+                              <p
+                                onClick={() => {
+                                  if (canUpdateTenant) {
+                                    handleShowEditBed(
+                                      customerDetails
+                                    );
+                                  }
+                                }}
+                                style={{
+                                  cursor: !canUpdateTenant
+                                    ? "not-allowed"
+                                    : "pointer",
+                                  opacity: !canUpdateTenant
+                                    ? 0.6
+                                    : 1,
+                                  marginTop: "-10px",
+                                  // marginLeft: 50
+                                }}
+                              >
+                                <img
+                                  src={LinkImage}
+                                  alt="group"
+                                  style={{
+                                    cursor: !canUpdateTenant
+                                      ? "not-allowed"
+                                      : "pointer",
+                                    filter: !canUpdateTenant
+                                      ? "grayscale(100%)"
+                                      : "none",
+                                  }}
+                                />
+                                <span
+                                  style={{
+                                    marginLeft: 5,
+                                    fontSize: 14,
+                                    fontWeight: 600,
+                                    fontFamily: "Gilroy",
+                                    cursor: !canUpdateTenant
+                                      ? "not-allowed"
+                                      : "pointer",
+                                    color: !canUpdateTenant
+                                      ? "#888888"
+                                      : "#000000",
+                                  }}
+                                >
+                                  {CustomerOverView.bookingInfo?.bookingDate
+                                    ? CustomerOverView.bookingInfo?.bookingDate
+                                    : "N/A"}
+                                </span>
+                              </p>
+                            </div>
+                            <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
+                              <p
+                                style={{
+                                  fontSize: 12,
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  // marginLeft: 29
+                                }}
+                              >
+                                Joined Date  <img className="ms-2" onClick={() => (canUpdateTenant && CustomerOverView.hostelInfo?.joiningDate) && handleUpdateJoiningChange()}
+                                  src={EditImage}
+                                  alt="EditImage"
+                                  style={{
+                                    height: 14,
+                                    width: 14,
+                                    color: !canUpdateTenant || !CustomerOverView.hostelInfo?.joiningDate
+                                      ? "#1E45E1"
+                                      : "#000", cursor: "pointer"
+                                  }}
+                                />
+                              </p>
+                              <p
+                                onClick={() => {
+                                  if (canUpdateTenant) {
+                                    handleShowEditBed(
+                                      customerDetails
+                                    );
+                                  }
+                                }}
+                                style={{
+                                  cursor: !canUpdateTenant
+                                    ? "not-allowed"
+                                    : "pointer",
+                                  opacity: !canUpdateTenant
+                                    ? 0.6
+                                    : 1,
+                                  marginTop: "-10px",
+                                  // marginLeft: 50
+                                }}
+                              >
+                                <img
+                                  src={LinkImage}
+                                  alt="group"
+                                  style={{
+                                    cursor: !canUpdateTenant
+                                      ? "not-allowed"
+                                      : "pointer",
+                                    filter: !canUpdateTenant
+                                      ? "grayscale(100%)"
+                                      : "none",
+                                  }}
+                                />
+                                <span
+                                  style={{
+                                    marginLeft: 5,
+                                    fontSize: 14,
+                                    fontWeight: 600,
+                                    fontFamily: "Gilroy",
+                                    cursor: !canUpdateTenant
+                                      ? "not-allowed"
+                                      : "pointer",
+                                    color: !canUpdateTenant
+                                      ? "#888888"
+                                      : "#000000",
+                                  }}
+                                >
+                                  {CustomerOverView.hostelInfo?.joiningDate
+                                    ? CustomerOverView.hostelInfo?.joiningDate
+                                    : "N/A"}
+                                </span>
+                              </p>
+                            </div>
+
+
+
+
+                          </div>
+
+
+                          <label className="mt-2 mb-2" style={{
+                            fontSize: 16,
+                            fontWeight: 600,
+                            fontFamily: "Gilroy",
+
+                          }}>Financial details</label>
+
+                          <div
+                            className="col-md-12 col-lg-12 mb-md-0"
+
+                          >
+                            <div
+                              className="card border-0 p-0"
+                              style={{
+                                borderRadius: "10px",
+
+
+                              }}
+                            >
+
+
+                              <div className="card-body border-0 p-0">
+
+                                <div>
+                                  <div className="row mb-3">
+                                    <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
+                                      <div
+                                        style={{
+                                          fontSize: 12,
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                        }}
+                                      >
+                                        Monthly Rent
+                                        <img className="ms-2"
+                                          onClick={() => (canUpdateTenant && CustomerOverView.hostelInfo?.monthlyRent) && handleUpdateChange()}
+                                          src={EditImage}
+                                          alt="EditImage"
                                           style={{
-                                            fontSize: 12,
-                                            fontWeight: 500,
-                                            fontFamily: "Gilroy",
+                                            height: 14,
+                                            width: 14,
+                                            color: !canUpdateTenant
+                                              ? "#CCCCCC"
+                                              : "#000", cursor: "pointer"
                                           }}
-                                        >
-                                          Monthly Rent
-                                          <img className="ms-2"
-                                            onClick={() => (canUpdateTenant && CustomerOverView.hostelInfo?.monthlyRent) && handleUpdateChange()}
-                                            src={EditImage}
-                                            alt="EditImage"
-                                            style={{
-                                              height: 14,
-                                              width: 14,
-                                              color: !canUpdateTenant
-                                                ? "#CCCCCC"
-                                                : "#000", cursor: "pointer"
-                                            }}
-                                          />
-                                        </div>
-                                        <p
-                                          style={{
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy",
-                                            color: 'rgba(30, 69, 225, 1)',
-                                            paddingTop: 7
-                                          }}
-                                        >
-                                          {CustomerOverView.hostelInfo?.monthlyRent != null
-                                            ? `₹${CustomerOverView.hostelInfo?.monthlyRent}`
-                                            : 0
-                                          }
-                                        </p>
+                                        />
                                       </div>
-                                      <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
-                                        <div
+                                      <p
+                                        style={{
+                                          fontSize: 14,
+                                          fontWeight: 600,
+                                          fontFamily: "Gilroy",
+                                          color: 'rgba(30, 69, 225, 1)',
+                                          paddingTop: 7
+                                        }}
+                                      >
+                                        {CustomerOverView.hostelInfo?.monthlyRent != null
+                                          ? `₹${CustomerOverView.hostelInfo?.monthlyRent}`
+                                          : 0
+                                        }
+                                      </p>
+                                    </div>
+                                    <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
+                                      <div
+                                        style={{
+                                          fontSize: 12,
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                        }}
+                                      >
+                                        Advance Amount  <img className="ms-2" onClick={() => (canUpdateTenant && advanceList?.advanceAmount) && handleUpdateAdvanceChange()}
+                                          src={EditImage}
+                                          alt="EditImage"
                                           style={{
-                                            fontSize: 12,
-                                            fontWeight: 500,
-                                            fontFamily: "Gilroy",
+                                            height: 14,
+                                            width: 14,
+                                            color: !canUpdateTenant
+                                              ? "#CCCCCC"
+                                              : "#000", cursor: "pointer"
                                           }}
-                                        >
-                                          Advance Amount  <img className="ms-2" onClick={() =>( canUpdateTenant && advanceList?.advanceAmount) && handleUpdateAdvanceChange()}
-                                            src={EditImage}
-                                            alt="EditImage"
-                                            style={{
-                                              height: 14,
-                                              width: 14,
-                                              color: !canUpdateTenant
-                                                ? "#CCCCCC"
-                                                : "#000", cursor: "pointer"
-                                            }}
-                                          />
-                                        </div>
-                                        <p
-                                          style={{
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy", paddingTop: 7
-                                          }}
-                                        >
-                                          {advanceList?.advanceAmount != null
-                                            ? `₹${advanceList?.advanceAmount}`
-                                            : 0
-                                          }
-
-
-
-                                        </p>
+                                        />
                                       </div>
+                                      <p
+                                        style={{
+                                          fontSize: 14,
+                                          fontWeight: 600,
+                                          fontFamily: "Gilroy", paddingTop: 7
+                                        }}
+                                      >
+                                        {advanceList?.advanceAmount != null
+                                          ? `₹${advanceList?.advanceAmount}`
+                                          : 0
+                                        }
 
 
 
-                                      <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
-                                        <div
-                                          style={{
-                                            fontSize: 12,
-                                            fontWeight: 500,
-                                            fontFamily: "Gilroy",
-                                          }}
-                                        >
-                                          Booking Amount
-                                        </div>
-                                        <p
-                                          style={{
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy",
-                                            color: '#222',
-                                            paddingTop: 7
-                                          }}
-                                        >
-
-                                          {CustomerOverView.bookingInfo?.bookingAmount != null
-                                            ? `₹${CustomerOverView.bookingInfo.bookingAmount}`
-                                            : 0
-                                          }
-                                        </p>
-                                      </div>
-
-                                      {
-                                        CustomerOverView.hostelInfo?.maintenance !== null &&
-                                        <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
-                                          <div
-                                            style={{
-                                              fontSize: 12,
-                                              fontWeight: 500,
-                                              fontFamily: "Gilroy",
-                                            }}
-                                          >
-                                            Maintenance
-                                          </div>
-                                          <p
-                                            style={{
-                                              fontSize: 14,
-                                              fontWeight: 600,
-                                              fontFamily: "Gilroy",
-                                              // color: 'rgba(30, 69, 225, 1)',
-                                              paddingTop: 7
-                                            }}
-                                          >
-                                            ₹ {CustomerOverView.hostelInfo?.maintenance ?? 0}
-                                          </p>
-                                        </div>
-
-                                      }
-                                      {CustomerOverView?.hostelInfo?.otherDeductionsBreakup?.map((item, index) => (
-                                        <div key={index} className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
-                                          <div
-                                            style={{
-                                              fontSize: 12,
-                                              fontWeight: 500,
-                                              fontFamily: "Gilroy",
-                                            }}
-                                          >
-                                            {item.type ? item.type : ""}
-                                          </div>
-                                          <p
-                                            style={{
-                                              fontSize: 14,
-                                              fontWeight: 600,
-                                              fontFamily: "Gilroy",
-                                              paddingTop: 7,
-                                            }}
-                                          >
-                                            ₹ {item.amount}
-                                          </p>
-                                        </div>
-                                      ))}
-
-                                      {/* <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
-                                          <strong
-                                            style={{
-                                              fontSize: 12,
-                                              fontWeight: 500,
-                                              fontFamily: "Gilroy",
-                                              textAlign: "start",
-                                              paddingRight: 15,
-                                            }}
-                                          >
-                                            Bill Status
-                                          </strong>
-                                          <p
-                                            style={{
-                                              backgroundColor: "#D9FFD9",
-                                              padding: "2px 12px",
-                                              borderRadius: "10px",
-                                              display: "inline-block",
-                                              fontFamily: "Gilroy",
-                                              fontSize: "14px",
-                                              fontWeight: "500",
-                                              marginTop: "5px",
-                                            }}
-                                          >
-
-                                            {advanceList?.paymentStatus}
-                                          </p>
-                                        </div> */}
-
-
+                                      </p>
                                     </div>
 
 
 
+                                    <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
+                                      <div
+                                        style={{
+                                          fontSize: 12,
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                        }}
+                                      >
+                                        Booking Amount
+                                      </div>
+                                      <p
+                                        style={{
+                                          fontSize: 14,
+                                          fontWeight: 600,
+                                          fontFamily: "Gilroy",
+                                          color: '#222',
+                                          paddingTop: 7
+                                        }}
+                                      >
+
+                                        {CustomerOverView.bookingInfo?.bookingAmount != null
+                                          ? `₹${CustomerOverView.bookingInfo.bookingAmount}`
+                                          : 0
+                                        }
+                                      </p>
+                                    </div>
+
+                                    {
+                                      CustomerOverView.hostelInfo?.maintenance !== null &&
+                                      <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
+                                        <div
+                                          style={{
+                                            fontSize: 12,
+                                            fontWeight: 500,
+                                            fontFamily: "Gilroy",
+                                          }}
+                                        >
+                                          Maintenance
+                                        </div>
+                                        <p
+                                          style={{
+                                            fontSize: 14,
+                                            fontWeight: 600,
+                                            fontFamily: "Gilroy",
+                                            // color: 'rgba(30, 69, 225, 1)',
+                                            paddingTop: 7
+                                          }}
+                                        >
+                                          ₹ {CustomerOverView.hostelInfo?.maintenance ?? 0}
+                                        </p>
+                                      </div>
+
+                                    }
+                                    {CustomerOverView?.hostelInfo?.otherDeductionsBreakup?.map((item, index) => (
+                                      <div key={index} className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
+                                        <div
+                                          style={{
+                                            fontSize: 12,
+                                            fontWeight: 500,
+                                            fontFamily: "Gilroy",
+                                          }}
+                                        >
+                                          {item.type ? item.type : ""}
+                                        </div>
+                                        <p
+                                          style={{
+                                            fontSize: 14,
+                                            fontWeight: 600,
+                                            fontFamily: "Gilroy",
+                                            paddingTop: 7,
+                                          }}
+                                        >
+                                          ₹ {item.amount}
+                                        </p>
+                                      </div>
+                                    ))}
+
                                   </div>
 
 
+
                                 </div>
 
 
                               </div>
-                            </div>
 
+
+                            </div>
                           </div>
 
                         </div>
-                      </div>
 
-                      <div
-                        className="col-md-12 col-lg-12 mb-md-0"
-                        style={{
-                          paddingLeft: 20,
-                          paddingRight: 20,
-                          marginTop: 30,
-                        }}
-                      >
-                        <div
-                          className="card"
-                          style={{
-                            borderRadius: "20px",
-                            padding: "20px",
-                          }}
-                        >
-                          <div
-                            className="card-header d-flex justify-content-between align-items-center"
-                            style={{
-                              backgroundColor: "transparent",
-                              borderBottom: "1px solid #e0e0e0",
-                            }}
-                          >
-                            <div
-                              className="fw-semibold"
-                              style={{
-                                fontSize: 16,
-                                lineHeight: "40px",
-                                fontFamily: "Gilroy"
-                              }}
-                            >
-                              Additional Contact
-                            </div>
-
-                          </div>
-
-                          <div className="card-body" style={{ fontFamily: "Gilroy" }}>
-                            {state?.UsersList?.customerAllDetails
-                              ?.contact_details?.length > 0 ? (
-                              state.UsersList.customerAllDetails
-                                .contact_details.length > 1 ? (
-                                <Carousel interval={null} indicators className="custom-carousel">
-                                  {state.UsersList.customerAllDetails.contact_details.map(
-                                    (v, index) => (
-                                      <Carousel.Item key={index}>
-                                        <div>
-                                          <label className="mb-3" style={{ fontSize: 14, fontFamily: "Gilroy" }}>
-                                            Contact Info{" "}
-
-                                            <Edit size="16" color={!canUpdateTenant ? "#A9A9A9" : "#1E45E1"} onClick={() => {
-                                              if (canUpdateTenant) {
-                                                handleContactEdit(v);
-                                              }
-                                            }} />
-
-
-                                            <Trash size="16" color={!canDeleteTenant ? "#A9A9A9" : "red"}
-
-
-                                              onClick={() => {
-                                                if (canDeleteTenant) {
-                                                  handleContactDelete(v);
-                                                }
-                                              }}
-                                              style={{ cursor: !canDeleteTenant ? "not-allowed" : "pointer", }} onMouseEnter={(e) => {
-                                                e.currentTarget.style.backgroundColor = "#FFF3F3";
-                                              }}
-                                              onMouseLeave={(e) => {
-                                                e.currentTarget.style.backgroundColor = "transparent";
-                                              }} />
-                                          </label>
-
-                                          <div className="row mb-3 g-4">
-                                            <div className="col-sm-4">
-                                              <p className="mb-1 small fw-medium">
-                                                Contact Name
-                                              </p>
-                                              <span className="d-flex gap-2">
-                                                <Profile
-                                                  size="20"
-                                                  color="#1E45E1"
-                                                />
-                                                <p className="mb-0 fw-semibold" style={{ fontFamily: "Gilroy", fontSize: 15 }}>
-                                                  {v.user_name}
-                                                </p>
-                                              </span>
-                                            </div>
-                                            <div className="col-sm-4 text-start">
-                                              <p className="mb-1 small fw-medium">
-                                                Mobile No
-                                              </p>
-                                              <span className="d-flex align-items-center gap-2 ">
-                                                <Call size="20" color="#1E45E1" />
-                                                <p className="mb-0 fw-semibold text-start" style={{ fontFamily: "Gilroy", fontSize: 14 }}>
-                                                  +
-                                                  {v && String(v.mob_no).slice(0, String(v.mob_no).length - 10)}{" "}
-                                                  {v && String(v.mob_no).slice(-10)}
-                                                </p>
-                                              </span>
-
-                                            </div>
-                                            <div className="col-sm-4 text-center">
-                                              <p className="mb-1 small fw-medium text-start">
-                                                Guardian
-                                              </p>
-                                              <span className="d-flex gap-2 text-center">
-                                                <Profile
-                                                  size="20"
-                                                  color="#1E45E1"
-                                                />
-                                                <p className="mb-0 fw-semibold text-center ">
-                                                  {v.guardian}
-                                                </p>
-                                              </span>
-                                            </div>
-                                          </div>
-
-                                          <div className="row " style={{ backgroundColor: "", width: "100%" }}>
-                                            <div className="col-sm-12 col-lg-12 col-md-12 text-start" style={{ width: "100%" }}>
-                                              <p className="mb-1 small fw-medium">
-                                                Address
-                                              </p>
-                                              <span className="d-flex gap-2" style={{ width: 100 }}>
-                                                <Buildings
-                                                  size="20"
-                                                  color="#1E45E1"
-                                                />
-                                                <p className="mb-0 fw-semibold text-start" style={{
-                                                  width: 400,
-                                                  whiteSpace: "nowrap",
-                                                  overflow: "hidden",
-                                                  textOverflow: "ellipsis",
-                                                }}
-                                                  title={`${v.address}, ${v.area},${v.landmark}, ${v.city}, ${v.state} - ${v.pin_code}`}>
-                                                  {(v.address || "")}
-                                                  {v.area ? ", " + v.area : ""}
-                                                  {v.landmark ? ", " + v.landmark : ""}
-                                                  {v.city ? ", " + v.city : ""}
-                                                  {v.state ? ", " + v.state : ""}
-                                                  {v.pin_code ? " - " + v.pin_code : ""}
-                                                </p>
-                                              </span>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </Carousel.Item>
-                                    )
-                                  )}
-                                </Carousel>
-                              ) : (
-                                <div>
-                                  {state.UsersList.customerAllDetails.contact_details.map(
-                                    (v, index) => (
-                                      <div key={index}>
-                                        <p className="mb-3">
-                                          Contact Info{" "}
-                                          <Edit size="16" color={!canUpdateTenant ? "#A9A9A9" : "#1E45E1"} style={{ cursor: "pointer" }} onClick={() => {
-                                            if (canUpdateTenant) {
-                                              handleContactEdit(v);
-                                            }
-                                          }} />
-
-                                          <Trash size="16" color={!canDeleteTenant ? "#A9A9A9" : "red"}
-
-
-                                            onClick={() => {
-                                              if (canDeleteTenant) {
-                                                handleContactDelete(v);
-                                              }
-                                            }}
-                                            style={{ cursor: !canDeleteTenant ? "not-allowed" : "pointer", marginLeft: 10 }} onMouseEnter={(e) => {
-                                              e.currentTarget.style.backgroundColor = "#FFF3F3";
-                                            }}
-                                            onMouseLeave={(e) => {
-                                              e.currentTarget.style.backgroundColor = "transparent";
-                                            }} />
-                                        </p>
-
-                                        <div className="row mb-3 g-8">
-                                          <div className="col-sm-4">
-                                            <p className="mb-1 small fw-medium">
-                                              Contact Name
-                                            </p>
-                                            <span className="d-flex gap-2">
-                                              <Profile
-                                                size="20"
-                                                color="#1E45E1"
-                                              />
-                                              <p className="mb-0 fw-semibold" style={{ fontFamily: "Gilroy", fontSize: 15 }}>
-                                                {v.user_name}
-                                              </p>
-                                            </span>
-                                          </div>
-
-                                          <div
-                                            className="col-sm-4 d-flex flex-column align-items-center"
-                                            style={{ whiteSpace: "nowrap" }}
-                                          >
-                                            <p className="mb-1 small fw-medium">Mobile No</p>
-                                            <p className="mb-0 d-flex align-items-center">
-                                              <Call size="20" color="#1E45E1" />
-                                              <span
-                                                style={{
-                                                  marginLeft: 5,
-                                                  fontSize: 14,
-                                                  fontWeight: 600,
-                                                  fontFamily: "Gilroy",
-                                                  whiteSpace: "nowrap",
-                                                }}
-                                              >
-                                                +{v && String(v.mob_no).slice(0, String(v.mob_no).length - 10)}{" "}
-                                                {v && String(v.mob_no).slice(-10)}
-                                              </span>
-                                            </p>
-                                          </div>
-
-                                          <div
-                                            className="col-sm-4 d-flex flex-column align-items-center"
-                                            style={{ whiteSpace: "nowrap" }}
-                                          >
-                                            <p className="mb-1 small fw-medium">Guardian</p>
-                                            <p className="mb-0 d-flex align-items-center" style={{ marginLeft: "-5px" }}>
-                                              <Profile size="20" color="#1E45E1" />
-                                              <span
-                                                style={{
-                                                  marginLeft: 5,
-                                                  fontSize: 14,
-                                                  fontWeight: 600,
-                                                  fontFamily: "Gilroy",
-                                                  whiteSpace: "nowrap",
-                                                }}
-                                              >
-                                                {v.guardian}
-                                              </span>
-                                            </p>
-                                          </div>
-
-                                        </div>
-
-                                        <div className="row">
-                                          <div className="col-sm-12 col-lg-12 col-md-12 text-start" style={{ width: "100%" }}>
-                                            <p className="mb-1 small fw-medium">Address</p>
-                                            <span className="d-flex gap-2" style={{ width: "100%" }}>
-                                              <Buildings size="20" color="#1E45E1" />
-                                              <p
-                                                className="mb-0 fw-semibold text-start"
-                                                style={{ width: "100%", wordBreak: "break-word" }}
-                                              >
-                                                {(v.address || "")}
-                                                {v.area ? " " + v.area : ""}
-                                                {v.landmark ? ", " + v.landmark : ""}
-                                                {v.city ? ", " + v.city : ""}
-                                                {v.state ? ", " + v.state : ""}
-                                                {v.pin_code ? " - " + v.pin_code : ""}
-                                              </p>
-                                            </span>
-                                          </div>
-                                        </div>
-
-                                      </div>
-                                    )
-                                  )}
-                                </div>
-                              )
-                            ) : (
-                              <div
-                                style={{
-                                  fontSize: 14,
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 400,
-                                  textAlign: "center",
-                                }}
-                              >
-                                No Contact Details are there!
-                                <p>
-                                  <button
-
-                                    type="button" className="btn mt-2"
-                                    disabled={!canWriteTenant}
-                                    style={{
-                                      backgroundColor: "#1E45E1",
-                                      fontWeight: 600,
-                                      borderRadius: 12,
-                                      fontSize: 16,
-                                      fontFamily: "Gilroy",
-                                      padding: 12,
-                                      color: "#fff"
-                                    }}
-                                    onClick={handleAdditionalForm}
-                                  >
-                                    <img src={FileAdd} style={{}} alt="alt-image"></img> Add
-                                  </button>
-                                </p>
-                              </div>
-
-                            )}
-                          </div>
-                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
 
-
-
-
-
-                <div className="row ms-1">
-
-                  <div
-                    className="col-md-12 col-lg-12 "
-                    style={{
-
-                      marginTop: 30,
-                    }}
-                  >
                     <div
-                      className="card m-"
+                      className="col-md-12 col-lg-12 mb-md-0"
                       style={{
-                        borderRadius: "14px",
-
+                        paddingLeft: 20,
+                        paddingRight: 20,
+                        marginTop: 30,
                       }}
                     >
                       <div
-                        className="card-header d-flex justify-content-between align-items-center"
+                        className="card"
                         style={{
-                          backgroundColor: "transparent",
-                          borderBottom: "1px solid #e0e0e0",
+                          borderRadius: "20px",
+                          padding: "8px",
                         }}
                       >
                         <div
-                          className="fw-semibold"
+                          className="card-header d-flex justify-content-between align-items-center"
                           style={{
-                            fontSize: 16,
-                            lineHeight: "40px",
-                            fontFamily: "Gilroy", color:"#000"
-                          }}
-                        >
-                          Amenities provided
-                        </div>
-
-                        <div
-                          className="d-flex justify-content-start ms-3"
-
-                        >
-                          <Button
-                            disabled={!canWriteAmenities || state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" || state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" || state.UsersList.customerdetails?.customerCurrentStatus === "VACATED"}
-
-                            style={{
-                              backgroundColor: "#1E45E1",
-                              fontWeight: 600,
-                              height: 35,
-                              borderRadius: 12,
-                              fontSize: 14,
-                              fontFamily: "Gilroy",
-                              display: "flex",
-                              alignItems: "center", gap: 2
-
-                            }}
-                            onClick={() => handleShowAssignAmenities()}
-                          >
-                            <AddSquare
-                              size="18"
-                              color="#FFFFFF"
-                              variant="Bold"
-                            />  Assign
-                          </Button>
-
-                        </div>
-
-                      </div>
-
-                      <div className="card-body" style={{ fontFamily: "Gilroy", }}>
-
-
-                        <div>
-                          <UserListAmenities
-                            id={props.id}
-                            setcustomerUser_Id={props?.setcustomerUser_Id}
-                            customerUser_Id={customerId}
-                            setHostelIds={props.setHostelIds}
-                            hostelIds={props.hostelIds}
-                            hostelName={props.hostelName}
-                            sethosName={props.sethosName}
-                            statusAmni={props.statusAmni}
-                            customerAdd={props.customerAddPermission}
-                            customerEdit={props.customerEditPermission}
-                            customerDelete={props.customerDeletePermission}
-                          />
-                        </div>
-
-                        <div className="mt-1">
-
-                          <RequestedAmenities />
-
-
-                        </div>
-
-                      </div>
-
-
-                    </div>
-                  </div>
-
-
-                </div>
-
-
-
-                {kycdetailsForm === true ? (
-                  <UserListKyc
-                    kycdetailsForm={kycdetailsForm}
-                    setKycDetailForm={setKycDetailForm}
-
-                  />
-                ) : null}
-                {additionalForm === true ? (
-                  <UserAdditionalContact
-                    additionalForm={additionalForm}
-                    setAdditionalForm={setAdditionalForm}
-                    id={props.id}
-                    contactEdit={contactEdit}
-                    editAdditional={editAdditional}
-                    setEditAdditional={setEditAdditional}
-                  />
-                ) : null}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-              </>
-            </TabPanel>
-
-            <Modal
-              show={formshow}
-              onHide={handleCloseEditcustomer}
-              backdrop="static"
-              centered
-            >
-              <Modal.Dialog
-                style={{
-                  maxWidth: 666,
-                  paddingRight: "10px",
-                  borderRadius: "30px",
-                }}
-                className="m-0 p-0"
-              >
-                <Modal.Body>
-                  <div className="d-flex align-items-center">
-                    {customerdetailShow ? (
-                      <div>
-                        <Modal.Header
-                          style={{
-                            position: "relative",
-                            paddingTop: "3px",
+                            backgroundColor: "transparent",
+                            borderBottom: "1px solid #e0e0e0",
                           }}
                         >
                           <div
+                            className="fw-semibold"
                             style={{
-                              fontSize: 20,
-                              fontWeight: 600,
-                              fontFamily: "Gilroy",
+                              fontSize: 16,
+                              lineHeight: "40px",
+                              fontFamily: "Gilroy"
                             }}
                           >
-                            Edit Customer
+                            Parent/Guardian Details
+                          </div>
+                          <div
+                            onClick={() => {
+                              if (canUpdateTenant) {
+                                // handleEditStayDetails(CustomerOverView);
+                              }
+                            }}
+                            style={{
+                              cursor: !canUpdateTenant
+                                ? "not-allowed"
+                                : "pointer",
+                              height: 30,
+                              width: 30,
+
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              position: "relative",
+                              zIndex: 1000,
+
+                            }}
+                          >
+                            <img
+                              src={EditImage}
+                              alt="EditImage"
+                              style={{
+                                height: 16,
+                                width: 16,
+                                color: !canUpdateTenant
+                                  ? "#CCCCCC"
+                                  : "#000",
+                              }}
+                            />
                           </div>
 
-                          <CloseCircle
-                            size="24"
-                            color="#000"
-                            onClick={handleCloseEditcustomer}
-                            style={{ cursor: "pointer" }}
-                          />
-                        </Modal.Header>
-                        <div style={{ maxHeight: "380px", overflowY: "scroll" }} className="show-scroll p-2 mt-3 me-3">
+                        </div>
 
-                          <div className="d-flex align-items-center">
+                        <div className="card-body" style={{ fontFamily: "Gilroy" }}>
+                          {state?.UsersList?.customerAllDetaills?.length === 0 ? (
+                            <>
+                              <ParentsGuardian />
+
+                            </>
+                          ) : (
                             <div
-                              className=""
                               style={{
-                                height: 100,
-                                width: 100,
-                                position: "relative",
+                                fontSize: 14,
+                                fontFamily: "Gilroy",
+                                fontWeight: 400,
+                                textAlign: "center",
                               }}
                             >
-                              <Image
-                                src={
-                                  file
-                                    ? typeof file === "string"
-                                      ? file
-                                      : URL.createObjectURL(file)
-                                    : Profiles
-                                }
-                                alt="filee"
-                                roundedCircle
-                                style={{ height: 100, width: 100 }}
-                              />
+                              No Contact Details are there!
+                              <p>
+                                <button
 
-                              <label htmlFor="imageInput" className="">
-                                <Image
-                                  src={Plus}
-                                  roundedCircle
+                                  type="button" className="btn mt-2"
+                                  disabled={!canWriteTenant}
                                   style={{
-                                    height: 20,
-                                    width: 20,
-                                    position: "absolute",
-                                    top: 90,
-                                    left: 80,
-                                    transform: "translate(-50%, -50%)",
-                                  }}
-                                />
-                                <input
-                                  type="file"
-                                  accept="image/*"
-                                  multiple
-                                  className="sr-only"
-                                  id="imageInput"
-                                  onChange={handleImageChange}
-                                  style={{ display: "none" }}
-                                />
-                              </label>
-                            </div>
-                            <div className="ps-3">
-                              <div>
-                                <label
-                                  style={{
+                                    backgroundColor: "#1E45E1",
+                                    fontWeight: 600,
+                                    borderRadius: 12,
                                     fontSize: 16,
-                                    fontWeight: 500,
-                                    color: "#222222",
                                     fontFamily: "Gilroy",
+                                    padding: "8px 14px",
+                                    color: "#fff"
                                   }}
+                                  onClick={handleAdditionalForm}
                                 >
-                                  Profile Photo
-                                </label>
-                              </div>
-                              <div>
-                                <label
-                                  style={{
-                                    fontSize: 14,
-                                    fontWeight: 500,
-                                    color: "#4B4B4B",
-                                    fontFamily: "Gilroy",
-                                  }}
-                                >
-                                  Max size of image 10MB
-                                </label>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="row mt-4">
-                            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
-                              <Form.Group className="">
-                                <Form.Label
-                                  style={{
-                                    fontSize: 14,
-                                    color: "#222222",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                  }}
-                                >
-                                  First Name {" "}
-                                  <span
-                                    style={{
-                                      color: "red",
-                                      fontSize: "20px",
-                                    }}
-                                  >
-                                    {" "}
-                                    *{" "}
-                                  </span>
-                                </Form.Label>
-                                <FormControl
-                                  id="form-controls"
-                                  placeholder="Enter First Name"
-                                  type="text"
-                                  value={firstname}
-                                  ref={firstnameRef}
-                                  onChange={(e) => handleFirstName(e)}
-                                  style={{
-                                    fontSize: 16,
-                                    color: "#4B4B4B",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                    boxShadow: "none",
-                                    border: "1px solid #D9D9D9",
-                                    height: 50,
-                                    borderRadius: 8,
-                                  }}
-                                />
-                              </Form.Group>
-                              {firstnameError && (
-                                <ErrorMessage message={firstnameError} type="error" />
-                              )}
-                            </div>
-                            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
-                              <Form.Group className="">
-                                <Form.Label
-                                  style={{
-                                    fontSize: 14,
-                                    color: "#222222",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                  }}
-                                >
-                                  Last Name {" "}
-                                </Form.Label>
-                                <FormControl
-                                  type="text"
-                                  id="form-controls"
-                                  placeholder="Enter Last Name"
-                                  value={lastname}
-                                  onChange={(e) => handleLastName(e)}
-                                  style={{
-                                    fontSize: 16,
-                                    color: "#4B4B4B",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                    boxShadow: "none",
-                                    border: "1px solid #D9D9D9",
-                                    height: 50,
-                                    borderRadius: 8,
-                                    marginTop: 6,
-                                  }}
-                                />
-                              </Form.Group>
+                                  <img src={FileAdd} style={{}} alt="alt-image"></img> Add
+                                </button>
+                              </p>
                             </div>
 
-                            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
-                              <Form.Group>
-                                <Form.Label
-                                  style={{
-                                    fontSize: 14,
-                                    color: "#222222",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                  }}
-                                >
-                                  Mobile Number {" "}
-                                  <span
-                                    style={{
-                                      color: "red",
-                                      fontSize: "20px",
-                                    }}
-                                  >
-                                    {" "}
-                                    *{" "}
-                                  </span>
-                                </Form.Label>
-
-                                <InputGroup>
-                                  <Form.Select
-                                    value={countryCode}
-                                    ref={phoneRef}
-                                    id="vendor-select-pg"
-                                    style={{
-                                      border: "1px solid #D9D9D9",
-                                      borderRadius: "8px 0 0 8px",
-                                      height: 50,
-                                      fontSize: 16,
-                                      color: "#4B4B4B",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: countryCode ? 600 : 500,
-                                      boxShadow: "none",
-                                      backgroundColor: "#fff",
-                                      maxWidth: 90,
-                                      paddingRight: 10,
-                                    }}
-                                  >
-                                    <option> +{countryCode}</option>
-                                  </Form.Select>
-                                  <Form.Control
-                                    value={Phone}
-                                    onChange={handlePhone}
-                                    type="text"
-                                    placeholder="9876543210"
-                                    maxLength={10}
-                                    style={{
-                                      fontSize: 16,
-                                      color: "#4B4B4B",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: Phone ? 600 : 500,
-                                      boxShadow: "none",
-                                      borderLeft: "unset",
-                                      borderRight: "1px solid #D9D9D9",
-                                      borderTop: "1px solid #D9D9D9",
-                                      borderBottom: "1px solid #D9D9D9",
-                                      height: 50,
-                                      borderRadius: "0 8px 8px 0",
-                                    }}
-                                  />
-                                </InputGroup>
-                                <p
-                                  id="MobileNumberError"
-                                  style={{
-                                    color: "red",
-                                    fontSize: 11,
-                                    marginTop: 5,
-                                  }}
-                                ></p>
-                                {phoneError && (
-                                  <ErrorMessage message={phoneError} type="error" />
-                                )}
-
-                                {phoneErrorMessage && (
-                                  <ErrorMessage message={phoneErrorMessage} type="error" />
-                                )}
-                              </Form.Group>
-                            </div>
-                            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
-                              <Form.Group className="">
-                                <Form.Label
-                                  style={{
-                                    fontSize: 14,
-                                    color: "#222222",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                  }}
-                                >
-                                  Email ID {" "}
-                                </Form.Label>
-                                <FormControl
-                                  type="text"
-                                  id="form-controls"
-                                  placeholder="Enter email address"
-                                  value={Email}
-                                  ref={emailRef}
-                                  onChange={(e) => handleEmail(e)}
-                                  style={{
-                                    fontSize: 16,
-                                    color: "#4B4B4B",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                    boxShadow: "none",
-                                    border: "1px solid #D9D9D9",
-                                    height: 50,
-                                    borderRadius: 8,
-                                    marginTop: 6,
-                                  }}
-                                />
-
-                                {emailError && (
-                                  <ErrorMessage message={emailError} type="error" />
-                                )}
-
-                                {emailErrorMessage && (
-                                  <ErrorMessage message={emailErrorMessage} type="error" />
-                                )}
-                              </Form.Group>
-                            </div>
-
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
-                              <Form.Group className="">
-                                <Form.Label
-                                  style={{
-                                    fontSize: 14,
-                                    color: "#222222",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                  }}
-                                >
-                                  Flat , House no , Building , Company ,
-                                  Apartment{" "}
-                                </Form.Label>
-                                <FormControl
-                                  type="text"
-                                  id="form-controls"
-                                  placeholder="Enter House No"
-                                  value={house_no}
-                                  onChange={(e) => handleHouseNo(e)}
-                                  style={{
-                                    fontSize: 16,
-                                    color: "#4B4B4B",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                    boxShadow: "none",
-                                    border: "1px solid #D9D9D9",
-                                    height: 50,
-                                    borderRadius: 8,
-                                  }}
-                                />
-                              </Form.Group>
-                              {house_noError && (
-                                <ErrorMessage message={house_noError} type="error" />
-                              )}
-                            </div>
-
-                            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
-                              <Form.Group className="">
-                                <Form.Label
-                                  style={{
-                                    fontSize: 14,
-                                    color: "#222222",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                  }}
-                                >
-                                  Area , Street , Sector , Village{" "}
-                                </Form.Label>
-                                <FormControl
-                                  type="text"
-                                  id="form-controls"
-                                  placeholder="Enter Street"
-                                  value={street}
-                                  onChange={(e) => handleStreetName(e)}
-                                  style={{
-                                    fontSize: 16,
-                                    color: "#4B4B4B",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                    boxShadow: "none",
-                                    border: "1px solid #D9D9D9",
-                                    height: 50,
-                                    borderRadius: 8,
-                                  }}
-                                />
-                              </Form.Group>
-                              {streetError && (
-                                <ErrorMessage message={streetError} type="error" />
-                              )}
-                            </div>
-
-                            <div className="col-lg-6 col-md-6S col-sm-12 col-xs-12 mb-1">
-                              <Form.Group className="">
-                                <Form.Label
-                                  style={{
-                                    fontSize: 14,
-                                    color: "#222222",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                  }}
-                                >
-                                  Landmark {" "}
-                                </Form.Label>
-                                <FormControl
-                                  type="text"
-                                  id="form-controls"
-                                  placeholder="E.g , near appollo hospital"
-                                  value={landmark}
-                                  onChange={(e) => handleLandmark(e)}
-                                  style={{
-                                    fontSize: 16,
-                                    color: "#4B4B4B",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                    boxShadow: "none",
-                                    border: "1px solid #D9D9D9",
-                                    height: 50,
-                                    borderRadius: 8,
-                                  }}
-                                />
-                              </Form.Group>
-                              {landmarkError && (
-                                <ErrorMessage message={landmarkError} type="error" />
-                              )}
-                            </div>
-
-                            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                              <Form.Group
-                                className="mb-3"
-                                controlId="exampleForm.ControlInput1"
-                              >
-                                <Form.Label
-                                  style={{
-                                    fontSize: 14,
-                                    color: "#222222",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                  }}
-                                >
-                                  Pincode {" "}
-
-                                </Form.Label>
-                                <Form.Control
-                                  value={pincode}
-                                  ref={pincodeRef}
-                                  onChange={(e) => handlePinCodeChange(e)}
-                                  type="tel"
-                                  maxLength={6}
-                                  inputMode="numeric"
-                                  pattern="[0-9]*"
-                                  placeholder="Enter Pincode"
-                                  style={{
-                                    fontSize: 16,
-                                    color: "#4B4B4B",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: pincode ? 600 : 500,
-                                    boxShadow: "none",
-                                    border: "1px solid #D9D9D9",
-                                    height: 50,
-                                    borderRadius: 8,
-                                  }}
-                                />
-                                {pincodeError && (
-                                  <ErrorMessage message={pincodeError} type="error" />
-                                )}
-                              </Form.Group>
-                            </div>
-
-                            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
-                              <Form.Group className="">
-                                <Form.Label
-                                  style={{
-                                    fontSize: 14,
-                                    color: "#222222",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                  }}
-                                >
-                                  Town/City {" "}
-
-                                </Form.Label>
-                                <FormControl
-                                  type="text"
-                                  id="form-controls"
-                                  placeholder="Enter City"
-                                  value={city}
-                                  ref={cityRef}
-                                  onChange={(e) => handleCity(e)}
-                                  style={{
-                                    fontSize: 16,
-                                    color: "#4B4B4B",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                    boxShadow: "none",
-                                    border: "1px solid #D9D9D9",
-                                    height: 50,
-                                    borderRadius: 8,
-                                  }}
-                                />
-                              </Form.Group>
-                              {cityError && (
-                                <ErrorMessage message={cityError} type="error" />
-                              )}
-                            </div>
-
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                              <Form.Group
-                                className="mb-3"
-                                controlId="exampleForm.ControlInput5"
-                              >
-                                <Form.Label
-                                  style={{
-                                    fontFamily: "Gilroy",
-                                    fontSize: 14,
-                                    fontWeight: 500,
-                                    color: "#222",
-                                    fontStyle: "normal",
-                                    lineHeight: "normal",
-                                  }}
-                                >
-                                  State
-
-                                </Form.Label>
-
-                                <Select
-                                  options={indianStates}
-                                  ref={stateRef}
-                                  onChange={(selectedOption) => {
-                                    setStateName(selectedOption?.value);
-                                    setFormError("")
-                                  }}
-                                  onInputChange={(inputValue, { action }) => {
-                                    if (action === "input-change") {
-                                      const lettersOnly = inputValue.replace(
-                                        /[^a-zA-Z\s]/g,
-                                        ""
-                                      );
-                                      return lettersOnly;
-                                    }
-                                    return inputValue;
-                                  }}
-                                  value={
-                                    state_name
-                                      ? {
-                                        value: state_name,
-                                        label: state_name,
-                                      }
-                                      : null
-                                  }
-                                  placeholder="Select State"
-                                  classNamePrefix="custom"
-                                  menuPlacement="auto"
-                                  noOptionsMessage={() =>
-                                    "No state available"
-                                  }
-                                  styles={{
-                                    control: (base) => ({
-                                      ...base,
-                                      height: "50px",
-                                      border: "1px solid #D9D9D9",
-                                      borderRadius: "8px",
-                                      fontSize: "16px",
-                                      color: "#4B4B4B",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: state_name ? 600 : 500,
-                                      boxShadow: "none",
-                                    }),
-                                    menu: (base) => ({
-                                      ...base,
-                                      backgroundColor: "#f8f9fa",
-                                      border: "1px solid #ced4da",
-                                    }),
-                                    menuList: (base) => ({
-                                      ...base,
-                                      backgroundColor: "#f8f9fa",
-                                      maxHeight: "120px",
-                                      padding: 0,
-                                      scrollbarWidth: "thin",
-                                      overflowY: "auto",
-                                    }),
-                                    placeholder: (base) => ({
-                                      ...base,
-                                      color: "#555",
-                                    }),
-                                    dropdownIndicator: (base) => ({
-                                      ...base,
-                                      color: "#555",
-                                      cursor: "pointer",
-                                    }),
-                                    indicatorSeparator: () => ({
-                                      display: "none",
-                                    }),
-                                    option: (base, state) => ({
-                                      ...base,
-                                      cursor: "pointer",
-                                      backgroundColor: state.isFocused
-                                        ? "#f0f0f0"
-                                        : "white",
-                                      color: "#000",
-                                    }),
-                                  }}
-                                />
-                              </Form.Group>
-
-                            </div>
-                          </div>
-                          {formError && (
-                            <ErrorMessage message={formError} type="error" />
                           )}
                         </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
 
 
-                        {formLoading && <div
-                          style={{
-                            position: 'absolute',
-                            top: 100,
-                            right: 0,
-                            bottom: 0,
-                            left: 0,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            backgroundColor: 'transparent',
-                            opacity: 0.75,
-                            zIndex: 10,
-                          }}
-                        >
-                          <div
-                            style={{
-                              borderTop: '4px solid #1E45E1',
-                              borderRight: '4px solid transparent',
-                              borderRadius: '50%',
-                              width: '40px',
-                              height: '40px',
-                              animation: 'spin 1s linear infinite',
-                            }}
-                          ></div>
-                        </div>}
 
+
+              <div className="row ms-1">
+
+                <div
+                  className="col-md-12 col-lg-12 "
+                  style={{
+
+                    marginTop: 30,
+                  }}
+                >
+                  <div
+                    className="card m-"
+                    style={{
+                      borderRadius: "14px",
+
+                    }}
+                  >
+                    <div
+                      className="card-header d-flex justify-content-between align-items-center"
+                      style={{
+                        backgroundColor: "transparent",
+                        borderBottom: "1px solid #e0e0e0",
+                      }}
+                    >
+                      <div
+                        className="fw-semibold"
+                        style={{
+                          fontSize: 16,
+                          lineHeight: "40px",
+                          fontFamily: "Gilroy", color: "#000"
+                        }}
+                      >
+                        Amenities provided
+                      </div>
+
+                      <div
+                        className="d-flex justify-content-start ms-3"
+
+                      >
                         <Button
-                          className="w-100"
+                          disabled={!canWriteAmenities || state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" || state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" || state.UsersList.customerdetails?.customerCurrentStatus === "VACATED"}
+
                           style={{
                             backgroundColor: "#1E45E1",
                             fontWeight: 600,
-                            height: 50,
+                            height: 35,
                             borderRadius: 12,
-                            fontSize: 16,
-                            fontFamily: "Montserrat",
-                            marginTop: 20,
+                            fontSize: 14,
+                            fontFamily: "Gilroy",
+                            display: "flex",
+                            alignItems: "center", gap: 2
+
                           }}
-                          onClick={handleSaveUserlist}
+                          onClick={() => handleShowAssignAmenities()}
+                        >
+                          <AddSquare
+                            size="18"
+                            color="#FFFFFF"
+                            variant="Bold"
+                          />  Assign
+                        </Button>
+
+                      </div>
+
+                    </div>
+
+                    <div className="card-body" style={{ fontFamily: "Gilroy", }}>
+
+
+                      <div>
+                        <UserListAmenities
+                          id={props.id}
+                          setcustomerUser_Id={props?.setcustomerUser_Id}
+                          customerUser_Id={customerId}
+                          setHostelIds={props.setHostelIds}
+                          hostelIds={props.hostelIds}
+                          hostelName={props.hostelName}
+                          sethosName={props.sethosName}
+                          statusAmni={props.statusAmni}
+                          customerAdd={props.customerAddPermission}
+                          customerEdit={props.customerEditPermission}
+                          customerDelete={props.customerDeletePermission}
+                        />
+                      </div>
+
+                      <div className="mt-1">
+
+                        <RequestedAmenities />
+
+
+                      </div>
+
+                    </div>
+
+
+                  </div>
+                </div>
+
+
+              </div>
+
+
+
+              {kycdetailsForm === true ? (
+                <UserListKyc
+                  kycdetailsForm={kycdetailsForm}
+                  setKycDetailForm={setKycDetailForm}
+
+                />
+              ) : null}
+              {additionalForm === true ? (
+                <UserAdditionalContact
+                  additionalForm={additionalForm}
+                  setAdditionalForm={setAdditionalForm}
+                  id={props.id}
+                  contactEdit={contactEdit}
+                  editAdditional={editAdditional}
+                  setEditAdditional={setEditAdditional}
+                />
+              ) : null}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </>
+          </TabPanel>
+
+          <Modal
+            show={formshow}
+            onHide={handleCloseEditcustomer}
+            backdrop="static"
+            centered
+          >
+            <Modal.Dialog
+              style={{
+                maxWidth: 666,
+                paddingRight: "10px",
+                borderRadius: "30px",
+              }}
+              className="m-0 p-0"
+            >
+              <Modal.Body>
+                <div className="d-flex align-items-center">
+                  {customerdetailShow ? (
+                    <div>
+                      <Modal.Header
+                        style={{
+                          position: "relative",
+                          paddingTop: "3px",
+                        }}
+                      >
+                        <div
+                          style={{
+                            fontSize: 20,
+                            fontWeight: 600,
+                            fontFamily: "Gilroy",
+                          }}
                         >
                           Edit Customer
-                        </Button>
-                      </div>
-                    ) : (
-                      ""
-                    )}
+                        </div>
 
-                    {customerAsignBed && customerAsignBed ? (
-                      <div className="container">
-                        <div className="row "></div>
+                        <CloseCircle
+                          size="24"
+                          color="#000"
+                          onClick={handleCloseEditcustomer}
+                          style={{ cursor: "pointer" }}
+                        />
+                      </Modal.Header>
+                      <div style={{ maxHeight: "380px", overflowY: "scroll" }} className="show-scroll p-2 mt-3 me-3">
 
-                        <Modal.Header
-                          style={{
-                            position: "relative",
-                            paddingTop: "-0px",
-                          }}
-                        >
+                        <div className="d-flex align-items-center">
                           <div
+                            className=""
                             style={{
-                              fontSize: 20,
-                              fontWeight: 600,
-                              fontFamily: "Gilroy",
+                              height: 100,
+                              width: 100,
+                              position: "relative",
                             }}
                           >
-                            Edit Assign bed
+                            <Image
+                              src={
+                                file
+                                  ? typeof file === "string"
+                                    ? file
+                                    : URL.createObjectURL(file)
+                                  : Profiles
+                              }
+                              alt="filee"
+                              roundedCircle
+                              style={{ height: 100, width: 100 }}
+                            />
+
+                            <label htmlFor="imageInput" className="">
+                              <Image
+                                src={Plus}
+                                roundedCircle
+                                style={{
+                                  height: 20,
+                                  width: 20,
+                                  position: "absolute",
+                                  top: 90,
+                                  left: 80,
+                                  transform: "translate(-50%, -50%)",
+                                }}
+                              />
+                              <input
+                                type="file"
+                                accept="image/*"
+                                multiple
+                                className="sr-only"
+                                id="imageInput"
+                                onChange={handleImageChange}
+                                style={{ display: "none" }}
+                              />
+                            </label>
+                          </div>
+                          <div className="ps-3">
+                            <div>
+                              <label
+                                style={{
+                                  fontSize: 16,
+                                  fontWeight: 500,
+                                  color: "#222222",
+                                  fontFamily: "Gilroy",
+                                }}
+                              >
+                                Profile Photo
+                              </label>
+                            </div>
+                            <div>
+                              <label
+                                style={{
+                                  fontSize: 14,
+                                  fontWeight: 500,
+                                  color: "#4B4B4B",
+                                  fontFamily: "Gilroy",
+                                }}
+                              >
+                                Max size of image 10MB
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="row mt-4">
+                          <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                            <Form.Group className="">
+                              <Form.Label
+                                style={{
+                                  fontSize: 14,
+                                  color: "#222222",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                }}
+                              >
+                                First Name {" "}
+                                <span
+                                  style={{
+                                    color: "red",
+                                    fontSize: "20px",
+                                  }}
+                                >
+                                  {" "}
+                                  *{" "}
+                                </span>
+                              </Form.Label>
+                              <FormControl
+                                id="form-controls"
+                                placeholder="Enter First Name"
+                                type="text"
+                                value={firstname}
+                                ref={firstnameRef}
+                                onChange={(e) => handleFirstName(e)}
+                                style={{
+                                  fontSize: 16,
+                                  color: "#4B4B4B",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  boxShadow: "none",
+                                  border: "1px solid #D9D9D9",
+                                  height: 50,
+                                  borderRadius: 8,
+                                }}
+                              />
+                            </Form.Group>
+                            {firstnameError && (
+                              <ErrorMessage message={firstnameError} type="error" />
+                            )}
+                          </div>
+                          <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                            <Form.Group className="">
+                              <Form.Label
+                                style={{
+                                  fontSize: 14,
+                                  color: "#222222",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                }}
+                              >
+                                Last Name {" "}
+                              </Form.Label>
+                              <FormControl
+                                type="text"
+                                id="form-controls"
+                                placeholder="Enter Last Name"
+                                value={lastname}
+                                onChange={(e) => handleLastName(e)}
+                                style={{
+                                  fontSize: 16,
+                                  color: "#4B4B4B",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  boxShadow: "none",
+                                  border: "1px solid #D9D9D9",
+                                  height: 50,
+                                  borderRadius: 8,
+                                  marginTop: 6,
+                                }}
+                              />
+                            </Form.Group>
                           </div>
 
-                          <CloseCircle
-                            size="24"
-                            color="#000"
-                            onClick={handleCloseEditcustomer}
-                            style={{ cursor: "pointer" }}
-                          />
-                        </Modal.Header>
-                        <div style={{ maxHeight: "380px", overflowY: "scroll" }} className="show-scroll pt-1 me-1 mt-2 mb-1 ">
-                          <div className="row mb-3 me-1">
-                            <div className="col-12">
+                          <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
+                            <Form.Group>
+                              <Form.Label
+                                style={{
+                                  fontSize: 14,
+                                  color: "#222222",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                }}
+                              >
+                                Mobile Number {" "}
+                                <span
+                                  style={{
+                                    color: "red",
+                                    fontSize: "20px",
+                                  }}
+                                >
+                                  {" "}
+                                  *{" "}
+                                </span>
+                              </Form.Label>
+
+                              <InputGroup>
+                                <Form.Select
+                                  value={countryCode}
+                                  ref={phoneRef}
+                                  id="vendor-select-pg"
+                                  style={{
+                                    border: "1px solid #D9D9D9",
+                                    borderRadius: "8px 0 0 8px",
+                                    height: 50,
+                                    fontSize: 16,
+                                    color: "#4B4B4B",
+                                    fontFamily: "Gilroy",
+                                    fontWeight: countryCode ? 600 : 500,
+                                    boxShadow: "none",
+                                    backgroundColor: "#fff",
+                                    maxWidth: 90,
+                                    paddingRight: 10,
+                                  }}
+                                >
+                                  <option> +{countryCode}</option>
+                                </Form.Select>
+                                <Form.Control
+                                  value={Phone}
+                                  onChange={handlePhone}
+                                  type="text"
+                                  placeholder="9876543210"
+                                  maxLength={10}
+                                  style={{
+                                    fontSize: 16,
+                                    color: "#4B4B4B",
+                                    fontFamily: "Gilroy",
+                                    fontWeight: Phone ? 600 : 500,
+                                    boxShadow: "none",
+                                    borderLeft: "unset",
+                                    borderRight: "1px solid #D9D9D9",
+                                    borderTop: "1px solid #D9D9D9",
+                                    borderBottom: "1px solid #D9D9D9",
+                                    height: 50,
+                                    borderRadius: "0 8px 8px 0",
+                                  }}
+                                />
+                              </InputGroup>
+                              <p
+                                id="MobileNumberError"
+                                style={{
+                                  color: "red",
+                                  fontSize: 11,
+                                  marginTop: 5,
+                                }}
+                              ></p>
+                              {phoneError && (
+                                <ErrorMessage message={phoneError} type="error" />
+                              )}
+
+                              {phoneErrorMessage && (
+                                <ErrorMessage message={phoneErrorMessage} type="error" />
+                              )}
+                            </Form.Group>
+                          </div>
+                          <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
+                            <Form.Group className="">
+                              <Form.Label
+                                style={{
+                                  fontSize: 14,
+                                  color: "#222222",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                }}
+                              >
+                                Email ID {" "}
+                              </Form.Label>
+                              <FormControl
+                                type="text"
+                                id="form-controls"
+                                placeholder="Enter email address"
+                                value={Email}
+                                ref={emailRef}
+                                onChange={(e) => handleEmail(e)}
+                                style={{
+                                  fontSize: 16,
+                                  color: "#4B4B4B",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  boxShadow: "none",
+                                  border: "1px solid #D9D9D9",
+                                  height: 50,
+                                  borderRadius: 8,
+                                  marginTop: 6,
+                                }}
+                              />
+
+                              {emailError && (
+                                <ErrorMessage message={emailError} type="error" />
+                              )}
+
+                              {emailErrorMessage && (
+                                <ErrorMessage message={emailErrorMessage} type="error" />
+                              )}
+                            </Form.Group>
+                          </div>
+
+                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
+                            <Form.Group className="">
+                              <Form.Label
+                                style={{
+                                  fontSize: 14,
+                                  color: "#222222",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                }}
+                              >
+                                Flat , House no , Building , Company ,
+                                Apartment{" "}
+                              </Form.Label>
+                              <FormControl
+                                type="text"
+                                id="form-controls"
+                                placeholder="Enter House No"
+                                value={house_no}
+                                onChange={(e) => handleHouseNo(e)}
+                                style={{
+                                  fontSize: 16,
+                                  color: "#4B4B4B",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  boxShadow: "none",
+                                  border: "1px solid #D9D9D9",
+                                  height: 50,
+                                  borderRadius: 8,
+                                }}
+                              />
+                            </Form.Group>
+                            {house_noError && (
+                              <ErrorMessage message={house_noError} type="error" />
+                            )}
+                          </div>
+
+                          <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
+                            <Form.Group className="">
+                              <Form.Label
+                                style={{
+                                  fontSize: 14,
+                                  color: "#222222",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                }}
+                              >
+                                Area , Street , Sector , Village{" "}
+                              </Form.Label>
+                              <FormControl
+                                type="text"
+                                id="form-controls"
+                                placeholder="Enter Street"
+                                value={street}
+                                onChange={(e) => handleStreetName(e)}
+                                style={{
+                                  fontSize: 16,
+                                  color: "#4B4B4B",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  boxShadow: "none",
+                                  border: "1px solid #D9D9D9",
+                                  height: 50,
+                                  borderRadius: 8,
+                                }}
+                              />
+                            </Form.Group>
+                            {streetError && (
+                              <ErrorMessage message={streetError} type="error" />
+                            )}
+                          </div>
+
+                          <div className="col-lg-6 col-md-6S col-sm-12 col-xs-12 mb-1">
+                            <Form.Group className="">
+                              <Form.Label
+                                style={{
+                                  fontSize: 14,
+                                  color: "#222222",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                }}
+                              >
+                                Landmark {" "}
+                              </Form.Label>
+                              <FormControl
+                                type="text"
+                                id="form-controls"
+                                placeholder="E.g , near appollo hospital"
+                                value={landmark}
+                                onChange={(e) => handleLandmark(e)}
+                                style={{
+                                  fontSize: 16,
+                                  color: "#4B4B4B",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  boxShadow: "none",
+                                  border: "1px solid #D9D9D9",
+                                  height: 50,
+                                  borderRadius: 8,
+                                }}
+                              />
+                            </Form.Group>
+                            {landmarkError && (
+                              <ErrorMessage message={landmarkError} type="error" />
+                            )}
+                          </div>
+
+                          <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <Form.Group
+                              className="mb-3"
+                              controlId="exampleForm.ControlInput1"
+                            >
+                              <Form.Label
+                                style={{
+                                  fontSize: 14,
+                                  color: "#222222",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                }}
+                              >
+                                Pincode {" "}
+
+                              </Form.Label>
+                              <Form.Control
+                                value={pincode}
+                                ref={pincodeRef}
+                                onChange={(e) => handlePinCodeChange(e)}
+                                type="tel"
+                                maxLength={6}
+                                inputMode="numeric"
+                                pattern="[0-9]*"
+                                placeholder="Enter Pincode"
+                                style={{
+                                  fontSize: 16,
+                                  color: "#4B4B4B",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: pincode ? 600 : 500,
+                                  boxShadow: "none",
+                                  border: "1px solid #D9D9D9",
+                                  height: 50,
+                                  borderRadius: 8,
+                                }}
+                              />
+                              {pincodeError && (
+                                <ErrorMessage message={pincodeError} type="error" />
+                              )}
+                            </Form.Group>
+                          </div>
+
+                          <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
+                            <Form.Group className="">
+                              <Form.Label
+                                style={{
+                                  fontSize: 14,
+                                  color: "#222222",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                }}
+                              >
+                                Town/City {" "}
+
+                              </Form.Label>
+                              <FormControl
+                                type="text"
+                                id="form-controls"
+                                placeholder="Enter City"
+                                value={city}
+                                ref={cityRef}
+                                onChange={(e) => handleCity(e)}
+                                style={{
+                                  fontSize: 16,
+                                  color: "#4B4B4B",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  boxShadow: "none",
+                                  border: "1px solid #D9D9D9",
+                                  height: 50,
+                                  borderRadius: 8,
+                                }}
+                              />
+                            </Form.Group>
+                            {cityError && (
+                              <ErrorMessage message={cityError} type="error" />
+                            )}
+                          </div>
+
+                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <Form.Group
+                              className="mb-3"
+                              controlId="exampleForm.ControlInput5"
+                            >
+                              <Form.Label
+                                style={{
+                                  fontFamily: "Gilroy",
+                                  fontSize: 14,
+                                  fontWeight: 500,
+                                  color: "#222",
+                                  fontStyle: "normal",
+                                  lineHeight: "normal",
+                                }}
+                              >
+                                State
+
+                              </Form.Label>
+
+                              <Select
+                                options={indianStates}
+                                ref={stateRef}
+                                onChange={(selectedOption) => {
+                                  setStateName(selectedOption?.value);
+                                  setFormError("")
+                                }}
+                                onInputChange={(inputValue, { action }) => {
+                                  if (action === "input-change") {
+                                    const lettersOnly = inputValue.replace(
+                                      /[^a-zA-Z\s]/g,
+                                      ""
+                                    );
+                                    return lettersOnly;
+                                  }
+                                  return inputValue;
+                                }}
+                                value={
+                                  state_name
+                                    ? {
+                                      value: state_name,
+                                      label: state_name,
+                                    }
+                                    : null
+                                }
+                                placeholder="Select State"
+                                classNamePrefix="custom"
+                                menuPlacement="auto"
+                                noOptionsMessage={() =>
+                                  "No state available"
+                                }
+                                styles={{
+                                  control: (base) => ({
+                                    ...base,
+                                    height: "50px",
+                                    border: "1px solid #D9D9D9",
+                                    borderRadius: "8px",
+                                    fontSize: "16px",
+                                    color: "#4B4B4B",
+                                    fontFamily: "Gilroy",
+                                    fontWeight: state_name ? 600 : 500,
+                                    boxShadow: "none",
+                                  }),
+                                  menu: (base) => ({
+                                    ...base,
+                                    backgroundColor: "#f8f9fa",
+                                    border: "1px solid #ced4da",
+                                  }),
+                                  menuList: (base) => ({
+                                    ...base,
+                                    backgroundColor: "#f8f9fa",
+                                    maxHeight: "120px",
+                                    padding: 0,
+                                    scrollbarWidth: "thin",
+                                    overflowY: "auto",
+                                  }),
+                                  placeholder: (base) => ({
+                                    ...base,
+                                    color: "#555",
+                                  }),
+                                  dropdownIndicator: (base) => ({
+                                    ...base,
+                                    color: "#555",
+                                    cursor: "pointer",
+                                  }),
+                                  indicatorSeparator: () => ({
+                                    display: "none",
+                                  }),
+                                  option: (base, state) => ({
+                                    ...base,
+                                    cursor: "pointer",
+                                    backgroundColor: state.isFocused
+                                      ? "#f0f0f0"
+                                      : "white",
+                                    color: "#000",
+                                  }),
+                                }}
+                              />
+                            </Form.Group>
+
+                          </div>
+                        </div>
+                        {formError && (
+                          <ErrorMessage message={formError} type="error" />
+                        )}
+                      </div>
+
+
+
+                      {formLoading && <div
+                        style={{
+                          position: 'absolute',
+                          top: 100,
+                          right: 0,
+                          bottom: 0,
+                          left: 0,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          backgroundColor: 'transparent',
+                          opacity: 0.75,
+                          zIndex: 10,
+                        }}
+                      >
+                        <div
+                          style={{
+                            borderTop: '4px solid #1E45E1',
+                            borderRight: '4px solid transparent',
+                            borderRadius: '50%',
+                            width: '40px',
+                            height: '40px',
+                            animation: 'spin 1s linear infinite',
+                          }}
+                        ></div>
+                      </div>}
+
+                      <Button
+                        className="w-100"
+                        style={{
+                          backgroundColor: "#1E45E1",
+                          fontWeight: 600,
+                          height: 50,
+                          borderRadius: 12,
+                          fontSize: 16,
+                          fontFamily: "Montserrat",
+                          marginTop: 20,
+                        }}
+                        onClick={handleSaveUserlist}
+                      >
+                        Edit Customer
+                      </Button>
+                    </div>
+                  ) : (
+                    ""
+                  )}
+
+                  {customerAsignBed && customerAsignBed ? (
+                    <div className="container">
+                      <div className="row "></div>
+
+                      <Modal.Header
+                        style={{
+                          position: "relative",
+                          paddingTop: "-0px",
+                        }}
+                      >
+                        <div
+                          style={{
+                            fontSize: 20,
+                            fontWeight: 600,
+                            fontFamily: "Gilroy",
+                          }}
+                        >
+                          Edit Assign bed
+                        </div>
+
+                        <CloseCircle
+                          size="24"
+                          color="#000"
+                          onClick={handleCloseEditcustomer}
+                          style={{ cursor: "pointer" }}
+                        />
+                      </Modal.Header>
+                      <div style={{ maxHeight: "380px", overflowY: "scroll" }} className="show-scroll pt-1 me-1 mt-2 mb-1 ">
+                        <div className="row mb-3 me-1">
+                          <div className="col-12">
+                            <Form.Label
+                              style={{
+                                fontSize: 14,
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                              }}
+                            >
+                              Floor {" "}
+                              <span
+                                style={{
+                                  color: "red",
+                                  fontSize: "20px",
+                                }}
+                              >
+                                {" "}
+                                *{" "}
+                              </span>
+                            </Form.Label>
+
+                            <Select
+                              options={
+                                state.UsersList?.hosteldetailslist?.map(
+                                  (u) => ({
+                                    value: u.floor_id,
+                                    label: u.floor_name,
+                                  })
+                                ) || []
+                              }
+                              onChange={handleFloor}
+                              value={
+                                state.UsersList?.hosteldetailslist
+                                  ?.map((u) => ({
+                                    value: u.floor_id,
+                                    label: u.floor_name,
+                                  }))
+                                  .find(
+                                    (option) =>
+                                      String(option.value) ===
+                                      String(Floor)
+                                  ) || null
+                              }
+                              placeholder="Select a Floor"
+                              classNamePrefix="custom"
+                              menuPlacement="auto"
+                              styles={{
+                                control: (base) => ({
+                                  ...base,
+                                  height: "50px",
+                                  border: "1px solid #D9D9D9",
+                                  borderRadius: "8px",
+                                  fontSize: "16px",
+                                  color: "#4B4B4B",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  boxShadow: "none",
+                                  paddingLeft: "10px",
+                                }),
+                                menu: (base) => ({
+                                  ...base,
+                                  backgroundColor: "#f8f9fa",
+                                  border: "1px solid #ced4da",
+                                  fontFamily: "Gilroy",
+                                }),
+                                menuList: (base) => ({
+                                  ...base,
+                                  backgroundColor: "#f8f9fa",
+                                  maxHeight: "120px",
+                                  padding: 0,
+                                  scrollbarWidth: "thin",
+                                  overflowY: "auto",
+                                  fontFamily: "Gilroy",
+                                }),
+                                placeholder: (base) => ({
+                                  ...base,
+                                  color: "#555",
+                                }),
+                                dropdownIndicator: (base) => ({
+                                  ...base,
+                                  color: "#555",
+                                  display: "inline-block",
+                                  fill: "currentColor",
+                                  lineHeight: 1,
+                                  stroke: "currentColor",
+                                  strokeWidth: 0,
+                                  cursor: "pointer",
+                                }),
+                                indicatorSeparator: () => ({
+                                  display: "none",
+                                }),
+                                option: (base, state) => ({
+                                  ...base,
+                                  cursor: "pointer",
+                                  backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                                  color: "#000",
+                                }),
+                              }}
+                            />
+
+                            {floorError && (
+                              <ErrorMessage message={floorError} type="error" />
+                            )}
+                          </div>
+
+                          <div className="col-12 mt-1">
+                            <div className="mb-2">
                               <Form.Label
                                 style={{
                                   fontSize: 14,
@@ -5300,7 +5082,7 @@ function UserListRoomDetail(props) {
                                   fontFamily: "Gilroy",
                                 }}
                               >
-                                Floor {" "}
+                                Room {" "}
                                 <span
                                   style={{
                                     color: "red",
@@ -5314,27 +5096,29 @@ function UserListRoomDetail(props) {
 
                               <Select
                                 options={
-                                  state.UsersList?.hosteldetailslist?.map(
-                                    (u) => ({
-                                      value: u.floor_id,
-                                      label: u.floor_name,
+                                  state.UsersList?.roomdetails?.map(
+                                    (item) => ({
+                                      value: item.Room_Id,
+                                      label: item.Room_Name,
                                     })
                                   ) || []
                                 }
-                                onChange={handleFloor}
+                                onChange={handleRooms}
                                 value={
-                                  state.UsersList?.hosteldetailslist
-                                    ?.map((u) => ({
-                                      value: u.floor_id,
-                                      label: u.floor_name,
-                                    }))
-                                    .find(
-                                      (option) =>
-                                        String(option.value) ===
-                                        String(Floor)
-                                    ) || null
+                                  state.UsersList?.roomdetails?.find(
+                                    (option) => option.Room_Id === RoomId
+                                  )
+                                    ? {
+                                      value: RoomId,
+                                      label:
+                                        state.UsersList.roomdetails.find(
+                                          (option) =>
+                                            option.Room_Id === RoomId
+                                        )?.Room_Name,
+                                    }
+                                    : null
                                 }
-                                placeholder="Select a Floor"
+                                placeholder="Select a Room"
                                 classNamePrefix="custom"
                                 menuPlacement="auto"
                                 styles={{
@@ -5391,120 +5175,177 @@ function UserListRoomDetail(props) {
                                 }}
                               />
 
-                              {floorError && (
-                                <ErrorMessage message={floorError} type="error" />
+                              {roomError && (
+                                <ErrorMessage message={roomError} type="error" />
                               )}
                             </div>
+                          </div>
 
-                            <div className="col-12 mt-1">
-                              <div className="mb-2">
-                                <Form.Label
+                          <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <Form.Label
+                              style={{
+                                fontSize: 14,
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                              }}
+                            >
+                              Bed {" "}
+                              <span
+                                style={{
+                                  color: "red",
+                                  fontSize: "20px",
+                                }}
+                              >
+                                {" "}
+                                *{" "}
+                              </span>
+                            </Form.Label>
+
+                            <Select
+                              options={bedOptions}
+                              value={bedOptions.find(
+                                (opt) => opt.value === BedId
+                              )}
+                              onChange={(selectedOption) =>
+                                handleBed({
+                                  target: {
+                                    value: selectedOption.value,
+                                  },
+                                })
+                              }
+                              placeholder="Select a Bed"
+                              classNamePrefix="custom"
+                              menuPlacement="auto"
+                              styles={{
+                                control: (base) => ({
+                                  ...base,
+                                  height: "50px",
+                                  border: "1px solid #D9D9D9",
+                                  borderRadius: "8px",
+                                  fontSize: "16px",
+                                  color: "#4B4B4B",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  boxShadow: "none",
+                                  paddingLeft: "10px",
+                                }),
+                                menu: (base) => ({
+                                  ...base,
+                                  backgroundColor: "#f8f9fa",
+                                  border: "1px solid #ced4da",
+                                  fontFamily: "Gilroy",
+                                }),
+                                menuList: (base) => ({
+                                  ...base,
+                                  backgroundColor: "#f8f9fa",
+                                  maxHeight: "120px",
+                                  padding: 0,
+                                  scrollbarWidth: "thin",
+                                  overflowY: "auto",
+                                  fontFamily: "Gilroy",
+                                }),
+                                placeholder: (base) => ({
+                                  ...base,
+                                  color: "#555",
+                                }),
+                                dropdownIndicator: (base) => ({
+                                  ...base,
+                                  color: "#555",
+                                  display: "inline-block",
+                                  fill: "currentColor",
+                                  lineHeight: 1,
+                                  stroke: "currentColor",
+                                  strokeWidth: 0,
+                                  cursor: "pointer",
+                                }),
+                                indicatorSeparator: () => ({
+                                  display: "none",
+                                }),
+                                option: (base, state) => ({
+                                  ...base,
+                                  cursor: "pointer",
+                                  backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                                  color: "#000",
+                                }),
+                              }}
+                            />
+
+                            {bedError && (
+                              <ErrorMessage message={bedError} type="error" />
+                            )}
+                          </div>
+
+                          <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <Form.Group className="mb-2">
+                              <Form.Label
+                                style={{
+                                  fontSize: 14,
+                                  color: "#222222",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                }}
+                              >
+                                Joining Date {" "}
+                                <span
                                   style={{
-                                    fontSize: 14,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
+                                    color: "red",
+                                    fontSize: "20px",
                                   }}
                                 >
-                                  Room {" "}
-                                  <span
-                                    style={{
-                                      color: "red",
-                                      fontSize: "20px",
-                                    }}
-                                  >
-                                    {" "}
-                                    *{" "}
-                                  </span>
-                                </Form.Label>
-
-                                <Select
-                                  options={
-                                    state.UsersList?.roomdetails?.map(
-                                      (item) => ({
-                                        value: item.Room_Id,
-                                        label: item.Room_Name,
-                                      })
-                                    ) || []
-                                  }
-                                  onChange={handleRooms}
+                                  *
+                                </span>
+                              </Form.Label>
+                              <div
+                                className="datepicker-wrapper"
+                                style={{
+                                  position: "relative",
+                                  width: "100%",
+                                }}
+                              >
+                                <DatePicker
+                                  style={{
+                                    width: "100%",
+                                    height: 48,
+                                    cursor: "pointer",
+                                    fontFamily: "Gilroy",
+                                  }}
+                                  format="DD/MM/YYYY"
+                                  placeholder="DD/MM/YYYY"
                                   value={
-                                    state.UsersList?.roomdetails?.find(
-                                      (option) => option.Room_Id === RoomId
-                                    )
-                                      ? {
-                                        value: RoomId,
-                                        label:
-                                          state.UsersList.roomdetails.find(
-                                            (option) =>
-                                              option.Room_Id === RoomId
-                                          )?.Room_Name,
-                                      }
+                                    selectedDate
+                                      ? dayjs(selectedDate)
                                       : null
                                   }
-                                  placeholder="Select a Room"
-                                  classNamePrefix="custom"
-                                  menuPlacement="auto"
-                                  styles={{
-                                    control: (base) => ({
-                                      ...base,
-                                      height: "50px",
-                                      border: "1px solid #D9D9D9",
-                                      borderRadius: "8px",
-                                      fontSize: "16px",
-                                      color: "#4B4B4B",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                      boxShadow: "none",
-                                      paddingLeft: "10px",
-                                    }),
-                                    menu: (base) => ({
-                                      ...base,
-                                      backgroundColor: "#f8f9fa",
-                                      border: "1px solid #ced4da",
-                                      fontFamily: "Gilroy",
-                                    }),
-                                    menuList: (base) => ({
-                                      ...base,
-                                      backgroundColor: "#f8f9fa",
-                                      maxHeight: "120px",
-                                      padding: 0,
-                                      scrollbarWidth: "thin",
-                                      overflowY: "auto",
-                                      fontFamily: "Gilroy",
-                                    }),
-                                    placeholder: (base) => ({
-                                      ...base,
-                                      color: "#555",
-                                    }),
-                                    dropdownIndicator: (base) => ({
-                                      ...base,
-                                      color: "#555",
-                                      display: "inline-block",
-                                      fill: "currentColor",
-                                      lineHeight: 1,
-                                      stroke: "currentColor",
-                                      strokeWidth: 0,
-                                      cursor: "pointer",
-                                    }),
-                                    indicatorSeparator: () => ({
-                                      display: "none",
-                                    }),
-                                    option: (base, state) => ({
-                                      ...base,
-                                      cursor: "pointer",
-                                      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                                      color: "#000",
-                                    }),
+                                  onChange={(date) => {
+                                    setDateError("");
+                                    setFormError("");
+                                    setJoingDateErrmsg('');
+                                    setSelectedDate(
+                                      date ? date.toDate() : null
+                                    );
                                   }}
+                                  getPopupContainer={(triggerNode) =>
+                                    triggerNode.closest(
+                                      ".datepicker-wrapper"
+                                    )
+                                  }
+                                  disabledDate={(current) => current && current > dayjs().endOf("day")}
                                 />
-
-                                {roomError && (
-                                  <ErrorMessage message={roomError} type="error" />
-                                )}
                               </div>
-                            </div>
+                            </Form.Group>
 
-                            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            {dateError && (
+                              <ErrorMessage message={dateError} type="error" />
+                            )}
+
+
+                            {joiningDateErrmsg.trim() !== "" && (
+                              <ErrorMessage message={joiningDateErrmsg} type="error" />
+                            )}
+                          </div>
+
+                          <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <Form.Group className="">
                               <Form.Label
                                 style={{
                                   fontSize: 14,
@@ -5512,7 +5353,7 @@ function UserListRoomDetail(props) {
                                   fontFamily: "Gilroy",
                                 }}
                               >
-                                Bed {" "}
+                                Advance Amount {" "}
                                 <span
                                   style={{
                                     color: "red",
@@ -5523,446 +5364,278 @@ function UserListRoomDetail(props) {
                                   *{" "}
                                 </span>
                               </Form.Label>
+                              <FormControl
+                                type="text"
+                                id="form-controls"
+                                placeholder="Enter Amount"
+                                value={AdvanceAmount}
+                                onChange={(e) => handleAdvanceAmount(e)}
+                                style={{
+                                  fontSize: 16,
+                                  color: "#4B4B4B",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  boxShadow: "none",
+                                  border: "1px solid #D9D9D9",
+                                  height: 50,
 
-                              <Select
-                                options={bedOptions}
-                                value={bedOptions.find(
-                                  (opt) => opt.value === BedId
-                                )}
-                                onChange={(selectedOption) =>
-                                  handleBed({
-                                    target: {
-                                      value: selectedOption.value,
-                                    },
-                                  })
-                                }
-                                placeholder="Select a Bed"
-                                classNamePrefix="custom"
-                                menuPlacement="auto"
-                                styles={{
-                                  control: (base) => ({
-                                    ...base,
-                                    height: "50px",
-                                    border: "1px solid #D9D9D9",
-                                    borderRadius: "8px",
-                                    fontSize: "16px",
-                                    color: "#4B4B4B",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                    boxShadow: "none",
-                                    paddingLeft: "10px",
-                                  }),
-                                  menu: (base) => ({
-                                    ...base,
-                                    backgroundColor: "#f8f9fa",
-                                    border: "1px solid #ced4da",
-                                    fontFamily: "Gilroy",
-                                  }),
-                                  menuList: (base) => ({
-                                    ...base,
-                                    backgroundColor: "#f8f9fa",
-                                    maxHeight: "120px",
-                                    padding: 0,
-                                    scrollbarWidth: "thin",
-                                    overflowY: "auto",
-                                    fontFamily: "Gilroy",
-                                  }),
-                                  placeholder: (base) => ({
-                                    ...base,
-                                    color: "#555",
-                                  }),
-                                  dropdownIndicator: (base) => ({
-                                    ...base,
-                                    color: "#555",
-                                    display: "inline-block",
-                                    fill: "currentColor",
-                                    lineHeight: 1,
-                                    stroke: "currentColor",
-                                    strokeWidth: 0,
-                                    cursor: "pointer",
-                                  }),
-                                  indicatorSeparator: () => ({
-                                    display: "none",
-                                  }),
-                                  option: (base, state) => ({
-                                    ...base,
-                                    cursor: "pointer",
-                                    backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                                    color: "#000",
-                                  }),
+                                  borderRadius: 8,
                                 }}
                               />
+                            </Form.Group>
+                            {advanceAmountError && (
+                              <ErrorMessage message={advanceAmountError} type="error" />
+                            )}
+                          </div>
+                          <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <Form.Group className="mb-3">
+                              <Form.Label
+                                style={{
+                                  fontSize: 14,
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                }}
+                              >
+                                Rental Amount {" "}
+                                <span
+                                  style={{
+                                    color: "red",
+                                    fontSize: "20px",
+                                  }}
+                                >
+                                  {" "}
+                                  *{" "}
+                                </span>
+                              </Form.Label>
+                              <FormControl
+                                type="text"
+                                id="form-controls"
+                                placeholder="Enter Amount"
+                                value={RoomRent}
+                                onChange={(e) => handleRoomRent(e)}
+                                style={{
+                                  fontSize: 16,
+                                  color: "#4B4B4B",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  boxShadow: "none",
+                                  border: "1px solid #D9D9D9",
+                                  height: 50,
+                                  borderRadius: 8,
+                                }}
+                              />
+                            </Form.Group>
+                            {roomrentError && (
+                              <ErrorMessage message={roomrentError} type="error" />
+                            )}
+                          </div>
+                        </div>
 
-                              {bedError && (
-                                <ErrorMessage message={bedError} type="error" />
-                              )}
+
+                        <div style={{ backgroundColor: "#F7F9FF", borderRadius: 10, paddingBottom: 5, }} className="mt-3 mb-3 me-2">
+
+                          <div className="d-flex justify-content-between align-items-center p-4">
+                            <div>
+                              <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Non Refundable Amount</label>
                             </div>
-
-                            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                              <Form.Group className="mb-2">
-                                <Form.Label
+                            <div>
+                              <Button
+                                onClick={handleAddField}
+                                style={{
+                                  fontFamily: "Gilroy",
+                                  fontSize: "14px",
+                                  backgroundColor: "#1E45E1",
+                                  color: "white",
+                                  fontWeight: 600,
+                                  borderRadius: "10px",
+                                  padding: "6px 15px",
+                                  marginBottom: "10px",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  gap: "6px",
+                                }}
+                              >
+                                <img
+                                  src={addcircle}
+                                  alt="Assign Bed"
                                   style={{
-                                    fontSize: 14,
-                                    color: "#222222",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                  }}
-                                >
-                                  Joining Date {" "}
-                                  <span
-                                    style={{
-                                      color: "red",
-                                      fontSize: "20px",
-                                    }}
-                                  >
-                                    *
-                                  </span>
-                                </Form.Label>
-                                <div
-                                  className="datepicker-wrapper"
-                                  style={{
-                                    position: "relative",
-                                    width: "100%",
-                                  }}
-                                >
-                                  <DatePicker
-                                    style={{
-                                      width: "100%",
-                                      height: 48,
-                                      cursor: "pointer",
-                                      fontFamily: "Gilroy",
-                                    }}
-                                    format="DD/MM/YYYY"
-                                    placeholder="DD/MM/YYYY"
-                                    value={
-                                      selectedDate
-                                        ? dayjs(selectedDate)
-                                        : null
-                                    }
-                                    onChange={(date) => {
-                                      setDateError("");
-                                      setFormError("");
-                                      setJoingDateErrmsg('');
-                                      setSelectedDate(
-                                        date ? date.toDate() : null
-                                      );
-                                    }}
-                                    getPopupContainer={(triggerNode) =>
-                                      triggerNode.closest(
-                                        ".datepicker-wrapper"
-                                      )
-                                    }
-                                    disabledDate={(current) => current && current > dayjs().endOf("day")}
-                                  />
-                                </div>
-                              </Form.Group>
-
-                              {dateError && (
-                                <ErrorMessage message={dateError} type="error" />
-                              )}
-
-
-                              {joiningDateErrmsg.trim() !== "" && (
-                                <ErrorMessage message={joiningDateErrmsg} type="error" />
-                              )}
-                            </div>
-
-                            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                              <Form.Group className="">
-                                <Form.Label
-                                  style={{
-                                    fontSize: 14,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                  }}
-                                >
-                                  Advance Amount {" "}
-                                  <span
-                                    style={{
-                                      color: "red",
-                                      fontSize: "20px",
-                                    }}
-                                  >
-                                    {" "}
-                                    *{" "}
-                                  </span>
-                                </Form.Label>
-                                <FormControl
-                                  type="text"
-                                  id="form-controls"
-                                  placeholder="Enter Amount"
-                                  value={AdvanceAmount}
-                                  onChange={(e) => handleAdvanceAmount(e)}
-                                  style={{
-                                    fontSize: 16,
-                                    color: "#4B4B4B",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                    boxShadow: "none",
-                                    border: "1px solid #D9D9D9",
-                                    height: 50,
-
-                                    borderRadius: 8,
+                                    height: 16,
+                                    width: 16,
+                                    filter: "brightness(0) invert(1)",
                                   }}
                                 />
-                              </Form.Group>
-                              {advanceAmountError && (
-                                <ErrorMessage message={advanceAmountError} type="error" />
-                              )}
-                            </div>
-                            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                              <Form.Group className="mb-3">
-                                <Form.Label
-                                  style={{
-                                    fontSize: 14,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                  }}
-                                >
-                                  Rental Amount {" "}
-                                  <span
-                                    style={{
-                                      color: "red",
-                                      fontSize: "20px",
-                                    }}
-                                  >
-                                    {" "}
-                                    *{" "}
-                                  </span>
-                                </Form.Label>
-                                <FormControl
-                                  type="text"
-                                  id="form-controls"
-                                  placeholder="Enter Amount"
-                                  value={RoomRent}
-                                  onChange={(e) => handleRoomRent(e)}
-                                  style={{
-                                    fontSize: 16,
-                                    color: "#4B4B4B",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                    boxShadow: "none",
-                                    border: "1px solid #D9D9D9",
-                                    height: 50,
-                                    borderRadius: 8,
-                                  }}
-                                />
-                              </Form.Group>
-                              {roomrentError && (
-                                <ErrorMessage message={roomrentError} type="error" />
-                              )}
+                                Add
+                              </Button>
+
                             </div>
                           </div>
 
 
-                          <div style={{ backgroundColor: "#F7F9FF", borderRadius: 10, paddingBottom: 5, }} className="mt-3 mb-3 me-2">
 
-                            <div className="d-flex justify-content-between align-items-center p-4">
-                              <div>
-                                <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Non Refundable Amount</label>
-                              </div>
-                              <div>
-                                <Button
-                                  onClick={handleAddField}
-                                  style={{
-                                    fontFamily: "Gilroy",
-                                    fontSize: "14px",
-                                    backgroundColor: "#1E45E1",
-                                    color: "white",
-                                    fontWeight: 600,
-                                    borderRadius: "10px",
-                                    padding: "6px 15px",
-                                    marginBottom: "10px",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    gap: "6px",
-                                  }}
-                                >
-                                  <img
-                                    src={addcircle}
-                                    alt="Assign Bed"
-                                    style={{
-                                      height: 16,
-                                      width: 16,
-                                      filter: "brightness(0) invert(1)",
-                                    }}
-                                  />
-                                  Add
-                                </Button>
+                          {fields.filter(f => !f.isDeleted).map((item, index) => {
 
-                              </div>
-                            </div>
+                            const isMaintenanceSelected = fields.some((field) => field.reason === "maintenance");
+
+                            const filteredOptions = reasonOptions.map((opt) => {
+                              if (opt.value === "maintenance") {
+                                return {
+                                  ...opt,
+                                  isDisabled: isMaintenanceSelected && item.reason !== "maintenance",
+                                };
+                              }
+                              return opt;
+                            });
+                            return (
+                              <div className="row px-4 mb-3" key={index}>
+                                <div className="col-md-6">
 
 
+                                  {!item.showInput ? (
+                                    <Select
+                                      options={filteredOptions}
+                                      value={filteredOptions.find((opt) => opt.value === item.reason_name) || null}
+                                      onChange={(selectedOption) => {
+                                        const selectedValue = selectedOption.value;
 
-                            {fields.filter(f => !f.isDeleted).map((item, index) => {
-
-                              const isMaintenanceSelected = fields.some((field) => field.reason === "maintenance");
-
-                              const filteredOptions = reasonOptions.map((opt) => {
-                                if (opt.value === "maintenance") {
-                                  return {
-                                    ...opt,
-                                    isDisabled: isMaintenanceSelected && item.reason !== "maintenance",
-                                  };
-                                }
-                                return opt;
-                              });
-                              return (
-                                <div className="row px-4 mb-3" key={index}>
-                                  <div className="col-md-6">
-
-
-                                    {!item.showInput ? (
-                                      <Select
-                                        options={filteredOptions}
-                                        value={filteredOptions.find((opt) => opt.value === item.reason_name) || null}
-                                        onChange={(selectedOption) => {
-                                          const selectedValue = selectedOption.value;
-
-                                          if (selectedValue === "others") {
-                                            handleInputChange(index, "reason", "others");
-                                          } else {
-                                            handleInputChange(index, "reason", selectedValue);
-                                          }
-                                        }}
-                                        isDisabled={item.reason === "maintenance"}
-                                        menuPlacement="auto"
-                                        styles={{
-                                          control: (base) => ({
-                                            ...base,
-                                            height: "50px",
-                                            border: "1px solid #D9D9D9",
-                                            borderRadius: "8px",
-                                            fontSize: "16px",
-                                            color: "#4B4B4B",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                            boxShadow: "none",
-                                          }),
-                                          menu: (base) => ({
-                                            ...base,
-                                            backgroundColor: "#f8f9fa",
-                                            border: "1px solid #ced4da",
-                                            fontFamily: "Gilroy",
-                                          }),
-                                          menuList: (base) => ({
-                                            ...base,
-                                            backgroundColor: "#f8f9fa",
-                                            maxHeight: "120px",
-                                            padding: 0,
-                                            scrollbarWidth: "thin",
-                                            overflowY: "auto",
-                                            fontFamily: "Gilroy",
-                                          }),
-                                          placeholder: (base) => ({
-                                            ...base,
-                                            color: "#555",
-                                          }),
-                                          dropdownIndicator: (base) => ({
-                                            ...base,
-                                            color: "#555",
-                                            display: "inline-block",
-                                            fill: "currentColor",
-                                            lineHeight: 1,
-                                            stroke: "currentColor",
-                                            strokeWidth: 0,
-                                            cursor: "pointer",
-                                          }),
-                                          indicatorSeparator: () => ({
-                                            display: "none",
-                                          }),
-                                          option: (base, state) => ({
-                                            ...base,
-                                            cursor: state.isDisabled ? "not-allowed" : "pointer",
-                                             backgroundColor: state.isFocused
-                                                                            ? "#E7F1FF"
-                                                                            : state.isDisabled
-                                                                                ? "#f0f0f0"
-                                                                                : "#fff",
-                                            color: state.isDisabled ? "#aaa" : "#000",
-                                          }),
-                                        }}
-                                      />
-                                    ) : (
-                                      <>
-                                        <input
-                                          type="text"
-                                          className="form-control"
-                                          placeholder="Enter custom reason"
-                                          disabled={item.customReason === "maintenance"}
-                                          value={item.customReason || ""}
-                                          onChange={(e) => handleInputChange(index, "customReason", e.target.value)}
-                                          style={{
-                                            fontSize: 16,
-                                            color: "#4B4B4B",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                            boxShadow: "none",
-                                            border: "1px solid #D9D9D9",
-                                            height: 50,
-                                            borderRadius: 8,
-                                          }}
-                                        />
-                                      </>
-                                    )}
-
-                                    {errors[index]?.reason && (
-                                      <ErrorMessage message={errors[index]?.reason} type="error" />
-                                    )}
-
-
-
-
-                                  </div>
-
-
-                                  <div className="col-md-4">
-
-                                    <input
-                                      type="text"
-                                      placeholder="Enter amount"
-                                      value={CustomerOverView.amount}
-                                      onChange={(e) => handleInputChange(index, "amount", e.target.value)}
-                                      className="form-control"
-                                      style={{
-                                        fontSize: 16,
-                                        color: "#4B4B4B",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                        boxShadow: "none",
-                                        border: "1px solid #D9D9D9",
-                                        height: 50,
-                                        borderRadius: 8,
+                                        if (selectedValue === "others") {
+                                          handleInputChange(index, "reason", "others");
+                                        } else {
+                                          handleInputChange(index, "reason", selectedValue);
+                                        }
                                       }}
-
+                                      isDisabled={item.reason === "maintenance"}
+                                      menuPlacement="auto"
+                                      styles={{
+                                        control: (base) => ({
+                                          ...base,
+                                          height: "50px",
+                                          border: "1px solid #D9D9D9",
+                                          borderRadius: "8px",
+                                          fontSize: "16px",
+                                          color: "#4B4B4B",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                          boxShadow: "none",
+                                        }),
+                                        menu: (base) => ({
+                                          ...base,
+                                          backgroundColor: "#f8f9fa",
+                                          border: "1px solid #ced4da",
+                                          fontFamily: "Gilroy",
+                                        }),
+                                        menuList: (base) => ({
+                                          ...base,
+                                          backgroundColor: "#f8f9fa",
+                                          maxHeight: "120px",
+                                          padding: 0,
+                                          scrollbarWidth: "thin",
+                                          overflowY: "auto",
+                                          fontFamily: "Gilroy",
+                                        }),
+                                        placeholder: (base) => ({
+                                          ...base,
+                                          color: "#555",
+                                        }),
+                                        dropdownIndicator: (base) => ({
+                                          ...base,
+                                          color: "#555",
+                                          display: "inline-block",
+                                          fill: "currentColor",
+                                          lineHeight: 1,
+                                          stroke: "currentColor",
+                                          strokeWidth: 0,
+                                          cursor: "pointer",
+                                        }),
+                                        indicatorSeparator: () => ({
+                                          display: "none",
+                                        }),
+                                        option: (base, state) => ({
+                                          ...base,
+                                          cursor: state.isDisabled ? "not-allowed" : "pointer",
+                                          backgroundColor: state.isFocused
+                                            ? "#E7F1FF"
+                                            : state.isDisabled
+                                              ? "#f0f0f0"
+                                              : "#fff",
+                                          color: state.isDisabled ? "#aaa" : "#000",
+                                        }),
+                                      }}
                                     />
-                                    {errors[index]?.amount && (
-                                      <ErrorMessage message={errors[index]?.amount} type="error" />
-                                    )}
-                                  </div>
-
-
-                                  <div className="col-md-2 d-flex justify-content-center align-items-center">
-
-                                    {index !== 0 && (
-                                      <Trash
-                                        size="20"
-                                        color="red"
-                                        variant="Bold"
-                                        style={{ cursor: "pointer" }}
-                                        onClick={() => handleRemoveField(index)}
+                                  ) : (
+                                    <>
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Enter custom reason"
+                                        disabled={item.customReason === "maintenance"}
+                                        value={item.customReason || ""}
+                                        onChange={(e) => handleInputChange(index, "customReason", e.target.value)}
+                                        style={{
+                                          fontSize: 16,
+                                          color: "#4B4B4B",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                          boxShadow: "none",
+                                          border: "1px solid #D9D9D9",
+                                          height: 50,
+                                          borderRadius: 8,
+                                        }}
                                       />
-                                    )}
-                                  </div>
+                                    </>
+                                  )}
+
+                                  {errors[index]?.reason && (
+                                    <ErrorMessage message={errors[index]?.reason} type="error" />
+                                  )}
+
+
+
+
                                 </div>
-                              );
-                            })}
 
 
+                                <div className="col-md-4">
+
+                                  <input
+                                    type="text"
+                                    placeholder="Enter amount"
+                                    value={CustomerOverView.amount}
+                                    onChange={(e) => handleInputChange(index, "amount", e.target.value)}
+                                    className="form-control"
+                                    style={{
+                                      fontSize: 16,
+                                      color: "#4B4B4B",
+                                      fontFamily: "Gilroy",
+                                      fontWeight: 500,
+                                      boxShadow: "none",
+                                      border: "1px solid #D9D9D9",
+                                      height: 50,
+                                      borderRadius: 8,
+                                    }}
+
+                                  />
+                                  {errors[index]?.amount && (
+                                    <ErrorMessage message={errors[index]?.amount} type="error" />
+                                  )}
+                                </div>
 
 
-                          </div>
+                                <div className="col-md-2 d-flex justify-content-center align-items-center">
+
+                                  {index !== 0 && (
+                                    <Trash
+                                      size="20"
+                                      color="red"
+                                      variant="Bold"
+                                      style={{ cursor: "pointer" }}
+                                      onClick={() => handleRemoveField(index)}
+                                    />
+                                  )}
+                                </div>
+                              </div>
+                            );
+                          })}
+
 
 
 
@@ -5970,321 +5643,18 @@ function UserListRoomDetail(props) {
 
 
 
-
-
-                        {formError && (
-                          <ErrorMessage message={formError} type="error" />
-                        )}
-                        <Button
-                          className="w-100"
-
-                          style={{
-                            backgroundColor: "#1E45E1",
-                            fontWeight: 600,
-                            height: 50,
-                            borderRadius: 12,
-                            fontSize: 16,
-                            fontFamily: "Montserrat",
-                            marginTop: "15px !importent",
-                          }}
-                          onClick={handleSaveUserlistAddUser}
-                        >
-                          Edit Assign Bed
-                        </Button>
-                      </div>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                </Modal.Body>
-
-                {loading && <div
-                  style={{
-                    position: 'absolute',
-                    top: 100,
-                    right: 0,
-                    bottom: 0,
-                    left: 0,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor: 'transparent',
-                    opacity: 0.75,
-                    zIndex: 10,
-                  }}
-                >
-                  <div
-                    style={{
-                      borderTop: '4px solid #1E45E1',
-                      borderRight: '4px solid transparent',
-                      borderRadius: '50%',
-                      width: '40px',
-                      height: '40px',
-                      animation: 'spin 1s linear infinite',
-                    }}
-                  ></div>
-                </div>}
-
-
-
-
-
-              </Modal.Dialog>
-            </Modal>
-            <Modal
-              show={deleteAdditional}
-              onHide={handleCloseDelete}
-              centered
-              backdrop="static"
-              style={{
-                width: 388,
-                height: 250,
-                marginLeft: "500px",
-                marginTop: "200px",
-              }}
-            >
-              <Modal.Header style={{ borderBottom: "none" }}>
-                <Modal.Title
-                  style={{
-                    fontSize: "18px",
-                    fontFamily: "Gilroy",
-                    textAlign: "center",
-                    fontWeight: 600,
-                    color: "#222222",
-                    flex: 1,
-                  }}
-                >
-                  Delete Contact?
-                </Modal.Title>
-              </Modal.Header>
-
-              <Modal.Body
-                style={{
-                  fontSize: 14,
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  color: "#646464",
-                  textAlign: "center",
-                  marginTop: "-20px",
-                }}
-              >
-                Are you sure you want to Delete Contact?
-              </Modal.Body>
-
-              <Modal.Footer
-                style={{
-                  justifyContent: "center",
-                  borderTop: "none",
-                  marginTop: "-10px",
-                }}
-              >
-                <Button
-                  style={{
-                    width: 160,
-                    height: 52,
-                    borderRadius: 8,
-                    padding: "12px 20px",
-                    background: "#fff",
-                    color: "#1E45E1",
-                    border: "1px solid #1E45E1",
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                    fontSize: "14px",
-                    marginRight: 10,
-                  }}
-                  onClick={handleCloseDelete}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  style={{
-                    width: 160,
-                    height: 52,
-                    borderRadius: 8,
-                    padding: "12px 20px",
-                    background: "#1E45E1",
-                    color: "#FFFFFF",
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                    fontSize: "14px",
-                  }}
-                  onClick={handleDeleteContact}
-                >
-                  Delete
-                </Button>
-              </Modal.Footer>
-            </Modal>
-
-            <Modal
-              show={generateForm}
-              onHide={handleCloseGenerateFormShow}
-              backdrop="static"
-              centered
-            >
-              <Modal.Dialog
-                style={{
-                  maxWidth: 666,
-                  paddingRight: "10px",
-                  borderRadius: "30px",
-                }}
-                className="m-0 p-0"
-              >
-                <Modal.Body style={{ marginTop: -30 }}>
-                  <div className="d-flex align-items-center">
-                    <div className="container">
-                      <div className="row mb-3"></div>
-
-                      <Modal.Header style={{ position: "relative" }}>
-                        <div
-                          style={{
-                            fontSize: 20,
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
-                          }}
-                        >
-                          Generate Advance
-                        </div>
-
-                        <CloseCircle
-                          size="24"
-                          color="#000"
-                          onClick={handleCloseGenerateFormShow}
-                          style={{ cursor: "pointer" }}
-                        />
-                      </Modal.Header>
-
-                      <div className="row mb-3">
-                        <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                          <Form.Group
-                            className="mb-2"
-                            controlId="checkoutDate"
-                          >
-                            <Form.Label
-                              style={{
-                                fontSize: 14,
-                                color: "#222222",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
-                            >
-                              Invoice Date {" "}
-                              <span
-                                style={{
-                                  color: "red",
-                                  fontSize: "20px",
-                                }}
-                              >
-                                *
-                              </span>
-                            </Form.Label>
-
-                            <div
-                              className="datepicker-wrapper"
-                              style={{
-                                position: "relative",
-                                width: "100%",
-                              }}
-                            >
-                              <DatePicker
-                                style={{
-                                  width: "100%",
-                                  height: 48,
-                                  cursor: "pointer",
-                                }}
-                                format="DD/MM/YYYY"
-                                placeholder="DD/MM/YYYY"
-                                value={
-                                  advanceDate
-                                    ? dayjs(advanceDate)
-                                    : null
-                                }
-                                onChange={(date) => {
-                                  setAdvanceDateError("");
-                                  setAdvanceDate(
-                                    date ? date.toDate() : null
-                                  );
-                                }}
-                                getPopupContainer={(triggerNode) =>
-                                  triggerNode.closest(
-                                    ".datepicker-wrapper"
-                                  )
-                                }
-                                dropdownClassName="custom-datepicker-popup"
-                                disabledDate={(current) => current && current > dayjs().endOf("day")}
-                              />
-                            </div>
-                          </Form.Group>
-                          {advanceDateError && (
-                            <ErrorMessage message={advanceDateError} type="error" />
-                          )}
-                        </div>
-                        <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                          <Form.Group
-                            className="mb-2"
-                            controlId="checkoutDate"
-                          >
-                            <Form.Label
-                              style={{
-                                fontSize: 14,
-                                color: "#222222",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
-                            >
-                              Due Date {" "}
-                              <span
-                                style={{
-                                  color: "red",
-                                  fontSize: "20px",
-                                }}
-                              >
-                                *
-                              </span>
-                            </Form.Label>
-
-                            <div
-                              className="datepicker-wrapper"
-                              style={{
-                                position: "relative",
-                                width: "100%",
-                              }}
-                            >
-                              <DatePicker
-                                style={{
-                                  width: "100%",
-                                  height: 48,
-                                  cursor: "pointer",
-                                }}
-                                format="DD/MM/YYYY"
-                                placeholder="DD/MM/YYYY"
-                                value={
-                                  advanceDueDate
-                                    ? dayjs(advanceDueDate)
-                                    : null
-                                }
-                                onChange={(date) => {
-                                  setAdvanceDueDateError("");
-                                  setAdvanceDueDate(
-                                    date ? date.toDate() : null
-                                  );
-                                }}
-                                getPopupContainer={(triggerNode) =>
-                                  triggerNode.closest(
-                                    ".datepicker-wrapper"
-                                  )
-                                }
-                                dropdownClassName="custom-datepicker-popup"
-                              />
-                            </div>
-                          </Form.Group>
-                          {advanceDueDateError && (
-                            <ErrorMessage message={advanceDueDateError} type="error" />
-                          )}
-                        </div>
                       </div>
 
+
+
+
+
+                      {formError && (
+                        <ErrorMessage message={formError} type="error" />
+                      )}
                       <Button
                         className="w-100"
+
                         style={{
                           backgroundColor: "#1E45E1",
                           fontWeight: 600,
@@ -6292,265 +5662,572 @@ function UserListRoomDetail(props) {
                           borderRadius: 12,
                           fontSize: 16,
                           fontFamily: "Montserrat",
+                          marginTop: "15px !importent",
                         }}
-                        onClick={handleGenerateAdvance}
+                        onClick={handleSaveUserlistAddUser}
+                      >
+                        Edit Assign Bed
+                      </Button>
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </Modal.Body>
+
+              {loading && <div
+                style={{
+                  position: 'absolute',
+                  top: 100,
+                  right: 0,
+                  bottom: 0,
+                  left: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: 'transparent',
+                  opacity: 0.75,
+                  zIndex: 10,
+                }}
+              >
+                <div
+                  style={{
+                    borderTop: '4px solid #1E45E1',
+                    borderRight: '4px solid transparent',
+                    borderRadius: '50%',
+                    width: '40px',
+                    height: '40px',
+                    animation: 'spin 1s linear infinite',
+                  }}
+                ></div>
+              </div>}
+
+
+
+
+
+            </Modal.Dialog>
+          </Modal>
+          <Modal
+            show={deleteAdditional}
+            onHide={handleCloseDelete}
+            centered
+            backdrop="static"
+            style={{
+              width: 388,
+              height: 250,
+              marginLeft: "500px",
+              marginTop: "200px",
+            }}
+          >
+            <Modal.Header style={{ borderBottom: "none" }}>
+              <Modal.Title
+                style={{
+                  fontSize: "18px",
+                  fontFamily: "Gilroy",
+                  textAlign: "center",
+                  fontWeight: 600,
+                  color: "#222222",
+                  flex: 1,
+                }}
+              >
+                Delete Contact?
+              </Modal.Title>
+            </Modal.Header>
+
+            <Modal.Body
+              style={{
+                fontSize: 14,
+                fontWeight: 500,
+                fontFamily: "Gilroy",
+                color: "#646464",
+                textAlign: "center",
+                marginTop: "-20px",
+              }}
+            >
+              Are you sure you want to Delete Contact?
+            </Modal.Body>
+
+            <Modal.Footer
+              style={{
+                justifyContent: "center",
+                borderTop: "none",
+                marginTop: "-10px",
+              }}
+            >
+              <Button
+                style={{
+                  width: 160,
+                  height: 52,
+                  borderRadius: 8,
+                  padding: "12px 20px",
+                  background: "#fff",
+                  color: "#1E45E1",
+                  border: "1px solid #1E45E1",
+                  fontWeight: 600,
+                  fontFamily: "Gilroy",
+                  fontSize: "14px",
+                  marginRight: 10,
+                }}
+                onClick={handleCloseDelete}
+              >
+                Cancel
+              </Button>
+              <Button
+                style={{
+                  width: 160,
+                  height: 52,
+                  borderRadius: 8,
+                  padding: "12px 20px",
+                  background: "#1E45E1",
+                  color: "#FFFFFF",
+                  fontWeight: 600,
+                  fontFamily: "Gilroy",
+                  fontSize: "14px",
+                }}
+                onClick={handleDeleteContact}
+              >
+                Delete
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
+          <Modal
+            show={generateForm}
+            onHide={handleCloseGenerateFormShow}
+            backdrop="static"
+            centered
+          >
+            <Modal.Dialog
+              style={{
+                maxWidth: 666,
+                paddingRight: "10px",
+                borderRadius: "30px",
+              }}
+              className="m-0 p-0"
+            >
+              <Modal.Body style={{ marginTop: -30 }}>
+                <div className="d-flex align-items-center">
+                  <div className="container">
+                    <div className="row mb-3"></div>
+
+                    <Modal.Header style={{ position: "relative" }}>
+                      <div
+                        style={{
+                          fontSize: 20,
+                          fontWeight: 600,
+                          fontFamily: "Gilroy",
+                        }}
                       >
                         Generate Advance
+                      </div>
+
+                      <CloseCircle
+                        size="24"
+                        color="#000"
+                        onClick={handleCloseGenerateFormShow}
+                        style={{ cursor: "pointer" }}
+                      />
+                    </Modal.Header>
+
+                    <div className="row mb-3">
+                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <Form.Group
+                          className="mb-2"
+                          controlId="checkoutDate"
+                        >
+                          <Form.Label
+                            style={{
+                              fontSize: 14,
+                              color: "#222222",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                            }}
+                          >
+                            Invoice Date {" "}
+                            <span
+                              style={{
+                                color: "red",
+                                fontSize: "20px",
+                              }}
+                            >
+                              *
+                            </span>
+                          </Form.Label>
+
+                          <div
+                            className="datepicker-wrapper"
+                            style={{
+                              position: "relative",
+                              width: "100%",
+                            }}
+                          >
+                            <DatePicker
+                              style={{
+                                width: "100%",
+                                height: 48,
+                                cursor: "pointer",
+                              }}
+                              format="DD/MM/YYYY"
+                              placeholder="DD/MM/YYYY"
+                              value={
+                                advanceDate
+                                  ? dayjs(advanceDate)
+                                  : null
+                              }
+                              onChange={(date) => {
+                                setAdvanceDateError("");
+                                setAdvanceDate(
+                                  date ? date.toDate() : null
+                                );
+                              }}
+                              getPopupContainer={(triggerNode) =>
+                                triggerNode.closest(
+                                  ".datepicker-wrapper"
+                                )
+                              }
+                              dropdownClassName="custom-datepicker-popup"
+                              disabledDate={(current) => current && current > dayjs().endOf("day")}
+                            />
+                          </div>
+                        </Form.Group>
+                        {advanceDateError && (
+                          <ErrorMessage message={advanceDateError} type="error" />
+                        )}
+                      </div>
+                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <Form.Group
+                          className="mb-2"
+                          controlId="checkoutDate"
+                        >
+                          <Form.Label
+                            style={{
+                              fontSize: 14,
+                              color: "#222222",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                            }}
+                          >
+                            Due Date {" "}
+                            <span
+                              style={{
+                                color: "red",
+                                fontSize: "20px",
+                              }}
+                            >
+                              *
+                            </span>
+                          </Form.Label>
+
+                          <div
+                            className="datepicker-wrapper"
+                            style={{
+                              position: "relative",
+                              width: "100%",
+                            }}
+                          >
+                            <DatePicker
+                              style={{
+                                width: "100%",
+                                height: 48,
+                                cursor: "pointer",
+                              }}
+                              format="DD/MM/YYYY"
+                              placeholder="DD/MM/YYYY"
+                              value={
+                                advanceDueDate
+                                  ? dayjs(advanceDueDate)
+                                  : null
+                              }
+                              onChange={(date) => {
+                                setAdvanceDueDateError("");
+                                setAdvanceDueDate(
+                                  date ? date.toDate() : null
+                                );
+                              }}
+                              getPopupContainer={(triggerNode) =>
+                                triggerNode.closest(
+                                  ".datepicker-wrapper"
+                                )
+                              }
+                              dropdownClassName="custom-datepicker-popup"
+                            />
+                          </div>
+                        </Form.Group>
+                        {advanceDueDateError && (
+                          <ErrorMessage message={advanceDueDateError} type="error" />
+                        )}
+                      </div>
+                    </div>
+
+                    <Button
+                      className="w-100"
+                      style={{
+                        backgroundColor: "#1E45E1",
+                        fontWeight: 600,
+                        height: 50,
+                        borderRadius: 12,
+                        fontSize: 16,
+                        fontFamily: "Montserrat",
+                      }}
+                      onClick={handleGenerateAdvance}
+                    >
+                      Generate Advance
+                    </Button>
+                  </div>
+
+                </div>
+              </Modal.Body>
+
+
+            </Modal.Dialog>
+          </Modal>
+
+
+
+
+          <Modal
+            show={generateFormAdvance}
+            onHide={handleCloseGenerateAdvance}
+            backdrop="static"
+            centered
+          >
+            <Modal.Dialog
+              style={{
+                maxWidth: 666,
+                paddingRight: "10px",
+                borderRadius: "30px",
+              }}
+              className="m-0 p-0"
+            >
+              <Modal.Body style={{ marginTop: -30 }}>
+                <div className="d-flex align-items-center">
+                  <div className="container">
+                    <div className="row mb-3"></div>
+
+                    <Modal.Header style={{ position: "relative" }}>
+                      <div
+                        style={{
+                          fontSize: 20,
+                          fontWeight: 600,
+                          fontFamily: "Gilroy",
+                        }}
+                      >
+                        Generate Advance
+                      </div>
+
+                      <CloseCircle
+                        size="24"
+                        color="#000"
+                        onClick={handleCloseGenerateAdvance}
+                        style={{ cursor: "pointer" }}
+                      />
+                    </Modal.Header>
+
+                    <div className="row mb-3">
+                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <Form.Group
+                          className="mb-2"
+                          controlId="checkoutDate"
+                        >
+                          <Form.Label
+                            style={{
+                              fontSize: 14,
+                              color: "#222222",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                            }}
+                          >
+                            Invoice Date {" "}
+                            <span
+                              style={{
+                                color: "red",
+                                fontSize: "20px",
+                              }}
+                            >
+                              *
+                            </span>
+                          </Form.Label>
+
+                          <div
+                            className="datepicker-wrapper"
+                            style={{
+                              position: "relative",
+                              width: "100%",
+                            }}
+                          >
+                            <DatePicker
+                              style={{
+                                width: "100%",
+                                height: 48,
+                                cursor: "pointer",
+                              }}
+                              format="DD/MM/YYYY"
+                              placeholder="DD/MM/YYYY"
+                              value={
+                                advanceDate
+                                  ? dayjs(advanceDate)
+                                  : null
+                              }
+                              onChange={(date) => {
+                                setAdvanceDateError("");
+                                setAdvanceDate(
+                                  date ? date.toDate() : null
+                                );
+                              }}
+                              getPopupContainer={(triggerNode) =>
+                                triggerNode.closest(
+                                  ".datepicker-wrapper"
+                                )
+                              }
+                              dropdownClassName="custom-datepicker-popup"
+                              disabledDate={(current) => current && current > dayjs().endOf("day")}
+                            />
+                          </div>
+                        </Form.Group>
+                        {advanceDateError && (
+                          <ErrorMessage message={advanceDateError} type="error" />
+                        )}
+                      </div>
+                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <Form.Group
+                          className="mb-2"
+                          controlId="checkoutDate"
+                        >
+                          <Form.Label
+                            style={{
+                              fontSize: 14,
+                              color: "#222222",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                            }}
+                          >
+                            Due Date {" "}
+                            <span
+                              style={{
+                                color: "red",
+                                fontSize: "20px",
+                              }}
+                            >
+                              *
+                            </span>
+                          </Form.Label>
+
+                          <div
+                            className="datepicker-wrapper"
+                            style={{
+                              position: "relative",
+                              width: "100%",
+                            }}
+                          >
+                            <DatePicker
+                              style={{
+                                width: "100%",
+                                height: 48,
+                                cursor: "pointer",
+                              }}
+                              format="DD/MM/YYYY"
+                              placeholder="DD/MM/YYYY"
+                              value={
+                                advanceDueDate
+                                  ? dayjs(advanceDueDate)
+                                  : null
+                              }
+                              onChange={(date) => {
+                                setAdvanceDueDateError("");
+                                setAdvanceDueDate(
+                                  date ? date.toDate() : null
+                                );
+                              }}
+                              getPopupContainer={(triggerNode) =>
+                                triggerNode.closest(
+                                  ".datepicker-wrapper"
+                                )
+                              }
+                              dropdownClassName="custom-datepicker-popup"
+                            />
+                          </div>
+                        </Form.Group>
+                        {advanceDueDateError && (
+                          <ErrorMessage message={advanceDueDateError} type="error" />
+                        )}
+                      </div>
+                    </div>
+
+
+                    <div className="d-flex gap-2">
+                      <Button
+
+                        variant="secondary"
+                        className="w-100"
+                        style={{
+                          height: 45,
+                          borderRadius: 12,
+                          fontSize: 15,
+                          fontWeight: 500,
+                          fontFamily: "Montserrat",
+                          paddingLeft: 20,
+                          paddingRight: 20,
+                        }}
+                        onClick={handleCancelButton}
+                      >
+                        Cancel
+                      </Button>
+
+                      <Button
+                        className="w-100"
+                        style={{
+                          backgroundColor: "#1E45E1",
+                          height: 45,
+                          borderRadius: 12,
+                          fontSize: 15,
+                          fontWeight: 600,
+                          fontFamily: "Montserrat",
+                          paddingLeft: 25,
+                          paddingRight: 25,
+                        }}
+
+                        disabled={advanceDetail[0]?.inv_id}
+                        onClick={handleSaveButton}
+                      >
+                        Save
                       </Button>
                     </div>
 
                   </div>
-                </Modal.Body>
+
+                </div>
+              </Modal.Body>
 
 
-              </Modal.Dialog>
-            </Modal>
+            </Modal.Dialog>
+          </Modal>
+          <TabPanel value="2">
+            <UserEb
+              id={customerId}
+              handleEditRoomItem={handleEditRoomItem}
+              handleEditHostelItem={handleEditHostelItem}
+              handleDeleteHostelItem={handleDeleteHostelItem}
+              handleDeleteRoomItem={handleDeleteRoomItem}
 
+            />
+          </TabPanel>
+          <TabPanel value="3">
+            <UserListInvoice
+              id={customerId}
+              handleEditItem={handleEditItem}
+              handleDeleteItem={handleDeleteItem}
+              handleAddItem={handleAddItem}
+              customerAdd={props.customerAddPermission}
+              customerEdit={props.customerEditPermission}
+              customerDelete={props.customerDeletePermission}
+            />
+          </TabPanel>
 
-
-
-            <Modal
-              show={generateFormAdvance}
-              onHide={handleCloseGenerateAdvance}
-              backdrop="static"
-              centered
-            >
-              <Modal.Dialog
-                style={{
-                  maxWidth: 666,
-                  paddingRight: "10px",
-                  borderRadius: "30px",
-                }}
-                className="m-0 p-0"
-              >
-                <Modal.Body style={{ marginTop: -30 }}>
-                  <div className="d-flex align-items-center">
-                    <div className="container">
-                      <div className="row mb-3"></div>
-
-                      <Modal.Header style={{ position: "relative" }}>
-                        <div
-                          style={{
-                            fontSize: 20,
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
-                          }}
-                        >
-                          Generate Advance
-                        </div>
-
-                        <CloseCircle
-                          size="24"
-                          color="#000"
-                          onClick={handleCloseGenerateAdvance}
-                          style={{ cursor: "pointer" }}
-                        />
-                      </Modal.Header>
-
-                      <div className="row mb-3">
-                        <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                          <Form.Group
-                            className="mb-2"
-                            controlId="checkoutDate"
-                          >
-                            <Form.Label
-                              style={{
-                                fontSize: 14,
-                                color: "#222222",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
-                            >
-                              Invoice Date {" "}
-                              <span
-                                style={{
-                                  color: "red",
-                                  fontSize: "20px",
-                                }}
-                              >
-                                *
-                              </span>
-                            </Form.Label>
-
-                            <div
-                              className="datepicker-wrapper"
-                              style={{
-                                position: "relative",
-                                width: "100%",
-                              }}
-                            >
-                              <DatePicker
-                                style={{
-                                  width: "100%",
-                                  height: 48,
-                                  cursor: "pointer",
-                                }}
-                                format="DD/MM/YYYY"
-                                placeholder="DD/MM/YYYY"
-                                value={
-                                  advanceDate
-                                    ? dayjs(advanceDate)
-                                    : null
-                                }
-                                onChange={(date) => {
-                                  setAdvanceDateError("");
-                                  setAdvanceDate(
-                                    date ? date.toDate() : null
-                                  );
-                                }}
-                                getPopupContainer={(triggerNode) =>
-                                  triggerNode.closest(
-                                    ".datepicker-wrapper"
-                                  )
-                                }
-                                dropdownClassName="custom-datepicker-popup"
-                                disabledDate={(current) => current && current > dayjs().endOf("day")}
-                              />
-                            </div>
-                          </Form.Group>
-                          {advanceDateError && (
-                            <ErrorMessage message={advanceDateError} type="error" />
-                          )}
-                        </div>
-                        <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                          <Form.Group
-                            className="mb-2"
-                            controlId="checkoutDate"
-                          >
-                            <Form.Label
-                              style={{
-                                fontSize: 14,
-                                color: "#222222",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
-                            >
-                              Due Date {" "}
-                              <span
-                                style={{
-                                  color: "red",
-                                  fontSize: "20px",
-                                }}
-                              >
-                                *
-                              </span>
-                            </Form.Label>
-
-                            <div
-                              className="datepicker-wrapper"
-                              style={{
-                                position: "relative",
-                                width: "100%",
-                              }}
-                            >
-                              <DatePicker
-                                style={{
-                                  width: "100%",
-                                  height: 48,
-                                  cursor: "pointer",
-                                }}
-                                format="DD/MM/YYYY"
-                                placeholder="DD/MM/YYYY"
-                                value={
-                                  advanceDueDate
-                                    ? dayjs(advanceDueDate)
-                                    : null
-                                }
-                                onChange={(date) => {
-                                  setAdvanceDueDateError("");
-                                  setAdvanceDueDate(
-                                    date ? date.toDate() : null
-                                  );
-                                }}
-                                getPopupContainer={(triggerNode) =>
-                                  triggerNode.closest(
-                                    ".datepicker-wrapper"
-                                  )
-                                }
-                                dropdownClassName="custom-datepicker-popup"
-                              />
-                            </div>
-                          </Form.Group>
-                          {advanceDueDateError && (
-                            <ErrorMessage message={advanceDueDateError} type="error" />
-                          )}
-                        </div>
-                      </div>
-
-
-                      <div className="d-flex gap-2">
-                        <Button
-
-                          variant="secondary"
-                          className="w-100"
-                          style={{
-                            height: 45,
-                            borderRadius: 12,
-                            fontSize: 15,
-                            fontWeight: 500,
-                            fontFamily: "Montserrat",
-                            paddingLeft: 20,
-                            paddingRight: 20,
-                          }}
-                          onClick={handleCancelButton}
-                        >
-                          Cancel
-                        </Button>
-
-                        <Button
-                          className="w-100"
-                          style={{
-                            backgroundColor: "#1E45E1",
-                            height: 45,
-                            borderRadius: 12,
-                            fontSize: 15,
-                            fontWeight: 600,
-                            fontFamily: "Montserrat",
-                            paddingLeft: 25,
-                            paddingRight: 25,
-                          }}
-
-                          disabled={advanceDetail[0]?.inv_id}
-                          onClick={handleSaveButton}
-                        >
-                          Save
-                        </Button>
-                      </div>
-
-                    </div>
-
-                  </div>
-                </Modal.Body>
-
-
-              </Modal.Dialog>
-            </Modal>
-            <TabPanel value="2">
-              <UserEb
-                id={customerId}
-                handleEditRoomItem={handleEditRoomItem}
-                handleEditHostelItem={handleEditHostelItem}
-                handleDeleteHostelItem={handleDeleteHostelItem}
-                handleDeleteRoomItem={handleDeleteRoomItem}
-
-              />
-            </TabPanel>
-            <TabPanel value="3">
-              <UserListInvoice
-                id={customerId}
-                handleEditItem={handleEditItem}
-                handleDeleteItem={handleDeleteItem}
-                handleAddItem={handleAddItem}
-                customerAdd={props.customerAddPermission}
-                customerEdit={props.customerEditPermission}
-                customerDelete={props.customerDeletePermission}
-              />
-            </TabPanel>
-
-            <TabPanel value="4">
-             <TransactionHistory />
-            </TabPanel>
-          </TabContext>
+          <TabPanel value="4">
+            <TransactionHistory />
+          </TabPanel>
+        </TabContext>
 
 
 
@@ -6558,141 +6235,144 @@ function UserListRoomDetail(props) {
 
 
 
-          {/* New conversion Ui  */}
+        {/* New conversion Ui  */}
 
 
-
-          {
-            editBasicDetailsShow && <EditBasicDetails show={editBasicDetailsShow} handleClose={handleCloseBasicDetails} basicDetails={basicDetails} />
-          }
-
-          {
-            editAddressDetailsShow && <EditAddressDetails show={editAddressDetailsShow} handleClose={handleCloseAddressDetails} addressDetails={addressDetails} />
-          }
-
-          {
-            editStayDetailsShow && <EditStayDetails show={editStayDetailsShow} handleClose={handleCloseStayDetails} stayDetais={stayDetais} />
-          }
-
-
-          {
-            stayDetailsShow && <StayHistory show={stayDetailsShow} handleClose={handleCloseStayHistory} />
-          }
-
-          {
-            showUpdateRentForm && <EditRentalAmount show={showUpdateRentForm} handleClose={handleCloseUpdateChange} />
-          }
-
-          {
-            showUpdateAdvanceForm && <EditAdvanceAmount show={showUpdateAdvanceForm} handleClose={handleCloseUpdateAdvanceChange} />
-          }
-
-          {
-            showUpdateJoiningForm && <EditJoiningDate show={showUpdateJoiningForm} handleClose={handleCloseUpdateJoiningChange} />
-          }
-
-        </div>
-        <Modal show={showModal} onHide={handleClose} size="md" centered>
-          <Modal.Header closeButton>
-            <Modal.Title >KYC Details</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <div
-              style={{
-                borderRadius: 10,
-                padding: 20,
-                textAlign: "center",
-                fontFamily: "Gilroy",
-              }}
-            >
-              <div style={{ marginBottom: 15 }}>
-                <img
-                  src={`data:image/jpeg;base64,${state.UsersList?.KycCustomerDetails?.pic}`}
-                  alt="KYC"
-                  style={{
-                    height: 120,
-                    width: 120,
-                    borderRadius: "25%",
-                    border: "3px solid #f0f0f0",
-                    objectFit: "cover",
-                  }}
-                />
-              </div>
-
-              <h5
-                style={{
-                  fontWeight: "bold",
-                  fontSize: 18,
-                  marginBottom: 20,
-                  color: "#222",
-                }}
-              >
-                {state.UsersList?.KycCustomerDetails?.name || "****"}
-              </h5>
-
-              <div
-                className="d-flex align-items-start"
-                style={{ justifyContent: "center", marginBottom: 15 }}
-              >
-                <i
-                  className="bi bi-geo-alt"
-                  style={{ fontSize: 18, color: "#3D5AFE", marginRight: 10 }}
-                ></i>
-                <p
-                  style={{
-                    fontSize: 14,
-                    color: "#4B4B4B",
-                    maxWidth: 220,
-                    textAlign: "left",
-                    margin: 0,
-                  }}
-                >
-                  Address<br />
-                  {/* <span>
-            {state.UsersList?.KycCustomerDetails?.address ||
-              "No address provided"}
-          </span> */}
-                  <div style={{
-                    maxWidth: "400px",
-                    wordBreak: "break-word",
-                    whiteSpace: "pre-wrap"
-                  }}>
-                    {state.UsersList?.KycCustomerDetails?.address || "No address provided"}
-                  </div>
-                </p>
-              </div>
-
-              <div
-                className="d-flex align-items-start"
-                style={{ justifyContent: "center", marginBottom: 5 }}
-              >
-                <img
-                  src={adhar}
-                  alt="Aadhaar"
-                  style={{ width: 20, height: 20, marginRight: 10 }}
-                />
-                <p
-                  style={{
-                    fontSize: 14,
-                    color: "#4B4B4B",
-                    maxWidth: 220,
-                    textAlign: "left",
-                    margin: 0,
-                  }}
-                >
-                  Aadhaar Number<br />
-                  <span>{state.UsersList?.KycCustomerDetails?.aadhaarNumber}</span>
-                </p>
-              </div>
-            </div>
-          </Modal.Body>
-        </Modal>
 
         {
-          addamenityShow && <TenantAmenities show={addamenityShow} handleClose={handleCloseAddamenityShow} />
+          editBasicDetailsShow && <EditBasicDetails show={editBasicDetailsShow} handleClose={handleCloseBasicDetails} basicDetails={basicDetails} />
+        }
+
+        {
+          editAddressDetailsShow && <EditAddressDetails show={editAddressDetailsShow} handleClose={handleCloseAddressDetails} addressDetails={addressDetails} />
+        }
+
+        {
+          editStayDetailsShow && <EditStayDetails show={editStayDetailsShow} handleClose={handleCloseStayDetails} stayDetais={stayDetais} />
         }
 
 
+        {
+          stayDetailsShow && <StayHistory show={stayDetailsShow} handleClose={handleCloseStayHistory} />
+        }
+
+        {
+          showUpdateRentForm && <EditRentalAmount show={showUpdateRentForm} handleClose={handleCloseUpdateChange} />
+        }
+
+        {
+          showUpdateAdvanceForm && <EditAdvanceAmount show={showUpdateAdvanceForm} handleClose={handleCloseUpdateAdvanceChange} />
+        }
+
+        {
+          showUpdateJoiningForm && <EditJoiningDate show={showUpdateJoiningForm} handleClose={handleCloseUpdateJoiningChange} />
+        }
+
+      </div>
+      <Modal show={showModal} onHide={handleClose} size="md" centered>
+        <Modal.Header closeButton>
+          <Modal.Title >KYC Details</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div
+            style={{
+              borderRadius: 10,
+              padding: 20,
+              textAlign: "center",
+              fontFamily: "Gilroy",
+            }}
+          >
+            <div style={{ marginBottom: 15 }}>
+              <img
+                src={`data:image/jpeg;base64,${state.UsersList?.KycCustomerDetails?.pic}`}
+                alt="KYC"
+                style={{
+                  height: 120,
+                  width: 120,
+                  borderRadius: "25%",
+                  border: "3px solid #f0f0f0",
+                  objectFit: "cover",
+                }}
+              />
+            </div>
+
+            <h5
+              style={{
+                fontWeight: "bold",
+                fontSize: 18,
+                marginBottom: 20,
+                color: "#222",
+              }}
+            >
+              {state.UsersList?.KycCustomerDetails?.name || "****"}
+            </h5>
+
+            <div
+              className="d-flex align-items-start"
+              style={{ justifyContent: "center", marginBottom: 15 }}
+            >
+              <i
+                className="bi bi-geo-alt"
+                style={{ fontSize: 18, color: "#3D5AFE", marginRight: 10 }}
+              ></i>
+              <p
+                style={{
+                  fontSize: 14,
+                  color: "#4B4B4B",
+                  maxWidth: 220,
+                  textAlign: "left",
+                  margin: 0,
+                }}
+              >
+                Address<br />
+                {/* <span>
+            {state.UsersList?.KycCustomerDetails?.address ||
+              "No address provided"}
+          </span> */}
+                <div style={{
+                  maxWidth: "400px",
+                  wordBreak: "break-word",
+                  whiteSpace: "pre-wrap"
+                }}>
+                  {state.UsersList?.KycCustomerDetails?.address || "No address provided"}
+                </div>
+              </p>
+            </div>
+
+            <div
+              className="d-flex align-items-start"
+              style={{ justifyContent: "center", marginBottom: 5 }}
+            >
+              <img
+                src={adhar}
+                alt="Aadhaar"
+                style={{ width: 20, height: 20, marginRight: 10 }}
+              />
+              <p
+                style={{
+                  fontSize: 14,
+                  color: "#4B4B4B",
+                  maxWidth: 220,
+                  textAlign: "left",
+                  margin: 0,
+                }}
+              >
+                Aadhaar Number<br />
+                <span>{state.UsersList?.KycCustomerDetails?.aadhaarNumber}</span>
+              </p>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
+
+      {
+        addamenityShow && <TenantAmenities show={addamenityShow} handleClose={handleCloseAddamenityShow} />
+      }
+
+
+      {
+        showPreview && <ManualDocumentsUpload show={showPreview} handleClose={handleClosePreview} />
+      }
 
 
 
@@ -6700,10 +6380,8 @@ function UserListRoomDetail(props) {
 
 
 
-
-      </>
-      {/* )} */}
     </>
+
   );
 }
 

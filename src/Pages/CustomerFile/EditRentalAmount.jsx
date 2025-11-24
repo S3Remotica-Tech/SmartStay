@@ -382,6 +382,12 @@ function EditRentalAmount({ show, handleClose }) {
                                                     color: "#555",
                                                 }),
                                                 indicatorSeparator: () => ({ display: "none" }),
+                                                menuList: (base) => ({
+                                                    ...base,
+                                                    maxHeight: "150px",
+                                                    overflowY: "auto", scrollbarWidth: "thin",
+                                                    msOverflowStyle: "auto",
+                                                }),
                                             }}
                                         />
                                     )}
