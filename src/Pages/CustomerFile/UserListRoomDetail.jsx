@@ -2921,7 +2921,7 @@ function UserListRoomDetail(props) {
                             Address Details
                           </div> */}
                         <div className="card-header p-0 border-0" style={{ background: "transparent", width: "100%" }}>
-                          <div className="d-flex gap-5 align-items-center justify-content-center border-0" style={{ width: "100%" }}>
+                          <div className="d-flex gap-5 align-items-center justify-content-start border-0" style={{ width: "100%" }}>
 
 
                             <div className="d-flex align-items-center "
@@ -3227,7 +3227,7 @@ function UserListRoomDetail(props) {
                     <div className="card-body">
 
                       <TabContext value={documentvalue} className="d-flex  justify-content-center flex-sm-row">
-                        <Box sx={{ borderBottom: 0, borderColor: "divider" }} className="d-flex  justify-content-center flex-sm-row">
+                        <Box sx={{ borderBottom: 0, borderColor: "divider" }} className="d-flex  justify-content-start flex-sm-row">
                           <TabList
                             onChange={handleChangesupload}
                             aria-label="custom tabs"

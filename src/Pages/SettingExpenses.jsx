@@ -12,9 +12,12 @@ import { Card } from 'react-bootstrap';
 import CreatableSelect from "react-select/creatable";
 import './Settingexpense.css';
 import PropTypes from "prop-types";
-import { CloseCircle } from "iconsax-react";
+import { CloseCircle, Category, AddCircle } from "iconsax-react";
 import ErrorMessage from '../Components/ErrorMessage'
 import { useHasPermission } from '../Utils/Permission';
+import AddCategory from './Settings/AddCategory';
+import { toast } from 'react-toastify';
+import AddSubCategory from './Settings/AddSubCategory';
 function SettingExpenses({ hostelid }) {
 
   const state = useSelector(state => state)
@@ -23,6 +26,7 @@ function SettingExpenses({ hostelid }) {
   const [formLoading, setFormLoading] = useState(false)
 
   const [type, setType] = useState([]);
+  const [showSubCategoryForm, setShowSubCategoryForm] = useState(false)
   const [subType, setSubType] = useState('');
   const [isSubCategory, setIsSubCategory] = useState(false);
   const [showform, setShowForm] = useState(false);
@@ -31,13 +35,14 @@ function SettingExpenses({ hostelid }) {
   const [subcateogoryerrmsg, setSubCategoryErrmsg] = useState('');
   const [totalErrormsg, setTotalErrmsg] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [subcategory_Id, setSubCategory_ID] = useState(null)
+  const [subCategoryDetails, setSubCategoryDetails] = useState('')
   const [deleteCategoryId, setDeleteCategoryId] = useState('')
   const [loading, setLoading] = useState(false)
   const [expensesFilterddata, setExpensesFilterddata] = useState([]);
   const [expensescurrentPage, setExpensescurrentPage] = useState(1);
-
-
+  const [deletesubcatItems, setDeleteSubCatItems] = useState('')
+  const [deletesubcat, setDeleteSubCat] = useState(false)
+  const [showPopup, setShowPopup] = useState(false);
 
   // const canReadExpense = useHasPermission("Expense", "canRead");
   // const canWriteExpense = useHasPermission("Expense", "canWrite");
@@ -74,22 +79,31 @@ function SettingExpenses({ hostelid }) {
 
 
 
-  const [showPopup, setShowPopup] = useState(false);
+
+
 
   const handleShow = () => {
-    setCategoryErrmsg('')
-    setSubCategoryErrmsg('')
+
     if (!state.login.selectedHostel_Id) {
-      setShowPopup(true);
+      toast.error('Please add a hostel before adding Expense information', {
+        hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
+      });
       return;
     }
     setShowForm(true);
-    setEdit(false);
-    setEditsubCat(null)
-    setSelectedOptions([])
+    setType("")
 
   };
 
+  const handleCreateSubCategory = (sub) => {
+    setSubType(sub)
+    setShowSubCategoryForm(true)
+    setSubCategoryDetails('')
+  }
+
+  const handleCloseSubCategory = () => {
+    setShowSubCategoryForm(false)
+  }
 
   const handleCloseForm = () => {
     setShowForm(false);
@@ -103,7 +117,7 @@ function SettingExpenses({ hostelid }) {
 
   };
 
-  const [editsubcat, setEditsubCat] = useState(false)
+
 
 
 
@@ -113,12 +127,9 @@ function SettingExpenses({ hostelid }) {
   };
 
 
-  const [deletesubcatItems, setDeleteSubCatItems] = useState('')
-  const [deletesubcat, setDeleteSubCat] = useState(false)
+
 
   const handleDeleteSubCategory = (item) => {
-
-
     setDeleteSubCatItems(item)
     setShowModal(true)
     setDeleteSubCat(true)
@@ -214,6 +225,7 @@ function SettingExpenses({ hostelid }) {
   useEffect(() => {
     if (state.Settings.addexpencesStatuscode === 201 || state.Settings.editexpencesStatuscode === 200 || state.Settings.deleteexpencesStatusCode === 200) {
       setShowForm(false)
+      setShowSubCategoryForm(false)
       setFormLoading(false)
       setCategoryErrmsg('')
       if (state.Settings.editexpencesStatuscode === 200) {
@@ -239,85 +251,10 @@ function SettingExpenses({ hostelid }) {
   }, [state.login.selectedHostel_Id, state.Settings.addexpencesStatuscode, state.Settings.editexpencesStatuscode, state.Settings.deleteexpencesStatusCode])
 
 
-
-
-
-
-
-
-  const [selectedOptions, setSelectedOptions] = useState([]);
   const [options, setOptions] = useState([]);
   const [formError, setFormError] = useState('')
-  const [formCategoryError, setFormCategoryError] = useState('')
-
-  const [initialSubCategory, setInitialSubCategory] = useState({});
-  const [initialCategory, setInitialCategory] = useState({});
 
 
-  const updateType = () => {
-
-    dispatch({ type: 'CLEAR_ALREADY_EXPENCE_CATEGORY_ERROR' });
-    if (subcategory_Id && subType) {
-      if (subType === initialSubCategory.name) {
-        setFormError("No Changes Detected");
-        return;
-      } else {
-        setFormError("");
-      }
-
-      dispatch({ type: 'EDIT_EXPENCES_CATEGORY', payload: { id: subcategory_Id, hostel_id: state.login.selectedHostel_Id, name: subType, type: 2 } })
-      setFormLoading(true)
-      setIsSubCategory(false)
-      setSubType('')
-    }
-
-    else {
-
-      if (type.label === initialCategory.name) {
-        setFormCategoryError("No Changes Detected");
-        return;
-      } else {
-        setFormCategoryError("");
-      }
-
-      dispatch({ type: 'EDIT_EXPENCES_CATEGORY', payload: { id: type.value, hostel_id: state.login.selectedHostel_Id, name: type.label, type: 1 } })
-      setFormLoading(true)
-    }
-  }
-
-
-
-
-  const addType = () => {
-    dispatch({ type: 'CLEAR_ALREADY_EXPENCE_CATEGORY_ERROR' });
-    if (!selectedOptions.value.trim()) {
-      setCategoryErrmsg("Please Select  Category");
-      return;
-    }
-    if (isSubCategory) {
-      if (!subType) {
-        setSubCategoryErrmsg("Please Enter  Sub-Category")
-        return;
-      }
-    }
-    if (isSubCategory) {
-      dispatch({
-        type: "EXPENCES-CATEGORY-ADD",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          categoryId: type.value.trim(),
-          subCategory: subType,
-        },
-      });
-      setFormLoading(true)
-      // setSelectedOptions([])
-
-
-    }
-    setSubType("")
-    // setIsSubCategory(false);
-
-  };
 
 
   useEffect(() => {
@@ -339,36 +276,19 @@ function SettingExpenses({ hostelid }) {
 
     setEdit(true);
     setShowForm(true);
-    if (item.categoryId && item.categoryName) {
-      setType({ value: item.categoryId, label: item.categoryName });
-      setSelectedOptions({ value: item.categoryId, label: item.categoryName })
+    setType(item)
 
-      setEditsubCat(false)
-      setIsSubCategory(false);
-      setInitialCategory({ id: item.categoryId, name: item.categoryName });
-
-    }
-    else if (item.subCategoryId && item.cat_id) {
-      setIsSubCategory(true)
-      setSubType(item.subcategory)
-      setType({ value: item.cat_id, label: item.categoryName });
-      setSelectedOptions({ value: item.cat_id, label: item.categoryName })
-      setSubCategory_ID(item.subCategoryId)
-      setEditsubCat(true)
-
-      setInitialSubCategory({ id: item.subCategoryId, name: item.subcategory });
-    }
 
   }
 
 
-  const handleChange = (selected) => {
-    dispatch({ type: 'CLEAR_ALREADY_EXPENCE_CATEGORY_ERROR' })
-    setSelectedOptions(selected);
+  // const handleChange = (selected) => {
+  //   dispatch({ type: 'CLEAR_ALREADY_EXPENCE_CATEGORY_ERROR' })
+  //   setSelectedOptions(selected);
 
-    setType(selected)
-    setCategoryErrmsg("")
-  };
+  //   setType(selected)
+  //   setCategoryErrmsg("")
+  // };
 
 
 
@@ -417,77 +337,80 @@ function SettingExpenses({ hostelid }) {
   //   }
   // };
 
-const handleCreate = (inputValue) => {
-  const cleanedValue = inputValue.trim();   
-  
-  const existingCategoryIndex = options.findIndex(
-    option => option.value === selectedOptions?.value
-  );
+  // const handleCreate = (inputValue) => {
+  //   const cleanedValue = inputValue.trim();   
 
-  if (existingCategoryIndex !== -1) {
+  //   const existingCategoryIndex = options.findIndex(
+  //     option => option.value === selectedOptions?.value
+  //   );
 
-    const updatedOptions = [...options];
-    updatedOptions[existingCategoryIndex] = { 
-      ...updatedOptions[existingCategoryIndex], 
-      label: cleanedValue 
-    };
+  //   if (existingCategoryIndex !== -1) {
 
-    setOptions(updatedOptions);
-    setSelectedOptions(updatedOptions[existingCategoryIndex]);
-    setType(updatedOptions[existingCategoryIndex]);
+  //     const updatedOptions = [...options];
+  //     updatedOptions[existingCategoryIndex] = { 
+  //       ...updatedOptions[existingCategoryIndex], 
+  //       label: cleanedValue 
+  //     };
 
-    dispatch({
-      type: 'EDIT_EXPENCES_CATEGORY',
-      payload: { 
-        id: selectedOptions.value,
-        hostel_id: state.login.selectedHostel_Id,
-        name: cleanedValue,
-        type: 1 
-      }
-    });
+  //     setOptions(updatedOptions);
+  //     setSelectedOptions(updatedOptions[existingCategoryIndex]);
+  //     setType(updatedOptions[existingCategoryIndex]);
 
-  } else {
+  //     dispatch({
+  //       type: 'EDIT_EXPENCES_CATEGORY',
+  //       payload: { 
+  //         id: selectedOptions.value,
+  //         hostel_id: state.login.selectedHostel_Id,
+  //         name: cleanedValue,
+  //         type: 1 
+  //       }
+  //     });
 
-    const newOption = { value: cleanedValue, label: cleanedValue };
+  //   } else {
 
-    setOptions((prev) => [...prev, newOption]);
-    setSelectedOptions(newOption);
-    setType(newOption);
+  //     const newOption = { value: cleanedValue, label: cleanedValue };
 
-    dispatch({
-      type: 'EXPENCES-CATEGORY-ADD',
-      payload: {
-        hostelId: state.login.selectedHostel_Id,
-        categoryName: cleanedValue,
-      }
-    });
+  //     setOptions((prev) => [...prev, newOption]);
+  //     setSelectedOptions(newOption);
+  //     setType(newOption);
+
+  //     dispatch({
+  //       type: 'EXPENCES-CATEGORY-ADD',
+  //       payload: {
+  //         hostelId: state.login.selectedHostel_Id,
+  //         categoryName: cleanedValue,
+  //       }
+  //     });
+  //   }
+  // };
+
+
+  // useEffect(() => {
+  //   if (!state.Settings?.Expences || !Array.isArray(state.Settings.Expences)) {
+
+  //     return;
+  //   }
+
+  //   if (selectedOptions) {
+  //     const TakeCategoryId = state.Settings.Expences.filter(
+  //       (view) => selectedOptions?.label && view.categoryName?.toLowerCase() === selectedOptions.label.toLowerCase()
+  //     );
+
+
+
+  //     if (TakeCategoryId.length > 0) {
+  //       setType({ value: TakeCategoryId[0]?.categoryId, label: TakeCategoryId[0]?.categoryName });
+  //     }
+  //   }
+  // }, [state.Settings.addexpencesStatuscode, selectedOptions]);
+
+
+
+
+  const handleSubEditCategory = (subcategory) => {
+    setShowSubCategoryForm(true)
+    setSubCategoryDetails(subcategory)
   }
-};
-
-
-  useEffect(() => {
-    if (!state.Settings?.Expences || !Array.isArray(state.Settings.Expences)) {
-
-      return;
-    }
-
-    if (selectedOptions) {
-      const TakeCategoryId = state.Settings.Expences.filter(
-        (view) => selectedOptions?.label && view.categoryName?.toLowerCase() === selectedOptions.label.toLowerCase()
-      );
-
-
-
-      if (TakeCategoryId.length > 0) {
-        setType({ value: TakeCategoryId[0]?.categoryId, label: TakeCategoryId[0]?.categoryName });
-      }
-    }
-  }, [state.Settings.addexpencesStatuscode, selectedOptions]);
-
-
-
-
-
 
 
 
@@ -553,33 +476,10 @@ const handleCreate = (inputValue) => {
   }, []);
 
 
-  //   const indexOfLastRowExpense = expensescurrentPage * expensesrowsPerPage;
-  //   const indexOfFirstRowExpense = indexOfLastRowExpense - expensesrowsPerPage;
-  //   const expensesFilterddata = expensesFilterddata?.slice(
-  //     indexOfFirstRowExpense,
-  //     indexOfLastRowExpense
-  //   );
-
-  //   const handlePageChange = (generalpageNumber) => {
-  //     setExpensescurrentPage(generalpageNumber);
-  //   };
-
-  //  const handleItemsPerPageChange = (selectedOption) => {
-  //   setExpensesrowsPerPage(selectedOption.value);
-  //   setExpensescurrentPage(1);
-  // };
-
-  // const expenseOptions = [
-  //     { value: 10, label: "10" },
-  //   { value: 50, label: "50" },
-  //   { value: 100, label: "100" },
-  // ];
 
 
 
-  //   const totalPagesGeneral = Math.ceil(
-  //     expensesFilterddata?.length / expensesrowsPerPage
-  //   );
+
 
   useEffect(() => {
     if (
@@ -695,7 +595,7 @@ const handleCreate = (inputValue) => {
       </div>
 
 
-      {showPopup && (
+      {/* {showPopup && (
         <div className="d-flex flex-wrap mt-3 align-items-center"
           style={{ gap: "10px" }} >
           <p style={{ color: "red", fontFamily: "Gilroy", fontSize: 14 }} className="col-12 col-sm-6 col-md-6 col-lg-9">
@@ -707,7 +607,7 @@ const handleCreate = (inputValue) => {
         </div>
 
 
-      )}
+      )} */}
 
       {
         !canReadExpense ? (
@@ -761,6 +661,7 @@ const handleCreate = (inputValue) => {
                           <div className="category-title">{category.categoryName}</div>
 
                           <div className="d-flex align-items-center " style={{ gap: "10px" }}>
+
                             <img
                               src={Editbtn}
                               height={15}
@@ -772,6 +673,11 @@ const handleCreate = (inputValue) => {
                               }}
                               onClick={(e) => { if (canUpdateExpense) handleEditCategory(category); }}
                             />
+                            <AddCircle onClick={() => { if (canWriteExpense) handleCreateSubCategory(category) }}
+                              size="16"
+                              color="#FF9900" style={{ cursor: "pointer" }}
+                            />
+
                             <img
                               src={Closebtn}
                               height={15}
@@ -823,7 +729,7 @@ const handleCreate = (inputValue) => {
                                         opacity: canUpdateExpense ? 1 : 0.4
                                       }}
                                       onClick={() => {
-                                        if (canUpdateExpense) handleEditCategory(sub);
+                                        if (canUpdateExpense) handleSubEditCategory(sub);
                                       }}
                                     />
 
@@ -895,238 +801,12 @@ const handleCreate = (inputValue) => {
 
 
                 {showform && (
-                  <div
-                    className="modal show"
-                    style={{
-                      display: "block",
-                      position: "initial",
-                      fontFamily: "Gilroy,sans-serif",
-                    }}
-                  >
-                    <Modal
-                      show={showform}
-                      onHide={handleCloseForm}
-                      centered
-                      backdrop="static"
-                      dialogClassName="custom-modal"
-                    >
-                      <Modal.Dialog
-                        style={{ maxWidth: 950, paddingRight: "10px", borderRadius: "30px" }}
-                        className="m-0 p-0"
-                      >
-                        <div>
-                          <Modal.Header
-                            style={{ position: "relative" }}
-                          >
-                            <div
-                              style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}
-                            >
-
-
-                              {edit ? "Edit Category" : "Add Category"}
-
-
-                            </div>
-
-                            <CloseCircle size="24" color="#000" onClick={handleCloseForm}
-                              style={{ cursor: 'pointer' }} />
-
-
-                          </Modal.Header>
-                        </div>
-                        <Modal.Body className='pt-2'>
-
-                          <div className="row ">
-
-
-
-
-                            <div className='d-flex flex-column '>
-                              <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                  <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Category
-                                    <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                                  </Form.Label>
-
-
-                                  <CreatableSelect
-                                    isDisabled={editsubcat}
-                                    options={options}
-                                    value={selectedOptions}
-                                    onChange={handleChange}
-                                    onCreateOption={handleCreate}
-                                    placeholder="Select / Create Category"
-                                    formatCreateLabel={(inputValue) =>
-                                      edit ? `Edit category "${inputValue}"` : `Create category "${inputValue}"`
-                                    }
-
-                                    styles={{
-                                      menu: (provided) => ({
-                                        ...provided,
-                                        maxHeight: '100px',
-                                        overflowY: 'auto',
-                                        zIndex: 9999,
-                                        cursor: 'pointer',
-                                        fontFamily: 'Gilroy'
-                                      }),
-
-                                      menuList: (provided) => ({
-                                        ...provided,
-                                        maxHeight: '100px',
-                                        minHeight: '80px',
-                                        overflowY: 'scroll',
-                                        scrollbarWidth: 'thin',
-                                        scrollbarColor: '#888 #f0f0f0',
-                                        fontFamily: 'Gilroy'
-                                      }),
-                                      dropdownIndicator: (base) => ({
-                                        ...base,
-                                        color: "#555",
-                                        opacity: 1,
-                                        cursor: edit ? "not-allowed" : "pointer",
-                                      }),
-                                      option: (provided, state) => ({
-                                        ...provided,
-                                        padding: '6px 10px',
-                                        backgroundColor: state.isFocused ? "lightblue" : "white",
-                                        color: "#222",
-                                        cursor: "pointer",
-                                        fontFamily: 'Gilroy'
-                                      }),
-
-                                      control: (provided) => ({
-                                        ...provided,
-                                        minHeight: '40px',
-                                        cursor: "pointer",
-                                        fontFamily: 'Gilroy'
-                                      }),
-                                    }}
-                                    menuPlacement="bottom"
-                                  />
-
-
-                                  {cateogoryerrmsg.trim() !== "" && (
-                                    <ErrorMessage message={cateogoryerrmsg} type="error" />
-                                  )}
-                                </Form.Group>
-                              </div>
-
-                              <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                                <input
-                                  type='checkbox'
-                                  disabled={editsubcat === false}
-                                  className='mb-3 me-2'
-                                  checked={isSubCategory}
-                                  onChange={() => setIsSubCategory(!isSubCategory)}
-                                  style={{ width: '20px', height: '20px', border: '1px solid #ced4da', borderRadius: '4px', accentColor: '#1E45E1', }}
-                                />
-                                <p className='' style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Make Sub-Category</p>
-                              </div>
-
-
-                              <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12  ms-xs-0'>
-
-                                <Form.Group className="mb-1" controlId="exampleForm.ControlInput2">
-                                  <Form.Label disabled={!isSubCategory} style={{ color: !isSubCategory ? 'grey' : '#222', opacity: !isSubCategory ? '0.5' : '1', fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Sub-Category</Form.Label>
-                                  <Form.Control
-                                    style={{ padding: '10px', marginTop: '3px', opacity: !isSubCategory ? '0.5' : '1', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
-                                    className={!isSubCategory ? 'custom-disabled' : 'white !important'}
-                                    type="text"
-                                    placeholder="Enter Sub-Category"
-                                    value={subType}
-                                    onChange={(e) => handlesubcategoryAdd(e)}
-                                    disabled={!isSubCategory}
-                                  />
-
-
-                                  {subcateogoryerrmsg.trim() !== "" && (
-                                    <ErrorMessage message={subcateogoryerrmsg} type="error" />
-                                  )}
-
-                                </Form.Group>
-                              </div>
-
-                            </div>
-
-
-
-
-                            {totalErrormsg.trim() !== "" && (
-                              <ErrorMessage message={totalErrormsg} type="error" />
-                            )}
-
-                            {state.Settings?.alreadycategoryerror && (
-                              <ErrorMessage message={state.Settings?.alreadycategoryerror} type="error" />
-                            )}
-
-                            {formError && (
-                              <ErrorMessage message={formError} type="error" />
-                            )}
-
-
-
-                            {formCategoryError && (
-                              <ErrorMessage message={formCategoryError} type="error" />
-                            )}
-                          </div>
-                        </Modal.Body>
-
-                        {formLoading &&
-                          <div
-                            style={{
-                              position: 'absolute',
-                              top: '50%',
-                              left: '50%',
-                              transform: 'translate(-50%, -50%)',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              backgroundColor: 'transparent',
-                              opacity: 0.75,
-                              zIndex: 10,
-                            }}
-                          >
-                            <div
-                              style={{
-                                borderTop: '4px solid #1E45E1',
-                                borderRight: '4px solid transparent',
-                                borderRadius: '50%',
-                                width: '40px',
-                                height: '40px',
-                                animation: 'spin 1s linear infinite',
-                              }}
-                            ></div>
-                          </div>
-                        }
-
-
-                        <Modal.Footer style={{ border: "none" }}>
-                          <Button
-                            disabled={isSubCategory === false}
-                            className="w-100"
-                            style={{
-                              backgroundColor: "#1E45E1",
-                              fontWeight: 500,
-                              height: 50,
-                              borderRadius: 12,
-                              fontSize: 16,
-                              fontFamily: "Gilroy",
-                              fontStyle: "normal",
-                              lineHeight: "normal",
-                              marginTop: "-15px"
-                            }}
-
-                            onClick={edit ? updateType : addType}
-                          >
-                            {edit ? "Save Changes" : "Save"}
-
-                          </Button>
-                        </Modal.Footer>
-                      </Modal.Dialog>
-                    </Modal>
-                  </div>
+                  <AddCategory show={showform} handleCloseForm={handleCloseForm} editCategory={type} />
                 )}
 
+                {
+                  showSubCategoryForm && <AddSubCategory show={showSubCategoryForm} handleCloseForm={handleCloseSubCategory} AddSubCategory={subType} editSubCategory={subCategoryDetails} />
+                }
 
                 <Modal
                   show={showModal} onHide={cancelDelete}
