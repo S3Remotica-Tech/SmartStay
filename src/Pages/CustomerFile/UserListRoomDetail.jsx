@@ -190,7 +190,9 @@ function UserListRoomDetail(props) {
     canDeleteModule: canDeleteAmenities,
   } = useHasPermission("Amenities");
 
-  const { customerId, hostelId, name, totriggerBillTap } = location.state || {};
+  const { customerId, hostelId, name, totriggerBillTap, isPgWay } = location.state || {};
+
+  console.log("isPgWay", isPgWay)
 
 
   useEffect(() => {
@@ -2282,6 +2284,15 @@ function UserListRoomDetail(props) {
   };
 
 
+  const handleNavigateTenant = () => {
+    if (isPgWay) {
+      navigate(`/paying-guest/${state.login.selectedHostel_Id}`);
+    } else {
+      navigate(`/tenant/${state.login.selectedHostel_Id}`)
+    }
+
+  }
+
   return (
 
 
@@ -2312,7 +2323,7 @@ function UserListRoomDetail(props) {
             alt="leftarrow"
             width={20}
             height={20}
-            onClick={() => navigate(`/tenant/${state.login.selectedHostel_Id}`)}
+            onClick={() => handleNavigateTenant()}
 
             // onClick={props.handleBack}
             style={{ cursor: "pointer" }}

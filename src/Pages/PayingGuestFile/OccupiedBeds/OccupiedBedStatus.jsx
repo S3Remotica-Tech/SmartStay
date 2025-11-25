@@ -92,6 +92,7 @@ function OccupiedBedStatus({
                 customerId: tenantDetails?.currentTenantCustomerId,
                 hostelId: state.login.selectedHostel_Id,
                 name: tenantDetails?.currentTenantFullName,
+                isPgWay:true
             },
         });
         dispatch({ type: "UPDATE_USERSLIST_FALSE" });

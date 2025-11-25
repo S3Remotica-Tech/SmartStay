@@ -219,6 +219,7 @@ function NoticeBedStatusDetails({
                 customerId: tenantDetails.currentTenantCustomerId || tenantDetails.newTenantCustomerId,
                 hostelId: state.login.selectedHostel_Id,
                 name: tenantDetails.currentTenantFullName || tenantDetails.newTenantFullName,
+                 isPgWay:true
             },
         });
         dispatch({ type: "UPDATE_USERSLIST_FALSE" });
@@ -233,6 +234,7 @@ function NoticeBedStatusDetails({
                 customerId: tenantDetails.newTenantCustomerId,
                 hostelId: state.login.selectedHostel_Id,
                 name:tenantDetails.newTenantFullName,
+                 isPgWay:true
             },
         });
         dispatch({ type: "UPDATE_USERSLIST_FALSE" });
