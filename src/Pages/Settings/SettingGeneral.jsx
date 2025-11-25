@@ -1233,7 +1233,7 @@ function SettingGeneral() {
 
             generalFilterddata && generalFilterddata.length > 0 ? (
               generalFilterddata.map((item) => {
-                const imageUrl = item.profilePic || Profile;
+                const imageUrl = item.profilePic;
                 return (
 
 
@@ -1251,19 +1251,40 @@ function SettingGeneral() {
                       className="d-flex flex-wrap justify-content-between align-items-center w-100"
                     >
                       <div className="d-flex align-items-center flex-wrap">
-                        <Image
-                          src={imageUrl}
-                          alt={item.firstName || "Default Profile"}
-                          roundedCircle
-                          style={{
-                            height: "50px",
-                            width: "50px",
-                          }}
-                          onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.src = Profile;
-                          }}
-                        />
+                        {
+                          imageUrl ?
+
+                            <Image
+                              src={imageUrl}
+                              alt={item.firstName || "Default Profile"}
+                              roundedCircle
+                              style={{
+                                height: "50px",
+                                width: "50px",
+                              }}
+
+                            />
+                            :
+
+                            <div
+                              style={{
+                                height: 40,
+                                width: 40,
+                                borderRadius: "50%",
+                                backgroundColor: "#1E45E1",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                color: "white",
+                                fontWeight: 600,
+                                fontSize: 14,
+                                textTransform: "uppercase",
+                              }}
+                            >
+                              {item.initials}
+                            </div>
+
+                        }
                         <div className="ms-2 ">
                           <p
                             className="mb-0 text-break"

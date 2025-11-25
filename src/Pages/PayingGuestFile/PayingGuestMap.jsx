@@ -149,7 +149,7 @@ function PayingGuestMap(props) {
   };
 
 
-
+  console.log("props", props)
 
 
 
@@ -183,7 +183,7 @@ function PayingGuestMap(props) {
       ) : (
         <Card
           className="animated-text ms-0 h-100 p-0"
-          key={props.hostel && props.hostel.id}
+          key={props.hostel && props.hostel.hostelId}
           style={{
             borderRadius: 16,
             border: hoverPgCard
@@ -201,18 +201,41 @@ function PayingGuestMap(props) {
             <div className="d-flex justify-content-between align-items-center flex-wrap">
               <div className="d-flex gap-1 align-items-center">
                 <div className="">
-                  <Image
-                    src={
-                      props.hostel &&
-                        props.hostel.mainImage !== undefined &&
-                        props.hostel.mainImage !== null &&
-                        props.hostel.mainImage !== "0"
-                        ? props.hostel.mainImage
-                        : Vendors
-                    }
-                    roundedCircle
-                    style={{ height: "60px", width: "60px" }}
-                  />
+                  {
+                    props.hostel &&
+                      props.hostel.mainImage !== undefined &&
+                      props.hostel.mainImage !== null &&
+                      props.hostel.mainImage !== "0" ? (
+
+                      <Image
+                        src={props.hostel.mainImage}
+                        roundedCircle
+                        style={{ height: "60px", width: "60px", objectFit: "cover" }}
+                      />
+
+                    ) : (
+
+                      <div
+                        style={{
+                          height: 50,
+                          width: 50,
+                          borderRadius: "50%",
+                          backgroundColor: "#1E45E1",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          color: "white",
+                          fontWeight: 600,
+                          fontSize: 16,
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        {props.hostel?.initials}
+                      </div>
+
+                    )
+                  }
+
                 </div>
                 <div>
                   <div

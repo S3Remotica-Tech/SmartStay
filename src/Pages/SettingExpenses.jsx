@@ -675,7 +675,7 @@ function SettingExpenses({ hostelid }) {
                             />
                             <AddCircle onClick={() => { if (canWriteExpense) handleCreateSubCategory(category) }}
                               size="16"
-                              color="#FF9900" style={{ cursor: "pointer" }}
+                              color="#FF9900" style={{  cursor: canWriteExpense ? "pointer" : "not-allowed", }}
                             />
 
                             <img

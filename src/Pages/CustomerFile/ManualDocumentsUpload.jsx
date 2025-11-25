@@ -188,7 +188,7 @@ function ManualDocumentsUpload({ show, handleClose }) {
                                 <label className="mb-2" style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222", fontWeight: 400 }}>Documents</label>
                                 <div style={{ backgroundColor: "#E3E3E37D", padding: 15, borderRadius: 8 }} className="d-flex align-items-center justify-content-center gap-5">
 
-                                    <div style={{ backgroundColor: "#E0ECFF", padding: "4px 8px", borderRadius: 5, }}>
+                                    <div style={{ backgroundColor: "#E0ECFF", padding: "4px 8px", borderRadius: 5}}  className="d-flex align-items-center">
 
                                         <DocumentUpload
                                             size="16"

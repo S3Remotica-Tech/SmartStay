@@ -566,14 +566,7 @@ function NoticeBedStatusDetails({
                         </label></div>
                       </div>
                     </div>
-                    <div>
-                      <div>
-                        <label style={{ fontSize: 16, color: "#000", fontFamily: "Gilroy", fontWeight: 500 }}>₹{currentItem?.rentAmount}</label>
-                      </div>
-                      <div>
-                        <label style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 400 }}>{currentItem?.currentTenantLeavingOn}</label>
-                      </div>
-                    </div>
+                  
                   </div>
 
                   <div className="d-flex justify-content-between mb-2 mt-1">
@@ -581,7 +574,7 @@ function NoticeBedStatusDetails({
                       <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Rental Amount</label>
                     </div>
                     <div>
-                      <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>500</label>
+                      <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>₹{currentItem?.currentRent}</label>
                     </div>
                   </div>
 
@@ -590,7 +583,7 @@ function NoticeBedStatusDetails({
                       <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Check-In Date</label>
                     </div>
                     <div>
-                      <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>20-Aug-2025</label>
+                      <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>{currentItem?.currentTenantJoiningDate}</label>
                     </div>
                   </div>
 
@@ -659,9 +652,7 @@ function NoticeBedStatusDetails({
                             }}
                           >
 
-                            {/* Check in   */}
-
-
+               
                             <div
                               onClick={
                                 canWriteCustomers && !currentItem.isOccupied
@@ -744,10 +735,9 @@ function NoticeBedStatusDetails({
                               </div>
                             </div>
 
-                            {/* Change bed */}
+                         
                             <div
                               className="d-flex gap-2 align-items-center"
-                              // onClick={canWriteCustomers ? () => handleChangeBed(currentItem) : undefined}
 
                               style={{
                                 padding: "10px",
@@ -765,7 +755,7 @@ function NoticeBedStatusDetails({
                               }} />
                               <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#dcdcdc", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed", }}>Change Bed</label>
                             </div>
-                            {/* make as Inactive */}
+                           
                             <div
                               className="d-flex gap-2 align-items-center"
                               onClick={canWriteCustomers ? () => handleMakeAsInActive() : undefined}
@@ -861,7 +851,6 @@ function NoticeBedStatusDetails({
                               {currentItem?.newTenantInitials || "-"}
                             </div>
                           )}
-                          {/* <Image src={currentItem?.newTenantProfilePic && currentItem?.newTenantProfilePic !== "0" ? currentItem?.newTenantProfilePic : Profile} roundedCircle style={{ height: 50, width: 50 }} alt="image" /> */}
                         </div>
                         <div className="mt-2">
                           <div>
@@ -875,14 +864,7 @@ function NoticeBedStatusDetails({
                           </label></div>
                         </div>
                       </div>
-                      <div>
-                        <div>
-                          <label style={{ fontSize: 16, color: "#000", fontFamily: "Gilroy", fontWeight: 500 }}>₹{5500}</label>
-                        </div>
-                        <div>
-                          <label style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 400 }}>{currentItem?.newTenantJoiningDate}</label>
-                        </div>
-                      </div>
+                      
                     </div>
 
 
@@ -891,7 +873,7 @@ function NoticeBedStatusDetails({
                       <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Booking Amount</label>
                     </div>
                     <div>
-                      <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>500</label>
+                      <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>{currentItem?.newTenantBookingAmount || "N/A"}</label>
                     </div>
                   </div>
 
@@ -900,7 +882,7 @@ function NoticeBedStatusDetails({
                       <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Check-In Date</label>
                     </div>
                     <div>
-                      <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>20-Aug-2025</label>
+                      <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>{currentItem?.newTenantJoiningDate || "N/A"}</label>
                     </div>
                   </div>
 
@@ -927,44 +909,12 @@ function NoticeBedStatusDetails({
 
 
             </Modal.Body>
-            {/* <Modal.Footer style={{ border: "none", padding: 15 }} className="mt-1">
-
-              <div className="d-flex w-100 gap-2">
-
-
-
-                {
-                  isNoticeAndBooked &&
-                  <Button
-
-                    className="w-100 m-0"
-                    style={{
-                      color: "#1E45E1",
-                      border: "1px solid #1E45E1",
-                      fontWeight: 600,
-                      borderRadius: 60,
-                      fontSize: 16,
-                      fontFamily: "Gilroy",
-                      padding: 10,
-                      backgroundColor: "#fff"
-
-                    }}
-                  >
-                    Reserved
-                  </Button>
-                }
-              </div>
-            </Modal.Footer> */}
+           
           </Modal.Dialog>
         </Modal>
       </div>
 
-      {/* {
-        bactocheckinForm && <UserlistForm setBacktoCheckInForm={setBacktoCheckInForm} bactocheckinForm={bactocheckinForm}
-          // customer_details={customer_details}
-          handleCloseBed={handleCloseBed} recheckin={recheckin}
-        />
-      } */}
+      
 
     </>
   );

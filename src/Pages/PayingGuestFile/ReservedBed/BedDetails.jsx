@@ -416,7 +416,7 @@ function BedDetails({
                                             <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Booking Amount</label>
                                         </div>
                                         <div>
-                                            <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>500</label>
+                                            <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>{currentItem?.newTenantBookingAmount || "N/A"}</label>
                                         </div>
                                     </div>
 
@@ -425,7 +425,7 @@ function BedDetails({
                                             <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Check-In Date</label>
                                         </div>
                                         <div>
-                                            <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>20-Aug-2025</label>
+                                            <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>{currentItem?.newTenantJoiningDate || "N/A"}</label>
                                         </div>
                                     </div>
 
