@@ -97,7 +97,7 @@ function Dashboard() {
   }, [canReadDashboard]);
 
 
-  console.log("canReadDashboard", canReadDashboard)
+
 
 
   const monthNames = [

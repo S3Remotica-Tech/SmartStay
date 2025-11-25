@@ -33,7 +33,7 @@ function StayHistory({ show, handleClose }) {
   }, [state.UsersList.customerdetails.bedHistory])
 
 
-  console.log("data", data)
+ 
 
   return (
     <div className="modal show" style={{

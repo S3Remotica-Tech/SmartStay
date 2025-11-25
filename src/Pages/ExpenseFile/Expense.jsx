@@ -480,7 +480,7 @@ useEffect(()=>{
   }, [filteredData, sortConfig]);
 
 
-  console.log("filteredData",filteredData)
+
 
   const handleSort = (key, direction) => {
     setSortConfig({ key, direction });

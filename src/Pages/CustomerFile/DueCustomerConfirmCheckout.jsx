@@ -275,7 +275,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, customerID }) {
     }, [state.UsersList.statuscodeForConformCheckout])
 
 
-    console.log("data", data, "dataBed", dataBed)
+ 
 
     const getProfileImage = () => {
         if (data?.user_profile && data?.user_profile !== "0") {

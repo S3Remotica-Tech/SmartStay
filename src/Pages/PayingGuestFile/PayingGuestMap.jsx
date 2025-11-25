@@ -45,9 +45,9 @@ function PayingGuestMap(props) {
   const handleEdit = (item) => {
     props.OnEditHostel(item);
   };
-  console.log("state", state)
+ 
   const handleDeletePG = (item) => {
-    console.log("handleDeletePG", item)
+   
     if (item) {
       dispatch({ type: "DELETEHOSTEL", payload: { hostelId: item.hostelId } });
     }
@@ -149,7 +149,7 @@ function PayingGuestMap(props) {
   };
 
 
-  console.log("props", props)
+  
 
 
 

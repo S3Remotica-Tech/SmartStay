@@ -84,7 +84,7 @@ function Sidebar() {
   const state = useSelector((state) => state);
 
   const stateData = useSelector((state) => state.createAccount);
-const [zoom, setZoom] = useState('')
+  const [zoom, setZoom] = useState('')
   const [manageOpen, setManageOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [allPageHostel_Id, setAllPageHostel_Id] = useState("");
@@ -97,11 +97,11 @@ const [zoom, setZoom] = useState('')
   const [isVisibleSidebar, setIsVisibleSidebar] = useState(false)
 
 
-
   const pageMap = {
     "/dashboard/:hostelId": "dashboard",
     "/paying-guest/:hostelId": "pg-list",
     "/tenant/:hostelId": "user-list",
+    "/tenant/details/:hostelId": "user-details",
     "/invoice/:hostelId": "invoice",
     "/vendor/:hostelId": "vendor",
     "/compliance/:hostelId": "compliance",
@@ -113,14 +113,40 @@ const [zoom, setZoom] = useState('')
     "/settings/:hostelId": "settingNewDesign",
   };
 
-
   useEffect(() => {
     const path = location.pathname;
-    if (pageMap[path]) {
-      setCurrentPage(pageMap[path]);
+
+    const matchedPage = Object.keys(pageMap)
+      .sort((a, b) => b.length - a.length)
+      .find((route) => {
+        const regex = new RegExp(
+          "^" + route.replace("/:hostelId", "/[^/]+") + "$"
+        );
+        return regex.test(path);
+      });
+
+    if (matchedPage) {
+      setCurrentPage(pageMap[matchedPage]);
       localStorage.setItem("lastPage", path);
     }
   }, [location.pathname]);
+
+
+
+
+
+
+  // useEffect(()=>{
+  //   if(currentPage === "dashboard"){
+  //     navigate(`/dashboard/${state.login.selectedHostel_Id}`, { replace: true });
+
+  //   }else if (currentPage === "pg-list"){
+  //     navigate(`/paying-guest/${state.login.selectedHostel_Id}`, { replace: true });
+
+  //   }
+
+  // },[currentPage])
+
 
 
   useEffect(() => {
@@ -186,13 +212,13 @@ const [zoom, setZoom] = useState('')
   }, []);
 
 
- 
+
   useEffect(() => {
     if (state.login.selectedHostel_Id || state.PgList?.createPgStatusCode === 201) {
-       dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } })
-      
+      dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } })
+
     }
-  }, [state.login.selectedHostel_Id,state.PgList.createPgStatusCode]);
+  }, [state.login.selectedHostel_Id, state.PgList.createPgStatusCode]);
 
 
 
@@ -309,9 +335,9 @@ const [zoom, setZoom] = useState('')
     stateData.statusCodeForAccount,
   ]);
 
-  useEffect(() => {
-    setCurrentPage(localStorage.getItem("currentPage"));
-  }, [currentPage]);
+  // useEffect(() => {
+  //   setCurrentPage(localStorage.getItem("currentPage"));
+  // }, [currentPage]);
 
   const handlePageClick = (page) => {
     handleFormPage(false)
@@ -594,20 +620,20 @@ const [zoom, setZoom] = useState('')
     return zoom;
   };
 
- useEffect(() => {
-  const handleZoomDetect = () => {
-    const zoom = getZoomLevel();
-      setZoom(zoom); 
-  };
+  useEffect(() => {
+    const handleZoomDetect = () => {
+      const zoom = getZoomLevel();
+      setZoom(zoom);
+    };
 
-  window.addEventListener("resize", handleZoomDetect);
-  window.addEventListener("mousemove", handleZoomDetect); 
+    window.addEventListener("resize", handleZoomDetect);
+    window.addEventListener("mousemove", handleZoomDetect);
 
-  return () => {
-    window.removeEventListener("resize", handleZoomDetect);
-    window.removeEventListener("mousemove", handleZoomDetect);
-  };
-}, []);
+    return () => {
+      window.removeEventListener("resize", handleZoomDetect);
+      window.removeEventListener("mousemove", handleZoomDetect);
+    };
+  }, []);
   return (
     <>
       <Container fluid className="p-0">
@@ -1016,8 +1042,10 @@ const [zoom, setZoom] = useState('')
                         </span>
                       </li>
                       <li
-                        className={`align-items-center list-sub-Item ${currentPage === "user-list" ? "active" : ""
+                        className={`list-sub-Item ${currentPage === "user-list" || currentPage === "user-details" ? "active" : ""
                           }`}
+
+
                         onClick={() => {
                           handlePageClick("user-list");
 

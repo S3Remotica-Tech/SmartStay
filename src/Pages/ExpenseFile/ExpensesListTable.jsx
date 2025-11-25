@@ -52,7 +52,7 @@ const [showAbove, setShowAbove] = useState(false);
 
 
   const handleShowDots = (event, rowId) => {
-    console.log("rowId",rowId)
+   
   const { top, left, height } = event.target.getBoundingClientRect();
   const popupTop = top + (height / 2);
     const popupLeft = left - 210;

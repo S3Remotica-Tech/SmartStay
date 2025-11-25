@@ -333,7 +333,7 @@ if (value === "" || /^[1-9]\d*$/.test(value)) {
 
 
 
-  console.log("props.EditObj",props.EditObj)
+
 
 
 

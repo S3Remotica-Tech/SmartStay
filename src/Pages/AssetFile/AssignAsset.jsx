@@ -131,7 +131,6 @@ function StaticExample({ show, handleClose, currentItem }) {
   }, [Floor]);
 
 
-console.log("initialState",initialState)
   const handleAddAssignAsset = () => {
 
     dispatch({ type: 'CLEAR_NETWORK_ERROR' })
@@ -207,9 +206,6 @@ console.log("initialState",initialState)
       formattedInitialDate = "";
     }
 
-console.log("formattedInitialDate",formattedInitialDate)
-console.log("formattedSelectedDate",formattedSelectedDate)
-
     const normalize = (val) => {
       if (val === null || val === "" || val === undefined) return null;
       return isNaN(val) ? String(val).trim() : Number(val);
@@ -221,11 +217,7 @@ console.log("formattedSelectedDate",formattedSelectedDate)
       normalize(formattedInitialDate) !== normalize(formattedSelectedDate) ||
       normalize(initialState.floor_id) !== normalize(Floor);
 
-    console.log("Initial pglist:", initialState.pglist, "Now:", pglist);
-    console.log("Initial room:", initialState.room, "Now:", room);
-    console.log("Initial floor:", initialState.floor_id, "Now:", Floor);
-    console.log("Initial date:", formattedInitialDate, "Now:", formattedSelectedDate);
-    console.log("isChanged:", isChanged);
+   
 
 
     if (!isChanged && currentItem?.assignmentStatus === "Assigned") {
@@ -272,7 +264,7 @@ console.log("formattedSelectedDate",formattedSelectedDate)
   }, [state.createAccount?.networkError, state.AssetList.assetError])
 
 
-  console.log("currentItem", currentItem)
+ 
 
 
   return (

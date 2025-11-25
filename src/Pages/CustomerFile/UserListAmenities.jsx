@@ -31,7 +31,7 @@ function UserListAmenities(props) {
 
 
 
-  console.log("createby", createby)
+
 
 
   // const canReadAmenities = useHasPermission("Amenities", "canRead")
@@ -159,7 +159,6 @@ function UserListAmenities(props) {
     }
   };
 
-  console.log("statusAmni", statusAmni)
 
   const handleAmnitiesSelect = () => {
     if (!validateAssignField(statusAmni, "statusAmni")) return;

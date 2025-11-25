@@ -94,7 +94,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails }) {
         }
 
     }, [state.UsersList?.cancelCheckoutError])
-    console.log("checkInDetails", checkInDetails)
+  
 
     const imgsrc =
         checkInDetails?.currentTenantProfilePic && checkInDetails.currentTenantProfilePic.trim() !== ""

@@ -290,11 +290,7 @@ export  function deleteElectricity(datum) {
 }
 
 export function dashboardFilter(datum) {
-  if (!datum) {
-    console.log("No data api call stopped");
-    return; // stop the function completely
-  }
-
+ 
   return new Promise((resolve, reject) => {
     resolve({ status: 200 });
   });

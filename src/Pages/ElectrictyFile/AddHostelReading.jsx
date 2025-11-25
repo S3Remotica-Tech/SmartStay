@@ -104,7 +104,7 @@ function AddHostelReading({ show, handleClose, selectedRowDetails, roomReadingLi
     }, [state.UsersList?.roomReadingError])
 
 
-    console.log("roomReadingList",roomReadingList)
+   
 
 
     return (

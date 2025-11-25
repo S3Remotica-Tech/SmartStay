@@ -89,9 +89,6 @@ function AddSubCategory({ show, handleCloseForm, AddSubCategory, editSubCategory
     }, [state.Settings?.alreadycategoryerror]);
 
 
-    console.log("editSubCategory", editSubCategory)
-
-    console.log("AddSubCategory", AddSubCategory)
 
     return (
         <div

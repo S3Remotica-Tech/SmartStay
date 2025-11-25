@@ -192,7 +192,7 @@ function UserListRoomDetail(props) {
 
   const { customerId, hostelId, name, totriggerBillTap, isPgWay } = location.state || {};
 
-  console.log("isPgWay", isPgWay)
+ 
 
 
   useEffect(() => {
@@ -2199,7 +2199,7 @@ function UserListRoomDetail(props) {
 
   const CustomerOverView = state.UsersList.customerdetails;
 
-  console.log("CustomerOverView", CustomerOverView)
+
   const imageUrl = imagePreview
     ? imagePreview
     : kycPic
@@ -2235,7 +2235,7 @@ function UserListRoomDetail(props) {
   // };
 
 
-  console.log("documents", documents)
+
 
 
   useEffect(() => {

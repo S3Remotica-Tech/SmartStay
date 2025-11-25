@@ -925,7 +925,7 @@ const InvoicePage = () => {
 
   const handleShowForm = (props) => {
     setShowform(true);
-    console.log("props", props)
+   
     setInvoiceValue(props.item);
 
     if (props.item.invoiceId !== undefined) {
@@ -1021,7 +1021,6 @@ const InvoicePage = () => {
     setShowDeleteform(false);
   };
 
-  console.log("invoiceValue", invoiceValue)
   const handleSaveInvoiceList = () => {
     const formatpaiddate = formatDateForPayload(selectedDate);
     const billDate = new Date(invoiceValue.Date);

@@ -467,7 +467,7 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList ,onTemplateReceiptChange})
 
 
 
-console.log("RentalreceiptTemplate",RentalreceiptTemplate)
+
 
   return (
     <>

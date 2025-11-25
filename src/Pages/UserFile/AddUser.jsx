@@ -41,7 +41,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
   const [hostel_Id, setHostel_Id] = useState("")
   const [user_Id, setUser_Id] = useState("")
 
-  console.log("passwordError", passwordError)
+
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {

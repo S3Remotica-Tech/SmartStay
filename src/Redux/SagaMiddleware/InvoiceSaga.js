@@ -170,7 +170,7 @@ function* handleGetParticularBillsDetails(action) {
    try {
       const response = yield call(getParticularBillsDetails, action.payload)
 
-      console.log("response",response)
+   
 
       if (response?.status === 200 ) {
          yield put({ type: 'GET_PARTICULAR_BILL_DETAILS', payload: { response: response.data, statusCode: response?.status  } })
@@ -435,7 +435,7 @@ function* handleGetParticularAmentityList(action) {
        const {hostelId , amenityId } = action.payload
           const response = yield call(ParticularAmentityList, hostelId,amenityId);
 
-          console.log("response", response);
+
           
 
    if (response?.status === 200 ) {
@@ -663,7 +663,7 @@ function* handleAddAmenity(action) {
           const {hostelId , data} = action.payload
           const response = yield call(AddAmenity, hostelId , data)
             
-          console.log("response", response);
+       
           
         if (response?.status === 200 ) {
          yield put({ type: 'AMENITIES_SETTINGS', payload: { response: response.data, statusCode: response?.status  } })
@@ -708,7 +708,7 @@ function* handleAddAmenity(action) {
       }
    }
    catch (error) {
-      console.log("response", error);
+      
          yield* handleApiError(error);
       if (error.status === 403 ||  error.response?.status === 403) {
          yield put({ type: 'ERROR_AMENITIES_SETTINGS', payload: { response: error.response.data } })
@@ -721,7 +721,7 @@ function* handleGetAmenities(action) {
    try{
    const response = yield call(GetAmenities, action.payload)
 
-   console.log("response", response);
+
    
 
    if (response?.status === 200 ) {

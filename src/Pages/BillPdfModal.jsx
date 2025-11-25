@@ -248,7 +248,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
   const hasTax = Number(pdfDetails?.invoiceInfo?.taxAmount) > 0;
 
-  console.log("pdfDetails", pdfDetails)
+
   const templateColor = pdfDetails?.configurations?.templateColor;
   const isGradient = templateColor?.includes("linear-gradient");
 

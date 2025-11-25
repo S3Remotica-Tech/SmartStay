@@ -124,7 +124,6 @@ const {
 
 
 
-  console.log("recurringBills", recurringBills)
 
   return (
     <div style={{ position: "relative" }}>

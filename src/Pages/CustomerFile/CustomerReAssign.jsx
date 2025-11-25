@@ -213,7 +213,7 @@ function CustomerReAssign(props) {
   //       (amount) => String(amount.id) === String(selectedBedId)
   //     ) ?? [];
 
-  //     console.log("roomrent", state?.UsersList?.roomdetails);
+
 
 
   //   if (Roomamountfilter.length > 0) {
@@ -495,7 +495,7 @@ function CustomerReAssign(props) {
   );
 
 
-  console.log("userDetails", userDetails, "props.customerId", props.customerId)
+
 
 
   //   useEffect(()=>{

@@ -297,7 +297,7 @@ function SettingExpenses({ hostelid }) {
   //   // dispatch({ type: 'CLEAR_ALREADY_EXPENCE_CATEGORY_ERROR' })
   //   const existingCategoryIndex = options.findIndex(option => option.value === selectedOptions?.value);
 
-  //   console.log("inputValue",inputValue)
+
 
   // if (existingCategoryIndex !== -1) {
 

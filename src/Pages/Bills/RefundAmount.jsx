@@ -22,7 +22,7 @@ function RefundAmount({ show, handleClose, refundDetails }) {
     const state = useSelector(state => state)
     const dispatch = useDispatch();
 
-    console.log("refundDetails", refundDetails.invoiceDate)
+  
 
     const [refundAmount, setRefundAmount] = useState("");
     const [refundDate, setRefundDate] = useState(null);

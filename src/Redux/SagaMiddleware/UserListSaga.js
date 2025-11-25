@@ -1183,7 +1183,7 @@ function refreshToken(response) {
 function* handlecustomerdetails(userDetails) {
    try {
       const response = yield call(CustomerDetails, userDetails.payload)
-      console.log("handlecustomerdetails", response)
+  
       if (response?.status === 200) {
          yield put({ type: 'CUSTOMER_DETAILS', payload: { response: response.data, statusCode: response?.status } })
       }
@@ -2650,7 +2650,7 @@ function* handleGenerateDetails(reading) {
    try {
       const { customerId, data } = reading.payload
       const response = yield call(GenerateDetails, customerId, data)
-      console.log("handleGenerateDetails", response)
+ 
 
       if (response?.status === 201 || response?.status === 200) {
          yield put({ type: 'FINAL_GENERATE', payload: { response: response.data, statusCode: response?.status } })
@@ -2712,7 +2712,7 @@ function* handleGenerateDetails(reading) {
 function* handleConformCheckout(reading) {
    try {
       const response = yield call(conformCheckout, reading.payload)
-      console.log("handleConformCheckout", response)
+   
 
       if (response?.status === 200) {
          yield put({ type: 'CONFORM_CHECKOUT', payload: { response: response.data, statusCode: response?.status } })

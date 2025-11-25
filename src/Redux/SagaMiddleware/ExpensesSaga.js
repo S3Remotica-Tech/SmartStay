@@ -124,7 +124,7 @@ function* handleGetInitializeExpense(action) {
 function* handleAddExpense(action) {
    try {
       const response = yield call(AddExpense, action.payload);
-      console.log("response", response)
+
       var toastStyle = {
          backgroundColor: "#E6F6E6",
          color: "black",

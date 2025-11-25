@@ -19,7 +19,6 @@ function AddCategory({ show, handleCloseForm, editCategory }) {
 
     const inputRef = useRef(null);
 
-    console.log("editCategory", editCategory)
 
     useEffect(() => {
         if (editCategory) {

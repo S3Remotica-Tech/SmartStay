@@ -107,7 +107,7 @@ export async function VendorList(vendor) {
 //       },
 //       timeout: 100000000,
 //       onUploadProgress: (event) => {
-//         console.log("event", event)
+
 //       }
 //     });
 //     return response.data;
