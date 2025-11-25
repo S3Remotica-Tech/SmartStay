@@ -270,14 +270,7 @@ function* handleCategoryAdd(params) {
             style: toastStyle
          })
       }
-      else if (response?.status === 201) {
-
-
-
-
-
-      }
-
+     
       if (response) {
          refreshToken(response)
       }

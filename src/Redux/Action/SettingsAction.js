@@ -1,4 +1,4 @@
-import AxiosConfig from "../../WebService/AxiosConfig";
+// import AxiosConfig from "../../WebService/AxiosConfig";
 import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 
 export async function AddExpencesCategory(Expences) {

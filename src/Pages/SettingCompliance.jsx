@@ -71,7 +71,7 @@ useEffect(() => {
   }, [complianceFilterddata])
 
   const handleDeleteClick = () => {
-    dispatch({ type: "ALREADY_ASSIGNCOMPLAINTTYPE_ERROR" });
+    dispatch({ type: "REMOVE_ALREADY_ASSIGNCOMPLAINTTYPE_ERROR" });
     setShowPopup(true)
     setShowDots(false)
   }
@@ -95,7 +95,7 @@ useEffect(() => {
 
   const handleCancel = () => {
     setShowPopup(false);
-    dispatch({ type: "ALREADY_ASSIGNCOMPLAINTTYPE_ERROR" });
+     dispatch({ type: "REMOVE_ALREADY_ASSIGNCOMPLAINTTYPE_ERROR" });
   };
 
   // useEffect(() => {
@@ -163,7 +163,7 @@ useEffect(() => {
     setPlanExpiredCompliance("");
     dispatch({ type: "CLEAR_ALREADY_COMPLAINTTYPE_ERROR" });
     dispatch({ type: "CLEAR_PLAN-EXPIRED" })
-    dispatch({ type: "ALREADY_ASSIGNCOMPLAINTTYPE_ERROR" });
+     dispatch({ type: "REMOVE_ALREADY_ASSIGNCOMPLAINTTYPE_ERROR" });
 
   };
 
@@ -175,12 +175,12 @@ useEffect(() => {
       return;
     }
     setShowForm(true);
-    dispatch({ type: "ALREADY_ASSIGNCOMPLAINTTYPE_ERROR" });
+     dispatch({ type: "REMOVE_ALREADY_ASSIGNCOMPLAINTTYPE_ERROR" });
   };
 
   const handleAddComplaintType = () => {
     dispatch({ type: "CLEAR_ALREADY_COMPLAINTTYPE_ERROR" });
-    dispatch({ type: "ALREADY_ASSIGNCOMPLAINTTYPE_ERROR" });
+     dispatch({ type: "REMOVE_ALREADY_ASSIGNCOMPLAINTTYPE_ERROR" });
     dispatch({ type: "CLEAR_PLAN-EXPIRED" })
 
 

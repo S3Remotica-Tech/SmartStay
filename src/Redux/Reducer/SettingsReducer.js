@@ -217,7 +217,7 @@ const SettingsReducer = (state = initialState, action) => {
     case "ALREADY_ASSIGNCOMPLAINTTYPE_ERROR":
       return { ...state, alreadyAssignComplainterror: action.payload };
 
-    case "ALREADY_ASSIGNCOMPLAINTTYPE_ERROR":
+    case "REMOVE_ALREADY_ASSIGNCOMPLAINTTYPE_ERROR":
       return { ...state, alreadyAssignComplainterror: "" };
 
 case 'BILLING_RULE_ERROR':

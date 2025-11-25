@@ -1,6 +1,6 @@
-import AxiosConfig from "../../WebService/AxiosConfig";
+// import AxiosConfig from "../../WebService/AxiosConfig";
 import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
-import ConfigV1 from '../../WebService/ConfigV1';
+// import ConfigV1 from '../../WebService/ConfigV1';
 import ConfigV2 from "../../WebService/ConfigV2";
 import axios from 'axios'
 
