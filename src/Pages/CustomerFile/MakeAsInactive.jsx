@@ -115,9 +115,6 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails }) {
         }
     }, [inActiveDetails]);
 
-    console.log("CustomerOverView", CustomerOverView)
-    console.log("inActiveDetails.newTenantCustomerId", inActiveDetails.newTenantCustomerId)
-
 
     return (
         <Modal show={show} onHide={handleCloseInActive} centered backdrop="static"   >

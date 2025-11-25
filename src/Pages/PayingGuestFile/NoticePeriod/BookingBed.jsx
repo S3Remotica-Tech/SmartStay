@@ -20,7 +20,6 @@ function BookingBed({
   const state = useSelector(state => state)
   const dispatch = useDispatch();
 
-  console.log("currentItem", currentItem)
 
   const bookingcustomerRef = useRef();
   const dateRef = useRef();
@@ -43,7 +42,6 @@ function BookingBed({
   const [transactionId, setTransactionId] = useState("")
   const [paymentError, setPaymentError] = useState("");
 
-  console.log("state", state)
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {

@@ -5,9 +5,9 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function* handleApiError(error) {
-  console.log("callllllllllllllllllllllllleeeeeeeeeeeeeeee")
+ 
    const status = error?.response?.status || error?.status;
-console.log("statussss",status)
+
    if (status === 401) {
       yield put({
          type: "UN-AUTHORIZED",
@@ -215,7 +215,7 @@ function* handlePgList(datum) {
     }
   }
   catch (error) {
-    console.log("error",error)
+  
  yield* handleApiError(error);
 
   }

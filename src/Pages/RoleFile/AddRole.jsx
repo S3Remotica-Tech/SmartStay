@@ -335,7 +335,7 @@ const handleCheckboxChange = (rowName, index) => {
 
 
         if (isValid) {
-             console.log("payload",payload)
+         
             if (editRoleDetails) {
 
                 dispatch({ type: "EDITSETTINGROLEPERMISSION", payload });

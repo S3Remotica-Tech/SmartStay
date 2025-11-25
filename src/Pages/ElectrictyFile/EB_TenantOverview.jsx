@@ -23,7 +23,6 @@ const EBTenantOverview = ({ tenant, onBack }) => {
     const [activeTab, setActiveTab] = useState("customer");
     const [loading, setLoading] = useState(false);
 
-    console.log("tenant", tenant)
     const [tenantReadingList, setTenantreadingList] = useState([])
 
 
@@ -60,7 +59,6 @@ useEffect(() => {
       
     ];
 
-console.log("state",state)
 const formattedTenantReadings = (tenantReadingList?.electricityHistory || []).map((item) => {
  
   const [day, month, year] = item.startDate.split("/");
@@ -97,7 +95,6 @@ const formattedTenantReadings = (tenantReadingList?.electricityHistory || []).ma
 
 
 
-console.log("formattedTenantReadings",formattedTenantReadings)
 
 
 

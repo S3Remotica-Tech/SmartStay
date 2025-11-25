@@ -143,7 +143,7 @@ function BankingAddForm(props) {
     // setAllFieldErrmsg("");
     // setPaymentError("");
     setBankAccountError("")
-    console.log("selectedOption", selectedOption)
+  
     const holderName = selectedOption.label.split(" - ")[0] || "";
     setBankHolderName(holderName);
     setBankAccount(selectedOption.value);

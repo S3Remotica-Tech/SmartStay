@@ -970,6 +970,13 @@ const Compliance = () => {
       .includes(filterInput.toLowerCase())
   );
 
+  const blockedStatus = [
+  "Vacated",
+  "Booked",
+  "Inactive",
+  "Settlement Generated",
+];
+
   return (
     <>
 
@@ -1479,13 +1486,8 @@ const Compliance = () => {
                             state?.UsersList?.Users?.filter(
                               (u) =>
                                 u.floorId &&
-                                u.floorId !== "0" &&
-                                u.floorId !== "null" &&
-                                u.floorId !== "undefined" &&
                                 u.roomId &&
-                                u.roomId !== "0" &&
-                                u.roomId !== "null" &&
-                                u.roomId !== "undefined"
+                                !blockedStatus.includes(u.currentStatus)
                             ).map((u) => ({
                               value: u.customerId,
                               label: u.firstName,
@@ -1504,9 +1506,9 @@ const Compliance = () => {
                           }
                           placeholder="Select a customer"
                           classNamePrefix="custom"
-                          menuPlacement="auto"
+                          // menuPlacement="auto"
                           isDisabled={edit}
-                          noOptionsMessage={() => "No customers available"}
+                          noOptionsMessage={() => "No Tenant available"}
                           components={
                             edit
                               ? { DropdownIndicator: () => null, IndicatorSeparator: () => null }

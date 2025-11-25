@@ -93,7 +93,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
 
 
-  // console.log("state",state)
+  
 
   //   useEffect(() => {
   //     if (state.InvoiceList.statusCodeNewReceiptStatusCode === 200) {
@@ -108,7 +108,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
   // //         (template) => template.receiptType === selectedType
   // //       );
 
-  // // console.log("selectedType",selectedType)
+
 
 
 

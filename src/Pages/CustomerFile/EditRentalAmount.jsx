@@ -112,7 +112,6 @@ function EditRentalAmount({ show, handleClose }) {
         if (effectiveFrom && dayjs(effectiveFrom, "DD/MM/YYYY").isValid()) {
             formattedDate = dayjs(effectiveFrom, "DD/MM/YYYY").format("DD-MM-YYYY");
         }
-        console.log("formattedDate", formattedDate)
         dispatch({
             type: 'EDITAMOUNTDETAILS', payload: {
                 hostelId: state.login.selectedHostel_Id,

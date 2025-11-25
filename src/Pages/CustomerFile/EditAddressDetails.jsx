@@ -273,7 +273,6 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
     String(pincode) === String(initialState.pincode) &&
     stateName === initialState.state;
 
-console.log("pincode === initialState.pincode",pincode === initialState.pincode, pincode,"initialState.pincode",initialState.pincode )
         if (noChanges) {
             setFormError("No changes detected");
             return;

@@ -43,7 +43,7 @@ function Reports() {
   // const canDeleteReports = useHasPermission("Reports", "canDelete");
 
 const {
-        canWriteModule: canWriteReports,
+        // canWriteModule: canWriteReports,
         canReadModule: canReadReports,
         // canUpdateModule: canUpdateReports,
         // canDeleteModule: canDeleteReports,

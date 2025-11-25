@@ -163,7 +163,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
         })) || []
       );
       const categoryHasSubCategory = selectedCat?.subCategories?.length > 0;
-      console.log("categoryHasSubCategory", categoryHasSubCategory)
+  
 
       if (categoryHasSubCategory && !subCategory) {
         setSubCategoryError("Please Select SubCategory");

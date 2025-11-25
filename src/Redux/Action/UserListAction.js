@@ -1,4 +1,4 @@
-import AxiosConfig from "../../WebService/AxiosConfig"
+// import AxiosConfig from "../../WebService/AxiosConfig"
 import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 
 
@@ -36,7 +36,7 @@ export async function cancelBookingGet(customerId) {
 
 // export async function addUser(params) {
 
-//   console.log("params",params)
+
 
 //   const formData = new FormData();
 //   if (params.profile) formData.append("profile", params.profile);
@@ -78,7 +78,7 @@ export async function cancelBookingGet(customerId) {
 //       },
 //       timeout: 100000000,
 //       onUploadProgress: (event) => {
-//         console.log("event", event)
+
 //       }
 //     });
 //     return response.data;
@@ -568,7 +568,7 @@ export async function AddCheckOutCustomer(checkout) {
 
 
 export async function CancelCheckOutCustomer(checkout) {
-  console.log("checkout",checkout)
+
   return await AxiosConfigV2.post(`/v2/customers/cancel-checkout/${checkout.hostelId}/${checkout.customerId}`, checkout,{
       data: checkout
     });
@@ -657,7 +657,7 @@ export function exportDetails(datum) {
 // }
 
 export async function customerReAssignBed(hostelId , customerId , datum) {
-  console.log("hostelId",hostelId, "customerId",customerId)
+ 
   return await AxiosConfigV2.post(`/v2/customers/change-bed/${hostelId}/${customerId}` , datum, {
       headers: {
       "Content-Type": "application/json",
@@ -881,7 +881,6 @@ export async function conformCheckout(customer) {
 
 
 export async function EditTenantAmount(change) {
-  console.log("changes joing", change)
   return await AxiosConfigV2.put(
     `/v2/bookings/rent/${change.hostelId}/${change.bookingId}`,
     {},

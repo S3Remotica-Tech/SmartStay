@@ -78,8 +78,7 @@ const SmartStayReducer = (state = initialState, action) => {
          return { ...state, loginInformation: action.payload.response.Data, email_Id: action.payload.response.email_Id, password: action.payload.response.password, errorEmail: '', errorPassword: '', errorMessage: '', statusCode: action.payload.statusCode, JWTtoken: action.payload.response.token }
      
      case 'LOGIN_VERSION_2':
-      console.log('LOGINVERSION2 triggered');
-              return { ...state, statusCodeForV2Login: action.payload.statusCode, JWTtokenV2: action.payload.response, isOtpRequired:action.payload.response.isOtpRequired , userId:action.payload.response.userId }
+                  return { ...state, statusCodeForV2Login: action.payload.statusCode, JWTtokenV2: action.payload.response, isOtpRequired:action.payload.response.isOtpRequired , userId:action.payload.response.userId }
 
      case 'CLEAR_STATUSCODE_VERSION_2':
          return { ...state, statusCodeForV2Login: 0}

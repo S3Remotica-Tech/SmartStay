@@ -599,8 +599,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
       return v === "null" || v === "undefined" ? "" : v;
     };
 
-    console.log("currentTemplate", currentTemplate)
-    console.log("oldTemplate", oldTemplate)
+
 
     const isChanged =
       normalize(currentTemplate.qrCode) !== normalize(oldTemplate.qrCode) ||
@@ -814,7 +813,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
   }, [state.Settings.settingGlobalAddStatusCode])
 
 
-  console.log("securityDepositInvoiceTemplate", securityDepositInvoiceTemplate)
+ 
 
 
   useEffect(() => {

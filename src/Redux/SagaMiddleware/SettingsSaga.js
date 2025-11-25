@@ -270,14 +270,7 @@ function* handleCategoryAdd(params) {
             style: toastStyle
          })
       }
-      else if (response?.status === 201) {
-
-
-
-
-
-      }
-
+     
       if (response) {
          refreshToken(response)
       }
@@ -1600,7 +1593,7 @@ function* handleSettingsRecurring(action) {
    }
    catch (error) {
       yield* handleApiError(error);
-      console.log("error",error)
+
       if (error.status === 403 || error.status === 400) {
          yield put({ type: 'BILLING_RULE_ERROR', payload: error.response.data || 'Something went wrong' });
       } 

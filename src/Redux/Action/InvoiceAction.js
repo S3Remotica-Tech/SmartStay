@@ -1,4 +1,4 @@
-import AxiosConfig from "../../WebService/AxiosConfig"
+// import AxiosConfig from "../../WebService/AxiosConfig"
 import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 
 export  function invoicelist() {
@@ -103,7 +103,7 @@ export async function getParticularReceiptDetails(bill) {
 
 
 export async function getInitializeRefund(bill) {
-  console.log("bill", bill)
+ 
   return await AxiosConfigV2.get(`/v2/bills/refund/${bill.hostelId}/${bill.invoiceId}`)
 }
 

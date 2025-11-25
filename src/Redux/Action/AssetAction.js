@@ -1,5 +1,5 @@
 
-import AxiosConfig from "../../WebService/AxiosConfig"
+// import AxiosConfig from "../../WebService/AxiosConfig"
 import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 // V1
 // export async function GetAsset(asset) {

@@ -1,4 +1,4 @@
-import AxiosConfig from "../../WebService/AxiosConfig";
+// import AxiosConfig from "../../WebService/AxiosConfig";
 import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 
 export async function AddExpencesCategory(Expences) {
@@ -321,7 +321,7 @@ export function GetAllReport() {
 //         },
 //         timeout: 100000000,
 //         onUploadProgress: (event) => {
-//           console.log("event", event);
+
 //         },
 //       }
 //     );
@@ -407,7 +407,6 @@ export async function AddGeneral(params) {
 // export async function EditGeneral(params) {
 //   const formData = new FormData();
 
-//    console.log("params" , params);
 
 //   const accountInfoBlob = new Blob(
 //     [JSON.stringify(params.payload)],
@@ -580,7 +579,7 @@ export function GetBillsNotificationTypes() {
 }
 
 export async function SettingsGetRecurring(reccurring) {
-  console.log("reccurring",reccurring)
+  
   return await AxiosConfigV2.get(`/v2/hostel/config/billing/${reccurring.hostelId}`);
 }
 
@@ -751,7 +750,7 @@ export async function AddGlobalSettingTemplate(params) {
   try {
     const formData = new FormData();
 
-console.log("params",params)
+
     if (params.hostelLogo) formData.append("hostelLogo", params.hostelLogo);
     if (params.billSignature) formData.append("billSignature", params.billSignature);
     if (params.invLogo) formData.append("invLogo", params.invLogo);

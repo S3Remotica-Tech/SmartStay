@@ -38,7 +38,7 @@ function FrontPage() {
   const [activeSection, setActiveSection] = useState("firstPage");
 
   const handleSetActive = (section) => {
-    console.log("section",section)
+    
     setActiveSection(section);
     switch (section) {
       case "keyFeature":

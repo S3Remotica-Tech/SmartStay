@@ -969,8 +969,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handl
     }
   }, [banking]);
 
-  // console.log("banking",banking)
-  // console.log("selectedBankId",selectedBankId)
+  
 
   useEffect(() => {
     if (selectedDate && isNaN(new Date(selectedDate).getTime())) {
@@ -1134,10 +1133,6 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handl
       invoiceTemplateColor: RentalinvoiceTemplate.invoiceTemplateColor || "",
     };
 
-    console.log("currentTemplate", currentTemplate)
-    console.log("oldTemplate", oldTemplate)
-
-    console.log("RentalinvoiceTemplate", RentalinvoiceTemplate)
 
     const isChanged =
 

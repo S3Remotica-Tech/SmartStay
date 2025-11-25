@@ -82,7 +82,6 @@ function SettingSubscription() {
   } = useHasPermission("Subscription");
 
 
-  console.log("canWriteSubscription", canWriteSubscription)
 
   // const [Subscription_hostelIds, setSubscription_HostelIds] = useState([]);
   // useEffect(() => {
@@ -99,7 +98,7 @@ function SettingSubscription() {
 
 
 
-  console.log("state", state)
+  
 
   useEffect(() => {
     if (state?.createAccount?.accountList[0]?.plan_data) {

@@ -85,13 +85,14 @@ function OccupiedBedStatus({
         };
     }, []);
 
- const handleNavigateTenantProfile = (tenantDetails) => {
+    const handleNavigateTenantProfile = (tenantDetails) => {
         dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: tenantDetails?.currentTenantCustomerId } });
         navigate(`/tenant/details/${tenantDetails?.currentTenantCustomerId}`, {
             state: {
                 customerId: tenantDetails?.currentTenantCustomerId,
                 hostelId: state.login.selectedHostel_Id,
                 name: tenantDetails?.currentTenantFullName,
+                isPgWay:true
             },
         });
         dispatch({ type: "UPDATE_USERSLIST_FALSE" });
@@ -182,7 +183,7 @@ function OccupiedBedStatus({
                                         border: "1px solid #ECFFEF",
                                         fontWeight: 600,
                                         borderRadius: 60,
-                                                                                                                     fontSize: 14,
+                                        fontSize: 14,
                                         fontFamily: "Gilroy",
                                         padding: "2px 6px",
                                         backgroundColor: "#ECFFEF",
@@ -234,7 +235,7 @@ function OccupiedBedStatus({
                                                 )}                                        </div>
                                             <div className="mt-2">
                                                 <div>
-                                                    <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600 ,cursor:"pointer", textDecoration:"underline"}}  onClick={() => handleNavigateTenantProfile(currentItem)}> {currentItem.currentTenantFullName || "N/A"}</label>
+                                                    <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600, cursor: "pointer", textDecoration: "underline" }} onClick={() => handleNavigateTenantProfile(currentItem)}> {currentItem.currentTenantFullName || "N/A"}</label>
                                                 </div>
                                                 <div>
                                                     <label style={{ fontSize: 16, color: "#4B4B4B", fontWeight: 500, fontFamily: "Gilroy" }}>
@@ -382,12 +383,12 @@ function OccupiedBedStatus({
                                     </div>
 
 
-                                     <div className="d-flex justify-content-between mb-2 mt-1">
+                                    <div className="d-flex justify-content-between mb-2 mt-1">
                                         <div>
                                             <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Rental Amount</label>
                                         </div>
                                         <div>
-                                            <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>500</label>
+                                            <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>{currentItem?.currentRent || "N/A"}</label>
                                         </div>
                                     </div>
 
@@ -396,7 +397,7 @@ function OccupiedBedStatus({
                                             <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Check-In Date</label>
                                         </div>
                                         <div>
-                                            <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>20-Aug-2025</label>
+                                            <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>{currentItem?.currentTenantJoiningDate || "N/A"}</label>
                                         </div>
                                     </div>
 
@@ -417,7 +418,7 @@ function OccupiedBedStatus({
                         </Modal.Body>
 
 
-                       
+
                     </Modal.Dialog>
                 </Modal>
             </div>

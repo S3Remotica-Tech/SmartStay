@@ -190,7 +190,9 @@ function UserListRoomDetail(props) {
     canDeleteModule: canDeleteAmenities,
   } = useHasPermission("Amenities");
 
-  const { customerId, hostelId, name, totriggerBillTap } = location.state || {};
+  const { customerId, hostelId, name, totriggerBillTap, isPgWay } = location.state || {};
+
+ 
 
 
   useEffect(() => {
@@ -2197,7 +2199,7 @@ function UserListRoomDetail(props) {
 
   const CustomerOverView = state.UsersList.customerdetails;
 
-  console.log("CustomerOverView", CustomerOverView)
+
   const imageUrl = imagePreview
     ? imagePreview
     : kycPic
@@ -2233,7 +2235,7 @@ function UserListRoomDetail(props) {
   // };
 
 
-  console.log("documents", documents)
+
 
 
   useEffect(() => {
@@ -2282,6 +2284,15 @@ function UserListRoomDetail(props) {
   };
 
 
+  const handleNavigateTenant = () => {
+    if (isPgWay) {
+      navigate(`/paying-guest/${state.login.selectedHostel_Id}`);
+    } else {
+      navigate(`/tenant/${state.login.selectedHostel_Id}`)
+    }
+
+  }
+
   return (
 
 
@@ -2312,7 +2323,7 @@ function UserListRoomDetail(props) {
             alt="leftarrow"
             width={20}
             height={20}
-            onClick={() => navigate(`/tenant/${state.login.selectedHostel_Id}`)}
+            onClick={() => handleNavigateTenant()}
 
             // onClick={props.handleBack}
             style={{ cursor: "pointer" }}
@@ -2921,7 +2932,7 @@ function UserListRoomDetail(props) {
                             Address Details
                           </div> */}
                         <div className="card-header p-0 border-0" style={{ background: "transparent", width: "100%" }}>
-                          <div className="d-flex gap-5 align-items-center justify-content-center border-0" style={{ width: "100%" }}>
+                          <div className="d-flex gap-5 align-items-center justify-content-start border-0" style={{ width: "100%" }}>
 
 
                             <div className="d-flex align-items-center "
@@ -3227,7 +3238,7 @@ function UserListRoomDetail(props) {
                     <div className="card-body">
 
                       <TabContext value={documentvalue} className="d-flex  justify-content-center flex-sm-row">
-                        <Box sx={{ borderBottom: 0, borderColor: "divider" }} className="d-flex  justify-content-center flex-sm-row">
+                        <Box sx={{ borderBottom: 0, borderColor: "divider" }} className="d-flex  justify-content-start flex-sm-row">
                           <TabList
                             onChange={handleChangesupload}
                             aria-label="custom tabs"

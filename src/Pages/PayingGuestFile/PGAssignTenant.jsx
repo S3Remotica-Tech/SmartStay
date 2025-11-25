@@ -734,21 +734,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
                 <div style={{ backgroundColor: "#F7F9FF", borderRadius: 10, width: "100%" }} className="mt-1 p-1">
                   <div style={{ display: "flex", gap: "10px", justifyContent: "space-between", width: "100%" }}>
-                    <button
-                      onClick={() => setActiveTab("LONG")}
-                      style={{
-                        flex: 1,
-                        padding: "10px 0",
-                        backgroundColor: activeTab === "LONG" ? "#1E45E1" : "#F7F9FF",
-                        color: activeTab === "LONG" ? "white" : "black",
-                        border: "none",
-                        borderRadius: "5px",
-                        fontWeight: "600",
-                        fontFamily: "Gilroy"
-                      }}
-                    >
-                      Booking
-                    </button>
+                   
                     <button
                       onClick={() => setActiveTab("SHORT")}
                       style={{
@@ -763,6 +749,21 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                       }}
                     >
                       Check-In
+                    </button>
+                     <button
+                      onClick={() => setActiveTab("LONG")}
+                      style={{
+                        flex: 1,
+                        padding: "10px 0",
+                        backgroundColor: activeTab === "LONG" ? "#1E45E1" : "#F7F9FF",
+                        color: activeTab === "LONG" ? "white" : "black",
+                        border: "none",
+                        borderRadius: "5px",
+                        fontWeight: "600",
+                        fontFamily: "Gilroy"
+                      }}
+                    >
+                      Booking
                     </button>
                   </div>
 

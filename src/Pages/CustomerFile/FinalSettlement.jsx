@@ -164,9 +164,6 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
     }, []);
 
 
-    // const handleClickInvoiceNo = () => {
-    //     console.log("INV654 clicked");
-    // };
 
 
 
