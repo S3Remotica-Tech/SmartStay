@@ -3477,7 +3477,7 @@ const InvoicePage = () => {
                   zIndex: 1000,
                   backgroundColor: search ? undefined : "#FFFFFF",
                   height: "auto",
-                  marginBottom: 10, marginTop: showSearchFilter ? 100 : 0, backgroundColor: ""
+                  marginBottom: 10, marginTop: showSearchFilter ? 100 : 0, 
                 }}
               >
                 <Box
