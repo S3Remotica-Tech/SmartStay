@@ -13,6 +13,7 @@ import Select from "react-select";
 import ErrorMessage from '../../Components/ErrorMessage'
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
+import { TypeSpecimenRounded } from "@mui/icons-material";
 
 function EditRentalAmount({ show, handleClose }) {
 
@@ -26,40 +27,61 @@ function EditRentalAmount({ show, handleClose }) {
     const [effectiveFrom, setEffectiveFrom] = useState("");
     const [effectiveFromError, setEffectiveFromError] = useState("");
     const [reason, setReason] = useState(null);
-
+    const [types, setTypes] = useState(null);
     const rentInputRef = useRef(null);
     const dateRef = useRef(null);
+    const typeRef = useRef(null)
+    const [typeError, setTypeError] = useState('')
 
 
 
     const CustomerOverView = state.UsersList.customerdetails;
 
-    const reasonOptions = [
-        { value: "Annual Rent Revision", label: "Annual Rent Revision" },
-        { value: "Room Upgrade / Change", label: "Room Upgrade / Change" },
-        { value: "Additional Amenities Added", label: "Additional Amenities Added" },
-        { value: "Electricity / Utility Cost Updated", label: "Electricity / Utility Cost Updated" },
-        {
-            value: "Others",
-            label: "Others",
-            color: "#1E45E1"
-        },
+    // const reasonOptions = [
+    //     { value: "Annual Rent Revision", label: "Annual Rent Revision" },
+    //     { value: "Room Upgrade / Change", label: "Room Upgrade / Change" },
+    //     { value: "Additional Amenities Added", label: "Additional Amenities Added" },
+    //     { value: "Electricity / Utility Cost Updated", label: "Electricity / Utility Cost Updated" },
+    //     {
+    //         value: "Others",
+    //         label: "Others",
+    //         color: "#1E45E1"
+    //     },
+    // ];
+
+    const type = [
+        { value: "Edit-Rent", label: "Edit Rent" },
+        { value: "Rent-Revision", label: "Rent Revision" },
+
+
     ];
+    // const [isOthers, setIsOthers] = useState(false);
+
+    // const handleReasonChange = (selectedOption) => {
+    //     dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' });
+
+    //     if (selectedOption?.value === "Others") {
+    //         setIsOthers(true);
+    //         setReason("");
+    //     } else {
+    //         setIsOthers(false);
+    //         setReason(selectedOption.value);
+    //     }
+    // };
+
+    const handleReasonChange = (e) => {
+        dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' })
+        setReason(e.target.value);
+    };
+
+    const handleTypeChange = (selectedOption) => {
+        setTypeError('')
+        dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' });
+
+        setTypes(selectedOption.value)
+    };
 
 
-     const [isOthers, setIsOthers] = useState(false);
-    
-        const handleReasonChange = (selectedOption) => {
-            dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' });
-    
-            if (selectedOption?.value === "Others") {
-                setIsOthers(true);
-                setReason("");  
-            } else {
-                setIsOthers(false);
-                setReason(selectedOption.value);
-            }
-        };
 
     const handleMonthlyRentChange = (e) => {
         dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' })
@@ -73,6 +95,10 @@ function EditRentalAmount({ show, handleClose }) {
         }
     };
 
+
+    useEffect(() => {
+        dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostelId: state.login.selectedHostel_Id } });
+    }, [])
 
     const handleEffectiveFromChange = (date, dateString) => {
         dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' })
@@ -98,11 +124,11 @@ function EditRentalAmount({ show, handleClose }) {
             isValid = false;
         }
 
-        // if (!effectiveFrom) {
-        //     setEffectiveFromError("Please select an effective date");
-        //     dateRef.current?.focus();
-        //     isValid = false;
-        // }
+        if (!types) {
+            setTypeError("Please select an type");
+            typeRef.current?.focus();
+            isValid = false;
+        }
 
 
 
@@ -154,6 +180,38 @@ function EditRentalAmount({ show, handleClose }) {
         }
     }, [state?.UsersList.editAmountSuccessStatusCode])
 
+   const billStartDate = state?.Settings?.SettingsBillsGetRecurring?.billStartDate 
+
+const disabledDate = (current) => {
+  if (!current) return false;
+
+  const today = dayjs();
+
+  // Current cycle calculation
+  // Next cycle start = this month or next month depending on today's date
+  let cycleMonth = today.month(); // current month index 0-11
+
+  
+  if (today.date() >= billStartDate) {
+    cycleMonth = today.add(1, "month").month();
+  }
+
+ 
+  const start = dayjs()
+    .year(today.year() + (cycleMonth < today.month() ? 1 : 0))
+    .month(cycleMonth)
+    .date(billStartDate)
+    .startOf("day");
+
+  
+  const end = start.add(1, "month").date(billStartDate - 1).endOf("day");
+
+
+  return current.isBefore(start, "day") || current.isAfter(end, "day");
+};
+
+
+
     return (
         <div
             className="modal show"
@@ -192,108 +250,26 @@ function EditRentalAmount({ show, handleClose }) {
                             style={{ cursor: "pointer" }} />
                     </Modal.Header>
 
-                    <Modal.Body style={{ maxHeight: "370px", overflowY: "scroll" }} className="show-scroll p-3 mt-0 me-3" >
+                    <Modal.Body
+                    // style={{ maxHeight: "370px", overflowY: "scroll" }} 
+                    // className="show-scroll p-3 mt-0 me-3" 
+                    >
                         <div className="row mb-0">
-
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
-                                <div style={{ backgroundColor: "#B7C2F0", borderRadius: 8, border: "1px solid #C6D1FF" }} className="d-flex align-items-center p-2 gap-1">
-                                    <MessageQuestion
-                                        size="18"
-                                        color="#222"
-                                    /> {" "} <label style={{ fontSize: 11, fontFamily: "Gilroy", color: "#222" }}> Rent changes will apply from next billing cycle and are fully audit-logged</label>
-                                </div>
-
-                            </div>
-
-
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
-                                <Form.Group className="">
-                                    <Form.Label
-                                        style={{
-                                            fontSize: 14,
-                                            color: "#222222",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                        }}
-                                    >
-                                        New Monthly Rent  {" "}
-                                        <span
-                                            style={{
-                                                color: "red",
-                                                fontSize: "20px",
-                                            }}
-                                        >
-                                            *
-                                        </span>
-                                    </Form.Label>
-                                    <FormControl
-                                        type="text"
-                                        ref={rentInputRef}
-                                        value={monthlyRent}
-                                        onChange={handleMonthlyRentChange}
-                                        placeholder="Enter New Rent"
-
-                                        style={{
-                                            fontSize: 16,
-                                            color: "#4B4B4B",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                            boxShadow: "none",
-                                            border: "1px solid #D9D9D9",
-                                            height: 50,
-                                            borderRadius: 8,
-                                        }}
-                                    />
-                                    {monthlyRentError && <ErrorMessage message={monthlyRentError} type="error" />}
-                                </Form.Group>
-
-                            </div>
-
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
-                                <Form.Group className="">
-                                    <Form.Label
-                                        style={{
-                                            fontSize: 14,
-                                            color: "#222222",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                        }}
-                                    >
-                                        Effective From  {" "}
-
-                                    </Form.Label>
-                                    <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
-                                        <DatePicker ref={dateRef}
-                                            style={{
-                                                width: "100%",
-                                                height: 48,
-                                                cursor: "pointer",
-                                                fontFamily: "Gilroy",
-                                                border: "1px solid #D9D9D9",
-                                                borderRadius: 8,
-                                            }}
-                                            format="DD/MM/YYYY"
-                                            placeholder="DD/MM/YYYY"
-                                            value={effectiveFrom ? dayjs(effectiveFrom, "DD/MM/YYYY") : null}
-                                            onChange={handleEffectiveFromChange}
-                                        // disabledDate={(current) =>
-                                        //     current && current < dayjs().startOf("day")
-                                        // }
-                                        />
-                                        {effectiveFromError && (
-                                            <ErrorMessage message={effectiveFromError} type="error" />
-                                        )}
+                            {
+                                types === "Rent-Revision" &&
+                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
+                                    <div style={{ backgroundColor: "#B7C2F0", borderRadius: 8, border: "1px solid #C6D1FF" }} className="d-flex align-items-center p-2 gap-1">
+                                        <MessageQuestion
+                                            size="18"
+                                            color="#222"
+                                        /> {" "} <label style={{ fontSize: 11, fontFamily: "Gilroy", color: "#222" }}> Rent changes will apply from next billing cycle and are fully audit-logged</label>
                                     </div>
-                                </Form.Group>
 
-                            </div>
-
-
-
-
+                                </div>
+                            }
 
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
-                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
+                                <Form.Group className="" controlId="exampleForm.ControlInput5">
                                     <Form.Label
                                         style={{
                                             fontFamily: "Gilroy",
@@ -304,97 +280,273 @@ function EditRentalAmount({ show, handleClose }) {
                                             lineHeight: "normal",
                                         }}
                                     >
-                                        Reason
+                                        Type {" "}
+                                        <span
+                                            style={{
+                                                color: "red",
+                                                fontSize: "20px",
+                                            }}
+                                        >
+                                            *
+                                        </span>
                                     </Form.Label>
 
-                                    {isOthers ? (
-                                        <div style={{ position: "relative" }}>
-                                            <FormControl
-                                                type="text"
-                                                placeholder="Enter your reason"
-                                                value={reason}
-                                                onChange={(e) => setReason(e.target.value)}
-                                                style={{
-                                                    fontSize: 16,
-                                                    color: "#4B4B4B",
-                                                    fontFamily: "Gilroy",
-                                                    fontWeight: 500,
-                                                    border: "1px solid #D9D9D9",
-                                                    borderRadius: 8,
-                                                    height: 50,
-                                                    boxShadow: "none",
-                                                }}
-                                            />
-                                            <Trash
-                                                size="18"
-                                                color="#FF0000"
+                                    <Select
+                                        value={type.find((opt) => opt.value === types) || null}
+                                        onChange={handleTypeChange}
+                                        options={type}
+                                        placeholder="Select Type"
+                                        classNamePrefix="custom"
 
+                                        noOptionsMessage={() => "No Type available"}
+                                        styles={{
+                                            control: (base) => ({
+                                                ...base,
+                                                height: "50px",
+                                                border: "1px solid #D9D9D9",
+                                                borderRadius: "8px",
+                                                fontSize: "16px",
+                                                color: "#4B4B4B",
+                                                fontFamily: "Gilroy",
+                                                boxShadow: "none",
+                                            }),
+                                            option: (base, state) => ({
+                                                ...base,
+                                                cursor: "pointer",
+                                                fontFamily: "Gilroy",
+                                                backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                                                color: state.data.value === "Others" ? "#1E45E1" : "#000",
+                                            }),
+                                            placeholder: (base) => ({
+                                                ...base,
+                                                color: "#555",
+                                            }),
+                                            indicatorSeparator: () => ({ display: "none" }),
+                                            menuList: (base) => ({
+                                                ...base,
+                                                maxHeight: "150px",
+                                                overflowY: "auto", scrollbarWidth: "thin",
+                                                msOverflowStyle: "auto",
+                                            }),
+                                        }}
+                                    />
 
-                                                variant="link"
-                                                onClick={() => {
-                                                    setIsOthers(false);
-                                                    setReason("");
-                                                }}
+                                    {typeError && <ErrorMessage message={typeError} type="error" />}
+                                </Form.Group>
+                            </div>
+
+                            {
+                                types &&
+
+                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
+                                    <Form.Group className="">
+                                        <Form.Label
+                                            style={{
+                                                fontSize: 14,
+                                                color: "#222222",
+                                                fontFamily: "Gilroy",
+                                                fontWeight: 500,
+                                            }}
+                                        >
+                                            New Monthly Rent  {" "}
+                                            <span
                                                 style={{
-                                                    position: "absolute",
-                                                    right: 10,
-                                                    top: "50%",
-                                                    transform: "translateY(-50%)",
-                                                    fontSize: 14,
-                                                    color: "#1E45E1",
-                                                    textDecoration: "none",
-                                                    fontWeight: 500,
-                                                    fontFamily: "Gilroy", cursor: "pointer"
+                                                    color: "red",
+                                                    fontSize: "20px",
                                                 }}
                                             >
+                                                *
+                                            </span>
+                                        </Form.Label>
+                                        <FormControl
+                                            type="text"
+                                            ref={rentInputRef}
+                                            value={monthlyRent}
+                                            onChange={handleMonthlyRentChange}
+                                            placeholder="Enter New Rent"
 
-                                            </Trash>
-                                        </div>) : (
-                                        <Select
-                                            value={reasonOptions.find((opt) => opt.value === reason) || null}
-                                            onChange={handleReasonChange}
-                                            options={reasonOptions}
-                                            placeholder="Select Reason"
-                                            classNamePrefix="custom"
-                                            menuPlacement="auto"
-                                            noOptionsMessage={() => "No reason available"}
-                                            styles={{
-                                                control: (base) => ({
-                                                    ...base,
-                                                    height: "50px",
-                                                    border: "1px solid #D9D9D9",
-                                                    borderRadius: "8px",
-                                                    fontSize: "16px",
-                                                    color: "#4B4B4B",
-                                                    fontFamily: "Gilroy",
-                                                    boxShadow: "none",
-                                                }),
-                                                option: (base, state) => ({
-                                                    ...base,
-                                                    cursor: "pointer",
-                                                    fontFamily: "Gilroy",
-                                                    backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                                                    color: state.data.value === "Others" ? "#1E45E1" : "#000",
-                                                }),
-                                                placeholder: (base) => ({
-                                                    ...base,
-                                                    color: "#555",
-                                                }),
-                                                indicatorSeparator: () => ({ display: "none" }),
-                                                menuList: (base) => ({
-                                                    ...base,
-                                                    maxHeight: "150px",
-                                                    overflowY: "auto", scrollbarWidth: "thin",
-                                                    msOverflowStyle: "auto",
-                                                }),
+                                            style={{
+                                                fontSize: 16,
+                                                color: "#4B4B4B",
+                                                fontFamily: "Gilroy",
+                                                fontWeight: 500,
+                                                boxShadow: "none",
+                                                border: "1px solid #D9D9D9",
+                                                height: 50,
+                                                borderRadius: 8,
                                             }}
                                         />
-                                    )}
+                                        {monthlyRentError && <ErrorMessage message={monthlyRentError} type="error" />}
+                                    </Form.Group>
 
-                                </Form.Group>
+                                </div>
+
+                            }
+                            {
+                                types === "Rent-Revision" &&
+                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
+                                    <Form.Group className="">
+                                        <Form.Label
+                                            style={{
+                                                fontSize: 14,
+                                                color: "#222222",
+                                                fontFamily: "Gilroy",
+                                                fontWeight: 500,
+                                            }}
+                                        >
+                                            Effective From  {" "}
+
+                                        </Form.Label>
+                                        <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                                            <DatePicker ref={dateRef}
+                                                style={{
+                                                    width: "100%",
+                                                    height: 48,
+                                                    cursor: "pointer",
+                                                    fontFamily: "Gilroy",
+                                                    border: "1px solid #D9D9D9",
+                                                    borderRadius: 8,
+                                                }}
+                                                format="DD/MM/YYYY"
+                                                placeholder="DD/MM/YYYY"
+                                                value={effectiveFrom ? dayjs(effectiveFrom, "DD/MM/YYYY") : null}
+                                                onChange={handleEffectiveFromChange}
+                                           disabledDate={disabledDate}
+                                            />
+                                            {effectiveFromError && (
+                                                <ErrorMessage message={effectiveFromError} type="error" />
+                                            )}
+                                        </div>
+                                    </Form.Group>
+
+                                </div>
+                            }
 
 
-                            </div>
+
+                            {
+                                types &&
+
+                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
+                                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
+                                        <Form.Label
+                                            style={{
+                                                fontFamily: "Gilroy",
+                                                fontSize: 14,
+                                                fontWeight: 500,
+                                                color: "#222",
+                                                fontStyle: "normal",
+                                                lineHeight: "normal",
+                                            }}
+                                        >
+                                            Reason
+                                        </Form.Label>
+                                        <FormControl
+                                            type="text"
+                                            placeholder="Enter your reason"
+                                            value={reason}
+                                            onChange={handleReasonChange}
+                                            style={{
+                                                fontSize: 16,
+                                                color: "#4B4B4B",
+                                                fontFamily: "Gilroy",
+                                                fontWeight: 500,
+                                                border: "1px solid #D9D9D9",
+                                                borderRadius: 8,
+                                                height: 50,
+                                                boxShadow: "none",
+                                            }}
+                                        />
+                                        {/* {isOthers ? (
+                                            <div style={{ position: "relative" }}>
+                                                <FormControl
+                                                    type="text"
+                                                    placeholder="Enter your reason"
+                                                    value={reason}
+                                                    onChange={(e) => setReason(e.target.value)}
+                                                    style={{
+                                                        fontSize: 16,
+                                                        color: "#4B4B4B",
+                                                        fontFamily: "Gilroy",
+                                                        fontWeight: 500,
+                                                        border: "1px solid #D9D9D9",
+                                                        borderRadius: 8,
+                                                        height: 50,
+                                                        boxShadow: "none",
+                                                    }}
+                                                />
+                                                <Trash
+                                                    size="18"
+                                                    color="#FF0000"
+
+
+                                                    variant="link"
+                                                    onClick={() => {
+                                                        setIsOthers(false);
+                                                        setReason("");
+                                                    }}
+                                                    style={{
+                                                        position: "absolute",
+                                                        right: 10,
+                                                        top: "50%",
+                                                        transform: "translateY(-50%)",
+                                                        fontSize: 14,
+                                                        color: "#1E45E1",
+                                                        textDecoration: "none",
+                                                        fontWeight: 500,
+                                                        fontFamily: "Gilroy", cursor: "pointer"
+                                                    }}
+                                                >
+
+                                                </Trash>
+                                            </div>) : (
+                                            <Select
+                                                value={reasonOptions.find((opt) => opt.value === reason) || null}
+                                                onChange={handleReasonChange}
+                                                options={reasonOptions}
+                                                placeholder="Select Reason"
+                                                classNamePrefix="custom"
+                                                menuPlacement="auto"
+                                                noOptionsMessage={() => "No reason available"}
+                                                styles={{
+                                                    control: (base) => ({
+                                                        ...base,
+                                                        height: "50px",
+                                                        border: "1px solid #D9D9D9",
+                                                        borderRadius: "8px",
+                                                        fontSize: "16px",
+                                                        color: "#4B4B4B",
+                                                        fontFamily: "Gilroy",
+                                                        boxShadow: "none",
+                                                    }),
+                                                    option: (base, state) => ({
+                                                        ...base,
+                                                        cursor: "pointer",
+                                                        fontFamily: "Gilroy",
+                                                        backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                                                        color: state.data.value === "Others" ? "#1E45E1" : "#000",
+                                                    }),
+                                                    placeholder: (base) => ({
+                                                        ...base,
+                                                        color: "#555",
+                                                    }),
+                                                    indicatorSeparator: () => ({ display: "none" }),
+                                                    menuList: (base) => ({
+                                                        ...base,
+                                                        maxHeight: "150px",
+                                                        overflowY: "auto", scrollbarWidth: "thin",
+                                                        msOverflowStyle: "auto",
+                                                    }),
+                                                }}
+                                            />
+                                        )} */}
+
+                                    </Form.Group>
+
+
+                                </div>
+                            }
+
                         </div>
 
                         {

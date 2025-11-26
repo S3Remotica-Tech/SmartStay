@@ -18,8 +18,8 @@ function EditJoiningDate({ show, handleClose }) {
 
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
-    const [monthlyRent, setMonthlyRent] = useState("");
-    const [monthlyRentError, setMonthlyRentError] = useState("");
+    // const [monthlyRent, setMonthlyRent] = useState("");
+    // const [monthlyRentError, setMonthlyRentError] = useState("");
 
     const [effectiveFrom, setEffectiveFrom] = useState("");
     const [effectiveFromError, setEffectiveFromError] = useState("");
@@ -28,48 +28,53 @@ function EditJoiningDate({ show, handleClose }) {
     const dateRef = useRef(null);
 
     const [loading, setLoading] = useState(false)
-    const reasonOptions = [
-        { value: "Annual Rent Revision", label: "Annual Rent Revision" },
-        { value: "Room Upgrade / Change", label: "Room Upgrade / Change" },
-        { value: "Additional Amenities Added", label: "Additional Amenities Added" },
-        { value: "Electricity / Utility Cost Updated", label: "Electricity / Utility Cost Updated" },
-        {
-            value: "Others",
-            label: "Others",
-            color: "#1E45E1"
-        },
-    ];
+    // const reasonOptions = [
+    //     { value: "Annual Rent Revision", label: "Annual Rent Revision" },
+    //     { value: "Room Upgrade / Change", label: "Room Upgrade / Change" },
+    //     { value: "Additional Amenities Added", label: "Additional Amenities Added" },
+    //     { value: "Electricity / Utility Cost Updated", label: "Electricity / Utility Cost Updated" },
+    //     {
+    //         value: "Others",
+    //         label: "Others",
+    //         color: "#1E45E1"
+    //     },
+    // ];
 
 
     const CustomerOverView = state.UsersList.customerdetails;
 
-   
 
-    const [isOthers, setIsOthers] = useState(false);
 
-    const handleReasonChange = (selectedOption) => {
-        dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' });
+    // const [isOthers, setIsOthers] = useState(false);
 
-        if (selectedOption?.value === "Others") {
-            setIsOthers(true);
-            setReason(""); 
-        } else {
-            setIsOthers(false);
-            setReason(selectedOption.value);
-        }
+    // const handleReasonChange = (selectedOption) => {
+    //     dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' });
+
+    //     if (selectedOption?.value === "Others") {
+    //         setIsOthers(true);
+    //         setReason("");
+    //     } else {
+    //         setIsOthers(false);
+    //         setReason(selectedOption.value);
+    //     }
+    // };
+
+    const handleReasonChange = (e) => {
+        dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' })
+        setReason(e.target.value);
     };
 
 
-    const handleMonthlyRentChange = (e) => {
-        const value = e.target.value;
+    // const handleMonthlyRentChange = (e) => {
+    //     const value = e.target.value;
 
-        if (/^[0-9\b]*$/.test(value)) {
-            if (value === "" || Number(value) > 0) {
-                setMonthlyRent(value);
-                setMonthlyRentError("");
-            }
-        }
-    };
+    //     if (/^[0-9\b]*$/.test(value)) {
+    //         if (value === "" || Number(value) > 0) {
+    //             setMonthlyRent(value);
+    //             setMonthlyRentError("");
+    //         }
+    //     }
+    // };
 
 
     const handleEffectiveFromChange = (date, dateString) => {
@@ -253,7 +258,23 @@ function EditJoiningDate({ show, handleClose }) {
                                         Reason
                                     </Form.Label>
 
-                                    {isOthers ? (
+                                    <FormControl
+                                        type="text"
+                                        placeholder="Enter your reason"
+                                        value={reason}
+                                        onChange={handleReasonChange}
+                                        style={{
+                                            fontSize: 16,
+                                            color: "#4B4B4B",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                            border: "1px solid #D9D9D9",
+                                            borderRadius: 8,
+                                            height: 50,
+                                            boxShadow: "none",
+                                        }}
+                                    />
+                                    {/* {isOthers ? (
                                         <div style={{ position: "relative" }}>
                                             <FormControl
                                                 type="text"
@@ -329,7 +350,7 @@ function EditJoiningDate({ show, handleClose }) {
                                                 indicatorSeparator: () => ({ display: "none" }),
                                             }}
                                         />
-                                    )}
+                                    )} */}
 
                                 </Form.Group>
 
