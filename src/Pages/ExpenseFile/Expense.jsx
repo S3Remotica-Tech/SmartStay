@@ -60,36 +60,37 @@ function Expenses({ allPageHostel_Id }) {
   const [excelDownload, setExcelDownload] = useState("");
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
   const [dates, setDates] = useState([]);
-   const [pickerKey, setPickerKey] = useState(0);
+  const [pickerKey, setPickerKey] = useState(0);
 
   const [loading, setLoading] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
+
 
 
   // const canReadExpense = useHasPermission("Expense", "canRead");
   // const canWriteExpense = useHasPermission("Expense", "canWrite");
 
   const {
-      canWriteModule: canWriteExpense,
-      canReadModule: canReadExpense,
-      // canUpdateModule: canUpdateElectricity,
-      // canDeleteModule: canDeleteElectricity,
-    } = useHasPermission("Expense");
-  
-  
-
-useEffect(() => {
-  if (!canReadExpense) {
-    setLoading(false);
-  }else{
-    setLoading(true);
-  }
-}, [canReadExpense]);
+    canWriteModule: canWriteExpense,
+    canReadModule: canReadExpense,
+    // canUpdateModule: canUpdateElectricity,
+    // canDeleteModule: canDeleteElectricity,
+  } = useHasPermission("Expense");
 
 
+
+  useEffect(() => {
+    if (!canReadExpense) {
+      setLoading(false);
+    } else {
+      setLoading(true);
+    }
+  }, [canReadExpense]);
 
 
  
+
+
 
   const handleClickOutside = (event) => {
     if (filterRef.current && !filterRef.current.contains(event.target)) {
@@ -294,10 +295,10 @@ useEffect(() => {
           hostelId: state.login.selectedHostel_Id,
         },
       });
-    } 
+    }
   }, [dates, state.login.selectedHostel_Id]);
 
- 
+
   const handleShow = () => {
     if (!state.login.selectedHostel_Id) {
       toast.error("Please add a hostel before adding expense information.", {
@@ -311,7 +312,7 @@ useEffect(() => {
       });
       return;
     }
-    
+
     setCurrentItem("");
     setShowModal(true);
   };
@@ -432,12 +433,12 @@ useEffect(() => {
     setShowFilter(!showFilter);
   };
 
-useEffect(()=>{
-  if(getData.length === 0){
-    setLoading(false)
-  }
+  useEffect(() => {
+    if (getData.length === 0) {
+      setLoading(false)
+    }
 
-},[getData])
+  }, [getData])
 
   // const [currentPage, setCurrentPage] = useState(1);
   // const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -712,667 +713,669 @@ useEffect(()=>{
 
   return (
     <>
-     
-        <div style={{ width: "100%" }}>
-          <div className="container" style={{ paddingTop: 12 }}>
-            <div
-              className="d-flex justify-content-between align-items-center flex-wrap"
-              style={{
-                position: "sticky",
 
-                backgroundColor: "white",
-                zIndex: 10,
-              }}
-            >
-              <div
-
-                className="col-12 col-md-auto d-flex flex-wrap align-items-center"
-                style={{ marginTop: 13, marginLeft: 11 }}
-              >
-                <label
-                  style={{
-                    fontSize: 18,
-                    color: "#000000",
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                  }}
-                >
-                  Expenses
-                </label>
-
-                <RangePicker
-                  className="range-picker-with-left-arrow"
-                  key={pickerKey}
-                  style={{
-                    height: 40,
-                    width: 250,
-                    marginLeft: 7,
-                    marginTop: 5,
-                   cursor: canReadExpense ? "pointer" : "not-allowed",
-                  opacity: canReadExpense ? 1 : 0.4,
-                  pointerEvents: canReadExpense ? "auto" : "none",
-                  transition: "opacity 0.3s ease" ,
-                    paddingLeft: 30,
-                    fontFamily: "Gilroy"
-                  }}
-                  onChange={handleDateChange}
-                  value={dates.length === 2 ? [dates[0], dates[1]] : null}
-                  format="DD-MM-YYYY"
-                  placeholder={["Start Date", "End Date"]}
-                />
-
-              </div>
-
-
-              <div className="col-12 col-md d-flex flex-wrap justify-content-md-end align-items-center">
-
-                {!showFilterExpense && (
-                  <div onClick={()=>canReadExpense && handleShowSearch()}
-                    style={{ paddingRight: 16 }}
-                  >
-                    <SearchNormal1
-                      color="#222"
-                      style={{
-                        height: "24px",
-                        width: "24px",
-                        cursor: canReadExpense ? "pointer" : "not-allowed",
-                  opacity: canReadExpense ? 1 : 0.4,
-                  pointerEvents: canReadExpense ? "auto" : "none",
-                  transition: "opacity 0.3s ease" ,
-                        fontFamily: "Gilroy",
-                        marginTop: 8,
-                      }}
-                    />
-                  </div>
-                )}
-
-                <div className='me-3' style={{ cursor: "pointer", marginTop: 5 }}>
-                  <Image
-                    src={Filters}
-                    style={{ height: "50px", width: "50px",
-                       cursor: canReadExpense ? "pointer" : "not-allowed",
-                  opacity: canReadExpense ? 1 : 0.4,
-                  pointerEvents: canReadExpense ? "auto" : "none",
-                  transition: "opacity 0.3s ease" 
-                }}
-                    onClick={handleFilterByPrice}
-                  />
-                </div>
-                {showFilter && (
-                  <div style={{ position: "relative" }}>
-                    <ListGroup className="filter-dropdown"
-                      ref={filterRef}
-                      style={{
-                        position: "absolute",
-                        top: 25,
-                        right: 0,
-                        fontFamily: "Gilroy",
-                        cursor: "pointer",
-                        background: "white",
-                        zIndex: 10,
-                      }}
-                    >
-                      <ListGroup.Item value="All" onClick={handleExpenseAll}>
-                        All
-                      </ListGroup.Item>
-
-
-                      <ListGroup.Item
-                        active={showCategory}
-                        onMouseEnter={() => setShowCategory(true)}
-                        onMouseLeave={() => setShowCategory(false)}
-                      >
-                        Category
-                        {showCategory && (
-                          <ListGroup
-                            className="show-scrolls-Expense submenu"
-                            style={{
-                              position: "absolute",
-                              right: 200,
-                              top: 0,
-                              borderRadius: "8px",
-                              maxHeight: "200px",
-                              overflowY: "auto",
-                              zIndex: 20,
-                              border: "1px solid #ccc",
-                              backgroundColor: "#fff",
-                              boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                              boxSizing: "content-box",
-                            }}
-                            value={categoryValue}
-                            onClick={handleCatogoryChange}
-                          >
-                            {state.Settings.Expences.data &&
-                              state.Settings.Expences.data.map((view) => (
-                                <ListGroup.Item
-                                  className="sub_item"
-                                  key={view.category_Id}
-                                  value={view.category_Id}
-                                >
-                                  {view.category_Name}
-                                </ListGroup.Item>
-                              ))}
-                          </ListGroup>
-                        )}
-                      </ListGroup.Item>
-
-
-                      <ListGroup.Item
-                        active={showPaymentMode}
-                        onMouseEnter={() => setShowPaymentMode(true)}
-                        onMouseLeave={() => setShowPaymentMode(false)}
-                      >
-                        Payment Mode
-                        {showPaymentMode && (
-                          <ListGroup
-                            className="show-scrolls-Expense"
-
-                            style={{
-                              position: "absolute",
-                              right: 200,
-                              top: 0,
-                              borderRadius: "8px",
-                              maxHeight: "200px",
-                              overflowY: "auto",
-                              zIndex: 20,
-                              border: "1px solid #ccc",
-                              backgroundColor: "#fff",
-                              boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                              boxSizing: "content-box",
-
-                            }}
-                            value={modeValue}
-                            onClick={handleModeValueChange}
-                          >
-                            {state.ExpenseList.expenseList &&
-                              state.ExpenseList.paymentModeList.map((view) => (
-                                <ListGroup.Item
-                                  className="sub_item"
-                                  key={view.id}
-                                  value={view.payment_mode}
-                                >
-                                  {view.paymentModeName}
-                                </ListGroup.Item>
-                              ))}
-                          </ListGroup>
-                        )}
-                      </ListGroup.Item>
-
-
-                      <ListGroup.Item
-                        active={showAmount}
-                        onMouseEnter={() => setShowAmount(true)}
-                        onMouseLeave={() => setShowAmount(false)}
-                      >
-                        Amount
-                        {showAmount && (
-                          <ListGroup
-                            className="show-scroll-category"
-                            style={{
-                              position: "absolute",
-                              right: 200,
-                              top: 0,
-                              borderRadius: "8px",
-                              maxHeight: "200px",
-                              overflowY: "auto",
-                              zIndex: 20,
-                            }}
-                            value={amountValue}
-                            onClick={handleAmountValueChange}
-                          >
-                            <ListGroup.Item
-                              className="sub_item"
-                              value="0-1000"
-                            >
-                              0-1000
-                            </ListGroup.Item>
-                            <ListGroup.Item
-                              className="sub_item"
-                              value="1000-5000"
-                            >
-                              1000-5000
-                            </ListGroup.Item>
-                            <ListGroup.Item
-                              className="sub_item"
-                              value="5000-10000"
-                            >
-                              5000-10000
-                            </ListGroup.Item>
-                            <ListGroup.Item
-                              className="sub_item"
-                              value="10000"
-                            >
-                              10000 Above
-                            </ListGroup.Item>
-                          </ListGroup>
-                        )}
-                      </ListGroup.Item>
-                    </ListGroup>
-                  </div>
-                )}
-
-                {showFilterExpense && (
-                  <div className="me-3 " style={{ position: "relative", width: isSmallScreen && showFilterExpense ? '150px' : '240px' }}>
-                    <InputGroup
-                      style={{
-                        display: "flex",
-                        flexWrap: "nowrap",
-                        width: "100%",
-                        marginTop: 10,
-                      }}
-                    >
-
-                      <FormControl
-                        className="search-input"
-                        size="lg"
-                        value={searchQuery}
-                        onChange={handleInputChange}
-                        style={{
-                          width: 235,
-                          boxShadow: "none",
-                          borderColor: "lightgray",
-                          borderRight: "none",
-                          fontSize: 15,
-                          fontWeight: 500,
-                          color: "#222",
-                          fontFamily: "Gilroy",
-
-                        }}
-                        placeholder="Search..."
-                      />
-                      <InputGroup.Text style={{ backgroundColor: "#ffffff" }}>
-                        <CloseCircle
-                          size="24"
-                          color="#222"
-                          style={{ cursor: "pointer" }}
-                          onClick={handleCloseSearch}
-                        />
-                      </InputGroup.Text>
-                    </InputGroup>
-
-                    {getData?.length > 0 &&
-                      searchQuery !== "" &&
-                      showDropDown && (
-                        <div
-                          style={{
-                            border: "1px solid #d9d9d9 ",
-                            position: "absolute",
-                            top: 60,
-                            left: 0,
-                            zIndex: 1000,
-                            padding: 10,
-                            borderRadius: 8,
-                            backgroundColor: "#fff",
-                          }}
-                        >
-                          <ul
-                            className="show-scroll"
-                            style={{
-                              width: 215,
-                              backgroundColor: "#fff",
-                              maxHeight: "174px",
-                              minHeight: getData?.length > 1 ? "100px" : "auto",
-                              overflowY:
-                                getData?.length > 2 ? "auto" : "hidden",
-                              padding: "5px 10px",
-                              margin: "0",
-                              listStyleType: "none",
-
-                              borderRadius: 8,
-                              boxSizing: "border-box",
-                            }}
-                          >
-                            {getData.map((user, index) => (
-                              <li
-                                key={index}
-                                onClick={() => {
-                                  handleDropDown(user.category_Name);
-                                }}
-                                onMouseEnter={() => setHoveredIndex(index)}
-                                onMouseLeave={() => setHoveredIndex(null)}
-                                style={{
-                                  padding: "10px",
-                                  cursor: "pointer",
-                                  borderBottom: "1px solid #dcdcdc",
-                                  fontSize: "14px",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                  backgroundColor:
-                                    hoveredIndex === index
-                                      ? "#1E45E1"
-                                      : "transparent",
-                                  color:
-                                    hoveredIndex === index
-                                      ? "white"
-                                      : "black",
-
-                                }}
-                              >
-                                {user.category_Name}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                  </div>
-                )}
-
-                <div
-                  className="me-3"
-                  style={{ cursor: "pointer", marginTop: 5 }}
-                >
-                  <img
-                    src={excelimg}
-                    alt="excel"
-                    width={38}
-                    height={38}
-style={{ursor: canReadExpense ? "pointer" : "not-allowed",
-                  opacity: canReadExpense ? 1 : 0.4,
-                  pointerEvents: canReadExpense ? "auto" : "none",
-                  transition: "opacity 0.3s ease" ,}}
-                    onClick={handleExpenceExcel}
-                  />
-                </div>
-
-                <div className="me-2" style={{ marginTop: 7, paddingRight: 4 }}>
-                  <Button
-                    disabled={!canWriteExpense || state?.login?.planStatus === 0}
-                    onClick={handleShow}
-
-                    style={{
-                      fontFamily: "Gilroy",
-                      fontSize: "14px",
-                      backgroundColor: "#1E45E1",
-                      color: "white",
-                      fontWeight: 600,
-                      borderRadius: "8px",
-                      width: 146,
-                      height: 45,
-                      textAlign: "center"
-                    }}
-                  >
-                    {" "}
-                    + Expense
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {searchQuery && (
-            <div
-              className="container mb-4"
-              style={{ marginTop: "20px", fontWeight: 600, fontSize: 16 }}
-            >
-              {getData.length > 0 ? (
-                <span
-                  style={{
-                    textAlign: "center",
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                    fontSize: 16,
-                    color: "rgba(100, 100, 100, 1)",
-                  }}
-                >
-                  {getData.length} result{getData.length > 1 ? "s" : ""} found
-                  for{" "}
-                  <span
-                    style={{
-                      textAlign: "center",
-                      fontWeight: 600,
-                      fontFamily: "Gilroy",
-                      fontSize: 16,
-                      color: "rgba(34, 34, 34, 1)",
-                    }}
-                  >
-                    &quot;${searchQuery}&quot;
-                  </span>
-                </span>
-              ) : (
-                <span
-                  style={{
-                    textAlign: "center",
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                    fontSize: 16,
-                    color: "rgba(100, 100, 100, 1)",
-                  }}
-                >
-                  No results found for{" "}
-                  <span
-                    style={{
-                      textAlign: "center",
-                      fontWeight: 600,
-                      fontFamily: "Gilroy",
-                      fontSize: 16,
-                      color: "rgba(34, 34, 34, 1)",
-                    }}
-                  >
-                    &quot;${searchQuery}&quot;
-                  </span>
-                </span>
-              )}
-            </div>
-          )}
-
-          {loading && (
-            <div
-              style={{
-                position: "absolute",
-                top: 0,
-                right: 0,
-                bottom: 0,
-                left: "200px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: "transparent",
-                opacity: 0.75,
-                zIndex: 10,
-              }}
-            >
-              <div
-                style={{
-                  borderTop: "4px solid #1E45E1",
-                  borderRight: "4px solid transparent",
-                  borderRadius: "50%",
-                  width: "40px",
-                  height: "40px",
-                  animation: "spin 1s linear infinite",
-                }}
-              ></div>
-            </div>
-          )}
-
- {!canReadExpense ? (
-        <>
+      <div style={{ width: "100%" }}>
+        <div className="container" style={{ paddingTop: 12 }}>
           <div
+            className="d-flex justify-content-between align-items-center flex-wrap"
             style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              height: "100vh",
+              position: "sticky",
+
+              backgroundColor: "white",
+              zIndex: 10,
             }}
           >
-
-            <img
-              src={EmptyState}
-              alt="Empty State"
-
-            />
-
-
-            
-              <ErrorMessage message={['You do not have access to view Expense']} type="warning" />
-
-            
-          </div>
-        </>
-      ) : 
-<>
-          {sortedData && sortedData.length > 0 && (
-
-
             <div
-              className="p-0 booking-table-userlist  booking-table ms-2 me-4"
-              style={{ paddingBottom: "20px", marginLeft: "-22px" }}
+
+              className="col-12 col-md-auto d-flex flex-wrap align-items-center"
+              style={{ marginTop: 13, marginLeft: 11 }}
             >
-              <div
-
-                className='show-scrolls'
-
-                // style={{
-
-                //   height: currentItems.length >= 8 || sortedData.length >= 8 ? "480px" : "auto",
-                //   overflow: "auto",
-                //   marginBottom: 20,
-                //   marginTop: "20px"
-
-                // }}
-
+              <label
                 style={{
-                  height: sortedData.length >= 8 ? "480px" : "auto",
-                  overflow: "auto",
-                  marginBottom: 20,
-                  marginTop: "20px"
+                  fontSize: 18,
+                  color: "#000000",
+                  fontWeight: 600,
+                  fontFamily: "Gilroy",
                 }}
-
-
               >
+                Expenses
+              </label>
 
-                <Table
-                  responsive="md"
-                >
+              <RangePicker
+                className="range-picker-with-left-arrow"
+                key={pickerKey}
+                style={{
+                  height: 40,
+                  width: 250,
+                  marginLeft: 7,
+                  marginTop: 5,
+                  cursor: canReadExpense ? "pointer" : "not-allowed",
+                  opacity: canReadExpense ? 1 : 0.4,
+                  pointerEvents: canReadExpense ? "auto" : "none",
+                  transition: "opacity 0.3s ease",
+                  paddingLeft: 30,
+                  fontFamily: "Gilroy"
+                }}
+                onChange={handleDateChange}
+                value={dates.length === 2 ? [dates[0], dates[1]] : null}
+                format="DD-MM-YYYY"
+                placeholder={["Start Date", "End Date"]}
+              />
 
-                  <thead style={{
-                    fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                    top: 0,
-                    zIndex: 100
-                  }}>
-                    <tr>
-                      <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}> <div className='d-flex gap-1 align-items-center justify-content-start'> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_date", 'asc')} style={{ cursor: "pointer" }} />
-                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_date", 'desc')} style={{ cursor: "pointer" }} />
-                      </div> Date </div>  </th>
-
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }} > <div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("category_Name", 'asc')} style={{ cursor: "pointer" }} />
-                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("category_Name", 'desc')} style={{ cursor: "pointer" }} />
-                      </div> Category </div></th>
-
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}> <div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("description", 'asc')} style={{ cursor: "pointer" }} />
-                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("description", 'desc')} style={{ cursor: "pointer" }} />
-                      </div> Description </div> </th>
-
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("unit_count", 'asc')} style={{ cursor: "pointer" }} />
-                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("unit_count", 'desc')} style={{ cursor: "pointer" }} />
-                      </div> Unit Count </div></th>
-
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("unit_amount", 'asc')} style={{ cursor: "pointer" }} />
-                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("unit_amount", 'desc')} style={{ cursor: "pointer" }} />
-                      </div>  Per Unit Price </div></th>
-
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_amount", 'asc')} style={{ cursor: "pointer" }} />
-                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_amount", 'desc')} style={{ cursor: "pointer" }} />
-                      </div> Total Amount </div></th>
-
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("payment_mode", 'asc')} style={{ cursor: "pointer" }} />
-                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("payment_mode", 'desc')} style={{ cursor: "pointer" }} />
-                      </div>  Mode of Payment </div></th>
-
-                      <th style={{ textAlign: "middle", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}>Action</th>
-                    </tr>
-                  </thead>
-
-
-
-                  <tbody>
-                    <PaginationList
-
-                    >
-                      {loading
-                        ? Array.from({ length: 10 }).map((_, i) => (
-                          <tr key={i}>
-                            <td colSpan={5}>
-                              <div style={{ ...skeletonStyle, width: "100%" }}></div>
-                            </td>
-                          </tr>
-                        ))
-                        : sortedData?.map((item) => (
-                          <ExpensesListTable
-                            key={item.id}
-                            item={item}
-                            OnEditExpense={handleEditExpen}
-                            handleDelete={handleDeleteExpense}
-                            expenceEditPermission={expenceEditPermission}
-                            expenceDeletePermission={expenceDeletePermission}
-                          />
-                        ))}
-                    </PaginationList>
-                  </tbody>
-
-
-
-
-                </Table>
-              </div>
             </div>
 
-          )}
 
-        </>}
+            <div className="col-12 col-md d-flex flex-wrap justify-content-md-end align-items-center">
 
-          {!loading && (!filteredData || filteredData.length === 0) && (
-            <div
-              className="d-flex align-items-center justify-content-center animated-text mt-5"
-              style={{ width: "100%", height: 350, margin: "0px auto" }}
-            >
-              <div>
-                <div className="d-flex justify-content-center">
-                  <img
-                    src={EmptyState}
-                    style={{ height: 240, width: 240 }}
-                    alt="Empty state"
+              {!showFilterExpense && (
+                <div onClick={() => canReadExpense && handleShowSearch()}
+                  style={{ paddingRight: 16 }}
+                >
+                  <SearchNormal1
+                    color="#222"
+                    style={{
+                      height: "24px",
+                      width: "24px",
+                      cursor: canReadExpense ? "pointer" : "not-allowed",
+                      opacity: canReadExpense ? 1 : 0.4,
+                      pointerEvents: canReadExpense ? "auto" : "none",
+                      transition: "opacity 0.3s ease",
+                      fontFamily: "Gilroy",
+                      marginTop: 8,
+                    }}
                   />
                 </div>
-                <div
-                  className="pb-1"
+              )}
+
+              <div className='me-3' style={{ cursor: "pointer", marginTop: 5 }}>
+                <Image
+                  src={Filters}
+                  style={{
+                    height: "50px", width: "50px",
+                    cursor: canReadExpense ? "pointer" : "not-allowed",
+                    opacity: canReadExpense ? 1 : 0.4,
+                    pointerEvents: canReadExpense ? "auto" : "none",
+                    transition: "opacity 0.3s ease"
+                  }}
+                  onClick={handleFilterByPrice}
+                />
+              </div>
+              {showFilter && (
+                <div style={{ position: "relative" }}>
+                  <ListGroup className="filter-dropdown"
+                    ref={filterRef}
+                    style={{
+                      position: "absolute",
+                      top: 25,
+                      right: 0,
+                      fontFamily: "Gilroy",
+                      cursor: "pointer",
+                      background: "white",
+                      zIndex: 10,
+                    }}
+                  >
+                    <ListGroup.Item value="All" onClick={handleExpenseAll}>
+                      All
+                    </ListGroup.Item>
+
+
+                    <ListGroup.Item
+                      active={showCategory}
+                      onMouseEnter={() => setShowCategory(true)}
+                      onMouseLeave={() => setShowCategory(false)}
+                    >
+                      Category
+                      {showCategory && (
+                        <ListGroup
+                          className="show-scrolls-Expense submenu"
+                          style={{
+                            position: "absolute",
+                            right: 200,
+                            top: 0,
+                            borderRadius: "8px",
+                            maxHeight: "200px",
+                            overflowY: "auto",
+                            zIndex: 20,
+                            border: "1px solid #ccc",
+                            backgroundColor: "#fff",
+                            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                            boxSizing: "content-box",
+                          }}
+                          value={categoryValue}
+                          onClick={handleCatogoryChange}
+                        >
+                          {state.Settings.Expences.data &&
+                            state.Settings.Expences.data.map((view) => (
+                              <ListGroup.Item
+                                className="sub_item"
+                                key={view.category_Id}
+                                value={view.category_Id}
+                              >
+                                {view.category_Name}
+                              </ListGroup.Item>
+                            ))}
+                        </ListGroup>
+                      )}
+                    </ListGroup.Item>
+
+
+                    <ListGroup.Item
+                      active={showPaymentMode}
+                      onMouseEnter={() => setShowPaymentMode(true)}
+                      onMouseLeave={() => setShowPaymentMode(false)}
+                    >
+                      Payment Mode
+                      {showPaymentMode && (
+                        <ListGroup
+                          className="show-scrolls-Expense"
+
+                          style={{
+                            position: "absolute",
+                            right: 200,
+                            top: 0,
+                            borderRadius: "8px",
+                            maxHeight: "200px",
+                            overflowY: "auto",
+                            zIndex: 20,
+                            border: "1px solid #ccc",
+                            backgroundColor: "#fff",
+                            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                            boxSizing: "content-box",
+
+                          }}
+                          value={modeValue}
+                          onClick={handleModeValueChange}
+                        >
+                          {state.ExpenseList.expenseList &&
+                            state.ExpenseList.paymentModeList.map((view) => (
+                              <ListGroup.Item
+                                className="sub_item"
+                                key={view.id}
+                                value={view.payment_mode}
+                              >
+                                {view.paymentModeName}
+                              </ListGroup.Item>
+                            ))}
+                        </ListGroup>
+                      )}
+                    </ListGroup.Item>
+
+
+                    <ListGroup.Item
+                      active={showAmount}
+                      onMouseEnter={() => setShowAmount(true)}
+                      onMouseLeave={() => setShowAmount(false)}
+                    >
+                      Amount
+                      {showAmount && (
+                        <ListGroup
+                          className="show-scroll-category"
+                          style={{
+                            position: "absolute",
+                            right: 200,
+                            top: 0,
+                            borderRadius: "8px",
+                            maxHeight: "200px",
+                            overflowY: "auto",
+                            zIndex: 20,
+                          }}
+                          value={amountValue}
+                          onClick={handleAmountValueChange}
+                        >
+                          <ListGroup.Item
+                            className="sub_item"
+                            value="0-1000"
+                          >
+                            0-1000
+                          </ListGroup.Item>
+                          <ListGroup.Item
+                            className="sub_item"
+                            value="1000-5000"
+                          >
+                            1000-5000
+                          </ListGroup.Item>
+                          <ListGroup.Item
+                            className="sub_item"
+                            value="5000-10000"
+                          >
+                            5000-10000
+                          </ListGroup.Item>
+                          <ListGroup.Item
+                            className="sub_item"
+                            value="10000"
+                          >
+                            10000 Above
+                          </ListGroup.Item>
+                        </ListGroup>
+                      )}
+                    </ListGroup.Item>
+                  </ListGroup>
+                </div>
+              )}
+
+              {showFilterExpense && (
+                <div className="me-3 " style={{ position: "relative", width: isSmallScreen && showFilterExpense ? '150px' : '240px' }}>
+                  <InputGroup
+                    style={{
+                      display: "flex",
+                      flexWrap: "nowrap",
+                      width: "100%",
+                      marginTop: 10,
+                    }}
+                  >
+
+                    <FormControl
+                      className="search-input"
+                      size="lg"
+                      value={searchQuery}
+                      onChange={handleInputChange}
+                      style={{
+                        width: 235,
+                        boxShadow: "none",
+                        borderColor: "lightgray",
+                        borderRight: "none",
+                        fontSize: 15,
+                        fontWeight: 500,
+                        color: "#222",
+                        fontFamily: "Gilroy",
+
+                      }}
+                      placeholder="Search..."
+                    />
+                    <InputGroup.Text style={{ backgroundColor: "#ffffff" }}>
+                      <CloseCircle
+                        size="24"
+                        color="#222"
+                        style={{ cursor: "pointer" }}
+                        onClick={handleCloseSearch}
+                      />
+                    </InputGroup.Text>
+                  </InputGroup>
+
+                  {getData?.length > 0 &&
+                    searchQuery !== "" &&
+                    showDropDown && (
+                      <div
+                        style={{
+                          border: "1px solid #d9d9d9 ",
+                          position: "absolute",
+                          top: 60,
+                          left: 0,
+                          zIndex: 1000,
+                          padding: 10,
+                          borderRadius: 8,
+                          backgroundColor: "#fff",
+                        }}
+                      >
+                        <ul
+                          className="show-scroll"
+                          style={{
+                            width: 215,
+                            backgroundColor: "#fff",
+                            maxHeight: "174px",
+                            minHeight: getData?.length > 1 ? "100px" : "auto",
+                            overflowY:
+                              getData?.length > 2 ? "auto" : "hidden",
+                            padding: "5px 10px",
+                            margin: "0",
+                            listStyleType: "none",
+
+                            borderRadius: 8,
+                            boxSizing: "border-box",
+                          }}
+                        >
+                          {getData.map((user, index) => (
+                            <li
+                              key={index}
+                              onClick={() => {
+                                handleDropDown(user.category_Name);
+                              }}
+                              onMouseEnter={() => setHoveredIndex(index)}
+                              onMouseLeave={() => setHoveredIndex(null)}
+                              style={{
+                                padding: "10px",
+                                cursor: "pointer",
+                                borderBottom: "1px solid #dcdcdc",
+                                fontSize: "14px",
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                                backgroundColor:
+                                  hoveredIndex === index
+                                    ? "#1E45E1"
+                                    : "transparent",
+                                color:
+                                  hoveredIndex === index
+                                    ? "white"
+                                    : "black",
+
+                              }}
+                            >
+                              {user.category_Name}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                </div>
+              )}
+
+              <div
+                className="me-3"
+                style={{ cursor: "pointer", marginTop: 5 }}
+              >
+                <img
+                  src={excelimg}
+                  alt="excel"
+                  width={38}
+                  height={38}
+                  style={{
+                    ursor: canReadExpense ? "pointer" : "not-allowed",
+                    opacity: canReadExpense ? 1 : 0.4,
+                    pointerEvents: canReadExpense ? "auto" : "none",
+                    transition: "opacity 0.3s ease",
+                  }}
+                  onClick={handleExpenceExcel}
+                />
+              </div>
+
+              <div className="me-2" style={{ marginTop: 7, paddingRight: 4 }}>
+                <Button
+                  disabled={!canWriteExpense || state?.login?.planStatus === 0}
+                  onClick={handleShow}
+
+                  style={{
+                    fontFamily: "Gilroy",
+                    fontSize: "14px",
+                    backgroundColor: "#1E45E1",
+                    color: "white",
+                    fontWeight: 600,
+                    borderRadius: "8px",
+                    width: 146,
+                    height: 45,
+                    textAlign: "center"
+                  }}
+                >
+                  {" "}
+                  + Expense
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {searchQuery && (
+          <div
+            className="container mb-4"
+            style={{ marginTop: "20px", fontWeight: 600, fontSize: 16 }}
+          >
+            {getData.length > 0 ? (
+              <span
+                style={{
+                  textAlign: "center",
+                  fontWeight: 600,
+                  fontFamily: "Gilroy",
+                  fontSize: 16,
+                  color: "rgba(100, 100, 100, 1)",
+                }}
+              >
+                {getData.length} result{getData.length > 1 ? "s" : ""} found
+                for{" "}
+                <span
                   style={{
                     textAlign: "center",
                     fontWeight: 600,
                     fontFamily: "Gilroy",
-                    fontSize: 18,
-                    color: "rgba(75, 75, 75, 1)",
+                    fontSize: 16,
+                    color: "rgba(34, 34, 34, 1)",
                   }}
                 >
-                  No expenses available
-                </div>
-                <div
-                  className="pb-1"
+                  &quot;${searchQuery}&quot;
+                </span>
+              </span>
+            ) : (
+              <span
+                style={{
+                  textAlign: "center",
+                  fontWeight: 600,
+                  fontFamily: "Gilroy",
+                  fontSize: 16,
+                  color: "rgba(100, 100, 100, 1)",
+                }}
+              >
+                No results found for{" "}
+                <span
                   style={{
                     textAlign: "center",
-                    fontWeight: 500,
+                    fontWeight: 600,
                     fontFamily: "Gilroy",
-                    fontSize: 14,
-                    color: "rgba(75, 75, 75, 1)",
+                    fontSize: 16,
+                    color: "rgba(34, 34, 34, 1)",
                   }}
                 >
-                  There are no expenses available.
+                  &quot;${searchQuery}&quot;
+                </span>
+              </span>
+            )}
+          </div>
+        )}
+
+        {loading && (
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              right: 0,
+              bottom: 0,
+              left: "200px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "transparent",
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: "4px solid #1E45E1",
+                borderRight: "4px solid transparent",
+                borderRadius: "50%",
+                width: "40px",
+                height: "40px",
+                animation: "spin 1s linear infinite",
+              }}
+            ></div>
+          </div>
+        )}
+
+        {!canReadExpense ? (
+          <>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "100vh",
+              }}
+            >
+
+              <img
+                src={EmptyState}
+                alt="Empty State"
+
+              />
+
+
+
+              <ErrorMessage message={['You do not have access to view Expense']} type="warning" />
+
+
+            </div>
+          </>
+        ) :
+          <>
+            {sortedData && sortedData.length > 0 && (
+
+
+              <div
+                className="p-0 booking-table-userlist  booking-table ms-2 me-4"
+                style={{ paddingBottom: "20px", marginLeft: "-22px" }}
+              >
+                <div
+
+                  className='show-scrolls'
+
+                  // style={{
+
+                  //   height: currentItems.length >= 8 || sortedData.length >= 8 ? "480px" : "auto",
+                  //   overflow: "auto",
+                  //   marginBottom: 20,
+                  //   marginTop: "20px"
+
+                  // }}
+                                    style={{
+                    height: sortedData.length >= 5 ? "430px" : "auto",
+                    overflow: "auto",
+                    marginBottom: 20,
+                    marginTop: "20px", position: "relative"
+                  }}
+
+
+                >
+
+                  <Table
+                    responsive="md"
+                  >
+
+                    <thead style={{
+                      fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                      top: 0,
+                      zIndex: 100
+                    }}>
+                      <tr>
+                        <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}> <div className='d-flex gap-1 align-items-center justify-content-start'> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_date", 'asc')} style={{ cursor: "pointer" }} />
+                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_date", 'desc')} style={{ cursor: "pointer" }} />
+                        </div> Date </div>  </th>
+
+                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }} > <div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("category_Name", 'asc')} style={{ cursor: "pointer" }} />
+                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("category_Name", 'desc')} style={{ cursor: "pointer" }} />
+                        </div> Category </div></th>
+
+                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}> <div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("description", 'asc')} style={{ cursor: "pointer" }} />
+                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("description", 'desc')} style={{ cursor: "pointer" }} />
+                        </div> Description </div> </th>
+
+                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("unit_count", 'asc')} style={{ cursor: "pointer" }} />
+                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("unit_count", 'desc')} style={{ cursor: "pointer" }} />
+                        </div> Unit Count </div></th>
+
+                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("unit_amount", 'asc')} style={{ cursor: "pointer" }} />
+                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("unit_amount", 'desc')} style={{ cursor: "pointer" }} />
+                        </div>  Per Unit Price </div></th>
+
+                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_amount", 'asc')} style={{ cursor: "pointer" }} />
+                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_amount", 'desc')} style={{ cursor: "pointer" }} />
+                        </div> Total Amount </div></th>
+
+                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("payment_mode", 'asc')} style={{ cursor: "pointer" }} />
+                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("payment_mode", 'desc')} style={{ cursor: "pointer" }} />
+                        </div>  Mode of Payment </div></th>
+
+                        <th style={{ textAlign: "middle", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}>Action</th>
+                      </tr>
+                    </thead>
+
+
+
+                    <tbody>
+                      <PaginationList
+
+                      >
+                        {loading
+                          ? Array.from({ length: 10 }).map((_, i) => (
+                            <tr key={i}>
+                              <td colSpan={5}>
+                                <div style={{ ...skeletonStyle, width: "100%" }}></div>
+                              </td>
+                            </tr>
+                          ))
+                          : sortedData?.map((item) => (
+                            <ExpensesListTable
+                              key={item.id}
+                              item={item}
+                              OnEditExpense={handleEditExpen}
+                              handleDelete={handleDeleteExpense}
+                              expenceEditPermission={expenceEditPermission}
+                              expenceDeletePermission={expenceDeletePermission}
+                            />
+                          ))}
+                      </PaginationList>
+                    </tbody>
+
+
+
+
+                  </Table>
                 </div>
               </div>
+
+            )}
+
+          </>}
+
+        {!loading && (!filteredData || filteredData.length === 0) && (
+          <div
+            className="d-flex align-items-center justify-content-center animated-text mt-5"
+            style={{ width: "100%", height: 350, margin: "0px auto" }}
+          >
+            <div>
+              <div className="d-flex justify-content-center">
+                <img
+                  src={EmptyState}
+                  style={{ height: 240, width: 240 }}
+                  alt="Empty state"
+                />
+              </div>
+              <div
+                className="pb-1"
+                style={{
+                  textAlign: "center",
+                  fontWeight: 600,
+                  fontFamily: "Gilroy",
+                  fontSize: 18,
+                  color: "rgba(75, 75, 75, 1)",
+                }}
+              >
+                No expenses available
+              </div>
+              <div
+                className="pb-1"
+                style={{
+                  textAlign: "center",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  fontSize: 14,
+                  color: "rgba(75, 75, 75, 1)",
+                }}
+              >
+                There are no expenses available.
+              </div>
             </div>
-          )}
+          </div>
+        )}
 
 
-     
-        </div>
-     
+
+      </div>
+
 
       {showModal && (
         <AddExpenses

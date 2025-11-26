@@ -153,6 +153,7 @@ function UserList(props) {
   const [formLoading, setFormLoading] = useState(false)
 
 
+  const tableRef = useRef(null);
 
   // const canReadTenant = useHasPermission("Customers", "canRead")
   // const canWriteTenant = useHasPermission("Customers", "canWrite")
@@ -927,12 +928,12 @@ function UserList(props) {
   const [userListDetail, setUserListDetail] = useState([]);
 
 
-  useEffect(()=>{
-    if(userListDetail.length === 0){
-       setLoading(false)
+  useEffect(() => {
+    if (userListDetail.length === 0) {
+      setLoading(false)
     }
 
-  },[userListDetail])
+  }, [userListDetail])
 
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode === 200) {
@@ -976,7 +977,7 @@ function UserList(props) {
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceEditStatusCode === 200) {
       setBillLoading(false)
-    
+
       dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: id } });
 
       setLoading(false);
@@ -1008,7 +1009,7 @@ function UserList(props) {
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceAddStatusCode === 201) {
       navigate(`/tenant/details/${customername}`)
-  
+
       if (customername) {
         dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: customername } });
       }
@@ -1026,7 +1027,7 @@ function UserList(props) {
 
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceDeleteStatusCode === 200) {
-  
+
       dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: id } });
       setLoading(false);
 
@@ -1537,6 +1538,11 @@ function UserList(props) {
     };
   }, []);
 
+
+
+
+
+
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
       //  handleCloseBooking()
@@ -1678,7 +1684,7 @@ function UserList(props) {
     setIsDownloadTriggered(false);
     setFilterInput("");
     setFilterStatus("");
-   
+
     // if(String(newValue) === "3"){
     //   navigate(`/checkout/${state.login.selectedHostel_Id}`)
     // }
@@ -1707,7 +1713,7 @@ function UserList(props) {
   const [userDatafull, setUserData] = useState("")
 
   const handleRoomDetailsPage = (userData) => {
-        setHostelIds(userData.Hostel_Id);
+    setHostelIds(userData.Hostel_Id);
     setUserData(userData)
     setId(userData?.customerId);
     sethosName(userData.HostelName);
@@ -2608,7 +2614,7 @@ function UserList(props) {
 
   }, [state.InvoiceList.unableAddInvoiceDetailsError])
   return (
-    <div style={{overflow:"hidden" }}>
+    <div style={{ overflow: "hidden" }}>
       {/* <Addbooking
         show={showbookingForm}
         handleClose={closeModal}
@@ -2635,7 +2641,7 @@ function UserList(props) {
       />
 
       {userList && (
-        <div className="container p-0" style={{  backgroundColor:""}}>
+        <div className="container p-0" style={{ backgroundColor: "" }}>
           <div className="header-container">
             <div
               className="d-flex justify-content-between align-items-center flex-wrap"
@@ -3168,7 +3174,7 @@ function UserList(props) {
                     <ErrorMessage message={['You do not have access to view Tenant']} type="warning" />
                   </div>
                 ) : !loading && Array.isArray(currentItems) && currentItems.length === 0 ? (
-                  <div style={{ marginTop: 30, height:"auto" }} className="animated-text">
+                  <div style={{ marginTop: 30, height: "auto" }} className="animated-text">
                     <div style={{ textAlign: "center" }}>
                       <img src={Emptystate} alt="emptystate" />
                     </div>
@@ -3205,7 +3211,7 @@ function UserList(props) {
                       className=" booking-table-userlist  booking-table  me-4"
                       style={{ paddingBottom: "20px", marginLeft: "-14px" }}
                     >
-                      <div
+                      <div ref={tableRef}
                         className="show-scrolls"
                         style={{
                           height:
@@ -3218,6 +3224,7 @@ function UserList(props) {
                           marginTop: "20px",
                           paddingRight: 0,
                           paddingLeft: 0,
+                          position: "relative"
                         }}
                       >
                         <Table
@@ -3771,8 +3778,7 @@ function UserList(props) {
                                                 ? popupPosition.top - (popupRef.current?.offsetHeight || 100) - 20
                                                 : popupPosition.top - 35,
                                               left: popupPosition.left,
-                                              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
-                                              width: "auto",
+                                                                                                                                                                                           boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
                                               backgroundColor: "#F9F9F9",
                                               border: "1px solid #EBEBEB",
                                               borderRadius: "10px",

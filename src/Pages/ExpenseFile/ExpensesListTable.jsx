@@ -40,7 +40,7 @@ function ExpensesListTable(props) {
 
 
 
-const [showAbove, setShowAbove] = useState(false);
+  const [showAbove, setShowAbove] = useState(false);
 
 
 
@@ -52,27 +52,27 @@ const [showAbove, setShowAbove] = useState(false);
 
 
   const handleShowDots = (event, rowId) => {
-   
-  const { top, left, height } = event.target.getBoundingClientRect();
-  const popupTop = top + (height / 2);
+
+    const { top, left, height } = event.target.getBoundingClientRect();
+    const popupTop = top + (height / 2);
     const popupLeft = left - 210;
 
     setPopupPosition({ top: popupTop, left: popupLeft });
-  setShowDots(prev => (prev === rowId ? null : rowId));
-};
+    setShowDots(prev => (prev === rowId ? null : rowId));
+  };
 
-  
 
- useEffect(() => {
-     if (popupRef.current) {
-       const popupHeight = popupRef.current.offsetHeight;
-       const windowHeight = window.innerHeight;
-       const spaceBelow = windowHeight - popupPosition.top;
- 
- 
-       setShowAbove(spaceBelow < popupHeight + 20);
-     }
-   }, [popupPosition]);
+
+  useEffect(() => {
+    if (popupRef.current) {
+      const popupHeight = popupRef.current.offsetHeight;
+      const windowHeight = window.innerHeight;
+      const spaceBelow = windowHeight - popupPosition.top;
+
+
+      setShowAbove(spaceBelow < popupHeight + 20);
+    }
+  }, [popupPosition]);
 
 
 
@@ -96,22 +96,22 @@ const [showAbove, setShowAbove] = useState(false);
       setShowDots(null);
     }
   };
-  
-useEffect(() => {
-  const handleClickOutside = (event) => {
-    if (
-      popupRef.current &&
-      !popupRef.current.contains(event.target) &&
-           !showTagAsset &&
-      !showDeletePopup
-    ) {
-      setShowDots(null);
-    }
-  };
 
-  document.addEventListener("mousedown", handleClickOutside);
-  return () => document.removeEventListener("mousedown", handleClickOutside);
-}, [popupRef,  showTagAsset, showDeletePopup]);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        popupRef.current &&
+        !popupRef.current.contains(event.target) &&
+        !showTagAsset &&
+        !showDeletePopup
+      ) {
+        setShowDots(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [popupRef, showTagAsset, showDeletePopup]);
 
 
 
@@ -126,7 +126,7 @@ useEffect(() => {
   };
 
 
- 
+
 
 
   const [assetname, setAssetName] = useState('')
@@ -248,19 +248,24 @@ useEffect(() => {
             {showDots === props.item.expenseId && <>
               <div
                 ref={popupRef}
-                                style={{
+                style={{
                   cursor: "pointer",
                   backgroundColor: "#F9F9F9",
-                  position: "absolute",
-                                                    left: -180,
-                  width: 160,
+                                    width: 160,
+                  position: "fixed",
+                  top: showAbove
+                    ? popupPosition.top - (popupRef.current?.offsetHeight || 100) - 20
+                    : popupPosition.top - 35,
+                  left: popupPosition.left,
+                 
                   height: "auto",
+
                   border: "1px solid #EBEBEB",
                   borderRadius: 10,
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "flex-start",
-                  zIndex: showDots === props.item.expenseId ? 1000 : "auto",
+                  // zIndex: showDots === props.item.expenseId ? 1000 : "auto",
                 }}
               >
 

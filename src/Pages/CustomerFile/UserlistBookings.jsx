@@ -23,7 +23,6 @@ import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import "flatpickr/dist/themes/material_blue.css";
-import { MdError } from "react-icons/md";
 import "react-datepicker/dist/react-datepicker.css";
 import imageCompression from "browser-image-compression";
 import Plus from "../../Assets/Images/New_images/addplus-circle.svg";

@@ -148,15 +148,29 @@ function Sidebar() {
   // },[currentPage])
 
 
+const LastPageIs = localStorage.getItem("lastPage")
 
+console.log("LastPageIs",LastPageIs)
+
+
+useEffect(() => {
+ 
+}, []);
+
+
+console.log("state",state)
   useEffect(() => {
     if (state.login?.isLoggedIn && state.login.selectedHostel_Id) {
+
       if (isFirstLogin.current) {
         navigate(`/dashboard/${state.login.selectedHostel_Id}`, { replace: true });
         isFirstLogin.current = false;
       }
-    } else if (!state.login.selectedHostel_Id) {
-      navigate(`/dashboard`)
+    } 
+    else if (!state.login.selectedHostel_Id) {
+      // navigate(`/dashboard`)
+       const lastPage = localStorage.getItem("lastPage");
+  if (lastPage) navigate(lastPage, { replace: true });
     }
   }, [state.login?.isLoggedIn, state.login.selectedHostel_Id]);
 
