@@ -237,7 +237,7 @@ function UserlistForm(props) {
    
 
     setBedError("");
-    setRoomRentError("");
+   
   };
 
   useEffect(() => {
@@ -256,7 +256,7 @@ function UserlistForm(props) {
       }
 
       setBedError("");
-      setRoomRentError("");
+     
     }
 
   }, [Bed])
@@ -1257,7 +1257,7 @@ if (value === "" || /^[1-9]\d*$/.test(value)) {
                         </Form.Label>
 
                         <Select
-                          isDisabled={!selectedDate}
+                          isDisabled={!selectedDate || !Floor}
                           options={
                             state.PgList?.roomsList?.map((item) => ({
                               value: item.id,

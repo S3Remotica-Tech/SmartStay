@@ -369,7 +369,7 @@ const RoomReadingTable = () => {
       billingMonth: billingMonth,
       from: formatDate(item.startDate),
       to: formatDate(item.endDate),
-      totalUnits: item.consumption,
+      // totalUnits: item.consumption,
       amount: item.consumption * item.unitPrice,
       floorName: item.floorName,
       roomName: item.roomName,

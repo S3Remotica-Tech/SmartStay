@@ -84,7 +84,7 @@ function BookingModal(props) {
       }
       setTimeout(() => {
         dispatch({ type: "CLEAR_EMAIL_ERROR" });
-       
+
       }, 2000);
     }
   }, [state.Booking.bookingEmailError, state.Booking?.bookingBedError]);
@@ -132,13 +132,13 @@ function BookingModal(props) {
 
 
   const handleTransactionId = (e) => {
-  const value = e.target.value;
-   const regex = /^[A-Za-z0-9_.-]*$/;
+    const value = e.target.value;
+    const regex = /^[A-Za-z0-9_.-]*$/;
 
-  if (regex.test(value)) {
-    setTransactionId(value);
-  }
-};
+    if (regex.test(value)) {
+      setTransactionId(value);
+    }
+  };
 
 
 
@@ -233,14 +233,14 @@ function BookingModal(props) {
       setAvailableBed(filteredBed)
     }
 
-  }, [room, joiningDate,state.UsersList?.availableBedList?.listBeds])
+  }, [room, joiningDate, state.UsersList?.availableBedList?.listBeds])
 
   const handleCloseBooking = () => {
     dispatch({ type: "ERROR_BOOKING_REMOVE" })
     props.handleCloseAddBooking();
   }
 
-  
+
 
 
   const handleBookingDateChange = (date) => {
@@ -256,7 +256,7 @@ function BookingModal(props) {
   const handleBookingAmountChange = (e) => {
     const value = e.target.value;
 
-      if (/^\d*$/.test(value)) {
+    if (/^\d*$/.test(value)) {
       setAmountError("");
       setBookingAmount(value);
     }
@@ -275,53 +275,53 @@ function BookingModal(props) {
   };
 
 
- 
 
 
 
-  useEffect(()=>{
-    if(joiningDate){
+
+  useEffect(() => {
+    if (joiningDate) {
       const formatDate = (date) => {
-      if (!date) return "";
-      const d = new Date(date);
-      const day = String(d.getDate()).padStart(2, "0");
-      const month = String(d.getMonth() + 1).padStart(2, "0");
-      const year = d.getFullYear();
-      return `${day}-${month}-${year}`;
-    };
+        if (!date) return "";
+        const d = new Date(date);
+        const day = String(d.getDate()).padStart(2, "0");
+        const month = String(d.getMonth() + 1).padStart(2, "0");
+        const year = d.getFullYear();
+        return `${day}-${month}-${year}`;
+      };
 
-    const joiningDateForFormatted = formatDate(joiningDate);
-      dispatch({ type: 'AVAILBALEBEDDETAILS', payload:{ hostelId: state.login.selectedHostel_Id, joiningDate: joiningDateForFormatted}})
+      const joiningDateForFormatted = formatDate(joiningDate);
+      dispatch({ type: 'AVAILBALEBEDDETAILS', payload: { hostelId: state.login.selectedHostel_Id, joiningDate: joiningDateForFormatted } })
     }
-  },[joiningDate])
+  }, [joiningDate])
 
 
 
-const toastShownRef = useRef(false);
+  const toastShownRef = useRef(false);
 
-useEffect(() => {
-  if (
-    state.UsersList?.availableBedList?.bankDetails?.length === 0 &&
-    !toastShownRef.current && joiningDate
-  ) {
-    toastShownRef.current = true; 
-    toast.error(
-      <div className="flex items-center gap-2">
-        <span style={{ fontFamily: "Gilroy" }}>
-          Please Create Banking before adding booking
-        </span>
-      </div>
-    );
-  }
+  useEffect(() => {
+    if (
+      state.UsersList?.availableBedList?.bankDetails?.length === 0 &&
+      !toastShownRef.current && joiningDate
+    ) {
+      toastShownRef.current = true;
+      toast.error(
+        <div className="flex items-center gap-2">
+          <span style={{ fontFamily: "Gilroy" }}>
+            Please Create Banking before adding booking
+          </span>
+        </div>
+      );
+    }
 
-  
-  if (
-    state.UsersList?.availableBedList?.bankDetails?.length > 0 &&
-    toastShownRef.current
-  ) {
-    toastShownRef.current = false;
-  }
-}, [state.UsersList?.availableBedList?.bankDetails]);
+
+    if (
+      state.UsersList?.availableBedList?.bankDetails?.length > 0 &&
+      toastShownRef.current
+    ) {
+      toastShownRef.current = false;
+    }
+  }, [state.UsersList?.availableBedList?.bankDetails]);
 
   const handleBed = (selectedOption) => {
     dispatch({ type: "ERROR_BOOKING_REMOVE" });
@@ -353,7 +353,7 @@ useEffect(() => {
 
 
   const handleBookingSubmit = () => {
- dispatch({ type: "ERROR_BOOKING_REMOVE" })
+    dispatch({ type: "ERROR_BOOKING_REMOVE" })
     let isValid = true;
 
     if (!bookingDate) {
@@ -461,7 +461,7 @@ useEffect(() => {
     setFloorError("");
   };
 
-useEffect(() => {
+  useEffect(() => {
     if (state.createAccount?.networkError) {
       setFormLoading(false)
       setTimeout(() => {
@@ -470,7 +470,10 @@ useEffect(() => {
     }
 
   }, [state.createAccount?.networkError])
-    
+
+
+
+
 
   return (
     <>
@@ -480,7 +483,7 @@ useEffect(() => {
         show={props.add_bookingshow}
         onHide={handleCloseBooking}
         centered
-        backdrop="static"  dialogClassName="custom-modals-style"
+        backdrop="static" dialogClassName="custom-modals-style"
       >
         <Modal.Header className="d-flex justify-content-between">
           <Modal.Title
@@ -497,7 +500,7 @@ useEffect(() => {
           />
         </Modal.Header>
 
-       
+
 
 
 
@@ -505,7 +508,7 @@ useEffect(() => {
 
 
         {state.Booking?.ErrorAssignBookingMobile && (
-          <ErrorMessage message={state.Booking?.ErrorAssignBookingMobile} type="error"/>
+          <ErrorMessage message={state.Booking?.ErrorAssignBookingMobile} type="error" />
         )}
 
         <Modal.Body className="pt-2 show-scroll" style={{ maxHeight: 440, overflowY: 'auto' }} >
@@ -519,49 +522,34 @@ useEffect(() => {
                 position: "relative",
               }}
             >
-               {props.userDetail?.profilePic &&
-                                    props.userDetail?.profilePic !== "0" ? (
-                                    <Image
-                                        src={props.userDetail?.profilePic}
-                                        roundedCircle
-                                        style={{ height: 50, width: 50 }}
-                                        alt="image"
-                                    />
-                                ) : (
-                                    <div
-                                        style={{
-                                            height: 50,
-                                            width: 50,
-                                            borderRadius: "50%",
-                                            backgroundColor: "#1E45E1",
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            alignItems: "center",
-                                            fontSize: 20,
-                                            fontWeight: "600",
-                                            color: "white", fontFamily: "Gilroy"
-                                        }}
-                                    >
-                                        {props.userDetail?.initials || "-"}
-                                    </div>
-                                )}
+              {props.userDetail?.profilePic &&
+                props.userDetail?.profilePic !== "0" ? (
+                <Image
+                  src={props.userDetail?.profilePic}
+                  roundedCircle
+                  style={{ height: 50, width: 50 }}
+                  alt="image"
+                />
+              ) : (
+                <div
+                  style={{
+                    height: 50,
+                    width: 50,
+                    borderRadius: "50%",
+                    backgroundColor: "#1E45E1",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    fontSize: 20,
+                    fontWeight: "600",
+                    color: "white", fontFamily: "Gilroy"
+                  }}
+                >
+                  {props.userDetail?.initials || "-"}
+                </div>
+              )}
 
-              {/* <Image onChange={handleFileChange}
-                src={
-                  file
-                    ? (typeof file === "string" ? file : URL.createObjectURL(file))
-                    : (props.userDetail?.profilePic && props.userDetail.profilePic !== ""
-                      ? props.userDetail.profilePic
-                      : Profiles)
-                }
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = Profiles;
-                }}
-                alt="Profile"
-                roundedCircle
-                style={{ height: 60, width: 60 }}
-              /> */}
+
 
 
 
@@ -620,11 +608,11 @@ useEffect(() => {
                 </div>
               </Form.Group>
               {dateError && (
-               <ErrorMessage message={dateError} type="error"/>
+                <ErrorMessage message={dateError} type="error" />
               )}
 
               {state.Booking?.ErrorAssignBookingDate && (
-                <ErrorMessage message={state.Booking?.ErrorAssignBookingDate} type="error"/>
+                <ErrorMessage message={state.Booking?.ErrorAssignBookingDate} type="error" />
               )}
 
 
@@ -668,12 +656,12 @@ useEffect(() => {
               </Form.Group>
 
               {amountError && (
-                <ErrorMessage message={amountError} type="error"/>
+                <ErrorMessage message={amountError} type="error" />
               )}
 
             </Col>
 
-  <Col md={6}>
+            <Col md={6}>
               <Form.Group controlId="joiningDate">
                 <Form.Label
                   style={{
@@ -724,11 +712,11 @@ useEffect(() => {
               </Form.Group>
 
               {joiningDateError && (
-               <ErrorMessage message={joiningDateError} type="error"/>
+                <ErrorMessage message={joiningDateError} type="error" />
               )}
 
               {state.Booking?.ErrorAssignBookingDate && (
-                <ErrorMessage message={state.Booking?.ErrorAssignBookingDate} type="error"/>
+                <ErrorMessage message={state.Booking?.ErrorAssignBookingDate} type="error" />
               )}
 
 
@@ -826,7 +814,7 @@ useEffect(() => {
 
               </Form.Group>
               {paymentError && (
-                               <ErrorMessage message={paymentError} type="error"/>
+                <ErrorMessage message={paymentError} type="error" />
 
               )}
             </Col>
@@ -871,7 +859,7 @@ useEffect(() => {
 
 
 
-          
+
             <Col md={6}>
               <Form.Group controlId="formFloor">
                 <Form.Label
@@ -897,7 +885,7 @@ useEffect(() => {
 
 
                 <Select
-                isDisabled={!joiningDate}
+                  isDisabled={!joiningDate}
                   options={
                     state.UsersList.floorList?.map((u) => ({
                       value: u.id,
@@ -976,7 +964,7 @@ useEffect(() => {
               </Form.Group>
 
               {floorError && (
-                  <ErrorMessage message={floorError} type="error"/>
+                <ErrorMessage message={floorError} type="error" />
               )}
             </Col>
           </Row>
@@ -1007,7 +995,7 @@ useEffect(() => {
                 </Form.Label>
 
                 <Select
-                isDisabled={!joiningDate}
+                  isDisabled={!joiningDate || !Floor}
                   options={
                     state.PgList?.roomsList?.map((item) => ({
                       value: item.id,
@@ -1086,7 +1074,7 @@ useEffect(() => {
                 />
               </Form.Group>
               {roomError && (
-                <ErrorMessage message={roomError} type="error"/>
+                <ErrorMessage message={roomError} type="error" />
               )}
             </Col>
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -1102,7 +1090,7 @@ useEffect(() => {
 
 
               <Select
-              isDisabled={!joiningDate}
+                isDisabled={!joiningDate}
                 options={
                   availableBed
                     ? availableBed
@@ -1189,28 +1177,28 @@ useEffect(() => {
               />
 
               {bedWarning ?
-                <ErrorMessage message={bedWarning} type="error"/>
+                <ErrorMessage message={bedWarning} type="error" />
                 : null}
 
               {state.Booking?.bookingBedError ?
-                 <ErrorMessage message={state.Booking?.bookingBedError} type="error"/>
+                <ErrorMessage message={state.Booking?.bookingBedError} type="error" />
                 : null}
 
               {bedError && (
-                <ErrorMessage message={bedError} type="error"/>
+                <ErrorMessage message={bedError} type="error" />
               )}
             </div>
 
           </Row>
 
- {/* {state.createAccount?.networkError ?
+          {/* {state.createAccount?.networkError ?
              <div className="d-flex justify-content-center mt-1 mb-1">
               <ErrorMessage message={state.createAccount?.networkError} type="error"/></div>
               : null} */}
 
         </Modal.Body>
 
-       
+
         {formLoading &&
           <div
             style={{

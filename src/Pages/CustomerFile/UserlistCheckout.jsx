@@ -1136,7 +1136,7 @@ const {
                           color: "rgba(75, 75, 75, 1)",
                         }}
                       >
-                        No checkout List available{" "}
+                        No Checkout Tenant available{" "}
                       </div>
                       <div
                         className="pb-1"
@@ -1148,7 +1148,7 @@ const {
                           color: "rgba(75, 75, 75, 1)",
                         }}
                       >
-                        There are no checkout List added.{" "}
+                        There are no checkout tenant added{" "}
                       </div>
 
                     </div>
