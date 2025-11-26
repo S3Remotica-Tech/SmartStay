@@ -180,35 +180,28 @@ function EditRentalAmount({ show, handleClose }) {
         }
     }, [state?.UsersList.editAmountSuccessStatusCode])
 
-   const billStartDate = state?.Settings?.SettingsBillsGetRecurring?.billStartDate 
+    const billStartDate = state?.Settings?.SettingsBillsGetRecurring?.billStartDate
 
-const disabledDate = (current) => {
-  if (!current) return false;
+    const disabledDate = (current) => {
+        if (!current) return false;
 
-  const today = dayjs();
+        const today = dayjs();
 
-  // Current cycle calculation
-  // Next cycle start = this month or next month depending on today's date
-  let cycleMonth = today.month(); // current month index 0-11
+        let cycleMonth = today.month();
 
-  
-  if (today.date() >= billStartDate) {
-    cycleMonth = today.add(1, "month").month();
-  }
+        if (today.date() >= billStartDate) {
+            cycleMonth = today.add(1, "month").month();
+        }
 
- 
-  const start = dayjs()
-    .year(today.year() + (cycleMonth < today.month() ? 1 : 0))
-    .month(cycleMonth)
-    .date(billStartDate)
-    .startOf("day");
+        const start = dayjs()
+            .year(today.year() + (cycleMonth < today.month() ? 1 : 0))
+            .month(cycleMonth)
+            .date(billStartDate)
+            .startOf("day");
 
-  
-  const end = start.add(1, "month").date(billStartDate - 1).endOf("day");
-
-
-  return current.isBefore(start, "day") || current.isAfter(end, "day");
-};
+        const end = start.add(1, "month").date(billStartDate - 1).endOf("day");
+        return current.isBefore(start, "day") || current.isAfter(end, "day");
+    };
 
 
 
@@ -411,7 +404,7 @@ const disabledDate = (current) => {
                                                 placeholder="DD/MM/YYYY"
                                                 value={effectiveFrom ? dayjs(effectiveFrom, "DD/MM/YYYY") : null}
                                                 onChange={handleEffectiveFromChange}
-                                           disabledDate={disabledDate}
+                                                disabledDate={disabledDate}
                                             />
                                             {effectiveFromError && (
                                                 <ErrorMessage message={effectiveFromError} type="error" />

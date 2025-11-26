@@ -131,7 +131,7 @@ const formattedTenantReadings = (tenantReadingList?.electricityHistory || []).ma
                                 paddingLeft: "10px",
                             }}
                         >
-                            EB Bill Overview
+                            EB Bill Overview 
                         </span>
                     </div>
 
