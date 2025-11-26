@@ -5,21 +5,21 @@
 
 
 
-export  function forgetpage(datum) {
-   new Promise((resolve, reject) => {
+export  function forgetpage() {
+   new Promise((resolve) => {
   resolve({status: 200});
 })
   }
  
-export  function registerStudent(params) {
+export  function registerStudent() {
     
-    new Promise((resolve, reject) => {
+    new Promise((resolve) => {
   resolve({status: 200});
 })
  }
    
- export  function otpSend(datum) {
- new Promise((resolve, reject) => {
+ export  function otpSend() {
+ new Promise((resolve) => {
   resolve({status: 200});
 })
 }
@@ -27,8 +27,8 @@ export  function registerStudent(params) {
 
 
 
-export function OTPverificationForForgotPassword(datum) {
-    new Promise((resolve, reject) => {
+export function OTPverificationForForgotPassword() {
+    new Promise((resolve) => {
   resolve({status: 200});
 })
    } 

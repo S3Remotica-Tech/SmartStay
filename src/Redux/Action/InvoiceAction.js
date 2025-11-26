@@ -2,13 +2,13 @@
 import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 
 export  function invoicelist() {
-  new Promise((resolve, reject) => {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
 }
 
-export function invoiceList(invoice) {
- new Promise((resolve, reject) => {
+export function invoiceList() {
+ new Promise((resolve) => {
   resolve({status: 200});
 })
 }
@@ -29,24 +29,24 @@ export async function RecordPayment(hostelId, invoiceId, data) {
 
 
 export  function ManualInvoice() {
- new Promise((resolve, reject) => {
+ new Promise((resolve) => {
   resolve({status: 200});
 })
 }
-export  function ManualInvoiceNumber(invoicenumber) {
-  new Promise((resolve, reject) => {
-  resolve({status: 200});
-})
-}
-
-export function ManualInvoiceUserData(amountdata) {
-  new Promise((resolve, reject) => {
+export  function ManualInvoiceNumber() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
 }
 
-export  function RecurrInvoiceamountData(amountdata) {
- new Promise((resolve, reject) => {
+export function ManualInvoiceUserData() {
+  new Promise((resolve) => {
+  resolve({status: 200});
+})
+}
+
+export  function RecurrInvoiceamountData() {
+ new Promise((resolve) => {
   resolve({status: 200});
 })
 }
@@ -56,19 +56,19 @@ export async function AddManualInvoiceBill(manualinvoice) {
     data: manualinvoice
   })
 }
-export function EditManualInvoiceBill(manualinvoice) {
- new Promise((resolve, reject) => {
+export function EditManualInvoiceBill() {
+ new Promise((resolve) => {
   resolve({status: 200});
 })
 }
-export function DeleteManualInvoiceBill(manualinvoice) {
- new Promise((resolve, reject) => {
+export function DeleteManualInvoiceBill() {
+ new Promise((resolve) => {
   resolve({status: 200});
 })
 }
 
-export function AddRecurringBill(manualinvoice) {
-  new Promise((resolve, reject) => {
+export function AddRecurringBill() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
 }
@@ -116,20 +116,20 @@ export async function createRefund(bill) {
 
 
 
-export  function AddRecurrBillsUsers(recurr) {
- new Promise((resolve, reject) => {
+export  function AddRecurrBillsUsers() {
+ new Promise((resolve) => {
   resolve({status: 200});
 })
 }
 
-export  function GetRecurrBills(bills) {
-  new Promise((resolve, reject) => {
+export  function GetRecurrBills() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
 }
 
-export function DeleteRecurrBills(bills) {
- new Promise((resolve, reject) => {
+export function DeleteRecurrBills() {
+ new Promise((resolve) => {
   resolve({status: 200});
 })
 }
@@ -147,39 +147,39 @@ export async function GetReceiptData(hostelId) {
   })
 }
 
-export  function AddReceipt(receipt) {
- new Promise((resolve, reject) => {
+export  function AddReceipt() {
+ new Promise((resolve) => {
   resolve({status: 200});
 })
 }
 
 
-export  function EditReceipt(receipt) {
- new Promise((resolve, reject) => {
+export  function EditReceipt() {
+ new Promise((resolve) => {
   resolve({status: 200});
 })
 }
 
-export  function DeleteReceipt(receipt) {
- new Promise((resolve, reject) => {
+export  function DeleteReceipt() {
+ new Promise((resolve) => {
   resolve({status: 200});
 })
 }
 
 export  function ReferenceIdGet() {
- new Promise((resolve, reject) => {
+ new Promise((resolve) => {
   resolve({status: 200});
 })
 }
 
-export  function ReceiptPDf(datum) {
- new Promise((resolve, reject) => {
+export  function ReceiptPDf() {
+ new Promise((resolve) => {
   resolve({status: 200});
 })
 }
 
-export  function InvoicePDf(datum) {
- new Promise((resolve, reject) => {
+export  function InvoicePDf() {
+ new Promise((resolve) => {
   resolve({status: 200});
 })
 }
@@ -230,8 +230,8 @@ export async function AddAmenity(hostelId, datum) {
 
 
 
-export  function InvoiceSettings(params) {
-  new Promise((resolve, reject) => {
+export  function InvoiceSettings() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
 
@@ -258,8 +258,8 @@ export  function InvoiceSettings(params) {
 }
 
 
-export  function InvoiceRecurringsettings(datum) {
-  new Promise((resolve, reject) => {
+export  function InvoiceRecurringsettings() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post('/settings/add_recuring', datum, {
@@ -384,27 +384,27 @@ export async function UnAssignAmenitiesForTenant(datum) {
 
 
 
-export function GetBillsPdfDetails(datum) {
+export function GetBillsPdfDetails() {
   // return await AxiosConfig.get(`/get_bill_details/${datum.bill_id}`);
-  new Promise((resolve, reject) => {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
 }
 
-export function ReceiptPDFNewChanges(params) {
+export function ReceiptPDFNewChanges() {
   // return await AxiosConfig.get('/get_receipt_details/' + params.id);
-  new Promise((resolve, reject) => {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
 }
 
 
 
-export function CustomerRecurringEnableDisable(recur) {
+export function CustomerRecurringEnableDisable() {
   // return await AxiosConfig.post('/add_recuring_bill_enabled', recur, {
   //   data: recur
   // })
-  new Promise((resolve, reject) => {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
 }

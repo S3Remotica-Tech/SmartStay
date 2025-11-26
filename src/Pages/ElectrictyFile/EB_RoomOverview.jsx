@@ -1,4 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react/prop-types */
+
 import React, { useEffect, useState } from "react";
 // import LoaderComponent from "../LoaderComponent";
 import leftarrow from "../../Assets/Images/arrow-left.png";
@@ -423,5 +425,7 @@ const formattedTenantReadings = tenantReadingList?.map((item) => {
 
 EBRoomOverview.propTypes = {
     onBack: PropTypes.func.isRequired,
+    room:PropTypes.func.isRequired,
+    
 };
 export default EBRoomOverview;

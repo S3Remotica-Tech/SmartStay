@@ -64,8 +64,8 @@ export async function updateAsset(asset) {
   } 
 
   
-  export function getHostelRooms(room) {
-     new Promise((resolve, reject) => {
+  export function getHostelRooms() {
+     new Promise((resolve) => {
   resolve({status: 200});
 })
   } 

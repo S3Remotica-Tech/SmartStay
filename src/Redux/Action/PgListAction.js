@@ -23,9 +23,7 @@ export async function createPgList(params) {
 
       if (params.mainImage) {
       formData.append("mainImage", params.mainImage);
-    } else {
-      
-        }
+    }
 
        if (params.additionalImages && params.additionalImages.length > 0) {
       params.additionalImages.forEach((img) => {
@@ -43,7 +41,9 @@ export async function createPgList(params) {
 
     return response;
   } catch (error) {
+     console.error("Axios Error", error);
     throw error;
+   
   }
 }
 
@@ -69,17 +69,17 @@ export async function createPgList(params) {
 
 
 
-export  function Checkeblist(datum) {
+export  function Checkeblist() {
   // return await AxiosConfig.post("/EB/Hostel_Room_based", datum, {
   //   data: datum,
   // });
-  new Promise((resolve, reject) => {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
 }
 
-export function CreateEbbill(datum) {
-  new Promise((resolve, reject) => {
+export function CreateEbbill() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post("/add_room_reading", datum, {
@@ -88,22 +88,22 @@ export function CreateEbbill(datum) {
 }
 
 export function EB_Customerlist() {
-  new Promise((resolve, reject) => {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.get("/list/eb_list", {});
 }
 
-export function EB_startmeterlist(datum) {
-  new Promise((resolve, reject) => {
+export function EB_startmeterlist() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post("/list/Ebstartmeter",datum, {
   //   data:datum,
   // });
 }
-export function EB_CustomerListTable(datum) {
-  new Promise((resolve, reject) => {
+export function EB_CustomerListTable() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
 //   return await AxiosConfig.post("/customer_readings",datum, {
@@ -150,15 +150,15 @@ export async function updateRoom(datum) {
 
 
 export  function CheckRoomId() {
-  new Promise((resolve, reject) => {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.get("/room-id/check-room-id", {});
 
 }
 
-export function CheckBedDetails(datum) {
-  new Promise((resolve, reject) => {
+export function CheckBedDetails() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post("/bed/bed-details", datum, {
@@ -209,8 +209,8 @@ export async function DeleteBed(datum) {
   return await AxiosConfigV2.delete(`/v2/bed/${datum.bedId}`);
 }
 
-export  function DeletePG(datum) {
-  new Promise((resolve, reject) => {
+export  function DeletePG() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post("/delete/delete-hostel", datum, {
@@ -264,24 +264,24 @@ export async function OccupiedCustomer(datum) {
   });
 }
 
-export function deleteHostelImages(datum) {
-  new Promise((resolve, reject) => {
+export function deleteHostelImages() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post("/delete_hostel_image", datum, {
   //   data: datum,
   // });
 }
-export  function editElectricity(datum) {
-  new Promise((resolve, reject) => {
+export  function editElectricity() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post("/edit_room_reading", datum, {
   //   data: datum,
   // });
 }
-export  function deleteElectricity(datum) {
-  new Promise((resolve, reject) => {
+export  function deleteElectricity() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post("/delete_room_reading", datum, {
@@ -289,9 +289,9 @@ export  function deleteElectricity(datum) {
   // });
 }
 
-export function dashboardFilter(datum) {
+export function dashboardFilter() {
  
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     resolve({ status: 200 });
   });
 }
@@ -299,8 +299,8 @@ export function dashboardFilter(datum) {
 
 // Hostel_based
 
-export  function ebHostelBasedRead(datum) {
-  new Promise((resolve, reject) => {
+export  function ebHostelBasedRead() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post("/get_hostel_reading", datum, {
@@ -308,8 +308,8 @@ export  function ebHostelBasedRead(datum) {
   // });
 }
 
-export  function ebAddHostelReading(datum) {
-  new Promise((resolve, reject) => {
+export  function ebAddHostelReading() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post("/add_hostel_reading", datum, {
@@ -318,13 +318,13 @@ export  function ebAddHostelReading(datum) {
 }
 
 
-export  function ebAddHostelEdit(datum) {
-  new Promise((resolve, reject) => {
+export  function ebAddHostelEdit() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
 }
-export  function ebAddHostelDelete(datum) {
-  new Promise((resolve, reject) => {
+export  function ebAddHostelDelete() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post("/delete_hostel_reading", datum, {
@@ -332,8 +332,8 @@ export  function ebAddHostelDelete(datum) {
   // });
 }
 
-export function announcement_list(datum) {
-  new Promise((resolve, reject) => {
+export function announcement_list() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post("/announcement/all_announcement", datum, {
@@ -343,8 +343,8 @@ export function announcement_list(datum) {
 
 
 
-export function add_announcement(datum) {
-  new Promise((resolve, reject) => {
+export function add_announcement() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post("/add/announcement",datum, {
@@ -354,8 +354,8 @@ export function add_announcement(datum) {
 
 
 
-export function delete_announcement(datum) {
-  new Promise((resolve, reject) => {
+export function delete_announcement() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post("/delete/announcement",datum, {
@@ -364,8 +364,8 @@ export function delete_announcement(datum) {
 }
 
 
-export  function get_comments(datum) {
-  new Promise((resolve, reject) => {
+export  function get_comments() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post("/announcement/all_comments",datum, {
@@ -373,8 +373,8 @@ export  function get_comments(datum) {
   // });
 }
 
-export  function add_comments(datum) {
-  new Promise((resolve, reject) => {
+export  function add_comments() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post("/announcement/add_comment",datum, {
@@ -382,8 +382,8 @@ export  function add_comments(datum) {
   // });
 }
 
-export  function add_sub_comments(datum) {
-  new Promise((resolve, reject) => {
+export  function add_sub_comments() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post("/announcement/reply_to_comment",datum, {
