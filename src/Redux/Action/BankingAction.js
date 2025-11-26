@@ -43,8 +43,8 @@ export async function GetAddBanking(hostelId) {
 
 
 
-export function AddDefaultAccount(datum) {
- new Promise((resolve, reject) => {
+export function AddDefaultAccount() {
+ new Promise((resolve) => {
   resolve({status: 200});
 })
 }
@@ -54,20 +54,20 @@ export async function AddBankAmount(hostelId , data) {
   });
 }
 
-export  function editBankTrans(datum) {
-  new Promise((resolve, reject) => {
+export  function editBankTrans() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
 }
-export  function DeleteBanking(datum) {
-  new Promise((resolve, reject) => {
+export  function DeleteBanking() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
 }
 
 
-export function DeleteTransactionId(datum) {
-   new Promise((resolve, reject) => {
+export function DeleteTransactionId() {
+   new Promise((resolve) => {
   resolve({status: 200});
 })
 }

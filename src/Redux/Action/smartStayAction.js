@@ -7,8 +7,8 @@ import axios from 'axios'
 
 // v1
 
-export  function login(EmailId, Password) {
-  new Promise((resolve, reject) => {
+export  function login() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await axios.get(`${ConfigV1.apiBaseUrl}/login/login`, {
@@ -31,8 +31,8 @@ export async function loginV2(loginInfo) {
 
 
 
-export  function CreateAccountAction(params) {
-  new Promise((resolve, reject) => {
+export  function CreateAccountAction() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
 
@@ -79,8 +79,8 @@ export async function Addaccount (datum) {
   })
 }
   
-export function UpdateProfile (params) {
-  new Promise((resolve, reject) => {
+export function UpdateProfile () {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // const formData = new FormData();
@@ -108,8 +108,8 @@ export function UpdateProfile (params) {
   
 }
 
-export  function UpdatePassword (datum) {
-  new Promise((resolve, reject) => {
+export  function UpdatePassword () {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post('/forget/select-list ',datum,{
@@ -120,8 +120,8 @@ export  function UpdatePassword (datum) {
 
 
 
-export  function TwoStepVerification(datum) {
-  new Promise((resolve, reject) => {
+export  function TwoStepVerification() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post('/create/isEnable',datum, {
@@ -172,7 +172,7 @@ export async function OTPverification(datum) {
 
 
 export  function GetAllNotification() {
-  new Promise((resolve, reject) => {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.get('/all_notifications',{
@@ -180,8 +180,8 @@ export  function GetAllNotification() {
 }
 
 
-export function UpdateNotification(message) {
-  new Promise((resolve, reject) => {
+export function UpdateNotification() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   //  return await AxiosConfig.post('/update_notification',message,{

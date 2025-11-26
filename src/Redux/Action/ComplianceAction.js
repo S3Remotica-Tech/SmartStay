@@ -254,8 +254,8 @@ export async function complianceDelete(complaintId) {
 }
 
 // 
-export  function getComplianceComment(datum) {
- new Promise((resolve, reject) => {
+export  function getComplianceComment() {
+ new Promise((resolve) => {
   resolve({status: 200});
 })
 }

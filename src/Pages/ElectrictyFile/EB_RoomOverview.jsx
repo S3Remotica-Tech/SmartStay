@@ -1,4 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react/prop-types */
+
 import React, { useEffect, useState } from "react";
 // import LoaderComponent from "../LoaderComponent";
 import leftarrow from "../../Assets/Images/arrow-left.png";
@@ -47,6 +49,9 @@ const EBRoomOverview = ({ onBack, room }) => {
 
     }, [state.UsersList.getparticularRoomReadingStatus])
 
+    console.log("roomReadingList", roomReadingList)
+
+
     const formattedReadings = roomReadingList?.map((item) => {
         const [day, month, year] = item.startDate.split("/");
         const billingMonth = new Date(`${year}-${month}-01`).toLocaleString("en-US", {
@@ -62,18 +67,29 @@ const EBRoomOverview = ({ onBack, room }) => {
             });
         };
 
+        const formatReadingDate = (dateStr) => {
+            if (!dateStr) return "-";
+            const [day, month, year] = dateStr.split("/").map(Number);
+            return new Date(year, month - 1, day).toLocaleDateString("en-GB", {
+                day: "2-digit",
+                month: "short",
+                year: "numeric",
+            });
+        };
 
 
         return {
-            billingMonth,
+            billingMonth: billingMonth,
+            readingDate: formatReadingDate(item.entryDate),
             from: formatDate(item.startDate),
             to: formatDate(item.endDate),
-            totalUnits: item.consumption,
+            reading: item.reading,
+                        totalUnits: item.consumption,
             amount: item.consumption * item.unitPrice,
         };
     });
 
-const formattedTenantReadings = tenantReadingList?.map((item) => {
+    const formattedTenantReadings = tenantReadingList?.map((item) => {
         const [day, month, year] = item.startDate.split("/");
         const billingMonth = new Date(`${year}-${month}-01`).toLocaleString("en-US", {
             month: "long",
@@ -103,8 +119,8 @@ const formattedTenantReadings = tenantReadingList?.map((item) => {
     });
 
 
-   
-    
+
+
     return (
         <>
 
@@ -262,15 +278,21 @@ const formattedTenantReadings = tenantReadingList?.map((item) => {
                                         zIndex: 2,
                                     }}
                                 >
-                                    <tr className="text-uppercase">
+                                    <tr className="text-uppercase" style={{textAlign:"center"}}>
                                         <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
                                             BILLING MONTH
+                                        </th>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                            READING DATE
                                         </th>
                                         <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
                                             FROM
                                         </th>
                                         <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
                                             TO
+                                        </th>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                            READING
                                         </th>
                                         <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
                                             TOTAL UNITS
@@ -287,14 +309,16 @@ const formattedTenantReadings = tenantReadingList?.map((item) => {
                                 <tbody style={{ fontSize: 14, color: "#000" }}>
                                     <PaginationList>
                                         {formattedReadings?.map((row, i) => (
-                                            <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px", fontFamily: "Gilroy" }}>
+                                            <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px", fontFamily: "Gilroy", textAlign:"center" }}>
 
-                                                <td style={{ paddingLeft: "40px" }}>{row.billingMonth}</td>
-                                                <td style={{ paddingLeft: "10px" }}>{row.from}</td>
-                                                <td style={{ paddingLeft: "10px" }}>{row.to}</td>
-                                                <td style={{ paddingLeft: "40px" }}>{row.totalUnits}</td>
-                                                <td style={{ paddingLeft: "25px" }}>{row.amount}</td>
-                                                <td style={{ paddingLeft: "40px" }}>
+                                                <td style={{padding: "12px 16px" }}>{row.billingMonth}</td>
+                                                <td style={{ padding: "12px 16px" }}>{row.readingDate}</td>
+                                                <td style={{ padding: "12px 16px" }}>{row.from}</td>
+                                                <td style={{ padding: "12px 16px" }}>{row.to}</td>
+                                                 <td style={{ padding: "12px 16px" }}>{row.reading}</td>
+                                                <td style={{ padding: "12px 16px" }}>{row.totalUnits}</td>
+                                                <td style={{ padding: "12px 16px" }}>{row.amount}</td>
+                                                <td style={{ padding: "12px 16px" }}>
                                                     <BiDotsVerticalRounded style={{ color: '#000', fontSize: 19, cursor: "pointer" }} />
                                                 </td>
                                             </tr>
@@ -365,7 +389,7 @@ const formattedTenantReadings = tenantReadingList?.map((item) => {
                                         zIndex: 2,
                                     }}
                                 >
-                                    <tr className="text-uppercase">
+                                    <tr className="text-uppercase" style={{textAlign:"center"}}>
                                         <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
                                             NAME
                                         </th>
@@ -394,19 +418,19 @@ const formattedTenantReadings = tenantReadingList?.map((item) => {
                                 <tbody style={{ fontSize: 14, color: "#000" }}>
                                     <PaginationList>
                                         {formattedTenantReadings?.map((row, i) => (
-                                            <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px" , fontFamily:"Gilroy"}}>
+                                            <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px", fontFamily: "Gilroy" }}>
 
-                                                <td style={{ paddingLeft: "10px", fontWeight: 600, color: "black" }}>
-                                                    <img src={formattedTenantReadings.profilePic ? formattedTenantReadings.profilePic : Ellipse1} alt="" style={{ marginRight: "12px" , height:45, width:45}} />
+                                                <td style={{ padding: "12px 16px", fontWeight: 600, color: "black", textAlign:"start"  }}>
+                                                    <img src={formattedTenantReadings.profilePic ? formattedTenantReadings.profilePic : Ellipse1} alt="" style={{ marginRight: "12px", height: 45, width: 45 }} />
                                                     {row.fullName}
                                                 </td>
 
-                                                <td style={{ paddingLeft: "40px" }}>{row.billingMonth}</td>
-                                                <td style={{ paddingLeft: "10px" }}>{row.from}</td>
-                                                <td style={{ paddingLeft: "10px" }}>{row.to}</td>
-                                                <td style={{ paddingLeft: "10px" }}>{row.bed}</td>
-                                                <td style={{ paddingLeft: "40px", }}>{row.totalUnits}</td>
-                                                <td style={{ paddingLeft: "25px", }}>{row.amount}</td>
+                                                <td style={{ padding: "12px 16px" ,textAlign:"center" }}>{row.billingMonth}</td>
+                                                <td style={{ padding: "12px 16px",textAlign:"center"  }}>{row.from}</td>
+                                                <td style={{padding: "12px 16px" ,textAlign:"center" }}>{row.to}</td>
+                                                <td style={{ padding: "12px 16px",textAlign:"center" }}>{row.bed}</td>
+                                                <td style={{ padding: "12px 16px" ,textAlign:"center" }}>{row.totalUnits}</td>
+                                                <td style={{ padding: "12px 16px" ,textAlign:"center" }}>{row.amount}</td>
 
                                             </tr>
                                         ))}
@@ -423,5 +447,7 @@ const formattedTenantReadings = tenantReadingList?.map((item) => {
 
 EBRoomOverview.propTypes = {
     onBack: PropTypes.func.isRequired,
+    room: PropTypes.func.isRequired,
+
 };
 export default EBRoomOverview;

@@ -3,13 +3,13 @@ import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 
 
 export  function GetExpenseCatogory() {
- new Promise((resolve, reject) => {
+ new Promise((resolve) => {
   resolve({status: 200});
 })
 }
 
-export  function AddExpenseTag(datum) {
-  new Promise((resolve, reject) => {
+export  function AddExpenseTag() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
 }
@@ -30,15 +30,15 @@ export async function AddExpense(datum) {
         })
   }
 
-  export function DeleteExpense(datum) {
-  new Promise((resolve, reject) => {
+  export function DeleteExpense() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   }
 
 
-  export function transactionHistory(datum) {
-    new Promise((resolve, reject) => {
+  export function transactionHistory() {
+    new Promise((resolve) => {
   resolve({status: 200});
 })
   }

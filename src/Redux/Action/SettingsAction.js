@@ -7,8 +7,8 @@ export async function AddExpencesCategory(Expences) {
   });
 }
 
-export function EditExpencesCategory(Expences) {
-  new Promise((resolve, reject) => {
+export function EditExpencesCategory() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post("/edit/expense_category", Expences, {
@@ -22,8 +22,8 @@ export async function ExpencesCategorylist(hostelId) {
 
 
 
-export  function DeleteExpencesCategoryList(expences) {
-  new Promise((resolve, reject) => {
+export  function DeleteExpencesCategoryList() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post("/delete/delete-category", expences, {
@@ -173,8 +173,8 @@ export async function AddSettingRole(datum) {
 
 
 
-export function AddSettingPermission(datum) {
-  new Promise((resolve, reject) => {
+export function AddSettingPermission() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post("/role_permissions", datum, {
@@ -287,7 +287,7 @@ export async function GetAllStaff(hostelId) {
 
 
 export function GetAllReport() {
-  new Promise((resolve, reject) => {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.get("/all_reports", {});
@@ -470,8 +470,8 @@ export async function GetAllGeneral() {
   return await AxiosConfigV2.get("/v2/profile/admin-list", {});
 }
 
-export function passwordChangesinstaff(datum) {
-  new Promise((resolve, reject) => {
+export function passwordChangesinstaff() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post("/settings/change_staff_password", datum, {
@@ -514,8 +514,8 @@ export async function generalDelete(userId) {
 
 
 
-export  function RecurringRole(reccurring) {
-  new Promise((resolve, reject) => {
+export  function RecurringRole() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post("/settings/add_recuring", reccurring, {
@@ -523,8 +523,8 @@ export  function RecurringRole(reccurring) {
   // });
 }
 
-export  function DeleteElectricity(types) {
-  new Promise((resolve, reject) => {
+export  function DeleteElectricity() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post("/settings/delete_eb_settings", types, {
@@ -533,8 +533,8 @@ export  function DeleteElectricity(types) {
 }
 
 
-export  function newSubscription(types) {
-  new Promise((resolve, reject) => {
+export  function newSubscription() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post("/new_subscription", types, {
@@ -549,8 +549,8 @@ export async function PlanList() {
   return await AxiosConfigV2.get(`/v2/plans/`);
 }
 
-export  function SubscriptionPdfDownload(id) {
-  new Promise((resolve, reject) => {
+export  function SubscriptionPdfDownload() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.get(`/invoice_redirect/${id}`);
@@ -563,14 +563,14 @@ export async function SettingsAddRecurring(reccurring) {
 }
 
 export function GetBillsFrequncyTypes() {
-  new Promise((resolve, reject) => {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.get("/frequency-types",);
 }
 
 export function GetBillsNotificationTypes() {
-  new Promise((resolve, reject) => {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.get("/master-types", {
@@ -587,8 +587,8 @@ export async function SettingsGetRecurring(reccurring) {
 
 
 
-export  function AddInvoiceSettings(params) {
-new Promise((resolve, reject) => {
+export  function AddInvoiceSettings() {
+new Promise((resolve) => {
   resolve({status: 200});
 })
   // const formData = new FormData();
@@ -625,8 +625,8 @@ new Promise((resolve, reject) => {
 }
 
 
-export function SettingsGetInvoice(Invoice) {
-  new Promise((resolve, reject) => {
+export function SettingsGetInvoice() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.get(`/getInvoice-settings/${Invoice.hostel_id}`);
@@ -634,8 +634,8 @@ export function SettingsGetInvoice(Invoice) {
 
 
 
-export  function AddBillTemplate(params) {
-  new Promise((resolve, reject) => {
+export  function AddBillTemplate() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // const formData = new FormData();
@@ -777,14 +777,14 @@ export async function AddGlobalSettingTemplate(params) {
       receiptMailId: params.receiptMailId,
     };
 
-    const filteredPayload = Object.fromEntries(
-      Object.entries(requestPayload).filter(([_, v]) => v !== undefined && v !== null && v !== "")
-    );
+    // const filteredPayload = Object.fromEntries(
+    //   Object.entries(requestPayload).filter(([_, v]) => v !== undefined && v !== null && v !== "")
+    // );
 
 
-    const hasAnyDetail = Object.keys(filteredPayload).some(
-      (key) => key !== "templateTypeId"
-    );
+    // const hasAnyDetail = Object.keys(filteredPayload).some(
+    //   (key) => key !== "templateTypeId"
+    // );
 
     // if (hasAnyDetail) {
     //   filteredPayload.templateTypeId = params.templateTypeId;
@@ -831,22 +831,8 @@ formData.append(
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-export  function SettingsGetGlobal(datum) {
-  new Promise((resolve, reject) => {
+export  function SettingsGetGlobal() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post("/FetchTemplateList", datum, {

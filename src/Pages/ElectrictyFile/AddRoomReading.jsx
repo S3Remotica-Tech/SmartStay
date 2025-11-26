@@ -1,28 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-// import LoaderComponent from "../LoaderComponent";
-import { Table } from "react-bootstrap";
-import { Modal, Offcanvas, Button, Form } from "react-bootstrap";
+import { Modal, Button, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { FiFilter } from "react-icons/fi";
-import searchteam from "../../Assets/Images/New_images/Search Team.png";
-import arrowSwap from "../../Assets/Images/New_images/arrow-swap.svg";
-import Group from "../../Assets/Images/New_images/Group.svg";
-import { CloseCircle, ArrowUp2, ArrowDown2 } from "iconsax-react";
+import { CloseCircle } from "iconsax-react";
 import electricity from "../../Assets/Images/New_images/electricity.svg";
 import building from '/src/Assets/Images/New_images/building1.svg';
-import PaginationList from "../../Components/PaginationList";
-import EB_RoomOverview from "./EB_RoomOverview";
-import Ellipse1 from "../../Assets/Images/New_images/Ellipse 1.svg";
-import emptyimg from "../../Assets/Images/New_images/empty_image.png";
-import EB_TenantOverview from "./EB_TenantOverview";
-// import ClipPathGroup from "../../Assets/Images/New_images/ClipPathGroup.svg";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
-import { MdError } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import ErrorMessage from '../../Components/ErrorMessage'
-
+import PropTypes from "prop-types";
 
 
 
@@ -337,6 +324,12 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
             </Modal.Footer>
         </Modal></div>
     )
+}
+AddRoomReading.propTypes = {
+    show: PropTypes.func.isRequired,
+    handleClose:PropTypes.func.isRequired,
+    selectedRowDetails:PropTypes.func.isRequired,
+    
 }
 
 export default AddRoomReading

@@ -3,15 +3,12 @@ import React, { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-loading-skeleton/dist/skeleton.css";
-import Addbtn from "../../Assets/Images/New_images/add-circle.png"
+// import Addbtn from "../../Assets/Images/New_images/add-circle.png"
 // import { Edit, Trash } from "iconsax-react";
 import { ArrowUp2, ArrowDown2, } from "iconsax-react";
 import { useDispatch, useSelector } from "react-redux";
-import moment from "moment";
 import CheckOutForm from "./UserListCheckoutForm";
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
-import { MdError } from "react-icons/md";
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import CustomerProfile from "./CheckoutProfile";
 import { checkoutCustomerProfile } from "../../Redux/Action/smartStayAction";
 import { Table } from "react-bootstrap";
@@ -21,7 +18,7 @@ import PaginationList from "../../Components/PaginationList";
 import DueCustomerConfirmCheckout from "./DueCustomerConfirmCheckout";
 import ErrorMessage from '../../Components/ErrorMessage';
 import { useHasPermission } from '../../Utils/Permission';
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function CheckOut(props) {
 
@@ -31,7 +28,7 @@ function CheckOut(props) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
- const calledOnceRef = useRef(false);
+
 
   // useEffect(() => {
   //   if (state.login.selectedHostel_Id && !calledOnceRef.current) {
@@ -91,10 +88,6 @@ const {
     // props?.handleCheckoutOverview(false)
   }
 
-  
-
-
-
 
   // useEffect(() => {
   //   const userType = props?.customerrolePermission[0]?.user_details?.user_type;
@@ -114,39 +107,39 @@ const {
 
   // }, [state?.login?.planStatus, state?.login?.selectedHostel_Id, props.customerrolePermission])
 
-  useEffect(() => {
-    const checkoutPermission = props.customerrolePermission[0]?.role_permissions?.find(
-      (perm) => perm.permission_name === "Bookings"
-    );
+  // useEffect(() => {
+  //   const checkoutPermission = props.customerrolePermission[0]?.role_permissions?.find(
+  //     (perm) => perm.permission_name === "Bookings"
+  //   );
 
-    const isOwner = props.customerrolePermission[0]?.user_details?.user_type === "staff";
-    const planActive = state?.login?.planStatus === 1;
+  //   const isOwner = props.customerrolePermission[0]?.user_details?.user_type === "staff";
+  //   const planActive = state?.login?.planStatus === 1;
 
-    if (!checkoutPermission || !isOwner) return;
-
-
-    if (checkoutPermission.per_view === 1 && planActive) {
-      setcheckOutPermissionError("");
-    } else {
-      setcheckOutPermissionError("Permission Denied");
-    }
+  //   if (!checkoutPermission || !isOwner) return;
 
 
+  //   if (checkoutPermission.per_view === 1 && planActive) {
+  //     setcheckOutPermissionError("");
+  //   } else {
+  //     setcheckOutPermissionError("Permission Denied");
+  //   }
 
 
 
-    // if (checkoutPermission.per_edit === 1 && planActive) {
-    //   setcheckOutEditPermissionError("");
-    // } else {
-    //   setcheckOutEditPermissionError("Permission Denied");
-    // }
 
-    // if (checkoutPermission.per_delete === 1 && planActive) {
-    //   setcheckOutDeletePermissionError("");
-    // } else {
-    //   setcheckOutDeletePermissionError("Permission Denied");
-    // }
-  }, [props.customerrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
+
+  //   // if (checkoutPermission.per_edit === 1 && planActive) {
+  //   //   setcheckOutEditPermissionError("");
+  //   // } else {
+  //   //   setcheckOutEditPermissionError("Permission Denied");
+  //   // }
+
+  //   // if (checkoutPermission.per_delete === 1 && planActive) {
+  //   //   setcheckOutDeletePermissionError("");
+  //   // } else {
+  //   //   setcheckOutDeletePermissionError("Permission Denied");
+  //   // }
+  // }, [props.customerrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
 
 
 
@@ -1143,7 +1136,7 @@ const {
                           color: "rgba(75, 75, 75, 1)",
                         }}
                       >
-                        No checkout List available{" "}
+                        No Checkout Tenant available{" "}
                       </div>
                       <div
                         className="pb-1"
@@ -1155,7 +1148,7 @@ const {
                           color: "rgba(75, 75, 75, 1)",
                         }}
                       >
-                        There are no checkout List added.{" "}
+                        There are no checkout tenant added{" "}
                       </div>
 
                     </div>

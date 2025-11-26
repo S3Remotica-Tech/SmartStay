@@ -106,26 +106,26 @@ export async function AddBooking(booking) {
 
 
 
-export function GetAddBooking(booking) {
-  new Promise((resolve, reject) => {
+export function GetAddBooking() {
+  new Promise((resolve) => {
     resolve({ status: 200 });
   })
 }
-export function DeleteBooking(datum) {
-  new Promise((resolve, reject) => {
-    resolve({ status: 200 });
-  })
-}
-
-export function assignBooking(datum) {
-  new Promise((resolve, reject) => {
+export function DeleteBooking() {
+  new Promise((resolve) => {
     resolve({ status: 200 });
   })
 }
 
+export function assignBooking() {
+  new Promise((resolve) => {
+    resolve({ status: 200 });
+  })
+}
 
-export function assignBookingBed(datum) {
-  new Promise((resolve, reject) => {
+
+export function assignBookingBed() {
+  new Promise((resolve) => {
     resolve({ status: 200 });
   })
 }

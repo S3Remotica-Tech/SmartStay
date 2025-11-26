@@ -23,7 +23,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
   const dispatch = useDispatch();
   const modeofRef = useRef()
-  const [activeTab, setActiveTab] = useState("LONG");
+  const [activeTab, setActiveTab] = useState("SHORT");
   const [errors, setErrors] = useState([]);
   const [fields, setFields] = useState([]);
   const [advanceAmountError, setAdvanceAmountError] = useState("");

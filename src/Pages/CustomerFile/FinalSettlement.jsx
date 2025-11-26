@@ -1156,26 +1156,30 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                                                 finalSettlementList?.currentMonthRentInfo?.rentLists?.map((item, index) => (
                                                                     <div key={index} className="px-1 mt-2 col-md-12">
 
-                                                                        <div
+                                                                        <div style={{backgroundColor:""}}
                                                                             className="row py-1"
-                                                                            style={{
-                                                                                fontFamily: "Gilroy",
-                                                                                fontSize: 10,
-                                                                                color: "#1E45E1",
-                                                                            }}
+                                                                            
                                                                         >
 
 
-                                                                            <div className="col-3 d-flex align-items-center">
-                                                                                Floor Name
+                                                                            <div className="col-3 d-flex text-start" style={{
+                                                                                fontFamily: "Gilroy",
+                                                                                fontSize: 10,
+                                                                                color: "#1E45E1",
+                                                                            }}>
+                                                                               {item.floorName}
                                                                             </div>
 
 
-                                                                            <div className="col-5 d-flex align-items-center">
-                                                                                Room Name - Bed Name
+                                                                            <div className="col-3 text-start d-flex " style={{
+                                                                                fontFamily: "Gilroy",
+                                                                                fontSize: 10,
+                                                                                color: "#1E45E1",
+                                                                            }}>
+                                                                                 {item.roomName} - {item.bedName}
                                                                             </div>
 
-                                                                            <div className="col-4 text-start ">
+                                                                            <div className="col-6 text-end " style={{ whiteSpace: "nowrap" }}>
                                                                                 ({item.noOfDays} days = {item.rent})
                                                                             </div>
 

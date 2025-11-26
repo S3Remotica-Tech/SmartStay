@@ -6,7 +6,6 @@ import Ellipse5 from "../Assets/Images/Profile.jpg";
 import like from "../Assets/Images/like.png";
 import message from "../Assets/Images/message.png";
 import Select from "react-select";
-import { MdError } from "react-icons/md";
 import Emptystate from "../Assets/Images/Empty-State.jpg";
 import { Modal, Button, Form, FormControl, Image } from "react-bootstrap";
 import "./DashboardAnnouncement.css";

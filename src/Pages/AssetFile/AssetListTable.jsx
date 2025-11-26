@@ -23,7 +23,7 @@ const state = useSelector(state => state)
   const [showAssignAssetModal, setShowAssignAssetModal] = useState(false)
   const [assign, setAssign] = useState('')
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
-
+ const [showAbove, setShowAbove] = useState(false);
 
 const {
         canWriteModule: canWriteAssets,
@@ -55,7 +55,16 @@ const {
     setPopupPosition({ top: popupTop, left: popupLeft });
   }
 
+useEffect(() => {
+    if (popupRef.current) {
+      const popupHeight = popupRef.current.offsetHeight;
+      const windowHeight = window.innerHeight;
+      const spaceBelow = windowHeight - popupPosition.top;
 
+
+      setShowAbove(spaceBelow < popupHeight + 20);
+    }
+  }, [popupPosition]);
 
   const handleEdit = (item) => {
     props.OnEditAsset(item)
@@ -249,8 +258,13 @@ const {
                       cursor: "pointer",
                       backgroundColor: "#F9F9F9",
                       position: "fixed",
-                      top: popupPosition.top - 30,
-                      left: popupPosition.left,
+                                              top: showAbove
+                                                ? popupPosition.top - (popupRef.current?.offsetHeight || 100) - 20
+                                                : popupPosition.top - 35,
+                                              left: popupPosition.left,
+                        // position: "absolute",
+                        //                    left:-200,
+                        //                    top:0,
                       width: 160,
                       height: "auto",
                       border: "1px solid #EBEBEB",
