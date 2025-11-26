@@ -278,7 +278,7 @@ const EBRoomOverview = ({ onBack, room }) => {
                                         zIndex: 2,
                                     }}
                                 >
-                                    <tr className="text-uppercase">
+                                    <tr className="text-uppercase" style={{textAlign:"center"}}>
                                         <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
                                             BILLING MONTH
                                         </th>
@@ -309,16 +309,16 @@ const EBRoomOverview = ({ onBack, room }) => {
                                 <tbody style={{ fontSize: 14, color: "#000" }}>
                                     <PaginationList>
                                         {formattedReadings?.map((row, i) => (
-                                            <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px", fontFamily: "Gilroy" }}>
+                                            <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px", fontFamily: "Gilroy", textAlign:"center" }}>
 
-                                                <td style={{ paddingLeft: "40px" }}>{row.billingMonth}</td>
-                                                <td style={{ paddingLeft: "40px" }}>{row.readingDate}</td>
-                                                <td style={{ paddingLeft: "10px" }}>{row.from}</td>
-                                                <td style={{ paddingLeft: "10px" }}>{row.to}</td>
-                                                 <td style={{ paddingLeft: "10px" }}>{row.reading}</td>
-                                                <td style={{ paddingLeft: "40px" }}>{row.totalUnits}</td>
-                                                <td style={{ paddingLeft: "25px" }}>{row.amount}</td>
-                                                <td style={{ paddingLeft: "40px" }}>
+                                                <td style={{padding: "12px 16px" }}>{row.billingMonth}</td>
+                                                <td style={{ padding: "12px 16px" }}>{row.readingDate}</td>
+                                                <td style={{ padding: "12px 16px" }}>{row.from}</td>
+                                                <td style={{ padding: "12px 16px" }}>{row.to}</td>
+                                                 <td style={{ padding: "12px 16px" }}>{row.reading}</td>
+                                                <td style={{ padding: "12px 16px" }}>{row.totalUnits}</td>
+                                                <td style={{ padding: "12px 16px" }}>{row.amount}</td>
+                                                <td style={{ padding: "12px 16px" }}>
                                                     <BiDotsVerticalRounded style={{ color: '#000', fontSize: 19, cursor: "pointer" }} />
                                                 </td>
                                             </tr>
@@ -389,7 +389,7 @@ const EBRoomOverview = ({ onBack, room }) => {
                                         zIndex: 2,
                                     }}
                                 >
-                                    <tr className="text-uppercase">
+                                    <tr className="text-uppercase" style={{textAlign:"center"}}>
                                         <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
                                             NAME
                                         </th>
@@ -420,17 +420,17 @@ const EBRoomOverview = ({ onBack, room }) => {
                                         {formattedTenantReadings?.map((row, i) => (
                                             <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px", fontFamily: "Gilroy" }}>
 
-                                                <td style={{ paddingLeft: "10px", fontWeight: 600, color: "black" }}>
+                                                <td style={{ padding: "12px 16px", fontWeight: 600, color: "black", textAlign:"start"  }}>
                                                     <img src={formattedTenantReadings.profilePic ? formattedTenantReadings.profilePic : Ellipse1} alt="" style={{ marginRight: "12px", height: 45, width: 45 }} />
                                                     {row.fullName}
                                                 </td>
 
-                                                <td style={{ paddingLeft: "40px" }}>{row.billingMonth}</td>
-                                                <td style={{ paddingLeft: "10px" }}>{row.from}</td>
-                                                <td style={{ paddingLeft: "10px" }}>{row.to}</td>
-                                                <td style={{ paddingLeft: "10px" }}>{row.bed}</td>
-                                                <td style={{ paddingLeft: "40px", }}>{row.totalUnits}</td>
-                                                <td style={{ paddingLeft: "25px", }}>{row.amount}</td>
+                                                <td style={{ padding: "12px 16px" ,textAlign:"center" }}>{row.billingMonth}</td>
+                                                <td style={{ padding: "12px 16px",textAlign:"center"  }}>{row.from}</td>
+                                                <td style={{padding: "12px 16px" ,textAlign:"center" }}>{row.to}</td>
+                                                <td style={{ padding: "12px 16px",textAlign:"center" }}>{row.bed}</td>
+                                                <td style={{ padding: "12px 16px" ,textAlign:"center" }}>{row.totalUnits}</td>
+                                                <td style={{ padding: "12px 16px" ,textAlign:"center" }}>{row.amount}</td>
 
                                             </tr>
                                         ))}

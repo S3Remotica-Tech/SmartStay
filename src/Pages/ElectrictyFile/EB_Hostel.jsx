@@ -849,7 +849,7 @@ const RoomReadingTable = () => {
                               zIndex: 2,
                             }}
                           >
-                            <tr className="text-uppercase">
+                            <tr className="text-uppercase" style={{ textAlign: "center" }}>
                               <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
                                 FLOOR <img src={arrowSwap} style={{ marginLeft: "4px" }} alt="swap" />
                               </th>
@@ -871,16 +871,16 @@ const RoomReadingTable = () => {
                           <tbody style={{ fontSize: 14, color: "#000" }}>
                             <PaginationList>
                               {roomReadingList?.map((row, i) => (
-                                <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px" }}>
-                                  <td style={{ fontSize: 15, fontWeight: 600, paddingLeft: "40px" }}>{row.floorName}</td>
+                                <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "", textAlign:"center" }}>
+                                  <td style={{ fontSize: 15, fontWeight: 600, textAlign:"center",padding: "12px 16px" }}>{row.floorName}</td>
                                   <td
-                                    style={{ color: canReadElectricity ? "#1E45E1" : "#DBDBDB", cursor: "pointer", fontWeight: 600, paddingLeft: "40px" }}
+                                    style={{textAlign:"center",padding: "12px 16px" , color: canReadElectricity ? "#1E45E1" : "#DBDBDB", cursor: "pointer", fontWeight: 600, paddingLeft: "40px" }}
                                     onClick={() => canReadElectricity && handleRoomDetailsPage(row)}
                                   >
                                     {row.roomName}
                                   </td>
-                                  <td style={{ paddingLeft: "40px" }}>{row.noOfTenants}</td>
-                                  <td style={{ paddingLeft: "40px" }}>
+                                  <td style={{padding: "12px 16px" }} >{row.noOfTenants}</td>
+                                  <td style={{ paddingLeft: "",padding: "12px 16px"  }}>
                                     {row.entryDate !== "N/A"
                                       ? new Date(row.entryDate.split("/").reverse().join("-")).toLocaleString(
                                         "en-US",
@@ -889,13 +889,13 @@ const RoomReadingTable = () => {
                                       : "N/A"}
                                   </td>
 
-                                  <td style={{ paddingLeft: "40px" }}>{row.startDate || "N/A"}</td>
-                                  <td style={{ paddingLeft: "40px" }}>{row.endDate || "N/A"}</td>
-                                  <td style={{ paddingLeft: "40px" }}>{row.consumption}</td>
-                                  <td style={{ paddingLeft: "30px" }}>{row.totalPrice || '0'}</td>
+                                  <td style={{ paddingLeft: "" ,padding: "12px 16px" }}>{row.startDate || "N/A"}</td>
+                                  <td style={{ paddingLeft: "" ,padding: "12px 16px" }}>{row.endDate || "N/A"}</td>
+                                  <td style={{ paddingLeft: "" ,padding: "12px 16px" }}>{row.consumption}</td>
+                                  <td style={{ paddingLeft: "",padding: "12px 16px"  }}>{row.totalPrice || '0'}</td>
                                   {
                                     !isEbBased &&
-                                    <td style={{ paddingLeft: "40px", cursor: canWriteElectricity ? "pointer" : "not-allowed" }}>
+                                    <td style={{  cursor: canWriteElectricity ? "pointer" : "not-allowed" }}>
                                       <img
                                         src={Group}
                                         alt="action"
@@ -1001,7 +1001,7 @@ const RoomReadingTable = () => {
                             zIndex: 2,
                           }}
                         >
-                          <tr className="text-uppercase">
+                          <tr className="text-uppercase" style={{ textAlign: "center" }}>
                             <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>NAME</th>
                             <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>BILLING MONTH</th>
                             <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>FROM</th>
@@ -1015,25 +1015,25 @@ const RoomReadingTable = () => {
 
                           </tr>
                         </thead>
-                        <tbody style={{ fontSize: 14, color: "#000" }}>
+                        <tbody style={{ fontSize: 14, color: "" }}>
                           <PaginationList>
                             {formattedReadings?.map((row, i) => (
-                              <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px" }}>
+                              <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px" , color:""}}>
 
-                                <td style={{ paddingLeft: "10px", fontWeight: 600, color: "#1E45E1", cursor: "pointer" }}
+                                <td style={{ paddingLeft: "", fontWeight: 600, color: "#1E45E1", cursor: "pointer", textAlign:"start"  }}
                                   onClick={() => handleTenantsDetailsPage(row)}>
                                   <img src={row.profilePic ? row.profilePic : Ellipse1} alt="" style={{ marginRight: "12px", height: 45, width: 45 }} />
                                   {row.fullName}
                                 </td>
-                                <td style={{ fontWeight: 600 }}>{row.billingMonth}</td>
-                                <td style={{ fontWeight: 600 }}>{row.from}</td>
-                                <td style={{ fontWeight: 600 }}>{row.to}</td>
-                                <td style={{ fontWeight: 600 }}>{row.floorName}</td>
-                                <td style={{ fontWeight: 600 }}>{row.roomName}</td>
-                                <td style={{ fontWeight: 600 }}>{row.bedName}</td>
+                                <td style={{ fontWeight: 500 ,textAlign:"center" }}>{row.billingMonth}</td>
+                                <td style={{ fontWeight: 500 ,textAlign:"center" }}>{row.from}</td>
+                                <td style={{ fontWeight: 500 ,textAlign:"center" }}>{row.to}</td>
+                                <td style={{ fontWeight: 500 ,textAlign:"center" }}>{row.floorName}</td>
+                                <td style={{ fontWeight: 500 ,textAlign:"center" }}>{row.roomName}</td>
+                                <td style={{ fontWeight: 500 ,textAlign:"center" }}>{row.bedName}</td>
 
-                                <td style={{ fontWeight: 600, paddingLeft: "30px" }}>{row.totalUnits}</td>
-                                <td style={{ fontWeight: 600, paddingLeft: "30px", }}>{row.totalAmount}</td>
+                                <td style={{ fontWeight: 500, paddingLeft: "",textAlign:"center"  }}>{row.totalUnits}</td>
+                                <td style={{ fontWeight: 500, paddingLeft: "", textAlign:"center" }}>{row.totalAmount}</td>
 
                               </tr>
                             ))}
