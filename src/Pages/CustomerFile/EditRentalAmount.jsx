@@ -31,6 +31,8 @@ function EditRentalAmount({ show, handleClose }) {
     const rentInputRef = useRef(null);
     const dateRef = useRef(null);
     const typeRef = useRef(null)
+    const Ref = useRef(null)
+
     const [typeError, setTypeError] = useState('')
 
 
@@ -75,6 +77,8 @@ function EditRentalAmount({ show, handleClose }) {
     };
 
     const handleTypeChange = (selectedOption) => {
+        setMonthlyRentError("");
+        setEffectiveFromError('')
         setTypeError('')
         dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' });
 
@@ -119,13 +123,21 @@ function EditRentalAmount({ show, handleClose }) {
         let isValid = true;
 
         if (!monthlyRent || Number(monthlyRent) <= 0) {
-            setMonthlyRentError("Please enter a valid monthly rent");
+            setMonthlyRentError("Please Enter Monthly Rent");
             rentInputRef.current?.focus();
             isValid = false;
         }
 
+        
+
+        if (  types === "Rent-Revision" && !effectiveFrom) {
+            setEffectiveFromError("Please Select Date");
+            dateRef.current?.focus();
+            isValid = false;
+        }
+
         if (!types) {
-            setTypeError("Please select an type");
+            setTypeError("Please Select an Type");
             typeRef.current?.focus();
             isValid = false;
         }
@@ -387,7 +399,15 @@ function EditRentalAmount({ show, handleClose }) {
                                                 fontWeight: 500,
                                             }}
                                         >
-                                            Effective From  {" "}
+                                            Effective From {" "}
+                                        <span
+                                            style={{
+                                                color: "red",
+                                                fontSize: "20px",
+                                            }}
+                                        >
+                                            *
+                                        </span>
 
                                         </Form.Label>
                                         <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
@@ -599,7 +619,7 @@ function EditRentalAmount({ show, handleClose }) {
                                 Cancel
                             </Button>
 
-                            <Button
+                            <Button  disabled={loading}
                                 onClick={handleSubmit}
                                 className="w-100 mt-1"
                                 style={{

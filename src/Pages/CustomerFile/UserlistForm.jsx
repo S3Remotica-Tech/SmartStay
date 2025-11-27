@@ -1745,7 +1745,7 @@ if (value === "" || /^[1-9]\d*$/.test(value)) {
 
 
 
-                  <Button
+                  <Button disabled={formLoading}
                     className="w-100"
                     style={{
                       backgroundColor: "#1E45E1",
@@ -2048,7 +2048,7 @@ if (value === "" || /^[1-9]\d*$/.test(value)) {
                   </div>
 
                   <div className="col-md-6 col-lg-6 mb-2">
-                    <Button
+                    <Button disabled={loading}
                       variant="primary"
                       className="w-100"
                       style={{

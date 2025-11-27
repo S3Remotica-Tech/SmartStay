@@ -350,6 +350,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
 
 
 
+
     const handleClickGenerate = () => {
         const apiDeductions = finalSettlementList?.customerInfo?.listDeductions || [];
 
@@ -394,8 +395,10 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                     data: Finalsettelmenntdata
                 },
             });
+            setFormLoading(true)
         }
     };
+
 
 
 
@@ -1326,7 +1329,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                         Cancel
                                     </Button>
                                     <Button
-                                        // disabled={activeTab !== "writeoff" && ReturnAmount < 0}
+                                        disabled={formLoading}
                                         style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400, backgroundColor: "#1E45E1" }}
                                         onClick={handleClickGenerate}
                                     >Generate</Button>
@@ -1361,7 +1364,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                             }}
                         ></div>
                     </div>}
-
+ 
 
             </Modal>
         </div>

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Card from "react-bootstrap/Card";
-import Vendors from "../../Assets/Images/New_images/profile-picture.png";
 import Image from "react-bootstrap/Image";
 import { Edit, Trash } from "iconsax-react";
 import PropTypes from "prop-types";
@@ -14,8 +13,8 @@ function VendorListMap(props) {
 
 
   const {
-    canWriteModule: canWriteVendor,
-    canReadModule: canReadVendor,
+    // canWriteModule: canWriteVendor,
+    // canReadModule: canReadVendor,
     canUpdateModule: canUpdateVendor,
     canDeleteModule: canDeleteVendor,
   } = useHasPermission("Vendor");
@@ -415,8 +414,8 @@ VendorListMap.propTypes = {
   onEditVendor: PropTypes.func.isRequired,
   onDeleteVendor: PropTypes.func.isRequired,
   vendor: PropTypes.func.isRequired,
-  vendorEditPermission: PropTypes.func.isRequired,
-  vendorDeletePermission: PropTypes.func.isRequired,
+  // vendorEditPermission: PropTypes.func.isRequired,
+  // vendorDeletePermission: PropTypes.func.isRequired,
 };
 
 export default VendorListMap;

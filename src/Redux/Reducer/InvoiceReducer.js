@@ -110,6 +110,13 @@ const InvoiceReducer = (state = initialState, action) => {
         case 'REMOVE_ERROR_AMENITIES':
             return { ...state, errorAmenities: 0 }
 
+        case 'REFUNDABLE_ERROR':
+            return { ...state, refundableError: action.payload }
+
+        case 'REMOVE_REFUNDABLE_ERROR':
+            return { ...state, refundableError: '' }
+
+
         case 'TENANT_ASSIGN_AMENITIES':
             return { ...state, tenantAssignStatus: action.payload.statusCode }
 

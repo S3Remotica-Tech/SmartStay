@@ -1008,7 +1008,7 @@ function BankingAddForm(props) {
 
 
               <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
-                <Button
+                <Button disabled={formLoading}
                   className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
                   style={{
                     backgroundColor: "#1E45E1",
@@ -1029,53 +1029,7 @@ function BankingAddForm(props) {
           )}
           {activeTab === "UPI" && (
             <div className="row">
-              {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Group >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    Benificiary Name{" "}
-                    <span
-                      style={{
-                        color: "red",
-                        fontSize: "20px",
-                      }}
-                    >
-                      {" "}
-                      *{" "}
-                    </span>
-
-                  </Form.Label>
-                  <FormControl
-                    type="text"
-                    id="form-controls"
-                    placeholder="Enter Benificiary Name"
-                    value={accountName}
-                    onChange={(e) => handleAccountName(e)}
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                    }}
-                  />
-                </Form.Group>
-                {accountNameError && (
-                   <ErrorMessage message={accountNameError} type="error" />
-                )}
-                {error && (
-                    <ErrorMessage message={error} type="error" />
-                )}
-              </div> */}
+              
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
@@ -1263,7 +1217,7 @@ function BankingAddForm(props) {
               }
 
               <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
-                <Button
+                <Button disabled={formLoading}
                   className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
                   style={{
                     backgroundColor: "#1E45E1",
@@ -1541,7 +1495,7 @@ function BankingAddForm(props) {
 
 
               <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
-                <Button
+                <Button disabled={formLoading}
                   className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
                   style={{
                     backgroundColor: "#1E45E1",
@@ -1658,6 +1612,7 @@ function BankingAddForm(props) {
 
               <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
                 <Button
+                disabled={formLoading}
                   className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
                   style={{
                     backgroundColor: "#1E45E1",

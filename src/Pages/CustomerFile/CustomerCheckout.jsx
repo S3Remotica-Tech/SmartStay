@@ -582,7 +582,7 @@ function CustomerCheckout(props) {
                       Cancel
                     </Button>
 
-                    <Button
+                    <Button disabled={formLoading}
                       style={{
                         backgroundColor: "#1E45E1",
                         fontWeight: 500,

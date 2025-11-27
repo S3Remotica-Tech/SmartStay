@@ -2,8 +2,8 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "../Pages/Settings.css";
-import { MdError } from "react-icons/md";
-import TextAreaICon from '../Assets/Images/textarea.png'
+// import { MdError } from "react-icons/md";
+// import TextAreaICon from '../Assets/Images/textarea.png'
 import "react-datepicker/dist/react-datepicker.css";
 import mob from "../Assets/Images/New_images/Rectangle 77.png";
 import substrac from "../Assets/Images/New_images/Subtract.png";
@@ -11,27 +11,27 @@ import frame from "../Assets/Images/New_images/FramePDF.png";
 // import receiptLogo from '../Assets/Images/New_images/receiptlogo.png';
 import receiptLogo from "../Assets/Images/New_images/Group_Logo.png";
 import received from '../Assets/Images/New_images/received.png'
-import Button from 'react-bootstrap/Button';
+// import Button from 'react-bootstrap/Button';
 import "react-toastify/dist/ReactToastify.css";
-import { RgbaColorPicker } from "react-colorful";
-import ZoomImage from '../Assets/Images/zoom.png'
+// import { RgbaColorPicker } from "react-colorful";
+// import ZoomImage from '../Assets/Images/zoom.png'
 import Topbottom from '../Assets/Images/cancel_presentation.png';
 import left85arrow from '../Assets/Images/arrow85.png';
 import printdown from '../Assets/Images/printericon.png';
 import downloadicon from '../Assets/Images/pdfdown.png';
 import CloseIcon from '../Assets/Images/close_icon.png';
-import EditICon from '../Assets/Images/New_images/edit.png';
-import uploadsett from "../Assets/Images/New_images/upload setting.png";
-import Modal from 'react-bootstrap/Modal';
-import Questionimage from '../Assets/Images/question.png';
-import ErrorMessage from '../Components/ErrorMessage'
-import { useHasPermission } from '../Utils/Permission';
+// import EditICon from '../Assets/Images/New_images/edit.png';
+// import uploadsett from "../Assets/Images/New_images/upload setting.png";
+// import Modal from 'react-bootstrap/Modal';
+// import Questionimage from '../Assets/Images/question.png';
+// import ErrorMessage from '../Components/ErrorMessage'
+// import { useHasPermission } from '../Utils/Permission';
 import { Location, Call, Profile, } from 'iconsax-react'
 import { IoBed } from "react-icons/io5";
-import { Container, Row, Col, Table } from "react-bootstrap";
+// import { Container, Row, Col, Table } from "react-bootstrap";
 import Payment from '../Assets/Images/New_images/Mask-group.png'
-import Refund from '../Assets/Images/New_images/Refund.png';
-
+// import Refund from '../Assets/Images/New_images/Refund.png';
+import PropTypes from "prop-types";
 
 
 const RentalReceiptPdfTemplate = ({ BillsTemplateList,templateReceiptThemes }) => {
@@ -42,10 +42,10 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList,templateReceiptThemes }) =
   const innerScrollRef = useRef(null);
   const [loading, setLoading] = useState(false)
 
-  const [notes_errmsg, setNotesErrMsg] = useState('')
-  const [terms_errmsg, setTermsErrMsg] = useState('')
+  // const [notes_errmsg, setNotesErrMsg] = useState('')
+  // const [terms_errmsg, setTermsErrMsg] = useState('')
   const [showFullView, setShowFullView] = useState(false);
-  const [editErrmsg, setEditErrMessage] = useState('')
+  // const [editErrmsg, setEditErrMessage] = useState('')
 
   const [color, setColor] = useState({ r: 0, g: 163, b: 46, a: 1 });
   const [useGradient, setUseGradient] = useState(true);
@@ -53,50 +53,50 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList,templateReceiptThemes }) =
 
   // const canUpdateInvoice = useHasPermission("Bills", "canUpdate")
 
-  const {
-    // canWriteModule: canWriteInvoice,
-    // canReadModule: canReadReceipt,
-    canUpdateModule: canUpdateInvoice,
-    // canDeleteModule: canDeleteInvoice,
-  } = useHasPermission("Bills");
+  // const {
+  //   // canWriteModule: canWriteInvoice,
+  //   // canReadModule: canReadReceipt,
+  //   canUpdateModule: canUpdateInvoice,
+  //   // canDeleteModule: canDeleteInvoice,
+  // } = useHasPermission("Bills");
 
-  const handleColorChange = (newColor) => {
-    setColor(newColor);
-    setUseGradient(false);
-    setEditErrMessage("")
-  };
+  // const handleColorChange = (newColor) => {
+  //   setColor(newColor);
+  //   setUseGradient(false);
+  //   setEditErrMessage("")
+  // };
 
-  const presetColors = [
-    "#F44336", "#FF9800", "#FFEB3B", "#795548", "#8BC34A", "#4CAF50", "#E91E63", "#9C27B0", "#9C00FF",
-    "#03A9F4", "#00BCD4", "#C8E6C9", "#000000", "#616161", "#9E9E9E", "#FFFFFF", "#AAAAAA", "#FF69B4"
-  ];
+  // const presetColors = [
+  //   "#F44336", "#FF9800", "#FFEB3B", "#795548", "#8BC34A", "#4CAF50", "#E91E63", "#9C27B0", "#9C00FF",
+  //   "#03A9F4", "#00BCD4", "#C8E6C9", "#000000", "#616161", "#9E9E9E", "#FFFFFF", "#AAAAAA", "#FF69B4"
+  // ];
 
-  const hexValue = `#${((1 << 24) + (color.r << 16) + (color.g << 8) + color.b).toString(16).slice(1).toUpperCase()}`;
-  const alphaValue = Math.round(color.a * 100);
-
-
+  // const hexValue = `#${((1 << 24) + (color.r << 16) + (color.g << 8) + color.b).toString(16).slice(1).toUpperCase()}`;
+  // const alphaValue = Math.round(color.a * 100);
 
 
 
 
 
-  const handleNotesChange = (e) => {
-    const Value = e.target.value
-    setNotes(Value)
-    setEditErrMessage("")
-    if (Value.trim() !== "") {
-      setNotesErrMsg("");
-    }
-  }
 
-  const handleTermsChange = (e) => {
-    const Value = e.target.value
-    setTerms(Value)
-    setEditErrMessage("")
-    if (Value.trim() !== "") {
-      setTermsErrMsg("");
-    }
-  }
+
+  // const handleNotesChange = (e) => {
+  //   const Value = e.target.value
+  //   setNotes(Value)
+  //   setEditErrMessage("")
+  //   if (Value.trim() !== "") {
+  //     setNotesErrMsg("");
+  //   }
+  // }
+
+  // const handleTermsChange = (e) => {
+  //   const Value = e.target.value
+  //   setTerms(Value)
+  //   setEditErrMessage("")
+  //   if (Value.trim() !== "") {
+  //     setTermsErrMsg("");
+  //   }
+  // }
 
 
 
@@ -111,142 +111,142 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList,templateReceiptThemes }) =
   );
 
 
-  const [allowImageUpload, setAllowImageUpload] = useState(false);
-  const [allowEditFields, setAllowEditFields] = useState({
-    contact: false,
-    email: false,
-    hostelLogo: false,
-    digitalSignature: false,
-  });
-  const [contactnumberform, setContactNumberForm] = useState(false)
+  // const [allowImageUpload, setAllowImageUpload] = useState(false);
+  // const [allowEditFields, setAllowEditFields] = useState({
+  //   contact: false,
+  //   email: false,
+  //   hostelLogo: false,
+  //   digitalSignature: false,
+  // });
+  // const [contactnumberform, setContactNumberForm] = useState(false)
 
-  const fileInputRef = useRef(null);
+  // const fileInputRef = useRef(null);
   const [signature, setSignature] = useState(null);
   const [signaturePreview, setSignaturePreview] = useState(null);
-  const [signature_errmsg, setSignatureErrMsg] = useState("")
-  const [isSignatureConfirmed, setIsSignatureConfirmed] = useState(false);
+  // const [signature_errmsg, setSignatureErrMsg] = useState("")
+  // const [isSignatureConfirmed, setIsSignatureConfirmed] = useState(false);
 
-  const handleFileSignatureChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setSignature(file);
-      setSignaturePreview(URL.createObjectURL(file));
-      setSignatureErrMsg("");
-      setEditErrMessage('')
-      setIsSignatureConfirmed(false);
-    }
-  };
-
-
-  const handleClear = () => {
-    setSignature(null);
-    setSignaturePreview(null)
-    setSignatureErrMsg("");
-    setEditErrMessage('')
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
-  };
+  // const handleFileSignatureChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     setSignature(file);
+  //     setSignaturePreview(URL.createObjectURL(file));
+  //     setSignatureErrMsg("");
+  //     setEditErrMessage('')
+  //     setIsSignatureConfirmed(false);
+  //   }
+  // };
 
 
-  const handleSignatureDone = () => {
-    if (!signature) {
-      setSignatureErrMsg("Please select a signature file.");
-    } else {
-      setSignatureErrMsg("");
-      setEditErrMessage('')
-      setIsSignatureConfirmed(true);
-    }
-  };
+  // const handleClear = () => {
+  //   setSignature(null);
+  //   setSignaturePreview(null)
+  //   setSignatureErrMsg("");
+  //   setEditErrMessage('')
+  //   if (fileInputRef.current) {
+  //     fileInputRef.current.value = '';
+  //   }
+  // };
 
 
-  const handleShowContactNumberForm = () => {
-    setContactNumberForm(true);
-    setAllowImageUpload(false);
-  };
+  // const handleSignatureDone = () => {
+  //   if (!signature) {
+  //     setSignatureErrMsg("Please select a signature file.");
+  //   } else {
+  //     setSignatureErrMsg("");
+  //     setEditErrMessage('')
+  //     setIsSignatureConfirmed(true);
+  //   }
+  // };
+
+
+  // const handleShowContactNumberForm = () => {
+  //   setContactNumberForm(true);
+  //   setAllowImageUpload(false);
+  // };
 
 
 
-  const handleCloseContactNumberForm = () => {
-    setContactNumberForm(false);
-    setAllowImageUpload(false);
-    setAllowEditFields({
-      contact: false,
-      email: false,
-      hostelLogo: false,
-      digitalSignature: false,
-    });
-  };
+  // const handleCloseContactNumberForm = () => {
+  //   setContactNumberForm(false);
+  //   setAllowImageUpload(false);
+  //   setAllowEditFields({
+  //     contact: false,
+  //     email: false,
+  //     hostelLogo: false,
+  //     digitalSignature: false,
+  //   });
+  // };
 
 
-  const handleEditAnyway = () => {
-    setAllowImageUpload(true);
-    setAllowEditFields({
-      contact: true,
-      email: true,
-      hostelLogo: true,
-      digitalSignature: true,
-    });
-    setContactNumberForm(false);
-  };
+  // const handleEditAnyway = () => {
+  //   setAllowImageUpload(true);
+  //   setAllowEditFields({
+  //     contact: true,
+  //     email: true,
+  //     hostelLogo: true,
+  //     digitalSignature: true,
+  //   });
+  //   setContactNumberForm(false);
+  // };
 
 
   const [mobilenum, setMobileNum] = useState("")
-  const [MobileError, setMobileError] = useState("")
+  // const [MobileError, setMobileError] = useState("")
   const [email, setEmail] = useState("")
-  const [emailError, setEmailError] = useState("")
+  // const [emailError, setEmailError] = useState("")
 
 
-  const handleMobile = (e) => {
-    const input = e.target.value.replace(/\D/g, "");
-    setMobileNum(input);
-    setEditErrMessage('')
-    if (input.length === 0) {
-      setMobileError("");
-    } else if (input.length < 10) {
-      setMobileError(" Please Enter Valid Mobile Number");
-    } else if (input.length === 10) {
-      setMobileError("");
-    } else if (input.length > 10) {
-      setMobileError(" Please Enter Valid Mobile Number");
-    }
-  };
+  // const handleMobile = (e) => {
+  //   const input = e.target.value.replace(/\D/g, "");
+  //   setMobileNum(input);
+  //   setEditErrMessage('')
+  //   if (input.length === 0) {
+  //     setMobileError("");
+  //   } else if (input.length < 10) {
+  //     setMobileError(" Please Enter Valid Mobile Number");
+  //   } else if (input.length === 10) {
+  //     setMobileError("");
+  //   } else if (input.length > 10) {
+  //     setMobileError(" Please Enter Valid Mobile Number");
+  //   }
+  // };
 
-  const handleEmail = (e) => {
-    const emailValue = e.target.value.toLowerCase();
-    setEmail(emailValue);
-    setEditErrMessage('')
-    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
-    const isValidEmail = emailRegex.test(emailValue);
-    if (!emailValue) {
-      setEmailError("");
+  // const handleEmail = (e) => {
+  //   const emailValue = e.target.value.toLowerCase();
+  //   setEmail(emailValue);
+  //   setEditErrMessage('')
+  //   const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+  //   const isValidEmail = emailRegex.test(emailValue);
+  //   if (!emailValue) {
+  //     setEmailError("");
 
-    } else if (!isValidEmail) {
+  //   } else if (!isValidEmail) {
 
-      setEmailError("Please Enter  Valid Email Id");
-    } else {
-      setEmailError("");
+  //     setEmailError("Please Enter  Valid Email Id");
+  //   } else {
+  //     setEmailError("");
 
-    }
+  //   }
 
-  };
+  // };
 
   const [logoPreview, setLogoPreview] = useState(null);
-  const [hostel_logo, setHostelLogo] = useState(null)
+  // const [hostel_logo, setHostelLogo] = useState(null)
 
-  const handleFileUploadHostel = (e) => {
-    if (!allowImageUpload) return;
-    const file = e.target.files[0];
-    if (file && file.type.startsWith("image/")) {
-      setHostelLogo(file)
-      setEditErrMessage('')
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setLogoPreview(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  // const handleFileUploadHostel = (e) => {
+  //   if (!allowImageUpload) return;
+  //   const file = e.target.files[0];
+  //   if (file && file.type.startsWith("image/")) {
+  //     setHostelLogo(file)
+  //     setEditErrMessage('')
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       setLogoPreview(reader.result);
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
 
 
 
@@ -280,94 +280,94 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList,templateReceiptThemes }) =
 
 
 
-  const handleSaveTemplate = () => {
-    const currentData = {
-      contact_number: mobilenum,
-      email: email,
-      receiptSignatureUrl: signature || '',
-      notes: notes?.replace(/"/g, '') || '',
-      terms_and_condition: terms || '',
-      template_theme: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
-      logo_url: hostel_logo || '',
-    };
+  // const handleSaveTemplate = () => {
+  //   const currentData = {
+  //     contact_number: mobilenum,
+  //     email: email,
+  //     receiptSignatureUrl: signature || '',
+  //     notes: notes?.replace(/"/g, '') || '',
+  //     terms_and_condition: terms || '',
+  //     template_theme: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+  //     logo_url: hostel_logo || '',
+  //   };
 
-    const originalData = {
-      contact_number: RentalreceiptTemplate.contact_number,
-      email: RentalreceiptTemplate.email,
-      receiptSignatureUrl: RentalreceiptTemplate.receiptSignatureUrl || '',
-      notes: RentalreceiptTemplate.notes?.replace(/"/g, '') || '',
-      terms_and_condition: RentalreceiptTemplate.terms_and_condition || '',
-      template_theme: RentalreceiptTemplate.template_theme || '',
-      logo_url: RentalreceiptTemplate.logo_url || ''
-    };
+  //   const originalData = {
+  //     contact_number: RentalreceiptTemplate.contact_number,
+  //     email: RentalreceiptTemplate.email,
+  //     receiptSignatureUrl: RentalreceiptTemplate.receiptSignatureUrl || '',
+  //     notes: RentalreceiptTemplate.notes?.replace(/"/g, '') || '',
+  //     terms_and_condition: RentalreceiptTemplate.terms_and_condition || '',
+  //     template_theme: RentalreceiptTemplate.template_theme || '',
+  //     logo_url: RentalreceiptTemplate.logo_url || ''
+  //   };
 
-    if (JSON.stringify(currentData) === JSON.stringify(originalData)) {
-      setEditErrMessage("No changes detected");
-      setSignatureErrMsg("");
-      return;
-    }
-
-
-    if (RentalreceiptTemplate.isSignatureCustomized) {
-      const Signatureverify = !RentalreceiptTemplate.receiptSignatureUrl
-
-      if (signature && !isSignatureConfirmed && Signatureverify) {
-        setSignatureErrMsg("Please click Done after selecting a signature");
-        return
-      }
-    }
-
-    if (RentalreceiptTemplate.isMobileCustomized) {
-      if (mobilenum && mobilenum.length < 10) {
-        setMobileError(" Please Enter Valid Mobile Number");
-        return
-      }
-      else if (mobilenum.length === 10) {
-        setMobileError("");
-      }
-    }
-
-    if (RentalreceiptTemplate.isMailIdCustomized) {
-      const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
-      const isValidEmail = emailRegex.test(email);
-      if (!email) {
-        setEmailError("");
-      } else if (!isValidEmail) {
-        setEmailError("Please Enter  Valid Email Id");
-      } else {
-        setEmailError("");
-      }
-    }
-
-    if (RentalreceiptTemplate.typeId && state.login.selectedHostel_Id) {
-      dispatch({
-        type: "ADDGLOBALSETTING",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          templateTypeId: RentalreceiptTemplate.typeId,
-          receiptLogo: hostel_logo,
-          receiptSign: signature,
-          mobile: BillsTemplateList.mobile,
-          email: BillsTemplateList.emailId,
-          receiptPhoneNumber: mobilenum,
-          receiptMailId: email,
-          isMobileCustomized: BillsTemplateList?.isMobileCustomized,
-          isEmailCustomized: BillsTemplateList?.isMailIdCustomized,
-          isLogoCustomized: BillsTemplateList?.isLogoCustomized,
-          isSignatureCustomized: BillsTemplateList?.isSignatureCustomized,
-          receiptNotes: notes,
-          receiptTermsAndCondition: terms,
-          receiptTemplateColor: useGradient
-            ? defaultGradient
-            : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`
-        },
-      });
-      setLoading(true)
-
-    }
+  //   if (JSON.stringify(currentData) === JSON.stringify(originalData)) {
+  //     setEditErrMessage("No changes detected");
+  //     setSignatureErrMsg("");
+  //     return;
+  //   }
 
 
-  };
+  //   if (RentalreceiptTemplate.isSignatureCustomized) {
+  //     const Signatureverify = !RentalreceiptTemplate.receiptSignatureUrl
+
+  //     if (signature && !isSignatureConfirmed && Signatureverify) {
+  //       setSignatureErrMsg("Please click Done after selecting a signature");
+  //       return
+  //     }
+  //   }
+
+  //   if (RentalreceiptTemplate.isMobileCustomized) {
+  //     if (mobilenum && mobilenum.length < 10) {
+  //       setMobileError(" Please Enter Valid Mobile Number");
+  //       return
+  //     }
+  //     else if (mobilenum.length === 10) {
+  //       setMobileError("");
+  //     }
+  //   }
+
+  //   if (RentalreceiptTemplate.isMailIdCustomized) {
+  //     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+  //     const isValidEmail = emailRegex.test(email);
+  //     if (!email) {
+  //       setEmailError("");
+  //     } else if (!isValidEmail) {
+  //       setEmailError("Please Enter  Valid Email Id");
+  //     } else {
+  //       setEmailError("");
+  //     }
+  //   }
+
+  //   if (RentalreceiptTemplate.typeId && state.login.selectedHostel_Id) {
+  //     dispatch({
+  //       type: "ADDGLOBALSETTING",
+  //       payload: {
+  //         hostelId: state.login.selectedHostel_Id,
+  //         templateTypeId: RentalreceiptTemplate.typeId,
+  //         receiptLogo: hostel_logo,
+  //         receiptSign: signature,
+  //         mobile: BillsTemplateList.mobile,
+  //         email: BillsTemplateList.emailId,
+  //         receiptPhoneNumber: mobilenum,
+  //         receiptMailId: email,
+  //         isMobileCustomized: BillsTemplateList?.isMobileCustomized,
+  //         isEmailCustomized: BillsTemplateList?.isMailIdCustomized,
+  //         isLogoCustomized: BillsTemplateList?.isLogoCustomized,
+  //         isSignatureCustomized: BillsTemplateList?.isSignatureCustomized,
+  //         receiptNotes: notes,
+  //         receiptTermsAndCondition: terms,
+  //         receiptTemplateColor: useGradient
+  //           ? defaultGradient
+  //           : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`
+  //       },
+  //     });
+  //     setLoading(true)
+
+  //   }
+
+
+  // };
 
 
 
@@ -450,7 +450,7 @@ useEffect(() => {
   
   if (templateReceiptThemes && Object.keys(templateReceiptThemes).length > 0) {
     setLogoPreview(templateReceiptThemes.logoPreview || "");
-    setHostelLogo(templateReceiptThemes.logoPreview || "");
+    // setHostelLogo(templateReceiptThemes.logoPreview || "");
     setMobileNum(templateReceiptThemes.mobilenum || "");
     setEmail(templateReceiptThemes.email || "");
     setSignaturePreview(templateReceiptThemes.signaturePreview || "");
@@ -470,11 +470,11 @@ useEffect(() => {
         : BillsTemplateList.logo || ""
     );
 
-    setHostelLogo(
-      BillsTemplateList.isLogoCustomized && RentalreceiptTemplate.receiptLogoUrl
-        ? RentalreceiptTemplate.receiptLogoUrl
-        : BillsTemplateList.logo || ""
-    );
+    // setHostelLogo(
+    //   BillsTemplateList.isLogoCustomized && RentalreceiptTemplate.receiptLogoUrl
+    //     ? RentalreceiptTemplate.receiptLogoUrl
+    //     : BillsTemplateList.logo || ""
+    // );
 
     setMobileNum(
       BillsTemplateList.isMobileCustomized && RentalreceiptTemplate.receiptMobileNumber
@@ -1540,4 +1540,35 @@ useEffect(() => {
   )
 
 }
+
+RentalReceiptPdfTemplate.propTypes = {
+  BillsTemplateList: PropTypes.shape({
+    templates: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        name: PropTypes.string,
+      })
+    ),
+    mobile: PropTypes.string,
+    emailId: PropTypes.string,
+    logo: PropTypes.string,
+    signature: PropTypes.string,
+
+    isLogoCustomized: PropTypes.bool,
+    isSignatureCustomized: PropTypes.bool,
+    isMailIdCustomized: PropTypes.bool,
+    isMobileCustomized: PropTypes.bool,
+  }),
+
+  templateReceiptThemes: PropTypes.shape({
+    logoPreview: PropTypes.string,
+    mobilenum: PropTypes.string,
+    email: PropTypes.string,
+    signaturePreview: PropTypes.string,
+    notes: PropTypes.string,
+    terms: PropTypes.string,
+    color: PropTypes.string,
+  }),
+};
+
 export default RentalReceiptPdfTemplate;

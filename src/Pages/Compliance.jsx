@@ -1883,7 +1883,7 @@ const Compliance = () => {
 
                 <Modal.Footer style={{ border: "none", paddingTop: 0 }}>
 
-                  <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 500, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal' }}
+                  <Button  disabled={formLoading} className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 500, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal' }}
                     onClick={handleAddcomplaint}
                   >
                     {edit ? "Save complaint" : "Add complaint"}

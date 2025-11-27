@@ -19,7 +19,7 @@ function TransactionHistory() {
 
 
 
- const CustomerOverView = state.UsersList.customerdetails;
+    const CustomerOverView = state.UsersList?.customerdetails?.transactionList;
 
 
 
@@ -31,8 +31,22 @@ function TransactionHistory() {
     } = useHasPermission("Customers");
 
 
+    console.log("CustomerOverView", CustomerOverView.length)
 
 
+    function formatDate(dateString) {
+        if (!dateString) return "";
+
+        const [day, month, year] = dateString.split("/");
+
+        const date = new Date(`${year}-${month}-${day}`);
+
+        const formattedDay = String(date.getDate()).padStart(2, "0");
+        const formattedMonth = date.toLocaleString("en-US", { month: "short" });
+        const formattedYear = date.getFullYear();
+
+        return `${formattedDay} ${formattedMonth} ${formattedYear}`;
+    }
 
 
 
@@ -62,22 +76,24 @@ function TransactionHistory() {
 
 
 
-                    {/* {roomReadingList?.length === 0 && !loading ? (
+                    {CustomerOverView?.length === 0 ? (
                         <div style={{ textAlign: "center", marginTop: 40 }}>
                             <img src={emptyimg} width={240} height={240} alt="emptystate" />
-                                                       <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 14, color: "rgba(75, 75, 75, 1)" }}>
-                                There are no transaction available.
+                            <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 14, color: "rgba(75, 75, 75, 1)" }}>
+                                There are no transaction history available.
                             </div>
                         </div>
-                    ) : ( */}
-                        <div className="table-responsive ms-4 mt-5"
+                    ) : (
+                        <div className="table-responsive ms-4 mt-3"
                             style={{
                                 background: "#fff",
-                                // borderRadius: 12,
+                                borderRadius: 12,
                                 boxShadow: "0px 4px 8px rgba(0,0,0,0.05)",
                                 maxHeight: "420px",
                                 overflowY: "auto",
-                                position: "relative"
+                                position: "relative",
+                                 border: "1px solid #F9FAFF",
+
                             }}
                         >
                             <Table bordered={false} className="align-middle mb-0 ">
@@ -87,101 +103,71 @@ function TransactionHistory() {
                                         position: "sticky",
                                         top: 0,
                                         zIndex: 2,
-                                        borderTopLeftRadius: 12,
+                                        borderRadius: 12,
                                     }}
                                 >
-                                    <tr className="text-uppercase">
+                                    <tr className="text-uppercase" style={{ textAlign: "center" }}>
                                         <th style={{ borderTopLeftRadius: 12, fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
-                                            DATE 
+                                            DATE
                                         </th>
                                         <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
-                                            BILL NAME 
+                                            BILL NAME
                                         </th>
                                         <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>AMOUNT PAID</th>
                                         <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>RECEIPT / REF.NO</th>
                                         <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>RECEIVED BY</th>
                                         <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>PAYMENT MODE</th>
-                                        <th style={{  borderTopRightRadius: 10,fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>STATUS</th>
-                                      
+                                        <th style={{ borderTopRightRadius: 10, fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>STATUS</th>
 
-                                       
+
+
                                     </tr>
                                 </thead>
                                 <tbody style={{ fontSize: 14, color: "#000" }}>
                                     <PaginationList>
-                                        <tr>
-                                            <td colSpan="12" style={{ fontFamily: "Gilroy", color: "red", fontWeight: 600, fontSize: 14, padding: "12px 16px" , textAlign:"center"}}>There are no transaction available.</td>
-                                        </tr>
-                                        {/* {roomReadingList?.map((row, i) => (
-                                            <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px" }}>
-                                                <td style={{ fontSize: 15, fontWeight: 600, paddingLeft: "40px" }}>{row.floorName}</td>
-                                                <td
-                                                    style={{ color: canReadElectricity ? "#1E45E1" : "#DBDBDB", cursor: "pointer", fontWeight: 600, paddingLeft: "40px" }}
-                                                    onClick={() => canReadElectricity && handleRoomDetailsPage(row)}
-                                                >
-                                                    {row.roomName}
-                                                </td>
-                                                <td style={{ paddingLeft: "40px" }}>{row.noOfTenants}</td>
-                                                <td style={{ paddingLeft: "40px" }}>
-                                                    {row.entryDate !== "N/A"
-                                                        ? new Date(row.entryDate.split("/").reverse().join("-")).toLocaleString("en-US", { month: "short" })
-                                                        : "N/A"}
-                                                </td>
-                                                <td style={{ paddingLeft: "40px" }}>{row.previousReading}</td>
-                                                <td style={{ paddingLeft: "40px" }}>{row.currentReading}</td>
-                                                <td style={{ paddingLeft: "40px" }}>{row.consumption}</td>
-                                                <td style={{ paddingLeft: "30px" }}>{row.totalPrice || '0'}</td>
-                                                {
-                                                    !isEbBased &&
-                                                    <td style={{ paddingLeft: "40px", cursor: canWriteElectricity ? "pointer" : "not-allowed" }}>
-                                                        <img
-                                                            src={Group}
-                                                            alt="action"
-                                                            style={{
-                                                                filter: canWriteElectricity ? "none" : "grayscale(100%) brightness(60%)",
-                                                                opacity: canWriteElectricity ? 1 : 0.6,
-                                                                cursor: canWriteElectricity ? "pointer" : "not-allowed"
-                                                            }}
-                                                            onClick={() => canWriteElectricity && handleActionClick(row)}
-                                                        />
+
+                                        {CustomerOverView?.map((row, i) => {
+                                            const isLast = i === CustomerOverView.length - 1;
+                                            return (
+                                                <tr key={i} style={{
+                                                    borderBottom: "1px solid #F9FAFF", textAlign: "center", fontFamily: "Gilroy", fontSize: 14, fontWeight: 600, padding: "12px 16px",
+
+                                                }}>
+                                                    <td style={{
+                                                        borderTopLeftRadius: i === 0 ? 12 : 0,
+                                                        borderBottomLeftRadius: isLast ? 12 : 0, fontSize: 14, fontWeight: 600, color: "#6B7280", padding: "12px 16px"
+                                                    }}>{formatDate(row.transactionDate)}</td>
+                                                    <td
+                                                        style={{ color: "#111928", fontWeight: 600, padding: "12px 16px" }}
+
+                                                    >
+                                                        {row.billName}
                                                     </td>
-                                                }
-                                            </tr>
-                                        ))} */}
+                                                    <td style={{ color: "#111928", padding: "12px 16px" }}>{row.amountPaid}</td>
+                                                    <td style={{ color: "#1E45E1", padding: "12px 16px" }}>
+                                                        {row.referenceNumber || "-"}
+                                                    </td>
+                                                    <td style={{ color: "#111928", padding: "12px 16px" }}>{row.paidTo}</td>
+                                                    <td style={{ color: "#111928", padding: "12px 16px" }}>{row.paymentMode}</td>
+                                                    <td style={{ borderBottomRightRadius: isLast ? 12 : 0 }}><span
+                                                        style={{
+                                                            backgroundColor: "#D9FFD9",
+                                                            color: "#1D760E",
+                                                            borderRadius: "14px",
+                                                            fontFamily: "Gilroy",
+                                                            padding: "8px 12px",
+                                                        }}
+                                                    >
+                                                        {row.status}
+                                                    </span></td>
+
+
+                                                </tr>
+                                            );
+                                        })}
                                     </PaginationList>
                                 </tbody>
                             </Table>
-
-
-
-                            {/* {loading &&
-                                <div
-                                    style={{
-                                        position: 'absolute',
-                                        top: '70%',
-                                        left: '50%',
-                                        transform: 'translate(-50%, -50%)',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        backgroundColor: 'transparent',
-                                        opacity: 0.75,
-                                        zIndex: 10,
-                                    }}
-                                >
-                                    <div
-                                        style={{
-                                            borderTop: '4px solid #1E45E1',
-                                            borderRight: '4px solid transparent',
-                                            borderRadius: '50%',
-                                            width: '40px',
-                                            height: '40px',
-                                            animation: 'spin 1s linear infinite',
-                                        }}
-                                    ></div>
-                                </div>
-                            }
- */}
 
 
 
@@ -193,7 +179,7 @@ function TransactionHistory() {
 
 
                         </div>
-                    {/* )} */}
+                    )}
 
 
 

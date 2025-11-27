@@ -4,55 +4,40 @@ import Form from "react-bootstrap/Form";
 import "../Pages/Settings.css";
 import { useDispatch, useSelector } from "react-redux";
 import leftarrow from "../Assets/Images/arrow-left.png"
-import { MdError } from "react-icons/md";
 import Logo from "../Assets/Images/New_images/Group_Logo.png";
-import Dial from '../Assets/Images/dial.png'
-import Room from '../Assets/Images/Car.png'
-import Locat from '../Assets/Images/location 03.png'
-import Barcode from '../Assets/Images/invoice_barcode.svg'
 import Gpay from '../Assets/Images/gpay.png'
 import Phonepe from '../Assets/Images/phonepe.png'
 import Paytm from '../Assets/Images/paytm.png'
-import Topbottom from '../Assets/Images/cancel_presentation.png';
-import left85arrow from '../Assets/Images/arrow85.png';
-import printdown from '../Assets/Images/printericon.png';
-import downloadicon from '../Assets/Images/pdfdown.png';
-import CloseIcon from '../Assets/Images/close_icon.png';
 import Questionimage from '../Assets/Images/question.png';
 import EditICon from '../Assets/Images/New_images/edit.png';
 import TextAreaICon from '../Assets/Images/textarea.png'
 import BankICon from '../Assets/Images/bank_white.png'
 import "react-datepicker/dist/react-datepicker.css";
 import uploadsett from "../Assets/Images/New_images/upload setting.png";
-import ZoomImage from '../Assets/Images/zoom.png'
 import PropTypes from "prop-types";
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import { CloseCircle } from "iconsax-react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { RgbaColorPicker } from "react-colorful";
 import './SettingInvoice.css';
-import NOCReceiptPdfTemplate from "./NocReceiptpdftemplate";
 import RentalReceiptPdfTemplate from "./RentalReceiptPdfTempate";
 import SecurityDepositInvoiceTemplate from "./SecurityDepositInvoice";
-import SecurityReceiptPdfTemplate from "./SecurityDepositReceipt";
 import BankingAddForm from "./BankingAddForm";
 import ErrorMessage from '../Components/ErrorMessage'
 import { useHasPermission } from '../Utils/Permission';
 import Emptystate from "../Assets/Images/Empty-State.jpg";
 import { Location, Call, Profile, Edit } from 'iconsax-react'
 import { IoBed } from "react-icons/io5";
-import { Container, Row, Col, Table, Card } from "react-bootstrap";
+import { Row, Col, Table, Card } from "react-bootstrap";
 import AdvanceCustomizeSettings from './BillsTemplates/AdvanceCustomizeSettings'
 import ReceiptCustomize from './BillsTemplates/ReceiptCustomize';
-import { FaEdit } from "react-icons/fa";
 import { FiArrowRight } from "react-icons/fi";
 import { RiPercentLine } from "react-icons/ri";
 import { FiCode } from "react-icons/fi";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { BsQrCode } from "react-icons/bs";
-function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handleFormPage }) {
+function SettingInvoice({ hostelid,  handleFormPage }) {
 
 
   const dispatch = useDispatch();
@@ -60,30 +45,23 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handl
 
   const [selectedDate, setSelectedDate] = useState(null);
   const [invoicedueDate, setInvoiceDueDate] = useState('');
-  const [accountName, setAccountName] = useState("")
-  const [account_number, setAccount_Number] = useState("");
-  const [description, setDescription] = useState("");
-  const [ifsccode, setIfscCode] = useState("");
-  const [bank_name, setBankName] = useState("");
+  
   const [prefix, setPrefix] = useState("");
   const [suffix, setSuffix] = useState("");
   const [tax, setTax] = useState("");
   const [banking, setBanking] = useState([])
   const [selectedBankId, setSelectedBankId] = useState(null);
-  const [editErrmsg, setEditErrMessage] = useState('')
-  const [showform, setShowForm] = useState(false);
+    const [showform, setShowForm] = useState(false);
   const [contactnumberform, setContactNumberForm] = useState(false)
   const [editformErrmsg, setEditFormErrMessage] = useState('')
-  const [resetCall, setResetCall] = useState(false)
   const [global, setGlobal] = useState(false)
 
 
-  const [edit, setEdit] = useState(false);
   const [cardshow, setCardShow] = useState(true)
   const [loading, setLoading] = useState(false)
   const [formLoading, setFormLoading] = useState(false)
 
-  const [InvoiceList, setInvoiceList] = useState([]);
+ 
 
   const cardRef = useRef(null);
   const innerScrollRef = useRef(null);
@@ -91,7 +69,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handl
 
 
 
-  const [accountNameError, setaccountnameError] = useState("");
+
   const [bankid_Error, setBankIdError] = useState("");
   const [prefix_errmsg, setPrefixErrMsg] = useState('')
   const [suffix_errmsg, setSuffixErrMsg] = useState('')
@@ -100,8 +78,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handl
   const [terms_errmsg, setTermsErrMsg] = useState('')
   const [signature_errmsg, setSignatureErrMsg] = useState('')
   const [selectedTab, setSelectedTab] = useState("rental_invoice");
-  const [showFullView, setShowFullView] = useState(false);
-  const [mobilenum, setMobileNum] = useState("")
+    const [mobilenum, setMobileNum] = useState("")
   const [MobileError, setMobileError] = useState("")
   const [email, setEmail] = useState("")
   const [emailError, setEmailError] = useState("")
@@ -110,9 +87,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handl
   const [isCheckedEmail, setIsCheckedEmail] = useState(false);
   const [isCheckedLogo, setIsCheckedLogo] = useState(false);
   const [isCheckedSignature, setIsCheckedSignature] = useState(false);
-  const [getData, setGetData] = useState("")
-  const [signature, setSignature] = useState(null)
-  const [signaturePreview, setSignaturePreview] = useState(null)
+  
   const [savebuttonshow, setSavebuttonshow] = useState(true)
   const [initialValues, setInitialValues] = useState({});
   const [noChangesDetectedMsg, setNoChangesDetectedMsg] = useState("");
@@ -395,64 +370,6 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handl
 
 
 
-  const handleAccountName = (e) => {
-    const value = e.target.value
-    const pattern = /^[a-zA-Z\s]*$/;
-    if (!pattern.test(value)) {
-      return;
-    }
-    setAccountName(value);
-    setaccountnameError("")
-  };
-
-
-
-  const handleAccountNumberChange = (e) => {
-    const numericValue = e.target.value.replace(/[^0-9]/g, "");
-    setAccount_Number(numericValue);
-
-  };
-
-
-  const handleIfscCodeChange = (e) => {
-    const Value = e.target.value
-    setIfscCode(Value)
-
-
-  }
-
-  const handleBankNameChange = (e) => {
-    const Value = e.target.value
-    setBankName(Value)
-
-
-  }
-
-  const handleDescription = (e) => {
-    setDescription(e.target.value);
-  };
-
-
-  const handleSubmitBank = () => {
-
-    if (!accountName) {
-      setaccountnameError("Please Enter Benificiary Name");
-      return;
-    }
-    setaccountnameError("");
-
-    if (accountName) {
-      dispatch({
-        type: "ADD_BANKING",
-        payload: {
-          type: "bank", benificiary_name: accountName, acc_no: account_number, bank_name: bank_name,
-          ifsc_code: ifsccode, desc: description, hostel_id: state.login.selectedHostel_Id
-        },
-      });
-    }
-  };
-
-
   const hanldePrefix = (e) => {
     const Value = e.target.value.replace(/[^a-zA-Z\s]/g, "");
     setPrefix(Value)
@@ -674,72 +591,72 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handl
 
 
 
-  const handleSaveInvoice = () => {
-    if (
-      !prefix || !suffix || !tax || !notes || !terms || !signature || !isSignatureConfirmed || !selectedBankId
-    ) {
-      if (!prefix) setPrefixErrMsg("Please Enter Prefix");
-      if (!suffix) setSuffixErrMsg("Please Enter Suffix");
-      if (!tax) setTaxErrMsg("Please Enter Tax");
-      if (!notes) setNotesErrMsg("Please Enter Notes");
-      if (!terms) setTermsErrMsg("Please Enter Terms");
-      if (!selectedBankId) setBankIdError("Please Add or select bank")
-      if (!signature) {
-        setSignatureErrMsg("Please select signature");
-      } else if (!isSignatureConfirmed) {
-        setSignatureErrMsg("Please click Done after selecting a signature");
-      }
-      return;
-    }
+  // const handleSaveInvoice = () => {
+  //   if (
+  //     !prefix || !suffix || !tax || !notes || !terms || !signature || !isSignatureConfirmed || !selectedBankId
+  //   ) {
+  //     if (!prefix) setPrefixErrMsg("Please Enter Prefix");
+  //     if (!suffix) setSuffixErrMsg("Please Enter Suffix");
+  //     if (!tax) setTaxErrMsg("Please Enter Tax");
+  //     if (!notes) setNotesErrMsg("Please Enter Notes");
+  //     if (!terms) setTermsErrMsg("Please Enter Terms");
+  //     if (!selectedBankId) setBankIdError("Please Add or select bank")
+  //     if (!signature) {
+  //       setSignatureErrMsg("Please select signature");
+  //     } else if (!isSignatureConfirmed) {
+  //       setSignatureErrMsg("Please click Done after selecting a signature");
+  //     }
+  //     return;
+  //   }
 
 
-    const currentData = {
-      prefix,
-      suffix,
-      tax,
-      notes: notes?.replace(/"/g, '') || '',
-      privacyPolicy: terms,
-      signatureFile: signature,
-      bankingId: Number(selectedBankId)
-    };
+  //   const currentData = {
+  //     prefix,
+  //     suffix,
+  //     tax,
+  //     notes: notes?.replace(/"/g, '') || '',
+  //     privacyPolicy: terms,
+  //     signatureFile: signature,
+  //     bankingId: Number(selectedBankId)
+  //   };
 
-    const originalData = {
-      prefix: InvoiceList?.invoiceSettings?.prefix || '',
-      suffix: InvoiceList?.invoiceSettings?.suffix || '',
-      tax: InvoiceList?.invoiceSettings?.tax || '',
-      notes: InvoiceList?.invoiceSettings?.notes?.replace(/"/g, '') || '',
-      privacyPolicy: InvoiceList?.invoiceSettings?.privacyPolicyHtml || '',
-      signatureFile: InvoiceList?.invoiceSettings?.signatureFile || '',
-      bankingId: Number(InvoiceList?.invoiceSettings?.bankingId || 0),
-    };
+  //   const originalData = {
+  //     prefix: InvoiceList?.invoiceSettings?.prefix || '',
+  //     suffix: InvoiceList?.invoiceSettings?.suffix || '',
+  //     tax: InvoiceList?.invoiceSettings?.tax || '',
+  //     notes: InvoiceList?.invoiceSettings?.notes?.replace(/"/g, '') || '',
+  //     privacyPolicy: InvoiceList?.invoiceSettings?.privacyPolicyHtml || '',
+  //     signatureFile: InvoiceList?.invoiceSettings?.signatureFile || '',
+  //     bankingId: Number(InvoiceList?.invoiceSettings?.bankingId || 0),
+  //   };
 
-    if (
-      InvoiceList?.invoiceSettings &&
-      JSON.stringify(currentData) === JSON.stringify(originalData)
-    ) {
-      setEditErrMessage("No changes detected");
-      setSignatureErrMsg("")
-      return;
-    }
+  //   if (
+  //     InvoiceList?.invoiceSettings &&
+  //     JSON.stringify(currentData) === JSON.stringify(originalData)
+  //   ) {
+  //     setEditErrMessage("No changes detected");
+  //     setSignatureErrMsg("")
+  //     return;
+  //   }
 
-    if (selectedBankId) {
-      dispatch({
-        type: "ADD_INVOICE_SETTINGS",
-        payload: {
-          hostelId: Number(state.login.selectedHostel_Id),
-          bank_id: Number(selectedBankId),
-          prefix,
-          suffix,
-          tax,
-          notes,
-          privacyPolicy: terms,
-          signature,
-        },
-      });
-    }
+  //   if (selectedBankId) {
+  //     dispatch({
+  //       type: "ADD_INVOICE_SETTINGS",
+  //       payload: {
+  //         hostelId: Number(state.login.selectedHostel_Id),
+  //         bank_id: Number(selectedBankId),
+  //         prefix,
+  //         suffix,
+  //         tax,
+  //         notes,
+  //         privacyPolicy: terms,
+  //         signature,
+  //       },
+  //     });
+  //   }
 
 
-  };
+  // };
 
 
 
@@ -781,16 +698,16 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handl
   });
 
 
-  useEffect(() => {
-    if (state.Settings?.settingsInvoicegetSucesscode === 200) {
-      setLoading(false)
-      setInvoiceList(state.Settings.SettingsInvoice)
+  // useEffect(() => {
+  //   if (state.Settings?.settingsInvoicegetSucesscode === 200) {
+  //     setLoading(false)
+  //     setInvoiceList(state.Settings.SettingsInvoice)
 
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_SETTINGSGETINVOICE_STATUS_CODE" });
-      }, 1000);
-    }
-  }, [state.Settings.settingsInvoicegetSucesscode]);
+  //     setTimeout(() => {
+  //       dispatch({ type: "CLEAR_SETTINGSGETINVOICE_STATUS_CODE" });
+  //     }, 1000);
+  //   }
+  // }, [state.Settings.settingsInvoicegetSucesscode]);
 
 
   useEffect(() => {
@@ -800,8 +717,8 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handl
       setPrefix("")
       setSuffix("")
       setTax("")
-      setSignature(null)
-      setSignaturePreview(null)
+      // setSignature(null)
+      // setSignaturePreview(null)
       setBankIdError("")
 
       setTimeout(() => {
@@ -851,11 +768,11 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handl
 
 
 
-  const [selectedcard, setSelectedard] = useState('')
+  // const [selectedcard, setSelectedard] = useState('')
 
 
 
-  const handleShow = (type) => {
+  const handleShow = () => {
 
     if (!state.login.selectedHostel_Id) {
       toast.error("Please add a hostel before adding Invoice information.", {
@@ -873,9 +790,9 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handl
     // setIsInvoiceAddMode(true)
     // setIsSidebarOpen(false)
     handleFormPage(true)
-    setSelectedard(type)
+    // setSelectedard(type)
     setShowForm(true);
-    setEdit(false);
+    // setEdit(false);
     setCardShow(false)
   };
 
@@ -883,10 +800,10 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handl
 
   const handleCloseForm = () => {
     setBankAccountForm(false);
-    setEdit(false);
+    // setEdit(false);
     setCardShow(true)
     setShowForm(false)
-    setSelectedard('')
+    // setSelectedard('')
     setPrefix('')
     setSelectedDate('')
     setInvoiceDueDate('')
@@ -896,7 +813,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handl
 
   const handleCloseFormBank = () => {
     setBankAccountForm(false);
-    setEdit(false);
+    // setEdit(false);
   }
   const [bankaccountform, setBankAccountForm] = useState(false)
 
@@ -908,12 +825,12 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handl
 
   const handleCloseBankAccount = () => {
     setBankAccountForm(false)
-    setaccountnameError("")
-    setAccountName("")
-    setAccount_Number("")
-    setIfscCode("")
-    setBankName("")
-    setDescription("")
+    // setaccountnameError("")
+    // setAccountName("")
+    // setAccount_Number("")
+    // setIfscCode("")
+    // setBankName("")
+    // setDescription("")
   }
 
   useEffect(() => {
@@ -936,11 +853,11 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handl
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForAddBanking === 200) {
-      setAccountName("")
-      setAccount_Number("")
-      setIfscCode("")
-      setBankName("")
-      setDescription("")
+      // setAccountName("")
+      // setAccount_Number("")
+      // setIfscCode("")
+      // setBankName("")
+      // setDescription("")
       handleCloseBankAccount();
 
       dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
@@ -993,33 +910,33 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handl
 
 
 
-  useEffect(() => {
-    if (!InvoiceList?.invoiceSettings) return;
+  // useEffect(() => {
+  //   if (!InvoiceList?.invoiceSettings) return;
 
-    const currentData = {
-      prefix,
-      suffix,
-      tax,
-      notes: notes?.replace(/"/g, '') || '',
-      privacyPolicy: terms,
-      signatureFile: signature,
-      bankingId: Number(selectedBankId)
-    };
+  //   const currentData = {
+  //     prefix,
+  //     suffix,
+  //     tax,
+  //     notes: notes?.replace(/"/g, '') || '',
+  //     privacyPolicy: terms,
+  //     signatureFile: signature,
+  //     bankingId: Number(selectedBankId)
+  //   };
 
-    const originalData = {
-      prefix: InvoiceList.invoiceSettings.prefix || '',
-      suffix: InvoiceList.invoiceSettings.suffix || '',
-      tax: InvoiceList.invoiceSettings.tax || '',
-      notes: InvoiceList.invoiceSettings.notes?.replace(/"/g, '') || '',
-      privacyPolicy: InvoiceList.invoiceSettings.privacyPolicyHtml || '',
-      signatureFile: InvoiceList.invoiceSettings.signatureFile || '',
-      bankingId: Number(InvoiceList.invoiceSettings.bankingId || 0),
-    };
+  //   const originalData = {
+  //     prefix: InvoiceList.invoiceSettings.prefix || '',
+  //     suffix: InvoiceList.invoiceSettings.suffix || '',
+  //     tax: InvoiceList.invoiceSettings.tax || '',
+  //     notes: InvoiceList.invoiceSettings.notes?.replace(/"/g, '') || '',
+  //     privacyPolicy: InvoiceList.invoiceSettings.privacyPolicyHtml || '',
+  //     signatureFile: InvoiceList.invoiceSettings.signatureFile || '',
+  //     bankingId: Number(InvoiceList.invoiceSettings.bankingId || 0),
+  //   };
 
-    if (JSON.stringify(currentData) !== JSON.stringify(originalData)) {
-      setEditErrMessage('');
-    }
-  }, [prefix, suffix, tax, notes, terms, signature, selectedBankId, InvoiceList]);
+  //   if (JSON.stringify(currentData) !== JSON.stringify(originalData)) {
+  //     setEditErrMessage('');
+  //   }
+  // }, [prefix, suffix, tax, notes, terms, signature, selectedBankId, InvoiceList]);
 
 
   const [qrImage, setQrImage] = useState(null);
@@ -1053,7 +970,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handl
       setPaymentinvoiceEmail(BillsTemplateList.isMailIdCustomized && RentalinvoiceTemplate.invoiceMailId ? RentalinvoiceTemplate.invoiceMailId : BillsTemplateList.emailId)
       setPrefix(RentalinvoiceTemplate.prefix || '')
       setSuffix(RentalinvoiceTemplate.suffix || '')
-      setSignature(BillsTemplateList.isSignatureCustomized && RentalinvoiceTemplate.invoiceSignatureUrl ? RentalinvoiceTemplate.invoiceSignatureUrl : BillsTemplateList.signature)
+      // setSignature(BillsTemplateList.isSignatureCustomized && RentalinvoiceTemplate.invoiceSignatureUrl ? RentalinvoiceTemplate.invoiceSignatureUrl : BillsTemplateList.signature)
       setRentalSignatureFile(BillsTemplateList.isSignatureCustomized && RentalinvoiceTemplate.invoiceSignatureUrl ? RentalinvoiceTemplate.invoiceSignatureUrl : BillsTemplateList.signature)
       setRentalSignaturePreview(BillsTemplateList.isSignatureCustomized && RentalinvoiceTemplate.invoiceSignatureUrl ? RentalinvoiceTemplate.invoiceSignatureUrl : BillsTemplateList.signature)
       setTerms(RentalinvoiceTemplate.invoiceTermsAndCondition || '')
@@ -1263,13 +1180,13 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handl
 
 
 
-  useEffect(() => {
-    if (showFullView) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
-  }, [showFullView]);
+  // useEffect(() => {
+  //   if (showFullView) {
+  //     document.body.style.overflow = 'hidden';
+  //   } else {
+  //     document.body.style.overflow = 'auto';
+  //   }
+  // }, [showFullView]);
 
 
 
@@ -1278,7 +1195,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handl
   const [fieldError, setFieldError] = useState("")
 
   const handleSaveTemplate = () => {
-    const hasSignatureInDB = BillsTemplateList?.signature;
+    // const hasSignatureInDB = BillsTemplateList?.signature;
 
 
 
@@ -1348,7 +1265,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handl
 
 
   const handleReset = (() => {
-    setResetCall(true)
+    // setResetCall(true)
     setSelectedFile(null)
     setSign(null)
     setSignPreview(null)
@@ -3671,7 +3588,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handl
                             fontWeight: 600,
                             whiteSpace: "nowrap",
                           }}>
-                            Fill the template form with details you'd like to customize.
+                            Fill the template form with details you like to customize.
                           </p>
                         </div>
                       </div>
@@ -3745,470 +3662,14 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen, handl
 
 
 
-      {/* {
-        edit &&
-
-        (
-          <div>
-
-            <div className="container justify-content-start  d-flex align-items-start"
-              style={{
-                position: "sticky",
-                top: 0,
-                left: 0,
-                width: "100%",
-                zIndex: 1000,
-                backgroundColor: "#FFFFFF",
-                height: "60px",
-                padding: "10px 5px",
-              }}
-            >
-              <div style={{ position: "fixed" }}>
-                <img
-                  src={leftarrow}
-                  alt="leftarrow"
-                  width={20}
-                  height={20}
-                  // onClick={handleEditClose}
-                  style={{ cursor: "pointer" }}
-                />
-                <span
-                  style={{
-                    fontWeight: 500,
-                    fontSize: "18px",
-                    fontFamily: "Gilroy",
-                    paddingLeft: "10px"
-                  }}
-                >
-                  {selectedcard === "paymentinvoice" && "Monthly Rental Invoice"}
-                  {selectedcard === "despositinvoice" && "Security Deposit Invoice"}
-                  {selectedcard === "payementreceipt" && "Monthly Rental Receipt"}
-                  {selectedcard === "depositreceipt" && "Security Deposit Receipt"}
-                  {selectedcard === "finalreceipt" && "Final Settlement Receipt"}
-
-                </span>{" "}
-              </div>
-            </div>
-
-            <div style={{ overflowY: 'auto', maxHeight: '500px' }}>
-
-              <div className="border p-3 mb-3" style={{ borderRadius: '10px', minHeight: '100px', maxHeight: 'auto', overflowY: 'auto', }}>
-                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                  <div>
-                    <p style={{ fontFamily: "Gilroy", fontSize: 18, color: "rgba(34, 34, 34, 1)", fontWeight: 400, whiteSpace: "nowrap", }}>Account Details</p>
-                  </div>
-                  <div>
-                    {
-                      banking && banking.length > 0 &&
-
-                      <button
-                        onClick={handleAddBankAccount}
-                        style={{
-                          fontFamily: "Gilroy",
-                          fontSize: "14px",
-                          backgroundColor: "#1E45E1",
-                          color: "white",
-                          fontWeight: 400,
-                          borderRadius: "12px",
-                          width: 106,
-                          height: 35,
-                          border: "1px solid #1E45E1",
-                        }}
-                      >
-                        Add
-                      </button>
-                    }
-
-                  </div>
-                </div>
-
-
-                <hr></hr>
-                <>
-                  {banking && banking.length > 0 ? (
-                    banking.map((bank) => (
-                      <div
-                        key={bank.bankingId}
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          marginBottom: 15,
-                          cursor: "pointer",
-                        }}
-                        onClick={() => handleBankClick(bank.bankingId)}
-                      >
-                        <input
-                          type="radio"
-                          name="bank"
-                          checked={selectedBankId === bank.bankingId}
-                          onChange={() => handleBankClick(bank.bankingId)}
-                          style={{ accentColor: "#1E45E1", marginRight: 10, height: 16, width: 16 }}
-                        />
-                        <div
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 12,
-                          }}
-                        >
-                          <div
-                            style={{
-                              backgroundColor: "#1E45E1",
-                              color: "white",
-                              borderRadius: "50%",
-                              width: 30,
-                              height: 30,
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                            }}
-                          >
-                            <img src={BankICon} alt="bankicon" height={17} width={17} className="mb-1" />
-                          </div>
-                          <div>
-                            <div style={{ fontWeight: 600, fontSize: 14, fontFamily: "Gilroy" }}>
-                              {bank.bankName || "Bank Name"}
-                            </div>
-                            <div style={{ fontSize: 13, color: "grey", fontFamily: "Gilroy" }}>
-                              {bank.accountHolderName || "Beneficiary"} /{" "} Savings A/C
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    ))
-                  ) : (
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      <p
-                        style={{
-                          fontFamily: "Gilroy",
-                          fontSize: 14,
-                          fontWeight: 400,
-                          color: "grey",
-                          fontStyle: "normal",
-                          lineHeight: "normal",
-                        }}
-                      >
-                        No Bank accounts are there!
-                      </p>
-                      <button
-                        onClick={handleAddBankAccount}
-                        style={{
-                          fontFamily: "Gilroy",
-                          fontSize: "14px",
-                          backgroundColor: "#1E45E1",
-                          color: "white",
-                          fontWeight: 400,
-                          borderRadius: "12px",
-                          width: 106,
-                          height: 35,
-                          border: "1px solid #1E45E1",
-                        }}
-                      >
-                        Add
-                      </button>
-                    </div>
-
-
-                  )}
-                </>
-
-                {!selectedBankId && bankid_Error.trim() !== "" && (
-                  <ErrorMessage message={bankid_Error} type="error" />
-                )}
-              </div>
-
-              <div className="border p-3 mb-3" style={{ borderRadius: '10px', overflowY: 'auto', }}>
-
-                <div>
-                  <p style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)", fontStyle: "normal", lineHeight: "normal" }}>
-                    Invoice No</p>
-                  <hr></hr>
-                </div>
-
-                <div className='d-flex row '>
-                  <div className='col-lg-6 col-md-6 col-sm-11 col-xs-11'>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                      <Form.Label
-                        style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, fontStyle: 'normal', lineHeight: 'normal', color: 'rgba(34, 34, 34, 1)' }}
-                      >
-                        Prefix
-                      </Form.Label>
-                      <Form.Control
-                        style={{ padding: '10px', marginTop: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 400 }}
-                        type="text"
-                        placeholder="prefix"
-                        value={prefix}
-                        onChange={hanldePrefix}
-                      />
-                      {prefix_errmsg.trim() !== "" && (
-                        <ErrorMessage message={prefix_errmsg} type="error" />
-                      )}
-
-                    </Form.Group>
-                  </div>
-
-                  <div className='col-lg-6 col-md-6 col-sm-11 col-xs-11'>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                      <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
-                      >
-                        Suffix
-                      </Form.Label>
-                      <Form.Control
-                        style={{ padding: '10px', marginTop: '10px', fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 400 }}
-                        type="text"
-                        placeholder="suffix"
-                        value={suffix}
-                        onChange={hanldeSuffix}
-                      />
-
-                      {suffix_errmsg.trim() !== "" && (
-                        <ErrorMessage message={suffix_errmsg} type="error" />
-                      )}
-                    </Form.Group>
-                  </div>
-                </div>
-
-                <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
-                  <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                    <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
-                    >
-                      Preview
-                    </Form.Label>
-                    <Form.Control
-                      style={{ padding: '10px', marginTop: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 400 }}
-                      type="text"
-                      placeholder="preview"
-                      value={`${prefix}-${suffix}`}
-                      readOnly
-
-                    />
-
-
-                  </Form.Group>
-                </div>
-              </div>
-
-              <div className="border p-3 mb-3" style={{ borderRadius: '10px', overflowY: 'auto', }}>
-
-                <div>
-                  <p style={{ fontFamily: 'Gilroy', color: 'rgba(34, 34, 34, 1)', fontSize: 14, fontWeight: 400, fontStyle: 'normal', lineHeight: 'normal' }}>
-                    PG Tax Payable</p>
-                  <hr></hr>
-                </div>
-
-                <div className='d-flex row '>
-                  <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                      <Form.Label
-                        style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
-                      >
-                        Add the Tax payable GST in Percentage %
-                      </Form.Label>
-                      <Form.Control
-                        style={{ padding: '10px', marginTop: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 400 }}
-                        type="text"
-                        placeholder="12%"
-                        value={tax}
-                        onChange={handleTaxChange}
-                      />
-
-                      {tax_errmsg.trim() !== "" && (
-                        <ErrorMessage message={tax_errmsg} type="error" />
-                      )}
-                    </Form.Group>
-                  </div>
-
-
-                </div>
-
-
-
-              </div>
-
-
-              <div className="p-3 mb-3 border " style={{ borderRadius: '10px' }}>
-                <h6 style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}>
-                  Notes
-                </h6>
-                <hr />
-                <label className="form-label" style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}>Add Notes</label>
-                <div className="position-relative">
-                  <textarea
-                    style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
-                    className="form-control pe-5"
-                    rows="4"
-                    placeholder='Add any message...'
-                    value={notes}
-                    onChange={handleNotesChange}
-                  />
-                  <img
-                    src={TextAreaICon}
-                    alt="textarea_icon"
-                    style={{
-                      position: "absolute",
-                      right: "12px",
-                      top: "12px",
-                      color: "#666",
-                      pointerEvents: "none",
-                    }}
-                  />
-                </div>
-                {notes_errmsg.trim() !== "" && (
-                  <ErrorMessage message={notes_errmsg} type="error" />
-                )}
-              </div>
-
-              <div className="p-3 mb-3 border " style={{ borderRadius: '10px' }}>
-                <h6 style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}>
-                  Terms & Condition</h6>
-                <hr />
-                <label className="form-label" style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
-                >Add T&C</label>
-
-                <div className="position-relative">
-                  <textarea
-                    className="form-control pe-5"
-                    rows="4"
-                    placeholder='Add any message...'
-                    value={terms}
-                    onChange={handleTermsChange}
-                    style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
-                  />
-                  <img
-                    src={TextAreaICon}
-                    alt="textarea-icon"
-                    style={{
-                      position: "absolute",
-                      right: "12px",
-                      top: "12px",
-                      color: "#666",
-                      pointerEvents: "none",
-                    }}
-                  />
-                </div>
-                {terms_errmsg.trim() !== "" && (
-                  <ErrorMessage message={terms_errmsg} type="error" />
-                )}
-
-              </div>
-
-              <div className="p-3 mb-3 border " style={{ borderRadius: '10px' }}>
-                <h6 style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}>
-                  Authorized Signature</h6>
-                <small className="text-muted" style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: 'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
-                >Add a respected Persons Signature</small>
-
-                <div
-                  className="rounded mt-2 d-flex justify-content-center align-items-center"
-                  style={{
-                    height: '120px', borderStyle: 'dotted', borderWidth: '3px',
-                    borderColor: '#ced4da'
-                  }}
-                >
-
-
-                </div>
-
-                <div className="d-flex justify-content-between align-items-center mt-2">
-                  <div>
-                    <label style={{ cursor: 'pointer', color: 'rgba(30, 69, 225, 1)', fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400 }}>
-                      Choose file
-                      <input
-                        type="file"
-                        accept="image/*"
-                        className="d-none"
-                        ref={fileInputRef}
-                        onChange={handleFileSignatureChange}
-                      />
-                    </label>
-                    <span className="ms-1" style={{ color: 'rgba(22, 21, 28, 1)', fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400 }}>to Upload Image</span>
-                  </div>
-                  <div>
-                    <button
-                      className="btn btn-link text-decoration-none "
-                      onClick={handleClear}
-                      // disabled={!signaturePreview}
-                      style={{ color: 'rgba(75, 75, 75, 1)', fontFamily: 'Gilroy', fontSize: 16, fontWeight: 400 }}
-                    >
-                      Clear
-                    </button>
-                    <button
-                      className="btn btn-link text-decoration-none "
-                      disabled={!signaturePreview}
-                      onClick={handleSignatureDone}
-                      style={{ color: 'rgba(30, 69, 225, 1)', fontFamily: 'Gilroy', fontSize: 16, fontWeight: 600 }}
-                    >
-                      Done
-                    </button>
-                  </div>
-
-
-                </div>
-                {signature_errmsg.trim() !== "" && (
-                  <ErrorMessage message={signature_errmsg} type="error" />
-                )}
-              </div>
-
-              {editErrmsg.trim() !== "" && (
-                <ErrorMessage message={editErrmsg} type="error" />
-              )}
-
-              <div className="d-flex justify-content-end flex-wrap mt-3 ">
-                <button
-
-                  // onClick={handleEditClose}
-                  className="me-3 "
-                  style={{
-                    fontFamily: "Gilroy",
-                    fontSize: "14px",
-                    backgroundColor: "white",
-                    color: "rgba(75, 75, 75, 1)",
-                    fontWeight: 400,
-                    borderRadius: "12px",
-                    width: 146,
-                    height: 45,
-                    border: "1px solid rgba(75, 75, 75, 1)",
-
-                  }}
-                >
-                  Cancel
-                </button>
-
-                <button
-                  onClick={handleSaveInvoice}
-                  style={{
-                    fontFamily: "Gilroy",
-                    fontSize: "14px",
-                    backgroundColor: "#1E45E1",
-                    color: "white",
-                    fontWeight: 400,
-                    borderRadius: "12px",
-                    width: 146,
-                    height: 45,
-                    border: "1px solid #1E45E1",
-                  }}
-                >
-                  Update
-                </button>
-              </div>
-            </div>
-          </div>
-        )
-      } */}
+   
 
       {bankaccountform && (
 
 
         <BankingAddForm showForm={bankaccountform}
           setShowForm={handleCloseFormBank}
-          setEdit={setEdit}
+       
 
 
         />
@@ -4227,7 +3688,7 @@ SettingInvoice.propTypes = {
   hostelid: PropTypes.func.isRequired,
   value: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
-  setIsInvoiceAddMode: PropTypes.func.isRequired,
-  setIsSidebarOpen: PropTypes.func.isRequired,
+  // setIsInvoiceAddMode: PropTypes.func.isRequired,
+  handleFormPage: PropTypes.func.isRequired,
 }
 export default SettingInvoice;

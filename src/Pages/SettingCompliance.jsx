@@ -7,7 +7,7 @@ import { Button, Form, FormControl } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import EmptyState from "../Assets/Images/New_images/empty_image.png";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import PropTypes from "prop-types";
 import { CloseCircle } from "iconsax-react";
@@ -16,7 +16,7 @@ import { toast } from 'react-toastify';
 import ErrorMessage from '../Components/ErrorMessage';
 import { useHasPermission } from '../Utils/Permission';
 
-function SettingCompliance({ hostelid }) {
+function SettingCompliance() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const popupRef = useRef(null);

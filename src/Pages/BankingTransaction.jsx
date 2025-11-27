@@ -560,7 +560,7 @@ function BankingEditTransaction(props) {
           className="d-flex justify-content-center"
           style={{ borderTop: "none" }}
         >
-          <Button
+          <Button disabled={formLoading}
             className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
             style={{
               backgroundColor: "#1E45E1",

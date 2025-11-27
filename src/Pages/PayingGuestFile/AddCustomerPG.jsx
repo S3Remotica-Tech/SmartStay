@@ -982,7 +982,7 @@ function AddCustomer({ showMenu, handleClose }) {
                         </div>
 
                         <div className="d-flex justify-content-end mt-3">
-                          <Button style={{
+                          <Button  disabled={formLoading} style={{
                             fontFamily: "Gilroy",
                             fontSize: "14px",
                             backgroundColor: "#1E45E1",
@@ -1322,7 +1322,7 @@ function AddCustomer({ showMenu, handleClose }) {
                             width: "146px",
                             whiteSpace: "nowrap",
                           }} onClick={handlePrevious}>Previous</Button>
-                          <Button style={{
+                          <Button disabled={formLoading} style={{
                             fontFamily: "Gilroy",
                             fontSize: "14px",
                             backgroundColor: "#1E45E1",

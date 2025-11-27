@@ -503,7 +503,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
     let hasError = false;
 
-    // Validate basic fields
+    
     if (!validateField(checkin_customername, "checkin_customername")) hasError = true;
     if (!validateField(stay_typename, "stay_typename")) hasError = true;
     if (!validateField(checkin_joiningDate, "checkin_joiningDate")) hasError = true;
@@ -1217,7 +1217,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                       Cancel
                     </Button>
 
-                    <Button
+                    <Button disabled={formLoading}
                       style={{
                         backgroundColor: "#1E45E1",
                         fontWeight: 500,
@@ -1793,7 +1793,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
 
                       <div className="d-flex justify-content-end">
-                        <Button
+                        <Button 
                           style={{
                             backgroundColor: "white",
                             fontWeight: 400,
@@ -1809,7 +1809,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                           Cancel
                         </Button>
 
-                        <Button
+                        <Button disabled={formLoading}
                           style={{
                             backgroundColor: "#1E45E1",
                             fontWeight: 500,

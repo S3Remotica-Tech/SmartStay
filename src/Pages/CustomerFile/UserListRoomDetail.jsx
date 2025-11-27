@@ -159,7 +159,7 @@ function UserListRoomDetail(props) {
   const [documentvalue, setDocumentValue] = useState("1")
   const [previewUrl, setPreviewUrl] = useState(null);
   const [previewUrl2, setPreviewUrl2] = useState(null)
-  const [loadingFile, setLoadingFile] = useState(false)
+  const [loadingFile, setLoadingFile] = useState(true)
   const [showModal, setShowModal] = useState(false);
   const [basicDetails, setBasicDetails] = useState("")
   const [imagePreview, setImagePreview] = useState(null);
@@ -203,7 +203,15 @@ function UserListRoomDetail(props) {
 
 
 
+useEffect(() => {
+    if (state.UsersList?.CustomerdetailsgetStatuscode === 200) {
+      setLoadingFile(false)
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
+      }, 500);
 
+    }
+  }, [state.UsersList?.CustomerdetailsgetStatuscode])
 
 
 
@@ -2298,6 +2306,34 @@ function UserListRoomDetail(props) {
 
     <>
 
+    {loadingFile && <div
+                style={{
+                  position: 'absolute',
+                  top: 100,
+                  right: 0,
+                  bottom: 0,
+                  left: "25%",
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: 'transparent',
+                  opacity: 0.75,
+                  zIndex: 10,
+                }}
+              >
+                <div
+                  style={{
+                    borderTop: '4px solid #1E45E1',
+                    borderRight: '4px solid transparent',
+                    borderRadius: '50%',
+                    width: '40px',
+                    height: '40px',
+                    animation: 'spin 1s linear infinite',
+                  }}
+                ></div>
+              </div>}
+
+
       <div
         key={CustomerOverView?.customerId}
         className="container mt-2"
@@ -3755,13 +3791,13 @@ function UserListRoomDetail(props) {
                                   // marginLeft: 29
                                 }}
                               >
-                                Joined Date  <img className="ms-2" onClick={() => (canUpdateTenant && CustomerOverView.hostelInfo?.joiningDate) && handleUpdateJoiningChange()}
+                                Joined Date  <img className="ms-2" onClick={() => (canUpdateTenant && CustomerOverView.hostelInfo?.joiningDate && CustomerOverView.hostelInfo.currentStatus !== "NOTICE") && handleUpdateJoiningChange()}
                                   src={EditImage}
                                   alt="EditImage"
                                   style={{
                                     height: 14,
                                     width: 14,
-                                    color: !canUpdateTenant || !CustomerOverView.hostelInfo?.joiningDate
+                                    color: !canUpdateTenant || !CustomerOverView.hostelInfo?.joiningDate 
                                       ? "#1E45E1"
                                       : "#000", cursor: "pointer"
                                   }}
@@ -3860,7 +3896,7 @@ function UserListRoomDetail(props) {
                                       >
                                         Monthly Rent
                                         <img className="ms-2"
-                                          onClick={() => (canUpdateTenant && CustomerOverView.hostelInfo?.monthlyRent) && handleUpdateChange()}
+                                          onClick={() => (canUpdateTenant && CustomerOverView.hostelInfo?.monthlyRent && CustomerOverView.hostelInfo.currentStatus !== "NOTICE") && handleUpdateChange()}
                                           src={EditImage}
                                           alt="EditImage"
                                           style={{
@@ -3895,7 +3931,7 @@ function UserListRoomDetail(props) {
                                           fontFamily: "Gilroy",
                                         }}
                                       >
-                                        Advance Amount  <img className="ms-2" onClick={() => (canUpdateTenant && advanceList?.advanceAmount) && handleUpdateAdvanceChange()}
+                                        Advance Amount  <img className="ms-2" onClick={() => (canUpdateTenant && advanceList?.advanceAmount && CustomerOverView.hostelInfo.currentStatus !== "NOTICE") && handleUpdateAdvanceChange()}
                                           src={EditImage}
                                           alt="EditImage"
                                           style={{

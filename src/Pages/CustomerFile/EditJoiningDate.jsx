@@ -414,7 +414,7 @@ function EditJoiningDate({ show, handleClose }) {
                                 Cancel
                             </Button>
 
-                            <Button
+                            <Button  disabled={loading}
                                 onClick={handleSubmit}
                                 className="w-100 mt-1"
                                 style={{

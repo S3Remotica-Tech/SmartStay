@@ -8,26 +8,27 @@ import './SettingAll.css';
 import { useSelector } from 'react-redux';
 import { ArrowRight2, ArrowLeft2 } from 'iconsax-react'
 // import SettingsBills from "./SettingsBills";
-import { Routes, Route, useNavigate, Outlet, Navigate } from "react-router-dom";
+import {useNavigate, Outlet } from "react-router-dom";
+import PropTypes from "prop-types";
 
 function SettingAllPages({ isVisibleSidebar }) {
   const navigate = useNavigate();
 
 
   const state = useSelector(state => state);
-  const [hostel_Id, setHostel_Id] = useState('')
+  // const [hostel_Id, setHostel_Id] = useState('')
   const [activePage, setActivePage] = useState("General");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isInvoiceAddMode, setIsInvoiceAddMode] = useState(false);
 
 
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      setHostel_Id(state.login.selectedHostel_Id)
-    }
+  // useEffect(() => {
+  //   if (state.login.selectedHostel_Id) {
+  //     setHostel_Id(state.login.selectedHostel_Id)
+  //   }
 
-  }, [state?.login?.selectedHostel_Id]);
+  // }, [state?.login?.selectedHostel_Id]);
 
   useEffect(() => {
     if (state.PgList?.isManageEnable) {
@@ -51,10 +52,10 @@ function SettingAllPages({ isVisibleSidebar }) {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  const handleAddInvoiceClick = () => {
-    setIsInvoiceAddMode(true);
+  // const handleAddInvoiceClick = () => {
+  //   setIsInvoiceAddMode(true);
 
-  };
+  // };
 
   const handleSettingsNavigate = (tabName, pageKey) => {
     handleTabClick(pageKey);
@@ -579,5 +580,7 @@ function SettingAllPages({ isVisibleSidebar }) {
     </>
   );
 }
-
+SettingAllPages.propTypes = {
+    isVisibleSidebar: PropTypes.func.isRequired,
+};
 export default SettingAllPages;

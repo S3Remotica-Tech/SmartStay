@@ -236,21 +236,21 @@ function SettingGeneral() {
     dispatch({ type: "CLEAR_PASSWORD_ERROR" });
   };
 
-  const CheckvalidateField = (value, fieldName) => {
-    if (!value || (typeof value === "string" && value.trim() === "")) {
-      switch (fieldName) {
-        case "checkPassword":
-          setPassError("Please Enter Password");
-          break;
+  // const CheckvalidateField = (value, fieldName) => {
+  //   if (!value || (typeof value === "string" && value.trim() === "")) {
+  //     switch (fieldName) {
+  //       case "checkPassword":
+  //         setPassError("Please Enter Password");
+  //         break;
 
 
-        default:
-          break;
-      }
-      return false;
-    }
-    return true;
-  }
+  //       default:
+  //         break;
+  //     }
+  //     return false;
+  //   }
+  //   return true;
+  // }
 
   const handleCheckPasswordChange = () => {
     dispatch({ type: 'CLEAR_PASSWORD_ERROR' })
@@ -444,7 +444,9 @@ function SettingGeneral() {
 
 
 
-  const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
+const regex = /^[a-zA-Z0-9 .,'/#()&:-]*$/;
+
+
 
 
   const handleHouseNo = (e) => {

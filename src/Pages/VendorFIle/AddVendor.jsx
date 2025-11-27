@@ -8,7 +8,7 @@ import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
 import { InputGroup, FormControl } from "react-bootstrap";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import { CloseCircle } from "iconsax-react";
 import PropTypes from "prop-types";
 import Select from "react-select";
@@ -312,7 +312,7 @@ function AddVendor({ show, setShow, currentItem }) {
     const focusedRef = { current: false };
 
     const emailInvalid = emailError !== "";
-    const mobileInvalid = mobileError !== "";
+    // const mobileInvalid = mobileError !== "";
 
     if (
       !first_Name &&

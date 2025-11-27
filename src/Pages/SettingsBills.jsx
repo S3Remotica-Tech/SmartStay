@@ -9,7 +9,7 @@ import "react-calendar/dist/Calendar.css";
 import "../Pages/Settings.css";
 import { useDispatch, useSelector } from "react-redux";
 import leftarrow from "../Assets/Images/arrow-left.png";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import "react-datepicker/dist/react-datepicker.css";
 import Billsimage from "../Assets/Images/bill_settings.png";
 import EditICon from '../Assets/Images/edit_whiteicon.png'

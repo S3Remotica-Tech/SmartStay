@@ -6,7 +6,8 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { CloseCircle } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
-import { useHasPermission } from "../../Utils/Permission";
+import PropTypes from "prop-types";
+// import { useHasPermission } from "../../Utils/Permission";
 
 function AddCategory({ show, handleCloseForm, editCategory }) {
     const state = useSelector((state) => state);
@@ -57,6 +58,7 @@ function AddCategory({ show, handleCloseForm, editCategory }) {
         }
         if (editCategory) {
 
+            console.log("excuted")
 
         } else {
             dispatch({
@@ -206,5 +208,12 @@ function AddCategory({ show, handleCloseForm, editCategory }) {
         </div>
     );
 }
-
+AddCategory.propTypes = {
+  show: PropTypes.func.isRequired,
+  handleCloseForm: PropTypes.func.isRequired,
+ editCategory: PropTypes.shape({
+    categoryName: PropTypes.string,
+  }),
+  
+};
 export default AddCategory;
