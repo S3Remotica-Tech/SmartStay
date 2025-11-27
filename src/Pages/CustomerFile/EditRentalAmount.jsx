@@ -130,7 +130,7 @@ function EditRentalAmount({ show, handleClose }) {
 
         
 
-        if (!effectiveFrom) {
+        if (  types === "Rent-Revision" && !effectiveFrom) {
             setEffectiveFromError("Please Select Date");
             dateRef.current?.focus();
             isValid = false;
