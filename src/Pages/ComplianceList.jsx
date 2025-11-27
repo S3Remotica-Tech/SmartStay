@@ -1574,7 +1574,7 @@ const ComplianceList = (props) => {
                       ></div>
                     </div>}
                     <Modal.Footer style={{ border: "none" }}>
-                      <Button
+                      <Button disabled={formLoading}
                         className="w-100"
                         style={{
                           backgroundColor: "#1E45E1",
@@ -1843,7 +1843,7 @@ const ComplianceList = (props) => {
                       ></div>
                     </div>}
                     <Modal.Footer style={{ border: "none", marginTop: '12px' }}>
-                      <Button
+                      <Button disabled={formAssignCompliantLoading}
                         className="w-100"
                         style={{
                           backgroundColor: "#1E45E1",

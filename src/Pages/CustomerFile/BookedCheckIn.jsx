@@ -940,7 +940,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
                                 <Button
                                     className="w-100"
-                                    disabled={state.UsersList.bedError}
+                                    disabled={state.UsersList.bedError || formLoading}
                                     style={{
                                         backgroundColor: "#1E45E1",
                                         fontWeight: 600,

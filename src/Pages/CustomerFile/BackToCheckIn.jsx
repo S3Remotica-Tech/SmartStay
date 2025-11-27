@@ -390,7 +390,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails }) {
                                     Cancel
                                 </button>
 
-                                <button
+                                <button disabled={formLoading}
                                     type="button"
                                     style={{
                                         backgroundColor: "#1E45E1",

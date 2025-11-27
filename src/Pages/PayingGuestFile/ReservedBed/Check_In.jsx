@@ -1100,7 +1100,7 @@ function CheckIn({
                                 </Button>
 
                                 <Button
-                                    disabled={state.UsersList.bedError}
+                                    disabled={state.UsersList.bedError || formLoading}
                                     className="w-100 mt-1"
                                     style={{
                                         backgroundColor: "#1E45E1",

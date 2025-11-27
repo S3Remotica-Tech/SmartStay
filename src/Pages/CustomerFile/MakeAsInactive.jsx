@@ -322,7 +322,7 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails }) {
                             Cancel
                         </Button>
 
-                        <Button
+                        <Button  disabled={formLoading}
                             onClick={SubmitInActiveForm}
                             className="w-100"
                             style={{

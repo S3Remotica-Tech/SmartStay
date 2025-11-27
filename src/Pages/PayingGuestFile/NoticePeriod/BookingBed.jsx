@@ -792,7 +792,7 @@ useEffect(() => {
 
                 }}
                 onClick={handleSubmitBooking}
-              // disabled={isAlreadyAssigned}
+              disabled={formLoading}
 
               >
                 Book

@@ -475,7 +475,7 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
                                 Cancel
                             </Button>
 
-                            <Button
+                            <Button 
                                 onClick={handleSubmit}
                                 className="w-100 mt-1"
                                 style={{
@@ -485,6 +485,7 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
                                     fontSize: 16,
                                     fontFamily: "Gilroy",
                                     padding: "8px 40px"
+                                    
                                 }}
                             >
                                 Update

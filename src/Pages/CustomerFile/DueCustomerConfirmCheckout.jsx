@@ -222,7 +222,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, customerID }) {
 
 
     useEffect(() => {
-        // Initialize tooltips with white background
+
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
         [...tooltipTriggerList].forEach(
             (tooltipTriggerEl) =>
@@ -232,7 +232,6 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, customerID }) {
         );
     }, []);
     useEffect(() => {
-        // Inject custom style once
         const style = document.createElement("style");
         style.innerHTML = `
     .white-tooltip .tooltip-inner {
@@ -257,7 +256,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, customerID }) {
                 payload: { customerId: data.customerId || data.currentTenantCustomerId, comments: comments }
 
             })
-
+            setFormLoading(true)
 
         }
     }
@@ -275,7 +274,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, customerID }) {
     }, [state.UsersList.statuscodeForConformCheckout])
 
 
- 
+
 
     const getProfileImage = () => {
         if (data?.user_profile && data?.user_profile !== "0") {
@@ -289,7 +288,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, customerID }) {
         return null;
     };
 
-    
+
 
 
 
@@ -345,8 +344,8 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, customerID }) {
                                     cursor: "pointer"
                                 }}
                             >
-                                {data?.initials || data.currentTenantInitials || 
-                                    
+                                {data?.initials || data.currentTenantInitials ||
+
                                     "--"}
                             </div>
                         )}
@@ -432,11 +431,38 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, customerID }) {
                     </div>
 
                 )}
+
+                 {formLoading && <div
+            style={{
+              position: 'absolute',
+              top: 100,
+              right: 0,
+              bottom: 0,
+              left: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>}
                 <Modal.Footer style={{ borderTop: "none", marginTop: "-10px" }}>
                     <Button style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400 }} className="btn btn-light" onClick={handleClosecheck}>
                         Cancel
                     </Button>
-                    <Button onClick={handleConfirmCheckout} style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400 }} variant="primary">Check-Out</Button>
+                    <Button disabled={formLoading} onClick={handleConfirmCheckout} style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400 }} variant="primary">Check-Out</Button>
                 </Modal.Footer>
             </Modal>
         </div>

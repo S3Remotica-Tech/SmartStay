@@ -1368,7 +1368,7 @@ function CustomerReAssign(props) {
             </div>}
 
             <Modal.Footer className="pt-1" style={{ border: "none" }}>
-              <Button
+              <Button disabled={formLoading}
                 className="w-100"
                 style={{
                   backgroundColor: "#1E45E1",
