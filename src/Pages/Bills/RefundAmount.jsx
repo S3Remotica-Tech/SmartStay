@@ -22,7 +22,7 @@ function RefundAmount({ show, handleClose, refundDetails }) {
     const state = useSelector(state => state)
     const dispatch = useDispatch();
 
-  
+
 
     const [refundAmount, setRefundAmount] = useState("");
     const [refundDate, setRefundDate] = useState(null);
@@ -94,6 +94,7 @@ function RefundAmount({ show, handleClose, refundDetails }) {
 
 
     const handleSaveInvoiceList = () => {
+         dispatch({ type: 'REMOVE_REFUNDABLE_ERROR' })
         let valid = true;
 
         if (!refundAmount || refundAmount <= 0) {
@@ -133,15 +134,18 @@ function RefundAmount({ show, handleClose, refundDetails }) {
     }, [state.InvoiceList?.createRefundStatusCode])
 
     useEffect(() => {
-        if (state.createAccount?.networkError) {
+        if (state.createAccount?.networkError || state.InvoiceList.refundableError) {
             setFormRecordLoading(false)
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+                dispatch({ type: 'REMOVE_REFUNDABLE_ERROR' })
             }, 3000)
         }
 
-    }, [state.createAccount?.networkError])
+    }, [state.createAccount?.networkError, state.InvoiceList.refundableError])
 
+
+    console.log("state", state.InvoiceList.refundableError)
 
     return (
         <Modal
@@ -553,10 +557,10 @@ function RefundAmount({ show, handleClose, refundDetails }) {
                 </Modal.Body>
 
 
-                {/* {state.createAccount?.networkError ?
-             <div className="d-flex justify-content-center mt-1 mb-1">
-              <ErrorMessage message={state.createAccount?.networkError} type="error"/></div>
-              : null} */}
+                {state.InvoiceList.refundableError ?
+                    <div className="d-flex justify-content-center mt-1 mb-1">
+                        <ErrorMessage message={state.InvoiceList.refundableError} type="error" /></div>
+                    : null}
 
 
 
