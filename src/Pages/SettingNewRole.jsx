@@ -17,7 +17,7 @@ import { useHasPermission } from '../Utils/Permission';
 import ErrorMessage from '../Components/ErrorMessage'
 
 
-function SettingNewRole({ hostelid }) {
+function SettingNewRole() {
 
   const state = useSelector(state => state)
   const dispatch = useDispatch();

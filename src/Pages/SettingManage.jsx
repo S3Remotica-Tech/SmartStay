@@ -22,7 +22,7 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import DeleteFloor from "../Pages/PayingGuestFile/DeleteFloor";
 import "react-toastify/dist/ReactToastify.css";
 import EmptyState from "../Assets/Images/New_images/empty_image.png";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import "./Settings.css";
 import PropTypes from "prop-types";
 import './SettingManage.css';
@@ -40,11 +40,11 @@ function SettingManage() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const [showHostelDetails, setShowHostelDetails] = useState("");
-  const [rolePermission, setRolePermission] = useState("");
-  const [permissionError, setPermissionError] = useState("");
-  const [addPermissionError, setAddPermissionError] = useState("");
-  const [editPermissionError, setEditPermissionError] = useState("");
-  const [deletePermissionError, setDeletePermissionError] = useState("");
+  // const [rolePermission, setRolePermission] = useState("");
+  // const [permissionError, setPermissionError] = useState("");
+  // const [addPermissionError, setAddPermissionError] = useState("");
+  // const [editPermissionError, setEditPermissionError] = useState("");
+  // const [deletePermissionError, setDeletePermissionError] = useState("");
   const [loading, setLoading] = useState(false)
 
 
@@ -616,59 +616,59 @@ function SettingManage() {
       appearOnScro1l.observe(fader);
     });
   });
-  useEffect(() => {
-    setRolePermission(state.createAccount.accountList);
-  }, [state.createAccount.accountList]);
+  // useEffect(() => {
+  //   setRolePermission(state.createAccount.accountList);
+  // }, [state.createAccount.accountList]);
 
 
-  useEffect(() => {
-    if (rolePermission[0]?.is_owner) {
-      if (
-        rolePermission[0]?.is_owner === 1 ||
-        rolePermission[0]?.role_permissions[3]?.per_view === 1
-      ) {
-        setPermissionError("");
-      } else {
-        setPermissionError("Permission Denied");
-      }
-    }
-  }, [rolePermission]);
-  useEffect(() => {
-    if (rolePermission[0]?.is_owner) {
-      if (
-        rolePermission[0]?.is_owner === 1 ||
-        rolePermission[0]?.role_permissions[3]?.per_create === 1
-      ) {
-        setAddPermissionError("");
-      } else {
-        setAddPermissionError("Permission Denied");
-      }
-    }
-  }, [rolePermission]);
-  useEffect(() => {
-    if (rolePermission[0]?.is_owner) {
-      if (
-        rolePermission[0]?.is_owner === 1 ||
-        rolePermission[0]?.role_permissions[3]?.per_edit === 1
-      ) {
-        setEditPermissionError("");
-      } else {
-        setEditPermissionError("Permission Denied");
-      }
-    }
-  }, [rolePermission]);
-  useEffect(() => {
-    if (rolePermission[0]?.is_owner) {
-      if (
-        rolePermission[0]?.is_owner === 1 ||
-        rolePermission[0]?.role_permissions[3]?.per_delete === 1
-      ) {
-        setDeletePermissionError("");
-      } else {
-        setDeletePermissionError("Permission Denied");
-      }
-    }
-  }, [rolePermission]);
+  // useEffect(() => {
+  //   if (rolePermission[0]?.is_owner) {
+  //     if (
+  //       rolePermission[0]?.is_owner === 1 ||
+  //       rolePermission[0]?.role_permissions[3]?.per_view === 1
+  //     ) {
+  //       setPermissionError("");
+  //     } else {
+  //       setPermissionError("Permission Denied");
+  //     }
+  //   }
+  // }, [rolePermission]);
+  // useEffect(() => {
+  //   if (rolePermission[0]?.is_owner) {
+  //     if (
+  //       rolePermission[0]?.is_owner === 1 ||
+  //       rolePermission[0]?.role_permissions[3]?.per_create === 1
+  //     ) {
+  //       setAddPermissionError("");
+  //     } else {
+  //       setAddPermissionError("Permission Denied");
+  //     }
+  //   }
+  // }, [rolePermission]);
+  // useEffect(() => {
+  //   if (rolePermission[0]?.is_owner) {
+  //     if (
+  //       rolePermission[0]?.is_owner === 1 ||
+  //       rolePermission[0]?.role_permissions[3]?.per_edit === 1
+  //     ) {
+  //       setEditPermissionError("");
+  //     } else {
+  //       setEditPermissionError("Permission Denied");
+  //     }
+  //   }
+  // }, [rolePermission]);
+  // useEffect(() => {
+  //   if (rolePermission[0]?.is_owner) {
+  //     if (
+  //       rolePermission[0]?.is_owner === 1 ||
+  //       rolePermission[0]?.role_permissions[3]?.per_delete === 1
+  //     ) {
+  //       setDeletePermissionError("");
+  //     } else {
+  //       setDeletePermissionError("Permission Denied");
+  //     }
+  //   }
+  // }, [rolePermission]);
 
 
 
@@ -818,8 +818,8 @@ function SettingManage() {
                               OnSelectHostel={handleSelectedHostel}
                               onRowVisiblity={handleDisplayPgList}
                               OnEditHostel={handleEditHostel}
-                              editPermissionError={editPermissionError}
-                              deletePermissionError={deletePermissionError}
+                              // editPermissionError={editPermissionError}
+                              // deletePermissionError={deletePermissionError}
                             />
                           </div>
                         </>
@@ -1235,9 +1235,9 @@ function SettingManage() {
                           floorID={floorClick}
                           hostel_Id={showHostelDetails.hostelId}
                           phoneNumber={showHostelDetails.hostel_PhoneNo}
-                          editPermissionError={editPermissionError}
-                          deletePermissionError={deletePermissionError}
-                          addPermissionError={addPermissionError}
+                          // editPermissionError={editPermissionError}
+                          // deletePermissionError={deletePermissionError}
+                          // addPermissionError={addPermissionError}
                         />
                       </Tab.Content>
                     </Col>
@@ -1298,9 +1298,9 @@ function SettingManage() {
             show={showAddPg}
             handleClose={handleCloses}
             currentItem={editHostelDetails}
-            editPermissionError={editPermissionError}
-            deletePermissionError={deletePermissionError}
-            addPermissionError={addPermissionError}
+            // editPermissionError={editPermissionError}
+            // deletePermissionError={deletePermissionError}
+            // addPermissionError={addPermissionError}
           />
         )}
         {showDelete && (
@@ -1308,9 +1308,9 @@ function SettingManage() {
             show={showDelete}
             handleClose={handleCloseDelete}
             currentItem={deleteFloor}
-            editPermissionError={editPermissionError}
-            deletePermissionError={deletePermissionError}
-            addPermissionError={addPermissionError}
+            // editPermissionError={editPermissionError}
+            // deletePermissionError={deletePermissionError}
+            // addPermissionError={addPermissionError}
           />
         )}
         {showFloor && (
@@ -1321,9 +1321,9 @@ function SettingManage() {
             hostelFloor={hostelFloor}
             openFloor={handleDIsplayFloorClick}
             editFloor={editFloor}
-            editPermissionError={editPermissionError}
-            deletePermissionError={deletePermissionError}
-            addPermissionError={addPermissionError}
+            // editPermissionError={editPermissionError}
+            // deletePermissionError={deletePermissionError}
+            // addPermissionError={addPermissionError}
           />
         )}
         {showRoom && (
@@ -1331,9 +1331,9 @@ function SettingManage() {
             show={showRoom}
             handleClose={handlecloseRoom}
             hostelDetails={hostelDetails}
-            editPermissionError={editPermissionError}
-            deletePermissionError={deletePermissionError}
-            addPermissionError={addPermissionError}
+            // editPermissionError={editPermissionError}
+            // deletePermissionError={deletePermissionError}
+            // addPermissionError={addPermissionError}
           />
         )}
       </div>

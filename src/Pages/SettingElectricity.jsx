@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Row, Col, Card, Form, Button, FormControl } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import EmptyState from "../Assets/Images/New_images/empty_image.png";
 import electricity from "../Assets/Images/New_images/electricity.svg";
 import editpic from "../Assets/Images/New_images/edit.svg";
@@ -17,7 +17,7 @@ import { useHasPermission } from '../Utils/Permission';
 import Emptystate from "../Assets/Images/Empty-State.jpg";
 
 
-const SettingElectricity = ({ hostelid }) => {
+const SettingElectricity = () => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const [isProWrate, setProWrate] = useState(false);
@@ -233,23 +233,23 @@ useEffect(()=>{
 
 
 
-  const handleProRate = () => {
-    const newValue = !isProWrate;
-    setProWrate(newValue);
+  // const handleProRate = () => {
+  //   const newValue = !isProWrate;
+  //   setProWrate(newValue);
  
 
-    if (newValue) {
-      setRecurringForm(true);
-    } else {
-      dispatch({
-        type: "ROOMHOSTELEBCHANGE",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          isProRate: false,
-        },
-      });
-    }
-  };
+  //   if (newValue) {
+  //     setRecurringForm(true);
+  //   } else {
+  //     dispatch({
+  //       type: "ROOMHOSTELEBCHANGE",
+  //       payload: {
+  //         hostelId: state.login.selectedHostel_Id,
+  //         isProRate: false,
+  //       },
+  //     });
+  //   }
+  // };
 
 
   const handlechangeEvery = (e) => {

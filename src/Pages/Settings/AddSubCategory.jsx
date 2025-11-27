@@ -6,7 +6,8 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { CloseCircle } from "iconsax-react";
 import ErrorMessage from "../../Components/ErrorMessage";
-import { useHasPermission } from "../../Utils/Permission";
+import PropTypes from "prop-types";
+// import { useHasPermission } from "../../Utils/Permission";
 
 function AddSubCategory({ show, handleCloseForm, AddSubCategory, editSubCategory }) {
     const state = useSelector((state) => state);
@@ -213,5 +214,16 @@ function AddSubCategory({ show, handleCloseForm, AddSubCategory, editSubCategory
         </div>
     );
 }
+
+AddSubCategory.propTypes = {
+  show: PropTypes.func.isRequired,
+  handleCloseForm: PropTypes.func.isRequired,
+  AddSubCategory: PropTypes.func.isRequired,
+  editSubCategory: PropTypes.shape({
+    subCategoryName: PropTypes.string,   
+  }),
+  categoryId: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    .isRequired, 
+};
 
 export default AddSubCategory;

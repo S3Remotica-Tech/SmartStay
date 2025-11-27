@@ -250,14 +250,14 @@ export async function customerSaveInfo(params) {
 
 
 
-export  function roomsCount(floorAndHostelID) {
- new Promise((resolve, reject) => {
+export  function roomsCount() {
+ new Promise((resolve) => {
   resolve({status: 200});
 })
 }
 
-export  function hosteliddetail(datum) {
-  new Promise((resolve, reject) => {
+export  function hosteliddetail() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post('/floor_list', datum, {
@@ -265,7 +265,7 @@ export  function hosteliddetail(datum) {
   // })
 }
 export  function userBillPaymentHistory() {
-  new Promise((resolve, reject) => {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.get('/user-list/bill-payment', {
@@ -297,18 +297,21 @@ export async function GetAllFloor(id) {
 
 
 
-export async function roomFullCheck(roomCheck) {
-  return await AxiosConfig.post('/check/room-full', roomCheck, {
-    data: roomCheck
-  })
+export async function roomFullCheck() {
+  new Promise((resolve) => {
+  resolve({status: 200});
+})
+  // return await AxiosConfig.post('/check/room-full', roomCheck, {
+  //   data: roomCheck
+  // })
 }
 
 
-export  function checkOutUser(check) {
+export  function checkOutUser() {
   // return await AxiosConfig.post('/checkout/checkout-user', check, {
   //   data: check
   // })
-  new Promise((resolve, reject) => {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
 }
@@ -342,8 +345,8 @@ export async function deleteRoom(roomDetails) {
   return await AxiosConfigV2.delete(`/v2/room/${roomDetails.roomId}`)
 }
 
-export  function deleteBed(bedDetails) {
-  new Promise((resolve, reject) => {
+export  function deleteBed() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post('/delete/delete-bed', bedDetails, {
@@ -369,8 +372,8 @@ export async function CustomerDetails(datum) {
 
 
 
-export function amenitieshistory(datum) {
-  new Promise((resolve, reject) => {
+export function amenitieshistory() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post('/user_amenities_history', datum, {
@@ -379,14 +382,14 @@ export function amenitieshistory(datum) {
 }
 
 export function amnitiesnameList() {
-  new Promise((resolve, reject) => {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.get('/list/AmnitiesName', {
   // })
 }
-export function amenitieAddUser(datum) {
-  new Promise((resolve, reject) => {
+export function amenitieAddUser() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post('/add/amenity-history', datum, {
@@ -423,8 +426,8 @@ export async function availableBedDetailsForDate(bednum) {
 
 
 
-export  function KYCValidate(adhar) {
-  new Promise((resolve, reject) => {
+export  function KYCValidate() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post('/aadhar_verify_otp', adhar, {
@@ -432,8 +435,8 @@ export  function KYCValidate(adhar) {
   // })
 }
 
-export  function KYCValidateOtpVerify(adhar) {
-  new Promise((resolve, reject) => {
+export  function KYCValidateOtpVerify() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post('aadhaar_otp_verification', adhar, {
@@ -442,7 +445,7 @@ export  function KYCValidateOtpVerify(adhar) {
 }
 
 export function countrylist() {
-  new Promise((resolve, reject) => {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.get('/conutry_list', {
@@ -451,8 +454,8 @@ export function countrylist() {
 
 
 
-export function getWalkInCustomer(walk) {
-  new Promise((resolve, reject) => {
+export function getWalkInCustomer() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post('/get_walkin-customer', walk, {
@@ -465,8 +468,8 @@ export function getWalkInCustomer(walk) {
 
 
 
-export  function AddWalkInCustomer(params) {
-new Promise((resolve, reject) => {
+export  function AddWalkInCustomer() {
+new Promise((resolve) => {
   resolve({status: 200});
 })
   // const formData = new FormData();
@@ -501,8 +504,8 @@ new Promise((resolve, reject) => {
   // }
 }
 
-export  function DeleteWalkInCustomer(walk) {
-  new Promise((resolve, reject) => {
+export  function DeleteWalkInCustomer() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post('/delete_walkin-customer', walk, {
@@ -591,8 +594,8 @@ export async function CancelCheckOutCustomer(checkout) {
 
 
 
-export function GetConfirmCheckOut(checkout) {
-  new Promise((resolve, reject) => {
+export function GetConfirmCheckOut() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post('/get/confirm_checkout', checkout, {
@@ -600,8 +603,8 @@ export function GetConfirmCheckOut(checkout) {
   // })
 }
 
-export  function AddConfirmCheckOut(checkout) {
-  new Promise((resolve, reject) => {
+export  function AddConfirmCheckOut() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post('/add/confirm_checkout', checkout, {
@@ -610,8 +613,8 @@ export  function AddConfirmCheckOut(checkout) {
 }
 
 
-export  function EditConfirmCheckOut(checkout) {
-  new Promise((resolve, reject) => {
+export  function EditConfirmCheckOut() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post('/edit/confirm_checkout', checkout, {
@@ -620,8 +623,8 @@ export  function EditConfirmCheckOut(checkout) {
 }
 
 
-export function DeleteCheckOutCustomer(checkout) {
-  new Promise((resolve, reject) => {
+export function DeleteCheckOutCustomer() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post('/delete_check_out', checkout, {
@@ -631,8 +634,8 @@ export function DeleteCheckOutCustomer(checkout) {
 
 
 
-export  function AvailableCheckOutCustomer(checkout) {
-   new Promise((resolve, reject) => {
+export  function AvailableCheckOutCustomer() {
+   new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post('/available_checkout_users', checkout, {
@@ -640,8 +643,8 @@ export  function AvailableCheckOutCustomer(checkout) {
   // })
 }
 
-export function exportDetails(datum) {
-  new Promise((resolve, reject) => {
+export function exportDetails() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post('/export_details', datum, {
@@ -666,8 +669,8 @@ export async function customerReAssignBed(hostelId , customerId , datum) {
 }
 
 
-export  function customerAddContact(datum) {
-  new Promise((resolve, reject) => {
+export  function customerAddContact() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post('/contacts/add_contact', datum, {
@@ -675,9 +678,9 @@ export  function customerAddContact(datum) {
   // })
 }
 
-export  function customerAllContact(datum) {
+export  function customerAllContact() {
 
-new Promise((resolve, reject) => {
+new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post('/users/all_contacts', datum, {
@@ -686,8 +689,8 @@ new Promise((resolve, reject) => {
 }
 
 
-export  function deleteContact(contact) {
-  new Promise((resolve, reject) => {
+export  function deleteContact() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post('/contacts/delete_contact', contact, {
@@ -696,8 +699,8 @@ export  function deleteContact(contact) {
 }
 
 
-export  function generateAdvance(datum) {
-  new Promise((resolve, reject) => {
+export  function generateAdvance() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post('/generate/advance_invoice', datum, {
@@ -707,8 +710,8 @@ export  function generateAdvance(datum) {
 
 
 
-export  function uploadDocument(params) {
-new Promise((resolve, reject) => {
+export  function uploadDocument() {
+new Promise((resolve) => {
   resolve({status: 200});
 })
   // const formData = new FormData();
@@ -733,8 +736,8 @@ new Promise((resolve, reject) => {
 
 
 
-export  function deleteCustomer(contact) {
-  new Promise((resolve, reject) => {
+export  function deleteCustomer() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post('/users/delete', contact, {
@@ -742,7 +745,7 @@ export  function deleteCustomer(contact) {
   // })
 }
 export  function hostelDetailsId() {
-  new Promise((resolve, reject) => {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.get('/list/hosteldetails', {
@@ -750,24 +753,24 @@ export  function hostelDetailsId() {
 }
 
 
-export function handleKycVerify(datum) {
-  new Promise((resolve, reject) => {
+export function handleKycVerify() {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post('/verify-kyc', datum);
 }
 
 
-export  function handlegetCustomerDetailsKyc(kyc) {
+export  function handlegetCustomerDetailsKyc() {
   // return await AxiosConfig.post('/getCustomerDetails', kyc);
-  new Promise((resolve, reject) => {
+  new Promise((resolve) => {
   resolve({status: 200});
 })
 }
 
 
-export function ConfirmCheckout_Due_Customer(params) {
-new Promise((resolve, reject) => {
+export function ConfirmCheckout_Due_Customer() {
+new Promise((resolve) => {
   resolve({status: 200});
 })
 //   const formData = new FormData();
@@ -805,8 +808,8 @@ export async function CustomerUnAssign(customer) {
 }
 
 
-export function backtoCheckin(datum) {
-new Promise((resolve, reject) => {
+export function backtoCheckin() {
+new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post('reassign_checkIn', datum, {
@@ -815,8 +818,8 @@ new Promise((resolve, reject) => {
 }
 
 
-export  function checkoutDetailView(datum) {
-new Promise((resolve, reject) => {
+export  function checkoutDetailView() {
+new Promise((resolve) => {
   resolve({status: 200});
 })
   // return await AxiosConfig.post('checkout_detail_view', datum, {

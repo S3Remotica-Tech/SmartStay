@@ -868,7 +868,7 @@ function SettingNewUser() {
                           color: "rgba(75, 75, 75, 1)",
                         }}
                       >
-                        There are no staff's available{" "}
+                        {"There are no staff's available"} {" "}
                       </div>
 
                     </div>

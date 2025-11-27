@@ -2,38 +2,38 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+// import Form from 'react-bootstrap/Form';
 import Editbtn from '../Assets/Images/Edit-blue.png';
 import Closebtn from '../Assets/Images/Delete_red.png';
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import Modal from 'react-bootstrap/Modal';
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
 import { Card } from 'react-bootstrap';
-import CreatableSelect from "react-select/creatable";
+// import CreatableSelect from "react-select/creatable";
 import './Settingexpense.css';
 import PropTypes from "prop-types";
-import { CloseCircle, Category, AddCircle } from "iconsax-react";
+import { AddCircle } from "iconsax-react";
 import ErrorMessage from '../Components/ErrorMessage'
 import { useHasPermission } from '../Utils/Permission';
 import AddCategory from './Settings/AddCategory';
 import { toast } from 'react-toastify';
 import AddSubCategory from './Settings/AddSubCategory';
-function SettingExpenses({ hostelid }) {
+function SettingExpenses() {
 
   const state = useSelector(state => state)
   const dispatch = useDispatch()
 
-  const [formLoading, setFormLoading] = useState(false)
+  // const [formLoading, setFormLoading] = useState(false)
 
   const [type, setType] = useState([]);
   const [showSubCategoryForm, setShowSubCategoryForm] = useState(false)
   const [subType, setSubType] = useState('');
-  const [isSubCategory, setIsSubCategory] = useState(false);
+  // const [isSubCategory, setIsSubCategory] = useState(false);
   const [showform, setShowForm] = useState(false);
-  const [edit, setEdit] = useState(false);
-  const [cateogoryerrmsg, setCategoryErrmsg] = useState('');
-  const [subcateogoryerrmsg, setSubCategoryErrmsg] = useState('');
-  const [totalErrormsg, setTotalErrmsg] = useState('');
+  // const [edit, setEdit] = useState(false);
+  // const [cateogoryerrmsg, setCategoryErrmsg] = useState('');
+  // const [subcateogoryerrmsg, setSubCategoryErrmsg] = useState('');
+  // const [totalErrormsg, setTotalErrmsg] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [subCategoryDetails, setSubCategoryDetails] = useState('')
   const [deleteCategoryId, setDeleteCategoryId] = useState('')
@@ -42,7 +42,7 @@ function SettingExpenses({ hostelid }) {
   const [expensescurrentPage, setExpensescurrentPage] = useState(1);
   const [deletesubcatItems, setDeleteSubCatItems] = useState('')
   const [deletesubcat, setDeleteSubCat] = useState(false)
-  const [showPopup, setShowPopup] = useState(false);
+  // const [showPopup, setShowPopup] = useState(false);
 
   // const canReadExpense = useHasPermission("Expense", "canRead");
   // const canWriteExpense = useHasPermission("Expense", "canWrite");
@@ -109,11 +109,11 @@ function SettingExpenses({ hostelid }) {
     setShowForm(false);
     setSubType('');
     setType('');
-    setIsSubCategory(false)
-    setCategoryErrmsg("")
-    setSubCategoryErrmsg("")
+    // setIsSubCategory(false)
+    // setCategoryErrmsg("")
+    // setSubCategoryErrmsg("")
     dispatch({ type: 'CLEAR_ALREADY_EXPENCE_CATEGORY_ERROR' })
-    setFormError('')
+    // setFormError('')
 
   };
 
@@ -176,7 +176,7 @@ function SettingExpenses({ hostelid }) {
 
   useEffect(() => {
     if (state.Settings?.alreadycategoryerror) {
-      setFormLoading(false)
+      // setFormLoading(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_ALREADY_EXPENCE_CATEGORY_ERROR' });
       }, 3000);
@@ -226,8 +226,8 @@ function SettingExpenses({ hostelid }) {
     if (state.Settings.addexpencesStatuscode === 201 || state.Settings.editexpencesStatuscode === 200 || state.Settings.deleteexpencesStatusCode === 200) {
       setShowForm(false)
       setShowSubCategoryForm(false)
-      setFormLoading(false)
-      setCategoryErrmsg('')
+      // setFormLoading(false)
+      // setCategoryErrmsg('')
       if (state.Settings.editexpencesStatuscode === 200) {
         setShowForm(false)
       }
@@ -251,8 +251,8 @@ function SettingExpenses({ hostelid }) {
   }, [state.login.selectedHostel_Id, state.Settings.addexpencesStatuscode, state.Settings.editexpencesStatuscode, state.Settings.deleteexpencesStatusCode])
 
 
-  const [options, setOptions] = useState([]);
-  const [formError, setFormError] = useState('')
+  // const [options, setOptions] = useState([]);
+  // const [formError, setFormError] = useState('')
 
 
 
@@ -274,7 +274,7 @@ function SettingExpenses({ hostelid }) {
 
   const handleEditCategory = (item) => {
 
-    setEdit(true);
+    // setEdit(true);
     setShowForm(true);
     setType(item)
 
@@ -414,37 +414,37 @@ function SettingExpenses({ hostelid }) {
 
 
 
-  useEffect(() => {
-    let optionArray = [];
-    state.Settings?.Expences?.map((view) => {
+  // useEffect(() => {
+  //   let optionArray = [];
+  //   state.Settings?.Expences?.map((view) => {
 
-      let optionObj = {
-        label: view.categoryName,
-        value: view.categoryId
-      }
-      optionArray.push(optionObj)
-      return view
-    })
-    setOptions(optionArray)
+  //     let optionObj = {
+  //       label: view.categoryName,
+  //       value: view.categoryId
+  //     }
+  //     optionArray.push(optionObj)
+  //     return view
+  //   })
+  //   setOptions(optionArray)
 
-  }, [state.Settings?.Expences])
-
-
+  // }, [state.Settings?.Expences])
 
 
 
 
-  const handlesubcategoryAdd = (e) => {
-    setSubType(e.target.value)
-    setFormError('')
-    setTotalErrmsg('')
-    if (!e.target.value) {
-      setSubCategoryErrmsg("Please Enter  Sub-Category")
-    }
-    else {
-      setSubCategoryErrmsg("")
-    }
-  }
+
+
+  // const handlesubcategoryAdd = (e) => {
+  //   setSubType(e.target.value)
+  //   setFormError('')
+  //   setTotalErrmsg('')
+  //   if (!e.target.value) {
+  //     setSubCategoryErrmsg("Please Enter  Sub-Category")
+  //   }
+  //   else {
+  //     setSubCategoryErrmsg("")
+  //   }
+  // }
 
 
   const [expandedCategoryId, setExpandedCategoryId] = useState(null);
@@ -496,12 +496,12 @@ function SettingExpenses({ hostelid }) {
 
   useEffect(() => {
     if (state.Settings?.alreadycategoryerror) {
-      setFormLoading(false)
+      // setFormLoading(false)
     }
   }, [state.Settings?.alreadycategoryerror])
   useEffect(() => {
     if (state.createAccount?.networkError) {
-      setFormLoading(false)
+      // setFormLoading(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_NETWORK_ERROR' })
       }, 3000)
@@ -589,7 +589,7 @@ function SettingExpenses({ hostelid }) {
                 marginTop: 5,
                 marginRight: -12
               }}
-              disabled={showPopup || !canWriteExpense}
+              disabled={!canWriteExpense}
             >+ Category</Button></div>
         </div>
       </div>
@@ -671,11 +671,11 @@ function SettingExpenses({ hostelid }) {
                                 cursor: canUpdateExpense ? "pointer" : "not-allowed",
                                 opacity: canUpdateExpense ? 1 : 0.4
                               }}
-                              onClick={(e) => { if (canUpdateExpense) handleEditCategory(category); }}
+                              onClick={() => { if (canUpdateExpense) handleEditCategory(category); }}
                             />
                             <AddCircle onClick={() => { if (canWriteExpense) handleCreateSubCategory(category) }}
                               size="16"
-                              color="#FF9900" style={{  cursor: canWriteExpense ? "pointer" : "not-allowed", }}
+                              color="#FF9900" style={{ cursor: canWriteExpense ? "pointer" : "not-allowed", }}
                             />
 
                             <img
@@ -687,7 +687,12 @@ function SettingExpenses({ hostelid }) {
                                 cursor: canDeleteExpense ? "pointer" : "not-allowed",
                                 opacity: canDeleteExpense ? 1 : 0.4
                               }}
-                              onClick={(e) => { canDeleteExpense && handleDeleteExpensesCategory(category); }}
+                              onClick={() => {
+                                if (canDeleteExpense) {
+                                  handleDeleteExpensesCategory(category);
+                                }
+                              }}
+
                             />
                             <i
                               onClick={(event) => handleToggleDropdown(category.categoryId, event)}

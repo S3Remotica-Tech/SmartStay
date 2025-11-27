@@ -3,14 +3,14 @@ import React from 'react';
 import { useState, useEffect, useRef } from "react";
 import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min";
 import { useDispatch, useSelector } from "react-redux";
-import crown from "../../Assets/Images/New_images/crown.png";
+// import crown from "../../Assets/Images/New_images/crown.png";
 import { Button, Form, FormControl } from "react-bootstrap";
 import { Modal } from "react-bootstrap";
 import Select from "react-select";
 import DeleteIcon from "../../Assets/Images/Delete_red.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import { CloseCircle } from "iconsax-react";
 import { ArrowUp2, ArrowDown2 } from "iconsax-react";
 import { Table } from "react-bootstrap";
@@ -25,8 +25,8 @@ function SettingSubscription() {
   const dispatch = useDispatch();
   const [plan, setPlan] = useState(false);
   const [changePlan, setChangePlan] = useState(false);
-  const [userId, setUserId] = useState("");
-  const [customerId, setCustomerId] = useState("");
+  // const [userId, setUserId] = useState("");
+  // const [customerId, setCustomerId] = useState("");
   const [planCode, setPlanCode] = useState("");
   const [amount, setAmount] = useState("");
   const [selectedPlan, setSelectedPlan] = useState("");
@@ -34,7 +34,7 @@ function SettingSubscription() {
   const [selectedPlanError, setSelectedPlanError] = useState("");
   const [hostelCountError, setHostelCountError] = useState("");
   const [hostelError, setHostelError] = useState("");
-  const [planType, setPlanType] = useState("");
+  // const [planType, setPlanType] = useState("");
   const [getPlanActive, setGetPlanActive] = useState([]);
   const [selectedHostels, setSelectedHostels] = useState([]);
   const modalRef = useRef();
@@ -77,8 +77,8 @@ function SettingSubscription() {
   const {
     canWriteModule: canWriteSubscription,
     canReadModule: canReadSubscription,
-    canUpdateModule: canUpdateSubscription,
-    canDeleteModule: canDeleteSubscription,
+    // canUpdateModule: canUpdateSubscription,
+    // canDeleteModule: canDeleteSubscription,
   } = useHasPermission("Subscription");
 
 
@@ -246,8 +246,8 @@ function SettingSubscription() {
       dispatch({
         type: "NEWSUBSCRIPTION",
         payload: {
-          user_id: userId,
-          customer_id: customerId,
+          // user_id: userId,
+          // customer_id: customerId,
           plan_code: planCode,
           amount: amount,
           hostel_ids: hostelIds,
@@ -858,8 +858,8 @@ function SettingSubscription() {
                   className="col-12 col-sm-6 col-md-6 d-flex justify-content-center"
                 >
                   <div
-                    className={`card   border position-relative ${planType === plan.planName ? "border-success" : "border-secondary"
-                      }`}
+                    // className={`card   border position-relative ${planType === plan.planName ? "border-success" : "border-secondary"
+                    //   }`}
                     style={{
                       borderRadius: "14px",
                       backgroundColor: "#F8FAFC",
@@ -867,7 +867,7 @@ function SettingSubscription() {
                     }}
                   >
                     <div className="card-body text-center p-0 mt-3">
-                      {planType === plan.planName && (
+                      {/* {planType === plan.planName && (
                         <span
                           className="badge bg-success position-absolute start-50 translate-middle"
                           style={{
@@ -880,7 +880,7 @@ function SettingSubscription() {
                         >
                           Current Plan
                         </span>
-                      )}
+                      )} */}
 
                       {/* Plan Name */}
                       <h4 className="card-title" style={{ fontFamily: "Gilroy" }}>
@@ -926,7 +926,7 @@ function SettingSubscription() {
 
                       <hr className="m-0" style={{ color: "#BCCAEB" }} />
 
-                      {planType === plan.planName ? (
+                      {/* {planType === plan.planName ? (
                         <Button
                           className="btn btn-changeplan btn-success w-100 mt-3"
                           onClick={() => handlePlanChange(plan.planId)}
@@ -934,7 +934,7 @@ function SettingSubscription() {
                         >
                           Current Plan
                         </Button>
-                      ) : (
+                      ) : ( */}
                         <Button disabled={!canWriteSubscription} className='w-100'
                           style={{
                             backgroundColor: "#1E45E1",
@@ -951,7 +951,7 @@ function SettingSubscription() {
                         >
                           Change Plan
                         </Button>
-                      )}
+                      {/* // )} */}
                     </div>
                   </div>
                 </div>

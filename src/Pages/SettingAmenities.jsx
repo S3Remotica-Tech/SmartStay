@@ -21,7 +21,7 @@ import link2 from '../Assets/Images/New_images/link-2.svg';
 import { useHasPermission } from '../Utils/Permission';
 import ErrorMessage from '../Components/ErrorMessage'
 
-function SettingAmenities({ hostelid }) {
+function SettingAmenities() {
 
 
     const state = useSelector(state => state)
@@ -32,17 +32,17 @@ function SettingAmenities({ hostelid }) {
     const [IsDisplayAssignAmenities, setIsDisplayAssignAmenities] = useState(false)
     const popupRef = useRef(null);
     const [editDetails, setEditDetails] = useState('')
-    const [isChecked, setIsChecked] = useState(null);
+    // const [isChecked, setIsChecked] = useState(null);
     const [isDisplayRecurring, setIsDisplayRecurring] = useState(false)
-    const [amenityDetails, setAmenityDetails] = useState('')
+    // const [amenityDetails, setAmenityDetails] = useState('')
     const [switchStates, setSwitchStates] = useState({});
     const [deleteAmenities, setDeleteAmenities] = useState(false)
     const [deleteID, setDeleteID] = useState('')
     const [assignAmenitiesDetails, setAssignAmenitiesDetails] = useState('')
     const [loading, setLoading] = useState(false)
-    const [amenitiesrowsPerPage, setAmenitiesrowsPerPage] = useState(50);
+    // const [amenitiesrowsPerPage, setAmenitiesrowsPerPage] = useState(50);
     const [amenitiesFilterddata, setAmenitiesFilterddata] = useState([]);
-    const [amenitiescurrentPage, setAmenitiescurrentPage] = useState(1);
+    // const [amenitiescurrentPage, setAmenitiescurrentPage] = useState(1);
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
 const {
@@ -152,10 +152,10 @@ useEffect(() => {
         setIsDisplayRecurring(false);
 
 
-        setSwitchStates((prev) => ({
-            ...prev,
-            [amenityDetails?.id]: false,
-        }));
+        // setSwitchStates((prev) => ({
+        //     ...prev,
+        //     [amenityDetails?.id]: false,
+        // }));
 
 
 
@@ -202,7 +202,7 @@ useEffect(() => {
     useEffect(() => {
   if (amenitiesFilterddata.length > 0) {
     const initialSwitchStates = amenitiesFilterddata.reduce((acc, amenity) => {
-      acc[amenity.amenityId] = !!amenity.proRate; // convert to boolean safely
+      acc[amenity.amenityId] = !!amenity.proRate; 
       return acc;
     }, {});
     setSwitchStates(initialSwitchStates);
@@ -342,39 +342,39 @@ useEffect(() => {
 
 
 
-    const indexOfLastRowAmenities = amenitiescurrentPage * amenitiesrowsPerPage;
-    const indexOfFirstRowAmenities = indexOfLastRowAmenities - amenitiesrowsPerPage;
-    const currentRowAmenities = amenitiesFilterddata?.slice(indexOfFirstRowAmenities, indexOfLastRowAmenities);
+    // const indexOfLastRowAmenities = amenitiescurrentPage * amenitiesrowsPerPage;
+    // const indexOfFirstRowAmenities = indexOfLastRowAmenities - amenitiesrowsPerPage;
+    // const currentRowAmenities = amenitiesFilterddata?.slice(indexOfFirstRowAmenities, indexOfLastRowAmenities);
 
-    const handlePageChange = (generalpageNumber) => {
-        setAmenitiescurrentPage(generalpageNumber);
-    };
-    const amenitiesOptions = [
-        { value: 2, label: "2" },
-        { value: 5, label: "5" },
-        { value: 10, label: "10" },
-        { value: 50, label: "50" },
-        { value: 100, label: "100" },
-    ];
-    const handleItemsPerPageChange = (selectedOption) => {
-        setAmenitiesrowsPerPage(selectedOption.value);
-        setAmenitiescurrentPage(1);
-    };
+    // const handlePageChange = (generalpageNumber) => {
+    //     setAmenitiescurrentPage(generalpageNumber);
+    // };
+    // const amenitiesOptions = [
+    //     { value: 2, label: "2" },
+    //     { value: 5, label: "5" },
+    //     { value: 10, label: "10" },
+    //     { value: 50, label: "50" },
+    //     { value: 100, label: "100" },
+    // ];
+    // const handleItemsPerPageChange = (selectedOption) => {
+    //     setAmenitiesrowsPerPage(selectedOption.value);
+    //     setAmenitiescurrentPage(1);
+    // };
 
-    const totalPagesGeneral = Math.ceil(
-        amenitiesFilterddata?.length / amenitiesrowsPerPage
-    );
+    // const totalPagesGeneral = Math.ceil(
+    //     amenitiesFilterddata?.length / amenitiesrowsPerPage
+    // );
 
 
-    useEffect(() => {
-        if (
-            amenitiesFilterddata.length > 0 &&
-            currentRowAmenities.length === 0 &&
-            amenitiescurrentPage > 1
-        ) {
-            setAmenitiescurrentPage(amenitiescurrentPage - 1);
-        }
-    }, [amenitiesFilterddata])
+    // useEffect(() => {
+    //     if (
+    //         amenitiesFilterddata.length > 0 &&
+    //         currentRowAmenities.length === 0 &&
+    //         amenitiescurrentPage > 1
+    //     ) {
+    //         setAmenitiescurrentPage(amenitiescurrentPage - 1);
+    //     }
+    // }, [amenitiesFilterddata])
 
 
     return (
@@ -473,8 +473,8 @@ useEffect(() => {
 
 
 
-                                {currentRowAmenities && currentRowAmenities.length > 0 ? (
-                                    currentRowAmenities.map((amenity, index) => (
+                                {amenitiesFilterddata && amenitiesFilterddata.length > 0 ? (
+                                    amenitiesFilterddata.map((amenity, index) => (
 
                                         <div key={index} className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12 p-2' >
                                             <Card style={{ border: "1px solid #dcdcdc", borderRadius: 16, }}>
@@ -962,7 +962,9 @@ useEffect(() => {
                 openAmenitiesForm && <AddAmenities show={handleOpenAmenities} handleClose={handleCloseAmenities} hostelid={state.login.selectedHostel_Id} editDetails={editDetails} />
             }
             {
-                isDisplayRecurring && <RecurringEnable show={isDisplayRecurring} handleCloseRecurring={handleCloseRecurringPopUp} hostelid={state.login.selectedHostel_Id} amenityDetails={amenityDetails} setIsFormSubmitted={setIsFormSubmitted} isFormSubmitted={isFormSubmitted} />
+                isDisplayRecurring && <RecurringEnable show={isDisplayRecurring} handleCloseRecurring={handleCloseRecurringPopUp} hostelid={state.login.selectedHostel_Id} 
+                // amenityDetails={amenityDetails}
+                 setIsFormSubmitted={setIsFormSubmitted} isFormSubmitted={isFormSubmitted} />
             }
             {
                 IsDisplayAssignAmenities && <AssignAmenities show={IsDisplayAssignAmenities} handleClose={handleDisplayAssignAmenitiesClose} hostelid={state.login.selectedHostel_Id}

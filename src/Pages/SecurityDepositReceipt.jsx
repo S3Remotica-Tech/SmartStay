@@ -2,7 +2,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "../Pages/Settings.css";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import TextAreaICon from '../Assets/Images/textarea.png'
 import "react-datepicker/dist/react-datepicker.css";
 import mob from "../Assets/Images/New_images/Rectangle 77.png";
@@ -25,6 +25,7 @@ import Modal from 'react-bootstrap/Modal';
 import Questionimage from '../Assets/Images/question.png';
 import ErrorMessage from '../Components/ErrorMessage'
 import { useHasPermission } from '../Utils/Permission';
+import PropTypes from "prop-types";
 
 
 const SecurityReceiptPdfTemplate = ({ BillsTemplateList }) => {
@@ -35,17 +36,17 @@ const SecurityReceiptPdfTemplate = ({ BillsTemplateList }) => {
   const innerScrollRef = useRef(null);
   const [showFullView, setShowFullView] = useState(false);
   const [loading, setLoading] = useState(false)
-const [useGradient, setUseGradient] = useState(true);
+// const [useGradient, setUseGradient] = useState(true);
   const [notes_errmsg, setNotesErrMsg] = useState('')
   const [terms_errmsg, setTermsErrMsg] = useState('')
   const [editErrmsg, setEditErrMessage] = useState('')
 
   const [color, setColor] = useState({ r: 0, g: 163, b: 46, a: 1 });
-    const defaultGradient = 'linear-gradient(to right, rgba(0,163, 46, 1), rgba(0, 163, 46, 1))';
+    // const defaultGradient = 'linear-gradient(to right, rgba(0,163, 46, 1), rgba(0, 163, 46, 1))';
 
   const handleColorChange = (newColor) => {
     setColor(newColor);
-      setUseGradient(false);
+      // setUseGradient(false);
     setEditErrMessage("")
   };
 
@@ -418,13 +419,13 @@ useEffect(() => {
               b: parseInt(match[3]),
               a: parseFloat(match[4]),
             });
-            setUseGradient(false);
+            // setUseGradient(false);
           }
         } else {
-          setUseGradient(true);
+          // setUseGradient(true);
         }
       } else {
-        setUseGradient(true);
+        // setUseGradient(true);
       }
 
    }
@@ -1689,4 +1690,23 @@ useEffect(() => {
   )
 
 }
+SecurityReceiptPdfTemplate.propTypes = {
+  BillsTemplateList: PropTypes.shape({
+    mobile: PropTypes.string,
+    emailId: PropTypes.string,
+    isMobileCustomized: PropTypes.bool,
+    isMailIdCustomized: PropTypes.bool,
+    isLogoCustomized: PropTypes.bool,
+    isSignatureCustomized: PropTypes.bool,
+    logo: PropTypes.string,
+    signature: PropTypes.string,
+    templates: PropTypes.arrayOf(
+      PropTypes.shape({
+        templateId: PropTypes.number,
+        templateName: PropTypes.string,
+             })
+    ),
+  }).isRequired,
+};
+
 export default SecurityReceiptPdfTemplate;

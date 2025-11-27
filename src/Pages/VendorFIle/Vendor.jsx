@@ -11,7 +11,7 @@ import AddVendor from './AddVendor';
 import 'react-toastify/dist/ReactToastify.css';
 import EmptyState from '../../Assets/Images/New_images/empty_image.png';
 import { CloseCircle, SearchNormal1 } from 'iconsax-react';
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import { toast } from 'react-toastify';
 import "./vendor.css";
 import './VendorListMap.css';
@@ -33,8 +33,8 @@ function Vendor() {
 const {
     canWriteModule: canWriteVendor,
     canReadModule: canReadVendor,
-    canUpdateModule: canUpdateVendor,
-    canDeleteModule: canDeleteVendor,
+    // canUpdateModule: canUpdateVendor,
+    // canDeleteModule: canDeleteVendor,
   } = useHasPermission("Vendor");
 
 
@@ -50,81 +50,81 @@ const {
 
 
 
-  const [vendorrolePermission, setVendorRolePermission] = useState("");
+  // const [vendorrolePermission, setVendorRolePermission] = useState("");
 
-  const [vendorpermissionError, setVendorPermissionError] = useState("");
-  const [vendorAddPermission, setVendorAddPermission] = useState("")
-  const [vendorDeletePermission, setVendorDeletePermission] = useState("")
-  const [vendorEditPermission, setVendorEditPermission] = useState("")
+  // const [vendorpermissionError, setVendorPermissionError] = useState("");
+  // const [vendorAddPermission, setVendorAddPermission] = useState("")
+  // const [vendorDeletePermission, setVendorDeletePermission] = useState("")
+  // const [vendorEditPermission, setVendorEditPermission] = useState("")
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
 
-  useEffect(() => {
-    setVendorRolePermission(state.createAccount.accountList);
-  }, [state.createAccount.accountList]);
+  // useEffect(() => {
+  //   setVendorRolePermission(state.createAccount.accountList);
+  // }, [state.createAccount.accountList]);
 
 
 
 
 
-  useEffect(() => {
-    const userType = vendorrolePermission[0]?.user_details?.user_type;
-    const isAdmin = userType === "admin" || userType === "agent";
-    if (isAdmin) {
-      if (state?.login?.planStatus === 0) {
-        setVendorPermissionError("");
-        setVendorAddPermission("Permission Denied");
-        setVendorEditPermission("Permission Denied");
-        setVendorDeletePermission("Permission Denied");
+  // useEffect(() => {
+  //   const userType = vendorrolePermission[0]?.user_details?.user_type;
+  //   const isAdmin = userType === "admin" || userType === "agent";
+  //   if (isAdmin) {
+  //     if (state?.login?.planStatus === 0) {
+  //       setVendorPermissionError("");
+  //       setVendorAddPermission("Permission Denied");
+  //       setVendorEditPermission("Permission Denied");
+  //       setVendorDeletePermission("Permission Denied");
 
-      } else if (state?.login?.planStatus === 1) {
-        setVendorPermissionError("");
-        setVendorAddPermission("");
-        setVendorEditPermission("");
-        setVendorDeletePermission("");
-      }
-    }
+  //     } else if (state?.login?.planStatus === 1) {
+  //       setVendorPermissionError("");
+  //       setVendorAddPermission("");
+  //       setVendorEditPermission("");
+  //       setVendorDeletePermission("");
+  //     }
+  //   }
 
-  }, [state?.login?.planStatus, state?.login?.selectedHostel_Id, vendorrolePermission])
-
-
-  useEffect(() => {
-    const vendorPermission = vendorrolePermission[0]?.role_permissions?.find(
-      (perm) => perm.permission_name === "Vendor"
-    );
-
-    const isOwner = vendorrolePermission[0]?.user_details?.user_type === "staff";
-    const planActive = state?.login?.planStatus === 1;
-
-    if (!vendorPermission || !isOwner) return;
+  // }, [state?.login?.planStatus, state?.login?.selectedHostel_Id, vendorrolePermission])
 
 
-    if (vendorPermission.per_view === 1 && planActive) {
-      setVendorPermissionError("");
-    } else {
-      setVendorPermissionError("Permission Denied");
-    }
+  // useEffect(() => {
+  //   const vendorPermission = vendorrolePermission[0]?.role_permissions?.find(
+  //     (perm) => perm.permission_name === "Vendor"
+  //   );
+
+  //   const isOwner = vendorrolePermission[0]?.user_details?.user_type === "staff";
+  //   const planActive = state?.login?.planStatus === 1;
+
+  //   if (!vendorPermission || !isOwner) return;
 
 
-    if (vendorPermission.per_create === 1 && planActive) {
-      setVendorAddPermission("");
-    } else {
-      setVendorAddPermission("Permission Denied");
-    }
+  //   if (vendorPermission.per_view === 1 && planActive) {
+  //     setVendorPermissionError("");
+  //   } else {
+  //     setVendorPermissionError("Permission Denied");
+  //   }
 
 
-    if (vendorPermission.per_edit === 1 && planActive) {
-      setVendorEditPermission("");
-    } else {
-      setVendorEditPermission("Permission Denied");
-    }
+  //   if (vendorPermission.per_create === 1 && planActive) {
+  //     setVendorAddPermission("");
+  //   } else {
+  //     setVendorAddPermission("Permission Denied");
+  //   }
 
-    if (vendorPermission.per_delete === 1 && planActive) {
-      setVendorDeletePermission("");
-    } else {
-      setVendorDeletePermission("Permission Denied");
-    }
-  }, [vendorrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
+
+  //   if (vendorPermission.per_edit === 1 && planActive) {
+  //     setVendorEditPermission("");
+  //   } else {
+  //     setVendorEditPermission("Permission Denied");
+  //   }
+
+  //   if (vendorPermission.per_delete === 1 && planActive) {
+  //     setVendorDeletePermission("");
+  //   } else {
+  //     setVendorDeletePermission("Permission Denied");
+  //   }
+  // }, [vendorrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
 
 
 
@@ -585,7 +585,10 @@ const {
                 {filteredData && filteredData.length > 0 && filteredData.map((vendor) => (
                   <div key={vendor.id} className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12'>
                     <VendorListMap vendor={vendor} onEditVendor={handleEditVendor}
-                      onDeleteVendor={handleDeleteVendor} vendorDeletePermission={vendorDeletePermission} vendorAddPermission={vendorAddPermission} vendorEditPermission={vendorEditPermission}
+                      onDeleteVendor={handleDeleteVendor} 
+                      // vendorDeletePermission={vendorDeletePermission}
+                      //  vendorAddPermission={vendorAddPermission}
+                      //   vendorEditPermission={vendorEditPermission}
                     />
                   </div>
                 ))

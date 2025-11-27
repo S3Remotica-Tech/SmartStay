@@ -1,41 +1,41 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useRef, useState, useEffect } from "react";
-import Form from "react-bootstrap/Form";
+// import Form from "react-bootstrap/Form";
 import "../Pages/Settings.css";
 import { useDispatch, useSelector } from "react-redux";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import Logo from "../Assets/Images/New_images/Group_Logo.png";
-import Dial from '../Assets/Images/dial.png'
-import Room from '../Assets/Images/Car.png'
-import Locat from '../Assets/Images/location 03.png'
-import Barcode from '../Assets/Images/invoice_barcode.svg'
+// import Dial from '../Assets/Images/dial.png'
+// import Room from '../Assets/Images/Car.png'
+// import Locat from '../Assets/Images/location 03.png'
+// import Barcode from '../Assets/Images/invoice_barcode.svg'
 import Gpay from '../Assets/Images/gpay.png'
 import Phonepe from '../Assets/Images/phonepe.png'
 import Paytm from '../Assets/Images/paytm.png'
-import Questionimage from '../Assets/Images/question.png';
-import EditICon from '../Assets/Images/New_images/edit.png';
-import TextAreaICon from '../Assets/Images/textarea.png'
-import BankICon from '../Assets/Images/bank_white.png'
+// import Questionimage from '../Assets/Images/question.png';
+// import EditICon from '../Assets/Images/New_images/edit.png';
+// import TextAreaICon from '../Assets/Images/textarea.png'
+// import BankICon from '../Assets/Images/bank_white.png'
 import "react-datepicker/dist/react-datepicker.css";
-import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
-import { CloseCircle } from "iconsax-react";
+// import Modal from 'react-bootstrap/Modal';
+// import Button from 'react-bootstrap/Button';
+// import { CloseCircle } from "iconsax-react";
 import "react-toastify/dist/ReactToastify.css";
-import { RgbaColorPicker } from "react-colorful";
-import uploadsett from "../Assets/Images/New_images/upload setting.png";
-import ZoomImage from '../Assets/Images/zoom.png'
-import Topbottom from '../Assets/Images/cancel_presentation.png';
-import left85arrow from '../Assets/Images/arrow85.png';
-import printdown from '../Assets/Images/printericon.png';
-import downloadicon from '../Assets/Images/pdfdown.png';
-import CloseIcon from '../Assets/Images/close_icon.png';
+// import { RgbaColorPicker } from "react-colorful";
+// import uploadsett from "../Assets/Images/New_images/upload setting.png";
+// import ZoomImage from '../Assets/Images/zoom.png'
+// import Topbottom from '../Assets/Images/cancel_presentation.png';
+// import left85arrow from '../Assets/Images/arrow85.png';
+// import printdown from '../Assets/Images/printericon.png';
+// import downloadicon from '../Assets/Images/pdfdown.png';
+// import CloseIcon from '../Assets/Images/close_icon.png';
 import PropTypes from "prop-types";
 import BankingAddForm from "./BankingAddForm";
-import ErrorMessage from '../Components/ErrorMessage'
-import { useHasPermission } from '../Utils/Permission';
+// import ErrorMessage from '../Components/ErrorMessage'
+// import { useHasPermission } from '../Utils/Permission';
 import { Location, Call, Profile, } from 'iconsax-react'
 import { IoBed } from "react-icons/io5";
-import { Container, Row, Col, Table } from "react-bootstrap";
+import { Row, Col, Table } from "react-bootstrap";
 import { BsQrCode } from "react-icons/bs";
 
 const SecurityDepositInvoiceTemplate = ({ BillsTemplateList , templateThemes}) => {
@@ -45,139 +45,139 @@ const SecurityDepositInvoiceTemplate = ({ BillsTemplateList , templateThemes}) =
 
   const [selectedDate, setSelectedDate] = useState(null);
   const [invoicedueDate, setInvoiceDueDate] = useState('');
-  const [accountName, setAccountName] = useState("")
-  const [account_number, setAccount_Number] = useState("");
-  const [description, setDescription] = useState("");
-  const [ifsccode, setIfscCode] = useState("");
-  const [bank_name, setBankName] = useState("");
+  // const [accountName, setAccountName] = useState("")
+  // const [account_number, setAccount_Number] = useState("");
+  // const [description, setDescription] = useState("");
+  // const [ifsccode, setIfscCode] = useState("");
+  // const [bank_name, setBankName] = useState("");
   const [prefix, setPrefix] = useState("");
   const [suffix, setSuffix] = useState("");
-  const [tax, setTax] = useState("");
-  const [banking, setBanking] = useState([])
-  const [selectedBankId, setSelectedBankId] = useState(null);
-  const [loading, setLoading] = useState(false)
-  const [editErrmsg, setEditErrMessage] = useState('')
+  // const [tax, setTax] = useState("");
+  // const [banking, setBanking] = useState([])
+  // const [selectedBankId, setSelectedBankId] = useState(null);
+  // const [loading, setLoading] = useState(false)
+  // const [editErrmsg, setEditErrMessage] = useState('')
   const [formLoading, setFormLoading] = useState(false)
-  const [contactnumberform, setContactNumberForm] = useState(false)
+  // const [contactnumberform, setContactNumberForm] = useState(false)
 
   const cardRef = useRef(null);
   const innerScrollRef = useRef(null);
 
-  const [accountNameError, setaccountnameError] = useState("");
-  const [prefix_errmsg, setPrefixErrMsg] = useState('')
-  const [suffix_errmsg, setSuffixErrMsg] = useState('')
-  const [tax_errmsg, setTaxErrMsg] = useState('')
-  const [notes_errmsg, setNotesErrMsg] = useState('')
-  const [terms_errmsg, setTermsErrMsg] = useState('')
-  const [showFullView, setShowFullView] = useState(false);
+  // const [accountNameError, setaccountnameError] = useState("");
+  // const [prefix_errmsg, setPrefixErrMsg] = useState('')
+  // const [suffix_errmsg, setSuffixErrMsg] = useState('')
+  // const [tax_errmsg, setTaxErrMsg] = useState('')
+  // const [notes_errmsg, setNotesErrMsg] = useState('')
+  // const [terms_errmsg, setTermsErrMsg] = useState('')
+  // const [showFullView, setShowFullView] = useState(false);
 
   const [mobilenum, setMobileNum] = useState("")
-  const [MobileError, setMobileError] = useState("")
+  // const [MobileError, setMobileError] = useState("")
   const [email, setEmail] = useState("")
-  const [emailError, setEmailError] = useState("")
-  const fileInputRef = useRef(null);
-  const [signature, setSignature] = useState(null);
+  // const [emailError, setEmailError] = useState("")
+  // const fileInputRef = useRef(null);
+  // const [signature, setSignature] = useState(null);
   const [signaturePreview, setSignaturePreview] = useState(null);
-  const [signature_errmsg, setSignatureErrMsg] = useState("")
-  const [isSignatureConfirmed, setIsSignatureConfirmed] = useState(false);
+  // const [signature_errmsg, setSignatureErrMsg] = useState("")
+  // const [isSignatureConfirmed, setIsSignatureConfirmed] = useState(false);
 
   const [bankaccountform, setBankAccountForm] = useState(false)
 
-  const [allowImageUpload, setAllowImageUpload] = useState(false);
-  const [allowEditFields, setAllowEditFields] = useState({
-    contact: false,
-    email: false,
-    hostelLogo: false,
-    digitalSignature: false,
-  });
+  // const [allowImageUpload, setAllowImageUpload] = useState(false);
+  // const [allowEditFields, setAllowEditFields] = useState({
+  //   contact: false,
+  //   email: false,
+  //   hostelLogo: false,
+  //   digitalSignature: false,
+  // });
 
-  const [edit, setEdit] = useState(false);
+  // const [edit, setEdit] = useState(false);
 
 
 
   // const canUpdateInvoice = useHasPermission("Bills", "canUpdate")
 
 
-  const {
-    // canWriteModule: canWriteInvoice,
-    // canReadModule: canReadReceipt,
-    canUpdateModule: canUpdateInvoice,
-    // canDeleteModule: canDeleteInvoice,
-  } = useHasPermission("Bills");
+  // const {
+  //   // canWriteModule: canWriteInvoice,
+  //   // canReadModule: canReadReceipt,
+  //   // canUpdateModule: canUpdateInvoice,
+  //   // canDeleteModule: canDeleteInvoice,
+  // } = useHasPermission("Bills");
 
 
 
   const handleCloseForm = () => {
     setBankAccountForm(false);
-    setEdit(false);
+    // setEdit(false);
   }
 
-  const handleShowContactNumberForm = () => {
-    setContactNumberForm(true);
-    setAllowImageUpload(false);
-  };
+  // const handleShowContactNumberForm = () => {
+  //   setContactNumberForm(true);
+  //   setAllowImageUpload(false);
+  // };
 
 
 
-  const handleCloseContactNumberForm = () => {
-    setContactNumberForm(false);
-    setAllowImageUpload(false);
-    setAllowEditFields({
-      contact: false,
-      email: false,
-      hostelLogo: false,
-      digitalSignature: false,
-    });
-  };
+  // const handleCloseContactNumberForm = () => {
+  //   setContactNumberForm(false);
+  //   setAllowImageUpload(false);
+  //   setAllowEditFields({
+  //     contact: false,
+  //     email: false,
+  //     hostelLogo: false,
+  //     digitalSignature: false,
+  //   });
+  // };
 
 
-  const handleEditAnyway = () => {
-    setAllowImageUpload(true);
-    setAllowEditFields({
-      contact: true,
-      email: true,
-      hostelLogo: true,
-      digitalSignature: true,
-    });
-    setContactNumberForm(false);
-  };
+  // const handleEditAnyway = () => {
+  //   setAllowImageUpload(true);
+  //   setAllowEditFields({
+  //     contact: true,
+  //     email: true,
+  //     hostelLogo: true,
+  //     digitalSignature: true,
+  //   });
+  //   setContactNumberForm(false);
+  // };
 
 
 
 
-  const handleMobile = (e) => {
-    const input = e.target.value.replace(/\D/g, "");
-    setMobileNum(input);
-    setEditErrMessage("")
-    if (input.length === 0) {
-      setMobileError("");
-    } else if (input.length < 10) {
-      setMobileError(" Please Enter Valid Mobile Number");
-    } else if (input.length === 10) {
-      setMobileError("");
-    } else if (input.length > 10) {
-      setMobileError(" Please Enter Valid Mobile Number");
-    }
-  };
+  // const handleMobile = (e) => {
+  //   const input = e.target.value.replace(/\D/g, "");
+  //   setMobileNum(input);
+  //   setEditErrMessage("")
+  //   if (input.length === 0) {
+  //     setMobileError("");
+  //   } else if (input.length < 10) {
+  //     setMobileError(" Please Enter Valid Mobile Number");
+  //   } else if (input.length === 10) {
+  //     setMobileError("");
+  //   } else if (input.length > 10) {
+  //     setMobileError(" Please Enter Valid Mobile Number");
+  //   }
+  // };
 
-  const handleEmail = (e) => {
-    const emailValue = e.target.value.toLowerCase();
-    setEmail(emailValue);
-    setEditErrMessage("")
-    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
-    const isValidEmail = emailRegex.test(emailValue);
-    if (!emailValue) {
-      setEmailError("");
+  // const handleEmail = (e) => {
+  //   const emailValue = e.target.value.toLowerCase();
+  //   setEmail(emailValue);
+  //   setEditErrMessage("")
+  //   const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+  //   const isValidEmail = emailRegex.test(emailValue);
+  //   if (!emailValue) {
+  //     setEmailError("");
 
-    } else if (!isValidEmail) {
+  //   } else if (!isValidEmail) {
 
-      setEmailError("Please Enter  Valid Email Id");
-    } else {
-      setEmailError("");
+  //     setEmailError("Please Enter  Valid Email Id");
+  //   } else {
+  //     setEmailError("");
 
-    }
+  //   }
 
-  };
+  // };
 
 
 
@@ -190,143 +190,143 @@ const SecurityDepositInvoiceTemplate = ({ BillsTemplateList , templateThemes}) =
   const [useGradient, setUseGradient] = useState(true);
   const [color, setColor] = useState({ r: 30, g: 69, b: 225, a: 1 });
 
-  const handleColorChange = (newColor) => {
-    setColor(newColor);
-    setUseGradient(false);
-    setEditErrMessage("")
-  }
+  // const handleColorChange = (newColor) => {
+  //   setColor(newColor);
+  //   setUseGradient(false);
+  //   setEditErrMessage("")
+  // }
 
-  const presetColors = [
-    "#F44336", "#FF9800", "#FFEB3B", "#795548", "#8BC34A", "#4CAF50", "#E91E63", "#9C27B0", "#9C00FF",
-    "#03A9F4", "#00BCD4", "#C8E6C9", "#000000", "#616161", "#9E9E9E", "#FFFFFF", "#AAAAAA", "#FF69B4"
-  ];
+  // const presetColors = [
+  //   "#F44336", "#FF9800", "#FFEB3B", "#795548", "#8BC34A", "#4CAF50", "#E91E63", "#9C27B0", "#9C00FF",
+  //   "#03A9F4", "#00BCD4", "#C8E6C9", "#000000", "#616161", "#9E9E9E", "#FFFFFF", "#AAAAAA", "#FF69B4"
+  // ];
 
-  const hexValue = `#${((1 << 24) + (color.r << 16) + (color.g << 8) + color.b).toString(16).slice(1).toUpperCase()}`;
-  const alphaValue = Math.round(color.a * 100);
-
-
-
-
-
-  const handleAccountName = (e) => {
-    const value = e.target.value
-    const pattern = /^[a-zA-Z\s]*$/;
-    if (!pattern.test(value)) {
-      return;
-    }
-    setAccountName(value);
-    setaccountnameError("")
-  };
-
-
-
-  const handleAccountNumberChange = (e) => {
-    const numericValue = e.target.value.replace(/[^0-9]/g, "");
-    setAccount_Number(numericValue);
-
-  };
-
-
-  const handleIfscCodeChange = (e) => {
-    const Value = e.target.value
-    setIfscCode(Value)
-
-
-  }
-
-  const handleBankNameChange = (e) => {
-    const Value = e.target.value
-    setBankName(Value)
-
-
-  }
-
-  const handleDescription = (e) => {
-    setDescription(e.target.value);
-  };
-
-
-  const handleSubmitBank = () => {
-
-    if (!accountName) {
-      setaccountnameError("Please Enter Benificiary Name");
-      return;
-    }
-    setaccountnameError("");
-
-    if (accountName) {
-      dispatch({
-        type: "ADD_BANKING",
-        payload: {
-          type: "bank", benificiary_name: accountName, acc_no: account_number, bank_name: bank_name,
-          ifsc_code: ifsccode, desc: description, hostel_id: state.login.selectedHostel_Id
-        },
-      });
-    }
-  };
-
-
-  const hanldePrefix = (e) => {
-    const Value = e.target.value.replace(/[^a-zA-Z\s]/g, "");
-    setPrefix(Value)
-    setEditErrMessage("")
-    if (Value.trim() !== "") {
-      setPrefixErrMsg("");
-    }
-  }
-
-  const hanldeSuffix = (e) => {
-    const numericValue = e.target.value.replace(/[^0-9]/g, "");
-    setSuffix(numericValue)
-    setEditErrMessage("")
-    if (numericValue.trim() !== "") {
-      setSuffixErrMsg("");
-    }
-  }
-
-
-
-
-  const handleTaxChange = (e) => {
-    const inputValue = e.target.value;
-    setEditErrMessage("")
-    const formattedValue = inputValue
-      .replace(/[^0-9.]/g, '')
-      .replace(/^([^.]*\.)|\./g, '$1');
-
-    setTax(formattedValue);
-
-    if (formattedValue.trim() !== "") {
-      setTaxErrMsg("");
-    }
-  };
-
-
-  const handleNotesChange = (e) => {
-    const Value = e.target.value
-    setNotes(Value)
-    setEditErrMessage("")
-    if (Value.trim() !== "") {
-      setNotesErrMsg("");
-    }
-  }
-
-  const handleTermsChange = (e) => {
-    const Value = e.target.value
-    setTerms(Value)
-    setEditErrMessage("")
-    if (Value.trim() !== "") {
-      setTermsErrMsg("");
-    }
-  }
+  // const hexValue = `#${((1 << 24) + (color.r << 16) + (color.g << 8) + color.b).toString(16).slice(1).toUpperCase()}`;
+  // const alphaValue = Math.round(color.a * 100);
 
 
 
 
 
-  const [notes, setNotes] = useState(
-    '"Your comfort is our priority – See you again at Smart Stay!"'
-  );
+  // const handleAccountName = (e) => {
+  //   const value = e.target.value
+  //   const pattern = /^[a-zA-Z\s]*$/;
+  //   if (!pattern.test(value)) {
+  //     return;
+  //   }
+  //   setAccountName(value);
+  //   setaccountnameError("")
+  // };
+
+
+
+  // const handleAccountNumberChange = (e) => {
+  //   const numericValue = e.target.value.replace(/[^0-9]/g, "");
+  //   setAccount_Number(numericValue);
+
+  // };
+
+
+  // const handleIfscCodeChange = (e) => {
+  //   const Value = e.target.value
+  //   setIfscCode(Value)
+
+
+  // }
+
+  // const handleBankNameChange = (e) => {
+  //   const Value = e.target.value
+  //   setBankName(Value)
+
+
+  // }
+
+  // const handleDescription = (e) => {
+  //   setDescription(e.target.value);
+  // };
+
+
+  // const handleSubmitBank = () => {
+
+  //   if (!accountName) {
+  //     setaccountnameError("Please Enter Benificiary Name");
+  //     return;
+  //   }
+  //   setaccountnameError("");
+
+  //   if (accountName) {
+  //     dispatch({
+  //       type: "ADD_BANKING",
+  //       payload: {
+  //         type: "bank", benificiary_name: accountName, acc_no: account_number, bank_name: bank_name,
+  //         ifsc_code: ifsccode, desc: description, hostel_id: state.login.selectedHostel_Id
+  //       },
+  //     });
+  //   }
+  // };
+
+
+  // const hanldePrefix = (e) => {
+  //   const Value = e.target.value.replace(/[^a-zA-Z\s]/g, "");
+  //   setPrefix(Value)
+  //   setEditErrMessage("")
+  //   if (Value.trim() !== "") {
+  //     setPrefixErrMsg("");
+  //   }
+  // }
+
+  // const hanldeSuffix = (e) => {
+  //   const numericValue = e.target.value.replace(/[^0-9]/g, "");
+  //   setSuffix(numericValue)
+  //   setEditErrMessage("")
+  //   if (numericValue.trim() !== "") {
+  //     setSuffixErrMsg("");
+  //   }
+  // }
+
+
+
+
+  // const handleTaxChange = (e) => {
+  //   const inputValue = e.target.value;
+  //   setEditErrMessage("")
+  //   const formattedValue = inputValue
+  //     .replace(/[^0-9.]/g, '')
+  //     .replace(/^([^.]*\.)|\./g, '$1');
+
+  //   setTax(formattedValue);
+
+  //   if (formattedValue.trim() !== "") {
+  //     setTaxErrMsg("");
+  //   }
+  // };
+
+
+  // const handleNotesChange = (e) => {
+  //   const Value = e.target.value
+  //   setNotes(Value)
+  //   setEditErrMessage("")
+  //   if (Value.trim() !== "") {
+  //     setNotesErrMsg("");
+  //   }
+  // }
+
+  // const handleTermsChange = (e) => {
+  //   const Value = e.target.value
+  //   setTerms(Value)
+  //   setEditErrMessage("")
+  //   if (Value.trim() !== "") {
+  //     setTermsErrMsg("");
+  //   }
+  // }
+
+
+
+
+
+  // const [notes, setNotes] = useState(
+  //   '"Your comfort is our priority – See you again at Smart Stay!"'
+  // );
 
   const [terms, setTerms] = useState(
     'Tenants must pay all dues on or before the due date, maintain cleanliness, and follow PG rules; failure may lead to penalties or termination of stay.'
@@ -336,38 +336,38 @@ const SecurityDepositInvoiceTemplate = ({ BillsTemplateList , templateThemes}) =
 
 
 
-  const handleFileSignatureChange = (e) => {
-    const file = e.target.files[0];
-    setEditErrMessage("")
-    if (file) {
-      setSignature(file);
-      setSignaturePreview(URL.createObjectURL(file));
-      setSignatureErrMsg("");
-      setIsSignatureConfirmed(false);
-    }
-  };
+  // const handleFileSignatureChange = (e) => {
+  //   const file = e.target.files[0];
+  //   setEditErrMessage("")
+  //   if (file) {
+  //     setSignature(file);
+  //     setSignaturePreview(URL.createObjectURL(file));
+  //     setSignatureErrMsg("");
+  //     setIsSignatureConfirmed(false);
+  //   }
+  // };
 
 
-  const handleClear = () => {
-    setSignature(null);
-    setSignaturePreview(null)
-    setSignatureErrMsg("");
-    setEditErrMessage("")
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
-  };
+  // const handleClear = () => {
+  //   setSignature(null);
+  //   setSignaturePreview(null)
+  //   setSignatureErrMsg("");
+  //   setEditErrMessage("")
+  //   if (fileInputRef.current) {
+  //     fileInputRef.current.value = '';
+  //   }
+  // };
 
 
-  const handleSignatureDone = () => {
-    if (!signature) {
-      setSignatureErrMsg("Please select a signature file.");
-    } else {
-      setEditErrMessage("")
-      setSignatureErrMsg("");
-      setIsSignatureConfirmed(true);
-    }
-  };
+  // const handleSignatureDone = () => {
+  //   if (!signature) {
+  //     setSignatureErrMsg("Please select a signature file.");
+  //   } else {
+  //     setEditErrMessage("")
+  //     setSignatureErrMsg("");
+  //     setIsSignatureConfirmed(true);
+  //   }
+  // };
 
 
 
@@ -403,41 +403,41 @@ const SecurityDepositInvoiceTemplate = ({ BillsTemplateList , templateThemes}) =
 
 
 
-  const handleAddBankAccount = () => {
-    setBankAccountForm(true)
-    setEditErrMessage("")
-  }
+  // const handleAddBankAccount = () => {
+  //   setBankAccountForm(true)
+  //   setEditErrMessage("")
+  // }
 
 
   const handleCloseBankAccount = () => {
     setBankAccountForm(false)
-    setaccountnameError("")
-    setAccountName("")
-    setAccount_Number("")
-    setIfscCode("")
-    setBankName("")
-    setDescription("")
+    // setaccountnameError("")
+    // setAccountName("")
+    // setAccount_Number("")
+    // setIfscCode("")
+    // setBankName("")
+    // setDescription("")
   }
 
 
 
-  useEffect(() => {
-    if (state.bankingDetails.bankingList) {
-      setBanking(state.bankingDetails.bankingList.listBanks)
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_BANKING_LIST" });
-      }, 200);
-    }
-  }, [state.bankingDetails.bankingList]);
+  // useEffect(() => {
+  //   if (state.bankingDetails.bankingList) {
+  //     setBanking(state.bankingDetails.bankingList.listBanks)
+  //     setTimeout(() => {
+  //       dispatch({ type: "CLEAR_BANKING_LIST" });
+  //     }, 200);
+  //   }
+  // }, [state.bankingDetails.bankingList]);
 
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForAddBanking === 200) {
-      setAccountName("")
-      setAccount_Number("")
-      setIfscCode("")
-      setBankName("")
-      setDescription("")
+      // setAccountName("")
+      // setAccount_Number("")
+      // setIfscCode("")
+      // setBankName("")
+      // setDescription("")
       handleCloseBankAccount();
 
       dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
@@ -454,16 +454,16 @@ const SecurityDepositInvoiceTemplate = ({ BillsTemplateList , templateThemes}) =
 
 
 
-  const handleBankClick = (id) => {
-    setSelectedBankId(id);
-  };
+  // const handleBankClick = (id) => {
+  //   setSelectedBankId(id);
+  // };
 
-  useEffect(() => {
-    if (banking?.length > 0) {
-      const defaultBank = banking.find((bank) => bank.isDefault) || banking[0];
-      setSelectedBankId(defaultBank.bankingId);
-    }
-  }, [banking]);
+  // useEffect(() => {
+  //   if (banking?.length > 0) {
+  //     const defaultBank = banking.find((bank) => bank.isDefault) || banking[0];
+  //     setSelectedBankId(defaultBank.bankingId);
+  //   }
+  // }, [banking]);
 
 
 
@@ -484,47 +484,47 @@ const SecurityDepositInvoiceTemplate = ({ BillsTemplateList , templateThemes}) =
 
 
 
-  useEffect(() => {
-    if (showFullView) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
-  }, [showFullView]);
+  // useEffect(() => {
+  //   if (showFullView) {
+  //     document.body.style.overflow = 'hidden';
+  //   } else {
+  //     document.body.style.overflow = 'auto';
+  //   }
+  // }, [showFullView]);
 
 
   const [logoPreview, setLogoPreview] = useState(null);
-  const [hostel_logo, setHostelLogo] = useState(null)
+  // const [hostel_logo, setHostelLogo] = useState(null)
 
 
-  const handleFileUploadHostel = (e) => {
-    if (!allowImageUpload) return;
-    const file = e.target.files[0];
-    if (file && file.type.startsWith("image/")) {
-      setEditErrMessage("")
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setLogoPreview(reader.result);
-      };
+  // const handleFileUploadHostel = (e) => {
+  //   if (!allowImageUpload) return;
+  //   const file = e.target.files[0];
+  //   if (file && file.type.startsWith("image/")) {
+  //     setEditErrMessage("")
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       setLogoPreview(reader.result);
+  //     };
 
-      reader.readAsDataURL(file);
-      setHostelLogo(file)
-    }
-  };
+  //     reader.readAsDataURL(file);
+  //     setHostelLogo(file)
+  //   }
+  // };
 
 
   const [qrImage, setQrImage] = useState(null);
-  const [qrimagepreview, setQRImagePreview] = useState(null)
-  const qrFileInputRef = useRef(null);
+  // const [qrimagepreview, setQRImagePreview] = useState(null)
+  // const qrFileInputRef = useRef(null);
 
-  const handleQrImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setQRImagePreview(file)
-      setQrImage(URL.createObjectURL(file));
-      setEditErrMessage("")
-    }
-  };
+  // const handleQrImageChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     setQRImagePreview(file)
+  //     setQrImage(URL.createObjectURL(file));
+  //     setEditErrMessage("")
+  //   }
+  // };
 
  
 
@@ -557,7 +557,7 @@ const SecurityDepositInvoiceTemplate = ({ BillsTemplateList , templateThemes}) =
   useEffect(() => {
     if (state.Settings?.SettingsBilltemplategetErrorCode === 500) {
       setTimeout(() => {
-        setLoading(false)
+        // setLoading(false)
         dispatch({ type: "CLEAR_ERROR_TEMPLATELIST_STATUS_CODE" });
       }, 500);
     }
@@ -640,18 +640,18 @@ useEffect(() => {
  
   if (templateThemes) {
     setLogoPreview(templateThemes.logoPreview || "");
-    setHostelLogo(templateThemes.logoPreview || "");
+    // setHostelLogo(templateThemes.logoPreview || "");
     setMobileNum(templateThemes.mobilenum || "");
     setEmail(templateThemes.email || "");
     setPrefix(templateThemes.prefix || "");
     setSuffix(templateThemes.suffix || "");
     setSignaturePreview(templateThemes.signaturePreview || "");
-    setSignature(templateThemes.signaturePreview || "");
+    // setSignature(templateThemes.signaturePreview || "");
     setQrImage(templateThemes.qrImage || null);
-    setQRImagePreview(templateThemes.qrImage || null);
-    setNotes(templateThemes.notes || "");
+    // setQRImagePreview(templateThemes.qrImage || null);
+    // setNotes(templateThemes.notes || "");
     setTerms(templateThemes.terms || "");
-    setTax(templateThemes.tax || "");
+    // setTax(templateThemes.tax || "");
     setColor(templateThemes.color || { r: 0, g: 0, b: 0, a: 1 });
     setUseGradient(false);
     return; 
@@ -665,11 +665,11 @@ useEffect(() => {
         : BillsTemplateList?.logo || ""
     );
 
-    setHostelLogo(
-      BillsTemplateList?.isLogoCustomized && securityDepositInvoiceTemplate?.invoiceLogoUrl
-        ? securityDepositInvoiceTemplate.invoiceLogoUrl
-        : BillsTemplateList?.logo || ""
-    );
+    // setHostelLogo(
+    //   BillsTemplateList?.isLogoCustomized && securityDepositInvoiceTemplate?.invoiceLogoUrl
+    //     ? securityDepositInvoiceTemplate.invoiceLogoUrl
+    //     : BillsTemplateList?.logo || ""
+    // );
 
     setMobileNum(
       BillsTemplateList?.isMobileCustomized && securityDepositInvoiceTemplate?.invoiceMobileNumber
@@ -691,18 +691,18 @@ useEffect(() => {
         ? securityDepositInvoiceTemplate.invoiceSignatureUrl
         : BillsTemplateList?.signature || ""
     );
-    setSignature(
-      BillsTemplateList?.isSignatureCustomized && securityDepositInvoiceTemplate?.invoiceSignatureUrl
-        ? securityDepositInvoiceTemplate.invoiceSignatureUrl
-        : BillsTemplateList?.signature || ""
-    );
+    // setSignature(
+    //   BillsTemplateList?.isSignatureCustomized && securityDepositInvoiceTemplate?.invoiceSignatureUrl
+    //     ? securityDepositInvoiceTemplate.invoiceSignatureUrl
+    //     : BillsTemplateList?.signature || ""
+    // );
 
     setTerms(securityDepositInvoiceTemplate?.invoiceTermsAndCondition || "");
-    setTax(securityDepositInvoiceTemplate?.gstPercentile || "");
-    setSelectedBankId(securityDepositInvoiceTemplate?.selectedBankId || null);
+    // setTax(securityDepositInvoiceTemplate?.gstPercentile || "");
+    // setSelectedBankId(securityDepositInvoiceTemplate?.selectedBankId || null);
     setQrImage(securityDepositInvoiceTemplate?.qrCodeUrl || null);
-    setQRImagePreview(securityDepositInvoiceTemplate?.qrCodeUrl || null);
-    setNotes(securityDepositInvoiceTemplate?.invoiceNotes || "");
+    // setQRImagePreview(securityDepositInvoiceTemplate?.qrCodeUrl || null);
+    // setNotes(securityDepositInvoiceTemplate?.invoiceNotes || "");
 
     const templateTheme = securityDepositInvoiceTemplate?.invoiceTemplateColor;
     if (templateTheme && templateTheme.trim() !== "") {
@@ -741,7 +741,7 @@ useEffect(() => {
   useEffect(() => {
     if (state.Settings.settingGlobalAddStatusCode === 200) {
       setFormLoading(false)
-      setLoading(false)
+      // setLoading(false)
       dispatch({ type: 'GET_TEMPLATE_LIST', payload: state.login.selectedHostel_Id })
 
       setTimeout(() => {
@@ -1308,7 +1308,7 @@ useEffect(() => {
 
         <BankingAddForm showForm={bankaccountform}
           setShowForm={handleCloseForm}
-          setEdit={setEdit}
+          // setEdit={setEdit}
 
 
         />
@@ -1318,7 +1318,38 @@ useEffect(() => {
   )
 }
 SecurityDepositInvoiceTemplate.propTypes = {
-  hostelid: PropTypes.func.isRequired,
+  hostelid: PropTypes.any,
 
-}
+  BillsTemplateList: PropTypes.shape({
+    templates: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        name: PropTypes.string,
+      })
+    ),
+    mobile: PropTypes.string,
+    emailId: PropTypes.string,
+    logo: PropTypes.string,
+    signature: PropTypes.string,
+    isLogoCustomized: PropTypes.bool,
+    isSignatureCustomized: PropTypes.bool,
+    isMailIdCustomized: PropTypes.bool,
+    isMobileCustomized: PropTypes.bool,
+  }),
+
+  templateThemes: PropTypes.shape({
+    logoPreview: PropTypes.string,
+    mobilenum: PropTypes.string,
+    email: PropTypes.string,
+    prefix: PropTypes.string,
+    suffix: PropTypes.string,
+    signaturePreview: PropTypes.string,
+    qrImage: PropTypes.string,
+    notes: PropTypes.string,
+    terms: PropTypes.string,
+    tax: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    color: PropTypes.string,
+  }),
+};
+
 export default SecurityDepositInvoiceTemplate;
