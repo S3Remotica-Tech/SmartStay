@@ -1,4 +1,4 @@
- export const initialState = {
+export const initialState = {
 
    id: 0,
    email_Id: '',
@@ -14,22 +14,23 @@
    OtpVerifyStatusCode: 0,
    JWTtoken: '',
    Notification: [],
+   notificationStatus: 0 ,
    UpdateNotificationMessage: '',
    twoStepOtpError: '',
    selectedHostel_Id: '',
    Settings_Hostel_Id: '',
    IsVisible: null,
    errorStatusCode: 0,
-   errorPasswordStatusCode:0,
-    planStatus: null,
-    joiningDate:"",
-    checkoutProfileStatus:true,
-    invalidCredential: '',
-    statusCodeForV2Login:0,
-    JWTtokenV2: '',
-    isOtpRequired: false,
-    userId: '',
-    isTrigger: false,
+   errorPasswordStatusCode: 0,
+   planStatus: null,
+   joiningDate: "",
+   checkoutProfileStatus: true,
+   invalidCredential: '',
+   statusCodeForV2Login: 0,
+   JWTtokenV2: '',
+   isOtpRequired: false,
+   userId: '',
+   isTrigger: false,
 
 
 }
@@ -38,20 +39,20 @@ const SmartStayReducer = (state = initialState, action) => {
 
    switch (action.type) {
 
-       case "SET_PLAN_STATUS":
-      return {
-        ...state,
-        planStatus: action.payload,
-      };
+      case "SET_PLAN_STATUS":
+         return {
+            ...state,
+            planStatus: action.payload,
+         };
 
-       case "SET_JOINING_DATE":
-      return {
-        ...state,
-        joiningDate: action.payload,
-      };
+      case "SET_JOINING_DATE":
+         return {
+            ...state,
+            joiningDate: action.payload,
+         };
 
       case 'TRIGGER_PG':
-         return{...state, isTrigger: action.payload}
+         return { ...state, isTrigger: action.payload }
       case "STORE_HOSTEL_DATA":
          return { ...state, selectedHostel_Id: action.payload };
       case "CLEAR_HOSTEL_DATA":
@@ -65,10 +66,10 @@ const SmartStayReducer = (state = initialState, action) => {
       case "PRIVACY_POLICY":
          return { ...state, IsVisible: 2 }
       case "CONTACT_US":
-        
+
          return { ...state, IsVisible: 3 }
       case "COOKIES_FOOTER":
-        
+
          return { ...state, IsVisible: 4 }
       case "CLOSE_TERMS_PRIVACY":
          return { ...state, IsVisible: null }
@@ -76,30 +77,30 @@ const SmartStayReducer = (state = initialState, action) => {
          return { ...state, errorMessage: action.payload }
       case 'LOGIN-INFO':
          return { ...state, loginInformation: action.payload.response.Data, email_Id: action.payload.response.email_Id, password: action.payload.response.password, errorEmail: '', errorPassword: '', errorMessage: '', statusCode: action.payload.statusCode, JWTtoken: action.payload.response.token }
-     
-     case 'LOGIN_VERSION_2':
-                  return { ...state, statusCodeForV2Login: action.payload.statusCode, JWTtokenV2: action.payload.response, isOtpRequired:action.payload.response.isOtpRequired , userId:action.payload.response.userId }
 
-     case 'CLEAR_STATUSCODE_VERSION_2':
-         return { ...state, statusCodeForV2Login: 0}
-     
-         case 'ERROR_EMAIL':
+      case 'LOGIN_VERSION_2':
+         return { ...state, statusCodeForV2Login: action.payload.statusCode, JWTtokenV2: action.payload.response, isOtpRequired: action.payload.response.isOtpRequired, userId: action.payload.response.userId }
+
+      case 'CLEAR_STATUSCODE_VERSION_2':
+         return { ...state, statusCodeForV2Login: 0 }
+
+      case 'ERROR_EMAIL':
          return { ...state, errorEmail: action.payload.response, errorStatusCode: action.payload.statusCode }
       case 'ERROR_PASSWORD':
-         return { ...state, errorPassword: action.payload.response,  errorPasswordStatusCode: action.payload.statusCode }
+         return { ...state, errorPassword: action.payload.response, errorPasswordStatusCode: action.payload.statusCode }
       case 'CLEAR_EMAIL_ERROR':
-         return { ...state, errorEmail: '', errorStatusCode:  0}
+         return { ...state, errorEmail: '', errorStatusCode: 0 }
 
-         case 'INVALID_CREDENTIALS':
-            return { ...state, invalidCredential: action.payload }
-             case 'REMOVE_INVALID_CREDENTIALS':
-            return { ...state, invalidCredential: ''}
+      case 'INVALID_CREDENTIALS':
+         return { ...state, invalidCredential: action.payload }
+      case 'REMOVE_INVALID_CREDENTIALS':
+         return { ...state, invalidCredential: '' }
       case 'CLEAR_PASSWORD_ERROR':
-         return { ...state, errorPassword: '', errorPasswordStatusCode:0 }
+         return { ...state, errorPassword: '', errorPasswordStatusCode: 0 }
       case 'LOGIN-SUCCESS':
          return { ...state, isLoggedIn: true }
       case 'LOG_OUT':
-         return { ...state, isLoggedIn: false  , selectedHostel_Id: null}
+         return { ...state, isLoggedIn: false, selectedHostel_Id: null }
       case 'CLEAR_STATUSCODE':
          return { ...state, statusCode: 0 }
       case 'OTP_SUCCESS':
@@ -110,8 +111,10 @@ const SmartStayReducer = (state = initialState, action) => {
          return { ...state, sendOtpValue: action.payload.response.Data, OtpVerifyStatusCode: action.payload.statusCode, JWTtokenV2: action.payload.response }
       case 'CLEAR_OTP_VERIFIED':
          return { ...state, OtpVerifyStatusCode: 0 }
-      case 'ALL_NOTIFICATION_LIST':
-         return { ...state, Notification: action.payload }
+      case 'ALL_NOTIFICATION':
+         return { ...state, Notification: action.payload.response, notificationStatus: action.payload.statusCode }
+      case 'REMOVE_ALL_NOTIFICATION_STATUS':
+         return { ...state, notificationStatus: 0 }
       case 'UPDATE_NOTIFICATION':
          return { ...state, UpdateNotificationMessage: action.payload.response }
       case 'AFTER_UPDATE_NOTIFICATION':
@@ -121,16 +124,16 @@ const SmartStayReducer = (state = initialState, action) => {
          return { ...state, twoStepOtpError: action.payload }
       case 'CLEAR_ERROR_OTP_CODE':
          return { ...state, twoStepOtpError: '' }
- case 'SET_CHECKOUT_PROFILE':
-         return { ...state, checkoutProfileStatus:action.payload}
+      case 'SET_CHECKOUT_PROFILE':
+         return { ...state, checkoutProfileStatus: action.payload }
 
 
-case 'RESET_ALL':
-      return initialState;
-         default:
-            return state;
+      case 'RESET_ALL':
+         return initialState;
+      default:
+         return state;
    }
 
-   
+
 }
 export default SmartStayReducer;

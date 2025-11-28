@@ -96,9 +96,11 @@ export const initialState = {
     bedList: [],
     getAllBedSuccessStatus: 0,
     updateBedStatusCode: 0,
-    statusCodeDeleteHostel:0,
+    statusCodeDeleteHostel: 0,
     isClickedBed: '',
-    isClickedChangeBed: ''
+    isClickedChangeBed: '',
+    updatePgStatusCode: 0,
+
 
 
 
@@ -111,10 +113,10 @@ const PgListReducer = (state = initialState, action) => {
             return initialState;
         case 'MANAGE_PG':
             return { ...state, isManageEnable: true }
-            case 'SET_CLICKED_BED':
-                return { ...state, isClickedBed: action.payload }
-                case 'SET_CHANGE_CLICKED_BED':
-                     return { ...state, isClickedChangeBed: action.payload }
+        case 'SET_CLICKED_BED':
+            return { ...state, isClickedBed: action.payload }
+        case 'SET_CHANGE_CLICKED_BED':
+            return { ...state, isClickedChangeBed: action.payload }
 
         case 'REMOVE_MANAGE_PG':
             return { ...state, isManageEnable: false }
@@ -129,7 +131,7 @@ const PgListReducer = (state = initialState, action) => {
             return { ...state, roomsList: action.payload.response, getAllRoomSuccessStatus: action.payload.statusCode }
         case 'REMOVE_GET_ALL_ROOMS_STATUS_CODE':
             return { ...state, getAllRoomSuccessStatus: 0 }
-       
+
         case "GET_ALL_BEDS":
             return {
                 ...state,
@@ -199,6 +201,10 @@ const PgListReducer = (state = initialState, action) => {
             return { ...state, message: action.payload.message, createPgStatusCode: action.payload.statusCode }
         case 'CLEAR_PG_STATUS_CODE':
             return { ...state, createPgStatusCode: 0 }
+        case 'UPDATE_PG':
+            return { ...state, updatePgStatusCode: action.payload.statusCode }
+        case 'REMOVE_UPDATE_PG':
+            return { ...state, updatePgStatusCode: 0 }
         case 'AFTER_CREATE_PG_MSG':
             return { ...state, createPGMessage: action.message }
 
@@ -490,7 +496,7 @@ const PgListReducer = (state = initialState, action) => {
 
 
 
-            case 'DELETE_HOSTEL':
+        case 'DELETE_HOSTEL':
             return { ...state, statusCodeDeleteHostel: action.payload.statusCode }
         case 'CLEAR_DELETE_HOSTEL_STATUS_CODE':
             return { ...state, statusCodeDeleteHostel: 0 }

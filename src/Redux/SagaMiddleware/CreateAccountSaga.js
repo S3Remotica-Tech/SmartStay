@@ -1,62 +1,62 @@
 import { call, takeEvery, put } from 'redux-saga/effects';
-import { CreateAccountAction, TwoStepVerification, AccountDetails, Addaccount, GetAllNotification, UpdateNotification, UpdateProfile, UpdatePassword } from '../Action/smartStayAction';
+import { CreateAccountAction, TwoStepVerification, AccountDetails, Addaccount,  UpdateNotification, UpdateProfile, UpdatePassword } from '../Action/smartStayAction';
 import Swal from 'sweetalert2';
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function* handleApiError(error) {
-   const status = error?.response?.status || error?.status;
+  const status = error?.response?.status || error?.status;
 
-   if (status === 401) {
-      yield put({
-         type: "UN-AUTHORIZED",
-         payload: "Access Denied",
-      });
-   }
-   else if (status === 500) {
-      yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
-      // toast.error("Network error occurred", {
-      //    style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
-      //    position: "top-right",
-      //    autoClose: 2000,
-      //    hideProgressBar: true,
-      //    closeButton: false,
-      //    closeOnClick: true,
-      //    pauseOnHover: true,
-      //    draggable: true,
-      //    progress: undefined,
-      // });
-   }
-   else if (error.code === "ERR_NETWORK") {
-      yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
-      // toast.error("Network error occurred", {
-      //    style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
-      //    position: "top-right",
-      //    autoClose: 2000,
-      //    hideProgressBar: true,
-      //    closeButton: false,
-      //    closeOnClick: true,
-      //    pauseOnHover: true,
-      //    draggable: true,
-      //    progress: undefined,
-      // });
-   }
-   // else {
-   //    const msg = error?.message || "Something went wrong";
-   //    yield put({ type: "NETWORK_ERROR", payload: msg });
-   //    toast.error(msg, {
-   //       style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
-   //       position: "top-right",
-   //       autoClose: 2000,
-   //       hideProgressBar: true,
-   //       closeButton: false,
-   //       closeOnClick: true,
-   //       pauseOnHover: true,
-   //       draggable: true,
-   //       progress: undefined,
-   //    });
-   // }
+  if (status === 401) {
+    yield put({
+      type: "UN-AUTHORIZED",
+      payload: "Access Denied",
+    });
+  }
+  else if (status === 500) {
+    yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
+    // toast.error("Network error occurred", {
+    //    style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
+    //    position: "top-right",
+    //    autoClose: 2000,
+    //    hideProgressBar: true,
+    //    closeButton: false,
+    //    closeOnClick: true,
+    //    pauseOnHover: true,
+    //    draggable: true,
+    //    progress: undefined,
+    // });
+  }
+  else if (error.code === "ERR_NETWORK") {
+    yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
+    // toast.error("Network error occurred", {
+    //    style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
+    //    position: "top-right",
+    //    autoClose: 2000,
+    //    hideProgressBar: true,
+    //    closeButton: false,
+    //    closeOnClick: true,
+    //    pauseOnHover: true,
+    //    draggable: true,
+    //    progress: undefined,
+    // });
+  }
+  // else {
+  //    const msg = error?.message || "Something went wrong";
+  //    yield put({ type: "NETWORK_ERROR", payload: msg });
+  //    toast.error(msg, {
+  //       style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
+  //       position: "top-right",
+  //       autoClose: 2000,
+  //       hideProgressBar: true,
+  //       closeButton: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       progress: undefined,
+  //    });
+  // }
 }
 
 function* CreateNewAccount(args) {
@@ -78,7 +78,7 @@ function* CreateNewAccount(args) {
 
     };
 
-    if (response?.status === 201 ) {
+    if (response?.status === 201) {
       yield put({ type: 'CREATEACCOUNTPAGE', payload: { response: response.data, statusCode: response?.status } });
 
       toast.success('created successfully', {
@@ -93,19 +93,19 @@ function* CreateNewAccount(args) {
         style: toastStyle,
       });
     }
-        if (response) {
+    if (response) {
       refreshToken(response)
     }
   }
-   catch (error) {
-     yield* handleApiError(error);
-      if (error.code === 'ERR_BAD_REQUEST') {
+  catch (error) {
+    yield* handleApiError(error);
+    if (error.code === 'ERR_BAD_REQUEST') {
       if (error.response.data.emailStatus !== "") {
         yield put({ type: 'EMAIL_ERROR', payload: error.response.data.emailStatus });
       } else if (error.response.data.mobileStatus !== "") {
         yield put({ type: 'MOBILE_ERROR', payload: error.response.data.mobileStatus });
       }
-    } 
+    }
   }
 }
 
@@ -114,10 +114,10 @@ function* CreateAccountPage(action) {
   try {
     const response = yield call(CreateAccountAction, action.payload);
 
-    if ( response?.status === 200) {
+    if (response?.status === 200) {
       yield put({
         type: 'CREATEACCOUNT',
-        payload: { response: response.data, statusCode:  response?.status }
+        payload: { response: response.data, statusCode: response?.status }
       });
 
 
@@ -126,8 +126,8 @@ function* CreateAccountPage(action) {
       refreshToken(response)
     }
   } catch (error) {
-     yield* handleApiError(error);
-    
+    yield* handleApiError(error);
+
   }
 }
 
@@ -136,10 +136,10 @@ function* ProfileUpdate(action) {
     const response = yield call(UpdateProfile, action.payload);
 
 
-    if ( response?.status === 200) {
+    if (response?.status === 200) {
       yield put({
         type: 'PROFILEUPDATE',
-        payload: { response: response.data, statusCode:  response?.status }
+        payload: { response: response.data, statusCode: response?.status }
       });
 
 
@@ -178,8 +178,8 @@ function* ProfileUpdate(action) {
     }
   }
   catch (error) {
-     yield* handleApiError(error);
-    
+    yield* handleApiError(error);
+
   }
 }
 
@@ -192,7 +192,7 @@ function* handlepasswordUpdate(action) {
     if (response?.status === 200) {
       yield put({
         type: 'PASSWORD-UPDATE',
-        payload: { response: response.data, statusCode: response?.status, message:  response?.data?.message }
+        payload: { response: response.data, statusCode: response?.status, message: response?.data?.message }
 
       });
 
@@ -222,8 +222,8 @@ function* handlepasswordUpdate(action) {
     }
   }
   catch (error) {
-     yield* handleApiError(error);
-   
+    yield* handleApiError(error);
+
   }
 }
 
@@ -233,8 +233,8 @@ function* HandleTwoStepVerification(action) {
   try {
     const response = yield call(TwoStepVerification, action.payload)
 
-    if (response?.status === 200 ) {
-      yield put({ type: 'TWO_STEP_VERIFY', payload: { response: response.data, statusCode: response?.status  } })
+    if (response?.status === 200) {
+      yield put({ type: 'TWO_STEP_VERIFY', payload: { response: response.data, statusCode: response?.status } })
       var toastStyle = {
         backgroundColor: "#E6F6E6",
         color: "black",
@@ -264,15 +264,15 @@ function* HandleTwoStepVerification(action) {
       })
     }
     else {
-      yield put({ type: 'ERROR', payload:  response?.data?.message })
+      yield put({ type: 'ERROR', payload: response?.data?.message })
     }
     if (response) {
       refreshToken(response)
     }
   }
   catch (error) {
-     yield* handleApiError(error);
-    
+    yield* handleApiError(error);
+
   }
 }
 
@@ -280,53 +280,35 @@ function* handleAccountDetails(args) {
   try {
     const response = yield call(AccountDetails, args.payload)
 
-    if (response?.status === 200 ) {
-      yield put({ type: 'ACCOUNT_DETAILS', payload: { response: response.data, statusCode: response?.status  } })
+    if (response?.status === 200) {
+      yield put({ type: 'ACCOUNT_DETAILS', payload: { response: response.data, statusCode: response?.status } })
     }
     else {
-      yield put({ type: 'ERROR', payload:  response?.data?.message })
+      yield put({ type: 'ERROR', payload: response?.data?.message })
     }
     if (response) {
       refreshToken(response)
     }
   } catch (error) {
-     yield* handleApiError(error);
-   
+    yield* handleApiError(error);
+
   }
 }
 
 
-function* handlenotificationlist(action) {
-  const response = yield call(GetAllNotification, action.payload);
 
-  if (response?.status === 200 ) {
-    yield put({ type: 'ALL_NOTIFICATION_LIST', payload: response.data.notification })
-
-  } else if (response?.status === 401 ) {
-
-    Swal.fire({
-      icon: 'warning',
-      title: 'Error',
-      text: response.data.message,
-    });
-  }
-  else {
-    yield put({ type: 'ERROR', payload:  response?.data?.message })
-  }
-  refreshToken(response)
-}
 
 
 function* HandleUpdateNotification(action) {
   const response = yield call(UpdateNotification, action.payload)
 
-  if (response?.status === 200 ) {
+  if (response?.status === 200) {
 
     yield put({ type: 'UPDATE_NOTIFICATION', payload: { response: response.data.message, statusCode: response?.status } })
 
   }
   else {
-    yield put({ type: 'ERROR', payload:  response?.data?.message })
+    yield put({ type: 'ERROR', payload: response?.data?.message })
   }
   refreshToken(response)
 }
@@ -354,7 +336,7 @@ function* CreateAccountSaga() {
   yield takeEvery('TWOSTEPVERIFY', HandleTwoStepVerification)
   yield takeEvery('ACCOUNTDETAILS', handleAccountDetails)
   yield takeEvery('CREATE_ACCOUNT_PAGE', CreateNewAccount)
-  yield takeEvery('ALL-NOTIFICATION-LIST', handlenotificationlist)
+  
   yield takeEvery('UPDATE-NOTIFICATION', HandleUpdateNotification)
 
 }

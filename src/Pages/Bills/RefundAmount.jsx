@@ -76,18 +76,21 @@ function RefundAmount({ show, handleClose, refundDetails }) {
 
 
     const handleRefundDate = (date) => {
+         setRefundAmountError("");
         setRefundDate(date);
         if (!date) setRefundDateError("Please select a date");
         else setRefundDateError("");
     };
 
     const handleRefundFrom = (selectedOption) => {
+         setRefundAmountError("");
         setRefundFrom(selectedOption);
         if (!selectedOption) setRefundFromError("Please select a refund source");
         else setRefundFromError("");
     };
 
     const handleTransactionId = (e) => {
+         setRefundAmountError("");
         setTransactionId(e.target.value);
 
     };

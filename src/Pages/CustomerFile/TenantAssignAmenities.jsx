@@ -1,16 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import { Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { MdError } from "react-icons/md";
-import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2 } from "iconsax-react";
 import Modal from "react-bootstrap/Modal";
 import { Button, Form } from "react-bootstrap";
-import cross from "../../Assets/Images/cross.png";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import "./UserList.css";
+import { toast } from 'react-toastify';
 import { CloseCircle, AddSquare } from "iconsax-react";
 import { useHasPermission } from '../../Utils/Permission';
 import ErrorMessage from '../../Components/ErrorMessage'
@@ -47,7 +43,7 @@ function TenantAmenities({show, handleClose}) {
 
 
   const [CustomerOverView, setCustomerOverView] = useState([]);
-
+  const [isTrigger, setIsTrigger] = useState(false)
 
 
   useEffect(() => {
@@ -84,6 +80,48 @@ function TenantAmenities({show, handleClose}) {
     setstatusShow(false);
 
   };
+
+
+    var toastStyle = {
+
+    fontFamily: "Gilroy",
+    fontWeight: 600,
+    fontSize: 14,
+    textAlign: "start",
+    display: "flex",
+    alignItems: "center",
+    padding: "10px",
+
+  }
+
+
+
+
+useEffect(() => {
+    if (state.InvoiceList.AmenitiesList) {
+      if (state.InvoiceList.AmenitiesList.length === 0 && isTrigger) {
+                 toast.error(
+                "Please Create Amenities before assign amenities",
+                {
+                  hideProgressBar: true,
+                  closeButton: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  style: toastStyle
+                });
+        setIsTrigger(false)
+      }
+     
+    }
+  }, [state.InvoiceList.AmenitiesList])
+
+
+
+
+
+
 
   useEffect(() => {
     if (
@@ -162,7 +200,7 @@ function TenantAmenities({show, handleClose}) {
 
   const handleAddUserAmnities = () => {
     if (!selectAmneties) {
-      setamnityError("Please select a valid amenity");
+      setamnityError("Please Select a Valid Amenity");
       return;
     }
 
@@ -331,6 +369,7 @@ handleClose()
 
     if (state.login.selectedHostel_Id) {
       dispatch({ type: 'AMENITIESLIST', payload: state.login.selectedHostel_Id })
+      setIsTrigger(true)
     }
 
 
@@ -383,6 +422,10 @@ handleClose()
         <Modal.Body className="pb-1 pt-2">
           <div className="row">
 
+
+{
+  state.InvoiceList.AmenitiesList
+}
             <div className="d-flex align-items-center mb-3 ">
               <div
 

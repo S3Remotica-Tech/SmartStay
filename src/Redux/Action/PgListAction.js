@@ -47,7 +47,46 @@ export async function createPgList(params) {
   }
 }
 
+export async function updatePgList(params) {
 
+
+  try {
+    const formData = new FormData();
+
+ 
+    if (params.payloads) {
+      const payloadsBlob = new Blob(
+        [JSON.stringify(params.payloads)],
+        { type: "application/json" }
+      );
+      formData.append("payloads", payloadsBlob);
+    }
+
+      if (params.mainImage) {
+      formData.append("mainImage", params.mainImage);
+    }
+
+       if (params.additionalImages && params.additionalImages.length > 0) {
+      params.additionalImages.forEach((img) => {
+        if (img) {
+          formData.append("additionalImages", img);
+        }
+      });
+    }
+
+    const response = await AxiosConfigV2.post("/v2/hostel", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+      timeout: 100000000,
+     
+    });
+
+    return response;
+  } catch (error) {
+     console.error("Axios Error", error);
+    throw error;
+   
+  }
+}
 
 // export async function createPgList(params) {
 //   try {

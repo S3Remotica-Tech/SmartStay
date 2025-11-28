@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { UpdateBed, getAllBed, updateRoom, getAllRoom, add_sub_comments, get_comments, add_comments, delete_announcement, deleteHostelImages, UpdateFloor, DeletePG, DeleteBed, createBed, createPgList, createRoom, CheckRoomId, CheckBedDetails, Checkeblist, CreateEbbill, EB_Customerlist, EB_startmeterlist, dashboardReports, OccupiedCustomer, EB_CustomerListTable, editElectricity, deleteElectricity, dashboardFilter, ebAddHostelReading, ebHostelBasedRead, ebAddHostelEdit, ebAddHostelDelete, announcement_list, add_announcement, DeleteHostel } from "../Action/PgListAction";
+import { updatePgList,UpdateBed, getAllBed, updateRoom, getAllRoom, add_sub_comments, get_comments, add_comments, delete_announcement, deleteHostelImages, UpdateFloor, DeletePG, DeleteBed, createBed, createPgList, createRoom, CheckRoomId, CheckBedDetails, Checkeblist, CreateEbbill, EB_Customerlist, EB_startmeterlist, dashboardReports, OccupiedCustomer, EB_CustomerListTable, editElectricity, deleteElectricity, dashboardFilter, ebAddHostelReading, ebHostelBasedRead, ebAddHostelEdit, ebAddHostelDelete, announcement_list, add_announcement, DeleteHostel } from "../Action/PgListAction";
 import Cookies from "universal-cookie";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -8,7 +8,7 @@ function* handleApiError(error) {
  
    const status = error?.response?.status || error?.status;
 
-   if (status === 401) {
+   if (status === 401) { 
       yield put({
          type: "UN-AUTHORIZED",
          payload: "Access Denied",
@@ -220,6 +220,71 @@ function* handlePgList(datum) {
 
   }
 }
+
+
+
+function* handleUpdatePgList(datum) {
+  try {
+    const response = yield call(updatePgList, datum.payload);
+
+
+
+    var toastStyle = {
+      backgroundColor: "#E6F6E6",
+      color: "black",
+      width: "100%",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center",
+      padding: "10px",
+
+    };
+
+    if (response?.status === 201) {
+      yield put({
+        type: "UPDATE_PG",
+        payload: {
+          response: response.data,
+          statusCode: response?.status,
+        },
+      });
+      toast.success(`${response.data}`, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
+
+   
+    if (response) {
+      refreshToken(response);
+    }
+  }
+  catch (error) {
+  
+ yield* handleApiError(error);
+
+  }
+}
+
+
+
+
+
+
+
+
 
 
 
@@ -1515,6 +1580,7 @@ function* PgListSaga() {
   yield takeEvery("GETALLROOMSLIST", handleGetAllRooms);
   yield takeEvery("GETALLBEDSLIST", handleGetAllBed)
   yield takeEvery("CREATEPG", handlePgList);
+   yield takeEvery("UPDATEPG",handleUpdatePgList)
   yield takeEvery("CREATEROOM", handleCreateRoom);
   yield takeEvery("UPDATEROOM", handleUpdateRoom);
   yield takeEvery("CHECKROOM", handleCheckRoom);

@@ -1,5 +1,5 @@
 import { call, takeEvery, put } from 'redux-saga/effects';
-import { login, OTPverification, loginV2 } from '../Action/smartStayAction';
+import { login, OTPverification, loginV2 ,GetAllNotification} from '../Action/smartStayAction';
 
 
 function* handleApiError(error) {
@@ -138,10 +138,27 @@ function* handleOTPVerified(args) {
   }
 }
 
+function* handleNotification(action) {
+  try {
+    const response = yield call(GetAllNotification, action.payload);
 
+    if (response?.status === 200) {
+      yield put({ type: 'ALL_NOTIFICATION', payload: { response: response.data, statusCode: response?.status }  })
+
+    }
+  }
+  catch (error) {
+    yield* handleApiError(error);
+
+  }
+
+
+
+}
 
 
 function* LoginSaga() {
+  yield takeEvery('ALLNOTIFICATION', handleNotification)
   yield takeEvery('LOGININFO', handleLogin)
   yield takeEvery('OTPVERIFY', handleOTPVerified)
   yield takeEvery('LOGINVERSION2', handleLoginV2)
