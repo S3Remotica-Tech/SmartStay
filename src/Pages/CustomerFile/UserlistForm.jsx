@@ -457,7 +457,7 @@ if (value === "" || /^[1-9]\d*$/.test(value)) {
         type: 'CHECKIN',
         payload: {
           customerId: id,
-          hostelId: state.login?.selectedHostel_Id,
+          // hostelId: state.login?.selectedHostel_Id,
           floorId: Floor,
           bedId: Bed,
           roomId: Rooms,
