@@ -193,7 +193,7 @@ console.log("props.hostel",props.hostel.isSubscriptionValid)
                 : "1px solid #E6E6E6",
             transition: "border 0.3s ease",
             height: "auto",
-            backgroundColor: props.hostel?.isSubscriptionValid  ? "#FFF" : "#dcdcdc"
+            // backgroundColor: props.hostel?.isSubscriptionValid  ? "#FFF" : "#dcdcdc"
           }}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
