@@ -8,11 +8,9 @@ import {
 
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { CloseCircle, MessageQuestion, Trash } from "iconsax-react";
-import Select from "react-select";
+import { CloseCircle } from "iconsax-react";
 import ErrorMessage from '../../Components/ErrorMessage'
-import { DatePicker } from 'antd';
-import dayjs from 'dayjs';
+
 
 function EditAdvanceAmount({ show, handleClose }) {
 
@@ -23,35 +21,30 @@ function EditAdvanceAmount({ show, handleClose }) {
     const [monthlyRent, setMonthlyRent] = useState("");
     const [monthlyRentError, setMonthlyRentError] = useState("");
 
-    const [effectiveFrom, setEffectiveFrom] = useState("");
-    const [effectiveFromError, setEffectiveFromError] = useState("");
+    // const [effectiveFrom, setEffectiveFrom] = useState("");
+    // const [effectiveFromError, setEffectiveFromError] = useState("");
     const [reason, setReason] = useState(null);
     const [loading, setLoading] = useState(false)
     const rentInputRef = useRef(null);
-    const dateRef = useRef(null);
+    // const dateRef = useRef(null);
+
+    const CustomerOverView = state.UsersList.customerdetails;
 
 
-    const reasonOptions = [
-        { value: "Annual Rent Revision", label: "Annual Rent Revision" },
-        { value: "Room Upgrade / Change", label: "Room Upgrade / Change" },
-        { value: "Additional Amenities Added", label: "Additional Amenities Added" },
-        { value: "Electricity / Utility Cost Updated", label: "Electricity / Utility Cost Updated" },
-        {
-            value: "Others",
-            label: "Others",
-            color: "#1E45E1"
-        },
-    ];
+    // const reasonOptions = [
+    //     { value: "Annual Rent Revision", label: "Annual Rent Revision" },
+    //     { value: "Room Upgrade / Change", label: "Room Upgrade / Change" },
+    //     { value: "Additional Amenities Added", label: "Additional Amenities Added" },
+    //     { value: "Electricity / Utility Cost Updated", label: "Electricity / Utility Cost Updated" },
+    //     {
+    //         value: "Others",
+    //         label: "Others",
+    //         color: "#1E45E1"
+    //     },
+    // ];
 
 
-    const handleReasonChange = (selectedOption) => {
-        if (selectedOption?.value !== "Others") {
-            setReason(selectedOption);
-        } else {
-            setReason({ value: "Others", label: "Others" });
-        }
-        setReasonError("");
-    };
+
 
     const handleMonthlyRentChange = (e) => {
         const value = e.target.value;
@@ -65,17 +58,19 @@ function EditAdvanceAmount({ show, handleClose }) {
     };
 
 
-    const handleEffectiveFromChange = (date, dateString) => {
-        setEffectiveFrom(dateString);
-        setEffectiveFromError("");
-    };
+    // const handleEffectiveFromChange = (date, dateString) => {
+    //     setEffectiveFrom(dateString);
+    //     setEffectiveFromError("");
+    // };
+
 
 
     const handleSubmit = () => {
+         dispatch({ type: 'REMOVE_EDIT_ADVANCE_ERROR' })
         let isValid = true;
 
         if (!monthlyRent || Number(monthlyRent) <= 0) {
-            setMonthlyRentError("Please enter a valid monthly rent");
+            setMonthlyRentError("Please Enter New Advance Amount");
             rentInputRef.current?.focus();
             isValid = false;
         }
@@ -89,18 +84,47 @@ function EditAdvanceAmount({ show, handleClose }) {
 
 
         if (!isValid) return;
-
+        dispatch({
+            type: 'EDITADVANCE', 
+            payload: {
+                hostelId: state.login.selectedHostel_Id,
+                bookingId: CustomerOverView?.bookingId,
+                advanceAmount: monthlyRent
+            }
+        })
         setLoading(true)
 
 
     };
 
     useEffect(() => {
-        if (state.createAccount?.networkError) {
+        if (state.createAccount?.networkError || state.UsersList.advanceError) {
             setLoading(false)
+
         }
 
-    }, [state.createAccount?.networkError])
+    }, [state.createAccount?.networkError,state.UsersList.advanceError])
+
+    const handleReasonChange = (e) => {
+         dispatch({ type: 'REMOVE_EDIT_ADVANCE_ERROR' })
+        setReason(e.target.value);
+    };
+
+
+    useEffect(() => {
+        if (state.UsersList.editAdvanceStatusCode === 200) {
+            setLoading(false)
+            setTimeout(() => {
+                dispatch({ type: 'REMOVE_EDIT_ADVANCE' })
+            }, 100)
+        }
+    }, [state.UsersList.editAdvanceStatusCode])
+
+
+
+
+
+
 
     return (
         <div
@@ -197,54 +221,6 @@ function EditAdvanceAmount({ show, handleClose }) {
 
                             </div>
 
-                            {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
-                                <Form.Group className="">
-                                    <Form.Label
-                                        style={{
-                                            fontSize: 14,
-                                            color: "#222222",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                        }}
-                                    >
-                                        Effective From  {" "}
-                                        <span
-                                            style={{
-                                                color: "red",
-                                                fontSize: "20px",
-                                            }}
-                                        >
-                                            *
-                                        </span>
-                                    </Form.Label>
-                                    <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
-                                        <DatePicker ref={dateRef}
-                                            style={{
-                                                width: "100%",
-                                                height: 48,
-                                                cursor: "pointer",
-                                                fontFamily: "Gilroy",
-                                                border: "1px solid #D9D9D9",
-                                                borderRadius: 8,
-                                            }}
-                                            format="DD/MM/YYYY"
-                                            placeholder="DD/MM/YYYY"
-                                            value={effectiveFrom ? dayjs(effectiveFrom, "DD/MM/YYYY") : null}
-                                            onChange={handleEffectiveFromChange}
-                                        // disabledDate={(current) =>
-                                        //     current && current < dayjs().startOf("day")
-                                        // }
-                                        />
-                                        {effectiveFromError && (
-                                            <ErrorMessage message={effectiveFromError} type="error" />
-                                        )}
-                                    </div>
-                                </Form.Group>
-
-                            </div> */}
-
-
-
 
 
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
@@ -262,7 +238,24 @@ function EditAdvanceAmount({ show, handleClose }) {
                                         Reason
                                     </Form.Label>
 
-                                    {reason?.label === "Others" ? (
+                                    <FormControl
+                                        type="text"
+                                        placeholder="Enter your reason"
+                                        value={reason}
+                                        onChange={handleReasonChange}
+                                        style={{
+                                            fontSize: 16,
+                                            color: "#4B4B4B",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                            border: "1px solid #D9D9D9",
+                                            borderRadius: 8,
+                                            height: 50,
+                                            boxShadow: "none",
+                                        }}
+                                    />
+
+                                    {/* {reason?.label === "Others" ? (
                                         <div style={{ position: "relative" }}>
                                             <FormControl
                                                 type="text"
@@ -343,7 +336,14 @@ function EditAdvanceAmount({ show, handleClose }) {
                                                 }),
                                             }}
                                         />
-                                    )}
+                                    )} */}
+
+
+{
+    state.UsersList.advanceError &&  <ErrorMessage message={state.UsersList.advanceError} type="error" />
+}
+
+
 
                                 </Form.Group>
 

@@ -9,11 +9,12 @@ import WriteOffForm from "../InvoiceWriteOff";
 import { useHasPermission } from '../../Utils/Permission';
 import { useDispatch, useSelector } from "react-redux";
 import RefundAmount from "../Bills/RefundAmount";
-
+import { useNavigate } from "react-router-dom";
 
 const InvoiceTable = (props) => {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [showDots, setShowDots] = useState('')
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
@@ -25,7 +26,7 @@ const InvoiceTable = (props) => {
 
 
 
-const {
+  const {
     canWriteModule: canWriteInvoice,
     // canReadModule: canReadReceipt,
     canUpdateModule: canUpdateInvoice,
@@ -34,7 +35,7 @@ const {
 
 
 
-useEffect(() => {
+  useEffect(() => {
     if (popupRef.current) {
       const popupHeight = popupRef.current.offsetHeight;
       const windowHeight = window.innerHeight;
@@ -55,7 +56,7 @@ useEffect(() => {
   const handleShowDots = (event) => {
     setShowDots(!showDots)
 
-   const { top, left, height } = event.target.getBoundingClientRect();
+    const { top, left, height } = event.target.getBoundingClientRect();
     const popupTop = top + (height / 2);
     const popupLeft = left - 200;
 
@@ -156,14 +157,29 @@ useEffect(() => {
   }
 
 
+  const handleNavigateTenantProfile = (view) => {
+    console.log("view", view)
+    if (view) {
+      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: view.customerId } });
+      navigate(`/tenant/details/${view.customerId}`, {
+        state: {
+          customerId: view.customerId,
+          IsOverView:true,
+          totriggerBillTap:false
+        },
+      });
+    }
 
+  }
 
   return (
 
     <>
-      <tr key={props.item.id} style={{ color: "#000", fontFamily: "Gilroy", fontSize: "14px", fontStyle: "normal", lineHeight: "normal", alignItems: 'center', marginTop: '10px', flexWrap: "wrap" }} className='m-2' >
+      <tr key={props.item.invoiceId} style={{ color: "#000", fontFamily: "Gilroy", fontSize: "14px", fontStyle: "normal", lineHeight: "normal", alignItems: 'center', marginTop: '10px', flexWrap: "wrap" }} className='m-2' >
 
-
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 600, color: "#1E45E1", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8", cursor: "pointer" }} className='ps-2 ps-sm-2 ps-md-3 ps-lg-3'>
+          <div onClick={() => handleDownload(props.item)} className="Invoice_Name ps-1">  {props.item?.invoiceNumber === null || props.item?.invoiceNumber === '' ? '0.00' : props.item?.invoiceNumber}</div>
+        </td>
         <td className="table-cells ps-2 ps-sm-2 ps-md-3 ps-lg-3" style={{ border: "none", flexWrap: "wrap", whiteSpace: "nowrap", borderBottom: "1px solid #E8E8E8" }} >
           <div className="d-flex  align-items-center">
 
@@ -171,7 +187,8 @@ useEffect(() => {
               fontFamily: 'Gilroy', fontSize: '13px', marginLeft: '8px', color: "#1E45E1",
               fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer", textAlign: "start", paddingTop: "15px", paddingLeft: 5,
             }}
-              onClick={() => handleDownload(props.item)}
+              onClick={()=>handleNavigateTenantProfile(props.item)}
+
             >
               <div className="ps-1">{props.item?.fullName}</div>
 
@@ -179,9 +196,7 @@ useEffect(() => {
 
           </div>
         </td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className='ps-2 ps-sm-2 ps-md-3 ps-lg-3'>
-          <div className="ps-1">  {props.item?.invoiceNumber === null || props.item?.invoiceNumber === '' ? '0.00' : props.item?.invoiceNumber}</div>
-        </td>
+
         <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textTransform: "capitalize", borderBottom: "1px solid #E8E8E8" }} className='ps-2 ps-sm-2 ps-md-3 ps-lg-4'>{props.item.invoiceType === 'auto' ? "Recurring" : props.item.invoiceType}</td>
 
         <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className='ps-2 ps-sm-2 ps-md-3 ps-lg-2'><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }}>{props.item?.invoiceDate}</span></td>
@@ -217,17 +232,17 @@ useEffect(() => {
               props.item?.paymentStatus === "Paid"
                 ? "green"
                 : props.item?.paymentStatus === "Refunded"
-                  ? "#d97706" 
+                  ? "#d97706"
                   : props.item?.paymentStatus === "Pending Refund"
-                    ? "#b45309" 
+                    ? "#b45309"
                     : "red",
             borderBottom: "1px solid #E8E8E8",
           }}
           className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
         >
 
-      {(props.item?.paymentStatus === "Pending" ||
-            props.item?.paymentStatus === "Partial Payment" ) && (
+          {(props.item?.paymentStatus === "Pending" ||
+            props.item?.paymentStatus === "Partial Payment") && (
               <span
                 style={{
                   backgroundColor: "#FFD9D9",
@@ -241,7 +256,7 @@ useEffect(() => {
               </span>
             )}
 
-         
+
           {props.item?.paymentStatus === "Paid" && (
             <span
               style={{
@@ -258,7 +273,7 @@ useEffect(() => {
           )}
 
 
-          {(props.item?.paymentStatus === "Refunded" ||  props.item?.paymentStatus === "Partially Refunded") && (
+          {(props.item?.paymentStatus === "Refunded" || props.item?.paymentStatus === "Partially Refunded") && (
             <span
               style={{
                 backgroundColor: "#FFF3CD",
@@ -285,8 +300,8 @@ useEffect(() => {
             >
               {props.item?.paymentStatus}
             </span>
-          )} 
-           {props.item?.isCancelled && (
+          )}
+          {props.item?.isCancelled && (
             <span
               style={{
                 backgroundColor: "#FFE6B3",
@@ -299,9 +314,9 @@ useEffect(() => {
               Cancelled
             </span>
           )
-        }
+          }
 
-         
+
         </td>
 
         {/* <td
@@ -384,10 +399,10 @@ useEffect(() => {
                     cursor: "pointer",
                     backgroundColor: "#F9F9F9",
                     position: "fixed",
-                   top: showAbove
-                    ? popupPosition.top - (popupRef.current?.offsetHeight || 100) - 20
-                    : popupPosition.top - 35,
-                  left: popupPosition.left,
+                    top: showAbove
+                      ? popupPosition.top - (popupRef.current?.offsetHeight || 100) - 20
+                      : popupPosition.top - 35,
+                    left: popupPosition.left,
                     width: 170,
                     height: "auto",
                     border: "1px solid #EBEBEB",
@@ -399,52 +414,52 @@ useEffect(() => {
                 >
                   <div style={{ width: "100%" }}>
 
-{
- (props.item?.paymentStatus !== "Cancelled" &&  props.item?.paymentStatus !== "Paid") &&
+                    {
+                      (props.item?.paymentStatus !== "Cancelled" && props.item?.paymentStatus !== "Paid") &&
 
-                    <div
-                      className={`d-flex justify-content-start align-items-center gap-2 ${!canUpdateInvoice ? 'disabled' : ''}`}
-                      style={{
-                        cursor: !canUpdateInvoice ? "not-allowed" : "pointer",
-                        borderTopLeftRadius: 10,
-                        borderTopRightRadius: 10,
-                        backgroundColor: "#F9F9F9",
-                        padding: "8px 12px",
-                        opacity: !canUpdateInvoice ? 0.5 : 1,
-                      }}
-                      onClick={() => {
-                        if (canUpdateInvoice) handleEdit(props);
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = "#EDF2FF";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = "#F9F9F9";
-                      }}
-                    >
-                      <img
-                        src={Edit}
-                        alt="Edit"
+                      <div
+                        className={`d-flex justify-content-start align-items-center gap-2 ${!canUpdateInvoice ? 'disabled' : ''}`}
                         style={{
-                          height: 16,
-                          width: 16,
-                          filter: !canUpdateInvoice ? "grayscale(100%)" : "none",
-                        }}
-                      />
-                      <label
-                        style={{
-                          fontSize: 14,
-                          fontWeight: 500,
-                          fontFamily: "Gilroy, sans-serif",
-                          color: "#222",
                           cursor: !canUpdateInvoice ? "not-allowed" : "pointer",
+                          borderTopLeftRadius: 10,
+                          borderTopRightRadius: 10,
+                          backgroundColor: "#F9F9F9",
+                          padding: "8px 12px",
+                          opacity: !canUpdateInvoice ? 0.5 : 1,
+                        }}
+                        onClick={() => {
+                          if (canUpdateInvoice) handleEdit(props);
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor = "#EDF2FF";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = "#F9F9F9";
                         }}
                       >
-                        Edit
-                      </label>
-                    </div>
+                        <img
+                          src={Edit}
+                          alt="Edit"
+                          style={{
+                            height: 16,
+                            width: 16,
+                            filter: !canUpdateInvoice ? "grayscale(100%)" : "none",
+                          }}
+                        />
+                        <label
+                          style={{
+                            fontSize: 14,
+                            fontWeight: 500,
+                            fontFamily: "Gilroy, sans-serif",
+                            color: "#222",
+                            cursor: !canUpdateInvoice ? "not-allowed" : "pointer",
+                          }}
+                        >
+                          Edit
+                        </label>
+                      </div>
 
-                      }
+                    }
 
                     <div
                       className="d-flex justify-content-start align-items-center gap-2 "
@@ -474,7 +489,7 @@ useEffect(() => {
                     </div>
 
 
-                    {(props.item.dueAmount !== 0 && props.item?.invoiceAmount > 0 &&  props.item?.paymentStatus !== "Cancelled" && props.item?.paymentStatus !== "Paid") && (
+                    {(props.item.dueAmount !== 0 && props.item?.invoiceAmount > 0 && props.item?.paymentStatus !== "Cancelled" && props.item?.paymentStatus !== "Paid") && (
                       <div
                         className={`d-flex justify-content-start align-items-center gap-2  ${!canWriteInvoice ? 'disabled' : ''}`}
                         style={{
@@ -555,7 +570,7 @@ useEffect(() => {
                       </div>
                     )}
                     {
-                      props.item?.paymentStatus !== "Refunded" &&  props.item?.paymentStatus !== "Cancelled" &&
+                      props.item?.paymentStatus !== "Refunded" && props.item?.paymentStatus !== "Cancelled" &&
 
                       <div
                         className={`d-flex justify-content-start align-items-center gap-2 ${!canWriteInvoice ? 'disabled' : ''}`}
@@ -599,49 +614,49 @@ useEffect(() => {
 
                     }
                     {
-                       (props.item?.paymentStatus !== "Cancelled" &&  props.item?.paymentStatus !== "Paid") && 
-                    
-                    <div
-                      className={`d-flex justify-content-start align-items-center gap-2  ${!canDeleteInvoice ? 'disabled' : ''}`}
-                      style={{
-                        cursor: !canDeleteInvoice ? "not-allowed" : "pointer",
-                        borderBottomLeftRadius: 10,
-                        borderBottomRightRadius: 10,
-                        padding: "8px 12px",
-                        opacity: !canDeleteInvoice ? 0.5 : 1,
-                      }}
-                      onClick={() => {
-                        if (canDeleteInvoice) handleBillDelete(props);
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = "#FFF0F0";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = "#F9F9F9";
-                      }}
-                    >
-                      <img
-                        src={Delete}
-                        alt="Delete"
+                      (props.item?.paymentStatus !== "Cancelled" && props.item?.paymentStatus !== "Paid") &&
+
+                      <div
+                        className={`d-flex justify-content-start align-items-center gap-2  ${!canDeleteInvoice ? 'disabled' : ''}`}
                         style={{
-                          height: 16,
-                          width: 16,
-                          filter: !canDeleteInvoice ? "grayscale(100%)" : "none",
-                        }}
-                      />
-                      <label
-                        style={{
-                          fontSize: 14,
-                          fontWeight: 500,
-                          fontFamily: "Gilroy, sans-serif",
-                          color: "#FF0000",
                           cursor: !canDeleteInvoice ? "not-allowed" : "pointer",
+                          borderBottomLeftRadius: 10,
+                          borderBottomRightRadius: 10,
+                          padding: "8px 12px",
+                          opacity: !canDeleteInvoice ? 0.5 : 1,
+                        }}
+                        onClick={() => {
+                          if (canDeleteInvoice) handleBillDelete(props);
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor = "#FFF0F0";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = "#F9F9F9";
                         }}
                       >
-                        Delete
-                      </label>
-                    </div>
-}
+                        <img
+                          src={Delete}
+                          alt="Delete"
+                          style={{
+                            height: 16,
+                            width: 16,
+                            filter: !canDeleteInvoice ? "grayscale(100%)" : "none",
+                          }}
+                        />
+                        <label
+                          style={{
+                            fontSize: 14,
+                            fontWeight: 500,
+                            fontFamily: "Gilroy, sans-serif",
+                            color: "#FF0000",
+                            cursor: !canDeleteInvoice ? "not-allowed" : "pointer",
+                          }}
+                        >
+                          Delete
+                        </label>
+                      </div>
+                    }
                   </div>
                 </div>
 

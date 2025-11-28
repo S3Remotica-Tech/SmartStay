@@ -156,7 +156,9 @@ export const initialState = {
     editBasicSuccessStatusCode: 0,
     changeBedError: '',
     editAmountSuccessStatusCode: 0,
-    updateTenantError: ''
+    updateTenantError: '',
+    editAdvanceStatusCode: 0,
+    advanceError: ''
 
 }
 
@@ -174,6 +176,17 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, cancelCheckoutStatusCode: action.payload.statusCode }
         case 'REMOVE_CANCEL_CHECKOUT':
             return { ...state, cancelCheckoutStatusCode: 0 }
+
+        case 'EDIT_ADVANCE':
+            return { ...state, editAdvanceStatusCode: action.payload.statusCode }
+
+        case 'REMOVE_EDIT_ADVANCE':
+            return { ...state, editAdvanceStatusCode: 0 }
+
+        case 'EDIT_ADVANCE_ERROR':
+            return { ...state, advanceError: action.payload }
+             case 'REMOVE_EDIT_ADVANCE_ERROR':
+            return { ...state, advanceError: '' }
 
         case 'EDIT_BASIC_DETAILS':
             return { ...state, editBasicSuccessStatusCode: action.payload.statusCode }

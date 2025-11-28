@@ -159,7 +159,7 @@ function UserListRoomDetail(props) {
   const [documentvalue, setDocumentValue] = useState("1")
   const [previewUrl, setPreviewUrl] = useState(null);
   const [previewUrl2, setPreviewUrl2] = useState(null)
-  const [loadingFile, setLoadingFile] = useState(true)
+  // const [loadingFile, setLoadingFile] = useState(true)
   const [showModal, setShowModal] = useState(false);
   const [basicDetails, setBasicDetails] = useState("")
   const [imagePreview, setImagePreview] = useState(null);
@@ -190,22 +190,25 @@ function UserListRoomDetail(props) {
     canDeleteModule: canDeleteAmenities,
   } = useHasPermission("Amenities");
 
-  const { customerId, hostelId, name, totriggerBillTap, isPgWay } = location.state || {};
+  const { customerId, hostelId, name, totriggerBillTap, isPgWay ,IsOverView} = location.state || {};
 
  
+console.log(" location.state", location.state)
 
+ useEffect(() => {
+  if (totriggerBillTap) {
+    setTimeout(() => setValue("3"), 0);
+  } else if (IsOverView) {
+    setTimeout(() => setValue("1"), 0);
+  }
+}, [totriggerBillTap, IsOverView]);
 
-  useEffect(() => {
-    if (location?.state?.totriggerBillTap) {
-      setValue("3");
-    }
-  }, [location?.state?.totriggerBillTap]);
 
 
 
 useEffect(() => {
     if (state.UsersList?.CustomerdetailsgetStatuscode === 200) {
-      setLoadingFile(false)
+      // setLoadingFile(false)
       setTimeout(() => {
         dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
       }, 500);
@@ -833,6 +836,7 @@ useEffect(() => {
 
   const handleCloseUpdateAdvanceChange = () => {
     setShowUpdateAdvanceForm(false)
+     dispatch({ type: 'REMOVE_EDIT_ADVANCE_ERROR' })
   }
 
   const handleUpdateJoiningChange = () => {
@@ -1273,7 +1277,15 @@ useEffect(() => {
 
 
 
-
+ useEffect(() => {
+        if (state.UsersList.editAdvanceStatusCode === 200) {
+            setShowUpdateAdvanceForm(false)
+             dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
+            setTimeout(() => {
+                dispatch({ type: 'REMOVE_EDIT_ADVANCE' })
+            }, 100)
+        }
+    }, [state.UsersList.editAdvanceStatusCode])
 
 
   const handleSaveUserlist = () => {
@@ -2306,7 +2318,7 @@ useEffect(() => {
 
     <>
 
-    {loadingFile && <div
+    {/* {loadingFile && <div
                 style={{
                   position: 'absolute',
                   top: 100,
@@ -2331,7 +2343,7 @@ useEffect(() => {
                     animation: 'spin 1s linear infinite',
                   }}
                 ></div>
-              </div>}
+              </div>} */}
 
 
       <div
