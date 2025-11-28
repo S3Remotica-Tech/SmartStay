@@ -20,7 +20,7 @@ import Checkouts from '../../../Assets/v2Images/calendar-tick.svg'
 import Settings from '../../../Assets/v2Images/info-circle.svg'
 import { useHasPermission } from '../../../Utils/Permission';
 import { Edit } from 'iconsax-react';
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 function NoticeBedStatusDetails({
   show,
   handleCloseBed,

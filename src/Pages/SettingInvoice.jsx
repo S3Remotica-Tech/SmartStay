@@ -62,6 +62,7 @@ function SettingInvoice({ hostelid,  handleFormPage }) {
   const [formLoading, setFormLoading] = useState(false)
 
  
+ 
 
   const cardRef = useRef(null);
   const innerScrollRef = useRef(null);
@@ -510,14 +511,7 @@ function SettingInvoice({ hostelid,  handleFormPage }) {
 
 
 
-  // useEffect(() => {
-  //   return () => {
-  //     if (previewURL) {
-  //       URL.revokeObjectURL(previewURL);
-  //     }
-  //   };
-  // }, [previewURL]);
-
+ 
 
 
 
@@ -575,7 +569,7 @@ function SettingInvoice({ hostelid,  handleFormPage }) {
   const handleRentalSignatureDone = () => {
 
     if (!rentalSignatureFile) {
-      setRentalSignatureError("Please select a signature file.");
+      setRentalSignatureError("Please select a signature file");
     } else {
       setEditFormErrMessage("")
       setRentalSignatureError("");
@@ -1004,6 +998,14 @@ function SettingInvoice({ hostelid,  handleFormPage }) {
 
 
 
+
+
+
+
+
+
+
+
   const handleSaveRentalTemplate = () => {
     setEditFormErrMessage('')
     const currentTemplate = {
@@ -1059,8 +1061,8 @@ function SettingInvoice({ hostelid,  handleFormPage }) {
       currentTemplate.gstPercentile !== oldTemplate.gstPercentile ||
       currentTemplate.invoiceNotes !== oldTemplate.invoiceNotes ||
       currentTemplate.invoiceTermsAndCondition !== oldTemplate.invoiceTermsAndCondition ||
-      currentTemplate.bankId !== oldTemplate.bankId ||
-      currentTemplate.invoiceTemplateColor !== oldTemplate.invoiceTemplateColor;
+      currentTemplate.bankId !== oldTemplate.bankId 
+      //  currentTemplate.invoiceTemplateColor !== oldTemplate.invoiceTemplateColor;
 
 
 

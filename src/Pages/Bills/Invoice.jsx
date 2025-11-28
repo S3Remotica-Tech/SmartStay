@@ -4547,6 +4547,23 @@ const InvoicePage = () => {
                                           zIndex: 1
                                         }}>
                                           <tr>
+                                             <th
+                                              style={{
+                                                textAlign: "start",
+                                                fontFamily: "Gilroy",
+                                                color: "rgb(147, 147, 147)",
+                                                fontSize: 14,
+                                                fontStyle: "normal",
+                                                fontWeight: 500,
+                                              }}
+                                            >
+                                              <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                  <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Invoices", 'asc')} style={{ cursor: "pointer" }} />
+                                                  <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Invoices", 'desc')} style={{ cursor: "pointer" }} />
+                                                </div>
+                                                Invoice Number</div>
+                                            </th>
                                             <th
                                               style={{
                                                 textAlign: "start",
@@ -4564,23 +4581,7 @@ const InvoicePage = () => {
                                                 </div>
                                                 Name</div>
                                             </th>
-                                            <th
-                                              style={{
-                                                textAlign: "start",
-                                                fontFamily: "Gilroy",
-                                                color: "rgb(147, 147, 147)",
-                                                fontSize: 14,
-                                                fontStyle: "normal",
-                                                fontWeight: 500,
-                                              }}
-                                            >
-                                              <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                  <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Invoices", 'asc')} style={{ cursor: "pointer" }} />
-                                                  <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Invoices", 'desc')} style={{ cursor: "pointer" }} />
-                                                </div>
-                                                Invoice Number</div>
-                                            </th>
+                                           
                                             <th
                                               style={{
                                                 textAlign: "start",
@@ -5438,6 +5439,25 @@ const InvoicePage = () => {
                                           zIndex: 1
                                         }}>
                                           <tr>
+                                             <th
+                                              style={{
+                                                textAlign: "start",
+                                                fontFamily: "Gilroy",
+                                                color: "rgb(147, 147, 147)",
+                                                fontSize: 12,
+                                                fontStyle: "normal",
+                                                fontWeight: 500,
+                                                whiteSpace: "nowrap"
+                                              }}
+                                            >
+                                              <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                  <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("receipt", 'asc')} style={{ cursor: "pointer" }} />
+                                                  <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("receipt", 'desc')} style={{ cursor: "pointer" }} />
+                                                </div>
+                                                Receipt No</div>
+                                            </th>
+                                           
                                             <th
                                               style={{
                                                 textAlign: "start",
@@ -5458,7 +5478,7 @@ const InvoicePage = () => {
                                                 Name</div>
                                             </th>
 
-                                            <th
+                                             <th
                                               style={{
                                                 textAlign: "start",
                                                 fontFamily: "Gilroy",

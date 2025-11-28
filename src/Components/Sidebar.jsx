@@ -76,6 +76,8 @@ import SettingAgreement from "../Pages/SettingAgreement";
 import BillingRule from "../Pages/Settings/BillingRule/BillingRule";
 import SettingGeneral from "../Pages/Settings/SettingGeneral";
 import SettingManage from "../Pages/SettingManage";
+import {NotificationBing} from 'iconsax-react'
+import Notification from "./Notification";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -95,7 +97,9 @@ function Sidebar() {
   const isFirstLogin = useRef(true);
   const dropdownRef = useRef(null);
   const [isVisibleSidebar, setIsVisibleSidebar] = useState(false)
+const [showNotify, setShowNotify] = useState(false);
 
+  
 
   const pageMap = {
     "/dashboard/:hostelId": "dashboard",
@@ -148,17 +152,10 @@ function Sidebar() {
   // },[currentPage])
 
 
-const LastPageIs = localStorage.getItem("lastPage")
-
-console.log("LastPageIs",LastPageIs)
+  const LastPageIs = localStorage.getItem("lastPage")
 
 
-useEffect(() => {
- 
-}, []);
 
-
-console.log("state",state)
   useEffect(() => {
     if (state.login?.isLoggedIn && state.login.selectedHostel_Id) {
 
@@ -166,11 +163,11 @@ console.log("state",state)
         navigate(`/dashboard/${state.login.selectedHostel_Id}`, { replace: true });
         isFirstLogin.current = false;
       }
-    } 
+    }
     else if (!state.login.selectedHostel_Id) {
       // navigate(`/dashboard`)
-       const lastPage = localStorage.getItem("lastPage");
-  if (lastPage) navigate(lastPage, { replace: true });
+      const lastPage = localStorage.getItem("lastPage");
+      if (lastPage) navigate(lastPage, { replace: true });
     }
   }, [state.login?.isLoggedIn, state.login.selectedHostel_Id]);
 
@@ -648,8 +645,36 @@ console.log("state",state)
       window.removeEventListener("mousemove", handleZoomDetect);
     };
   }, []);
+
+
+const handleClose = () =>{
+  setShowNotify(false)}
+
+  const handleShowNotification = () => {
+    setShowNotify(true);
+  }
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   return (
     <>
+    {
+      showNotify && <Notification  show={showNotify} handleClose={handleClose}/>
+    }
       <Container fluid className="p-0">
         <Row className="g-0 m-0">
           <Col xs={12} sm={12} className="d-md-none p-2 bg-white position-relative">
@@ -1557,7 +1582,7 @@ console.log("state",state)
                   </div>
 
 
-                  <div
+                  {/* <div
                     onMouseEnter={() => handleMouseEnter("helpDoc")}
                     onMouseLeave={handleMouseLeave}
                     style={{
@@ -1586,8 +1611,41 @@ console.log("state",state)
                         Help Document
                       </span>
                     )}
-                  </div>
+                  </div> */}
 
+                  <div onClick={handleShowNotification} 
+                    onMouseEnter={() => handleMouseEnter("notification")}
+                    onMouseLeave={handleMouseLeave}
+                    style={{
+                      position: "relative",
+                      display: "inline-block",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <NotificationBing
+                      size="24"
+                      color="#64748B"
+                      onClick={handleShowNotification} />
+                    {hoveredIcon === "notification" && (
+                      <span
+                        style={{
+                          display: "block",
+                          position: "absolute",
+                          top: "-30px",
+                          left: "50%",
+                          transform: "translateX(-50%)",
+                          backgroundColor: "white",
+                          color: "black",
+                          padding: "5px 8px",
+                          borderRadius: "4px",
+                          fontSize: "12px",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        Notifications
+                      </span>
+                    )}
+                  </div>
 
                   <div
                     onMouseEnter={() => handleMouseEnter("helpVideo")}

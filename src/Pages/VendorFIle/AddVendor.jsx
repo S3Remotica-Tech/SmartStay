@@ -62,7 +62,7 @@ function AddVendor({ show, setShow, currentItem }) {
   const countryRef = useRef(null);
 
 
-  
+
 
 
   const indianStates = [
@@ -141,22 +141,40 @@ function AddVendor({ show, setShow, currentItem }) {
   };
 
 
+  const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
+
   const handleHouseNo = (e) => {
-    setHouseNo(e.target.value);
-    setHouse_NoError("")
+    const value = e.target.value;
+
+    if (!regex.test(value)) {
+      return;
+    }
+
+    setHouseNo(value);
+    setHouse_NoError("");
     setGeneralError("");
     setIsChangedError("");
   };
 
   const handleStreetName = (e) => {
-    setStreet(e.target.value);
+     const value = e.target.value;
+
+    if (!regex.test(value)) {
+      return;
+    }
+    setStreet(value);
     setStreetError("");
     setGeneralError("");
     setIsChangedError("");
   }
 
   const handleLandmark = (e) => {
-    setLandmark(e.target.value);
+     const value = e.target.value;
+
+    if (!regex.test(value)) {
+      return;
+    }
+    setLandmark(value);
     setLandmarkError("");
     setGeneralError("");
     setIsChangedError("");
@@ -186,37 +204,46 @@ function AddVendor({ show, setShow, currentItem }) {
     dispatch({ type: "CLEAR_ALREADY_VENDOR_EMAIL_ERROR" });
   }
 
+const handleBusinessChange = (e) => {
+  const value = e.target.value;
+
+  setGeneralError("");
+  setIsChangedError("");
+  setBusinessNameError("");
+
+  setBusiness_Name(value);
+};
 
 
-  const handleBusinessChange = (e) => {
-    const value = e.target.value;
-    const pattern = /^[a-zA-Z\s]*$/;
-    if (!pattern.test(value)) {
-      return;
-    }
-    setGeneralError("");
-    setIsChangedError("");
-    setBusinessNameError("");
-    if (value === "") {
-      setBusiness_Name(value);
+  // const handleBusinessChange = (e) => {
+  //   const value = e.target.value;
+  //   const pattern = /^[a-zA-Z\s]*$/;
+  //   if (!pattern.test(value)) {
+  //     return;
+  //   }
+  //   setGeneralError("");
+  //   setIsChangedError("");
+  //   setBusinessNameError("");
+  //   if (value === "") {
+  //     setBusiness_Name(value);
 
-      return;
-    }
+  //     return;
+  //   }
 
-    if (value.trim() !== "") {
-      setBusiness_Name(value);
-    }
-  };
+  //   if (value.trim() !== "") {
+  //     setBusiness_Name(value);
+  //   }
+  // };
 
 
 
   const handleImageChange = async (event) => {
     const fileImage = event.target.files[0];
-  
+
 
     if (fileImage) {
-       setFile(fileImage);
-         }
+      setFile(fileImage);
+    }
   };
 
   const handleFirstNameChange = (e) => {
@@ -345,25 +372,25 @@ function AddVendor({ show, setShow, currentItem }) {
       isValid = false;
     }
 
-   const phonePattern = /^(?!0{10})[1-9][0-9]{9}$/; 
+    const phonePattern = /^(?!0{10})[1-9][0-9]{9}$/;
 
-if (!vendor_Mobile) {
-  setMobileError("Please Enter Mobile Number");
-  if (!focusedRef.current && mobileRef.current) {
-    mobileRef.current.focus();
-    focusedRef.current = true;
-  }
-  isValid = false;
-} else if (!phonePattern.test(vendor_Mobile)) {
-  setMobileError("Enter Valid Mobile Number");
-  if (!focusedRef.current && mobileRef.current) {
-    mobileRef.current.focus();
-    focusedRef.current = true;
-  }
-  isValid = false;
-} else {
-  setMobileError(""); 
-}
+    if (!vendor_Mobile) {
+      setMobileError("Please Enter Mobile Number");
+      if (!focusedRef.current && mobileRef.current) {
+        mobileRef.current.focus();
+        focusedRef.current = true;
+      }
+      isValid = false;
+    } else if (!phonePattern.test(vendor_Mobile)) {
+      setMobileError("Enter Valid Mobile Number");
+      if (!focusedRef.current && mobileRef.current) {
+        mobileRef.current.focus();
+        focusedRef.current = true;
+      }
+      isValid = false;
+    } else {
+      setMobileError("");
+    }
 
 
     if (!business_Name) {
@@ -391,57 +418,57 @@ if (!vendor_Mobile) {
       isValid = false;
     }
 
-  if (!pinCode) {
-  setPinCodeError("Please Enter Pincode");
-  if (!focusedRef.current && pinCodeRef.current) {
-    pinCodeRef.current.focus();
-    focusedRef.current = true;
-  }
-  isValid = false;
-} 
-else if (!/^\d+$/.test(String(pinCode))) {
-  setPinCodeError("Pin Code Must Be Numeric");
-  if (!focusedRef.current && pinCodeRef.current) {
-    pinCodeRef.current.focus();
-    focusedRef.current = true;
-  }
-  isValid = false;
-} 
-else if (String(pinCode).length !== 6) {
-  setPinCodeError("Pin Code Must Be Exactly 6 Digits");
-  if (!focusedRef.current && pinCodeRef.current) {
-    pinCodeRef.current.focus();
-    focusedRef.current = true;
-  }
-  isValid = false;
-} 
-else if (pinCode === "000000") {
-  setPinCodeError("Pin Code cannot be all zeros");
-  if (!focusedRef.current && pinCodeRef.current) {
-    pinCodeRef.current.focus();
-    focusedRef.current = true;
-  }
-  isValid = false;
-} 
-else if (String(pinCode)[0] === "0") {
-  setPinCodeError("Pin Code cannot start with 0");
-  if (!focusedRef.current && pinCodeRef.current) {
-    pinCodeRef.current.focus();
-    focusedRef.current = true;
-  }
-  isValid = false;
-} 
-else if (String(pinCode).slice(-3) === "000") {
-  setPinCodeError("Last 3 digits cannot be 000");
-  if (!focusedRef.current && pinCodeRef.current) {
-    pinCodeRef.current.focus();
-    focusedRef.current = true;
-  }
-  isValid = false;
-} 
-else {
-  setPinCodeError("");
-}
+    if (!pinCode) {
+      setPinCodeError("Please Enter Pincode");
+      if (!focusedRef.current && pinCodeRef.current) {
+        pinCodeRef.current.focus();
+        focusedRef.current = true;
+      }
+      isValid = false;
+    }
+    else if (!/^\d+$/.test(String(pinCode))) {
+      setPinCodeError("Pin Code Must Be Numeric");
+      if (!focusedRef.current && pinCodeRef.current) {
+        pinCodeRef.current.focus();
+        focusedRef.current = true;
+      }
+      isValid = false;
+    }
+    else if (String(pinCode).length !== 6) {
+      setPinCodeError("Pin Code Must Be Exactly 6 Digits");
+      if (!focusedRef.current && pinCodeRef.current) {
+        pinCodeRef.current.focus();
+        focusedRef.current = true;
+      }
+      isValid = false;
+    }
+    else if (pinCode === "000000") {
+      setPinCodeError("Pin Code cannot be all zeros");
+      if (!focusedRef.current && pinCodeRef.current) {
+        pinCodeRef.current.focus();
+        focusedRef.current = true;
+      }
+      isValid = false;
+    }
+    else if (String(pinCode)[0] === "0") {
+      setPinCodeError("Pin Code cannot start with 0");
+      if (!focusedRef.current && pinCodeRef.current) {
+        pinCodeRef.current.focus();
+        focusedRef.current = true;
+      }
+      isValid = false;
+    }
+    else if (String(pinCode).slice(-3) === "000") {
+      setPinCodeError("Last 3 digits cannot be 000");
+      if (!focusedRef.current && pinCodeRef.current) {
+        pinCodeRef.current.focus();
+        focusedRef.current = true;
+      }
+      isValid = false;
+    }
+    else {
+      setPinCodeError("");
+    }
 
 
 
@@ -476,7 +503,7 @@ else {
     };
 
 
-    
+
     const isChanged =
       first_Name.trim() !== (initialState.first_Name || "").trim() ||
       last_Name.trim() !== (initialState.last_Name || "").trim() ||
@@ -626,11 +653,11 @@ else {
       setLast_Name(currentItem.lastName);
       setVendor_Mobile(mobileNumber);
       setCountryCode(countryCode);
-     
+
       setEmail_Id(normalizedEmail);
 
       setBusiness_Name(currentItem.businessName);
- 
+
       setFile(currentItem.profilePic ? currentItem.profilePic : null);
       setCountry(currentItem.countryId);
       setPinCode(currentItem.pinCode);
@@ -641,25 +668,25 @@ else {
       setCity(currentItem.city)
       setStateName(currentItem.state)
 
-     setInitialState({
-  first_Name: currentItem.firstName || "",
-  last_Name: currentItem.lastName || "",
-  vendor_Mobile: mobileNumber || "",
-  countryCode: countryCode || "",
+      setInitialState({
+        first_Name: currentItem.firstName || "",
+        last_Name: currentItem.lastName || "",
+        vendor_Mobile: mobileNumber || "",
+        countryCode: countryCode || "",
 
-  house_no: sanitize(currentItem.houseNo),
-  street: sanitize(currentItem.area),
-  city: sanitize(currentItem.city),
-  landmark: sanitize(currentItem.landMark),
-  state: sanitize(currentItem.state),
+        house_no: sanitize(currentItem.houseNo),
+        street: sanitize(currentItem.area),
+        city: sanitize(currentItem.city),
+        landmark: sanitize(currentItem.landMark),
+        state: sanitize(currentItem.state),
 
-  email_Id: normalizedEmail,
-  business_Name: sanitize(currentItem.businessName),
+        email_Id: normalizedEmail,
+        business_Name: sanitize(currentItem.businessName),
 
-  file: currentItem.profilePic ? currentItem.profilePic : null,
-  country: currentItem.countryId || "",   
-  pinCode: currentItem.pinCode || "",     
-});
+        file: currentItem.profilePic ? currentItem.profilePic : null,
+        country: currentItem.countryId || "",
+        pinCode: currentItem.pinCode || "",
+      });
     }
   }, [currentItem]);
 
@@ -856,7 +883,7 @@ else {
                   />
                 </Form.Group>
                 {firstNameError && (
-                  <ErrorMessage message={firstNameError}  type="error"/>
+                  <ErrorMessage message={firstNameError} type="error" />
                 )}
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -957,7 +984,7 @@ else {
                   </InputGroup>
 
                   {mobileError && (
-                  <ErrorMessage message={mobileError} type="error" />
+                    <ErrorMessage message={mobileError} type="error" />
                   )}
 
                   {countryCodeError && (
@@ -968,7 +995,7 @@ else {
                 </Form.Group>
 
                 {vendorPhoneError && (
-                  <ErrorMessage message={vendorPhoneError}  type="error"/>
+                  <ErrorMessage message={vendorPhoneError} type="error" />
                 )}
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -1006,7 +1033,7 @@ else {
                     }}
                   />
                   {emailError && (
-                 <ErrorMessage message={emailError}  type="error"/>
+                    <ErrorMessage message={emailError} type="error" />
                   )}
                 </Form.Group>
 
@@ -1050,7 +1077,7 @@ else {
                     }}
                   />
                   {businessNameError && (
-                    <ErrorMessage message={businessNameError}  type="error"/>
+                    <ErrorMessage message={businessNameError} type="error" />
                   )}
                 </Form.Group>
               </div>
@@ -1090,7 +1117,7 @@ else {
                   />
                 </Form.Group>
                 {house_noError && (
-                 <ErrorMessage message={house_noError}  type="error"/>
+                  <ErrorMessage message={house_noError} type="error" />
                 )}
               </div>
 
@@ -1152,7 +1179,7 @@ else {
                       fontSize: 16,
                       color: "#4B4B4B",
                       fontFamily: "Gilroy",
-                      fontWeight:landmark ? 600 :  500,
+                      fontWeight: landmark ? 600 : 500,
                       boxShadow: "none",
                       border: "1px solid #D9D9D9",
                       height: 50,
@@ -1161,7 +1188,7 @@ else {
                   />
                 </Form.Group>
                 {landmarkError && (
-                  <ErrorMessage message={landmarkError}  type="error"/>
+                  <ErrorMessage message={landmarkError} type="error" />
                 )}
               </div>
 
@@ -1200,7 +1227,7 @@ else {
                   />
                 </Form.Group>
                 {cityError && (
-                   <ErrorMessage message={cityError} type="error" />
+                  <ErrorMessage message={cityError} type="error" />
                 )}
               </div>
 
@@ -1241,7 +1268,7 @@ else {
                     }}
                   />
                   {pinCodeError && (
-                   <ErrorMessage message={pinCodeError} type="error" />
+                    <ErrorMessage message={pinCodeError} type="error" />
                   )}
 
 
@@ -1314,10 +1341,10 @@ else {
                         fontFamily: "Gilroy",
                       }),
                       placeholder: (base) => ({
-                          ...base,
-                          color: "#9aa0a6",
-                          fontSize:16,
-                        }),
+                        ...base,
+                        color: "#9aa0a6",
+                        fontSize: 16,
+                      }),
                       dropdownIndicator: (base) => ({
                         ...base,
                         color: "#555",
@@ -1337,7 +1364,7 @@ else {
                 </Form.Group>
 
                 {!state_name && state_nameError && (
-                   <ErrorMessage message={state_nameError} type="error" />
+                  <ErrorMessage message={state_nameError} type="error" />
                 )}
 
               </div>
@@ -1360,7 +1387,7 @@ else {
                     Country {" "}
                     <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
-                
+
                   <Select
                     options={countryList}
                     ref={countryRef}
@@ -1409,11 +1436,11 @@ else {
                         overflowY: "auto",
                         fontFamily: "Gilroy",
                       }),
-                     placeholder: (base) => ({
-                          ...base,
-                          color: "#9aa0a6",
-                          fontSize:16,
-                        }),
+                      placeholder: (base) => ({
+                        ...base,
+                        color: "#9aa0a6",
+                        fontSize: 16,
+                      }),
                       dropdownIndicator: (base) => ({
                         ...base,
                         color: "#555",
@@ -1432,7 +1459,7 @@ else {
                   />
 
                   {countryError && (
-                  <ErrorMessage message={countryError}  type="error"/>
+                    <ErrorMessage message={countryError} type="error" />
                   )}
 
 
@@ -1468,7 +1495,7 @@ else {
             ></div>
           </div>}
           {generalError && (
-             <ErrorMessage message={generalError}  type="error"/>
+            <ErrorMessage message={generalError} type="error" />
           )}
 
           {/* {state.createAccount?.networkError ?

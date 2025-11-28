@@ -289,13 +289,16 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
     );
 
 
+
+
+
     useEffect(() => {
         if (finalSettlementList?.customerInfo?.listDeductions?.length > 0) {
             const mappedFields = finalSettlementList.customerInfo.listDeductions.map(item => ({
-                reason_name: item.type || "Deduction",
+                reason_name: item.type,
                 amount: item.amount || "",
-                showInput: item.type === "others" ? true : false,
-                customReason: item.type === "others" ? item.type : "",
+                showInput: true,
+                customReason: item.type,
                 isSystemGenerated: true,
             }));
             setFields(mappedFields);
@@ -326,7 +329,8 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
     const totalDeductions = totalApiDeductions + totalUserDeductions;
 
 
-
+    console.log("totalApiDeductions", totalApiDeductions)
+    console.log("totalUserDeductions", totalUserDeductions)
 
     // const handleClickGenerate = () => {
     //     const Finalsettelmenntdata = fields
@@ -351,43 +355,98 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
 
 
 
-    const handleClickGenerate = () => {
-        const apiDeductions = finalSettlementList?.customerInfo?.listDeductions || [];
+//     const handleClickGenerate = () => {
+//         const apiDeductions = finalSettlementList?.customerInfo?.listDeductions || [];
+
+//         const apiMap = new Map(
+//             apiDeductions.map(item => [item.type?.toLowerCase(), Number(item.amount) || 0])
+//         );
+
+//         const Finalsettelmenntdata = fields
+//             .filter(f => f.reason_name && f.amount)
+//             .map(f => {
+//                 const reason = f.reason_name.toLowerCase();
+//                 const userAmount = Number(f.amount) || 0;
 
 
-        const apiMap = new Map(
-            apiDeductions.map(item => [item.type?.toLowerCase(), Number(item.amount) || 0])
-        );
+//                 if (f.customReason?.trim()) {
+//                     return { item: f.reason_name, amount: userAmount };
+//                 }
 
 
-        const Finalsettelmenntdata = fields
-            .filter(f => f.reason_name && f.amount)
-            .map(f => {
-                const reason = f.reason_name?.toLowerCase();
-                const userAmount = Number(f.amount) || 0;
-                const apiAmount = apiMap.get(reason);
+//                 if (!apiMap.has(reason)) {
+//                     return { item: f.reason_name, amount: userAmount };
+//                 }
+
+//                if (f.isSystemGenerated === true) {
+//     return null;  
+// }
 
 
-                if (!apiMap.has(reason) || f.customReason?.trim() !== "") {
-                    return { item: f.reason_name, amount: userAmount };
-                }
+
+//                 return null;
+//             })
+//             .filter(Boolean);
+
+//         console.log("Finalsettelmenntdata", Finalsettelmenntdata);
+
+//         // if (data.customerId || data.currentTenantCustomerId) {
+//         //     dispatch({
+//         //         type: "FINALSETTLEMENT",
+//         //         payload: {
+//         //             customerId: data.customerId || data.currentTenantCustomerId,
+//         //             data: Finalsettelmenntdata
+//         //         },
+//         //     });
+//         //     setFormLoading(true);
+//         // }
+//     };
 
 
-                if (!f.isSystemGenerated) {
-                    return { item: f.reason_name, amount: userAmount };
-                }
 
 
-                if (userAmount > apiAmount && f.isSystemGenerated) {
-                    return { item: f.reason_name, amount: userAmount - apiAmount };
-                }
 
+
+
+const handleClickGenerate = () => {
+    const apiDeductions = finalSettlementList?.customerInfo?.listDeductions || [];
+
+    const apiMap = new Map(
+        apiDeductions.map(item => [item.type?.toLowerCase(), Number(item.amount) || 0])
+    );
+
+    const Finalsettelmenntdata = fields
+        .filter(f => f.reason_name && f.amount)
+        .map(f => {
+            const reason = f.reason_name.toLowerCase();
+            const userAmount = Number(f.amount) || 0;
+
+                       if (f.isSystemGenerated === true) {
                 return null;
-            })
-            .filter(Boolean);
+            }
 
+            
+            if (f.customReason?.trim()) {
+                return { item: f.reason_name, amount: userAmount };
+            }
 
-        if (data.customerId || data.currentTenantCustomerId) {
+            
+            if (!apiMap.has(reason)) {
+                return { item: f.reason_name, amount: userAmount };
+            }
+
+            
+            if (f.isSystemGenerated === false) {
+                return { item: f.reason_name, amount: userAmount };
+            }
+
+            return null;
+        })
+        .filter(Boolean);
+
+    console.log("Finalsettelmenntdata", Finalsettelmenntdata);
+
+     if (data.customerId || data.currentTenantCustomerId) {
             dispatch({
                 type: "FINALSETTLEMENT",
                 payload: {
@@ -395,15 +454,9 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                     data: Finalsettelmenntdata
                 },
             });
-            setFormLoading(true)
+            setFormLoading(true);
         }
-    };
-
-
-
-
-
-
+};
 
 
 
@@ -428,6 +481,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
         }
     }, [state.UsersList.statusCodeForFinalSettlement])
 
+    console.log("fields", fields)
 
     return (
         <div>
@@ -715,6 +769,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                         })();
 
 
+
                                         return (
                                             <div className="row px-4 mb-3" key={index}>
                                                 <div className="col-md-6">
@@ -793,7 +848,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                                         />
                                                     ) : (
                                                         <>
-                                                            <input
+                                                            <input disabled={item.isSystemGenerated}
                                                                 type="text"
                                                                 className="form-control"
 
@@ -910,7 +965,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                                                 <tr key={user.invoiceid}>
                                                                     <td
                                                                         className="fw-normal text-decoration-underline text-primary mt-4"
-                                                                        // onClick={handleClickInvoiceNo}
+                                                                        
                                                                         style={{
                                                                             fontFamily: "Gilroy",
                                                                             fontSize: "14px",
@@ -953,7 +1008,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                         </div>
                                     }
 
-                                    {/* Refundable Rent */}
+                               
                                     <div className="mt-3">
                                         <div>
                                             <p
@@ -967,100 +1022,11 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                                 Refundable Rent
                                             </p>
 
-                                            {/* <div className="table-responsive border border-gray rounded p-2 shadow-sm">
-                                                <table className="table table-sm align-middle mb-0">
-                                                    <thead>
-                                                        <tr>
-                                                            <th
-                                                                style={{
-                                                                    fontSize: 14,
-                                                                    color: "black",
-                                                                    fontFamily: "Gilroy",
-                                                                    fontWeight: 500,
-                                                                }}
-                                                            >
-                                                                Description
-                                                            </th>
-                                                            <th
-                                                                className="text-end"
-                                                                style={{
-                                                                    fontSize: 14,
-                                                                    color: "black",
-                                                                    fontFamily: "Gilroy",
-                                                                    fontWeight: 500,
-                                                                }}
-                                                            >
-                                                                Amount
-                                                            </th>
-                                                        </tr>
-                                                    </thead>
-
-                                                    <tbody>
-                                                        <tr>
-                                                            <td
-                                                                className="fw-normal"
-                                                                style={{
-                                                                    fontFamily: "Gilroy",
-                                                                    fontSize: "14px",
-                                                                    color: "black",
-                                                                    paddingTop: "1rem",
-                                                                }}
-                                                            >
-                                                                Last Rent Paid (30 Days)
-                                                            </td>
-                                                            <td
-                                                                className="text-end"
-                                                                style={{
-                                                                    fontFamily: "Gilroy",
-                                                                    fontSize: "14px",
-                                                                    color: "black",
-                                                                }}
-                                                            >
-                                                                ₹{finalSettlementList?.currentMonthRentInfo?.currentRentPaid || 0}
-                                                            </td>
-                                                        </tr>
-
-                                                    
-                                                        <tr>
-                                                            <td
-                                                                className="fw-normal"
-                                                                style={{
-                                                                    fontFamily: "Gilroy",
-                                                                    fontSize: "14px",
-                                                                    color: "black",
-                                                                    paddingTop: "1rem",
-                                                                }}
-                                                            >
-
-                                                                Actual Stay Days (
-                                                                {finalSettlementList?.currentMonthRentInfo?.stayDays ?? 0} days × ₹
-                                                                {Number(finalSettlementList?.currentMonthRentInfo?.rentPerDay || 0)}
-                                                                )
-
-                                                            </td>
-                                                            <td
-                                                                className="text-end"
-                                                                style={{
-                                                                    fontFamily: "Gilroy",
-                                                                    fontSize: "14px",
-                                                                    color: "black",
-                                                                }}
-                                                            >
-                                                                ₹ {finalSettlementList?.currentMonthRentInfo?.currentPayableRent}
-
-                                                            </td>
-                                                        </tr>
-
-
-
-                                                    </tbody>
-                                                </table>
-                                            </div> */}
 
                                             <div className="card shadow-sm rounded">
                                                 <div className="card-body p-3">
 
-                                                    {/* Header */}
+                                                
                                                     <div className="d-flex justify-content-between mb-2">
                                                         <span
                                                             style={{
@@ -1159,9 +1125,9 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                                                 finalSettlementList?.currentMonthRentInfo?.rentLists?.map((item, index) => (
                                                                     <div key={index} className="px-1 mt-2 col-md-12">
 
-                                                                        <div style={{backgroundColor:""}}
+                                                                        <div style={{ backgroundColor: "" }}
                                                                             className="row py-1"
-                                                                            
+
                                                                         >
 
 
@@ -1170,7 +1136,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                                                                 fontSize: 10,
                                                                                 color: "#1E45E1",
                                                                             }}>
-                                                                               {item.floorName}
+                                                                                {item.floorName}
                                                                             </div>
 
 
@@ -1179,7 +1145,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                                                                 fontSize: 10,
                                                                                 color: "#1E45E1",
                                                                             }}>
-                                                                                 {item.roomName} - {item.bedName}
+                                                                                {item.roomName} - {item.bedName}
                                                                             </div>
 
                                                                             <div className="col-6 text-end " style={{ whiteSpace: "nowrap" }}>
@@ -1245,13 +1211,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                             <p style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 600 }}>
                                                 Final Settlement
                                             </p>
-                                            {/* <p style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 600 }}>
-                                                ₹{" "}
-                                                {finalSettlementList?.settlementInfo?.amountTobePaid?.toLocaleString("en-IN", {
-                                                    minimumFractionDigits: 2,
-                                                    maximumFractionDigits: 2,
-                                                })}
-                                            </p> */}
+                                           
                                         </div>
 
                                         <div className="d-flex justify-content-between">
@@ -1281,7 +1241,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                             </p>
                                         </div>
 
-                                        {/* {finalSettlementList?.settlementInfo?.isRefundable && ( */}
+                                       
                                         <div className="d-flex justify-content-between mb-1">
                                             <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>
                                                 Refundable Advance
@@ -1291,7 +1251,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                                 {finalSettlementList?.customerInfo?.advancePaidAmount}
                                             </p>
                                         </div>
-                                        {/* )} */}
+                                       
                                     </div>
 
                                 )}
@@ -1364,7 +1324,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                             }}
                         ></div>
                     </div>}
- 
+
 
             </Modal>
         </div>

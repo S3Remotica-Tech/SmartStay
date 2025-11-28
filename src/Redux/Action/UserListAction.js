@@ -902,3 +902,9 @@ export async function EditTenantAmount(change) {
 
 
 
+export async function editAdvanceAmount(advance) {
+
+  return await AxiosConfigV2.put(`/v2/bookings/advance/${advance.hostelId}/${advance.bookingId}`, advance, {
+    data: advance
+  })
+}

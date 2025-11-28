@@ -621,7 +621,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
         type: 'CHECKIN',
         payload: {
           customerId: checkin_customername,
-          hostelId: currentItem?.hostelId,
+          // hostelId: currentItem?.hostelId,
           floorId: currentItem?.floorId,
           bedId: currentItem?.bedId,
           roomId: currentItem?.roomId,

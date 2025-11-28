@@ -8,13 +8,15 @@ import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Download from '../Assets/Images/New_images/download.png';
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
+
 
 const Receipt = (props) => {
 
 
 
   const state = useSelector((state) => state);
-
+const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [receiptdeletePermission, setReceiptDeletePermission] = useState("");
@@ -169,7 +171,22 @@ const Receipt = (props) => {
   }, [state.InvoiceList.ReceiptDeletesuccessStatuscode,]);
 
 
+console.log("props",props)
 
+const handleNavigateTenantProfile = (view) => {
+    console.log("view", view)
+    if (view) {
+      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: view.customerId } });
+      navigate(`/tenant/details/${view.customerId}`, {
+        state: {
+          customerId: view.customerId,
+          IsOverView:true,
+          totriggerBillTap:false
+        },
+      });
+    }
+
+  }
 
   return (
 
@@ -182,8 +199,11 @@ const Receipt = (props) => {
           lineHeight: "normal", alignItems: 'center', marginTop: '10px', flexWrap: "wrap"
         }} className='m-2' >
 
+<td style={{ cursor:"pointer",border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 600, color: "#1E45E1", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
+          <div style={{ marginLeft: 7 }}  onClick={() => handleDownload(props.item)} className="Invoice_Name">{props.item.receiptNumber ? props.item?.receiptNumber : "-"}</div>
+          </td>
 
-
+ 
 
         <td className="table-cells ps-2 ps-sm-2 ps-md-3 ps-lg-3" style={{ border: "none", flexWrap: "wrap", whiteSpace: "nowrap", borderBottom: "1px solid #E8E8E8" }}>
           <div className="d-flex  align-items-center">
@@ -192,15 +212,16 @@ const Receipt = (props) => {
               fontFamily: 'Gilroy', fontSize: '13px', marginLeft: '17px', color: "#1E45E1",
               fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer", textAlign: "start", paddingTop: "10px"
             }}
-              onClick={() => handleDownload(props.item)}
+              onClick={()=>handleNavigateTenantProfile(props.item)}
 
             >{props.item?.fullName}</div><br />
 
           </div>
         </td>
-
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
-          <div style={{ marginLeft: 7 }}>{props.item?.referenceNumber ? props.item?.referenceNumber : "-"}</div></td>
+<td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
+          <div style={{ marginLeft: 7 }}  >{props.item?.referenceNumber ? props.item?.referenceNumber : "-"}</div>
+          </td>
+       
         <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
           <div className="ps-0" style={{ marginLeft: 6 }}>{!props.item?.invoiceNumber || props.item?.invoiceNumber === "0" ? "-" : props.item.invoiceNumber}</div>
         </td>

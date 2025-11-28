@@ -110,10 +110,17 @@ function BankingAddForm(props) {
   const [upiIdError, setUpiIdError] = useState("")
 
   const handleUpiId = (e) => {
-    setUpiId(e.target.value)
-    setUpiIdError("")
-    setIsChangedError("")
+  const value = e.target.value;
+    const pattern = /^[a-zA-Z0-9@._-]*$/;
+  if (!pattern.test(value)) {
+    return;
   }
+
+  setUpiId(value);
+  setUpiIdError("");
+  setIsChangedError("");
+};
+
 
   const [bankaccount, setBankAccount] = useState("");
   const [bankaccountError, setBankAccountError] = useState("");
