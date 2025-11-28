@@ -285,7 +285,7 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList ,onTemplateReceiptChange})
       // receiptSignatureUrl: signature || '',
       notes: notes?.replace(/"/g, '') || '',
       terms_and_condition: terms || '',
-      template_theme: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+      // template_theme: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
       // logo_url: hostel_logo || '',
     };
 
@@ -295,7 +295,7 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList ,onTemplateReceiptChange})
       // receiptSignatureUrl: RentalreceiptTemplate.receiptSignatureUrl || '',
       notes: RentalreceiptTemplate.receiptNotes?.replace(/"/g, '') || '',
       terms_and_condition: RentalreceiptTemplate.receiptTermsAndCondition || '',
-      template_theme: RentalreceiptTemplate.receiptTemplateColor || '',
+      // template_theme: RentalreceiptTemplate.receiptTemplateColor || '',
       // logo_url: RentalreceiptTemplate.receiptLogoUrl || ''
     };
 

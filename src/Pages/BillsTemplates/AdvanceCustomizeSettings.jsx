@@ -537,6 +537,8 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
 
 
 
+
+
   const handleSaveTemplate = () => {
 
     const currentTemplate = {
@@ -593,6 +595,11 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
 
 
 
+console.log("currentTemplate",currentTemplate)
+
+
+console.log("oldTemplate",oldTemplate)
+
     const normalize = (val) => {
       if (val === null || val === undefined) return "";
       const v = String(val).trim();
@@ -607,9 +614,9 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
       normalize(currentTemplate.suffix) !== normalize(oldTemplate.suffix) ||
       normalize(currentTemplate.gstPercentile) !== normalize(oldTemplate.gstPercentile) ||
       normalize(currentTemplate.invoiceNotes) !== normalize(oldTemplate.invoiceNotes) ||
-      normalize(currentTemplate.invoiceTermsAndCondition) !== normalize(oldTemplate.invoiceTermsAndCondition) ||
-      normalize(currentTemplate.bankId) !== normalize(oldTemplate.bankId) ||
-      normalize(currentTemplate.invoiceTemplateColor) !== normalize(oldTemplate.invoiceTemplateColor);
+      normalize(currentTemplate.invoiceTermsAndCondition) !== normalize(oldTemplate.invoiceTermsAndCondition)
+      // normalize(currentTemplate.bankId) !== normalize(oldTemplate.bankId) 
+      // normalize(currentTemplate.invoiceTemplateColor) !== normalize(oldTemplate.invoiceTemplateColor);
 
 
 
@@ -734,7 +741,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
   );
 
 
-
+console.log("securityDepositInvoiceTemplate",securityDepositInvoiceTemplate)
 
 
 
