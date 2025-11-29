@@ -76,7 +76,7 @@ import SettingAgreement from "../Pages/SettingAgreement";
 import BillingRule from "../Pages/Settings/BillingRule/BillingRule";
 import SettingGeneral from "../Pages/Settings/SettingGeneral";
 import SettingManage from "../Pages/SettingManage";
-import {Notification} from 'iconsax-react'
+import { Notification } from 'iconsax-react'
 import NotificationForm from "./Notification";
 
 function Sidebar() {
@@ -97,9 +97,9 @@ function Sidebar() {
   const isFirstLogin = useRef(true);
   const dropdownRef = useRef(null);
   const [isVisibleSidebar, setIsVisibleSidebar] = useState(false)
-const [showNotify, setShowNotify] = useState(false);
+  const [showNotify, setShowNotify] = useState(false);
 
-  
+
 
   const pageMap = {
     "/dashboard/:hostelId": "dashboard",
@@ -137,11 +137,11 @@ const [showNotify, setShowNotify] = useState(false);
 
 
 
- useEffect(() => {
-        if (state.login.selectedHostel_Id) {
-            dispatch({ type: 'ALLNOTIFICATION', payload: state.login.selectedHostel_Id })
-        }
-    }, [state.login.selectedHostel_Id])
+  useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      dispatch({ type: 'ALLNOTIFICATION', payload: state.login.selectedHostel_Id })
+    }
+  }, [state.login.selectedHostel_Id])
 
 
   // useEffect(()=>{
@@ -651,15 +651,16 @@ const [showNotify, setShowNotify] = useState(false);
   }, []);
 
 
-const handleClose = () =>{
-  setShowNotify(false)}
+  const handleClose = () => {
+    setShowNotify(false)
+  }
 
   const handleShowNotification = () => {
     setShowNotify(true);
   }
 
 
-  
+
 
 
 
@@ -676,9 +677,9 @@ const handleClose = () =>{
 
   return (
     <>
-    {
-      showNotify && <NotificationForm  show={showNotify} handleClose={handleClose}/>
-    }
+      {
+        showNotify && <NotificationForm show={showNotify} handleClose={handleClose} />
+      }
       <Container fluid className="p-0">
         <Row className="g-0 m-0">
           <Col xs={12} sm={12} className="d-md-none p-2 bg-white position-relative">
@@ -1617,7 +1618,7 @@ const handleClose = () =>{
                     )}
                   </div> */}
 
-                  <div onClick={handleShowNotification} 
+                  <div onClick={handleShowNotification}
                     onMouseEnter={() => handleMouseEnter("notification")}
                     onMouseLeave={handleMouseLeave}
                     style={{
@@ -1652,20 +1653,20 @@ const handleClose = () =>{
                     )}
 
 
-                     {state.login?.Notification?.unreadCount > 0 && (
-    <span
-      style={{
-        position: "absolute",
-        bottom: -2,
-        left: -2,
-        height: 10,
-        width: 10,
-        backgroundColor: "#F97316",
-        borderRadius: "50%",
-        border: "2px solid white",
-      }}
-    ></span>
-  )}
+                    {state.login?.Notification?.unreadCount > 0 && (
+                      <span
+                        style={{
+                          position: "absolute",
+                          bottom: -2,
+                          left: -2,
+                          height: 10,
+                          width: 10,
+                          backgroundColor: "#F97316",
+                          borderRadius: "50%",
+                          border: "2px solid white",
+                        }}
+                      ></span>
+                    )}
                   </div>
 
                   <div
