@@ -153,7 +153,6 @@ function PayingGuestMap(props) {
 
 
 
-
   return (
     <>
       {!canReadPayingGuests ? (
@@ -193,6 +192,7 @@ function PayingGuestMap(props) {
                 : "1px solid #E6E6E6",
             transition: "border 0.3s ease",
             height: "auto",
+            // backgroundColor: props.hostel?.isSubscriptionValid  ? "#FFF" : "#dcdcdc"
           }}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
@@ -241,17 +241,17 @@ function PayingGuestMap(props) {
                   <div
                     className="pb-2"
                     onClick={() =>
-                      canWritePayingGuests
+                      canWritePayingGuests && props.hostel?.isSubscriptionValid 
                         ? handleSelectedHostel(props.hostel.hostelId)
                         : null
                     }
                   >
 
                     <label
-                      className={`${!canWritePayingGuests ? "" : "hover-hostel-name"}`}
+                      className={`${!props.hostel?.isSubscriptionValid ? "" : "hover-hostel-name"}`}
                       style={{
                         fontSize: 14,
-                        color: !canWritePayingGuests ? "#dcdcdc" : "#1E45E1",
+                        color: !props.hostel?.isSubscriptionValid   ? "grey" : "#1E45E1",
                         fontWeight: 600,
                         fontFamily: "Gilroy",
                         textDecoration: "underline",
@@ -340,7 +340,7 @@ function PayingGuestMap(props) {
                         <div
                           className="d-flex gap-2 align-items-center w-100"
                           onClick={
-                            canUpdatePayingGuests
+                            canUpdatePayingGuests && props.hostel?.isSubscriptionValid
                               ? () => handleEdit(props.hostel)
                               : undefined
                           }
@@ -386,7 +386,7 @@ function PayingGuestMap(props) {
                         <div
                           className="d-flex gap-2 align-items-center w-100"
                           onClick={
-                            canDeletePayingGuests
+                            canDeletePayingGuests && props.hostel?.isSubscriptionValid
                               ? () => handleDelete(props.hostel)
                               : undefined
                           }

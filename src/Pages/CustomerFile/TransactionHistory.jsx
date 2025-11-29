@@ -79,8 +79,21 @@ function TransactionHistory() {
                     {CustomerOverView?.length === 0 ? (
                         <div style={{ textAlign: "center", marginTop: 40 }}>
                             <img src={emptyimg} width={240} height={240} alt="emptystate" />
+                            <div
+                                className="pb-1"
+                                style={{
+                                    textAlign: "center",
+                                    fontWeight: 600,
+                                    fontFamily: "Gilroy",
+                                    fontSize: 18,
+                                    color: "rgba(75, 75, 75, 1)",
+                                }}
+                            >
+                                No Transaction available
+                            </div>
+
                             <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 14, color: "rgba(75, 75, 75, 1)" }}>
-                                There are no transaction history available.
+                                There are no transaction available
                             </div>
                         </div>
                     ) : (
@@ -92,7 +105,7 @@ function TransactionHistory() {
                                 maxHeight: "420px",
                                 overflowY: "auto",
                                 position: "relative",
-                                 border: "1px solid #F9FAFF",
+                                border: "1px solid #F9FAFF",
 
                             }}
                         >

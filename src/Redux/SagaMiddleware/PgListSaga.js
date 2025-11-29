@@ -227,7 +227,7 @@ function* handleUpdatePgList(datum) {
   try {
     const response = yield call(updatePgList, datum.payload);
 
-
+console.log("response",response)
 
     var toastStyle = {
       backgroundColor: "#E6F6E6",
@@ -245,7 +245,7 @@ function* handleUpdatePgList(datum) {
 
     };
 
-    if (response?.status === 201) {
+    if (response?.status === 200) {
       yield put({
         type: "UPDATE_PG",
         payload: {

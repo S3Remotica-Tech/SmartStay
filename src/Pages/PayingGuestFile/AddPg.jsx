@@ -45,7 +45,7 @@ function AddPg({ show, handleClose, currentItem }) {
   const [state_nameError, setStateNameError] = useState("");
   const [hostel_Id, setHostel_Id] = useState("");
   const [formLoading, setFormLoading] = useState(false)
-const errorRef = useRef(null);
+  const errorRef = useRef(null);
   const pgNameRef = useRef(null);
   const countryCodeRef = useRef(null);
   const mobileRef = useRef(null);
@@ -56,7 +56,7 @@ const errorRef = useRef(null);
   const [images, setImages] = useState(Array(4).fill({ image: null }));
 
 
-
+  console.log("currentItem", currentItem)
 
   const indianStates = [
     { value: "Tamil Nadu", label: "Tamil Nadu" },
@@ -262,7 +262,7 @@ const errorRef = useRef(null);
   const handleCreatePayingGuest = () => {
     let hasError = false;
     let focused = false;
-        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+    dispatch({ type: 'CLEAR_NETWORK_ERROR' })
 
     setGeneralError("");
     setPgNameError("");
@@ -431,20 +431,36 @@ const errorRef = useRef(null);
     };
 
     const isChanged =
-      pgName !== initialState.pgName ||
+      pgName.trim() !== initialState.pgName.trim() ||
       Number(mobile) !== Number(initialState.mobile) ||
-      email !== initialState.email ||
-      file !== initialState.file ||
-      countryCode !== initialState.countryCode ||
-      !arraysAreEqual(images, initialState.imageUrls) ||
-      house_no !== initialState.house_no ||
-      street !== initialState.street ||
-      landmark !== initialState.landmark ||
-      city !== initialState.city ||
+      email.trim() !== (initialState.email || "").trim() ||
+      house_no.trim() !== (initialState.house_no || "").trim() ||
+      street.trim() !== (initialState.street || "").trim() ||
+      landmark.trim() !== (initialState.landmark || "").trim() ||
+      city.trim() !== (initialState.city || "").trim() ||
       String(pincode).trim() !== String(initialState.pincode || "").trim() ||
-      state_name !== initialState.state;
+      state_name !== (initialState.state || "") ||
+      file !== null ||
+      images.some((img) => img.isChanged === true);
 
-    if (!isChanged) {
+    console.log("PG NAME:", pgName.trim(), initialState.pgName.trim());
+    console.log("MOBILE:", Number(mobile), Number(initialState.mobile));
+    console.log("EMAIL:", email.trim(), (initialState.email || "").trim());
+    console.log("COUNTRY CODE:", countryCode, initialState.countryCode);
+    console.log("HOUSE:", house_no.trim(), (initialState.house_no || "").trim());
+    console.log("STREET:", street.trim(), (initialState.street || "").trim());
+    console.log("LANDMARK:", landmark.trim(), (initialState.landmark || "").trim());
+    console.log("CITY:", city.trim(), (initialState.city || "").trim());
+    console.log("PIN:", String(pincode).trim(), String(initialState.pincode || "").trim());
+    console.log("STATE:", state_name, initialState.state);
+    console.log("FILE:", file);
+    console.log("INITIAL FILE:", initialState.file);
+    console.log("IMAGES:", images);
+    console.log("INITIAL IMAGES:", initialState.imageUrls);
+    console.log("IS CHANGED = ", isChanged);
+
+
+    if (currentItem && !isChanged) {
       setIsChangedError("No Changes Detected");
 
 
@@ -461,42 +477,78 @@ const errorRef = useRef(null);
     }
 
 
+    if (currentItem?.hostelId) {
+      dispatch({
+        type: "UPDATEPG",
+        payload: {
+          mainImage: file,
+          hostelId: currentItem?.hostelId,
+          additionalImages: [
+            images[0]?.isChanged
+              ? images[0].image
+              : currentItem.image_list?.[0]?.image || null,
+            images[1]?.isChanged
+              ? images[1].image
+              : currentItem.image_list?.[1]?.image || null,
+            images[2]?.isChanged
+              ? images[2].image
+              : currentItem.image_list?.[2]?.image || null,
+            images[3]?.isChanged
+              ? images[3].image
+              : currentItem.image_list?.[3]?.image || null,
+          ].filter(Boolean),
 
-    dispatch({
-      type: "CREATEPG",
-      payload: {
-        mainImage: file,
-        additionalImages: [
-          images[0]?.isChanged
-            ? images[0].image
-            : currentItem.image_list?.[0]?.image || null,
-          images[1]?.isChanged
-            ? images[1].image
-            : currentItem.image_list?.[1]?.image || null,
-          images[2]?.isChanged
-            ? images[2].image
-            : currentItem.image_list?.[2]?.image || null,
-          images[3]?.isChanged
-            ? images[3].image
-            : currentItem.image_list?.[3]?.image || null,
-        ].filter(Boolean),
-
-        payloads: {
-          hostelName: pgName,
-          mobile: `${mobile}`,
-          pincode: Number(pincode),
-          city: city,
-          state: state_name,
-          emailId: email,
-          houseNo: house_no,
-          street: street,
-          landmark: landmark,
+          payloads: {
+            hostelName: pgName,
+            mobile: `${mobile}`,
+            pincode: Number(pincode),
+            city: city,
+            state: state_name,
+            emailId: email,
+            houseNo: house_no,
+            street: street,
+            landmark: landmark,
+          },
         },
-      },
-    });
+      });
+      setFormLoading(true)
+    }
+    else {
+      dispatch({
+        type: "CREATEPG",
+        payload: {
+          mainImage: file,
+          additionalImages: [
+            images[0]?.isChanged
+              ? images[0].image
+              : currentItem.image_list?.[0]?.image || null,
+            images[1]?.isChanged
+              ? images[1].image
+              : currentItem.image_list?.[1]?.image || null,
+            images[2]?.isChanged
+              ? images[2].image
+              : currentItem.image_list?.[2]?.image || null,
+            images[3]?.isChanged
+              ? images[3].image
+              : currentItem.image_list?.[3]?.image || null,
+          ].filter(Boolean),
 
+          payloads: {
+            hostelName: pgName,
+            mobile: `${mobile}`,
+            pincode: Number(pincode),
+            city: city,
+            state: state_name,
+            emailId: email,
+            houseNo: house_no,
+            street: street,
+            landmark: landmark,
+          },
+        },
+      });
+      setFormLoading(true)
+    }
 
-    setFormLoading(true)
 
   };
 
@@ -509,43 +561,36 @@ const errorRef = useRef(null);
 
   useEffect(() => {
     if (currentItem) {
-      const phoneNumber = String(currentItem.hostel_PhoneNo || "");
-      const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
-      const mobileNumber = phoneNumber.slice(-10);
+
+
 
       const initialData = {
-        pgName: currentItem.Name || "",
-        mobile: mobileNumber,
+        pgName: currentItem.name || "",
+        mobile: currentItem.mobile,
         countryCode: countryCode,
-        email:
-          currentItem.email_id && currentItem.email_id !== "undefined"
-            ? currentItem.email_id
-            : "",
-        house_no: currentItem.Address || "",
-        street: currentItem.area || "",
+        email: currentItem.emailId && currentItem.emailId !== "undefined" ? currentItem.emailId : "",
+        house_no: currentItem.houseNo || "",
+        street: currentItem.street || "",
         city: currentItem.city || "",
-        pincode: currentItem.pin_code || "",
+        pincode: currentItem.pincode || "",
         landmark: currentItem.landmark || "",
         state: currentItem.state || "",
-        file:
-          currentItem.profile &&
-            typeof currentItem.profile === "string" &&
-            currentItem.profile !== "0"
-            ? currentItem.profile
-            : null,
+        file: currentItem.mainImage ? currentItem.mainImage : null,
       };
+
 
       setPgName(initialData.pgName);
       setMobile(initialData.mobile);
       setEmail(initialData.email);
       setFile(initialData.file);
-      setCountryCode(initialData.country);
+      setCountryCode(initialData.countryCode);
       setHouseNo(initialData.house_no);
       setStreet(initialData.street);
       setLandmark(initialData.landmark);
       setPincode(initialData.pincode);
       setCity(initialData.city);
       setStateName(initialData.state);
+
 
       const formattedImages = currentItem?.images?.map((img) => ({
         name:
@@ -554,8 +599,16 @@ const errorRef = useRef(null);
           img.image !== "0" && typeof img.image === "string" ? img.image : null,
       }));
 
-      setImages(formattedImages.length > 0 ? formattedImages : Array(4).fill({ image: null }));
-      setInitialState({ ...initialData, imageUrls: formattedImages });
+      setImages(
+        formattedImages && formattedImages.length > 0
+          ? formattedImages
+          : Array(4).fill({ image: null, isChanged: false})
+      );
+
+      setInitialState({
+        ...initialData,
+        imageUrls: formattedImages,
+      });
     }
   }, [currentItem]);
 
@@ -642,10 +695,10 @@ const errorRef = useRef(null);
 
 
   useEffect(() => {
-    if (state.PgList.createPgStatusCode === 201) {
+    if (state.PgList.createPgStatusCode === 201 || state.PgList.updatePgStatusCode === 200) {
       setFormLoading(false)
     }
-  }, [state.PgList.createPgStatusCode])
+  }, [state.PgList.createPgStatusCode, state.PgList.updatePgStatusCode])
 
 
   useEffect(() => {
@@ -655,7 +708,7 @@ const errorRef = useRef(null);
 
   }, [state.createAccount?.networkError])
 
-
+  console.log("state.PgList.updatePgStatusCode", state.PgList.updatePgStatusCode)
 
   return (
     <div
@@ -931,7 +984,7 @@ const errorRef = useRef(null);
                     fontSize: 16,
                     color: "#4B4B4B",
                     fontFamily: "Gilroy",
-                     fontWeight: house_no ? 600 : 500,
+                    fontWeight: house_no ? 600 : 500,
                     boxShadow: "none",
                     border: "1px solid #D9D9D9",
                     height: 50,
@@ -964,10 +1017,10 @@ const errorRef = useRef(null);
                   onChange={(e) => handleStreetName(e)}
                   style={{
                     fontSize: 16,
-                    color:"#4B4B4B",
+                    color: "#4B4B4B",
                     fontFamily: "Gilroy",
                     fontWeight: street ? 600 : 500,
-                   boxShadow: "none",
+                    boxShadow: "none",
                     border: "1px solid #D9D9D9",
                     height: 50,
                     borderRadius: 8,
@@ -1001,7 +1054,7 @@ const errorRef = useRef(null);
                     fontSize: 16,
                     color: "#4B4B4B",
                     fontFamily: "Gilroy",
-                     fontWeight: landmark ? 600 : 500,
+                    fontWeight: landmark ? 600 : 500,
                     boxShadow: "none",
                     border: "1px solid #D9D9D9",
                     height: 50,
@@ -1080,7 +1133,7 @@ const errorRef = useRef(null);
                     fontSize: 16,
                     color: "#4B4B4B",
                     fontFamily: "Gilroy",
-                    fontWeight:city ? 600 : 500,
+                    fontWeight: city ? 600 : 500,
                     boxShadow: "none",
                     border: "1px solid #D9D9D9",
                     height: 50,
@@ -1393,7 +1446,7 @@ const errorRef = useRef(null);
 
 
           <Button
-          disabled={formLoading}
+            disabled={formLoading}
             onClick={handleCreatePayingGuest}
             className="w-100"
             style={{

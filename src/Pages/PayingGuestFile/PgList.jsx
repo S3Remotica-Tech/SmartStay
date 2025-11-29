@@ -355,22 +355,22 @@ useEffect(()=>{
   }, [state.PgList.dleteHostelImagesStatusCode,]);
 
   useEffect(() => {
-    if (state.PgList?.createPgStatusCode === 201) {
+    if (state.PgList?.createPgStatusCode === 201 || state.PgList?.updatePgStatusCode === 200) {
       dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
       dispatch({ type: "HOSTELLIST" });
 
       setShowAddPg(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_PG_STATUS_CODE" });
-      }, 1000);
+        dispatch({ type: 'REMOVE_UPDATE_PG'})
+      }, 100);
 
 
     }
-  }, [state.PgList.createPgStatusCode]);
+  }, [state.PgList.createPgStatusCode,state.PgList.updatePgStatusCode]);
 
 
-
-
+console.log("state.PgList",state.PgList)
 
   useEffect(() => {
     if (selectedHostel) {
