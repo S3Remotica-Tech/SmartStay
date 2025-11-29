@@ -56,7 +56,7 @@ const errorRef = useRef(null);
   const [images, setImages] = useState(Array(4).fill({ image: null }));
 
 
-
+console.log("currentItem",currentItem)
 
   const indianStates = [
     { value: "Tamil Nadu", label: "Tamil Nadu" },
@@ -461,8 +461,43 @@ const errorRef = useRef(null);
     }
 
 
-
+if(currentItem?.hostelId){
     dispatch({
+      type: "UPDATEPG",
+      payload: {
+        mainImage: file,
+        hostelId:currentItem?.hostelId,
+        additionalImages: [
+          images[0]?.isChanged
+            ? images[0].image
+            : currentItem.image_list?.[0]?.image || null,
+          images[1]?.isChanged
+            ? images[1].image
+            : currentItem.image_list?.[1]?.image || null,
+          images[2]?.isChanged
+            ? images[2].image
+            : currentItem.image_list?.[2]?.image || null,
+          images[3]?.isChanged
+            ? images[3].image
+            : currentItem.image_list?.[3]?.image || null,
+        ].filter(Boolean),
+
+        payloads: {
+          hostelName: pgName,
+          mobile: `${mobile}`,
+          pincode: Number(pincode),
+          city: city,
+          state: state_name,
+          emailId: email,
+          houseNo: house_no,
+          street: street,
+          landmark: landmark,
+        },
+      },
+    });
+  }
+else{
+   dispatch({
       type: "CREATEPG",
       payload: {
         mainImage: file,
@@ -494,8 +529,7 @@ const errorRef = useRef(null);
         },
       },
     });
-
-
+}
     setFormLoading(true)
 
   };
@@ -508,56 +542,57 @@ const errorRef = useRef(null);
 
 
   useEffect(() => {
-    if (currentItem) {
-      const phoneNumber = String(currentItem.hostel_PhoneNo || "");
-      const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
-      const mobileNumber = phoneNumber.slice(-10);
+  if (currentItem) {
 
-      const initialData = {
-        pgName: currentItem.Name || "",
-        mobile: mobileNumber,
-        countryCode: countryCode,
-        email:
-          currentItem.email_id && currentItem.email_id !== "undefined"
-            ? currentItem.email_id
-            : "",
-        house_no: currentItem.Address || "",
-        street: currentItem.area || "",
-        city: currentItem.city || "",
-        pincode: currentItem.pin_code || "",
-        landmark: currentItem.landmark || "",
-        state: currentItem.state || "",
-        file:
-          currentItem.profile &&
-            typeof currentItem.profile === "string" &&
-            currentItem.profile !== "0"
-            ? currentItem.profile
-            : null,
-      };
+   
 
-      setPgName(initialData.pgName);
-      setMobile(initialData.mobile);
-      setEmail(initialData.email);
-      setFile(initialData.file);
-      setCountryCode(initialData.country);
-      setHouseNo(initialData.house_no);
-      setStreet(initialData.street);
-      setLandmark(initialData.landmark);
-      setPincode(initialData.pincode);
-      setCity(initialData.city);
-      setStateName(initialData.state);
+    const initialData = {
+      pgName: currentItem.name || "",
+      mobile: currentItem.mobile,
+      countryCode: countryCode,
+      email: currentItem.emailId && currentItem.emailId !== "undefined" ? currentItem.emailId : "",
+      house_no: currentItem.houseNo || "",
+      street: currentItem.street || "",
+      city: currentItem.city || "",
+      pincode: currentItem.pincode || "",
+      landmark: currentItem.landmark || "",
+      state: currentItem.state || "",
+      file: currentItem.mainImage ? currentItem.mainImage : null,
+    };
 
-      const formattedImages = currentItem?.images?.map((img) => ({
-        name:
-          img.image !== "0" && typeof img.image === "string" ? img.name : "",
-        image:
-          img.image !== "0" && typeof img.image === "string" ? img.image : null,
-      }));
 
-      setImages(formattedImages.length > 0 ? formattedImages : Array(4).fill({ image: null }));
-      setInitialState({ ...initialData, imageUrls: formattedImages });
-    }
-  }, [currentItem]);
+    setPgName(initialData.pgName);
+    setMobile(initialData.mobile);
+    setEmail(initialData.email);
+    setFile(initialData.file);
+    setCountryCode(initialData.countryCode);
+    setHouseNo(initialData.house_no);
+    setStreet(initialData.street);
+    setLandmark(initialData.landmark);
+    setPincode(initialData.pincode);
+    setCity(initialData.city);
+    setStateName(initialData.state);
+
+    
+    const formattedImages = currentItem?.images?.map((img) => ({
+      name:
+        img.image !== "0" && typeof img.image === "string" ? img.name : "",
+      image:
+        img.image !== "0" && typeof img.image === "string" ? img.image : null,
+    }));
+
+    setImages(
+      formattedImages && formattedImages.length > 0
+        ? formattedImages
+        : Array(4).fill({ image: null })
+    );
+
+    setInitialState({
+      ...initialData,
+      imageUrls: formattedImages,
+    });
+  }
+}, [currentItem]);
 
 
 
@@ -642,10 +677,10 @@ const errorRef = useRef(null);
 
 
   useEffect(() => {
-    if (state.PgList.createPgStatusCode === 201) {
+    if (state.PgList.createPgStatusCode === 201 || state.PgList.updatePgStatusCode === 200) {
       setFormLoading(false)
     }
-  }, [state.PgList.createPgStatusCode])
+  }, [state.PgList.createPgStatusCode,state.PgList.updatePgStatusCode])
 
 
   useEffect(() => {
@@ -655,7 +690,7 @@ const errorRef = useRef(null);
 
   }, [state.createAccount?.networkError])
 
-
+console.log("state.PgList.updatePgStatusCode",state.PgList.updatePgStatusCode)
 
   return (
     <div

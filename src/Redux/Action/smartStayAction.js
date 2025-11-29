@@ -171,12 +171,9 @@ export async function OTPverification(datum) {
 } 
 
 
-export  function GetAllNotification() {
-  new Promise((resolve) => {
-  resolve({status: 200});
-})
-  // return await AxiosConfig.get('/all_notifications',{
-  // })
+export async function GetAllNotification(hostelId) {
+ 
+  return await AxiosConfigV2.get(`/v2/notification/${hostelId}`)
 }
 
 

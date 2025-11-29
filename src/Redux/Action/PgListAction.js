@@ -74,7 +74,7 @@ export async function updatePgList(params) {
       });
     }
 
-    const response = await AxiosConfigV2.post("/v2/hostel", formData, {
+    const response = await AxiosConfigV2.put(`/v2/hostel/${params.hostelId}`, formData, {
       headers: { "Content-Type": "multipart/form-data" },
       timeout: 100000000,
      

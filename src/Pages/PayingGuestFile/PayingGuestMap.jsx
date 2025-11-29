@@ -150,7 +150,6 @@ function PayingGuestMap(props) {
 
 
   
-console.log("props.hostel",props.hostel.isSubscriptionValid)
 
 
 

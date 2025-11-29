@@ -673,7 +673,7 @@ function UserlistWalkin(props) {
                                         fontFamily: "Gilroy",
                                       }}
                                     >
-                                      {v.firstName}
+                                      {v.fullName}
                                     </span>
                                   </div>
                                 </td>

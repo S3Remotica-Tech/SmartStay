@@ -309,18 +309,19 @@ function SettingManage() {
   ]);
 
   useEffect(() => {
-    if (state.PgList.createPgStatusCode === 201) {
+    if (state.PgList.createPgStatusCode === 201 || state.PgList?.updatePgStatusCode === 200) {
       dispatch({ type: "HOSTELLIST" });
       dispatch({ type: 'REMOVE_MANAGE_PG' })
       setShowAddPg(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_PG_STATUS_CODE" });
+         dispatch({ type: 'REMOVE_UPDATE_PG'})
       }, 100);
 
 
 
     }
-  }, [state.PgList.createPgStatusCode]);
+  }, [state.PgList.createPgStatusCode,state.PgList?.updatePgStatusCode]);
 
   useEffect(() => {
     if (selectedHostel) {

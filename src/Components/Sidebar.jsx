@@ -76,8 +76,8 @@ import SettingAgreement from "../Pages/SettingAgreement";
 import BillingRule from "../Pages/Settings/BillingRule/BillingRule";
 import SettingGeneral from "../Pages/Settings/SettingGeneral";
 import SettingManage from "../Pages/SettingManage";
-import {NotificationBing} from 'iconsax-react'
-import Notification from "./Notification";
+import {Notification} from 'iconsax-react'
+import NotificationForm from "./Notification";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -137,7 +137,11 @@ const [showNotify, setShowNotify] = useState(false);
 
 
 
-
+ useEffect(() => {
+        if (state.login.selectedHostel_Id) {
+            dispatch({ type: 'ALLNOTIFICATION', payload: state.login.selectedHostel_Id })
+        }
+    }, [state.login.selectedHostel_Id])
 
 
   // useEffect(()=>{
@@ -673,7 +677,7 @@ const handleClose = () =>{
   return (
     <>
     {
-      showNotify && <Notification  show={showNotify} handleClose={handleClose}/>
+      showNotify && <NotificationForm  show={showNotify} handleClose={handleClose}/>
     }
       <Container fluid className="p-0">
         <Row className="g-0 m-0">
@@ -1622,7 +1626,8 @@ const handleClose = () =>{
                       cursor: "pointer",
                     }}
                   >
-                    <NotificationBing
+
+                    <Notification
                       size="24"
                       color="#64748B"
                       onClick={handleShowNotification} />
@@ -1645,6 +1650,22 @@ const handleClose = () =>{
                         Notifications
                       </span>
                     )}
+
+
+                     {state.login?.Notification?.unreadCount > 0 && (
+    <span
+      style={{
+        position: "absolute",
+        bottom: -2,
+        left: -2,
+        height: 10,
+        width: 10,
+        backgroundColor: "#F97316",
+        borderRadius: "50%",
+        border: "2px solid white",
+      }}
+    ></span>
+  )}
                   </div>
 
                   <div
