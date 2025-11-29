@@ -20,7 +20,7 @@ function EditAdvanceAmount({ show, handleClose }) {
     const dispatch = useDispatch();
     const [monthlyRent, setMonthlyRent] = useState("");
     const [monthlyRentError, setMonthlyRentError] = useState("");
-
+ const [IsChangedError, setIsChangedError] =  useState("");
     // const [effectiveFrom, setEffectiveFrom] = useState("");
     // const [effectiveFromError, setEffectiveFromError] = useState("");
     const [reason, setReason] = useState(null);
@@ -47,6 +47,7 @@ function EditAdvanceAmount({ show, handleClose }) {
 
 
     const handleMonthlyRentChange = (e) => {
+             setIsChangedError("");
         const value = e.target.value;
 
         if (/^[0-9\b]*$/.test(value)) {
@@ -64,8 +65,11 @@ function EditAdvanceAmount({ show, handleClose }) {
     // };
 
 
+    console.log("CustomerOverView",CustomerOverView.hostelInfo.advanceAmount)
+
 
     const handleSubmit = () => {
+             setIsChangedError("");
          dispatch({ type: 'REMOVE_EDIT_ADVANCE_ERROR' })
         let isValid = true;
 
@@ -84,6 +88,19 @@ function EditAdvanceAmount({ show, handleClose }) {
 
 
         if (!isValid) return;
+
+const oldAmount = Number(CustomerOverView.hostelInfo.advanceAmount);
+
+  const newAmount = Number(monthlyRent);
+
+ 
+  
+  if (oldAmount === newAmount) {
+    setIsChangedError("No changes detected");
+    return; 
+  }
+
+
         dispatch({
             type: 'EDITADVANCE', 
             payload: {
@@ -106,6 +123,7 @@ function EditAdvanceAmount({ show, handleClose }) {
     }, [state.createAccount?.networkError,state.UsersList.advanceError])
 
     const handleReasonChange = (e) => {
+             setIsChangedError("");
          dispatch({ type: 'REMOVE_EDIT_ADVANCE_ERROR' })
         setReason(e.target.value);
     };
@@ -355,6 +373,11 @@ function EditAdvanceAmount({ show, handleClose }) {
 
 
                     </Modal.Body>
+
+{
+                        IsChangedError && <div className="d-flex justify-content-center"> <ErrorMessage message={IsChangedError} type="error" /></div>
+                    }
+
 
                     {loading && <div
                         style={{

@@ -192,8 +192,6 @@ function UserListRoomDetail(props) {
 
   const { customerId, hostelId, name, totriggerBillTap, isPgWay ,IsOverView} = location.state || {};
 
- 
-console.log(" location.state", location.state)
 
  useEffect(() => {
   if (totriggerBillTap) {
