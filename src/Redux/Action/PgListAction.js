@@ -69,6 +69,7 @@ console.log("params",params)
        if (params.additionalImages && params.additionalImages.length > 0) {
       params.additionalImages.forEach((img) => {
         if (img) {
+          console.log("img",img)
           formData.append("additionalImages", img);
         }
       });
@@ -101,6 +102,62 @@ console.log("params",params)
 // }
 
 
+// export async function updatePgList(params) {
+//   console.log("params", params);
+
+//   try {
+//     const formData = new FormData();
+
+//         if (params.payloads) {
+//       const payloadsBlob = new Blob(
+//         [JSON.stringify(params.payloads)],
+//         { type: "application/json" }
+//       );
+//       formData.append("payloads", payloadsBlob);
+//     }
+
+ 
+//     const MAX_SIZE = 500 * 1024 * 1024;
+
+//      if (params.mainImage instanceof File) {
+//       if (params.mainImage.size > MAX_SIZE) {
+//         throw new Error("Main image exceeds 500MB limit");
+//       }
+//       formData.append("mainImage", params.mainImage);
+//     }
+
+    
+//     if (Array.isArray(params.additionalImages)) {
+//       params.additionalImages.forEach((img) => {
+//         if (img instanceof File) {
+
+//           if (img.size > MAX_SIZE) {
+//             console.log("img.size > MAX_SIZE",img.size > MAX_SIZE)
+//             throw new Error(`One of the additional images exceeds 500MB limit`);
+//           }
+
+//           formData.append("additionalImages", img);
+//         }
+//       });
+//     }
+
+
+//     const response = await AxiosConfigV2.put(
+//       `/v2/hostel/${params.hostelId}`,
+//       formData,
+//       {
+//         headers: { "Content-Type": "multipart/form-data" },
+//         timeout: 1000000,
+//       }
+//     );
+
+//     return response;
+
+//   } catch (error) {
+//     console.error("Axios Error:", error.message);
+//     throw error;
+//   }
+// }
 
 
 
