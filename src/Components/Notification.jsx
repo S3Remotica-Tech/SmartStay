@@ -71,7 +71,7 @@ export default function Notification({ show, handleClose }) {
             }}
         >
 
-            <Offcanvas.Header className="gap-0 border d-flex ">
+            <Offcanvas.Header className="gap-0  d-flex ">
                 <div className="d-flex align-items-center gap-2">
                     <div
                         style={{
@@ -102,78 +102,84 @@ export default function Notification({ show, handleClose }) {
 
                 <CloseCircle size="24" color="#FF0000" onClick={handleClose} style={{ cursor: "pointer" }} />
             </Offcanvas.Header>
+            <hr className="m-0" style={{ border: "1px solid #ccc" }} />
+            <Offcanvas.Body style={{ fontFamily: "Gilroy", padding: 0 }}>
 
-            <Offcanvas.Body style={{ padding: "10px 20px", fontFamily: "Gilroy" }}>
-                
                 {notification?.listOfNotifications?.length > 0 ? notification?.listOfNotifications?.map((item) => {
                     return (
                         <div key={item.notificationId}>
 
-                            <div
+                            <div className="ps-3"
                                 style={{
                                     color: "#4B4B4B",
                                     fontSize: 12,
                                     fontWeight: 600,
-                                    margin: "10px 0",
+                                    margin: "5px 0",
                                 }}
                             >
                                 {getDateLabel(item?.requestedAt)}
                             </div>
-
-                            <div
-                                style={{
-                                    display: "flex",
-                                    gap: 12,
-                                    padding: "14px 14px",
-                                    borderBottom: "1px solid #E5E7EB", borderRadius: 10,
-                                    backgroundColor: item.isRead ? "#FFF" : "#EDF3FF",
-                                }}
-                            >
+                            <div style={{ backgroundColor: item.isRead ? "#FFF" : "#EDF3FF", }}>
                                 <div
                                     style={{
-                                        width: 38,
-                                        height: 38,
-                                        borderRadius: "50%",
-                                        background: "#E2E8F0",
                                         display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        fontWeight: 600,
-                                        color: "#73839B",
+                                        gap: 12,
+                                        padding: "12px 14px",
+                                        borderRadius: 10,
+
                                     }}
                                 >
-                                    {item.requestedUser ? item.requestedUser : <Chart21
-                                        size="18"
-                                        color="#73839B"
-                                    />}
-                                </div>
-
-
-                                <div style={{ flex: 1 }}>
                                     <div
                                         style={{
+                                            width: 38,
+                                            height: 38,
+                                            borderRadius: "50%",
+                                            background: "#E2E8F0",
                                             display: "flex",
                                             alignItems: "center",
-                                            gap: 6,
-                                            marginBottom: 4,
+                                            justifyContent: "center",
+                                            fontWeight: 600,
+                                            color: "#73839B",
                                         }}
                                     >
-                                        <div style={{ flex: 1, fontSize: 15, fontWeight: 600 }}>
-                                            {item.notificationTitle}
+                                        {item.requestedUser ? item.requestedUser : <Chart21
+                                            size="18"
+                                            color="#73839B"
+                                        />}
+                                    </div>
+
+
+                                    <div style={{ flex: 1 }}>
+                                        <div
+                                            style={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                gap: 6,
+                                                marginBottom: 4,
+                                            }}
+                                        >
+                                            <div style={{ flex: 1, fontSize: 15, fontWeight: 600 }}>
+                                                {item.notificationTitle}
+                                            </div>
+                                            <div style={{ fontSize: 12 }}>2m</div>
+                                            <ThreeDots size={20} />
                                         </div>
-                                        <div style={{ fontSize: 12 }}>2m</div>
-                                        <ThreeDots size={20} />
-                                    </div>
 
-                                    <div style={{ fontSize: 13, color: "#374151" }}>
-                                        {item.notificationDescription}
-                                    </div>
+                                        <div style={{ fontSize: 13, color: "#374151" }}>
+                                            {item.notificationDescription}
+                                        </div>
+                                        {
+                                            item.isRead ?   <hr className="mt-3 mb-1" style={{ border: "1px solid #ccc" }} />
+                                            :
+                                            ""
+                                        }
+                                       
 
-                                    {/* <div style={{ display: "flex", gap: 8, marginTop: 10 }}>
+                                        {/* <div style={{ display: "flex", gap: 8, marginTop: 10 }}>
 
                                     </div> */}
 
-                                    {/* <button
+                                        {/* <button
                                         style={{
                                             marginTop: 10,
                                             background: "#1E45E1",
@@ -187,9 +193,10 @@ export default function Notification({ show, handleClose }) {
                                     >
                                         Review
                                     </button> */}
+                                    </div>
                                 </div>
-                            </div>
 
+                            </div>
 
                             {/* <div
                                 style={{
@@ -342,21 +349,21 @@ export default function Notification({ show, handleClose }) {
                         </div>
 
                     );
-                }) 
-                :
-                 <div
-                            style={{
-                                textAlign: "center",
-                                marginTop: 60,
-                                color: "#6B7280",
-                                fontSize: 15,
-                                fontWeight: 500,
-                            }}
-                        >
-                            No notifications available
-                        </div>
-                
-                
+                })
+                    :
+                    <div
+                        style={{
+                            textAlign: "center",
+                            marginTop: 60,
+                            color: "#6B7280",
+                            fontSize: 15,
+                            fontWeight: 500,
+                        }}
+                    >
+                        No notifications available
+                    </div>
+
+
                 }
             </Offcanvas.Body>
         </Offcanvas>
