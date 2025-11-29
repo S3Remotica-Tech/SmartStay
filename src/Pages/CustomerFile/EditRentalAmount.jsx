@@ -32,6 +32,7 @@ function EditRentalAmount({ show, handleClose }) {
     const dateRef = useRef(null);
     const typeRef = useRef(null)
     const Ref = useRef(null)
+    const [IsChangedError, setIsChangedError] = useState("");
 
     const [typeError, setTypeError] = useState('')
 
@@ -72,11 +73,13 @@ function EditRentalAmount({ show, handleClose }) {
     // };
 
     const handleReasonChange = (e) => {
+        setIsChangedError("");
         dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' })
         setReason(e.target.value);
     };
 
     const handleTypeChange = (selectedOption) => {
+        setIsChangedError("");
         setMonthlyRentError("");
         setEffectiveFromError('')
         setTypeError('')
@@ -88,6 +91,7 @@ function EditRentalAmount({ show, handleClose }) {
 
 
     const handleMonthlyRentChange = (e) => {
+        setIsChangedError("");
         dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' })
         const value = e.target.value;
 
@@ -119,6 +123,7 @@ function EditRentalAmount({ show, handleClose }) {
 
 
     const handleSubmit = () => {
+        setIsChangedError("");
         dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' })
         let isValid = true;
 
@@ -128,9 +133,9 @@ function EditRentalAmount({ show, handleClose }) {
             isValid = false;
         }
 
-        
 
-        if (  types === "Rent-Revision" && !effectiveFrom) {
+
+        if (types === "Rent-Revision" && !effectiveFrom) {
             setEffectiveFromError("Please Select Date");
             dateRef.current?.focus();
             isValid = false;
@@ -150,6 +155,19 @@ function EditRentalAmount({ show, handleClose }) {
         if (effectiveFrom && dayjs(effectiveFrom, "DD/MM/YYYY").isValid()) {
             formattedDate = dayjs(effectiveFrom, "DD/MM/YYYY").format("DD-MM-YYYY");
         }
+
+        const oldAmount = Number(CustomerOverView.hostelInfo.monthlyRent);
+
+
+        const newAmount = Number(monthlyRent);
+
+        if (oldAmount === newAmount) {
+            setIsChangedError("No changes detected");
+            return;
+        }
+
+
+
         dispatch({
             type: 'EDITAMOUNTDETAILS', payload: {
                 hostelId: state.login.selectedHostel_Id,
@@ -400,14 +418,14 @@ function EditRentalAmount({ show, handleClose }) {
                                             }}
                                         >
                                             Effective From {" "}
-                                        <span
-                                            style={{
-                                                color: "red",
-                                                fontSize: "20px",
-                                            }}
-                                        >
-                                            *
-                                        </span>
+                                            <span
+                                                style={{
+                                                    color: "red",
+                                                    fontSize: "20px",
+                                                }}
+                                            >
+                                                *
+                                            </span>
 
                                         </Form.Label>
                                         <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
@@ -595,7 +613,9 @@ function EditRentalAmount({ show, handleClose }) {
                         ></div>
                     </div>}
 
-
+{
+                        IsChangedError && <div className="d-flex justify-content-center"> <ErrorMessage message={IsChangedError} type="error" /></div>
+                    }
 
 
                     <Modal.Footer style={{ border: "none", paddingTop: 0 }}>
@@ -619,7 +639,7 @@ function EditRentalAmount({ show, handleClose }) {
                                 Cancel
                             </Button>
 
-                            <Button  disabled={loading}
+                            <Button disabled={loading}
                                 onClick={handleSubmit}
                                 className="w-100 mt-1"
                                 style={{

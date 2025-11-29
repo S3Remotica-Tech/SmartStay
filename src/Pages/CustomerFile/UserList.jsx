@@ -225,7 +225,7 @@ function UserList(props) {
           type: "USERLIST",
           payload: { hostel_id: state.login.selectedHostel_Id },
         });
-        setLoading(true)
+      
       }
       else if (value === "3") {
         dispatch({

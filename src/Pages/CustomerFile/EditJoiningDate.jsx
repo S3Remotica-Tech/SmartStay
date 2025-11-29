@@ -23,6 +23,7 @@ function EditJoiningDate({ show, handleClose }) {
 
     const [effectiveFrom, setEffectiveFrom] = useState("");
     const [effectiveFromError, setEffectiveFromError] = useState("");
+    const [IsChangedError, setIsChangedError] = useState("");
     const [reason, setReason] = useState(null);
 
     const dateRef = useRef(null);
@@ -60,6 +61,7 @@ function EditJoiningDate({ show, handleClose }) {
     // };
 
     const handleReasonChange = (e) => {
+        setIsChangedError("");
         dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' })
         setReason(e.target.value);
     };
@@ -78,6 +80,7 @@ function EditJoiningDate({ show, handleClose }) {
 
 
     const handleEffectiveFromChange = (date, dateString) => {
+        setIsChangedError("");
         dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' })
         setEffectiveFrom(dateString);
         setEffectiveFromError("");
@@ -104,6 +107,7 @@ function EditJoiningDate({ show, handleClose }) {
 
 
     const handleSubmit = () => {
+        setIsChangedError("");
         dispatch({ type: 'REMOVE_TENANT_UPDATE_ERROR' })
         let isValid = true;
 
@@ -118,6 +122,13 @@ function EditJoiningDate({ show, handleClose }) {
 
 
         if (!isValid) return;
+        const oldDate = dayjs(CustomerOverView.hostelInfo.joiningDate, "DD/MM/YYYY").format("DD-MM-YYYY");
+        const newDate = dayjs(effectiveFrom, "DD/MM/YYYY").format("DD-MM-YYYY");
+
+        if (oldDate === newDate) {
+            setIsChangedError("No changes detected");
+            return;
+        }
         const formattedDate = dayjs(effectiveFrom, "DD/MM/YYYY").format("DD-MM-YYYY");
 
         dispatch({
@@ -365,7 +376,9 @@ function EditJoiningDate({ show, handleClose }) {
 
                     </Modal.Body>
 
-
+                    {
+                        IsChangedError && <div className="d-flex justify-content-center"> <ErrorMessage message={IsChangedError} type="error" /></div>
+                    }
                     {loading && <div
                         style={{
                             position: 'absolute',
@@ -414,7 +427,7 @@ function EditJoiningDate({ show, handleClose }) {
                                 Cancel
                             </Button>
 
-                            <Button  disabled={loading}
+                            <Button disabled={loading}
                                 onClick={handleSubmit}
                                 className="w-100 mt-1"
                                 style={{

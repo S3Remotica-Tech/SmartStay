@@ -69,7 +69,12 @@ console.log("params",params)
        if (params.additionalImages && params.additionalImages.length > 0) {
       params.additionalImages.forEach((img) => {
         if (img) {
-          console.log("img",img)
+                  
+      const sizeInMB = (img.size / (1024 * 1024)).toFixed(2);
+
+      console.log('Additional Image', img);
+      // console.log(`Size (bytes): ${sizeInBytes}`);
+      console.log(`Size (MB): ${sizeInMB} MB`);
           formData.append("additionalImages", img);
         }
       });

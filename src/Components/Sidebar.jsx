@@ -529,8 +529,9 @@ function Sidebar() {
 
 
   useEffect(() => {
-    if (hostelListDetail?.length > 0) {
+    if (hostelListDetail?.length > 0 && !initials) {
       const firstHostel = hostelListDetail[0];
+     
       setInitials(firstHostel.initials)
       setAllPageHostel_Id(firstHostel.hostelId);
       setPayingGuestName(firstHostel.name);
@@ -544,10 +545,7 @@ function Sidebar() {
 
       dispatch(StoreSelectedHostelAction(firstHostel.hostelId));
     }
-  }, [
-    state.login?.isLoggedIn,
-    state.UsersList.hosteListStatusCode,
-  ]);
+  }, [hostelListDetail]);
 
 
   // useEffect(() => {
@@ -586,35 +584,35 @@ function Sidebar() {
   const handleMouseLeave = () => setHoveredIcon(null);
 
 
-  useEffect(() => {
-    if (state?.login?.selectedHostel_Id) {
-      const accountList = state.createAccount?.accountList;
+  // useEffect(() => {
+  //   if (state?.login?.selectedHostel_Id) {
+  //     const accountList = state.createAccount?.accountList;
 
-      if (
-        accountList &&
-        accountList.length > 0 &&
-        accountList[0]?.plan_data &&
-        accountList[0].plan_data.length > 0
-      ) {
-        if (accountList[0].plan_data[0]?.plan_type === "trail") {
-          const trailPlanStatus = accountList[0].plan_data[0]?.status;
-          if (trailPlanStatus !== "") {
-            dispatch(setPlanStatus(trailPlanStatus));
-          }
-        } else {
-          const hostelDetails = accountList[0].plan_data[0]?.hostel_details || [];
+  //     if (
+  //       accountList &&
+  //       accountList.length > 0 &&
+  //       accountList[0]?.plan_data &&
+  //       accountList[0].plan_data.length > 0
+  //     ) {
+  //       if (accountList[0].plan_data[0]?.plan_type === "trail") {
+  //         const trailPlanStatus = accountList[0].plan_data[0]?.status;
+  //         if (trailPlanStatus !== "") {
+  //           dispatch(setPlanStatus(trailPlanStatus));
+  //         }
+  //       } else {
+  //         const hostelDetails = accountList[0].plan_data[0]?.hostel_details || [];
 
-          const particularHostelPlan = hostelDetails?.find(
-            (view) => view.id === state.login.selectedHostel_Id
-          );
+  //         const particularHostelPlan = hostelDetails?.find(
+  //           (view) => view.id === state.login.selectedHostel_Id
+  //         );
 
-          if (particularHostelPlan && particularHostelPlan.plan_status !== "") {
-            dispatch(setPlanStatus(particularHostelPlan.plan_status));
-          }
-        }
-      }
-    }
-  }, [state.login?.selectedHostel_Id]);
+  //         if (particularHostelPlan && particularHostelPlan.plan_status !== "") {
+  //           dispatch(setPlanStatus(particularHostelPlan.plan_status));
+  //         }
+  //       }
+  //     }
+  //   }
+  // }, [state.login?.selectedHostel_Id]);
 
   useEffect(() => {
     if (state.createAccount?.accountList?.roleId) {
