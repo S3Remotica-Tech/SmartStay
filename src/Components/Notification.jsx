@@ -12,7 +12,11 @@ export default function Notification({ show, handleClose }) {
 
     const [notification, setNotification] = useState('')
 
-
+useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      dispatch({ type: 'ALLNOTIFICATION', payload: state.login.selectedHostel_Id })
+    }
+  }, [state.login.selectedHostel_Id])
 
 
     useEffect(() => {
