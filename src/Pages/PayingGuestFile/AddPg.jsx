@@ -431,33 +431,20 @@ function AddPg({ show, handleClose, currentItem }) {
     };
 
     const isChanged =
-      pgName.trim() !== initialState.pgName.trim() ||
-      Number(mobile) !== Number(initialState.mobile) ||
-      email.trim() !== (initialState.email || "").trim() ||
-      house_no.trim() !== (initialState.house_no || "").trim() ||
-      street.trim() !== (initialState.street || "").trim() ||
-      landmark.trim() !== (initialState.landmark || "").trim() ||
-      city.trim() !== (initialState.city || "").trim() ||
-      String(pincode).trim() !== String(initialState.pincode || "").trim() ||
-      state_name !== (initialState.state || "") ||
-      file !== null ||
-      images.some((img) => img.isChanged === true);
+  String(pgName || "").trim() !== String(initialState.pgName || "").trim() ||
+  Number(mobile || 0) !== Number(initialState.mobile || 0) ||
+  String(email || "").trim() !== String(initialState.email || "").trim() ||
+  String(house_no || "").trim() !== String(initialState.house_no || "").trim() ||
+  String(street || "").trim() !== String(initialState.street || "").trim() ||
+  String(landmark || "").trim() !== String(initialState.landmark || "").trim() ||
+  String(city || "").trim() !== String(initialState.city || "").trim() ||
+  String(pincode || "").trim() !== String(initialState.pincode || "").trim() ||
+  String(state_name || "") !== String(initialState.state || "") ||
+  file !== null ||
+  images.some((img) => img?.isChanged === true);
 
-    console.log("PG NAME:", pgName.trim(), initialState.pgName.trim());
-    console.log("MOBILE:", Number(mobile), Number(initialState.mobile));
-    console.log("EMAIL:", email.trim(), (initialState.email || "").trim());
-    console.log("COUNTRY CODE:", countryCode, initialState.countryCode);
-    console.log("HOUSE:", house_no.trim(), (initialState.house_no || "").trim());
-    console.log("STREET:", street.trim(), (initialState.street || "").trim());
-    console.log("LANDMARK:", landmark.trim(), (initialState.landmark || "").trim());
-    console.log("CITY:", city.trim(), (initialState.city || "").trim());
-    console.log("PIN:", String(pincode).trim(), String(initialState.pincode || "").trim());
-    console.log("STATE:", state_name, initialState.state);
-    console.log("FILE:", file);
-    console.log("INITIAL FILE:", initialState.file);
-    console.log("IMAGES:", images);
-    console.log("INITIAL IMAGES:", initialState.imageUrls);
-    console.log("IS CHANGED = ", isChanged);
+
+  
 
 
     if (currentItem && !isChanged) {
@@ -514,6 +501,7 @@ function AddPg({ show, handleClose, currentItem }) {
       setFormLoading(true)
     }
     else {
+      console.log("callededed else")
       dispatch({
         type: "CREATEPG",
         payload: {

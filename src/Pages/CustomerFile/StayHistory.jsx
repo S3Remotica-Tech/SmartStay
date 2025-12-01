@@ -33,7 +33,7 @@ function StayHistory({ show, handleClose }) {
   }, [state.UsersList.customerdetails.bedHistory])
 
 
- 
+
 
   return (
     <div className="modal show" style={{
@@ -130,12 +130,17 @@ function StayHistory({ show, handleClose }) {
                         verticalAlign: "middle",
                         whiteSpace: "nowrap"
                       }}>
-                        {`${dayjs(row.startDate, "DD/MM/YYYY").format("DD MMM YYYY")} - ${row.endDate === "Till date"
+                        {`${row.startDate && row.startDate !== "NA"
+                          ? dayjs(row.startDate, "DD/MM/YYYY").format("DD MMM YYYY")
+                          : "N/A"
+                          } - ${row.endDate === "Till date"
                             ? "Till date"
-                            : row.endDate
+                            : row.endDate && row.endDate !== "NA"
                               ? dayjs(row.endDate, "DD/MM/YYYY").format("DD MMM YYYY")
                               : "N/A"
                           }`}
+
+
 
 
                       </td>
