@@ -74,7 +74,7 @@ import ManualDocumentsUpload from "./ManualDocumentsUpload";
 import ParentsGuardian from "./Parents&Guardian";
 import KYCDocuments from "./KYCDocuments";
 import ManualDocumentsDetails from "./ManualDocumentsDetails";
-
+import withErrorBoundary from "../../Hoc/WithErrorBountry"; 
 
 function UserListRoomDetail(props) {
   const state = useSelector((state) => state);
@@ -4223,7 +4223,7 @@ useEffect(() => {
 
                       >
                         <Button
-                          disabled={!canWriteAmenities || state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" || state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" || state.UsersList.customerdetails?.customerCurrentStatus === "VACATED"}
+                          disabled={!canWriteAmenities || state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" || state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" || state.UsersList.customerdetails?.customerCurrentStatus === "VACATED" ||  state.UsersList.customerdetails?.customerCurrentStatus === "SETTLEMENT_GENERATED"}
 
                           style={{
                             backgroundColor: "#1E45E1",
@@ -6469,4 +6469,4 @@ UserListRoomDetail.propTypes = {
   onAddItem: PropTypes.func.isRequired,
   userData: PropTypes.func.isRequired,
 };
-export default UserListRoomDetail;
+export default withErrorBoundary(UserListRoomDetail);

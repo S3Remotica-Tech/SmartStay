@@ -34,6 +34,7 @@ import noticeimg from "../Assets/Images/New_images/noticeperiodimg.png";
 import ParticularHostelDetails from "./PayingGuestFile/ParticularHostelDetails";
 import ErrorMessage from '../Components/ErrorMessage'
 import { useHasPermission } from '../Utils/Permission';
+import withErrorBoundary from "../Hoc/WithErrorBountry";
 
 
 function SettingManage() {
@@ -62,6 +63,17 @@ function SettingManage() {
     canDeleteModule: canDeletePayingGuests,
   } = useHasPermission("Paying Guests");
 
+
+
+
+
+
+
+
+
+
+
+  
   useEffect(() => {
     if (!canReadPayingGuests) {
       setLoading(false);
@@ -1346,4 +1358,4 @@ SettingManage.propTypes = {
   setPgshow: PropTypes.func.isRequired,
   pgshow: PropTypes.func.isRequired,
 };
-export default SettingManage;
+export default withErrorBoundary(SettingManage);

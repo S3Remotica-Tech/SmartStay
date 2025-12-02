@@ -15,9 +15,12 @@ import { toast } from 'react-toastify';
 import './SettingNewRole.css';
 import { useHasPermission } from '../Utils/Permission';
 import ErrorMessage from '../Components/ErrorMessage'
+import withErrorBoundary from "../Hoc/WithErrorBountry";
 
 
 function SettingNewRole() {
+
+ 
 
   const state = useSelector(state => state)
   const dispatch = useDispatch();
@@ -628,4 +631,4 @@ useEffect(() => {
 SettingNewRole.propTypes = {
   hostelid: PropTypes.func.isRequired,
 };
-export default SettingNewRole;
+export default withErrorBoundary(SettingNewRole);

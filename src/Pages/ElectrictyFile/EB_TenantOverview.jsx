@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import verify from "../../Assets/Images/New_images/verify.svg";
 import Bed from "../../Assets/Images/New_images/Bed.svg";
-
+import withErrorBoundary from "../../Hoc/WithErrorBountry"; 
 
 const EBTenantOverview = ({ tenant, onBack }) => {
 
@@ -444,4 +444,4 @@ const formattedTenantReadings = (tenantReadingList?.electricityHistory || []).ma
 EBTenantOverview.propTypes = {
     onBack: PropTypes.func.isRequired,
 };
-export default EBTenantOverview;
+export default withErrorBoundary(EBTenantOverview);

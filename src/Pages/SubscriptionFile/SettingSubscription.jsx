@@ -19,6 +19,8 @@ import PaginationList from '../../Components/PaginationList';
 import ErrorMessage from '../../Components/ErrorMessage';
 import { useHasPermission } from '../../Utils/Permission';
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
+
 
 function SettingSubscription() {
   const state = useSelector((state) => state);
@@ -1313,4 +1315,4 @@ function SettingSubscription() {
 
   );
 }
-export default SettingSubscription;
+export default withErrorBoundary(SettingSubscription);

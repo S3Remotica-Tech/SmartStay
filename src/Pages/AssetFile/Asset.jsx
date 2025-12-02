@@ -18,7 +18,7 @@ import Select from "react-select";
 import PaginationList from '../../Components/PaginationList';
 import ErrorMessage from '../../Components/ErrorMessage';
 import { useHasPermission } from '../../Utils/Permission';
-
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
 function Asset() {
 
@@ -66,7 +66,6 @@ function Asset() {
       setLoading(true);
     }
   }, [canReadAssets]);
-
 
 
 
@@ -1125,4 +1124,4 @@ style={{cursor: canReadAssets ? "pointer" : "not-allowed",
   )
 }
 
-export default Asset;
+export default withErrorBoundary(Asset);

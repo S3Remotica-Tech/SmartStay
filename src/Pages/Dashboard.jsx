@@ -21,7 +21,8 @@ import Box from "@mui/material/Box";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { MdWarningAmber } from "react-icons/md";
-import ErrorMessage from '../Components/ErrorMessage'
+import ErrorMessage from '../Components/ErrorMessage';
+import withErrorBoundary from "../Hoc/WithErrorBountry"; 
 
 import {
   LineChart,
@@ -98,6 +99,9 @@ function Dashboard() {
 
 
 
+// useEffect(() => {
+//   throw new Error("Test HOC Error Boundary");
+// }, []);
 
 
   const monthNames = [
@@ -1643,4 +1647,4 @@ Dashboard.propTypes = {
   billAddPermission: PropTypes.func.isRequired,
 };
 
-export default Dashboard;
+export default withErrorBoundary(Dashboard);

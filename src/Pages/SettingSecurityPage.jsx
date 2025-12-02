@@ -7,11 +7,13 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import Button from 'react-bootstrap/Button';
 import './SettingSecurityPage.css';
+import withErrorBoundary from "../Hoc/WithErrorBountry";
 
  const Profile_Security = () => {
 
     const state = useSelector(state => state)
     const dispatch = useDispatch();
+
 
 
 
@@ -212,4 +214,4 @@ style={{
     
     )
  }
- export default Profile_Security;
+ export default withErrorBoundary(Profile_Security);

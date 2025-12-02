@@ -28,8 +28,10 @@ import dayjs from 'dayjs';
 import { CloseCircle } from "iconsax-react";
 import ErrorMessage from '../Components/ErrorMessage';
 import { useHasPermission } from '../Utils/Permission';
+import withErrorBoundary from "../Hoc/WithErrorBountry";
 
 const Compliance = () => {
+
 
   const state = useSelector(state => state)
   const dispatch = useDispatch()
@@ -200,7 +202,7 @@ const Compliance = () => {
 
 
 
-console.log("state",state)
+
 
   useEffect(() => {
     const userType = compliancerolePermission[0]?.user_details?.user_type
@@ -561,7 +563,6 @@ console.log("state",state)
 
   const [selectedUsername, setSelectedUserName] = useState('')
 
-console.log("selectedUsername",selectedUsername)
   useEffect(() => {
     if (selectedUsername) {
       const filteredDetails = state.UsersList.Users.filter(item => {
@@ -776,7 +777,7 @@ console.log("selectedUsername",selectedUsername)
 
 
   const handleEditcomplaint = (Complaintdata) => {
-console.log("Complaintdata",Complaintdata)
+
     setEdit(true)
 
  dispatch({ type: "USERLIST", payload: { hostel_id: hosId } });
@@ -1975,4 +1976,4 @@ Compliance.propTypes = {
   onClick: PropTypes.func.isRequired,
   value: PropTypes.func.isRequired,
 };
-export default Compliance;
+export default withErrorBoundary(Compliance);

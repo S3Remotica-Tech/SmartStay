@@ -27,14 +27,14 @@ function UserlistForm(props) {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [recheckinbedname, setRecheckinbedName] = useState("")
-  
+
   const [Floor, setFloor] = useState("");
   const [Rooms, setRooms] = useState("");
   const [Bed, setBed] = useState("");
   const [RoomRent, setRoomRent] = useState("");
   const [placeHolderRoomRent, setPlaceHolderRoomRent] = useState("");
-    const [AdvanceAmount, setAdvanceAmount] = useState("");
- 
+  const [AdvanceAmount, setAdvanceAmount] = useState("");
+
   const [selectedDate, setSelectedDate] = useState(null);
   const [floorError, setfloorError] = useState("");
   const [roomError, setRoomError] = useState("");
@@ -42,7 +42,7 @@ function UserlistForm(props) {
   const [advanceAmountError, setAdvanceAmountError] = useState("");
   const [roomrentError, setRoomRentError] = useState("");
 
-  
+
   const [joiningDateErrmsg, setJoingDateErrmsg] = useState('');
   const [formLoading, setFormLoading] = useState(false)
 
@@ -52,7 +52,7 @@ function UserlistForm(props) {
   const [reason, setReason] = useState("");
   const [recheckInDate, setRecheckInDate] = useState("");
   const [activeTab, setActiveTab] = useState("LONG");
- 
+
 
   const [availableBed, setAvailableBed] = useState('')
   const [bedWarning, setBedWarning] = useState('')
@@ -64,14 +64,14 @@ function UserlistForm(props) {
 
 
 
-  
- 
+
+
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const calendarRef = useRef(null);
   const [dateError, setDateError] = useState("");
 
- 
+
 
   const handleRemoveField = (index) => {
     const updatedFields = [...fields];
@@ -127,7 +127,6 @@ function UserlistForm(props) {
 
   }, [state.UsersList.floorListStatusCode])
 
- 
 
 
 
@@ -135,64 +134,8 @@ function UserlistForm(props) {
 
 
 
-  const validateAssignField = (value, fieldName) => {
-    if (
-      !value ||
-      value === "Selected Floor" ||
-      value === "Selected Room" ||
-      value === "Selected Bed"
-    ) {
-      switch (fieldName) {
-        case "Floor":
-          setfloorError("Please Select Floor");
-          break;
-        case "Rooms":
-          setRoomError("Please Select Room");
-          break;
-        case "Bed":
-          setBedError("Please Select Bed");
-          break;
-        case "selectedDate":
-          setDateError("Please Select Joining Date");
-          break;
-        case "AdvanceAmount":
-          setAdvanceAmountError("Please Enter Advance Amount");
-          break;
-        case "RoomRent":
-          setRoomRentError("Please Enter Rental Amount");
-          break;
 
-        default:
-          break;
-      }
-      return false;
-    } else {
-      switch (fieldName) {
-        case "Floor":
-          setfloorError("");
-          break;
-        case "Rooms":
-          setRoomError("");
-          break;
-        case "Bed":
-          setBedError("");
-          break;
-        case "selectedDate":
-          setDateError("");
-          break;
-        case "AdvanceAmount":
-          setAdvanceAmountError("");
-          break;
-        case "RoomRent":
-          setRoomRentError("");
-          break;
 
-        default:
-          break;
-      }
-      return true;
-    }
-  };
 
   const handleFloor = (selectedOption) => {
     setFloor(selectedOption?.value || "");
@@ -204,7 +147,7 @@ function UserlistForm(props) {
 
   const handleRooms = (selectedValue) => {
     setRooms(selectedValue);
-
+setBed('');
 
     setRoomRent("");
     setRoomError("");
@@ -230,14 +173,14 @@ function UserlistForm(props) {
     const selectedBedId = selectedOption?.value || "";
     setBed(selectedBedId);
 
-    const selectedBed = state.UsersList?.availableBedList?.listBeds?.find(
-      (bed) => String(bed.bedId) === String(selectedBedId)
-    );
+    // const selectedBed = state.UsersList?.availableBedList?.listBeds?.find(
+    //   (bed) => String(bed.bedId) === String(selectedBedId)
+    // );
 
-   
+
 
     setBedError("");
-   
+
   };
 
   useEffect(() => {
@@ -256,35 +199,35 @@ function UserlistForm(props) {
       }
 
       setBedError("");
-     
+
     }
 
   }, [Bed])
 
 
- const handleRoomRent = (e) => {
-  const value = e.target.value;
+  const handleRoomRent = (e) => {
+    const value = e.target.value;
 
 
-  if (value === "" || /^[1-9]\d*$/.test(value)) {
-    setRoomRent(value);
-    setRoomRentError("");
-  }
-};
+    if (value === "" || /^[1-9]\d*$/.test(value)) {
+      setRoomRent(value);
+      setRoomRentError("");
+    }
+  };
 
 
 
- const handleAdvanceAmount = (e) => {
-  const value = e.target.value;
+  const handleAdvanceAmount = (e) => {
+    const value = e.target.value;
 
-if (value === "" || /^[1-9]\d*$/.test(value)) {
-    setAdvanceAmount(value);
-    setAdvanceAmountError("");
-  }
-};
+    if (value === "" || /^[1-9]\d*$/.test(value)) {
+      setAdvanceAmount(value);
+      setAdvanceAmountError("");
+    }
+  };
 
 
-  
+
 
 
   const [advanceDate, setAdvanceDate] = useState(null);
@@ -292,7 +235,7 @@ if (value === "" || /^[1-9]\d*$/.test(value)) {
   const [advanceDateError, setAdvanceDateError] = useState("");
   const [advanceDueDateError, setAdvanceDueDateError] = useState("");
 
- 
+
   const handleCloseAssign = () => {
     dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR' })
     dispatch({ type: "CLEAR_PHONE_ERROR" });
@@ -310,20 +253,20 @@ if (value === "" || /^[1-9]\d*$/.test(value)) {
 
   useEffect(() => {
     if (props.EditObj && props.EditObj.customerId) {
-        setId(props.EditObj.customerId);
+      setId(props.EditObj.customerId);
       if (props.EditObj.profilePic === 0) setFile(null);
       else {
         setFile(props.EditObj.profilePic);
       }
 
-      
+
       setFirstname(props.EditObj?.firstName);
       setLastname(props.EditObj?.lastName);
-     
+
       setRooms(props.EditObj.Rooms);
-     
+
     } else {
-     
+
       if (typeof props.setEdit === "function") {
         props.setEdit("Add");
       }
@@ -334,58 +277,74 @@ if (value === "" || /^[1-9]\d*$/.test(value)) {
 
 
 
-
-
+  
 
 
 
 
   const handleSaveUserlistAddUser = async () => {
 
-    let hasReasonAmountError = false;
+
     let newErrors = [];
+    let isHasError = false;
 
 
-    if (!validateAssignField(Floor, "Floor"));
-    if (!validateAssignField(Rooms, "Rooms"));
-    if (!validateAssignField(Bed, "Bed"));
-    if (!validateAssignField(selectedDate, "selectedDate"));
-    if (!validateAssignField(AdvanceAmount, "AdvanceAmount"));
-    if (!validateAssignField(RoomRent, "RoomRent"));
+    if (!Floor) {
+      setfloorError("Please Select Floor");
+      isHasError = true;
+    }
+    if (!Rooms) {
+      setRoomError("Please Select Room");
+      isHasError = true;
+    }
+    if (!Bed) {
+      setBedError("Please Select Bed");
+      isHasError = true;
+    }
+    if (!selectedDate) {
+      setDateError("Please Select Date");
+      isHasError = true;
+    }
+    if (!AdvanceAmount) {
+      setAdvanceAmountError("Please Enter Advance Amount");
+      isHasError = true;
+    }
+
+    if (!RoomRent) {
+      setRoomRentError("Please Enter Room Rent");
+      isHasError = true;
+    }
 
     if (Floor === "Selected Floor" || floorError) {
       setfloorError("Please Select Floor");
-      return;
+      isHasError = true;
     }
     if (Rooms === "Selected Room" || roomError) {
       setRoomError("Please Select Room");
-      return;
+      isHasError = true;
     }
-    if (Bed === "Selected Bed" || bedError) {
-      setBedError("Please Select Bed");
-      return;
-    }
+
 
     if (RoomRent === "" || RoomRent === null || RoomRent === undefined) {
       setRoomRentError("Please Enter Rental Amount");
-      return;
+      isHasError = true;
     }
     if (Number(RoomRent) <= 0) {
-      setRoomRentError("Please Enter Valid Rental Amount");
-      return;
+      setRoomRentError("Please Enter  Rental Amount");
+      isHasError = true;
     }
-
+   
     if (
       AdvanceAmount === "" ||
       AdvanceAmount === null ||
       AdvanceAmount === undefined
     ) {
       setAdvanceAmountError("Please Enter Advance Amount");
-      return;
+      isHasError = true;
     }
     if (Number(AdvanceAmount) <= 0) {
-      setAdvanceAmountError("Please Enter Valid Advance Amount");
-      return;
+      setAdvanceAmountError("Please Enter  Advance Amount");
+      isHasError = true;
     }
     const formattedReasons = fields.map((item) => {
       let reason_name = "";
@@ -399,13 +358,13 @@ if (value === "" || /^[1-9]\d*$/.test(value)) {
       const error = { reason: "", amount: "" };
       if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
         error.amount = "Please enter amount";
-        hasReasonAmountError = true;
+        isHasError = true;
       }
 
 
       if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
         error.reason = "Please enter reason";
-        hasReasonAmountError = true;
+        isHasError = true;
       }
 
       newErrors.push(error);
@@ -417,7 +376,7 @@ if (value === "" || /^[1-9]\d*$/.test(value)) {
 
     setErrors(newErrors)
 
-    if (hasReasonAmountError) return;
+    if (isHasError) return;
 
     const incrementDateAndFormat = (date) => {
       const newDate = new Date(date);
@@ -445,10 +404,7 @@ if (value === "" || /^[1-9]\d*$/.test(value)) {
 
 
     if (
-      Floor !== "Selected Floor" &&
-      Rooms !== "Selected Room" &&
-      Bed !== "Selected Bed" &&
-      Floor && Rooms && Bed &&
+           Floor && Rooms && Bed &&
       selectedDate &&
       Number(AdvanceAmount) > 0 &&
       Number(RoomRent) > 0
@@ -505,16 +461,16 @@ if (value === "" || /^[1-9]\d*$/.test(value)) {
         setFirstname("");
         setLastname("");
       }
-     
+
       setRooms(props.EditObj.booking_room_id);
       setBed(props.EditObj.booking_bed_id)
-     
+
       setFloor(props.EditObj.booking_floor_id)
       setSelectedDate(props.EditObj.booking_joining_date)
       setBookingFloorId(props.EditObj.Booking_FloorName)
       setBookingRoomId(props.EditObj.booking_room_id)
       setBookingBedId(props.EditObj.booking_bed_id)
-     
+
       setFile(props.EditObj.profile)
 
 
@@ -534,13 +490,13 @@ if (value === "" || /^[1-9]\d*$/.test(value)) {
         setRoomRent(Roomamountfilter[0]?.bed_amount);
       }
 
-     
+
 
 
     }
 
   }, [props.BookingAssignForm]);
- 
+
 
 
 
@@ -553,7 +509,7 @@ if (value === "" || /^[1-9]\d*$/.test(value)) {
       setLoading(false)
       if (props?.setShowForm) props.setShowForm(false);
       if (props?.OnShowTable) props.OnShowTable(true);
-     
+
       if (props.edit === "Edit") {
         if (props?.setRoomDetail) props.setRoomDetail(true);
         if (props?.OnShowTable) props.OnShowTable(true);
@@ -714,58 +670,25 @@ if (value === "" || /^[1-9]\d*$/.test(value)) {
         setFirstname("");
         setLastname("");
       }
-      // setHouseNo(props?.EditObj?.Address?.trim() || props?.customer_details?.Name?.trim());
-      // setStreet(props?.EditObj?.area?.trim() || props?.customer_details?.area?.trim());
-      // setLandmark(props?.EditObj?.landmark?.trim() || props?.customer_details?.landmark?.trim());
-      // setCity(props?.EditObj?.city?.trim() || props?.customer_details?.city?.trim());
-      // setPincode(props.EditObj?.pincode || props?.customer_details?.pincode);
-      // setStateName(props.EditObj?.state || props?.customer_details?.state);
-      // setAadharNo(props.EditObj?.AadharNo || props?.customer_details?.AadharNo);
-      // setPancardNo(props.EditObj?.PancardNo || props?.customer_details?.PancardNo);
-      // setLicence(props.EditObj?.licence || props?.customer_details?.licence);
-      // setPhone(props.EditObj?.Phone || props?.customer_details?.Phone);
-      // setEmail(props.EditObj?.Email || props?.customer_details?.Email);
-      // setHostelName(props.EditObj?.HostelName || props?.customer_details?.HostelName);
+
       setRecheckinbedName(props?.EditObj?.Bed || props?.customer_details?.Bed)
 
-      // setHostel_Id(props.EditObj?.Hostel_Id || props?.customer_details?.Hostel_Id);
       setRooms(props?.EditObj?.hstl_Rooms || props?.customer_details?.hstl_Rooms);
       setBed(props?.EditObj?.hstl_Bed || props?.customer_details?.hstl_Bed)
-      // setPaymentType(props.EditObj?.PaymentType || props?.customer_details?.PaymentType);
 
-      // setBalanceDue(props.EditObj?.BalanceDue || props?.customer_details?.BalanceDue);
-      // setPaidAdvance(props.EditObj?.paid_advance || props?.customer_details?.paid_advance);
       setFloor(props.EditObj?.Floor || props?.customer_details?.Floor)
       setSelectedDate(props.EditObj?.joining_Date || props?.customer_details?.joining_Date)
 
       setBookingFloorId(props.EditObj?.floor_name || props?.customer_details?.floor_name)
       setBookingRoomId(props.EditObj?.Room_Id || props?.customer_details?.Room_Id)
       setBookingBedId(props.EditObj?.Bed || props?.customer_details?.Bed)
-      // setBookingAmount(props.EditObj?.pending_advance || props?.customer_details?.pending_advance)
       setAdvanceAmount(props.EditObj?.AdvanceAmount || props?.customer_details?.AdvanceAmount)
       setRoomRent(props.EditObj?.RoomRent || props?.customer_details?.RoomRent)
-      // setBookingDate(props.EditObj?.booking_booking_date || props?.customer_details?.booking_booking_date)
       if (props.EditObj?.req_date || props.customer_details?.req_date) {
         setRequestDate(dayjs(props.EditObj?.req_date || props.customer_details?.req_date));
       }
     }
-    //   if ( (props?.EditObj && Array.isArray(props.EditObj?.reasonData)) ||
-    //   (props?.customer_details && Array.isArray(props?.customer_details?.reasonData))) {
 
-    //   const formattedFields = props.EditObj?.reasonData.map((entry) => {
-    //     const isCustom = String(entry.reason) !== "maintenance";
-
-    //     return {
-    //       reason_name: entry.reason,
-    //       amount: entry.amount || "",
-    //       showInput: isCustom,
-    //       customReason: isCustom ? entry.reason : "",
-    //       id: entry.id || ""
-    //     };
-    //   });
-
-    //   setFields(formattedFields);
-    // }
 
     const reasonData =
       Array.isArray(props?.EditObj?.reasonData) && props.EditObj.reasonData.length > 0
@@ -1020,31 +943,31 @@ if (value === "" || /^[1-9]\d*$/.test(value)) {
                 <div className="d-flex align-items-center gap-3 mb-3 ms-3">
 
                   {file &&
-                                    file !== "0" ? (
-                                    <Image
-                                        src={file}
-                                        roundedCircle
-                                        style={{ height: 50, width: 50 }}
-                                        alt="image"
-                                    />
-                                ) : (
-                                    <div
-                                        style={{
-                                            height: 50,
-                                            width: 50,
-                                            borderRadius: "50%",
-                                            backgroundColor: "#1E45E1",
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            alignItems: "center",
-                                            fontSize: 20,
-                                            fontWeight: "600",
-                                            color: "white", fontFamily: "Gilroy"
-                                        }}
-                                    >
-                                        {props.EditObj?.initials || "-"}
-                                    </div>
-                                )}
+                    file !== "0" ? (
+                    <Image
+                      src={file}
+                      roundedCircle
+                      style={{ height: 50, width: 50 }}
+                      alt="image"
+                    />
+                  ) : (
+                    <div
+                      style={{
+                        height: 50,
+                        width: 50,
+                        borderRadius: "50%",
+                        backgroundColor: "#1E45E1",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        fontSize: 20,
+                        fontWeight: "600",
+                        color: "white", fontFamily: "Gilroy"
+                      }}
+                    >
+                      {props.EditObj?.initials || "-"}
+                    </div>
+                  )}
 
                   <div>
                     <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px", fontFamily: "Gilroy" }}>
@@ -1500,7 +1423,7 @@ if (value === "" || /^[1-9]\d*$/.test(value)) {
                           </Form.Label>
                           <FormControl
                             type="text"
-                             value={RoomRent}   
+                            value={RoomRent}
                             placeholder={
                               placeHolderRoomRent
                                 ? `Selected Bed Rent is ${placeHolderRoomRent}`
@@ -1650,10 +1573,10 @@ if (value === "" || /^[1-9]\d*$/.test(value)) {
                                       ...base,
                                       cursor: state.isDisabled ? "not-allowed" : "pointer",
                                       backgroundColor: state.isFocused
-                                                                            ? "#E7F1FF"
-                                                                            : state.isDisabled
-                                                                                ? "#f0f0f0"
-                                                                                : "#fff",
+                                        ? "#E7F1FF"
+                                        : state.isDisabled
+                                          ? "#f0f0f0"
+                                          : "#fff",
                                       color: state.isDisabled ? "#aaa" : "#000",
                                     }),
                                   }}

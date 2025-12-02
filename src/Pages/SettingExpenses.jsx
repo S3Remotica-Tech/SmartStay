@@ -18,6 +18,8 @@ import { useHasPermission } from '../Utils/Permission';
 import AddCategory from './Settings/AddCategory';
 import { toast } from 'react-toastify';
 import AddSubCategory from './Settings/AddSubCategory';
+import withErrorBoundary from "../Hoc/WithErrorBountry";
+
 function SettingExpenses() {
 
   const state = useSelector(state => state)
@@ -904,4 +906,4 @@ function SettingExpenses() {
 SettingExpenses.propTypes = {
   hostelid: PropTypes.func.isRequired
 };
-export default SettingExpenses;
+export default withErrorBoundary(SettingExpenses);

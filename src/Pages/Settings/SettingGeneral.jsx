@@ -27,6 +27,8 @@ import '../SettingGeneral.css';
 import ErrorMessage from '../../Components/ErrorMessage'
 import { useHasPermission } from '../../Utils/Permission';
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
+
 
 function SettingGeneral() {
   const state = useSelector((state) => state);
@@ -38,6 +40,7 @@ function SettingGeneral() {
 
   const [showFormGeneral, setShowFormGeneral] = useState(false);
   const [file, setFile] = useState(null);
+
 
 
 
@@ -2695,7 +2698,7 @@ const regex = /^[a-zA-Z0-9 .,'/#()&:-]*$/;
     </>
   );
 }
-export default SettingGeneral;
+export default withErrorBoundary(SettingGeneral);
 
 
 

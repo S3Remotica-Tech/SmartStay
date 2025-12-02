@@ -9,7 +9,9 @@ import {CloseCircle} from "iconsax-react";
 import searchteam from "../Assets/Images/New_images/Search Team.png";
 
 import { useHasPermission } from '../Utils/Permission';
-import ErrorMessage from '../Components/ErrorMessage'
+import ErrorMessage from '../Components/ErrorMessage';
+import withErrorBoundary from "../Hoc/WithErrorBountry";
+
 
 
 function SettingAgreement() {
@@ -451,4 +453,4 @@ const {
   );
 }
 
-export default SettingAgreement;
+export default withErrorBoundary(SettingAgreement);

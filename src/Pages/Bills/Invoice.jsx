@@ -52,7 +52,7 @@ import ErrorMessage from '../../Components/ErrorMessage'
 import { useHasPermission } from '../../Utils/Permission';
 import { HiMiniBars3BottomLeft } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
-
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
 
 const InvoicePage = () => {
@@ -5759,4 +5759,4 @@ InvoicePage.propTypes = {
   value: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
 };
-export default InvoicePage;
+export default withErrorBoundary(InvoicePage);

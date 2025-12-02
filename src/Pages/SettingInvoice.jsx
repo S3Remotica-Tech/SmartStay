@@ -37,12 +37,24 @@ import { RiPercentLine } from "react-icons/ri";
 import { FiCode } from "react-icons/fi";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { BsQrCode } from "react-icons/bs";
+import withErrorBoundary from "../Hoc/WithErrorBountry";
+
 function SettingInvoice({ hostelid,  handleFormPage }) {
 
 
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
 
+
+
+
+
+
+
+
+
+
+  
   const [selectedDate, setSelectedDate] = useState(null);
   const [invoicedueDate, setInvoiceDueDate] = useState('');
   
@@ -3693,4 +3705,4 @@ SettingInvoice.propTypes = {
   // setIsInvoiceAddMode: PropTypes.func.isRequired,
   handleFormPage: PropTypes.func.isRequired,
 }
-export default SettingInvoice;
+export default withErrorBoundary(SettingInvoice);

@@ -15,7 +15,7 @@ import "./SettingCompliance.css";
 import { toast } from 'react-toastify';
 import ErrorMessage from '../Components/ErrorMessage';
 import { useHasPermission } from '../Utils/Permission';
-
+import withErrorBoundary from "../Hoc/WithErrorBountry";
 function SettingCompliance() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
@@ -38,6 +38,7 @@ function SettingCompliance() {
   const [compliancecurrentPage, setCompliancecurrentPage] = useState(1);
   const [planExpiredCompliance, setPlanExpiredCompliance] = useState("");
   const [formLoading, setFormLoading] = useState(false)
+
 
 
 
@@ -1102,4 +1103,4 @@ SettingCompliance.propTypes = {
   hostelid: PropTypes.func.isRequired,
 };
 
-export default SettingCompliance;
+export default withErrorBoundary(SettingCompliance);

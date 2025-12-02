@@ -17,9 +17,11 @@ import send from "../Assets/Images/send.svg";
 import PropTypes from "prop-types";
 import ErrorMessage from '../Components/ErrorMessage'
 import { useHasPermission } from '../Utils/Permission';
+import withErrorBoundary from "../Hoc/WithErrorBountry";
+
+
+
 function DashboardAnnouncement(props) {
-
-
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(6);
@@ -1952,4 +1954,4 @@ DashboardAnnouncement.propTypes = {
 
 };
 
-export default DashboardAnnouncement;
+export default withErrorBoundary(DashboardAnnouncement);

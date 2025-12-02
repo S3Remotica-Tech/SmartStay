@@ -18,6 +18,7 @@ import './VendorListMap.css';
 import { useMediaQuery, useTheme } from '@mui/material'
 import ErrorMessage from '../../Components/ErrorMessage';
 import { useHasPermission } from '../../Utils/Permission';
+import withErrorBoundary from "../../Hoc/WithErrorBountry"; 
 
 function Vendor() {
 
@@ -29,7 +30,7 @@ function Vendor() {
   const [loading, setLoading] = useState(false)
   const [currentItem, setCurrentItem] = useState('')
 
-  
+
 const {
     canWriteModule: canWriteVendor,
     canReadModule: canReadVendor,
@@ -701,4 +702,4 @@ const {
   )
 }
 
-export default Vendor;
+export default withErrorBoundary(Vendor);

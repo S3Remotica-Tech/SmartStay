@@ -38,6 +38,7 @@ import RoomImage from "../../Assets/Images/room_icon.png";
 import { triggerPG } from '../../Redux/Action/smartStayAction';
 import ErrorMessage from '../../Components/ErrorMessage'
 import { useHasPermission } from '../../Utils/Permission';
+import withErrorBoundary from "../../Hoc/WithErrorBountry"; 
 
 function PgList() {
   const dispatch = useDispatch();
@@ -70,9 +71,6 @@ function PgList() {
     canUpdateModule: canUpdatePayingGuests,
     canDeleteModule: canDeletePayingGuests,
   } = useHasPermission("Paying Guests");
-
-
-
 
 
 
@@ -1411,4 +1409,4 @@ console.log("state.PgList",state.PgList)
 PgList.propTypes = {
   displaysettings: PropTypes.func.isRequired,
 };
-export default PgList;
+export default withErrorBoundary(PgList);
