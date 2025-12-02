@@ -61,7 +61,7 @@ function UserlistForm(props) {
   const [fields, setFields] = useState([]);
 
 
-
+console.log("availableBed",availableBed)
 
 
   
@@ -714,58 +714,25 @@ if (value === "" || /^[1-9]\d*$/.test(value)) {
         setFirstname("");
         setLastname("");
       }
-      // setHouseNo(props?.EditObj?.Address?.trim() || props?.customer_details?.Name?.trim());
-      // setStreet(props?.EditObj?.area?.trim() || props?.customer_details?.area?.trim());
-      // setLandmark(props?.EditObj?.landmark?.trim() || props?.customer_details?.landmark?.trim());
-      // setCity(props?.EditObj?.city?.trim() || props?.customer_details?.city?.trim());
-      // setPincode(props.EditObj?.pincode || props?.customer_details?.pincode);
-      // setStateName(props.EditObj?.state || props?.customer_details?.state);
-      // setAadharNo(props.EditObj?.AadharNo || props?.customer_details?.AadharNo);
-      // setPancardNo(props.EditObj?.PancardNo || props?.customer_details?.PancardNo);
-      // setLicence(props.EditObj?.licence || props?.customer_details?.licence);
-      // setPhone(props.EditObj?.Phone || props?.customer_details?.Phone);
-      // setEmail(props.EditObj?.Email || props?.customer_details?.Email);
-      // setHostelName(props.EditObj?.HostelName || props?.customer_details?.HostelName);
+    
       setRecheckinbedName(props?.EditObj?.Bed || props?.customer_details?.Bed)
 
-      // setHostel_Id(props.EditObj?.Hostel_Id || props?.customer_details?.Hostel_Id);
       setRooms(props?.EditObj?.hstl_Rooms || props?.customer_details?.hstl_Rooms);
       setBed(props?.EditObj?.hstl_Bed || props?.customer_details?.hstl_Bed)
-      // setPaymentType(props.EditObj?.PaymentType || props?.customer_details?.PaymentType);
 
-      // setBalanceDue(props.EditObj?.BalanceDue || props?.customer_details?.BalanceDue);
-      // setPaidAdvance(props.EditObj?.paid_advance || props?.customer_details?.paid_advance);
       setFloor(props.EditObj?.Floor || props?.customer_details?.Floor)
       setSelectedDate(props.EditObj?.joining_Date || props?.customer_details?.joining_Date)
 
       setBookingFloorId(props.EditObj?.floor_name || props?.customer_details?.floor_name)
       setBookingRoomId(props.EditObj?.Room_Id || props?.customer_details?.Room_Id)
       setBookingBedId(props.EditObj?.Bed || props?.customer_details?.Bed)
-      // setBookingAmount(props.EditObj?.pending_advance || props?.customer_details?.pending_advance)
       setAdvanceAmount(props.EditObj?.AdvanceAmount || props?.customer_details?.AdvanceAmount)
       setRoomRent(props.EditObj?.RoomRent || props?.customer_details?.RoomRent)
-      // setBookingDate(props.EditObj?.booking_booking_date || props?.customer_details?.booking_booking_date)
       if (props.EditObj?.req_date || props.customer_details?.req_date) {
         setRequestDate(dayjs(props.EditObj?.req_date || props.customer_details?.req_date));
       }
     }
-    //   if ( (props?.EditObj && Array.isArray(props.EditObj?.reasonData)) ||
-    //   (props?.customer_details && Array.isArray(props?.customer_details?.reasonData))) {
-
-    //   const formattedFields = props.EditObj?.reasonData.map((entry) => {
-    //     const isCustom = String(entry.reason) !== "maintenance";
-
-    //     return {
-    //       reason_name: entry.reason,
-    //       amount: entry.amount || "",
-    //       showInput: isCustom,
-    //       customReason: isCustom ? entry.reason : "",
-    //       id: entry.id || ""
-    //     };
-    //   });
-
-    //   setFields(formattedFields);
-    // }
+    
 
     const reasonData =
       Array.isArray(props?.EditObj?.reasonData) && props.EditObj.reasonData.length > 0

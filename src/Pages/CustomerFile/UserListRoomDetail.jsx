@@ -4223,7 +4223,7 @@ useEffect(() => {
 
                       >
                         <Button
-                          disabled={!canWriteAmenities || state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" || state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" || state.UsersList.customerdetails?.customerCurrentStatus === "VACATED"}
+                          disabled={!canWriteAmenities || state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" || state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" || state.UsersList.customerdetails?.customerCurrentStatus === "VACATED" ||  state.UsersList.customerdetails?.customerCurrentStatus === "SETTLEMENT_GENERATED"}
 
                           style={{
                             backgroundColor: "#1E45E1",

@@ -98,7 +98,7 @@ useEffect(() => {
                     <div>
                         <div style={{ fontSize: 22, fontWeight: 600, color: "#1F2633" }}>Notifications</div>
                         <div style={{ fontSize: 13, color: "#3C3C4399", fontWeight: 400 }}>
-                            {state.login?.Notification?.unreadCount} unread notifications
+                            {state.login?.Notification?.unreadCount || "0"} unread notifications
                         </div>
                     </div>
                 </div>
