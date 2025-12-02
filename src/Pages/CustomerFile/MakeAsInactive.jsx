@@ -116,6 +116,8 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails }) {
     }, [inActiveDetails]);
 
 
+    console.log("inActiveDetails",inActiveDetails)
+
     return (
         <Modal show={show} onHide={handleCloseInActive} centered backdrop="static"   >
 
@@ -171,7 +173,7 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails }) {
                 <div >
                     <div>
                         <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px", fontFamily: "Gilroy" }}>
-                            {inActiveDetails.firstName} {inActiveDetails.newTenantFullName}
+                            {inActiveDetails.fullName} {inActiveDetails.newTenantFullName}
                         </p>
 
                     </div>

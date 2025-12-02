@@ -351,6 +351,12 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
     }, [state.UsersList?.bedError])
 
 
+
+
+
+
+
+
     return (
         <Modal
             show={BookingAssignForm}
@@ -440,7 +446,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                 <div>
                                     <div>
                                         <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px", fontFamily: "Gilroy" }}>
-                                            {bookingDetails?.firstName}{bookingDetails?.lastName}
+                                            {bookingDetails?.firstName} {bookingDetails?.lastName}
                                         </p>
 
                                     </div>

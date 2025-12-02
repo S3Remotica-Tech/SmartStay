@@ -199,6 +199,9 @@ const Compliance = () => {
   }, [state.createAccount.accountList]);
 
 
+
+console.log("state",state)
+
   useEffect(() => {
     const userType = compliancerolePermission[0]?.user_details?.user_type
     const isAdmin = userType === "admin" || userType === "agent";
@@ -558,7 +561,7 @@ const Compliance = () => {
 
   const [selectedUsername, setSelectedUserName] = useState('')
 
-
+console.log("selectedUsername",selectedUsername)
   useEffect(() => {
     if (selectedUsername) {
       const filteredDetails = state.UsersList.Users.filter(item => {
@@ -773,10 +776,10 @@ const Compliance = () => {
 
 
   const handleEditcomplaint = (Complaintdata) => {
-
+console.log("Complaintdata",Complaintdata)
     setEdit(true)
 
-
+ dispatch({ type: "USERLIST", payload: { hostel_id: hosId } });
     if (Complaintdata) {
 
       dispatch({ type: "PARTICULAR_COMPLIANT", payload: { complaintId: Complaintdata.complaintId } })
@@ -785,7 +788,7 @@ const Compliance = () => {
 
 
       setComplaintId(Complaintdata.complaintId)
-      setSelectedUserName(Complaintdata.customerId);
+      setSelectedUserName(Complaintdata?.customerId);
       setComplainttype(Complaintdata.complaintTypeId);
       setEditcomplainttype(Complaintdata.complaintTypeId)
       setAssign(Complaintdata.Assign);
@@ -959,13 +962,13 @@ const Compliance = () => {
     ? state.ComplianceList.Compliance.filter(
       (item, index, self) =>
         index === self.findIndex((t) => (
-          t.complaintResponseDto.customerId === item.complaintResponseDto.customerId
+          t.customerId === item.customerId
         ))
     )
     : [];
 
   const filterUsers = uniqueCompliance?.filter((user) =>
-    user?.complaintResponseDto?.customerName
+    user?.customerName
       ?.toLowerCase()
       .includes(filterInput.toLowerCase())
   );
