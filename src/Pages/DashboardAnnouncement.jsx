@@ -17,6 +17,10 @@ import send from "../Assets/Images/send.svg";
 import PropTypes from "prop-types";
 import ErrorMessage from '../Components/ErrorMessage'
 import { useHasPermission } from '../Utils/Permission';
+import withErrorBoundary from "../Hoc/WithErrorBountry";
+
+
+
 function DashboardAnnouncement(props) {
 
 
@@ -1952,4 +1956,4 @@ DashboardAnnouncement.propTypes = {
 
 };
 
-export default DashboardAnnouncement;
+export default withErrorBoundary(DashboardAnnouncement);

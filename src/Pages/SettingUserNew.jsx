@@ -14,9 +14,13 @@ import { toast } from 'react-toastify';
 import "./SettingUsers.css";
 import PaginationList from "../Components/PaginationList";
 import { useHasPermission } from '../Utils/Permission';
-import ErrorMessage from '../Components/ErrorMessage'
+import ErrorMessage from '../Components/ErrorMessage';
+import withErrorBoundary from "../Hoc/WithErrorBountry";
+
 
 function SettingNewUser() {
+
+
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const popupRef = useRef(null);
@@ -982,4 +986,4 @@ function SettingNewUser() {
     </div>
   );
 }
-export default SettingNewUser;
+export default withErrorBoundary(SettingNewUser);

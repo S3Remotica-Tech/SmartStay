@@ -27,6 +27,7 @@ import banklogo from "../Assets/Images/New_images/bank_loga.png";
 import PaginationList from "../Components/PaginationList";
 import ErrorMessage from '../Components/ErrorMessage'
 import { useHasPermission } from '../Utils/Permission';
+import withErrorBoundary from "../Hoc/WithErrorBountry"; 
 
 function Banking() {
   const state = useSelector((state) => state);
@@ -74,6 +75,9 @@ const {
     canUpdateModule: canUpdateBanking,
     canDeleteModule: canDeleteBanking,
   } = useHasPermission("Banking");
+
+
+ 
 
 
 
@@ -2408,4 +2412,4 @@ useEffect(() => {
     </>
   );
 }
-export default Banking;
+export default withErrorBoundary(Banking);

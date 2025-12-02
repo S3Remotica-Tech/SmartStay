@@ -30,13 +30,12 @@ import Payment from '../Assets/Images/New_images/Mask-group.png'
 import Refund from '../Assets/Images/New_images/Refund.png';
 import { Location, Call, Profile, } from 'iconsax-react'
 import { IoBed } from "react-icons/io5";
-
+import withErrorBoundary from "../Hoc/WithErrorBountry";
 
 const InvoiceCard = ({ rowData, handleClosed }) => {
 
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-
 
 
 
@@ -1458,7 +1457,7 @@ InvoiceCard.propTypes = {
 };
 
 
-export default InvoiceCard;
+export default withErrorBoundary(InvoiceCard);
 
 
 

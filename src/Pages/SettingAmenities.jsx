@@ -20,9 +20,8 @@ import directRight from '../Assets/Images/New_images/direct-right.svg';
 import link2 from '../Assets/Images/New_images/link-2.svg';
 import { useHasPermission } from '../Utils/Permission';
 import ErrorMessage from '../Components/ErrorMessage'
-
+import withErrorBoundary from "../Hoc/WithErrorBountry";
 function SettingAmenities() {
-
 
     const state = useSelector(state => state)
     const dispatch = useDispatch();
@@ -1068,4 +1067,4 @@ useEffect(() => {
 SettingAmenities.propTypes = {
     hostelid: PropTypes.func.isRequired,
 };
-export default SettingAmenities;
+export default withErrorBoundary(SettingAmenities);

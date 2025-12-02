@@ -6,10 +6,13 @@ import { BsWhatsapp } from 'react-icons/bs';
 import { Message } from 'iconsax-react';
 import { ArrowLeft } from 'iconsax-react';
 import "./SettingsNotifications.css";
+import withErrorBoundary from "../Hoc/WithErrorBountry";
 
 
 
 const SettingsNotifications = () => {
+
+  
 
     const dispatch = useDispatch();
     const toggleStatus = useSelector((state) => state.InvoiceList.whatsappSettings || []);
@@ -174,4 +177,4 @@ const SettingsNotifications = () => {
     );
 };
 
-export default SettingsNotifications;
+export default withErrorBoundary(SettingsNotifications);

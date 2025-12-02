@@ -63,6 +63,7 @@ import ErrorMessage from '../../Components/ErrorMessage'
 import BackToCheckIn from "./BackToCheckIn";
 import { useHasPermission } from '../../Utils/Permission';
 import { useNavigate, useLocation } from "react-router-dom";
+import withErrorBoundary from "../../Hoc/WithErrorBountry"; 
 
 function UserList(props) {
   const state = useSelector((state) => state);
@@ -183,6 +184,8 @@ function UserList(props) {
     canReadModule: canReadCheckout,
 
   } = useHasPermission("Checkout");
+
+
 
 
 
@@ -5917,4 +5920,4 @@ UserList.propTypes = {
   handleCloseBed: PropTypes.func.isRequired,
   customer_details: PropTypes.func.isRequired,
 };
-export default UserList;
+export default withErrorBoundary(UserList);

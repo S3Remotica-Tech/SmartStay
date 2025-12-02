@@ -28,7 +28,7 @@ import { IoClose } from "react-icons/io5";
 import { Container, Row, Col, Table } from "react-bootstrap";
 import { Location, Call, Profile, } from 'iconsax-react'
 import { IoBed } from "react-icons/io5";
-import { BsQrCode } from "react-icons/bs";
+import withErrorBoundary from "../Hoc/WithErrorBountry";
 
 
 const InvoiceCard = ({ rowData, handleClosed }) => {
@@ -1436,7 +1436,7 @@ InvoiceCard.propTypes = {
 };
 
 
-export default InvoiceCard;
+export default withErrorBoundary(InvoiceCard);
 
 
 

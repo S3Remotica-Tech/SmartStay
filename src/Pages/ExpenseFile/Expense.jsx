@@ -25,6 +25,7 @@ import { useMediaQuery, useTheme } from '@mui/material'
 import PaginationList from "../../Components/PaginationList";
 import ErrorMessage from '../../Components/ErrorMessage';
 import { useHasPermission } from '../../Utils/Permission';
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
 
 
@@ -1473,4 +1474,4 @@ Expenses.propTypes = {
   allPageHostel_Id: PropTypes.func.isRequired,
 };
 
-export default Expenses;
+export default withErrorBoundary(Expenses);

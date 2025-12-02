@@ -15,9 +15,10 @@ import "./SettingElectricity.css";
 import ErrorMessage from '../Components/ErrorMessage'
 import { useHasPermission } from '../Utils/Permission';
 import Emptystate from "../Assets/Images/Empty-State.jpg";
-
+import withErrorBoundary from "../Hoc/WithErrorBountry";
 
 const SettingElectricity = () => {
+
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const [isProWrate, setProWrate] = useState(false);
@@ -46,6 +47,7 @@ const SettingElectricity = () => {
 
   const [EbList, setEbList] = useState([]);
   const [loading, setLoading] = useState(false);
+
 
 
 
@@ -1224,5 +1226,5 @@ SettingElectricity.propTypes = {
   hostelid: PropTypes.func.isRequired,
 };
 
-export default SettingElectricity;
+export default withErrorBoundary(SettingElectricity);
 

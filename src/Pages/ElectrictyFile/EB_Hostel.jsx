@@ -28,7 +28,7 @@ import ErrorMessage from '../../Components/ErrorMessage';
 import Select from "react-select";
 import AddHostelReading from "./AddHostelReading";
 // import WhiteCalender from  "../../../Assets/Images/New_images/ClipPathGroup.svg";
-
+import withErrorBoundary from "../../Hoc/WithErrorBountry"; 
 
 const RoomReadingTable = () => {
   const state = useSelector((state) => state);
@@ -52,134 +52,7 @@ const RoomReadingTable = () => {
 
 
 
-
-
-
-
-
-  const data = [
-    {
-      name: "Karthick",
-      floor: "Ground floor",
-      room: "Room 001",
-      bed: "Bed No 01",
-      occupants: 3,
-      billingMonth: "Aug",
-      previous: 100,
-      current: 400,
-      units: 300,
-      amount: "₹0.00",
-      note: "EB reading was already entered for this room.",
-    },
-    {
-      name: "Arun",
-      floor: "Ground floor",
-      room: "Room 002",
-      bed: "Bed No 02",
-      occupants: 3,
-      billingMonth: "Aug",
-      previous: 220,
-      current: 440,
-      units: 220,
-      amount: "₹2,200",
-    },
-    {
-      name: "Karthi",
-      floor: "Ground floor",
-      room: "Room 003",
-      bed: "Bed No 03",
-      occupants: 2,
-      billingMonth: "Aug",
-      previous: 270,
-      current: "---",
-      units: "---",
-      amount: "₹0.00",
-    },
-    {
-      name: "Anu",
-      floor: "Ground floor",
-      room: "Room 004",
-      bed: "Bed No 04",
-      occupants: 3,
-      billingMonth: "Aug",
-      previous: 300,
-      current: "---",
-      units: "---",
-      amount: "₹0.00",
-    },
-    {
-      name: "Siva",
-      floor: "Ground floor",
-      room: "Room 005",
-      bed: "Bed No 05",
-      occupants: 2,
-      billingMonth: "Aug",
-      previous: 120,
-      current: "---",
-      units: "---",
-      amount: "₹0.00",
-    },
-    {
-      name: "Joe",
-      floor: "1st floor",
-      room: "Room 101",
-      bed: "Bed No 06",
-      occupants: 2,
-      billingMonth: "Aug",
-      previous: 250,
-      current: "---",
-      units: "---",
-      amount: "₹0.00",
-    },
-    {
-      name: "Karthick",
-      floor: "1st floor",
-      room: "Room 102",
-      bed: "Bed No 07",
-      occupants: 3,
-      billingMonth: "Aug",
-      previous: 234,
-      current: "---",
-      units: "---",
-      amount: "₹0.00",
-    },
-    {
-      name: "Kumar",
-      floor: "1st floor",
-      room: "Room 103",
-      bed: "Bed No 08",
-      occupants: 3,
-      billingMonth: "Aug",
-      previous: 213,
-      current: "---",
-      units: "---",
-      amount: "₹0.00",
-    },
-    {
-      name: "Priya",
-      floor: "1st floor",
-      room: "Room 104",
-      bed: "Bed No 09",
-      occupants: 3,
-      billingMonth: "Aug",
-      previous: 220,
-      current: "---",
-      units: "---",
-      amount: "₹0.00",
-    },
-    {
-      name: "Anjali",
-      floor: "1st floor",
-      room: "Room 105",
-      bed: "Bed No 10",
-      occupants: 1,
-      billingMonth: "Aug",
-      previous: 120,
-      current: "---",
-      units: "---",
-      amount: "₹0.00",
-    },
-  ];
+ 
 
   const [showModal, setShowModal] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
@@ -1065,5 +938,5 @@ const RoomReadingTable = () => {
   );
 };
 
-export default RoomReadingTable;
+export default withErrorBoundary(RoomReadingTable);
 

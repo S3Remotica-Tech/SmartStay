@@ -14,6 +14,7 @@ import PaginationList from "../../Components/PaginationList";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { BiDotsVerticalRounded } from "react-icons/bi";
+import withErrorBoundary from "../../Hoc/WithErrorBountry"; 
 
 
 const EBRoomOverview = ({ onBack, room }) => {
@@ -25,7 +26,6 @@ const EBRoomOverview = ({ onBack, room }) => {
     const [roomReadingList, setRoomReadingList] = useState();
     const [tenantReadingList, setTenantreadingList] = useState()
     const [tableLoading, setTableLoading] = useState(false)
-
 
 
 
@@ -450,4 +450,4 @@ EBRoomOverview.propTypes = {
     room: PropTypes.func.isRequired,
 
 };
-export default EBRoomOverview;
+export default withErrorBoundary(EBRoomOverview);

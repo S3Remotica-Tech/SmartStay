@@ -74,7 +74,7 @@ import ManualDocumentsUpload from "./ManualDocumentsUpload";
 import ParentsGuardian from "./Parents&Guardian";
 import KYCDocuments from "./KYCDocuments";
 import ManualDocumentsDetails from "./ManualDocumentsDetails";
-
+import withErrorBoundary from "../../Hoc/WithErrorBountry"; 
 
 function UserListRoomDetail(props) {
   const state = useSelector((state) => state);
@@ -6469,4 +6469,4 @@ UserListRoomDetail.propTypes = {
   onAddItem: PropTypes.func.isRequired,
   userData: PropTypes.func.isRequired,
 };
-export default UserListRoomDetail;
+export default withErrorBoundary(UserListRoomDetail);
