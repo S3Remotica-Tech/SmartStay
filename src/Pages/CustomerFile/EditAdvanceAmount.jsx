@@ -96,7 +96,7 @@ const oldAmount = Number(CustomerOverView.hostelInfo.advanceAmount);
  
   
   if (oldAmount === newAmount) {
-    setIsChangedError("No changes detected");
+    setIsChangedError("No changes detected in AdvanceAmount");
     return; 
   }
 

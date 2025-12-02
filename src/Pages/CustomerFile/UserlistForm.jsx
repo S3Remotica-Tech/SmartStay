@@ -318,7 +318,7 @@ if (value === "" || /^[1-9]\d*$/.test(value)) {
 
       
       setFirstname(props.EditObj?.firstName);
-      setLastname("");
+      setLastname(props.EditObj?.lastName);
      
       setRooms(props.EditObj.Rooms);
      

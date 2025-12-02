@@ -162,7 +162,7 @@ function EditRentalAmount({ show, handleClose }) {
         const newAmount = Number(monthlyRent);
 
         if (oldAmount === newAmount) {
-            setIsChangedError("No changes detected");
+            setIsChangedError("No changes detected in Rent Amount");
             return;
         }
 

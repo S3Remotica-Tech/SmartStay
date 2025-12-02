@@ -474,7 +474,7 @@ const ComplianceList = (props) => {
 
 
 
-
+console.log("props.complaints",props.complaints)
 
   return (
     <>
@@ -516,17 +516,36 @@ const ComplianceList = (props) => {
                 <div className="d-flex flex-wrap gap-2 align-items-start">
 
                   <div>
+                    {props.complaints?.customerProfile ? 
                     <Image
                       src={
-                        props.complaints?.complaintResponseDto?.customerProfile === "0" ||
-                          props.complaints?.complaintResponseDto?.customerProfile === "null" ||
-                          props.complaints?.complaintResponseDto?.customerProfile === null
+                        props.complaints?.customerProfile === "0" ||
+                          props.complaints?.customerProfile === "null" ||
+                          props.complaints?.customerProfile === null
                           ? User
-                          : props?.complaints?.complaintResponseDto?.customerProfile
+                          : props?.complaints?.customerProfile
                       }
                       roundedCircle
                       style={{ height: "60px", width: "60px", objectFit: "cover" }}
                     />
+                    :
+                      <div
+                                        style={{
+                                            height: 50,
+                                            width: 50,
+                                            borderRadius: "50%",
+                                            backgroundColor: "#1E45E1",
+                                            display: "flex",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                            fontSize: 20,
+                                            fontWeight: "600",
+                                            color: "white", fontFamily: "Gilroy"
+                                        }}
+                                    >
+                                        {props.complaints?.initials || "-"}
+                                    </div>
+}
                   </div>
 
 
@@ -542,7 +561,7 @@ const ComplianceList = (props) => {
                           marginLeft: "10px",
                         }}
                       >
-                        {props.complaints && props?.complaints?.complaintResponseDto?.customerName}
+                        {props.complaints && props?.complaints?.customerName}
                       </label>
 
 
@@ -562,7 +581,7 @@ const ComplianceList = (props) => {
                             whiteSpace: "nowrap",
                           }}
                         >
-                          {props.complaints?.complaintResponseDto?.roomName} - {props.complaints?.complaintResponseDto?.bedName}
+                          {props.complaints?.roomName} - {props.complaints?.bedName}
                         </div>
 
 
@@ -580,7 +599,7 @@ const ComplianceList = (props) => {
                             whiteSpace: "nowrap",
                           }}
                         >
-                          {props.complaints?.complaintResponseDto?.floorName}
+                          {props.complaints?.floorName}
                         </div>
                       </div>
                     </div>
@@ -600,16 +619,16 @@ const ComplianceList = (props) => {
                       alignItems: "center",
                       position: "relative",
                       cursor: "pointer",
-                      backgroundColor: showDots === props.complaints.complaintResponseDto?.ID ? "#E7F1FF" : "white",
+                      backgroundColor: showDots === props.complaints?.complaintId ? "#E7F1FF" : "white",
 
                     }}
-                    onClick={() => handleShowDots(props.complaints.complaintResponseDto?.ID)}
+                    onClick={() => handleShowDots(props.complaints?.complaintId)}
                   >
                     <PiDotsThreeOutlineVerticalFill
                       style={{ height: 20, width: 20, cursor: "pointer" }}
                     />
 
-                    {showDots === props.complaints.ID && (
+                    {showDots === props.complaints.complaintId && (
                       <>
                         <div
                           ref={popupRef}
@@ -634,7 +653,7 @@ const ComplianceList = (props) => {
                               className="d-flex align-items-center"
                               onClick={() => {
                                 if (canWriteComplaints) {
-                                  handleChangeStatusOpenClose(props.complaints?.complaintResponseDto)
+                                  handleChangeStatusOpenClose(props.complaints)
 
                                 }
                               }}
@@ -674,7 +693,7 @@ const ComplianceList = (props) => {
                               className="d-flex align-items-center"
                               onClick={() => {
                                 if (canWriteComplaints) {
-                                  handleAssignOpenClose(props.complaints?.complaintResponseDto)
+                                  handleAssignOpenClose(props.complaints)
                                 }
                               }
                               }
@@ -711,7 +730,7 @@ const ComplianceList = (props) => {
                               className="d-flex align-items-center"
                               onClick={() => {
                                 if (canUpdateComplaints) {
-                                  handleEdit(props.complaints?.complaintResponseDto);
+                                  handleEdit(props.complaints);
                                 }
                               }}
                               style={{
@@ -750,7 +769,7 @@ const ComplianceList = (props) => {
                               className="d-flex align-items-center"
                               onClick={() => {
                                 if (canDeleteComplaints) {
-                                  handleDeleteFormShow(props.complaints?.complaintResponseDto)
+                                  handleDeleteFormShow(props.complaints)
                                 }
                               }
                               }
@@ -824,7 +843,7 @@ const ComplianceList = (props) => {
                         lineHeight: "normal",
                       }}
                     >
-                      {props.complaints && props.complaints?.complaintResponseDto?.complaintId}
+                      {props.complaints && props.complaints?.complaintId}
                     </label>
                   </div>
                 </div>
@@ -856,7 +875,7 @@ const ComplianceList = (props) => {
                         lineHeight: "normal",
                       }}
                     >
-                      {props.complaints?.complaintResponseDto?.complaintDate}{" "}
+                      {props.complaints?.complaintDate}{" "}
                     </label>
                   </div>
                 </div>
@@ -887,8 +906,8 @@ const ComplianceList = (props) => {
                         lineHeight: "normal",
                       }}
                     >
-                      {props.complaints?.complaintResponseDto?.assigneeName === "" ||
-                        props.complaints?.complaintResponseDto?.assigneeName === null ? (
+                      {props.complaints?.assigneeName === "" ||
+                        props.complaints?.assigneeName === null ? (
                         <span
                           style={{
                             color: !canWriteComplaints ? "#DBDBDB" : "#1E45E1",
@@ -901,7 +920,7 @@ const ComplianceList = (props) => {
                           + Assign
                         </span>
                       ) : (
-                        props.complaints?.complaintResponseDto?.assigneeName
+                        props.complaints?.assigneeName
                       )}
                     </label>
 
@@ -944,12 +963,12 @@ const ComplianceList = (props) => {
                         lineHeight: "normal",
                         display: "block",
                       }}
-                      title={props.complaints?.complaintResponseDto?.complaintTypeName}
+                      title={props.complaints?.complaintTypeName}
                     >
-                      {props.complaints && props.complaints?.complaintResponseDto?.complaintTypeName}
-                      {props.complaints?.complaintResponseDto?.description && (
+                      {props.complaints && props.complaints?.complaintTypeName}
+                      {props.complaints?.description && (
                         <span
-                          title={props.complaints.complaintResponseDto?.description}
+                          title={props.complaints?.description}
                           style={{
                             display: "inline-block",
                             maxWidth: "200px",
@@ -961,7 +980,7 @@ const ComplianceList = (props) => {
                             paddingLeft: 4
                           }}
                         >
-                          {" "}  {" - "}{props.complaints?.complaintResponseDto?.description}
+                          {" "}  {" - "}{props.complaints?.description}
                         </span>
                       )}
 
@@ -996,7 +1015,7 @@ const ComplianceList = (props) => {
                           : { color: "#FF9E00" }
                       }
                     >
-                      {props.complaints && props.complaints?.complaintResponseDto?.status === null ? "Open" : props?.complaints?.complaintResponseDto?.status}
+                      {props.complaints && props.complaints?.status === null ? "Open" : props?.complaints?.status}
                     </label>
                   </div>
                 </div>
@@ -1012,7 +1031,7 @@ const ComplianceList = (props) => {
                 }}
               >
                 <div style={{ display: "flex", alignItems: "center" }}>
-                  {props.complaints.complaintResponseDto?.assigneeName === "" || props.complaints?.complaintResponseDto?.assigneeName === null ? (
+                  {props.complaints?.assigneeName === "" || props.complaints?.assigneeName === null ? (
                     <>
                       <img
                         src={Profile_add}
@@ -1049,7 +1068,7 @@ const ComplianceList = (props) => {
                       >
                         successfully attended on{" "}
                         {
-                          props.complaints.complaintResponseDto?.complaintDate
+                          props.complaints?.complaintDate
                         }
                         {/* {moment(props.complaints.complaintResponseDto?.complaintDate).format("DD-MM-YYYY")} */}
                       </span>
@@ -1058,7 +1077,7 @@ const ComplianceList = (props) => {
                 </div>
 
                 <div
-                  onClick={() => canWriteComplaints ? handleIconClick(props.complaints.complaintResponseDto) : ''}
+                  onClick={() => canWriteComplaints ? handleIconClick(props.complaints) : ''}
                   style={{
                     border: "1px solid #DCDCDC",
                     borderRadius: "50px",
@@ -1083,7 +1102,7 @@ const ComplianceList = (props) => {
                       fontWeight: 500,
                     }}
                   >
-                    {props.complaints?.complaintResponseDto?.commentCount}
+                    {props.complaints?.commentCount}
                   </span>
                 </div>
 

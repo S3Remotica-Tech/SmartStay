@@ -151,7 +151,7 @@ function* handlecompliancelist(action) {
       if (response?.status === 200 ) {
          yield put({
             type: 'COMPLIANCE_LIST', payload: {
-               response: response.data || [], filterOptions: response.data.filterOptions || [],
+               response: response.data.complaintsList || [], filterOptions: response.data.filterOptions || [],
                statusCode: response?.status
             }
          })

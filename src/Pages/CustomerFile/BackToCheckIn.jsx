@@ -170,7 +170,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails }) {
                                 className="mb-1"
                                 style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px", fontFamily: "Gilroy" }}
                             >
-                                {checkInDetails?.firstName || checkInDetails?.currentTenantFirstName}
+                                {checkInDetails?.fullName || checkInDetails?.currentTenantFullName}
                             </p>
                             <div className="d-flex gap-2">
                                 <span

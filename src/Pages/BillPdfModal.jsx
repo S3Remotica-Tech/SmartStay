@@ -594,7 +594,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                           <Location size="16" variant="Bold" />
                         </span>
 
-                        <div style={{ color: "#171717", fontSize: 14 }} className="ms-1" >
+                        <div style={{ color: "#171717", fontSize: 12 }} className="ms-1" >
                           : {""} {pdfDetails?.customerInfo?.fullAddress}
 
 

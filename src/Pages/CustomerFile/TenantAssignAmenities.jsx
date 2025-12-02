@@ -422,10 +422,6 @@ handleClose()
         <Modal.Body className="pb-1 pt-2">
           <div className="row">
 
-
-{
-  state.InvoiceList.AmenitiesList
-}
             <div className="d-flex align-items-center mb-3 ">
               <div
 
@@ -839,10 +835,10 @@ handleClose()
   );
 }
 TenantAmenities.propTypes = {
-  hostelIds: PropTypes.func.isRequired,
-  customerUser_Id: PropTypes.func.isRequired,
-  hostelName: PropTypes.func.isRequired,
-  id: PropTypes.func.isRequired,
-  customerAdd: PropTypes.func.isRequired,
+  show: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  // hostelName: PropTypes.func.isRequired,
+  // id: PropTypes.func.isRequired,
+  // customerAdd: PropTypes.func.isRequired,
 };
 export default TenantAmenities;

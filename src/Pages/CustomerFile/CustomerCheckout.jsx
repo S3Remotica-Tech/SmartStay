@@ -338,7 +338,7 @@ function CustomerCheckout(props) {
                                   fontFamily: "Gilroy",
                                 }}
                               >
-                                {props.data?.Name || state.UsersList.customerdetails?.data?.[0].Name || props.bedData?.currentTenantFullName || props.bedData?.firstName}
+                                {props.data?.Name || state.UsersList.customerdetails?.data?.[0].Name || props.bedData?.currentTenantFullName || props.bedData?.fullName}
                               </label>
                             </div>
 

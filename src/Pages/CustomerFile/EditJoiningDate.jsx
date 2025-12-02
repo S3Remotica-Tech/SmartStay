@@ -126,7 +126,7 @@ function EditJoiningDate({ show, handleClose }) {
         const newDate = dayjs(effectiveFrom, "DD/MM/YYYY").format("DD-MM-YYYY");
 
         if (oldDate === newDate) {
-            setIsChangedError("No changes detected");
+            setIsChangedError("No changes detected in JoiningDate");
             return;
         }
         const formattedDate = dayjs(effectiveFrom, "DD/MM/YYYY").format("DD-MM-YYYY");
@@ -158,7 +158,7 @@ function EditJoiningDate({ show, handleClose }) {
     //     CustomerOverView?.hostelInfo?.joiningDate,
     //     "DD/MM/YYYY"
     // );
-
+const bookingDate = CustomerOverView?.bookingInfo?.bookingDate;
 
     return (
         <div
@@ -235,12 +235,16 @@ function EditJoiningDate({ show, handleClose }) {
                                             placeholder="DD/MM/YYYY"
                                             value={effectiveFrom ? dayjs(effectiveFrom, "DD/MM/YYYY") : null}
                                             onChange={handleEffectiveFromChange}
-                                            disabledDate={(current) =>
-                                                current &&
-                                                (
-                                                    current > dayjs().endOf("day")
-                                                )
-                                            }
+                                             disabledDate={(current) => {
+        const booking = dayjs(bookingDate, "DD/MM/YYYY");
+        return (
+            current &&
+            (
+                current > dayjs().endOf("day") || 
+                current.isSame(booking, "day")    
+            )
+        );
+    }}
                                         />
                                         {effectiveFromError && (
                                             <ErrorMessage message={effectiveFromError} type="error" />

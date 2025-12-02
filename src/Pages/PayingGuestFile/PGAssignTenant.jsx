@@ -794,7 +794,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                 state.UsersList?.UnAssignCustomerDetails?.length > 0 &&
                                 state.UsersList?.UnAssignCustomerDetails.map((u) => ({
                                   value: u.customerId,
-                                  label: u.firstName,
+                                  label: u.fullName,
                                 }))
 
                               }
@@ -804,7 +804,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                   ? {
                                     value: booking_customername,
                                     label:
-                                      state.UsersList?.UnAssignCustomerDetails?.find((u) => u.customerId === booking_customername)?.firstName ||
+                                      state.UsersList?.UnAssignCustomerDetails?.find((u) => u.customerId === booking_customername)?.fullName ||
                                       "Select Tenant",
                                   }
                                   : null
@@ -1264,7 +1264,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                       state.UsersList?.UnAssignCustomerDetails?.length > 0 &&
                                       state.UsersList?.UnAssignCustomerDetails.map((u) => ({
                                         value: u.customerId,
-                                        label: u.firstName,
+                                        label: u.fullName,
                                       }))
 
                                     }
@@ -1274,7 +1274,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                         ? {
                                           value: checkin_customername,
                                           label:
-                                            state.UsersList?.UnAssignCustomerDetails?.find((u) => u.customerId === checkin_customername)?.firstName ||
+                                            state.UsersList?.UnAssignCustomerDetails?.find((u) => u.customerId === checkin_customername)?.fullName ||
                                             "Select Tenant",
                                         }
                                         : null

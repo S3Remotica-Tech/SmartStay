@@ -472,7 +472,7 @@ function BookingModal(props) {
   }, [state.createAccount?.networkError])
 
 
-
+console.log("props?.userDetail",props?.userDetail)
 
 
   return (
@@ -566,7 +566,7 @@ function BookingModal(props) {
                     fontFamily: "Gilroy",
                   }}
                 >
-                  {props?.userDetail?.firstName || "Name"}{" "}
+                  {props?.userDetail?.fullName}{" "}
                 </label>
               </div>
 
