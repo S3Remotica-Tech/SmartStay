@@ -72,6 +72,7 @@ const Compliance = () => {
   const [excelDownload, setExcelDownload] = useState("")
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
+    
 
   const {
     canWriteModule: canWriteComplaints,

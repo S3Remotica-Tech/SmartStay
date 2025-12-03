@@ -404,15 +404,7 @@ function UserListAmenities(props) {
   return (
     <div className="">
 
-    
-
-
-
-
-
-     
-
-      <Modal
+          <Modal
         show={addamenityShow}
         onHide={handleFormClose}
         backdrop="static"

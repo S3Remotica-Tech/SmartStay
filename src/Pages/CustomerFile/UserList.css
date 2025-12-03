@@ -1,4 +1,6 @@
-
+.offcanvas-backdrop.show {
+  background-color: rgba(0, 0, 0, 0.2) !important;
+}
 
 .css-o5qgit-control:hover {
   order: 1px solid #1E45E1 !important;
@@ -16,7 +18,7 @@
 
 
 .custom-modal {
-  margin-top: 40px !important; /* Adjust as needed */
+  margin-top: 40px !important; 
   margin-bottom: 20px !important;
 }
 
