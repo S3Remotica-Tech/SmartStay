@@ -28,6 +28,9 @@ export default function Notification({ show, handleClose }) {
     }, [state.login.selectedHostel_Id])
 
 
+
+
+
     useEffect(() => {
         if (state.login.notificationStatus === 200) {
             setNotification(state.login?.Notification)
@@ -87,7 +90,8 @@ export default function Notification({ show, handleClose }) {
             state: {
                 customerId: customer?.userId,
                 hostelId: state.login?.selectedHostel_Id,
-                name: customer?.fullName, IsOverView: true
+                name: customer?.fullName, IsOverView: true,
+                scrollTo: "amenities"
             },
         });
 
