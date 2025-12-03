@@ -157,7 +157,7 @@ setBed('');
   useEffect(() => {
     if (Rooms) {
       const filteredBed = state.UsersList?.availableBedList?.listBeds?.filter((view) => {
-        return view.floorId === Floor && view.roomId === Rooms
+        return  view.roomId === Rooms
       });
       setAvailableBed(filteredBed)
     }
@@ -165,18 +165,13 @@ setBed('');
   }, [Rooms, selectedDate, state.UsersList?.availableBedList?.listBeds])
 
 
-
+// view.floorId === Floor &&
 
   const handleBed = (selectedOption) => {
     dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR' })
     setBedWarning("");
     const selectedBedId = selectedOption?.value || "";
     setBed(selectedBedId);
-
-    // const selectedBed = state.UsersList?.availableBedList?.listBeds?.find(
-    //   (bed) => String(bed.bedId) === String(selectedBedId)
-    // );
-
 
 
     setBedError("");
@@ -284,6 +279,7 @@ setBed('');
 
   const handleSaveUserlistAddUser = async () => {
 
+  dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR' })
 
     let newErrors = [];
     let isHasError = false;
@@ -533,8 +529,7 @@ setBed('');
       setLoading(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-        dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR' })
-
+      
       }, 3000)
     }
 

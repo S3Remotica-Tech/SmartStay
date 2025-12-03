@@ -105,13 +105,14 @@ function CustomerReAssign(props) {
   useEffect(() => {
     if (newFloor && newRoom) {
       const filteredBed = state.UsersList?.availableBedList?.listBeds?.filter(
-        (view) => view.floorId === newFloor && view.roomId === newRoom
+        (view) => view.roomId === newRoom
       );
       setAvailableBed(filteredBed);
     }
   }, [newFloor, newRoom, state.UsersList?.availableBedList]);
 
-
+  
+// view.floorId === newFloor && 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       dispatch({ type: 'ALLFLOORLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
