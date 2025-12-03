@@ -1,18 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import Button from "react-bootstrap/Button";
+// import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import "../../../Pages/AssetFile/addAsset.css";
 import PropTypes from "prop-types";
-import Profile from '../../../Assets/Images/New_images/profile-picture.png'
+// import Profile from '../../../Assets/Images/New_images/profile-picture.png'
 import { LogoutCurve } from "iconsax-react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Image from 'react-bootstrap/Image';
 import { FiCalendar, } from "react-icons/fi";
 import { useHasPermission } from '../../../Utils/Permission';
 import { Edit } from 'iconsax-react';
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 function OccupiedBedStatus({
@@ -25,7 +25,7 @@ function OccupiedBedStatus({
 }) {
 
 
-
+    console.log("currentItem", currentItem)
     const state = useSelector(state => state)
     const dispatch = useDispatch();
 
@@ -86,13 +86,14 @@ function OccupiedBedStatus({
     }, []);
 
     const handleNavigateTenantProfile = (tenantDetails) => {
-        dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: tenantDetails?.currentTenantCustomerId } });
-        navigate(`/tenant/details/${tenantDetails?.currentTenantCustomerId}`, {
+        console.log("tenantDetails", tenantDetails)
+        dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: tenantDetails?.currentTenantInfo?.tenetId } });
+        navigate(`/tenant/details/${tenantDetails?.currentTenantInfo?.tenetId}`, {
             state: {
-                customerId: tenantDetails?.currentTenantCustomerId,
+                customerId: tenantDetails?.currentTenantInfo?.tenetId,
                 hostelId: state.login.selectedHostel_Id,
-                name: tenantDetails?.currentTenantFullName,
-                isPgWay:true
+                name: tenantDetails?.currentTenantInfo?.tenantFullName,
+                isPgWay: true
             },
         });
         dispatch({ type: "UPDATE_USERSLIST_FALSE" });
@@ -207,10 +208,10 @@ function OccupiedBedStatus({
 
                                         <div className="d-flex gap-3 align-items-center">
                                             <div>
-                                                {currentItem?.currentTenantProfilePic &&
-                                                    currentItem?.currentTenantProfilePic !== "0" ? (
+                                                {currentItem?.currentTenantInfo?.profilePic &&
+                                                    currentItem?.currentTenantInfo?.profilePic !== "0" ? (
                                                     <Image
-                                                        src={currentItem.currentTenantProfilePic}
+                                                        src={currentItem.currentTenantInfo?.profilePic}
                                                         roundedCircle
                                                         style={{ height: 50, width: 50 }}
                                                         alt="image"
@@ -230,16 +231,16 @@ function OccupiedBedStatus({
                                                             color: "white", fontFamily: "Gilroy"
                                                         }}
                                                     >
-                                                        {currentItem?.currentTenantInitials || "-"}
+                                                        {currentItem?.currentTenantInfo?.tenantInitials || "-"}
                                                     </div>
                                                 )}                                        </div>
                                             <div className="mt-2">
                                                 <div>
-                                                    <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600, cursor: "pointer", textDecoration: "underline" }} onClick={() => handleNavigateTenantProfile(currentItem)}> {currentItem.currentTenantFullName || "N/A"}</label>
+                                                    <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600, cursor: "pointer", textDecoration: "underline" }} onClick={() => handleNavigateTenantProfile(currentItem)}> {currentItem.currentTenantInfo?.tenantFullName || "N/A"}</label>
                                                 </div>
                                                 <div>
                                                     <label style={{ fontSize: 16, color: "#4B4B4B", fontWeight: 500, fontFamily: "Gilroy" }}>
-                                                        {currentItem?.currentTenantMobile ? `+ ${currentItem?.countryCode} ${String(currentItem?.currentTenantMobile)}` : 'No phone'}
+                                                        {currentItem?.currentTenantInfo?.mobile ? `+ ${currentItem?.currentTenantInfo?.countryCode} ${String(currentItem?.currentTenantInfo?.mobile)}` : 'No phone'}
 
                                                     </label>
 
@@ -388,7 +389,7 @@ function OccupiedBedStatus({
                                             <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Rental Amount</label>
                                         </div>
                                         <div>
-                                            <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>{currentItem?.currentRent || "N/A"}</label>
+                                            <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>{currentItem?.currentTenantInfo?.rentAmount || "N/A"}</label>
                                         </div>
                                     </div>
 
@@ -397,7 +398,7 @@ function OccupiedBedStatus({
                                             <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Check-In Date</label>
                                         </div>
                                         <div>
-                                            <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>{currentItem?.currentTenantJoiningDate || "N/A"}</label>
+                                            <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>{currentItem?.currentTenantInfo?.joiningDate || "N/A"}</label>
                                         </div>
                                     </div>
 
@@ -407,7 +408,9 @@ function OccupiedBedStatus({
                                             <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Last Invoice</label>
                                         </div>
                                         <div>
-                                            <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>INV563 & 2 more</label>
+                                            <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#1E45E1", fontWeight: 600 }}>{currentItem?.currentTenantInfo?.lastInvoiceNumber} & {currentItem?.currentTenantInfo?.totalInvoices} {currentItem?.currentTenantInfo?.totalInvoices > 2 && (
+                                                <span>  more</span>
+                                            )}</label>
                                         </div>
                                     </div>
 

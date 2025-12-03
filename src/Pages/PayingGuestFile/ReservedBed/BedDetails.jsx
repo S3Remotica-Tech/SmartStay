@@ -28,7 +28,7 @@ function BedDetails({
     const navigate = useNavigate();
     // const canWriteCustomers = useHasPermission("Customers", "canWrite")
 
-
+console.log("currentItem",currentItem)
 
     const {
         canWriteModule: canWriteCustomers,
@@ -119,12 +119,12 @@ function BedDetails({
     }
 
     const handleNavigateTenantProfile = (tenantDetails) => {
-        dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: tenantDetails?.newTenantCustomerId } });
-        navigate(`/tenant/details/${tenantDetails?.newTenantCustomerId}`, {
+        dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: tenantDetails?.newTenantInfo?.tenetId } });
+        navigate(`/tenant/details/${tenantDetails?.newTenantInfo?.tenetId}`, {
             state: {
-                customerId: tenantDetails?.newTenantCustomerId,
+                customerId: tenantDetails?.newTenantInfo?.tenetId,
                 hostelId: state.login?.selectedHostel_Id,
-                name: tenantDetails?.newTenantFullName,
+                name: tenantDetails?.newTenantInfo?.tenantFullName,
                  isPgWay:true
             },
         });
