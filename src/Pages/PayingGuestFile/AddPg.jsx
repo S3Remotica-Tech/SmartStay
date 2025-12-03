@@ -56,7 +56,7 @@ function AddPg({ show, handleClose, currentItem }) {
   const [images, setImages] = useState(Array(4).fill({ image: null }));
 
 
-  console.log("currentItem", currentItem)
+  console.log("images", images)
 
   const indianStates = [
     { value: "Tamil Nadu", label: "Tamil Nadu" },
@@ -587,11 +587,24 @@ function AddPg({ show, handleClose, currentItem }) {
           img.image !== "0" && typeof img.image === "string" ? img.image : null,
       }));
 
-      setImages(
-        formattedImages && formattedImages.length > 0
-          ? formattedImages
-          : Array(4).fill({ image: null, isChanged: false})
-      );
+      // setImages(
+      //   formattedImages && formattedImages.length > 0
+      //     ? formattedImages
+      //     : Array(4).fill({ image: null, isChanged: false})
+      // );
+
+      // formattedImages = API response images array
+
+const maxSlots = 4;
+
+const finalImages = Array(maxSlots)
+  .fill(null)
+  .map((_, i) => ({
+    image: formattedImages[i]?.image || null,
+    isChanged: false,
+}));
+
+setImages(finalImages);
 
       setInitialState({
         ...initialData,
@@ -605,6 +618,7 @@ function AddPg({ show, handleClose, currentItem }) {
 
 
   const handleFileChange = (index) => async (e) => {
+    setIsChangedError("");
     const selectedFiles = Array.from(e.target.files);
 
     if (selectedFiles.length > 0) {
@@ -1159,6 +1173,7 @@ function AddPg({ show, handleClose, currentItem }) {
                   onChange={(selectedOption) => {
                     setStateName(selectedOption?.value);
                     setStateNameError("");
+                    setIsChangedError("");
                   }}
                   onInputChange={(inputValue, { action }) => {
                     if (action === "input-change") {

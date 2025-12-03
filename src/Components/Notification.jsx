@@ -270,23 +270,23 @@ export default function Notification({ show, handleClose }) {
                                                             :
 
 
-                                                            item.typeCode === 3 ?
+                                                            // item.typeCode === 3 ?
 
-                                                                <button
-                                                                    style={{
-                                                                        marginTop: 10,
-                                                                        background: "#1E45E1",
-                                                                        border: "none",
-                                                                        padding: "6px 16px",
-                                                                        borderRadius: 6,
-                                                                        color: "white",
-                                                                        fontSize: 13,
-                                                                        cursor: "pointer",
-                                                                    }}
-                                                                >
-                                                                    Checkout
-                                                                </button>
-                                                                :
+                                                            //     <button
+                                                            //         style={{
+                                                            //             marginTop: 10,
+                                                            //             background: "#1E45E1",
+                                                            //             border: "none",
+                                                            //             padding: "6px 16px",
+                                                            //             borderRadius: 6,
+                                                            //             color: "white",
+                                                            //             fontSize: 13,
+                                                            //             cursor: "pointer",
+                                                            //         }}
+                                                            //     >
+                                                            //         Checkout
+                                                            //     </button>
+                                                            //     :
                                                                 item.typeCode === 5 ?
 
                                                                     <button
@@ -304,23 +304,46 @@ export default function Notification({ show, handleClose }) {
                                                                         Maintenance
                                                                     </button>
 
-                                                                    :
-                                                                    item.typeCode === 6 ?   
-                                                                        <button
-                                                                            style={{
-                                                                                marginTop: 10,
-                                                                                background: "#1E45E1",
-                                                                                border: "none",
-                                                                                padding: "6px 16px",
-                                                                                borderRadius: 6,
-                                                                                color: "white",
-                                                                                fontSize: 13,
-                                                                                cursor: "pointer",
-                                                                            }}
-                                                                        >
-                                                                            Missing checkout
-                                                                        </button>
-                                                                        : ""}
+                                                                    // :
+                                                                    // item.typeCode === 6 ?   
+                                                                    //     <button
+                                                                    //         style={{
+                                                                    //             marginTop: 10,
+                                                                    //             background: "#1E45E1",
+                                                                    //             border: "none",
+                                                                    //             padding: "6px 16px",
+                                                                    //             borderRadius: 6,
+                                                                    //             color: "white",
+                                                                    //             fontSize: 13,
+                                                                    //             cursor: "pointer",
+                                                                    //         }}
+                                                                    //     >
+                                                                    //         Missing checkout
+                                                                    //     </button>
+                                                                        : 
+                                                                        
+                                                                    //    item.typeCode === 7 ?
+
+                                                                    // // <button
+                                                                    // //     style={{
+                                                                    // //         marginTop: 10,
+                                                                    // //         background: "#1E45E1",
+                                                                    // //         border: "none",
+                                                                    // //         padding: "6px 16px",
+                                                                    // //         borderRadius: 6,
+                                                                    // //         color: "white",
+                                                                    // //         fontSize: 13,
+                                                                    // //         cursor: "pointer",
+                                                                    // //     }}
+                                                                    // // >
+                                                                    // //    Recurring
+                                                                    // // </button> 
+                                                                        
+                                                                    //   :  
+                                                                        
+                                                                        
+                                                                        
+                                                                        ""}
 
                                         </div>
                                     </div>
