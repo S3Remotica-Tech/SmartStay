@@ -1968,10 +1968,7 @@ function CreateBill() {
             setRecurLoader(true);
             setDownloadInvoice(false)
             setDownloadReceipt(false)
-            dispatch({
-                type: "RECURRING-BILLS-LIST",
-                payload: { hostel_id: hostelId, stay_type: activeStay },
-            });
+            dispatch({ type: "RECURRING-BILLS-LIST", payload:state.login?.selectedHostel_Id })
         }
 
         if (newValue === "3") {
@@ -2575,10 +2572,7 @@ function CreateBill() {
 
         if (hostelId) {
             setRecurLoader(true);
-            dispatch({
-                type: "RECURRING-BILLS-LIST",
-                payload: { hostel_id: hostelId, stay_type: activeStay },
-            });
+           dispatch({ type: "RECURRING-BILLS-LIST", payload:state.login?.selectedHostel_Id })
         }
     }, [hostelId, activeStay]);
 
@@ -2598,10 +2592,7 @@ function CreateBill() {
             state.InvoiceList.RecurringBillAddStatusCode === 200 ||
             state.InvoiceList.deleterecurringbillsStatuscode
         ) {
-            dispatch({
-                type: "RECURRING-BILLS-LIST",
-                payload: { hostel_id: hostelId, stay_type: activeStay },
-            });
+           dispatch({ type: "RECURRING-BILLS-LIST", payload:state.login?.selectedHostel_Id })
             setRecurringBills(state.InvoiceList.RecurringBills);
 
             setTimeout(() => {

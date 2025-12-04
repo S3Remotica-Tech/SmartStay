@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { AssignAmenitiesForTenant, UnAssignAmenitiesForTenant, createRefund, getInitializeRefund, getParticularReceiptDetails, getParticularBillsDetails, getFinalSettlementList, CustomerRecurringEnableDisable, UnAssignAmenities, ParticularAmentityList, AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList, RecordPayment, InvoiceSettings, InvoicePDf, GetAmenities, UpdateAmenities, AddAmenity, ManualInvoice, ManualInvoiceUserData, AddManualInvoiceBill, EditManualInvoiceBill, DeleteManualInvoiceBill, ManualInvoiceNumber, GetManualInvoices, RecurrInvoiceamountData, AddRecurringBill, GetRecurrBills, DeleteRecurrBills, InvoiceRecurringsettings, GetReceiptData, AddReceipt, ReferenceIdGet, DeleteReceipt, EditReceipt, ReceiptPDf, AddRecurrBillsUsers, GetBillsPdfDetails } from "../Action/InvoiceAction";
+import { updateRecurringTenant, AssignAmenitiesForTenant, UnAssignAmenitiesForTenant, createRefund, getInitializeRefund, getParticularReceiptDetails, getParticularBillsDetails, getFinalSettlementList, CustomerRecurringEnableDisable, UnAssignAmenities, ParticularAmentityList, AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList, RecordPayment, InvoiceSettings, InvoicePDf, GetAmenities, UpdateAmenities, AddAmenity, ManualInvoice, ManualInvoiceUserData, AddManualInvoiceBill, EditManualInvoiceBill, DeleteManualInvoiceBill, ManualInvoiceNumber, GetManualInvoices, RecurrInvoiceamountData, AddRecurringBill, GetRecurrBills, DeleteRecurrBills, InvoiceRecurringsettings, GetReceiptData, AddReceipt, ReferenceIdGet, DeleteReceipt, EditReceipt, ReceiptPDf, AddRecurrBillsUsers, GetBillsPdfDetails } from "../Action/InvoiceAction";
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -58,6 +58,72 @@ function* handleApiError(error) {
    // }
 }
 
+function* handleUpdateTenantRecurring(action) {
+
+   try {
+      const response = yield call(updateRecurringTenant, action.payload)
+
+console.log("response",response)
+
+         if (response?.status === 200 ) {
+         yield put({ type: 'UPDATE_TENANT_RECURRING_SUCCESS', payload: { response: response.data, statusCode: response?.status  } })
+      
+        var toastStyle = {
+            backgroundColor: "#E6F6E6",
+            color: "black",
+            width: "100%",
+            borderRadius: "60px",
+            height: "20px",
+            fontFamily: "Gilroy",
+            fontWeight: 600,
+            fontSize: 14,
+            textAlign: "start",
+            display: "flex",
+            alignItems: "center",
+            padding: "10px",
+
+         };
+      
+      toast.success(response.data, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle
+         })
+      
+      }
+
+      if (response) {
+         refreshToken(response)
+      }
+   }
+   catch (error) {
+         yield* handleApiError(error);
+          if (error.status === 400 || error.status === 403) {
+            yield put({ type: 'UPDATE_TENANT_RECURRING_ERROR', payload: error.response.data });
+         }
+      
+   }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 function* handleCreateRefund(action) {
 
    try {
@@ -65,6 +131,33 @@ function* handleCreateRefund(action) {
 
          if (response?.status === 200 ) {
          yield put({ type: 'CREATE_REFUND', payload: { response: response.data, statusCode: response?.status  } })
+          var toastStyle = {
+            backgroundColor: "#E6F6E6",
+            color: "black",
+            width: "100%",
+            borderRadius: "60px",
+            height: "20px",
+            fontFamily: "Gilroy",
+            fontWeight: 600,
+            fontSize: 14,
+            textAlign: "start",
+            display: "flex",
+            alignItems: "center",
+            padding: "10px",
+
+         };
+      
+      toast.success(response.data, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle
+         })
       }
 
       if (response) {
@@ -90,6 +183,33 @@ function* handleAssignAmenitiesForTenant(action) {
 
          if (response?.status === 201 ) {
          yield put({ type: 'TENANT_ASSIGN_AMENITIES', payload: { response: response.data, statusCode: response?.status  } })
+          var toastStyle = {
+            backgroundColor: "#E6F6E6",
+            color: "black",
+            width: "100%",
+            borderRadius: "60px",
+            height: "20px",
+            fontFamily: "Gilroy",
+            fontWeight: 600,
+            fontSize: 14,
+            textAlign: "start",
+            display: "flex",
+            alignItems: "center",
+            padding: "10px",
+
+         };
+      
+      toast.success(response.data, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle
+         })
       }
 
       if (response) {
@@ -110,6 +230,33 @@ function* handleUnAssignAmenitiesForTenant(action) {
 
          if (response?.status === 201 ) {
          yield put({ type: 'TENANT_UNASSIGN_AMENITIES', payload: { response: response.data, statusCode: response?.status  } })
+          var toastStyle = {
+            backgroundColor: "#E6F6E6",
+            color: "black",
+            width: "100%",
+            borderRadius: "60px",
+            height: "20px",
+            fontFamily: "Gilroy",
+            fontWeight: 600,
+            fontSize: 14,
+            textAlign: "start",
+            display: "flex",
+            alignItems: "center",
+            padding: "10px",
+
+         };
+      
+      toast.success(response.data, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle
+         })
       }
 
       if (response) {
@@ -1173,11 +1320,9 @@ function* handleGetRecurrbills(action) {
 
 
    if (response?.status === 200 ) {
-      yield put({ type: 'RECURRING_BILLS_LIST', payload: { response: response.data.data, statusCode: response?.status  } })
+      yield put({ type: 'RECURRING_BILLS_LIST', payload: { response: response.data, statusCode: response?.status  } })
    }
-   else if (response?.status === 201 ) {
-      yield put({ type: 'NODATA_RECURRINGBILLS_LIST', payload: { response: response.message, statusCode: response?.status } })
-   }
+ 
    else {
       yield put({ type: 'ERROR', payload:  response?.data?.message })
    }
@@ -1695,6 +1840,7 @@ function refreshToken(response) {
 
 
 function* InvoiceSaga() {
+   yield takeEvery('UPDATE_TENANT_RECURRING',handleUpdateTenantRecurring)
   yield takeEvery('TENANTUNASSIGNAMENITIES', handleUnAssignAmenitiesForTenant)
    yield takeEvery('TENANTASSIGNAMENITIES',handleAssignAmenitiesForTenant)
    yield takeEvery('CREATEREFUND',handleCreateRefund)

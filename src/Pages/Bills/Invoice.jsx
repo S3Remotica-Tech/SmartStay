@@ -153,7 +153,7 @@ const InvoicePage = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-
+console.log("recurringbills",recurringbills)
 
 
   const [transactionId, setTransactionId] = useState("");
@@ -217,6 +217,7 @@ const InvoicePage = () => {
 
 
 
+
   const handleInvoiceChange = (e) => {
     setInvoiceNumber(e.target.value);
   };
@@ -229,6 +230,16 @@ const InvoicePage = () => {
     }
   }, [canReadInvoice]);
 
+useEffect(()=>{
+  if(!canReadRecurring){
+    setRecurLoader(false)
+  }else{
+    setRecurLoader(true)
+  }
+
+},[canReadRecurring])
+
+
 
   const handleClick = (stayType) => {
     setActiveStay(stayType);
@@ -238,48 +249,54 @@ const InvoicePage = () => {
 
 
 
+  
+
+useEffect(() => {
+  const initialState = {};
+  recurringbills?.forEach((item) => {
+    initialState[item.customerId] = item.currentStatus === true;
+  });
+  setCheckedRows(initialState);
+}, [recurringbills]);
+ const handleToggle = (id) => {
+  if (!id) return;
+
+  const updatedValue = !checkedRows[id];
+  const stringValue = updatedValue ? "true" : "false";
+
+  setCheckedRows((prev) => ({
+    ...prev,
+    [id]: updatedValue,
+  }));
+
+  dispatch({
+    type: "UPDATE_TENANT_RECURRING",
+    payload: {
+      status: stringValue,
+      hostelId: state.login.selectedHostel_Id,
+      customerId: id
+    },
+  });
+};
+
+
+
+
+
+
+
+
   useEffect(() => {
-    if (recurringbills?.length > 0) {
-      const initialChecked = {};
-      recurringbills.forEach(item => {
-        initialChecked[item.customerId] = item.Bill_Enable === 1;
-      });
-      setCheckedRows(initialChecked);
+    if (state.InvoiceList.updateTenantRecurringStatusCode) {
+
+  dispatch({ type: "RECURRING-BILLS-LIST", payload:state.login?.selectedHostel_Id })
+
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_UPDATE_TENANT_RECURRING' })
+      }, 100)
     }
-  }, [recurringbills]);
 
-
-  const handleToggle = (id, Inv_ID) => {
-    if (!id) return;
-
-    setCheckedRows((prev) => {
-      const updated = {
-        ...prev,
-        [id]: !prev[id],
-      };
-      const cleaned = Object.fromEntries(
-        Object.entries(updated).filter(([key]) => key !== 'undefined')
-      );
-
-
-      const updatedValue = cleaned[id];
-
-      dispatch({
-        type: 'CUSTOMERRECURRINGENABLEDISABLE',
-        payload: {
-          user_id: id,
-          bill_enable: updatedValue,
-          Inv_ID: Inv_ID,
-        },
-      });
-
-      return cleaned;
-    });
-  };
-
-
-
-
+  }, [state.InvoiceList.updateTenantRecurringStatusCode])
 
 
 
@@ -300,10 +317,7 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (state.InvoiceList.CustomerRecurringEnableDisableStatusCode === 200) {
-      dispatch({
-        type: "RECURRING-BILLS-LIST",
-        payload: { hostel_id: state.login.selectedHostel_Id, stay_type: activeStay },
-      });
+     dispatch({ type: "RECURRING-BILLS-LIST", payload:state.login?.selectedHostel_Id })
 
       dispatch({ type: 'REMOVE_CUSTOMER_RECURRING_ENABLE_DISABLE' })
 
@@ -2034,13 +2048,10 @@ const InvoicePage = () => {
     }
 
     if (newValue === "2") {
-      setRecurLoader(true);
+      // setRecurLoader(true);
       setDownloadInvoice(false)
       setDownloadReceipt(false)
-      dispatch({
-        type: "RECURRING-BILLS-LIST",
-        payload: { hostel_id: hostelId, stay_type: activeStay },
-      });
+        dispatch({ type: "RECURRING-BILLS-LIST", payload:state.login?.selectedHostel_Id })
     }
 
     if (newValue === "3") {
@@ -2637,20 +2648,28 @@ const InvoicePage = () => {
 
   useEffect(() => {
 
-    if (hostelId) {
-      setRecurLoader(true);
-      dispatch({
-        type: "RECURRING-BILLS-LIST",
-        payload: { hostel_id: hostelId, stay_type: activeStay },
-      });
+    if (state.login?.selectedHostel_Id ) {
+      // setRecurLoader(true);
+      dispatch({ type: "RECURRING-BILLS-LIST", payload:state.login?.selectedHostel_Id })
     }
-  }, [hostelId, activeStay]);
+  }, [state.login?.selectedHostel_Id , activeStay]);
+
+
+console.log("state",state)
+
+
+
+
+
+
+
 
   useEffect(() => {
-    if (state.InvoiceList.RecurringbillsgetStatuscode === 200) {
-      setRecurringBills(state.InvoiceList.RecurringBills);
+    if (state.InvoiceList?.RecurringbillsgetStatuscode === 200) {
+        setRecurLoader(false);
+      setRecurringBills(state.InvoiceList.RecurringBills.customers);
       setOriginalRecuiring(state.InvoiceList.RecurringBills)
-      setRecurLoader(false);
+    
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_RECURRING_BILLS_LIST" });
       }, 100);
@@ -2662,10 +2681,7 @@ const InvoicePage = () => {
       state.InvoiceList.RecurringBillAddStatusCode === 200 ||
       state.InvoiceList.deleterecurringbillsStatuscode
     ) {
-      dispatch({
-        type: "RECURRING-BILLS-LIST",
-        payload: { hostel_id: hostelId, stay_type: activeStay },
-      });
+      dispatch({ type: "RECURRING-BILLS-LIST", payload:state.login?.selectedHostel_Id })
       setRecurringBills(state.InvoiceList.RecurringBills);
 
       setTimeout(() => {
@@ -2918,7 +2934,7 @@ const InvoicePage = () => {
 
 
   return (
-    <div style={{ overflowY: "auto", overflowX: "hidden" }}>
+    <div style={{  overflowX: "hidden" }}>
       {showAllBill && (
         <Row className="p-0">
           <Col className="p-0"
@@ -4522,7 +4538,7 @@ const InvoicePage = () => {
                                       style={{
 
                                         height: sortedData?.length >= 5 || sortedData?.length >= 5 ? "430px" : "auto",
-                                        overflow: "auto",
+                                        overflowY: "auto",
                                         borderTop: "1px solid #E8E8E8",
                                         marginTop: "20px",
                                         paddingRight: 0,
@@ -4841,7 +4857,7 @@ const InvoicePage = () => {
 
 
 
-                    {!recurLoader && sortedDataRecure.length === 0 && activeStay === 'long_stay' ? (
+                    {!recurLoader && recurringbills?.length === 0 && activeStay === 'long_stay' ? (
 
 
                       <div style={{ marginTop: 20 }}>
@@ -4874,7 +4890,7 @@ const InvoicePage = () => {
                           There are no Recuring bills added{" "}
                         </div>
                       </div>
-                    ) : !recurLoader && sortedDataRecure.length === 0 && activeStay === 'short_stay' ?
+                    ) : !recurLoader && activeStay === 'short_stay' ?
                       <div
                         style={{
                           height: "400px",
@@ -4883,10 +4899,10 @@ const InvoicePage = () => {
                           alignItems: "center",
                           backgroundColor: "#f2f6fc",
                           borderRadius: "10px",
-                          marginTop: "20px",
-                          marginRight: "10px",
+                                                    margin: "20px 30px",
                           boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
                           border: "1px dashed #b0c4de",
+                          
                         }}
                       >
                         <div style={{ textAlign: "center" }}>
@@ -4943,7 +4959,7 @@ const InvoicePage = () => {
 
 
 
-                    {sortedDataRecure && sortedDataRecure.length > 0 && (
+                    {recurringbills && recurringbills.length > 0 && activeStay === 'long_stay' && (
 
 
 
@@ -4969,8 +4985,8 @@ const InvoicePage = () => {
                           className='show-scrolls '
                           style={{
 
-                            height: sortedDataRecure?.length >= 5 || sortedDataRecure?.length >= 5 ? "450px" : "auto",
-                            overflow: "auto",
+                            height: sortedDataRecure?.length >= 5 || sortedDataRecure?.length >= 5 ? "380px" : "auto",
+                            overflowY: "auto",
                             borderTop: "1px solid #E8E8E8",
                             marginBottom: 20,
                             marginTop: "20px",
@@ -5115,41 +5131,15 @@ const InvoicePage = () => {
                                 > Action</th>
                               </tr>
                             </thead>
-                            {/* <tbody style={{ fontSize: "10px" }}>
-
-
-
-                            {
-                              sortedDataRecure &&
-                              sortedDataRecure.length > 0 &&
-                              sortedDataRecure.map((item) => (
-                                <RecurringBillList
-                                  key={item.ID}
-                                  item={item}
-                                  checked={checkedRows[item.ID] === true}
-                                  onToggle={() => handleToggle(item.ID, item.Inv_ID)}
-                                  handleDeleteRecurringbills={
-                                    handleDeleteRecurringbills
-                                  }
-                                  recuringbillAddPermission={
-                                    recuringbillAddPermission
-                                  }
-                                  billrolePermission={billrolePermission}
-                                  OnHandleshowform={handleShowForm}
-
-                                />
-                              ))
-                            }
-
-                          </tbody> */}
+                          
                             <tbody style={{ fontSize: "10px" }}>
                               <PaginationList>
-                                {sortedDataRecure.map((item) => (
+                                {recurringbills.map((item) => (
                                   <RecurringBillList
                                     key={item.customerId}
                                     item={item}
-                                    checked={checkedRows[item.customerId] === true}
-                                    onToggle={() => handleToggle(item.customerId, item.Inv_ID)}
+                                    checked={checkedRows[item.customerId] ?? false}
+                                    onToggle={() => handleToggle(item.customerId)}
                                     handleDeleteRecurringbills={handleDeleteRecurringbills}
                                     recuringbillAddPermission={recuringbillAddPermission}
                                     billrolePermission={billrolePermission}

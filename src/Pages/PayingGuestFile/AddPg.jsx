@@ -501,7 +501,7 @@ function AddPg({ show, handleClose, currentItem }) {
       setFormLoading(true)
     }
     else {
-      console.log("callededed else")
+     
       dispatch({
         type: "CREATEPG",
         payload: {
@@ -710,7 +710,7 @@ setImages(finalImages);
 
   }, [state.createAccount?.networkError])
 
-  console.log("state.PgList.updatePgStatusCode", state.PgList.updatePgStatusCode)
+ 
 
   return (
     <div

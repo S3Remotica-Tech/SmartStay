@@ -1030,6 +1030,59 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
                             </tbody>
                           </table>
+
+   <div className="mb-3 mt-3  px-3 py-2 border rounded" style={{
+                            backgroundColor: "#FAFBFF",
+                            fontSize: 13,
+                            fontWeight: 600,
+                          }}>
+
+
+
+
+                            <div
+                              className="d-flex justify-content-between align-items-center mb-2"
+                              style={{
+                                backgroundColor: "#FAFBFF",
+                                fontSize: 13,
+                                fontWeight: 600,
+                              }}
+                            >
+
+                              <div style={{ color: "#4B4B4B", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>Grand Total</div>
+                              <div style={{ fontSize: 14, fontWeight: 600, color: "#4B4B4B", fontFamily: "Gilroy" }}>₹{" "}
+                                {Number(pdfDetails?.invoiceInfo?.totalAmount || 0)}</div>
+                            </div>
+                            <div
+                              className="d-flex justify-content-between align-items-center mb-2"
+                              style={{
+                                backgroundColor: "#FAFBFF",
+                                fontSize: 13,
+                                fontWeight: 600,
+                              }}
+                            >
+
+                              <div style={{ color: "#4B4B4B", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>Payment Made</div>
+                              <div style={{ fontSize: 14, fontWeight: 600, color: "rgba(0,163, 46, 1)", fontFamily: "Gilroy" }}>₹{" "}
+                                {Number(pdfDetails?.invoiceInfo?.paidAmount || 0)}</div>
+                            </div>
+
+                            <div
+                              className="d-flex justify-content-between align-items-center mb-2"
+                              style={{
+                                backgroundColor: "#FAFBFF",
+                                fontSize: 13,
+                                fontWeight: 600,
+                              }}
+                            >
+
+                              <div style={{ color: "#4B4B4B", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>Balance Due</div>
+                              <div style={{ fontSize: 14, fontWeight: 600, color: "#FF0000", fontFamily: "Gilroy" }}>₹{" "}
+                                {Number(pdfDetails?.invoiceInfo?.balanceAmount || 0)}</div>
+                            </div>
+                          </div>
+
+
                         </div>
 
                         :
@@ -1218,7 +1271,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                             >
 
                               <div style={{ color: "#4B4B4B", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>Payment Made</div>
-                              <div style={{ fontSize: 14, fontWeight: 600, color: "#4B4B4B", fontFamily: "Gilroy" }}>₹{" "}
+                              <div style={{ fontSize: 14, fontWeight: 600, color: "rgba(0,163, 46, 1)", fontFamily: "Gilroy" }}>₹{" "}
                                 {Number(pdfDetails?.invoiceInfo?.paidAmount || 0)}</div>
                             </div>
 
@@ -1232,7 +1285,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                             >
 
                               <div style={{ color: "#4B4B4B", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>Balance Due</div>
-                              <div style={{ fontSize: 14, fontWeight: 600, color: "#4B4B4B", fontFamily: "Gilroy" }}>₹{" "}
+                              <div style={{ fontSize: 14, fontWeight: 600, color: "#FF0000", fontFamily: "Gilroy" }}>₹{" "}
                                 {Number(pdfDetails?.invoiceInfo?.balanceAmount || 0)}</div>
                             </div>
                           </div>

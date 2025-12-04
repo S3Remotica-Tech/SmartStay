@@ -82,8 +82,7 @@ const Compliance = () => {
   } = useHasPermission("Complaints");
 
 
-
-
+console.log(state,"state")
 
   // const canReadComplaints = useHasPermission("Complaints", "canRead");
   // const canWriteComplaints = useHasPermission("Complaints", "canWrite");
@@ -680,11 +679,37 @@ const Compliance = () => {
   }
 
 
+  function parseDMY(dateStr) {
+  if (!dateStr || typeof dateStr !== "string") {
+    return null;  
+  }
+
+  const parts = dateStr.split("/");
+  if (parts.length !== 3) {
+    return null;
+  }
+
+  const [day, month, year] = parts;
+  return new Date(`${year}-${month}-${day}`);
+}
+
+
+
+
+
+const currentDate = parseDMY(selectedDate);
+const initialDate = parseDMY(initialValuesRef.current.selectedDate);
+
+
+let hasChanges =
+  description !== initialValuesRef?.current?.Description ||
+  currentDate?.getTime() !== initialDate?.getTime();
 
 
 
 
   const handleAddcomplaint = () => {
+
 
     if (edit && !hasChanges) {
       setTotalErrmsg('No changes detected');
@@ -715,13 +740,12 @@ const Compliance = () => {
 
     // setEdit(false)
 
-
-
+console.log("userid",userid, "Complainttype",Complainttype,"selectedDate",selectedDate, "Floor", Floor, "Rooms",Rooms,"state.login.selectedHostel_Id",state.login.selectedHostel_Id)
 
     if (state.login.selectedHostel_Id && userid && Complainttype && selectedDate && Floor && Rooms) {
       // const formattedDate = selectedDate ? moment(selectedDate).format('DD-MM-YYYY') : '';
       const formattedDate = selectedDate ? selectedDate.format("DD/MM/YYYY") : null
-
+console.log("calledddd")
       const payload = {
         customerId: userid,
         complaintTypeId: Complainttype,
@@ -732,7 +756,7 @@ const Compliance = () => {
         description: description || "",
         hostelId: state.login.selectedHostel_Id
       }
-      if (edit && complaintId && hasChanges && formattedDate) {
+      if (complaintId) {
         dispatch({
           type: "EDIT_COMPLAINT",
           payload: {
@@ -747,19 +771,7 @@ const Compliance = () => {
         dispatch({ type: 'COMPLIANCE-ADD', payload })
         setFormLoading(true)
 
-        // setSelectedUserName('');
-        // setComplainttype('');
-        // setAssign('');
-        // setDescription('');
-        // setSelectedDate('')
-        // setBeds('')
-        // setBedName('')
-        // setFloor('');
-        // setRooms('');
-        // setHostelName('');
-        // setStatus('');
-        // setComplaintId('');
-        // setHostel_Id('')
+       
       }
 
 
@@ -811,15 +823,13 @@ const Compliance = () => {
       setStatus(Complaintdata.Status)
 
 
-      initialValuesRef.current = {
-        // Assign: Complaintdata.Assign,
-        Description: Complaintdata.description,
-        // Status: Complaintdata.Status,
-        selectedDate: new Date(Complaintdata.complaintDate)
-      };
+     initialValuesRef.current = {
+  Description: Complaintdata.description,
+  selectedDate: parseDMY(Complaintdata.complaintDate)
+};
+
     }
   }
-
 
 
 
@@ -868,14 +878,7 @@ const Compliance = () => {
 
 
 
-  let hasChanges =
-    // Assign !== initialValuesRef.current.Assign ||
-    description !== initialValuesRef.current.Description ||
-    // Status !== initialValuesRef.current.Status ||
-    new Date(selectedDate).getTime() !== new Date(initialValuesRef.current.selectedDate).getTime();
-
-
-
+  
 
 
   useEffect(() => {
@@ -1874,7 +1877,10 @@ const Compliance = () => {
 
 
                 {totalErrormsg.trim() !== "" && (
-                  <ErrorMessage message={totalErrormsg} type="error" />
+                  <div className='d-flex justify-content-center mb-2'>
+<ErrorMessage message={totalErrormsg} type="error" />
+                  </div>
+                  
                 )}
 
 

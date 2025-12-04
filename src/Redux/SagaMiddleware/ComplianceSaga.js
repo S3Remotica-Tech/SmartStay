@@ -373,17 +373,16 @@ function* handleComplianceChange(action) {
             style: toastStyle,
          });
       }
-      else {
-
-         yield put({ type: 'COMPLIANCE_CHANGE_STATUS_ERROR', payload: response.message })
-      }
+      
       if (response) {
          refreshToken(response)
       }
    }
    catch (error) {
       yield* handleApiError(error);
-     
+      if (error.status === 400 || error.status === 404) {
+            yield put({ type: 'COMPLIANCE_CHANGE_STATUS_ERROR', payload: error.response.data });
+         }
    }
 
 }
@@ -426,17 +425,16 @@ function* handleComplianceChangeAssign(action) {
             style: toastStyle,
          });
       }
-      else {
-
-         yield put({ type: 'COMPLIANCE_CHANGE_STATUS_ASSIGN_ERROR', payload: response.message })
-      }
+     
       if (response) {
          refreshToken(response)
       }
    }
    catch (error) {
       yield* handleApiError(error);
-     
+      if (error.status === 400 || error.status === 404) {
+            yield put({ type: 'COMPLIANCE_CHANGE_STATUS_ASSIGN_ERROR', payload: error.response.data });
+         }
    }
 
 }
