@@ -54,14 +54,14 @@ function NoticeBedStatusDetails({
 
   const {
     canUpdateModule: canUpdatePayingGuests,
-    canDeleteModule: canDeletePayingGuests,
+    // canDeleteModule: canDeletePayingGuests,
 
   } = useHasPermission("Paying Guests");
 
 
-  const [recheckin, setRecheckin] = useState(false)
+  // const [recheckin, setRecheckin] = useState(false)
   const [activeMenu, setActiveMenu] = useState(null);
-  const [bactocheckinForm, setBacktoCheckInForm] = useState(false)
+  // const [bactocheckinForm, setBacktoCheckInForm] = useState(false)
   const popupRef = useRef(null);
   const isNoticeAndBooked = currentItem?.newTenantInfo !== null
 
@@ -415,7 +415,7 @@ function NoticeBedStatusDetails({
 
                               <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
                               {/* new booking */}
-                              {!currentItem?.newTenantCustomerId &&
+                              {!currentItem?.newTenantInfo?.tenetId &&
 
                                 <div
                                   className="d-flex gap-2 align-items-center"
@@ -595,9 +595,13 @@ function NoticeBedStatusDetails({
                       <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Last Invoice</label>
                     </div>
                     <div>
-                      <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#1E45E1", fontWeight: 600 }}>{currentItem?.currentTenantInfo?.lastInvoiceNumber} & {currentItem?.currentTenantInfo?.totalInvoices} {currentItem?.currentTenantInfo?.totalInvoices > 2 && (
+                      <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#1E45E1", fontWeight: 600 }}>
+                        {currentItem?.currentTenantInfo?.lastInvoiceNumber} 
+                        & {currentItem?.currentTenantInfo?.totalInvoices}
+                         {currentItem?.currentTenantInfo?.totalInvoices > 2 && (
                                                 <span>  more</span>
-                                            )}</label>
+                                            )}
+                                            </label>
                     </div>
                   </div>
 
@@ -829,10 +833,10 @@ function NoticeBedStatusDetails({
                     <div className="d-flex gap-3 align-items-center justify-content-between">
                       <div className="d-flex gap-3 align-items-center">
                         <div>
-                          {currentItem?.newTenantProfilePic &&
-                            currentItem?.newTenantProfilePic !== "0" ? (
+                          {currentItem?.newTenantInfo?.profilePic &&
+                            currentItem?.newTenantInfo?.profilePic !== "0" ? (
                             <Image
-                              src={currentItem.newTenantProfilePic}
+                              src={currentItem.newTenantInfo?.profilePic}
                               roundedCircle
                               style={{ height: 50, width: 50 }}
                               alt="image"
@@ -852,7 +856,7 @@ function NoticeBedStatusDetails({
                                 color: "white", fontFamily: "Gilroy"
                               }}
                             >
-                              {currentItem?.newTenantInitials || "-"}
+                              {currentItem?.newTenantInfo?.tenantInitials || "-"}
                             </div>
                           )}
                         </div>
@@ -862,7 +866,7 @@ function NoticeBedStatusDetails({
                           </div>
                           <div><label style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}>
 
-                            {currentItem?.newTenantMobile ? `+ ${currentItem?.countryCode} ${String(currentItem?.newTenantMobile)}` : 'No phone'}
+                            {currentItem?.newTenantInfo?.mobile ? `+ ${currentItem?.newTenantInfo?.countryCode} ${String(currentItem?.newTenantInfo?.mobile)}` : 'No phone'}
 
 
                           </label></div>
@@ -877,7 +881,7 @@ function NoticeBedStatusDetails({
                       <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Booking Amount</label>
                     </div>
                     <div>
-                      <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>{currentItem?.newTenantBookingAmount || "N/A"}</label>
+                      <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>{currentItem?.newTenantInfo?.bookingAmount || "N/A"}</label>
                     </div>
                   </div>
 
@@ -886,7 +890,7 @@ function NoticeBedStatusDetails({
                       <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Check-In Date</label>
                     </div>
                     <div>
-                      <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>{currentItem?.newTenantJoiningDate || "N/A"}</label>
+                      <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>{currentItem?.newTenantInfo?.joiningDate || "N/A"}</label>
                     </div>
                   </div>
 
@@ -896,7 +900,11 @@ function NoticeBedStatusDetails({
                       <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Last Invoice</label>
                     </div>
                     <div>
-                      <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>INV563 & 2 more</label>
+                      <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}> {currentItem?.newTenantInfo?.lastInvoiceNumber} 
+                        & {currentItem?.newTenantInfo?.totalInvoices}
+                         {currentItem?.newTenantInfo?.totalInvoices > 2 && (
+                                                <span>  more</span>
+                                            )}</label>
                     </div>
                   </div>
 
