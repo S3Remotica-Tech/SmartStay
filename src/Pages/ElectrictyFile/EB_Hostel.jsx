@@ -252,6 +252,40 @@ const RoomReadingTable = () => {
     };
   });
 
+ const formattedRoomReadings = roomReadingList?.map((item) => {
+  // Billing Month from startDate (dd/mm/yyyy)
+  const [day, month, year] = item.startDate.split("/");
+  const billingMonth = new Date(`${year}-${month}-01`).toLocaleString("en-US", {
+    month: "short",
+    year: "numeric",
+  });
+
+
+  const formatDate = (dateStr) => {
+    if (!dateStr) return "-";
+    const [d, m, y] = dateStr.split("/").map(Number);
+    return new Date(y, m - 1, d).toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      // year: "numeric", 
+    });
+  };
+
+  return {
+    floorName: item.floorName,
+    roomName: item.roomName,
+    roomId:item.roomId,
+    hostelId:item.hostelId,
+    noOfTenants: item.noOfTenants,
+    billingMonth: billingMonth,
+    from: formatDate(item.startDate),
+    to: formatDate(item.endDate),
+    totalUnits: item.consumption,         
+    totalPrice: item.totalPrice ,  
+  };
+});
+
+console.log("formattedRoomReadings",formattedRoomReadings)
 
 
   return (
@@ -743,29 +777,24 @@ const RoomReadingTable = () => {
                           </thead>
                           <tbody style={{ fontSize: 14, color: "#000" }}>
                             <PaginationList>
-                              {roomReadingList?.map((row, i) => (
+                              {formattedRoomReadings?.map((row, i) => (
                                 <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "", textAlign:"center" }}>
-                                  <td style={{ fontSize: 15, fontWeight: 600, textAlign:"center",padding: "12px 16px" }}>{row.floorName}</td>
+                                  <td style={{ fontSize: 15, fontWeight: 600, textAlign:"center",padding: "12px 16px" }}>{row?.floorName}</td>
                                   <td
                                     style={{textAlign:"center",padding: "12px 16px" , color: canReadElectricity ? "#1E45E1" : "#DBDBDB", cursor: "pointer", fontWeight: 600, paddingLeft: "40px" }}
                                     onClick={() => canReadElectricity && handleRoomDetailsPage(row)}
                                   >
-                                    {row.roomName}
+                                    {row?.roomName}
                                   </td>
-                                  <td style={{padding: "12px 16px" }} >{row.noOfTenants}</td>
+                                  <td style={{padding: "12px 16px" }} >{row?.noOfTenants}</td>
                                   <td style={{ paddingLeft: "",padding: "12px 16px"  }}>
-                                    {row.entryDate !== "N/A"
-                                      ? new Date(row.entryDate.split("/").reverse().join("-")).toLocaleString(
-                                        "en-US",
-                                        { month: "short", year: "numeric" }
-                                      )
-                                      : "N/A"}
+                                    {row.billingMonth || "N/A"}
                                   </td>
 
-                                  <td style={{ paddingLeft: "" ,padding: "12px 16px" }}>{row.startDate || "N/A"}</td>
-                                  <td style={{ paddingLeft: "" ,padding: "12px 16px" }}>{row.endDate || "N/A"}</td>
-                                  <td style={{ paddingLeft: "" ,padding: "12px 16px" }}>{row.consumption}</td>
-                                  <td style={{ paddingLeft: "",padding: "12px 16px"  }}>{row.totalPrice || '0'}</td>
+                                  <td style={{ paddingLeft: "" ,padding: "12px 16px" }}>{row?.from || "N/A"}</td>
+                                  <td style={{ paddingLeft: "" ,padding: "12px 16px" }}>{row?.to || "N/A"}</td>
+                                  <td style={{ paddingLeft: "" ,padding: "12px 16px" }}>{row?.totalUnits}</td>
+                                  <td style={{ paddingLeft: "",padding: "12px 16px"  }}>{row?.totalPrice || '0'}</td>
                                   {
                                     !isEbBased &&
                                     <td style={{  cursor: canWriteElectricity ? "pointer" : "not-allowed" }}>

@@ -101,7 +101,7 @@ export const initialState = {
 }
 
 const InvoiceReducer = (state = initialState, action) => {
-console.log("REDUCER PAYLOAD", action.payload);
+
 
     switch (action.type) {
         case 'RESET_ALL':

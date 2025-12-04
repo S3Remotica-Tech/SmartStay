@@ -27,6 +27,7 @@ const EBRoomOverview = ({ onBack, room }) => {
     const [tenantReadingList, setTenantreadingList] = useState()
     const [tableLoading, setTableLoading] = useState(false)
 
+console.log("room",room)
 
 
     useEffect(() => {
@@ -49,11 +50,11 @@ const EBRoomOverview = ({ onBack, room }) => {
 
     }, [state.UsersList.getparticularRoomReadingStatus])
 
-    console.log("roomReadingList", roomReadingList)
+    console.log("roomReadingList*****", roomReadingList)
 
 
     const formattedReadings = roomReadingList?.map((item) => {
-        const [day, month, year] = item.startDate.split("/");
+        const [day, month, year] = item.entryDate.split("/");
         const billingMonth = new Date(`${year}-${month}-01`).toLocaleString("en-US", {
             month: "long",
             year: "numeric",
@@ -88,6 +89,13 @@ const EBRoomOverview = ({ onBack, room }) => {
             amount: item.consumption * item.unitPrice,
         };
     });
+
+
+
+
+
+
+
 
     const formattedTenantReadings = tenantReadingList?.map((item) => {
         const [day, month, year] = item.startDate.split("/");
