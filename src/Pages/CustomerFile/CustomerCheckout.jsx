@@ -92,11 +92,11 @@ function CustomerCheckout(props) {
 
 
   useEffect(() => {
-    if (props.bedData.actualJoining || props.bedData.currentTenantJoiningDate) {
-      setJoiningDate(props.bedData.actualJoining || props.bedData.currentTenantJoiningDate)
+    if (props.bedData.actualJoining || props.bedData.currentTenantInfo?.joiningDate) {
+      setJoiningDate(props.bedData.actualJoining || props.bedData.currentTenantInfo?.joiningDate)
     }
 
-  }, [props.bedData.actualJoining, props.bedData.currentTenantJoiningDate])
+  }, [props.bedData.actualJoining, props.bedData.currentTenantInfo])
 
 
 
@@ -153,7 +153,7 @@ function CustomerCheckout(props) {
     const formattedrequestDate = dayjs(requestDate).isValid()
       ? dayjs(requestDate).format("DD-MM-YYYY")
       : null;
-    const customerId = props.bedData?.currentTenantCustomerId || props.bedData?.customerId;
+    const customerId = props.bedData?.currentTenantInfo?.tenetId  || props.bedData?.customerId;
     if (customerId && formattedDate && formattedrequestDate) {
 
       dispatch({
@@ -202,7 +202,7 @@ function CustomerCheckout(props) {
     }
   }, [state.UsersList.addCheckoutCustomerStatusCode])
 
-
+console.log("props.bedData.",props.bedData)
 
 
   return (
@@ -281,16 +281,16 @@ function CustomerCheckout(props) {
                           {
                             props.bedData &&
                               (
-                                props.bedData.currentTenantProfilePic && props.bedData.currentTenantProfilePic !== "" ||
+                                props.bedData.currentTenantInfo?.profilePic && props.bedData.currentTenantInfo?.profilePic !== "" ||
                                 props.bedData.profilePic && props.bedData.profilePic !== ""
                               )
                               ? (
                                 <Image
                                   src={
-                                    props.bedData.currentTenantProfilePic && props.bedData.currentTenantProfilePic !== ""
-                                      ? typeof props.bedData.currentTenantProfilePic === "string"
-                                        ? props.bedData.currentTenantProfilePic
-                                        : URL.createObjectURL(props.bedData.currentTenantProfilePic)
+                                    props.bedData.currentTenantInfo?.profilePic && props.bedData.currentTenantInfo?.profilePic !== ""
+                                      ? typeof props.bedData.currentTenantInfo?.profilePic === "string"
+                                        ? props.bedData.currentTenantInfo?.profilePic
+                                        : URL.createObjectURL(props.bedData.currentTenantInfo?.profilePic)
                                       : typeof props.bedData.profilePic === "string"
                                         ? props.bedData.profilePic
                                         : URL.createObjectURL(props.bedData.profilePic)
@@ -319,7 +319,7 @@ function CustomerCheckout(props) {
                                             color: "white", fontFamily: "Gilroy"
                                         }}
                                 >
-                                  {props.bedData?.initials || props.bedData?.currentTenantInitials || "-"}
+                                  {props.bedData?.initials || props.bedData?.currentTenantInfo?.tenantInitials || "-"}
                                 </div>
                               )
                           }
@@ -338,7 +338,7 @@ function CustomerCheckout(props) {
                                   fontFamily: "Gilroy",
                                 }}
                               >
-                                {props.data?.Name || state.UsersList.customerdetails?.data?.[0].Name || props.bedData?.currentTenantFullName || props.bedData?.fullName}
+                                {props.bedData?.currentTenantInfo?.tenantFullName || props.bedData?.fullName}
                               </label>
                             </div>
 

@@ -45,8 +45,8 @@ function CheckIn({
     const [placeHolderRoomRent, setPlaceHolderRoomRent] = useState("");
 
     useEffect(() => {
-        if (currentItem?.newTenantCustomerId) {
-            dispatch({ type: 'BOOKEDDETAILS', payload: { hostelId: state.login.selectedHostel_Id, customerId: currentItem?.newTenantCustomerId } })
+        if (currentItem?.newTenantInfo?.tenetId) {
+            dispatch({ type: 'BOOKEDDETAILS', payload: { hostelId: state.login.selectedHostel_Id, customerId: currentItem?.newTenantInfo?.tenetId } })
         }
 
     }, [])
@@ -164,7 +164,7 @@ function CheckIn({
 
     const formatOptions = () => {
         return state.UsersList?.Users
-            ?.filter(user => user.customerId === currentItem.newTenantCustomerId)
+            ?.filter(user => user.customerId === currentItem.newTenantInfo?.tenetId)
             .map(user => ({
                 value: user.customerId,
                 label: (
@@ -388,7 +388,7 @@ function CheckIn({
             dispatch({
                 type: 'BOOKINGTOCHECKIN',
                 payload: {
-                    customerId: currentItem?.newTenantCustomerId,
+                    customerId: currentItem?.newTenantInfo?.tenetId,
                     bookingId: state.UsersList?.bookedDetails?.bookingId,
                     joiningDate: formattedDate,
                     advanceAmount: Number(AdvanceAmount),
@@ -438,6 +438,9 @@ function CheckIn({
         }
 
     }, [state.UsersList.bedError])
+
+
+
 
 
     return (
@@ -493,10 +496,10 @@ function CheckIn({
 
                             <div className="d-flex align-items-center gap-3 mb-3 ms-3">
 
-                                {currentItem?.newTenantProfilePic &&
-                                    currentItem?.newTenantProfilePic !== "0" ? (
+                                {currentItem?.newTenantInfo?.profilePic &&
+                                    currentItem?.newTenantInfo?.profilePic !== "0" ? (
                                     <Image
-                                        src={currentItem.newTenantProfilePic}
+                                        src={currentItem.newTenantInfo?.profilePic}
                                         roundedCircle
                                         style={{ height: 50, width: 50 }}
                                         alt="image"
@@ -516,13 +519,13 @@ function CheckIn({
                                             color: "white", fontFamily: "Gilroy"
                                         }}
                                     >
-                                        {currentItem?.newTenantInitials || "-"}
+                                        {currentItem?.newTenantInfo?.tenantInitials || "-"}
                                     </div>
                                 )}
                                 <div>
                                     <div>
                                         <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px", fontFamily: "Gilroy" }}>
-                                            {currentItem.newTenantFullName}
+                                            {currentItem.newTenantInfo?.tenantFullName}
                                         </p>
 
                                     </div>

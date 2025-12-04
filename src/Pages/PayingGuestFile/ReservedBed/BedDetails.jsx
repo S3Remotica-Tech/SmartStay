@@ -28,7 +28,7 @@ function BedDetails({
     const navigate = useNavigate();
     // const canWriteCustomers = useHasPermission("Customers", "canWrite")
 
-console.log("currentItem",currentItem)
+    console.log("currentItem", currentItem)
 
     const {
         canWriteModule: canWriteCustomers,
@@ -125,7 +125,7 @@ console.log("currentItem",currentItem)
                 customerId: tenantDetails?.newTenantInfo?.tenetId,
                 hostelId: state.login?.selectedHostel_Id,
                 name: tenantDetails?.newTenantInfo?.tenantFullName,
-                 isPgWay:true
+                isPgWay: true
             },
         });
         dispatch({ type: "UPDATE_USERSLIST_FALSE" });
@@ -249,10 +249,10 @@ console.log("currentItem",currentItem)
                                         <div className="d-flex gap-3 align-items-center">
 
                                             <div>
-                                                {currentItem?.newTenantProfilePic &&
-                                                    currentItem?.newTenantProfilePic !== "0" ? (
+                                                {currentItem?.newTenantInfo?.profilePic &&
+                                                    currentItem?.newTenantInfo?.profilePic !== "0" ? (
                                                     <Image
-                                                        src={currentItem.newTenantProfilePic}
+                                                        src={currentItem?.newTenantInfo?.profilePic}
                                                         roundedCircle
                                                         style={{ height: 50, width: 50 }}
                                                         alt="image"
@@ -272,17 +272,17 @@ console.log("currentItem",currentItem)
                                                             color: "white", fontFamily: "Gilroy"
                                                         }}
                                                     >
-                                                        {currentItem?.newTenantInitials || "-"}
+                                                        {currentItem?.newTenantInfo?.tenantInitials || "-"}
                                                     </div>
                                                 )}
                                                 {/* <Image src={currentItem?.newTenantProfilePic && currentItem?.newTenantProfilePic !== "0" ? currentItem?.newTenantProfilePic : Profile} roundedCircle style={{ height: 50, width: 50 }} alt="image" /> */}
                                             </div>
                                             <div className="mt-2">
                                                 <div>
-                                                    <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600, cursor:"pointer", textDecoration:"underline" }} onClick={() => handleNavigateTenantProfile(currentItem)}>{currentItem?.newTenantFullName || "N/A"}</label>
+                                                    <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600, cursor: "pointer", textDecoration: "underline" }} onClick={() => handleNavigateTenantProfile(currentItem)}>{currentItem?.newTenantInfo?.tenantFullName || "N/A"}</label>
                                                 </div>
                                                 <div><label style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                                    {currentItem?.newTenantMobile ? `+ ${currentItem?.countryCode} ${String(currentItem?.newTenantMobile)}` : 'No phone'}
+                                                    {currentItem?.newTenantInfo?.mobile ? `+ ${currentItem?.newTenantInfo?.countryCode} ${String(currentItem?.newTenantInfo?.mobile)}` : 'No phone'}
 
                                                 </label></div>
                                             </div>
@@ -417,7 +417,7 @@ console.log("currentItem",currentItem)
                                             <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Booking Amount</label>
                                         </div>
                                         <div>
-                                            <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>{currentItem?.newTenantBookingAmount || "N/A"}</label>
+                                            <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>{currentItem?.newTenantInfo?.bookingAmount || "N/A"}</label>
                                         </div>
                                     </div>
 
@@ -426,7 +426,7 @@ console.log("currentItem",currentItem)
                                             <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Check-In Date</label>
                                         </div>
                                         <div>
-                                            <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>{currentItem?.newTenantJoiningDate || "N/A"}</label>
+                                            <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>{currentItem?.newTenantInfo?.joiningDate || "N/A"}</label>
                                         </div>
                                     </div>
 
@@ -456,7 +456,7 @@ console.log("currentItem",currentItem)
 
 
 
-                        
+
                     </Modal.Dialog>
                 </Modal>
             </div>

@@ -737,7 +737,7 @@ console.log("state.PgList",state.PgList)
     dispatch(triggerPG(false))
   }, [])
 
-
+console.log("state.PgList?.isClickedBed",state.PgList?.isClickedBed)
 
 
   return (
@@ -821,10 +821,10 @@ console.log("state.PgList",state.PgList)
 
 
 
-                  {state.PgList?.isClickedBed?.currentTenantProfilePic ? (
-                    // ✅ Show profile image if available
+                  {state.PgList?.isClickedBed?.currentTenantInfo?.profilePic ? (
+                   
                     <img
-                      src={state.PgList?.OccupiedCustomer?.currentTenantProfilePic || Profiles}
+                      src={state.PgList?.OccupiedCustomer?.currentTenantInfo?.profilePic || Profiles}
                       alt="Tenant Profile"
                       style={{
                         height: "60px",
@@ -855,7 +855,7 @@ console.log("state.PgList",state.PgList)
                         textTransform: "uppercase",
                       }}
                     >
-                      {state.PgList?.isClickedBed?.currentTenantInitials || "?"}
+                      {state.PgList?.isClickedBed?.currentTenantInfo?.tenantInitials || "?"}
                     </div>
                   )}
 
