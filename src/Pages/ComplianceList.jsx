@@ -43,7 +43,7 @@ const ComplianceList = (props) => {
   const [formLoading, setFormLoading] = useState(false)
   const [commentsLoading, setCommentsLoading] = useState(false)
   const [showComplaint, setShowComplaint] = useState(false);
-const [complaintsDetails, setComplaintsDetails] = useState('')
+  const [complaintsDetails, setComplaintsDetails] = useState('')
   const popupRef = useRef(null);
   const [trigger, setTrigger] = useState(false);
 
@@ -254,7 +254,7 @@ const [complaintsDetails, setComplaintsDetails] = useState('')
 
   const handleChangeStatusOpenClose = (item) => {
 
-
+    dispatch({ type: 'REMOVE_COMPLIANCE_CHANGE_STATUS_ERROR' })
     // setAssignId(item?.ID);
     setShowDots(false);
     setStatus(item?.status === null ? "Open" : item?.status);
@@ -268,6 +268,7 @@ const [complaintsDetails, setComplaintsDetails] = useState('')
 
 
   const ChangeStatusClose = () => {
+    dispatch({ type: 'REMOVE_COMPLIANCE_CHANGE_STATUS_ERROR' })
     setShowChangeStatus(false);
     setStatusError("");
   };
@@ -280,7 +281,7 @@ const [complaintsDetails, setComplaintsDetails] = useState('')
   }, []);
 
   const handleChangeStatusClick = () => {
-
+    dispatch({ type: 'REMOVE_COMPLIANCE_CHANGE_STATUS_ERROR' })
     const prevStatus = selectedStatus || "";
 
     if (!status) {
@@ -312,7 +313,7 @@ const [complaintsDetails, setComplaintsDetails] = useState('')
 
   const handleAssignComplaintClick = () => {
 
-
+    dispatch({ type: 'REMOVE_COMPLIANCE_CHANGE_STATUS_ASSIGN_ERROR' })
     if (alreadyAssigned === compliant && compliant !== "") {
       setStatusErrorType("No Changes Detected");
       return;
@@ -385,6 +386,8 @@ const [complaintsDetails, setComplaintsDetails] = useState('')
 
 
   const handleCloseAssign = () => {
+
+    dispatch({ type: 'REMOVE_COMPLIANCE_CHANGE_STATUS_ASSIGN_ERROR' })
     setShowAssignComplaint(false);
     setStatusError("");
     setStatusErrorType("");
@@ -392,6 +395,8 @@ const [complaintsDetails, setComplaintsDetails] = useState('')
   };
 
   const handleCompliant = (selectedOption) => {
+
+    dispatch({ type: 'REMOVE_COMPLIANCE_CHANGE_STATUS_ASSIGN_ERROR' })
     setCompliant(selectedOption?.value || '');
     if (selectedOption === "") {
       setStatusErrorType("Please Select Compliant");
@@ -402,6 +407,7 @@ const [complaintsDetails, setComplaintsDetails] = useState('')
 
 
   const handleStatus = (selectedOption) => {
+    dispatch({ type: 'REMOVE_COMPLIANCE_CHANGE_STATUS_ERROR' })
     setStatus(selectedOption?.value || '');
     if (selectedOption?.value) {
       setStatusError('');
@@ -462,7 +468,7 @@ const [complaintsDetails, setComplaintsDetails] = useState('')
   }, []);
 
   useEffect(() => {
-    if (state.createAccount?.networkError) {
+    if (state.createAccount?.networkError || state.ComplianceList?.complianceChangeError || state.ComplianceList?.complianceAssignChangeError) {
       setFormLoading(false)
       setFormAssignCompliantLoading(false)
       setCommentsLoading(false)
@@ -472,7 +478,7 @@ const [complaintsDetails, setComplaintsDetails] = useState('')
       }, 3000)
     }
 
-  }, [state.createAccount?.networkError])
+  }, [state.createAccount?.networkError, state.ComplianceList?.complianceChangeError, state.ComplianceList?.complianceAssignChangeError])
 
 
 
@@ -1566,6 +1572,13 @@ const [complaintsDetails, setComplaintsDetails] = useState('')
                               <ErrorMessage message={statusError} type="error" />
                             </div>
                           )}
+
+
+                          {state.ComplianceList?.complianceChangeError &&
+                            <div className="d-flex justify-content-center mb-1">
+                              <ErrorMessage message={state.ComplianceList?.complianceChangeError} type="error" />
+                            </div>
+                          }
                         </div>
                       </div>
                       {/* {state.createAccount?.networkError ?
@@ -1841,10 +1854,11 @@ const [complaintsDetails, setComplaintsDetails] = useState('')
                         </div>
                       </div>
 
-                      {/* {state.createAccount?.networkError ?
-                        <ErrorMessage message={state.createAccount?.networkError} type="error" />
+                      {state.ComplianceList?.complianceAssignChangeError &&
 
-                        : null} */}
+                        <ErrorMessage message={state.ComplianceList.complianceAssignChangeError} type="error" />
+
+                      }
                     </Modal.Body>
                     {formAssignCompliantLoading && <div
                       style={{
@@ -1988,9 +2002,9 @@ const [complaintsDetails, setComplaintsDetails] = useState('')
         </Modal.Footer>
       </Modal>
 
-{
-  showComplaint && <ComplaintsView  show={showComplaint} handleClose={handleCloseComplaintsView} complaintsDetails={complaintsDetails} trigger={trigger}/> 
-}
+      {
+        showComplaint && <ComplaintsView show={showComplaint} handleClose={handleCloseComplaintsView} complaintsDetails={complaintsDetails} trigger={trigger} />
+      }
 
 
 

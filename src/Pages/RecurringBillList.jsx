@@ -5,14 +5,14 @@ import Delete from '../Assets/Images/Delete_red.png';
 import Modal from "react-bootstrap/Modal";
 import { Button } from "react-bootstrap";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 import { FaCheck } from "react-icons/fa";
+import { useDispatch, useSelector } from 'react-redux';
 
 const RecurringBillList = (props) => {
   const state = useSelector((state) => state);
   const [recurringBillDeletePermission, setRecurringBillDeletePermission] = useState("")
   const [deleteShow, setDeleteShow] = useState(false)
-
+const dispatch = useDispatch()
 
   const handleDeleteForm = () => {
     setDeleteShow(true)
@@ -75,13 +75,13 @@ const RecurringBillList = (props) => {
 
 
   const handleDelete = () => {
- 
+
     props.handleDeleteRecurringbills(props.item);
 
   }
 
 
- 
+
 
 
 
@@ -100,7 +100,6 @@ const RecurringBillList = (props) => {
   }, []);
 
 
-  
 
 
 
@@ -108,7 +107,7 @@ const RecurringBillList = (props) => {
 
     <>
 
-      <tr key={props.item.id} style={{ color: "#000", fontFamily: "Gilroy", fontSize: "14px", fontStyle: "normal", lineHeight: "normal", alignItems: 'center', marginTop: '10px', flexWrap: "wrap" }} className='m-2' >
+      <tr key={props.item.customerId} style={{ color: "#000", fontFamily: "Gilroy", fontSize: "14px", fontStyle: "normal", lineHeight: "normal", alignItems: 'center', marginTop: '10px', flexWrap: "wrap" }} className='m-2' >
 
 
         <td className="table-cells ps-2 ps-sm-2 ps-md-3 ps-lg-3" style={{ border: "none", flexWrap: "wrap", paddingTop: '18px', textAlign: "center", whiteSpace: "nowrap", borderBottom: "1px solid #E8E8E8" }}>
@@ -116,7 +115,7 @@ const RecurringBillList = (props) => {
 
             <div className="Invoice_Name" style={{ fontFamily: 'Gilroy', fontSize: '13px', marginLeft: '17px', fontStyle: 'normal', lineHeight: 'normal', fontWeight: 500, cursor: "pointer" }}
 
-            >{props.item?.Name}</div><br />
+            >{props.item?.fullName}</div><br />
 
           </div>
         </td>

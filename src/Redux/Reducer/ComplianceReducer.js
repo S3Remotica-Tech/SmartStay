@@ -95,6 +95,8 @@ case 'UPDATE_VENDOR':
             return { ...state, complianceChangeRes: action.payload.response, complianceChangeStatus: action.payload.statusCode }
         case 'COMPLIANCE_CHANGE_STATUS_ERROR':
             return { ...state, complianceChangeError: action.payload }
+            case 'REMOVE_COMPLIANCE_CHANGE_STATUS_ERROR':
+            return { ...state, complianceChangeError: "" }
         case 'CLEAR_COMPLIANCE_CHANGE_STATUS_CODE':
             return { ...state, complianceChangeStatus: 0 }
 
@@ -102,6 +104,8 @@ case 'UPDATE_VENDOR':
             return { ...state, complianceAssignChangeRes: action.payload.response, complianceAssignChangeStatus: action.payload.statusCode }
         case 'COMPLIANCE_CHANGE_STATUS_ASSIGN_ERROR':
             return { ...state, complianceAssignChangeError: action.payload }
+             case 'REMOVE_COMPLIANCE_CHANGE_STATUS_ASSIGN_ERROR':
+            return { ...state, complianceAssignChangeError: "" }
         case 'CLEAR_COMPLIANCE_CHANGE_ASSIGN':
             return { ...state, complianceAssignChangeStatus: 0 }
 

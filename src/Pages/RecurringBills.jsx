@@ -97,8 +97,10 @@ const RecurringBills = (props) => {
 
 
   useEffect(() => {
-    dispatch({ type: "RECURRING-BILLS-LIST" })
-  }, [])
+    if(state.login?.selectedHostel_Id){
+    dispatch({ type: "RECURRING-BILLS-LIST", payload:state.login?.selectedHostel_Id })
+    }
+  }, [state.login?.selectedHostel_Id])
 
   useEffect(() => {
     if (state.InvoiceList.RecurringbillsgetStatuscode === 200) {
@@ -113,7 +115,7 @@ const RecurringBills = (props) => {
         if (state.InvoiceList.RecurringBillAddStatusCode === 200 ) {
            props.onhandleback()
            setFormLoading(false)
-          dispatch({ type: 'RECURRING-BILLS-LIST' });
+          dispatch({ type: "RECURRING-BILLS-LIST", payload:state.login?.selectedHostel_Id })
 
              setCustomerName('');
              setInvoiceNumber('');

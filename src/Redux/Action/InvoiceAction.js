@@ -122,11 +122,12 @@ export  function AddRecurrBillsUsers() {
 })
 }
 
-export  function GetRecurrBills() {
-  new Promise((resolve) => {
-  resolve({status: 200});
-})
+export async function GetRecurrBills(hostelId) {
+   return await AxiosConfigV2.get(`/v2/customers/config/${hostelId}`, )
 }
+
+
+
 
 export function DeleteRecurrBills() {
  new Promise((resolve) => {
@@ -227,6 +228,18 @@ export async function AddAmenity(hostelId, datum) {
   })
 }
 
+export async function updateRecurringTenant(recurring) {
+  console.log("recurring", recurring);
+
+  const body = {
+    status: recurring?.status
+  };
+
+  return await AxiosConfigV2.put(
+    `/v2/customers/config/${recurring.hostelId}/${recurring.customerId}`,
+    body
+  );
+}
 
 
 

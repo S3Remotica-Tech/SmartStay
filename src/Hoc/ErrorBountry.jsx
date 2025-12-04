@@ -36,7 +36,7 @@ class ErrorBoundary extends React.Component {
           }}
         >
 
-          <    BiSolidError style={{ width: 220, height: 160 , color:"#FFB300"}}/>
+          <    BiSolidError style={{ width: 220, height: 120 , color:"#FFB300"}}/>
 
           <div style={{ maxWidth: 540 }}>
             <h2 style={{ margin: 0, fontSize: 22, fontWeight: 600 }}>Something went wrong</h2>

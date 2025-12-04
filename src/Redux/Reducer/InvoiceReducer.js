@@ -87,6 +87,7 @@ export const initialState = {
     createRefundStatusCode: 0,
     refundDetails: [],
     refundDetailsStatusCode: 0,
+    updateTenantRecurringStatusCode: 0,
     tenantAssignStatus: 0,
     tenantUnAssignStatus: 0,
     whatsappSettings:
@@ -100,6 +101,7 @@ export const initialState = {
 }
 
 const InvoiceReducer = (state = initialState, action) => {
+
 
     switch (action.type) {
         case 'RESET_ALL':
@@ -311,6 +313,10 @@ const InvoiceReducer = (state = initialState, action) => {
         case 'REMOVE_NODATA_BILL_LIST':
             return { ...state, BillsErrorstatusCode: 0 }
 
+            case 'UPDATE_TENANT_RECURRING_SUCCESS':
+                 return { ...state, updateTenantRecurringStatusCode: action.payload.statusCode }
+ case 'REMOVE_UPDATE_TENANT_RECURRING':
+                 return { ...state, updateTenantRecurringStatusCode: 0 }
         case 'DELETE_MANUAL_ERROR':
             return { ...state, deletemanualError: action.payload }
 
