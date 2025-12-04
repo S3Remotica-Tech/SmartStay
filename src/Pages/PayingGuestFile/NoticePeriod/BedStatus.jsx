@@ -54,16 +54,16 @@ function NoticeBedStatusDetails({
 
   const {
     canUpdateModule: canUpdatePayingGuests,
-    canDeleteModule: canDeletePayingGuests,
+    // canDeleteModule: canDeletePayingGuests,
 
   } = useHasPermission("Paying Guests");
 
 
-  const [recheckin, setRecheckin] = useState(false)
+  // const [recheckin, setRecheckin] = useState(false)
   const [activeMenu, setActiveMenu] = useState(null);
-  const [bactocheckinForm, setBacktoCheckInForm] = useState(false)
+  // const [bactocheckinForm, setBacktoCheckInForm] = useState(false)
   const popupRef = useRef(null);
-  const isNoticeAndBooked = currentItem?.newTenantCustomerId !== null
+  const isNoticeAndBooked = currentItem?.newTenantInfo !== null
 
 
   const handleEditBed = () => {
@@ -117,7 +117,7 @@ function NoticeBedStatusDetails({
 
   }
   const matchedData = state?.UsersList?.Users?.filter(
-    (user) => user.customerId === currentItem.currentTenantCustomerId
+    (user) => user.customerId === currentItem.currentTenantInfo?.tenetId
   );
 
 
@@ -130,9 +130,9 @@ function NoticeBedStatusDetails({
   }
 
 
-  const handleCheckInforBookingTenant = () => {
-    handleDisplayCheckInForm(true)
-  }
+  // const handleCheckInforBookingTenant = () => {
+  //   handleDisplayCheckInForm(true)
+  // }
 
 
   useEffect(() => {
@@ -213,12 +213,12 @@ function NoticeBedStatusDetails({
 
   const handleNavigateTenantProfile = (tenantDetails) => {
     if(tenantDetails){
-        dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: tenantDetails.currentTenantCustomerId || tenantDetails.newTenantCustomerId } });
-        navigate(`/tenant/details/${tenantDetails.currentTenantCustomerId || tenantDetails.newTenantCustomerId}`, {
+        dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: tenantDetails.currentTenantInfo?.tenetId || tenantDetails.newTenantInfo?.tenetId  } });
+        navigate(`/tenant/details/${tenantDetails.currentTenantInfo?.tenetId || tenantDetails.newTenantInfo?.tenetId }`, {
             state: {
-                customerId: tenantDetails.currentTenantCustomerId || tenantDetails.newTenantCustomerId,
+                customerId: tenantDetails.currentTenantInfo?.tenetId || tenantDetails.newTenantInfo?.tenetId ,
                 hostelId: state.login.selectedHostel_Id,
-                name: tenantDetails.currentTenantFullName || tenantDetails.newTenantFullName,
+                name: tenantDetails.currentTenantInfo?.tenantFullName || tenantDetails.newTenantInfo?.tenantFullName,
                  isPgWay:true
             },
         });
@@ -228,12 +228,12 @@ function NoticeBedStatusDetails({
 
     const handleNavigateReservedTenantProfile = (tenantDetails) => {
     if(tenantDetails){
-        dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: tenantDetails.newTenantCustomerId } });
-        navigate(`/tenant/details/${tenantDetails.newTenantCustomerId}`, {
+        dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: tenantDetails.newTenantInfo?.tenetId } });
+        navigate(`/tenant/details/${tenantDetails.newTenantInfo?.tenetId}`, {
             state: {
-                customerId: tenantDetails.newTenantCustomerId,
+                customerId: tenantDetails.newTenantInfo?.tenetId,
                 hostelId: state.login.selectedHostel_Id,
-                name:tenantDetails.newTenantFullName,
+                name:tenantDetails.newTenantInfo?.tenantFullName,
                  isPgWay:true
             },
         });
@@ -415,7 +415,7 @@ function NoticeBedStatusDetails({
 
                               <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
                               {/* new booking */}
-                              {!currentItem?.newTenantCustomerId &&
+                              {!currentItem?.newTenantInfo?.tenetId &&
 
                                 <div
                                   className="d-flex gap-2 align-items-center"
@@ -529,10 +529,10 @@ function NoticeBedStatusDetails({
                   <div className="d-flex gap-3 align-items-center justify-content-between">
                     <div className="d-flex gap-3 align-items-center">
                       <div>
-                        {currentItem?.currentTenantProfilePic &&
-                          currentItem?.currentTenantProfilePic !== "0" ? (
+                        {currentItem?.currentTenantInfo?.profilePic &&
+                          currentItem?.currentTenantInfo?.profilePic !== "0" ? (
                           <Image
-                            src={currentItem.currentTenantProfilePic}
+                            src={currentItem.currentTenantInfo?.profilePic}
                             roundedCircle
                             style={{ height: 50, width: 50 }}
                             alt="image"
@@ -552,17 +552,17 @@ function NoticeBedStatusDetails({
                               color: "white", fontFamily: "Gilroy"
                             }}
                           >
-                            {currentItem?.currentTenantInitials || "-"}
+                            {currentItem?.currentTenantInfo?.tenantInitials || "-"}
                           </div>
                         )}
                       </div>
                       <div className="mt-2">
                         <div>
-                          <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600,cursor:"pointer", textDecoration:"underline"}}  onClick={() => handleNavigateTenantProfile(currentItem)} >{currentItem?.currentTenantFullName || "N/A"}</label>
+                          <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600,cursor:"pointer", textDecoration:"underline"}}  onClick={() => handleNavigateTenantProfile(currentItem)} >{currentItem?.currentTenantInfo?.tenantFullName || "N/A"}</label>
                         </div>
                         <div><label style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}>
 
-                          {currentItem?.currentTenantMobile ? `+ ${currentItem?.countryCode} ${String(currentItem?.currentTenantMobile)}` : 'No phone'}
+                          {currentItem?.currentTenantInfo?.mobile ? `+ ${currentItem?.currentTenantInfo?.countryCode} ${String(currentItem?.currentTenantInfo?.mobile)}` : 'No phone'}
 
 
                         </label></div>
@@ -576,7 +576,7 @@ function NoticeBedStatusDetails({
                       <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Rental Amount</label>
                     </div>
                     <div>
-                      <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>₹{currentItem?.currentRent}</label>
+                      <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>₹{currentItem?.currentTenantInfo?.rentAmount}</label>
                     </div>
                   </div>
 
@@ -585,7 +585,7 @@ function NoticeBedStatusDetails({
                       <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Check-In Date</label>
                     </div>
                     <div>
-                      <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>{currentItem?.currentTenantJoiningDate}</label>
+                      <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>{currentItem?.currentTenantInfo?.joiningDate}</label>
                     </div>
                   </div>
 
@@ -595,7 +595,13 @@ function NoticeBedStatusDetails({
                       <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Last Invoice</label>
                     </div>
                     <div>
-                      <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>INV563 & 2 more</label>
+                      <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#1E45E1", fontWeight: 600 }}>
+                        {currentItem?.currentTenantInfo?.lastInvoiceNumber} 
+                        & {currentItem?.currentTenantInfo?.totalInvoices}
+                         {currentItem?.currentTenantInfo?.totalInvoices > 2 && (
+                                                <span>  more</span>
+                                            )}
+                                            </label>
                     </div>
                   </div>
 
@@ -827,10 +833,10 @@ function NoticeBedStatusDetails({
                     <div className="d-flex gap-3 align-items-center justify-content-between">
                       <div className="d-flex gap-3 align-items-center">
                         <div>
-                          {currentItem?.newTenantProfilePic &&
-                            currentItem?.newTenantProfilePic !== "0" ? (
+                          {currentItem?.newTenantInfo?.profilePic &&
+                            currentItem?.newTenantInfo?.profilePic !== "0" ? (
                             <Image
-                              src={currentItem.newTenantProfilePic}
+                              src={currentItem.newTenantInfo?.profilePic}
                               roundedCircle
                               style={{ height: 50, width: 50 }}
                               alt="image"
@@ -850,7 +856,7 @@ function NoticeBedStatusDetails({
                                 color: "white", fontFamily: "Gilroy"
                               }}
                             >
-                              {currentItem?.newTenantInitials || "-"}
+                              {currentItem?.newTenantInfo?.tenantInitials || "-"}
                             </div>
                           )}
                         </div>
@@ -860,7 +866,7 @@ function NoticeBedStatusDetails({
                           </div>
                           <div><label style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}>
 
-                            {currentItem?.newTenantMobile ? `+ ${currentItem?.countryCode} ${String(currentItem?.newTenantMobile)}` : 'No phone'}
+                            {currentItem?.newTenantInfo?.mobile ? `+ ${currentItem?.newTenantInfo?.countryCode} ${String(currentItem?.newTenantInfo?.mobile)}` : 'No phone'}
 
 
                           </label></div>
@@ -875,7 +881,7 @@ function NoticeBedStatusDetails({
                       <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Booking Amount</label>
                     </div>
                     <div>
-                      <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>{currentItem?.newTenantBookingAmount || "N/A"}</label>
+                      <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>{currentItem?.newTenantInfo?.bookingAmount || "N/A"}</label>
                     </div>
                   </div>
 
@@ -884,7 +890,7 @@ function NoticeBedStatusDetails({
                       <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Check-In Date</label>
                     </div>
                     <div>
-                      <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>{currentItem?.newTenantJoiningDate || "N/A"}</label>
+                      <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>{currentItem?.newTenantInfo?.joiningDate || "N/A"}</label>
                     </div>
                   </div>
 
@@ -894,7 +900,11 @@ function NoticeBedStatusDetails({
                       <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Last Invoice</label>
                     </div>
                     <div>
-                      <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>INV563 & 2 more</label>
+                      <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}> {currentItem?.newTenantInfo?.lastInvoiceNumber} 
+                        & {currentItem?.newTenantInfo?.totalInvoices}
+                         {currentItem?.newTenantInfo?.totalInvoices > 2 && (
+                                                <span>  more</span>
+                                            )}</label>
                     </div>
                   </div>
 

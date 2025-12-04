@@ -51,11 +51,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, customerID }) {
 
 
 
-    useEffect(() => {
-        const userData = state.UsersList.Users.filter((item) => item.ID === customerID);
-
-        setDataBed(userData)
-    }, [customerID]);
+  
     useEffect(() => {
         if (state.UsersList?.chrckoutError) {
             setFormLoading(false)
@@ -63,7 +59,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, customerID }) {
 
     }, [state.UsersList?.chrckoutError])
 
-
+console.log("data",data)
 
     useEffect(() => {
         if (state.UsersList.statusCodegetConfirmCheckout) {
@@ -201,7 +197,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, customerID }) {
                 type: "USERLIST",
                 payload: { hostel_id: state.login.selectedHostel_Id },
             })
-            dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: dataBed[0]?.Floor, hostel_Id: state.login.selectedHostel_Id } })
+            // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: dataBed[0]?.Floor, hostel_Id: state.login.selectedHostel_Id } })
             setTimeout(() => {
                 dispatch({ type: "REMOVE_CONFIRM_CHECKOUT_DUE_CUSTOMER" });
             }, 500);
@@ -250,10 +246,10 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, customerID }) {
 
 
     const handleConfirmCheckout = () => {
-        if (data.customerId || data.currentTenantCustomerId) {
+        if (data.customerId || data.currentTenantInfo?.tenetId) {
             dispatch({
                 type: "CONFIRMCHECKOUT",
-                payload: { customerId: data.customerId || data.currentTenantCustomerId, comments: comments }
+                payload: { customerId: data.customerId || data.currentTenantInfo?.tenetId, comments: comments }
 
             })
             setFormLoading(true)
@@ -281,8 +277,8 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, customerID }) {
             return data.user_profile;
         }
 
-        if (data?.currentTenantProfilePic && data?.currentTenantProfilePic !== "0") {
-            return data?.currentTenantProfilePic;
+        if (data?.currentTenantInfo?.profilePic && data?.currentTenantInfo?.profilePic !== "0") {
+            return data?.currentTenantInfo?.profilePic;
         }
 
         return null;
@@ -344,14 +340,14 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, customerID }) {
                                     cursor: "pointer"
                                 }}
                             >
-                                {data?.initials || data.currentTenantInitials ||
+                                {data?.initials || data.currentTenantInfo?.tenantInitials ||
 
                                     "--"}
                             </div>
                         )}
 
                         <div>
-                            <p style={{ fontSize: "1.25rem", fontFamily: "Gilroy", fontWeight: 600 }} className="mb-0">{data?.firstName || data?.currentTenantFirstName}</p>
+                            <p style={{ fontSize: "1.25rem", fontFamily: "Gilroy", fontWeight: 600 }} className="mb-0">{data?.firstName || data?.currentTenantInfo?.tenantFullName}</p>
                             <div className="d-flex mb-2">
                                 <span className="badge rounded-pill bg-warning text-dark me-2" style={{ fontSize: "0.75rem", fontFamily: "Gilroy", fontWeight: 400 }}>
                                     {data.floorName}
@@ -363,7 +359,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, customerID }) {
                         </div>
                         <div className="ms-auto text-end mt-2">
                             <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "#4B4B4B", padding: 0, margin: 0 }}>Checkout Date</p>
-                            <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600, }}>{data.currentTenantLeavingOn}</p>
+                            <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600, }}>{data.currentTenantInfo.leavingDate}</p>
                         </div>
                     </div>
 

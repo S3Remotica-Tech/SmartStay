@@ -47,6 +47,7 @@ function EditAdvanceAmount({ show, handleClose }) {
 
 
     const handleMonthlyRentChange = (e) => {
+        dispatch({ type: 'REMOVE_EDIT_ADVANCE_ERROR' })
              setIsChangedError("");
         const value = e.target.value;
 

@@ -4,23 +4,19 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, Button, Form, InputGroup } from "react-bootstrap";
 import "flatpickr/dist/flatpickr.css";
 import { useDispatch, useSelector } from "react-redux";
-import { MdError } from "react-icons/md";
 import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
 import PropTypes from "prop-types";
-import { DatePicker } from 'antd';
-import dayjs from 'dayjs';
-import { CloseCircle, ArrowDown2, ArrowUp2, ArrowSquareUp, ArrowSquareDown } from "iconsax-react";
+import { CloseCircle, ArrowDown2, ArrowUp2 } from "iconsax-react";
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
 import { Trash } from 'iconsax-react';
 import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
 import arrowTot from "../../Assets/Images/New_images/direction-down 01.png";
-import { Accordion } from "react-bootstrap";
 import { Tooltip } from "bootstrap";
 import ErrorMessage from '../../Components/ErrorMessage'
 
 
-function FinalSettlement({ show, handleClose, data, customerID }) {
+function FinalSettlement({ show, handleClose, data, }) {
 
 
 
@@ -42,8 +38,8 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
 
 
     useEffect(() => {
-        if (data?.customerId || data?.currentTenantCustomerId) {
-            dispatch({ type: "GETFINALSETTLEMENT", payload: data?.customerId || data?.currentTenantCustomerId });
+        if (data?.customerId || data.currentTenantInfo?.tenetId) {
+            dispatch({ type: "GETFINALSETTLEMENT", payload: data?.customerId || data?.currentTenantInfo?.tenetId });
             setFormLoading(true)
         }
     }, [data])
@@ -329,134 +325,60 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
     const totalDeductions = totalApiDeductions + totalUserDeductions;
 
 
-    console.log("totalApiDeductions", totalApiDeductions)
-    console.log("totalUserDeductions", totalUserDeductions)
-
-    // const handleClickGenerate = () => {
-    //     const Finalsettelmenntdata = fields
-    //         .filter(f => f.reason_name && f.amount)
-    //         .map(f => ({ item: f.reason_name, amount: Number(f.amount) }))
-
-    //     if (data.customerId || data.currentTenantCustomerId) {
-    //         dispatch({
-    //             type: "FINALSETTLEMENT",
-    //             payload: {
-    //                 customerId: data.customerId || data.currentTenantCustomerId,
-    //                 data: Finalsettelmenntdata
-
-    //             },
-    //         })
-    //     }
-
-    // }
 
 
 
 
 
 
-//     const handleClickGenerate = () => {
-//         const apiDeductions = finalSettlementList?.customerInfo?.listDeductions || [];
+    const handleClickGenerate = () => {
+        const apiDeductions = finalSettlementList?.customerInfo?.listDeductions || [];
 
-//         const apiMap = new Map(
-//             apiDeductions.map(item => [item.type?.toLowerCase(), Number(item.amount) || 0])
-//         );
+        const apiMap = new Map(
+            apiDeductions.map(item => [item.type?.toLowerCase(), Number(item.amount) || 0])
+        );
 
-//         const Finalsettelmenntdata = fields
-//             .filter(f => f.reason_name && f.amount)
-//             .map(f => {
-//                 const reason = f.reason_name.toLowerCase();
-//                 const userAmount = Number(f.amount) || 0;
+        const Finalsettelmenntdata = fields
+            .filter(f => f.reason_name && f.amount)
+            .map(f => {
+                const reason = f.reason_name.toLowerCase();
+                const userAmount = Number(f.amount) || 0;
 
-
-//                 if (f.customReason?.trim()) {
-//                     return { item: f.reason_name, amount: userAmount };
-//                 }
-
-
-//                 if (!apiMap.has(reason)) {
-//                     return { item: f.reason_name, amount: userAmount };
-//                 }
-
-//                if (f.isSystemGenerated === true) {
-//     return null;  
-// }
+                if (f.isSystemGenerated === true) {
+                    return null;
+                }
 
 
-
-//                 return null;
-//             })
-//             .filter(Boolean);
-
-//         console.log("Finalsettelmenntdata", Finalsettelmenntdata);
-
-//         // if (data.customerId || data.currentTenantCustomerId) {
-//         //     dispatch({
-//         //         type: "FINALSETTLEMENT",
-//         //         payload: {
-//         //             customerId: data.customerId || data.currentTenantCustomerId,
-//         //             data: Finalsettelmenntdata
-//         //         },
-//         //     });
-//         //     setFormLoading(true);
-//         // }
-//     };
+                if (f.customReason?.trim()) {
+                    return { item: f.reason_name, amount: userAmount };
+                }
 
 
+                if (!apiMap.has(reason)) {
+                    return { item: f.reason_name, amount: userAmount };
+                }
 
 
+                if (f.isSystemGenerated === false) {
+                    return { item: f.reason_name, amount: userAmount };
+                }
 
-
-
-const handleClickGenerate = () => {
-    const apiDeductions = finalSettlementList?.customerInfo?.listDeductions || [];
-
-    const apiMap = new Map(
-        apiDeductions.map(item => [item.type?.toLowerCase(), Number(item.amount) || 0])
-    );
-
-    const Finalsettelmenntdata = fields
-        .filter(f => f.reason_name && f.amount)
-        .map(f => {
-            const reason = f.reason_name.toLowerCase();
-            const userAmount = Number(f.amount) || 0;
-
-                       if (f.isSystemGenerated === true) {
                 return null;
-            }
+            })
+            .filter(Boolean);
 
-            
-            if (f.customReason?.trim()) {
-                return { item: f.reason_name, amount: userAmount };
-            }
 
-            
-            if (!apiMap.has(reason)) {
-                return { item: f.reason_name, amount: userAmount };
-            }
-
-            
-            if (f.isSystemGenerated === false) {
-                return { item: f.reason_name, amount: userAmount };
-            }
-
-            return null;
-        })
-        .filter(Boolean);
-
-    console.log("Finalsettelmenntdata", Finalsettelmenntdata);
-
-     if (data.customerId || data.currentTenantCustomerId) {
+        if (data.customerId || data.currentTenantInfo?.tenetId) {
             dispatch({
                 type: "FINALSETTLEMENT",
                 payload: {
-                    customerId: data.customerId || data.currentTenantCustomerId,
+                    customerId: data.customerId || data.currentTenantInfo?.tenetId,
                     data: Finalsettelmenntdata
                 },
             });
             setFormLoading(true);
         }
-};
+    };
 
 
 
@@ -481,7 +403,6 @@ const handleClickGenerate = () => {
         }
     }, [state.UsersList.statusCodeForFinalSettlement])
 
-    console.log("fields", fields)
 
     return (
         <div>
@@ -965,7 +886,7 @@ const handleClickGenerate = () => {
                                                                 <tr key={user.invoiceid}>
                                                                     <td
                                                                         className="fw-normal text-decoration-underline text-primary mt-4"
-                                                                        
+
                                                                         style={{
                                                                             fontFamily: "Gilroy",
                                                                             fontSize: "14px",
@@ -1008,7 +929,7 @@ const handleClickGenerate = () => {
                                         </div>
                                     }
 
-                               
+
                                     <div className="mt-3">
                                         <div>
                                             <p
@@ -1026,7 +947,7 @@ const handleClickGenerate = () => {
                                             <div className="card shadow-sm rounded">
                                                 <div className="card-body p-3">
 
-                                                
+
                                                     <div className="d-flex justify-content-between mb-2">
                                                         <span
                                                             style={{
@@ -1089,7 +1010,11 @@ const handleClickGenerate = () => {
                                                             onClick={() => setShowDetails(!showDetails)}
                                                         >
                                                             Actual Stay Days (
-                                                            {finalSettlementList?.currentMonthRentInfo?.stayDays ?? 0} days
+                                                            {(() => {
+                                                                const d = finalSettlementList?.currentMonthRentInfo?.stayDays ?? 0;
+                                                                return `${d} ${d === 1 ? "day" : "days"}`;
+                                                            })()}
+
                                                             {/* × ₹
                                                             {Number(finalSettlementList?.currentMonthRentInfo?.rentPerDay || 0)} */}
                                                             )
@@ -1148,8 +1073,9 @@ const handleClickGenerate = () => {
                                                                                 {item.roomName} - {item.bedName}
                                                                             </div>
 
-                                                                            <div className="col-6 text-end " style={{ whiteSpace: "nowrap" }}>
-                                                                                ({item.noOfDays} days = {item.rent})
+                                                                            <div className="col-6 text-start " style={{ whiteSpace: "nowrap" }}>
+                                                                                ({item.noOfDays} {item.noOfDays === 1 ? "day" : "days"} = {item.rent})
+
                                                                             </div>
 
                                                                         </div>
@@ -1211,7 +1137,7 @@ const handleClickGenerate = () => {
                                             <p style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 600 }}>
                                                 Final Settlement
                                             </p>
-                                           
+
                                         </div>
 
                                         <div className="d-flex justify-content-between">
@@ -1241,7 +1167,7 @@ const handleClickGenerate = () => {
                                             </p>
                                         </div>
 
-                                       
+
                                         <div className="d-flex justify-content-between mb-1">
                                             <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>
                                                 Refundable Advance
@@ -1251,7 +1177,7 @@ const handleClickGenerate = () => {
                                                 {finalSettlementList?.customerInfo?.advancePaidAmount}
                                             </p>
                                         </div>
-                                       
+
                                     </div>
 
                                 )}

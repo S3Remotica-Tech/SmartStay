@@ -68,7 +68,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails }) {
         dispatch({
             type: 'CANCELCHECKOUT',
             payload: {
-                customerId: checkInDetails?.customerId || checkInDetails?.currentTenantCustomerId,
+                customerId: checkInDetails?.customerId || checkInDetails?.currentTenantInfo?.tenetId,
                 hostelId: state.login.selectedHostel_Id,
                 // roomId: checkInDetails?.roomId,
                 bedId: Number(checkInDetails?.bedId),
@@ -97,11 +97,17 @@ function BackToCheckIn({ show, handleClose, checkInDetails }) {
   
 
     const imgsrc =
-        checkInDetails?.currentTenantProfilePic && checkInDetails.currentTenantProfilePic.trim() !== ""
-            ? checkInDetails.currentTenantProfilePic
+        checkInDetails?.currentTenantInfo?.profilePic && checkInDetails.currentTenantInfo?.profilePic.trim() !== ""
+            ? checkInDetails.currentTenantInfo?.profilePic
             : checkInDetails?.profilePic && checkInDetails.profilePic.trim() !== ""
                 ? checkInDetails.profilePic
                 : null;
+
+
+console.log("checkInDetails",checkInDetails)
+
+
+
 
     return (
         <Modal show={show} onHide={handleClose} backdrop="static" centered>
@@ -159,7 +165,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails }) {
                                         fontFamily: "Gilroy"
                                     }}
                                 >
-                                    {checkInDetails?.initials || checkInDetails?.currentTenantInitials}
+                                    {checkInDetails?.initials || checkInDetails?.currentTenantInfo?.tenantInitials}
 
                                 </div>
                             )
@@ -170,7 +176,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails }) {
                                 className="mb-1"
                                 style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px", fontFamily: "Gilroy" }}
                             >
-                                {checkInDetails?.fullName || checkInDetails?.currentTenantFullName}
+                                {checkInDetails?.fullName || checkInDetails?.currentTenantInfo?.tenantFullName}
                             </p>
                             <div className="d-flex gap-2">
                                 <span

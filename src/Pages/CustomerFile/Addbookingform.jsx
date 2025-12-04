@@ -228,12 +228,15 @@ function BookingModal(props) {
   useEffect(() => {
     if (room) {
       const filteredBed = state.UsersList?.availableBedList?.listBeds?.filter((view) => {
-        return view.floorId === Floor && view.roomId === room
+        return view.roomId === room
       });
       setAvailableBed(filteredBed)
     }
 
   }, [room, joiningDate, state.UsersList?.availableBedList?.listBeds])
+
+//  view.floorId === Floor &&
+
 
   const handleCloseBooking = () => {
     dispatch({ type: "ERROR_BOOKING_REMOVE" })

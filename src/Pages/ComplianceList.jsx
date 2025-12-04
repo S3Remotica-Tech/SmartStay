@@ -22,6 +22,7 @@ import "./ComplianceList.css";
 import { CloseCircle, Edit, Trash } from "iconsax-react";
 import ErrorMessage from '../Components/ErrorMessage';
 import { useHasPermission } from '../Utils/Permission';
+import ComplaintsView from "../Pages/Compliants/ComplaintsView"
 
 const ComplianceList = (props) => {
   const state = useSelector((state) => state);
@@ -41,9 +42,10 @@ const ComplianceList = (props) => {
   const [formAssignCompliantLoading, setFormAssignCompliantLoading] = useState(false)
   const [formLoading, setFormLoading] = useState(false)
   const [commentsLoading, setCommentsLoading] = useState(false)
-
-
+  const [showComplaint, setShowComplaint] = useState(false);
+const [complaintsDetails, setComplaintsDetails] = useState('')
   const popupRef = useRef(null);
+  const [trigger, setTrigger] = useState(false);
 
 
   const {
@@ -474,7 +476,15 @@ const ComplianceList = (props) => {
 
 
 
-console.log("props.complaints",props.complaints)
+  const handleNavigateComplaintsView = (view) => {
+    setComplaintsDetails(view)
+    setShowComplaint(true)
+    setTrigger(true)
+  }
+
+  const handleCloseComplaintsView = () => {
+    setShowComplaint(false)
+  }
 
   return (
     <>
@@ -516,49 +526,49 @@ console.log("props.complaints",props.complaints)
                 <div className="d-flex flex-wrap gap-2 align-items-start">
 
                   <div>
-                    {props.complaints?.customerProfile ? 
-                    <Image
-                      src={
-                        props.complaints?.customerProfile === "0" ||
-                          props.complaints?.customerProfile === "null" ||
-                          props.complaints?.customerProfile === null
-                          ? User
-                          : props?.complaints?.customerProfile
-                      }
-                      roundedCircle
-                      style={{ height: "60px", width: "60px", objectFit: "cover" }}
-                    />
-                    :
+                    {props.complaints?.customerProfile ?
+                      <Image
+                        src={
+                          props.complaints?.customerProfile === "0" ||
+                            props.complaints?.customerProfile === "null" ||
+                            props.complaints?.customerProfile === null
+                            ? User
+                            : props?.complaints?.customerProfile
+                        }
+                        roundedCircle
+                        style={{ height: "60px", width: "60px", objectFit: "cover" }}
+                      />
+                      :
                       <div
-                                        style={{
-                                            height: 50,
-                                            width: 50,
-                                            borderRadius: "50%",
-                                            backgroundColor: "#1E45E1",
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            alignItems: "center",
-                                            fontSize: 20,
-                                            fontWeight: "600",
-                                            color: "white", fontFamily: "Gilroy"
-                                        }}
-                                    >
-                                        {props.complaints?.initials || "-"}
-                                    </div>
-}
+                        style={{
+                          height: 50,
+                          width: 50,
+                          borderRadius: "50%",
+                          backgroundColor: "#1E45E1",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          fontSize: 20,
+                          fontWeight: "600",
+                          color: "white", fontFamily: "Gilroy"
+                        }}
+                      >
+                        {props.complaints?.initials || "-"}
+                      </div>
+                    }
                   </div>
 
 
                   <div className="flex-grow-1">
                     <div className="pb-2">
-                      <label
+                      <label onClick={() => handleNavigateComplaintsView(props.complaints)}
                         className="d-block"
                         style={{
                           fontFamily: "Gilroy",
                           fontSize: 16,
-                          color: "#222",
+                          color: "#1E45E1",
                           fontWeight: 600,
-                          marginLeft: "10px",
+                          marginLeft: "10px", cursor: "pointer", textDecoration: "underline"
                         }}
                       >
                         {props.complaints && props?.complaints?.customerName}
@@ -1977,6 +1987,15 @@ console.log("props.complaints",props.complaints)
           </Button>
         </Modal.Footer>
       </Modal>
+
+{
+  showComplaint && <ComplaintsView  show={showComplaint} handleClose={handleCloseComplaintsView} complaintsDetails={complaintsDetails} trigger={trigger}/> 
+}
+
+
+
+
+
     </>
   );
 };

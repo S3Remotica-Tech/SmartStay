@@ -273,7 +273,7 @@ function BedDetailsMap({ room, propsValue }) {
     const [selectedTenant, setSelectedTenant] = useState(null);
 
     useEffect(() => {
-        if (state.PgList?.OccupiedCustomer && state.PgList?.OccupiedCustomer?.currentTenantCustomerId) {
+        if (state.PgList?.OccupiedCustomer && state.PgList?.OccupiedCustomer?.currentTenantInfo?.tenetId) {
             //    setSelectedTenant(state.PgList?.OccupiedCustomer);
             dispatch(clickedBedForChange(state.PgList?.OccupiedCustomer));
         }

@@ -190,16 +190,27 @@ function UserListRoomDetail(props) {
     canDeleteModule: canDeleteAmenities,
   } = useHasPermission("Amenities");
 
-  const { customerId, hostelId, name, totriggerBillTap, isPgWay ,IsOverView} = location.state || {};
+  const amenitiesRef = useRef(null);
+
+  const { customerId, hostelId, name, totriggerBillTap, isPgWay ,IsOverView, scrollTo } = location.state || {};
 
 
- useEffect(() => {
+useEffect(() => {
   if (totriggerBillTap) {
     setTimeout(() => setValue("3"), 0);
-  } else if (IsOverView) {
+  }
+
+  if (IsOverView) {
     setTimeout(() => setValue("1"), 0);
   }
-}, [totriggerBillTap, IsOverView]);
+
+  if (scrollTo === "amenities") {
+    setTimeout(() => {
+      amenitiesRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 300);
+  }
+}, [totriggerBillTap, IsOverView, scrollTo]);
+
 
 
 
@@ -278,14 +289,14 @@ useEffect(() => {
   const cleanFileName = (url) => {
     if (!url) return "";
 
-    const fullName = decodeURIComponent(url.split("/").pop()); // get actual filename
-    const ext = fullName.split(".").pop(); // extension
-    const baseName = fullName.replace(/\.[^/.]+$/, ""); // remove extension
+    const fullName = decodeURIComponent(url.split("/").pop()); 
+    const ext = fullName.split(".").pop(); 
+    const baseName = fullName.replace(/\.[^/.]+$/, ""); 
 
     const parts = baseName.split("_");
-    const lastPart = parts[parts.length - 1]; // take last meaningful part
+    const lastPart = parts[parts.length - 1]; 
 
-    // limit to 8 characters if you want short name
+   
     const short = lastPart.substring(0, 15);
 
     return `${short}.${ext}`;
@@ -4268,7 +4279,7 @@ useEffect(() => {
                         />
                       </div>
 
-                      <div className="mt-1">
+                      <div ref={amenitiesRef} className="mt-1">
 
                         <RequestedAmenities />
 

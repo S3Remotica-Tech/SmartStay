@@ -68,7 +68,7 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails }) {
                 payload: {
                     cancelDate: formattedDate,
                     reason: inActiveComments,
-                    customerId: inActiveDetails?.customerId || inActiveDetails?.newTenantCustomerId,
+                    customerId: inActiveDetails?.customerId || inActiveDetails?.newTenantInfo?.tenetId,
                     bankId: state.UsersList?.initializeCancelBookingList?.listBanks[0].bankId
                 },
             });
@@ -95,10 +95,10 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails }) {
 
     useEffect(() => {
         if (!inActiveDetails) return;
-        if (inActiveDetails.customerId || inActiveDetails.newTenantCustomerId) {
+        if (inActiveDetails.customerId || inActiveDetails.newTenantInfo?.tenetId ) {
             dispatch({
                 type: 'INITIALIZECANCELBOOKING',
-                payload: inActiveDetails.customerId || inActiveDetails.newTenantCustomerId
+                payload: inActiveDetails.customerId || inActiveDetails.newTenantInfo?.tenetId 
             });
         }
     }, [inActiveDetails]);
@@ -109,8 +109,8 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails }) {
 
 
     useEffect(() => {
-        if (inActiveDetails?.customerId || inActiveDetails?.newTenantCustomerId) {
-            dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: inActiveDetails.customerId || inActiveDetails.newTenantCustomerId } });
+        if (inActiveDetails?.customerId || inActiveDetails?.newTenantInfo?.tenetId ) {
+            dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: inActiveDetails.customerId || inActiveDetails.newTenantInfo?.tenetId  } });
 
         }
     }, [inActiveDetails]);
@@ -144,10 +144,10 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails }) {
 
 
 
-                {inActiveDetails.profilePic || inActiveDetails.newTenantProfilePic &&
-                    (inActiveDetails.profilePic !== "0" || inActiveDetails.newTenantProfilePic !== "0") ? (
+                {inActiveDetails.profilePic || inActiveDetails.newTenantInfo?.profilePic &&
+                    (inActiveDetails.profilePic !== "0" || inActiveDetails.newTenantInfo?.profilePic !== "0") ? (
                     <Image
-                        src={inActiveDetails.profilePic || inActiveDetails?.newTenantProfilePic}
+                        src={inActiveDetails.profilePic || inActiveDetails?.newTenantInfo?.profilePic}
                         roundedCircle
                         style={{ height: 50, width: 50 }}
                         alt="image"
@@ -167,13 +167,13 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails }) {
                             color: "white", fontFamily: "Gilroy"
                         }}
                     >
-                        {inActiveDetails?.initials || inActiveDetails?.newTenantInitials || "-"}
+                        {inActiveDetails?.initials || inActiveDetails?.newTenantInfo?.tenantInitials || "-"}
                     </div>
                 )}
                 <div >
                     <div>
                         <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px", fontFamily: "Gilroy" }}>
-                            {inActiveDetails.fullName} {inActiveDetails.newTenantFullName}
+                            {inActiveDetails.fullName} {inActiveDetails.newTenantInfo?.tenantFullName}
                         </p>
 
                     </div>
