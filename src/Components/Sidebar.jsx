@@ -137,7 +137,7 @@ function Sidebar() {
 
 
 
-  
+
 
 
   // useEffect(()=>{
@@ -531,7 +531,7 @@ function Sidebar() {
   useEffect(() => {
     if (hostelListDetail?.length > 0 && !initials) {
       const firstHostel = hostelListDetail[0];
-     
+
       setInitials(firstHostel.initials)
       setAllPageHostel_Id(firstHostel.hostelId);
       setPayingGuestName(firstHostel.name);
@@ -1647,259 +1647,268 @@ function Sidebar() {
                     )}
 
 
-                    {state.login?.Notification?.unreadCount > 0 && (
+                    {state.UsersList.hotelDetailsinPg.unreadNotificationCount > 0 && (
                       <span
                         style={{
                           position: "absolute",
-                          bottom: -2,
-                          left: -2,
-                          height: 10,
-                          width: 10,
+                          top: "-2px",
+                          right: "-2px",
+                          minHeight: "16px",
+                          minWidth: "16px",
+                          padding: "0px 4px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
                           backgroundColor: "#F97316",
+                          color: "white",
+                          fontSize: 10,
                           borderRadius: "50%",
                           border: "2px solid white",
+                          fontWeight: 600,
+                          lineHeight: 1,
+                        
                         }}
-                      ></span>
+                      >{state.UsersList.hotelDetailsinPg.unreadNotificationCount}</span>
                     )}
-                  </div>
+                </div>
 
-                  <div
-                    onMouseEnter={() => handleMouseEnter("helpVideo")}
-                    onMouseLeave={handleMouseLeave}
-                    style={{
-                      position: "relative",
-                      display: "inline-block",
-                      cursor: "pointer",
-                      zIndex: 10,
-                      overflow: "visible"
+                <div
+                  onMouseEnter={() => handleMouseEnter("helpVideo")}
+                  onMouseLeave={handleMouseLeave}
+                  style={{
+                    position: "relative",
+                    display: "inline-block",
+                    cursor: "pointer",
+                    zIndex: 10,
+                    overflow: "visible"
 
-                    }}
-                  >
-                    <img src={HelpVideoIcon} alt="Help Video Icon" />
-                    {hoveredIcon === "helpVideo" && (
-                      <span
-                        style={{
-                          display: "block",
-                          position: "absolute",
-                          top: "-30px",
-                          left: "0%",
-                          transform: "translateX(-50%)",
-                          backgroundColor: "white",
-                          color: "black",
-                          padding: "5px 8px",
-                          borderRadius: "4px",
-                          fontSize: "12px",
-                          whiteSpace: "nowrap",
-                          zIndex: 1000,
-                        }}
-                      >
-                        Help Video
-                      </span>
-                    )}
-                  </div>
+                  }}
+                >
+                  <img src={HelpVideoIcon} alt="Help Video Icon" />
+                  {hoveredIcon === "helpVideo" && (
+                    <span
+                      style={{
+                        display: "block",
+                        position: "absolute",
+                        top: "-30px",
+                        left: "0%",
+                        transform: "translateX(-50%)",
+                        backgroundColor: "white",
+                        color: "black",
+                        padding: "5px 8px",
+                        borderRadius: "4px",
+                        fontSize: "12px",
+                        whiteSpace: "nowrap",
+                        zIndex: 1000,
+                      }}
+                    >
+                      Help Video
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
-          </Col>
+          </div>
+        </Col>
 
 
 
 
-          <Col
-            className="bg-white main-content"
-            lg={{ span: 10, offset: 2 }}
-            md={{ span: 10, offset: 2 }}
-            sm={{ span: 9, offset: 3 }}
-            xs={{ span: 9, offset: 3 }}
-            style={{
-              height: "100vh",
-              overflowY: "auto",
-              zIndex: 10,
-            }}
-          >
-            
-            <Routes>
+        <Col
+          className="bg-white main-content"
+          lg={{ span: 10, offset: 2 }}
+          md={{ span: 10, offset: 2 }}
+          sm={{ span: 9, offset: 3 }}
+          xs={{ span: 9, offset: 3 }}
+          style={{
+            height: "100vh",
+            overflowY: "auto",
+            zIndex: 10,
+          }}
+        >
+
+          <Routes>
 
 
-              <Route
-                path="/dashboard/:hostelId?"
-                element={
-                  <Dashboards
-                    displayCompliance={handledisplaycompliace}
-                    allPageHostel_Id={allPageHostel_Id}
-                    setAllPageHostel_Id={setAllPageHostel_Id}
-                  />
-                }
-              />
-              <Route
-                path="/paying-guest/:hostelId?"
-                element={
-                  <PgLists
-                    displaysettings={handledisplaySettingsPG}
-                    allPageHostel_Id={allPageHostel_Id}
-                    setAllPageHostel_Id={setAllPageHostel_Id}
-                  />
-                }
-              />
-
-              <Route
-                path="/tenant/:hostelId?"
-                element={
-                  <UserLists
-                    allPageHostel_Id={allPageHostel_Id}
-                    setAllPageHostel_Id={setAllPageHostel_Id}
-                  />
-                }
-              />
-              <Route
-                path="/invoice/:hostelId?"
-                element={
-                  <Invoices
-                    allPageHostel_Id={allPageHostel_Id}
-                    setAllPageHostel_Id={setAllPageHostel_Id}
-                  />
-                }
-              />
-              <Route
-                path="/invoice/details/:invoiceId"
-                element={
-                  <BillsDetails />
-                }
-              />
-              <Route
-                path="/vendor/:hostelId?"
-                element={
-                  <VendorComponent
-                    allPageHostel_Id={allPageHostel_Id}
-                    setAllPageHostel_Id={setAllPageHostel_Id}
-                  />
-                }
-              />
-              <Route
-                path="/compliance/:hostelId?"
-                element={
-                  <Compliances
-                    allPageHostel_Id={allPageHostel_Id}
-                    setAllPageHostel_Id={setAllPageHostel_Id}
-                  />
-                }
-              />
-              <Route
-                path="/asset/:hostelId?"
-                element={<Assets allPageHostel_Id={allPageHostel_Id} />}
-              />
-              <Route
-                path="/reports/:hostelId?"
-                element={
-                  <Report
-                    allPageHostel_Id={allPageHostel_Id}
-                    setAllPageHostel_Id={setAllPageHostel_Id}
-                  />
-                }
-              />
-              <Route
-                path="/electricity/:hostelId?"
-                element={
-                  <EbHostel
-                    allPageHostel_Id={allPageHostel_Id}
-                    setAllPageHostel_Id={setAllPageHostel_Id}
-                  />
-                }
-              />
-              <Route
-                path="/expense/:hostelId?"
-                element={
-                  <Expenses
-                    allPageHostel_Id={allPageHostel_Id}
-                    setAllPageHostel_Id={setAllPageHostel_Id}
-                  />
-                }
-              />
-              <Route
-                path="/banking/:hostelId?"
-                element={
-                  <Banking
-                    allPageHostel_Id={allPageHostel_Id}
-                    setAllPageHostel_Id={setAllPageHostel_Id}
-                  />
-                }
-              />
-
-
-
-
-              <Route
-                path="/create-bill"
-                element={
-                  <CreateBill
-                  />
-                }
-              />
-
-              <Route
-                path="/tenant/details/:tenantId"
-                element={
-                  <UserListRoomDetail
-                  />
-                }
-              />
-
-              <Route
-                path="/tenant/checkout/details/:tenantId"
-                element={
-                  <CheckoutProfile />
-
-                }
-              />
-
-
-
-              <Route
-                path="/settings/:hostelId?/*"
-                element={
-                  <SettingAllPages
-                    allPageHostel_Id={allPageHostel_Id}
-                    setAllPageHostel_Id={setAllPageHostel_Id}
-                    payingGuestName={payingGuestName}
-                    settignspgshow={settignspgshow}
-                    onhandleShowsettingsPG={handleShowsettingsPG}
-                    isVisibleSidebar={isVisibleSidebar}
-                  />
-                }
-              >
-
-                <Route index element={<Navigate to="general" replace />} />
-                <Route path="general" element={<SettingGeneral />} />
-                <Route path="manage-pg" element={<SettingManage />} />
-                <Route path="security" element={<SettingSecurity />} />
-                <Route path="subscription" element={<SettingSubscription />} />
-                <Route path="integration" element={<SettingIntergration />} />
-                <Route path="electricity" element={<SettingElectricity />} />
-                <Route path="billing-rule" element={<BillingRule />} />
-                <Route path="notifications" element={<SettingsNotifications />} />
-                <Route
-                  path="invoice"
-                  element={
-                    <SettingInvoice
-                      handleFormPage={handleFormPage}
-                    />
-                  }
+            <Route
+              path="/dashboard/:hostelId?"
+              element={
+                <Dashboards
+                  displayCompliance={handledisplaycompliace}
+                  allPageHostel_Id={allPageHostel_Id}
+                  setAllPageHostel_Id={setAllPageHostel_Id}
                 />
-                <Route path="expenses" element={<SettingExpenses />} />
-                <Route path="complaints" element={<SettingCompliance />} />
-                <Route path="amenities" element={<SettingAmenities />} />
-                <Route path="user" element={<SettingNewUser />} />
-                <Route path="role" element={<SettingNewRole />} />
-                <Route path="agreement" element={<SettingAgreement />} />
+              }
+            />
+            <Route
+              path="/paying-guest/:hostelId?"
+              element={
+                <PgLists
+                  displaysettings={handledisplaySettingsPG}
+                  allPageHostel_Id={allPageHostel_Id}
+                  setAllPageHostel_Id={setAllPageHostel_Id}
+                />
+              }
+            />
+
+            <Route
+              path="/tenant/:hostelId?"
+              element={
+                <UserLists
+                  allPageHostel_Id={allPageHostel_Id}
+                  setAllPageHostel_Id={setAllPageHostel_Id}
+                />
+              }
+            />
+            <Route
+              path="/invoice/:hostelId?"
+              element={
+                <Invoices
+                  allPageHostel_Id={allPageHostel_Id}
+                  setAllPageHostel_Id={setAllPageHostel_Id}
+                />
+              }
+            />
+            <Route
+              path="/invoice/details/:invoiceId"
+              element={
+                <BillsDetails />
+              }
+            />
+            <Route
+              path="/vendor/:hostelId?"
+              element={
+                <VendorComponent
+                  allPageHostel_Id={allPageHostel_Id}
+                  setAllPageHostel_Id={setAllPageHostel_Id}
+                />
+              }
+            />
+            <Route
+              path="/compliance/:hostelId?"
+              element={
+                <Compliances
+                  allPageHostel_Id={allPageHostel_Id}
+                  setAllPageHostel_Id={setAllPageHostel_Id}
+                />
+              }
+            />
+            <Route
+              path="/asset/:hostelId?"
+              element={<Assets allPageHostel_Id={allPageHostel_Id} />}
+            />
+            <Route
+              path="/reports/:hostelId?"
+              element={
+                <Report
+                  allPageHostel_Id={allPageHostel_Id}
+                  setAllPageHostel_Id={setAllPageHostel_Id}
+                />
+              }
+            />
+            <Route
+              path="/electricity/:hostelId?"
+              element={
+                <EbHostel
+                  allPageHostel_Id={allPageHostel_Id}
+                  setAllPageHostel_Id={setAllPageHostel_Id}
+                />
+              }
+            />
+            <Route
+              path="/expense/:hostelId?"
+              element={
+                <Expenses
+                  allPageHostel_Id={allPageHostel_Id}
+                  setAllPageHostel_Id={setAllPageHostel_Id}
+                />
+              }
+            />
+            <Route
+              path="/banking/:hostelId?"
+              element={
+                <Banking
+                  allPageHostel_Id={allPageHostel_Id}
+                  setAllPageHostel_Id={setAllPageHostel_Id}
+                />
+              }
+            />
 
 
-              </Route>
 
-            </Routes>
 
-          </Col>
-        </Row>
-      </Container>
+            <Route
+              path="/create-bill"
+              element={
+                <CreateBill
+                />
+              }
+            />
+
+            <Route
+              path="/tenant/details/:tenantId"
+              element={
+                <UserListRoomDetail
+                />
+              }
+            />
+
+            <Route
+              path="/tenant/checkout/details/:tenantId"
+              element={
+                <CheckoutProfile />
+
+              }
+            />
+
+
+
+            <Route
+              path="/settings/:hostelId?/*"
+              element={
+                <SettingAllPages
+                  allPageHostel_Id={allPageHostel_Id}
+                  setAllPageHostel_Id={setAllPageHostel_Id}
+                  payingGuestName={payingGuestName}
+                  settignspgshow={settignspgshow}
+                  onhandleShowsettingsPG={handleShowsettingsPG}
+                  isVisibleSidebar={isVisibleSidebar}
+                />
+              }
+            >
+
+              <Route index element={<Navigate to="general" replace />} />
+              <Route path="general" element={<SettingGeneral />} />
+              <Route path="manage-pg" element={<SettingManage />} />
+              <Route path="security" element={<SettingSecurity />} />
+              <Route path="subscription" element={<SettingSubscription />} />
+              <Route path="integration" element={<SettingIntergration />} />
+              <Route path="electricity" element={<SettingElectricity />} />
+              <Route path="billing-rule" element={<BillingRule />} />
+              <Route path="notifications" element={<SettingsNotifications />} />
+              <Route
+                path="invoice"
+                element={
+                  <SettingInvoice
+                    handleFormPage={handleFormPage}
+                  />
+                }
+              />
+              <Route path="expenses" element={<SettingExpenses />} />
+              <Route path="complaints" element={<SettingCompliance />} />
+              <Route path="amenities" element={<SettingAmenities />} />
+              <Route path="user" element={<SettingNewUser />} />
+              <Route path="role" element={<SettingNewRole />} />
+              <Route path="agreement" element={<SettingAgreement />} />
+
+
+            </Route>
+
+          </Routes>
+
+        </Col>
+      </Row>
+    </Container >
 
 
       <Modal

@@ -325,50 +325,50 @@ function FinalSettlement({ show, handleClose, data, }) {
     const totalDeductions = totalApiDeductions + totalUserDeductions;
 
 
-   
-
-   
 
 
 
-const handleClickGenerate = () => {
-    const apiDeductions = finalSettlementList?.customerInfo?.listDeductions || [];
 
-    const apiMap = new Map(
-        apiDeductions.map(item => [item.type?.toLowerCase(), Number(item.amount) || 0])
-    );
 
-    const Finalsettelmenntdata = fields
-        .filter(f => f.reason_name && f.amount)
-        .map(f => {
-            const reason = f.reason_name.toLowerCase();
-            const userAmount = Number(f.amount) || 0;
 
-                       if (f.isSystemGenerated === true) {
+    const handleClickGenerate = () => {
+        const apiDeductions = finalSettlementList?.customerInfo?.listDeductions || [];
+
+        const apiMap = new Map(
+            apiDeductions.map(item => [item.type?.toLowerCase(), Number(item.amount) || 0])
+        );
+
+        const Finalsettelmenntdata = fields
+            .filter(f => f.reason_name && f.amount)
+            .map(f => {
+                const reason = f.reason_name.toLowerCase();
+                const userAmount = Number(f.amount) || 0;
+
+                if (f.isSystemGenerated === true) {
+                    return null;
+                }
+
+
+                if (f.customReason?.trim()) {
+                    return { item: f.reason_name, amount: userAmount };
+                }
+
+
+                if (!apiMap.has(reason)) {
+                    return { item: f.reason_name, amount: userAmount };
+                }
+
+
+                if (f.isSystemGenerated === false) {
+                    return { item: f.reason_name, amount: userAmount };
+                }
+
                 return null;
-            }
+            })
+            .filter(Boolean);
 
-            
-            if (f.customReason?.trim()) {
-                return { item: f.reason_name, amount: userAmount };
-            }
 
-            
-            if (!apiMap.has(reason)) {
-                return { item: f.reason_name, amount: userAmount };
-            }
-
-            
-            if (f.isSystemGenerated === false) {
-                return { item: f.reason_name, amount: userAmount };
-            }
-
-            return null;
-        })
-        .filter(Boolean);
-
-   
-     if (data.customerId || data.currentTenantInfo?.tenetId) {
+        if (data.customerId || data.currentTenantInfo?.tenetId) {
             dispatch({
                 type: "FINALSETTLEMENT",
                 payload: {
@@ -378,7 +378,7 @@ const handleClickGenerate = () => {
             });
             setFormLoading(true);
         }
-};
+    };
 
 
 
@@ -403,7 +403,7 @@ const handleClickGenerate = () => {
         }
     }, [state.UsersList.statusCodeForFinalSettlement])
 
- 
+
     return (
         <div>
             <Modal show={show} onHide={handleClose} dialogClassName="checkout-modal" size="lg" centered backdrop="static">
@@ -886,7 +886,7 @@ const handleClickGenerate = () => {
                                                                 <tr key={user.invoiceid}>
                                                                     <td
                                                                         className="fw-normal text-decoration-underline text-primary mt-4"
-                                                                        
+
                                                                         style={{
                                                                             fontFamily: "Gilroy",
                                                                             fontSize: "14px",
@@ -929,7 +929,7 @@ const handleClickGenerate = () => {
                                         </div>
                                     }
 
-                               
+
                                     <div className="mt-3">
                                         <div>
                                             <p
@@ -947,7 +947,7 @@ const handleClickGenerate = () => {
                                             <div className="card shadow-sm rounded">
                                                 <div className="card-body p-3">
 
-                                                
+
                                                     <div className="d-flex justify-content-between mb-2">
                                                         <span
                                                             style={{
@@ -1010,7 +1010,11 @@ const handleClickGenerate = () => {
                                                             onClick={() => setShowDetails(!showDetails)}
                                                         >
                                                             Actual Stay Days (
-                                                            {finalSettlementList?.currentMonthRentInfo?.stayDays ?? 0} days
+                                                            {(() => {
+                                                                const d = finalSettlementList?.currentMonthRentInfo?.stayDays ?? 0;
+                                                                return `${d} ${d === 1 ? "day" : "days"}`;
+                                                            })()}
+
                                                             {/* × ₹
                                                             {Number(finalSettlementList?.currentMonthRentInfo?.rentPerDay || 0)} */}
                                                             )
@@ -1069,8 +1073,9 @@ const handleClickGenerate = () => {
                                                                                 {item.roomName} - {item.bedName}
                                                                             </div>
 
-                                                                            <div className="col-6 text-end " style={{ whiteSpace: "nowrap" }}>
-                                                                                ({item.noOfDays} days = {item.rent})
+                                                                            <div className="col-6 text-start " style={{ whiteSpace: "nowrap" }}>
+                                                                                ({item.noOfDays} {item.noOfDays === 1 ? "day" : "days"} = {item.rent})
+
                                                                             </div>
 
                                                                         </div>
@@ -1132,7 +1137,7 @@ const handleClickGenerate = () => {
                                             <p style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 600 }}>
                                                 Final Settlement
                                             </p>
-                                           
+
                                         </div>
 
                                         <div className="d-flex justify-content-between">
@@ -1162,7 +1167,7 @@ const handleClickGenerate = () => {
                                             </p>
                                         </div>
 
-                                       
+
                                         <div className="d-flex justify-content-between mb-1">
                                             <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>
                                                 Refundable Advance
@@ -1172,7 +1177,7 @@ const handleClickGenerate = () => {
                                                 {finalSettlementList?.customerInfo?.advancePaidAmount}
                                             </p>
                                         </div>
-                                       
+
                                     </div>
 
                                 )}
