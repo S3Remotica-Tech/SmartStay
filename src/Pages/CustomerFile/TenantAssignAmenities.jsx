@@ -12,7 +12,7 @@ import { useHasPermission } from '../../Utils/Permission';
 import ErrorMessage from '../../Components/ErrorMessage'
 import Image from "react-bootstrap/Image";
 
-function TenantAmenities({show, handleClose}) {
+function TenantAmenities({ show, handleClose }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [formLoading, setFormLoading] = useState(false)
@@ -82,7 +82,7 @@ function TenantAmenities({show, handleClose}) {
   };
 
 
-    var toastStyle = {
+  var toastStyle = {
 
     fontFamily: "Gilroy",
     fontWeight: 600,
@@ -97,23 +97,23 @@ function TenantAmenities({show, handleClose}) {
 
 
 
-useEffect(() => {
+  useEffect(() => {
     if (state.InvoiceList.AmenitiesList) {
       if (state.InvoiceList.AmenitiesList.length === 0 && isTrigger) {
-                 toast.error(
-                "Please Create Amenities before assign amenities",
-                {
-                  hideProgressBar: true,
-                  closeButton: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                  style: toastStyle
-                });
+        toast.error(
+          "Please Create Amenities before assign amenities",
+          {
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle
+          });
         setIsTrigger(false)
       }
-     
+
     }
   }, [state.InvoiceList.AmenitiesList])
 
@@ -196,7 +196,7 @@ useEffect(() => {
   };
 
 
-  
+
 
   const handleAddUserAmnities = () => {
     if (!selectAmneties) {
@@ -223,7 +223,7 @@ useEffect(() => {
     setselectAmneties("");
   };
 
- 
+
 
 
 
@@ -278,7 +278,7 @@ useEffect(() => {
     setActiveDotsId(null)
     setStatusAmni(false)
     setamnityError("");
-handleClose()
+    handleClose()
     dispatch({ type: "CLEAR_ERROR_USER_AMENITIES" });
   };
   useEffect(() => {
@@ -377,7 +377,7 @@ handleClose()
 
 
 
-  
+
 
 
 
@@ -524,15 +524,15 @@ handleClose()
             >
               <Form.Label
                 style={{ fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}
-              > 
+              >
                 Amenities {" "} <span
-                                            style={{
-                                                color: "red",
-                                                fontSize: "20px",
-                                            }}
-                                        >
-                                            *
-                                        </span>
+                  style={{
+                    color: "red",
+                    fontSize: "20px",
+                  }}
+                >
+                  *
+                </span>
               </Form.Label>
               <Select
                 isDisabled={!canWriteAmenities || state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" || state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" || state.UsersList.customerdetails?.customerCurrentStatus === "VACATED"}
@@ -550,21 +550,22 @@ handleClose()
                     : null
                 }
                 onChange={(e) => {
-                  
-                    handleselect(e);
-                  
+
+                  handleselect(e);
+
                 }}
                 options={state.InvoiceList.AmenitiesList
                   ?.filter(
                     (item) =>
-                      !CustomerOverView?.some(
-                        (c) => c.amenityId === item.amenityId
+                      !state.UsersList.customerdetails?.assignedAmenities?.some(
+                        (a) => a.amenityId === item.amenityId
                       )
                   )
                   ?.map((item) => ({
                     value: item.amenityId,
                     label: item.amenityName,
                   }))}
+
                 classNamePrefix="custom"
                 menuPlacement="auto"
                 styles={{
@@ -603,7 +604,7 @@ handleClose()
                     ...base,
                     cursor: "pointer",
                     backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                    opacity:  1,
+                    opacity: 1,
                     color: "#000",
                     fontFamily: "Gilroy",
                   }),
@@ -820,16 +821,16 @@ handleClose()
 
             }}
             onClick={() => {
-              
-                handleAddUserAmnities();
-              
+
+              handleAddUserAmnities();
+
             }}
           >
             Assign
           </Button>
         </Modal.Footer>
       </Modal>
-      
+
     </div>
 
   );

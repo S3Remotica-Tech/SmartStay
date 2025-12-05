@@ -69,7 +69,6 @@ import { AddSquare, Tag2 } from "iconsax-react";
 import TenantAmenities from "./TenantAssignAmenities";
 import RequestedAmenities from "./RequestedAmenities";
 import TransactionHistory from "./TransactionHistory";
-import { FamilyRestroomRounded } from "@mui/icons-material";
 import ManualDocumentsUpload from "./ManualDocumentsUpload";
 import ParentsGuardian from "./Parents&Guardian";
 import KYCDocuments from "./KYCDocuments";

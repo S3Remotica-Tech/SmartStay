@@ -871,7 +871,7 @@ console.log("state.PgList?.isClickedBed",state.PgList?.isClickedBed)
                         fontFamily: "Gilroy",
                       }}
                     >
-                      {state.PgList?.isClickedBed?.currentTenantFullName}
+                      {state.PgList?.isClickedBed?.currentTenantInfo?.tenantFullName}
 
                     </span>
 
