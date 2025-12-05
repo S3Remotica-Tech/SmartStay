@@ -63,7 +63,7 @@ import ErrorMessage from '../../Components/ErrorMessage'
 import BackToCheckIn from "./BackToCheckIn";
 import { useHasPermission } from '../../Utils/Permission';
 import { useNavigate, useLocation } from "react-router-dom";
-import withErrorBoundary from "../../Hoc/WithErrorBountry"; 
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
 function UserList(props) {
   const state = useSelector((state) => state);
@@ -228,7 +228,7 @@ function UserList(props) {
           type: "USERLIST",
           payload: { hostel_id: state.login.selectedHostel_Id },
         });
-      
+
       }
       else if (value === "3") {
         dispatch({
@@ -3080,16 +3080,17 @@ function UserList(props) {
               fontFamily: "Gilroy",
               fontSize: 16,
               fontWeight: 500,
-              textAlign: "left",
+              // textAlign: "left",
             }}
           >
-            <TabContext value={value} style={{ marginLeft: "-10px" }}>
-              <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
+            <TabContext value={value} className="" >
+              <Box sx={{ borderBottom: 0, borderColor: "divider", display: "flex", gap: 32, backgroundColor: "", width: "auto" }}>
                 <TabList
                   orientation={isSmallScreen ? "vertical" : "horizontal"}
                   onChange={handleChange}
                   aria-label="lab API tabs example"
-                  className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
+                  className="d-flex gap-5"
+                  style={{ alignItems: "flex-start", display: "flex", gap: "102px", justifyContent: "space-between", backgroundColor: "", width: "50%" }}
                 >
                   <Tab
                     className="tab-label"
@@ -3097,12 +3098,21 @@ function UserList(props) {
                       textTransform: "capitalize",
                       fontSize: 16,
                       fontWeight: 500,
+                      padding: 0,
                       fontFamily: "Gilroy",
                       color: value === "1" ? "#222222" : "#4B4B4B",
+                      minHeight: "unset",
+                      height: "28px",
+                      display: "flex",
+                      alignItems: "start",
+                      justifyContent: "flex-start",
+                      textAlign: "left",
+
                     }}
                     label="Tenants"
                     value="1"
                   />
+
                   <Tab
                     className="tab-label"
                     style={{
@@ -3111,10 +3121,19 @@ function UserList(props) {
                       fontWeight: 500,
                       fontFamily: "Gilroy",
                       color: value === "3" ? "#222222" : "#4B4B4B",
+                      minHeight: "unset",
+                      height: "28px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "flex-start",
+                      textAlign: "center",
+                      padding: 0,
+                      lineHeight: 1,
                     }}
                     label="Check-out"
                     value="3"
                   />
+
                   <Tab
                     className="tab-label"
                     style={{
@@ -3123,11 +3142,20 @@ function UserList(props) {
                       fontWeight: 500,
                       fontFamily: "Gilroy",
                       color: value === "4" ? "#222222" : "#4B4B4B",
+                      minHeight: "unset",
+                      height: "28px",
+                      display: "flex",
+                      alignItems: "start",
+                      justifyContent: "flex-start",
+                      textAlign: "right",
+                      padding: 0,
+                      lineHeight: 1,
                     }}
                     label="Walk-in"
                     value="4"
                   />
                 </TabList>
+
               </Box>
 
               <TabPanel value="1">
@@ -3781,7 +3809,7 @@ function UserList(props) {
                                                 ? popupPosition.top - (popupRef.current?.offsetHeight || 100) - 20
                                                 : popupPosition.top - 35,
                                               left: popupPosition.left,
-                                                                                                                                                                                           boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+                                              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
                                               backgroundColor: "#F9F9F9",
                                               border: "1px solid #EBEBEB",
                                               borderRadius: "10px",

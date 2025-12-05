@@ -53,12 +53,12 @@ function UserListAmenities(props) {
 
 
   useEffect(() => {
-    if (state.UsersList?.customerdetails?.amenities) {
-      setCustomerOverView(state.UsersList.customerdetails.amenities);
+    if (state.UsersList?.customerdetails?.assignedAmenities) {
+      setCustomerOverView(state.UsersList.customerdetails.assignedAmenities);
     } else {
       setCustomerOverView([]);
     }
-  }, [state.UsersList?.customerdetails?.amenities]);
+  }, [state.UsersList?.customerdetails?.assignedAmenities]);
 
 
 

@@ -200,7 +200,7 @@ const handleNavigateTenantProfile = (view) => {
         }} className='m-2' >
 
 <td style={{ cursor:"pointer",border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 600, color: "#1E45E1", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
-          <div style={{ marginLeft: 7 }}  onClick={() => handleDownload(props.item)} className="Invoice_Name">{props.item.receiptNumber ? props.item?.receiptNumber : "-"}</div>
+          <div style={{ marginLeft: 7 }}  onClick={() => handleDownload(props.item)} className="Invoice_Name">{props.item.transactionNumber ? props.item?.transactionNumber : "-"}</div>
           </td>
 
  

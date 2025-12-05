@@ -252,38 +252,52 @@ const RoomReadingTable = () => {
     };
   });
 
- const formattedRoomReadings = roomReadingList?.map((item) => {
-  // Billing Month from startDate (dd/mm/yyyy)
-  const [day, month, year] = item.startDate.split("/");
-  const billingMonth = new Date(`${year}-${month}-01`).toLocaleString("en-US", {
-    month: "short",
-    year: "numeric",
-  });
+const formattedRoomReadings = roomReadingList?.map((item) => {
 
+  
+  const getBillingMonth = (dateStr) => {
+    if (dateStr === "N/A") return "N/A";     
+    if (!dateStr) return "N/A";          
+    const [day, month, year] = dateStr.split("/");
+    if (!day || !month || !year) return "N/A";
 
+    return new Date(`${year}-${month}-01`).toLocaleString("en-US", {
+      month: "short",
+      year: "numeric",
+    });
+  };
+
+  
   const formatDate = (dateStr) => {
-    if (!dateStr) return "-";
+    if (dateStr === "N/A") return "N/A";      
+    if (!dateStr) return "N/A";           
+
     const [d, m, y] = dateStr.split("/").map(Number);
+    if (!d || !m || !y) return "N/A";
+
     return new Date(y, m - 1, d).toLocaleDateString("en-GB", {
       day: "2-digit",
       month: "short",
-      // year: "numeric", 
     });
   };
 
   return {
     floorName: item.floorName,
     roomName: item.roomName,
-    roomId:item.roomId,
-    hostelId:item.hostelId,
+    roomId: item.roomId,
+    hostelId: item.hostelId,
     noOfTenants: item.noOfTenants,
-    billingMonth: billingMonth,
+
+    billingMonth: getBillingMonth(item.startDate),
+
     from: formatDate(item.startDate),
     to: formatDate(item.endDate),
-    totalUnits: item.consumption,         
-    totalPrice: item.totalPrice ,  
+
+    totalUnits: item.consumption,
+    totalPrice: item.totalPrice,
   };
 });
+
 
 console.log("formattedRoomReadings",formattedRoomReadings)
 

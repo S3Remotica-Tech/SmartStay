@@ -776,7 +776,7 @@ console.log("state.PgList?.isClickedBed",state.PgList?.isClickedBed)
 
 
 
-      <div className="container" style={{ position: "relative" }} >
+      <div className="" style={{ position: "relative" }} >
 
 
         {state.login.isTrigger &&
@@ -817,9 +817,6 @@ console.log("state.PgList?.isClickedBed",state.PgList?.isClickedBed)
             >
               <div className="card-body d-flex flex-column flex-md-row align-items-center justify-content-between">
                 <div className="d-flex align-items-center mb-3 mb-md-0">
-
-
-
 
                   {state.PgList?.isClickedBed?.currentTenantInfo?.profilePic ? (
                    
@@ -874,7 +871,7 @@ console.log("state.PgList?.isClickedBed",state.PgList?.isClickedBed)
                         fontFamily: "Gilroy",
                       }}
                     >
-                      {state.PgList?.isClickedBed?.currentTenantFullName}
+                      {state.PgList?.isClickedBed?.currentTenantInfo?.tenantFullName}
 
                     </span>
 
@@ -925,7 +922,7 @@ console.log("state.PgList?.isClickedBed",state.PgList?.isClickedBed)
 
 
                   <label
-                    className="ms-4"
+                    className="ms-2"
                     style={{
                       fontSize: 18,
                       color: "rgba(34, 34, 34, 1)",

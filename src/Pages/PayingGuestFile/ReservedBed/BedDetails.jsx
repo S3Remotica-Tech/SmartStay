@@ -423,22 +423,22 @@ function BedDetails({
 
                                     <div className="d-flex justify-content-between mb-2">
                                         <div>
-                                            <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Check-In Date</label>
+                                            <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Booking Date</label>
                                         </div>
                                         <div>
-                                            <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>{currentItem?.newTenantInfo?.joiningDate || "N/A"}</label>
+                                            <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>{currentItem?.newTenantInfo?.bookingDate || "N/A"}</label>
                                         </div>
                                     </div>
 
 
-                                    <div className="d-flex justify-content-between mb-2">
+                                    {/* <div className="d-flex justify-content-between mb-2">
                                         <div>
                                             <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Last Invoice</label>
                                         </div>
                                         <div>
                                             <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>202025</label>
                                         </div>
-                                    </div>
+                                    </div> */}
 
 
 

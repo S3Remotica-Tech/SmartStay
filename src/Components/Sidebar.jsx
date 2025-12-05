@@ -1655,20 +1655,20 @@ function Sidebar() {
                           right: "-2px",
                           minHeight: "16px",
                           minWidth: "16px",
-                          padding: "0px 4px",
+                          padding: "0px 3px",
                           display: "flex",
                           justifyContent: "center",
                           alignItems: "center",
                           backgroundColor: "#F97316",
                           color: "white",
-                          fontSize: 10,
+                          fontSize: 10,textAlign:"center",
                           borderRadius: "50%",
                           border: "2px solid white",
                           fontWeight: 600,
                           lineHeight: 1,
                         
                         }}
-                      >{state.UsersList.hotelDetailsinPg.unreadNotificationCount}</span>
+                      >{state.UsersList?.hotelDetailsinPg?.unreadNotificationCount}</span>
                     )}
                 </div>
 
