@@ -862,7 +862,7 @@ function NoticeBedStatusDetails({
                         </div>
                         <div className="mt-2">
                           <div>
-                            <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600,cursor:"pointer", textDecoration:"underline"}}  onClick={() => handleNavigateReservedTenantProfile(currentItem)}  >{currentItem?.newTenantFullName || "N/A"}</label>
+                            <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600,cursor:"pointer", textDecoration:"underline"}}  onClick={() => handleNavigateReservedTenantProfile(currentItem)}  >{currentItem?.newTenantInfo?.tenantFullName || "N/A"}</label>
                           </div>
                           <div><label style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}>
 
