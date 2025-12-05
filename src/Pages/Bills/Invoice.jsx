@@ -153,7 +153,7 @@ const InvoicePage = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-console.log("recurringbills",recurringbills)
+  console.log("recurringbills", recurringbills)
 
 
   const [transactionId, setTransactionId] = useState("");
@@ -230,14 +230,14 @@ console.log("recurringbills",recurringbills)
     }
   }, [canReadInvoice]);
 
-useEffect(()=>{
-  if(!canReadRecurring){
-    setRecurLoader(false)
-  }else{
-    setRecurLoader(true)
-  }
+  useEffect(() => {
+    if (!canReadRecurring) {
+      setRecurLoader(false)
+    } else {
+      setRecurLoader(true)
+    }
 
-},[canReadRecurring])
+  }, [canReadRecurring])
 
 
 
@@ -249,35 +249,35 @@ useEffect(()=>{
 
 
 
-  
 
-useEffect(() => {
-  const initialState = {};
-  recurringbills?.forEach((item) => {
-    initialState[item.customerId] = item.currentStatus === true;
-  });
-  setCheckedRows(initialState);
-}, [recurringbills]);
- const handleToggle = (id) => {
-  if (!id) return;
 
-  const updatedValue = !checkedRows[id];
-  const stringValue = updatedValue ? "true" : "false";
+  useEffect(() => {
+    const initialState = {};
+    recurringbills?.forEach((item) => {
+      initialState[item.customerId] = item.currentStatus === true;
+    });
+    setCheckedRows(initialState);
+  }, [recurringbills]);
+  const handleToggle = (id) => {
+    if (!id) return;
 
-  setCheckedRows((prev) => ({
-    ...prev,
-    [id]: updatedValue,
-  }));
+    const updatedValue = !checkedRows[id];
+    const stringValue = updatedValue ? "true" : "false";
 
-  dispatch({
-    type: "UPDATE_TENANT_RECURRING",
-    payload: {
-      status: stringValue,
-      hostelId: state.login.selectedHostel_Id,
-      customerId: id
-    },
-  });
-};
+    setCheckedRows((prev) => ({
+      ...prev,
+      [id]: updatedValue,
+    }));
+
+    dispatch({
+      type: "UPDATE_TENANT_RECURRING",
+      payload: {
+        status: stringValue,
+        hostelId: state.login.selectedHostel_Id,
+        customerId: id
+      },
+    });
+  };
 
 
 
@@ -289,7 +289,7 @@ useEffect(() => {
   useEffect(() => {
     if (state.InvoiceList.updateTenantRecurringStatusCode) {
 
-  dispatch({ type: "RECURRING-BILLS-LIST", payload:state.login?.selectedHostel_Id })
+      dispatch({ type: "RECURRING-BILLS-LIST", payload: state.login?.selectedHostel_Id })
 
       setTimeout(() => {
         dispatch({ type: 'REMOVE_UPDATE_TENANT_RECURRING' })
@@ -317,7 +317,7 @@ useEffect(() => {
 
   useEffect(() => {
     if (state.InvoiceList.CustomerRecurringEnableDisableStatusCode === 200) {
-     dispatch({ type: "RECURRING-BILLS-LIST", payload:state.login?.selectedHostel_Id })
+      dispatch({ type: "RECURRING-BILLS-LIST", payload: state.login?.selectedHostel_Id })
 
       dispatch({ type: 'REMOVE_CUSTOMER_RECURRING_ENABLE_DISABLE' })
 
@@ -939,7 +939,7 @@ useEffect(() => {
 
   const handleShowForm = (props) => {
     setShowform(true);
-   
+
     setInvoiceValue(props.item);
 
     if (props.item.invoiceId !== undefined) {
@@ -2051,7 +2051,7 @@ useEffect(() => {
       // setRecurLoader(true);
       setDownloadInvoice(false)
       setDownloadReceipt(false)
-        dispatch({ type: "RECURRING-BILLS-LIST", payload:state.login?.selectedHostel_Id })
+      dispatch({ type: "RECURRING-BILLS-LIST", payload: state.login?.selectedHostel_Id })
     }
 
     if (newValue === "3") {
@@ -2648,14 +2648,14 @@ useEffect(() => {
 
   useEffect(() => {
 
-    if (state.login?.selectedHostel_Id ) {
+    if (state.login?.selectedHostel_Id) {
       // setRecurLoader(true);
-      dispatch({ type: "RECURRING-BILLS-LIST", payload:state.login?.selectedHostel_Id })
+      dispatch({ type: "RECURRING-BILLS-LIST", payload: state.login?.selectedHostel_Id })
     }
-  }, [state.login?.selectedHostel_Id , activeStay]);
+  }, [state.login?.selectedHostel_Id, activeStay]);
 
 
-console.log("state",state)
+  console.log("state", state)
 
 
 
@@ -2666,10 +2666,10 @@ console.log("state",state)
 
   useEffect(() => {
     if (state.InvoiceList?.RecurringbillsgetStatuscode === 200) {
-        setRecurLoader(false);
-      setRecurringBills(state.InvoiceList.RecurringBills.customers);
+      setRecurLoader(false);
+      setRecurringBills(state.InvoiceList.RecurringBills?.customers);
       setOriginalRecuiring(state.InvoiceList.RecurringBills)
-    
+
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_RECURRING_BILLS_LIST" });
       }, 100);
@@ -2681,7 +2681,7 @@ console.log("state",state)
       state.InvoiceList.RecurringBillAddStatusCode === 200 ||
       state.InvoiceList.deleterecurringbillsStatuscode
     ) {
-      dispatch({ type: "RECURRING-BILLS-LIST", payload:state.login?.selectedHostel_Id })
+      dispatch({ type: "RECURRING-BILLS-LIST", payload: state.login?.selectedHostel_Id })
       setRecurringBills(state.InvoiceList.RecurringBills);
 
       setTimeout(() => {
@@ -2785,13 +2785,13 @@ console.log("state",state)
     }
   }, [receiptdata]);
   useEffect(() => {
-    if (bills.length > 0 && originalBills.length === 0) {
+    if (bills?.length > 0 && originalBills?.length === 0) {
       setOriginalBills(bills);
     }
   }, [bills]);
 
   useEffect(() => {
-    if (recurringbills.length > 0 && originalRecuiring.length === 0) {
+    if (recurringbills?.length > 0 && originalRecuiring?.length === 0) {
       setOriginalRecuiring(recurringbills);
     }
   }, [recurringbills]);
@@ -2934,7 +2934,7 @@ console.log("state",state)
 
 
   return (
-    <div style={{  overflowX: "hidden" }}>
+    <div style={{ overflowX: "hidden" }}>
       {showAllBill && (
         <Row className="p-0">
           <Col className="p-0"
@@ -2948,7 +2948,7 @@ console.log("state",state)
             xs={DownloadInvoice || DownloadReceipt ? 12 : 12}
           >
             <div
-              className="container-fluid sticky-top bg-white "
+              className="container-fluid sticky-top bg-white ps-4 "
               style={{
                 zIndex: 1000, paddingLeft: 8, paddingRight: 6, backgroundColor: "#ffffff",
                 borderBottom: (!DownloadInvoice && !DownloadReceipt) ? "none" : "1px solid #E0E0E0",
@@ -3481,7 +3481,7 @@ console.log("state",state)
               </div>
             </div>
 
-
+<div className="ps-4">
             <TabContext value={value} style={{}} >
               <div
                 style={{
@@ -3492,7 +3492,7 @@ console.log("state",state)
                   zIndex: 1000,
                   backgroundColor: search ? undefined : "#FFFFFF",
                   height: "auto",
-                  marginBottom: 10, marginTop: showSearchFilter ? 100 : 0, 
+                  marginBottom: 10, marginTop: showSearchFilter ? 100 : 0,
                 }}
               >
                 <Box
@@ -3508,7 +3508,7 @@ console.log("state",state)
 
                     className="custom-tab-list d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
                   >
-                    <Tab disabled={showLoader}
+                    <Tab className="ps-0" disabled={showLoader}
                       label="Bills"
                       value="1"
                       style={{
@@ -3519,6 +3519,10 @@ console.log("state",state)
                         fontStyle: "normal",
                         fontWeight: 500,
                         textTransform: "none",
+                        display: "flex",
+                      alignItems: "start",
+                      justifyContent: "flex-start",
+                      textAlign: "left",padiing:0
                       }}
                     />
                     <Tab disabled={showLoader}
@@ -4334,38 +4338,38 @@ console.log("state",state)
                                         <div className="d-flex align-items-start justify-content-between">
                                           <div>
                                             <span>
-                                                {
-                                            item.profilePic && item.profilePic !== "0" ? (
-                                              <img
-                                                src={item.profilePic}
-                                                alt="User"
-                                                style={{
-                                                  height: 40,
-                                                  width: 40,
-                                                  borderRadius: "50%",
-                                                  objectFit: "cover",
-                                                }}
-                                              />
-                                            ) : (
-                                              <div
-                                                style={{
-                                                  height: 40,
-                                                  width: 40,
-                                                  borderRadius: "50%",
-                                                  backgroundColor: "#1E45E1",
-                                                  display: "flex",
-                                                  alignItems: "center",
-                                                  justifyContent: "center",
-                                                  color: "white",
-                                                  fontWeight: 600,
-                                                  fontSize: 14,
-                                                  textTransform: "uppercase",
-                                                }}
-                                              >
-                                                {item.initials}
-                                              </div>
-                                            )
-                                          }
+                                              {
+                                                item.profilePic && item.profilePic !== "0" ? (
+                                                  <img
+                                                    src={item.profilePic}
+                                                    alt="User"
+                                                    style={{
+                                                      height: 40,
+                                                      width: 40,
+                                                      borderRadius: "50%",
+                                                      objectFit: "cover",
+                                                    }}
+                                                  />
+                                                ) : (
+                                                  <div
+                                                    style={{
+                                                      height: 40,
+                                                      width: 40,
+                                                      borderRadius: "50%",
+                                                      backgroundColor: "#1E45E1",
+                                                      display: "flex",
+                                                      alignItems: "center",
+                                                      justifyContent: "center",
+                                                      color: "white",
+                                                      fontWeight: 600,
+                                                      fontSize: 14,
+                                                      textTransform: "uppercase",
+                                                    }}
+                                                  >
+                                                    {item.initials}
+                                                  </div>
+                                                )
+                                              }
                                             </span>
                                           </div>
 
@@ -4563,7 +4567,7 @@ console.log("state",state)
                                           zIndex: 1
                                         }}>
                                           <tr>
-                                             <th
+                                            <th
                                               style={{
                                                 textAlign: "start",
                                                 fontFamily: "Gilroy",
@@ -4597,7 +4601,7 @@ console.log("state",state)
                                                 </div>
                                                 Name</div>
                                             </th>
-                                           
+
                                             <th
                                               style={{
                                                 textAlign: "start",
@@ -4854,73 +4858,71 @@ console.log("state",state)
                       </button>
                     </div>
 
-
-
-
-                    {!recurLoader && recurringbills?.length === 0 && activeStay === 'long_stay' ? (
-
-
-                      <div style={{ marginTop: 20 }}>
-                        <div style={{ textAlign: "center" }}>
-                          {" "}
-                          <img src={Emptystate} alt="emptystate" />
+                    {!recurLoader &&
+                      (!recurringbills || recurringbills.length === 0) &&
+                      activeStay === 'long_stay' ?
+                      (
+                        <div style={{ marginTop: 20 }}>
+                          <div style={{ textAlign: "center" }}>
+                            {" "}
+                            <img src={Emptystate} alt="emptystate" />
+                          </div>
+                          <div
+                            className="pb-1"
+                            style={{
+                              textAlign: "center",
+                              fontWeight: 600,
+                              fontFamily: "Gilroy",
+                              fontSize: 18,
+                              color: "rgba(75, 75, 75, 1)",
+                            }}
+                          >
+                            No {activeStay} Recuring bills available{" "}
+                          </div>
+                          <div
+                            className="pb-1"
+                            style={{
+                              textAlign: "center",
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              fontSize: 14,
+                              color: "rgba(75, 75, 75, 1)",
+                            }}
+                          >
+                            There are no Recuring bills added{" "}
+                          </div>
                         </div>
+                      ) : !recurLoader && activeStay === 'short_stay' ?
                         <div
-                          className="pb-1"
                           style={{
-                            textAlign: "center",
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
-                            fontSize: 18,
-                            color: "rgba(75, 75, 75, 1)",
+                            height: "400px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            backgroundColor: "#f2f6fc",
+                            borderRadius: "10px",
+                            margin: "20px 30px",
+                            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
+                            border: "1px dashed #b0c4de",
+
                           }}
                         >
-                          No {activeStay} Recuring bills available{" "}
-                        </div>
-                        <div
-                          className="pb-1"
-                          style={{
-                            textAlign: "center",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            fontSize: 14,
-                            color: "rgba(75, 75, 75, 1)",
-                          }}
-                        >
-                          There are no Recuring bills added{" "}
-                        </div>
-                      </div>
-                    ) : !recurLoader && activeStay === 'short_stay' ?
-                      <div
-                        style={{
-                          height: "400px",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          backgroundColor: "#f2f6fc",
-                          borderRadius: "10px",
-                                                    margin: "20px 30px",
-                          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
-                          border: "1px dashed #b0c4de",
-                          
-                        }}
-                      >
-                        <div style={{ textAlign: "center" }}>
-                          <img
-                            src="https://cdn-icons-png.flaticon.com/512/4076/4076549.png"
-                            alt="Coming Soon"
-                            width="80"
-                            height="80"
-                            style={{ marginBottom: "15px", opacity: 0.7 }}
-                          />
+                          <div style={{ textAlign: "center" }}>
+                            <img
+                              src="https://cdn-icons-png.flaticon.com/512/4076/4076549.png"
+                              alt="Coming Soon"
+                              width="80"
+                              height="80"
+                              style={{ marginBottom: "15px", opacity: 0.7 }}
+                            />
 
-                          <p style={{ color: "#7a7a7a", fontSize: "14px", fontFamily: "Gilroy" }}>Coming Soon. Stay tuned!</p>
+                            <p style={{ color: "#7a7a7a", fontSize: "14px", fontFamily: "Gilroy" }}>Coming Soon. Stay tuned!</p>
+                          </div>
                         </div>
-                      </div>
 
 
-                      :
-                      ""}
+                        :
+                        ""}
 
 
 
@@ -5131,7 +5133,7 @@ console.log("state",state)
                                 > Action</th>
                               </tr>
                             </thead>
-                          
+
                             <tbody style={{ fontSize: "10px" }}>
                               <PaginationList>
                                 {recurringbills.map((item) => (
@@ -5429,7 +5431,7 @@ console.log("state",state)
                                           zIndex: 1
                                         }}>
                                           <tr>
-                                             <th
+                                            <th
                                               style={{
                                                 textAlign: "start",
                                                 fontFamily: "Gilroy",
@@ -5447,7 +5449,7 @@ console.log("state",state)
                                                 </div>
                                                 Receipt No</div>
                                             </th>
-                                           
+
                                             <th
                                               style={{
                                                 textAlign: "start",
@@ -5468,7 +5470,7 @@ console.log("state",state)
                                                 Name</div>
                                             </th>
 
-                                             <th
+                                            <th
                                               style={{
                                                 textAlign: "start",
                                                 fontFamily: "Gilroy",
@@ -5660,6 +5662,7 @@ console.log("state",state)
                 )}
               </TabPanel>
             </TabContext>
+            </div>
           </Col>
 
 

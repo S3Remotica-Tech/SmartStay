@@ -247,12 +247,15 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
                             </div>
 
                             <div>
+                               {
+                              list?.canAssign === false ? "":
+                              
                               <Form.Check aria-label="option 1"
-
+disabled={list?.canAssign === false}
                                 checked={assignedCheckedUsers.includes(list.customerId)}
                                 onChange={() => handleAssignedCheckboxChange(list.customerId)}
                                 style={{ cursor: "pointer", boxShadow: "none" }}
-                              />
+                              />}
                             </div>
                           </div>
                           <hr style={{ border: "1px solid #ccc" }} className='p-0 m-1' />

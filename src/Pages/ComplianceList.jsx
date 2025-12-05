@@ -378,7 +378,7 @@ const ComplianceList = (props) => {
     setCompliant(item?.Assign ?? "");
     setAlreadyAssigned(item?.Assign ?? "");
 
-    setComplaintId(item?.complaintId ? item?.complaintId : item?.complaintResponseDto?.complaintId)
+    setComplaintId(item?.complaintId ? item?.complaintId : item?.complaintId)
     setShowAssignComplaint(true);
     setShowChangeStatus(false);
   };
@@ -440,7 +440,7 @@ const ComplianceList = (props) => {
   });
 
 
-
+  console.log("props.complaints", props.complaints)
 
 
 
@@ -1086,7 +1086,6 @@ const ComplianceList = (props) => {
                         {
                           props.complaints?.complaintDate
                         }
-                        {/* {moment(props.complaints.complaintResponseDto?.complaintDate).format("DD-MM-YYYY")} */}
                       </span>
                     </>
                   )}
@@ -1100,9 +1099,8 @@ const ComplianceList = (props) => {
                     padding: "6px 10px",
                     cursor: "pointer",
                     display: "flex",
-                    alignItems: "center",
-                    gap: "6px",
-                  }}
+                    alignItems: "center",justifyContent:"center",
+                                      }}
                 >
                   <img
                     src={CommentIcon}
@@ -1150,44 +1148,66 @@ const ComplianceList = (props) => {
                         marginBottom: "10px",
                         position: "relative",
                         display: "flex",
-                        marginleft: "-15px"
+                        marginleft: "-15px",gap: 2
                       }}
                     >
-                      <div
+                      <div  className="gap-2"
                         style={{
                           display: "flex",
                           alignItems: "center",
                           width: "100%",
-                          marginleft: "-15px",
+                           
                         }}
                       >
-                        <img
-                          src={
-                            props.complaints?.complaintResponseDto?.customerProfile === "0" ||
-                              props.complaints?.complaintResponseDto?.customerProfile === "null" ||
-                              props.complaints?.complaintResponseDto?.customerProfile === null
-                              ? User
-                              : props?.complaints?.complaintResponseDto?.customerProfile
-                          }
-                          alt="Profile"
-                          style={{
-                            cursor: "pointer",
-                            width: "40px",
-                            height: "40px",
-                            borderRadius: "50%",
-                            marginRight: "10px",
-                          }}
-                        />
+                        {
+                          props.complaints?.customerProfile ?
+
+                            <img
+                              src={
+                                props.complaints?.customerProfile === "0" ||
+                                  props.complaints?.customerProfile === "null" ||
+                                  props.complaints?.customerProfile === null
+                                  ? User
+                                  : props?.complaints?.customerProfile
+                              }
+                              alt="Profile"
+                              style={{
+                                cursor: "pointer",
+                                width: "40px",
+                                height: "40px",
+                                borderRadius: "50%",
+                                marginRight: "10px",
+                              }}
+                            />
+                            :
+                            <div
+                              style={{
+                                height: 50,
+                                width: 50,
+                                borderRadius: "50%",
+                                backgroundColor: "#1E45E1",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                fontSize: 20,
+                                fontWeight: "600",
+                                color: "white", fontFamily: "Gilroy", 
+                              }}
+                            >
+                              {props?.complaints?.initials || "-"}
+                            </div>
+
+                        }
                         <div style={{ flexGrow: 1 }}>
                           <p
                             style={{
                               margin: 0,
                               fontSize: "16px",
-                              fontWeight: "bold",
+                              fontWeight: "600px",
                               fontFamily: "Gilroy",
                             }}
                           >
-                            {props.complaints?.complaintResponseDto?.customerName}
+                            {props.complaints?.customerName}
                           </p>
                           <p
                             style={{
@@ -1197,7 +1217,7 @@ const ComplianceList = (props) => {
                               fontFamily: "Gilroy",
                             }}
                           >
-                            {props.complaints?.complaintResponseDto?.complaintDate}
+                            {props.complaints?.complaintDate}
                           </p>
                         </div>
                       </div>
@@ -1229,8 +1249,8 @@ const ComplianceList = (props) => {
                       >
 
 
-                        {props.complaints.complaintResponseDto?.comments?.length > 0 ? (
-                          props.complaints.complaintResponseDto?.comments.map((item, index) => {
+                        {props.complaints?.comments?.length > 0 ? (
+                          props.complaints?.comments.map((item, index) => {
                             let Dated = new Date(item.commentedAt);
 
                             let day = Dated.getDate();
@@ -1263,11 +1283,11 @@ const ComplianceList = (props) => {
                                 >
                                   <img
                                     src={
-                                      props.complaints?.complaintResponseDto?.customerProfile === "0" ||
-                                        props.complaints?.complaintResponseDto?.customerProfile === "null" ||
-                                        props.complaints?.complaintResponseDto?.customerProfile === null
+                                      props.complaints?.customerProfile === "0" ||
+                                        props.complaints?.customerProfile === "null" ||
+                                        props.complaints?.customerProfile === null
                                         ? User
-                                        : props?.complaints?.complaintResponseDto?.customerProfile
+                                        : props?.complaints?.customerProfile
                                     }
                                     alt="User"
                                     style={{

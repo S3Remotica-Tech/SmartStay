@@ -15,7 +15,9 @@
 .form-check-input{
   cursor: pointer;
 }
-
+.css-heg063-MuiTabs-flexContainer {
+   gap: 20px !important;
+}
 
 .custom-modal {
   margin-top: 40px !important; 

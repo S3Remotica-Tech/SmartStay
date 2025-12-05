@@ -257,7 +257,7 @@ function AddPg({ show, handleClose, currentItem }) {
 
   const nochangeRef = useRef(null)
 
-
+  console.log("currentItem", currentItem)
 
   const handleCreatePayingGuest = () => {
     let hasError = false;
@@ -431,20 +431,20 @@ function AddPg({ show, handleClose, currentItem }) {
     };
 
     const isChanged =
-  String(pgName || "").trim() !== String(initialState.pgName || "").trim() ||
-  Number(mobile || 0) !== Number(initialState.mobile || 0) ||
-  String(email || "").trim() !== String(initialState.email || "").trim() ||
-  String(house_no || "").trim() !== String(initialState.house_no || "").trim() ||
-  String(street || "").trim() !== String(initialState.street || "").trim() ||
-  String(landmark || "").trim() !== String(initialState.landmark || "").trim() ||
-  String(city || "").trim() !== String(initialState.city || "").trim() ||
-  String(pincode || "").trim() !== String(initialState.pincode || "").trim() ||
-  String(state_name || "") !== String(initialState.state || "") ||
-  file !== null ||
-  images.some((img) => img?.isChanged === true);
+      String(pgName || "").trim() !== String(initialState.pgName || "").trim() ||
+      Number(mobile || 0) !== Number(initialState.mobile || 0) ||
+      String(email || "").trim() !== String(initialState.email || "").trim() ||
+      String(house_no || "").trim() !== String(initialState.house_no || "").trim() ||
+      String(street || "").trim() !== String(initialState.street || "").trim() ||
+      String(landmark || "").trim() !== String(initialState.landmark || "").trim() ||
+      String(city || "").trim() !== String(initialState.city || "").trim() ||
+      String(pincode || "").trim() !== String(initialState.pincode || "").trim() ||
+      String(state_name || "") !== String(initialState.state || "") ||
+      file !== null ||
+      images.some((img) => img?.isChanged === true);
 
 
-  
+
 
 
     if (currentItem && !isChanged) {
@@ -470,20 +470,14 @@ function AddPg({ show, handleClose, currentItem }) {
         payload: {
           mainImage: file,
           hostelId: currentItem?.hostelId,
-          additionalImages: [
-            images[0]?.isChanged
-              ? images[0].image
-              : currentItem.image_list?.[0]?.image || null,
-            images[1]?.isChanged
-              ? images[1].image
-              : currentItem.image_list?.[1]?.image || null,
-            images[2]?.isChanged
-              ? images[2].image
-              : currentItem.image_list?.[2]?.image || null,
-            images[3]?.isChanged
-              ? images[3].image
-              : currentItem.image_list?.[3]?.image || null,
-          ].filter(Boolean),
+        additionalImages: images
+  .map((img, i) => {
+    if (img.isChanged) {
+      return img.image; 
+    }
+    return currentItem.images?.[i]?.image || null;
+  })
+  .filter(Boolean),
 
           payloads: {
             hostelName: pgName,
@@ -501,7 +495,7 @@ function AddPg({ show, handleClose, currentItem }) {
       setFormLoading(true)
     }
     else {
-     
+
       dispatch({
         type: "CREATEPG",
         payload: {
@@ -509,16 +503,16 @@ function AddPg({ show, handleClose, currentItem }) {
           additionalImages: [
             images[0]?.isChanged
               ? images[0].image
-              : currentItem.image_list?.[0]?.image || null,
+              : currentItem.images?.[0]?.image || null,
             images[1]?.isChanged
               ? images[1].image
-              : currentItem.image_list?.[1]?.image || null,
+              : currentItem.images?.[1]?.image || null,
             images[2]?.isChanged
               ? images[2].image
-              : currentItem.image_list?.[2]?.image || null,
+              : currentItem.images?.[2]?.image || null,
             images[3]?.isChanged
               ? images[3].image
-              : currentItem.image_list?.[3]?.image || null,
+              : currentItem.images?.[3]?.image || null,
           ].filter(Boolean),
 
           payloads: {
@@ -587,24 +581,16 @@ function AddPg({ show, handleClose, currentItem }) {
           img.image !== "0" && typeof img.image === "string" ? img.image : null,
       }));
 
-      // setImages(
-      //   formattedImages && formattedImages.length > 0
-      //     ? formattedImages
-      //     : Array(4).fill({ image: null, isChanged: false})
-      // );
+      const maxSlots = 4;
 
-      // formattedImages = API response images array
+      const finalImages = Array(maxSlots)
+        .fill(null)
+        .map((_, i) => ({
+          image: formattedImages[i]?.image || null,
+          isChanged: false,
+        }));
 
-const maxSlots = 4;
-
-const finalImages = Array(maxSlots)
-  .fill(null)
-  .map((_, i) => ({
-    image: formattedImages[i]?.image || null,
-    isChanged: false,
-}));
-
-setImages(finalImages);
+      setImages(finalImages);
 
       setInitialState({
         ...initialData,
@@ -678,21 +664,24 @@ setImages(finalImages);
   const handleDeleteImages = (ImageName, index) => {
     const imageObj = images[index];
 
-    if (currentItem.id && imageObj?.isChanged !== true && ImageName) {
-      dispatch({
-        type: "DELETEHOSTELIMAGES",
-        payload: {
-          hostel_id: currentItem.id,
-          image_name: ImageName,
-        },
-      });
-    }
+    // if (currentItem.id && imageObj?.isChanged !== true && ImageName) {
+    //   dispatch({
+    //     type: "DELETEHOSTELIMAGES",
+    //     payload: {
+    //       hostel_id: currentItem.id,
+    //       image_name: ImageName,
+    //     },
+    //   });
+    // }
 
     setImages((prevImages) => {
-      const updatedImages = [...prevImages];
-      updatedImages[index] = { image: null };
-      return updatedImages;
-    });
+    const updatedImages = [...prevImages];
+    updatedImages[index] = {
+      image: null,
+      isChanged: true,  
+    };
+    return updatedImages;
+  });
   };
 
 
@@ -710,7 +699,7 @@ setImages(finalImages);
 
   }, [state.createAccount?.networkError])
 
- 
+
 
   return (
     <div

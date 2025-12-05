@@ -1655,7 +1655,7 @@ function Sidebar() {
                           right: "-2px",
                           minHeight: "16px",
                           minWidth: "16px",
-                          padding: "0px 4px",
+                          padding: "0px 2px",
                           display: "flex",
                           justifyContent: "center",
                           alignItems: "center",
@@ -1668,7 +1668,7 @@ function Sidebar() {
                           lineHeight: 1,
                         
                         }}
-                      >{state.UsersList.hotelDetailsinPg.unreadNotificationCount}</span>
+                      >{state.UsersList?.hotelDetailsinPg?.unreadNotificationCount}</span>
                     )}
                 </div>
 

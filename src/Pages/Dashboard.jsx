@@ -634,10 +634,10 @@ function Dashboard() {
                 orientation={isSmallScreen ? "vertical" : "horizontal"}
                 onChange={handleChanges}
                 aria-label="lab API tabs example"
-                style={{ marginLeft: "20px" }}
+                // style={{ marginLeft: "20px" }}
                 className="d-flex flex-column flex-md-row flex-wrap"
               >
-                <Tab
+                <Tab className="p-0"
                   label="Dashboard"
                   value="1"
                   style={{

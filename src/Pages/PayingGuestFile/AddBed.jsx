@@ -18,7 +18,7 @@ function AddBed({ show, setShowBed, currentItem, editBedMode, isOccupied }) {
   const [bedError, setBedError] = useState("");
   const [amountError, setAmountError] = useState("");
   const [generalError, setGeneralError] = useState("");
-  const [bedAlreadyBooked, setBedAlreadyBooked] = useState("")
+  // const [bedAlreadyBooked, setBedAlreadyBooked] = useState("")
   const [formLoading, setFormLoading] = useState(false)
 
 
@@ -57,7 +57,7 @@ function AddBed({ show, setShowBed, currentItem, editBedMode, isOccupied }) {
     setBedNo(value);
     setGeneralError("");
     setBedError("");
-    setBedAlreadyBooked("");
+    // setBedAlreadyBooked("");
     dispatch({ type: "CLEAR_ALREADY_BED" });
   };
 
@@ -69,9 +69,12 @@ function AddBed({ show, setShowBed, currentItem, editBedMode, isOccupied }) {
     }
     setAmount(newAmount);
     setGeneralError("");
-    setBedAlreadyBooked("")
+    // setBedAlreadyBooked("")
     setAmountError("");
   };
+
+
+  console.log("currentItem", currentItem)
 
   const handleClose = () => {
     setShowBed(false)
@@ -80,7 +83,10 @@ function AddBed({ show, setShowBed, currentItem, editBedMode, isOccupied }) {
 
 
   const handleSubmit = () => {
+    dispatch({ type: 'CLEAR_NETWORK_ERROR' })
     dispatch({ type: "CLEAR_ALREADY_BED" });
+
+
     if (!bedNo) {
       setBedError("Please Enter a Valid Bed Number");
 
@@ -109,13 +115,10 @@ function AddBed({ show, setShowBed, currentItem, editBedMode, isOccupied }) {
     }
 
 
-
-
-
-
-    if (editBedMode) {
+    if (editBedMode && bedNo && amount && amount > 0) {
       dispatch({
-        type: 'UPDATEBED', payload: {
+        type: 'UPDATEBED',
+        payload: {
           bedName: bedNo,
           isActive: true,
           amount: amount,
@@ -123,7 +126,7 @@ function AddBed({ show, setShowBed, currentItem, editBedMode, isOccupied }) {
         }
       })
       setFormLoading(true)
-      return;
+
     }
     else if (
       currentItem.item.hostel_Id &&
@@ -136,7 +139,6 @@ function AddBed({ show, setShowBed, currentItem, editBedMode, isOccupied }) {
         type: "CREATEBED",
         payload: {
           hostelId: currentItem.item.hostel_Id,
-          // floor_id: currentItem.item.floorID,
           roomId: currentItem.Room_Id,
           bedName: bedNo,
           amount: amount,
@@ -299,7 +301,7 @@ function AddBed({ show, setShowBed, currentItem, editBedMode, isOccupied }) {
 
             {generalError && (
               <div className="d-flex justify-content-center">
-              <ErrorMessage message={generalError} type="error" />
+                <ErrorMessage message={generalError} type="error" />
               </div>
             )}
 
@@ -335,7 +337,8 @@ function AddBed({ show, setShowBed, currentItem, editBedMode, isOccupied }) {
           </div>}
 
           <Modal.Footer style={{ border: "none", paddingTop: 0 }}>
-            <Button disabled={editBedMode}
+            <Button
+              disabled={formLoading}
               onClick={() => { handleSubmit() }}
               className="w-100 mt-1"
               style={{
