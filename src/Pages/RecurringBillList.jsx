@@ -7,12 +7,15 @@ import { Button } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { FaCheck } from "react-icons/fa";
 import { useDispatch, useSelector } from 'react-redux';
+import { useHasPermission } from '../Utils/Permission';
+
+
 
 const RecurringBillList = (props) => {
   const state = useSelector((state) => state);
   const [recurringBillDeletePermission, setRecurringBillDeletePermission] = useState("")
   const [deleteShow, setDeleteShow] = useState(false)
-const dispatch = useDispatch()
+  const dispatch = useDispatch()
 
   const handleDeleteForm = () => {
     setDeleteShow(true)
@@ -100,7 +103,10 @@ const dispatch = useDispatch()
   }, []);
 
 
+  const {
 
+    canUpdateModule: canUpdateRecurring
+  } = useHasPermission("Recurring bills");
 
 
   return (
@@ -129,11 +135,17 @@ const dispatch = useDispatch()
 
         </td>
         <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
-          <div className="custom-toggle-wrapper" onClick={props.onToggle}>
+          <div className="custom-toggle-wrapper" onClick={canUpdateRecurring ? props.onToggle : undefined} style={{
+            pointerEvents: canUpdateRecurring ? "auto" : "none",
+            opacity: canUpdateRecurring ? 1 : 0.5,
+            cursor: canUpdateRecurring ? "pointer" : "not-allowed",
+          }}>
             <span className={`custom-toggle-label ${props.checked ? "active" : ""}`}>
               {props.checked ? "On" : "Off"}
             </span>
-            <div className={`custom-toggle-switch ${props.checked ? "on" : "off"}`}>
+            <div className={`custom-toggle-switch ${props.checked ? "on" : "off"}`} style={{
+      backgroundColor: !canUpdateRecurring ? "#E0E0E0" : undefined,
+    }}>
               <div className="custom-toggle-thumb">
                 {props.checked && <FaCheck size={10} color="#1E1E1E" />}
               </div>

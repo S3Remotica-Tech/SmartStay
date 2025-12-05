@@ -304,6 +304,9 @@ function Contact() {
                   <p className='mb-1' style={{ textAlign: "start", fontWeight: 500, fontFamily: "Montserrat", fontSize: 15, color: 'rgba(255, 255, 255, 1)', marginTop: '3px' }}>
                     +91 9688229461
                   </p>
+                   <p className='mb-1' style={{ textAlign: "start", fontWeight: 500, fontFamily: "Montserrat", fontSize: 15, color: 'rgba(255, 255, 255, 1)', marginTop: '3px' }}>
+                    +91 9429693581
+                  </p>
                 </div>
 
 

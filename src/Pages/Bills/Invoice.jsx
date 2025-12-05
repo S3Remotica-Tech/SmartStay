@@ -197,7 +197,6 @@ const InvoicePage = () => {
 
   const {
     canReadModule: canReadRecurring,
-
   } = useHasPermission("Recurring bills");
 
   // const canReadRecurring = useHasPermission("Recurring bills", "canRead")
@@ -259,6 +258,7 @@ const InvoicePage = () => {
     setCheckedRows(initialState);
   }, [recurringbills]);
   const handleToggle = (id) => {
+    
     if (!id) return;
 
     const updatedValue = !checkedRows[id];
