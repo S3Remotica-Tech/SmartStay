@@ -2741,7 +2741,7 @@ useEffect(() => {
                       }}
                     >
                       <div
-                        className="card-header d-flex justify-content-between align-items-center"
+                        className="card-header d-flex justify-content-between align-items-center p-1"
                         style={{ backgroundColor: "transparent" }}
                       >
                         <div
@@ -3532,7 +3532,7 @@ useEffect(() => {
                         }}
                       >
                         <div
-                          className="card-header d-flex flex-column justify-content-between border-0"
+                          className="card-header d-flex flex-column justify-content-between border-0 p-1"
                           style={{
                             backgroundColor: "transparent",
                           }}
@@ -4093,7 +4093,7 @@ useEffect(() => {
                         }}
                       >
                         <div
-                          className="card-header d-flex justify-content-between align-items-center"
+                          className="card-header d-flex justify-content-between align-items-center p-1"
                           style={{
                             backgroundColor: "transparent",
                             borderBottom: "1px solid #e0e0e0",

@@ -1163,7 +1163,7 @@ function FinalSettlement({ show, handleClose, data, }) {
                                             </p>
                                             <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>
                                                 ₹{" "}
-                                                {finalSettlementList?.settlementInfo?.payableRent}
+                                                {finalSettlementList?.settlementInfo?.refundableRent}
                                             </p>
                                         </div>
 
@@ -1174,7 +1174,7 @@ function FinalSettlement({ show, handleClose, data, }) {
                                             </p>
                                             <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>
                                                 ₹{" "}
-                                                {finalSettlementList?.customerInfo?.advancePaidAmount}
+                                                {finalSettlementList?.settlementInfo?.refundableAvance}
                                             </p>
                                         </div>
 
