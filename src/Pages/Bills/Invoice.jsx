@@ -4910,7 +4910,7 @@ const InvoicePage = () => {
                               alignItems: "center",
                               backgroundColor: "#f2f6fc",
                               borderRadius: "10px",
-                              margin: "20px 30px",
+                              marginRight: "20px",
                               boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
                               border: "1px dashed #b0c4de",
 
