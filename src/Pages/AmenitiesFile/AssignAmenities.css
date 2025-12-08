@@ -1,12 +1,21 @@
 
 .responsive-modal-fix {
   width: 100%;
-  max-width: 850px !important; 
+  max-width: 750px !important; 
   margin: 0 auto;
    box-sizing: border-box;
 }
 
+.form-check-input:checked {
+    background-color: #1e45e1 !important;
+    border-color: #1e45e1;
+    box-shadow: none !important;
+}
 
+/* .form-check-input {
+    width: 1.2em !important;
+    height: 1.2em !important;
+} */
 /* @media (max-width: 709px) {
   .responsive-modal-fix {
     margin-left: 16px;

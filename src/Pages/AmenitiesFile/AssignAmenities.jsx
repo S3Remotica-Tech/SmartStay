@@ -5,10 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import Card from 'react-bootstrap/Card';
 // import { MdError } from "react-icons/md";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { CloseCircle, Tag2, SearchNormal, Filter } from 'iconsax-react';
+import { CloseCircle, Tag2, SearchNormal, Filter, ArrowDown, ArrowUp } from 'iconsax-react';
 import Form from 'react-bootstrap/Form';
-import Forward from '../../Assets/Images/New_images/Forward.svg'
-import BackWard from '../../Assets/Images/New_images/Backward.svg'
 import Image from 'react-bootstrap/Image';
 import PropTypes from "prop-types";
 import ErrorMessage from '../../Components/ErrorMessage';
@@ -28,8 +26,10 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
   const [errorAssign, setErrorAssign] = useState('')
   const [errorUnAssign, setUnErrorAssign] = useState('')
   const [formLoading, setFormLoading] = useState(false)
+  const [selectAll, setSelectAll] = useState(false);
+  const [assignedSelectAll, setAssignedSelectAll] = useState(false);
 
-  console.log("assignAmenitiesDetails", assignAmenitiesDetails)
+  console.log("assignedCheckedUsers", assignedCheckedUsers)
 
 
   useEffect(() => {
@@ -48,6 +48,8 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
 
   useEffect(() => {
     if (state.InvoiceList.getAssignAmenitiesSuccessStatusCode === 200) {
+      setSelectAll(false);
+      setAssignedSelectAll(false)
       setAssignedList(state?.InvoiceList?.GetAssignAmenitiesList || [])
       setUnassignedList(state?.InvoiceList?.GetUnAssignAmenitiesList || [])
 
@@ -61,6 +63,33 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
   }, [state.InvoiceList.getAssignAmenitiesSuccessStatusCode])
 
 
+  const handleGlobalSelectAll = () => {
+    if (selectAll) {
+      setAssignedCheckedUsers([]);
+      setSelectAll(false);
+    } else {
+
+      const selectableUsers = unAssignedList
+        .filter(item => item.canAssign === true)
+        .map(item => item.customerId);
+
+      setAssignedCheckedUsers(selectableUsers);
+      setSelectAll(true);
+    }
+  };
+
+
+  const handleAssignedGlobalSelectAll = () => {
+    if (assignedSelectAll) {
+      setUnassignedCheckedUsers([]);
+      setAssignedSelectAll(false);
+    } else {
+      const ids = AssignedList.map(item => item.customerId);
+
+      setUnassignedCheckedUsers(ids);
+      setAssignedSelectAll(true);
+    }
+  };
 
 
   useEffect(() => {
@@ -108,23 +137,54 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
   }, [state.InvoiceList.UnAssignAmenitiesSuccessStatusCode])
 
 
+
+
+
   const handleUnassignedCheckboxChange = (user_id) => {
     setUnErrorAssign('')
-    setUnassignedCheckedUsers((prevChecked) =>
-      prevChecked.includes(user_id)
-        ? prevChecked.filter((id) => id !== user_id)
-        : [...prevChecked, user_id]
-    );
+    setUnassignedCheckedUsers((prev) => {
+      let updated;
+
+      if (prev.includes(user_id)) {
+        updated = prev.filter((id) => id !== user_id);
+      } else {
+        updated = [...prev, user_id];
+      }
+
+      const totalAssignable = AssignedList
+        .filter(item => item.canAssign)
+        .map(item => item.customerId);
+
+      setAssignedSelectAll(updated.length === totalAssignable.length);
+
+      return updated;
+    });
   };
 
+
+
   const handleAssignedCheckboxChange = (user_id) => {
-    setErrorAssign('')
-    setAssignedCheckedUsers((prevChecked) =>
-      prevChecked.includes(user_id)
-        ? prevChecked.filter((id) => id !== user_id)
-        : [...prevChecked, user_id]
-    );
+    setErrorAssign('');
+
+    setAssignedCheckedUsers((prevChecked) => {
+      let updated;
+
+      if (prevChecked.includes(user_id)) {
+        updated = prevChecked.filter((id) => id !== user_id);
+      } else {
+        updated = [...prevChecked, user_id];
+      }
+
+      const allAssignableIds = unAssignedList
+        .filter(item => item.canAssign === true)
+        .map(item => item.customerId);
+
+      setSelectAll(updated.length === allAssignableIds.length);
+
+      return updated;
+    });
   };
+
 
 
   const handleAssignUser = () => {
@@ -192,9 +252,9 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
       dialogClassName="responsive-modal-fix"
       style={{ border: "none" }}>
       <Modal.Dialog style={{
-        minWidth: 850,
+        minWidth: 750,
         paddingRight: "10px",
-        borderRadius: "30px",
+        borderRadius: "35px",
       }}
         className="m-0 p-0"
       >
@@ -272,9 +332,9 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
                           : null}
              */}
 
-          <div className="row">
+          <div className="row g-0">
             <div className="col-lg-5 col-md-4 col-sm-12 col-xs-12">
-              <Card style={{ border: "1px solid #DCDCDC", borderRadius: 8, cursor: "pointer" }} className='h-100 ' >
+              <Card style={{ border: "1px solid #E7E7E7", borderRadius: 10, cursor: "pointer" }} className='h-100 ' >
 
 
                 <div style={{
@@ -339,62 +399,102 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
                   </div>
 
                   <div>
-                    <Form.Check aria-label="option 1"
-
-                      style={{ cursor: "pointer", boxShadow: "none" }}
+                    <Form.Check className='me-0 pe-0'
+                      aria-label="option 1"
+                      checked={selectAll}
+                      onChange={handleGlobalSelectAll}
+                      style={{
+                        cursor: "pointer", boxShadow: "none", transform: "scale(1.2)",
+                        transformOrigin: "center",
+                      }}
                     />
+
                   </div>
 
 
                 </Card.Header>
-                <Card.Body style={{ maxHeight: 350, overflowY: "auto" }} className="show-scroll m-1 p-2">
+                <Card.Body style={{ maxHeight: 350, overflowY: "auto" }} className="show-scroll m-1 pe-1 ps-2">
                   {unAssignedList.length > 0 && unAssignedList.map((list) => {
                     return (
                       <div key={list.customerId}>
-                        <div className='d-flex justify-content-between'>
- <div className='d-flex gap-3'>
-<div>
-   {list?.profilePic &&
-                                    list?.profilePic !== "0" ? (
-                                    <Image
-                                        src={list?.profilePic}
-                                        roundedCircle
-                                        style={{ height: 35, width: 35 }}
-                                        alt="image"
-                                    />
-                                ) : (
-                                    <div
-                                        style={{
-                                            height: 50,
-                                            width: 50,
-                                            borderRadius: "50%",
-                                            backgroundColor: "#1E45E1",
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            alignItems: "center",
-                                            fontSize: 14,
-                                            fontWeight: "600",
-                                            color: "white", fontFamily: "Gilroy"
-                                        }}
-                                    >
-                                        {list?.initials || "-"}
+                        <div className='d-flex justify-content-between mb-3'>
+                          <div className='d-flex gap-3'>
+                            <div>
+                              {list?.profilePic &&
+                                list?.profilePic !== "0" ? (
+                                <Image
+                                  src={list?.profilePic}
+                                  roundedCircle
+                                  style={{ height: 35, width: 35 }}
+                                  alt="image"
+                                />
+                              ) : (
+                                <div
+                                  style={{
+                                    height: 50,
+                                    width: 50,
+                                    borderRadius: "50%",
+                                    color: "#1E45E1",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    fontSize: 14,
+                                    fontWeight: "600",
+                                    backgroundColor: "#E8EDFF8A", fontFamily: "Gilroy"
+                                  }}
+                                >
+                                  {list?.initials || "-"}
+                                </div>
+                              )}
+                            </div>
+
+                            <div>
+
+
+                              <div>
+                                <label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{list.customerName}</label>
+
+                              </div>
+                              {
+                                list?.canAssign === false ?
+
+                                  <div>
+                                    <label style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}>{list?.mobileNumber || "1234567898"}</label>
+
+                                  </div>
+                                  :
+                                  <div className='d-flex gap-3'>
+                                    <div style={{ backgroundColor: "#FFEFCF", borderRadius: 10, display: "flex", justifyContent: "center", width: "fit-content", padding: "2px 8px" }} >
+                                      <label style={{ fontSize: 12, color: "#222222", fontFamily: "Gilroy", fontWeight: 400 }}>{list?.floorName || "N/A"}</label>
+
                                     </div>
-                                )}
-</div>
+                                    <div style={{ backgroundColor: "#F1F7FF", borderRadius: 10, display: "flex", justifyContent: "center", width: "fit-content", padding: "2px 8px", gap: 2 }} >
+                                      <label style={{ fontSize: 12, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 400 }}>{list?.roomName || "N/A"} {" "} -  {" "}</label>
+                                      <label style={{ fontSize: 12, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 400 }}>{list?.bedName || "N/A"}</label>
 
-<div>
+                                    </div>
+                                  </div>
+                              }
+                            </div>
+                          </div>
+
 
 
                           <div>
-                            <label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{list.customerName}</label>
+                            {
+                              list?.canAssign === false ?
+                                <ArrowDown style={{ marginLeft: 35 }}
+                                  size="18"
+                                  color="#FF0000"
+                                />
+                                :
+                                <ArrowUp
+                                  size="18"
+                                  color="#1E45E1"
+                                />
 
+                            }
                           </div>
-                          <div>
-                                                        <label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{list?.mobileNumber || "1234567898"}</label>
-
-                          </div>
-                          </div>
-                         </div>
 
                           <div>
                             {
@@ -408,7 +508,7 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
                                 />}
                           </div>
                         </div>
-                        <hr style={{ border: "1px solid #ccc" }} className='p-0 m-1' />
+                        {/* <hr style={{ border: "1px solid #ccc" }} className='p-0 m-1' /> */}
                       </div>
                     )
 
@@ -441,7 +541,7 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
 
 
             <div className="col-lg-5 col-md-5 col-sm-12 col-xs-12 mb-3 mb-lg-0">
-              <Card style={{ border: "1px solid #DCDCDC", borderRadius: 8, cursor: "pointer" }} className='h-100 ' >
+              <Card style={{ border: "1px solid #E7E7E7", borderRadius: 10, cursor: "pointer" }} className='h-100 ' >
                 <div style={{
                   display: "flex",
                   alignItems: "center",
@@ -491,31 +591,94 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
 
                 </div>
 
-               <Card.Header className='d-flex justify-content-between' style={{ backgroundColor: "#E7F1FF", fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500, border: "none" }} >
+                <Card.Header className='d-flex justify-content-between' style={{ backgroundColor: "#E7F1FF", fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500, border: "none" }} >
                   <div style={{ backgroundColor: "#E7F1FF", fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>
                     Assigned
                   </div>
 
                   <div>
-                    <Form.Check aria-label="option 1"
-                      style={{ cursor: "pointer", boxShadow: "none" }}
+                    <Form.Check className='ms-1 pe-0'
+                      aria-label="option 1"
+                      checked={assignedSelectAll}
+                      onChange={handleAssignedGlobalSelectAll}
+                      style={{  cursor: "pointer", boxShadow: "none", transform: "scale(1.2)",
+                        transformOrigin: "center", }}
                     />
+
                   </div>
 
 
                 </Card.Header>
-                <Card.Body style={{ maxHeight: 350, overflowY: "auto" }} className="show-scroll m-1 p-2">
+                <Card.Body style={{ maxHeight: 350, overflowY: "auto" }} className="show-scroll m-1 pe-2 ps-2">
                   {AssignedList.length > 0 && AssignedList.map((list) => {
                     return (
                       <div key={list.customerId}>
-                        <div className='d-flex justify-content-between'>
-                          <div>
-                            <label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>{list.customerName}</label>
+                        <div className='d-flex justify-content-between mb-4'>
 
+                          <div className='d-flex gap-3'>
+                            <div>
+                              {list?.profilePic &&
+                                list?.profilePic !== "0" ? (
+                                <Image
+                                  src={list?.profilePic}
+                                  roundedCircle
+                                  style={{ height: 35, width: 35 }}
+                                  alt="image"
+                                />
+                              ) : (
+                                <div
+                                  style={{
+                                    height: 50,
+                                    width: 50,
+                                    borderRadius: "50%",
+                                    color: "#1E45E1",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    fontSize: 14,
+                                    fontWeight: "600",
+                                    backgroundColor: "#E8EDFF8A", fontFamily: "Gilroy"
+                                  }}
+                                >
+                                  {list?.initials || "-"}
+                                </div>
+                              )}
+                            </div>
+
+                            <div>
+
+                              <div>
+                                <label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{list.customerName}</label>
+
+                              </div>
+
+                              {
+                                list?.canAssign === false ?
+
+                                  <div>
+                                    <label style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}>{list?.mobileNumber || "1234567898"}</label>
+
+                                  </div>
+                                  :
+                                  <div className='d-flex gap-3'>
+                                    <div style={{ backgroundColor: "#FFEFCF", borderRadius: 10, display: "flex", justifyContent: "center", width: "fit-content", padding: "2px 8px" }} >
+                                      <label style={{ fontSize: 12, color: "#222222", fontFamily: "Gilroy", fontWeight: 400 }}>{list?.floorName || "N/A"}</label>
+
+                                    </div>
+                                    <div style={{ backgroundColor: "#F1F7FF", borderRadius: 10, display: "flex", justifyContent: "center", width: "fit-content", padding: "2px 8px", gap: 2 }} >
+                                      <label style={{ fontSize: 12, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 400 }}>{list?.roomName || "N/A"} {" "} -  {" "}</label>
+                                      <label style={{ fontSize: 12, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 400 }}>{list?.bedName || "N/A"}</label>
+
+                                    </div>
+                                  </div>
+                              }
+                            </div>
                           </div>
+
 
                           <div>
                             <Form.Check aria-label="option 1"
+
                               style={{
                                 cursor: "pointer",
                                 boxShadow: "none",
@@ -527,7 +690,7 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
                             />
                           </div>
                         </div>
-                        <hr style={{ border: "1px solid #ccc" }} className='p-0 m-1' />
+                        {/* <hr style={{ border: "1px solid #ccc" }} className='p-0 m-1' /> */}
                       </div>
                     )
 
