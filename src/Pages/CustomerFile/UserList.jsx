@@ -21,7 +21,7 @@ import Profile from "../../Assets/Images/New_images/profile-picture.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import TabPanel from "@mui/lab/TabPanel";
 import TabContext from "@mui/lab/TabContext";
-import Tab from "@mui/material/Tab";
+// import Tab from "@mui/material/Tab";
 import UserlistBookings from "./UserlistBookings";
 import UserlistCheckout from "./UserlistCheckout";
 import UserlistWalkin from "./UserlistWalkin";
@@ -33,7 +33,6 @@ import addcircle from "../../Assets/Images/New_images/add-circle.png";
 import searchteam from "../../Assets/Images/New_images/Search Team.png";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
-import { MdError } from "react-icons/md";
 import CustomerCheckout from "./CustomerCheckout";
 import "react-datepicker/dist/react-datepicker.css";
 import { toast } from "react-toastify";
@@ -49,8 +48,6 @@ import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import leftarrow from "../../Assets/Images/arrow-left.png";
 import { Routes, Route, Outlet, Navigate } from "react-router-dom";
-
-// import { CloseCircle } from "iconsax-react";
 import Addbook from "../../Assets/Images/New_images/calendar-tick.svg";
 import logout from "../../Assets/Images/New_images/logout.png";
 import DueCustomerConfirmCheckout from "./DueCustomerConfirmCheckout";
@@ -62,8 +59,10 @@ import PaginationList from '../../Components/PaginationList';
 import ErrorMessage from '../../Components/ErrorMessage'
 import BackToCheckIn from "./BackToCheckIn";
 import { useHasPermission } from '../../Utils/Permission';
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
+import { Tabs, Tab } from "react-bootstrap";
+
 
 function UserList(props) {
   const state = useSelector((state) => state);
@@ -3083,14 +3082,15 @@ function UserList(props) {
               // textAlign: "left",
             }}
           >
-            <TabContext value={value} className="" >
-              <Box sx={{ borderBottom: 0, borderColor: "divider", display: "flex", gap: 32, backgroundColor: "", width: "auto" }}>
+            <TabContext value={value} className="p-0" >
+              {/* <Box sx={{ borderBottom: 0, borderColor: "divider", display: "flex", gap: 32, backgroundColor: "", width: "auto" }}>
                 <TabList
                   orientation={isSmallScreen ? "vertical" : "horizontal"}
                   onChange={handleChange}
                   aria-label="lab API tabs example"
                   className="d-flex gap-5"
-                  style={{ alignItems: "flex-start", display: "flex", gap: "102px", justifyContent: "space-between", backgroundColor: "", width: "50%" }}
+                  TabIndicatorProps={{ children: <span className="MuiTabs-indicatorSpan" /> }}
+                                 style={{ alignItems: "flex-start", display: "flex", gap: "102px", justifyContent: "space-between", backgroundColor: "", width: "50%" }}
                 >
                   <Tab
                     className="tab-label"
@@ -3107,6 +3107,7 @@ function UserList(props) {
                       alignItems: "start",
                       justifyContent: "flex-start",
                       textAlign: "left",
+
 
                     }}
                     label="Tenants"
@@ -3150,13 +3151,89 @@ function UserList(props) {
                       textAlign: "right",
                       padding: 0,
                       lineHeight: 1,
+
                     }}
                     label="Walk-in"
                     value="4"
                   />
                 </TabList>
 
-              </Box>
+              </Box> */}
+
+              <Tabs
+                activeKey={value}
+                onSelect={(k) => handleChange(null, k)}
+                id="custom-tabs"
+                className="d-flex gap-5 p-0 "
+                style={{
+                  border: "none",
+                  width: "50%",
+                  display: "flex",
+                  gap: "12px",
+                  justifyContent: "", paddingBottom: 10,
+
+                }}
+              >
+                <Tab className="p-0 "
+                  eventKey="1"
+                  title={
+                    <span className="p-0"
+                      style={{
+                        padding: 0,
+                        display: "inline-block",
+                        textTransform: "capitalize",
+                        fontSize: 16,
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                        color: value === "1" ? "#222222" : "#4B4B4B",
+                        borderBottom: value === "1" ? "2px solid #1E45E1" : "2px solid white",
+                      }}
+                    >
+                      Tenants
+                    </span>
+                  }
+                >
+                </Tab>
+
+                <Tab
+                  eventKey="3"
+                  title={
+                    <span
+                      style={{
+                        textTransform: "capitalize",
+                        fontSize: 16,
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                        color: value === "3" ? "#222222" : "#4B4B4B",
+                        borderBottom: value === "3" ? "2px solid #1E45E1" : "2px solid transparent",
+                      }}
+                    >
+                      Check-out
+                    </span>
+                  }
+                >
+                </Tab>
+
+                <Tab
+                  eventKey="4"
+                  title={
+                    <span
+                      style={{
+                        textTransform: "capitalize",
+                        fontSize: 16,
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                        color: value === "4" ? "#222222" : "#4B4B4B",
+                        borderBottom: value === "4" ? "2px solid #1E45E1" : "2px solid transparent",
+                      }}
+                    >
+                      Walk-in
+                    </span>
+                  }
+                >
+                </Tab>
+              </Tabs>
+
 
               <TabPanel value="1">
                 {loading && (

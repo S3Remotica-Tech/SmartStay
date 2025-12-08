@@ -13,6 +13,8 @@ import Select from "react-select";
 import ErrorMessage from '../../Components/ErrorMessage'
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
+import customParseFormat from "dayjs/plugin/customParseFormat";
+dayjs.extend(customParseFormat);
 
 function EditJoiningDate({ show, handleClose }) {
 
@@ -126,7 +128,7 @@ function EditJoiningDate({ show, handleClose }) {
         const newDate = dayjs(effectiveFrom, "DD/MM/YYYY").format("DD-MM-YYYY");
 
         if (oldDate === newDate) {
-            setIsChangedError("No changes detected in JoiningDate");
+            setIsChangedError("No changes detected in Joining Date");
             return;
         }
         const formattedDate = dayjs(effectiveFrom, "DD/MM/YYYY").format("DD-MM-YYYY");
@@ -154,11 +156,17 @@ function EditJoiningDate({ show, handleClose }) {
 
     }, [state.createAccount?.networkError])
 
-    // const previousJoiningDate = dayjs(
-    //     CustomerOverView?.hostelInfo?.joiningDate,
-    //     "DD/MM/YYYY"
-    // );
-const bookingDate = CustomerOverView?.bookingInfo?.bookingDate;
+    
+    const bookingDateStr  = CustomerOverView?.bookingInfo?.bookingDate;
+    const bookingDate = dayjs(bookingDateStr, "DD/MM/YYYY");
+    const today = dayjs();
+    const isDisabled = (current) => {
+ 
+  if (current.isBefore(bookingDate, "day") || current.isAfter(today, "day")) {
+    return true;
+  }
+  return false;     
+};
 
     return (
         <div
@@ -190,7 +198,7 @@ const bookingDate = CustomerOverView?.bookingInfo?.bookingDate;
                                 fontWeight: 600,
                             }}
                         >
-                            Edit JoiningDate
+                            Edit Joining Date
                         </Modal.Title>
 
                         <CloseCircle size="24" color="#000"
@@ -235,16 +243,8 @@ const bookingDate = CustomerOverView?.bookingInfo?.bookingDate;
                                             placeholder="DD/MM/YYYY"
                                             value={effectiveFrom ? dayjs(effectiveFrom, "DD/MM/YYYY") : null}
                                             onChange={handleEffectiveFromChange}
-                                             disabledDate={(current) => {
-        const booking = dayjs(bookingDate, "DD/MM/YYYY");
-        return (
-            current &&
-            (
-                current > dayjs().endOf("day") || 
-                current.isSame(booking, "day")    
-            )
-        );
-    }}
+                                            disabledDate={isDisabled}
+                                                                 
                                         />
                                         {effectiveFromError && (
                                             <ErrorMessage message={effectiveFromError} type="error" />

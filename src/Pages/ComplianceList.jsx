@@ -257,8 +257,8 @@ const ComplianceList = (props) => {
     dispatch({ type: 'REMOVE_COMPLIANCE_CHANGE_STATUS_ERROR' })
     // setAssignId(item?.ID);
     setShowDots(false);
-    setStatus(item?.status === null ? "Open" : item?.status);
-    setSelectedStatus(item?.status === null ? "Open" : item?.status)
+    setStatus(item?.status === null ? "pending" : item?.status);
+    setSelectedStatus(item?.status === null ? "pending" : item?.status)
     setComplaintId(item?.complaintId)
     setShowChangeStatus(true);
     setShowAssignComplaint(false);
@@ -1522,8 +1522,8 @@ const ComplianceList = (props) => {
 
                             <Select
                               options={[
-                                { value: "open", label: "open" },
-                                { value: "in-progress", label: "in-progress" },
+                                { value: "pending", label: "pending" },
+                                { value: "assigned", label: "assigned" },
                                 { value: "resolved", label: "resolved" },
                               ]}
                               onChange={handleStatus}
