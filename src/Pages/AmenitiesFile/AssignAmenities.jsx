@@ -5,14 +5,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import Card from 'react-bootstrap/Card';
 // import { MdError } from "react-icons/md";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { CloseCircle } from 'iconsax-react';
+import { CloseCircle, Tag2, SearchNormal, Filter } from 'iconsax-react';
 import Form from 'react-bootstrap/Form';
 import Forward from '../../Assets/Images/New_images/Forward.svg'
 import BackWard from '../../Assets/Images/New_images/Backward.svg'
 import Image from 'react-bootstrap/Image';
 import PropTypes from "prop-types";
-import ErrorMessage from '../../Components/ErrorMessage'
-
+import ErrorMessage from '../../Components/ErrorMessage';
+import './AssignAmenities.css';
+import { RiShareForwardFill } from "react-icons/ri";
+import { IoArrowUndoSharp } from "react-icons/io5";
 
 function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
 
@@ -27,8 +29,8 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
   const [errorUnAssign, setUnErrorAssign] = useState('')
   const [formLoading, setFormLoading] = useState(false)
 
+  console.log("assignAmenitiesDetails", assignAmenitiesDetails)
 
-  
 
   useEffect(() => {
     dispatch({
@@ -42,20 +44,6 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
 
 
 
-
-  // useEffect(() => {
-  //   if (assignAmenitiesDetails) {
-  //     setUnassignedList(assignAmenitiesDetails?.unassignedCustomers)
-  //   }
-
-  // }, [assignAmenitiesDetails])
-
-  // useEffect(() => {
-  //   if (assignAmenitiesDetails) {
-  //     setAssignedList(assignAmenitiesDetails?.assignedCustomers)
-  //   }
-
-  // }, [assignAmenitiesDetails])
 
 
   useEffect(() => {
@@ -86,7 +74,7 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
           amenityId: assignAmenitiesDetails.amenityId,
         },
       });
-     setTimeout(() => {
+      setTimeout(() => {
         dispatch({ type: 'REMOVE_ASSIGN_AMENITIES_STATUS_CODE' })
       }, 100)
 
@@ -193,17 +181,22 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
   }, [state.createAccount?.networkError])
 
   return (
-    <div
-      className="modal show"
-      style={{
-        display: 'block',
-      }}
-    >
+    // <div
+    //   className="modal show"
+    //   style={{
+    //     display: 'block',
+    //   }}
+    // >
       <Modal show={show} onHide={handleClose}
         centered backdrop="static"
         dialogClassName="responsive-modal-fix"
         style={{ border: "none" }}>
-        <Modal.Dialog className="m-0 p-0"
+        <Modal.Dialog  style={{
+                              minWidth: 850,
+                              paddingRight: "10px",
+                              borderRadius: "30px",
+                          }}
+                          className="m-0 p-0"
         >
 
           <Modal.Header
@@ -213,10 +206,57 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
               color: "#222222",
               fontFamily: "Gilroy", fontWeight: 600
             }}>
-              Assign Amenities</Modal.Title>
+
+
+              <div className="d-flex align-items-center gap-3">
+                <div style={{ backgroundColor: "#EFF2FF", padding: 8, borderRadius: 8 }}>
+                  <Tag2
+                    size="32"
+                    color="#1E45E1"
+                  />
+                </div>
+
+                <div>
+
+
+
+                  <div>
+                    <span
+                      key={assignAmenitiesDetails?.amenityId}
+                      className="d-flex align-items-center"
+                      style={{
+                        fontFamily: "Gilroy",
+                        fontWeight: 600,
+                        fontSize: 16,
+                        color: "#222",
+                      }}
+                    >
+                      {assignAmenitiesDetails?.amenityName}
+
+                    </span>
+                  </div>
+                  <div>
+                    <span
+                      key={assignAmenitiesDetails?.amenityId}
+                      className="d-flex align-items-center"
+                      style={{
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                        fontSize: 14,
+                        color: "#4B4B4B",
+                      }}
+                    >
+                      ₹{assignAmenitiesDetails?.amenityAmount}/m
+
+                    </span>
+                  </div>
+                </div>
+
+              </div></Modal.Title>
             <CloseCircle size="24" color="#000"
               onClick={handleClose} style={{ cursor: "pointer" }} />
           </Modal.Header>
+          
           <Modal.Body style={{ border: "none" }}>
             {errorAssign && (
               <ErrorMessage message={errorAssign} type="error" />
@@ -226,7 +266,7 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
               <ErrorMessage message={errorUnAssign} type="error" />
             )}
 
-               {/* {state.createAccount?.networkError ?
+            {/* {state.createAccount?.networkError ?
                          <div className="d-flex justify-content-center mt-1 mb-1">
                           <ErrorMessage message={state.createAccount?.networkError} type="error"/></div>
                           : null}
@@ -235,6 +275,64 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
             <div className="row">
               <div className="col-lg-5 col-md-4 col-sm-12 col-xs-12">
                 <Card style={{ border: "1px solid #DCDCDC", borderRadius: 8, cursor: "pointer" }} className='h-100 ' >
+
+
+                  <div style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 12, padding: 10
+                  }}>
+
+
+                    <div style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 8,
+                      padding: "8px 14px",
+                      border: "1px solid #D6D6D6",
+                      borderRadius: 30,
+                      width: 260,
+                      backgroundColor: "#fff"
+                    }}>
+                      <input
+                        type="text"
+                        placeholder="Search"
+                        style={{
+                          border: "none",
+                          outline: "none",
+                          width: "100%",
+                          fontSize: 14,
+                          color: "#333",
+                          fontFamily: "Gilroy"
+                        }}
+                      />
+                      <SearchNormal size={20} color="#6F6F6F" />
+                    </div>
+
+
+                    <div style={{
+                      width: 36,
+                      height: 36,
+                      borderRadius: "50%",
+                      border: "1px solid #D6D6D6",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      backgroundColor: "#fff",
+                      cursor: "pointer"
+                    }}>
+                      <Filter size={20} color="#4b4b4b" />
+                    </div>
+
+                  </div>
+
+
+
+
+
+
+
+
                   <Card.Header style={{ backgroundColor: "#E7F1FF", fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Unassigned</Card.Header>
                   <Card.Body style={{ maxHeight: 350, overflowY: "auto" }} className="show-scroll m-1 p-2">
                     {unAssignedList.length > 0 && unAssignedList.map((list) => {
@@ -247,15 +345,15 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
                             </div>
 
                             <div>
-                               {
-                              list?.canAssign === false ? "":
-                              
-                              <Form.Check aria-label="option 1"
-disabled={list?.canAssign === false}
-                                checked={assignedCheckedUsers.includes(list.customerId)}
-                                onChange={() => handleAssignedCheckboxChange(list.customerId)}
-                                style={{ cursor: "pointer", boxShadow: "none" }}
-                              />}
+                              {
+                                list?.canAssign === false ? "" :
+
+                                  <Form.Check aria-label="option 1"
+                                    disabled={list?.canAssign === false}
+                                    checked={assignedCheckedUsers.includes(list.customerId)}
+                                    onChange={() => handleAssignedCheckboxChange(list.customerId)}
+                                    style={{ cursor: "pointer", boxShadow: "none" }}
+                                  />}
                             </div>
                           </div>
                           <hr style={{ border: "1px solid #ccc" }} className='p-0 m-1' />
@@ -279,11 +377,11 @@ disabled={list?.canAssign === false}
                 <div
                   className="d-flex flex-column align-items-center justify-content-center"
                   style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-                  <div className="mb-3">
-                    <Image src={Forward} onClick={handleAssignUser} style={{ cursor: "pointer" }} />
+                  <div className="  mb-3 d-flex flex-column align-items-center justify-content-center" style={{backgroundColor:"#EEFFF0", borderRadius:5, padding:10}}>
+                    <RiShareForwardFill onClick={handleAssignUser} style={{ cursor: "pointer" , color:"#038C3D", fontSize:22}} />
                   </div>
-                  <div>
-                    <Image src={BackWard} onClick={handleUnAssignUser} style={{ cursor: "pointer" }} />
+                  <div className='d-flex flex-column align-items-center justify-content-center' style={{backgroundColor:"#FFF4F4", borderRadius:5, padding:10}}>
+                    <IoArrowUndoSharp  onClick={handleUnAssignUser} style={{ cursor: "pointer" , color:"#DC1515", fontSize:22}} />
                   </div>
                 </div>
               </div>
@@ -292,6 +390,55 @@ disabled={list?.canAssign === false}
 
               <div className="col-lg-5 col-md-5 col-sm-12 col-xs-12 mb-3 mb-lg-0">
                 <Card style={{ border: "1px solid #DCDCDC", borderRadius: 8, cursor: "pointer" }} className='h-100 ' >
+                   <div style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 12, padding: 10
+                  }}>
+
+
+                    <div style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 8,
+                      padding: "8px 14px",
+                      border: "1px solid #D6D6D6",
+                      borderRadius: 30,
+                      width: 260,
+                      backgroundColor: "#fff"
+                    }}>
+                      <input
+                        type="text"
+                        placeholder="Search"
+                        style={{
+                          border: "none",
+                          outline: "none",
+                          width: "100%",
+                          fontSize: 14,
+                          color: "#333",
+                          fontFamily: "Gilroy"
+                        }}
+                      />
+                      <SearchNormal size={20} color="#6F6F6F" />
+                    </div>
+
+
+                    <div style={{
+                      width: 36,
+                      height: 36,
+                      borderRadius: "50%",
+                      border: "1px solid #D6D6D6",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      backgroundColor: "#fff",
+                      cursor: "pointer"
+                    }}>
+                      <Filter size={20} color="#4b4b4b" />
+                    </div>
+
+                  </div>
+
                   <Card.Header style={{ backgroundColor: "#E7F1FF", fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Assigned</Card.Header>
                   <Card.Body style={{ maxHeight: 350, overflowY: "auto" }} className="show-scroll m-1 p-2">
                     {AssignedList.length > 0 && AssignedList.map((list) => {
@@ -377,13 +524,11 @@ disabled={list?.canAssign === false}
               ></div>
             </div>
           }
-          <Modal.Footer style={{ border: "none" }}>
-
-
-          </Modal.Footer>
+         
+          
         </Modal.Dialog>
       </Modal>
-    </div>
+    // </div>
   )
 }
 AssignAmenities.propTypes = {
