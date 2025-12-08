@@ -1,47 +1,39 @@
 
 .responsive-modal-fix {
   width: 100%;
-  max-width: 960px; 
+  max-width: 750px !important; 
   margin: 0 auto;
-  /* box-sizing: border-box; */
+   box-sizing: border-box;
 }
 
+.form-check-input:checked {
+    background-color: #1e45e1 !important;
+    border-color: #1e45e1;
+    box-shadow: none !important;
+}
 
-@media (max-width: 709px) {
+/* .form-check-input {
+    width: 1.2em !important;
+    height: 1.2em !important;
+} */
+/* @media (max-width: 709px) {
   .responsive-modal-fix {
     margin-left: 16px;
     margin-right: 16px;
     width: auto;
-    max-width: none;
-  }
-}
-
-/* @media (max-width: 709px) {
-  .responsive-modal-fix {
-    width: 100%;
-    max-width: none;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 16px;
-    padding-right: 16px;
-    box-sizing: border-box;
+  min-width: 1200px !important; 
   }
 } */
 
-/* @media (max-width: 320px) {
-  .responsive-modal-fix {
-    margin-left: 12px;
-    margin-right: 12px;
-  }
-} */
 
-@media only screen and (max-width: 298px) and (min-width: 280px) {
+
+/* @media only screen and (max-width: 298px) and (min-width: 280px) {
   .responsive-modal-fix {
     margin-left: 12px;
     margin-right: 12px;
   }
 }
-
+ */
 
        
  
