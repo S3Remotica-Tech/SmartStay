@@ -27,10 +27,12 @@ export const initialState = {
     statusCodeForGetComplianceComment: 0,
     AddComplianceComment: [],
     statusCodeForAddComplianceComment: 0,
-    updateVendorSuccessStatusCode: 0 , 
+    updateVendorSuccessStatusCode: 0,
     statusCodeForEditCompliant: 0,
-    ParticularComplaint : [] ,
-    statusCodeforgetparticularCompliant: 0 ,
+    ParticularComplaint: [],
+    statusCodeforgetparticularCompliant: 0,
+    complaintsView: [],
+    getcomplaintsViewStatus: 0,
 
 
 }
@@ -39,7 +41,7 @@ const ComplianceReducer = (state = initialState, action) => {
 
     switch (action.type) {
         case 'RESET_ALL':
-              return initialState;
+            return initialState;
         case 'COMPLIANCE_LIST':
             return { ...state, Compliance: action.payload.response, filterOptions: action.payload.filterOptions, statusCodeCompliance: action.payload.statusCode }
         case 'CLEAR_COMPLIANCE_LIST':
@@ -70,7 +72,7 @@ const ComplianceReducer = (state = initialState, action) => {
             return { ...state, addVendorSuccessStatusCode: action.payload.statusCode }
         case 'CLEAR_ADD_VENDOR_STATUS_CODE':
             return { ...state, addVendorSuccessStatusCode: 0 }
-case 'UPDATE_VENDOR':
+        case 'UPDATE_VENDOR':
             return { ...state, updateVendorSuccessStatusCode: action.payload.statusCode }
         case 'CLEAR_UPDATE_VENDOR_STATUS_CODE':
             return { ...state, updateVendorSuccessStatusCode: 0 }
@@ -95,7 +97,7 @@ case 'UPDATE_VENDOR':
             return { ...state, complianceChangeRes: action.payload.response, complianceChangeStatus: action.payload.statusCode }
         case 'COMPLIANCE_CHANGE_STATUS_ERROR':
             return { ...state, complianceChangeError: action.payload }
-            case 'REMOVE_COMPLIANCE_CHANGE_STATUS_ERROR':
+        case 'REMOVE_COMPLIANCE_CHANGE_STATUS_ERROR':
             return { ...state, complianceChangeError: "" }
         case 'CLEAR_COMPLIANCE_CHANGE_STATUS_CODE':
             return { ...state, complianceChangeStatus: 0 }
@@ -104,7 +106,7 @@ case 'UPDATE_VENDOR':
             return { ...state, complianceAssignChangeRes: action.payload.response, complianceAssignChangeStatus: action.payload.statusCode }
         case 'COMPLIANCE_CHANGE_STATUS_ASSIGN_ERROR':
             return { ...state, complianceAssignChangeError: action.payload }
-             case 'REMOVE_COMPLIANCE_CHANGE_STATUS_ASSIGN_ERROR':
+        case 'REMOVE_COMPLIANCE_CHANGE_STATUS_ASSIGN_ERROR':
             return { ...state, complianceAssignChangeError: "" }
         case 'CLEAR_COMPLIANCE_CHANGE_ASSIGN':
             return { ...state, complianceAssignChangeStatus: 0 }
@@ -120,7 +122,10 @@ case 'UPDATE_VENDOR':
             };
         case "CLEAR_DELETE_COMPLIANCE":
             return { ...state, statusCodeForDeleteCompliance: 0 };
-
+        case 'COMPLAINTS_VIEW':
+            return { ...state, complaintsView: action.payload.response, getcomplaintsViewStatus: action.payload.statusCode };
+        case 'REMOVE_COMPLAINTS_VIEW':
+            return { ...state, getcomplaintsViewStatus: 0 }
 
 
         // commentApi
@@ -139,11 +144,11 @@ case 'UPDATE_VENDOR':
         case 'PARTICULAR-COMPLIANT':
             return { ...state, ParticularComplaint: action.payload.response, statusCodeforgetparticularCompliant: action.payload.statusCode }
         case 'CLEAR_PARTICULAR_COMPLIANT_STATUS':
-            return { ...state, statusCodeforgetparticularCompliant: 0 }    
+            return { ...state, statusCodeforgetparticularCompliant: 0 }
 
-            default:
-                return state;
+        default:
+            return state;
     }
-   
+
 }
 export default ComplianceReducer;

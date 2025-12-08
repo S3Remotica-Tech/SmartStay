@@ -8,7 +8,7 @@ import {EditTenantAmount, editAdvanceAmount,
    AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer,
    getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail,
    userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, CustomerDetails, amenitieshistory, amnitiesnameList,
-   amenitieAddUser, availableBedDetails, countrylist, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut, customerReAssignBed,
+   amenitieAddUser, availableBedDetails, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut, customerReAssignBed,
    customerAddContact, customerAllContact, deleteContact, generateAdvance, uploadDocument, hostelDetailsId, EditConfirmCheckOut,
    handleKycVerify, handlegetCustomerDetailsKyc, CustomerUnAssign, backtoCheckin, GenerateDetails, conformCheckout
 } from "../Action/UserListAction"
@@ -1519,24 +1519,7 @@ function* handleKYCValidateOtpVerify(action) {
 
 
 
-function* handleCountrylist() {
-   try {
-      const response = yield call(countrylist);
 
-      if (response?.status === 200) {
-         yield put({ type: 'COUNTRY_LIST', payload: response.data, statusCode: response?.status })
-      }
-      else {
-         yield put({ type: 'ERROR', payload: response?.data?.message })
-      }
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
-   }
-}
 
 
 function* handleGetWalkInCustomer(action) {
@@ -2890,8 +2873,7 @@ function* UserListSaga() {
    yield takeEvery('BEDNUMBERDETAILS', handlebedNumberDetails)
    yield takeEvery('KYCVALIDATE', handleKYCValidate)
    yield takeEvery('KYCVALIDATEOTPVERIFY', handleKYCValidateOtpVerify)
-   yield takeEvery('COUNTRYLIST', handleCountrylist)
-   yield takeEvery('WALKINCUSTOMERLIST', handleGetWalkInCustomer)
+     yield takeEvery('WALKINCUSTOMERLIST', handleGetWalkInCustomer)
    yield takeEvery('ADDWALKINCUSTOMER', handleAddWalkInCustomer)
    yield takeEvery('DELETEWALKINCUSTOMER', handleDeleteWalkInCustomer)
    yield takeEvery('CHECKOUTCUSTOMERLIST', handleCheckoutCustomer)

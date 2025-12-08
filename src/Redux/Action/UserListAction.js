@@ -444,13 +444,8 @@ export  function KYCValidateOtpVerify() {
   // })
 }
 
-export function countrylist() {
-  new Promise((resolve) => {
-  resolve({status: 200});
-})
-  // return await AxiosConfig.get('/conutry_list', {
-  // })
-}
+
+
 
 
 

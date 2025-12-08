@@ -35,7 +35,7 @@ export const initialState = {
     Kyc_Ref_Id: '',
     kycValidateOtpVerifySuccess: 0,
     createFloorSuccessStatusCode: 0,
-    countrycode: [],
+   
     noHosteListStatusCode: 0,
     alreadyFloorHere: '',
     deleteFloorError: '',
@@ -185,7 +185,7 @@ const UserListReducer = (state = initialState, action) => {
 
         case 'EDIT_ADVANCE_ERROR':
             return { ...state, advanceError: action.payload }
-             case 'REMOVE_EDIT_ADVANCE_ERROR':
+        case 'REMOVE_EDIT_ADVANCE_ERROR':
             return { ...state, advanceError: '' }
 
         case 'EDIT_BASIC_DETAILS':
@@ -398,9 +398,7 @@ const UserListReducer = (state = initialState, action) => {
 
 
 
-        case 'COUNTRY_LIST':
-            return { ...state, countrycode: action.payload };
-
+        
         case 'EMAIL_ERROR':
             return { ...state, emailError: action.payload }
 

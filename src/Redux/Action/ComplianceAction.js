@@ -266,3 +266,7 @@ export async function addComplianceComment(complaintId , datum) {
     },
   }) 
 }
+
+export async function complaintsView(complaintsId) {
+  return await AxiosConfigV2.get(`/v2/complaint/${complaintsId}`);
+}
