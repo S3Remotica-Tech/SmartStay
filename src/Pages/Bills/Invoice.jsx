@@ -18,10 +18,12 @@ import '../Invoices.css';
 import InvoiceTable from "../Bills/InvoicelistTable";
 import Profile from "../../Assets/Images/New_images/profile-picture.png";
 import Box from "@mui/material/Box";
-import Tab from "@mui/material/Tab";
+// import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
+import { Tabs, Tab } from "react-bootstrap";
+
 import Calendars from "../../Assets/Images/New_images/calendar.png";
 import "flatpickr/dist/themes/material_blue.css";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -258,7 +260,7 @@ const InvoicePage = () => {
     setCheckedRows(initialState);
   }, [recurringbills]);
   const handleToggle = (id) => {
-    
+
     if (!id) return;
 
     const updatedValue = !checkedRows[id];
@@ -3495,9 +3497,8 @@ const InvoicePage = () => {
                     marginBottom: 10, marginTop: showSearchFilter ? 100 : 0,
                   }}
                 >
-                  <Box
+                  {/* <Box
                     sx={{ borderBottom: 0, borderColor: "divider" }}
-
                   >
                     <TabList
 
@@ -3561,7 +3562,92 @@ const InvoicePage = () => {
                         }}
                       />
                     </TabList>
-                  </Box>
+                  </Box> */}
+
+
+
+                  <Tabs
+                    activeKey={value}
+                    onSelect={(k) => handleChanges(null, k)}
+                    id="bill-tabs"
+                    className={`ps-3 custom-tab-list d-flex ${isSmallScreen ? "flex-column" : "flex-lg-row"
+                      }`}
+                    style={{
+                      border: "none",
+                      width: "50%",
+                      display: "flex",
+                      gap: "25px",
+                      justifyContent: "", paddingBottom: 10,
+
+                    }}
+                  >
+                    <Tab
+                      eventKey="1"
+                      // title="Bills"
+                      disabled={showLoader}
+                      tabClassName="ps-0"
+                      title={
+                        <span className="p-0"
+                          style={{
+                            padding: 0,
+                            display: "inline-block",
+                            textTransform: "capitalize",
+                            fontSize: 17,
+                            fontWeight: 500,
+                            fontFamily: "Gilroy",
+                            color: value === "1" ? "#222222" : "#4B4B4B",
+                            borderBottom: value === "1" ? "2px solid #1E45E1" : "2px solid white",
+                          }}
+                        >
+                          Bills
+                        </span>
+                      }
+
+                    />
+
+                    <Tab
+                      eventKey="2"
+                      // title="Recurring Bills"
+                      title={
+                        <span
+                          style={{
+                            textTransform: "capitalize",
+                            fontSize: 17,
+                            fontWeight: 500,
+                            fontFamily: "Gilroy",
+                            color: value === "2" ? "#222222" : "#4B4B4B",
+                            borderBottom: value === "2" ? "2px solid #1E45E1" : "2px solid transparent",
+                          }}
+                        >
+                          Recurring Bills
+                        </span>
+                      }
+                      disabled={showLoader}
+                      tabClassName="ps-0"
+                    />
+
+                    <Tab
+                      eventKey="3"
+                      // title="Receipt"
+                      title={
+                        <span
+                          style={{
+                            textTransform: "capitalize",
+                            fontSize: 17,
+                            fontWeight: 500,
+                            fontFamily: "Gilroy",
+                            color: value === "3" ? "#222222" : "#4B4B4B",
+                            borderBottom: value === "3" ? "2px solid #1E45E1" : "2px solid transparent",
+                          }}
+                        >
+                          Receipt
+                        </span>
+                      }
+                      disabled={showLoader}
+                      tabClassName="ps-0"
+                    />
+                  </Tabs>
+
 
                 </div>
                 <TabPanel value="1">

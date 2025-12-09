@@ -20,7 +20,7 @@ import ErrorMessage from '../../Components/ErrorMessage';
 import { useHasPermission } from '../../Utils/Permission';
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
-
+import Cookies from 'universal-cookie';
 
 function SettingSubscription() {
   const state = useSelector((state) => state);
@@ -40,7 +40,7 @@ function SettingSubscription() {
   const [getPlanActive, setGetPlanActive] = useState([]);
   const [selectedHostels, setSelectedHostels] = useState([]);
   const modalRef = useRef();
-
+const cookies = new Cookies();
 
   const hostelDetails = getPlanActive?.[0]?.hostel_details || [];
 
@@ -265,6 +265,28 @@ function SettingSubscription() {
 
   };
 
+//   const gotoPayment = () => {
+//  const token = cookies.get('v2-token');
+
+//   const form = document.createElement("form");
+//   form.method = "GET";
+//   form.action = "http://localhost:8083/smartstay/payment/";
+// form.target = "_blank"; 
+//   const hiddenField = document.createElement("input");
+//   hiddenField.type = "hidden";
+//   hiddenField.name = "token";
+//   hiddenField.value = token;
+
+//   form.appendChild(hiddenField);
+//   document.body.appendChild(form);
+
+//   form.submit();
+// };
+
+
+
+
+
   return (
     <div className="container" style={{ overflowY: 'hidden', height: '100vh' }}>
       <div style={{ marginTop: 35 }}>
@@ -280,64 +302,6 @@ function SettingSubscription() {
 
 
 
-
-      {/* {getPlanActive?.length > 0 && getPlanActive[0]?.amount > 0 ? (
-              <>
-                <div
-                  className="d-flex align-items-center justify-content-center rounded-circle bg-light"
-                  style={{ width: 40, height: 40 }}
-                >
-                  <img src={crown} width={30} height={30} alt="Crown Icon" />
-                </div>
-
-                <div className="mt-2">
-                  <p className="text-dark fw-semibold fs-6" style={{ fontFamily: "Gilroy" }}>
-                    Your plan is active
-                  </p>
-                </div>
-
-                <div className="d-flex justify-content-between align-items-center">
-                  <p className="text-secondary mb-0 fs-6" style={{ fontFamily: "Gilroy" }}>Amount</p>
-                  <p className="fw-semibold mb-0 fs-6" style={{ fontFamily: "Gilroy" }}>
-                    ₹{getPlanActive[0]?.amount}
-                  </p>
-                </div>
-
-                <div className="d-flex justify-content-between align-items-center mt-2">
-                  <p className="text-secondary mb-0 fs-6" style={{ fontFamily: "Gilroy" }}>Next payment</p>
-                  <p className="fw-semibold mb-0 fs-6" style={{ fontFamily: "Gilroy" }}>
-                    {new Date(getPlanActive[0]?.plan_end).toLocaleDateString(
-                      "en-GB",
-                      {
-                        day: "2-digit",
-                        month: "long",
-                        year: "numeric",
-                      }
-                    )}
-                  </p>
-                </div>
-
-                <div className="d-flex justify-content-between align-items-center mt-2">
-                  <p className="text-secondary mb-0 fs-6" style={{ fontFamily: "Gilroy" }}>Payment method</p>
-                  <p className="fw-semibold mb-0 fs-6" style={{ fontFamily: "Gilroy" }} >
-                    {getPlanActive[0]?.payment_method}
-                  </p>
-                </div>
-
-                <div className="d-flex mt-3 w-100">
-                  <button style={{ fontFamily: "Gilroy", backgroundColor: "#1E45E1", color: "#fff" }}
-                    className="btn  w-100 fw-semibold fs-6"
-                    onClick={handleCurrentPlan}
-                    data-bs-toggle="modal"
-                    data-bs-target="#changePlanModal"
-                  >
-                    Manage Plan
-                  </button>
-                </div>
-              </>
-            ) :  (
-             
-            ) */}
 
       {!canReadSubscription ?
         (
@@ -393,6 +357,18 @@ function SettingSubscription() {
         )
       }
 
+{/* <button  style={{
+                      backgroundColor: "#1E45E1",
+                      fontWeight: 600,
+                      borderRadius: 12,
+                      fontSize: 16,
+                      fontFamily: "Gilroy",
+                      padding: 12,
+                      border: "1px solid #1E45E1",
+                      color: "#FFF"
+                    }} onClick={gotoPayment}>
+  Go to Payment
+</button> */}
 
       {getPlanActive?.length > 0 && getPlanActive[0]?.amount > 0 && (
         <div className="col-lg-12 col-md-12 col-sm-10 mt-3">
