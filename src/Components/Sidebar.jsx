@@ -78,6 +78,7 @@ import SettingGeneral from "../Pages/Settings/SettingGeneral";
 import SettingManage from "../Pages/SettingManage";
 import { Notification } from 'iconsax-react'
 import NotificationForm from "./Notification";
+import PaymentPreview from "../Pages/SubscriptionFile/PaymentPreview";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -1729,7 +1730,7 @@ function Sidebar() {
 
           <Routes>
 
-
+<Route path="/payment-preview" element={<PaymentPreview />} />
             <Route
               path="/dashboard/:hostelId?"
               element={
@@ -1876,6 +1877,8 @@ function Sidebar() {
                 />
               }
             >
+
+              
 
               <Route index element={<Navigate to="general" replace />} />
               <Route path="general" element={<SettingGeneral />} />

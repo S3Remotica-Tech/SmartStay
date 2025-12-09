@@ -2,13 +2,10 @@
 import React, { useEffect, useState } from 'react';
 import './App.css'
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-// import FrontPage from './LandingPage/FrontPage';
 import FrontPage from './NewLandingPage/Topbar';
-// import Policy from "./NewLandingPage/PrivacyPolicy"
 import LoginPage from './Components/LoginPage';
 import CreateAccount from './Components/CreateAccount';
 import ForgetPassword from "./Components/Forgetpass";
-// import Hostel from './Components/Hostel_Management';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
 import CryptoJS from "crypto-js";
@@ -18,10 +15,9 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { StoreSelectedHostelAction } from './Redux/Action/smartStayAction';
 import LoaderComponent from './Pages/LoaderComponent';
-// import Contact from './NewLandingPage/Contact';
 import ThankYou from './NewLandingPage/ThankYou';
 import Sidebar from './Components/Sidebar';
-import Dashboards from "./Pages/Dashboard";
+// import PaymentPreview from "./Pages/SubscriptionFile/PaymentPreview";
 
 function App() {
   const cookies = new Cookies();
@@ -31,7 +27,6 @@ function App() {
   const [loading, setLoading] = useState(true);
 
 
-  // const [tokenAccessDenied, setTokenAccessDenied] = useState(Number(cookies.get('access-denied')));
 
 
   const login = localStorage.getItem("login");
@@ -75,26 +70,6 @@ function App() {
 
 
 
-  // useEffect(() => {
-  //   const token = cookies.get('v2-token');
-  //   if (token) {
-  //     dispatch({ type: "LOGIN_SUCCESS", payload: { token } });
-  //     setData(true); 
-  //   }
-  // }, []);
-
-
-
-  // useEffect(() => {
-  //   if (tokenAccessDenied === 206) {
-  //    
-  //     cookies.set('access-denied', null, { path: '/', expires: new Date(0) });
-  //     localStorage.clear();
-
-  //   }
-  // }, [tokenAccessDenied]);
-
-
   useEffect(() => {
     if (state.AssetList?.unAuthorized) {
       dispatch({ type: 'LOG_OUT' });
@@ -106,13 +81,6 @@ function App() {
   }, [state.AssetList?.unAuthorized])
 
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setTokenAccessDenied(Number(cookies.get('access-denied')));
-  //   }, 1000);
-
-  //   return () => clearInterval(interval);
-  // }, []);
 
 
   useEffect(() => {
@@ -123,7 +91,7 @@ function App() {
       localStorage.clear();
       localStorage.removeItem("lastPage");
       localStorage.removeItem("currentPage")
-      // cookies.remove('v2-token', { path: '/' });
+      
 
     }
   }, [state.login?.isLoggedIn]);
@@ -147,11 +115,13 @@ function App() {
           <>
             <Sidebar />
            
+           
           </>
         ) : (
           <>
             <Routes>
               <Route path="/" element={<FrontPage />} />
+               {/* <Route path="/payment-preview" element={<PaymentPreview />} /> */}
               <Route path="/hostel-management-login" element={<LoginPage />} />
               <Route path="/hostel-management-signup" element={<CreateAccount />} />
               <Route path="/forget-password" element={<ForgetPassword />} />
@@ -162,6 +132,7 @@ function App() {
               <Route path="/refund_policy" element={<FrontPage />} />
               <Route path="*" element={<Navigate to="/" replace />} />
               <Route path="/thankyou" element={<ThankYou />} />
+               
             </Routes>
           </>
         )}

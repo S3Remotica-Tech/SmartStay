@@ -24,6 +24,7 @@ import Cookies from 'universal-cookie';
 import axios from 'axios'
 import { Card, Row, Col } from "react-bootstrap";
 import { TbCheck } from "react-icons/tb";
+import { setPaymentHtml } from "../../Redux/Action/smartStayAction";
 
 function SettingSubscription() {
   const state = useSelector((state) => state);
@@ -47,7 +48,7 @@ function SettingSubscription() {
 
   const hostelDetails = getPlanActive?.[0]?.hostel_details || [];
 
-
+  console.log("state", state)
 
 
 
@@ -227,56 +228,74 @@ function SettingSubscription() {
 
   };
 
-  // const gotoPayment = () => {
-  //   const token = cookies.get('v2-token');
-
-  //   const form = document.createElement("form");
-  //   form.method = "GET";
-  //   form.action = "http://localhost:8083/smartstay/payment/";
-  //   form.target = "_blank";
-  //   const hiddenField = document.createElement("input");
-  //   hiddenField.type = "hidden";
-  //   hiddenField.name = "token";
-  //   hiddenField.value = token;
-
-  //   form.appendChild(hiddenField);
-  //   document.body.appendChild(form);
-
-  //   form.submit();
-  // };
 
 
-  // const gotoPayment = () => {
+  // const gotoPayment = async () => {
   //   const token = cookies.get("v2-token");
-  //   window.location.href = `http://localhost:8083/smartstay/payment/?token=${token}`;
+
+  //   try {
+  //     const response = await axios.get(
+  //       "http://localhost:8083/smartstay/payment/",
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`
+  //         },
+  //         responseType: "text"
+  //       }
+  //     );
+
+
+  //     if (response.status === 200) {
+  //         const newWindow = window.open("http://localhost:8083/smartstay/payment/", "_blank");  
+  //       newWindow.document.write(response.data);   
+  //       console.log("response&&&&", response.data);
+
+
+  //       // sessionStorage.setItem("payment_html", response.data);
+  //       // dispatch(setPaymentHtml(response.data));
+  //       // setTimeout(() => {
+  //       //   window.open("/payment-preview", "_blank");
+  //       // }, 200);
+
+  //       // newWindow.document.close(); 
+  //       // const blob = new Blob([response.data], { type: "text/html" });
+  //       // const url = URL.createObjectURL(blob);
+
+  //       // window.open(url, "_blank");
+  //     }
+  //   } catch (error) {
+  //     console.error("Payment Error:", error);
+  //   }
   // };
 
 
-  const gotoPayment = async () => {
-    const token = cookies.get("v2-token");
 
-    try {
-      const response = await axios.get(
-        "http://localhost:8083/smartstay/payment/",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }
-      );
 
-      console.log("Payment Response:", response.data);
-      if(response.status === 200){
-        const newWindow = window.open("http://localhost:8083/smartstay/payment/", "_blank");  
-      newWindow.document.write(response.data);      
-      newWindow.document.close(); 
-      }
-    } catch (error) {
-      console.error("Payment Error:", error);
+
+
+
+const gotoPayment = async () => {
+  const token = cookies.get("v2-token");
+
+  try {
+    const response = await axios.get("http://localhost:8083/smartstay/payment/", {
+      headers: { Authorization: `Bearer ${token}` },
+      responseType: "text"
+    });
+
+    if (response.status === 200) {
+    //        sessionStorage.setItem("payment_html", response.data);
+
+    //  window.open("/payment-preview", "_blank");
+
+
+             const newWindow = window.open("http://localhost:8083/smartstay/payment/", "_blank");  
+        newWindow.document.write(response.data);   
     }
-  };
-
-
+  } catch (error) {
+    console.error("Payment Error:", error);
+  }
+};
 
 
   const plans = [
@@ -415,149 +434,149 @@ function SettingSubscription() {
 
 
             <div className="container mt-4 show-scroll p-0 m-0" style={{
-  fontFamily: "Gilroy", maxHeight: "500px",
-  overflowY: "auto",
-}}>
-
-  <Card className="p-4 mb-4 me-2" style={{ borderRadius: "14px" }}>
-    <div
-      style={{
-        background: "#1E45E1",
-        color: "white",
-        padding: "3px 12px",
-        borderRadius: "12px",
-        fontSize: "12px",
-        width: "fit-content",
-        textAlign: "center", fontWeight: 500
-      }}
-    >
-      <TbCheck /> {" "}Free Trial
-    </div>
-
-    <h6 className="mt-1" style={{ fontWeight: 600, color: "#222222", fontSize: 16 }}>
-      You are in Free Trial
-    </h6>
-
-    <Row className="mt-2">
-      <Col>
-        <div className='d-flex gap-2 align-items-center'>
-          <Calendar size="16" color="#4B4B4B" />
-          <div className=''>
-            <div>
-                        <label style={{ fontWeight: 400, color: "#4B4B4B", fontSize: 14 }}>Start Date</label>
-
-            </div>
-            <div>
-                  <label className='' style={{ fontWeight: 400, color: "#4B4B4B", fontSize: 16 }}>Oct 21, 2025</label>
-
-            </div>
-</div>
-        </div>
-
-      </Col>
-
-      <Col>
-        <div className='d-flex gap-2 align-items-center'>
-          <Calendar size="16" color="#4B4B4B" />
-          <label style={{ fontWeight: 400, color: "#4B4B4B", fontSize: 14 }}>End Date</label>
-        </div>
-
-        <label>Oct 21, 2025</label>
-      </Col>
-    </Row>
-
-    <Card className="mt-3 p-3" style={{ background: "#F5F5F5", borderRadius: "12px" }}>
-      Upgrade to continue unlimited access once your trial ends.
-    </Card>
-
-    <Button
-      className="mt-3"
-      style={{
-        background: "#2F80ED",
-        borderRadius: "10px",
-        padding: "10px 25px",
-        border: "none"
-      }}
-    >
-      Upgrade to Premium
-    </Button>
-  </Card>
-
-  <Row className='me-0'>
-    {plans.map((plan, idx) => (
-      <Col md={6} key={idx}>
-        <Card
-          className="p-3 mb-3"
-          style={{
-            borderRadius: "14px",
-            border: "1px solid #E5E5E5",
-            position: "relative"
-          }}
-        >
-          <div
-            style={{
-              position: "absolute",
-              top: "15px",
-              right: "15px",
-              background: plan.color,
-              padding: "5px 15px",
-              borderRadius: "10px",
-              fontWeight: 600
-            }}
-          >
-            {plan.price} <span style={{ fontSize: 12 }}>{plan.period}</span>
-          </div>
-
-          <h5 className="mt-3" style={{ fontWeight: 700 }}>
-            {plan.title}
-          </h5>
-
-          <label style={{ color: "#666" }}>Perfect for PGs getting started</label>
-
-          <div
-            style={{
-              maxHeight: "170px",
+              fontFamily: "Gilroy", maxHeight: "500px",
               overflowY: "auto",
-              paddingRight: "5px"
-            }}
-          >
-            {plan.features.map((f, i) => (
-              <div
-                key={i}
-                className="d-flex align-items-start mb-2"
-                style={{ fontSize: "14px" }}
-              >
-                <span
+            }}>
+
+              <Card className="p-4 mb-4 me-2" style={{ borderRadius: "14px" }}>
+                <div
                   style={{
-                    color: "#2F80ED",
-                    fontWeight: "bold",
-                    marginRight: "8px"
+                    background: "#1E45E1",
+                    color: "white",
+                    padding: "3px 12px",
+                    borderRadius: "12px",
+                    fontSize: "12px",
+                    width: "fit-content",
+                    textAlign: "center", fontWeight: 500
                   }}
                 >
-                  ✔
-                </span>
-                <label>{f}</label>
-              </div>
-            ))}
-          </div>
+                  <TbCheck /> {" "}Free Trial
+                </div>
 
-          <Button
-            className="mt-3 w-100"
-            style={{
-              background: "#2F80ED",
-              borderRadius: "10px",
-              padding: "10px 0",
-              border: "none"
-            }}
-          >
-            Select Plan →
-          </Button>
-        </Card>
-      </Col>
-    ))}
-  </Row>
+                <h6 className="mt-1" style={{ fontWeight: 600, color: "#222222", fontSize: 16 }}>
+                  You are in Free Trial
+                </h6>
 
-</div>
+                <Row className="mt-2">
+                  <Col>
+                    <div className='d-flex gap-2 align-items-center'>
+                      <Calendar size="16" color="#4B4B4B" />
+                      <div className=''>
+                        <div>
+                          <label style={{ fontWeight: 400, color: "#4B4B4B", fontSize: 14 }}>Start Date</label>
+
+                        </div>
+                        <div>
+                          <label className='' style={{ fontWeight: 400, color: "#4B4B4B", fontSize: 16 }}>Oct 21, 2025</label>
+
+                        </div>
+                      </div>
+                    </div>
+
+                  </Col>
+
+                  <Col>
+                    <div className='d-flex gap-2 align-items-center'>
+                      <Calendar size="16" color="#4B4B4B" />
+                      <label style={{ fontWeight: 400, color: "#4B4B4B", fontSize: 14 }}>End Date</label>
+                    </div>
+
+                    <label>Oct 21, 2025</label>
+                  </Col>
+                </Row>
+
+                <Card className="mt-3 p-3" style={{ background: "#F5F5F5", borderRadius: "12px" }}>
+                  Upgrade to continue unlimited access once your trial ends.
+                </Card>
+
+                <Button
+                  className="mt-3"
+                  style={{
+                    background: "#2F80ED",
+                    borderRadius: "10px",
+                    padding: "10px 25px",
+                    border: "none"
+                  }}
+                >
+                  Upgrade to Premium
+                </Button>
+              </Card>
+
+              <Row className='me-0'>
+                {plans.map((plan, idx) => (
+                  <Col md={6} key={idx}>
+                    <Card
+                      className="p-3 mb-3"
+                      style={{
+                        borderRadius: "14px",
+                        border: "1px solid #E5E5E5",
+                        position: "relative"
+                      }}
+                    >
+                      <div
+                        style={{
+                          position: "absolute",
+                          top: "15px",
+                          right: "15px",
+                          background: plan.color,
+                          padding: "5px 15px",
+                          borderRadius: "10px",
+                          fontWeight: 600
+                        }}
+                      >
+                        {plan.price} <span style={{ fontSize: 12 }}>{plan.period}</span>
+                      </div>
+
+                      <h5 className="mt-3" style={{ fontWeight: 700 }}>
+                        {plan.title}
+                      </h5>
+
+                      <label style={{ color: "#666" }}>Perfect for PGs getting started</label>
+
+                      <div
+                        style={{
+                          maxHeight: "170px",
+                          overflowY: "auto",
+                          paddingRight: "5px"
+                        }}
+                      >
+                        {plan.features.map((f, i) => (
+                          <div
+                            key={i}
+                            className="d-flex align-items-start mb-2"
+                            style={{ fontSize: "14px" }}
+                          >
+                            <span
+                              style={{
+                                color: "#2F80ED",
+                                fontWeight: "bold",
+                                marginRight: "8px"
+                              }}
+                            >
+                              ✔
+                            </span>
+                            <label>{f}</label>
+                          </div>
+                        ))}
+                      </div>
+
+                      <Button
+                        className="mt-3 w-100"
+                        style={{
+                          background: "#2F80ED",
+                          borderRadius: "10px",
+                          padding: "10px 0",
+                          border: "none"
+                        }}
+                      >
+                        Select Plan →
+                      </Button>
+                    </Card>
+                  </Col>
+                ))}
+              </Row>
+
+            </div>
 
           </>
         )
