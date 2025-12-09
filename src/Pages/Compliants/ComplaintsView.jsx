@@ -19,7 +19,11 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
 
-
+    useEffect(() => {
+        if (complaintsDetails?.complaintId) {
+            dispatch({ type: 'COMPLAINTSVIEW', payload: complaintsDetails?.complaintId })
+        }
+    }, [complaintsDetails?.complaintId])
 
     const StepItem = ({ children, isLast, type }) => {
 
@@ -62,6 +66,18 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
         };
 
         const { bg, icon } = getIcon();
+
+
+
+console.log("state ",state.ComplianceList.complaintsView)
+
+
+
+
+
+
+
+
         return (
             <Row className="mb-3">
 
@@ -117,10 +133,10 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
                 borderLeft: "1px solid #E5E7EB",
                 fontFamily: "Gilroy", right: trigger ? 0 : "358px",
                 position: "fixed",
-                borderRadius:10
+                borderRadius: 10
             }}
         >
-       
+
             <Offcanvas.Header className="gap-0 d-flex justify-content-between">
                 <div className="d-flex align-items-center gap-3">
                     {/* <div

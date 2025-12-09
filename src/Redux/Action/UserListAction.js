@@ -444,13 +444,8 @@ export  function KYCValidateOtpVerify() {
   // })
 }
 
-export function countrylist() {
-  new Promise((resolve) => {
-  resolve({status: 200});
-})
-  // return await AxiosConfig.get('/conutry_list', {
-  // })
-}
+
+
 
 
 
@@ -736,14 +731,13 @@ new Promise((resolve) => {
 
 
 
-export  function deleteCustomer() {
-  new Promise((resolve) => {
-  resolve({status: 200});
-})
-  // return await AxiosConfig.post('/users/delete', contact, {
-  //   data: contact
-  // })
+export async function deleteCustomer(tenant) {
+ 
+  return await AxiosConfigV2.delete(`/v2/customers/${tenant.hostelId}/${tenant.customerId}`)
 }
+
+
+
 export  function hostelDetailsId() {
   new Promise((resolve) => {
   resolve({status: 200});

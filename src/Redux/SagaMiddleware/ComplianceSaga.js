@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { updateVendor, ComplianceChangeStatus, complianceList, Compliancedetails, VendorList, addVendor, DeleteVendorList, ComplianceAssign, complianceDelete, getComplianceComment, addComplianceComment, EditComplaint, ParticularcomplianceDetails } from "../Action/ComplianceAction"
+import {complaintsView,  updateVendor, ComplianceChangeStatus, complianceList, Compliancedetails, VendorList, addVendor, DeleteVendorList, ComplianceAssign, complianceDelete, getComplianceComment, addComplianceComment, EditComplaint, ParticularcomplianceDetails } from "../Action/ComplianceAction"
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -631,11 +631,27 @@ function refreshToken(response) {
 
 }
 
+function* handleCompliantsView(action) {
+   try {
+      const response = yield call(complaintsView, action.payload);
 
+      if (response?.status === 200) {
+         yield put({ type: 'COMPLAINTS_VIEW', payload: { response: response.data, statusCode: response?.status } })
+      }
+     
+      if (response) {
+         refreshToken(response)
+      }
+   }
+   catch (error) {
+      yield* handleApiError(error);
+   }
+}
 
 
 
 function* ComplianceSaga() {
+    yield takeEvery('COMPLAINTSVIEW', handleCompliantsView)
    yield takeEvery('COMPLIANCE-LIST', handlecompliancelist)
    yield takeEvery('COMPLIANCE-ADD', handleComplianceadd)
    yield takeEvery('EDIT_COMPLAINT', handleEditComplaint)

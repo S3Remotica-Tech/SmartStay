@@ -47,7 +47,7 @@ const ComplianceList = (props) => {
   const popupRef = useRef(null);
   const [trigger, setTrigger] = useState(false);
 
-
+  const commentsEndRef = useRef(null);
   const {
     canWriteModule: canWriteComplaints,
     // canReadModule: canReadComplaints,
@@ -60,6 +60,9 @@ const ComplianceList = (props) => {
   // const canUpdateComplaints = useHasPermission("Complaints", "canUpdate");
   // const canDeleteComplaints = useHasPermission("Complaints", "canDelete");
 
+  useEffect(() => {
+    commentsEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [state.ComplianceList?.complaintsView?.comments]);
 
 
   useEffect(() => {
@@ -122,6 +125,12 @@ const ComplianceList = (props) => {
   const handleIconClick = (item) => {
 
     setCustomer_Id(item.complaintId);
+
+
+    if (item.complaintId) {
+      dispatch({ type: 'COMPLAINTSVIEW', payload: item.complaintId })
+    }
+
     setShowCard(true);
     // setName(item.Name);
     let Dated = new Date(item.complaintDate);
@@ -257,8 +266,8 @@ const ComplianceList = (props) => {
     dispatch({ type: 'REMOVE_COMPLIANCE_CHANGE_STATUS_ERROR' })
     // setAssignId(item?.ID);
     setShowDots(false);
-    setStatus(item?.status === null ? "Open" : item?.status);
-    setSelectedStatus(item?.status === null ? "Open" : item?.status)
+    setStatus(item?.status === null ? "pending" : item?.status);
+    setSelectedStatus(item?.status === null ? "pending" : item?.status)
     setComplaintId(item?.complaintId)
     setShowChangeStatus(true);
     setShowAssignComplaint(false);
@@ -1099,8 +1108,8 @@ const ComplianceList = (props) => {
                     padding: "6px 10px",
                     cursor: "pointer",
                     display: "flex",
-                    alignItems: "center",justifyContent:"center",
-                                      }}
+                    alignItems: "center", justifyContent: "center",
+                  }}
                 >
                   <img
                     src={CommentIcon}
@@ -1148,15 +1157,15 @@ const ComplianceList = (props) => {
                         marginBottom: "10px",
                         position: "relative",
                         display: "flex",
-                        marginleft: "-15px",gap: 2
+                        marginleft: "-15px", gap: 2
                       }}
                     >
-                      <div  className="gap-2"
+                      <div className="gap-2"
                         style={{
                           display: "flex",
                           alignItems: "center",
                           width: "100%",
-                           
+
                         }}
                       >
                         {
@@ -1191,7 +1200,7 @@ const ComplianceList = (props) => {
                                 alignItems: "center",
                                 fontSize: 20,
                                 fontWeight: "600",
-                                color: "white", fontFamily: "Gilroy", 
+                                color: "white", fontFamily: "Gilroy",
                               }}
                             >
                               {props?.complaints?.initials || "-"}
@@ -1227,18 +1236,16 @@ const ComplianceList = (props) => {
                         style={{ cursor: 'pointer' }} />
                     </Modal.Header>
                     <Modal.Body>
-                      <div>
 
-                      </div>
                       <div
                         style={{
                           height:
-                            state.ComplianceList?.getComplianceComments?.comments
+                            state.ComplianceList?.complaintsView?.comments
                               ?.length > 2
                               ? "250px"
                               : "auto",
                           overflowY:
-                            state.ComplianceList?.getComplianceComments?.comments
+                            state.ComplianceList?.complaintsView?.comments
                               ?.length > 2
                               ? "auto"
                               : "hidden",
@@ -1249,60 +1256,89 @@ const ComplianceList = (props) => {
                       >
 
 
-                        {props.complaints?.comments?.length > 0 ? (
-                          props.complaints?.comments.map((item, index) => {
-                            let Dated = new Date(item.commentedAt);
+                        {state.ComplianceList?.complaintsView?.comments?.length > 0 ? (
+                          state.ComplianceList?.complaintsView?.comments.map((item, index) => {
 
-                            let day = Dated.getDate();
-                            let month = Dated.getMonth();
-                            let year = Dated.getFullYear();
+                            let [day, month, year] = item?.commentedAt.split("/");
+
+                            let Dated = new Date(year, month - 1, day);
 
                             const monthNames = [
                               "January", "February", "March", "April", "May", "June",
                               "July", "August", "September", "October", "November", "December",
                             ];
 
-                            let formattedMonth = monthNames[month];
+                            let formattedMonth = monthNames[Dated.getMonth()];
                             let formattedDate = `${day} ${formattedMonth} ${year}`;
+
 
                             return (
                               <div
                                 key={index}
-                                className="row"
+                                className="row d-flex "
                                 style={{
+                                  display: "flex",
+                                  alignItems: "flex-start",
                                   borderBottom: "1px solid #EDF0F4",
-                                  paddingBottom: "10px",
-                                  marginBottom: "10px",
+                                  marginBottom: "10px",width: "100%",
                                 }}
                               >
                                 <div
                                   style={{
                                     display: "flex",
-                                    alignItems: "center",
+                                    alignItems: "flex-start",
+                                    gap: "10px",width: "100%",
                                   }}
                                 >
-                                  <img
-                                    src={
-                                      props.complaints?.customerProfile === "0" ||
-                                        props.complaints?.customerProfile === "null" ||
-                                        props.complaints?.customerProfile === null
-                                        ? User
-                                        : props?.complaints?.customerProfile
-                                    }
-                                    alt="User"
-                                    style={{
-                                      width: "40px",
-                                      height: "40px",
-                                      borderRadius: "50%",
-                                      marginRight: "10px",
-                                    }}
-                                  />
-                                  <div>
-                                    <p
+
+                                  {
+                                    state.ComplianceList?.complaintsView?.customerProfile ?
+
+                                      <img
+                                        src={
+                                          state.ComplianceList?.complaintsView?.customerProfile !== "0" ||
+                                          state.ComplianceList?.complaintsView?.customerProfile !== "null" ||
+                                          state.ComplianceList?.complaintsView?.customerProfile !== null
+                                          &&
+                                          state.ComplianceList?.complaintsView?.customerProfile
+                                        }
+                                        alt="User"
+                                        style={{
+                                          width: "40px",
+                                          height: "40px",
+                                          borderRadius: "50%",
+                                          marginRight: "10px",
+                                        }}
+                                      />
+                                      :
+
+                                      <div
+                                        style={{
+                                          height: 40,
+                                          width: 40,
+                                          borderRadius: "50%",
+                                          backgroundColor: "#1E45E1",
+                                          display: "flex",
+                                          justifyContent: "center",
+                                          alignItems: "center",
+                                          fontSize: 14,
+                                          fontWeight: "600",
+                                          color: "white", fontFamily: "Gilroy",
+                                        }}
+                                      >
+                                        {state.ComplianceList?.complaintsView?.initials || "-"}
+                                      </div>
+                                  }
+
+
+
+
+                                  <div style={{ flex: 1 }}>
+                                    <p 
                                       style={{
                                         margin: 0,
                                         fontSize: "16px",
-                                        fontWeight: "bold",
+                                        fontWeight: 600,
                                         fontFamily: "Gilroy",
                                       }}
                                     >
@@ -1316,26 +1352,27 @@ const ComplianceList = (props) => {
                                         fontFamily: "Gilroy",
                                       }}
                                     >
-                                      {item.commentedAt}
+                                      {formattedDate}
                                     </p>
                                   </div>
                                 </div>
-
-                                <p
-                                  style={{
-                                    wordWrap: "break-word",
-                                    overflowWrap: "break-word",
-                                    whiteSpace: "pre-wrap",
-                                    maxWidth: "100%",
-                                    marginTop: "8px",
-                                    fontSize: "16px",
-                                    fontWeight: "400",
-                                    color: "#333",
-                                    fontFamily: "Gilroy",
-                                  }}
-                                >
-                                  {item.comment}
-                                </p>
+                                <div>
+                                  <label
+                                    style={{
+                                      wordWrap: "break-word",
+                                      overflowWrap: "break-word",
+                                      whiteSpace: "pre-wrap",
+                                      maxWidth: "100%",
+                                      marginTop: "8px",
+                                      fontSize: "16px",
+                                      fontWeight: "400",
+                                      color: "#333",
+                                      fontFamily: "Gilroy",
+                                    }}
+                                  >
+                                    {item.comment}
+                                  </label>
+                                </div>
                               </div>
                             );
                           })
@@ -1355,7 +1392,7 @@ const ComplianceList = (props) => {
 
                       </div>
 
-
+                      <div ref={commentsEndRef} />
                       {commentsLoading && <div
                         style={{
                           position: 'absolute',
@@ -1522,8 +1559,8 @@ const ComplianceList = (props) => {
 
                             <Select
                               options={[
-                                { value: "open", label: "open" },
-                                { value: "in-progress", label: "in-progress" },
+                                { value: "pending", label: "pending" },
+                                { value: "assigned", label: "assigned" },
                                 { value: "resolved", label: "resolved" },
                               ]}
                               onChange={handleStatus}

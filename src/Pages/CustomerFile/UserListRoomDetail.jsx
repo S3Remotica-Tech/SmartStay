@@ -2276,15 +2276,16 @@ useEffect(() => {
   };
 
 
+
   const handleCloseAddamenityShow = () => {
     setaddamenityShow(false);
   }
 
-  const isDisabled =
-    !canWriteAmenities ||
-    state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" ||
-    state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" ||
-    state.UsersList.customerdetails?.customerCurrentStatus === "VACATED";
+  // const isDisabled =
+  //   !canWriteAmenities ||
+  //   state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" ||
+  //   state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" ||
+  //   state.UsersList.customerdetails?.customerCurrentStatus === "VACATED";
 
 
 
