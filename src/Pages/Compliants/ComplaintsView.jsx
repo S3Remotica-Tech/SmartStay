@@ -66,6 +66,18 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
         };
 
         const { bg, icon } = getIcon();
+
+
+
+console.log("state ",state.ComplianceList.complaintsView)
+
+
+
+
+
+
+
+
         return (
             <Row className="mb-3">
 

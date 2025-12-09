@@ -1986,7 +1986,7 @@ function UserList(props) {
   };
 
   useEffect(() => {
-    if (state.UsersList?.deleteCustomerSuccessStatusCode === 200) {
+    if (state.UsersList?.deleteCustomerSuccessStatusCode === 204) {
       setFormLoading(false)
       setDeleteShow(false);
       dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
@@ -1999,11 +1999,13 @@ function UserList(props) {
     }
   }, [state.UsersList?.deleteCustomerSuccessStatusCode]);
 
+console.log("deleteDetails",deleteDetails)
+
   const handleDeleteCustomer = () => {
-    if (deleteDetails?.user.ID) {
+    if (deleteDetails?.user?.customerId) {
       dispatch({
         type: "DELETECUSTOMER",
-        payload: { id: deleteDetails?.user.ID },
+        payload: { customerId: deleteDetails?.user?.customerId , hostelId : state.login.selectedHostel_Id  },
       });
     }
     setFormLoading(true)

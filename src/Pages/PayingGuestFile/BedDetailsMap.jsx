@@ -407,7 +407,7 @@ function BedDetailsMap({ room, propsValue }) {
 
 
     useEffect(() => {
-        if (state.PgList.createBedStatusCode === 201 || state.PgList.updateBedStatusCode === 201) {
+        if (state.PgList.createBedStatusCode === 201 || state.PgList.updateBedStatusCode === 200) {
 
             setShowBed(false)
             dispatch({
@@ -417,6 +417,7 @@ function BedDetailsMap({ room, propsValue }) {
 
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_CREATE_BED_STATUS_CODE' })
+                dispatch({ type: 'CLEAR_UPDATE_BED_STATUS_CODE'})
             }, 4000)
         }
     }, [state.PgList.createBedStatusCode, state.PgList.updateBedStatusCode])

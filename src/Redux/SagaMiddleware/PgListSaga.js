@@ -71,6 +71,7 @@ function* handleApiError(error) {
 function* handleUpdateBed(datum) {
   try {
     const response = yield call(UpdateBed, datum.payload);
+    console.log("response", response)
     var toastStyle = {
       backgroundColor: "#E6F6E6",
       color: "black",

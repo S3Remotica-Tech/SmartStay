@@ -682,6 +682,8 @@ function* handleDeleteCustomer(customer) {
    try {
       const response = yield call(deleteCustomer, customer.payload);
 
+      console.log("response",response)
+
       var toastStyle = {
          backgroundColor: "#E6F6E6",
          color: "black",
@@ -698,7 +700,7 @@ function* handleDeleteCustomer(customer) {
 
       };
 
-      if (response?.status === 200) {
+      if (response?.status === 204) {
          yield put({ type: 'DELETE_CUSTOMER', payload: { response: response.data, statusCode: response?.status } })
 
          toast.success('Deleted successfully!', {
