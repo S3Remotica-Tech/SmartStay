@@ -123,7 +123,7 @@ const Footers = (props) => {
             </div>
             <div>
               <a
-                href="https://www.facebook.com/profile.php?id=615749997122"
+                href="https://www.facebook.com/profile.php?id=61583256096108"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -140,7 +140,7 @@ const Footers = (props) => {
               <img className="m-1 me-2" src={Linkedin} alt="linkedin" style={{ height: 24, width: 24 }} /> */}
 
               <a
-                href="https://www.instagram.com/smartstay.qbatz/"
+                href="https://www.instagram.com/smartstayapp/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
