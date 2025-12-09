@@ -12,7 +12,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 // import { MdError } from "react-icons/md";
 import { CloseCircle } from "iconsax-react";
-import { ArrowUp2, ArrowDown2 } from "iconsax-react";
+import { ArrowUp2, ArrowDown2, Calendar } from "iconsax-react";
 import { Table } from "react-bootstrap";
 import "./SettingSubscription.css";
 import PaginationList from '../../Components/PaginationList';
@@ -21,6 +21,9 @@ import { useHasPermission } from '../../Utils/Permission';
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import Cookies from 'universal-cookie';
+import axios from 'axios'
+import { Card, Row, Col } from "react-bootstrap";
+import { TbCheck } from "react-icons/tb";
 
 function SettingSubscription() {
   const state = useSelector((state) => state);
@@ -40,37 +43,10 @@ function SettingSubscription() {
   const [getPlanActive, setGetPlanActive] = useState([]);
   const [selectedHostels, setSelectedHostels] = useState([]);
   const modalRef = useRef();
-const cookies = new Cookies();
+  const cookies = new Cookies();
 
   const hostelDetails = getPlanActive?.[0]?.hostel_details || [];
 
-
-
-  // const totalPages = Math.ceil(hostelDetails.length / itemsPerPage);
-  // const indexOfLastItem = currentPage * itemsPerPage;
-  //   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  //   const paginatedData = hostelDetails.slice(indexOfFirstItem, indexOfLastItem);
-
-  //  const handlePageChange = (pageNumber) => {
-  //     setCurrentPage(pageNumber);
-  //   };
-
-  // const handleItemsPerPageChange = (selectedOption) => {
-  //   setItemsPerPage(Number(selectedOption.value));
-  //   setCurrentPage(1);
-  // };
-
-
-
-  // const pageSizeOptions = [
-  //   { value: 5, label: "5" },
-  //   { value: 10, label: "10" },
-  //   { value: 15, label: "15" }
-  // ];
-
-  // useEffect(() => {
-  //   dispatch({ type: "ACCOUNTDETAILS" });
-  // }, []);
 
 
 
@@ -85,22 +61,8 @@ const cookies = new Cookies();
 
 
 
-  // const [Subscription_hostelIds, setSubscription_HostelIds] = useState([]);
-  // useEffect(() => {
-  //   if (state?.Settings?.subcripitionAllDetails) {
-  //     // const customerDetailsPage =
-  //     //   state?.createAccount?.accountList[0]?.user_details;
-  //     setCustomerDetails(state?.Settings?.subcripitionAllDetails);
-  //     setUserId(state?.Settings?.subcripitionAllDetails.);
-  //     setCustomerId(customerDetails.customer_id);
-  //     setPlanType(customerDetails.plan_code);
-  //     // setSubscription_HostelIds(customerDetails.hostel_ids);
-  //   }
-  // }, [state?.Settings?.subcripitionAllDetails]);
 
 
-
-  
 
   useEffect(() => {
     if (state?.createAccount?.accountList[0]?.plan_data) {
@@ -265,23 +227,102 @@ const cookies = new Cookies();
 
   };
 
-//   const gotoPayment = () => {
-//  const token = cookies.get('v2-token');
+  // const gotoPayment = () => {
+  //   const token = cookies.get('v2-token');
 
-//   const form = document.createElement("form");
-//   form.method = "GET";
-//   form.action = "http://localhost:8083/smartstay/payment/";
-// form.target = "_blank"; 
-//   const hiddenField = document.createElement("input");
-//   hiddenField.type = "hidden";
-//   hiddenField.name = "token";
-//   hiddenField.value = token;
+  //   const form = document.createElement("form");
+  //   form.method = "GET";
+  //   form.action = "http://localhost:8083/smartstay/payment/";
+  //   form.target = "_blank";
+  //   const hiddenField = document.createElement("input");
+  //   hiddenField.type = "hidden";
+  //   hiddenField.name = "token";
+  //   hiddenField.value = token;
 
-//   form.appendChild(hiddenField);
-//   document.body.appendChild(form);
+  //   form.appendChild(hiddenField);
+  //   document.body.appendChild(form);
 
-//   form.submit();
-// };
+  //   form.submit();
+  // };
+
+
+  // const gotoPayment = () => {
+  //   const token = cookies.get("v2-token");
+  //   window.location.href = `http://localhost:8083/smartstay/payment/?token=${token}`;
+  // };
+
+
+  const gotoPayment = async () => {
+    const token = cookies.get("v2-token");
+
+    try {
+      const response = await axios.get(
+        "http://localhost:8083/smartstay/payment/",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+
+      console.log("Payment Response:", response.data);
+      if(response.status === 200){
+        const newWindow = window.open("http://localhost:8083/smartstay/payment/", "_blank");  
+      newWindow.document.write(response.data);      
+      newWindow.document.close(); 
+      }
+    } catch (error) {
+      console.error("Payment Error:", error);
+    }
+  };
+
+
+
+
+  const plans = [
+    {
+      title: "Basic Plan",
+      price: "₹599",
+      period: "Monthly",
+      features: [
+        "Dashboard & Property Management",
+        "Tenant & Room Management",
+        "Asset and Expenses Management",
+        "Auto Recurring Invoices",
+        "Complaint Management",
+        "Due Reminders (In-App & Email)",
+        "EB Calculation",
+        "Rent Collection Tracking",
+        "Reports & Insights"
+      ],
+      color: "#EAF5FF"
+    },
+    {
+      title: "Premium Plan",
+      price: "₹999",
+      period: "Monthly",
+      features: [
+        "Dashboard & Property Management",
+        "Tenant & Room Management",
+        "Asset and Expenses Management",
+        "Auto Recurring Invoices",
+        "Complaint Management",
+        "Due Reminders (In-App & Email)",
+        "EB Calculation",
+        "Rent Collection Tracking",
+        "Reports & Insights",
+        "Advanced Reports",
+        "Smart Automations"
+      ],
+      color: "#FFF4E8"
+    }
+  ];
+
+
+
+
+
+
 
 
 
@@ -290,13 +331,21 @@ const cookies = new Cookies();
   return (
     <div className="container" style={{ overflowY: 'hidden', height: '100vh' }}>
       <div style={{ marginTop: 35 }}>
-        <div className="w-100 d-flex justify-content-center justify-content-md-start mt-4">
-          <p
-            className="cardnewsubs"
-            style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 600 }}
-          >
-            Subscription
-          </p>
+        <div className="w-100  mt-4">
+          <div>
+            <label
+              className="cardnewsubs"
+              style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 600, color: "#222" }}
+            >
+              Subscription
+            </label>
+          </div>
+
+          <div>
+            <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Manage your subscription and billing</p>
+
+          </div>
+
         </div>
       </div>
 
@@ -325,39 +374,196 @@ const cookies = new Cookies();
         )
         :
         (
+          <>
+            <Button disabled={!canWriteSubscription}
+              style={{
+                backgroundColor: "#1E45E1",
+                fontWeight: 600,
+                borderRadius: 12,
+                fontSize: 16,
+                fontFamily: "Gilroy",
+                padding: 10,
+                border: "1px solid #1E45E1",
+                color: "#FFF"
+              }}
+              className=" fw-semibold fs-6 me-5"
+              // onClick={handleCurrentPlan}
+              onClick={gotoPayment}
 
-          <div className="row g-3">
-            <div className="col-12 col-md-6">
-              <div className="card p-3 cardnewsubs" >
-                <div className="mt-2 text-center">
-                  <p className="text-dark fw-semibold fs-6 mb-3" style={{ fontFamily: "Gilroy" }}>
-                    Your plan is a trial plan
-                  </p>
-                  <Button disabled={!canWriteSubscription}
-                    style={{
-                      backgroundColor: "#1E45E1",
-                      fontWeight: 600,
-                      borderRadius: 12,
-                      fontSize: 16,
-                      fontFamily: "Gilroy",
-                      padding: 12,
-                      border: "1px solid #1E45E1",
-                      color: "#FFF"
-                    }}
-                    className=" fw-semibold fs-6"
-                    onClick={handleCurrentPlan}
-                    
-                  >
-                    Upgrade Plan
-                  </Button>
-                </div>
-              </div>
+            >
+              Navigate
+            </Button>
+            {/* <Button disabled={!canWriteSubscription}
+              style={{
+                backgroundColor: "#1E45E1",
+                fontWeight: 600,
+                borderRadius: 12,
+                fontSize: 16,
+                fontFamily: "Gilroy",
+                padding: 10,
+                border: "1px solid #1E45E1",
+                color: "#FFF"
+              }}
+              className=" fw-semibold fs-6"
+              onClick={handleCurrentPlan}
+
+
+            >
+              Upgrade Plan
+            </Button> */}
+
+
+
+            <div className="container mt-4 show-scroll p-0 m-0" style={{
+  fontFamily: "Gilroy", maxHeight: "500px",
+  overflowY: "auto",
+}}>
+
+  <Card className="p-4 mb-4 me-2" style={{ borderRadius: "14px" }}>
+    <div
+      style={{
+        background: "#1E45E1",
+        color: "white",
+        padding: "3px 12px",
+        borderRadius: "12px",
+        fontSize: "12px",
+        width: "fit-content",
+        textAlign: "center", fontWeight: 500
+      }}
+    >
+      <TbCheck /> {" "}Free Trial
+    </div>
+
+    <h6 className="mt-1" style={{ fontWeight: 600, color: "#222222", fontSize: 16 }}>
+      You are in Free Trial
+    </h6>
+
+    <Row className="mt-2">
+      <Col>
+        <div className='d-flex gap-2 align-items-center'>
+          <Calendar size="16" color="#4B4B4B" />
+          <div className=''>
+            <div>
+                        <label style={{ fontWeight: 400, color: "#4B4B4B", fontSize: 14 }}>Start Date</label>
+
             </div>
+            <div>
+                  <label className='' style={{ fontWeight: 400, color: "#4B4B4B", fontSize: 16 }}>Oct 21, 2025</label>
+
+            </div>
+</div>
+        </div>
+
+      </Col>
+
+      <Col>
+        <div className='d-flex gap-2 align-items-center'>
+          <Calendar size="16" color="#4B4B4B" />
+          <label style={{ fontWeight: 400, color: "#4B4B4B", fontSize: 14 }}>End Date</label>
+        </div>
+
+        <label>Oct 21, 2025</label>
+      </Col>
+    </Row>
+
+    <Card className="mt-3 p-3" style={{ background: "#F5F5F5", borderRadius: "12px" }}>
+      Upgrade to continue unlimited access once your trial ends.
+    </Card>
+
+    <Button
+      className="mt-3"
+      style={{
+        background: "#2F80ED",
+        borderRadius: "10px",
+        padding: "10px 25px",
+        border: "none"
+      }}
+    >
+      Upgrade to Premium
+    </Button>
+  </Card>
+
+  <Row className='me-0'>
+    {plans.map((plan, idx) => (
+      <Col md={6} key={idx}>
+        <Card
+          className="p-3 mb-3"
+          style={{
+            borderRadius: "14px",
+            border: "1px solid #E5E5E5",
+            position: "relative"
+          }}
+        >
+          <div
+            style={{
+              position: "absolute",
+              top: "15px",
+              right: "15px",
+              background: plan.color,
+              padding: "5px 15px",
+              borderRadius: "10px",
+              fontWeight: 600
+            }}
+          >
+            {plan.price} <span style={{ fontSize: 12 }}>{plan.period}</span>
           </div>
+
+          <h5 className="mt-3" style={{ fontWeight: 700 }}>
+            {plan.title}
+          </h5>
+
+          <label style={{ color: "#666" }}>Perfect for PGs getting started</label>
+
+          <div
+            style={{
+              maxHeight: "170px",
+              overflowY: "auto",
+              paddingRight: "5px"
+            }}
+          >
+            {plan.features.map((f, i) => (
+              <div
+                key={i}
+                className="d-flex align-items-start mb-2"
+                style={{ fontSize: "14px" }}
+              >
+                <span
+                  style={{
+                    color: "#2F80ED",
+                    fontWeight: "bold",
+                    marginRight: "8px"
+                  }}
+                >
+                  ✔
+                </span>
+                <label>{f}</label>
+              </div>
+            ))}
+          </div>
+
+          <Button
+            className="mt-3 w-100"
+            style={{
+              background: "#2F80ED",
+              borderRadius: "10px",
+              padding: "10px 0",
+              border: "none"
+            }}
+          >
+            Select Plan →
+          </Button>
+        </Card>
+      </Col>
+    ))}
+  </Row>
+
+</div>
+
+          </>
         )
       }
 
-{/* <button  style={{
+      {/* <button  style={{
                       backgroundColor: "#1E45E1",
                       fontWeight: 600,
                       borderRadius: 12,
@@ -913,22 +1119,22 @@ const cookies = new Cookies();
                           Current Plan
                         </Button>
                       ) : ( */}
-                        <Button disabled={!canWriteSubscription} className='w-100'
-                          style={{
-                            backgroundColor: "#1E45E1",
-                            fontWeight: 600,
-                            borderRadius: 12,
-                            fontSize: 16,
-                            fontFamily: "Gilroy",
-                            padding: 8,
-                            border: "1px solid #1E45E1",
-                            color: "#FFF"
-                          }}
-                          onClick={() => handlePlanChange(plan.planId)}
+                      <Button disabled={!canWriteSubscription} className='w-100'
+                        style={{
+                          backgroundColor: "#1E45E1",
+                          fontWeight: 600,
+                          borderRadius: 12,
+                          fontSize: 16,
+                          fontFamily: "Gilroy",
+                          padding: 8,
+                          border: "1px solid #1E45E1",
+                          color: "#FFF"
+                        }}
+                        onClick={() => handlePlanChange(plan.planId)}
 
-                        >
-                          Change Plan
-                        </Button>
+                      >
+                        Change Plan
+                      </Button>
                       {/* // )} */}
                     </div>
                   </div>
