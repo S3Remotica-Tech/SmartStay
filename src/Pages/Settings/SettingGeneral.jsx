@@ -762,9 +762,7 @@ if (!edit) {
 
 
 
-console.log("VALIDATION RESULTS:", validations);
-console.log("hasError:", hasError);
-console.log("Email valid:", isValidEmail(emilId));
+
 
     if (hasError || validations.includes(false) || !isValidEmail(emilId)) {
       return;
@@ -811,7 +809,7 @@ console.log("Email valid:", isValidEmail(emilId));
       profilePic: isFile(profileimage) ? profileimage : null
     };
 
-    console.log("payloadForApi", payloadForApi)
+   
 
 
 
@@ -833,15 +831,7 @@ console.log("Email valid:", isValidEmail(emilId));
         (profileimage && profileimage !== initialStateAssign.file);
 
 
-      console.log("Edit Block Triggered");
-
-
-      console.log("isChanged:", isChanged);
-      console.log("Initial values:", initialStateAssign);
-      console.log("Current values:", {
-        firstName, lastName, emilId, house_no, street, landmark,
-        city, pincode, state_name, Phone, profileimage
-      });
+    
 
 
       if (!isChanged) {
@@ -859,8 +849,7 @@ console.log("Email valid:", isValidEmail(emilId));
       //   }
       // })
       if (isChanged) {
-        console.log("DISPATCHING EDIT PAYLOAD:", payloadForApi);
-
+       
         dispatch({ type: "EDITGENERALSETTING", payload: payloadForApi });
       }
 
