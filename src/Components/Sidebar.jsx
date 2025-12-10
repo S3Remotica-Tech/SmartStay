@@ -106,7 +106,6 @@ const hideSidebarRoutes = ["/payment-preview"];
 const path = location.pathname.split("?")[0].replace(/\/$/, ""); 
 const shouldHideSidebar = hideSidebarRoutes.includes(path);
 
-console.log("Normalized path:", path, "shouldHideSidebar:", shouldHideSidebar);
 
 
   const pageMap = {

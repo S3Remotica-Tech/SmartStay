@@ -1,26 +1,25 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import "../Pages/Invoices.css";
-import moment from 'moment';
-import DownLoad from '../Assets/Images/New_images/searchss.png'
-import Whatsapp from '../Assets/Images/whatsapp.png'
-import Whatsapp_blue from '../Assets/Images/whatsapp_blue.png'
-import Whatsapp_white from '../Assets/Images/whatsapp_white.png'
-import Mail from '../Assets/Images/gmail.png'
-import Mail_white from '../Assets/Images/gmail_white.png'
-import Message_text from '../Assets/Images/message-text.png'
-import Message_text_white from '../Assets/Images/message-white.png'
-import Close from '../Assets/Images/New_images/circlie.png'
-import Logo from "../Assets/Images/New_images/Group_Logo.png";
-import Dial from '../Assets/Images/dial.png'
-import Room from '../Assets/Images/Car.png'
-import Locat from '../Assets/Images/location 03.png'
-import Barcode from '../Assets/Images/invoice_barcode.svg'
-import Gpay from '../Assets/Images/gpay.png'
-import Phonepe from '../Assets/Images/phonepe.png'
-import Paytm from '../Assets/Images/paytm.png'
-import User from '../Assets/Images/user.png'
+import "../../Pages/Invoices.css";
+import DownLoad from '../../Assets/Images/New_images/searchss.png'
+import Whatsapp from '../../Assets/Images/whatsapp.png'
+import Whatsapp_blue from '../../Assets/Images/whatsapp_blue.png'
+import Whatsapp_white from '../../Assets/Images/whatsapp_white.png'
+import Mail from '../../Assets/Images/gmail.png'
+import Mail_white from '../../Assets/Images/gmail_white.png'
+import Message_text from '../../Assets/Images/message-text.png'
+import Message_text_white from '../../Assets/Images/message-white.png'
+import Close from '../../Assets/Images/New_images/circlie.png'
+import Logo from "../../Assets/Images/New_images/Group_Logo.png";
+import Dial from '../../Assets/Images/dial.png'
+import Room from '../../Assets/Images/Car.png'
+import Locat from '../../Assets/Images/location 03.png'
+import Barcode from '../../Assets/Images/invoice_barcode.svg'
+import Gpay from '../../Assets/Images/gpay.png'
+import Phonepe from '../../Assets/Images/phonepe.png'
+import Paytm from '../../Assets/Images/paytm.png'
+import User from '../../Assets/Images/user.png'
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import PropTypes from "prop-types";
@@ -28,7 +27,7 @@ import { IoClose } from "react-icons/io5";
 import { Container, Row, Col, Table } from "react-bootstrap";
 import { Location, Call, Profile, } from 'iconsax-react'
 import { IoBed } from "react-icons/io5";
-import withErrorBoundary from "../Hoc/WithErrorBountry";
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
 
 const InvoiceCard = ({ rowData, handleClosed }) => {
@@ -687,34 +686,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                                     </tr>
                                   ))}
 
-                                  {/* <tr
-                                    style={{
-                                      backgroundColor: "#FAFBFF",
-                                      fontWeight: 600,
-                                      borderTop: "1px solid #DFDFDF",
-                                    }}
-                                  >
-                                    <td
-                                      style={{
-                                        fontSize: 14,
-                                        color: "#2D2D2D",
-                                        fontWeight: 500,
-                                      }}
-                                    >
-                                      Total
-                                    </td>
-                                    <td
-                                      style={{
-                                        textAlign: "right",
-                                        fontSize: 14,
-                                        fontWeight: 600,
-                                        color: "#2D2D2D",
-                                      }}
-                                    >
-                                      ₹{" "}
-                                      {Number(pdfDetails?.invoiceInfo?.subTotal || 0)}
-                                    </td>
-                                  </tr> */}
+                                 
                                 </tbody>
                               </Table>
 
