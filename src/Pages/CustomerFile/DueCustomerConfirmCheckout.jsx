@@ -359,7 +359,7 @@ console.log("data",data)
                         </div>
                         <div className="ms-auto text-end mt-2">
                             <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "#4B4B4B", padding: 0, margin: 0 }}>Checkout Date</p>
-                            <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600, }}>{data?.currentTenantInfo?.leavingDate}</p>
+                            <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600, }}>{data?.currentTenantInfo?.leavingDate || data?.leavingDate }</p>
                         </div>
                     </div>
 

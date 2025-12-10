@@ -78,6 +78,7 @@ import SettingGeneral from "../Pages/Settings/SettingGeneral";
 import SettingManage from "../Pages/SettingManage";
 import { Notification } from 'iconsax-react'
 import NotificationForm from "./Notification";
+import PaymentPreview from "../Pages/SubscriptionFile/PaymentPreview";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -98,6 +99,12 @@ function Sidebar() {
   const dropdownRef = useRef(null);
   const [isVisibleSidebar, setIsVisibleSidebar] = useState(false)
   const [showNotify, setShowNotify] = useState(false);
+
+
+const hideSidebarRoutes = ["/payment-preview"];
+
+const path = location.pathname.split("?")[0].replace(/\/$/, ""); 
+const shouldHideSidebar = hideSidebarRoutes.includes(path);
 
 
 
@@ -676,6 +683,7 @@ function Sidebar() {
       }
       <Container fluid className="p-0">
         <Row className="g-0 m-0">
+         
           <Col xs={12} sm={12} className="d-md-none p-2 bg-white position-relative">
             <button
               onClick={toggleSidebar}
@@ -703,6 +711,8 @@ function Sidebar() {
               </svg>
             </button>
           </Col>
+
+ {!shouldHideSidebar && 
           <Col
             lg={2}
             md={2}
@@ -1711,7 +1721,7 @@ function Sidebar() {
           </div>
         </Col>
 
-
+                }
 
 
         <Col
@@ -1729,7 +1739,7 @@ function Sidebar() {
 
           <Routes>
 
-
+<Route path="/payment-preview" element={<PaymentPreview />} />
             <Route
               path="/dashboard/:hostelId?"
               element={
@@ -1876,6 +1886,8 @@ function Sidebar() {
                 />
               }
             >
+
+              
 
               <Route index element={<Navigate to="general" replace />} />
               <Route path="general" element={<SettingGeneral />} />

@@ -14,7 +14,7 @@ import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
 import "sweetalert2/dist/sweetalert2.min.css";
 import LoaderComponent from "../LoaderComponent";
-import '../Invoices.css';
+import "../../Pages/Invoices.css";
 import InvoiceTable from "../Bills/InvoicelistTable";
 import Profile from "../../Assets/Images/New_images/profile-picture.png";
 import Box from "@mui/material/Box";
@@ -23,13 +23,12 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import { Tabs, Tab } from "react-bootstrap";
-
 import Calendars from "../../Assets/Images/New_images/calendar.png";
 import "flatpickr/dist/themes/material_blue.css";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
-import BillPdfModal from "../../Pages/BillPdfModal";
+import BillPdfModal from "../PDF/BillPdfModal";
 import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
 import RecurringBill from "../../Pages/RecurringBills";
@@ -39,8 +38,7 @@ import searchteam from "../../Assets/Images/New_images/Search Team.png";
 import Filters from "../../Assets/Images/Filters.svg";
 import Receipt from "../Receipt";
 import AddReceiptForm from "../AddReceipt";
-import ReceiptPdfCard from "../ReceiptPdfModal";
-import leftarrow from "../../Assets/Images/arrow-left.png"
+import ReceiptPdfCard from "../PDF/ReceiptPdfModal";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import { DatePicker } from "antd";
@@ -3570,15 +3568,18 @@ const InvoicePage = () => {
                     activeKey={value}
                     onSelect={(k) => handleChanges(null, k)}
                     id="bill-tabs"
-                    className={`ps-3 custom-tab-list d-flex ${isSmallScreen ? "flex-column" : "flex-lg-row"
-                      }`}
+                    className={`ps-3 custom-tab-list d-flex mt-2
+                      ${isSmallScreen ? "flex-md-row" : "flex-lg-row"
+                      }
+                      
+                      `}
                     style={{
                       border: "none",
                       width: "50%",
                       display: "flex",
                       gap: "25px",
-                      justifyContent: "", paddingBottom: 10,
-
+                      justifyContent: "", paddingBottom: 10
+                     
                     }}
                   >
                     <Tab

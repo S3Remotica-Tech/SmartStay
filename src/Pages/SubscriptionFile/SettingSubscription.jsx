@@ -4,15 +4,16 @@ import { useState, useEffect, useRef } from "react";
 import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min";
 import { useDispatch, useSelector } from "react-redux";
 // import crown from "../../Assets/Images/New_images/crown.png";
-import { Button, Form, FormControl } from "react-bootstrap";
+import { Button, Form, FormControl, Image } from "react-bootstrap";
 import { Modal } from "react-bootstrap";
 import Select from "react-select";
 import DeleteIcon from "../../Assets/Images/Delete_red.png";
+import Expire from "../../Assets/Images/New_images/subscriptionexpire.svg";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 // import { MdError } from "react-icons/md";
 import { CloseCircle } from "iconsax-react";
-import { ArrowUp2, ArrowDown2 } from "iconsax-react";
+import { ArrowUp2, ArrowDown2, Calendar } from "iconsax-react";
 import { Table } from "react-bootstrap";
 import "./SettingSubscription.css";
 import PaginationList from '../../Components/PaginationList';
@@ -21,6 +22,14 @@ import { useHasPermission } from '../../Utils/Permission';
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import Cookies from 'universal-cookie';
+import axios from 'axios'
+import { Card, Row, Col } from "react-bootstrap";
+import { TbCheck } from "react-icons/tb";
+import { FaSquareCheck } from "react-icons/fa6";
+import { MdArrowRightAlt } from "react-icons/md";
+import { IoClose } from "react-icons/io5";
+import BasicPlan from '../SubscriptionFile/BasicPlan'
+import PremiumPlan from './PremiumPlan';
 
 function SettingSubscription() {
   const state = useSelector((state) => state);
@@ -40,38 +49,11 @@ function SettingSubscription() {
   const [getPlanActive, setGetPlanActive] = useState([]);
   const [selectedHostels, setSelectedHostels] = useState([]);
   const modalRef = useRef();
-const cookies = new Cookies();
+  const cookies = new Cookies();
 
   const hostelDetails = getPlanActive?.[0]?.hostel_details || [];
 
-
-
-  // const totalPages = Math.ceil(hostelDetails.length / itemsPerPage);
-  // const indexOfLastItem = currentPage * itemsPerPage;
-  //   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  //   const paginatedData = hostelDetails.slice(indexOfFirstItem, indexOfLastItem);
-
-  //  const handlePageChange = (pageNumber) => {
-  //     setCurrentPage(pageNumber);
-  //   };
-
-  // const handleItemsPerPageChange = (selectedOption) => {
-  //   setItemsPerPage(Number(selectedOption.value));
-  //   setCurrentPage(1);
-  // };
-
-
-
-  // const pageSizeOptions = [
-  //   { value: 5, label: "5" },
-  //   { value: 10, label: "10" },
-  //   { value: 15, label: "15" }
-  // ];
-
-  // useEffect(() => {
-  //   dispatch({ type: "ACCOUNTDETAILS" });
-  // }, []);
-
+  console.log("state", state)
 
 
 
@@ -85,22 +67,8 @@ const cookies = new Cookies();
 
 
 
-  // const [Subscription_hostelIds, setSubscription_HostelIds] = useState([]);
-  // useEffect(() => {
-  //   if (state?.Settings?.subcripitionAllDetails) {
-  //     // const customerDetailsPage =
-  //     //   state?.createAccount?.accountList[0]?.user_details;
-  //     setCustomerDetails(state?.Settings?.subcripitionAllDetails);
-  //     setUserId(state?.Settings?.subcripitionAllDetails.);
-  //     setCustomerId(customerDetails.customer_id);
-  //     setPlanType(customerDetails.plan_code);
-  //     // setSubscription_HostelIds(customerDetails.hostel_ids);
-  //   }
-  // }, [state?.Settings?.subcripitionAllDetails]);
 
 
-
-  
 
   useEffect(() => {
     if (state?.createAccount?.accountList[0]?.plan_data) {
@@ -265,38 +233,155 @@ const cookies = new Cookies();
 
   };
 
-//   const gotoPayment = () => {
-//  const token = cookies.get('v2-token');
 
-//   const form = document.createElement("form");
-//   form.method = "GET";
-//   form.action = "http://localhost:8083/smartstay/payment/";
-// form.target = "_blank"; 
-//   const hiddenField = document.createElement("input");
-//   hiddenField.type = "hidden";
-//   hiddenField.name = "token";
-//   hiddenField.value = token;
 
-//   form.appendChild(hiddenField);
-//   document.body.appendChild(form);
+  // const gotoPayment = async () => {
+  //   const token = cookies.get("v2-token");
 
-//   form.submit();
-// };
+  //   try {
+  //     const response = await axios.get(
+  //       "http://localhost:8083/smartstay/payment/",
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`
+  //         },
+  //         responseType: "text"
+  //       }
+  //     );
+
+
+  //     if (response.status === 200) {
+  //         const newWindow = window.open("http://localhost:8083/smartstay/payment/", "_blank");  
+  //       newWindow.document.write(response.data);   
+  //       console.log("response&&&&", response.data);
+
+
+  //       // sessionStorage.setItem("payment_html", response.data);
+  //       // dispatch(setPaymentHtml(response.data));
+  //       // setTimeout(() => {
+  //       //   window.open("/payment-preview", "_blank");
+  //       // }, 200);
+
+  //       // newWindow.document.close(); 
+  //       // const blob = new Blob([response.data], { type: "text/html" });
+  //       // const url = URL.createObjectURL(blob);
+
+  //       // window.open(url, "_blank");
+  //     }
+  //   } catch (error) {
+  //     console.error("Payment Error:", error);
+  //   }
+  // };
+
+
+
+
+
+
+
+  const gotoPayment = async () => {
+    const token = cookies.get("v2-token");
+
+    try {
+      const response = await axios.get("http://localhost:8083/smartstay/payment/", {
+        headers: { Authorization: `Bearer ${token}` },
+        responseType: "text"
+      });
+
+      if (response.status === 200) {
+        console.log("navigated success")
+        window.location.href = "http://localhost:8083/smartstay/payment/", "_self";
+        // sessionStorage.setItem("payment_html", response.data);
+        // window.location.href = "/payment-preview";
+
+        // const newWindow = window.open("http://localhost:8083/smartstay/payment/", "_blank");
+        // newWindow.document.write(response.data);
+
+        //  window.open("http://localhost:8083/smartstay/payment/", "_self");
+
+        //    const newDoc = document.open("text/html", "replace");
+        // newDoc.write(response.data);
+        // newDoc.close();
+
+        // const blob = new Blob([response.data], { type: "text/html" });
+        // const url = URL.createObjectURL(blob);
+
+        // window.location.href = url;   
+      }
+    } catch (error) {
+      console.error("Error", error);
+    }
+  };
+
+
+  const plans = [
+    {
+      title: "Basic Plan",
+      price: "₹599",
+      period: "Monthly",
+      features: [
+        "Dashboard & Property Management",
+        "Tenant & Room Management",
+        "Asset and Expenses Management",
+        "Auto Recurring Invoices",
+        "Complaint Management",
+        "Due Reminders (In-App & Email)",
+        "EB Calculation",
+        "Rent Collection Tracking",
+        "Reports & Insights"
+      ],
+      bgcolor: "linear-gradient(to bottom, #6FA1FF, #4C5CFB)",
+      color: "#fff"
+    },
+    {
+      title: "Premium Plan",
+      price: "₹999",
+      period: "Monthly",
+      features: [
+        "Dashboard & Property Management",
+        "Tenant & Room Management",
+        "Asset and Expenses Management",
+        "Auto Recurring Invoices",
+        "Complaint Management",
+        "Due Reminders (In-App & Email)",
+        "EB Calculation",
+        "Rent Collection Tracking",
+        "Reports & Insights",
+
+      ],
+      bgcolor: "linear-gradient(to bottom, #FFA726, #FB8C00)",
+      color: "#FFF4E8"
+    }
+  ];
+
+
+
+
+
+
 
 
 
 
 
   return (
-    <div className="container" style={{ overflowY: 'hidden', height: '100vh' }}>
+    <div className="container" style={{ overflowY: 'hidden', height: '100vh', marginBottom: 0 }}>
       <div style={{ marginTop: 35 }}>
-        <div className="w-100 d-flex justify-content-center justify-content-md-start mt-4">
-          <p
-            className="cardnewsubs"
-            style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 600 }}
-          >
-            Subscription
-          </p>
+        <div className="w-100  mt-4">
+          <div>
+            <label
+              className="cardnewsubs"
+              style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 600, color: "#222" }}
+            >
+              Subscription
+            </label>
+          </div>
+
+          <div>
+            <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Manage your subscription and billing</p>
+
+          </div>
+
         </div>
       </div>
 
@@ -325,465 +410,308 @@ const cookies = new Cookies();
         )
         :
         (
+          //           <>
+          //  <BasicPlan />
+          //  <PremiumPlan />
+          // </>
+          <div>
+            {/* <Button disabled={!canWriteSubscription}
+              style={{
+                backgroundColor: "#1E45E1",
+                fontWeight: 600,
+                borderRadius: 12,
+                fontSize: 16,
+                fontFamily: "Gilroy",
+                padding: 10,
+                border: "1px solid #1E45E1",
+                color: "#FFF"
+              }}
+              className=" fw-semibold fs-6 me-5"
+              // onClick={handleCurrentPlan}
+              onClick={gotoPayment}
 
-          <div className="row g-3">
-            <div className="col-12 col-md-6">
-              <div className="card p-3 cardnewsubs" >
-                <div className="mt-2 text-center">
-                  <p className="text-dark fw-semibold fs-6 mb-3" style={{ fontFamily: "Gilroy" }}>
-                    Your plan is a trial plan
-                  </p>
-                  <Button disabled={!canWriteSubscription}
+            >
+              Navigate
+            </Button> */}
+            {/* <Button disabled={!canWriteSubscription}
+              style={{
+                backgroundColor: "#1E45E1",
+                fontWeight: 600,
+                borderRadius: 12,
+                fontSize: 16,
+                fontFamily: "Gilroy",
+                padding: 10,
+                border: "1px solid #1E45E1",
+                color: "#FFF"
+              }}
+              className=" fw-semibold fs-6"
+              onClick={handleCurrentPlan}
+
+
+            >
+              Upgrade Plan
+            </Button> */}
+
+
+
+            <div className="container mt-4 show-scroll p-0 " style={{
+              fontFamily: "Gilroy", maxHeight: "500px",
+              overflowY: "auto", marginBottom: 50
+            }}>
+
+              <Card className="p-4 mb-4 me-2" style={{
+                borderRadius: "14px", backgroundColor: "#F8F9FF",
+                border: "2px solid #1E45E1",
+                //  border: "2px solid #E8E8E8",
+              }}>
+
+                <div className='d-flex justify-content-between align-items-center'>
+                  <div>
+
+
+                    <div
+                      style={{
+                        background: "#1E45E1",
+                        color: "white",
+                        padding: "3px 12px",
+                        borderRadius: "12px",
+                        fontSize: "12px",
+                        width: "fit-content",
+                        textAlign: "center", fontWeight: 500
+                      }}
+                    >
+                      <TbCheck /> {" "}Free Trial
+                    </div>
+
+                    <h6 className="mt-1" style={{ fontWeight: 600, color: "#222222", fontSize: 16 }}>
+                      You are in Free Trial
+                    </h6>
+                  </div>
+                  <div>
+                    <label style={{ fontSize: 16, color: "#1E45E1", fontWeight: 500 }}>18 days left</label>
+                  </div>
+
+
+                </div>
+
+                <Row className="mt-2">
+                  <Col>
+                    <div className='d-flex gap-2 align-items-start'>
+                      <div>
+                        <Calendar size="16" color="#4B4B4B" />
+                      </div>
+
+                      <div className=''>
+                        <div>
+                          <label style={{ fontWeight: 400, color: "#4B4B4B", fontSize: 13 }}>Start Date</label>
+
+                        </div>
+                        <div>
+                          <label className='' style={{ fontWeight: 400, color: "#4B4B4B", fontSize: 16 }}>Oct 21, 2025</label>
+
+                        </div>
+                      </div>
+                    </div>
+
+                  </Col>
+
+                  <Col>
+                    <div className='d-flex gap-2 align-items-start'>
+                      <div>
+                        <Calendar size="16" color="#4B4B4B" />
+                      </div>
+
+                      <div className=''>
+                        <div>
+                          <label style={{ fontWeight: 400, color: "#4B4B4B", fontSize: 13 }}>End Date</label>
+
+                        </div>
+                        <div>
+                          <label className='' style={{ fontWeight: 400, color: "#4B4B4B", fontSize: 16 }}>Oct 21, 2025</label>
+
+                        </div>
+                      </div>
+                    </div>
+
+                  </Col>
+                </Row>
+
+                <Card className="mt-3 p-3" style={{ border: "1px solid #E0E0E0", backgroundColor: "#fff", borderRadius: "12px", color: "#4B4B4B", fontSize: 16, fontWeight: 400 }}>
+                  Upgrade to continue unlimited access once your trial ends.
+                </Card>
+                <div className='d-flex justify-content-end'>
+                  <Button
+                    className="mt-3"
                     style={{
-                      backgroundColor: "#1E45E1",
-                      fontWeight: 600,
-                      borderRadius: 12,
-                      fontSize: 16,
-                      fontFamily: "Gilroy",
-                      padding: 12,
-                      border: "1px solid #1E45E1",
-                      color: "#FFF"
+                      background: "#1E45E1",
+                      borderRadius: "10px",
+                      padding: "10px 25px",
+                      border: "none",
+                      fontSize: 14, fontWeight: 400
                     }}
-                    className=" fw-semibold fs-6"
-                    onClick={handleCurrentPlan}
-                    
                   >
-                    Upgrade Plan
+                    Upgrade to Premium
                   </Button>
                 </div>
-              </div>
+
+              </Card>
+
+              <Card className="p-4 mb-4 me-2" style={{
+                borderRadius: "14px", backgroundColor: "#FFFAFA",
+                border: "2px solid #FFB5B8",
+                //  border: "2px solid #E8E8E8",
+              }}>
+                <Row className='g-1'>
+
+                  <Col md={3}>
+                    <Image src={Expire} alt="expire" className='img-fluid' />
+                  </Col>
+                  <Col
+                    md={9}
+                    className="d-flex flex-column justify-content-center align-items-start"
+                  >
+                    <div className="text-start">
+                      <label style={{ color: "#222222", fontSize: 20, fontWeight: 600 }}>
+                        Your Trial Expired
+                      </label>
+                    </div>
+                    <div className="">
+                      <label style={{ color: "#8E8E8E", fontSize: 14, fontWeight: 400 }}>
+                        Your free trial has ended. Subscribe now to continue accessing all features.
+                      </label>
+                    </div>
+                  </Col>
+
+                </Row>
+                <Card className="mt-3 p-3" style={{ border: "1px solid #FFC9C9", backgroundColor: "#fff", borderRadius: "12px", }}>
+
+
+                  <div>
+                    <label style={{ color: "#222222", fontSize: 14, fontWeight: 600 }}>Limited Access Mode</label>
+                  </div>
+
+
+                  <Row>
+                    <Col md={6}>
+                      <div style={{ color: "#656565", fontSize: 14, fontWeight: 500, textDecoration: "line-through" }}><IoClose /> Dashboard & Property Management</div>
+                      <div style={{ color: "#656565", fontSize: 14, fontWeight: 500, textDecoration: "line-through" }}><IoClose /> Asset and Expenses Management</div>
+                      <div style={{ color: "#656565", fontSize: 14, fontWeight: 500, textDecoration: "line-through" }}><IoClose /> Complaint Management</div>
+                      <div style={{ color: "#656565", fontSize: 14, fontWeight: 500, textDecoration: "line-through" }}><IoClose /> EB Calculation</div>
+                    </Col>
+                    <Col md={6}>
+                      <div style={{ color: "#656565", fontSize: 14, fontWeight: 500, textDecoration: "line-through" }}><IoClose /> Tenant & Room Management</div>
+                      <div style={{ color: "#656565", fontSize: 14, fontWeight: 500, textDecoration: "line-through" }}><IoClose /> Auto Recurring Invoices</div>
+                      <div style={{ color: "#656565", fontSize: 14, fontWeight: 500, textDecoration: "line-through" }}><IoClose /> Due Reminders (In-App & Email)</div>
+                      <div style={{ color: "#656565", fontSize: 14, fontWeight: 500, textDecoration: "line-through" }}><IoClose /> Rent Collection Tracking</div>
+                    </Col>
+                  </Row>
+                </Card>
+
+              </Card>
+
+
+
+
+
+              <Row className='me-0 '>
+                {plans.map((plan, idx) => (
+                  <Col md={6} key={idx}>
+                    <Card
+                      className="p-3 mb-3"
+                      style={{
+                        borderRadius: "14px",
+                        border: "2px solid #E8E8E8",
+                        position: "relative"
+                      }}
+                    >
+                      <div
+                        style={{
+                          position: "absolute",
+                          top: "-20px",
+                          right: "30px",
+                          background: plan.bgcolor,
+                          color: plan.color,
+                          padding: "5px 10px",
+                          borderRadius: "10px",
+                          fontWeight: 600
+                        }}
+                      >
+                        <div className='text-center'>
+                          <label style={{ fontSize: 12 }}>{plan.price} </label>
+                        </div>
+
+
+                        <div className='text-center'>
+                          <span style={{ fontSize: 12 }}>{plan.period}</span>
+                        </div>
+                      </div>
+
+                      <h5 className="mt-3" style={{ fontWeight: 700, color: "#222222", fontSize: 20 }}>
+                        {plan.title}
+                      </h5>
+
+                      <label style={{ color: "#666" }}>Perfect for small PGs getting started</label>
+
+
+                      <hr className="m-2" style={{ border: "1px solid #F0F0F0" }} />
+
+
+                      <label style={{ color: "#4B4B4B", fontSize: 12 }}>Which includes</label>
+
+                      <div className='show-scroll mt-2'
+                        style={{
+                          maxHeight: "170px",
+                          overflowY: "auto",
+                          paddingRight: "5px"
+                        }}
+                      >
+                        {plan.features.map((f, i) => (
+                          <div
+                            key={i}
+                            className="d-flex align-items-start mb-2 mt-1"
+                            style={{ fontSize: "14px" }}
+                          >
+                            <span
+                              style={{
+                                color: "#1E45E1",
+                                fontWeight: "bold",
+                                marginRight: "8px"
+                              }}
+                            >
+                              <FaSquareCheck style={{ color: "#1E45E1", fontSize: 15 }} />
+                            </span>
+                            <label style={{ color: "#1D2127", fontSize: 14, fontWeight: 400 }}>{f}</label>
+                          </div>
+                        ))}
+                      </div>
+
+                      <Button
+                        className="mt-3 w-100"
+                        style={{
+                          background: "#1E45E1",
+                          borderRadius: "10px",
+                          padding: "8px 16px",
+                          border: "none", fontSize: 14
+                        }}
+                      >
+                        Select Plan <MdArrowRightAlt style={{ color: "#FFF", fontSize: 14 }} />
+                      </Button>
+                    </Card>
+                  </Col>
+                ))}
+              </Row>
+
             </div>
+
           </div>
+
+
+
         )
       }
 
-{/* <button  style={{
-                      backgroundColor: "#1E45E1",
-                      fontWeight: 600,
-                      borderRadius: 12,
-                      fontSize: 16,
-                      fontFamily: "Gilroy",
-                      padding: 12,
-                      border: "1px solid #1E45E1",
-                      color: "#FFF"
-                    }} onClick={gotoPayment}>
-  Go to Payment
-</button> */}
-
-      {getPlanActive?.length > 0 && getPlanActive[0]?.amount > 0 && (
-        <div className="col-lg-12 col-md-12 col-sm-10 mt-3">
-          <div
-            className="  me-2"
-            style={{ paddingBottom: "20px" }}
-          >
-            {getPlanActive?.length > 0 && (
-              <div
-                className="show-scrolls"
-                style={{
-                  maxHeight: "200px",
-                  overflowY: "auto",
-                  borderTop: "1px solid #E8E8E8",
-                  marginBottom: 20,
-                  marginTop: "20px",
-                  paddingRight: 0,
-                  paddingLeft: 0,
-                }}
-              >
-                <Table
-                  responsive="md"
-                  style={{
-                    fontFamily: "Gilroy",
-                    color: "rgba(34, 34, 34, 1)",
-                    fontSize: 14,
-                    fontStyle: "normal",
-                    fontWeight: 500,
-                    position: "sticky",
-                    top: 0,
-                    zIndex: 1,
-                    borderRadius: 0,
-                  }}
-                >
-                  <thead
-                    style={{
-                      fontFamily: "Gilroy",
-                      backgroundColor: "rgba(231, 241, 255, 1)",
-                      color: "rgba(34, 34, 34, 1)",
-                      fontSize: 12,
-                      fontStyle: "normal",
-                      fontWeight: 500,
-                      position: "sticky",
-                      top: 0,
-                      zIndex: 1,
-                    }}
-                  >
-                    <tr className="" style={{ height: "30px" }}>
-                      <th
-                        style={{
-                          textAlign: "start",
-                          color: "#939393",
-                          fontWeight: 500,
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          paddingTop: "10px",
-                          paddingBottom: "10px",
-                          paddingLeft: "20px",
-                          whiteSpace: "nowrap",
-                        }}
-                      >
-                        <div className="d-flex gap-1 align-items-center justify-content-start">
-                          <div
-                            style={{
-                              display: "flex",
-                              flexDirection: "column",
-                              gap: "2px",
-                            }}
-                          >
-                            <ArrowUp2
-                              size="10"
-                              variant="Bold"
-                              color="#1E45E1"
-                              style={{ cursor: "pointer" }}
-                            />
-                            <ArrowDown2
-                              size="10"
-                              variant="Bold"
-                              color="#1E45E1"
-                              style={{ cursor: "pointer" }}
-                            />
-                          </div>
-                          S.No
-                        </div>
-                      </th>
-                      <th
-                        style={{
-                          color: "#939393",
-                          fontWeight: 500,
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          paddingTop: "10px",
-                          paddingBottom: "10px",
-                          textAlign: "start",
-                          whiteSpace: "nowrap",
-                        }}
-                      >
-                        <div className="d-flex gap-1 align-items-center justify-content-start">
-                          <div
-                            style={{
-                              display: "flex",
-                              flexDirection: "column",
-                              gap: "2px",
-                            }}
-                          >
-                            <ArrowUp2
-                              size="10"
-                              variant="Bold"
-                              color="#1E45E1"
-                              style={{ cursor: "pointer" }}
-                            />
-                            <ArrowDown2
-                              size="10"
-                              variant="Bold"
-                              color="#1E45E1"
-                              style={{ cursor: "pointer" }}
-                            />
-                          </div>
-                          Hostel Name
-                        </div>
-                      </th>
-                      <th
-                        style={{
-                          color: "#939393",
-                          fontWeight: 500,
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          paddingTop: "10px",
-                          paddingBottom: "10px",
-                          textAlign: "start",
-                          whiteSpace: "nowrap",
-                        }}
-                      >
-                        <div className="d-flex gap-1 align-items-center justify-content-start">
-                          <div
-                            style={{
-                              display: "flex",
-                              flexDirection: "column",
-                              gap: "2px",
-                            }}
-                          >
-                            <ArrowUp2
-                              size="10"
-                              variant="Bold"
-                              color="#1E45E1"
-                              style={{ cursor: "pointer" }}
-                            />
-                            <ArrowDown2
-                              size="10"
-                              variant="Bold"
-                              color="#1E45E1"
-                              style={{ cursor: "pointer" }}
-                            />
-                          </div>
-                          Plan startDate
-                        </div>
-                      </th>
-                      <th
-                        style={{
-                          color: "#939393",
-                          fontWeight: 500,
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          paddingTop: "10px",
-                          paddingBottom: "10px",
-                          textAlign: "start",
-                          whiteSpace: "nowrap",
-                        }}
-                      >
-                        <div className="d-flex gap-1 align-items-center justify-content-start">
-                          <div
-                            style={{
-                              display: "flex",
-                              flexDirection: "column",
-                              gap: "2px",
-                            }}
-                          >
-                            <ArrowUp2
-                              size="10"
-                              variant="Bold"
-                              color="#1E45E1"
-                              style={{ cursor: "pointer" }}
-                            />
-                            <ArrowDown2
-                              size="10"
-                              variant="Bold"
-                              color="#1E45E1"
-                              style={{ cursor: "pointer" }}
-                            />
-                          </div>
-                          Plan EndDate
-                        </div>
-                      </th>
-
-                      <th
-                        style={{
-                          color: "#939393",
-                          fontWeight: 500,
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          paddingTop: "10px",
-                          paddingBottom: "10px",
-                          textAlign: "start",
-                        }}
-                      >
-                        <div className="d-flex gap-1 align-items-center justify-content-start">
-                          <div
-                            style={{
-                              display: "flex",
-                              flexDirection: "column",
-                              gap: "2px",
-                            }}
-                          >
-                            <ArrowUp2
-                              size="10"
-                              variant="Bold"
-                              color="#1E45E1"
-                              style={{ cursor: "pointer" }}
-                            />
-                            <ArrowDown2
-                              size="10"
-                              variant="Bold"
-                              color="#1E45E1"
-                              style={{ cursor: "pointer" }}
-                            />
-                          </div>
-                          Status
-                        </div>
-                      </th>
-
-                    </tr>
-                  </thead>
-                  {/* <tbody
-                      style={{
-                        height: "50px",
-                        fontSize: "11px",
-                        verticalAlign: "middle",
-                      }}
-                    >
-                      
-                      {paginatedData.length > 0 && paginatedData?.map((view, index) => {
-                       let formattedDate = "-";
-                    if (view.plan_start) {
-                      const Dated = new Date(view.plan_start);
-                      const day = Dated.getDate();
-                      const month = Dated.getMonth() + 1;
-                      const year = Dated.getFullYear();
-                      formattedDate = `${day}/${month}/${year}`;
-                            }
- 
-
-                          let DueformattedDate = "-";
-                   if (view.plan_end) {
-                         const dueDated = new Date(view.plan_end);
-                         const daydue = dueDated.getDate();
-                          const monthdue = dueDated.getMonth() + 1;
-                         const yeardue = dueDated.getFullYear();
-                           DueformattedDate = `${daydue}/${monthdue}/${yeardue}`;
-                           }
 
 
-                          return (
-                            <tr key={index} style={{ marginTop: "20px" }}>
-                              <td
-                                style={{
-                                  textAlign: "left",
-                                  fontWeight: 500,
-                                  fontSize: "13px",
-                                  fontFamily: "Gilroy",
-                                  borderBottom: "1px solid #E8E8E8",
-                                }}
-                                className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
-                              >
-
-                               <div style={{marginLeft:10}}>{indexOfFirstItem + index + 1}</div> 
-                              </td>
-                              <td
-                                style={{
-                                  textAlign: "start",
-                                  fontWeight: 500,
-                                  fontSize: "13px",
-                                  fontFamily: "Gilroy",
-                                  paddingLeft: "20px",
-                                  borderBottom: "1px solid #E8E8E8",
-                                }}
-                                className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
-                              >
-                                <div style={{marginLeft:6}}>{view.name}</div>  
-                              </td>
-                              <td
-                                style={{
-                                  textAlign: "start",
-                                  borderBottom: "1px solid #E8E8E8",
-                                }}
-                                className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
-                              >
-                                <span
-                                  style={{
-                                    backgroundColor: "#EBEBEB",
-                                    paddingTop: "3px",
-                                    paddingLeft: "10px",
-                                    paddingRight: "10px",
-                                    paddingBottom: "3px",
-                                    borderRadius: "10px",
-                                    lineHeight: "1.5em",
-                                    margin: "0",
-                                    fontSize: "11px",
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    textAlign: "start",
-                                  }}
-                                >
-                                  {formattedDate}
-                                </span>
-                              </td>
-                              <td
-                                style={{
-                                  textAlign: "start",
-                                  borderBottom: "1px solid #E8E8E8",
-                                }}
-                                className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
-                              >
-                                <span
-                                  style={{
-                                    backgroundColor: "#EBEBEB",
-                                    paddingTop: "3px",
-                                    paddingLeft: "10px",
-                                    paddingRight: "10px",
-                                    paddingBottom: "3px",
-                                    borderRadius: "10px",
-                                    lineHeight: "1.5em",
-                                    margin: "0",
-                                    fontSize: "11px",
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    textAlign: "start",
-                                  }}
-                                >
-                                  {DueformattedDate}
-                                </span>
-                              </td>
-
-                              <td
-                                style={{
-                                  textAlign: "start",
-                                  borderBottom: "1px solid #E8E8E8",
-                                }}
-                                className="ps-2 ps-sm-2 ps-md-3 ps-lg-2"
-                              >
-                                <span
-                                  style={{
-                                    color: "black",
-                                    backgroundColor: "#D9FFD9",
-                                    paddingLeft: "10px",
-                                    paddingRight: "10px",
-                                    marginLeft:4,
-                                    fontSize: "11px",
-                                    fontWeight: 500,
-                                    borderRadius: "10px",
-                                  }}
-                                >
-                                  {view.plan_status === 1
-                                    ? "Active"
-                                    : "Not Active"}
-                                </span>
-                              </td>
-
-
-                            </tr>
-                          );
-                        })}
-                    </tbody> */}
-
-                  <tbody style={{ fontSize: "11px", verticalAlign: "middle", height: "50px" }}>
-                    <PaginationList>
-                      {hostelDetails.map((view, index) => {
-                        let formattedDate = view.plan_start
-                          ? `${new Date(view.plan_start).getDate()}/${new Date(view.plan_start).getMonth() + 1}/${new Date(view.plan_start).getFullYear()}`
-                          : "-";
-                        let DueformattedDate = view.plan_end
-                          ? `${new Date(view.plan_end).getDate()}/${new Date(view.plan_end).getMonth() + 1}/${new Date(view.plan_end).getFullYear()}`
-                          : "-";
-
-                        return (
-                          <tr key={index} style={{ marginTop: "20px" }}>
-                            <td>{index + 1}</td>
-                            <td>{view.name}</td>
-                            <td>{formattedDate}</td>
-                            <td>{DueformattedDate}</td>
-                            <td>
-                              <span style={{
-                                color: "black",
-                                backgroundColor: "#D9FFD9",
-                                padding: "3px 10px",
-                                fontSize: "11px",
-                                fontWeight: 500,
-                                borderRadius: "10px"
-                              }}>
-                                {view.plan_status === 1 ? "Active" : "Not Active"}
-                              </span>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </PaginationList>
-                  </tbody>
-
-                </Table>
-              </div>
-            )}
-
-
-          </div>
-        </div>
-      )}
 
 
 
@@ -913,22 +841,22 @@ const cookies = new Cookies();
                           Current Plan
                         </Button>
                       ) : ( */}
-                        <Button disabled={!canWriteSubscription} className='w-100'
-                          style={{
-                            backgroundColor: "#1E45E1",
-                            fontWeight: 600,
-                            borderRadius: 12,
-                            fontSize: 16,
-                            fontFamily: "Gilroy",
-                            padding: 8,
-                            border: "1px solid #1E45E1",
-                            color: "#FFF"
-                          }}
-                          onClick={() => handlePlanChange(plan.planId)}
+                      <Button disabled={!canWriteSubscription} className='w-100'
+                        style={{
+                          backgroundColor: "#1E45E1",
+                          fontWeight: 600,
+                          borderRadius: 12,
+                          fontSize: 16,
+                          fontFamily: "Gilroy",
+                          padding: 8,
+                          border: "1px solid #1E45E1",
+                          color: "#FFF"
+                        }}
+                        onClick={() => handlePlanChange(plan.planId)}
 
-                        >
-                          Change Plan
-                        </Button>
+                      >
+                        Change Plan
+                      </Button>
                       {/* // )} */}
                     </div>
                   </div>

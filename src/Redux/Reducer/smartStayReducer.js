@@ -31,7 +31,7 @@ export const initialState = {
    isOtpRequired: false,
    userId: '',
    isTrigger: false,
-
+  paymentHtml: "",
 
 }
 const SmartStayReducer = (state = initialState, action) => {
@@ -45,6 +45,11 @@ const SmartStayReducer = (state = initialState, action) => {
             planStatus: action.payload,
          };
 
+          case "SET_PAYMENT_HTML":
+      return {
+        ...state,
+        paymentHtml: action.payload,
+      };
       case "SET_JOINING_DATE":
          return {
             ...state,

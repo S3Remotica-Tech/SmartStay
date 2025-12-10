@@ -740,12 +740,11 @@ let hasChanges =
 
     // setEdit(false)
 
-console.log("userid",userid, "Complainttype",Complainttype,"selectedDate",selectedDate, "Floor", Floor, "Rooms",Rooms,"state.login.selectedHostel_Id",state.login.selectedHostel_Id)
+console.log("state",state.login.selectedHostel_Id  , Complainttype , selectedDate , Floor , Rooms)
 
-    if (state.login.selectedHostel_Id && userid && Complainttype && selectedDate && Floor && Rooms) {
+    if (state.login.selectedHostel_Id  && Complainttype && selectedDate && Floor && Rooms) {
       // const formattedDate = selectedDate ? moment(selectedDate).format('DD-MM-YYYY') : '';
       const formattedDate = selectedDate ? selectedDate.format("DD/MM/YYYY") : null
-console.log("calledddd")
       const payload = {
         customerId: userid,
         complaintTypeId: Complainttype,

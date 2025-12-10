@@ -240,21 +240,21 @@ function PayingGuestMap(props) {
                 <div>
                   <div
                     className="pb-2"
-                    onClick={() =>
-                      canWritePayingGuests && props.hostel?.isSubscriptionValid 
-                        ? handleSelectedHostel(props.hostel.hostelId)
-                        : null
-                    }
+                    // onClick={() =>
+                    //   canWritePayingGuests && props.hostel?.isSubscriptionValid 
+                    //     ? handleSelectedHostel(props.hostel.hostelId)
+                    //     : null
+                    // }
                   >
 
                     <label
-                      className={`${!props.hostel?.isSubscriptionValid ? "" : "hover-hostel-name"}`}
+                      // className={`${!props.hostel?.isSubscriptionValid ? "" : "hover-hostel-name"}`}
                       style={{
                         fontSize: 14,
                         color: !props.hostel?.isSubscriptionValid   ? "grey" : "#1E45E1",
                         fontWeight: 600,
                         fontFamily: "Gilroy",
-                        textDecoration: "underline",
+                        // textDecoration: "underline",
                         display: "inline-block",
                         maxWidth: "150px",
                         whiteSpace: "nowrap",

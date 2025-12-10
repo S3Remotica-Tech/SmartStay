@@ -662,11 +662,11 @@ function NoticeBedStatusDetails({
 
                
                             <div
-                              onClick={
-                                canWriteCustomers && !currentItem.isOccupied
-                                  ? () => handleCheckIn(currentItem)
-                                  : undefined
-                              }
+                              // onClick={
+                              //   canWriteCustomers && !currentItem.isOccupied
+                              //     ? () => handleCheckIn(currentItem)
+                              //     : undefined
+                              // }
                               className="d-flex gap-2 align-items-center"
                               style={{
                                 position: "relative",
