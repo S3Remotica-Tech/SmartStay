@@ -447,7 +447,7 @@ function SettingGeneral() {
 
 
 
-const regex = /^[a-zA-Z0-9 .,'/#()&:-]*$/;
+  const regex = /^[a-zA-Z0-9 .,'/#()&:-]*$/;
 
 
 
@@ -552,7 +552,7 @@ const regex = /^[a-zA-Z0-9 .,'/#()&:-]*$/;
   const MobileNumber = `${Phone}`;
 
   const handleEditGeneralUser = (user) => {
-
+    console.log("user", user)
     // const phoneNumber = String(user.mobileNo || "");
     // const countryCode = mobileNo.slice(0, mobileNo.length - 10);
     // const mobileNumber = mobileNo.slice(-10);
@@ -671,6 +671,7 @@ const regex = /^[a-zA-Z0-9 .,'/#()&:-]*$/;
 
 
   const handleSave = () => {
+    console.log("calleddddd")
     dispatch({ type: 'CLEAR_GENERAL_EMAIL_ERROR' })
     dispatch({ type: 'CLEAR_MOBILE_ERROR' })
 
@@ -683,7 +684,7 @@ const regex = /^[a-zA-Z0-9 .,'/#()&:-]*$/;
       validateField(firstName, "firstName"),
       validateField(emilId, "emilId"),
       validateField(Phone, "Phone"),
-      validateField(password, "password"),
+       !edit ? validateField(password, "password") : true,
       validateField(city, "City"),
       validateField(pincode, "Pincode"),
       validateField(state_name, "state_name"),
@@ -701,7 +702,7 @@ const regex = /^[a-zA-Z0-9 .,'/#()&:-]*$/;
     }
 
 
-
+if (!edit) {
     if (!password) {
       setPasswordError("Please Enter Password");
       hasError = true;
@@ -722,7 +723,7 @@ const regex = /^[a-zA-Z0-9 .,'/#()&:-]*$/;
         hasError = true;
       }
     }
-
+  }
 
 
 
@@ -742,7 +743,7 @@ const regex = /^[a-zA-Z0-9 .,'/#()&:-]*$/;
       setPincodeError("Pin Code cannot start with 0");
       hasError = true;
     }
-    else if (pincode.slice(-3) === "000") {
+    else if (pincode && String(pincode).slice(-3) === "000") {
       setPincodeError("Last 3 digits cannot be 000");
       hasError = true;
     }
@@ -760,6 +761,10 @@ const regex = /^[a-zA-Z0-9 .,'/#()&:-]*$/;
     }
 
 
+
+console.log("VALIDATION RESULTS:", validations);
+console.log("hasError:", hasError);
+console.log("Email valid:", isValidEmail(emilId));
 
     if (hasError || validations.includes(false) || !isValidEmail(emilId)) {
       return;
@@ -806,7 +811,7 @@ const regex = /^[a-zA-Z0-9 .,'/#()&:-]*$/;
       profilePic: isFile(profileimage) ? profileimage : null
     };
 
-
+    console.log("payloadForApi", payloadForApi)
 
 
 
@@ -828,10 +833,19 @@ const regex = /^[a-zA-Z0-9 .,'/#()&:-]*$/;
         (profileimage && profileimage !== initialStateAssign.file);
 
 
+      console.log("Edit Block Triggered");
 
+
+      console.log("isChanged:", isChanged);
+      console.log("Initial values:", initialStateAssign);
+      console.log("Current values:", {
+        firstName, lastName, emilId, house_no, street, landmark,
+        city, pincode, state_name, Phone, profileimage
+      });
 
 
       if (!isChanged) {
+        console.log("NO CHANGES DETECTED");
         setFormError("No Changes Detected");
         return
       }
@@ -845,6 +859,7 @@ const regex = /^[a-zA-Z0-9 .,'/#()&:-]*$/;
       //   }
       // })
       if (isChanged) {
+        console.log("DISPATCHING EDIT PAYLOAD:", payloadForApi);
 
         dispatch({ type: "EDITGENERALSETTING", payload: payloadForApi });
       }

@@ -101,6 +101,13 @@ function Sidebar() {
   const [showNotify, setShowNotify] = useState(false);
 
 
+const hideSidebarRoutes = ["/payment-preview"];
+
+const path = location.pathname.split("?")[0].replace(/\/$/, ""); 
+const shouldHideSidebar = hideSidebarRoutes.includes(path);
+
+console.log("Normalized path:", path, "shouldHideSidebar:", shouldHideSidebar);
+
 
   const pageMap = {
     "/dashboard/:hostelId": "dashboard",
@@ -677,6 +684,7 @@ function Sidebar() {
       }
       <Container fluid className="p-0">
         <Row className="g-0 m-0">
+         
           <Col xs={12} sm={12} className="d-md-none p-2 bg-white position-relative">
             <button
               onClick={toggleSidebar}
@@ -704,6 +712,8 @@ function Sidebar() {
               </svg>
             </button>
           </Col>
+
+ {!shouldHideSidebar && 
           <Col
             lg={2}
             md={2}
@@ -1712,7 +1722,7 @@ function Sidebar() {
           </div>
         </Col>
 
-
+                }
 
 
         <Col
