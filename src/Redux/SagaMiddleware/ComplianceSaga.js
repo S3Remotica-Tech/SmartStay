@@ -146,13 +146,15 @@ function* handleParticularcompliant(action) {
 
 function* handlecompliancelist(action) {
    try {
-
       const response = yield call(complianceList, action.payload)
-      
-   const hostelId = GlobalHostelId(response);
+      const hostelId = GlobalHostelId(response);
 
-      if (hostelId) {
-         yield put({ type: "SET_HOSTEL_ID", payload: hostelId });
+      if (hostelId) {   
+          yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
+          const cookies = new Cookies()
+                cookies.set('selected_hostelId', hostelId, { path: '/' });
+         // yield put({ type: "SET_HOSTEL_ID", payload: hostelId });
+         // localStorage.setItem("selectedResponseHostelId", hostelId);
       }
 
       if (response?.status === 200) {

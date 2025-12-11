@@ -17,7 +17,7 @@ export const initialState = {
    notificationStatus: 0 ,
    UpdateNotificationMessage: '',
    twoStepOtpError: '',
-   selectedHostel_Id: '',
+   selectedHostel_Id:  localStorage.getItem("selectedResponseHostelId") || null,
    Settings_Hostel_Id: '',
    IsVisible: null,
    errorStatusCode: 0,

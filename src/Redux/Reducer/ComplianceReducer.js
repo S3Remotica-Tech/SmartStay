@@ -33,7 +33,7 @@ export const initialState = {
     statusCodeforgetparticularCompliant: 0,
     complaintsView: [],
     getcomplaintsViewStatus: 0,
-    apiResponseHostelId: '',
+    apiResponseHostelId:'',
 
 
 }

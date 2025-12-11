@@ -107,7 +107,6 @@ const path = location.pathname.split("?")[0].replace(/\/$/, "");
 const shouldHideSidebar = hideSidebarRoutes.includes(path);
 
 
-
   const pageMap = {
     "/dashboard/:hostelId": "dashboard",
     "/paying-guest/:hostelId": "pg-list",
@@ -357,6 +356,31 @@ const shouldHideSidebar = hideSidebarRoutes.includes(path);
   //   setCurrentPage(localStorage.getItem("currentPage"));
   // }, [currentPage]);
 
+
+
+const hostelId = state.login?.selectedHostel_Id;
+
+useEffect(() => {
+  if (!hostelId) return;
+
+  const currentPath = location.pathname.split("/")[1]; 
+
+  
+  const validPages = ["dashboard","pg-list","user-list", "user-details","invoice","compliance",
+    "reports","eb","expenses","banking","settingNewDesign","vendor", "asset"];
+
+  if (validPages.includes(currentPath)) {
+    navigate(`/${currentPath}/${hostelId}`);
+  }
+}, [hostelId]);
+
+  
+
+
+
+
+
+
   const handlePageClick = (page) => {
     handleFormPage(false)
     setCurrentPage(page);
@@ -400,6 +424,7 @@ const shouldHideSidebar = hideSidebarRoutes.includes(path);
     localStorage.setItem("loginId", "");
     localStorage.setItem("phoneId", "");
     localStorage.setItem("emilidd", "");
+    localStorage.setItem("selectedResponseHostelId", "");
     localStorage.setItem("selectedHostelId", "");
     localStorage.setItem("selectedHostelName", "");
     localStorage.removeItem("lastPage");
@@ -407,6 +432,7 @@ const shouldHideSidebar = hideSidebarRoutes.includes(path);
     const cookies = new Cookies();
     cookies.remove('v2-token', { path: '/' });
     cookies.remove('token', { path: '/' });
+    cookies.remove('selected_hostelId', { path: '/' });
   };
 
 
@@ -432,9 +458,10 @@ const shouldHideSidebar = hideSidebarRoutes.includes(path);
 
   const [selectedProfileImage, setSelectedProfileImage] = useState("");
   const [initials, setInitials] = useState('')
+ 
 
   const handleHostelId = (id, name, mainImage, initials) => {
-
+     dispatch(StoreSelectedHostelAction(id));
     setInitials(initials)
     setPayingGuestName(name);
     setAllPageHostel_Id(id);
@@ -459,117 +486,41 @@ const shouldHideSidebar = hideSidebarRoutes.includes(path);
     }
   };
 
-  useEffect(() => {
-    if (allPageHostel_Id) {
-      dispatch(StoreSelectedHostelAction(allPageHostel_Id));
-    }
-  }, [allPageHostel_Id]);
-
-
-
   // useEffect(() => {
-  //   if (hostelListDetail && hostelListDetail?.length > 0) {
-  //     const firstHostel = hostelListDetail[0]
-  //     setInitials(firstHostel.initials)
-  //     setAllPageHostel_Id(firstHostel.hostelId);
-  //     setPayingGuestName(firstHostel.name);
-  //     setSelectedProfileImage(
-  //       firstHostel.mainImage &&
-  //       firstHostel.mainImage !== "0" &&
-  //       firstHostel.mainImage !== ""
-  //       && firstHostel.mainImage
-
-  //     );
+  //   if (allPageHostel_Id) {
+  //     dispatch(StoreSelectedHostelAction(allPageHostel_Id));
   //   }
-  // }, [state.UsersList.hosteListStatusCode]);
-
-  // useEffect(() => {
-  //   const savedHostelId = localStorage.getItem("selectedHostelId");
-  //   if (
-  //     !isInitialized &&
-  //     hostelListDetail?.length > 0 &&
-  //     state.UsersList.hosteListStatusCode === 200
-  //   ) {
-  //     const currentHostel =
-  //       savedHostelId &&
-  //       hostelListDetail?.find(
-  //         (item) => item.hostelId === parseInt(savedHostelId, 10)
-  //       );
-
-
-  //     if (currentHostel) {
-  //       setPayingGuestName(currentHostel.Name);
-  //       setAllPageHostel_Id(currentHostel.hostelId);
-  //       setSelectedProfileImage(
-  //         currentHostel.mainImage &&
-  //         currentHostel.mainImage !== "0" &&
-  //         currentHostel.mainImage !== ""
-  //         && currentHostel.mainImage
-
-  //       );
-  //     } else {
-  //       const lowestIdItem = hostelListDetail?.reduce((prev, current) =>
-  //         prev.id < current.id ? prev : current
-  //       );
+  // }, [allPageHostel_Id]);
 
 
 
-  //       setPayingGuestName(lowestIdItem.Name);
-  //       setAllPageHostel_Id(lowestIdItem.hostelId);
-  //       setSelectedProfileImage(
-  //         lowestIdItem.mainImage &&
-  //         lowestIdItem.mainImage !== "0" &&
-  //         lowestIdItem.mainImage !== ""
-  //         && lowestIdItem.mainImage
+const cookies = new Cookies();
+const apiHostelId = cookies.get("selected_hostelId");
 
-  //       );
-  //     }
-
-  //     setIsInitialized(true);
-  //   }
-  // }, [
-  //   state.UsersList.hosteListStatusCode,
-  //   isInitialized,
-  // ]);
-
-
-
+console.log("apiHostelId",apiHostelId)
 
   useEffect(() => {
-    if (hostelListDetail?.length > 0 && !initials) {
-      const firstHostel = hostelListDetail[0];
+  if (hostelListDetail?.length > 0 && !initials  ) {
+       
+    const selectedHostel = apiHostelId
+      ? hostelListDetail.find(h => h.hostelId === apiHostelId)
+      : hostelListDetail[0]; 
 
-      setInitials(firstHostel.initials)
-      setAllPageHostel_Id(firstHostel.hostelId);
-      setPayingGuestName(firstHostel.name);
+    if (selectedHostel) {    
+        setAllPageHostel_Id(selectedHostel.hostelId);
+      setPayingGuestName(selectedHostel.name);
+
       setSelectedProfileImage(
-        firstHostel.mainImage &&
-        firstHostel.mainImage !== "0" &&
-        firstHostel.mainImage !== ""
-        && firstHostel.mainImage
-
+        selectedHostel.mainImage &&
+        selectedHostel.mainImage !== "0" &&
+        selectedHostel.mainImage !== "" &&
+        selectedHostel.mainImage
       );
 
-      dispatch(StoreSelectedHostelAction(firstHostel.hostelId));
+      dispatch(StoreSelectedHostelAction(selectedHostel.hostelId));
     }
-  }, [hostelListDetail]);
-
-
-  // useEffect(() => {
-  //   if (hostelListDetail && hostelListDetail?.length > 0) {
-  //     const firstHostel = hostelListDetail[0]
-  //     setInitials(firstHostel.initials)
-  //     setAllPageHostel_Id(firstHostel.hostelId);
-  //     setPayingGuestName(firstHostel.name);
-  //     setSelectedProfileImage(
-  //       firstHostel.mainImage &&
-  //       firstHostel.mainImage !== "0" &&
-  //       firstHostel.mainImage !== ""
-  //       && firstHostel.mainImage
-
-  //     );
-  //   }
-  // }, [state.UsersList.hosteListStatusCode]);
+  }
+}, [hostelListDetail, apiHostelId ]);
 
 
 
@@ -591,35 +542,7 @@ const shouldHideSidebar = hideSidebarRoutes.includes(path);
   const handleMouseLeave = () => setHoveredIcon(null);
 
 
-  // useEffect(() => {
-  //   if (state?.login?.selectedHostel_Id) {
-  //     const accountList = state.createAccount?.accountList;
-
-  //     if (
-  //       accountList &&
-  //       accountList.length > 0 &&
-  //       accountList[0]?.plan_data &&
-  //       accountList[0].plan_data.length > 0
-  //     ) {
-  //       if (accountList[0].plan_data[0]?.plan_type === "trail") {
-  //         const trailPlanStatus = accountList[0].plan_data[0]?.status;
-  //         if (trailPlanStatus !== "") {
-  //           dispatch(setPlanStatus(trailPlanStatus));
-  //         }
-  //       } else {
-  //         const hostelDetails = accountList[0].plan_data[0]?.hostel_details || [];
-
-  //         const particularHostelPlan = hostelDetails?.find(
-  //           (view) => view.id === state.login.selectedHostel_Id
-  //         );
-
-  //         if (particularHostelPlan && particularHostelPlan.plan_status !== "") {
-  //           dispatch(setPlanStatus(particularHostelPlan.plan_status));
-  //         }
-  //       }
-  //     }
-  //   }
-  // }, [state.login?.selectedHostel_Id]);
+  
 
   useEffect(() => {
     if (state.createAccount?.accountList?.roleId) {

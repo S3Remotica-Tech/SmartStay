@@ -91,6 +91,7 @@ function App() {
       localStorage.clear();
       localStorage.removeItem("lastPage");
       localStorage.removeItem("currentPage")
+      localStorage.setItem("selectedResponseHostelId", "");
       
 
     }
