@@ -47,6 +47,8 @@ const ComplianceList = (props) => {
   const popupRef = useRef(null);
   const [trigger, setTrigger] = useState(false);
 
+  const [alreadyAssigned, setAlreadyAssigned] = useState('')
+ console.log("alreadyAssigned",alreadyAssigned)
   const commentsEndRef = useRef(null);
   const {
     canWriteModule: canWriteComplaints,
@@ -300,6 +302,9 @@ const ComplianceList = (props) => {
       return;
     }
 
+console.log("prevStatus",prevStatus)
+console.log("status",status)
+
     if (status === prevStatus) {
       setStatusError("No Changes Detected");
       return;
@@ -321,8 +326,11 @@ const ComplianceList = (props) => {
     setFormLoading(true)
   };
 
+ 
+
 
   const handleAssignComplaintClick = () => {
+console.log("compliant",compliant)
 
     dispatch({ type: 'REMOVE_COMPLIANCE_CHANGE_STATUS_ASSIGN_ERROR' })
     if (alreadyAssigned === compliant && compliant !== "") {
@@ -380,14 +388,12 @@ const ComplianceList = (props) => {
 
 
 
-  const [alreadyAssigned, setAlreadyAssigned] = useState('')
-
   const handleAssignOpenClose = (item) => {
 
     dispatch({ type: "GETUSERSTAFF", payload: { hostelId: hostel_id } });
     setShowDots(false);
-    setCompliant(item?.Assign ?? "");
-    setAlreadyAssigned(item?.Assign ?? "");
+    setCompliant(item?.assigneeId ?? "");
+    setAlreadyAssigned(item?.assigneeId ?? "");
 
     setComplaintId(item?.complaintId ? item?.complaintId : item?.complaintId)
     setShowAssignComplaint(true);
@@ -406,9 +412,11 @@ const ComplianceList = (props) => {
   };
 
   const handleCompliant = (selectedOption) => {
-
+console.log("selectedOption",selectedOption)
     dispatch({ type: 'REMOVE_COMPLIANCE_CHANGE_STATUS_ASSIGN_ERROR' })
     setCompliant(selectedOption?.value || '');
+
+
     if (selectedOption === "") {
       setStatusErrorType("Please Select Compliant");
     } else {
@@ -1852,7 +1860,7 @@ const ComplianceList = (props) => {
                                   })()
                                   : null
                               }
-                              placeholder="Select a User"
+                              placeholder="Select a Staff"
                               classNamePrefix="custom"
                               styles={{
                                 control: (base) => ({
@@ -1906,7 +1914,10 @@ const ComplianceList = (props) => {
 
 
                             {statusErrorType.trim() !== "" && (
+                              <div className="d-flex justify-content-center">
                               <ErrorMessage message={statusErrorType} type="error" />
+
+                              </div>
 
                             )}
 

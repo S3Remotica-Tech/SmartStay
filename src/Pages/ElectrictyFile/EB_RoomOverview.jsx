@@ -267,7 +267,7 @@ console.log("room",room)
                         </div>
                     ) : (
                         <div
-                            className="table-responsive mx-4"
+                            className="table-responsive mx-4 show-scrolls"
                             style={{
                                 background: "#fff",
                                 borderRadius: 12,
@@ -379,7 +379,7 @@ console.log("room",room)
                         </div>
                     ) : (
                         <div
-                            className="table-responsive mx-4"
+                            className="table-responsive mx-4 show-scrolls"
                             style={{
                                 background: "#fff",
                                 borderRadius: 12,

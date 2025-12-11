@@ -461,7 +461,7 @@ useEffect(() => {
  
 
   const handleHostelId = (id, name, mainImage, initials) => {
-     dispatch(StoreSelectedHostelAction(id));
+    
     setInitials(initials)
     setPayingGuestName(name);
     setAllPageHostel_Id(id);
@@ -469,7 +469,7 @@ useEffect(() => {
       mainImage && mainImage !== "0" && mainImage !== "" ? mainImage : mainImage
     );
     setIsDropdownOpen(false);
-
+//  dispatch(StoreSelectedHostelAction(id));
     localStorage.setItem("selectedHostelId", id);
     localStorage.setItem("selectedHostelName", name);
     setIsSidebarOpen(false);
@@ -486,11 +486,11 @@ useEffect(() => {
     }
   };
 
-  // useEffect(() => {
-  //   if (allPageHostel_Id) {
-  //     dispatch(StoreSelectedHostelAction(allPageHostel_Id));
-  //   }
-  // }, [allPageHostel_Id]);
+  useEffect(() => {
+    if (allPageHostel_Id) {
+      dispatch(StoreSelectedHostelAction(allPageHostel_Id));
+    }
+  }, [allPageHostel_Id]);
 
 
 
@@ -509,7 +509,7 @@ console.log("apiHostelId",apiHostelId)
     if (selectedHostel) {    
         setAllPageHostel_Id(selectedHostel.hostelId);
       setPayingGuestName(selectedHostel.name);
-
+setInitials(selectedHostel.initials)
       setSelectedProfileImage(
         selectedHostel.mainImage &&
         selectedHostel.mainImage !== "0" &&
