@@ -120,6 +120,13 @@ function* handleParticularcompliant(action) {
       const { complaintId } = action.payload
       const response = yield call(ParticularcomplianceDetails, complaintId)
 
+ const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
+      const cookies = new Cookies()
+      cookies.set('selected_hostelId', hostelId, { path: '/' });
+    }
+      
       if (response?.status === 200) {
          yield put({
             type: 'PARTICULAR-COMPLIANT', payload: {
@@ -147,15 +154,13 @@ function* handleParticularcompliant(action) {
 function* handlecompliancelist(action) {
    try {
       const response = yield call(complianceList, action.payload)
-      const hostelId = GlobalHostelId(response);
 
+      const hostelId = GlobalHostelId(response);
       if (hostelId) {   
           yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
           const cookies = new Cookies()
-                cookies.set('selected_hostelId', hostelId, { path: '/' });
-         // yield put({ type: "SET_HOSTEL_ID", payload: hostelId });
-         // localStorage.setItem("selectedResponseHostelId", hostelId);
-      }
+          cookies.set('selected_hostelId', hostelId, { path: '/' });
+                        }
 
       if (response?.status === 200) {
          yield put({
@@ -274,8 +279,12 @@ function* handleEditComplaint(action) {
 function* handleVendorGet(action) {
    try {
       const response = yield call(VendorList, action.payload);
-
-
+   const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
+      const cookies = new Cookies()
+      cookies.set('selected_hostelId', hostelId, { path: '/' });
+    }
 
       if (response?.status === 200) {
          yield put({ type: 'VENDOR_LIST', payload: { response: response.data, statusCode: response?.status } })
@@ -641,6 +650,14 @@ function refreshToken(response) {
 function* handleCompliantsView(action) {
    try {
       const response = yield call(complaintsView, action.payload);
+
+       const hostelId = GlobalHostelId(response);
+          if (hostelId) {
+            yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
+            const cookies = new Cookies()
+            cookies.set('selected_hostelId', hostelId, { path: '/' });
+          }
+
 
       if (response?.status === 200) {
          yield put({ type: 'COMPLAINTS_VIEW', payload: { response: response.data, statusCode: response?.status } })

@@ -127,7 +127,12 @@ function* handleGetModules() {
    try {
       const response = yield call(getModules)
 
-
+const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
+      const cookies = new Cookies()
+      cookies.set('selected_hostelId', hostelId, { path: '/' });
+    }
       if (response?.status === 200) {
          yield put({ type: 'GET_MODULES', payload: { response: response.data, statusCode: response?.status } })
       }
@@ -209,6 +214,14 @@ function* handleRecurringRole(action) {
 function* handleCategorylist(action) {
    try {
       const response = yield call(ExpencesCategorylist, action.payload);
+
+const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
+      const cookies = new Cookies()
+      cookies.set('selected_hostelId', hostelId, { path: '/' });
+    }
+
 
       if (response?.status === 200) {
          yield put({ type: 'EXPENCES_CATEGORY_LIST', payload: { response: response.data, statusCode: response?.status, message: response?.data?.message } })
@@ -389,6 +402,17 @@ function* handleComplainttypelist(action) {
    try {
       const { hostel_id } = action.payload;
       const response = yield call(Complainttypelist, hostel_id);
+
+
+const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
+      const cookies = new Cookies()
+      cookies.set('selected_hostelId', hostelId, { path: '/' });
+    }
+
+
+
 
       if (response?.status === 200) {
          yield put({
@@ -690,6 +714,18 @@ function* handleEBBillingUnitAdd(params) {
 function* handleEBBillingUnitGet(action) {
    try {
       const response = yield call(GetEBBillingUnit, action.payload);
+
+const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
+      const cookies = new Cookies()
+      cookies.set('selected_hostelId', hostelId, { path: '/' });
+    }
+
+
+
+
+
       if (response?.status === 200) {
          yield put({ type: 'EB_BILLING_UNIT_LIST', payload: { response: response.data, statusCode: response?.status } })
       }
@@ -769,7 +805,12 @@ function* handleDeleteElectricity(action) {
 function* handleGetAllRoles(role) {
    try {
       const response = yield call(GetAllRoles, role.payload)
-
+const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
+      const cookies = new Cookies()
+      cookies.set('selected_hostelId', hostelId, { path: '/' });
+    }
       if (response?.status === 200) {
          yield put({ type: 'ROLE_LIST', payload: { response: response.data, statusCode: response?.status } })
       }
@@ -1093,6 +1134,14 @@ function* handleGetAllStaffs(action) {
 
    try {
       const response = yield call(GetAllStaff, action.payload.hostelId);
+const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
+      const cookies = new Cookies()
+      cookies.set('selected_hostelId', hostelId, { path: '/' });
+    }
+
+
       if (response?.status === 200) {
          yield put({ type: 'USER_STAFF_LIST', payload: { response: response.data || [], statusCode: response?.status } })
       }
@@ -1241,6 +1290,15 @@ function* handleGetAllGeneral() {
 
    try {
       const response = yield call(GetAllGeneral)
+
+
+const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
+      const cookies = new Cookies()
+      cookies.set('selected_hostelId', hostelId, { path: '/' });
+    }
+
 
       if (response?.status === 200) {
          yield put({ type: 'GET_ALL_GENERAL', payload: { response: response.data || [], statusCode: response?.status } })
@@ -1482,6 +1540,16 @@ function* handleNewSubscriptionpage(action) {
 function* handleNewSubscriptionList(action) {
    try {
       const response = yield call(SubscriptionList, action.payload);
+
+const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
+      const cookies = new Cookies()
+      cookies.set('selected_hostelId', hostelId, { path: '/' });
+    }
+
+
+
       if (response?.status === 200) {
          yield put({ type: 'NEW_SUBSCRIPTION_LIST', payload: { response: response.data, statusCode: response?.status } })
       }
@@ -1500,6 +1568,15 @@ function* handleNewSubscriptionList(action) {
 function* handlePlanList(action) {
    try {
       const response = yield call(PlanList, action.payload);
+
+const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
+      const cookies = new Cookies()
+      cookies.set('selected_hostelId', hostelId, { path: '/' });
+    }
+
+
       if (response?.status === 200) {
          yield put({ type: 'NEW_PLAN_LIST', payload: { response: response.data, statusCode: response?.status } })
       }
@@ -1642,6 +1719,16 @@ function* handleGetSettingsRecurrringBill(action) {
    try {
       const response = yield call(SettingsGetRecurring, action.payload);
 
+        const hostelId = GlobalHostelId(response);
+          if (hostelId) {
+            yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
+            const cookies = new Cookies()
+            cookies.set('selected_hostelId', hostelId, { path: '/' });
+          }
+
+
+
+
       if (response?.status === 200) {
          yield put({ type: 'SETTINGSGETRECURRING', payload: { response: response.data, statusCode: response?.status, message: response?.data?.message } })
       }
@@ -1736,7 +1823,12 @@ function* handleGetTemplatelist(action) {
    try {
       const response = yield call(getTemplateList, action.payload);
 
-
+const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
+      const cookies = new Cookies()
+      cookies.set('selected_hostelId', hostelId, { path: '/' });
+    }
 
       if (response?.status === 200) {
          yield put({ type: 'GET_TEMPLATELIST', payload: { response: response.data, statusCode: response?.status, message: response?.data?.message } })
