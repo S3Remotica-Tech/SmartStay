@@ -47,6 +47,8 @@ const ComplianceList = (props) => {
   const popupRef = useRef(null);
   const [trigger, setTrigger] = useState(false);
 
+  const [alreadyAssigned, setAlreadyAssigned] = useState('')
+ console.log("alreadyAssigned",alreadyAssigned)
   const commentsEndRef = useRef(null);
   const {
     canWriteModule: canWriteComplaints,
@@ -262,11 +264,13 @@ const ComplianceList = (props) => {
   const [statusErrorType, setStatusErrorType] = useState('')
 
   const handleChangeStatusOpenClose = (item) => {
-
+  
     dispatch({ type: 'REMOVE_COMPLIANCE_CHANGE_STATUS_ERROR' })
     // setAssignId(item?.ID);
     setShowDots(false);
-    setStatus(item?.status === null ? "pending" : item?.status);
+    const normalizedStatus = item?.status?.toLowerCase() ?? "pending";
+   setStatus(normalizedStatus);
+
     setSelectedStatus(item?.status === null ? "pending" : item?.status)
     setComplaintId(item?.complaintId)
     setShowChangeStatus(true);
@@ -298,6 +302,9 @@ const ComplianceList = (props) => {
       return;
     }
 
+console.log("prevStatus",prevStatus)
+console.log("status",status)
+
     if (status === prevStatus) {
       setStatusError("No Changes Detected");
       return;
@@ -319,8 +326,11 @@ const ComplianceList = (props) => {
     setFormLoading(true)
   };
 
+ 
+
 
   const handleAssignComplaintClick = () => {
+console.log("compliant",compliant)
 
     dispatch({ type: 'REMOVE_COMPLIANCE_CHANGE_STATUS_ASSIGN_ERROR' })
     if (alreadyAssigned === compliant && compliant !== "") {
@@ -378,14 +388,12 @@ const ComplianceList = (props) => {
 
 
 
-  const [alreadyAssigned, setAlreadyAssigned] = useState('')
-
   const handleAssignOpenClose = (item) => {
 
     dispatch({ type: "GETUSERSTAFF", payload: { hostelId: hostel_id } });
     setShowDots(false);
-    setCompliant(item?.Assign ?? "");
-    setAlreadyAssigned(item?.Assign ?? "");
+    setCompliant(item?.assigneeId ?? "");
+    setAlreadyAssigned(item?.assigneeId ?? "");
 
     setComplaintId(item?.complaintId ? item?.complaintId : item?.complaintId)
     setShowAssignComplaint(true);
@@ -404,9 +412,11 @@ const ComplianceList = (props) => {
   };
 
   const handleCompliant = (selectedOption) => {
-
+console.log("selectedOption",selectedOption)
     dispatch({ type: 'REMOVE_COMPLIANCE_CHANGE_STATUS_ASSIGN_ERROR' })
     setCompliant(selectedOption?.value || '');
+
+
     if (selectedOption === "") {
       setStatusErrorType("Please Select Compliant");
     } else {
@@ -423,7 +433,7 @@ const ComplianceList = (props) => {
     }
   };
 
-
+  
 
   useEffect(() => {
     const appearOptions = {
@@ -449,7 +459,7 @@ const ComplianceList = (props) => {
   });
 
 
-  console.log("props.complaints", props.complaints)
+ 
 
 
 
@@ -1280,14 +1290,14 @@ const ComplianceList = (props) => {
                                   display: "flex",
                                   alignItems: "flex-start",
                                   borderBottom: "1px solid #EDF0F4",
-                                  marginBottom: "10px",width: "100%",
+                                  marginBottom: "10px", width: "100%",
                                 }}
                               >
                                 <div
                                   style={{
                                     display: "flex",
                                     alignItems: "flex-start",
-                                    gap: "10px",width: "100%",
+                                    gap: "10px", width: "100%",
                                   }}
                                 >
 
@@ -1334,7 +1344,7 @@ const ComplianceList = (props) => {
 
 
                                   <div style={{ flex: 1 }}>
-                                    <p 
+                                    <p
                                       style={{
                                         margin: 0,
                                         fontSize: "16px",
@@ -1559,9 +1569,9 @@ const ComplianceList = (props) => {
 
                             <Select
                               options={[
-                                { value: "pending", label: "pending" },
+                                { value: "pending", label: "Pending" },
                                 { value: "assigned", label: "assigned" },
-                                { value: "resolved", label: "resolved" },
+                                { value: "resolved", label: "Resolved" },
                               ]}
                               onChange={handleStatus}
 
@@ -1570,6 +1580,7 @@ const ComplianceList = (props) => {
                                   ? { value: status, label: status.replace("-", " ") }
                                   : null
                               }
+
                               placeholder="Select a Status"
                               classNamePrefix="custom"
                               styles={{
@@ -1583,12 +1594,13 @@ const ComplianceList = (props) => {
                                   fontFamily: "Gilroy",
                                   fontWeight: 500,
                                   boxShadow: "none",
+                                  textTransform: "capitalize"
                                 }),
                                 menu: (base) => ({
                                   ...base,
                                   backgroundColor: "#f8f9fa",
                                   border: "1px solid #ced4da",
-                                  fontFamily: "Gilroy",
+                                  fontFamily: "Gilroy", textTransform: "capitalize"
                                 }),
                                 menuList: (base) => ({
                                   ...base,
@@ -1597,11 +1609,11 @@ const ComplianceList = (props) => {
                                   padding: 0,
                                   scrollbarWidth: "thin",
                                   overflowY: "auto",
-                                  fontFamily: "Gilroy",
+                                  fontFamily: "Gilroy", textTransform: "capitalize"
                                 }),
                                 placeholder: (base) => ({
                                   ...base,
-                                  color: "#555",
+                                  color: "#555", textTransform: "capitalize"
                                 }),
                                 dropdownIndicator: (base) => ({
                                   ...base,
@@ -1612,7 +1624,7 @@ const ComplianceList = (props) => {
                                   ...base,
                                   cursor: "pointer",
                                   backgroundColor: state.isFocused ? "lightblue" : "white",
-                                  color: "#000",
+                                  color: "#000", textTransform: "capitalize"
                                 }),
                                 indicatorSeparator: () => ({
                                   display: "none",
@@ -1848,7 +1860,7 @@ const ComplianceList = (props) => {
                                   })()
                                   : null
                               }
-                              placeholder="Select a User"
+                              placeholder="Select a Staff"
                               classNamePrefix="custom"
                               styles={{
                                 control: (base) => ({
@@ -1902,7 +1914,10 @@ const ComplianceList = (props) => {
 
 
                             {statusErrorType.trim() !== "" && (
+                              <div className="d-flex justify-content-center">
                               <ErrorMessage message={statusErrorType} type="error" />
+
+                              </div>
 
                             )}
 

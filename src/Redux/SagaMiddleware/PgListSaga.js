@@ -1,62 +1,63 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { updatePgList,UpdateBed, getAllBed, updateRoom, getAllRoom, add_sub_comments, get_comments, add_comments, delete_announcement, deleteHostelImages, UpdateFloor, DeletePG, DeleteBed, createBed, createPgList, createRoom, CheckRoomId, CheckBedDetails, Checkeblist, CreateEbbill, EB_Customerlist, EB_startmeterlist, dashboardReports, OccupiedCustomer, EB_CustomerListTable, editElectricity, deleteElectricity, dashboardFilter, ebAddHostelReading, ebHostelBasedRead, ebAddHostelEdit, ebAddHostelDelete, announcement_list, add_announcement, DeleteHostel } from "../Action/PgListAction";
+import { updatePgList, UpdateBed, getAllBed, updateRoom, getAllRoom, add_sub_comments, get_comments, add_comments, delete_announcement, deleteHostelImages, UpdateFloor, DeletePG, DeleteBed, createBed, createPgList, createRoom, CheckRoomId, CheckBedDetails, Checkeblist, CreateEbbill, EB_Customerlist, EB_startmeterlist, dashboardReports, OccupiedCustomer, EB_CustomerListTable, editElectricity, deleteElectricity, dashboardFilter, ebAddHostelReading, ebHostelBasedRead, ebAddHostelEdit, ebAddHostelDelete, announcement_list, add_announcement, DeleteHostel } from "../Action/PgListAction";
 import Cookies from "universal-cookie";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { GlobalHostelId } from "../../Utils/GlobalResponse";
 
 function* handleApiError(error) {
- 
-   const status = error?.response?.status || error?.status;
 
-   if (status === 401) { 
-      yield put({
-         type: "UN-AUTHORIZED",
-         payload: "Access Denied",
-      });
-   }
-   else if (status === 500) {
-      yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
-      // toast.error("Network error occurred", {
-      //    style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
-      //    position: "top-right",
-      //    autoClose: 2000,
-      //    hideProgressBar: true,
-      //    closeButton: false,
-      //    closeOnClick: true,
-      //    pauseOnHover: true,
-      //    draggable: true,
-      //    progress: undefined,
-      // });
-   }
-   else if (error.code === "ERR_NETWORK") {
-      yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
-      // toast.error("Network error occurred", {
-      //    style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
-      //    position: "top-right",
-      //    autoClose: 2000,
-      //    hideProgressBar: true,
-      //    closeButton: false,
-      //    closeOnClick: true,
-      //    pauseOnHover: true,
-      //    draggable: true,
-      //    progress: undefined,
-      // });
-   }
-   // else {
-   //    const msg = error?.message || "Something went wrong";
-   //    yield put({ type: "NETWORK_ERROR", payload: msg });
-   //    toast.error(msg, {
-   //       style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
-   //       position: "top-right",
-   //       autoClose: 2000,
-   //       hideProgressBar: true,
-   //       closeButton: false,
-   //       closeOnClick: true,
-   //       pauseOnHover: true,
-   //       draggable: true,
-   //       progress: undefined,
-   //    });
-   // }
+  const status = error?.response?.status || error?.status;
+
+  if (status === 401) {
+    yield put({
+      type: "UN-AUTHORIZED",
+      payload: "Access Denied",
+    });
+  }
+  else if (status === 500) {
+    yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
+    // toast.error("Network error occurred", {
+    //    style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
+    //    position: "top-right",
+    //    autoClose: 2000,
+    //    hideProgressBar: true,
+    //    closeButton: false,
+    //    closeOnClick: true,
+    //    pauseOnHover: true,
+    //    draggable: true,
+    //    progress: undefined,
+    // });
+  }
+  else if (error.code === "ERR_NETWORK") {
+    yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
+    // toast.error("Network error occurred", {
+    //    style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
+    //    position: "top-right",
+    //    autoClose: 2000,
+    //    hideProgressBar: true,
+    //    closeButton: false,
+    //    closeOnClick: true,
+    //    pauseOnHover: true,
+    //    draggable: true,
+    //    progress: undefined,
+    // });
+  }
+  // else {
+  //    const msg = error?.message || "Something went wrong";
+  //    yield put({ type: "NETWORK_ERROR", payload: msg });
+  //    toast.error(msg, {
+  //       style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
+  //       position: "top-right",
+  //       autoClose: 2000,
+  //       hideProgressBar: true,
+  //       closeButton: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       progress: undefined,
+  //    });
+  // }
 }
 
 
@@ -129,6 +130,16 @@ function* handleUpdateBed(datum) {
 function* handleGetAllRooms(action) {
   try {
     const response = yield call(getAllRoom, action.payload);
+
+const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
+      const cookies = new Cookies()
+      cookies.set('selected_hostelId', hostelId, { path: '/' });
+    }
+
+
+
     if (response?.status === 200) {
       yield put({ type: 'GET_ALL_ROOMS', payload: { response: response.data, statusCode: response?.status } })
 
@@ -147,7 +158,12 @@ function* handleGetAllBed(action) {
   try {
     const response = yield call(getAllBed, action.payload);
 
-
+const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
+      const cookies = new Cookies()
+      cookies.set('selected_hostelId', hostelId, { path: '/' });
+    }
 
     if (response?.status === 200) {
       yield put({ type: 'GET_ALL_BEDS', payload: { response: response.data, statusCode: response?.status } })
@@ -216,8 +232,8 @@ function* handlePgList(datum) {
     }
   }
   catch (error) {
-  
- yield* handleApiError(error);
+
+    yield* handleApiError(error);
 
   }
 }
@@ -228,7 +244,7 @@ function* handleUpdatePgList(datum) {
   try {
     const response = yield call(updatePgList, datum.payload);
 
-console.log("response",response)
+    console.log("response", response)
 
     var toastStyle = {
       backgroundColor: "#E6F6E6",
@@ -267,14 +283,14 @@ console.log("response",response)
       });
     }
 
-   
+
     if (response) {
       refreshToken(response);
     }
   }
   catch (error) {
-  
- yield* handleApiError(error);
+
+    yield* handleApiError(error);
 
   }
 }
@@ -565,6 +581,14 @@ function* handleCreatePGDashboard(action) {
   try {
     const response = yield call(dashboardReports, action.payload);
 
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
+      const cookies = new Cookies()
+      cookies.set('selected_hostelId', hostelId, { path: '/' });
+    }
+
+
     if (response?.status === 200) {
       yield put({
         type: "CREATE_PG_DASHBOARD",
@@ -665,7 +689,7 @@ function* handleCreateBed(action) {
         yield put({ type: 'ALREADY_BED', payload: error.response.data });
       }
     }
-    
+
   }
 }
 
@@ -830,7 +854,12 @@ function* handleOccupiedCustomer(action) {
   try {
     const response = yield call(OccupiedCustomer, action.payload);
 
-
+const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
+      const cookies = new Cookies()
+      cookies.set('selected_hostelId', hostelId, { path: '/' });
+    }
 
     if (response?.status === 200) {
       yield put({
@@ -947,7 +976,7 @@ function* handleEditElectricity(action) {
   }
   catch (error) {
     yield* handleApiError(error);
-   
+
   }
 }
 
@@ -1135,7 +1164,7 @@ function* handleAddHostelElectricity(action) {
   }
   catch (error) {
     yield* handleApiError(error);
-   
+
   }
 }
 
@@ -1183,7 +1212,7 @@ function* handleHostelEditElectricity(action) {
   }
   catch (error) {
     yield* handleApiError(error);
-    
+
   }
 }
 
@@ -1329,7 +1358,7 @@ function* handleAddAnnounce(action) {
   }
   catch (error) {
     yield* handleApiError(error);
-   
+
   }
 }
 
@@ -1442,7 +1471,7 @@ function* handleCreateComments(action) {
   }
   catch (error) {
     yield* handleApiError(error);
-   
+
   }
 }
 
@@ -1489,7 +1518,7 @@ function* handleCreateSubComments(action) {
   }
   catch (error) {
     yield* handleApiError(error);
-  
+
   }
 }
 
@@ -1581,7 +1610,7 @@ function* PgListSaga() {
   yield takeEvery("GETALLROOMSLIST", handleGetAllRooms);
   yield takeEvery("GETALLBEDSLIST", handleGetAllBed)
   yield takeEvery("CREATEPG", handlePgList);
-   yield takeEvery("UPDATEPG",handleUpdatePgList)
+  yield takeEvery("UPDATEPG", handleUpdatePgList)
   yield takeEvery("CREATEROOM", handleCreateRoom);
   yield takeEvery("UPDATEROOM", handleUpdateRoom);
   yield takeEvery("CHECKROOM", handleCheckRoom);

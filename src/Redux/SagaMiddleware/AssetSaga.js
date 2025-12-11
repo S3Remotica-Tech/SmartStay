@@ -2,7 +2,7 @@ import { takeEvery, call, put } from "redux-saga/effects";
 import {getRoleBasedPermission,  updateAsset, GetAsset, AddAsset, DeleteAssetList, getHostelRooms, AssignAsset } from "../Action/AssetAction"
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
-
+import { GlobalHostelId } from "../../Utils/GlobalResponse";
 
 function* handleApiError(error) {
    const status = error?.response?.status || error?.status;
@@ -68,7 +68,12 @@ function* handleGetRoleBasedPermission(action) {
    try {
       const response = yield call(getRoleBasedPermission, action.payload);
 
-
+ const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
+      const cookies = new Cookies()
+      cookies.set('selected_hostelId', hostelId, { path: '/' });
+    }
 
       if (response?.status === 200 || response?.data?.statusCode === 200) {
          yield put({ type: 'PERMISSION_ROLE_LIST', payload: { response: response?.data || [], statusCode: response?.status || response?.data?.statusCode } })
@@ -88,9 +93,15 @@ function* handleGetRoleBasedPermission(action) {
 
 function* handleGetAsset(action) {
    try {
-      const hostelId = action.payload;
-      const response = yield call(GetAsset, hostelId);
+   const response = yield call(GetAsset, action.payload);
 
+     const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
+      const cookies = new Cookies()
+      cookies.set('selected_hostelId', hostelId, { path: '/' });
+    }
+    
       if (response?.status === 200 || response?.data?.statusCode === 200) {
          yield put({ type: 'ASSET_LIST', payload: { response: response?.data || [], statusCode: response?.status || response?.data?.statusCode } })
       }

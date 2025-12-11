@@ -3,6 +3,9 @@ import { updateRecurringTenant, AssignAmenitiesForTenant, UnAssignAmenitiesForTe
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { GlobalHostelId } from "../../Utils/GlobalResponse";
+
+
 
 function* handleApiError(error) {
    const status = error?.response?.status || error?.status;
@@ -275,6 +278,16 @@ function* handleGetInitializeRefund(action) {
    try {
       const response = yield call(getInitializeRefund, action.payload)
 
+
+  const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
+      const cookies = new Cookies()
+      cookies.set('selected_hostelId', hostelId, { path: '/' });
+    }
+
+
+
          if (response?.status === 200 ) {
          yield put({ type: 'GET_INITIALIZE_REFUND_DETAILS', payload: { response: response.data, statusCode: response?.status  } })
       }
@@ -298,6 +311,15 @@ function* handleGetFinalSettlementList(action) {
    try {
       const response = yield call(getFinalSettlementList, action.payload)
 
+   const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
+      const cookies = new Cookies()
+      cookies.set('selected_hostelId', hostelId, { path: '/' });
+    }
+
+
+
 
       if (response?.status === 200 ) {
          yield put({ type: 'GET_FINAL_SETTLEMENT', payload: { response: response.data, statusCode: response?.status } })
@@ -320,7 +342,12 @@ function* handleGetParticularBillsDetails(action) {
    try {
       const response = yield call(getParticularBillsDetails, action.payload)
 
-   
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
+      const cookies = new Cookies()
+      cookies.set('selected_hostelId', hostelId, { path: '/' });
+    }
 
       if (response?.status === 200 ) {
          yield put({ type: 'GET_PARTICULAR_BILL_DETAILS', payload: { response: response.data, statusCode: response?.status  } })
@@ -585,7 +612,12 @@ function* handleGetParticularAmentityList(action) {
        const {hostelId , amenityId } = action.payload
           const response = yield call(ParticularAmentityList, hostelId,amenityId);
 
-
+ const hostel_Id = GlobalHostelId(response);
+    if (hostel_Id) {
+      yield put({ type: "STORE_HOSTEL_DATA", payload: hostel_Id });
+      const cookies = new Cookies()
+      cookies.set('selected_hostelId', hostel_Id, { path: '/' });
+    }
           
 
    if (response?.status === 200 ) {
@@ -872,7 +904,12 @@ function* handleGetAmenities(action) {
    const response = yield call(GetAmenities, action.payload)
 
 
-   
+    const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
+      const cookies = new Cookies()
+      cookies.set('selected_hostelId', hostelId, { path: '/' });
+    }
 
    if (response?.status === 200 ) {
       yield put({ type: 'AMENITIES_LIST', payload: { response: response?.data || [], statusCode: response?.status  } })
@@ -1293,7 +1330,12 @@ function* handleRecurrBillsAdd(params) {
 function* handleGetManualInvoice(action) {
    try {
       const response = yield call(GetManualInvoices, action.payload)
-
+     const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
+      const cookies = new Cookies()
+      cookies.set('selected_hostelId', hostelId, { path: '/' });
+    }
       if (response?.status === 200 ) {
          yield put({ type: 'MANUAL_INVOICES_LIST', payload: { response: response?.data || [], statusCode: response?.status  } })
       }
@@ -1318,7 +1360,12 @@ function* handleGetRecurrbills(action) {
    try{
    const response = yield call(GetRecurrBills, action.payload)
 
-
+ const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
+      const cookies = new Cookies()
+      cookies.set('selected_hostelId', hostelId, { path: '/' });
+    }
    if (response?.status === 200 ) {
       yield put({ type: 'RECURRING_BILLS_LIST', payload: { response: response.data, statusCode: response?.status  } })
    }
@@ -1438,6 +1485,14 @@ function* handleGetReceipts(action) {
 
    try {
       const response = yield call(GetReceiptData, action.payload)
+
+ const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
+      const cookies = new Cookies()
+      cookies.set('selected_hostelId', hostelId, { path: '/' });
+    }
+
 
       if (response?.status === 200 ) {
          yield put({ type: 'RECEIPTS_LIST', payload: { response: response?.data || [], statusCode: response?.status  } })

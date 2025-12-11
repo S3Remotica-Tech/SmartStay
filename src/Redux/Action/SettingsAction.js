@@ -271,7 +271,6 @@ export async function EditStaffUser(hostelId, userId, datum) {
 
 
 
-// API call with hostelId in path
 export async function GetAllStaff(hostelId) {
 
   return await AxiosConfigV2.get(`/v2/profile/users-list/${hostelId}`, {

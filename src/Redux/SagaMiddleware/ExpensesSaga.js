@@ -2,7 +2,7 @@ import { takeEvery, call, put } from "redux-saga/effects";
 import { GetInitializeExpense, GetExpenseCatogory, AddExpense, GetExpense, DeleteExpense, transactionHistory, AddExpenseTag } from "../Action/ExpensesAction"
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
-
+import { GlobalHostelId } from "../../Utils/GlobalResponse";
 
 function* handleApiError(error) {
    const status = error?.response?.status || error?.status;
@@ -83,6 +83,13 @@ function* handleGetCategory() {
 function* handleGetExpenses(action) {
    try {
       const response = yield call(GetExpense, action.payload);
+       const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
+      const cookies = new Cookies()
+      cookies.set('selected_hostelId', hostelId, { path: '/' });
+    }
+      
 
       if (response?.status === 200) {
          yield put({ type: 'EXPENSES_LIST', payload: { response: response.data, statusCode: response?.status } })
@@ -102,6 +109,14 @@ function* handleGetExpenses(action) {
 function* handleGetInitializeExpense(action) {
    try {
       const response = yield call(GetInitializeExpense, action.payload);
+
+       const hostelId = GlobalHostelId(response);
+          if (hostelId) {
+            yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
+            const cookies = new Cookies()
+            cookies.set('selected_hostelId', hostelId, { path: '/' });
+          }
+
 
       if (response?.status === 200) {
          yield put({ type: 'INITIALIZE_EXPENSES_LIST', payload: { response: response.data, statusCode: response?.status } })

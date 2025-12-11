@@ -3,7 +3,7 @@ import { AddBankingDetails, GetAddBanking, AddDefaultAccount, AddBankAmount, edi
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'universal-cookie';
-
+import { GlobalHostelId } from "../../Utils/GlobalResponse";
 
 function* handleApiError(error) {
    const status = error?.response?.status || error?.status;
@@ -162,9 +162,13 @@ function* handleEditBanking(action) {
 function* handleGetBanking(action) {
   try{
 
-  
   const response = yield call(GetAddBanking, action.payload)
-
+  const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
+      const cookies = new Cookies()
+      cookies.set('selected_hostelId', hostelId, { path: '/' });
+    }
   
   if (response?.status === 200 ) {
     yield put({ type: 'BANKING_LIST', payload: { response: response.data || [], statusCode:response?.status} })

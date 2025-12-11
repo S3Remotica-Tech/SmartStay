@@ -295,6 +295,7 @@ const formattedRoomReadings = roomReadingList?.map((item) => {
 
     totalUnits: item.consumption,
     totalPrice: item.totalPrice,
+    currentReading:item.currentReading
   };
 });
 
@@ -751,12 +752,12 @@ console.log("formattedRoomReadings",formattedRoomReadings)
                         </div>
                       </div>
                     ) : (
-                      <div className="table-responsive"
+                      <div className="table-responsive show-scrolls"
                         style={{
                           background: "#fff",
                           borderRadius: 12,
                           boxShadow: "0px 4px 8px rgba(0,0,0,0.05)",
-                          maxHeight: "420px",
+                          maxHeight: "480px",
                           overflowY: "auto",
                           position: "relative"
                         }}
@@ -899,12 +900,12 @@ console.log("formattedRoomReadings",formattedRoomReadings)
                       </div>
                     </div>
                   ) : (
-                    <div className="table-responsive"
+                    <div className="table-responsive show-scrolls"
                       style={{
                         background: "#fff",
                         borderRadius: 12,
                         boxShadow: "0px 4px 8px rgba(0,0,0,0.05)",
-                        maxHeight: "420px",
+                        maxHeight: "480px",
                         overflowY: "auto",
                       }}
                     >

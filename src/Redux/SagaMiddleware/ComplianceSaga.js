@@ -1,8 +1,9 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import {complaintsView,  updateVendor, ComplianceChangeStatus, complianceList, Compliancedetails, VendorList, addVendor, DeleteVendorList, ComplianceAssign, complianceDelete, getComplianceComment, addComplianceComment, EditComplaint, ParticularcomplianceDetails } from "../Action/ComplianceAction"
+import { complaintsView, updateVendor, ComplianceChangeStatus, complianceList, Compliancedetails, VendorList, addVendor, DeleteVendorList, ComplianceAssign, complianceDelete, getComplianceComment, addComplianceComment, EditComplaint, ParticularcomplianceDetails } from "../Action/ComplianceAction"
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { GlobalHostelId } from "../../Utils/GlobalResponse";
 
 
 
@@ -107,7 +108,7 @@ function* handleUpdateVendor(action) {
          if (error.status === 400) {
             yield put({ type: 'ALREADY_VENDOR_ERROR', payload: error.response.data });
          }
-      } 
+      }
    }
 }
 
@@ -119,16 +120,23 @@ function* handleParticularcompliant(action) {
       const { complaintId } = action.payload
       const response = yield call(ParticularcomplianceDetails, complaintId)
 
+ const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
+      const cookies = new Cookies()
+      cookies.set('selected_hostelId', hostelId, { path: '/' });
+    }
+      
       if (response?.status === 200) {
          yield put({
             type: 'PARTICULAR-COMPLIANT', payload: {
                response: response.data || [],
-               statusCode: response?.status 
+               statusCode: response?.status
             }
          })
       }
       else {
-         yield put({ type: 'ERROR', payload:  response?.data?.message })
+         yield put({ type: 'ERROR', payload: response?.data?.message })
       }
       if (response) {
          refreshToken(response)
@@ -136,7 +144,7 @@ function* handleParticularcompliant(action) {
    }
    catch (error) {
       yield* handleApiError(error);
-      
+
    }
 
 }
@@ -145,10 +153,16 @@ function* handleParticularcompliant(action) {
 
 function* handlecompliancelist(action) {
    try {
-
       const response = yield call(complianceList, action.payload)
 
-      if (response?.status === 200 ) {
+      const hostelId = GlobalHostelId(response);
+      if (hostelId) {   
+          yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
+          const cookies = new Cookies()
+          cookies.set('selected_hostelId', hostelId, { path: '/' });
+                        }
+
+      if (response?.status === 200) {
          yield put({
             type: 'COMPLIANCE_LIST', payload: {
                response: response.data.complaintsList || [], filterOptions: response.data.filterOptions || [],
@@ -157,15 +171,13 @@ function* handlecompliancelist(action) {
          })
       }
       else {
-         yield put({ type: 'ERROR', payload:  response?.data?.message })
+         yield put({ type: 'ERROR', payload: response?.data?.message })
       }
-      if (response) {
-         refreshToken(response)
-      }
+
    }
    catch (error) {
       yield* handleApiError(error);
-     
+
    }
 
 }
@@ -175,8 +187,8 @@ function* handleComplianceadd(params) {
 
       const response = yield call(Compliancedetails, params.payload);
 
-      if (response?.status === 201 ) {
-         yield put({ type: 'COMPLIANCE_ADD', payload: { response: response.data, statusCode: response?.status} })
+      if (response?.status === 201) {
+         yield put({ type: 'COMPLIANCE_ADD', payload: { response: response.data, statusCode: response?.status } })
          var toastStyle = {
             backgroundColor: "#E6F6E6",
             color: "black",
@@ -206,14 +218,14 @@ function* handleComplianceadd(params) {
             style: toastStyle
          })
       }
-     
+
       if (response) {
          refreshToken(response)
       }
    }
    catch (error) {
       yield* handleApiError(error);
-     
+
    }
 }
 
@@ -236,7 +248,7 @@ function* handleEditComplaint(action) {
 
       };
       if (response?.status === 200) {
-         yield put({ type: "EDIT_COMPLAINT_SUCCESS", payload: { response: response.data, statusCode: response?.status  } });
+         yield put({ type: "EDIT_COMPLAINT_SUCCESS", payload: { response: response.data, statusCode: response?.status } });
 
          toast.success(response.data, {
             position: "bottom-center",
@@ -259,7 +271,7 @@ function* handleEditComplaint(action) {
    }
    catch (error) {
       yield* handleApiError(error);
-     
+
    }
 }
 
@@ -267,14 +279,18 @@ function* handleEditComplaint(action) {
 function* handleVendorGet(action) {
    try {
       const response = yield call(VendorList, action.payload);
+   const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
+      const cookies = new Cookies()
+      cookies.set('selected_hostelId', hostelId, { path: '/' });
+    }
 
-
-
-      if (response?.status === 200 ) {
-         yield put({ type: 'VENDOR_LIST', payload: { response: response.data, statusCode: response?.status  } })
+      if (response?.status === 200) {
+         yield put({ type: 'VENDOR_LIST', payload: { response: response.data, statusCode: response?.status } })
       }
-      else if (response?.status === 201 ) {
-         yield put({ type: 'ERROR_VENDOR_LIST', payload: { statusCode: response?.status  } })
+      else if (response?.status === 201) {
+         yield put({ type: 'ERROR_VENDOR_LIST', payload: { statusCode: response?.status } })
       }
       if (response) {
          refreshToken(response)
@@ -331,7 +347,7 @@ function* handleAddVendor(action) {
          if (error.status === 400) {
             yield put({ type: 'ALREADY_VENDOR_ERROR', payload: error.response.data });
          }
-      } 
+      }
    }
 }
 
@@ -357,8 +373,8 @@ function* handleComplianceChange(action) {
 
       };
 
-      if (response?.status === 200 ) {
-         yield put({ type: 'COMPLIANCE_CHANGE_STATUS', payload: { response: response.data, statusCode: response?.status  } })
+      if (response?.status === 200) {
+         yield put({ type: 'COMPLIANCE_CHANGE_STATUS', payload: { response: response.data, statusCode: response?.status } })
 
 
 
@@ -373,7 +389,7 @@ function* handleComplianceChange(action) {
             style: toastStyle,
          });
       }
-      
+
       if (response) {
          refreshToken(response)
       }
@@ -381,8 +397,8 @@ function* handleComplianceChange(action) {
    catch (error) {
       yield* handleApiError(error);
       if (error.status === 400 || error.status === 404) {
-            yield put({ type: 'COMPLIANCE_CHANGE_STATUS_ERROR', payload: error.response.data });
-         }
+         yield put({ type: 'COMPLIANCE_CHANGE_STATUS_ERROR', payload: error.response.data });
+      }
    }
 
 }
@@ -413,7 +429,7 @@ function* handleComplianceChangeAssign(action) {
       };
 
       if (response?.status === 200) {
-         yield put({ type: 'COMPLIANCE_CHANGE_ASSIGN', payload: { response: response.data, statusCode:  response?.status } })
+         yield put({ type: 'COMPLIANCE_CHANGE_ASSIGN', payload: { response: response.data, statusCode: response?.status } })
          toast.success(`${response.data}`, {
             position: "bottom-center",
             autoClose: 2000,
@@ -425,7 +441,7 @@ function* handleComplianceChangeAssign(action) {
             style: toastStyle,
          });
       }
-     
+
       if (response) {
          refreshToken(response)
       }
@@ -433,8 +449,8 @@ function* handleComplianceChangeAssign(action) {
    catch (error) {
       yield* handleApiError(error);
       if (error.status === 400 || error.status === 404) {
-            yield put({ type: 'COMPLIANCE_CHANGE_STATUS_ASSIGN_ERROR', payload: error.response.data });
-         }
+         yield put({ type: 'COMPLIANCE_CHANGE_STATUS_ASSIGN_ERROR', payload: error.response.data });
+      }
    }
 
 }
@@ -462,8 +478,8 @@ function* handleDeleteVendor(action) {
 
       };
 
-      if (response?.status === 200 ) {
-         yield put({ type: 'DELETE_VENDOR', payload: { response: response.data, statusCode: response?.status  } })
+      if (response?.status === 200) {
+         yield put({ type: 'DELETE_VENDOR', payload: { response: response.data, statusCode: response?.status } })
          toast.success('Vendor has been successfully deleted!', {
             position: "bottom-center",
             autoClose: 2000,
@@ -477,7 +493,7 @@ function* handleDeleteVendor(action) {
          });
       }
       else {
-         yield put({ type: 'ERROR', payload:  response?.data?.message })
+         yield put({ type: 'ERROR', payload: response?.data?.message })
       }
       if (response) {
          refreshToken(response)
@@ -513,8 +529,8 @@ function* handleDeleteCompliance(action) {
 
       };
 
-      if (response?.status === 200 ) {
-         yield put({ type: 'DELETE_COMPLIANCE', payload: { response: response.data, statusCode: response?.status} })
+      if (response?.status === 200) {
+         yield put({ type: 'DELETE_COMPLIANCE', payload: { response: response.data, statusCode: response?.status } })
          toast.success(`${response.data}`, {
             position: "bottom-center",
             autoClose: 2000,
@@ -528,7 +544,7 @@ function* handleDeleteCompliance(action) {
          });
       }
       else {
-         yield put({ type: 'ERROR', payload:  response?.data?.message })
+         yield put({ type: 'ERROR', payload: response?.data?.message })
       }
       if (response) {
          refreshToken(response)
@@ -545,11 +561,11 @@ function* handleDeleteCompliance(action) {
 function* handleGetComplianceComment(action) {
    try {
       const response = yield call(getComplianceComment, action.payload);
-      if (response?.status === 200 ) {
+      if (response?.status === 200) {
          yield put({ type: 'COMPLIANCE_COMENET_LIST', payload: { response: response.data, statusCode: response?.status } })
       }
       else {
-         yield put({ type: 'ERROR', payload:  response?.data?.message })
+         yield put({ type: 'ERROR', payload: response?.data?.message })
       }
       if (response) {
          refreshToken(response)
@@ -603,15 +619,15 @@ function* handleAddComplianceComment(action) {
          })
       }
       else {
-         yield put({ type: 'ERROR', payload:  response?.data?.message })
+         yield put({ type: 'ERROR', payload: response?.data?.message })
       }
       if (response) {
          refreshToken(response)
       }
    }
    catch (error) {
-       yield* handleApiError(error);
-     
+      yield* handleApiError(error);
+
    }
 }
 
@@ -635,10 +651,18 @@ function* handleCompliantsView(action) {
    try {
       const response = yield call(complaintsView, action.payload);
 
+       const hostelId = GlobalHostelId(response);
+          if (hostelId) {
+            yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
+            const cookies = new Cookies()
+            cookies.set('selected_hostelId', hostelId, { path: '/' });
+          }
+
+
       if (response?.status === 200) {
          yield put({ type: 'COMPLAINTS_VIEW', payload: { response: response.data, statusCode: response?.status } })
       }
-     
+
       if (response) {
          refreshToken(response)
       }
@@ -651,7 +675,7 @@ function* handleCompliantsView(action) {
 
 
 function* ComplianceSaga() {
-    yield takeEvery('COMPLAINTSVIEW', handleCompliantsView)
+   yield takeEvery('COMPLAINTSVIEW', handleCompliantsView)
    yield takeEvery('COMPLIANCE-LIST', handlecompliancelist)
    yield takeEvery('COMPLIANCE-ADD', handleComplianceadd)
    yield takeEvery('EDIT_COMPLAINT', handleEditComplaint)
