@@ -77,7 +77,7 @@ import BillingRule from "../Pages/Settings/BillingRule/BillingRule";
 import SettingGeneral from "../Pages/Settings/SettingGeneral";
 import SettingManage from "../Pages/SettingManage";
 import { Notification } from 'iconsax-react'
-import NotificationForm from "./Notification";
+import NotificationForm from "../Utils/Notification";
 import PaymentPreview from "../Pages/SubscriptionFile/PaymentPreview";
 
 function Sidebar() {

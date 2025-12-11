@@ -3,7 +3,7 @@ import { AddBankingDetails, GetAddBanking, AddDefaultAccount, AddBankAmount, edi
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'universal-cookie';
-
+import { GlobalHostelId } from "../../Utils/GlobalResponse";
 
 function* handleApiError(error) {
    const status = error?.response?.status || error?.status;

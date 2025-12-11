@@ -33,6 +33,7 @@ export const initialState = {
     statusCodeforgetparticularCompliant: 0,
     complaintsView: [],
     getcomplaintsViewStatus: 0,
+    apiResponseHostelId: '',
 
 
 }
@@ -42,6 +43,9 @@ const ComplianceReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'RESET_ALL':
             return initialState;
+
+            case 'SET_HOSTEL_ID':
+                 return { ...state, apiResponseHostelId: action.payload }
         case 'COMPLIANCE_LIST':
             return { ...state, Compliance: action.payload.response, filterOptions: action.payload.filterOptions, statusCodeCompliance: action.payload.statusCode }
         case 'CLEAR_COMPLIANCE_LIST':

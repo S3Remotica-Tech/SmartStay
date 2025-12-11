@@ -2,7 +2,7 @@ import { takeEvery, call, put } from "redux-saga/effects";
 import {getRoleBasedPermission,  updateAsset, GetAsset, AddAsset, DeleteAssetList, getHostelRooms, AssignAsset } from "../Action/AssetAction"
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
-
+import { GlobalHostelId } from "../../Utils/GlobalResponse";
 
 function* handleApiError(error) {
    const status = error?.response?.status || error?.status;

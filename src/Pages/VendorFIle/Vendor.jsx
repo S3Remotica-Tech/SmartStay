@@ -18,7 +18,8 @@ import './VendorListMap.css';
 import { useMediaQuery, useTheme } from '@mui/material'
 import ErrorMessage from '../../Components/ErrorMessage';
 import { useHasPermission } from '../../Utils/Permission';
-import withErrorBoundary from "../../Hoc/WithErrorBountry"; 
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
+import SmarstayLogo from '../../Assets/Images/get.png'
 
 function Vendor() {
 
@@ -31,7 +32,7 @@ function Vendor() {
   const [currentItem, setCurrentItem] = useState('')
 
 
-const {
+  const {
     canWriteModule: canWriteVendor,
     canReadModule: canReadVendor,
     // canUpdateModule: canUpdateVendor,
@@ -39,13 +40,13 @@ const {
   } = useHasPermission("Vendor");
 
 
-  
 
-  
+
+
 
   useEffect(() => {
-  setLoading(!canReadVendor);
-}, [canReadVendor]);
+    setLoading(!canReadVendor);
+  }, [canReadVendor]);
 
 
 
@@ -557,27 +558,46 @@ const {
               {loading && (
                 <div
                   style={{
-                    position: 'fixed',
+                    position: "fixed",
                     right: "40%",
-                    display: 'flex',
-                    height: "50vh",
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor: 'transparent',
-                    opacity: 0.75,
-                    zIndex: 10,
+                    top: "40%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    zIndex: 9999,
                   }}
                 >
                   <div
                     style={{
-                      borderTop: '4px solid #1E45E1',
-                      borderRight: '4px solid transparent',
-                      borderRadius: '50%',
-                      width: '40px',
-                      height: '40px',
-                      animation: 'spin 1s linear infinite',
+                      width: "60px",
+                      height: "60px",
+                      borderRadius: "50%",
+                      borderTop: "2px solid #1E45E1",
+                      borderBottom: "2px solid #1E45E1",
+                      borderRight: "2px solid transparent",
+                      animation: "spin 1s linear infinite",
+                      position: "relative",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
                     }}
-                  ></div>
+                  >
+                  <div style={{ display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center"}}>
+                    <img
+                      src={SmarstayLogo}  
+                      alt="logo"
+                      style={{
+                        width: "35px",
+                        height: "35px",
+                        position: "absolute",
+                        transform: "rotate(0deg)", 
+                             animation: "spinReverse 1s linear infinite",borderRadius:"50%"
+                      }}
+                    /> 
+                    </div>
+                  </div>
                 </div>
               )}
 
@@ -586,10 +606,10 @@ const {
                 {filteredData && filteredData.length > 0 && filteredData.map((vendor) => (
                   <div key={vendor.id} className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12'>
                     <VendorListMap vendor={vendor} onEditVendor={handleEditVendor}
-                      onDeleteVendor={handleDeleteVendor} 
-                      // vendorDeletePermission={vendorDeletePermission}
-                      //  vendorAddPermission={vendorAddPermission}
-                      //   vendorEditPermission={vendorEditPermission}
+                      onDeleteVendor={handleDeleteVendor}
+                    // vendorDeletePermission={vendorDeletePermission}
+                    //  vendorAddPermission={vendorAddPermission}
+                    //   vendorEditPermission={vendorEditPermission}
                     />
                   </div>
                 ))

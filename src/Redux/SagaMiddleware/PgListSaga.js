@@ -3,6 +3,7 @@ import { updatePgList,UpdateBed, getAllBed, updateRoom, getAllRoom, add_sub_comm
 import Cookies from "universal-cookie";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { GlobalHostelId } from "../../Utils/GlobalResponse";
 
 function* handleApiError(error) {
  

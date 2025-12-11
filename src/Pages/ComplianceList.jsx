@@ -262,11 +262,13 @@ const ComplianceList = (props) => {
   const [statusErrorType, setStatusErrorType] = useState('')
 
   const handleChangeStatusOpenClose = (item) => {
-
+  
     dispatch({ type: 'REMOVE_COMPLIANCE_CHANGE_STATUS_ERROR' })
     // setAssignId(item?.ID);
     setShowDots(false);
-    setStatus(item?.status === null ? "pending" : item?.status);
+    const normalizedStatus = item?.status?.toLowerCase() ?? "pending";
+   setStatus(normalizedStatus);
+
     setSelectedStatus(item?.status === null ? "pending" : item?.status)
     setComplaintId(item?.complaintId)
     setShowChangeStatus(true);
@@ -423,7 +425,7 @@ const ComplianceList = (props) => {
     }
   };
 
-
+  
 
   useEffect(() => {
     const appearOptions = {
@@ -449,7 +451,7 @@ const ComplianceList = (props) => {
   });
 
 
-  console.log("props.complaints", props.complaints)
+ 
 
 
 
@@ -1280,14 +1282,14 @@ const ComplianceList = (props) => {
                                   display: "flex",
                                   alignItems: "flex-start",
                                   borderBottom: "1px solid #EDF0F4",
-                                  marginBottom: "10px",width: "100%",
+                                  marginBottom: "10px", width: "100%",
                                 }}
                               >
                                 <div
                                   style={{
                                     display: "flex",
                                     alignItems: "flex-start",
-                                    gap: "10px",width: "100%",
+                                    gap: "10px", width: "100%",
                                   }}
                                 >
 
@@ -1334,7 +1336,7 @@ const ComplianceList = (props) => {
 
 
                                   <div style={{ flex: 1 }}>
-                                    <p 
+                                    <p
                                       style={{
                                         margin: 0,
                                         fontSize: "16px",
@@ -1559,9 +1561,9 @@ const ComplianceList = (props) => {
 
                             <Select
                               options={[
-                                { value: "pending", label: "pending" },
+                                { value: "pending", label: "Pending" },
                                 { value: "assigned", label: "assigned" },
-                                { value: "resolved", label: "resolved" },
+                                { value: "resolved", label: "Resolved" },
                               ]}
                               onChange={handleStatus}
 
@@ -1570,6 +1572,7 @@ const ComplianceList = (props) => {
                                   ? { value: status, label: status.replace("-", " ") }
                                   : null
                               }
+
                               placeholder="Select a Status"
                               classNamePrefix="custom"
                               styles={{
@@ -1583,12 +1586,13 @@ const ComplianceList = (props) => {
                                   fontFamily: "Gilroy",
                                   fontWeight: 500,
                                   boxShadow: "none",
+                                  textTransform: "capitalize"
                                 }),
                                 menu: (base) => ({
                                   ...base,
                                   backgroundColor: "#f8f9fa",
                                   border: "1px solid #ced4da",
-                                  fontFamily: "Gilroy",
+                                  fontFamily: "Gilroy", textTransform: "capitalize"
                                 }),
                                 menuList: (base) => ({
                                   ...base,
@@ -1597,11 +1601,11 @@ const ComplianceList = (props) => {
                                   padding: 0,
                                   scrollbarWidth: "thin",
                                   overflowY: "auto",
-                                  fontFamily: "Gilroy",
+                                  fontFamily: "Gilroy", textTransform: "capitalize"
                                 }),
                                 placeholder: (base) => ({
                                   ...base,
-                                  color: "#555",
+                                  color: "#555", textTransform: "capitalize"
                                 }),
                                 dropdownIndicator: (base) => ({
                                   ...base,
@@ -1612,7 +1616,7 @@ const ComplianceList = (props) => {
                                   ...base,
                                   cursor: "pointer",
                                   backgroundColor: state.isFocused ? "lightblue" : "white",
-                                  color: "#000",
+                                  color: "#000", textTransform: "capitalize"
                                 }),
                                 indicatorSeparator: () => ({
                                   display: "none",

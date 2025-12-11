@@ -1,12 +1,11 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import { PlanList, ChangeRoomHostelElectricity, getModules, RecurringRole, AddExpencesCategory, EditExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit, GetAllRoles, AddSettingRole, AddSettingPermission, editRolePermission, deleteRolePermission, addStaffUser, GetAllStaff, GetAllReport, AddGeneral, GetAllGeneral, passwordChangesinstaff, generalDelete, passwordCheck, Editcomplainttype, DeleteElectricity, newSubscription, SubscriptionList, SubscriptionPdfDownload, SettingsAddRecurring, GetBillsFrequncyTypes, GetBillsNotificationTypes, SettingsGetRecurring, AddInvoiceSettings, SettingsGetInvoice, AddBillTemplate, getTemplateList, AddGlobalSettingTemplate, SettingsGetGlobal, EditGeneral, EditStaffUser } from "../Action/SettingsAction"
-
-
+import { GlobalHostelId } from "../../Utils/GlobalResponse";
 import Cookies from 'universal-cookie';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { GlobalHostelId } from "../../Utils/GlobalResponse";
 
 
 function* handleApiError(error) {

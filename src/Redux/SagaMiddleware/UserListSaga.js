@@ -12,7 +12,7 @@ import {EditTenantAmount, editAdvanceAmount,
    customerAddContact, customerAllContact, deleteContact, generateAdvance, uploadDocument, hostelDetailsId, EditConfirmCheckOut,
    handleKycVerify, handlegetCustomerDetailsKyc, CustomerUnAssign, backtoCheckin, GenerateDetails, conformCheckout
 } from "../Action/UserListAction"
-
+import { GlobalHostelId } from "../../Utils/GlobalResponse";
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
