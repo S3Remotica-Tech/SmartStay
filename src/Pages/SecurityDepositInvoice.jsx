@@ -30,7 +30,7 @@ import "react-toastify/dist/ReactToastify.css";
 // import downloadicon from '../Assets/Images/pdfdown.png';
 // import CloseIcon from '../Assets/Images/close_icon.png';
 import PropTypes from "prop-types";
-import BankingAddForm from "./BankingAddForm";
+import BankingAddForm from "../Pages/Banking/BankingAddForm";
 // import ErrorMessage from '../Components/ErrorMessage'
 // import { useHasPermission } from '../Utils/Permission';
 import { Location, Call, Profile, } from 'iconsax-react'

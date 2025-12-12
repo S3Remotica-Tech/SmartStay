@@ -3,26 +3,25 @@ import React, { useState, useEffect, useRef } from "react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Card from "react-bootstrap/Card";
 import Image from "react-bootstrap/Image";
-import User from "../Assets/Images/New_images/profile-picture.png";
-import Tickicon from "../Assets/Images/tick-circle.png";
-import Profile_add from "../Assets/Images/profile-add.png";
+import User from "../../Assets/Images/New_images/profile-picture.png";
+import Tickicon from "../../Assets/Images/tick-circle.png";
+import Profile_add from "../../Assets/Images/profile-add.png";
 import moment from "moment";
-import ChangeStatusIcon from "../Assets/Images/ComplaintChangeStatusicon.svg";
-import AssignComplaintIcon from "../Assets/Images/profile-add-AssingnComplaint.svg";
-import CommentIcon from "../Assets/Images/Comment-icon-complaints page.svg";
-import send from "../Assets/Images/send.svg";
+import ChangeStatusIcon from "../../Assets/Images/ComplaintChangeStatusicon.svg";
+import AssignComplaintIcon from "../../Assets/Images/profile-add-AssingnComplaint.svg";
+import CommentIcon from "../../Assets/Images/Comment-icon-complaints page.svg";
+import send from "../../Assets/Images/send.svg";
 import { useDispatch, useSelector } from "react-redux";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { MdError } from "react-icons/md";
 import PropTypes from "prop-types"
 import Select from "react-select";
 import "./ComplianceList.css";
 import { CloseCircle, Edit, Trash } from "iconsax-react";
-import ErrorMessage from '../Components/ErrorMessage';
-import { useHasPermission } from '../Utils/Permission';
-import ComplaintsView from "../Pages/Compliants/ComplaintsView"
+import ErrorMessage from '../../Components/ErrorMessage';
+import { useHasPermission } from '../../Utils/Permission';
+import ComplaintsView from "../../Pages/Compliants/ComplaintsView"
 
 const ComplianceList = (props) => {
   const state = useSelector((state) => state);
@@ -1302,15 +1301,15 @@ console.log("selectedOption",selectedOption)
                                 >
 
                                   {
-                                    state.ComplianceList?.complaintsView?.customerProfile ?
+                                    item?.profilePic ?
 
                                       <img
                                         src={
-                                          state.ComplianceList?.complaintsView?.customerProfile !== "0" ||
-                                          state.ComplianceList?.complaintsView?.customerProfile !== "null" ||
-                                          state.ComplianceList?.complaintsView?.customerProfile !== null
+                                          item?.profilePic !== "0" ||
+                                          item?.profilePic !== "null" ||
+                                          item?.profilePic !== null
                                           &&
-                                          state.ComplianceList?.complaintsView?.customerProfile
+                                          item?.profilePic
                                         }
                                         alt="User"
                                         style={{
@@ -1336,7 +1335,7 @@ console.log("selectedOption",selectedOption)
                                           color: "white", fontFamily: "Gilroy",
                                         }}
                                       >
-                                        {state.ComplianceList?.complaintsView?.initials || "-"}
+                                        {item?.initials || "-"}
                                       </div>
                                   }
 
@@ -1428,10 +1427,6 @@ console.log("selectedOption",selectedOption)
                           }}
                         ></div>
                       </div>}
-
-
-
-
 
 
                       {/* {state.createAccount?.networkError ?

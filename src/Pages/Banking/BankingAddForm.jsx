@@ -5,12 +5,11 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { MdError } from "react-icons/md";
 import "./BankingAddForm.css";
 import PropTypes from "prop-types";
 import { CloseCircle } from "iconsax-react";
 import Select, { components } from "react-select";
-import ErrorMessage from '../Components/ErrorMessage'
+import ErrorMessage from '../../Components/ErrorMessage'
 
 function BankingAddForm(props) {
   const state = useSelector((state) => state);
@@ -34,7 +33,7 @@ function BankingAddForm(props) {
     setHostel_Id(state.login.selectedHostel_Id)
   }, [state?.login?.selectedHostel_Id]);
 
-
+console.log("props",props)
 
   const handleAccountName = (e) => {
     const value = e.target.value
@@ -261,16 +260,16 @@ function BankingAddForm(props) {
       });
 
     } else {
-      props.setEdit(false);
+      props?.setEdit(false);
     }
-  }, [props.editAddBank]);
+  }, [props?.editAddBank]);
 
 
   const handleClose = () => {
     dispatch({ type: 'REMOVE_CREATE_BANKING_ERROR' })
     dispatch({ type: 'REMOVE_ERROR_BOOKING' })
-    props.setShowForm(false);
-    props.setEdit(false);
+    props?.setShowForm(false);
+    props?.setEdit(false);
     setAccountName("")
     setAccountNo("")
     setBankName("")

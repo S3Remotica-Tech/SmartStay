@@ -368,7 +368,6 @@ useEffect(()=>{
   }, [state.PgList.createPgStatusCode,state.PgList.updatePgStatusCode]);
 
 
-console.log("state.PgList",state.PgList)
 
   useEffect(() => {
     if (selectedHostel) {
@@ -737,7 +736,7 @@ console.log("state.PgList",state.PgList)
     dispatch(triggerPG(false))
   }, [])
 
-console.log("state.PgList?.isClickedBed",state.PgList?.isClickedBed)
+
 
 
   return (

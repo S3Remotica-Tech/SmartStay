@@ -23,7 +23,7 @@ import { RgbaColorPicker } from "react-colorful";
 import './SettingInvoice.css';
 import RentalReceiptPdfTemplate from "./RentalReceiptPdfTempate";
 import SecurityDepositInvoiceTemplate from "./SecurityDepositInvoice";
-import BankingAddForm from "./BankingAddForm";
+import BankingAddForm from "../Pages/Banking/BankingAddForm";
 import ErrorMessage from '../Components/ErrorMessage'
 import { useHasPermission } from '../Utils/Permission';
 import Emptystate from "../Assets/Images/Empty-State.jpg";
@@ -39,7 +39,7 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { BsQrCode } from "react-icons/bs";
 import withErrorBoundary from "../Hoc/WithErrorBountry";
 
-function SettingInvoice({ hostelid,  handleFormPage }) {
+function SettingInvoice({ hostelid, handleFormPage }) {
 
 
   const dispatch = useDispatch();
@@ -54,16 +54,16 @@ function SettingInvoice({ hostelid,  handleFormPage }) {
 
 
 
-  
+
   const [selectedDate, setSelectedDate] = useState(null);
   const [invoicedueDate, setInvoiceDueDate] = useState('');
-  
+
   const [prefix, setPrefix] = useState("");
   const [suffix, setSuffix] = useState("");
   const [tax, setTax] = useState("");
   const [banking, setBanking] = useState([])
   const [selectedBankId, setSelectedBankId] = useState(null);
-    const [showform, setShowForm] = useState(false);
+  const [showform, setShowForm] = useState(false);
   const [contactnumberform, setContactNumberForm] = useState(false)
   const [editformErrmsg, setEditFormErrMessage] = useState('')
   const [global, setGlobal] = useState(false)
@@ -73,8 +73,8 @@ function SettingInvoice({ hostelid,  handleFormPage }) {
   const [loading, setLoading] = useState(false)
   const [formLoading, setFormLoading] = useState(false)
 
- 
- 
+
+
 
   const cardRef = useRef(null);
   const innerScrollRef = useRef(null);
@@ -91,7 +91,7 @@ function SettingInvoice({ hostelid,  handleFormPage }) {
   const [terms_errmsg, setTermsErrMsg] = useState('')
   const [signature_errmsg, setSignatureErrMsg] = useState('')
   const [selectedTab, setSelectedTab] = useState("rental_invoice");
-    const [mobilenum, setMobileNum] = useState("")
+  const [mobilenum, setMobileNum] = useState("")
   const [MobileError, setMobileError] = useState("")
   const [email, setEmail] = useState("")
   const [emailError, setEmailError] = useState("")
@@ -100,7 +100,7 @@ function SettingInvoice({ hostelid,  handleFormPage }) {
   const [isCheckedEmail, setIsCheckedEmail] = useState(false);
   const [isCheckedLogo, setIsCheckedLogo] = useState(false);
   const [isCheckedSignature, setIsCheckedSignature] = useState(false);
-  
+
   const [savebuttonshow, setSavebuttonshow] = useState(true)
   const [initialValues, setInitialValues] = useState({});
   const [noChangesDetectedMsg, setNoChangesDetectedMsg] = useState("");
@@ -523,7 +523,7 @@ function SettingInvoice({ hostelid,  handleFormPage }) {
 
 
 
- 
+
 
 
 
@@ -892,7 +892,7 @@ function SettingInvoice({ hostelid,  handleFormPage }) {
     }
   }, [banking]);
 
-  
+
 
   useEffect(() => {
     if (selectedDate && isNaN(new Date(selectedDate).getTime())) {
@@ -1073,8 +1073,8 @@ function SettingInvoice({ hostelid,  handleFormPage }) {
       currentTemplate.gstPercentile !== oldTemplate.gstPercentile ||
       currentTemplate.invoiceNotes !== oldTemplate.invoiceNotes ||
       currentTemplate.invoiceTermsAndCondition !== oldTemplate.invoiceTermsAndCondition ||
-      currentTemplate.bankId !== oldTemplate.bankId 
-      //  currentTemplate.invoiceTemplateColor !== oldTemplate.invoiceTemplateColor;
+      currentTemplate.bankId !== oldTemplate.bankId
+    //  currentTemplate.invoiceTemplateColor !== oldTemplate.invoiceTemplateColor;
 
 
 
@@ -3676,15 +3676,14 @@ function SettingInvoice({ hostelid,  handleFormPage }) {
 
 
 
-   
+
 
       {bankaccountform && (
 
 
         <BankingAddForm showForm={bankaccountform}
           setShowForm={handleCloseFormBank}
-       
-
+          setEdit={() => { }}
 
         />
 

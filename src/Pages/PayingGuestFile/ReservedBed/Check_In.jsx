@@ -21,10 +21,11 @@ import Profileimage from "../../../Assets/Images/New_images/profile-picture.png"
 function CheckIn({
     show,
     handleClose,
-    currentItem
+    currentItem,
+    pgDetails
 }) {
 
-
+console.log("pgDetails",pgDetails)
 
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
@@ -45,8 +46,8 @@ function CheckIn({
     const [placeHolderRoomRent, setPlaceHolderRoomRent] = useState("");
 
     useEffect(() => {
-        if (currentItem?.newTenantInfo?.tenetId) {
-            dispatch({ type: 'BOOKEDDETAILS', payload: { hostelId: state.login.selectedHostel_Id, customerId: currentItem?.newTenantInfo?.tenetId } })
+        if (currentItem?.tenetId) {
+            dispatch({ type: 'BOOKEDDETAILS', payload: { hostelId: state.login.selectedHostel_Id, customerId: currentItem?.tenetId } })
         }
 
     }, [])
@@ -162,18 +163,18 @@ function CheckIn({
 
 
 
-    const formatOptions = () => {
-        return state.UsersList?.Users
-            ?.filter(user => user.customerId === currentItem.newTenantInfo?.tenetId)
-            .map(user => ({
-                value: user.customerId,
-                label: (
-                    <div className="d-flex align-items-center">
-                        <span>{user.firstName}</span>
-                    </div>
-                ),
-            }));
-    };
+    // const formatOptions = () => {
+    //     return state.UsersList?.Users
+    //         ?.filter(user => user.customerId === currentItem.newTenantInfo?.tenetId)
+    //         .map(user => ({
+    //             value: user.customerId,
+    //             label: (
+    //                 <div className="d-flex align-items-center">
+    //                     <span>{user.firstName}</span>
+    //                 </div>
+    //             ),
+    //         }));
+    // };
 
 
 
@@ -388,7 +389,7 @@ function CheckIn({
             dispatch({
                 type: 'BOOKINGTOCHECKIN',
                 payload: {
-                    customerId: currentItem?.newTenantInfo?.tenetId,
+                    customerId: currentItem?.tenetId,
                     bookingId: state.UsersList?.bookedDetails?.bookingId,
                     joiningDate: formattedDate,
                     advanceAmount: Number(AdvanceAmount),
@@ -496,10 +497,10 @@ function CheckIn({
 
                             <div className="d-flex align-items-center gap-3 mb-3 ms-3">
 
-                                {currentItem?.newTenantInfo?.profilePic &&
-                                    currentItem?.newTenantInfo?.profilePic !== "0" ? (
+                                {currentItem?.profilePic &&
+                                    currentItem?.profilePic !== "0" ? (
                                     <Image
-                                        src={currentItem.newTenantInfo?.profilePic}
+                                        src={currentItem?.profilePic}
                                         roundedCircle
                                         style={{ height: 50, width: 50 }}
                                         alt="image"
@@ -519,13 +520,13 @@ function CheckIn({
                                             color: "white", fontFamily: "Gilroy"
                                         }}
                                     >
-                                        {currentItem?.newTenantInfo?.tenantInitials || "-"}
+                                        {currentItem?.tenantInitials || "-"}
                                     </div>
                                 )}
                                 <div>
                                     <div>
                                         <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px", fontFamily: "Gilroy" }}>
-                                            {currentItem.newTenantInfo?.tenantFullName}
+                                            {currentItem?.tenantFullName}
                                         </p>
 
                                     </div>
@@ -542,7 +543,7 @@ function CheckIn({
                                                 fontFamily: "Gilroy"
                                             }}
                                         >
-                                            {currentItem?.floorName}
+                                            {pgDetails?.floorName}
                                         </span>
                                         <span
                                             style={{
@@ -555,7 +556,7 @@ function CheckIn({
                                                 fontFamily: "Gilroy"
                                             }}
                                         >
-                                            {currentItem?.roomName} - {currentItem?.bedName}
+                                            {pgDetails?.roomName} - {pgDetails?.bedName}
                                         </span>
                                     </div>
 
