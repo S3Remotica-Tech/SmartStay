@@ -44,12 +44,12 @@ function SettingAmenities() {
     // const [amenitiescurrentPage, setAmenitiescurrentPage] = useState(1);
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
-const {
-    canWriteModule: canWriteAmenities,
-    canReadModule: canReadAmenities,
-    canUpdateModule: canUpdateAmenities,
-    canDeleteModule: canDeleteAmenities,
-  } = useHasPermission("Amenities");
+    const {
+        canWriteModule: canWriteAmenities,
+        canReadModule: canReadAmenities,
+        canUpdateModule: canUpdateAmenities,
+        canDeleteModule: canDeleteAmenities,
+    } = useHasPermission("Amenities");
 
 
     // const canReadAmenities = useHasPermission("Amenities", "canRead")
@@ -57,25 +57,25 @@ const {
     // const canUpdateAmenities = useHasPermission("Amenities", "canUpdate");
     // const canDeleteAmenities = useHasPermission("Amenities", "canDelete");
 
- 
-  
 
 
-useEffect(() => {
-      if (!canReadAmenities) {
-        setLoading(false);
-      }else{
-        setLoading(true);
-      }
+
+
+    useEffect(() => {
+        if (!canReadAmenities) {
+            setLoading(false);
+        } else {
+            setLoading(true);
+        }
     }, [canReadAmenities]);
 
 
     useEffect(() => {
         if (amenitiesFilterddata.length === 0) {
-          setLoading(false);
+            setLoading(false);
         }
-    
-      }, [amenitiesFilterddata])
+
+    }, [amenitiesFilterddata])
 
     const handleEditAmenities = (amenity) => {
         setEditDetails(amenity)
@@ -84,28 +84,28 @@ useEffect(() => {
 
 
 
-  const handleToggle = (amenity) => {
-  const newChecked = !switchStates[amenity.amenityId]; 
+    const handleToggle = (amenity) => {
+        const newChecked = !switchStates[amenity.amenityId];
 
-  setSwitchStates((prev) => ({
-    ...prev,
-    [amenity.amenityId]: newChecked,
-  }));
+        setSwitchStates((prev) => ({
+            ...prev,
+            [amenity.amenityId]: newChecked,
+        }));
 
 
-  dispatch({
-    type: "AMENITIESUPDATE",
-    payload: {
-      hostelId: state.login.selectedHostel_Id,
-      amenityId: amenity.amenityId,
-      data: {
-        amenityName: amenity.amenityName,
-        amount: amenity.amenityAmount,
-        proRate: newChecked, 
-      },
-    },
-  });
-};
+        dispatch({
+            type: "AMENITIESUPDATE",
+            payload: {
+                hostelId: state.login.selectedHostel_Id,
+                amenityId: amenity.amenityId,
+                data: {
+                    amenityName: amenity.amenityName,
+                    amount: amenity.amenityAmount,
+                    proRate: newChecked,
+                },
+            },
+        });
+    };
 
 
 
@@ -163,7 +163,7 @@ useEffect(() => {
 
     const handleDisplayAssignAmenities = (amenity) => {
         setIsDisplayAssignAmenities(true)
-        setAssignAmenitiesDetails(amenity)   
+        setAssignAmenitiesDetails(amenity)
     }
 
     const handleDisplayAssignAmenitiesClose = () => {
@@ -171,7 +171,7 @@ useEffect(() => {
     }
 
 
-    const handleDeleteAmenities = (amen) => {        
+    const handleDeleteAmenities = (amen) => {
         setDeleteID(amen.amenityId)
         setDeleteAmenities(true)
     }
@@ -184,8 +184,10 @@ useEffect(() => {
     const handleDeleteAmenitiesConfirm = () => {
 
         if (deleteID) {
-            dispatch({ type: 'DELETEAMENITIES',
-                 payload: { amenityId: deleteID, hostelId: state.login.selectedHostel_Id } })
+            dispatch({
+                type: 'DELETEAMENITIES',
+                payload: { amenityId: deleteID, hostelId: state.login.selectedHostel_Id }
+            })
 
         }
     }
@@ -199,22 +201,22 @@ useEffect(() => {
     // }, [amenitiesFilterddata])
 
     useEffect(() => {
-  if (amenitiesFilterddata.length > 0) {
-    const initialSwitchStates = amenitiesFilterddata.reduce((acc, amenity) => {
-      acc[amenity.amenityId] = !!amenity.proRate; 
-      return acc;
-    }, {});
-    setSwitchStates(initialSwitchStates);
-  }
-}, [amenitiesFilterddata]);
+        if (amenitiesFilterddata.length > 0) {
+            const initialSwitchStates = amenitiesFilterddata.reduce((acc, amenity) => {
+                acc[amenity.amenityId] = !!amenity.proRate;
+                return acc;
+            }, {});
+            setSwitchStates(initialSwitchStates);
+        }
+    }, [amenitiesFilterddata]);
 
 
 
 
     useEffect(() => {
-      
-        if(state.login.selectedHostel_Id ){
-        dispatch({ type: 'AMENITIESLIST', payload: state.login.selectedHostel_Id  })
+
+        if (state.login.selectedHostel_Id) {
+            dispatch({ type: 'AMENITIESLIST', payload: state.login.selectedHostel_Id })
         }
 
 
@@ -276,10 +278,10 @@ useEffect(() => {
         if (state.InvoiceList?.statusCode === 200 || state.InvoiceList?.AmenitiesUpdateStatusCode === 200) {
 
             setOpenAmenitiesForm(false)
-           const hostelid = state.login.selectedHostel_Id 
-        if(hostelid){
-        dispatch({ type: 'AMENITIESLIST', payload: hostelid })
-        }
+            const hostelid = state.login.selectedHostel_Id
+            if (hostelid) {
+                dispatch({ type: 'AMENITIESLIST', payload: hostelid })
+            }
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_AMENITIES_SETTINS_STATUSCODE' })
             }, 1000)
@@ -292,15 +294,15 @@ useEffect(() => {
     }, [state.InvoiceList?.statusCode, state.InvoiceList?.AmenitiesUpdateStatusCode])
 
 
-useEffect(() => {
-    if (state.createAccount?.networkError) {
-      setLoading(false)
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-      }, 3000)
-    }
+    useEffect(() => {
+        if (state.createAccount?.networkError) {
+            setLoading(false)
+            setTimeout(() => {
+                dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+            }, 3000)
+        }
 
-  }, [state.createAccount?.networkError])
+    }, [state.createAccount?.networkError])
 
 
 
@@ -310,10 +312,10 @@ useEffect(() => {
 
         if (state.Settings?.addRecurringRole === 200) {
             setIsDisplayRecurring(false)
-           const hostelid = state.login.selectedHostel_Id 
-        if(hostelid){
-        dispatch({ type: 'AMENITIESLIST', payload: hostelid })
-        }
+            const hostelid = state.login.selectedHostel_Id
+            if (hostelid) {
+                dispatch({ type: 'AMENITIESLIST', payload: hostelid })
+            }
 
             setTimeout(() => {
                 dispatch({ type: 'REMOVE_RECURRING_ROLE' })
@@ -325,10 +327,10 @@ useEffect(() => {
     useEffect(() => {
         if (state.InvoiceList?.deleteAmenitiesSuccessStatusCode === 200) {
 
-          const hostelid = state.login.selectedHostel_Id 
-        if(hostelid){
-        dispatch({ type: 'AMENITIESLIST', payload: hostelid })
-        }
+            const hostelid = state.login.selectedHostel_Id
+            if (hostelid) {
+                dispatch({ type: 'AMENITIESLIST', payload: hostelid })
+            }
 
             setDeleteAmenities(false)
 
@@ -478,7 +480,7 @@ useEffect(() => {
                                         <div key={index} className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12 p-2' >
                                             <Card style={{ border: "1px solid #dcdcdc", borderRadius: 16, }}>
                                                 <Card.Body>
-                                          
+
                                                     <div className="d-flex justify-content-between align-items-center">
                                                         <div className="d-flex align-items-center">
                                                             <img src={directRight} alt="directRight" style={{ marginRight: 6 }} />
@@ -501,15 +503,15 @@ useEffect(() => {
                                                                 src={link2}
                                                                 alt="link2"
                                                                 onClick={() => {
-                                                                    if (canWriteAmenities || canUpdateAmenities) {
+                                                                    if (canWriteAmenities) {
                                                                         handleDisplayAssignAmenities(amenity);
                                                                     }
                                                                 }}
                                                                 style={{
                                                                     width: 18,
                                                                     height: 18,
-                                                                    cursor: (canWriteAmenities || canUpdateAmenities) ? "pointer" : "not-allowed",
-                                                                    opacity: (canWriteAmenities || canUpdateAmenities) ? 1 : 0.5,
+                                                                    cursor: (canWriteAmenities ) ? "pointer" : "not-allowed",
+                                                                    opacity: (canWriteAmenities) ? 1 : 0.5,
                                                                 }}
                                                             />
 
@@ -589,7 +591,7 @@ useEffect(() => {
 
 
                                                                             <div
-                                                                                onClick={() => canDeleteAmenities &&  handleDeleteAmenities(amenity)}
+                                                                                onClick={() => canDeleteAmenities && handleDeleteAmenities(amenity)}
                                                                                 className="d-flex gap-2  align-items-center w-100"
                                                                                 style={{
                                                                                     cursor: canDeleteAmenities ? "pointer" : "not-allowed",
@@ -672,31 +674,36 @@ useEffect(() => {
                                                                     Pro-Rate
                                                                 </p>
 
-                                       
 
-                                                              <Form.Check
-  disabled={!canUpdateAmenities}
-  type="switch"
-  checked={switchStates[amenity.amenityId] || false}
-  id={`custom-switch-${amenity.amenityId}`}
-  className="custom-switch-pointer"
-  style={{ boxShadow: "none" }}
-  onChange={() => handleToggle(amenity)}
-/>
+
+                                                                <Form.Check
+                                                                    disabled={!canWriteAmenities}
+                                                                    type="switch"
+                                                                    checked={switchStates[amenity.amenityId] || false}
+                                                                    id={`custom-switch-${amenity.amenityId}`}
+                                                                    className={`custom-switch-pointer ${!canWriteAmenities ? "no-permission" : ""}`}
+                                                                    style={{ boxShadow: "none", cursor: canWriteAmenities ? "pointer" : "not-allowed" }}
+                                                                    onChange={() => canWriteAmenities && handleToggle(amenity)}
+                                                                />
 
 
                                                             </div>
 
                                                             <style>
                                                                 {`
-    .custom-switch-pointer input[type="checkbox"],
-    .custom-switch-pointer label {
+    .custom-switch-pointer {
       cursor: pointer !important;
     }
 
-    .custom-switch-pointer input[type="checkbox"]:disabled + label {
+    .custom-switch-pointer * {
+      cursor: pointer !important;
+    }
+
+    /* Disable cursor fully when no permission */
+    .custom-switch-pointer.no-permission,
+    .custom-switch-pointer.no-permission * {
       cursor: not-allowed !important;
-      opacity: 0.6; 
+      opacity: 0.6;
     }
   `}
                                                             </style>
@@ -961,13 +968,13 @@ useEffect(() => {
                 openAmenitiesForm && <AddAmenities show={handleOpenAmenities} handleClose={handleCloseAmenities} hostelid={state.login.selectedHostel_Id} editDetails={editDetails} />
             }
             {
-                isDisplayRecurring && <RecurringEnable show={isDisplayRecurring} handleCloseRecurring={handleCloseRecurringPopUp} hostelid={state.login.selectedHostel_Id} 
-                // amenityDetails={amenityDetails}
-                 setIsFormSubmitted={setIsFormSubmitted} isFormSubmitted={isFormSubmitted} />
+                isDisplayRecurring && <RecurringEnable show={isDisplayRecurring} handleCloseRecurring={handleCloseRecurringPopUp} hostelid={state.login.selectedHostel_Id}
+                    // amenityDetails={amenityDetails}
+                    setIsFormSubmitted={setIsFormSubmitted} isFormSubmitted={isFormSubmitted} />
             }
             {
                 IsDisplayAssignAmenities && <AssignAmenities show={IsDisplayAssignAmenities} handleClose={handleDisplayAssignAmenitiesClose} hostelid={state.login.selectedHostel_Id}
-                 assignAmenitiesDetails={assignAmenitiesDetails}
+                    assignAmenitiesDetails={assignAmenitiesDetails}
                 />
             }
 
@@ -1052,7 +1059,7 @@ useEffect(() => {
                                 fontFamily: "Gilroy",
                                 fontSize: "14px",
                             }}
-                        onClick={handleDeleteAmenitiesConfirm}
+                            onClick={handleDeleteAmenitiesConfirm}
                         >
                             Delete
                         </Button>

@@ -215,7 +215,10 @@ function UserList(props) {
     }
   }, [canReadTenant]);
 
-
+ const {
+    canWriteModule: canWriteBooking,
+    
+  } = useHasPermission("Booking");
 
 
 
@@ -3953,14 +3956,14 @@ console.log("deleteDetails",deleteDetails)
                                                   className="d-flex align-items-center gap-2"
                                                   style={{
                                                     backgroundColor: "#F9F9F9",
-                                                    cursor: !canWriteTenant ? "not-allowed" : "pointer",
-                                                    opacity: !canWriteTenant ? 0.6 : 1,
+                                                    cursor: !canWriteBooking ? "not-allowed" : "pointer",
+                                                    opacity: !canWriteBooking ? 0.6 : 1,
                                                     padding: "8px 12px",
                                                     borderRadius: 6,
                                                     transition: "background 0.2s ease-in-out",
                                                   }}
                                                   onClick={() => {
-                                                    if (canWriteTenant) {
+                                                    if (canWriteBooking) {
                                                       handleAddBookings(user);
                                                     }
                                                   }}
@@ -3979,8 +3982,8 @@ console.log("deleteDetails",deleteDetails)
                                                     style={{
                                                       width: 16,
                                                       height: 16,
-                                                      filter: !canWriteTenant ? "grayscale(100%)" : "none",
-                                                      cursor: !canWriteTenant ? "not-allowed" : "pointer",
+                                                      filter: !canWriteBooking ? "grayscale(100%)" : "none",
+                                                      cursor: !canWriteBooking ? "not-allowed" : "pointer",
                                                     }}
                                                   />
                                                   <label
@@ -3988,8 +3991,8 @@ console.log("deleteDetails",deleteDetails)
                                                       fontSize: 14,
                                                       fontWeight: 500,
                                                       fontFamily: "Gilroy, sans-serif",
-                                                      color: !canWriteTenant ? "#888888" : "#1E45E1",
-                                                      cursor: !canWriteTenant ? "not-allowed" : "pointer",
+                                                      color: !canWriteBooking ? "#888888" : "#1E45E1",
+                                                      cursor: !canWriteBooking ? "not-allowed" : "pointer",
                                                       margin: 0,
                                                     }}
                                                   >

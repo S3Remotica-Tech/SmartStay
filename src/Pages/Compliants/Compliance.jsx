@@ -708,8 +708,6 @@ let hasChanges =
 
 
   const handleAddcomplaint = () => {
-
-
     if (edit && !hasChanges) {
       setTotalErrmsg('No changes detected');
       setTimeout(() => {
@@ -739,9 +737,8 @@ let hasChanges =
 
     // setEdit(false)
 
-console.log("state",state.login.selectedHostel_Id  , Complainttype , selectedDate , Floor , Rooms)
 
-    if (state.login.selectedHostel_Id  && Complainttype && selectedDate && Floor && Rooms) {
+  
       // const formattedDate = selectedDate ? moment(selectedDate).format('DD-MM-YYYY') : '';
       const formattedDate = selectedDate ? selectedDate.format("DD/MM/YYYY") : null
       const payload = {
@@ -754,7 +751,7 @@ console.log("state",state.login.selectedHostel_Id  , Complainttype , selectedDat
         description: description || "",
         hostelId: state.login.selectedHostel_Id
       }
-      if (complaintId) {
+      if (edit) {
         dispatch({
           type: "EDIT_COMPLAINT",
           payload: {
@@ -768,12 +765,9 @@ console.log("state",state.login.selectedHostel_Id  , Complainttype , selectedDat
       else {
         dispatch({ type: 'COMPLIANCE-ADD', payload })
         setFormLoading(true)
-
-       
+      
       }
-
-
-    }
+   
 
   }
 
