@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import Filters from "../Assets/Images/Filters.svg";
-import searchteam from "../Assets/Images/New_images/Search Team.png";
-import closecircle from "../Assets/Images/New_images/close-circle.png";
+import Filters from "../../Assets/Images/Filters.svg";
+import searchteam from "../../Assets/Images/New_images/Search Team.png";
+import closecircle from "../../Assets/Images/New_images/close-circle.png";
 import "./Banking.css";
 import React, { useState, useEffect, useRef } from "react";
 import Image from "react-bootstrap/Image";
@@ -9,25 +9,24 @@ import { Button, Form, FormControl } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Table } from "react-bootstrap";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import BankingAddForm from "./BankingAddForm";
+import BankingAddForm from "../Banking/BankingAddForm";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
-import emptyimg from "../Assets/Images/New_images/empty_image.png";
+import emptyimg from "../../Assets/Images/New_images/empty_image.png";
 import { ArrowUp2, ArrowDown2, Edit, Trash } from "iconsax-react";
-import money from "../Assets/Images/New_images/Amount.png";
-import { MdError } from "react-icons/md";
+import money from "../../Assets/Images/New_images/Amount.png";
 import { toast } from "react-toastify";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import { CloseCircle } from "iconsax-react";
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
-import transArrow from "../Assets/Images/New_images/arrow-transfer.png";
-import banklogo from "../Assets/Images/New_images/bank_loga.png";
-import PaginationList from "../Components/PaginationList";
-import ErrorMessage from '../Components/ErrorMessage'
-import { useHasPermission } from '../Utils/Permission';
-import withErrorBoundary from "../Hoc/WithErrorBountry"; 
+import transArrow from "../../Assets/Images/New_images/arrow-transfer.png";
+import banklogo from "../../Assets/Images/New_images/bank_loga.png";
+import PaginationList from "../../Components/PaginationList";
+import ErrorMessage from '../../Components/ErrorMessage'
+import { useHasPermission } from '../../Utils/Permission';
+import withErrorBoundary from "../../Hoc/WithErrorBountry"; 
 
 function Banking() {
   const state = useSelector((state) => state);
@@ -658,7 +657,7 @@ useEffect(() => {
   return (
     <>
      
-        <div className="container" >
+        <div className="container-fluid"  >
           <div
             className="d-flex flex-wrap justify-content-between align-items-center "
 
@@ -904,7 +903,7 @@ useEffect(() => {
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
-              height: "100vh",
+              height: "60vh",
             }}
           >
 
@@ -1772,7 +1771,7 @@ useEffect(() => {
             ) : (
 
               <div>
-                {!loader && sortedData.length === 0 &&
+                {!loader && sortedData.length === 0  && canReadBanking &&
 
                   <div>
 

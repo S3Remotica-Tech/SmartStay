@@ -1,34 +1,33 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useRef, useState, useEffect } from 'react';
 import 'react-loading-skeleton/dist/skeleton.css'
-import Emptystate from '../Assets/Images/Empty-State.jpg'
+import Emptystate from '../../Assets/Images/Empty-State.jpg'
 import 'flatpickr/dist/themes/material_blue.css';
-import moment from 'moment';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import searchteam from "../Assets/Images/New_images/Search Team.png";
-import Filters from "../Assets/Images/Filters.svg";
+import searchteam from "../../Assets/Images/New_images/Search Team.png";
+import Filters from "../../Assets/Images/Filters.svg";
 import 'sweetalert2/dist/sweetalert2.min.css';
-import '../Pages/Compliance.css'
-import Profile from '../Assets/Images/New_images/profile-picture.png';
+import '../Compliants/Compliance.css'
+// import '../../../Pages/Complaints/Compliance.css'
+import Profile from '../../Assets/Images/New_images/profile-picture.png';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Image from 'react-bootstrap/Image';
 import Form from 'react-bootstrap/Form';
-import closecircle from "../Assets/Images/New_images/close-circle.png";
-import ComplianceList from './ComplianceList';
-import { MdError } from "react-icons/md";
+import closecircle from "../../Assets/Images/New_images/close-circle.png";
+import ComplianceList from '../Compliants/ComplianceList';
 import 'react-datepicker/dist/react-datepicker.css';
-import excelimg from "../Assets/Images/New_images/excel_blue.png";
+import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import { toast } from 'react-toastify';
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import { CloseCircle } from "iconsax-react";
-import ErrorMessage from '../Components/ErrorMessage';
-import { useHasPermission } from '../Utils/Permission';
-import withErrorBoundary from "../Hoc/WithErrorBountry";
+import ErrorMessage from '../../Components/ErrorMessage';
+import { useHasPermission } from '../../Utils/Permission';
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
 const Compliance = () => {
 
@@ -709,8 +708,6 @@ let hasChanges =
 
 
   const handleAddcomplaint = () => {
-
-
     if (edit && !hasChanges) {
       setTotalErrmsg('No changes detected');
       setTimeout(() => {
@@ -740,9 +737,8 @@ let hasChanges =
 
     // setEdit(false)
 
-console.log("state",state.login.selectedHostel_Id  , Complainttype , selectedDate , Floor , Rooms)
 
-    if (state.login.selectedHostel_Id  && Complainttype && selectedDate && Floor && Rooms) {
+  
       // const formattedDate = selectedDate ? moment(selectedDate).format('DD-MM-YYYY') : '';
       const formattedDate = selectedDate ? selectedDate.format("DD/MM/YYYY") : null
       const payload = {
@@ -755,7 +751,7 @@ console.log("state",state.login.selectedHostel_Id  , Complainttype , selectedDat
         description: description || "",
         hostelId: state.login.selectedHostel_Id
       }
-      if (complaintId) {
+      if (edit) {
         dispatch({
           type: "EDIT_COMPLAINT",
           payload: {
@@ -769,12 +765,9 @@ console.log("state",state.login.selectedHostel_Id  , Complainttype , selectedDat
       else {
         dispatch({ type: 'COMPLIANCE-ADD', payload })
         setFormLoading(true)
-
-       
+      
       }
-
-
-    }
+   
 
   }
 

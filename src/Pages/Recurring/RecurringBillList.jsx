@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect } from "react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import Delete from '../Assets/Images/Delete_red.png';
+import Delete from '../../Assets/Images/Delete_red.png';
 import Modal from "react-bootstrap/Modal";
 import { Button } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { FaCheck } from "react-icons/fa";
 import { useDispatch, useSelector } from 'react-redux';
-import { useHasPermission } from '../Utils/Permission';
+import { useHasPermission } from '../../Utils/Permission';
 
 
 
@@ -104,7 +104,7 @@ const RecurringBillList = (props) => {
 
 
   const {
-
+ canDeleteModule: canDeleteRecurring,
     canUpdateModule: canUpdateRecurring
   } = useHasPermission("Recurring bills");
 
@@ -184,19 +184,19 @@ const RecurringBillList = (props) => {
                       className={`d-flex justify-content-start align-items-center gap-2 ${recurringBillDeletePermission ? "disabled" : ""
                         }`}
                       style={{
-                        cursor: recurringBillDeletePermission ? "not-allowed" : "pointer",
+                        cursor: !canDeleteRecurring ? "not-allowed" : "pointer",
                         borderRadius: 10,
                         padding: 10,
-                        opacity: recurringBillDeletePermission ? 0.5 : 1,
+                        opacity: !canDeleteRecurring ? 0.5 : 1,
 
                       }}
                       onClick={() => {
-                        if (!recurringBillDeletePermission) {
+                        if (canDeleteRecurring) {
                           handleDeleteForm();
                         }
                       }}
                       onMouseEnter={(e) => {
-                        if (!recurringBillDeletePermission)
+                        if (!canDeleteRecurring)
                           e.currentTarget.style.backgroundColor = "#FFF0F0";
                       }}
                       onMouseLeave={(e) => {
@@ -218,7 +218,7 @@ const RecurringBillList = (props) => {
                           fontWeight: 500,
                           fontFamily: "Gilroy, sans-serif",
                           color: "#FF0000",
-                          cursor: recurringBillDeletePermission ? "not-allowed" : "pointer",
+                          cursor: !canDeleteRecurring ? "not-allowed" : "pointer",
                         }}
                       >
                         Delete

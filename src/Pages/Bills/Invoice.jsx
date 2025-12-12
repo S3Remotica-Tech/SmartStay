@@ -17,8 +17,6 @@ import LoaderComponent from "../LoaderComponent";
 import "../../Pages/Invoices.css";
 import InvoiceTable from "../Bills/InvoicelistTable";
 import Profile from "../../Assets/Images/New_images/profile-picture.png";
-import Box from "@mui/material/Box";
-// import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
@@ -32,11 +30,11 @@ import BillPdfModal from "../PDF/BillPdfModal";
 import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
 import RecurringBill from "../../Pages/RecurringBills";
-import RecurringBillList from "../../Pages/RecurringBillList";
+import RecurringBillList from "../../Pages/Recurring/RecurringBillList";
 import closecircle from "../../Assets/Images/New_images/close-circle.png";
 import searchteam from "../../Assets/Images/New_images/Search Team.png";
 import Filters from "../../Assets/Images/Filters.svg";
-import Receipt from "../Receipt";
+import Receipt from "../../Pages/Receipt/Receipt";
 import AddReceiptForm from "../AddReceipt";
 import ReceiptPdfCard from "../PDF/ReceiptPdfModal";
 import PropTypes from "prop-types";
@@ -153,7 +151,6 @@ const InvoicePage = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  console.log("recurringbills", recurringbills)
 
 
   const [transactionId, setTransactionId] = useState("");
@@ -2655,7 +2652,7 @@ const InvoicePage = () => {
   }, [state.login?.selectedHostel_Id, activeStay]);
 
 
-  console.log("state", state)
+
 
 
 
@@ -3816,7 +3813,7 @@ const InvoicePage = () => {
 
                                     }}
                                   >
-                                    {`Record payment `}
+                                    {`Record Payment `}
                                     {/* {invoiceValue?.Name && (
                                   <span>
                                     -

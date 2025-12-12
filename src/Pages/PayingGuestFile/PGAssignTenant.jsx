@@ -16,6 +16,7 @@ import { Row, Col, } from "react-bootstrap";
 import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
 import ErrorMessage from '../../Components/ErrorMessage'
+import { useHasPermission } from '../../Utils/Permission';
 
 const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
@@ -122,7 +123,11 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
   };
 
 
-
+  const {
+    canWriteModule: canWriteBooking,
+    
+  } = useHasPermission("Booking");
+console.log("canWriteBooking",canWriteBooking)
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
@@ -1217,7 +1222,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                       Cancel
                     </Button>
 
-                    <Button disabled={formLoading}
+                    <Button disabled={formLoading || !canWriteBooking}
                       style={{
                         backgroundColor: "#1E45E1",
                         fontWeight: 500,

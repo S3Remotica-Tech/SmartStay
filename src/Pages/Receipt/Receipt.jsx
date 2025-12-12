@@ -1,30 +1,39 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect } from "react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import Edit from '../Assets/Images/Edit-blue.png';
-import Delete from '../Assets/Images/Delete_red.png';
+import Edit from '../../Assets/Images/Edit-blue.png';
+import Delete from '../../Assets/Images/Delete_red.png';
 import Modal from "react-bootstrap/Modal";
 import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import Download from '../Assets/Images/New_images/download.png';
+import Download from '../../Assets/Images/New_images/download.png';
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
-
+import { useHasPermission } from '../../Utils/Permission';
 
 const Receipt = (props) => {
 
 
 
   const state = useSelector((state) => state);
-const navigate = useNavigate();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [receiptdeletePermission, setReceiptDeletePermission] = useState("");
-  const [receiptEditPermission, setReceiptEditPermission] = useState("")
+  // const [receiptdeletePermission, setReceiptDeletePermission] = useState("");
+  // const [receiptEditPermission, setReceiptEditPermission] = useState("")
   const [deleteShow, setDeleteShow] = useState(false)
   const [deleteitem, setDeleteItem] = useState('')
   const [showDots, setShowDots] = useState('')
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+
+
+  const {
+    canReadModule: canReadReceipt,
+    canDeleteModule: canDeleteReceipt,
+    canUpdateModule: canUpdateReceipt,
+  } = useHasPermission("Receipt");
+
+
 
 
   const handleDeleteForm = (item) => {
@@ -37,45 +46,20 @@ const navigate = useNavigate();
   }
 
 
-  useEffect(() => {
-    const userType = props.billrolePermission[0]?.user_details?.user_type;
-    const isAdmin = userType === "admin" || userType === "agent";
-    if (isAdmin) {
-      if (state?.login?.planStatus === 0) {
-        setReceiptDeletePermission("Permission Denied");
-        setReceiptEditPermission("Permission Denied");
-      } else if (state?.login?.planStatus === 1) {
-        setReceiptDeletePermission("");
-        setReceiptEditPermission("");
-      }
-    }
+  // useEffect(() => {
+  //   const userType = props.billrolePermission[0]?.user_details?.user_type;
+  //   const isAdmin = userType === "admin" || userType === "agent";
+  //   if (isAdmin) {
+  //     if (state?.login?.planStatus === 0) {
+  //       setReceiptDeletePermission("Permission Denied");
+  //       setReceiptEditPermission("Permission Denied");
+  //     } else if (state?.login?.planStatus === 1) {
+  //       setReceiptDeletePermission("");
+  //       setReceiptEditPermission("");
+  //     }
+  //   }
 
-  }, [state?.login?.planStatus, state.login?.selectedHostel_Id, props.billrolePermission])
-
-
-  useEffect(() => {
-    const receiptPermission = props.billrolePermission[0]?.role_permissions?.find(
-      (perm) => perm.permission_name === "Receipt"
-    );
-    const isOwner = props.billrolePermission[0]?.user_details?.user_type === "staff";
-    const planActive = state?.login?.planStatus === 1;
-
-    if (!receiptPermission || !isOwner) return;
-
-
-    if (receiptPermission.per_delete === 1 && planActive) {
-      setReceiptDeletePermission("");
-    } else {
-      setReceiptDeletePermission("Permission Denied");
-    }
-
-
-    if (receiptPermission.per_edit === 1 && planActive) {
-      setReceiptEditPermission("");
-    } else {
-      setReceiptEditPermission("Permission Denied");
-    }
-  }, [props.billrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
+  // }, [state?.login?.planStatus, state.login?.selectedHostel_Id, props.billrolePermission])
 
 
 
@@ -115,13 +99,10 @@ const navigate = useNavigate();
   }
 
 
-  let Dated = new Date(props.item.payment_date);
+  
 
-  let day = Dated.getDate();
-  let month = Dated.getMonth() + 1;
-  let year = Dated.getFullYear();
 
-  let formattedDate = `${day}/${month}/${year}`;
+
 
 
   const popupRef = useRef(null);
@@ -171,22 +152,27 @@ const navigate = useNavigate();
   }, [state.InvoiceList.ReceiptDeletesuccessStatuscode,]);
 
 
-console.log("props",props)
 
-const handleNavigateTenantProfile = (view) => {
+
+  const handleNavigateTenantProfile = (view) => {
     console.log("view", view)
     if (view) {
       dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: view.customerId } });
       navigate(`/tenant/details/${view.customerId}`, {
         state: {
           customerId: view.customerId,
-          IsOverView:true,
-          totriggerBillTap:false
+          IsOverView: true,
+          totriggerBillTap: false
         },
       });
     }
 
   }
+
+
+
+
+
 
   return (
 
@@ -199,11 +185,11 @@ const handleNavigateTenantProfile = (view) => {
           lineHeight: "normal", alignItems: 'center', marginTop: '10px', flexWrap: "wrap"
         }} className='m-2' >
 
-<td style={{ cursor:"pointer",border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 600, color: "#1E45E1", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
-          <div style={{ marginLeft: 7 }}  onClick={() => handleDownload(props.item)} className="Invoice_Name">{props.item.transactionNumber ? props.item?.transactionNumber : "-"}</div>
-          </td>
+        <td style={{ cursor: "pointer", border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 600, color: "#1E45E1", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
+          <div style={{ marginLeft: 7 }} onClick={() => handleDownload(props.item)} className="Invoice_Name">{props.item.transactionNumber ? props.item?.transactionNumber : "-"}</div>
+        </td>
 
- 
+
 
         <td className="table-cells ps-2 ps-sm-2 ps-md-3 ps-lg-3" style={{ border: "none", flexWrap: "wrap", whiteSpace: "nowrap", borderBottom: "1px solid #E8E8E8" }}>
           <div className="d-flex  align-items-center">
@@ -212,16 +198,16 @@ const handleNavigateTenantProfile = (view) => {
               fontFamily: 'Gilroy', fontSize: '13px', marginLeft: '17px', color: "#1E45E1",
               fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer", textAlign: "start", paddingTop: "10px"
             }}
-              onClick={()=>handleNavigateTenantProfile(props.item)}
+              onClick={() => handleNavigateTenantProfile(props.item)}
 
             >{props.item?.fullName}</div><br />
 
           </div>
         </td>
-<td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
           <div style={{ marginLeft: 7 }}  >{props.item?.referenceNumber ? props.item?.referenceNumber : "-"}</div>
-          </td>
-       
+        </td>
+
         <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
           <div className="ps-0" style={{ marginLeft: 6 }}>{!props.item?.invoiceNumber || props.item?.invoiceNumber === "0" ? "-" : props.item.invoiceNumber}</div>
         </td>
@@ -267,8 +253,8 @@ const handleNavigateTenantProfile = (view) => {
                   <div
                     className="d-flex justify-content-start align-items-center gap-2 "
                     style={{
-                      cursor: receiptEditPermission ? "not-allowed" : "pointer",
-                      opacity: receiptEditPermission ? 0.5 : 1,
+                      cursor: !canUpdateReceipt ? "not-allowed" : "pointer",
+                      opacity: !canUpdateReceipt ? 0.5 : 1,
                       borderTopLeftRadius: 10,
                       borderTopRightRadius: 10,
                       backgroundColor: "#F9F9F9",
@@ -276,12 +262,12 @@ const handleNavigateTenantProfile = (view) => {
                       width: "100%"
                     }}
                     onClick={() => {
-                      if (!receiptEditPermission) {
+                      if (canUpdateReceipt) {
                         handleEdit(props.item);
                       }
                     }}
                     onMouseEnter={(e) => {
-                      if (!receiptEditPermission)
+                      if (!canUpdateReceipt)
                         e.currentTarget.style.backgroundColor = "#EDF2FF";
                     }}
                     onMouseLeave={(e) => {
@@ -303,7 +289,7 @@ const handleNavigateTenantProfile = (view) => {
                         fontWeight: 500,
                         fontFamily: "Gilroy, sans-serif",
                         color: "#222222",
-                        cursor: receiptEditPermission ? "not-allowed" : "pointer",
+                        cursor: !canUpdateReceipt ? "not-allowed" : "pointer",
                       }}
                     >
                       Edit
@@ -314,18 +300,18 @@ const handleNavigateTenantProfile = (view) => {
                   <div
                     className="d-flex justify-content-start align-items-center gap-2 "
                     style={{
-                      cursor: receiptdeletePermission ? "not-allowed" : "pointer",
-                      opacity: receiptdeletePermission ? 0.5 : 1,
+                      cursor: !canDeleteReceipt ? "not-allowed" : "pointer",
+                      opacity: !canDeleteReceipt ? 0.5 : 1,
                       padding: "8px 12px",
                       width: "100%"
                     }}
                     onClick={() => {
-                      if (!receiptdeletePermission) {
+                      if (canDeleteReceipt) {
                         handleDeleteForm(props.item);
                       }
                     }}
                     onMouseEnter={(e) => {
-                      if (!receiptdeletePermission)
+                      if (!canDeleteReceipt)
                         e.currentTarget.style.backgroundColor = "#FFF0F0";
                     }}
                     onMouseLeave={(e) => {
@@ -346,7 +332,7 @@ const handleNavigateTenantProfile = (view) => {
                         fontWeight: 500,
                         fontFamily: "Gilroy, sans-serif",
                         color: "#FF0000",
-                        cursor: receiptdeletePermission ? "not-allowed" : "pointer",
+                        cursor: !canDeleteReceipt ? "not-allowed" : "pointer",
                       }}
                     >
                       Delete
@@ -357,16 +343,16 @@ const handleNavigateTenantProfile = (view) => {
                   <div
                     className="d-flex justify-content-start align-items-center gap-2 "
                     style={{
-                      opacity: props.receiptaddPermission ? 0.5 : 1,
-                      cursor: props.receiptaddPermission ? "not-allowed" : "pointer",
+                      opacity: !canReadReceipt ? 0.5 : 1,
+                      cursor: !canReadReceipt ? "not-allowed" : "pointer",
                       padding: "8px 12px",
                       width: "100%"
                     }}
                     onClick={() => {
-                      if (!props.receiptaddPermission) { handleInvoicepdf(props.item) }
+                      if (canReadReceipt) { handleInvoicepdf(props.item) }
                     }}
                     onMouseEnter={(e) => {
-                      if (!props.receiptaddPermission) e.currentTarget.style.backgroundColor = "#EDF2FF";
+                      if (canReadReceipt) e.currentTarget.style.backgroundColor = "#EDF2FF";
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.backgroundColor = "transparent";
@@ -379,7 +365,7 @@ const handleNavigateTenantProfile = (view) => {
                         fontWeight: 500,
                         fontFamily: "Gilroy, sans-serif",
                         color: "#222222",
-                        cursor: props.receiptaddPermission ? "not-allowed" : "pointer",
+                        cursor: !canReadReceipt ? "not-allowed" : "pointer",
                       }}
                     >
                       Download

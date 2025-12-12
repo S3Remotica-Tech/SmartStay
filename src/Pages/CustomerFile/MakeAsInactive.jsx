@@ -18,7 +18,7 @@ import ErrorMessage from '../../Components/ErrorMessage'
 
 
 
-function MakeAsInactive({ show, handleCloseInActive, inActiveDetails }) {
+function MakeAsInactive({ show, handleCloseInActive, inActiveDetails, currentItem }) {
 
 
     const state = useSelector((state) => state);
@@ -31,7 +31,7 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails }) {
     const [inActiveComments, setInActiveComments] = useState("")
     const [isActiveDateError, setIsACtiveDateError] = useState("")
 
-
+console.log("currentItem",currentItem)
 
     const handleInActiveReason = (e) => {
         setInActiveComments(e.target.value)
@@ -68,7 +68,7 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails }) {
                 payload: {
                     cancelDate: formattedDate,
                     reason: inActiveComments,
-                    customerId: inActiveDetails?.customerId || inActiveDetails?.newTenantInfo?.tenetId,
+                    customerId: inActiveDetails?.customerId || inActiveDetails?.tenetId,
                     bankId: state.UsersList?.initializeCancelBookingList?.listBanks[0].bankId
                 },
             });
@@ -86,19 +86,19 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails }) {
     }, [state.Booking.StatusCodeInactiveCode])
 
     useEffect(() => {
-        if (state.Booking.bookingMakeAsError) {
+        if (state.Booking.bookingMakeAsError || state.createAccount?.networkError) {
             setFormLoading(false);
         }
 
-    }, [state.Booking.bookingMakeAsError])
+    }, [state.Booking.bookingMakeAsError , state.createAccount?.networkError])
 
 
     useEffect(() => {
         if (!inActiveDetails) return;
-        if (inActiveDetails.customerId || inActiveDetails.newTenantInfo?.tenetId ) {
+        if (inActiveDetails.customerId || inActiveDetails?.tenetId ) {
             dispatch({
                 type: 'INITIALIZECANCELBOOKING',
-                payload: inActiveDetails.customerId || inActiveDetails.newTenantInfo?.tenetId 
+                payload: inActiveDetails.customerId || inActiveDetails?.tenetId 
             });
         }
     }, [inActiveDetails]);
@@ -109,8 +109,8 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails }) {
 
 
     useEffect(() => {
-        if (inActiveDetails?.customerId || inActiveDetails?.newTenantInfo?.tenetId ) {
-            dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: inActiveDetails.customerId || inActiveDetails.newTenantInfo?.tenetId  } });
+        if (inActiveDetails?.customerId || inActiveDetails?.tenetId ) {
+            dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: inActiveDetails.customerId || inActiveDetails?.tenetId  } });
 
         }
     }, [inActiveDetails]);
@@ -144,10 +144,10 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails }) {
 
 
 
-                {inActiveDetails.profilePic || inActiveDetails.newTenantInfo?.profilePic &&
-                    (inActiveDetails.profilePic !== "0" || inActiveDetails.newTenantInfo?.profilePic !== "0") ? (
+                {inActiveDetails.profilePic || inActiveDetails?.profilePic &&
+                    (inActiveDetails.profilePic !== "0" || inActiveDetails?.profilePic !== "0") ? (
                     <Image
-                        src={inActiveDetails.profilePic || inActiveDetails?.newTenantInfo?.profilePic}
+                        src={inActiveDetails.profilePic || inActiveDetails?.profilePic}
                         roundedCircle
                         style={{ height: 50, width: 50 }}
                         alt="image"
@@ -167,13 +167,13 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails }) {
                             color: "white", fontFamily: "Gilroy"
                         }}
                     >
-                        {inActiveDetails?.initials || inActiveDetails?.newTenantInfo?.tenantInitials || "-"}
+                        {inActiveDetails?.initials || inActiveDetails?.tenantInitials || "-"}
                     </div>
                 )}
                 <div >
                     <div>
                         <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px", fontFamily: "Gilroy" }}>
-                            {inActiveDetails.fullName} {inActiveDetails.newTenantInfo?.tenantFullName}
+                            {inActiveDetails.fullName} {inActiveDetails?.tenantFullName}
                         </p>
 
                     </div>
@@ -191,7 +191,7 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails }) {
                                 fontFamily: "Gilroy"
                             }}
                         >
-                            {inActiveDetails?.floorName}
+                            {currentItem?.floorName}
                         </span>
                         <span
                             style={{
@@ -204,7 +204,7 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails }) {
                                 fontFamily: "Gilroy"
                             }}
                         >
-                            {inActiveDetails?.roomName} - {inActiveDetails?.bedName}
+                            {currentItem?.roomName} - {currentItem?.bedName}
                         </span>
                     </div>
 

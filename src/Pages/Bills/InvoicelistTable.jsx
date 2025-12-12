@@ -31,7 +31,7 @@ const InvoiceTable = (props) => {
     // canReadModule: canReadReceipt,
     canUpdateModule: canUpdateInvoice,
     canDeleteModule: canDeleteInvoice,
-  } = useHasPermission("Invoice");
+  } = useHasPermission("Bills");
 
 
 

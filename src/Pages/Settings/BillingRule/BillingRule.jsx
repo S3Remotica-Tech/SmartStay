@@ -39,15 +39,13 @@ function BillingRule() {
   const handleCloseShortStay = () => setShowShortStay(false);
 
   // const canReadRecurring = useHasPermission("Recurring bills", "canRead")
-  // const canWriteRecurring = useHasPermission("Recurring bills", "canWrite")
+  // const canWriteBills = useHasPermission("Recurring bills", "canWrite")
 
 
 const {
-        canWriteModule: canWriteRecurring,
+        canWriteModule: canWriteBills,
         canReadModule: canReadRecurring,
-        // canUpdateModule: canUpdatePayingGuests,
-        // canDeleteModule: canDeletePayingGuests,
-    } = useHasPermission("Recurring bills");
+           } = useHasPermission("Bills");
 
 
 
@@ -291,7 +289,7 @@ const {
                     recurringBills.billStartDate ?
 
                       <div className="d-flex justify-content-between p-0 align-items-center">
-                        <Button
+                        <Button disabled={!canWriteBills}
                           onClick={handleShowLongStay}
                           style={{
                             marginTop: "10px",
@@ -326,7 +324,7 @@ const {
                       </div>
                       :
                       <Button
-                        disabled={!canWriteRecurring}
+                        disabled={!canWriteBills}
                         onClick={handleShowLongStay}
                         style={{
                           marginTop: "10px",

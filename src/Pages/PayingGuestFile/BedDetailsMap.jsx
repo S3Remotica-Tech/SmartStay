@@ -18,17 +18,12 @@ import CustomerReAssign from "../CustomerFile/CustomerReAssign";
 import CustomerCheckout from "../CustomerFile/CustomerCheckout";
 import NoticeBedStatusDetails from './NoticePeriod/BedStatus';
 import BookingBed from './NoticePeriod/BookingBed';
-// import AddCustomer from './AddCustomerPG';
 import PGAssignTenant from './PGAssignTenant';
-// import CheckoutTenant from './NoticePeriod/Check-out Tenant';
 import OccupiedCustomer from './OccupiedCustomer';
 import DeleteBed from './DeleteBed';
 import DueCustomerConfirmCheckout from '../CustomerFile/DueCustomerConfirmCheckout';
-// import UserlistForm from '../CustomerFile/UserlistForm';
 import AddCustomerPG from './AddCustomerPG';
 import FinalSettlement from '../CustomerFile/FinalSettlement';
-// import ChangeBedModal from '../CustomerFile/ChangeBed';
-// import ChangeBedPgView from './NoticePeriod/ChangeBedPgView';
 import { triggerPG } from '../../Redux/Action/smartStayAction';
 import { useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
@@ -41,12 +36,8 @@ import { clickedBedForChange, changeBedForChange } from '../../Redux/Action/smar
 
 function BedDetailsMap({ room, propsValue }) {
 
-
-
-
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
-    // const [bedList, setBedList] = useState([])
     const navigate = useNavigate();
     const [emptybed, setEmptyBed] = useState(false)
     const [showReservedBed, setShowReservedBed] = useState(false)
@@ -63,8 +54,7 @@ function BedDetailsMap({ room, propsValue }) {
     const [Noticeperiod_bed, setNoticePeriodBed] = useState(false)
     const [deleteBedDetails, setDeleteBedDetails] = useState({ bed: null, room: null })
     const [customer, setCustomer] = useState([])
-    // const [OccupiedCustomerDetails, setOccupiedCustomerDetails] = useState({ bed: null, room: null })
-    const [customerID, setCustomerID] = useState('')
+   const [customerID, setCustomerID] = useState('')
     const [add_customerform, setAddCustomerForm] = useState(false)
     const [assign_tenantform, setAssignTenantForm] = useState(false)
     const [showDeleteBed, setShowDeleteBed] = useState(false)
@@ -156,9 +146,11 @@ function BedDetailsMap({ room, propsValue }) {
 
 
 
-    const handleShowCheck_In = () => {
-        setShowCheckIn(true)
+    const handleShowCheck_In = (isVisible, reservedTenant) => {
+        setShowCheckIn(isVisible)
         setShowReservedBed(false)
+        setSelectedTenant(reservedTenant)
+
 
     }
 
@@ -274,8 +266,7 @@ function BedDetailsMap({ room, propsValue }) {
 
     useEffect(() => {
         if (state.PgList?.OccupiedCustomer && state.PgList?.OccupiedCustomer?.currentTenantInfo?.tenetId) {
-            //    setSelectedTenant(state.PgList?.OccupiedCustomer);
-            dispatch(clickedBedForChange(state.PgList?.OccupiedCustomer));
+             dispatch(clickedBedForChange(state.PgList?.OccupiedCustomer));
         }
     }, [state.PgList?.OccupiedCustomer]);
 
@@ -320,10 +311,11 @@ function BedDetailsMap({ room, propsValue }) {
 
 
 
-    const handleShowInActiveForm = () => {
-        setMakeasInactive(true)
+    const handleShowInActiveForm = (isVisible, reservedTenant) => {
+        setMakeasInactive(isVisible)
         setShowReservedBed(false);
         setNoticePeriodBed(false)
+        setSelectedTenant(reservedTenant)
     }
 
     const handleOpenCancelCheckout = () => {
@@ -602,10 +594,7 @@ function BedDetailsMap({ room, propsValue }) {
 
 
 
-            {/* {
-                add_customerform && <UserlistForm showMenu={add_customerform} setShowMenu={handleCloseAddCustomer} />
-            } */}
-            {
+             {
                 add_customerform && <AddCustomerPG showMenu={add_customerform} handleClose={handleCloseAddCustomer} />
             }
 
@@ -625,7 +614,7 @@ function BedDetailsMap({ room, propsValue }) {
             }
 
             {
-                showCheckIn && <Check_In show={showCheckIn} handleClose={handleCloseCheck_In} currentItem={customer} />
+                showCheckIn && <Check_In show={showCheckIn} handleClose={handleCloseCheck_In} currentItem={selectedTenant} pgDetails={customer}/>
             }
 
             {
@@ -634,7 +623,7 @@ function BedDetailsMap({ room, propsValue }) {
 
             {
                 makeasinactive && <MakeAsInactive show={makeasinactive} handleCloseInActive={handleCloseInActive}
-                    inActiveDetails={customer}
+                    inActiveDetails={selectedTenant} currentItem={customer}
                 />
 
             }
@@ -648,7 +637,7 @@ function BedDetailsMap({ room, propsValue }) {
             }
 
 
-            {/* Occubied bed Details */}
+
 
             {
                 Occubied_bed && <OccupiedBedStatus show={Occubied_bed} showEditBed={handleEditBed}
