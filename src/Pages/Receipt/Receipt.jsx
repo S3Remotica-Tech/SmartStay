@@ -80,7 +80,7 @@ const Receipt = (props) => {
       dispatch({
         type: "DELETE_RECEIPT",
         payload: {
-          hostelId: state.login?.selectedHostel_Id, receiptId: deleteitem.receiptId
+          hostelId: state.login?.selectedHostel_Id, receiptId: deleteitem.transactionId
         },
       });
     }

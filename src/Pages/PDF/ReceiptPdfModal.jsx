@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import "../../Pages/Invoices.css";
+import "../Bills/Invoices.css";
 import DownLoad from '../../Assets/Images/New_images/searchss.png'
 import Whatsapp from '../../Assets/Images/whatsapp.png'
 import Whatsapp_blue from '../../Assets/Images/whatsapp_blue.png'

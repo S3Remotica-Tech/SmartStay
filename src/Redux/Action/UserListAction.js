@@ -908,5 +908,6 @@ export async function editAdvanceAmount(advance) {
 
 
 export async function getInitializeCheckout(hostel) {
-  return await AxiosConfigV2.get(`/v2/bookings/initialize/checkout/${hostel.hostelId}/${hostel.customerId}`)
+  console.log("hostel",hostel)
+  return await AxiosConfigV2.post(`/v2/bookings/initialize/checkout/${hostel.hostelId}/${hostel.customerId}`)
 }

@@ -35,7 +35,7 @@ function FinalSettlement({ show, handleClose, data, }) {
     const [showDetails, setShowDetails] = useState(false);
 
 
-
+    console.log("fields", fields)
 
     useEffect(() => {
         if (data?.customerId || data.currentTenantInfo?.tenetId) {
@@ -349,8 +349,11 @@ function FinalSettlement({ show, handleClose, data, }) {
                 }
 
 
-                if (f.customReason?.trim()) {
-                    return { item: f.reason_name, amount: userAmount };
+                if (f.reason_name.toLowerCase() === "others" && f.customReason?.trim()) {
+                    return {
+                        item: f.customReason.trim(),
+                        amount: userAmount
+                    };
                 }
 
 
@@ -367,6 +370,8 @@ function FinalSettlement({ show, handleClose, data, }) {
             })
             .filter(Boolean);
 
+
+            console.log("Finalsettelmenntdata",Finalsettelmenntdata)
 
         if (data.customerId || data.currentTenantInfo?.tenetId) {
             dispatch({

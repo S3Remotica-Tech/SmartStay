@@ -1965,7 +1965,7 @@ function UserList(props) {
     }
   }, [state.UsersList?.deleteCustomerSuccessStatusCode]);
 
-console.log("deleteDetails",deleteDetails)
+
 
   const handleDeleteCustomer = () => {
     if (deleteDetails?.user?.customerId) {

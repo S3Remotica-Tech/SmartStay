@@ -51,7 +51,6 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, customerID }) {
 
 
 
-
     useEffect(() => {
         if (state.UsersList?.chrckoutError) {
             setFormLoading(false)
@@ -59,7 +58,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, customerID }) {
 
     }, [state.UsersList?.chrckoutError])
 
-    console.log("data", data)
+    // console.log("data", data)
 
     useEffect(() => {
         if (state.UsersList.statusCodegetConfirmCheckout) {
@@ -367,7 +366,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, customerID }) {
                         </div>
                         <div className="ms-auto text-end mt-2">
                             <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "#4B4B4B", padding: 0, margin: 0 }}>Checkout Date</p>
-                            <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600, }}>{data?.currentTenantInfo?.leavingDate || data?.leavingDate}</p>
+                            <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600, }}>{data?.currentTenantInfo?.leavingDate || data?.leavingDate || state.UsersList?.initializeCheckout?.checkoutDate}</p>
                         </div>
                     </div>
 
