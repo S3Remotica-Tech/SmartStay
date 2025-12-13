@@ -1,6 +1,6 @@
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './SettingIntergration.css';
+// import './SettingIntergration.css';
 
 function SettingIntergration(){
     return(

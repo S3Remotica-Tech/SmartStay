@@ -11,7 +11,7 @@ import { FaCheck } from "react-icons/fa";
 import { useHasPermission } from '../../../Utils/Permission';
 import Emptystate from "../../../Assets/Images/Empty-State.jpg";
 import ErrorMessage from '../../../Components/ErrorMessage';
-import "../../SettingsBills.css";
+// import "../../Pages/Settings/SettingsBills.css";
 import withErrorBoundary from "../../../Hoc/WithErrorBountry";
 
 

@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import {EditTenantAmount, editAdvanceAmount, 
+import {getInitializeCheckout, EditTenantAmount, editAdvanceAmount, 
    editBasicDetails, CancelCheckOutCustomer, getParticularCustomerReading, getParticularRoomReading, getCustomerReading,
    cancelBookingGet, bookingToCheckIn, addRoomReading, getRoomReading,
    bookedDetails, availableBedDetailsForDate, checkoutDetailView, customerSaveInfo, CheckIn, GetAllFloor, getParticularHostelList, ConfirmCheckout_Due_Customer, deleteCustomer,
@@ -71,6 +71,41 @@ function* handleApiError(error) {
    // }
 }
 
+
+
+
+function* handleGetInitializeCheckout(action) {
+   try {
+      const response = yield call(getInitializeCheckout, action.payload)
+const hostelId = GlobalHostelId(response);
+    if (hostelId) {
+      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
+      const cookies = new Cookies()
+      cookies.set('selected_hostelId', hostelId, { path: '/' });
+    }
+      if (response?.status === 200) {
+         yield put({ type: 'GET_INITIALIZE_CHECKOUT', payload: { response: response.data, statusCode: response?.status } })
+      }
+            }
+   catch (err) {
+
+      const error = err || {};
+      yield* handleApiError(error);
+
+   }
+
+
+}
+
+
+
+
+
+
+
+
+
+
 function* handleEditAdvance(action) {
    try {
       const response = yield call(editAdvanceAmount, action.payload)
@@ -121,10 +156,6 @@ function* handleEditAdvance(action) {
 
 
 }
-
-
-
-
 
 
 
@@ -2951,6 +2982,7 @@ function* handleCheckoutProfile(action) {
 
 
 function* UserListSaga() {
+  yield takeEvery('GETINITIALIZECHECKOUT',  handleGetInitializeCheckout)
    yield takeEvery('EDITADVANCE', handleEditAdvance)
    yield takeEvery('EDITAMOUNTDETAILS',handleEditTenantAmount)
    yield takeEvery('EDITBASICDETAILS', handleEditBasicDetails)

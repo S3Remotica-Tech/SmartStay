@@ -35,7 +35,7 @@ export const initialState = {
     Kyc_Ref_Id: '',
     kycValidateOtpVerifySuccess: 0,
     createFloorSuccessStatusCode: 0,
-   
+
     noHosteListStatusCode: 0,
     alreadyFloorHere: '',
     deleteFloorError: '',
@@ -158,7 +158,8 @@ export const initialState = {
     editAmountSuccessStatusCode: 0,
     updateTenantError: '',
     editAdvanceStatusCode: 0,
-    advanceError: ''
+    advanceError: '',
+    initializeCheckout: '',
 
 }
 
@@ -172,6 +173,10 @@ const UserListReducer = (state = initialState, action) => {
             return initialState;
         case 'AVAILABLE_BED':
             return { ...state, availableBedList: action.payload.response }
+
+        case 'GET_INITIALIZE_CHECKOUT':
+            return { ...state, initializeCheckout: action.payload.response }
+
         case 'CANCEL_CHECKOUT':
             return { ...state, cancelCheckoutStatusCode: action.payload.statusCode }
         case 'REMOVE_CANCEL_CHECKOUT':
@@ -398,7 +403,7 @@ const UserListReducer = (state = initialState, action) => {
 
 
 
-        
+
         case 'EMAIL_ERROR':
             return { ...state, emailError: action.payload }
 

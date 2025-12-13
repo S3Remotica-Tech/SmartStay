@@ -1559,22 +1559,8 @@ function UserList(props) {
   }, [state?.Booking?.statusCodeForAddBooking]);
 
 
-  // const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState(false);
-  // const handlePageChange = (pageNumber) => {
-  //   setCurrentPage(pageNumber);
-  // };
-  // const [itemsPerPage, setItemsPerPage] = useState(10);
-
-  // const indexOfLastItem = currentPage * itemsPerPage;
-  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  // const currentItems = React.useMemo(() => {
-  //   const source = (search || filterStatus) ? filteredUsers : userListDetail;
-  //   return source?.slice(indexOfFirstItem, indexOfLastItem);
-  // }, [search, filterStatus, filteredUsers, userListDetail, indexOfFirstItem, indexOfLastItem]);
-
-  // const totalItems = (search || filterStatus) ? filteredUsers?.length : userListDetail?.length;
-  // const totalPages = Math.ceil(totalItems / itemsPerPage);
+  
 
   const currentItems = React.useMemo(() => {
     return (search || filterStatus) ? filteredUsers : userListDetail;
@@ -1583,30 +1569,7 @@ function UserList(props) {
 
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
-  // const sortedData = React.useMemo(() => {
-  //   if (!sortConfig.key) return currentItems;
-
-  //   const sorted = [...currentItems].sort((a, b) => {
-  //     const valueA = a[sortConfig.key];
-  //     const valueB = b[sortConfig.key];
-
-  //     if (!isNaN(valueA) && !isNaN(valueB)) {
-  //       return sortConfig.direction === "asc"
-  //         ? valueA - valueB
-  //         : valueB - valueA;
-  //     }
-
-  //     if (typeof valueA === "string" && typeof valueB === "string") {
-  //       return sortConfig.direction === "asc"
-  //         ? valueA.localeCompare(valueB)
-  //         : valueB.localeCompare(valueA);
-  //     }
-
-  //     return 0;
-  //   });
-
-  //   return sorted;
-  // }, [currentItems, sortConfig]);
+ 
 
 
   const sortedData = React.useMemo(() => {
@@ -2002,7 +1965,7 @@ function UserList(props) {
     }
   }, [state.UsersList?.deleteCustomerSuccessStatusCode]);
 
-console.log("deleteDetails",deleteDetails)
+
 
   const handleDeleteCustomer = () => {
     if (deleteDetails?.user?.customerId) {
@@ -2981,7 +2944,7 @@ console.log("deleteDetails",deleteDetails)
                 </div>
 
                 <div className="mt-2 me-lg-4 text-center">
-                  {value === "1" && (
+                  {/* {value === "1" && (
                     <Button
                       disabled={!canWriteTenant}
                       onClick={handleShow}
@@ -2989,7 +2952,7 @@ console.log("deleteDetails",deleteDetails)
                     >
                       + Tenant
                     </Button>
-                  )}
+                  )} */}
                   {value === "2" && (
                     <Button
                       disabled={customerBookingAddPermission}

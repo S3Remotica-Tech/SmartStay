@@ -6,8 +6,8 @@ import Form from 'react-bootstrap/Form';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import Button from 'react-bootstrap/Button';
-import './SettingSecurityPage.css';
-import withErrorBoundary from "../Hoc/WithErrorBountry";
+import '../../Pages/Settings/SettingSecurityPage.css';
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
  const Profile_Security = () => {
 

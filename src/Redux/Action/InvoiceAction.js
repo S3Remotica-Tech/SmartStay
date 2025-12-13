@@ -161,10 +161,8 @@ export  function EditReceipt() {
 })
 }
 
-export  function DeleteReceipt() {
- new Promise((resolve) => {
-  resolve({status: 200});
-})
+export async function DeleteReceipt(receipt) {
+ return await AxiosConfigV2.delete(`/v2/transaction/receipts/${receipt.hostelId}/${receipt.receiptId}`)
 }
 
 export  function ReferenceIdGet() {

@@ -35,6 +35,8 @@ function UserlistWalkin(props) {
     useState("");
   const [walkInDeletePermissionError, setWalkInDeletePermissionError] =
     useState("");
+     const [formLoading, setFormLoading] = useState(false)
+    
 
   //   const canReadWalkin = useHasPermission("Walk in", "canRead")
   // const canWriteWalkin = useHasPermission("Walk in", "canWrite")
@@ -113,7 +115,7 @@ function UserlistWalkin(props) {
   const [walkInCustomer, setWalkInCustomer] = useState([]);
   const [walkinLoader, setWalkingLoader] = useState(false);
 
-
+ const [deleteShow, setDeleteShow] = useState(false);
 
 
 
@@ -275,6 +277,42 @@ function UserlistWalkin(props) {
 
   const handleSort = (key, direction) => {
     setSortConfig({ key, direction });
+  };
+
+ const handleDeleteShow = (user) => {
+    setDeleteShow(true);
+    setDeleteDetails({ room: user.Rooms, bed: user.Bed, user: user });
+  };
+const handleCloseDelete = () => {
+    setDeleteShow(false);
+  };
+
+
+ const [deleteDetails, setDeleteDetails] = useState({ room: null, bed: null });
+
+
+useEffect(() => {
+    if (state.UsersList?.deleteCustomerSuccessStatusCode === 204) {
+      setFormLoading(false)
+      setDeleteShow(false);
+      dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id  , type: 'Inactive'} });
+
+      setDeleteDetails({ room: null, bed: null, user: null });
+
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_DELETE_CUSTOMER" });
+      }, 100);
+    }
+  }, [state.UsersList?.deleteCustomerSuccessStatusCode]);
+
+const handleDeleteCustomer = () => {
+    if (deleteDetails?.user?.customerId) {
+      dispatch({
+        type: "DELETECUSTOMER",
+        payload: { customerId: deleteDetails?.user?.customerId , hostelId : state.login.selectedHostel_Id  },
+      });
+    }
+    setFormLoading(true)
   };
 
 
@@ -848,7 +886,7 @@ function UserlistWalkin(props) {
                                           </label>
                                         </div>
 
-                                        {/* Delete Option */}
+                                       
                                         <div
                                           className="d-flex align-items-center gap-2"
                                           onClick={() => {
@@ -892,6 +930,52 @@ function UserlistWalkin(props) {
                                             Add booking
                                           </label>
                                         </div>
+
+                                                <div
+
+                                                  className="d-flex align-items-center gap-2"
+                                                  style={{
+                                                    backgroundColor: "#F9F9F9",
+                                                    cursor: !canDeleteWalkin ? "not-allowed" : "pointer",
+                                                    opacity: !canDeleteWalkin ? 0.6 : 1,
+                                                    padding: "8px 12px",
+                                                    borderRadius: 6,
+                                                    transition: "background 0.2s ease-in-out",
+                                                  }}
+                                                  onClick={() => {
+                                                    if (canDeleteWalkin) {
+                                                      handleDeleteShow(v);
+                                                    }
+                                                  }}
+                                                  onMouseEnter={(e) => {
+                                                    e.currentTarget.style.backgroundColor = "#FFF3F3";
+
+                                                  }}
+                                                  onMouseLeave={(e) => {
+                                                    e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                                  }}
+                                                >
+
+                                                  <Trash
+                                                    size="16"
+                                                    color={!canDeleteWalkin ? "#A9A9A9" : "red"}
+                                                  />
+                                                  <label
+                                                    style={{
+                                                      fontSize: 14,
+                                                      fontWeight: 500,
+                                                      fontFamily: "Gilroy, sans-serif",
+                                                      color: !canDeleteWalkin ? "#888888" : "#FF0000",
+                                                      cursor: !canDeleteWalkin ? "not-allowed" : "pointer",
+                                                      margin: 0,
+                                                    }}
+                                                  >
+                                                    Delete
+                                                  </label>
+                                                </div>
+                                             
+
+
                                       </div>
                                     )}
                                   </div>
@@ -967,32 +1051,35 @@ function UserlistWalkin(props) {
       }
 
 
-
-
-
-
-
-
-      <Modal
-        show={showDeleteModal}
-        onHide={cancelDelete}
-        centered
+  <Modal
+        show={deleteShow}
+        onHide={handleCloseDelete}
         backdrop="static"
+        centered
         dialogClassName="custom-delete-modal"
       >
-        <Modal.Header style={{ borderBottom: "none" }}>
-          <Modal.Title
-            className="w-100 text-center"
+        <Modal.Header
+          style={{
+            borderBottom: "none",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            padding: "12px 16px",
+          }}
+        >
+          <h5
             style={{
               fontSize: "18px",
               fontFamily: "Gilroy",
-
               fontWeight: 600,
               color: "#222222",
+              margin: 0,
+              textAlign: "center",
             }}
           >
-            Delete walk-in
-          </Modal.Title>
+            Delete Customer?
+          </h5>
         </Modal.Header>
 
         <Modal.Body
@@ -1002,19 +1089,41 @@ function UserlistWalkin(props) {
             fontWeight: 500,
             fontFamily: "Gilroy",
             color: "#646464",
-
             marginTop: "-10px",
           }}
         >
-          Are you sure you want to delete this walk-in?
+          Are you sure you want to delete this Customer?
         </Modal.Body>
+        {formLoading && <div
+          style={{
+            position: 'absolute',
+            top: 70,
+            right: 0,
+            bottom: 0,
+            left: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'transparent',
+            opacity: 0.75,
+            zIndex: 10,
+          }}
+        >
+          <div
+            style={{
+              borderTop: '4px solid #1E45E1',
+              borderRight: '4px solid transparent',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              animation: 'spin 1s linear infinite',
+            }}
+          ></div>
+        </div>}
 
         <Modal.Footer
           className="d-flex justify-content-center"
-          style={{
-            borderTop: "none",
-            marginTop: "-10px",
-          }}
+          style={{ borderTop: "none", marginTop: "-10px" }}
         >
           <Button
             className="me-2"
@@ -1031,7 +1140,7 @@ function UserlistWalkin(props) {
               fontFamily: "Gilroy",
               fontSize: "14px",
             }}
-            onClick={cancelDelete}
+            onClick={handleCloseDelete}
           >
             Cancel
           </Button>
@@ -1048,12 +1157,18 @@ function UserlistWalkin(props) {
               fontFamily: "Gilroy",
               fontSize: "14px",
             }}
-            onClick={confirmDelete}
+            onClick={handleDeleteCustomer}
           >
             Delete
           </Button>
         </Modal.Footer>
       </Modal>
+
+
+
+
+
+   
     </>
   );
 }

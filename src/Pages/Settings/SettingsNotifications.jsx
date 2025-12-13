@@ -5,8 +5,8 @@ import { Card, Container, Form } from 'react-bootstrap';
 import { BsWhatsapp } from 'react-icons/bs';
 import { Message } from 'iconsax-react';
 import { ArrowLeft } from 'iconsax-react';
-import "./SettingsNotifications.css";
-import withErrorBoundary from "../Hoc/WithErrorBountry";
+import "../../Pages/Settings/SettingsNotifications.css";
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
 
 

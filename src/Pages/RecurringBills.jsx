@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import "./Invoices.css";
+import "./Bills/Invoices.css";
 import { Button } from 'react-bootstrap';
 import { Table } from 'react-bootstrap';
 import { Form } from 'react-bootstrap';

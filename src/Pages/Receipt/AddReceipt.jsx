@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import "./Invoices.css";
+// import "./Invoices.css";
 import { Button } from 'react-bootstrap';
 import { Form } from 'react-bootstrap';
 import 'flatpickr/dist/themes/material_blue.css';
@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-import ErrorMessage from '../Components/ErrorMessage'
+import ErrorMessage from '../../Components/ErrorMessage'
 
 const AddReceiptForm = (props) => {
 

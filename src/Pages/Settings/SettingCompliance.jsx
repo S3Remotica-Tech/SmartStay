@@ -1,21 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from "react";
-import message from "../Assets/Images/New_images/messages_gray.png";
-import Edit from "../Assets/Images/Edit-blue.png";
-import Delete from "../Assets/Images/Delete_red.png";
+import message from "../../Assets/Images/New_images/messages_gray.png";
+import Edit from "../../Assets/Images/Edit-blue.png";
+import Delete from "../../Assets/Images/Delete_red.png";
 import { Button, Form, FormControl } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
-import EmptyState from "../Assets/Images/New_images/empty_image.png";
-// import { MdError } from "react-icons/md";
+import EmptyState from "../../Assets/Images/New_images/empty_image.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import PropTypes from "prop-types";
 import { CloseCircle } from "iconsax-react";
-import "./SettingCompliance.css";
+import "../../Pages/Settings/SettingCompliance.css";
 import { toast } from 'react-toastify';
-import ErrorMessage from '../Components/ErrorMessage';
-import { useHasPermission } from '../Utils/Permission';
-import withErrorBoundary from "../Hoc/WithErrorBountry";
+import ErrorMessage from '../../Components/ErrorMessage';
+import { useHasPermission } from '../../Utils/Permission';
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
+
+
+
 function SettingCompliance() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);

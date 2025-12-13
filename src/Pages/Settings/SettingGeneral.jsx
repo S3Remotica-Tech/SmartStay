@@ -15,15 +15,17 @@ import Profile from "../../Assets/Images/New_images/profile-picture.png";
 import EmptyState from "../../Assets/Images/New_images/empty_image.png";
 import Plus from "../../Assets/Images/New_images/add-circle.png";
 import Select from "react-select";
-import "../Settings.css";
+// import "../Pages/Settings/Settings.css";
+import "../Settings/Settings.css";
+
 import eye from "../../Assets/Images/login-password.png";
 import eyeClosed from "../../Assets/Images/Show_password.png";
 import Edit from "../../Assets/Images/Edit-blue.png";
 import Delete from "../../Assets/Images/Delete_red.png";
-import '../SettingAll.css'
+import '../Settings/SettingAll.css'
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { CloseCircle } from "iconsax-react";
-import '../SettingGeneral.css';
+import '../Settings/SettingGeneral.css';
 import ErrorMessage from '../../Components/ErrorMessage'
 import { useHasPermission } from '../../Utils/Permission';
 import Emptystate from "../../Assets/Images/Empty-State.jpg";

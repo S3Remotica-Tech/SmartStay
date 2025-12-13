@@ -902,3 +902,12 @@ export async function editAdvanceAmount(advance) {
     data: advance
   })
 }
+
+
+
+
+
+export async function getInitializeCheckout(hostel) {
+  console.log("hostel",hostel)
+  return await AxiosConfigV2.post(`/v2/bookings/initialize/checkout/${hostel.hostelId}/${hostel.customerId}`)
+}
