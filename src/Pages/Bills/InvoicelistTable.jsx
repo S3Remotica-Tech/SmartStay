@@ -5,7 +5,7 @@ import Delete from '../../Assets/Images/Delete_red.png';
 import Assign from '../../Assets/Images/MoneyAdd-Linear-32px.png';
 import Download from '../../Assets/Images/New_images/download.png';
 import PropTypes from "prop-types"
-import WriteOffForm from "../InvoiceWriteOff";
+import WriteOffForm from "../../Pages/Bills/InvoiceWriteOff";
 import { useHasPermission } from '../../Utils/Permission';
 import { useDispatch, useSelector } from "react-redux";
 import RefundAmount from "../Bills/RefundAmount";

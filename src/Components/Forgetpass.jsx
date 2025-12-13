@@ -10,10 +10,10 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Forgot from '../Assets/Images/New_images/forgot.png'
 import Logo from '../Assets/Images/New_images/Group.png'
 import { Eye, EyeSlash } from 'iconsax-react';
-import ForgotOtp from '../Pages/ForgotOtp'
+import ForgotOtp from '../Pages/OthersComponent/ForgotOtp'
 import { IoIosCheckmark } from "react-icons/io";
 import { MdError } from "react-icons/md";
-import LoaderComponent from '../Pages/LoaderComponent'
+import LoaderComponent from '../Pages/OthersComponent/LoaderComponent'
 import ErrorMessage from '../Components/ErrorMessage'
 
 function ForgetPasswordPage() {

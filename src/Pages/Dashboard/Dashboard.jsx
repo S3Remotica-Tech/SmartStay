@@ -38,7 +38,7 @@ import {
   LabelList,
 } from "recharts";
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
-import LoaderComponent from "../LoaderComponent";
+import LoaderComponent from "../OthersComponent/LoaderComponent";
 import PropTypes from "prop-types";
 import Marquee from "react-fast-marquee";
 import pendingimg from "../../Assets/Images/New_images/pending_rent.png";
