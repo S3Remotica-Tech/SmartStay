@@ -2889,7 +2889,7 @@ const InvoicePage = () => {
   useEffect(() => {
     if (
       state.InvoiceList.ReceiptAddsuccessStatuscode === 200 ||
-      state.InvoiceList.ReceiptDeletesuccessStatuscode === 200 ||
+      state.InvoiceList.ReceiptDeletesuccessStatuscode === 204 ||
       state.InvoiceList.ReceiptEditsuccessStatuscode === 200
     ) {
       handleBackBill()

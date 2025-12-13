@@ -144,7 +144,7 @@ const Receipt = (props) => {
 
 
   useEffect(() => {
-    if (state.InvoiceList.ReceiptDeletesuccessStatuscode === 200) {
+    if (state.InvoiceList.ReceiptDeletesuccessStatuscode === 204) {
       setDeleteShow(false)
        setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_RECEIPT_STATUS_CODE" });
