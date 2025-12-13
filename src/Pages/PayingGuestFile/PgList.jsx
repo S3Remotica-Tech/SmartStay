@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
-import "../../Pages/Dashboard.css";
+import "../../Pages/Dashboard/Dashboard.css";
 import "sweetalert2/dist/sweetalert2.min.css";
 import ParticularHostelDetails from "../../Pages/PayingGuestFile/ParticularHostelDetails";
 import AddPg from "./AddPg";

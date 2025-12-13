@@ -1,38 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useRef, useState, useEffect } from "react";
-// import Form from "react-bootstrap/Form";
-import "../Pages/Settings.css";
+import "../Pages/Settings/Settings.css";
 import { useDispatch, useSelector } from "react-redux";
-// import { MdError } from "react-icons/md";
 import Logo from "../Assets/Images/New_images/Group_Logo.png";
-// import Dial from '../Assets/Images/dial.png'
-// import Room from '../Assets/Images/Car.png'
-// import Locat from '../Assets/Images/location 03.png'
-// import Barcode from '../Assets/Images/invoice_barcode.svg'
 import Gpay from '../Assets/Images/gpay.png'
 import Phonepe from '../Assets/Images/phonepe.png'
 import Paytm from '../Assets/Images/paytm.png'
-// import Questionimage from '../Assets/Images/question.png';
-// import EditICon from '../Assets/Images/New_images/edit.png';
-// import TextAreaICon from '../Assets/Images/textarea.png'
-// import BankICon from '../Assets/Images/bank_white.png'
 import "react-datepicker/dist/react-datepicker.css";
-// import Modal from 'react-bootstrap/Modal';
-// import Button from 'react-bootstrap/Button';
-// import { CloseCircle } from "iconsax-react";
 import "react-toastify/dist/ReactToastify.css";
-// import { RgbaColorPicker } from "react-colorful";
-// import uploadsett from "../Assets/Images/New_images/upload setting.png";
-// import ZoomImage from '../Assets/Images/zoom.png'
-// import Topbottom from '../Assets/Images/cancel_presentation.png';
-// import left85arrow from '../Assets/Images/arrow85.png';
-// import printdown from '../Assets/Images/printericon.png';
-// import downloadicon from '../Assets/Images/pdfdown.png';
-// import CloseIcon from '../Assets/Images/close_icon.png';
 import PropTypes from "prop-types";
 import BankingAddForm from "../Pages/Banking/BankingAddForm";
-// import ErrorMessage from '../Components/ErrorMessage'
-// import { useHasPermission } from '../Utils/Permission';
 import { Location, Call, Profile, } from 'iconsax-react'
 import { IoBed } from "react-icons/io5";
 import { Row, Col, Table } from "react-bootstrap";

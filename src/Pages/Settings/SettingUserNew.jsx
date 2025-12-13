@@ -11,11 +11,11 @@ import Edit from "../Assets/Images/Edit-blue.png";
 import Delete from "../Assets/Images/Delete_red.png";
 import AddUser from "../Pages/UserFile/AddUser";
 import { toast } from 'react-toastify';
-import "./SettingUsers.css";
-import PaginationList from "../Components/PaginationList";
-import { useHasPermission } from '../Utils/Permission';
-import ErrorMessage from '../Components/ErrorMessage';
-import withErrorBoundary from "../Hoc/WithErrorBountry";
+import "../Pages/Settings/SettingUsers.css";
+import PaginationList from "../../Components/PaginationList";
+import { useHasPermission } from '../../Utils/Permission';
+import ErrorMessage from '../../Components/ErrorMessage';
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
 
 function SettingNewUser() {

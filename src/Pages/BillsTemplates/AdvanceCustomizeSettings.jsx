@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useRef, useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
-import "../../Pages/Settings.css";
+import "../../Pages/Settings/Settings.css";
 import { useDispatch, useSelector } from "react-redux";
 import { MdError } from "react-icons/md";
 import Logo from '../../Assets/Images/get.png'

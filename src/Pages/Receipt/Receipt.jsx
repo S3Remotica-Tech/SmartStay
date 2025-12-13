@@ -74,17 +74,19 @@ const Receipt = (props) => {
   }
 
 
-
   const handleDelete = () => {
 
     if (deleteitem) {
       dispatch({
         type: "DELETE_RECEIPT",
-        payload: { id: deleteitem.id },
+        payload: {
+          hostelId: state.login?.selectedHostel_Id, receiptId: deleteitem.receiptId
+        },
       });
     }
 
   }
+
 
 
   const handleEdit = (item) => {
@@ -99,7 +101,7 @@ const Receipt = (props) => {
   }
 
 
-  
+
 
 
 
@@ -144,8 +146,7 @@ const Receipt = (props) => {
   useEffect(() => {
     if (state.InvoiceList.ReceiptDeletesuccessStatuscode === 200) {
       setDeleteShow(false)
-
-      setTimeout(() => {
+       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_RECEIPT_STATUS_CODE" });
       }, 1000);
     }
@@ -155,8 +156,7 @@ const Receipt = (props) => {
 
 
   const handleNavigateTenantProfile = (view) => {
-    console.log("view", view)
-    if (view) {
+        if (view) {
       dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: view.customerId } });
       navigate(`/tenant/details/${view.customerId}`, {
         state: {

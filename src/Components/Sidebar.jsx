@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { StoreSelectedHostelAction, setPlanStatus } from "../Redux/Action/smartStayAction";
+import { StoreSelectedHostelAction } from "../Redux/Action/smartStayAction";
 import "../Components/Sidebar.css";
-import Dashboards from "../Pages/Dashboard";
+import Dashboards from "../Pages/Dashboard/Dashboard";
 import PgLists from "../Pages/PayingGuestFile/PgList";
 import UserLists from "../Pages/CustomerFile/UserList";
 import EbHostel from "../Pages/ElectrictyFile/EB_Hostel";
@@ -12,7 +12,6 @@ import Compliances from "../Pages/Compliants/Compliance";
 import Report from "../Reports/Reports";
 import VendorComponent from "../Pages/VendorFIle/Vendor";
 import { useDispatch, useSelector } from "react-redux";
-import Profileimage from "../Assets/Images/New_images/profile-picture.png";
 import Image from "react-bootstrap/Image";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "sweetalert2/dist/sweetalert2.min.css";
@@ -45,7 +44,7 @@ import Banking from "../Pages/Banking/Banking";
 import bank from "../Assets/Images/New_images/bank.png";
 import bankblank from "../Assets/Images/New_images/blank_bank.png";
 import { ArrowUp2, ArrowDown2, Chart2 } from "iconsax-react";
-import SettingAllPages from "../Pages/SettingAllPages";
+import SettingAllPages from "../Pages/Settings/SettingAllPages";
 import SettingIcon from "../Assets/Images/sidebariconOne.svg";
 import HelpVideoIcon from "../Assets/Images/sidebariconFour.svg";
 import Logout from "../Assets/Images/turn-off.png";
@@ -59,25 +58,25 @@ import CreateBill from "../Pages/Bills/CreateBill";
 import UserListRoomDetail from "../Pages/CustomerFile/UserListRoomDetail";
 import CheckoutProfile from '../Pages/CustomerFile/CheckoutProfile';
 import BillsDetails from '../Pages/Bills/BillsDetails';
-import UserlistCheckout from '../Pages/CustomerFile/UserlistCheckout'
+// import UserlistCheckout from '../Pages/CustomerFile/UserlistCheckout'
 import SettingSubscription from "../Pages/SubscriptionFile/SettingSubscription";
-import SettingIntergration from "../Pages/SettingIntergration";
-import SettingElectricity from "../Pages/SettingElectricity";
-import SettingInvoice from "../Pages/SettingInvoice";
-import SettingExpenses from "../Pages/SettingExpenses";
-import SettingCompliance from "../Pages/SettingCompliance";
-import SettingAmenities from "../Pages/SettingAmenities";
-import SettingNewUser from "../Pages/SettingUserNew";
-import SettingNewRole from "../Pages/SettingNewRole";
-import SettingsNotifications from "../Pages/SettingsNotifications";
-import SettingAgreement from "../Pages/SettingAgreement";
+import SettingIntergration from "../Pages/Settings/SettingIntergration";
+import SettingElectricity from "../Pages/Settings/SettingElectricity";
+import SettingInvoice from "../Pages/Settings/SettingInvoice";
+import SettingExpenses from "../Pages/Settings/SettingExpenses";
+import SettingCompliance from "../Pages/Settings/SettingCompliance";
+import SettingAmenities from "../Pages/Settings/SettingAmenities";
+import SettingNewUser from "../Pages/Settings/SettingUserNew";
+import SettingNewRole from "../Pages/Settings/SettingNewRole";
+import SettingsNotifications from "../Pages/Settings/SettingsNotifications";
+import SettingAgreement from "../Pages/Settings/SettingAgreement";
 import BillingRule from "../Pages/Settings/BillingRule/BillingRule";
 import SettingGeneral from "../Pages/Settings/SettingGeneral";
-import SettingManage from "../Pages/SettingManage";
+import SettingManage from "../Pages/Settings/SettingManage";
 import { Notification } from 'iconsax-react'
 import NotificationForm from "../Utils/Notification";
 import PaymentPreview from "../Pages/SubscriptionFile/PaymentPreview";
-import SettingSecurity from "../Pages/SettingSecurityPage";
+import SettingSecurity from "../Pages/Settings/SettingSecurityPage";
 
 
 

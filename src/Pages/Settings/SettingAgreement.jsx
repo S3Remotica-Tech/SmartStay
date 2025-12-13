@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import editimg from "../Assets/Images/New_images/edit.png";
-import download from "../Assets/Images/New_images/searchss.png";
-import savevec from "../Assets/Images/New_images/Vectorwhite.png";
-import arrowleft from "../Assets/Images/New_images/arrow-leftbluenew.png";
+import editimg from "../../Assets/Images/New_images/edit.png";
+import download from "../../Assets/Images/New_images/searchss.png";
+import savevec from "../../Assets/Images/New_images/Vectorwhite.png";
+import arrowleft from "../../Assets/Images/New_images/arrow-leftbluenew.png";
 import jsPDF from "jspdf";
 import {CloseCircle} from "iconsax-react";
-import searchteam from "../Assets/Images/New_images/Search Team.png";
+import searchteam from "../../Assets/Images/New_images/Search Team.png";
 
-import { useHasPermission } from '../Utils/Permission';
-import ErrorMessage from '../Components/ErrorMessage';
-import withErrorBoundary from "../Hoc/WithErrorBountry";
+import { useHasPermission } from '../../Utils/Permission';
+import ErrorMessage from '../../Components/ErrorMessage';
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
 
 

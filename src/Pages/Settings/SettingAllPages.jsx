@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import blueArrow from "../Assets/Images/New_images/arrow-leftblue.png";
-import blackArrow from "../Assets/Images/New_images/arrow-leftblack.png";
-import "./Settings.css";
-import './SettingAll.css';
+import blueArrow from "../../Assets/Images/New_images/arrow-leftblue.png";
+import blackArrow from "../../Assets/Images/New_images/arrow-leftblack.png";
+import "../Settings/Settings.css";
+import '../Settings/SettingAll.css';
 import { useSelector } from 'react-redux';
 import { ArrowRight2, ArrowLeft2 } from 'iconsax-react'
 // import SettingsBills from "./SettingsBills";

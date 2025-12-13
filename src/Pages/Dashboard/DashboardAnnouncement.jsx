@@ -2,22 +2,22 @@
 import React, { useEffect, useState, useRef } from "react";
 import Card from "react-bootstrap/Card";
 import { useDispatch, useSelector } from "react-redux";
-import Ellipse5 from "../Assets/Images/Profile.jpg";
-import like from "../Assets/Images/like.png";
-import message from "../Assets/Images/message.png";
+import Ellipse5 from "../../Assets/Images/Profile.jpg";
+import like from "../../Assets/Images/like.png";
+import message from "../../Assets/Images/message.png";
 import Select from "react-select";
-import Emptystate from "../Assets/Images/Empty-State.jpg";
+import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import { Modal, Button, Form, FormControl, Image } from "react-bootstrap";
-import "./DashboardAnnouncement.css";
-import Profile from "../Assets/Images/New_images/profile-picture.png";
+import "../Dashboard/Dashboard.css";
+import Profile from "../../Assets/Images/New_images/profile-picture.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { ArrowLeft2, ArrowRight2, CloseCircle, Edit, Trash } from 'iconsax-react';
-import LoaderComponent from "./LoaderComponent";
-import send from "../Assets/Images/send.svg";
+import LoaderComponent from "../LoaderComponent";
+import send from "../../Assets/Images/send.svg";
 import PropTypes from "prop-types";
-import ErrorMessage from '../Components/ErrorMessage'
-import { useHasPermission } from '../Utils/Permission';
-import withErrorBoundary from "../Hoc/WithErrorBountry";
+import ErrorMessage from '../../Components/ErrorMessage'
+import { useHasPermission } from '../../Utils/Permission';
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
 
 

@@ -2,17 +2,17 @@
 import React, { useState, useEffect } from "react";
 import { Doughnut } from "react-chartjs-2";
 import "chart.js/auto";
-import "../Pages/Dashboard.css";
+import "../../Pages/Dashboard/Dashboard.css";
 import Card from "react-bootstrap/Card";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import vector from "../Assets/Images/New_images/Asset_Arrow.png";
-import key from "../Assets/Images/key.png";
-import clock from "../Assets/Images/Car.png";
+import vector from "../../Assets/Images/New_images/Asset_Arrow.png";
+import key from "../../Assets/Images/key.png";
+import clock from "../../Assets/Images/Car.png";
 import { useDispatch, useSelector } from "react-redux";
-import drop from "../Assets/Images/New_images/arrow-down.png";
-import DashboardAnnouncement from "./DashboardAnnouncement";
-import DashboardUpdates from "./DashboardUpdates";
+import drop from "../../Assets/Images/New_images/arrow-down.png";
+import DashboardAnnouncement from "../../Pages/Dashboard/DashboardAnnouncement";
+import DashboardUpdates from "../../Pages/Dashboard/DashboardUpdates";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
@@ -21,8 +21,8 @@ import Box from "@mui/material/Box";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { MdWarningAmber } from "react-icons/md";
-import ErrorMessage from '../Components/ErrorMessage';
-import withErrorBoundary from "../Hoc/WithErrorBountry"; 
+import ErrorMessage from '../../Components/ErrorMessage';
+import withErrorBoundary from "../../Hoc/WithErrorBountry"; 
 
 import {
   LineChart,
@@ -37,19 +37,18 @@ import {
   ResponsiveContainer,
   LabelList,
 } from "recharts";
-import { MdError } from "react-icons/md";
-import Emptystate from "../Assets/Images/Empty-State.jpg";
-import LoaderComponent from "./LoaderComponent";
+import Emptystate from "../../Assets/Images/Empty-State.jpg";
+import LoaderComponent from "../LoaderComponent";
 import PropTypes from "prop-types";
 import Marquee from "react-fast-marquee";
-import pendingimg from "../Assets/Images/New_images/pending_rent.png";
-import currentMatch from "../Assets/Images/New_images/currentmatch.png";
-import activeImage from "../Assets/Images/New_images/Active compliant.png";
-import coinImage from "../Assets/Images/New_images/coinimage.png";
-import advancedHand from "../Assets/Images/New_images/AdvancedHand.png";
-import newBooking from "../Assets/Images/New_images/NewBooking.png";
+import pendingimg from "../../Assets/Images/New_images/pending_rent.png";
+import currentMatch from "../../Assets/Images/New_images/currentmatch.png";
+import activeImage from "../../Assets/Images/New_images/Active compliant.png";
+import coinImage from "../../Assets/Images/New_images/coinimage.png";
+import advancedHand from "../../Assets/Images/New_images/AdvancedHand.png";
+import newBooking from "../../Assets/Images/New_images/NewBooking.png";
 
-import { useHasPermission } from '../Utils/Permission';
+import { useHasPermission } from '../../Utils/Permission';
 
 
 function Dashboard() {

@@ -1,36 +1,22 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useRef, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import "../Pages/Settings.css";
-// import { MdError } from "react-icons/md";
-// import TextAreaICon from '../Assets/Images/textarea.png'
+import "../Pages/Settings/Settings.css";
 import "react-datepicker/dist/react-datepicker.css";
 import mob from "../Assets/Images/New_images/Rectangle 77.png";
 import substrac from "../Assets/Images/New_images/Subtract.png";
 import frame from "../Assets/Images/New_images/FramePDF.png";
-// import receiptLogo from '../Assets/Images/New_images/receiptlogo.png';
 import receiptLogo from "../Assets/Images/New_images/Group_Logo.png";
 import received from '../Assets/Images/New_images/received.png'
-// import Button from 'react-bootstrap/Button';
 import "react-toastify/dist/ReactToastify.css";
-// import { RgbaColorPicker } from "react-colorful";
-// import ZoomImage from '../Assets/Images/zoom.png'
 import Topbottom from '../Assets/Images/cancel_presentation.png';
 import left85arrow from '../Assets/Images/arrow85.png';
 import printdown from '../Assets/Images/printericon.png';
 import downloadicon from '../Assets/Images/pdfdown.png';
 import CloseIcon from '../Assets/Images/close_icon.png';
-// import EditICon from '../Assets/Images/New_images/edit.png';
-// import uploadsett from "../Assets/Images/New_images/upload setting.png";
-// import Modal from 'react-bootstrap/Modal';
-// import Questionimage from '../Assets/Images/question.png';
-// import ErrorMessage from '../Components/ErrorMessage'
-// import { useHasPermission } from '../Utils/Permission';
 import { Location, Call, Profile, } from 'iconsax-react'
 import { IoBed } from "react-icons/io5";
-// import { Container, Row, Col, Table } from "react-bootstrap";
 import Payment from '../Assets/Images/New_images/Mask-group.png'
-// import Refund from '../Assets/Images/New_images/Refund.png';
 import PropTypes from "prop-types";
 
 

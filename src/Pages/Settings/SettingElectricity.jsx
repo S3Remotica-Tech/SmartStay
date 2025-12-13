@@ -4,18 +4,18 @@ import { Row, Col, Card, Form, Button, FormControl } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
 // import { MdError } from "react-icons/md";
-import EmptyState from "../Assets/Images/New_images/empty_image.png";
-import electricity from "../Assets/Images/New_images/electricity.svg";
-import editpic from "../Assets/Images/New_images/edit.svg";
+import EmptyState from "../../Assets/Images/New_images/empty_image.png";
+import electricity from "../../Assets/Images/New_images/electricity.svg";
+import editpic from "../../Assets/Images/New_images/edit.svg";
 import Select from "react-select";
-import "./SettingAll.css";
+import "../Pages/Settings/SettingAll.css";
 import PropTypes from "prop-types";
 import { CloseCircle } from "iconsax-react";
-import "./SettingElectricity.css";
-import ErrorMessage from '../Components/ErrorMessage'
-import { useHasPermission } from '../Utils/Permission';
-import Emptystate from "../Assets/Images/Empty-State.jpg";
-import withErrorBoundary from "../Hoc/WithErrorBountry";
+import "../Pages/Settings/SettingElectricity.css";
+import ErrorMessage from '../../Components/ErrorMessage'
+import { useHasPermission } from '../../Utils/Permission';
+import Emptystate from "../../Assets/Images/Empty-State.jpg";
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
 const SettingElectricity = () => {
 

@@ -14,13 +14,13 @@ import RecurringEnable from './AmenitiesFile/RecurringEnable';
 import AssignAmenities from './AmenitiesFile/AssignAmenities';
 // import { ArrowLeft2, ArrowRight2, } from "iconsax-react";
 import PropTypes from "prop-types";
-import './SettingsAmentities.css';
+import '../Pages/Settings/SettingsAmentities.css';
 // import Select from "react-select";
-import directRight from '../Assets/Images/New_images/direct-right.svg';
-import link2 from '../Assets/Images/New_images/link-2.svg';
-import { useHasPermission } from '../Utils/Permission';
-import ErrorMessage from '../Components/ErrorMessage'
-import withErrorBoundary from "../Hoc/WithErrorBountry";
+import directRight from '../../Assets/Images/New_images/direct-right.svg';
+import link2 from '../../Assets/Images/New_images/link-2.svg';
+import { useHasPermission } from '../../Utils/Permission';
+import ErrorMessage from '../../Components/ErrorMessage'
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
 function SettingAmenities() {
 
     const state = useSelector(state => state)
