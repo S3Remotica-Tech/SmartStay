@@ -1,11 +1,10 @@
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from "react";
-import { MdError } from "react-icons/md";
+import React, { useState, useEffect } from "react";
 import {
     Modal,
     Form,
-    Button,
+    Button,Image
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import "../../../Pages/AssetFile/addAsset.css";
@@ -16,7 +15,7 @@ import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import addcircle from "../../../Assets/Images/New_images/add-circle.png";
 import ErrorMessage from '../../../Components/ErrorMessage'
-import Profileimage from "../../../Assets/Images/New_images/profile-picture.png";
+// import Profileimage from "../../../Assets/Images/New_images/profile-picture.png";
 
 function CheckIn({
     show,
@@ -25,16 +24,16 @@ function CheckIn({
     pgDetails
 }) {
 
-console.log("pgDetails",pgDetails)
+
 
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
-    const bookingDateRef = useRef("");
+    // const bookingDateRef = useRef("");
 
     const [joiningDate, setJoiningDate] = useState(dayjs());
     const [fields, setFields] = useState([]);
     const [errors, setErrors] = useState([]);
-    const [customer_name, setCustomerName] = useState("")
+    // const [customer_name, setCustomerName] = useState("")
     const [bookingDate, setBookingDate] = useState("")
     const [bookingAmount, setBookingAmount] = useState("")
     const [joiningDateErrmsg, setJoingDateErrmsg] = useState('');
@@ -84,60 +83,7 @@ console.log("pgDetails",pgDetails)
     };
 
 
-    const customStyles = {
-        control: (base) => ({
-            ...base,
-            height: "48px",
-            border: "1px solid #D9D9D9",
-            borderRadius: "8px",
-            fontSize: "16px",
-            color: "#4B4B4B",
-            fontFamily: "Gilroy",
-            fontWeight: 500,
-            boxShadow: "none",
-            backgroundColor: "#EFF2FF"
-
-        }),
-        menu: (base) => ({
-            ...base,
-            backgroundColor: "#f8f9fa",
-            border: "1px solid #ced4da",
-            fontFamily: "Gilroy",
-        }),
-        menuList: (base) => ({
-            ...base,
-            backgroundColor: "#f8f9fa",
-            maxHeight: "120px",
-            padding: 0,
-            scrollbarWidth: "thin",
-            overflowY: "auto",
-            fontFamily: "Gilroy",
-        }),
-        placeholder: (base) => ({
-            ...base,
-            color: "#555",
-        }),
-        dropdownIndicator: (base) => ({
-            ...base,
-            color: "#555",
-            display: "inline-block",
-            fill: "currentColor",
-            lineHeight: 1,
-            stroke: "currentColor",
-            strokeWidth: 0,
-            cursor: "pointer"
-        }),
-        indicatorSeparator: () => ({
-            display: "none",
-        }),
-        option: (base, state) => ({
-            ...base,
-            cursor: "pointer",
-            backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-            color: "#000",
-        }),
-    };
-
+    
 
 
 
@@ -1131,6 +1077,6 @@ CheckIn.propTypes = {
     handleClose: PropTypes.func.isRequired,
     show: PropTypes.func.isRequired,
     currentItem: PropTypes.func.isRequired,
-
+    pgDetails: PropTypes.func.isRequired
 }
 export default CheckIn;

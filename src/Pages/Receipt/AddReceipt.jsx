@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import { Form } from 'react-bootstrap';
 import 'flatpickr/dist/themes/material_blue.css';
-import { MdError } from "react-icons/md";
 import 'react-datepicker/dist/react-datepicker.css';
 import PropTypes from "prop-types";
 import Select from "react-select";
@@ -161,7 +160,7 @@ const AddReceiptForm = (props) => {
 
 
 
-  const [isSelectOpen, setIsSelectOpen] = useState(false);
+  // const [isSelectOpen, setIsSelectOpen] = useState(false);
 
    const handleModeOfPaymentChange = (selectedOption) => {
     if (!selectedOption) return;
@@ -813,8 +812,8 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
                onChange={(selectedOption) =>
                  handleModeOfPaymentChange(selectedOption?.value)
                }
-                onMenuOpen={() => setIsSelectOpen(true)}      
-               onMenuClose={() => setIsSelectOpen(false)} 
+              //   onMenuOpen={() => setIsSelectOpen(true)}      
+              //  onMenuClose={() => setIsSelectOpen(false)} 
                placeholder="Select Payment"
                isDisabled={props.receiptedit}
                

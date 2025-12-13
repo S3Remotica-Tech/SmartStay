@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import React from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { ThreeDots } from "react-bootstrap-icons";
 import { NotificationBing, CloseCircle, Chart21 } from 'iconsax-react'
@@ -6,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Smartstay from "../Assets/Images/New_images/LogoSmart.svg";
 import ComplaintsView from "../Pages/Compliants/ComplaintsView"
 import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
 
 
@@ -13,8 +16,7 @@ import { useNavigate } from "react-router-dom";
 
 
 
-
-export default function Notification({ show, handleClose }) {
+function Notification({ show, handleClose }) {
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -44,7 +46,6 @@ export default function Notification({ show, handleClose }) {
 
 
 
-    console.log("notification", notification)
 
     function getDateLabel(dateStr) {
         const [day, month, year] = dateStr.split("/").map(Number);
@@ -415,3 +416,9 @@ export default function Notification({ show, handleClose }) {
         </>
     );
 }
+Notification.propTypes = {
+  show: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
+ };
+
+export default  Notification;

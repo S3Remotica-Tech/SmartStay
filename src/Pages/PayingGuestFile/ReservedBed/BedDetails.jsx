@@ -1,17 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import Button from "react-bootstrap/Button";
+// import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import "../../../Pages/AssetFile/addAsset.css";
 import PropTypes from "prop-types";
-import Profile from '../../../Assets/Images/New_images/profile-picture.png'
+// import Profile from '../../../Assets/Images/New_images/profile-picture.png'
 import { AddCircle, LogoutCurve } from "iconsax-react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { useDispatch, useSelector } from 'react-redux';
 import Image from 'react-bootstrap/Image';
 import { useHasPermission } from '../../../Utils/Permission';
 import { Edit } from 'iconsax-react';
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function BedDetails({
     show,
@@ -41,7 +41,7 @@ function BedDetails({
 
     const {
         canUpdateModule: canUpdatePayingGuests,
-        canDeleteModule: canDeletePayingGuests,
+        // canDeleteModule: canDeletePayingGuests,
 
     } = useHasPermission("Paying Guests");
 
@@ -473,6 +473,7 @@ BedDetails.propTypes = {
     handleShowCheck_In: PropTypes.func.isRequired,
     handleShowInActiveForm: PropTypes.func.isRequired,
     currentItem: PropTypes.func.isRequired,
+    showEditBed: PropTypes.func.isRequired
 
 };
 export default BedDetails;

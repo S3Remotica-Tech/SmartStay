@@ -13,23 +13,25 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 // import { MdError } from "react-icons/md";
 import { CloseCircle } from "iconsax-react";
-import { ArrowUp2, ArrowDown2, Calendar } from "iconsax-react";
-import { Table } from "react-bootstrap";
+import { 
+  // ArrowUp2, ArrowDown2,
+   Calendar } from "iconsax-react";
+// import { Table } from "react-bootstrap";
 import "./SettingSubscription.css";
-import PaginationList from '../../Components/PaginationList';
+// import PaginationList from '../../Components/PaginationList';
 import ErrorMessage from '../../Components/ErrorMessage';
 import { useHasPermission } from '../../Utils/Permission';
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import Cookies from 'universal-cookie';
-import axios from 'axios'
+// import axios from 'axios'
 import { Card, Row, Col } from "react-bootstrap";
 import { TbCheck } from "react-icons/tb";
 import { FaSquareCheck } from "react-icons/fa6";
 import { MdArrowRightAlt } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
-import BasicPlan from '../SubscriptionFile/BasicPlan'
-import PremiumPlan from './PremiumPlan';
+// import BasicPlan from '../SubscriptionFile/BasicPlan'
+// import PremiumPlan from './PremiumPlan';
 
 function SettingSubscription() {
   const state = useSelector((state) => state);
@@ -49,9 +51,9 @@ function SettingSubscription() {
   const [getPlanActive, setGetPlanActive] = useState([]);
   const [selectedHostels, setSelectedHostels] = useState([]);
   const modalRef = useRef();
-  const cookies = new Cookies();
+  // const cookies = new Cookies();
 
-  const hostelDetails = getPlanActive?.[0]?.hostel_details || [];
+  // const hostelDetails = getPlanActive?.[0]?.hostel_details || [];
 
   console.log("state", state)
 
@@ -182,9 +184,9 @@ function SettingSubscription() {
     setSelectedHostels([]);
   };
 
-  const handleCurrentPlan = () => {
-    setChangePlan(true);
-  };
+  // const handleCurrentPlan = () => {
+  //   setChangePlan(true);
+  // };
 
 
 
@@ -279,39 +281,39 @@ function SettingSubscription() {
 
 
 
-  const gotoPayment = async () => {
-    const token = cookies.get("v2-token");
+  // const gotoPayment = async () => {
+  //   const token = cookies.get("v2-token");
 
-    try {
-      const response = await axios.get("http://localhost:8083/smartstay/payment/", {
-        headers: { Authorization: `Bearer ${token}` },
-        responseType: "text"
-      });
+  //   try {
+  //     const response = await axios.get("http://localhost:8083/smartstay/payment/", {
+  //       headers: { Authorization: `Bearer ${token}` },
+  //       responseType: "text"
+  //     });
 
-      if (response.status === 200) {
-        console.log("navigated success")
-        window.location.href = "http://localhost:8083/smartstay/payment/", "_self";
-        // sessionStorage.setItem("payment_html", response.data);
-        // window.location.href = "/payment-preview";
+  //     if (response.status === 200) {
+  //       console.log("navigated success")
+  //       window.location.href = "http://localhost:8083/smartstay/payment/", "_self";
+  //       // sessionStorage.setItem("payment_html", response.data);
+  //       // window.location.href = "/payment-preview";
 
-        // const newWindow = window.open("http://localhost:8083/smartstay/payment/", "_blank");
-        // newWindow.document.write(response.data);
+  //       // const newWindow = window.open("http://localhost:8083/smartstay/payment/", "_blank");
+  //       // newWindow.document.write(response.data);
 
-        //  window.open("http://localhost:8083/smartstay/payment/", "_self");
+  //       //  window.open("http://localhost:8083/smartstay/payment/", "_self");
 
-        //    const newDoc = document.open("text/html", "replace");
-        // newDoc.write(response.data);
-        // newDoc.close();
+  //       //    const newDoc = document.open("text/html", "replace");
+  //       // newDoc.write(response.data);
+  //       // newDoc.close();
 
-        // const blob = new Blob([response.data], { type: "text/html" });
-        // const url = URL.createObjectURL(blob);
+  //       // const blob = new Blob([response.data], { type: "text/html" });
+  //       // const url = URL.createObjectURL(blob);
 
-        // window.location.href = url;   
-      }
-    } catch (error) {
-      console.error("Error", error);
-    }
-  };
+  //       // window.location.href = url;   
+  //     }
+  //   } catch (error) {
+  //     console.error("Error", error);
+  //   }
+  // };
 
 
   const plans = [

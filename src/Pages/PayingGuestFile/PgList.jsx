@@ -27,7 +27,7 @@ import occubiedimg from "../../Assets/Images/New_images/occubied-circle.png";
 import recerverimg from "../../Assets/Images/New_images/recervedimg.png";
 import overdueimg from "../../Assets/Images/New_images/overdueimg.png";
 import noticeimg from "../../Assets/Images/New_images/noticeperiodimg.png";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import './PgList.css';
 import { toast } from "react-toastify";
 import { FaArrowLeftLong } from "react-icons/fa6";
@@ -45,11 +45,11 @@ function PgList() {
   const state = useSelector((state) => state);
 
   const [showHostelDetails, setShowHostelDetails] = useState("");
-  const [rolePermission, setRolePermission] = useState("");
-  const [permissionError, setPermissionError] = useState("");
-  const [addPermissionError, setAddPermissionError] = useState("");
-  const [editPermissionError, setEditPermissionError] = useState("");
-  const [deletePermissionError, setDeletePermissionError] = useState("");
+  // const [rolePermission, setRolePermission] = useState("");
+  // const [permissionError, setPermissionError] = useState("");
+  // const [addPermissionError, setAddPermissionError] = useState("");
+  // const [editPermissionError, setEditPermissionError] = useState("");
+  // const [deletePermissionError, setDeletePermissionError] = useState("");
 
 
   const [key, setKey] = useState("1");
@@ -493,71 +493,71 @@ useEffect(()=>{
       appearOnScro1l.observe(fader);
     });
   });
-  useEffect(() => {
-    setRolePermission(state.createAccount.accountList);
-  }, [state.createAccount.accountList]);
+  // useEffect(() => {
+  //   setRolePermission(state.createAccount.accountList);
+  // }, [state.createAccount.accountList]);
 
 
-  useEffect(() => {
-    const userType = rolePermission[0]?.user_details?.user_type;
-    const isAdmin = userType === "admin" || userType === "agent";
+  // useEffect(() => {
+  //   const userType = rolePermission[0]?.user_details?.user_type;
+  //   const isAdmin = userType === "admin" || userType === "agent";
 
-    if (isAdmin) {
-      if (state?.login?.planStatus === 0) {
-        setPermissionError("");
-        setAddPermissionError("Permission Denied");
-        setEditPermissionError("Permission Denied");
-        setDeletePermissionError("Permission Denied");
+  //   if (isAdmin) {
+  //     if (state?.login?.planStatus === 0) {
+  //       setPermissionError("");
+  //       setAddPermissionError("Permission Denied");
+  //       setEditPermissionError("Permission Denied");
+  //       setDeletePermissionError("Permission Denied");
 
-      } else if (state?.login?.planStatus === 1) {
-        setPermissionError("");
-        setAddPermissionError("");
-        setEditPermissionError("");
-        setDeletePermissionError("");
-      }
-    }
+  //     } else if (state?.login?.planStatus === 1) {
+  //       setPermissionError("");
+  //       setAddPermissionError("");
+  //       setEditPermissionError("");
+  //       setDeletePermissionError("");
+  //     }
+  //   }
 
-  }, [state?.login?.planStatus, state?.login?.selectedHostel_Id, rolePermission])
-
-
-  useEffect(() => {
-    if (rolePermission[0]?.user_details?.user_type === "staff") {
-      const rolesPermission = rolePermission[0]?.role_permissions?.find(
-        (perm) => perm.permission_name === "Paying Guest"
-      );
-
-      const planActive = state?.login?.planStatus === 1;
-
-      if (rolesPermission) {
-        if (rolesPermission.per_view === 1 && planActive) {
-          setPermissionError("");
-        } else {
-          setPermissionError("Permission Denied");
-        }
+  // }, [state?.login?.planStatus, state?.login?.selectedHostel_Id, rolePermission])
 
 
-        if (rolesPermission.per_create === 1 && planActive) {
-          setAddPermissionError("");
-        } else {
-          setAddPermissionError("Permission Denied");
-        }
+  // useEffect(() => {
+  //   if (rolePermission[0]?.user_details?.user_type === "staff") {
+  //     const rolesPermission = rolePermission[0]?.role_permissions?.find(
+  //       (perm) => perm.permission_name === "Paying Guest"
+  //     );
+
+  //     const planActive = state?.login?.planStatus === 1;
+
+  //     if (rolesPermission) {
+  //       if (rolesPermission.per_view === 1 && planActive) {
+  //         setPermissionError("");
+  //       } else {
+  //         setPermissionError("Permission Denied");
+  //       }
 
 
-        if (rolesPermission.per_edit === 1 && planActive) {
-          setEditPermissionError("");
-        } else {
-          setEditPermissionError("Permission Denied");
-        }
+  //       if (rolesPermission.per_create === 1 && planActive) {
+  //         setAddPermissionError("");
+  //       } else {
+  //         setAddPermissionError("Permission Denied");
+  //       }
 
 
-        if (rolesPermission.per_delete === 1 && planActive) {
-          setDeletePermissionError("");
-        } else {
-          setDeletePermissionError("Permission Denied");
-        }
-      }
-    }
-  }, [state?.login?.planStatus, state?.login?.selectedHostel_Id, rolePermission]);
+  //       if (rolesPermission.per_edit === 1 && planActive) {
+  //         setEditPermissionError("");
+  //       } else {
+  //         setEditPermissionError("Permission Denied");
+  //       }
+
+
+  //       if (rolesPermission.per_delete === 1 && planActive) {
+  //         setDeletePermissionError("");
+  //       } else {
+  //         setDeletePermissionError("Permission Denied");
+  //       }
+  //     }
+  //   }
+  // }, [state?.login?.planStatus, state?.login?.selectedHostel_Id, rolePermission]);
 
 
 
@@ -1278,9 +1278,9 @@ useEffect(()=>{
                               floorID={floorClick}
                               hostel_Id={state.login?.selectedHostel_Id}
                               phoneNumber={showHostelDetails.hostel_PhoneNo}
-                              editPermissionError={editPermissionError}
-                              deletePermissionError={deletePermissionError}
-                              addPermissionError={addPermissionError}
+                              // editPermissionError={editPermissionError}
+                              // deletePermissionError={deletePermissionError}
+                              // addPermissionError={addPermissionError}
                             />
 
 
@@ -1354,9 +1354,9 @@ useEffect(()=>{
           <AddPg
             show={showAddPg}
             handleClose={handleCloses}
-            editPermissionError={editPermissionError}
-            deletePermissionError={deletePermissionError}
-            addPermissionError={addPermissionError}
+            // editPermissionError={editPermissionError}
+            // deletePermissionError={deletePermissionError}
+            // addPermissionError={addPermissionError}
           />
         )}
         {showDelete && (
@@ -1364,9 +1364,9 @@ useEffect(()=>{
             show={showDelete}
             handleClose={handleCloseDelete}
             currentItem={deleteFloor}
-            editPermissionError={editPermissionError}
-            deletePermissionError={deletePermissionError}
-            addPermissionError={addPermissionError}
+            // editPermissionError={editPermissionError}
+            // deletePermissionError={deletePermissionError}
+            // addPermissionError={addPermissionError}
           />
         )}
         {showFloor && (
@@ -1377,9 +1377,9 @@ useEffect(()=>{
             hostelFloor={hostelFloor}
             openFloor={handleDIsplayFloorClick}
             editFloor={editFloor}
-            editPermissionError={editPermissionError}
-            deletePermissionError={deletePermissionError}
-            addPermissionError={addPermissionError}
+            // editPermissionError={editPermissionError}
+            // deletePermissionError={deletePermissionError}
+            // addPermissionError={addPermissionError}
           />
         )}
         {showRoom && (
@@ -1387,9 +1387,9 @@ useEffect(()=>{
             show={showRoom}
             handleClose={handlecloseRoom}
             hostelDetails={hostelDetails}
-            editPermissionError={editPermissionError}
-            deletePermissionError={deletePermissionError}
-            addPermissionError={addPermissionError}
+            // editPermissionError={editPermissionError}
+            // deletePermissionError={deletePermissionError}
+            // addPermissionError={addPermissionError}
           />
         )}
 
