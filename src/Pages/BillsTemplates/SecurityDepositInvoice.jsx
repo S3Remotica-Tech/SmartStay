@@ -1,15 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useRef, useState, useEffect } from "react";
-import "../Pages/Settings/Settings.css";
+import "../../Pages/Settings/Settings.css";
 import { useDispatch, useSelector } from "react-redux";
-import Logo from "../Assets/Images/New_images/Group_Logo.png";
-import Gpay from '../Assets/Images/gpay.png'
-import Phonepe from '../Assets/Images/phonepe.png'
-import Paytm from '../Assets/Images/paytm.png'
+import Logo from "../../Assets/Images/New_images/Group_Logo.png";
+import Gpay from '../../Assets/Images/gpay.png'
+import Phonepe from '../../Assets/Images/phonepe.png'
+import Paytm from '../../Assets/Images/paytm.png'
 import "react-datepicker/dist/react-datepicker.css";
 import "react-toastify/dist/ReactToastify.css";
 import PropTypes from "prop-types";
-import BankingAddForm from "../Pages/Banking/BankingAddForm";
+import BankingAddForm from "../../Pages/Banking/BankingAddForm";
 import { Location, Call, Profile, } from 'iconsax-react'
 import { IoBed } from "react-icons/io5";
 import { Row, Col, Table } from "react-bootstrap";

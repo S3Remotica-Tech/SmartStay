@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useRef, useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
-import "../Pages/Settings/Settings.css";
+import "../../Pages/Settings/Settings.css";
 import { useDispatch, useSelector } from "react-redux";
 import leftarrow from "../../Assets/Images/arrow-left.png"
 import Logo from "../../Assets/Images/New_images/Group_Logo.png";
@@ -20,18 +20,18 @@ import Button from 'react-bootstrap/Button';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { RgbaColorPicker } from "react-colorful";
-import '../Pages/Settings/SettingInvoice.css';
-import RentalReceiptPdfTemplate from "./RentalReceiptPdfTempate";
-import SecurityDepositInvoiceTemplate from "./SecurityDepositInvoice";
-import BankingAddForm from "../Pages/Banking/BankingAddForm";
+import '../../Pages/Settings/SettingInvoice.css';
+import RentalReceiptPdfTemplate from "../BillsTemplates/RentalReceiptPdfTempate";
+import SecurityDepositInvoiceTemplate from "../BillsTemplates/SecurityDepositInvoice";
+import BankingAddForm from "../../Pages/Banking/BankingAddForm";
 import ErrorMessage from '../../Components/ErrorMessage'
 import { useHasPermission } from '../../Utils/Permission';
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import { Location, Call, Profile, Edit } from 'iconsax-react'
 import { IoBed } from "react-icons/io5";
 import { Row, Col, Table, Card } from "react-bootstrap";
-import AdvanceCustomizeSettings from './BillsTemplates/AdvanceCustomizeSettings'
-import ReceiptCustomize from './BillsTemplates/ReceiptCustomize';
+import AdvanceCustomizeSettings from '../BillsTemplates/AdvanceCustomizeSettings'
+import ReceiptCustomize from '../BillsTemplates/ReceiptCustomize';
 import { FiArrowRight } from "react-icons/fi";
 import { RiPercentLine } from "react-icons/ri";
 import { FiCode } from "react-icons/fi";

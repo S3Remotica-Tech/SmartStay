@@ -4,12 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
 import "../../Pages/Dashboard/Dashboard.css";
 import "sweetalert2/dist/sweetalert2.min.css";
-import PayingGuest from "../Pages/PayingGuestFile/PayingGuestMap";
-import AddPg from "../Pages/PayingGuestFile/AddPg";
-import AddFloor from "../Pages/PayingGuestFile/AddFloor";
-import "../Pages/PayingGuestFile/PgList.css";
+import PayingGuest from "../../Pages/PayingGuestFile/PayingGuestMap";
+import AddPg from "../../Pages/PayingGuestFile/AddPg";
+import AddFloor from "../../Pages/PayingGuestFile/AddFloor";
+import "../../Pages/PayingGuestFile/PgList.css";
 import Nav from "react-bootstrap/Nav";
-import AddRoom from "../Pages/PayingGuestFile/AddRoom";
+import AddRoom from "../../Pages/PayingGuestFile/AddRoom";
 import { ArrowLeft } from "iconsax-react";
 import {
   ArrowUp2,
@@ -19,23 +19,21 @@ import {
 } from "iconsax-react";
 import { Tab, Row, Col } from "react-bootstrap";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import DeleteFloor from "../Pages/PayingGuestFile/DeleteFloor";
+import DeleteFloor from "../../Pages/PayingGuestFile/DeleteFloor";
 import "react-toastify/dist/ReactToastify.css";
-import EmptyState from "../Assets/Images/New_images/empty_image.png";
-// import { MdError } from "react-icons/md";
-// import "../../Settings/Settings.css";
-import "../Pages/Settings/Settings.css";
+import EmptyState from "../../Assets/Images/New_images/empty_image.png";
+import "../../Pages/Settings/Settings.css";
 import PropTypes from "prop-types";
-import '../Pages/Settings/SettingManage.css';
+import '../../Pages/Settings/SettingManage.css';
 import availabeimg from "../../Assets/Images/New_images/available-circle.png";
 import occubiedimg from "../../Assets/Images/New_images/occubied-circle.png";
 import recerverimg from "../../Assets/Images/New_images/recervedimg.png";
 import overdueimg from "../../Assets/Images/New_images/overdueimg.png";
 import noticeimg from "../../Assets/Images/New_images/noticeperiodimg.png";
-import ParticularHostelDetails from "./PayingGuestFile/ParticularHostelDetails";
-import ErrorMessage from '../Components/ErrorMessage'
-import { useHasPermission } from '../Utils/Permission';
-import withErrorBoundary from "../Hoc/WithErrorBountry";
+import ParticularHostelDetails from "../PayingGuestFile/ParticularHostelDetails";
+import ErrorMessage from '../../Components/ErrorMessage'
+import { useHasPermission } from '../../Utils/Permission';
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
 
 function SettingManage() {

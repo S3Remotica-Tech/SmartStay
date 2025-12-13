@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button } from "react-bootstrap";
-import AddRole from '../Pages/RoleFile/AddRole';
+import AddRole from '../../Pages/RoleFile/AddRole';
 import role from "../../Assets/Images/New_images/security-user.png"
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Edit from "../../Assets/Images/Edit-blue.png";
@@ -12,7 +12,7 @@ import Modal from "react-bootstrap/Modal";
 import EmptyState from '../../Assets/Images/New_images/empty_image.png';
 import PropTypes from "prop-types";
 import { toast } from 'react-toastify';
-import '../Pages/Settings/SettingNewRole.css';
+import '../../Pages/Settings/SettingNewRole.css';
 import { useHasPermission } from '../../Utils/Permission';
 import ErrorMessage from '../../Components/ErrorMessage'
 import withErrorBoundary from "../../Hoc/WithErrorBountry";

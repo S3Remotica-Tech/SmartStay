@@ -1,22 +1,22 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useRef, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import "../Pages/Settings/Settings.css";
+import "../../Pages/Settings/Settings.css";
 import "react-datepicker/dist/react-datepicker.css";
-import mob from "../Assets/Images/New_images/Rectangle 77.png";
-import substrac from "../Assets/Images/New_images/Subtract.png";
-import frame from "../Assets/Images/New_images/FramePDF.png";
-import receiptLogo from "../Assets/Images/New_images/Group_Logo.png";
-import received from '../Assets/Images/New_images/received.png'
+import mob from "../../Assets/Images/New_images/Rectangle 77.png";
+import substrac from "../../Assets/Images/New_images/Subtract.png";
+import frame from "../../Assets/Images/New_images/FramePDF.png";
+import receiptLogo from "../../Assets/Images/New_images/Group_Logo.png";
+import received from '../../Assets/Images/New_images/received.png'
 import "react-toastify/dist/ReactToastify.css";
-import Topbottom from '../Assets/Images/cancel_presentation.png';
-import left85arrow from '../Assets/Images/arrow85.png';
-import printdown from '../Assets/Images/printericon.png';
-import downloadicon from '../Assets/Images/pdfdown.png';
-import CloseIcon from '../Assets/Images/close_icon.png';
+import Topbottom from '../../Assets/Images/cancel_presentation.png';
+import left85arrow from '../../Assets/Images/arrow85.png';
+import printdown from '../../Assets/Images/printericon.png';
+import downloadicon from '../../Assets/Images/pdfdown.png';
+import CloseIcon from '../../Assets/Images/close_icon.png';
 import { Location, Call, Profile, } from 'iconsax-react'
 import { IoBed } from "react-icons/io5";
-import Payment from '../Assets/Images/New_images/Mask-group.png'
+import Payment from '../../Assets/Images/New_images/Mask-group.png'
 import PropTypes from "prop-types";
 
 
