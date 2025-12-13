@@ -144,7 +144,7 @@ const Receipt = (props) => {
 
 
   useEffect(() => {
-    if (state.InvoiceList.ReceiptDeletesuccessStatuscode === 200) {
+    if (state.InvoiceList.ReceiptDeletesuccessStatuscode === 204) {
       setDeleteShow(false)
        setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_RECEIPT_STATUS_CODE" });
@@ -219,7 +219,7 @@ const Receipt = (props) => {
 
         <td className="ps-2 ps-sm-2 ps-md-3 ps-lg-2" style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }}>
           <span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px", marginLeft: 3 }}>{props.item?.paidAt}</span></td>
-        <td className="ps-2 ps-sm-2 ps-md-3 ps-lg-4" style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} > ₹{props.item?.paidAmount != null ? props.item.paidAmount.toLocaleString('en-IN') : '0'}</td>
+        <td className="ps-2 ps-sm-2 ps-md-3 ps-lg-4" style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} > ₹{props.item?.paidAmount !== null ? props.item.paidAmount.toLocaleString('en-IN') : '0'}</td>
         <td className="ps-2 ps-sm-2 ps-md-3 ps-lg-2" style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }}>
           <span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px", marginLeft: 2 }}>{props.item?.bankName ? props.item?.bankName : "-"}</span></td>
 

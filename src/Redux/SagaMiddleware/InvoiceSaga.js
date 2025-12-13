@@ -1610,7 +1610,7 @@ function* handleEditReceipt(action) {
 function* handleDeleteReceipt(action) {
    try{
    const response = yield call(DeleteReceipt, action.payload);
-   if (response?.status === 200 ) {
+   if (response?.status === 204 ) {
       yield put({ type: 'DELETERECEIPT', payload: { response: response.data, statusCode: response?.status  } })
 
 
@@ -1630,7 +1630,7 @@ function* handleDeleteReceipt(action) {
 
       };
 
-      toast.success(response.data.message, {
+      toast.success("Deleted Successfully", {
          position: "bottom-center",
          autoClose: 2000,
          hideProgressBar: true,
@@ -1642,12 +1642,7 @@ function* handleDeleteReceipt(action) {
          style: toastStyle
       });
    }
-   else {
-      yield put({ type: 'ERROR', payload:  response?.data?.message })
-   }
-   if (response) {
-      refreshToken(response)
-   }
+  
 }
 catch(error){
       yield* handleApiError(error);

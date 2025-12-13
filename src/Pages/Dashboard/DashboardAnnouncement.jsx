@@ -12,7 +12,7 @@ import "../Dashboard/Dashboard.css";
 import Profile from "../../Assets/Images/New_images/profile-picture.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { ArrowLeft2, ArrowRight2, CloseCircle, Edit, Trash } from 'iconsax-react';
-import LoaderComponent from "../LoaderComponent";
+import LoaderComponent from "../OthersComponent/LoaderComponent";
 import send from "../../Assets/Images/send.svg";
 import PropTypes from "prop-types";
 import ErrorMessage from '../../Components/ErrorMessage'

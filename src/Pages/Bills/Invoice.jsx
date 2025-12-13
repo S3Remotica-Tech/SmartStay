@@ -13,7 +13,7 @@ import User from "../../Assets/Images/New_images/profile-picture.png";
 import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
 import "sweetalert2/dist/sweetalert2.min.css";
-import LoaderComponent from "../LoaderComponent";
+import LoaderComponent from "../OthersComponent/LoaderComponent";
 import "../Bills/Invoices.css";
 import InvoiceTable from "../Bills/InvoicelistTable";
 import Profile from "../../Assets/Images/New_images/profile-picture.png";
@@ -29,7 +29,7 @@ import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import BillPdfModal from "../PDF/BillPdfModal";
 import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
-import RecurringBill from "../../Pages/RecurringBills";
+import RecurringBill from "../../Pages/Recurring/RecurringBills";
 import RecurringBillList from "../../Pages/Recurring/RecurringBillList";
 import closecircle from "../../Assets/Images/New_images/close-circle.png";
 import searchteam from "../../Assets/Images/New_images/Search Team.png";
@@ -42,7 +42,7 @@ import { toast } from "react-toastify";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import { CloseCircle, ArrowUp2, ArrowDown2, } from "iconsax-react";
-import '../BillPdfModal.css';
+import '../OthersComponent/BillPdfModal.css';
 import AxiosConfig from "../../WebService/AxiosConfig";
 import Swal from 'sweetalert2';
 import PaginationList from "../../Components/PaginationList";
@@ -2889,7 +2889,7 @@ const InvoicePage = () => {
   useEffect(() => {
     if (
       state.InvoiceList.ReceiptAddsuccessStatuscode === 200 ||
-      state.InvoiceList.ReceiptDeletesuccessStatuscode === 200 ||
+      state.InvoiceList.ReceiptDeletesuccessStatuscode === 204 ||
       state.InvoiceList.ReceiptEditsuccessStatuscode === 200
     ) {
       handleBackBill()

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { MdError } from "react-icons/md";
 import { CloseCircle } from 'iconsax-react';
 import PropTypes from "prop-types";
-import ErrorMessage from '../Components/ErrorMessage'
+import ErrorMessage from '../../Components/ErrorMessage'
 import Cookies from 'universal-cookie';
 
 

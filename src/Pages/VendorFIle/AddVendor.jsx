@@ -141,7 +141,10 @@ function AddVendor({ show, setShow, currentItem }) {
   };
 
 
-  const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
+// const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
+
+const regex = /^[a-zA-Z0-9 .,'/\\#()&:-]*$/;
+
 
   const handleHouseNo = (e) => {
     const value = e.target.value;

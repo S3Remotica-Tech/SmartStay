@@ -21,7 +21,7 @@ const SettingElectricity = () => {
 
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
-  const [isProWrate, setProWrate] = useState(false);
+  // const [isProWrate, setProWrate] = useState(false);
   const [roomBasedCalculation, setRoomBasedCalculation] = useState(false);
   const [hostelBasedCalculation, setHostelBasedCalculation] = useState(false);
   const [showFormElectricity, setShowFormElectricity] = useState(false);
@@ -291,7 +291,7 @@ useEffect(()=>{
       //   },
       // });
       setFormRecurringLoading(true)
-      setProWrate(false);
+      // setProWrate(false);
     }
   };
 
@@ -345,7 +345,7 @@ useEffect(()=>{
     if (state.Settings?.getebStatuscode === 200) {
       setHostelBasedCalculation(state.Settings?.EBBillingUnitlist?.isHostelBased);
       setRoomBasedCalculation(state.Settings?.EBBillingUnitlist?.isRoomBased);
-      setProWrate(state.Settings?.EBBillingUnitlist?.isProRate);
+      // setProWrate(state.Settings?.EBBillingUnitlist?.isProRate);
     }
   }, [state.Settings?.getebStatuscode]);
 

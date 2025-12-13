@@ -6,7 +6,7 @@ import Modal from "react-bootstrap/Modal";
 import { Button } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { FaCheck } from "react-icons/fa";
-import { useDispatch, useSelector } from 'react-redux';
+import {  useSelector } from 'react-redux';
 import { useHasPermission } from '../../Utils/Permission';
 
 
@@ -15,7 +15,7 @@ const RecurringBillList = (props) => {
   const state = useSelector((state) => state);
   const [recurringBillDeletePermission, setRecurringBillDeletePermission] = useState("")
   const [deleteShow, setDeleteShow] = useState(false)
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
 
   const handleDeleteForm = () => {
     setDeleteShow(true)

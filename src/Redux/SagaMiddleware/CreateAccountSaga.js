@@ -1,6 +1,5 @@
 import { call, takeEvery, put } from 'redux-saga/effects';
 import { CreateAccountAction, TwoStepVerification, AccountDetails, Addaccount,  UpdateNotification, UpdateProfile, UpdatePassword } from '../Action/smartStayAction';
-import Swal from 'sweetalert2';
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

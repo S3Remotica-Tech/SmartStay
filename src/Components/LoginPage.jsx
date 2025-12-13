@@ -9,7 +9,7 @@ import './LoginPage.css';
 import { useNavigate } from "react-router-dom";
 import 'sweetalert2/dist/sweetalert2.min.css';
 import { useDispatch, useSelector } from 'react-redux';
-import OtpVerificationModal from '../Pages/OtpVerificationModal';
+import OtpVerificationModal from '../Pages/OthersComponent/OtpVerificationModal';
 import Cookies from 'universal-cookie';
 import Loginimage from '../Assets/Images/new_login.png';
 import Logo from '../Assets/Images/New_images/Group.png';

@@ -1,8 +1,7 @@
 import React from "react";
-import { Card, Button, Row, Col, Table, Badge } from "react-bootstrap";
+import { Card, Button, Row, Col, Table } from "react-bootstrap";
 import PaginationList from '../../Components/PaginationList';
-import { CloseCircle } from "iconsax-react";
-import { ArrowUp2, ArrowDown2, Calendar } from "iconsax-react";
+import { Calendar } from "iconsax-react";
 import { TbCheck } from "react-icons/tb";
 import { MdPayment } from "react-icons/md";
 import { PiLightning } from "react-icons/pi";
