@@ -217,13 +217,22 @@ function BillsFilter({ show, handleClose }) {
     const filterOptions = [
         { type: "Cash", name: "Cash" },
         { type: "Bank", name: "Bank" },
-        
+
     ];
 
     const selectOptions = filterOptions?.map(item => ({
         label: item.type,
         value: item.name,
     }));
+
+
+
+    const handleFilterBills = () => {
+console.log("billStatus",billStatus)
+
+
+
+    }
 
     return (
         <div>  <Offcanvas
@@ -232,7 +241,7 @@ function BillsFilter({ show, handleClose }) {
             placement="end"
         >
             <Offcanvas.Header closeButton>
-                <Offcanvas.Title>Filter</Offcanvas.Title>
+                <Offcanvas.Title style={{ color: "#222222", fontSize: 20, fontFamily: "Gilroy", fontWeight: 600 }}>Filter</Offcanvas.Title>
             </Offcanvas.Header>
 
             <Offcanvas.Body className='pt-0'>
@@ -581,6 +590,8 @@ function BillsFilter({ show, handleClose }) {
                     Reset
                 </Button>
                 <Button
+
+                    onClick={handleFilterBills}
                     style={{
                         backgroundColor: "#1E45E1",
                         width: "48%",

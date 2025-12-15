@@ -544,34 +544,8 @@ function Sidebar() {
 
 
 
-  useEffect(() => {
-    if (hostelListDetail?.length > 0 && !initials && state.login?.apiResponseHostelId) {
-
-      const selectedHostel = state.login?.apiResponseHostelId
-        ? hostelListDetail.find(h => h.hostelId === state.login?.apiResponseHostelId)
-        : hostelListDetail[0];
-
-      if (selectedHostel) {
-        setAllPageHostel_Id(selectedHostel.hostelId);
-        setPayingGuestName(selectedHostel.name);
-        setInitials(selectedHostel.initials)
-        setSelectedProfileImage(
-          selectedHostel.mainImage &&
-          selectedHostel.mainImage !== "0" &&
-          selectedHostel.mainImage !== "" &&
-          selectedHostel.mainImage
-        );
-
-        dispatch(StoreSelectedHostelAction(selectedHostel.hostelId));
-      }
-    }
-  }, [hostelListDetail, state.login?.apiResponseHostelId]);
-
-  // console.log("state.login?.apiResponseHostelId",state.login?.apiResponseHostelId)
-
-
   // useEffect(() => {
-  //   if (hostelListDetail?.length > 0 && !initials) {
+  //   if (hostelListDetail?.length > 0 && !initials && state.login?.apiResponseHostelId) {
 
   //     const selectedHostel = state.login?.apiResponseHostelId
   //       ? hostelListDetail.find(h => h.hostelId === state.login?.apiResponseHostelId)
@@ -591,7 +565,33 @@ function Sidebar() {
   //       dispatch(StoreSelectedHostelAction(selectedHostel.hostelId));
   //     }
   //   }
-  // }, [hostelListDetail,]);
+  // }, [hostelListDetail, state.login?.apiResponseHostelId]);
+
+  // console.log("state.login?.apiResponseHostelId",state.login?.apiResponseHostelId)
+
+
+  useEffect(() => {
+    if (hostelListDetail?.length > 0 && !initials) {
+
+      const selectedHostel = state.login?.apiResponseHostelId
+        ? hostelListDetail.find(h => h.hostelId === state.login?.apiResponseHostelId)
+        : hostelListDetail[0];
+
+      if (selectedHostel) {
+        setAllPageHostel_Id(selectedHostel.hostelId);
+        setPayingGuestName(selectedHostel.name);
+        setInitials(selectedHostel.initials)
+        setSelectedProfileImage(
+          selectedHostel.mainImage &&
+          selectedHostel.mainImage !== "0" &&
+          selectedHostel.mainImage !== "" &&
+          selectedHostel.mainImage
+        );
+
+        dispatch(StoreSelectedHostelAction(selectedHostel.hostelId));
+      }
+    }
+  }, [hostelListDetail,]);
 
 
   console.log("apiResponseHostelId", state.login.apiResponseHostelId)
