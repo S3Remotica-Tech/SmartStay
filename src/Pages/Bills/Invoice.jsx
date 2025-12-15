@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { Modal, Button,  } from "react-bootstrap";
+import { Modal, Button, } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import { FormControl } from "react-bootstrap";
@@ -41,6 +41,7 @@ import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
+import { FiFilter } from "react-icons/fi";
 import { CloseCircle, ArrowUp2, ArrowDown2, } from "iconsax-react";
 import '../OthersComponent/BillPdfModal.css';
 import AxiosConfig from "../../WebService/AxiosConfig";
@@ -49,8 +50,9 @@ import PaginationList from "../../Components/PaginationList";
 import ErrorMessage from '../../Components/ErrorMessage'
 import { useHasPermission } from '../../Utils/Permission';
 import { HiMiniBars3BottomLeft } from "react-icons/hi2";
-import { useNavigate ,useLocation} from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
+import BillsFilter from '../../Pages/Bills/BillsFilter'
 
 
 const InvoicePage = () => {
@@ -89,12 +91,12 @@ const InvoicePage = () => {
 
 
 
- const location = useLocation();
+  const location = useLocation();
 
   const isDuplicate = location.pathname.includes("/invoice/new/");
 
 
-console.log("isDuplicate", isDuplicate, "location.pathname",location.pathname)
+  console.log("isDuplicate", isDuplicate, "location.pathname", location.pathname)
 
 
 
@@ -259,9 +261,15 @@ console.log("isDuplicate", isDuplicate, "location.pathname",location.pathname)
     setActiveStay(stayType);
   };
 
+const [showBillsFilter, setShowBillsFilter] = useState(false);
 
+const handleShowFilterBills = () =>{
+setShowBillsFilter(true)
+}
 
-
+const handleCloseFilterBills = () =>{
+  setShowBillsFilter(false)
+}
 
 
 
@@ -337,23 +345,23 @@ console.log("isDuplicate", isDuplicate, "location.pathname",location.pathname)
 
 
 
- useEffect(() => {
-  if (!state.login.selectedHostel_Id) return;
+  useEffect(() => {
+    if (!state.login.selectedHostel_Id) return;
 
-  if (isDuplicate) {
-    dispatch({
-      type: 'INVOICESLISTFILTER',
-      payload: state.login.selectedHostel_Id
-    });
-  }
-   else {
-    dispatch({
-      type: "MANUALINVOICESLIST",
-      payload: state.login.selectedHostel_Id
-    });
-  }
+    if (isDuplicate) {
+      dispatch({
+        type: 'INVOICESLISTFILTER',
+        payload: state.login.selectedHostel_Id
+      });
+    }
+    else {
+      dispatch({
+        type: "MANUALINVOICESLIST",
+        payload: state.login.selectedHostel_Id
+      });
+    }
 
-}, [state.login.selectedHostel_Id, isDuplicate]);
+  }, [state.login.selectedHostel_Id, isDuplicate]);
 
 
 
@@ -391,7 +399,7 @@ console.log("isDuplicate", isDuplicate, "location.pathname",location.pathname)
   }, [state.InvoiceList.ManualInvoicesgetstatuscode]);
 
 
-useEffect(() => {
+  useEffect(() => {
     if (state.InvoiceList.billsListStatusCode === 200) {
       setBills(state.InvoiceList.billsList?.listInvoices);
       setOriginalBillsFilter(state.InvoiceList.billsList?.listInvoices)
@@ -507,6 +515,19 @@ useEffect(() => {
 
   const combinedOptions = [...bankingOptions];
 
+const filterOptions = [
+  { type: "Partial Payment", name: "PARTIAL_PAYMENT" },
+  { type: "Paid", name: "PAID" },
+  { type: "Pending", name: "PENDING" },
+  { type: "Refunded", name: "REFUNDED" },
+  { type: "Pending Refund", name: "PENDING_REFUND" },
+  { type: "Partial Refund", name: "PARTIAL_REFUND" },
+];
+
+const selectOptions = filterOptions?.map(item => ({
+  label: item.type,
+  value: item.name,
+}));
 
 
   const handleInvoiceDetail = (item) => {
@@ -2105,10 +2126,10 @@ useEffect(() => {
       setLoading(true);
 
       setDownloadReceipt(false);
-    if(isDuplicate){
-      dispatch({ type: 'INVOICESLISTFILTER', payload: state.login.selectedHostel_Id})
-      }else{
-      dispatch({ type: "MANUALINVOICESLIST", payload: state.login.selectedHostel_Id })
+      if (isDuplicate) {
+        dispatch({ type: 'INVOICESLISTFILTER', payload: state.login.selectedHostel_Id })
+      } else {
+        dispatch({ type: "MANUALINVOICESLIST", payload: state.login.selectedHostel_Id })
 
       }
     }
@@ -2947,7 +2968,7 @@ useEffect(() => {
       setOriginalBillsFilterReceipt(state.InvoiceList.ReceiptList)
       setOriginalReceipt(state.InvoiceList.ReceiptList)
       setReceiptLoader(false);
-          setTimeout(() => {
+      setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_RECEIPTS_LIST" });
       }, 100);
     }
@@ -2999,6 +3020,9 @@ useEffect(() => {
 
   return (
     <div style={{ overflowX: "hidden" }}>
+      {
+        showBillsFilter && <BillsFilter  show={showBillsFilter} handleClose={handleCloseFilterBills}/>
+      }
       {showAllBill && (
         <Row className="p-0">
           <Col className="p-0"
@@ -3068,8 +3092,8 @@ useEffect(() => {
 
 
                               <div
-                                className="input-group"
-                                style={{ marginRight: 20, paddingTop: "25px" }}
+                                className="input-group p-0"
+                                style={{ marginRight: 20, paddingTop: "25px", marginTop: 12 }}
                               >
                                 <span className="input-group-text bg-white border-end-0" onMouseEnter={(e) => (e.target.style.backgroundColor = "#e6e6e6")}>
                                   <Image
@@ -3091,7 +3115,7 @@ useEffect(() => {
                                     outline: "none",
                                     borderColor: "rgb(207,213,219)",
                                     borderRight: "none",
-                                    fontFamily: "Gilroy",
+                                    fontFamily: "Gilroy", padding: "8px 12px"
                                   }}
                                   value={filterInput}
                                   onChange={(e) => handlefilterInput(e)}
@@ -3367,7 +3391,7 @@ useEffect(() => {
                           </>
                         )}
 
-                        {(value === "1" || value === "3") && (
+                        {/* {(value === "1" || value === "3") && (
                           <div >
                             <Image
                               src={Filters}
@@ -3382,40 +3406,9 @@ useEffect(() => {
                               onClick={handleFilterd}
                             />
                           </div>
-                        )}
+                        )} */}
 
-                        {value === "1" && filterStatus && (
-                          <div
-                            className="me-3"
-                            style={{
-                              border: "1px solid #D4D4D4",
-                              borderRadius: 8,
-                              width: search ? "120px" : "120px",
-                              marginTop: "20px",
-                            }}
-                          >
-                            <Form.Select
-                              disabled={!canReadInvoice}
-                              onChange={(e) => handleStatusFilter(e)}
-                              value={statusfilter}
-                              aria-label="Select Price Range"
-                              className=""
-                              id="statusselect"
-                              style={{
-                                color: "rgba(34, 34, 34, 1)",
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                                cursor: "pointer"
-                              }}
-                            >
-                              <option value="All">All</option>
-                              <option value="Unpaid">UnPaid</option>
-                              <option value="Paid">Paid</option>
-                              <option value="date">Date</option>
-                            </Form.Select>
 
-                          </div>
-                        )}
                         {statusfilter === "date" && value === "1" && (
                           <div className="mt-4">
                             <RangePicker
@@ -3545,7 +3538,7 @@ useEffect(() => {
               </div>
             </div>
 
-            <div className="ps-4">
+            <div className="ps-4 ">
               <TabContext value={value} style={{}} >
                 <div
                   style={{
@@ -3559,161 +3552,188 @@ useEffect(() => {
                     marginBottom: 10, marginTop: showSearchFilter ? 100 : 0,
                   }}
                 >
-                  {/* <Box
-                    sx={{ borderBottom: 0, borderColor: "divider" }}
-                  >
-                    <TabList
 
-                      orientation={isSmallScreen ? "vertical" : "horizontal"}
-                      onChange={handleChanges}
-                      aria-label="lab API tabs example"
-                      style={{ marginLeft: "14px", }}
+                  <div className="d-flex justify-content-between pe-2 align-items-center">
 
-                      className="custom-tab-list d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
-                    >
-                      <Tab className="ps-0" disabled={showLoader}
-                        label="Bills"
-                        value="1"
-                        style={{
-                          fontSize: 16,
-                          fontFamily: "Gilroy",
-                          color: "#4B4B4B",
-                          lineHeight: "normal",
-                          fontStyle: "normal",
-                          fontWeight: 500,
-                          textTransform: "none",
-                          display: "flex",
-                          alignItems: "start",
-                          justifyContent: "flex-start",
-                          textAlign: "left",
-                                                  }}
-                      />
-                      <Tab disabled={showLoader} className="ps-0"
-                        label="Recurring Bills"
-                        value="2"
-                        style={{
-                          fontSize: 16,
-                          fontFamily: "Gilroy",
-                          color: "#4B4B4B",
-                          lineHeight: "normal",
-                          fontStyle: "normal",
-                          fontWeight: 500,
-                          textTransform: "none",
-                          display: "flex",
-                          alignItems: "start",
-                          justifyContent: "flex-start",
-                          textAlign: "left",
-                                                 }}
-                      />
-                      <Tab disabled={showLoader} className="ps-0"
-                        label="Receipt"
-                        value="3"
-                        style={{
-                          fontSize: 16,
-                          fontFamily: "Gilroy",
-                          color: "#4B4B4B",
-                          lineHeight: "normal",
-                          fontStyle: "normal",
-                          fontWeight: 500,
-                          textTransform: "none",
-                          display: "flex",
-                          alignItems: "start",
-                          justifyContent: "flex-start",
-                          textAlign: "left",
-                          
-                        }}
-                      />
-                    </TabList>
-                  </Box> */}
-
-
-
-                  <Tabs
-                    activeKey={value}
-                    onSelect={(k) => handleChanges(null, k)}
-                    id="bill-tabs"
-                    className={`ps-3 custom-tab-list d-flex mt-2
+                    <Tabs
+                      activeKey={value}
+                      onSelect={(k) => handleChanges(null, k)}
+                      id="bill-tabs"
+                      className={`ps-3 custom-tab-list d-flex mt-2
                       ${isSmallScreen ? "flex-md-row" : "flex-lg-row"
-                      }
+                        }
                       
                       `}
+                      style={{
+                        border: "none",
+                        width: "50%",
+                        display: "flex",
+                        gap: "25px",
+                        justifyContent: "", paddingBottom: 10
+
+                      }}
+                    >
+                      <Tab
+                        eventKey="1"
+                        // title="Bills"
+                        disabled={showLoader}
+                        tabClassName="ps-0"
+                        title={
+                          <span className="p-0"
+                            style={{
+                              padding: 0,
+                              display: "inline-block",
+                              textTransform: "capitalize",
+                              fontSize: 17,
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              color: value === "1" ? "#222222" : "#4B4B4B",
+                              borderBottom: value === "1" ? "2px solid #1E45E1" : "2px solid white",
+                            }}
+                          >
+                            Bills
+                          </span>
+                        }
+
+                      />
+
+                      <Tab
+                        eventKey="2"
+                        // title="Recurring Bills"
+                        title={
+                          <span
+                            style={{
+                              textTransform: "capitalize",
+                              fontSize: 17,
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              color: value === "2" ? "#222222" : "#4B4B4B",
+                              borderBottom: value === "2" ? "2px solid #1E45E1" : "2px solid transparent",
+                            }}
+                          >
+                            Recurring Bills
+                          </span>
+                        }
+                        disabled={showLoader}
+                        tabClassName="ps-0"
+                      />
+
+                      <Tab
+                        eventKey="3"
+                        // title="Receipt"
+                        title={
+                          <span
+                            style={{
+                              textTransform: "capitalize",
+                              fontSize: 17,
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              color: value === "3" ? "#222222" : "#4B4B4B",
+                              borderBottom: value === "3" ? "2px solid #1E45E1" : "2px solid transparent",
+                            }}
+                          >
+                            Receipt
+                          </span>
+                        }
+                        disabled={showLoader}
+                        tabClassName="ps-0"
+                      />
+                    </Tabs>
+
+<div className="d-flex gap-3 align-items-center me-3 ">
+                    {value === "1" && (
+                      <div
+                        className=""
+                        style={{
+                          border: "1px solid #D4D4D4",
+                          borderRadius: 8,
+                          width: search ? "120px" : "120px",
+                          // marginTop: "20px",
+                        }}
+                      >
+                        <Select
+                        options={selectOptions }
+                          styles={{
+                            control: (base) => ({
+                              ...base,
+                              height: "39px",
+                              border: "1px solid #D9D9D9",
+                              borderRadius: "8px",
+                              fontSize: "14px",
+                              color: "#4B4B4B",
+                              fontFamily: "Gilroy, sans-serif",
+                              fontWeight: 500,
+                              boxShadow: "none",
+                            }),
+                            menu: (base) => ({
+                              ...base,
+                              backgroundColor: "#f8f9fa",
+                              border: "1px solid #ced4da",
+                              fontFamily: "Gilroy, sans-serif",fontSize: "14px",
+                            }),
+                            menuList: (base) => ({
+                              ...base,
+                              backgroundColor: "#f8f9fa",
+                              maxHeight: "120px",
+                              padding: 0,
+                              scrollbarWidth: "thin",
+                              overflowY: "auto",
+                              fontFamily: "Gilroy, sans-serif",fontSize: "14px",
+                            }),
+                            placeholder: (base) => ({
+                              ...base,
+                              color: "#555",
+                            }),
+                            option: (base, state) => ({
+                              ...base,
+                              cursor: "pointer",
+                              backgroundColor: state.isFocused ? "lightblue" : "white",
+                              color: "#000",
+                            }),
+                            dropdownIndicator: (base) => ({
+                              ...base,
+                              color: "#555",
+                              cursor: "pointer"
+                            }),
+                            indicatorSeparator: () => ({
+                              display: "none",
+                            }),
+                          }}
+                          disabled={!canReadInvoice}
+                          onChange={(e) => handleStatusFilter(e)}
+                          value={statusfilter}
+                          aria-label="Select"
+                          className=""
+                          id="statusselect"
+
+
+                        />
+
+
+
+                      </div>
+                    )}
+
+
+  <div
+                    className=" d-flex"
                     style={{
-                      border: "none",
-                      width: "50%",
-                      display: "flex",
-                      gap: "25px",
-                      justifyContent: "", paddingBottom: 10
-                     
-                    }}
+                      border:"1px solid #CBD5E1",
+                      backgroundColor: "white",
+                      borderRadius: "50%",
+                      padding:10
+                                         }}
+                    onClick={() => canReadInvoice && handleShowFilterBills()}
                   >
-                    <Tab
-                      eventKey="1"
-                      // title="Bills"
-                      disabled={showLoader}
-                      tabClassName="ps-0"
-                      title={
-                        <span className="p-0"
-                          style={{
-                            padding: 0,
-                            display: "inline-block",
-                            textTransform: "capitalize",
-                            fontSize: 17,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            color: value === "1" ? "#222222" : "#4B4B4B",
-                            borderBottom: value === "1" ? "2px solid #1E45E1" : "2px solid white",
-                          }}
-                        >
-                          Bills
-                        </span>
-                      }
-
-                    />
-
-                    <Tab
-                      eventKey="2"
-                      // title="Recurring Bills"
-                      title={
-                        <span
-                          style={{
-                            textTransform: "capitalize",
-                            fontSize: 17,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            color: value === "2" ? "#222222" : "#4B4B4B",
-                            borderBottom: value === "2" ? "2px solid #1E45E1" : "2px solid transparent",
-                          }}
-                        >
-                          Recurring Bills
-                        </span>
-                      }
-                      disabled={showLoader}
-                      tabClassName="ps-0"
-                    />
-
-                    <Tab
-                      eventKey="3"
-                      // title="Receipt"
-                      title={
-                        <span
-                          style={{
-                            textTransform: "capitalize",
-                            fontSize: 17,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            color: value === "3" ? "#222222" : "#4B4B4B",
-                            borderBottom: value === "3" ? "2px solid #1E45E1" : "2px solid transparent",
-                          }}
-                        >
-                          Receipt
-                        </span>
-                      }
-                      disabled={showLoader}
-                      tabClassName="ps-0"
-                    />
-                  </Tabs>
-
-
+                    <FiFilter size={18} style={{
+                      cursor: canReadInvoice ? "pointer" : "not-allowed",
+                      opacity: canReadInvoice ? 1 : 0.4,
+                      pointerEvents: canReadInvoice ? "auto" : "none",
+                      transition: "opacity 0.3s ease"
+                    }} />
+                  </div>
+</div>
+                  </div>
                 </div>
                 <TabPanel value="1">
                   <>
@@ -5823,6 +5843,9 @@ useEffect(() => {
                 </TabPanel>
               </TabContext>
             </div>
+
+
+
           </Col>
 
 
