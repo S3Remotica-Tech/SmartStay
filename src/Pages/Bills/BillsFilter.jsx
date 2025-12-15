@@ -5,13 +5,22 @@ import { Button, Form, Offcanvas } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { components } from "react-select";
 import { FaCheck } from "react-icons/fa6";
+import { IoCloseOutline } from "react-icons/io5";
+import { Calendar } from "iconsax-react";
+
+import { DatePicker } from "antd";
+import dayjs from "dayjs";
 
 function BillsFilter({ show, handleClose }) {
-
+    const state = useSelector((state) => state);
+    const dispatch = useDispatch();
     const [billStatus, setBillStatus] = useState([]);
     const [invoiceType, setInvoiceType] = useState([]);
     const [invoiceMode, setInvoiceMode] = useState([]);
     const [createdBy, setCreatedBy] = useState([]);
+    const [period, setPeriod] = useState(null);
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
 
 
     const CustomStyles = {
@@ -167,6 +176,7 @@ function BillsFilter({ show, handleClose }) {
 
 
 
+  
 
 
 
@@ -211,6 +221,12 @@ function BillsFilter({ show, handleClose }) {
         );
     };
 
+    const periodOptions = [
+        { label: "This Month", value: "THIS_MONTH" },
+        { label: "Last Month", value: "LAST_MONTH" },
+        { label: "Last 3 Months", value: "LAST_3_MONTHS" },
+        { label: "Custom", value: "CUSTOM" },
+    ];
 
 
 
@@ -225,12 +241,27 @@ function BillsFilter({ show, handleClose }) {
         value: item.name,
     }));
 
-
+    console.log("state", state)
 
     const handleFilterBills = () => {
-console.log("billStatus",billStatus)
+        console.log("billStatus", billStatus)
+        console.log("invoiceType", invoiceType)
+        console.log("invoiceMode", invoiceMode)
+        console.log("createdBy", createdBy)
 
+        const filters = {
+            // startDate,             
+            // endDate,               
+            type: invoiceType,
+            createdBy: createdBy,
+            modes: invoiceMode,
+            paymentStatus: billStatus,
+            // search,                
+        };
+        if (state.login?.selectedHostel_Id) {
+            dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login?.selectedHostel_Id, filters: filters } })
 
+        }
 
     }
 
@@ -238,10 +269,13 @@ console.log("billStatus",billStatus)
         <div>  <Offcanvas
             show={show}
             onHide={handleClose}
-            placement="end"
+            placement="end" backdrop="static"
         >
-            <Offcanvas.Header closeButton>
+            <Offcanvas.Header >
                 <Offcanvas.Title style={{ color: "#222222", fontSize: 20, fontFamily: "Gilroy", fontWeight: 600 }}>Filter</Offcanvas.Title>
+
+
+                <IoCloseOutline onClick={handleClose} style={{ color: "#FF0000", fontSize: 20, cursor: "pointer" }} />
             </Offcanvas.Header>
 
             <Offcanvas.Body className='pt-0'>
@@ -472,7 +506,123 @@ console.log("billStatus",billStatus)
 
                     </Form.Group>
 
+                    <Form.Group className="mb-3">
+                        <div
+                            style={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                width: '100%',
+                                marginBottom: 5
+                            }}
+                        >
+                            <Form.Label
+                                style={{
+                                    fontFamily: 'Gilroy',
+                                    fontWeight: 500,
+                                    fontStyle: 'normal',
+                                    fontSize: '12px',
+                                    letterSpacing: '0',
+                                    marginBottom: 0,
+                                    padding: 0, color: "#4B4B4B"
+                                }}
+                            >
+                                Period
+                            </Form.Label>
 
+
+                        </div>
+
+                        <Select
+                            isSearchable={false}
+                            options={periodOptions}
+                            styles={CustomStyles}
+                            placeholder="Select"
+                            value={period}
+                            onChange={(selected) => {
+                                setPeriod(selected);
+                                if (selected.value !== "CUSTOM") {
+                                    setStartDate("");
+                                    setEndDate("");
+                                }
+                            }}
+                        />
+                    </Form.Group>
+
+                    {period?.value === "CUSTOM" && (
+                        <div style={{ display: "flex", gap: 12 }}>
+
+                            {/* Start Date */}
+                            <Form.Group style={{ flex: 1 }} className="mb-3">
+                                <Form.Label
+                                    style={{
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                        fontSize: "12px",
+                                        color: "#4B4B4B",
+                                    }}
+                                >
+                                    Start Date
+                                </Form.Label>
+
+                                <div className="datepicker-wrapper" style={{ position: "relative", width: "100%" }}>
+  <DatePicker
+    style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy" }}
+    format="DD/MM/YYYY"
+    placeholder="Start Date"
+    value={startDate ? dayjs(startDate) : null}
+    onChange={(date) => {
+      setStartDate(date);
+      setEndDate(null); // reset end date when start changes
+    }}
+    disabledDate={(current) =>
+      current && current > dayjs().endOf("day")
+    }
+    getPopupContainer={(triggerNode) =>
+      triggerNode.closest(".datepicker-wrapper")
+    }
+  />
+</div>
+
+                            </Form.Group>
+
+                            {/* End Date */}
+                            <Form.Group style={{ flex: 1 }}>
+                                <Form.Label
+                                    style={{
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                        fontSize: "12px",
+                                        color: "#4B4B4B",
+                                    }}
+                                >
+                                    End Date
+                                </Form.Label>
+
+                               <div className="datepicker-wrapper" style={{ position: "relative", width: "100%" }}>
+  <DatePicker
+    style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy" }}
+    format="DD/MM/YYYY"
+    placeholder="End Date"
+    value={endDate ? dayjs(endDate) : null}
+    onChange={(date) => setEndDate(date)}
+    disabledDate={(current) =>
+      current &&
+      (
+        current > dayjs().endOf("day") || // no future date
+        (startDate && current < dayjs(startDate).startOf("day")) // before start date
+      )
+    }
+    getPopupContainer={(triggerNode) =>
+      triggerNode.closest(".datepicker-wrapper")
+    }
+  />
+</div>
+
+                            </Form.Group>
+
+                        </div>
+                    )}
 
                     <div className='mb-3'>
                         <label style={{ color: "#222222", fontSize: 15, fontWeight: 600 }}>Other Filter</label>

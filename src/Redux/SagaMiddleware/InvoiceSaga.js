@@ -65,10 +65,12 @@ function* handleApiError(error) {
 
 function* handleGetFilterInvoice(action) {
    try {
-      const response = yield call(GetFilterInvoices, action.payload)
-      const hostelId = GlobalHostelId(response);
-      if (hostelId) {
-         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
+
+      const { hostelId, filters } = action.payload;
+      const response = yield call(GetFilterInvoices, hostelId, filters)
+      const hostel_Id = GlobalHostelId(response);
+      if (hostel_Id) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostel_Id })
               }
       if (response?.status === 200) {
          yield put({ type: 'INVOICES_LIST_FILTER', payload: { response: response?.data || [], statusCode: response?.status } })

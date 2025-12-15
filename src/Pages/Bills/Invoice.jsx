@@ -41,8 +41,7 @@ import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-import { FiFilter } from "react-icons/fi";
-import { CloseCircle, ArrowUp2, ArrowDown2, } from "iconsax-react";
+import { CloseCircle, ArrowUp2, ArrowDown2, Filter } from "iconsax-react";
 import '../OthersComponent/BillPdfModal.css';
 import AxiosConfig from "../../WebService/AxiosConfig";
 import Swal from 'sweetalert2';
@@ -261,15 +260,15 @@ const InvoicePage = () => {
     setActiveStay(stayType);
   };
 
-const [showBillsFilter, setShowBillsFilter] = useState(false);
+  const [showBillsFilter, setShowBillsFilter] = useState(false);
 
-const handleShowFilterBills = () =>{
-setShowBillsFilter(true)
-}
+  const handleShowFilterBills = () => {
+    setShowBillsFilter(true)
+  }
 
-const handleCloseFilterBills = () =>{
-  setShowBillsFilter(false)
-}
+  const handleCloseFilterBills = () => {
+    setShowBillsFilter(false)
+  }
 
 
 
@@ -349,10 +348,8 @@ const handleCloseFilterBills = () =>{
     if (!state.login.selectedHostel_Id) return;
 
     if (isDuplicate) {
-      dispatch({
-        type: 'INVOICESLISTFILTER',
-        payload: state.login.selectedHostel_Id
-      });
+             dispatch({ type: 'INVOICESLISTFILTER', payload: {hostelId: state.login.selectedHostel_Id}})
+
     }
     else {
       dispatch({
@@ -401,12 +398,14 @@ const handleCloseFilterBills = () =>{
 
   useEffect(() => {
     if (state.InvoiceList.billsListStatusCode === 200) {
+      setShowBillsFilter(false)
       setBills(state.InvoiceList.billsList?.listInvoices);
       setOriginalBillsFilter(state.InvoiceList.billsList?.listInvoices)
       setOriginalBills(state.InvoiceList.billsList?.listInvoices)
       setTimeout(() => {
         setLoading(false);
         dispatch({ type: "REMOVE_INVOICES_LIST_FILTER" });
+       
       }, 100);
     }
   }, [state.InvoiceList.billsListStatusCode]);
@@ -515,19 +514,19 @@ const handleCloseFilterBills = () =>{
 
   const combinedOptions = [...bankingOptions];
 
-const filterOptions = [
-  { type: "Partial Payment", name: "PARTIAL_PAYMENT" },
-  { type: "Paid", name: "PAID" },
-  { type: "Pending", name: "PENDING" },
-  { type: "Refunded", name: "REFUNDED" },
-  { type: "Pending Refund", name: "PENDING_REFUND" },
-  { type: "Partial Refund", name: "PARTIAL_REFUND" },
-];
+  const filterOptions = [
+    { type: "Partial Payment", name: "PARTIAL_PAYMENT" },
+    { type: "Paid", name: "PAID" },
+    { type: "Pending", name: "PENDING" },
+    { type: "Refunded", name: "REFUNDED" },
+    { type: "Pending Refund", name: "PENDING_REFUND" },
+    { type: "Partial Refund", name: "PARTIAL_REFUND" },
+  ];
 
-const selectOptions = filterOptions?.map(item => ({
-  label: item.type,
-  value: item.name,
-}));
+  const selectOptions = filterOptions?.map(item => ({
+    label: item.type,
+    value: item.name,
+  }));
 
 
   const handleInvoiceDetail = (item) => {
@@ -2127,7 +2126,7 @@ const selectOptions = filterOptions?.map(item => ({
 
       setDownloadReceipt(false);
       if (isDuplicate) {
-        dispatch({ type: 'INVOICESLISTFILTER', payload: state.login.selectedHostel_Id })
+        dispatch({ type: 'INVOICESLISTFILTER', payload: {hostelId: state.login.selectedHostel_Id}})
       } else {
         dispatch({ type: "MANUALINVOICESLIST", payload: state.login.selectedHostel_Id })
 
@@ -3021,7 +3020,7 @@ const selectOptions = filterOptions?.map(item => ({
   return (
     <div style={{ overflowX: "hidden" }}>
       {
-        showBillsFilter && <BillsFilter  show={showBillsFilter} handleClose={handleCloseFilterBills}/>
+        showBillsFilter && <BillsFilter show={showBillsFilter} handleClose={handleCloseFilterBills} />
       }
       {showAllBill && (
         <Row className="p-0">
@@ -3640,99 +3639,102 @@ const selectOptions = filterOptions?.map(item => ({
                       />
                     </Tabs>
 
-<div className="d-flex gap-3 align-items-center me-3 ">
-                    {value === "1" && (
-                      <div
-                        className=""
-                        style={{
-                          border: "1px solid #D4D4D4",
-                          borderRadius: 8,
-                          width: search ? "120px" : "120px",
-                          // marginTop: "20px",
-                        }}
-                      >
-                        <Select
-                        options={selectOptions }
-                          styles={{
-                            control: (base) => ({
-                              ...base,
-                              height: "39px",
-                              border: "1px solid #D9D9D9",
-                              borderRadius: "8px",
-                              fontSize: "14px",
-                              color: "#4B4B4B",
-                              fontFamily: "Gilroy, sans-serif",
-                              fontWeight: 500,
-                              boxShadow: "none",
-                            }),
-                            menu: (base) => ({
-                              ...base,
-                              backgroundColor: "#f8f9fa",
-                              border: "1px solid #ced4da",
-                              fontFamily: "Gilroy, sans-serif",fontSize: "14px",
-                            }),
-                            menuList: (base) => ({
-                              ...base,
-                              backgroundColor: "#f8f9fa",
-                              maxHeight: "120px",
-                              padding: 0,
-                              scrollbarWidth: "thin",
-                              overflowY: "auto",
-                              fontFamily: "Gilroy, sans-serif",fontSize: "14px",
-                            }),
-                            placeholder: (base) => ({
-                              ...base,
-                              color: "#555",
-                            }),
-                            option: (base, state) => ({
-                              ...base,
-                              cursor: "pointer",
-                              backgroundColor: state.isFocused ? "lightblue" : "white",
-                              color: "#000",
-                            }),
-                            dropdownIndicator: (base) => ({
-                              ...base,
-                              color: "#555",
-                              cursor: "pointer"
-                            }),
-                            indicatorSeparator: () => ({
-                              display: "none",
-                            }),
-                          }}
-                          disabled={!canReadInvoice}
-                          onChange={(e) => handleStatusFilter(e)}
-                          value={statusfilter}
-                          aria-label="Select"
+                    <div className="d-flex gap-3 align-items-center me-3 ">
+                      {value === "1" && (
+                        <div
                           className=""
-                          id="statusselect"
+                          style={{
+                            border: "1px solid #D4D4D4",
+                            borderRadius: 8,
+                            width: search ? "120px" : "120px",
+                            // marginTop: "20px",
+                          }}
+                        >
+                          <Select
+                            options={selectOptions}
+                            styles={{
+                              control: (base) => ({
+                                ...base,
+                                height: "39px",
+                                border: "1px solid #D9D9D9",
+                                borderRadius: "8px",
+                                fontSize: "14px",
+                                color: "#4B4B4B",
+                                fontFamily: "Gilroy, sans-serif",
+                                fontWeight: 500,
+                                boxShadow: "none",
+                              }),
+                              menu: (base) => ({
+                                ...base,
+                                backgroundColor: "#f8f9fa",
+                                border: "1px solid #ced4da",
+                                fontFamily: "Gilroy, sans-serif", fontSize: "14px",
+                              }),
+                              menuList: (base) => ({
+                                ...base,
+                                backgroundColor: "#f8f9fa",
+                                maxHeight: "120px",
+                                padding: 0,
+                                scrollbarWidth: "thin",
+                                overflowY: "auto",
+                                fontFamily: "Gilroy, sans-serif", fontSize: "14px",
+                              }),
+                              placeholder: (base) => ({
+                                ...base,
+                                color: "#555",
+                              }),
+                              option: (base, state) => ({
+                                ...base,
+                                cursor: "pointer",
+                                backgroundColor: state.isFocused ? "lightblue" : "white",
+                                color: "#000",
+                              }),
+                              dropdownIndicator: (base) => ({
+                                ...base,
+                                color: "#555",
+                                cursor: "pointer"
+                              }),
+                              indicatorSeparator: () => ({
+                                display: "none",
+                              }),
+                            }}
+                            disabled={!canReadInvoice}
+                            onChange={(e) => handleStatusFilter(e)}
+                            value={statusfilter}
+                            aria-label="Select"
+                            className=""
+                            id="statusselect"
 
 
-                        />
+                          />
 
 
 
+                        </div>
+                      )}
+
+{
+  isDuplicate && 
+
+                      <div
+                        className=" d-flex"
+                        style={{
+                          border: "1px solid #CBD5E1",
+                          backgroundColor: "white",
+                          borderRadius: "50%",
+                          padding: 10, cursor: canReadInvoice ? "pointer" : "not-allowed",
+                        }}
+                        onClick={() => canReadInvoice && handleShowFilterBills()}
+                      >
+                        <Filter size={18} style={{
+                          cursor: canReadInvoice ? "pointer" : "not-allowed",
+                          opacity: canReadInvoice ? 1 : 0.4,
+                          pointerEvents: canReadInvoice ? "auto" : "none",
+                          transition: "opacity 0.3s ease"
+                        }} />
                       </div>
-                    )}
-
-
-  <div
-                    className=" d-flex"
-                    style={{
-                      border:"1px solid #CBD5E1",
-                      backgroundColor: "white",
-                      borderRadius: "50%",
-                      padding:10
-                                         }}
-                    onClick={() => canReadInvoice && handleShowFilterBills()}
-                  >
-                    <FiFilter size={18} style={{
-                      cursor: canReadInvoice ? "pointer" : "not-allowed",
-                      opacity: canReadInvoice ? 1 : 0.4,
-                      pointerEvents: canReadInvoice ? "auto" : "none",
-                      transition: "opacity 0.3s ease"
-                    }} />
-                  </div>
-</div>
+}
+                    </div>
                   </div>
                 </div>
                 <TabPanel value="1">
