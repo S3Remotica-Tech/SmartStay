@@ -23,7 +23,7 @@ import ErrorMessage from '../../Components/ErrorMessage';
 import { useHasPermission } from '../../Utils/Permission';
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
-import Cookies from 'universal-cookie';
+// import Cookies from 'universal-cookie';
 // import axios from 'axios'
 import { Card, Row, Col } from "react-bootstrap";
 import { TbCheck } from "react-icons/tb";

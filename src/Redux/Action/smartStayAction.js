@@ -244,3 +244,12 @@ export const setPaymentHtml = (html) => ({
   type: "SET_PAYMENT_HTML",
   payload: html,
 });
+
+
+export const saveResponseHostel = (data) => {
+ console.log(data,"hostel &&&&&&&&")
+  return {
+    type: "SAVE_RESPONSE_HOSTEL", 
+    payload: data,          
+  };
+};

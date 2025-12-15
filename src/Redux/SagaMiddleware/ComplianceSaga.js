@@ -122,9 +122,9 @@ function* handleParticularcompliant(action) {
 
  const hostelId = GlobalHostelId(response);
     if (hostelId) {
-      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
-      const cookies = new Cookies()
-      cookies.set('selected_hostelId', hostelId, { path: '/' });
+     yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
+      // const cookies = new Cookies()
+      // cookies.set('selected_hostelId', hostelId, { path: '/' });
     }
       
       if (response?.status === 200) {
@@ -157,9 +157,9 @@ function* handlecompliancelist(action) {
 
       const hostelId = GlobalHostelId(response);
       if (hostelId) {   
-          yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
-          const cookies = new Cookies()
-          cookies.set('selected_hostelId', hostelId, { path: '/' });
+        yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
+         //  const cookies = new Cookies()
+         //  cookies.set('selected_hostelId', hostelId, { path: '/' });
                         }
 
       if (response?.status === 200) {
@@ -282,8 +282,8 @@ function* handleVendorGet(action) {
    const hostelId = GlobalHostelId(response);
     if (hostelId) {
       yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
-      const cookies = new Cookies()
-      cookies.set('selected_hostelId', hostelId, { path: '/' });
+      // const cookies = new Cookies()
+      // cookies.set('selected_hostelId', hostelId, { path: '/' });
     }
 
       if (response?.status === 200) {
@@ -653,9 +653,9 @@ function* handleCompliantsView(action) {
 
        const hostelId = GlobalHostelId(response);
           if (hostelId) {
-            yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
-            const cookies = new Cookies()
-            cookies.set('selected_hostelId', hostelId, { path: '/' });
+                       
+            // const cookies = new Cookies()
+            // cookies.set('selected_hostelId', hostelId, { path: '/' });
           }
 
 

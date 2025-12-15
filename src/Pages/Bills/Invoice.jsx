@@ -2,14 +2,14 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { Modal, Button, Offcanvas } from "react-bootstrap";
+import { Modal, Button,  } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import { FormControl } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import { Table } from "react-bootstrap";
 import { Form } from "react-bootstrap";
-import User from "../../Assets/Images/New_images/profile-picture.png";
+// import User from "../../Assets/Images/New_images/profile-picture.png";
 import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
 import "sweetalert2/dist/sweetalert2.min.css";
@@ -18,7 +18,7 @@ import "../Bills/Invoices.css";
 import InvoiceTable from "../Bills/InvoicelistTable";
 import Profile from "../../Assets/Images/New_images/profile-picture.png";
 import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
+// import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import { Tabs, Tab } from "react-bootstrap";
 import Calendars from "../../Assets/Images/New_images/calendar.png";
@@ -49,7 +49,7 @@ import PaginationList from "../../Components/PaginationList";
 import ErrorMessage from '../../Components/ErrorMessage'
 import { useHasPermission } from '../../Utils/Permission';
 import { HiMiniBars3BottomLeft } from "react-icons/hi2";
-import { useNavigate } from "react-router-dom";
+import { useNavigate ,useLocation} from "react-router-dom";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
 
@@ -83,6 +83,24 @@ const InvoicePage = () => {
     invoice_type: "",
     transaction: "",
   });
+
+
+
+
+
+
+ const location = useLocation();
+
+  const isDuplicate = location.pathname.includes("/invoice/new/");
+
+
+console.log("isDuplicate", isDuplicate, "location.pathname",location.pathname)
+
+
+
+
+
+
   const [showSearchFilter, setShowSearchFilter] = useState(false);
   const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
 
@@ -214,9 +232,9 @@ const InvoicePage = () => {
 
 
 
-  const handleInvoiceChange = (e) => {
-    setInvoiceNumber(e.target.value);
-  };
+  // const handleInvoiceChange = (e) => {
+  //   setInvoiceNumber(e.target.value);
+  // };
 
   useEffect(() => {
     if (!canReadInvoice) {
@@ -306,11 +324,39 @@ const InvoicePage = () => {
       setHostelId(state.login.selectedHostel_Id);
     }
   }, [state.login.selectedHostel_Id]);
-  useEffect(() => {
-    if (hostelId) {
-      dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
-    }
-  }, [hostelId]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+ useEffect(() => {
+  if (!state.login.selectedHostel_Id) return;
+
+  if (isDuplicate) {
+    dispatch({
+      type: 'INVOICESLISTFILTER',
+      payload: state.login.selectedHostel_Id
+    });
+  }
+   else {
+    dispatch({
+      type: "MANUALINVOICESLIST",
+      payload: state.login.selectedHostel_Id
+    });
+  }
+
+}, [state.login.selectedHostel_Id, isDuplicate]);
+
+
+
 
   useEffect(() => {
     if (state.InvoiceList.CustomerRecurringEnableDisableStatusCode === 200) {
@@ -343,6 +389,25 @@ const InvoicePage = () => {
       }, 100);
     }
   }, [state.InvoiceList.ManualInvoicesgetstatuscode]);
+
+
+useEffect(() => {
+    if (state.InvoiceList.billsListStatusCode === 200) {
+      setBills(state.InvoiceList.billsList?.listInvoices);
+      setOriginalBillsFilter(state.InvoiceList.billsList?.listInvoices)
+      setOriginalBills(state.InvoiceList.billsList?.listInvoices)
+      setTimeout(() => {
+        setLoading(false);
+        dispatch({ type: "REMOVE_INVOICES_LIST_FILTER" });
+      }, 100);
+    }
+  }, [state.InvoiceList.billsListStatusCode]);
+
+
+
+
+
+
 
   useEffect(() => {
     if (state.InvoiceList.BillsErrorstatusCode === 201) {
@@ -2040,8 +2105,12 @@ const InvoicePage = () => {
       setLoading(true);
 
       setDownloadReceipt(false);
+    if(isDuplicate){
+      dispatch({ type: 'INVOICESLISTFILTER', payload: state.login.selectedHostel_Id})
+      }else{
+      dispatch({ type: "MANUALINVOICESLIST", payload: state.login.selectedHostel_Id })
 
-      dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
+      }
     }
 
     if (newValue === "2") {
@@ -2587,15 +2656,15 @@ const InvoicePage = () => {
     }
   }, [state.InvoiceList?.InvoiceListStatusCode]);
 
-  useEffect(() => {
-    if (state.InvoiceList.message !== "" && state.InvoiceList.message !== null) {
-      dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
-      setBills(state.InvoiceList.ManualInvoices);
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_INVOICE_UPDATE_LIST" });
-      }, 100);
-    }
-  }, [state.InvoiceList]);
+  // useEffect(() => {
+  //   if (state.InvoiceList.message !== "" && state.InvoiceList.message !== null) {
+  //     dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
+  //     setBills(state.InvoiceList.ManualInvoices);
+  //     setTimeout(() => {
+  //       dispatch({ type: "CLEAR_INVOICE_UPDATE_LIST" });
+  //     }, 100);
+  //   }
+  // }, [state.InvoiceList]);
 
   const optionsone = {
     dateFormat: "d/m/Y",
@@ -2768,7 +2837,6 @@ const InvoicePage = () => {
     setDropdownVisible(false);
     setSearch(false);
     setFilterInput("");
-
     setBills(bills);
     setRecurringBills(originalRecuiring);
     setReceiptData(originalReceipt);
@@ -2879,8 +2947,7 @@ const InvoicePage = () => {
       setOriginalBillsFilterReceipt(state.InvoiceList.ReceiptList)
       setOriginalReceipt(state.InvoiceList.ReceiptList)
       setReceiptLoader(false);
-      dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
-      setTimeout(() => {
+          setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_RECEIPTS_LIST" });
       }, 100);
     }

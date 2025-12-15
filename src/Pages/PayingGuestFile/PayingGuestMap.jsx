@@ -2,12 +2,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Card from "react-bootstrap/Card";
-import Vendors from "../../Assets/Images/New_images/profile-picture.png";
+// import Vendors from "../../Assets/Images/New_images/profile-picture.png";
 import Image from "react-bootstrap/Image";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import { Edit, Trash } from "iconsax-react";
 import PropTypes from "prop-types";
 import ErrorMessage from '../../Components/ErrorMessage';
@@ -32,7 +32,7 @@ function PayingGuestMap(props) {
 
 
   const {
-    canWriteModule: canWritePayingGuests,
+    // canWriteModule: canWritePayingGuests,
     canReadModule: canReadPayingGuests,
     canUpdateModule: canUpdatePayingGuests,
     canDeleteModule: canDeletePayingGuests,
@@ -63,11 +63,11 @@ function PayingGuestMap(props) {
     }
   }, [state.PgList.statusCodeDeleteHostel])
 
-  const handleSelectedHostel = (selectedHostel) => {
+  // const handleSelectedHostel = (selectedHostel) => {
 
-    props.OnSelectHostel(selectedHostel);
-    props.onRowVisiblity(false);
-  };
+  //   props.OnSelectHostel(selectedHostel);
+  //   props.onRowVisiblity(false);
+  // };
 
   const handleDotsClick = () => {
     setShowDots(!showDots);

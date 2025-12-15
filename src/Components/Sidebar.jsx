@@ -92,7 +92,7 @@ function Sidebar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [allPageHostel_Id, setAllPageHostel_Id] = useState("");
   const [payingGuestName, setPayingGuestName] = useState("payingGuest");
-  const [isInitialized, setIsInitialized] = useState(false);
+  // const [isInitialized, setIsInitialized] = useState(false);
   const [currentPage, setCurrentPage] = useState("dashboard");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const isFirstLogin = useRef(true);
@@ -113,6 +113,7 @@ function Sidebar() {
     "/tenant/:hostelId": "user-list",
     "/tenant/details/:hostelId": "user-details",
     "/invoice/:hostelId": "invoice",
+    "/invoice/new/:hostelId": "invoice",
     "/vendor/:hostelId": "vendor",
     "/compliance/:hostelId": "compliance",
     "/asset/:hostelId": "asset",
@@ -360,19 +361,63 @@ function Sidebar() {
 
   const hostelId = state.login?.selectedHostel_Id;
 
-  useEffect(() => {
-    if (!hostelId) return;
+  // useEffect(() => {
+  //   if (!hostelId) return;
 
-    const currentPath = location.pathname.split("/")[1];
+  //   const currentPath = location.pathname.split("/")[1];
 
 
-    const validPages = ["dashboard", "pg-list", "user-list", "user-details", "invoice", "compliance",
-      "reports", "eb", "expenses", "banking", "settingNewDesign", "vendor", "asset"];
+  //   const validPages = ["dashboard", "pg-list", "user-list", "user-details", "invoice", "compliance",
+  //     "reports", "eb", "expenses", "banking", "settingNewDesign", "vendor", "asset"];
 
-    if (validPages.includes(currentPath)) {
-      navigate(`/${currentPath}/${hostelId}`);
-    }
-  }, [hostelId]);
+  //   if (validPages.includes(currentPath)) {
+  //     navigate(`/${currentPath}/${hostelId}`);
+  //   }
+  // }, [hostelId]);
+
+
+ useEffect(() => {
+  if (!hostelId) return;
+
+  const pathParts = location.pathname.split("/").filter(Boolean);
+  console.log("pathParts",pathParts)
+
+  const mainPage = pathParts[0];
+  const currentHostelId = pathParts[1];
+
+  const validPages = [
+    "dashboard",
+    "pg-list",
+    "user-list",
+    "user-details",
+    "invoice",
+    "compliance",
+    "reports",
+    "eb",
+    "expenses",
+    "banking",
+    "settingNewDesign",
+    "vendor",
+    "asset",
+  ];
+
+ 
+  if (mainPage === "invoice" && pathParts[1] === "new") {
+    return;
+  }
+
+  
+  if (currentHostelId === hostelId) {
+    return;
+  }
+
+ 
+  if (validPages.includes(mainPage) && pathParts.length >  1) {
+    navigate(`/${mainPage}/${hostelId}`, { replace: true });
+  }
+
+}, [hostelId, location.pathname]);
+
 
 
 
@@ -494,16 +539,16 @@ function Sidebar() {
 
 
 
-  const cookies = new Cookies();
-  const apiHostelId = cookies.get("selected_hostelId");
+  // const cookies = new Cookies();
+  // const apiHostelId = cookies.get("selected_hostelId");
 
 
 
   useEffect(() => {
-    if (hostelListDetail?.length > 0 && !initials) {
+    if (hostelListDetail?.length > 0 && !initials && state.login?.apiResponseHostelId) {
 
-      const selectedHostel = apiHostelId
-        ? hostelListDetail.find(h => h.hostelId === apiHostelId)
+      const selectedHostel = state.login?.apiResponseHostelId
+        ? hostelListDetail.find(h => h.hostelId === state.login?.apiResponseHostelId)
         : hostelListDetail[0];
 
       if (selectedHostel) {
@@ -520,7 +565,36 @@ function Sidebar() {
         dispatch(StoreSelectedHostelAction(selectedHostel.hostelId));
       }
     }
-  }, [hostelListDetail, apiHostelId]);
+  }, [hostelListDetail, state.login?.apiResponseHostelId]);
+
+  // console.log("state.login?.apiResponseHostelId",state.login?.apiResponseHostelId)
+
+
+  // useEffect(() => {
+  //   if (hostelListDetail?.length > 0 && !initials) {
+
+  //     const selectedHostel = state.login?.apiResponseHostelId
+  //       ? hostelListDetail.find(h => h.hostelId === state.login?.apiResponseHostelId)
+  //       : hostelListDetail[0];
+
+  //     if (selectedHostel) {
+  //       setAllPageHostel_Id(selectedHostel.hostelId);
+  //       setPayingGuestName(selectedHostel.name);
+  //       setInitials(selectedHostel.initials)
+  //       setSelectedProfileImage(
+  //         selectedHostel.mainImage &&
+  //         selectedHostel.mainImage !== "0" &&
+  //         selectedHostel.mainImage !== "" &&
+  //         selectedHostel.mainImage
+  //       );
+
+  //       dispatch(StoreSelectedHostelAction(selectedHostel.hostelId));
+  //     }
+  //   }
+  // }, [hostelListDetail,]);
+
+
+  console.log("apiResponseHostelId", state.login.apiResponseHostelId)
 
 
 
@@ -541,7 +615,7 @@ function Sidebar() {
   const handleMouseEnter = (icon) => setHoveredIcon(icon);
   const handleMouseLeave = () => setHoveredIcon(null);
 
-
+  console.log("state", state)
 
 
   useEffect(() => {
@@ -1693,6 +1767,8 @@ function Sidebar() {
                   />
                 }
               />
+              
+
               <Route
                 path="/invoice/:hostelId?"
                 element={
@@ -1702,6 +1778,15 @@ function Sidebar() {
                   />
                 }
               />
+
+              <Route
+                path="/invoice/new/:hostelId?"
+                element={
+                  <Invoices
+                  />
+                }
+              />
+
               <Route
                 path="/invoice/details/:invoiceId"
                 element={

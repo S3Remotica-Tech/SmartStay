@@ -5,7 +5,7 @@ import { Modal, Button, Form, } from "react-bootstrap";
 import { FiRepeat } from "react-icons/fi";
 import building from '/src/Assets/Images/New_images/building1.svg';
 import Frame from "/src/Assets/Images/New_images/Frame.svg";
-import Group from "/src/Assets/Images/New_images/Group.png";
+// import Group from "/src/Assets/Images/New_images/Group.png";
 import repeatOne from "/src/Assets/Images/New_images/repeate-one.svg";
 import { FormControl } from "react-bootstrap";
 import "react-datepicker/dist/react-datepicker.css";
@@ -21,7 +21,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import ErrorMessage from '../../../Components/ErrorMessage';
 import { LiaBedSolid } from "react-icons/lia";
 
-function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer }) {
+function ConfirmChangeBed({ show, handleClose,  currentBed,  }) {
   ConfirmChangeBed.propTypes = {
     show: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
@@ -29,7 +29,7 @@ function ConfirmChangeBed({ show, handleClose, previousBed, currentBed, customer
     currentBed: PropTypes.func.isRequired
   };
 
-  const selectedDateRef = useRef(null);
+  // const selectedDateRef = useRef(null);
   const state = useSelector(state => state)
   const dispatch = useDispatch();
 
@@ -152,9 +152,9 @@ const [formLoading, setFormLoading] = useState(false)
 
 
   const invoices = CustomerOverView?.invoiceResponseList || [];
-  const lastBillDate = invoices.length > 0
-    ? dayjs(invoices[invoices.length - 1].invoiceGeneratedDate, "DD/MM/YYYY")
-    : null;
+  // const lastBillDate = invoices.length > 0
+  //   ? dayjs(invoices[invoices.length - 1].invoiceGeneratedDate, "DD/MM/YYYY")
+  //   : null;
 
 
 

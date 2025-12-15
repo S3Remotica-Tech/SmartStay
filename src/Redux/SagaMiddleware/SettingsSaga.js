@@ -129,9 +129,9 @@ function* handleGetModules() {
 
 const hostelId = GlobalHostelId(response);
     if (hostelId) {
-      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
-      const cookies = new Cookies()
-      cookies.set('selected_hostelId', hostelId, { path: '/' });
+     yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
+      // const cookies = new Cookies()
+      // cookies.set('selected_hostelId', hostelId, { path: '/' });
     }
       if (response?.status === 200) {
          yield put({ type: 'GET_MODULES', payload: { response: response.data, statusCode: response?.status } })
@@ -217,9 +217,9 @@ function* handleCategorylist(action) {
 
 const hostelId = GlobalHostelId(response);
     if (hostelId) {
-      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
-      const cookies = new Cookies()
-      cookies.set('selected_hostelId', hostelId, { path: '/' });
+      yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
+      // const cookies = new Cookies()
+      // cookies.set('selected_hostelId', hostelId, { path: '/' });
     }
 
 
@@ -406,9 +406,9 @@ function* handleComplainttypelist(action) {
 
 const hostelId = GlobalHostelId(response);
     if (hostelId) {
-      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
-      const cookies = new Cookies()
-      cookies.set('selected_hostelId', hostelId, { path: '/' });
+     yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
+      // const cookies = new Cookies()
+      // cookies.set('selected_hostelId', hostelId, { path: '/' });
     }
 
 
@@ -717,9 +717,9 @@ function* handleEBBillingUnitGet(action) {
 
 const hostelId = GlobalHostelId(response);
     if (hostelId) {
-      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
-      const cookies = new Cookies()
-      cookies.set('selected_hostelId', hostelId, { path: '/' });
+      yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
+      // const cookies = new Cookies()
+      // cookies.set('selected_hostelId', hostelId, { path: '/' });
     }
 
 
@@ -807,9 +807,9 @@ function* handleGetAllRoles(role) {
       const response = yield call(GetAllRoles, role.payload)
 const hostelId = GlobalHostelId(response);
     if (hostelId) {
-      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
-      const cookies = new Cookies()
-      cookies.set('selected_hostelId', hostelId, { path: '/' });
+       yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
+      // const cookies = new Cookies()
+      // cookies.set('selected_hostelId', hostelId, { path: '/' });
     }
       if (response?.status === 200) {
          yield put({ type: 'ROLE_LIST', payload: { response: response.data, statusCode: response?.status } })
@@ -1136,9 +1136,9 @@ function* handleGetAllStaffs(action) {
       const response = yield call(GetAllStaff, action.payload.hostelId);
 const hostelId = GlobalHostelId(response);
     if (hostelId) {
-      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
-      const cookies = new Cookies()
-      cookies.set('selected_hostelId', hostelId, { path: '/' });
+      yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
+      // const cookies = new Cookies()
+      // cookies.set('selected_hostelId', hostelId, { path: '/' });
     }
 
 
@@ -1294,9 +1294,9 @@ function* handleGetAllGeneral() {
 
 const hostelId = GlobalHostelId(response);
     if (hostelId) {
-      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
-      const cookies = new Cookies()
-      cookies.set('selected_hostelId', hostelId, { path: '/' });
+      yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
+      // const cookies = new Cookies()
+      // cookies.set('selected_hostelId', hostelId, { path: '/' });
     }
 
 
@@ -1543,9 +1543,9 @@ function* handleNewSubscriptionList(action) {
 
 const hostelId = GlobalHostelId(response);
     if (hostelId) {
-      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
-      const cookies = new Cookies()
-      cookies.set('selected_hostelId', hostelId, { path: '/' });
+      yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
+      // const cookies = new Cookies()
+      // cookies.set('selected_hostelId', hostelId, { path: '/' });
     }
 
 
@@ -1571,9 +1571,9 @@ function* handlePlanList(action) {
 
 const hostelId = GlobalHostelId(response);
     if (hostelId) {
-      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
-      const cookies = new Cookies()
-      cookies.set('selected_hostelId', hostelId, { path: '/' });
+      yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
+      // const cookies = new Cookies()
+      // cookies.set('selected_hostelId', hostelId, { path: '/' });
     }
 
 
@@ -1721,9 +1721,9 @@ function* handleGetSettingsRecurrringBill(action) {
 
         const hostelId = GlobalHostelId(response);
           if (hostelId) {
-            yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
-            const cookies = new Cookies()
-            cookies.set('selected_hostelId', hostelId, { path: '/' });
+            yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
+            // const cookies = new Cookies()
+            // cookies.set('selected_hostelId', hostelId, { path: '/' });
           }
 
 
@@ -1825,9 +1825,9 @@ function* handleGetTemplatelist(action) {
 
 const hostelId = GlobalHostelId(response);
     if (hostelId) {
-      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
-      const cookies = new Cookies()
-      cookies.set('selected_hostelId', hostelId, { path: '/' });
+       yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
+      // const cookies = new Cookies()
+      // cookies.set('selected_hostelId', hostelId, { path: '/' });
     }
 
       if (response?.status === 200) {
