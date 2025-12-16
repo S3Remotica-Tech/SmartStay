@@ -133,9 +133,9 @@ function* handleGetAllRooms(action) {
 
 const hostelId = GlobalHostelId(response);
     if (hostelId) {
-      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
-      const cookies = new Cookies()
-      cookies.set('selected_hostelId', hostelId, { path: '/' });
+     yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
+      // const cookies = new Cookies()
+      // cookies.set('selected_hostelId', hostelId, { path: '/' });
     }
 
 
@@ -160,9 +160,9 @@ function* handleGetAllBed(action) {
 
 const hostelId = GlobalHostelId(response);
     if (hostelId) {
-      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
-      const cookies = new Cookies()
-      cookies.set('selected_hostelId', hostelId, { path: '/' });
+      yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
+      // const cookies = new Cookies()
+      // cookies.set('selected_hostelId', hostelId, { path: '/' });
     }
 
     if (response?.status === 200) {
@@ -583,9 +583,9 @@ function* handleCreatePGDashboard(action) {
 
     const hostelId = GlobalHostelId(response);
     if (hostelId) {
-      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
-      const cookies = new Cookies()
-      cookies.set('selected_hostelId', hostelId, { path: '/' });
+      yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
+      // const cookies = new Cookies()
+      // cookies.set('selected_hostelId', hostelId, { path: '/' });
     }
 
 
@@ -856,9 +856,9 @@ function* handleOccupiedCustomer(action) {
 
 const hostelId = GlobalHostelId(response);
     if (hostelId) {
-      yield put({ type: "STORE_HOSTEL_DATA", payload: hostelId });
-      const cookies = new Cookies()
-      cookies.set('selected_hostelId', hostelId, { path: '/' });
+      yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
+      // const cookies = new Cookies()
+      // cookies.set('selected_hostelId', hostelId, { path: '/' });
     }
 
     if (response?.status === 200) {

@@ -122,7 +122,7 @@ function LongStayRecurringModal({ handleClose, show }) {
 
 
     useEffect(() => {
-        if (state.Settings.SettingsRecurringAddSuccess === 201) {
+        if (state.Settings.SettingsRecurringAddSuccess === 200) {
             setFormLoading(false)
             handleClose()
             dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostelId: state.login.selectedHostel_Id } });

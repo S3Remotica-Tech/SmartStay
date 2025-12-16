@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Modal from "react-bootstrap/Modal";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-toastify/dist/ReactToastify.css";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from "antd";
@@ -127,7 +127,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
     canWriteModule: canWriteBooking,
     
   } = useHasPermission("Booking");
-console.log("canWriteBooking",canWriteBooking)
+
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {

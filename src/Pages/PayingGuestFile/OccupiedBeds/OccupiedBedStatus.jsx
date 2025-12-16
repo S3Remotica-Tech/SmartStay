@@ -48,7 +48,7 @@ function OccupiedBedStatus({
 
     const {
         canUpdateModule: canUpdatePayingGuests,
-        canDeleteModule: canDeletePayingGuests,
+        // canDeleteModule: canDeletePayingGuests,
 
     } = useHasPermission("Paying Guests");
 
@@ -440,5 +440,6 @@ OccupiedBedStatus.propTypes = {
     currentItem: PropTypes.object.isRequired,
     handleShowReassignBed: PropTypes.func.isRequired,
     handleShowNoticePeriod: PropTypes.func.isRequired,
+    showEditBed: PropTypes.func.isRequired
 };
 export default OccupiedBedStatus;

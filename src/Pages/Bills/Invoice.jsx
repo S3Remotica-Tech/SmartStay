@@ -2,14 +2,14 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { Modal, Button, Offcanvas } from "react-bootstrap";
+import { Modal, Button, } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import { FormControl } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import { Table } from "react-bootstrap";
 import { Form } from "react-bootstrap";
-import User from "../../Assets/Images/New_images/profile-picture.png";
+// import User from "../../Assets/Images/New_images/profile-picture.png";
 import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
 import "sweetalert2/dist/sweetalert2.min.css";
@@ -18,7 +18,7 @@ import "../Bills/Invoices.css";
 import InvoiceTable from "../Bills/InvoicelistTable";
 import Profile from "../../Assets/Images/New_images/profile-picture.png";
 import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
+// import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import { Tabs, Tab } from "react-bootstrap";
 import Calendars from "../../Assets/Images/New_images/calendar.png";
@@ -41,7 +41,7 @@ import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-import { CloseCircle, ArrowUp2, ArrowDown2, } from "iconsax-react";
+import { CloseCircle, ArrowUp2, ArrowDown2, Filter } from "iconsax-react";
 import '../OthersComponent/BillPdfModal.css';
 import AxiosConfig from "../../WebService/AxiosConfig";
 import Swal from 'sweetalert2';
@@ -49,8 +49,9 @@ import PaginationList from "../../Components/PaginationList";
 import ErrorMessage from '../../Components/ErrorMessage'
 import { useHasPermission } from '../../Utils/Permission';
 import { HiMiniBars3BottomLeft } from "react-icons/hi2";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
+import BillsFilter from '../../Pages/Bills/BillsFilter'
 
 
 const InvoicePage = () => {
@@ -64,6 +65,7 @@ const InvoicePage = () => {
   const [bankking, setBanking] = useState("");
   const [formLoading, setFormLoading] = useState(false)
   const [formRecordLoading, setFormRecordLoading] = useState(false)
+  const dropdownRef = useRef(null);
   const [invoiceList, setInvoiceList] = useState({
     firstName: "",
     lastName: "",
@@ -83,6 +85,24 @@ const InvoicePage = () => {
     invoice_type: "",
     transaction: "",
   });
+
+
+
+
+
+
+  const location = useLocation();
+
+  const isDuplicate = location.pathname.includes("/invoice/new/");
+
+
+  // console.log("isDuplicate", isDuplicate, "location.pathname", location.pathname)
+
+
+
+
+
+
   const [showSearchFilter, setShowSearchFilter] = useState(false);
   const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
 
@@ -155,6 +175,7 @@ const InvoicePage = () => {
 
   const [transactionId, setTransactionId] = useState("");
   const [hostelId, setHostelId] = useState("");
+  const [chips, setChips] = useState([])
   const [receiptdata, setReceiptData] = useState([]);
   const [receiptLoader, setReceiptLoader] = useState(false);
   const [originalBillsFilter, setOriginalBillsFilter] = useState([]);
@@ -214,9 +235,9 @@ const InvoicePage = () => {
 
 
 
-  const handleInvoiceChange = (e) => {
-    setInvoiceNumber(e.target.value);
-  };
+  // const handleInvoiceChange = (e) => {
+  //   setInvoiceNumber(e.target.value);
+  // };
 
   useEffect(() => {
     if (!canReadInvoice) {
@@ -241,19 +262,29 @@ const InvoicePage = () => {
     setActiveStay(stayType);
   };
 
+  const [showBillsFilter, setShowBillsFilter] = useState(false);
+
+  const handleShowFilterBills = () => {
+    setShowBillsFilter(true)
+  }
+
+  const handleCloseFilterBills = () => {
+    setShowBillsFilter(false)
+
+  }
 
 
 
+  // useEffect(() => {
+  //   const initialState = {};
+  //   recurringbills?.forEach((item) => {
+  //     initialState[item.customerId] = item.currentStatus === true;
+  //   });
+  //   setCheckedRows(initialState);
+  // }, [recurringbills]);
 
+  console.log("bills", bills)
 
-
-  useEffect(() => {
-    const initialState = {};
-    recurringbills?.forEach((item) => {
-      initialState[item.customerId] = item.currentStatus === true;
-    });
-    setCheckedRows(initialState);
-  }, [recurringbills]);
   const handleToggle = (id) => {
 
     if (!id) return;
@@ -306,11 +337,37 @@ const InvoicePage = () => {
       setHostelId(state.login.selectedHostel_Id);
     }
   }, [state.login.selectedHostel_Id]);
+
+
+
+
+
+
+
+
+
+
+
+
+
   useEffect(() => {
-    if (hostelId) {
-      dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
+    if (!state.login.selectedHostel_Id) return;
+
+    if (isDuplicate) {
+      dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+
     }
-  }, [hostelId]);
+    else {
+      dispatch({
+        type: "MANUALINVOICESLIST",
+        payload: state.login.selectedHostel_Id
+      });
+    }
+
+  }, [state.login.selectedHostel_Id, isDuplicate]);
+
+
+
 
   useEffect(() => {
     if (state.InvoiceList.CustomerRecurringEnableDisableStatusCode === 200) {
@@ -335,7 +392,7 @@ const InvoicePage = () => {
   useEffect(() => {
     if (state.InvoiceList.ManualInvoicesgetstatuscode === 200) {
       setBills(state.InvoiceList.ManualInvoices);
-      setOriginalBillsFilter(state.InvoiceList.ManualInvoices)
+      // setOriginalBillsFilter(state.InvoiceList.ManualInvoices)
       setOriginalBills(state.InvoiceList.ManualInvoices)
       setTimeout(() => {
         setLoading(false);
@@ -343,6 +400,27 @@ const InvoicePage = () => {
       }, 100);
     }
   }, [state.InvoiceList.ManualInvoicesgetstatuscode]);
+
+
+  useEffect(() => {
+    if (state.InvoiceList.billsListStatusCode === 200) {
+      setShowBillsFilter(false)
+      setBills(state.InvoiceList.billsList?.listInvoices);
+      // setOriginalBillsFilter(state.InvoiceList.billsList?.listInvoices)
+      setOriginalBills(state.InvoiceList.billsList?.listInvoices)
+      setTimeout(() => {
+        setLoading(false);
+        dispatch({ type: "REMOVE_INVOICES_LIST_FILTER" });
+
+      }, 100);
+    }
+  }, [state.InvoiceList.billsListStatusCode]);
+
+
+
+
+
+
 
   useEffect(() => {
     if (state.InvoiceList.BillsErrorstatusCode === 201) {
@@ -443,6 +521,14 @@ const InvoicePage = () => {
   const combinedOptions = [...bankingOptions];
 
 
+  const selectOptions = [
+    { label: "All", value: "ALL" },
+    ...(state.InvoiceList?.billsList?.filterOptions?.paymentStatus?.map(item => ({
+      label: item.name,
+      value: item.type
+    })) || [])
+  ];
+
 
   const handleInvoiceDetail = (item) => {
 
@@ -538,55 +624,89 @@ const InvoicePage = () => {
 
 
 
-  useEffect(() => {
-    if (originalBillsFilter.length === 0 && bills.length > 0) {
-      setOriginalBillsFilter(bills);
+  // useEffect(() => {
+  //   if (originalBillsFilter.length === 0 && bills.length > 0) {
+  //     setOriginalBillsFilter(bills);
+  //   }
+  // }, [bills]);
+
+
+  const handleStatusFilter = (selectedOption) => {
+    if (!selectedOption) {
+      setStatusfilter(null);
+
+      if (state.login?.selectedHostel_Id) {
+        dispatch({
+          type: "INVOICESLISTFILTER",
+          payload: {
+            hostelId: state.login.selectedHostel_Id,
+          },
+        });
+      }
+      return;
     }
-  }, [bills]);
+
+    setStatusfilter(selectedOption);
+    console.log("selectedOption", selectedOption);
+
+    if (!state.login?.selectedHostel_Id) return;
 
 
-  const handleStatusFilter = (event) => {
-    const selected = event.target.value;
-    setStatusfilter(selected);
+    if (selectedOption.value === "ALL") {
+      dispatch({
+        type: "INVOICESLISTFILTER",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+        },
+      });
+    }
 
-
-    if (selected !== "date") {
-      setDateRange([null, null]);
+    else {
+      dispatch({
+        type: "INVOICESLISTFILTER",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters: {
+            paymentStatus: [selectedOption.value],
+          },
+        },
+      });
     }
   };
 
 
 
-  useEffect(() => {
-    let filtered = originalBillsFilter;
 
-    if (statusfilter === "All") {
-      filtered = originalBillsFilter;
-    } else if (statusfilter === "Paid" || statusfilter === "Unpaid") {
-      filtered = filtered.filter(
-        (user) =>
-          user.status?.trim().toLowerCase() === statusfilter.trim().toLowerCase()
-      );
-    }
-    else if (statusfilter === "date" && startDate && endDate) {
-      filtered = filtered.filter((user) => {
-        const invoiceDate = new Date(user.Date);
+  // useEffect(() => {
+  //   let filtered = originalBillsFilter;
 
-        const invoiceOnlyDate = new Date(invoiceDate.setHours(0, 0, 0, 0));
-        const startOnlyDate = new Date(startDate).setHours(0, 0, 0, 0);
-        const endOnlyDate = new Date(endDate).setHours(0, 0, 0, 0);
+  //   if (statusfilter === "All") {
+  //     filtered = originalBillsFilter;
+  //   } else if (statusfilter === "Paid" || statusfilter === "Unpaid") {
+  //     filtered = filtered.filter(
+  //       (user) =>
+  //         user.status?.trim().toLowerCase() === statusfilter.trim().toLowerCase()
+  //     );
+  //   }
+  //   else if (statusfilter === "date" && startDate && endDate) {
+  //     filtered = filtered.filter((user) => {
+  //       const invoiceDate = new Date(user.Date);
 
-        return (
-          invoiceOnlyDate >= startOnlyDate &&
-          invoiceOnlyDate <= endOnlyDate
-        );
-      });
-    }
+  //       const invoiceOnlyDate = new Date(invoiceDate.setHours(0, 0, 0, 0));
+  //       const startOnlyDate = new Date(startDate).setHours(0, 0, 0, 0);
+  //       const endOnlyDate = new Date(endDate).setHours(0, 0, 0, 0);
+
+  //       return (
+  //         invoiceOnlyDate >= startOnlyDate &&
+  //         invoiceOnlyDate <= endOnlyDate
+  //       );
+  //     });
+  //   }
 
 
-    setBills(filtered);
-    // setCurrentPage(1)
-  }, [statusfilter, startDate, endDate, originalBillsFilter]);
+  //   setBills(filtered);
+  //   // setCurrentPage(1)
+  // }, [statusfilter, startDate, endDate, originalBillsFilter]);
 
 
 
@@ -2040,8 +2160,12 @@ const InvoicePage = () => {
       setLoading(true);
 
       setDownloadReceipt(false);
+      if (isDuplicate) {
+        dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+      } else {
+        dispatch({ type: "MANUALINVOICESLIST", payload: state.login.selectedHostel_Id })
 
-      dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
+      }
     }
 
     if (newValue === "2") {
@@ -2587,15 +2711,15 @@ const InvoicePage = () => {
     }
   }, [state.InvoiceList?.InvoiceListStatusCode]);
 
-  useEffect(() => {
-    if (state.InvoiceList.message !== "" && state.InvoiceList.message !== null) {
-      dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
-      setBills(state.InvoiceList.ManualInvoices);
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_INVOICE_UPDATE_LIST" });
-      }, 100);
-    }
-  }, [state.InvoiceList]);
+  // useEffect(() => {
+  //   if (state.InvoiceList.message !== "" && state.InvoiceList.message !== null) {
+  //     dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
+  //     setBills(state.InvoiceList.ManualInvoices);
+  //     setTimeout(() => {
+  //       dispatch({ type: "CLEAR_INVOICE_UPDATE_LIST" });
+  //     }, 100);
+  //   }
+  // }, [state.InvoiceList]);
 
   const optionsone = {
     dateFormat: "d/m/Y",
@@ -2698,13 +2822,24 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (value === "1") {
-      const FilterUser = Array.isArray(bills)
-        ? bills.filter((item) =>
-          item.Name?.toLowerCase().includes(filterInput.toLowerCase())
-        )
-        : [];
+      if (filterInput) {
+        const FilterUser = Array.isArray(bills)
+          ? bills?.filter((item) =>
+            item?.fullName?.toLowerCase().includes(filterInput.toLowerCase())
+          )
+          : [];
+        setOriginalBillsFilter(FilterUser);
+      }
+      else {
+ dispatch({
+                    type: 'INVOICESLISTFILTER',
+                    payload: {
+                        hostelId: state.login?.selectedHostel_Id,
+                    }
+                })
+      }
 
-      setBills(FilterUser);
+
     }
 
     if (value === "2") {
@@ -2730,32 +2865,42 @@ const InvoicePage = () => {
 
   const handlefilterInput = (e) => {
     setFilterInput(e.target.value);
-    setDropdownVisible(e.target.value.length > 0);
+    if (e.target.value.length > 0) {
+      setDropdownVisible(true);
+    } else {
+      setDropdownVisible(false);
+    }
 
-    setBills(originalBills);
-    setRecurringBills(originalRecuiring);
-    setReceiptData(originalReceipt);
+
+    // setBills(originalBills);
+    // setRecurringBills(originalRecuiring);
+    // setReceiptData(originalReceipt);
 
   };
 
   const handleUserSelect = (user) => {
-    const searchItem = user.Name
-    setFilterInput(user.Name);
 
-    if (searchItem !== "") {
-      const filteredItems =
-        state.InvoiceList.ManualInvoices &&
-        state.InvoiceList.ManualInvoices.filter(
-          (user) =>
-            user.Name &&
-            user.Name.toLowerCase().includes(searchItem.toLowerCase())
-        );
-      setBills(filteredItems);
-
+    const searchItem = user.fullName
+    if (searchItem && state.login?.selectedHostel_Id) {
+      const filters = {
+        search: searchItem,
+      };
+      dispatch({
+        type: 'INVOICESLISTFILTER',
+        payload: {
+          hostelId: state.login?.selectedHostel_Id,
+          filters: filters
+        }
+      })
     } else {
-      setBills(state.InvoiceList.ManualInvoices);
+      dispatch({
+        type: 'INVOICESLISTFILTER',
+        payload: {
+          hostelId: state.login?.selectedHostel_Id,
+        }
+      })
     }
-    // setCurrentPage(1);
+
     setDropdownVisible(false);
   };
 
@@ -2768,7 +2913,6 @@ const InvoicePage = () => {
     setDropdownVisible(false);
     setSearch(false);
     setFilterInput("");
-
     setBills(bills);
     setRecurringBills(originalRecuiring);
     setReceiptData(originalReceipt);
@@ -2781,6 +2925,7 @@ const InvoicePage = () => {
       setOriginalReceipt(receiptdata);
     }
   }, [receiptdata]);
+
   useEffect(() => {
     if (bills?.length > 0 && originalBills?.length === 0) {
       setOriginalBills(bills);
@@ -2879,7 +3024,6 @@ const InvoicePage = () => {
       setOriginalBillsFilterReceipt(state.InvoiceList.ReceiptList)
       setOriginalReceipt(state.InvoiceList.ReceiptList)
       setReceiptLoader(false);
-      dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_RECEIPTS_LIST" });
       }, 100);
@@ -2930,8 +3074,121 @@ const InvoicePage = () => {
 
 
 
+
+  useEffect(() => {
+    const invoiceFilters = state.InvoiceList.invoiceFilters;
+    const filterData = [];
+
+    if (invoiceFilters?.paymentStatus?.length) {
+      invoiceFilters.paymentStatus.forEach((status) => {
+        filterData.push({
+          key: `status-${status}`,
+          label: `Status is`,
+          type: "paymentStatus",
+          value: status,
+        });
+      });
+    }
+
+    if (invoiceFilters?.type?.length) {
+      invoiceFilters.type.forEach((type) => {
+        filterData.push({
+          key: `type-${type}`,
+          label: `Type is `,
+          type: "type",
+          value: type,
+        });
+      });
+    }
+
+    if (invoiceFilters?.modes?.length) {
+      invoiceFilters.modes.forEach((mode) => {
+        filterData.push({
+          key: `mode-${mode}`,
+          label: `Mode is `,
+          type: "modes",
+          value: mode,
+        });
+      });
+    }
+
+    if (invoiceFilters?.createdByLabels?.length) {
+      invoiceFilters.createdByLabels.forEach((label) => {
+        filterData.push({
+          key: `created-${label}`,
+          label: `Created By`,
+          type: "createdBy",
+          value: label,
+        });
+      });
+    }
+
+    if (invoiceFilters?.startDate || invoiceFilters?.endDate) {
+      filterData.push({
+        key: "date-range",
+        label: `Date Region is `,
+        type: "date",
+        value: invoiceFilters.startDate && invoiceFilters.endDate
+          ? `${invoiceFilters.startDate} - ${invoiceFilters.endDate}`
+          : invoiceFilters.startDate || invoiceFilters.endDate
+      });
+    }
+
+    if (invoiceFilters?.search) {
+      filterData.push({
+        key: "search",
+        label: `Tenant `,
+        type: "search",
+        value: `${invoiceFilters.search}`
+      });
+    }
+
+    console.log("filterData", filterData);
+    setChips(filterData)
+  }, [state.InvoiceList.invoiceFilters]);
+
+  const handleReset = () => {
+    dispatch({
+      type: "SET_INVOICE_FILTERS",
+      payload: {
+        startDate: undefined,
+        endDate: undefined,
+        type: [],
+        createdBy: [],
+        createdByLabels: [],
+        modes: [],
+        paymentStatus: [],
+        search: "",
+      },
+    })
+
+
+    dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+  }
+
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+
+      ) {
+        setDropdownVisible(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div style={{ overflowX: "hidden" }}>
+      {
+        showBillsFilter && <BillsFilter show={showBillsFilter} handleClose={handleCloseFilterBills} />
+      }
       {showAllBill && (
         <Row className="p-0">
           <Col className="p-0"
@@ -2995,16 +3252,16 @@ const InvoicePage = () => {
                     )}
                     {(!showPdfModal && !showPdfReceiptModal) && (
                       <div className={` d-flex align-items-center`} >
-                        {search ? (
+                        {isDuplicate && search ? (
                           <>
-                            <div className="position-relative" style={{ minWidth: 160, maxWidth: 250, }}>
+                            <div className="position-relative" style={{ minWidth: 160, maxWidth: 250, zIndex: 3000, position: "relative" }}>
 
 
                               <div
-                                className="input-group"
-                                style={{ marginRight: 20, paddingTop: "25px" }}
+                                className="input-group p-0"
+                                style={{ marginRight: 20, paddingTop: "25px", marginTop: 12 }}
                               >
-                                <span className="input-group-text bg-white border-end-0" onMouseEnter={(e) => (e.target.style.backgroundColor = "#e6e6e6")}>
+                                <span className="input-group-text bg-white border-end-0" >
                                   <Image
                                     src={searchteam}
                                     style={{
@@ -3024,7 +3281,7 @@ const InvoicePage = () => {
                                     outline: "none",
                                     borderColor: "rgb(207,213,219)",
                                     borderRight: "none",
-                                    fontFamily: "Gilroy",
+                                    fontFamily: "Gilroy", padding: "8px 12px"
                                   }}
                                   value={filterInput}
                                   onChange={(e) => handlefilterInput(e)}
@@ -3034,23 +3291,24 @@ const InvoicePage = () => {
                                   <img
                                     src={closecircle}
                                     alt="close"
-                                    onClick={handleCloseSearch}
+                                    onClick={() => setFilterInput("")}
+
                                     style={{ height: 20, width: 20, cursor: "pointer" }}
                                   />
                                 </span>
                               </div>
 
 
-                              {value === "1" &&
+                              {value === "1" && isDuplicate &&
                                 isDropdownVisible &&
-                                bills?.length > 0 && (
-                                  <div
+                                originalBillsFilter?.length > 0 && (
+                                  <div ref={dropdownRef}
                                     style={{
                                       border: "1px solid #d9d9d9",
                                       position: "absolute",
                                       top: 80,
                                       left: 0,
-                                      zIndex: 1000,
+                                      zIndex: 4000,
                                       padding: 10,
                                       borderRadius: 8,
                                       backgroundColor: "#fff",
@@ -3062,15 +3320,15 @@ const InvoicePage = () => {
                                       style={{
                                         listStyleType: "none",
                                         maxHeight: 174,
-                                        minHeight: bills?.length > 1 ? "50px" : "auto",
-                                        overflowY: bills?.length > 3 ? "auto" : "hidden",
+                                        minHeight: originalBillsFilter?.length > 1 ? "50px" : "auto",
+                                        overflowY: originalBillsFilter?.length > 3 ? "auto" : "hidden",
                                         margin: 0,
                                       }}
                                     >
-                                      {bills
+                                      {originalBillsFilter
                                         ?.filter(
                                           (item, index, self) =>
-                                            index === self.findIndex((t) => t.Name === item.Name)
+                                            index === self.findIndex((t) => t.fullName === item.fullName)
                                         )
                                         .map((user, index) => (
                                           <li
@@ -3082,7 +3340,7 @@ const InvoicePage = () => {
                                               fontFamily: "Gilroy",
                                               borderRadius: 8,
                                               borderBottom:
-                                                index !== bills?.length - 1
+                                                index !== originalBillsFilter?.length - 1
                                                   ? "1px solid #eee"
                                                   : "none",
                                               backgroundColor:
@@ -3107,7 +3365,7 @@ const InvoicePage = () => {
                                                 e.target.src = Profile;
                                               }}
                                             />
-                                            <span>{user.Name}</span>
+                                            <span>{user.fullName}</span>
                                           </li>
                                         ))}
                                     </ul>
@@ -3300,55 +3558,9 @@ const InvoicePage = () => {
                           </>
                         )}
 
-                        {(value === "1" || value === "3") && (
-                          <div >
-                            <Image
-                              src={Filters}
-                              roundedCircle
-                              style={{
-                                height: "50px", width: "50px", marginTop: DownloadInvoice || DownloadReceipt ? 0 : 12,
-                                cursor: (canReadInvoice || canReadReceipt || canReadRecurring) ? "pointer" : "not-allowed",
-                                opacity: (canReadInvoice || canReadReceipt || canReadRecurring) ? 1 : 0.4,
-                                pointerEvents: (canReadInvoice || canReadReceipt || canReadRecurring) ? "auto" : "none",
-                                transition: "opacity 0.3s ease"
-                              }}
-                              onClick={handleFilterd}
-                            />
-                          </div>
-                        )}
 
-                        {value === "1" && filterStatus && (
-                          <div
-                            className="me-3"
-                            style={{
-                              border: "1px solid #D4D4D4",
-                              borderRadius: 8,
-                              width: search ? "120px" : "120px",
-                              marginTop: "20px",
-                            }}
-                          >
-                            <Form.Select
-                              disabled={!canReadInvoice}
-                              onChange={(e) => handleStatusFilter(e)}
-                              value={statusfilter}
-                              aria-label="Select Price Range"
-                              className=""
-                              id="statusselect"
-                              style={{
-                                color: "rgba(34, 34, 34, 1)",
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                                cursor: "pointer"
-                              }}
-                            >
-                              <option value="All">All</option>
-                              <option value="Unpaid">UnPaid</option>
-                              <option value="Paid">Paid</option>
-                              <option value="date">Date</option>
-                            </Form.Select>
 
-                          </div>
-                        )}
+
                         {statusfilter === "date" && value === "1" && (
                           <div className="mt-4">
                             <RangePicker
@@ -3478,7 +3690,7 @@ const InvoicePage = () => {
               </div>
             </div>
 
-            <div className="ps-4">
+            <div className="ps-4 ">
               <TabContext value={value} style={{}} >
                 <div
                   style={{
@@ -3486,168 +3698,263 @@ const InvoicePage = () => {
                     top: DownloadInvoice || DownloadReceipt ? 20 : 70,
                     right: 0,
                     left: 0,
-                    zIndex: 1000,
+                    zIndex: 0,
                     backgroundColor: search ? undefined : "#FFFFFF",
                     height: "auto",
                     marginBottom: 10, marginTop: showSearchFilter ? 100 : 0,
                   }}
                 >
-                  {/* <Box
-                    sx={{ borderBottom: 0, borderColor: "divider" }}
-                  >
-                    <TabList
 
-                      orientation={isSmallScreen ? "vertical" : "horizontal"}
-                      onChange={handleChanges}
-                      aria-label="lab API tabs example"
-                      style={{ marginLeft: "14px", }}
+                  <div className="d-flex justify-content-between pe-2 align-items-center">
 
-                      className="custom-tab-list d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
-                    >
-                      <Tab className="ps-0" disabled={showLoader}
-                        label="Bills"
-                        value="1"
-                        style={{
-                          fontSize: 16,
-                          fontFamily: "Gilroy",
-                          color: "#4B4B4B",
-                          lineHeight: "normal",
-                          fontStyle: "normal",
-                          fontWeight: 500,
-                          textTransform: "none",
-                          display: "flex",
-                          alignItems: "start",
-                          justifyContent: "flex-start",
-                          textAlign: "left",
-                                                  }}
-                      />
-                      <Tab disabled={showLoader} className="ps-0"
-                        label="Recurring Bills"
-                        value="2"
-                        style={{
-                          fontSize: 16,
-                          fontFamily: "Gilroy",
-                          color: "#4B4B4B",
-                          lineHeight: "normal",
-                          fontStyle: "normal",
-                          fontWeight: 500,
-                          textTransform: "none",
-                          display: "flex",
-                          alignItems: "start",
-                          justifyContent: "flex-start",
-                          textAlign: "left",
-                                                 }}
-                      />
-                      <Tab disabled={showLoader} className="ps-0"
-                        label="Receipt"
-                        value="3"
-                        style={{
-                          fontSize: 16,
-                          fontFamily: "Gilroy",
-                          color: "#4B4B4B",
-                          lineHeight: "normal",
-                          fontStyle: "normal",
-                          fontWeight: 500,
-                          textTransform: "none",
-                          display: "flex",
-                          alignItems: "start",
-                          justifyContent: "flex-start",
-                          textAlign: "left",
-                          
-                        }}
-                      />
-                    </TabList>
-                  </Box> */}
-
-
-
-                  <Tabs
-                    activeKey={value}
-                    onSelect={(k) => handleChanges(null, k)}
-                    id="bill-tabs"
-                    className={`ps-3 custom-tab-list d-flex mt-2
+                    <Tabs
+                      activeKey={value}
+                      onSelect={(k) => handleChanges(null, k)}
+                      id="bill-tabs"
+                      className={`ps-3 custom-tab-list d-flex mt-2
                       ${isSmallScreen ? "flex-md-row" : "flex-lg-row"
-                      }
+                        }
                       
                       `}
-                    style={{
-                      border: "none",
-                      width: "50%",
-                      display: "flex",
-                      gap: "25px",
-                      justifyContent: "", paddingBottom: 10
-                     
-                    }}
-                  >
-                    <Tab
-                      eventKey="1"
-                      // title="Bills"
-                      disabled={showLoader}
-                      tabClassName="ps-0"
-                      title={
-                        <span className="p-0"
+                      style={{
+                        border: "none",
+                        width: "50%",
+                        display: "flex",
+                        gap: "25px",
+                        justifyContent: "", paddingBottom: 10
+
+                      }}
+                    >
+                      <Tab
+                        eventKey="1"
+                        // title="Bills"
+                        disabled={showLoader}
+                        tabClassName="ps-0"
+                        title={
+                          <span className="p-0"
+                            style={{
+                              padding: 0,
+                              display: "inline-block",
+                              textTransform: "capitalize",
+                              fontSize: 17,
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              color: value === "1" ? "#222222" : "#4B4B4B",
+                              borderBottom: value === "1" ? "2px solid #1E45E1" : "2px solid white",
+                            }}
+                          >
+                            Bills
+                          </span>
+                        }
+
+                      />
+
+                      <Tab
+                        eventKey="2"
+                        // title="Recurring Bills"
+                        title={
+                          <span
+                            style={{
+                              textTransform: "capitalize",
+                              fontSize: 17,
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              color: value === "2" ? "#222222" : "#4B4B4B",
+                              borderBottom: value === "2" ? "2px solid #1E45E1" : "2px solid transparent",
+                            }}
+                          >
+                            Recurring Bills
+                          </span>
+                        }
+                        disabled={showLoader}
+                        tabClassName="ps-0"
+                      />
+
+                      <Tab
+                        eventKey="3"
+                        // title="Receipt"
+                        title={
+                          <span
+                            style={{
+                              textTransform: "capitalize",
+                              fontSize: 17,
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              color: value === "3" ? "#222222" : "#4B4B4B",
+                              borderBottom: value === "3" ? "2px solid #1E45E1" : "2px solid transparent",
+                            }}
+                          >
+                            Receipt
+                          </span>
+                        }
+                        disabled={showLoader}
+                        tabClassName="ps-0"
+                      />
+                    </Tabs>
+
+                    <div className="d-flex gap-3 align-items-center me-3 ">
+                      {value === "1" && isDuplicate && (
+                        <div
+                          className=""
                           style={{
-                            padding: 0,
-                            display: "inline-block",
-                            textTransform: "capitalize",
-                            fontSize: 17,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            color: value === "1" ? "#222222" : "#4B4B4B",
-                            borderBottom: value === "1" ? "2px solid #1E45E1" : "2px solid white",
+                            border: "1px solid #D4D4D4",
+                            borderRadius: 8,
+                            width: 150, zIndex: 100
+                            // marginTop: "20px",
                           }}
                         >
-                          Bills
-                        </span>
+                          <Select
+                            options={selectOptions}
+                            styles={{
+                              control: (base) => ({
+                                ...base,
+                                height: "39px",
+                                border: "1px solid #D9D9D9",
+                                borderRadius: "8px",
+                                fontSize: "14px",
+                                color: "#4B4B4B",
+                                fontFamily: "Gilroy, sans-serif",
+                                fontWeight: 500,
+                                boxShadow: "none",
+                              }),
+                              menu: (base) => ({
+                                ...base,
+                                backgroundColor: "#f8f9fa",
+                                border: "1px solid #ced4da",
+                                fontFamily: "Gilroy, sans-serif", fontSize: "14px",
+                              }),
+                              menuList: (base) => ({
+                                ...base,
+                                backgroundColor: "#f8f9fa",
+                                maxHeight: "120px",
+                                padding: 0,
+                                scrollbarWidth: "thin",
+                                overflowY: "auto",
+                                fontFamily: "Gilroy, sans-serif", fontSize: "14px",
+                              }),
+                              placeholder: (base) => ({
+                                ...base,
+                                color: "#555",
+                              }),
+                              option: (base, state) => ({
+                                ...base,
+                                cursor: "pointer",
+                                backgroundColor: state.isFocused ? "lightblue" : "white",
+                                color: "#000",
+                              }),
+                              dropdownIndicator: (base) => ({
+                                ...base,
+                                color: "#555",
+                                cursor: "pointer"
+                              }),
+                              indicatorSeparator: () => ({
+                                display: "none",
+                              }),
+                            }}
+                            disabled={!canReadInvoice}
+                            onChange={(e) => handleStatusFilter(e)}
+                            value={statusfilter}
+                            aria-label="Select"
+                            className=""
+                            id="statusselect"
+
+
+                          />
+
+
+
+                        </div>
+                      )}
+
+                      {
+                        isDuplicate &&
+                        <>
+                          <div
+                            className=" d-flex"
+                            style={{
+                              border: "1px solid #CBD5E1",
+                              backgroundColor: "white",
+                              borderRadius: "50%",
+                              padding: 10, cursor: canReadInvoice ? "pointer" : "not-allowed",
+                            }}
+                            onClick={() => canReadInvoice && handleShowFilterBills()}
+                          >
+                            <Filter size={18} style={{
+                              cursor: canReadInvoice ? "pointer" : "not-allowed",
+                              opacity: canReadInvoice ? 1 : 0.4,
+                              pointerEvents: canReadInvoice ? "auto" : "none",
+                              transition: "opacity 0.3s ease"
+                            }} />
+                          </div>
+
+
+                        </>
                       }
-
-                    />
-
-                    <Tab
-                      eventKey="2"
-                      // title="Recurring Bills"
-                      title={
-                        <span
-                          style={{
-                            textTransform: "capitalize",
-                            fontSize: 17,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            color: value === "2" ? "#222222" : "#4B4B4B",
-                            borderBottom: value === "2" ? "2px solid #1E45E1" : "2px solid transparent",
-                          }}
-                        >
-                          Recurring Bills
-                        </span>
-                      }
-                      disabled={showLoader}
-                      tabClassName="ps-0"
-                    />
-
-                    <Tab
-                      eventKey="3"
-                      // title="Receipt"
-                      title={
-                        <span
-                          style={{
-                            textTransform: "capitalize",
-                            fontSize: 17,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            color: value === "3" ? "#222222" : "#4B4B4B",
-                            borderBottom: value === "3" ? "2px solid #1E45E1" : "2px solid transparent",
-                          }}
-                        >
-                          Receipt
-                        </span>
-                      }
-                      disabled={showLoader}
-                      tabClassName="ps-0"
-                    />
-                  </Tabs>
-
-
+                    </div>
+                  </div>
                 </div>
+                {
+                  isDuplicate &&
+
+                  chips.length > 0 && (
+                    <div
+                      className="m-3 mt-4"
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        padding: "8px 12px",
+                        borderRadius: 8,
+                        background: "#FFFFFF",
+                        fontFamily: "Gilroy, sans-serif",
+                      }}
+                    >
+                      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                        {chips.map((chip) => (
+                          <div
+                            key={chip.key}
+
+                          >
+                            <span style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 6,
+                              padding: "4px 10px",
+                              background: "#C5D1FF3B",
+                              border: "1px solid #E5E7EB",
+                              borderRadius: 20,
+                              fontSize: 12,
+                              fontWeight: 500,
+                              color: "#7C7C7C",
+                            }}>{chip.label} :
+                              <span style={{
+
+                                fontSize: 12,
+                                fontWeight: 500,
+                                color: "#16151C",
+                              }}>{chip.value}</span></span>
+
+                          </div>
+                        ))}
+                      </div>
+
+                      <span
+                        onClick={() => handleReset()}
+
+                        style={{
+                          color: "#1E45E1",
+                          fontSize: 13,
+                          fontWeight: 500,
+                          cursor: "pointer",
+                        }}
+                      >
+                        Reset
+                      </span>
+                    </div>
+                  )
+
+                }
+
                 <TabPanel value="1">
                   <>
                     {!canReadInvoice ? (
@@ -5756,6 +6063,9 @@ const InvoicePage = () => {
                 </TabPanel>
               </TabContext>
             </div>
+
+
+
           </Col>
 
 

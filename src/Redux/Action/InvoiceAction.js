@@ -1,5 +1,9 @@
 // import AxiosConfig from "../../WebService/AxiosConfig"
 import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
+import qs from "qs";
+
+
+
 
 export  function invoicelist() {
   new Promise((resolve) => {
@@ -87,6 +91,24 @@ export async function GetManualInvoices(hostelId) {
 }
 
 
+export async function GetFilterInvoices(hostelId, filters={}) {
+  console.log("filters",filters,"hostelId",hostelId)
+  return AxiosConfigV2.get(`/v2/bills/new/${hostelId}`, {
+    params: {
+      startDate: filters.startDate,
+      endDate: filters.endDate,
+      type: filters.type,                 
+      createdBy: filters.createdBy,       
+      modes: filters.modes,               
+      paymentStatus: filters.paymentStatus, 
+      search: filters.search,
+    },
+     paramsSerializer: params =>
+      qs.stringify(params, { arrayFormat: "repeat" }),
+  });
+}
+
+ 
 export async function getFinalSettlementList(customerId) {
   return await AxiosConfigV2.get(`/v2/customers/settlement/${customerId}`, {
   })

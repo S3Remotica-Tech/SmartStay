@@ -17,7 +17,7 @@ export const initialState = {
    notificationStatus: 0 ,
    UpdateNotificationMessage: '',
    twoStepOtpError: '',
-   selectedHostel_Id:  localStorage.getItem("selectedResponseHostelId") || null,
+   selectedHostel_Id: "" ,
    Settings_Hostel_Id: '',
    IsVisible: null,
    errorStatusCode: 0,
@@ -32,6 +32,7 @@ export const initialState = {
    userId: '',
    isTrigger: false,
   paymentHtml: "",
+  apiResponseHostelId: ''
 
 }
 const SmartStayReducer = (state = initialState, action) => {
@@ -60,8 +61,12 @@ const SmartStayReducer = (state = initialState, action) => {
          return { ...state, isTrigger: action.payload }
       case "STORE_HOSTEL_DATA":
          return { ...state, selectedHostel_Id: action.payload };
+
       case "CLEAR_HOSTEL_DATA":
          return { ...state, selectedHostel_Id: '' };
+
+         case 'SAVE_RESPONSE_HOSTEL':
+            return { ...state, apiResponseHostelId: action.payload };
 
       case "SETTINGS_STORE_HOSTEL_DATA":
          return { ...state, Settings_Hostel_Id: action.payload };

@@ -90,6 +90,20 @@ export const initialState = {
     updateTenantRecurringStatusCode: 0,
     tenantAssignStatus: 0,
     tenantUnAssignStatus: 0,
+    billsList: [],
+    billsListStatusCode: 0,
+    invoiceFilters: {
+        startDate: undefined,
+        endDate: undefined,
+        type: [],
+        createdBy: [],
+        createdByLabels: [],
+        modes: [],
+        paymentStatus: [],
+        search: "",
+        
+    },
+
     whatsappSettings:
         JSON.parse(localStorage.getItem('whatsappSettings')) || {
             0: false,
@@ -106,6 +120,14 @@ const InvoiceReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'RESET_ALL':
             return initialState;
+        case "SET_INVOICE_FILTERS":
+            return {
+                ...state,
+                invoiceFilters: {
+                    ...state.invoiceFilters,
+                    ...action.payload,
+                },
+            };
         case 'ERROR_AMENITIES':
             return { ...state, errorAmenities: action.payload.statusCode }
 
@@ -144,6 +166,11 @@ const InvoiceReducer = (state = initialState, action) => {
             return { ...state, refundDetails: action.payload.response, refundDetailsStatusCode: action.payload.statusCode }
         case 'REMOVE_GET_INITIALIZE_REFUND_DETAILS':
             return { ...state, refundDetailsStatusCode: 0 }
+
+        case "INVOICES_LIST_FILTER":
+            return { ...state, billsList: action.payload.response, billsListStatusCode: action.payload.statusCode }
+        case "REMOVE_INVOICES_LIST_FILTER":
+            return { ...state, billsListStatusCode: 0 }
 
 
 
@@ -313,10 +340,10 @@ const InvoiceReducer = (state = initialState, action) => {
         case 'REMOVE_NODATA_BILL_LIST':
             return { ...state, BillsErrorstatusCode: 0 }
 
-            case 'UPDATE_TENANT_RECURRING_SUCCESS':
-                 return { ...state, updateTenantRecurringStatusCode: action.payload.statusCode }
- case 'REMOVE_UPDATE_TENANT_RECURRING':
-                 return { ...state, updateTenantRecurringStatusCode: 0 }
+        case 'UPDATE_TENANT_RECURRING_SUCCESS':
+            return { ...state, updateTenantRecurringStatusCode: action.payload.statusCode }
+        case 'REMOVE_UPDATE_TENANT_RECURRING':
+            return { ...state, updateTenantRecurringStatusCode: 0 }
         case 'DELETE_MANUAL_ERROR':
             return { ...state, deletemanualError: action.payload }
 
