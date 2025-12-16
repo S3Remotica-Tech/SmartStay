@@ -104,7 +104,6 @@ function BackToCheckIn({ show, handleClose, checkInDetails }) {
                 : null;
 
 
-console.log("checkInDetails",checkInDetails)
 
 
 

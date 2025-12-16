@@ -247,7 +247,7 @@ export const setPaymentHtml = (html) => ({
 
 
 export const saveResponseHostel = (data) => {
- console.log(data,"hostel &&&&&&&&")
+
   return {
     type: "SAVE_RESPONSE_HOSTEL", 
     payload: data,          

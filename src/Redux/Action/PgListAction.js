@@ -49,7 +49,7 @@ export async function createPgList(params) {
 
 export async function updatePgList(params) {
 
-  console.log("params", params)
+ 
   try {
     const formData = new FormData();
 

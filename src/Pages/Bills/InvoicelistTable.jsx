@@ -158,7 +158,7 @@ const InvoiceTable = (props) => {
 
 
   const handleNavigateTenantProfile = (view) => {
-    console.log("view", view)
+    // console.log("view", view)
     if (view) {
       dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: view.customerId } });
       navigate(`/tenant/details/${view.customerId}`, {

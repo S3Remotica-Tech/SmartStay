@@ -66,7 +66,7 @@ function EditAdvanceAmount({ show, handleClose }) {
     // };
 
 
-    console.log("CustomerOverView",CustomerOverView.hostelInfo.advanceAmount)
+  
 
 
     const handleSubmit = () => {

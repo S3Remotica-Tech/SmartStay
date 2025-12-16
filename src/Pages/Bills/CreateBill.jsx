@@ -432,7 +432,7 @@ function CreateBill() {
     useEffect(() => {
         if (state.createAccount?.networkError) {
             setLoading(false)
-              setFormLoading(false)
+            setFormLoading(false)
             setShowLoader(false);
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_NETWORK_ERROR' })
@@ -441,7 +441,7 @@ function CreateBill() {
 
     }, [state.createAccount?.networkError])
 
-    
+
 
 
 
@@ -777,20 +777,20 @@ function CreateBill() {
 
 
 
-    const handleBillDelete = (props) => {
-        setShowDeleteform(true);
-        setDeleteId(props.item.id);
-    };
+    // const handleBillDelete = (props) => {
+    //     setShowDeleteform(true);
+    //     setDeleteId(props.item.id);
+    // };
 
-    const handleBillDeleted = () => {
-        dispatch({
-            type: "MANUAL-INVOICE-DELETE",
-            payload: {
-                id: deleteId,
-            },
-        });
-        setShowDeleteform(false);
-    };
+    // const handleBillDeleted = () => {
+    //     dispatch({
+    //         type: "MANUAL-INVOICE-DELETE",
+    //         payload: {
+    //             id: deleteId,
+    //         },
+    //     });
+    //     setShowDeleteform(false);
+    // };
 
     useEffect(() => {
         if (customername) {
@@ -799,6 +799,7 @@ function CreateBill() {
     }, [customername])
 
 
+    // console.log("selectedTypes", selectedTypes);
 
     useEffect(() => {
         const SelectedCustomerRoomRent =
@@ -823,9 +824,17 @@ function CreateBill() {
                 }
             });
 
-            setSelectedTypes((prev) =>
-                prev.includes("RoomRent") ? prev : [...prev, "RoomRent"]
-            );
+            setSelectedTypes((prev) => {
+                // console.log("prev selectedTypes:", prev);
+                const updated = prev.includes("RoomRent")
+                    ? prev
+                    : [...prev, "RoomRent"];
+                // console.log("updated selectedTypes:", updated);
+                return updated;
+            });
+
+
+            // console.log("selectedTypes", selectedTypes)
 
             setTimeout(() => {
                 dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
@@ -836,173 +845,182 @@ function CreateBill() {
         customername,
         state.UsersList?.CustomerdetailsgetStatuscode,
     ]);
-
-
-
-
-    const handleShowForm = (props) => {
-        setShowform(true);
-        setInvoiceValue(props.item);
-
-        if (props.item.invoiceId !== undefined) {
-
-            const dateObject = new Date(props.item.Date);
-            const year = dateObject.getFullYear();
-            const month = dateObject.getMonth() + 1;
-            const day = dateObject.getDate();
-
-            const lastDayOfMonth = new Date(year, month, 0);
-            const formattedDueDate = `${lastDayOfMonth.getFullYear()}-${String(
-                lastDayOfMonth.getMonth() + 1
-            ).padStart(2, "0")}-${String(lastDayOfMonth.getDate()).padStart(2, "0")}`;
-
-            // let value = props.item.Name.split(" ");
-            setSelectedUserId(props.item.customerId);
-            const userDetails = state?.UsersList?.Users.filter((u) => u.customerId === props?.item?.customerId)
-
-            setName(props.item?.fullName)
-            setFloorName(userDetails[0]?.floorName)
-            setRoomName(userDetails[0]?.roomName)
-            setBedName(userDetails[0]?.bedName)
-            setProfilePic(userDetails[0]?.profilePic)
-
-            const formattedDate = `${year}-${String(month).padStart(2, "0")}-${String(
-                day
-            ).padStart(2, "0")}`;
-            setInvoiceList({
-                id: props.item?.id,
-                firstName: props.item?.firstName,
-                lastName: props.item?.lastName,
-                phone: props.item?.phoneNo,
-                email: props.item?.EmailID,
-                hostel_Name: props.item?.Hostel_Name,
-                hostel_Id: props.item?.Hostel_Id,
-                FloorNo: props?.item?.Floor_Id,
-                RoomNo: props?.item?.Room_No,
-                date: formattedDate,
-                amount: props.item?.invoiceAmount,
-                paidAmount: props.item?.paidAmount,
-                balanceDue: props.item?.dueAmount === 0 ? "00" : props.item?.dueAmount,
-                dueDate: formattedDueDate,
-                InvoiceId: props.item?.invoiceId,
-                invoice_type: props.item?.invoiceType,
-            });
-
-        } else {
-            setSelectedUserId("");
+    useEffect(() => {
+        if (!customername) {
+            setSelectedTypes([]);
+            setNewRows([]);
         }
-    }
-
-    const handleCloseForm = () => {
-
-        setPaymodeErrmsg("")
-        setAccountError("")
-        setDateErrmsg("")
-        setAmountErrmsg("")
-        setShowform(false);
-        setBalance("")
-        setSelectedDate(null);
-        setAmountErrmsg("");
-        setDateErrmsg("");
-        setPaymodeErrmsg("");
-        setPayableAmount("")
-        setPayableAmountError("")
-        // setManualInvoiceNumberError("")
-        setUnableAddInvoiceDetailsError("")
-        dispatch({ type: 'CLEAR_PAYABLE_AMOUNT' })
-        dispatch({ type: 'CLEAR_INVALID_DETAILS_ERROR' })
-        dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS' })
-        setInvoiceList({
-            firstName: "",
-            lastName: "",
-            phone: "",
-            email: "",
-            hostel_Name: "",
-            hostel_Id: "",
-            FloorNo: "",
-            RoomNo: "",
-            amount: "",
-            balanceDue: "",
-            dueDate: "",
-            transaction: "",
-            paymentType: "",
-        });
-        // setSelectedDate(null);
-    };
+    }, [customername]);
 
 
-    const handleCloseDeleteform = () => {
-        setShowDeleteform(false);
-    };
+    // useEffect(() => {
+    //     console.log("selectedTypes updated:", selectedTypes);
+    // }, [selectedTypes]);
 
 
-    const handleSaveInvoiceList = () => {
-        const formatpaiddate = formatDateForPayload(selectedDate);
-        const billDate = new Date(invoiceValue.Date);
-        const paidDate = new Date(formatpaiddate);
+    // const handleShowForm = (props) => {
+    //     setShowform(true);
+    //     setInvoiceValue(props.item);
 
-        if (!payableAmount) {
-            setAmountErrmsg("Please Enter Amount");
-        }
+    //     if (props.item.invoiceId !== undefined) {
 
-        if (!formatpaiddate) {
-            setDateErrmsg("Please Select Date");
-        } else if (paidDate < billDate) {
-            setDateErrmsg("Paid date should not be before Bill date");
-            return;
-        } else {
-            setDateErrmsg("");
-        }
+    //         const dateObject = new Date(props.item.Date);
+    //         const year = dateObject.getFullYear();
+    //         const month = dateObject.getMonth() + 1;
+    //         const day = dateObject.getDate();
 
-        if (!invoiceList.transaction || invoiceList.transaction === "select") {
-            setPaymodeErrmsg("Please Select Transaction Type");
-            return;
-        }
+    //         const lastDayOfMonth = new Date(year, month, 0);
+    //         const formattedDueDate = `${lastDayOfMonth.getFullYear()}-${String(
+    //             lastDayOfMonth.getMonth() + 1
+    //         ).padStart(2, "0")}-${String(lastDayOfMonth.getDate()).padStart(2, "0")}`;
 
-        if (invoiceList.transaction === "Net Banking" && !account) {
-            setAccountError("Please Choose Bank Account");
-            return;
-        }
+    //         // let value = props.item.Name.split(" ");
+    //         setSelectedUserId(props.item.customerId);
+    //         const userDetails = state?.UsersList?.Users.filter((u) => u.customerId === props?.item?.customerId)
 
-        if (
-            !payableAmount ||
-            !formatpaiddate ||
-            !invoiceList.transaction
-        ) {
-            setTimeout(() => {
-                setTotalErrmsg("");
-            }, 1000);
-            return;
-        }
+    //         setName(props.item?.fullName)
+    //         setFloorName(userDetails[0]?.floorName)
+    //         setRoomName(userDetails[0]?.roomName)
+    //         setBedName(userDetails[0]?.bedName)
+    //         setProfilePic(userDetails[0]?.profilePic)
+
+    //         const formattedDate = `${year}-${String(month).padStart(2, "0")}-${String(
+    //             day
+    //         ).padStart(2, "0")}`;
+    //         setInvoiceList({
+    //             id: props.item?.id,
+    //             firstName: props.item?.firstName,
+    //             lastName: props.item?.lastName,
+    //             phone: props.item?.phoneNo,
+    //             email: props.item?.EmailID,
+    //             hostel_Name: props.item?.Hostel_Name,
+    //             hostel_Id: props.item?.Hostel_Id,
+    //             FloorNo: props?.item?.Floor_Id,
+    //             RoomNo: props?.item?.Room_No,
+    //             date: formattedDate,
+    //             amount: props.item?.invoiceAmount,
+    //             paidAmount: props.item?.paidAmount,
+    //             balanceDue: props.item?.dueAmount === 0 ? "00" : props.item?.dueAmount,
+    //             dueDate: formattedDueDate,
+    //             InvoiceId: props.item?.invoiceId,
+    //             invoice_type: props.item?.invoiceType,
+    //         });
+
+    //     } else {
+    //         setSelectedUserId("");
+    //     }
+    // }
+
+    // const handleCloseForm = () => {
+
+    //     setPaymodeErrmsg("")
+    //     setAccountError("")
+    //     setDateErrmsg("")
+    //     setAmountErrmsg("")
+    //     setShowform(false);
+    //     setBalance("")
+    //     setSelectedDate(null);
+    //     setAmountErrmsg("");
+    //     setDateErrmsg("");
+    //     setPaymodeErrmsg("");
+    //     setPayableAmount("")
+    //     setPayableAmountError("")
+    //     // setManualInvoiceNumberError("")
+    //     setUnableAddInvoiceDetailsError("")
+    //     dispatch({ type: 'CLEAR_PAYABLE_AMOUNT' })
+    //     dispatch({ type: 'CLEAR_INVALID_DETAILS_ERROR' })
+    //     dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS' })
+    //     setInvoiceList({
+    //         firstName: "",
+    //         lastName: "",
+    //         phone: "",
+    //         email: "",
+    //         hostel_Name: "",
+    //         hostel_Id: "",
+    //         FloorNo: "",
+    //         RoomNo: "",
+    //         amount: "",
+    //         balanceDue: "",
+    //         dueDate: "",
+    //         transaction: "",
+    //         paymentType: "",
+    //     });
+    //     // setSelectedDate(null);
+    // };
+
+
+    // const handleCloseDeleteform = () => {
+    //     setShowDeleteform(false);
+    // };
+
+
+    // const handleSaveInvoiceList = () => {
+    //     const formatpaiddate = formatDateForPayload(selectedDate);
+    //     const billDate = new Date(invoiceValue.Date);
+    //     const paidDate = new Date(formatpaiddate);
+
+    //     if (!payableAmount) {
+    //         setAmountErrmsg("Please Enter Amount");
+    //     }
+
+    //     if (!formatpaiddate) {
+    //         setDateErrmsg("Please Select Date");
+    //     } else if (paidDate < billDate) {
+    //         setDateErrmsg("Paid date should not be before Bill date");
+    //         return;
+    //     } else {
+    //         setDateErrmsg("");
+    //     }
+
+    //     if (!invoiceList.transaction || invoiceList.transaction === "select") {
+    //         setPaymodeErrmsg("Please Select Transaction Type");
+    //         return;
+    //     }
+
+    //     if (invoiceList.transaction === "Net Banking" && !account) {
+    //         setAccountError("Please Choose Bank Account");
+    //         return;
+    //     }
+
+    //     if (
+    //         !payableAmount ||
+    //         !formatpaiddate ||
+    //         !invoiceList.transaction
+    //     ) {
+    //         setTimeout(() => {
+    //             setTotalErrmsg("");
+    //         }, 1000);
+    //         return;
+    //     }
 
 
 
-        if (
-            invoiceList.InvoiceId &&
-            payableAmount &&
-            invoiceList.transaction &&
-            formatpaiddate && hostelId
-        ) {
-            dispatch({
-                type: "RECORD_PAYMENT",
-                payload: {
-                    hostelId: hostelId,
-                    invoiceId: invoiceList.InvoiceId,
-                    data: {
-                        bankId: invoiceList.transaction,
-                        paymentDate: formatpaiddate,
-                        referenceId: "",
-                        amount: payableAmount
-                    }
-                },
-            });
+    //     if (
+    //         invoiceList.InvoiceId &&
+    //         payableAmount &&
+    //         invoiceList.transaction &&
+    //         formatpaiddate && hostelId
+    //     ) {
+    //         dispatch({
+    //             type: "RECORD_PAYMENT",
+    //             payload: {
+    //                 hostelId: hostelId,
+    //                 invoiceId: invoiceList.InvoiceId,
+    //                 data: {
+    //                     bankId: invoiceList.transaction,
+    //                     paymentDate: formatpaiddate,
+    //                     referenceId: "",
+    //                     amount: payableAmount
+    //                 }
+    //             },
+    //         });
 
 
 
 
-        }
-        setFormRecordLoading(true)
-    };
+    //     }
+    //     setFormRecordLoading(true)
+    // };
 
     const options = {
         dateFormat: "d/m/Y",
@@ -1952,43 +1970,7 @@ function CreateBill() {
         }
     };
 
-    const handleChanges = (event, newValue) => {
 
-
-
-        if (newValue === "1") {
-            setLoading(true);
-
-            setDownloadReceipt(false);
-
-            dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
-        }
-
-        if (newValue === "2") {
-            setRecurLoader(true);
-            setDownloadInvoice(false)
-            setDownloadReceipt(false)
-            dispatch({ type: "RECURRING-BILLS-LIST", payload:state.login?.selectedHostel_Id })
-        }
-
-        if (newValue === "3") {
-            setDownloadInvoice(false)
-            setReceiptLoader(true);
-            dispatch({ type: "RECEIPTSLIST", payload: hostelId });
-        }
-
-
-        setValue(newValue);
-        setSearch(false);
-        setFilterInput("");
-        setDropdownVisible(false)
-        setFilterStatus(false)
-        setStatusFilterReceipt("")
-        setStatusfilter("");
-        setDateRange([]);
-        setStartDate(null);
-        setEndDate(null);
-    };
 
 
 
@@ -2037,20 +2019,20 @@ function CreateBill() {
         setDownloadInvoice(false);
     };
 
-    useEffect(() => {
-        if (hostelId) {
-            dispatch({ type: "BANKINGLIST", payload: hostelId });
-        }
-    }, [hostelId]);
+    // useEffect(() => {
+    //     if (hostelId) {
+    //         dispatch({ type: "BANKINGLIST", payload: hostelId });
+    //     }
+    // }, [hostelId]);
 
-    useEffect(() => {
-        if (state.bankingDetails.statusCodeForGetBanking === 200) {
-            setBanking(state.bankingDetails.bankingList.banks);
-            setTimeout(() => {
-                dispatch({ type: "CLEAR_BANKING_LIST" });
-            }, 200);
-        }
-    }, [state.bankingDetails.statusCodeForGetBanking]);
+    // useEffect(() => {
+    //     if (state.bankingDetails.statusCodeForGetBanking === 200) {
+    //         setBanking(state.bankingDetails.bankingList.banks);
+    //         setTimeout(() => {
+    //             dispatch({ type: "CLEAR_BANKING_LIST" });
+    //         }, 200);
+    //     }
+    // }, [state.bankingDetails.statusCodeForGetBanking]);
 
     useEffect(() => {
         if (state.InvoiceList.payapleAmountError) {
@@ -2143,99 +2125,6 @@ function CreateBill() {
 
 
 
-    useEffect(() => {
-        const billPermission = billrolePermission[0]?.role_permissions?.find(
-            (perm) => perm.permission_name === "Bills"
-        );
-
-        const isOwner = billrolePermission[0]?.user_details?.user_type === "staff";
-        const planActive = state?.login?.planStatus === 1;
-
-        if (!billPermission || !isOwner) return;
-
-
-        if (billPermission.per_view === 1 && planActive) {
-            setBillPermissionError("");
-        } else {
-            setLoading(false);
-            setBillPermissionError("Permission Denied");
-        }
-
-
-        if (billPermission.per_create === 1 && planActive) {
-            setBillAddPermission("");
-        } else {
-            setBillAddPermission("Permission Denied");
-        }
-
-
-        if (billPermission.per_edit === 1 && planActive) {
-            setBillEditPermission("");
-        } else {
-            setBillEditPermission("Permission Denied");
-        }
-
-        if (billPermission.per_delete === 1 && planActive) {
-            setBillDeletePermission("");
-        } else {
-            setBillDeletePermission("Permission Denied");
-        }
-    }, [billrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
-
-
-
-    useEffect(() => {
-        const billPermission = billrolePermission[0]?.role_permissions?.find(
-            (perm) => perm.permission_name === "Recuring Bills"
-        );
-
-        const isOwner = billrolePermission[0]?.user_details?.user_type === "staff";
-        const planActive = state?.login?.planStatus === 1;
-
-        if (!billPermission || !isOwner) return;
-
-        if (billPermission.per_create === 1 && planActive) {
-            setRecuringBillAddPermission("");
-        } else {
-            setRecuringBillAddPermission("Permission Denied");
-            setLoading(false)
-        }
-        if (billPermission.per_view === 1 && planActive) {
-            setRecurringPermission("");
-        } else {
-            setRecurringPermission("Permission Denied");
-            setLoading(false)
-        }
-    }, [billrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
-
-
-
-
-    useEffect(() => {
-        const receiptPermission = billrolePermission[0]?.role_permissions?.find(
-            (perm) => perm.permission_name === "Receipt"
-        );
-
-        const isOwner = billrolePermission[0]?.user_details?.user_type === "staff";
-        const planActive = state?.login?.planStatus === 1;
-
-        if (!receiptPermission || !isOwner) return;
-
-
-        if (receiptPermission.per_view === 1 && planActive) {
-            setReceiptPermission("");
-        } else {
-            setReceiptPermission("Permission Denied");
-            setLoading(false);
-        }
-
-
-        if (receiptPermission.per_create === 1 && planActive) {
-            setReceiptAddPermission("");
-        } else {
-            setReceiptAddPermission("Permission Denied");
-        }
-    }, [billrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
 
 
 
@@ -2440,7 +2329,7 @@ function CreateBill() {
             }
             setNewRows([]);
             dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
-           
+
             if (id) {
                 dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: id } });
             }
@@ -2568,13 +2457,13 @@ function CreateBill() {
         }
     }, [newRows]);
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        if (hostelId) {
-            setRecurLoader(true);
-           dispatch({ type: "RECURRING-BILLS-LIST", payload:state.login?.selectedHostel_Id })
-        }
-    }, [hostelId, activeStay]);
+    //     if (hostelId) {
+    //         setRecurLoader(true);
+    //        dispatch({ type: "RECURRING-BILLS-LIST", payload:state.login?.selectedHostel_Id })
+    //     }
+    // }, [hostelId, activeStay]);
 
     useEffect(() => {
         if (state.InvoiceList.RecurringbillsgetStatuscode === 200) {
@@ -2592,7 +2481,7 @@ function CreateBill() {
             state.InvoiceList.RecurringBillAddStatusCode === 200 ||
             state.InvoiceList.deleterecurringbillsStatuscode
         ) {
-           dispatch({ type: "RECURRING-BILLS-LIST", payload:state.login?.selectedHostel_Id })
+            dispatch({ type: "RECURRING-BILLS-LIST", payload: state.login?.selectedHostel_Id })
             setRecurringBills(state.InvoiceList.RecurringBills);
 
             setTimeout(() => {
@@ -2610,163 +2499,163 @@ function CreateBill() {
 
 
 
-    useEffect(() => {
-        if (value === "1") {
-            const FilterUser = Array.isArray(bills)
-                ? bills.filter((item) =>
-                    item.Name?.toLowerCase().includes(filterInput.toLowerCase())
-                )
-                : [];
+    // useEffect(() => {
+    //     if (value === "1") {
+    //         const FilterUser = Array.isArray(bills)
+    //             ? bills.filter((item) =>
+    //                 item.Name?.toLowerCase().includes(filterInput.toLowerCase())
+    //             )
+    //             : [];
 
-            setBills(FilterUser);
-        }
+    //         setBills(FilterUser);
+    //     }
 
-        if (value === "2") {
-            const FilterUsertwo = Array.isArray(recurringbills)
-                ? recurringbills.filter((item) =>
-                    item.user_name?.toLowerCase().includes(filterInput.toLowerCase())
-                )
-                : [];
+    //     if (value === "2") {
+    //         const FilterUsertwo = Array.isArray(recurringbills)
+    //             ? recurringbills.filter((item) =>
+    //                 item.user_name?.toLowerCase().includes(filterInput.toLowerCase())
+    //             )
+    //             : [];
 
-            setRecurringBills(FilterUsertwo);
-        }
+    //         setRecurringBills(FilterUsertwo);
+    //     }
 
-        if (value === "3") {
-            const FilterUserReceipt = Array.isArray(receiptdata)
-                ? receiptdata.filter((item) =>
-                    item.Name?.toLowerCase().includes(filterInput.toLowerCase())
-                )
-                : [];
+    //     if (value === "3") {
+    //         const FilterUserReceipt = Array.isArray(receiptdata)
+    //             ? receiptdata.filter((item) =>
+    //                 item.Name?.toLowerCase().includes(filterInput.toLowerCase())
+    //             )
+    //             : [];
 
-            setReceiptData(FilterUserReceipt);
-        }
-    }, [filterInput, value]);
+    //         setReceiptData(FilterUserReceipt);
+    //     }
+    // }, [filterInput, value]);
 
-    const handlefilterInput = (e) => {
-        setFilterInput(e.target.value);
-        setDropdownVisible(e.target.value.length > 0);
+    // const handlefilterInput = (e) => {
+    //     setFilterInput(e.target.value);
+    //     setDropdownVisible(e.target.value.length > 0);
 
-        setBills(originalBills);
-        setRecurringBills(originalRecuiring);
-        setReceiptData(originalReceipt);
+    //     setBills(originalBills);
+    //     setRecurringBills(originalRecuiring);
+    //     setReceiptData(originalReceipt);
 
-    };
+    // };
 
-    const handleUserSelect = (user) => {
-        const searchItem = user.Name
-        setFilterInput(user.Name);
+    // const handleUserSelect = (user) => {
+    //     const searchItem = user.Name
+    //     setFilterInput(user.Name);
 
-        if (searchItem !== "") {
-            const filteredItems =
-                state.InvoiceList.ManualInvoices &&
-                state.InvoiceList.ManualInvoices.filter(
-                    (user) =>
-                        user.Name &&
-                        user.Name.toLowerCase().includes(searchItem.toLowerCase())
-                );
-            setBills(filteredItems);
+    //     if (searchItem !== "") {
+    //         const filteredItems =
+    //             state.InvoiceList.ManualInvoices &&
+    //             state.InvoiceList.ManualInvoices.filter(
+    //                 (user) =>
+    //                     user.Name &&
+    //                     user.Name.toLowerCase().includes(searchItem.toLowerCase())
+    //             );
+    //         setBills(filteredItems);
 
-        } else {
-            setBills(state.InvoiceList.ManualInvoices);
-        }
-        // setCurrentPage(1);
-        setDropdownVisible(false);
-    };
-
-
+    //     } else {
+    //         setBills(state.InvoiceList.ManualInvoices);
+    //     }
+    //     // setCurrentPage(1);
+    //     setDropdownVisible(false);
+    // };
 
 
 
 
-    const handleCloseSearch = () => {
-        setDropdownVisible(false);
-        setSearch(false);
-        setFilterInput("");
-
-        setBills(bills);
-        setRecurringBills(originalRecuiring);
-        setReceiptData(originalReceipt);
-        dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
-    };
 
 
-    useEffect(() => {
-        if (receiptdata?.length > 0 && originalReceipt?.length === 0) {
-            setOriginalReceipt(receiptdata);
-        }
-    }, [receiptdata]);
-    useEffect(() => {
-        if (bills.length > 0 && originalBills.length === 0) {
-            setOriginalBills(bills);
-        }
-    }, [bills]);
+    // const handleCloseSearch = () => {
+    //     setDropdownVisible(false);
+    //     setSearch(false);
+    //     setFilterInput("");
 
-    useEffect(() => {
-        if (recurringbills.length > 0 && originalRecuiring.length === 0) {
-            setOriginalRecuiring(recurringbills);
-        }
-    }, [recurringbills]);
-    const handleSearch = () => {
-        setSearch(!search);
-
-    };
-
-    const handleUserRecuire = (user) => {
-        setFilterInput(user.user_name);
-        const searchItem = user.user_name
-
-        if (searchItem !== "") {
-            const filteredItems =
-                state.InvoiceList.RecurringBills &&
-                state.InvoiceList.RecurringBills.filter(
-                    (user) =>
-                        user.user_name &&
-                        user.user_name.toLowerCase().includes(searchItem.toLowerCase())
-                );
-            setRecurringBills(filteredItems);
-
-        } else {
-            setRecurringBills(state.InvoiceList.RecurringBills);
-        }
-        // setCurrentPage(1);
-
-        setDropdownVisible(false);
-    };
+    //     setBills(bills);
+    //     setRecurringBills(originalRecuiring);
+    //     setReceiptData(originalReceipt);
+    //     dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
+    // };
 
 
+    // useEffect(() => {
+    //     if (receiptdata?.length > 0 && originalReceipt?.length === 0) {
+    //         setOriginalReceipt(receiptdata);
+    //     }
+    // }, [receiptdata]);
+    // useEffect(() => {
+    //     if (bills.length > 0 && originalBills.length === 0) {
+    //         setOriginalBills(bills);
+    //     }
+    // }, [bills]);
 
+    // useEffect(() => {
+    //     if (recurringbills.length > 0 && originalRecuiring.length === 0) {
+    //         setOriginalRecuiring(recurringbills);
+    //     }
+    // }, [recurringbills]);
+    // const handleSearch = () => {
+    //     setSearch(!search);
 
-    const handleUserReceipt = (user) => {
-        setFilterInput(user.Name);
+    // };
 
+    // const handleUserRecuire = (user) => {
+    //     setFilterInput(user.user_name);
+    //     const searchItem = user.user_name
 
-        const searchItem = user.Name
+    //     if (searchItem !== "") {
+    //         const filteredItems =
+    //             state.InvoiceList.RecurringBills &&
+    //             state.InvoiceList.RecurringBills.filter(
+    //                 (user) =>
+    //                     user.user_name &&
+    //                     user.user_name.toLowerCase().includes(searchItem.toLowerCase())
+    //             );
+    //         setRecurringBills(filteredItems);
 
-        if (searchItem !== "") {
-            const filteredItems =
-                state.InvoiceList.ReceiptList &&
-                state.InvoiceList.ReceiptList.filter(
-                    (user) =>
-                        user.Name &&
-                        user.Name.toLowerCase().includes(searchItem.toLowerCase())
-                );
-            setReceiptData(filteredItems);
+    //     } else {
+    //         setRecurringBills(state.InvoiceList.RecurringBills);
+    //     }
+    //     // setCurrentPage(1);
 
-        } else {
-            setReceiptData(state.InvoiceList.ReceiptList);
-        }
-        // setCurrentPage(1);
-
-        setDropdownVisible(false);
-    };
+    //     setDropdownVisible(false);
+    // };
 
 
 
-    const handleFilterd = () => {
-        setFilterStatus(!filterStatus);
-        setBills(originalBillsFilter)
-        setReceiptData(originalBillsFilterReceipt);
-    };
+
+    // const handleUserReceipt = (user) => {
+    //     setFilterInput(user.Name);
+
+
+    //     const searchItem = user.Name
+
+    //     if (searchItem !== "") {
+    //         const filteredItems =
+    //             state.InvoiceList.ReceiptList &&
+    //             state.InvoiceList.ReceiptList.filter(
+    //                 (user) =>
+    //                     user.Name &&
+    //                     user.Name.toLowerCase().includes(searchItem.toLowerCase())
+    //             );
+    //         setReceiptData(filteredItems);
+
+    //     } else {
+    //         setReceiptData(state.InvoiceList.ReceiptList);
+    //     }
+    //     // setCurrentPage(1);
+
+    //     setDropdownVisible(false);
+    // };
+
+
+
+    // const handleFilterd = () => {
+    //     setFilterStatus(!filterStatus);
+    //     setBills(originalBillsFilter)
+    //     setReceiptData(originalBillsFilterReceipt);
+    // };
 
     useEffect(() => {
         if (!filterStatus) {
@@ -2778,60 +2667,61 @@ function CreateBill() {
     }, [filterStatus]);
 
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        if (hostelId) {
-            setReceiptLoader(true);
-            dispatch({ type: "RECEIPTSLIST", payload: hostelId });
-        }
-    }, [hostelId]);
+    //     if (hostelId) {
+    //         setReceiptLoader(true);
+    //         dispatch({ type: "RECEIPTSLIST", payload: hostelId });
+    //     }
+    // }, [hostelId]);
 
-    useEffect(() => {
-        if (state.InvoiceList.ReceiptlistgetStatuscode === 200) {
-            setReceiptData(state.InvoiceList.ReceiptList);
-            setOriginalBillsFilterReceipt(state.InvoiceList.ReceiptList)
-            setOriginalReceipt(state.InvoiceList.ReceiptList)
-            setReceiptLoader(false);
-            dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
-            setTimeout(() => {
-                dispatch({ type: "REMOVE_STATUS_CODE_RECEIPTS_LIST" });
-            }, 100);
-        }
-    }, [state.InvoiceList.ReceiptlistgetStatuscode]);
+    // useEffect(() => {
+    //     if (state.InvoiceList.ReceiptlistgetStatuscode === 200) {
+    //         setReceiptData(state.InvoiceList.ReceiptList);
+    //         setOriginalBillsFilterReceipt(state.InvoiceList.ReceiptList)
+    //         setOriginalReceipt(state.InvoiceList.ReceiptList)
+    //         setReceiptLoader(false);
+    //         dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
+    //         setTimeout(() => {
+    //             dispatch({ type: "REMOVE_STATUS_CODE_RECEIPTS_LIST" });
+    //         }, 100);
+    //     }
+    // }, [state.InvoiceList.ReceiptlistgetStatuscode]);
 
-    useEffect(() => {
-        if (
-            state.InvoiceList.ReceiptAddsuccessStatuscode === 200 ||
-            state.InvoiceList.ReceiptDeletesuccessStatuscode === 200 ||
-            state.InvoiceList.ReceiptEditsuccessStatuscode === 200
-        ) {
-            handleBackBill()
+    // useEffect(() => {
+    //     if (
+    //         state.InvoiceList.ReceiptAddsuccessStatuscode === 200 ||
+    //         state.InvoiceList.ReceiptDeletesuccessStatuscode === 200 ||
+    //         state.InvoiceList.ReceiptEditsuccessStatuscode === 200
+    //     ) {
+    //         handleBackBill()
 
-            dispatch({ type: "RECEIPTSLIST", payload: hostelId });
+    //         dispatch({ type: "RECEIPTSLIST", payload: hostelId });
 
-            setTimeout(() => {
-                dispatch({ type: "REMOVE_STATUS_CODE_RECEIPTS_ADD" });
-            }, 1000);
+    //         setTimeout(() => {
+    //             dispatch({ type: "REMOVE_STATUS_CODE_RECEIPTS_ADD" });
+    //         }, 1000);
 
-            setTimeout(() => {
-                dispatch({ type: "REMOVE_STATUS_CODE_RECEIPTS_EDIT" });
-            }, 1000);
+    //         setTimeout(() => {
+    //             dispatch({ type: "REMOVE_STATUS_CODE_RECEIPTS_EDIT" });
+    //         }, 1000);
 
-            setTimeout(() => {
-                dispatch({ type: "CLEAR_DELETE_RECEIPT_STATUS_CODE" });
-            }, 1000);
-        }
-    }, [
-        state.InvoiceList.ReceiptAddsuccessStatuscode,
-        state.InvoiceList.ReceiptDeletesuccessStatuscode,
-        state.InvoiceList.ReceiptEditsuccessStatuscode,
-    ]);
-
-
+    //         setTimeout(() => {
+    //             dispatch({ type: "CLEAR_DELETE_RECEIPT_STATUS_CODE" });
+    //         }, 1000);
+    //     }
+    // }, [
+    //     state.InvoiceList.ReceiptAddsuccessStatuscode,
+    //     state.InvoiceList.ReceiptDeletesuccessStatuscode,
+    //     state.InvoiceList.ReceiptEditsuccessStatuscode,
+    // ]);
 
 
 
-   
+
+
+
+    const EXCLUDED_STATUSES = ["Booked", "Settlement Generated"];
 
 
 
@@ -2897,6 +2787,9 @@ function CreateBill() {
                                 state.UsersList?.Users?.length > 0
                                     ? state.UsersList.Users
                                         .filter((u) => {
+                                            if (EXCLUDED_STATUSES.includes(u.currentStatus)) {
+                                                return false;
+                                            }
                                             const validBed =
                                                 u.bedId !== "undefined" &&
                                                 u.bedId !== "0" &&
@@ -2917,7 +2810,7 @@ function CreateBill() {
                                         })
                                         .map((u) => ({
                                             value: u.customerId,
-                                            label: u.firstName,
+                                            label: u.fullName,
                                         }))
                                     : []
                             }
@@ -2933,7 +2826,7 @@ function CreateBill() {
                                     }
                                     : null
                             }
-                            isDisabled={Boolean(id)} // ✅ disable dropdown if ID came from navigation
+                            isDisabled={Boolean(id)}
                             placeholder="Select Customer"
                             classNamePrefix="custom"
                             menuPlacement="auto"
@@ -3304,7 +3197,7 @@ function CreateBill() {
                     state.InvoiceList.unableAddInvoiceDetailsError &&
                     <ErrorMessage message={state.InvoiceList.unableAddInvoiceDetailsError} type="error" />
                 }
-                   {/* {state.createAccount?.networkError ?
+                {/* {state.createAccount?.networkError ?
                              <div className="d-flex justify-content-center mt-1 mb-1">
                               <ErrorMessage message={state.createAccount?.networkError} type="error"/></div>
                               : null} */}

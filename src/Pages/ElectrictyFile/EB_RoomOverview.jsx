@@ -27,7 +27,6 @@ const EBRoomOverview = ({ onBack, room }) => {
     const [tenantReadingList, setTenantreadingList] = useState()
     const [tableLoading, setTableLoading] = useState(false)
 
-console.log("room",room)
 
 
     useEffect(() => {
@@ -50,7 +49,7 @@ console.log("room",room)
 
     }, [state.UsersList.getparticularRoomReadingStatus])
 
-    console.log("roomReadingList*****", roomReadingList)
+
 
 
     const formattedReadings = roomReadingList?.map((item) => {

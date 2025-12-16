@@ -3162,7 +3162,24 @@ function UserList(props) {
                   }
                 >
                 </Tab>
-
+ <Tab
+                  eventKey="4"
+                  title={
+                    <span
+                      style={{
+                        textTransform: "capitalize",
+                        fontSize: 16,
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                        color: value === "4" ? "#222222" : "#4B4B4B",
+                        borderBottom: value === "4" ? "2px solid #1E45E1" : "2px solid transparent",
+                      }}
+                    >
+                      Walk-in
+                    </span>
+                  }
+                >
+                </Tab>
                 <Tab
                   eventKey="3"
                   title={
@@ -3182,24 +3199,7 @@ function UserList(props) {
                 >
                 </Tab>
 
-                <Tab
-                  eventKey="4"
-                  title={
-                    <span
-                      style={{
-                        textTransform: "capitalize",
-                        fontSize: 16,
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        color: value === "4" ? "#222222" : "#4B4B4B",
-                        borderBottom: value === "4" ? "2px solid #1E45E1" : "2px solid transparent",
-                      }}
-                    >
-                      Walk-in
-                    </span>
-                  }
-                >
-                </Tab>
+               
               </Tabs>
 
 

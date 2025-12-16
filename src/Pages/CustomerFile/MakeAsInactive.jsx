@@ -31,7 +31,7 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails, currentIte
     const [inActiveComments, setInActiveComments] = useState("")
     const [isActiveDateError, setIsACtiveDateError] = useState("")
 
-console.log("currentItem",currentItem)
+
 
     const handleInActiveReason = (e) => {
         setInActiveComments(e.target.value)
@@ -116,7 +116,6 @@ console.log("currentItem",currentItem)
     }, [inActiveDetails]);
 
 
-    console.log("inActiveDetails",inActiveDetails)
 
     return (
         <Modal show={show} onHide={handleCloseInActive} centered backdrop="static"   >
@@ -191,7 +190,7 @@ console.log("currentItem",currentItem)
                                 fontFamily: "Gilroy"
                             }}
                         >
-                            {currentItem?.floorName}
+                            {currentItem?.floorName || inActiveDetails?.floorName}
                         </span>
                         <span
                             style={{
@@ -204,7 +203,7 @@ console.log("currentItem",currentItem)
                                 fontFamily: "Gilroy"
                             }}
                         >
-                            {currentItem?.roomName} - {currentItem?.bedName}
+                            {currentItem?.roomName || inActiveDetails?.roomName} - {currentItem?.bedName || inActiveDetails?.bedName}
                         </span>
                     </div>
 

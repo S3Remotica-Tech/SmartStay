@@ -42,7 +42,6 @@ function NoticeBedStatusDetails({
 
   // const canWriteCustomers = useHasPermission("Customers", "canWrite")
 
-  console.log("currentItem", currentItem)
 
   const {
     canWriteModule: canWriteCustomers,

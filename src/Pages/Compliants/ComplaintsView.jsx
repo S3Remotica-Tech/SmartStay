@@ -13,7 +13,7 @@ import '../CustomerFile/UserList.css';
 
 function Complaints({ show, handleClose, complaintsDetails, trigger }) {
 
-    console.log("complaintsDetails", complaintsDetails)
+    // console.log("complaintsDetails", complaintsDetails)
 
 
     const state = useSelector((state) => state);
@@ -69,7 +69,7 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
 
 
 
-console.log("state ",state.ComplianceList.complaintsView)
+// console.log("state ",state.ComplianceList.complaintsView)
 
 
 

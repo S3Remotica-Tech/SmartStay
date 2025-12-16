@@ -475,7 +475,7 @@ function BookingModal(props) {
   }, [state.createAccount?.networkError])
 
 
-console.log("props?.userDetail",props?.userDetail)
+
 
 
   return (

@@ -380,7 +380,7 @@ function Sidebar() {
   if (!hostelId) return;
 
   const pathParts = location.pathname.split("/").filter(Boolean);
-  console.log("pathParts",pathParts)
+
 
   const mainPage = pathParts[0];
   const currentHostelId = pathParts[1];
@@ -570,7 +570,7 @@ function Sidebar() {
 
 
   useEffect(() => {
-    if (hostelListDetail?.length > 0 && !initials && state.login.apiResponseHostelId) {
+    if (hostelListDetail?.length > 0 && !initials) {
 
       const selectedHostel = state.login?.apiResponseHostelId
         ? hostelListDetail.find(h => h.hostelId === state.login?.apiResponseHostelId)
@@ -593,7 +593,7 @@ function Sidebar() {
   }, [hostelListDetail,state.login.apiResponseHostelId]);
 
 
-  console.log("apiResponseHostelId", state.login.apiResponseHostelId)
+  // console.log("apiResponseHostelId", state.login.apiResponseHostelId)
 
 
 
@@ -614,7 +614,7 @@ function Sidebar() {
   const handleMouseEnter = (icon) => setHoveredIcon(icon);
   const handleMouseLeave = () => setHoveredIcon(null);
 
-  console.log("state", state)
+ 
 
 
   useEffect(() => {

@@ -774,9 +774,7 @@ function* handleDeleteCustomer(customer) {
    try {
       const response = yield call(deleteCustomer, customer.payload);
 
-      console.log("response",response)
-
-      var toastStyle = {
+          var toastStyle = {
          backgroundColor: "#E6F6E6",
          color: "black",
          width: "100%",
