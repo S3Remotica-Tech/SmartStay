@@ -266,6 +266,21 @@ const InvoicePage = () => {
 
   const handleShowFilterBills = () => {
     setShowBillsFilter(true)
+
+     dispatch({
+      type: "SET_INVOICE_FILTERS",
+      payload: {
+        startDate: undefined,
+        endDate: undefined,
+        type: [],
+        createdBy: [],
+        createdByLabels: [],
+        modes: [],
+        paymentStatus: [],
+        search: "",
+      },
+    })
+
   }
 
   const handleCloseFilterBills = () => {
