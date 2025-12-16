@@ -92,7 +92,17 @@ export const initialState = {
     tenantUnAssignStatus: 0,
     billsList: [],
     billsListStatusCode: 0,
-
+    invoiceFilters: {
+        startDate: undefined,
+        endDate: undefined,
+        type: [],
+        createdBy: [],
+        createdByLabels: [],
+        modes: [],
+        paymentStatus: [],
+        search: "",
+        
+    },
 
     whatsappSettings:
         JSON.parse(localStorage.getItem('whatsappSettings')) || {
@@ -110,6 +120,14 @@ const InvoiceReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'RESET_ALL':
             return initialState;
+        case "SET_INVOICE_FILTERS":
+            return {
+                ...state,
+                invoiceFilters: {
+                    ...state.invoiceFilters,
+                    ...action.payload,
+                },
+            };
         case 'ERROR_AMENITIES':
             return { ...state, errorAmenities: action.payload.statusCode }
 

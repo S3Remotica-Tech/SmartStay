@@ -65,6 +65,7 @@ const InvoicePage = () => {
   const [bankking, setBanking] = useState("");
   const [formLoading, setFormLoading] = useState(false)
   const [formRecordLoading, setFormRecordLoading] = useState(false)
+  const dropdownRef = useRef(null);
   const [invoiceList, setInvoiceList] = useState({
     firstName: "",
     lastName: "",
@@ -95,7 +96,7 @@ const InvoicePage = () => {
   const isDuplicate = location.pathname.includes("/invoice/new/");
 
 
-  console.log("isDuplicate", isDuplicate, "location.pathname", location.pathname)
+  // console.log("isDuplicate", isDuplicate, "location.pathname", location.pathname)
 
 
 
@@ -174,6 +175,7 @@ const InvoicePage = () => {
 
   const [transactionId, setTransactionId] = useState("");
   const [hostelId, setHostelId] = useState("");
+  const [chips, setChips] = useState([])
   const [receiptdata, setReceiptData] = useState([]);
   const [receiptLoader, setReceiptLoader] = useState(false);
   const [originalBillsFilter, setOriginalBillsFilter] = useState([]);
@@ -268,17 +270,21 @@ const InvoicePage = () => {
 
   const handleCloseFilterBills = () => {
     setShowBillsFilter(false)
+
   }
 
 
 
-  useEffect(() => {
-    const initialState = {};
-    recurringbills?.forEach((item) => {
-      initialState[item.customerId] = item.currentStatus === true;
-    });
-    setCheckedRows(initialState);
-  }, [recurringbills]);
+  // useEffect(() => {
+  //   const initialState = {};
+  //   recurringbills?.forEach((item) => {
+  //     initialState[item.customerId] = item.currentStatus === true;
+  //   });
+  //   setCheckedRows(initialState);
+  // }, [recurringbills]);
+
+  console.log("bills", bills)
+
   const handleToggle = (id) => {
 
     if (!id) return;
@@ -348,7 +354,7 @@ const InvoicePage = () => {
     if (!state.login.selectedHostel_Id) return;
 
     if (isDuplicate) {
-             dispatch({ type: 'INVOICESLISTFILTER', payload: {hostelId: state.login.selectedHostel_Id}})
+      dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
 
     }
     else {
@@ -386,7 +392,7 @@ const InvoicePage = () => {
   useEffect(() => {
     if (state.InvoiceList.ManualInvoicesgetstatuscode === 200) {
       setBills(state.InvoiceList.ManualInvoices);
-      setOriginalBillsFilter(state.InvoiceList.ManualInvoices)
+      // setOriginalBillsFilter(state.InvoiceList.ManualInvoices)
       setOriginalBills(state.InvoiceList.ManualInvoices)
       setTimeout(() => {
         setLoading(false);
@@ -400,12 +406,12 @@ const InvoicePage = () => {
     if (state.InvoiceList.billsListStatusCode === 200) {
       setShowBillsFilter(false)
       setBills(state.InvoiceList.billsList?.listInvoices);
-      setOriginalBillsFilter(state.InvoiceList.billsList?.listInvoices)
+      // setOriginalBillsFilter(state.InvoiceList.billsList?.listInvoices)
       setOriginalBills(state.InvoiceList.billsList?.listInvoices)
       setTimeout(() => {
         setLoading(false);
         dispatch({ type: "REMOVE_INVOICES_LIST_FILTER" });
-       
+
       }, 100);
     }
   }, [state.InvoiceList.billsListStatusCode]);
@@ -514,19 +520,14 @@ const InvoicePage = () => {
 
   const combinedOptions = [...bankingOptions];
 
-  const filterOptions = [
-    { type: "Partial Payment", name: "PARTIAL_PAYMENT" },
-    { type: "Paid", name: "PAID" },
-    { type: "Pending", name: "PENDING" },
-    { type: "Refunded", name: "REFUNDED" },
-    { type: "Pending Refund", name: "PENDING_REFUND" },
-    { type: "Partial Refund", name: "PARTIAL_REFUND" },
-  ];
 
-  const selectOptions = filterOptions?.map(item => ({
-    label: item.type,
-    value: item.name,
-  }));
+  const selectOptions = [
+    { label: "All", value: "ALL" },
+    ...(state.InvoiceList?.billsList?.filterOptions?.paymentStatus?.map(item => ({
+      label: item.name,
+      value: item.type
+    })) || [])
+  ];
 
 
   const handleInvoiceDetail = (item) => {
@@ -623,55 +624,89 @@ const InvoicePage = () => {
 
 
 
-  useEffect(() => {
-    if (originalBillsFilter.length === 0 && bills.length > 0) {
-      setOriginalBillsFilter(bills);
+  // useEffect(() => {
+  //   if (originalBillsFilter.length === 0 && bills.length > 0) {
+  //     setOriginalBillsFilter(bills);
+  //   }
+  // }, [bills]);
+
+
+  const handleStatusFilter = (selectedOption) => {
+    if (!selectedOption) {
+      setStatusfilter(null);
+
+      if (state.login?.selectedHostel_Id) {
+        dispatch({
+          type: "INVOICESLISTFILTER",
+          payload: {
+            hostelId: state.login.selectedHostel_Id,
+          },
+        });
+      }
+      return;
     }
-  }, [bills]);
+
+    setStatusfilter(selectedOption);
+    console.log("selectedOption", selectedOption);
+
+    if (!state.login?.selectedHostel_Id) return;
 
 
-  const handleStatusFilter = (event) => {
-    const selected = event.target.value;
-    setStatusfilter(selected);
+    if (selectedOption.value === "ALL") {
+      dispatch({
+        type: "INVOICESLISTFILTER",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+        },
+      });
+    }
 
-
-    if (selected !== "date") {
-      setDateRange([null, null]);
+    else {
+      dispatch({
+        type: "INVOICESLISTFILTER",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters: {
+            paymentStatus: [selectedOption.value],
+          },
+        },
+      });
     }
   };
 
 
 
-  useEffect(() => {
-    let filtered = originalBillsFilter;
 
-    if (statusfilter === "All") {
-      filtered = originalBillsFilter;
-    } else if (statusfilter === "Paid" || statusfilter === "Unpaid") {
-      filtered = filtered.filter(
-        (user) =>
-          user.status?.trim().toLowerCase() === statusfilter.trim().toLowerCase()
-      );
-    }
-    else if (statusfilter === "date" && startDate && endDate) {
-      filtered = filtered.filter((user) => {
-        const invoiceDate = new Date(user.Date);
+  // useEffect(() => {
+  //   let filtered = originalBillsFilter;
 
-        const invoiceOnlyDate = new Date(invoiceDate.setHours(0, 0, 0, 0));
-        const startOnlyDate = new Date(startDate).setHours(0, 0, 0, 0);
-        const endOnlyDate = new Date(endDate).setHours(0, 0, 0, 0);
+  //   if (statusfilter === "All") {
+  //     filtered = originalBillsFilter;
+  //   } else if (statusfilter === "Paid" || statusfilter === "Unpaid") {
+  //     filtered = filtered.filter(
+  //       (user) =>
+  //         user.status?.trim().toLowerCase() === statusfilter.trim().toLowerCase()
+  //     );
+  //   }
+  //   else if (statusfilter === "date" && startDate && endDate) {
+  //     filtered = filtered.filter((user) => {
+  //       const invoiceDate = new Date(user.Date);
 
-        return (
-          invoiceOnlyDate >= startOnlyDate &&
-          invoiceOnlyDate <= endOnlyDate
-        );
-      });
-    }
+  //       const invoiceOnlyDate = new Date(invoiceDate.setHours(0, 0, 0, 0));
+  //       const startOnlyDate = new Date(startDate).setHours(0, 0, 0, 0);
+  //       const endOnlyDate = new Date(endDate).setHours(0, 0, 0, 0);
+
+  //       return (
+  //         invoiceOnlyDate >= startOnlyDate &&
+  //         invoiceOnlyDate <= endOnlyDate
+  //       );
+  //     });
+  //   }
 
 
-    setBills(filtered);
-    // setCurrentPage(1)
-  }, [statusfilter, startDate, endDate, originalBillsFilter]);
+  //   setBills(filtered);
+  //   // setCurrentPage(1)
+  // }, [statusfilter, startDate, endDate, originalBillsFilter]);
 
 
 
@@ -2126,7 +2161,7 @@ const InvoicePage = () => {
 
       setDownloadReceipt(false);
       if (isDuplicate) {
-        dispatch({ type: 'INVOICESLISTFILTER', payload: {hostelId: state.login.selectedHostel_Id}})
+        dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
       } else {
         dispatch({ type: "MANUALINVOICESLIST", payload: state.login.selectedHostel_Id })
 
@@ -2787,13 +2822,24 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (value === "1") {
-      const FilterUser = Array.isArray(bills)
-        ? bills.filter((item) =>
-          item.Name?.toLowerCase().includes(filterInput.toLowerCase())
-        )
-        : [];
+      if (filterInput) {
+        const FilterUser = Array.isArray(bills)
+          ? bills?.filter((item) =>
+            item?.fullName?.toLowerCase().includes(filterInput.toLowerCase())
+          )
+          : [];
+        setOriginalBillsFilter(FilterUser);
+      }
+      else {
+ dispatch({
+                    type: 'INVOICESLISTFILTER',
+                    payload: {
+                        hostelId: state.login?.selectedHostel_Id,
+                    }
+                })
+      }
 
-      setBills(FilterUser);
+
     }
 
     if (value === "2") {
@@ -2819,32 +2865,42 @@ const InvoicePage = () => {
 
   const handlefilterInput = (e) => {
     setFilterInput(e.target.value);
-    setDropdownVisible(e.target.value.length > 0);
+    if (e.target.value.length > 0) {
+      setDropdownVisible(true);
+    } else {
+      setDropdownVisible(false);
+    }
 
-    setBills(originalBills);
-    setRecurringBills(originalRecuiring);
-    setReceiptData(originalReceipt);
+
+    // setBills(originalBills);
+    // setRecurringBills(originalRecuiring);
+    // setReceiptData(originalReceipt);
 
   };
 
   const handleUserSelect = (user) => {
-    const searchItem = user.Name
-    setFilterInput(user.Name);
 
-    if (searchItem !== "") {
-      const filteredItems =
-        state.InvoiceList.ManualInvoices &&
-        state.InvoiceList.ManualInvoices.filter(
-          (user) =>
-            user.Name &&
-            user.Name.toLowerCase().includes(searchItem.toLowerCase())
-        );
-      setBills(filteredItems);
-
+    const searchItem = user.fullName
+    if (searchItem && state.login?.selectedHostel_Id) {
+      const filters = {
+        search: searchItem,
+      };
+      dispatch({
+        type: 'INVOICESLISTFILTER',
+        payload: {
+          hostelId: state.login?.selectedHostel_Id,
+          filters: filters
+        }
+      })
     } else {
-      setBills(state.InvoiceList.ManualInvoices);
+      dispatch({
+        type: 'INVOICESLISTFILTER',
+        payload: {
+          hostelId: state.login?.selectedHostel_Id,
+        }
+      })
     }
-    // setCurrentPage(1);
+
     setDropdownVisible(false);
   };
 
@@ -2869,6 +2925,7 @@ const InvoicePage = () => {
       setOriginalReceipt(receiptdata);
     }
   }, [receiptdata]);
+
   useEffect(() => {
     if (bills?.length > 0 && originalBills?.length === 0) {
       setOriginalBills(bills);
@@ -3017,6 +3074,116 @@ const InvoicePage = () => {
 
 
 
+
+  useEffect(() => {
+    const invoiceFilters = state.InvoiceList.invoiceFilters;
+    const filterData = [];
+
+    if (invoiceFilters?.paymentStatus?.length) {
+      invoiceFilters.paymentStatus.forEach((status) => {
+        filterData.push({
+          key: `status-${status}`,
+          label: `Status is`,
+          type: "paymentStatus",
+          value: status,
+        });
+      });
+    }
+
+    if (invoiceFilters?.type?.length) {
+      invoiceFilters.type.forEach((type) => {
+        filterData.push({
+          key: `type-${type}`,
+          label: `Type is `,
+          type: "type",
+          value: type,
+        });
+      });
+    }
+
+    if (invoiceFilters?.modes?.length) {
+      invoiceFilters.modes.forEach((mode) => {
+        filterData.push({
+          key: `mode-${mode}`,
+          label: `Mode is `,
+          type: "modes",
+          value: mode,
+        });
+      });
+    }
+
+    if (invoiceFilters?.createdByLabels?.length) {
+      invoiceFilters.createdByLabels.forEach((label) => {
+        filterData.push({
+          key: `created-${label}`,
+          label: `Created By`,
+          type: "createdBy",
+          value: label,
+        });
+      });
+    }
+
+    if (invoiceFilters?.startDate || invoiceFilters?.endDate) {
+      filterData.push({
+        key: "date-range",
+        label: `Date Region is `,
+        type: "date",
+        value: invoiceFilters.startDate && invoiceFilters.endDate
+          ? `${invoiceFilters.startDate} - ${invoiceFilters.endDate}`
+          : invoiceFilters.startDate || invoiceFilters.endDate
+      });
+    }
+
+    if (invoiceFilters?.search) {
+      filterData.push({
+        key: "search",
+        label: `Tenant `,
+        type: "search",
+        value: `${invoiceFilters.search}`
+      });
+    }
+
+    console.log("filterData", filterData);
+    setChips(filterData)
+  }, [state.InvoiceList.invoiceFilters]);
+
+  const handleReset = () => {
+    dispatch({
+      type: "SET_INVOICE_FILTERS",
+      payload: {
+        startDate: undefined,
+        endDate: undefined,
+        type: [],
+        createdBy: [],
+        createdByLabels: [],
+        modes: [],
+        paymentStatus: [],
+        search: "",
+      },
+    })
+
+
+    dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+  }
+
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+
+      ) {
+        setDropdownVisible(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div style={{ overflowX: "hidden" }}>
       {
@@ -3085,16 +3252,16 @@ const InvoicePage = () => {
                     )}
                     {(!showPdfModal && !showPdfReceiptModal) && (
                       <div className={` d-flex align-items-center`} >
-                        {search ? (
+                        {isDuplicate && search ? (
                           <>
-                            <div className="position-relative" style={{ minWidth: 160, maxWidth: 250, }}>
+                            <div className="position-relative" style={{ minWidth: 160, maxWidth: 250, zIndex: 3000, position: "relative" }}>
 
 
                               <div
                                 className="input-group p-0"
                                 style={{ marginRight: 20, paddingTop: "25px", marginTop: 12 }}
                               >
-                                <span className="input-group-text bg-white border-end-0" onMouseEnter={(e) => (e.target.style.backgroundColor = "#e6e6e6")}>
+                                <span className="input-group-text bg-white border-end-0" >
                                   <Image
                                     src={searchteam}
                                     style={{
@@ -3124,23 +3291,24 @@ const InvoicePage = () => {
                                   <img
                                     src={closecircle}
                                     alt="close"
-                                    onClick={handleCloseSearch}
+                                    onClick={() => setFilterInput("")}
+
                                     style={{ height: 20, width: 20, cursor: "pointer" }}
                                   />
                                 </span>
                               </div>
 
 
-                              {value === "1" &&
+                              {value === "1" && isDuplicate &&
                                 isDropdownVisible &&
-                                bills?.length > 0 && (
-                                  <div
+                                originalBillsFilter?.length > 0 && (
+                                  <div ref={dropdownRef}
                                     style={{
                                       border: "1px solid #d9d9d9",
                                       position: "absolute",
                                       top: 80,
                                       left: 0,
-                                      zIndex: 1000,
+                                      zIndex: 4000,
                                       padding: 10,
                                       borderRadius: 8,
                                       backgroundColor: "#fff",
@@ -3152,15 +3320,15 @@ const InvoicePage = () => {
                                       style={{
                                         listStyleType: "none",
                                         maxHeight: 174,
-                                        minHeight: bills?.length > 1 ? "50px" : "auto",
-                                        overflowY: bills?.length > 3 ? "auto" : "hidden",
+                                        minHeight: originalBillsFilter?.length > 1 ? "50px" : "auto",
+                                        overflowY: originalBillsFilter?.length > 3 ? "auto" : "hidden",
                                         margin: 0,
                                       }}
                                     >
-                                      {bills
+                                      {originalBillsFilter
                                         ?.filter(
                                           (item, index, self) =>
-                                            index === self.findIndex((t) => t.Name === item.Name)
+                                            index === self.findIndex((t) => t.fullName === item.fullName)
                                         )
                                         .map((user, index) => (
                                           <li
@@ -3172,7 +3340,7 @@ const InvoicePage = () => {
                                               fontFamily: "Gilroy",
                                               borderRadius: 8,
                                               borderBottom:
-                                                index !== bills?.length - 1
+                                                index !== originalBillsFilter?.length - 1
                                                   ? "1px solid #eee"
                                                   : "none",
                                               backgroundColor:
@@ -3197,7 +3365,7 @@ const InvoicePage = () => {
                                                 e.target.src = Profile;
                                               }}
                                             />
-                                            <span>{user.Name}</span>
+                                            <span>{user.fullName}</span>
                                           </li>
                                         ))}
                                     </ul>
@@ -3390,22 +3558,7 @@ const InvoicePage = () => {
                           </>
                         )}
 
-                        {/* {(value === "1" || value === "3") && (
-                          <div >
-                            <Image
-                              src={Filters}
-                              roundedCircle
-                              style={{
-                                height: "50px", width: "50px", marginTop: DownloadInvoice || DownloadReceipt ? 0 : 12,
-                                cursor: (canReadInvoice || canReadReceipt || canReadRecurring) ? "pointer" : "not-allowed",
-                                opacity: (canReadInvoice || canReadReceipt || canReadRecurring) ? 1 : 0.4,
-                                pointerEvents: (canReadInvoice || canReadReceipt || canReadRecurring) ? "auto" : "none",
-                                transition: "opacity 0.3s ease"
-                              }}
-                              onClick={handleFilterd}
-                            />
-                          </div>
-                        )} */}
+
 
 
                         {statusfilter === "date" && value === "1" && (
@@ -3545,7 +3698,7 @@ const InvoicePage = () => {
                     top: DownloadInvoice || DownloadReceipt ? 20 : 70,
                     right: 0,
                     left: 0,
-                    zIndex: 1000,
+                    zIndex: 0,
                     backgroundColor: search ? undefined : "#FFFFFF",
                     height: "auto",
                     marginBottom: 10, marginTop: showSearchFilter ? 100 : 0,
@@ -3640,13 +3793,13 @@ const InvoicePage = () => {
                     </Tabs>
 
                     <div className="d-flex gap-3 align-items-center me-3 ">
-                      {value === "1" && (
+                      {value === "1" && isDuplicate && (
                         <div
                           className=""
                           style={{
                             border: "1px solid #D4D4D4",
                             borderRadius: 8,
-                            width: search ? "120px" : "120px",
+                            width: 150, zIndex: 100
                             // marginTop: "20px",
                           }}
                         >
@@ -3713,30 +3866,95 @@ const InvoicePage = () => {
                         </div>
                       )}
 
-{
-  isDuplicate && 
+                      {
+                        isDuplicate &&
+                        <>
+                          <div
+                            className=" d-flex"
+                            style={{
+                              border: "1px solid #CBD5E1",
+                              backgroundColor: "white",
+                              borderRadius: "50%",
+                              padding: 10, cursor: canReadInvoice ? "pointer" : "not-allowed",
+                            }}
+                            onClick={() => canReadInvoice && handleShowFilterBills()}
+                          >
+                            <Filter size={18} style={{
+                              cursor: canReadInvoice ? "pointer" : "not-allowed",
+                              opacity: canReadInvoice ? 1 : 0.4,
+                              pointerEvents: canReadInvoice ? "auto" : "none",
+                              transition: "opacity 0.3s ease"
+                            }} />
+                          </div>
 
-                      <div
-                        className=" d-flex"
-                        style={{
-                          border: "1px solid #CBD5E1",
-                          backgroundColor: "white",
-                          borderRadius: "50%",
-                          padding: 10, cursor: canReadInvoice ? "pointer" : "not-allowed",
-                        }}
-                        onClick={() => canReadInvoice && handleShowFilterBills()}
-                      >
-                        <Filter size={18} style={{
-                          cursor: canReadInvoice ? "pointer" : "not-allowed",
-                          opacity: canReadInvoice ? 1 : 0.4,
-                          pointerEvents: canReadInvoice ? "auto" : "none",
-                          transition: "opacity 0.3s ease"
-                        }} />
-                      </div>
-}
+
+                        </>
+                      }
                     </div>
                   </div>
                 </div>
+                {
+                  isDuplicate &&
+
+                  chips.length > 0 && (
+                    <div
+                      className="m-3 mt-4"
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        padding: "8px 12px",
+                        borderRadius: 8,
+                        background: "#FFFFFF",
+                        fontFamily: "Gilroy, sans-serif",
+                      }}
+                    >
+                      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                        {chips.map((chip) => (
+                          <div
+                            key={chip.key}
+
+                          >
+                            <span style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 6,
+                              padding: "4px 10px",
+                              background: "#C5D1FF3B",
+                              border: "1px solid #E5E7EB",
+                              borderRadius: 20,
+                              fontSize: 12,
+                              fontWeight: 500,
+                              color: "#7C7C7C",
+                            }}>{chip.label} :
+                              <span style={{
+
+                                fontSize: 12,
+                                fontWeight: 500,
+                                color: "#16151C",
+                              }}>{chip.value}</span></span>
+
+                          </div>
+                        ))}
+                      </div>
+
+                      <span
+                        onClick={() => handleReset()}
+
+                        style={{
+                          color: "#1E45E1",
+                          fontSize: 13,
+                          fontWeight: 500,
+                          cursor: "pointer",
+                        }}
+                      >
+                        Reset
+                      </span>
+                    </div>
+                  )
+
+                }
+
                 <TabPanel value="1">
                   <>
                     {!canReadInvoice ? (

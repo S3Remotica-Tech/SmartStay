@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState } from 'react'
+import React, { useState , useEffect} from 'react'
 import Select from "react-select";
 import { Button, Form, Offcanvas } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,7 +21,11 @@ function BillsFilter({ show, handleClose }) {
     const [period, setPeriod] = useState(null);
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
+    const [tenantName, setTenantName] = useState("");
+      const [selectedBillStatusOptions, setSelectedBillStatusOptions] = useState([]);
 
+
+    console.log("billStatus", billStatus)
 
     const CustomStyles = {
         control: (base) => ({
@@ -54,17 +58,15 @@ function BillsFilter({ show, handleClose }) {
             ...base,
             fontSize: "12px",
             fontWeight: 600,
-            color: "222",
+            color: "#000000",
         }),
 
         multiValueRemove: (base) => ({
             ...base,
             cursor: "pointer",
             borderRadius: 10,
-            //  backgroundColor: "#DcDCDC",
             color: "#FF0000",
             ":hover": {
-                // backgroundColor: "#DcDCDC",
                 color: "#FF0000",
             },
         }),
@@ -112,11 +114,16 @@ function BillsFilter({ show, handleClose }) {
         (state) => state.InvoiceList?.billsList?.filterOptions
     );
 
-    const billStatusOptions =
-        filterOptionsData?.paymentStatus?.map(item => ({
+    const billStatusOptions = [
+        {
+            label: "All",
+            value: "ALL"
+        },
+        ...filterOptionsData?.paymentStatus?.map(item => ({
             label: item.name,
             value: item.type
         })) || []
+    ]
         ;
 
     const typeOptions =
@@ -138,15 +145,46 @@ function BillsFilter({ show, handleClose }) {
         })) || [];
 
 
-    const handleBillStatusChange = (selected) => {
-        setBillStatus(selected.map(opt => opt.value))
+    // const handleBillStatusChange = (selected) => {
+    //     setBillStatus(selected.map(opt => opt.value))
+    // };
+
+  
+
+
+    const handleBillStatusChange = (selectedOptions) => {
+        if (!selectedOptions) {
+            setSelectedBillStatusOptions([]);
+            setBillStatus([]);
+            return;
+        }
+
+        const hasAll = selectedOptions.some(opt => opt.value === "ALL");
+
+        if (hasAll) {
+            // If ALL is selected → keep ONLY ALL
+            const allOption = selectedOptions.find(opt => opt.value === "ALL");
+            setSelectedBillStatusOptions([allOption]);
+            setBillStatus(["ALL"]);
+        } else {
+            // Normal multi-select (without ALL)
+            setSelectedBillStatusOptions(selectedOptions);
+            setBillStatus(selectedOptions.map(opt => opt.value));
+        }
     };
 
 
-    const selectedBillStatusOptions =
-        billStatusOptions.filter(opt =>
+    useEffect(() => {
+        const selectedOptions = billStatusOptions.filter(opt =>
             billStatus.includes(opt.value)
         );
+        setSelectedBillStatusOptions(selectedOptions);
+    }, [billStatus]);
+
+    // const selectedBillStatusOptions =
+    //     billStatusOptions.filter(opt =>
+    //         billStatus.includes(opt.value)
+    //     );
 
     const handleInvoiceTypeChange = (selected) => {
         setInvoiceType(selected.map(opt => opt.value));
@@ -167,16 +205,17 @@ function BillsFilter({ show, handleClose }) {
 
 
     const handleCreatedByChange = (selected) => {
-        setCreatedBy(selected.map(opt => opt.value));
+        
+        setCreatedBy(selected || []);
     };
 
-    const selectedCreatedByOptions = createdByOptions.filter(opt =>
-        createdBy.includes(opt.value)
-    );
+    const selectedCreatedByOptions = createdBy;
 
 
 
-  
+    const handleTenantChange = (e) => {
+        setTenantName(e.target.value);
+    };
 
 
 
@@ -230,530 +269,565 @@ function BillsFilter({ show, handleClose }) {
 
 
 
-    const filterOptions = [
-        { type: "Cash", name: "Cash" },
-        { type: "Bank", name: "Bank" },
+    // const filterOptions = [
+    //     { type: "Cash", name: "Cash" },
+    //     { type: "Bank", name: "Bank" },
 
-    ];
+    // ];
 
-    const selectOptions = filterOptions?.map(item => ({
-        label: item.type,
-        value: item.name,
-    }));
+    // const selectOptions = filterOptions?.map(item => ({
+    //     label: item.type,
+    //     value: item.name,
+    // }));
 
     console.log("state", state)
 
+    const isAllSelectedDrop =
+        selectedBillStatusOptions?.length === 1 &&
+        selectedBillStatusOptions[0]?.value === "ALL";
+
+
     const handleFilterBills = () => {
-        console.log("billStatus", billStatus)
-        console.log("invoiceType", invoiceType)
-        console.log("invoiceMode", invoiceMode)
-        console.log("createdBy", createdBy)
+
 
         const filters = {
-            // startDate,             
-            // endDate,               
+            startDate: startDate ? startDate.format("DD/MM/YYYY") : undefined,
+            endDate: endDate ? endDate.format("DD/MM/YYYY") : undefined,
             type: invoiceType,
-            createdBy: createdBy,
+            createdBy: createdBy.map(c => c.value),
+            createdByLabels: createdBy.map(c => c.label),
             modes: invoiceMode,
             paymentStatus: billStatus,
-            // search,                
+            search: tenantName,
         };
+
+        dispatch({
+            type: "SET_INVOICE_FILTERS",
+            payload: filters
+        });
+
+
         if (state.login?.selectedHostel_Id) {
-            dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login?.selectedHostel_Id, filters: filters } })
+            const isAllSelected =
+                Array.isArray(billStatus) &&
+                billStatus.length === 1 &&
+                billStatus[0] === "ALL";
+
+            if (isAllSelected) {
+                dispatch({
+                    type: 'INVOICESLISTFILTER',
+                    payload: {
+                        hostelId: state.login?.selectedHostel_Id,
+                    }
+                })
+            } else {
+                dispatch({
+                    type: 'INVOICESLISTFILTER',
+                    payload: {
+                        hostelId: state.login?.selectedHostel_Id,
+                        filters: filters
+                    }
+                })
+            }
+
+
 
         }
 
     }
 
     return (
-        <div>  <Offcanvas
-            show={show}
-            onHide={handleClose}
-            placement="end" backdrop="static"
-        >
-            <Offcanvas.Header >
-                <Offcanvas.Title style={{ color: "#222222", fontSize: 20, fontFamily: "Gilroy", fontWeight: 600 }}>Filter</Offcanvas.Title>
+        <div>
+            <Offcanvas
+                show={show}
+                onHide={handleClose}
+                placement="end" backdrop="static"
+            >
+                <Offcanvas.Header >
+                    <Offcanvas.Title style={{ color: "#222222", fontSize: 20, fontFamily: "Gilroy", fontWeight: 600 }}>Filter</Offcanvas.Title>
 
 
-                <IoCloseOutline onClick={handleClose} style={{ color: "#FF0000", fontSize: 20, cursor: "pointer" }} />
-            </Offcanvas.Header>
+                    <IoCloseOutline onClick={handleClose} style={{ color: "#FF0000", fontSize: 20, cursor: "pointer" }} />
+                </Offcanvas.Header>
 
-            <Offcanvas.Body className='pt-0'>
-                <div className="mb-3" style={{ fontFamily: "Gilroy" }}>
+                <Offcanvas.Body className='pt-0'>
+                    <div className="mb-3" style={{ fontFamily: "Gilroy" }}>
 
 
-                    <Form.Group className="mt-2 mb-3">
-                        <div
-                            style={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                                width: '100%',
-                                marginBottom: 5
-                            }}
-                        >
-                            <Form.Label
+                        <Form.Group className="mt-2 mb-3">
+                            <div
                                 style={{
-                                    fontFamily: 'Gilroy',
-                                    fontWeight: 500,
-                                    fontStyle: 'normal',
-                                    fontSize: '12px',
-                                    letterSpacing: '0',
-                                    marginBottom: 0,
-                                    padding: 0, color: "#4B4B4B"
-
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    width: '100%',
+                                    marginBottom: 5
                                 }}
                             >
-                                Tenant
-                            </Form.Label>
-
-
-                        </div>
-
-                        <Form.Control
-                            style={{ marginTop: 10, fontSize: 14, fontWeight: 600, padding: "8px 14px", fontFamily: "Gilroy", boxShadow: "none", border: "1px solid #D9D9D9" }}
-                            type="number"
-                            placeholder="Enter Tenant Name"
-
-
-                        />
-
-
-
-
-
-
-                    </Form.Group>
-
-                    <div className='mb-3'>
-                        <label style={{ color: "#222222", fontSize: 15, fontWeight: 600 }}>System Filter</label>
-                    </div>
-
-
-
-                    <Form.Group className="mb-3">
-                        <div
-                            style={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                                width: '100%',
-                                marginBottom: 5
-                            }}
-                        >
-                            <Form.Label
-                                style={{
-                                    fontFamily: 'Gilroy',
-                                    fontWeight: 500,
-                                    fontStyle: 'normal',
-                                    fontSize: '12px',
-                                    letterSpacing: '0',
-                                    marginBottom: 0,
-                                    padding: 0, color: "#4B4B4B"
-                                }}
-                            >
-                                Bill Status
-                            </Form.Label>
-
-
-                        </div>
-
-                        <Select
-                            isMulti
-                            closeMenuOnSelect={false}
-                            hideSelectedOptions={false}
-                            options={billStatusOptions}
-                            value={selectedBillStatusOptions}
-                            onChange={handleBillStatusChange}
-                            styles={CustomStyles}
-                            components={{ Option: CheckboxOption }}
-                            placeholder="Select Status"
-                        />
-                    </Form.Group>
-
-                    <Form.Group className="mb-3">
-                        <div
-                            style={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                                width: '100%',
-                                marginBottom: 5
-                            }}
-                        >
-                            <Form.Label
-                                style={{
-                                    fontFamily: 'Gilroy',
-                                    fontWeight: 500,
-                                    fontStyle: 'normal',
-                                    fontSize: '12px',
-                                    letterSpacing: '0',
-                                    marginBottom: 0,
-                                    padding: 0, color: "#4B4B4B"
-                                }}
-                            >
-                                Type
-                            </Form.Label>
-
-
-                        </div>
-
-                        <Select
-                            styles={CustomStyles}
-                            options={typeOptions}
-                            value={selectedTypeOptions}
-                            onChange={handleInvoiceTypeChange}
-                            placeholder="Select Type"
-                            components={{ Option: CheckboxOption }}
-                            isMulti
-                            closeMenuOnSelect={false}
-                            hideSelectedOptions={false}
-                        />
-
-
-
-
-
-                    </Form.Group>
-
-                    <Form.Group className="mb-3">
-                        <div
-                            style={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                                width: '100%',
-                                marginBottom: 5
-                            }}
-                        >
-                            <Form.Label
-                                style={{
-                                    fontFamily: 'Gilroy',
-                                    fontWeight: 500,
-                                    fontStyle: 'normal',
-                                    fontSize: '12px',
-                                    letterSpacing: '0',
-                                    marginBottom: 0,
-                                    padding: 0, color: "#4B4B4B"
-                                }}
-                            >
-                                Mode
-                            </Form.Label>
-
-
-                        </div>
-
-                        <Select
-                            styles={CustomStyles}
-                            options={modeOptions}
-                            value={selectedModeOptions}
-                            onChange={handleInvoiceModeChange}
-                            placeholder="Select Mode"
-                            components={{ Option: CheckboxOption }}
-                            isMulti
-                            closeMenuOnSelect={false}
-                            hideSelectedOptions={false}
-                        />
-
-
-
-                    </Form.Group>
-
-                    <Form.Group className="mb-3">
-                        <div
-                            style={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                                width: '100%',
-                                marginBottom: 5
-                            }}
-                        >
-                            <Form.Label
-                                style={{
-                                    fontFamily: 'Gilroy',
-                                    fontWeight: 500,
-                                    fontStyle: 'normal',
-                                    fontSize: '12px',
-                                    letterSpacing: '0',
-                                    marginBottom: 0,
-                                    padding: 0, color: "#4B4B4B"
-                                }}
-                            >
-                                Created By
-                            </Form.Label>
-
-
-                        </div>
-
-                        <Select
-                            styles={CustomStyles}
-                            options={createdByOptions}
-                            value={selectedCreatedByOptions}
-                            onChange={handleCreatedByChange}
-                            placeholder="Select User"
-                            components={{ Option: CheckboxOption }}
-                            isMulti
-                            closeMenuOnSelect={false}
-                            hideSelectedOptions={false}
-                        />
-
-
-
-
-
-
-
-                    </Form.Group>
-
-                    <Form.Group className="mb-3">
-                        <div
-                            style={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                                width: '100%',
-                                marginBottom: 5
-                            }}
-                        >
-                            <Form.Label
-                                style={{
-                                    fontFamily: 'Gilroy',
-                                    fontWeight: 500,
-                                    fontStyle: 'normal',
-                                    fontSize: '12px',
-                                    letterSpacing: '0',
-                                    marginBottom: 0,
-                                    padding: 0, color: "#4B4B4B"
-                                }}
-                            >
-                                Period
-                            </Form.Label>
-
-
-                        </div>
-
-                        <Select
-                            isSearchable={false}
-                            options={periodOptions}
-                            styles={CustomStyles}
-                            placeholder="Select"
-                            value={period}
-                            onChange={(selected) => {
-                                setPeriod(selected);
-                                if (selected.value !== "CUSTOM") {
-                                    setStartDate("");
-                                    setEndDate("");
-                                }
-                            }}
-                        />
-                    </Form.Group>
-
-                    {period?.value === "CUSTOM" && (
-                        <div style={{ display: "flex", gap: 12 }}>
-
-                            {/* Start Date */}
-                            <Form.Group style={{ flex: 1 }} className="mb-3">
                                 <Form.Label
                                     style={{
-                                        fontFamily: "Gilroy",
+                                        fontFamily: 'Gilroy',
                                         fontWeight: 500,
-                                        fontSize: "12px",
-                                        color: "#4B4B4B",
+                                        fontStyle: 'normal',
+                                        fontSize: '12px',
+                                        letterSpacing: '0',
+                                        marginBottom: 0,
+                                        padding: 0, color: "#4B4B4B"
+
                                     }}
                                 >
-                                    Start Date
+                                    Tenant
                                 </Form.Label>
 
-                                <div className="datepicker-wrapper" style={{ position: "relative", width: "100%" }}>
-  <DatePicker
-    style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy" }}
-    format="DD/MM/YYYY"
-    placeholder="Start Date"
-    value={startDate ? dayjs(startDate) : null}
-    onChange={(date) => {
-      setStartDate(date);
-      setEndDate(null); // reset end date when start changes
-    }}
-    disabledDate={(current) =>
-      current && current > dayjs().endOf("day")
-    }
-    getPopupContainer={(triggerNode) =>
-      triggerNode.closest(".datepicker-wrapper")
-    }
-  />
-</div>
 
-                            </Form.Group>
+                            </div>
 
-                            {/* End Date */}
-                            <Form.Group style={{ flex: 1 }}>
-                                <Form.Label
-                                    style={{
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                        fontSize: "12px",
-                                        color: "#4B4B4B",
-                                    }}
-                                >
-                                    End Date
-                                </Form.Label>
-
-                               <div className="datepicker-wrapper" style={{ position: "relative", width: "100%" }}>
-  <DatePicker
-    style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy" }}
-    format="DD/MM/YYYY"
-    placeholder="End Date"
-    value={endDate ? dayjs(endDate) : null}
-    onChange={(date) => setEndDate(date)}
-    disabledDate={(current) =>
-      current &&
-      (
-        current > dayjs().endOf("day") || // no future date
-        (startDate && current < dayjs(startDate).startOf("day")) // before start date
-      )
-    }
-    getPopupContainer={(triggerNode) =>
-      triggerNode.closest(".datepicker-wrapper")
-    }
-  />
-</div>
-
-                            </Form.Group>
-
-                        </div>
-                    )}
-
-                    <div className='mb-3'>
-                        <label style={{ color: "#222222", fontSize: 15, fontWeight: 600 }}>Other Filter</label>
-                    </div>
-
-                    <Form.Group className="mt-2 mb-3">
-                        <div
-                            style={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                                width: '100%',
-                                marginBottom: 5
-                            }}
-                        >
-                            <Form.Label
-                                style={{
-                                    fontFamily: 'Gilroy',
-                                    fontWeight: 500,
-                                    fontStyle: 'normal',
-                                    fontSize: '12px',
-                                    letterSpacing: '0',
-                                    marginBottom: 0,
-                                    padding: 0, color: "#4B4B4B"
-
-                                }}
-                            >
-                                Amount Range
-                            </Form.Label>
-
-
-                        </div>
-                        <div className='d-flex gap-2'>
                             <Form.Control
                                 style={{ marginTop: 10, fontSize: 14, fontWeight: 600, padding: "8px 14px", fontFamily: "Gilroy", boxShadow: "none", border: "1px solid #D9D9D9" }}
-                                type="number"
-                                placeholder="₹Min"
+                                type="text"
+                                placeholder="Enter Tenant Name"
 
-
-                            />
-                            <Form.Control
-                                style={{ marginTop: 10, fontSize: 14, fontWeight: 600, padding: "8px 14px", fontFamily: "Gilroy", boxShadow: "none", border: "1px solid #D9D9D9" }}
-                                type="number"
-                                placeholder="₹Max"
-
-
+                                value={tenantName}
+                                onChange={handleTenantChange}
                             />
 
 
+
+
+
+
+                        </Form.Group>
+
+                        <div className='mb-3'>
+                            <label style={{ color: "#222222", fontSize: 15, fontWeight: 600 }}>System Filter</label>
                         </div>
 
 
-                    </Form.Group>
 
-                    <Form.Group className="mb-3">
-                        <div
-                            style={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                                width: '100%',
-                                marginBottom: 5
-                            }}
-                        >
-                            <Form.Label
+                        <Form.Group className="mb-3">
+                            <div
                                 style={{
-                                    fontFamily: 'Gilroy',
-                                    fontWeight: 500,
-                                    fontStyle: 'normal',
-                                    fontSize: '12px',
-                                    letterSpacing: '0',
-                                    marginBottom: 0,
-                                    padding: 0, color: "#4B4B4B"
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    width: '100%',
+                                    marginBottom: 5
                                 }}
                             >
-                                Payment mode
-                            </Form.Label>
+                                <Form.Label
+                                    style={{
+                                        fontFamily: 'Gilroy',
+                                        fontWeight: 500,
+                                        fontStyle: 'normal',
+                                        fontSize: '12px',
+                                        letterSpacing: '0',
+                                        marginBottom: 0,
+                                        padding: 0, color: "#4B4B4B"
+                                    }}
+                                >
+                                    Bill Status
+                                </Form.Label>
 
 
+                            </div>
+
+                            <Select
+                                isMulti
+                                closeMenuOnSelect={false}
+                                hideSelectedOptions={false}
+                                options={billStatusOptions}
+                                value={selectedBillStatusOptions}
+                                onChange={handleBillStatusChange}
+                                styles={CustomStyles}
+                                components={{ Option: CheckboxOption }}
+                                placeholder="Select Status"
+                                isOptionDisabled={(option) => isAllSelectedDrop && option.value !== "ALL"}
+                            />
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    width: '100%',
+                                    marginBottom: 5
+                                }}
+                            >
+                                <Form.Label
+                                    style={{
+                                        fontFamily: 'Gilroy',
+                                        fontWeight: 500,
+                                        fontStyle: 'normal',
+                                        fontSize: '12px',
+                                        letterSpacing: '0',
+                                        marginBottom: 0,
+                                        padding: 0, color: "#4B4B4B"
+                                    }}
+                                >
+                                    Type
+                                </Form.Label>
+
+
+                            </div>
+
+                            <Select
+                                styles={CustomStyles}
+                                options={typeOptions}
+                                value={selectedTypeOptions}
+                                onChange={handleInvoiceTypeChange}
+                                placeholder="Select Type"
+                                components={{ Option: CheckboxOption }}
+                                isMulti
+                                closeMenuOnSelect={false}
+                                hideSelectedOptions={false}
+                            />
+
+
+
+
+
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    width: '100%',
+                                    marginBottom: 5
+                                }}
+                            >
+                                <Form.Label
+                                    style={{
+                                        fontFamily: 'Gilroy',
+                                        fontWeight: 500,
+                                        fontStyle: 'normal',
+                                        fontSize: '12px',
+                                        letterSpacing: '0',
+                                        marginBottom: 0,
+                                        padding: 0, color: "#4B4B4B"
+                                    }}
+                                >
+                                    Mode
+                                </Form.Label>
+
+
+                            </div>
+
+                            <Select
+                                styles={CustomStyles}
+                                options={modeOptions}
+                                value={selectedModeOptions}
+                                onChange={handleInvoiceModeChange}
+                                placeholder="Select Mode"
+                                components={{ Option: CheckboxOption }}
+                                isMulti
+                                closeMenuOnSelect={false}
+                                hideSelectedOptions={false}
+                            />
+
+
+
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    width: '100%',
+                                    marginBottom: 5
+                                }}
+                            >
+                                <Form.Label
+                                    style={{
+                                        fontFamily: 'Gilroy',
+                                        fontWeight: 500,
+                                        fontStyle: 'normal',
+                                        fontSize: '12px',
+                                        letterSpacing: '0',
+                                        marginBottom: 0,
+                                        padding: 0, color: "#4B4B4B"
+                                    }}
+                                >
+                                    Created By
+                                </Form.Label>
+
+
+                            </div>
+
+                            <Select
+                                styles={CustomStyles}
+                                options={createdByOptions}
+                                value={selectedCreatedByOptions}
+                                onChange={handleCreatedByChange}
+                                placeholder="Select User"
+                                components={{ Option: CheckboxOption }}
+                                isMulti
+                                closeMenuOnSelect={false}
+                                hideSelectedOptions={false}
+                            />
+
+
+
+
+
+
+
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    width: '100%',
+                                    marginBottom: 5
+                                }}
+                            >
+                                <Form.Label
+                                    style={{
+                                        fontFamily: 'Gilroy',
+                                        fontWeight: 500,
+                                        fontStyle: 'normal',
+                                        fontSize: '12px',
+                                        letterSpacing: '0',
+                                        marginBottom: 0,
+                                        padding: 0, color: "#4B4B4B"
+                                    }}
+                                >
+                                    Period
+                                </Form.Label>
+
+
+                            </div>
+
+                            <Select
+                                isSearchable={false}
+                                options={periodOptions}
+                                styles={CustomStyles}
+                                placeholder="Select"
+                                value={period}
+                                onChange={(selected) => {
+                                    setPeriod(selected);
+                                    if (selected.value !== "CUSTOM") {
+                                        setStartDate("");
+                                        setEndDate("");
+                                    }
+                                }}
+                            />
+                        </Form.Group>
+
+                        {period?.value === "CUSTOM" && (
+                            <div style={{ display: "flex", gap: 12 }}>
+
+
+                                <Form.Group style={{ flex: 1 }} className="mb-3">
+                                    <Form.Label
+                                        style={{
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                            fontSize: "12px",
+                                            color: "#4B4B4B",
+                                        }}
+                                    >
+                                        Start Date
+                                    </Form.Label>
+
+                                    <div className="datepicker-wrapper" style={{ position: "relative", width: "100%", fontSize: 12 }}>
+                                        <DatePicker
+                                            style={{ width: "100%", height: 39, cursor: "pointer", fontFamily: "Gilroy", fontSize: 12 }}
+                                            format="DD/MM/YYYY"
+                                            placeholder="Start Date"
+                                            value={startDate ? dayjs(startDate) : null}
+                                            onChange={(date) => {
+                                                setStartDate(date);
+                                                setEndDate(null);
+                                            }}
+                                            disabledDate={(current) =>
+                                                current && current > dayjs().endOf("day")
+                                            }
+                                            getPopupContainer={(triggerNode) =>
+                                                triggerNode.closest(".datepicker-wrapper")
+                                            }
+                                        />
+                                    </div>
+
+                                </Form.Group>
+
+
+                                <Form.Group style={{ flex: 1 }}>
+                                    <Form.Label
+                                        style={{
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                            fontSize: "12px",
+                                            color: "#4B4B4B",
+                                        }}
+                                    >
+                                        End Date
+                                    </Form.Label>
+
+                                    <div className="datepicker-wrapper" style={{ position: "relative", width: "100%" }}>
+                                        <DatePicker
+                                            style={{ width: "100%", height: 39, cursor: "pointer", fontFamily: "Gilroy", fontSize: 12 }}
+                                            format="DD/MM/YYYY"
+                                            placeholder="End Date"
+                                            value={endDate ? dayjs(endDate) : null}
+                                            onChange={(date) => setEndDate(date)}
+                                            disabledDate={(current) =>
+                                                current &&
+                                                (
+                                                    current > dayjs().endOf("day") ||
+                                                    (startDate && current < dayjs(startDate).startOf("day"))
+                                                )
+                                            }
+                                            getPopupContainer={(triggerNode) =>
+                                                triggerNode.closest(".datepicker-wrapper")
+                                            }
+                                        />
+                                    </div>
+
+                                </Form.Group>
+
+                            </div>
+                        )}
+
+                        {/* <div className='mb-3'>
+                            <label style={{ color: "#222222", fontSize: 15, fontWeight: 600 }}>Other Filter</label>
                         </div>
 
-                        <Select
-                            options={selectOptions}
-                            styles={CustomStyles}
-                            placeholder="Select Payment Mode"
-                        />
-                    </Form.Group>
+                        <Form.Group className="mt-2 mb-3">
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    width: '100%',
+                                    marginBottom: 5
+                                }}
+                            >
+                                <Form.Label
+                                    style={{
+                                        fontFamily: 'Gilroy',
+                                        fontWeight: 500,
+                                        fontStyle: 'normal',
+                                        fontSize: '12px',
+                                        letterSpacing: '0',
+                                        marginBottom: 0,
+                                        padding: 0, color: "#4B4B4B"
+
+                                    }}
+                                >
+                                    Amount Range
+                                </Form.Label>
+
+
+                            </div>
+                            <div className='d-flex gap-2'>
+                                <Form.Control
+                                    style={{ marginTop: 10, fontSize: 14, fontWeight: 600, padding: "8px 14px", fontFamily: "Gilroy", boxShadow: "none", border: "1px solid #D9D9D9" }}
+                                    type="number"
+                                    placeholder="₹Min"
+
+
+                                />
+                                <Form.Control
+                                    style={{ marginTop: 10, fontSize: 14, fontWeight: 600, padding: "8px 14px", fontFamily: "Gilroy", boxShadow: "none", border: "1px solid #D9D9D9" }}
+                                    type="number"
+                                    placeholder="₹Max"
+
+
+                                />
+
+
+                            </div>
+
+
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    width: '100%',
+                                    marginBottom: 5
+                                }}
+                            >
+                                <Form.Label
+                                    style={{
+                                        fontFamily: 'Gilroy',
+                                        fontWeight: 500,
+                                        fontStyle: 'normal',
+                                        fontSize: '12px',
+                                        letterSpacing: '0',
+                                        marginBottom: 0,
+                                        padding: 0, color: "#4B4B4B"
+                                    }}
+                                >
+                                    Payment mode
+                                </Form.Label>
+
+
+                            </div>
+
+                            <Select
+                                options={selectOptions}
+                                styles={CustomStyles}
+                                placeholder="Select Payment Mode"
+                            />
+                        </Form.Group> */}
+                    </div>
+                </Offcanvas.Body>
+                <div style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    padding: "15px 20px",
+                    borderTop: "1px solid #e0e0e0",
+                    position: "sticky",
+                    bottom: 0,
+                    background: "#fff",
+                    zIndex: 10
+                }}>
+                    <Button
+                        onClick={() => {
+                            setBillStatus([]);
+                            setInvoiceType([]);
+                            setInvoiceMode([]);
+                            setCreatedBy([]);
+                        }}
+                        style={{
+                            backgroundColor: "transparent",
+                            border: "1px solid #D9D9D9",
+                            color: "black",
+                            fontFamily: "Gilroy",
+                            width: "48%"
+                        }}
+                    >
+                        Reset
+                    </Button>
+                    <Button
+
+                        onClick={handleFilterBills}
+                        style={{
+                            backgroundColor: "#1E45E1",
+                            width: "48%",
+                            fontFamily: "Gilroy"
+                        }}
+                    >
+                        Apply
+                    </Button>
                 </div>
-            </Offcanvas.Body>
-            <div style={{
-                display: "flex",
-                justifyContent: "space-between",
-                padding: "15px 20px",
-                borderTop: "1px solid #e0e0e0",
-                position: "sticky",
-                bottom: 0,
-                background: "#fff",
-                zIndex: 10
-            }}>
-                <Button
-                    onClick={() => {
-                        setBillStatus([]);
-                        setInvoiceType([]);
-                        setInvoiceMode([]);
-                        setCreatedBy([]);
-                    }}
-                    style={{
-                        backgroundColor: "transparent",
-                        border: "1px solid #D9D9D9",
-                        color: "black",
-                        fontFamily: "Gilroy",
-                        width: "48%"
-                    }}
-                >
-                    Reset
-                </Button>
-                <Button
-
-                    onClick={handleFilterBills}
-                    style={{
-                        backgroundColor: "#1E45E1",
-                        width: "48%",
-                        fontFamily: "Gilroy"
-                    }}
-                >
-                    Apply
-                </Button>
-            </div>
 
 
-        </Offcanvas></div>
+            </Offcanvas></div>
     )
 }
 
