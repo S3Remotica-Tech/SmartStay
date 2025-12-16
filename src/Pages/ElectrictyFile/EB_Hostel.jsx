@@ -28,7 +28,7 @@ import ErrorMessage from '../../Components/ErrorMessage';
 import Select from "react-select";
 import AddHostelReading from "./AddHostelReading";
 // import WhiteCalender from  "../../../Assets/Images/New_images/ClipPathGroup.svg";
-import withErrorBoundary from "../../Hoc/WithErrorBountry"; 
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
 const RoomReadingTable = () => {
   const state = useSelector((state) => state);
@@ -52,7 +52,7 @@ const RoomReadingTable = () => {
 
 
 
- 
+
 
   const [showModal, setShowModal] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
@@ -69,8 +69,7 @@ const RoomReadingTable = () => {
 
   const [filters, setFilters] = useState([]);
 
-  console.log("roomReadingList", roomReadingList)
-  console.log("customerReadingList", customerReadingList)
+
 
 
   useEffect(() => {
@@ -252,55 +251,68 @@ const RoomReadingTable = () => {
     };
   });
 
-const formattedRoomReadings = roomReadingList?.map((item) => {
-
-  
-  const getBillingMonth = (dateStr) => {
-    if (dateStr === "N/A") return "N/A";     
-    if (!dateStr) return "N/A";          
-    const [day, month, year] = dateStr.split("/");
-    if (!day || !month || !year) return "N/A";
-
-    return new Date(`${year}-${month}-01`).toLocaleString("en-US", {
-      month: "short",
-      year: "numeric",
-    });
-  };
-
-  
-  const formatDate = (dateStr) => {
-    if (dateStr === "N/A") return "N/A";      
-    if (!dateStr) return "N/A";           
-
-    const [d, m, y] = dateStr.split("/").map(Number);
-    if (!d || !m || !y) return "N/A";
-
-    return new Date(y, m - 1, d).toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "short",
-    });
-  };
-
-  return {
-    floorName: item.floorName,
-    roomName: item.roomName,
-    roomId: item.roomId,
-    hostelId: item.hostelId,
-    noOfTenants: item.noOfTenants,
-
-    billingMonth: getBillingMonth(item.startDate),
-
-    from: formatDate(item.startDate),
-    to: formatDate(item.endDate),
-
-    totalUnits: item.consumption,
-    totalPrice: item.totalPrice,
-    currentReading:item.currentReading
-  };
-});
+  const formattedRoomReadings = roomReadingList?.map((item) => {
 
 
-console.log("formattedRoomReadings",formattedRoomReadings)
+    const getBillingMonth = (dateStr) => {
+      if (dateStr === "N/A") return "N/A";
+      if (!dateStr) return "N/A";
+      const [day, month, year] = dateStr.split("/");
+      if (!day || !month || !year) return "N/A";
+
+      return new Date(`${year}-${month}-01`).toLocaleString("en-US", {
+        month: "short",
+        year: "numeric",
+      });
+    };
+
+
+    const formatDate = (dateStr) => {
+      if (dateStr === "N/A") return "N/A";
+      if (!dateStr) return "N/A";
+
+      const [d, m, y] = dateStr.split("/").map(Number);
+      if (!d || !m || !y) return "N/A";
+
+      return new Date(y, m - 1, d).toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "short",
+      });
+    };
+
+    return {
+      floorName: item.floorName,
+      roomName: item.roomName,
+      roomId: item.roomId,
+      hostelId: item.hostelId,
+      noOfTenants: item.noOfTenants,
+
+      billingMonth: getBillingMonth(item.startDate),
+
+      from: formatDate(item.startDate),
+      to: formatDate(item.endDate),
+
+      totalUnits: item.consumption,
+      totalPrice: item.totalPrice,
+      currentReading: item.currentReading
+    };
+  });
+
+  const totals = formattedRoomReadings?.reduce(
+    (acc, item) => {
+      acc.totalUnits += item.totalUnits;
+      acc.totalAmount += item.totalPrice;
+      acc.totalCurrentReading += item.currentReading;
+      return acc;
+    },
+    {
+      totalUnits: 0,
+      totalAmount: 0,
+      totalCurrentReading: 0,
+    }
+  );
+
+
 
 
   return (
@@ -757,7 +769,7 @@ console.log("formattedRoomReadings",formattedRoomReadings)
                           background: "#fff",
                           borderRadius: 12,
                           boxShadow: "0px 4px 8px rgba(0,0,0,0.05)",
-                          maxHeight: "480px",
+                          maxHeight: "350px",
                           overflowY: "auto",
                           position: "relative"
                         }}
@@ -793,26 +805,26 @@ console.log("formattedRoomReadings",formattedRoomReadings)
                           <tbody style={{ fontSize: 14, color: "#000" }}>
                             <PaginationList>
                               {formattedRoomReadings?.map((row, i) => (
-                                <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "", textAlign:"center" }}>
-                                  <td style={{ fontSize: 15, fontWeight: 600, textAlign:"center",padding: "12px 16px" }}>{row?.floorName}</td>
+                                <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "", textAlign: "center" }}>
+                                  <td style={{ fontSize: 15, fontWeight: 600, textAlign: "center", padding: "12px 16px" }}>{row?.floorName}</td>
                                   <td
-                                    style={{textAlign:"center",padding: "12px 16px" , color: canReadElectricity ? "#1E45E1" : "#DBDBDB", cursor: "pointer", fontWeight: 600, paddingLeft: "40px" }}
+                                    style={{ textAlign: "center", padding: "12px 16px", color: canReadElectricity ? "#1E45E1" : "#DBDBDB", cursor: "pointer", fontWeight: 600, paddingLeft: "40px" }}
                                     onClick={() => canReadElectricity && handleRoomDetailsPage(row)}
                                   >
                                     {row?.roomName}
                                   </td>
-                                  <td style={{padding: "12px 16px" }} >{row?.noOfTenants}</td>
-                                  <td style={{ paddingLeft: "",padding: "12px 16px"  }}>
+                                  <td style={{ padding: "12px 16px" }} >{row?.noOfTenants}</td>
+                                  <td style={{ paddingLeft: "", padding: "12px 16px" }}>
                                     {row.billingMonth || "N/A"}
                                   </td>
 
-                                  <td style={{ paddingLeft: "" ,padding: "12px 16px" }}>{row?.from || "N/A"}</td>
-                                  <td style={{ paddingLeft: "" ,padding: "12px 16px" }}>{row?.to || "N/A"}</td>
-                                  <td style={{ paddingLeft: "" ,padding: "12px 16px" }}>{row?.totalUnits}</td>
-                                  <td style={{ paddingLeft: "",padding: "12px 16px"  }}>{row?.totalPrice || '0'}</td>
+                                  <td style={{ paddingLeft: "", padding: "12px 16px" }}>{row?.from || "N/A"}</td>
+                                  <td style={{ paddingLeft: "", padding: "12px 16px" }}>{row?.to || "N/A"}</td>
+                                  <td style={{ paddingLeft: "", padding: "12px 16px" }}>{row?.totalUnits}</td>
+                                  <td style={{ paddingLeft: "", padding: "12px 16px" }}>{row?.totalPrice || '0'}</td>
                                   {
                                     !isEbBased &&
-                                    <td style={{  cursor: canWriteElectricity ? "pointer" : "not-allowed" }}>
+                                    <td style={{ cursor: canWriteElectricity ? "pointer" : "not-allowed" }}>
                                       <img
                                         src={Group}
                                         alt="action"
@@ -875,6 +887,20 @@ console.log("formattedRoomReadings",formattedRoomReadings)
                     )}
 
 
+                    <div className="d-flex justify-content-end mt-3 mb-2 me-2">
+                      <div>
+
+                     
+                      <div className="mb-2">
+                        <label style={{ fontSize: 16, fontWeight: 500, color: "#4B4B4B" }}>Total Units : <span style={{ fontSize: 16, fontWeight: 600, color: "#000000" }}>{totals?.totalUnits.toFixed(0)}</span></label>
+                      </div>
+                      <div>
+                        <label style={{ fontSize: 16, fontWeight: 500, color: "#4B4B4B" }}>Total Amount: <span style={{ fontSize: 16, fontWeight: 600, color: "#000000" }}>₹ {totals?.totalAmount.toFixed(0)}</span></label>
+
+                      </div>
+
+ </div>
+                    </div>
 
 
 
@@ -935,22 +961,22 @@ console.log("formattedRoomReadings",formattedRoomReadings)
                         <tbody style={{ fontSize: 14, color: "" }}>
                           <PaginationList>
                             {formattedReadings?.map((row, i) => (
-                              <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px" , color:""}}>
+                              <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px", color: "" }}>
 
-                                <td style={{ paddingLeft: "", fontWeight: 600, color: "#1E45E1", cursor: "pointer", textAlign:"start"  }}
+                                <td style={{ paddingLeft: "", fontWeight: 600, color: "#1E45E1", cursor: "pointer", textAlign: "start" }}
                                   onClick={() => handleTenantsDetailsPage(row)}>
                                   <img src={row.profilePic ? row.profilePic : Ellipse1} alt="" style={{ marginRight: "12px", height: 45, width: 45 }} />
                                   {row.fullName}
                                 </td>
-                                <td style={{ fontWeight: 500 ,textAlign:"center" }}>{row.billingMonth}</td>
-                                <td style={{ fontWeight: 500 ,textAlign:"center" }}>{row.from}</td>
-                                <td style={{ fontWeight: 500 ,textAlign:"center" }}>{row.to}</td>
-                                <td style={{ fontWeight: 500 ,textAlign:"center" }}>{row.floorName}</td>
-                                <td style={{ fontWeight: 500 ,textAlign:"center" }}>{row.roomName}</td>
-                                <td style={{ fontWeight: 500 ,textAlign:"center" }}>{row.bedName}</td>
+                                <td style={{ fontWeight: 500, textAlign: "center" }}>{row.billingMonth}</td>
+                                <td style={{ fontWeight: 500, textAlign: "center" }}>{row.from}</td>
+                                <td style={{ fontWeight: 500, textAlign: "center" }}>{row.to}</td>
+                                <td style={{ fontWeight: 500, textAlign: "center" }}>{row.floorName}</td>
+                                <td style={{ fontWeight: 500, textAlign: "center" }}>{row.roomName}</td>
+                                <td style={{ fontWeight: 500, textAlign: "center" }}>{row.bedName}</td>
 
-                                <td style={{ fontWeight: 500, paddingLeft: "",textAlign:"center"  }}>{row.totalUnits}</td>
-                                <td style={{ fontWeight: 500, paddingLeft: "", textAlign:"center" }}>{row.totalAmount}</td>
+                                <td style={{ fontWeight: 500, paddingLeft: "", textAlign: "center" }}>{row.totalUnits}</td>
+                                <td style={{ fontWeight: 500, paddingLeft: "", textAlign: "center" }}>{row.totalAmount}</td>
 
                               </tr>
                             ))}

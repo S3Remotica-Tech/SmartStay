@@ -81,7 +81,7 @@ const Compliance = () => {
   } = useHasPermission("Complaints");
 
 
-console.log(state,"state")
+// console.log(state,"state")
 
   // const canReadComplaints = useHasPermission("Complaints", "canRead");
   // const canWriteComplaints = useHasPermission("Complaints", "canWrite");

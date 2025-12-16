@@ -76,7 +76,7 @@ const {
      }
    }, [canReadCheckout]);
 
-   console.log("canReadCheckout",canReadCheckout)
+
 
   const handleCustomerProfilePage = (checkout) => {
             setCheckoutWithoutPay(checkout)

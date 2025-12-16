@@ -1629,9 +1629,6 @@ function* handleSettingsRecurring(action) {
       const response = yield call(SettingsAddRecurring, action.payload);
 
 
-      console.log("response",response)
-
-
       if (response?.status === 200) {
          yield put({ type: 'SETTINGSADDRECURRING', payload: { response: response.data, statusCode: response?.status } })
 

@@ -24,8 +24,6 @@ function OccupiedBedStatus({
     showEditBed
 }) {
 
-
-    console.log("currentItem", currentItem)
     const state = useSelector(state => state)
     const dispatch = useDispatch();
 
@@ -86,7 +84,7 @@ function OccupiedBedStatus({
     }, []);
 
     const handleNavigateTenantProfile = (tenantDetails) => {
-        console.log("tenantDetails", tenantDetails)
+       
         dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: tenantDetails?.currentTenantInfo?.tenetId } });
         navigate(`/tenant/details/${tenantDetails?.currentTenantInfo?.tenetId}`, {
             state: {

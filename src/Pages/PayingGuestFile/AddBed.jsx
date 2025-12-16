@@ -74,7 +74,7 @@ function AddBed({ show, setShowBed, currentItem, editBedMode, isOccupied }) {
   };
 
 
-  console.log("currentItem", currentItem)
+ 
 
   const handleClose = () => {
     setShowBed(false)

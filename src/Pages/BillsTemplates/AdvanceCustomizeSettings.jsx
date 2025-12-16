@@ -595,10 +595,10 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
 
 
 
-console.log("currentTemplate",currentTemplate)
+// console.log("currentTemplate",currentTemplate)
 
 
-console.log("oldTemplate",oldTemplate)
+// console.log("oldTemplate",oldTemplate)
 
     const normalize = (val) => {
       if (val === null || val === undefined) return "";

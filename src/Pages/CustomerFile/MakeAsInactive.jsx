@@ -31,7 +31,7 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails, currentIte
     const [inActiveComments, setInActiveComments] = useState("")
     const [isActiveDateError, setIsACtiveDateError] = useState("")
 
-console.log("currentItem",currentItem)
+
 
     const handleInActiveReason = (e) => {
         setInActiveComments(e.target.value)
@@ -116,7 +116,6 @@ console.log("currentItem",currentItem)
     }, [inActiveDetails]);
 
 
-    console.log("inActiveDetails",inActiveDetails)
 
     return (
         <Modal show={show} onHide={handleCloseInActive} centered backdrop="static"   >

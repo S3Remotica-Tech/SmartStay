@@ -94,7 +94,7 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
     }, [state.UsersList?.roomReadingError])
 
 
-    console.log("selectedRowDetails",selectedRowDetails)
+   
 
 
 

@@ -56,7 +56,7 @@ function AddPg({ show, handleClose, currentItem }) {
   const [images, setImages] = useState(Array(4).fill({ image: null }));
 
 
-  console.log("images", images)
+ 
 
   const indianStates = [
     { value: "Tamil Nadu", label: "Tamil Nadu" },
@@ -257,7 +257,6 @@ function AddPg({ show, handleClose, currentItem }) {
 
   const nochangeRef = useRef(null)
 
-  console.log("currentItem", currentItem)
 
   const handleCreatePayingGuest = () => {
     let hasError = false;

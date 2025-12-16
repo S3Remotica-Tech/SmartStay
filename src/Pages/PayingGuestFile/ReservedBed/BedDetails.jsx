@@ -28,7 +28,7 @@ function BedDetails({
     const navigate = useNavigate();
     // const canWriteCustomers = useHasPermission("Customers", "canWrite")
 
-    console.log("currentItem", currentItem)
+ 
 
     const {
         canWriteModule: canWriteCustomers,
@@ -102,7 +102,7 @@ function BedDetails({
 
 
     const handleCheckin = (tenant) => {
-        console.log("tenant",tenant)
+     
         handleShowCheck_In(true, tenant)
 
     }
@@ -120,7 +120,7 @@ function BedDetails({
     }
 
     const handleNavigateTenantProfile = (tenantDetails) => {
-        console.log("tenantDetails", tenantDetails)
+        
         dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: tenantDetails?.tenetId } });
         navigate(`/tenant/details/${tenantDetails?.tenetId}`, {
             state: {

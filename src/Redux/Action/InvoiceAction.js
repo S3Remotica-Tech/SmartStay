@@ -92,7 +92,6 @@ export async function GetManualInvoices(hostelId) {
 
 
 export async function GetFilterInvoices(hostelId, filters={}) {
-  console.log("filters",filters,"hostelId",hostelId)
   return AxiosConfigV2.get(`/v2/bills/new/${hostelId}`, {
     params: {
       startDate: filters.startDate,
@@ -249,7 +248,7 @@ export async function AddAmenity(hostelId, datum) {
 }
 
 export async function updateRecurringTenant(recurring) {
-  console.log("recurring", recurring);
+
 
   const body = {
     status: recurring?.status

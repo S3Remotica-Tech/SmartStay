@@ -296,7 +296,7 @@ const InvoicePage = () => {
   //   setCheckedRows(initialState);
   // }, [recurringbills]);
 
-  console.log("bills", bills)
+  // console.log("bills", bills)
 
   const handleToggle = (id) => {
 
@@ -742,7 +742,7 @@ const InvoicePage = () => {
     }
 
     setStatusfilter(selectedOption);
-    console.log("selectedOption", selectedOption);
+    // console.log("selectedOption", selectedOption);
 
     if (!state.login?.selectedHostel_Id) return;
 
@@ -3244,7 +3244,7 @@ const InvoicePage = () => {
       });
     }
 
-    console.log("filterData", filterData);
+    // console.log("filterData", filterData);
     setChips(filterData)
   }, [state.InvoiceList.invoiceFilters]);
 

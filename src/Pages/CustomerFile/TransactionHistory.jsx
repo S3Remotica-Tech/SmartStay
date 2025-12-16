@@ -31,7 +31,6 @@ function TransactionHistory() {
     } = useHasPermission("Customers");
 
 
-    console.log("CustomerOverView", CustomerOverView.length)
 
 
     function formatDate(dateString) {

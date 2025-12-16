@@ -799,7 +799,7 @@ function CreateBill() {
     }, [customername])
 
 
-    console.log("selectedTypes", selectedTypes);
+    // console.log("selectedTypes", selectedTypes);
 
     useEffect(() => {
         const SelectedCustomerRoomRent =
@@ -825,16 +825,16 @@ function CreateBill() {
             });
 
             setSelectedTypes((prev) => {
-                console.log("prev selectedTypes:", prev);
+                // console.log("prev selectedTypes:", prev);
                 const updated = prev.includes("RoomRent")
                     ? prev
                     : [...prev, "RoomRent"];
-                console.log("updated selectedTypes:", updated);
+                // console.log("updated selectedTypes:", updated);
                 return updated;
             });
 
 
-            console.log("selectedTypes", selectedTypes)
+            // console.log("selectedTypes", selectedTypes)
 
             setTimeout(() => {
                 dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
@@ -853,9 +853,9 @@ function CreateBill() {
     }, [customername]);
 
 
-    useEffect(() => {
-        console.log("selectedTypes updated:", selectedTypes);
-    }, [selectedTypes]);
+    // useEffect(() => {
+    //     console.log("selectedTypes updated:", selectedTypes);
+    // }, [selectedTypes]);
 
 
     // const handleShowForm = (props) => {

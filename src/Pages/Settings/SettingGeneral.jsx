@@ -554,7 +554,7 @@ function SettingGeneral() {
   const MobileNumber = `${Phone}`;
 
   const handleEditGeneralUser = (user) => {
-    console.log("user", user)
+ 
     // const phoneNumber = String(user.mobileNo || "");
     // const countryCode = mobileNo.slice(0, mobileNo.length - 10);
     // const mobileNumber = mobileNo.slice(-10);
@@ -673,7 +673,7 @@ function SettingGeneral() {
 
 
   const handleSave = () => {
-    console.log("calleddddd")
+    
     dispatch({ type: 'CLEAR_GENERAL_EMAIL_ERROR' })
     dispatch({ type: 'CLEAR_MOBILE_ERROR' })
 
@@ -837,7 +837,7 @@ if (!edit) {
 
 
       if (!isChanged) {
-        console.log("NO CHANGES DETECTED");
+       
         setFormError("No Changes Detected");
         return
       }

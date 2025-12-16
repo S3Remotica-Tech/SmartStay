@@ -55,7 +55,7 @@ function SettingSubscription() {
 
   // const hostelDetails = getPlanActive?.[0]?.hostel_details || [];
 
-  console.log("state", state)
+
 
 
 

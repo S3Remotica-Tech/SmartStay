@@ -202,7 +202,7 @@ function CustomerCheckout(props) {
     }
   }, [state.UsersList.addCheckoutCustomerStatusCode])
 
-console.log("props.bedData.",props.bedData)
+
 
 
   return (

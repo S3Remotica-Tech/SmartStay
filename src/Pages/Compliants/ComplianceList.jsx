@@ -301,8 +301,8 @@ const ComplianceList = (props) => {
       return;
     }
 
-console.log("prevStatus",prevStatus)
-console.log("status",status)
+// console.log("prevStatus",prevStatus)
+// console.log("status",status)
 
     if (status === prevStatus) {
       setStatusError("No Changes Detected");
@@ -329,7 +329,7 @@ console.log("status",status)
 
 
   const handleAssignComplaintClick = () => {
-console.log("compliant",compliant)
+// console.log("compliant",compliant)
 
     dispatch({ type: 'REMOVE_COMPLIANCE_CHANGE_STATUS_ASSIGN_ERROR' })
     if (alreadyAssigned === compliant && compliant !== "") {
@@ -411,7 +411,7 @@ console.log("compliant",compliant)
   };
 
   const handleCompliant = (selectedOption) => {
-console.log("selectedOption",selectedOption)
+// console.log("selectedOption",selectedOption)
     dispatch({ type: 'REMOVE_COMPLIANCE_CHANGE_STATUS_ASSIGN_ERROR' })
     setCompliant(selectedOption?.value || '');
 
