@@ -514,7 +514,6 @@ function Sidebar() {
       mainImage && mainImage !== "0" && mainImage !== "" ? mainImage : mainImage
     );
     setIsDropdownOpen(false);
-    //  dispatch(StoreSelectedHostelAction(id));
     localStorage.setItem("selectedHostelId", id);
     localStorage.setItem("selectedHostelName", name);
     setIsSidebarOpen(false);
@@ -620,7 +619,7 @@ function Sidebar() {
 
   useEffect(() => {
     if (state.createAccount?.accountList?.roleId) {
-      dispatch({ type: 'PERMISSIONROLELIST', payload: state.createAccount?.accountList.roleId })
+      dispatch({ type: 'PERMISSIONROLELIST', payload: state.createAccount?.accountList?.roleId })
     }
   }, [state.createAccount.accountList.roleId])
 

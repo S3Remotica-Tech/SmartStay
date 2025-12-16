@@ -1628,7 +1628,11 @@ function* handleSettingsRecurring(action) {
    try {
       const response = yield call(SettingsAddRecurring, action.payload);
 
-      if (response?.status === 201) {
+
+      console.log("response",response)
+
+
+      if (response?.status === 200) {
          yield put({ type: 'SETTINGSADDRECURRING', payload: { response: response.data, statusCode: response?.status } })
 
          var toastStyle = {
@@ -1648,7 +1652,7 @@ function* handleSettingsRecurring(action) {
          };
 
 
-         toast.success(`${response.data}`, {
+         toast.success(`Updated Successfully`, {
             position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: true,
