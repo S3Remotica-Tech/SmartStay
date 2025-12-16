@@ -571,7 +571,7 @@ function Sidebar() {
 
 
   useEffect(() => {
-    if (hostelListDetail?.length > 0 && !initials) {
+    if (hostelListDetail?.length > 0 && !initials && state.login.apiResponseHostelId) {
 
       const selectedHostel = state.login?.apiResponseHostelId
         ? hostelListDetail.find(h => h.hostelId === state.login?.apiResponseHostelId)
@@ -591,7 +591,7 @@ function Sidebar() {
         dispatch(StoreSelectedHostelAction(selectedHostel.hostelId));
       }
     }
-  }, [hostelListDetail,]);
+  }, [hostelListDetail,state.login.apiResponseHostelId]);
 
 
   console.log("apiResponseHostelId", state.login.apiResponseHostelId)

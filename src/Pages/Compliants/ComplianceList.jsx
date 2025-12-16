@@ -47,7 +47,7 @@ const ComplianceList = (props) => {
   const [trigger, setTrigger] = useState(false);
 
   const [alreadyAssigned, setAlreadyAssigned] = useState('')
- console.log("alreadyAssigned",alreadyAssigned)
+
   const commentsEndRef = useRef(null);
   const {
     canWriteModule: canWriteComplaints,
