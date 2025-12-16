@@ -191,7 +191,7 @@ console.log("currentItem",currentItem)
                                 fontFamily: "Gilroy"
                             }}
                         >
-                            {currentItem?.floorName}
+                            {currentItem?.floorName || inActiveDetails?.floorName}
                         </span>
                         <span
                             style={{
@@ -204,7 +204,7 @@ console.log("currentItem",currentItem)
                                 fontFamily: "Gilroy"
                             }}
                         >
-                            {currentItem?.roomName} - {currentItem?.bedName}
+                            {currentItem?.roomName || inActiveDetails?.roomName} - {currentItem?.bedName || inActiveDetails?.bedName}
                         </span>
                     </div>
 

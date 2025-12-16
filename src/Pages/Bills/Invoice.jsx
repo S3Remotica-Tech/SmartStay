@@ -52,7 +52,7 @@ import { HiMiniBars3BottomLeft } from "react-icons/hi2";
 import { useNavigate, useLocation } from "react-router-dom";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import BillsFilter from '../../Pages/Bills/BillsFilter'
-
+import { FiSearch } from "react-icons/fi";
 
 const InvoicePage = () => {
   const state = useSelector((state) => state);
@@ -274,6 +274,19 @@ const InvoicePage = () => {
   }
 
 
+  const monthOptions = [
+    { value: "this_month", label: "This Month" },
+    { value: "previous_month", label: "Previous Month" },
+  ];
+
+  const [selectedMonth, setSelectedMonth] = useState(monthOptions[0]);
+
+
+
+  const handleMonthChange = (selectedOption) => {
+    setSelectedMonth(selectedOption);
+
+  };
 
   // useEffect(() => {
   //   const initialState = {};
@@ -630,6 +643,88 @@ const InvoicePage = () => {
   //   }
   // }, [bills]);
 
+ const CustomStyles = {
+        control: (base) => ({
+            ...base,
+            height: "auto",
+            border: "1px solid #D9D9D9",
+            borderRadius: "8px",
+            fontSize: "14px",
+            color: "#4B4B4B",
+            fontFamily: "Gilroy, sans-serif",
+            fontWeight: 500,
+            boxShadow: "none",
+            cursor:"pointer",
+            outline: "none",
+            "&:hover": {
+                border: "1px solid #D9D9D9",
+            },
+        }),
+        valueContainer: (base) => ({
+            ...base,
+            maxHeight: "60px",
+            overflowY: "auto",
+            flexWrap: "wrap",
+        }), multiValue: (base) => ({
+            ...base,
+            backgroundColor: "#FFF",
+            borderRadius: "6px",
+        }),
+
+        multiValueLabel: (base) => ({
+            ...base,
+            fontSize: "12px",
+            fontWeight: 600,
+            color: "#000000",
+        }),
+
+        multiValueRemove: (base) => ({
+            ...base,
+            cursor: "pointer",
+            borderRadius: 10,
+            color: "#FF0000",
+            ":hover": {
+                color: "#FF0000",
+            },
+        }),
+
+        menu: (base) => ({
+            ...base,
+            backgroundColor: "#f8f9fa",
+            border: "1px solid #ced4da",
+            fontFamily: "Gilroy, sans-serif", fontSize: "14px",
+        }),
+        menuList: (base) => ({
+            ...base,
+            backgroundColor: "#1E45E1",
+            color:"#FFF",
+            maxHeight: "120px",
+            padding: 0,
+            scrollbarWidth: "thin",
+            overflowY: "auto",
+            fontFamily: "Gilroy, sans-serif", fontSize: "14px",
+        }),
+        placeholder: (base) => ({
+            ...base,
+            color: "#555",
+        }),
+        option: (base, state) => ({
+            ...base,
+            cursor: "pointer",
+            backgroundColor: state.isFocused ? "" : "white",
+             color:state.isFocused  ? "#FFF" : "#000000",
+        }),
+        dropdownIndicator: (base) => ({
+            ...base,
+            color: "#555",
+            cursor: "pointer"
+        }),
+        indicatorSeparator: () => ({
+            display: "none",
+        }), clearIndicator: () => ({
+            display: "none",
+        }),
+    }
 
   const handleStatusFilter = (selectedOption) => {
     if (!selectedOption) {
@@ -2831,12 +2926,12 @@ const InvoicePage = () => {
         setOriginalBillsFilter(FilterUser);
       }
       else {
- dispatch({
-                    type: 'INVOICESLISTFILTER',
-                    payload: {
-                        hostelId: state.login?.selectedHostel_Id,
-                    }
-                })
+        dispatch({
+          type: 'INVOICESLISTFILTER',
+          payload: {
+            hostelId: state.login?.selectedHostel_Id,
+          }
+        })
       }
 
 
@@ -2913,10 +3008,16 @@ const InvoicePage = () => {
     setDropdownVisible(false);
     setSearch(false);
     setFilterInput("");
-    setBills(bills);
-    setRecurringBills(originalRecuiring);
-    setReceiptData(originalReceipt);
-    dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
+    // setBills(bills);
+    // setRecurringBills(originalRecuiring);
+    // setReceiptData(originalReceipt);
+
+     if (isDuplicate) {
+        dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+      } else {
+        dispatch({ type: "MANUALINVOICESLIST", payload: state.login.selectedHostel_Id })
+
+      }
   };
 
 
@@ -3175,6 +3276,7 @@ const InvoicePage = () => {
 
       ) {
         setDropdownVisible(false);
+        
       }
     };
 
@@ -3291,7 +3393,7 @@ const InvoicePage = () => {
                                   <img
                                     src={closecircle}
                                     alt="close"
-                                    onClick={() => setFilterInput("")}
+                                    onClick={() => handleCloseSearch()}
 
                                     style={{ height: 20, width: 20, cursor: "pointer" }}
                                   />
@@ -3308,7 +3410,7 @@ const InvoicePage = () => {
                                       position: "absolute",
                                       top: 80,
                                       left: 0,
-                                      zIndex: 4000,
+                                      zIndex: 9999,
                                       padding: 10,
                                       borderRadius: 8,
                                       backgroundColor: "#fff",
@@ -3540,10 +3642,8 @@ const InvoicePage = () => {
                           </>
                         ) : (
                           <>
-                            <div style={{ marginTop: DownloadInvoice || DownloadReceipt ? 0 : 12 }}>
-                              <Image
-                                src={searchteam}
-                                roundedCircle
+                            <div style={{ marginTop: DownloadInvoice || DownloadReceipt ? 0 : 12, backgroundColor:"", color:"", border:"1px solid #CBD5E1", borderRadius:"50%" , padding:"6px 8px"}}>
+                              <FiSearch
                                 style={{
                                   height: "24px",
                                   width: "24px",
@@ -3698,7 +3798,7 @@ const InvoicePage = () => {
                     top: DownloadInvoice || DownloadReceipt ? 20 : 70,
                     right: 0,
                     left: 0,
-                    zIndex: 0,
+                    zIndex: isDropdownVisible ? 0 : 3000,
                     backgroundColor: search ? undefined : "#FFFFFF",
                     height: "auto",
                     marginBottom: 10, marginTop: showSearchFilter ? 100 : 0,
@@ -3799,58 +3899,14 @@ const InvoicePage = () => {
                           style={{
                             border: "1px solid #D4D4D4",
                             borderRadius: 8,
-                            width: 150, zIndex: 100
+                            width: 150, 
+                            // zIndex:9999
                             // marginTop: "20px",
                           }}
                         >
                           <Select
                             options={selectOptions}
-                            styles={{
-                              control: (base) => ({
-                                ...base,
-                                height: "39px",
-                                border: "1px solid #D9D9D9",
-                                borderRadius: "8px",
-                                fontSize: "14px",
-                                color: "#4B4B4B",
-                                fontFamily: "Gilroy, sans-serif",
-                                fontWeight: 500,
-                                boxShadow: "none",
-                              }),
-                              menu: (base) => ({
-                                ...base,
-                                backgroundColor: "#f8f9fa",
-                                border: "1px solid #ced4da",
-                                fontFamily: "Gilroy, sans-serif", fontSize: "14px",
-                              }),
-                              menuList: (base) => ({
-                                ...base,
-                                backgroundColor: "#f8f9fa",
-                                maxHeight: "120px",
-                                padding: 0,
-                                scrollbarWidth: "thin",
-                                overflowY: "auto",
-                                fontFamily: "Gilroy, sans-serif", fontSize: "14px",
-                              }),
-                              placeholder: (base) => ({
-                                ...base,
-                                color: "#555",
-                              }),
-                              option: (base, state) => ({
-                                ...base,
-                                cursor: "pointer",
-                                backgroundColor: state.isFocused ? "lightblue" : "white",
-                                color: "#000",
-                              }),
-                              dropdownIndicator: (base) => ({
-                                ...base,
-                                color: "#555",
-                                cursor: "pointer"
-                              }),
-                              indicatorSeparator: () => ({
-                                display: "none",
-                              }),
-                            }}
+                             styles={CustomStyles}
                             disabled={!canReadInvoice}
                             onChange={(e) => handleStatusFilter(e)}
                             value={statusfilter}
@@ -3865,7 +3921,34 @@ const InvoicePage = () => {
 
                         </div>
                       )}
+                      {
+                        isDuplicate &&
 
+                        <div
+                          style={{
+                            display: "flex",
+                            gap: "12px",
+                            alignItems: "center",
+                            // zIndex: 2000
+                          }}
+                        >
+                          <Select
+                            options={monthOptions}
+                            value={selectedMonth}
+                            onChange={handleMonthChange}
+                            classNamePrefix="custom"
+                            menuPlacement="auto"
+                            noOptionsMessage={() => "No options"}
+                          styles={CustomStyles}
+
+                          />
+
+
+
+
+
+                        </div>
+                      }
                       {
                         isDuplicate &&
                         <>
@@ -3893,6 +3976,7 @@ const InvoicePage = () => {
                     </div>
                   </div>
                 </div>
+
                 {
                   isDuplicate &&
 

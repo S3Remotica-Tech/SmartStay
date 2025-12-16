@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { components } from "react-select";
 import { FaCheck } from "react-icons/fa6";
 import { IoCloseOutline } from "react-icons/io5";
-import { Calendar } from "iconsax-react";
+import ErrorMessage from '../../Components/ErrorMessage'
 
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
@@ -23,7 +23,7 @@ function BillsFilter({ show, handleClose }) {
     const [endDate, setEndDate] = useState("");
     const [tenantName, setTenantName] = useState("");
       const [selectedBillStatusOptions, setSelectedBillStatusOptions] = useState([]);
-
+const [dateError, setDateError] = useState("");
 
     console.log("billStatus", billStatus)
 
@@ -288,6 +288,12 @@ function BillsFilter({ show, handleClose }) {
 
 
     const handleFilterBills = () => {
+
+if ((!startDate && endDate)) {
+  setDateError("Please Select Start Date");
+  return;
+}
+setDateError("");
 
 
         const filters = {
@@ -648,6 +654,7 @@ function BillsFilter({ show, handleClose }) {
                                             onChange={(date) => {
                                                 setStartDate(date);
                                                 setEndDate(null);
+                                                setDateError('')
                                             }}
                                             disabledDate={(current) =>
                                                 current && current > dayjs().endOf("day")
@@ -657,6 +664,8 @@ function BillsFilter({ show, handleClose }) {
                                             }
                                         />
                                     </div>
+
+                                    {dateError &&  <ErrorMessage message={dateError} type="error" />}
 
                                 </Form.Group>
 
