@@ -6,7 +6,7 @@ import { Button, Form, FormControl } from "react-bootstrap";
 import "./UserList.css";
 import PropTypes from "prop-types";
 import {CloseCircle} from "iconsax-react";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import ErrorMessage from '../../Components/ErrorMessage';
 function UserListKyc(props) {
 

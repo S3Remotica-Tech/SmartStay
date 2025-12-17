@@ -7,7 +7,7 @@ import AddAsset from './AddAsset'
 import AssetListTable from '../../Pages/AssetFile/AssetListTable'
 import EmptyState from '../../Assets/Images/New_images/empty_image.png';
 import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort } from 'iconsax-react';
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 import { toast } from 'react-toastify';
 import { DatePicker } from "antd";

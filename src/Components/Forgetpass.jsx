@@ -12,7 +12,7 @@ import Logo from '../Assets/Images/New_images/Group.png'
 import { Eye, EyeSlash } from 'iconsax-react';
 import ForgotOtp from '../Pages/OthersComponent/ForgotOtp'
 import { IoIosCheckmark } from "react-icons/io";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import LoaderComponent from '../Pages/OthersComponent/LoaderComponent'
 import ErrorMessage from '../Components/ErrorMessage'
 

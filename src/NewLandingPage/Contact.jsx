@@ -3,7 +3,7 @@ import { Form } from 'react-bootstrap';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { send } from 'emailjs-com';
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import { Styles } from '../Styles/ContactUsStyles';
 import TopLeftCurve from "../Assets/Images/landingpageimages/topleftcurve.png";
 import Email from "../Assets/Images/landingpageimages/message.png";

@@ -5,7 +5,7 @@ import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import Nav from 'react-bootstrap/Nav';
 import AddCustomer from './AddCustomerPG';
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import PropTypes from "prop-types";
 import { CloseCircle } from "iconsax-react";
 import { DatePicker } from "antd";

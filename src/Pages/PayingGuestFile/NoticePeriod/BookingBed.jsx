@@ -10,7 +10,7 @@ import Select from "react-select";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import { CloseCircle } from "iconsax-react";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import ErrorMessage from '../../../Components/ErrorMessage';
 
 function BookingBed({
@@ -37,7 +37,7 @@ function BookingBed({
   const [formLoading, setFormLoading] = useState(false);
   const [booking_customername, setBookingCustomerName] = useState("");
   const [booking_customererrmsg, setBookingCustomerErrmsg] = useState("");
-  const [customer_details, setCustomerDetails] = useState({})
+  // const [customer_details, setCustomerDetails] = useState({})
   const [modeOfPayment, setModeOfPayment] = useState("");
   const [transactionId, setTransactionId] = useState("")
   const [paymentError, setPaymentError] = useState("");
@@ -471,9 +471,9 @@ useEffect(() => {
                         //  disabledDate={(current) => {
                         //    return current && current > dayjs().endOf('day');
                         //  }}
-                        disabledDate={(current) => {
-                          return current && current < dayjs(customer_details.CheckoutDate).startOf('day');
-                        }}                                                                // getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                        // disabledDate={(current) => {
+                        //   return current && current < dayjs(customer_details.CheckoutDate).startOf('day');
+                        // }}                                                                // getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
                         getPopupContainer={() => document.body}
                       />
                     </div>

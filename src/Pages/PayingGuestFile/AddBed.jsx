@@ -4,7 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import { CloseCircle } from "iconsax-react";
 import PropTypes from "prop-types";
 import ErrorMessage from '../../Components/ErrorMessage'
@@ -364,7 +364,12 @@ function AddBed({ show, setShowBed, currentItem, editBedMode, isOccupied }) {
 AddBed.propTypes = {
   currentItem: PropTypes.func.isRequired,
   setShowBed: PropTypes.func.isRequired,
-  show: PropTypes.func.isRequired,
-
+  show: PropTypes.bool.isRequired,
+  editBedMode: PropTypes.bool,
+  isOccupied: PropTypes.shape({
+    bedId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    bedName: PropTypes.string,
+    rentAmount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  }),
 };
 export default AddBed;

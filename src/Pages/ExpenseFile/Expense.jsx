@@ -11,7 +11,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 import "react-toastify/dist/ReactToastify.css";
 import { CloseCircle, SearchNormal1 } from "iconsax-react";
 import EmptyState from "../../Assets/Images/New_images/empty_image.png";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
@@ -45,20 +45,12 @@ function Expenses({ allPageHostel_Id }) {
   const [modeValue, setModeValue] = useState("");
   const [selectedValue, setSelectedValue] = useState("");
   const [amountValue, setAmountValue] = useState("");
-  const [minAmount, setMinAmount] = useState(0);
-  const [maxAmount, setMaxAmount] = useState(0);
   const [ExcelFilterminAmount, setExcelFilterMinAmount] = useState(0);
   const [ExcelFiltermaxAmount, setExcelFilterMaxAmount] = useState(0);
   const [ExcelFilterPaymentmode, setExcelFilterPaymentmode] = useState('')
   const [ExcelFiltercategoryValue, setExcelFilterCategoryValue] = useState("");
   const [ExcelFilterDates, setExcelFilterDates] = useState([])
-  const [expencerolePermission, setExpenceRolePermission] = useState("");
-
-  const [expencepermissionError, setExpencePermissionError] = useState("");
-  const [expenceAddPermission, setExpenceAddPermission] = useState("");
-  const [expenceDeletePermission, setExpenceDeletePermission] = useState("");
-  const [expenceEditPermission, setExpenceEditPermission] = useState("");
-  const [excelDownload, setExcelDownload] = useState("");
+   const [excelDownload, setExcelDownload] = useState("");
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
   const [dates, setDates] = useState([]);
   const [pickerKey, setPickerKey] = useState(0);
@@ -68,8 +60,6 @@ function Expenses({ allPageHostel_Id }) {
 
 
 
-  // const canReadExpense = useHasPermission("Expense", "canRead");
-  // const canWriteExpense = useHasPermission("Expense", "canWrite");
 
   const {
     canWriteModule: canWriteExpense,
@@ -204,6 +194,8 @@ function Expenses({ allPageHostel_Id }) {
       }, 500);
     }
   }, [excelDownload, isDownloadTriggered]);
+
+
   useEffect(() => {
     if (state.UsersList?.statusCodeForExportExpence === 200) {
 
@@ -213,74 +205,74 @@ function Expenses({ allPageHostel_Id }) {
     }
   }, [state.UsersList?.statusCodeForExportExpence, dispatch]);
 
-  useEffect(() => {
-    setExpenceRolePermission(state.createAccount.accountList);
-  }, [state.createAccount.accountList]);
+  // useEffect(() => {
+  //   setExpenceRolePermission(state.createAccount.accountList);
+  // }, [state.createAccount.accountList]);
 
 
-  useEffect(() => {
-    const userType = expencerolePermission[0]?.user_details?.user_type;
-    const isAdmin = userType === "admin" || userType === "agent";
-    if (isAdmin) {
-      if (state?.login?.planStatus === 0) {
-        setExpencePermissionError("");
-        setExpenceAddPermission("Permission Denied");
-        setExpenceEditPermission("Permission Denied");
-        setExpenceDeletePermission("Permission Denied");
+  // useEffect(() => {
+  //   const userType = expencerolePermission[0]?.user_details?.user_type;
+  //   const isAdmin = userType === "admin" || userType === "agent";
+  //   if (isAdmin) {
+  //     if (state?.login?.planStatus === 0) {
+  //       setExpencePermissionError("");
+  //       setExpenceAddPermission("Permission Denied");
+  //       setExpenceEditPermission("Permission Denied");
+  //       setExpenceDeletePermission("Permission Denied");
 
-      } else if (state?.login?.planStatus === 1) {
-        setExpencePermissionError("");
-        setExpenceAddPermission("");
-        setExpenceEditPermission("");
-        setExpenceDeletePermission("");
-      }
-    }
+  //     } else if (state?.login?.planStatus === 1) {
+  //       setExpencePermissionError("");
+  //       setExpenceAddPermission("");
+  //       setExpenceEditPermission("");
+  //       setExpenceDeletePermission("");
+  //     }
+  //   }
 
-  }, [state?.login?.planStatus, state?.login?.selectedHostel_Id, expencerolePermission])
-
-
+  // }, [state?.login?.planStatus, state?.login?.selectedHostel_Id, expencerolePermission])
 
 
 
-  useEffect(() => {
-    const expensePermission = expencerolePermission[0]?.role_permissions?.find(
-      (perm) => perm.permission_name === "Expenses"
-    );
 
 
-    const isOwner = expencerolePermission[0]?.user_details?.user_type === "staff";
-    const planActive = state?.login?.planStatus === 1;
-
-    if (!expensePermission || !isOwner) return;
-
-
-    if (expensePermission.per_view === 1 && planActive) {
-      setExpencePermissionError("");
-    } else {
-
-      setExpencePermissionError("Permission Denied");
-    }
+  // useEffect(() => {
+  //   const expensePermission = expencerolePermission[0]?.role_permissions?.find(
+  //     (perm) => perm.permission_name === "Expenses"
+  //   );
 
 
-    if (expensePermission.per_create === 1 && planActive) {
-      setExpenceAddPermission("");
-    } else {
-      setExpenceAddPermission("Permission Denied");
-    }
+  //   const isOwner = expencerolePermission[0]?.user_details?.user_type === "staff";
+  //   const planActive = state?.login?.planStatus === 1;
+
+  //   if (!expensePermission || !isOwner) return;
 
 
-    if (expensePermission.per_edit === 1 && planActive) {
-      setExpenceEditPermission("");
-    } else {
-      setExpenceEditPermission("Permission Denied");
-    }
+  //   if (expensePermission.per_view === 1 && planActive) {
+  //     setExpencePermissionError("");
+  //   } else {
 
-    if (expensePermission.per_delete === 1 && planActive) {
-      setExpenceDeletePermission("");
-    } else {
-      setExpenceDeletePermission("Permission Denied");
-    }
-  }, [expencerolePermission, state?.login?.planStatus, state.login?.selectedHostel_Id]);
+  //     setExpencePermissionError("Permission Denied");
+  //   }
+
+
+  //   if (expensePermission.per_create === 1 && planActive) {
+  //     setExpenceAddPermission("");
+  //   } else {
+  //     setExpenceAddPermission("Permission Denied");
+  //   }
+
+
+  //   if (expensePermission.per_edit === 1 && planActive) {
+  //     setExpenceEditPermission("");
+  //   } else {
+  //     setExpenceEditPermission("Permission Denied");
+  //   }
+
+  //   if (expensePermission.per_delete === 1 && planActive) {
+  //     setExpenceDeletePermission("");
+  //   } else {
+  //     setExpenceDeletePermission("Permission Denied");
+  //   }
+  // }, [expencerolePermission, state?.login?.planStatus, state.login?.selectedHostel_Id]);
 
 
 
@@ -327,8 +319,8 @@ function Expenses({ allPageHostel_Id }) {
     setShowFilter(false);
     const amountRange = value;
     const [minAmount, maxAmount] = amountRange.split("-").map(Number);
-    setMinAmount(minAmount);
-    setMaxAmount(maxAmount);
+    // setMinAmount(minAmount);
+    // setMaxAmount(maxAmount);
     setExcelFilterMinAmount(minAmount)
     setExcelFilterMaxAmount(maxAmount)
     setShowAmount(false);
@@ -624,8 +616,8 @@ function Expenses({ allPageHostel_Id }) {
       setCategoryValue("");
       setModeValue("");
       setAmountValue("");
-      setMinAmount("");
-      setMaxAmount("");
+      // setMinAmount("");
+      // setMaxAmount("");
       setAssetValue("");
       setVendorValue("");
       setPickerKey((prevKey) => prevKey + 1);
@@ -1315,9 +1307,7 @@ function Expenses({ allPageHostel_Id }) {
                             item={item}
                             OnEditExpense={handleEditExpen}
                             handleDelete={handleDeleteExpense}
-                            expenceEditPermission={expenceEditPermission}
-                            expenceDeletePermission={expenceDeletePermission}
-                          />
+                                                     />
                         ))}
                     </PaginationList>
                   </tbody>

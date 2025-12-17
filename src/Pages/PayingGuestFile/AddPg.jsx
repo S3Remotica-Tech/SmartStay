@@ -9,7 +9,6 @@ import imageCompression from "browser-image-compression";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
 import { InputGroup, Card, FormControl } from "react-bootstrap";
-import { MdError } from "react-icons/md";
 import { CloseCircle, Trash, AddCircle, Gallery } from "iconsax-react";
 import PropTypes from "prop-types";
 import Select from "react-select";
@@ -43,9 +42,9 @@ function AddPg({ show, handleClose, currentItem }) {
   const [pincodeError, setPincodeError] = useState("");
   const [cityError, setCityError] = useState("");
   const [state_nameError, setStateNameError] = useState("");
-  const [hostel_Id, setHostel_Id] = useState("");
+  // const [hostel_Id, setHostel_Id] = useState("");
   const [formLoading, setFormLoading] = useState(false)
-  const errorRef = useRef(null);
+  // const errorRef = useRef(null);
   const pgNameRef = useRef(null);
   const countryCodeRef = useRef(null);
   const mobileRef = useRef(null);
@@ -167,7 +166,9 @@ function AddPg({ show, handleClose, currentItem }) {
 
   const handleHouseNo = (e) => {
     const value = e.target.value;
-    const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
+    
+ const regex = /^[a-zA-Z0-9 .,'/\\#()&:-]*$/;
+
     if (regex.test(value)) {
       setHouseNo(value);
       setHouse_NoError("");
@@ -179,7 +180,7 @@ function AddPg({ show, handleClose, currentItem }) {
 
   const handleStreetName = (e) => {
     const value = e.target.value;
-    const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
+   const regex = /^[a-zA-Z0-9 .,'/\\#()&:-]*$/;
 
     if (regex.test(value)) {
       setStreet(value);
@@ -194,7 +195,7 @@ function AddPg({ show, handleClose, currentItem }) {
 
   const handleLandmark = (e) => {
     const value = e.target.value;
-    const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
+  const regex = /^[a-zA-Z0-9 .,'/\\#()&:-]*$/;
 
     if (regex.test(value)) {
       setLandmark(value);
@@ -421,13 +422,13 @@ function AddPg({ show, handleClose, currentItem }) {
     if (hasError) return;
 
 
-    const arraysAreEqual = (arr1, arr2) => {
-      if (arr1.length !== arr2.length) return false;
-      for (let i = 0; i < arr1.length; i++) {
-        if (arr1[i].image !== arr2[i]?.image) return false;
-      }
-      return true;
-    };
+    // const arraysAreEqual = (arr1, arr2) => {
+    //   if (arr1.length !== arr2.length) return false;
+    //   for (let i = 0; i < arr1.length; i++) {
+    //     if (arr1[i].image !== arr2[i]?.image) return false;
+    //   }
+    //   return true;
+    // };
 
     const isChanged =
       String(pgName || "").trim() !== String(initialState.pgName || "").trim() ||
@@ -534,9 +535,9 @@ function AddPg({ show, handleClose, currentItem }) {
   };
 
 
-  useEffect(() => {
-    setHostel_Id(state.login.selectedHostel_Id);
-  }, [state?.login?.selectedHostel_Id]);
+  // useEffect(() => {
+  //   setHostel_Id(state.login.selectedHostel_Id);
+  // }, [state?.login?.selectedHostel_Id]);
 
 
 
@@ -660,8 +661,10 @@ function AddPg({ show, handleClose, currentItem }) {
     setDisplayLayer(null);
   };
 
-  const handleDeleteImages = (ImageName, index) => {
-    const imageObj = images[index];
+  const handleDeleteImages = (
+    // ImageName, 
+    index) => {
+    // const imageObj = images[index];
 
     // if (currentItem.id && imageObj?.isChanged !== true && ImageName) {
     //   dispatch({

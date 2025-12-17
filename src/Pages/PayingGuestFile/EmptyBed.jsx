@@ -258,6 +258,7 @@ EmptyBed.propTypes = {
   currentItem: PropTypes.func.isRequired,
   showbed: PropTypes.func.isRequired,
   showtenant: PropTypes.func.isRequired,
-  showcustomer: PropTypes.func.isRequired
+  showcustomer: PropTypes.func.isRequired,
+  showEditBed : PropTypes.func.isRequired,
 }
 export default EmptyBed

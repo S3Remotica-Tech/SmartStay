@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import "../Bills/Invoices.css";
 import DownLoad from '../../Assets/Images/New_images/searchss.png'
 import Whatsapp from '../../Assets/Images/whatsapp.png'
@@ -10,21 +10,15 @@ import Mail from '../../Assets/Images/gmail.png'
 import Mail_white from '../../Assets/Images/gmail_white.png'
 import Message_text from '../../Assets/Images/message-text.png'
 import Message_text_white from '../../Assets/Images/message-white.png'
-import Close from '../../Assets/Images/New_images/circlie.png'
 import Logo from "../../Assets/Images/New_images/Group_Logo.png";
-import Dial from '../../Assets/Images/dial.png'
-import Room from '../../Assets/Images/Car.png'
-import Locat from '../../Assets/Images/location 03.png'
-import Barcode from '../../Assets/Images/invoice_barcode.svg'
 import Gpay from '../../Assets/Images/gpay.png'
 import Phonepe from '../../Assets/Images/phonepe.png'
 import Paytm from '../../Assets/Images/paytm.png'
-import User from '../../Assets/Images/user.png'
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import PropTypes from "prop-types";
 import { IoClose } from "react-icons/io5";
-import { Container, Row, Col, Table } from "react-bootstrap";
+import {  Row, Col, Table } from "react-bootstrap";
 import { Location, Call, Profile, } from 'iconsax-react'
 import { IoBed } from "react-icons/io5";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
@@ -33,7 +27,7 @@ import withErrorBoundary from "../../Hoc/WithErrorBountry";
 const InvoiceCard = ({ rowData, handleClosed }) => {
 
   const state = useSelector((state) => state);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
 
 
@@ -63,23 +57,23 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
 
 
-  const [hosteldetails, setHostelDetails] = useState({})
-  const [userdetails, setUserDetails] = useState({})
-  const [invoice_details, setInvoiceDetails] = useState({})
-  const [tabledetails, setTableDetails] = useState([])
-  const [bill_template, setBillTemplate] = useState({})
-  const [banking_details, setBankingDetails] = useState({})
+  // const [hosteldetails, setHostelDetails] = useState({})
+  // const [userdetails, setUserDetails] = useState({})
+  // const [invoice_details, setInvoiceDetails] = useState({})
+  // const [tabledetails, setTableDetails] = useState([])
+  // const [bill_template, setBillTemplate] = useState({})
+  // const [banking_details, setBankingDetails] = useState({})
   const [isVisible, setIsVisible] = useState(true);
-  const [idforwhats, setIdForWhats] = useState("");
+  // const [idforwhats, setIdForWhats] = useState("");
   const cardRef = useRef(null);
 
   useEffect(() => {
-    setIdForWhats(rowData?.id);
+    // setIdForWhats(rowData?.id);
     setIsVisible(true)
   }, [rowData])
 
-  const [billTransaction, setBillTransaction] = useState("")
-  const [billReceipt, setBillReceipt] = useState("")
+  // const [billTransaction, setBillTransaction] = useState("")
+  // const [billReceipt, setBillReceipt] = useState("")
 
 
 
@@ -88,42 +82,42 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
 
 
-  useEffect(() => {
-    if (state.Settings?.SettingsBilltemplategetsuccessCode === 200) {
+  // useEffect(() => {
+  //   if (state.Settings?.SettingsBilltemplategetsuccessCode === 200) {
 
-      const invoiceTypeMap = {
-        Rent: "RENTAL",
-        Advance: "ADVANCE",
-      };
+  //     // const invoiceTypeMap = {
+  //     //   Rent: "RENTAL",
+  //     //   Advance: "ADVANCE",
+  //     // };
 
-      const selectedType = invoiceTypeMap[rowData.invoiceType];
+  //     // const selectedType = invoiceTypeMap[rowData.invoiceType];
 
-      const TempArray = state.Settings?.settingsBillsTemplateList?.templates?.filter(
-        (template) => template.type === selectedType
-      );
-
-
-
-
-      setHostelDetails(TempArray)
-      setUserDetails(state.InvoiceList.BillsPdfDetails.user_details)
-      setTableDetails(state.InvoiceList.BillsPdfDetails.amenities)
-      setInvoiceDetails(TempArray)
-
-      setBillTemplate(TempArray)
-
-      setBankingDetails(state.InvoiceList.BillsPdfDetails.banking_details)
-      setBillTransaction(state.InvoiceList.BillsPdfDetails.Transaction)
-      setBillReceipt(state.InvoiceList.BillsPdfDetails)
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_GET_BILLS_PDF_DETAILS_STATUS_CODE" });
-      }, 100);
-    }
-  }, [state.Settings?.SettingsBilltemplategetsuccessCode]);
+  //     // const TempArray = state.Settings?.settingsBillsTemplateList?.templates?.filter(
+  //     //   (template) => template.type === selectedType
+  //     // );
 
 
 
 
+  //     // setHostelDetails(TempArray)
+  //     // setUserDetails(state.InvoiceList.BillsPdfDetails.user_details)
+  //     // setTableDetails(state.InvoiceList.BillsPdfDetails.amenities)
+  //     // setInvoiceDetails(TempArray)
+
+  //     // setBillTemplate(TempArray)
+
+  //     // setBankingDetails(state.InvoiceList.BillsPdfDetails.banking_details)
+  //     // setBillTransaction(state.InvoiceList.BillsPdfDetails.Transaction)
+  //     // setBillReceipt(state.InvoiceList.BillsPdfDetails)
+  //     setTimeout(() => {
+  //       dispatch({ type: "CLEAR_GET_BILLS_PDF_DETAILS_STATUS_CODE" });
+  //     }, 100);
+  //   }
+  // }, [state.Settings?.SettingsBilltemplategetsuccessCode]);
+
+
+
+ 
 
   const innerScrollRef = useRef(null);
 
@@ -200,9 +194,9 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
   }
 
 
-  const isValid = (value) => {
-    return value !== null && value !== undefined && value !== "undefined" && value !== "";
-  };
+  // const isValid = (value) => {
+  //   return value !== null && value !== undefined && value !== "undefined" && value !== "";
+  // };
 
 
   const [isOpen, setIsOpen] = useState(false);
@@ -714,7 +708,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                                 <tbody>
 
                                   {pdfDetails?.invoiceInfo?.listDeductions.length > 0 ? pdfDetails?.invoiceInfo?.listDeductions?.map((item, index) => (
-                                    <tr>
+                                    <tr key={index}>
                                       <td
                                         style={{
                                           fontSize: 12,
@@ -924,7 +918,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
                             <tbody>
                               {pdfDetails?.invoiceInfo?.invoiceItems?.map((item, index) => (
-                                <tr
+                                <tr key={index}
                                   style={{
                                     // borderBottom: "1px solid #dee2e6",
                                     backgroundColor: "#fff",

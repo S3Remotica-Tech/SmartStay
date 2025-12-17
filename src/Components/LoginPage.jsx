@@ -14,7 +14,7 @@ import Cookies from 'universal-cookie';
 import Loginimage from '../Assets/Images/new_login.png';
 import Logo from '../Assets/Images/New_images/Group.png';
 import { Eye, EyeSlash } from 'iconsax-react';
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import ErrorMessage from '../Components/ErrorMessage'
 
 const MyComponent = () => {

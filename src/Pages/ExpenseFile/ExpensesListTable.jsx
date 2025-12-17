@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from 'react';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import moment from 'moment';
+// import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { Edit, Trash } from 'iconsax-react';
 import TagAsset from '../../Assets/Images/TagAsset.svg';
 import closeicon from '../../Assets/Images/close.svg';
 import { Modal, Button } from "react-bootstrap";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import './Expenses.css';
 import ErrorMessage from '../../Components/ErrorMessage';
 import { useHasPermission } from '../../Utils/Permission';
@@ -33,7 +33,7 @@ function ExpensesListTable(props) {
 
   const {
     canWriteModule: canWriteExpense,
-    canReadModule: canReadExpense,
+    // canReadModule: canReadExpense,
     canUpdateModule: canUpdateExpense,
     canDeleteModule: canDeleteExpense,
   } = useHasPermission("Expense");
