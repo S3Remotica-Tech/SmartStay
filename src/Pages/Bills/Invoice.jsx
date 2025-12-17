@@ -266,6 +266,21 @@ const InvoicePage = () => {
 
   const handleShowFilterBills = () => {
     setShowBillsFilter(true)
+
+     dispatch({
+      type: "SET_INVOICE_FILTERS",
+      payload: {
+        startDate: undefined,
+        endDate: undefined,
+        type: [],
+        createdBy: [],
+        createdByLabels: [],
+        modes: [],
+        paymentStatus: [],
+        search: "",
+      },
+    })
+
   }
 
   const handleCloseFilterBills = () => {
@@ -727,6 +742,19 @@ const InvoicePage = () => {
     }
 
   const handleStatusFilter = (selectedOption) => {
+     dispatch({
+      type: "SET_INVOICE_FILTERS",
+      payload: {
+        startDate: undefined,
+        endDate: undefined,
+        type: [],
+        createdBy: [],
+        createdByLabels: [],
+        modes: [],
+        paymentStatus: [],
+        search: "",
+      },
+    })
     if (!selectedOption) {
       setStatusfilter(null);
 
@@ -2966,7 +2994,19 @@ const InvoicePage = () => {
       setDropdownVisible(false);
     }
 
-
+ dispatch({
+      type: "SET_INVOICE_FILTERS",
+      payload: {
+        startDate: undefined,
+        endDate: undefined,
+        type: [],
+        createdBy: [],
+        createdByLabels: [],
+        modes: [],
+        paymentStatus: [],
+        search: "",
+      },
+    })
     // setBills(originalBills);
     // setRecurringBills(originalRecuiring);
     // setReceiptData(originalReceipt);
@@ -3041,6 +3081,19 @@ const InvoicePage = () => {
 
   const handleSearch = () => {
     setSearch(!search);
+     dispatch({
+      type: "SET_INVOICE_FILTERS",
+      payload: {
+        startDate: undefined,
+        endDate: undefined,
+        type: [],
+        createdBy: [],
+        createdByLabels: [],
+        modes: [],
+        paymentStatus: [],
+        search: "",
+      },
+    })
 
   };
 
@@ -3095,11 +3148,11 @@ const InvoicePage = () => {
 
 
 
-  const handleFilterd = () => {
-    setFilterStatus(!filterStatus);
-    setBills(originalBillsFilter)
-    setReceiptData(originalBillsFilterReceipt);
-  };
+  // const handleFilterd = () => {
+  //   setFilterStatus(!filterStatus);
+  //   setBills(originalBillsFilter)
+  //   setReceiptData(originalBillsFilterReceipt);
+  // };
 
   useEffect(() => {
     if (!filterStatus) {

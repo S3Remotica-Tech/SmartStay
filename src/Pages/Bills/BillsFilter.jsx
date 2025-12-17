@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState , useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import Select from "react-select";
 import { Button, Form, Offcanvas } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,8 +22,9 @@ function BillsFilter({ show, handleClose }) {
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [tenantName, setTenantName] = useState("");
-      const [selectedBillStatusOptions, setSelectedBillStatusOptions] = useState([]);
-const [dateError, setDateError] = useState("");
+    const [selectedBillStatusOptions, setSelectedBillStatusOptions] = useState([]);
+    const [dateError, setDateError] = useState("");
+const [formLoading, setFormLoading] = useState(false)
 
     console.log("billStatus", billStatus)
 
@@ -149,7 +150,7 @@ const [dateError, setDateError] = useState("");
     //     setBillStatus(selected.map(opt => opt.value))
     // };
 
-  
+
 
 
     const handleBillStatusChange = (selectedOptions) => {
@@ -172,6 +173,12 @@ const [dateError, setDateError] = useState("");
             setBillStatus(selectedOptions.map(opt => opt.value));
         }
     };
+
+useEffect(() => {
+    if (state.InvoiceList.billsListStatusCode === 200) {
+    setFormLoading(false)
+    }
+  }, [state.InvoiceList.billsListStatusCode]);
 
 
     useEffect(() => {
@@ -205,7 +212,7 @@ const [dateError, setDateError] = useState("");
 
 
     const handleCreatedByChange = (selected) => {
-        
+
         setCreatedBy(selected || []);
     };
 
@@ -289,11 +296,11 @@ const [dateError, setDateError] = useState("");
 
     const handleFilterBills = () => {
 
-if ((!startDate && endDate)) {
-  setDateError("Please Select Start Date");
-  return;
-}
-setDateError("");
+        if ((!startDate && endDate)) {
+            setDateError("Please Select Start Date");
+            return;
+        }
+        setDateError("");
 
 
         const filters = {
@@ -326,7 +333,9 @@ setDateError("");
                         hostelId: state.login?.selectedHostel_Id,
                     }
                 })
-            } else {
+                setFormLoading(true)
+            } 
+            else {
                 dispatch({
                     type: 'INVOICESLISTFILTER',
                     payload: {
@@ -334,6 +343,7 @@ setDateError("");
                         filters: filters
                     }
                 })
+                setFormLoading(true)
             }
 
 
@@ -665,7 +675,7 @@ setDateError("");
                                         />
                                     </div>
 
-                                    {dateError &&  <ErrorMessage message={dateError} type="error" />}
+                                    {dateError && <ErrorMessage message={dateError} type="error" />}
 
                                 </Form.Group>
 
@@ -795,6 +805,37 @@ setDateError("");
                         </Form.Group> */}
                     </div>
                 </Offcanvas.Body>
+
+
+
+  {formLoading && <div
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>}
+
+
+
                 <div style={{
                     display: "flex",
                     justifyContent: "space-between",

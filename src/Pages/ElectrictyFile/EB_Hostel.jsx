@@ -323,7 +323,7 @@ const RoomReadingTable = () => {
 
       {!roomDetail && !tenantsDetail ? (
         <div className="container-fluid p-4" style={{ fontFamily: "Gilroy" }}>
-          <div className="mb-4">
+          <div className="mb-3">
             <label
               style={{
                 fontSize: 18,
@@ -336,7 +336,7 @@ const RoomReadingTable = () => {
             </label>
           </div>
 
-          <div className="d-flex align-items-center mb-3">
+          <div className="d-flex align-items-center justify-content-between mb-3">
             <div
               className="d-flex"
               style={{ marginLeft: "2px", marginTop: "-10px" }}
@@ -381,286 +381,334 @@ const RoomReadingTable = () => {
 
 
             </div>
+            <div className="d-flex  align-items-center justify-content-center">
 
-            <div className="ms-auto d-flex gap-2 me-2 align-items-center">
-              <div className="ms-auto d-flex gap-3 me-2" style={{ backgroundColor: "white", borderRadius: 5, padding: 8, boxShadow: "0px 2px 2px rgba(0,0,0,0.2)", height: "fit-content" }}>
-                <img
-                  // onClick={()=> canReadElectricity && handleSearch()}
-                  src={searchteam} height="20" width="20" alt="search" style={{
-                    cursor: canReadElectricity ? "pointer" : "not-allowed",
-                    opacity: canReadElectricity ? 1 : 0.4,
-                    pointerEvents: canReadElectricity ? "auto" : "none",
-                    transition: "opacity 0.3s ease"
-                  }} />
-              </div>
-              {
-                !isEbBased &&
 
-                <div>
-                  {/* Filter Button */}
-                  <div
-                    className="ms-auto d-flex gap-3 me-2 p-1"
+              {isEbBased && activeTab === "room" && (
+                <div className="d-flex justify-content-center align-items-center  gap-3 me-2 ">
+
+                  <span
+                    className="badge"
                     style={{
-                      backgroundColor: "white",
-                      borderRadius: 5,
-                      padding: 6,
-                      boxShadow: "0px 2px 2px rgba(0,0,0,0.2)",
+                      backgroundColor: "#E5F0FF",
+                      color: "#1D4ED8",
+                      fontSize: 14,
+                      padding: "12px 12px",
+                      borderRadius: 8,
+                      fontWeight: 500,
                     }}
-                    onClick={() => canReadElectricity && handleFilterShow()}
                   >
-                    <FiFilter size={20} style={{
+                    Total Units :
+                    <span style={{ fontWeight: 700, marginLeft: 4 }}>
+                      {totals?.totalUnits?.toFixed(0)}
+                    </span>
+                  </span>
+
+                  <span
+                    className="badge"
+                    style={{
+                      backgroundColor: "#E5F0FF",
+                      color: "#1D4ED8",
+                      fontSize: 14,
+                      padding: "12px 12px",
+                      borderRadius: 8,
+                      fontWeight: 500,
+                    }}
+                  >
+                    Total Amount :
+                    <span style={{ fontWeight: 700, marginLeft: 4 }}>
+                      ₹ {totals?.totalAmount?.toFixed(0)}
+                    </span>
+                  </span>
+
+                </div>
+              )}
+
+
+
+
+              <div className="ms-auto d-flex gap-2 me-2 align-items-center">
+                <div className="ms-auto d-flex gap-3 me-2" style={{ backgroundColor: "white", borderRadius: 5, padding: 8, boxShadow: "0px 2px 2px rgba(0,0,0,0.2)", height: "fit-content" }}>
+                  <img
+                    // onClick={()=> canReadElectricity && handleSearch()}
+                    src={searchteam} height="20" width="20" alt="search" style={{
                       cursor: canReadElectricity ? "pointer" : "not-allowed",
                       opacity: canReadElectricity ? 1 : 0.4,
                       pointerEvents: canReadElectricity ? "auto" : "none",
                       transition: "opacity 0.3s ease"
                     }} />
-                  </div>
+                </div>
+                {
+                  !isEbBased &&
 
-                  {/* Right Side Offcanvas */}
-                  <Offcanvas
-                    show={filterShow}
-                    onHide={handleFilterClose}
-                    placement="end"
-                    style={{ width: "320px" }}
-                  >
-                    <Offcanvas.Header className="d-flex justify-content-between align-items-center">
-                      <Offcanvas.Title style={{ fontWeight: 600 }}>Filter</Offcanvas.Title>
-                      <CloseCircle
-                        size="26"
-                        color="#000000"
-                        style={{ cursor: "pointer" }}
-                        onClick={handleFilterClose}
-                      />
-                    </Offcanvas.Header>
+                  <div>
+                    {/* Filter Button */}
+                    <div
+                      className="ms-auto d-flex gap-3 me-2 p-1"
+                      style={{
+                        backgroundColor: "white",
+                        borderRadius: 5,
+                        padding: 6,
+                        // boxShadow: "0px 2px 2px rgba(0,0,0,0.2)",
+                      }}
+                      onClick={() => canReadElectricity && handleFilterShow()}
+                    >
+                      <FiFilter size={20} style={{
+                        cursor: canReadElectricity ? "pointer" : "not-allowed",
+                        opacity: canReadElectricity ? 1 : 0.4,
+                        pointerEvents: canReadElectricity ? "auto" : "none",
+                        transition: "opacity 0.3s ease"
+                      }} />
+                    </div>
 
-                    <Offcanvas.Body>
-                      <Form>
+                    {/* Right Side Offcanvas */}
+                    <Offcanvas
+                      show={filterShow}
+                      onHide={handleFilterClose}
+                      placement="end"
+                      style={{ width: "320px" }}
+                    >
+                      <Offcanvas.Header className="d-flex justify-content-between align-items-center">
+                        <Offcanvas.Title style={{ fontWeight: 600 }}>Filter</Offcanvas.Title>
+                        <CloseCircle
+                          size="26"
+                          color="#000000"
+                          style={{ cursor: "pointer" }}
+                          onClick={handleFilterClose}
+                        />
+                      </Offcanvas.Header>
 
-                        <Form.Group className="mb-3" style={{ position: "relative" }}>
-                          <Form.Label>Datas</Form.Label>
-                          <Form.Control
-                            as="select"
-                            style={{ appearance: "none", paddingRight: "2.5rem" }}
-                          >
-                            <option>All</option>
-                            <option>Active</option>
-                            <option>Inactive</option>
-                          </Form.Control>
-                          <span
-                            style={{
-                              position: "absolute",
-                              right: "10px",
-                              top: "65%",
-                              transform: "translateY(-50%)",
-                              pointerEvents: "none",
-                            }}
-                          >
-                            <ArrowDown2 size="20" color="black" style={{ marginTop: 12 }} />
-                          </span>
-                        </Form.Group>
+                      <Offcanvas.Body>
+                        <Form>
 
-                        <div>
-                          {/* System Filter Header */}
-                          <Form.Group className="mb-3" style={{ position: "relative", cursor: "pointer" }}>
-                            <Form.Label
-                              className="d-flex justify-content-between align-items-center"
-                              onClick={() => setIsOpen(!isOpen)}
+                          <Form.Group className="mb-3" style={{ position: "relative" }}>
+                            <Form.Label>Datas</Form.Label>
+                            <Form.Control
+                              as="select"
+                              style={{ appearance: "none", paddingRight: "2.5rem" }}
                             >
-                              System Filter
-                              <span>
-                                {isOpen ? <ArrowUp2 size="20" color="black" /> : <ArrowDown2 size="20" color="black" />}
-                              </span>
-                            </Form.Label>
+                              <option>All</option>
+                              <option>Active</option>
+                              <option>Inactive</option>
+                            </Form.Control>
+                            <span
+                              style={{
+                                position: "absolute",
+                                right: "10px",
+                                top: "65%",
+                                transform: "translateY(-50%)",
+                                pointerEvents: "none",
+                              }}
+                            >
+                              <ArrowDown2 size="20" color="black" style={{ marginTop: 12 }} />
+                            </span>
                           </Form.Group>
 
-                          {/* Filter Contents - Toggle visibility */}
-                          {isOpen && (
-                            <div className="mb-3">
-                              {/* Month & Year */}
-                              <Form.Group className="mb-3" style={{ position: "relative" }}>
-                                <Form.Label>Month &amp; Year</Form.Label>
-                                <Form.Control
-                                  as="select"
-                                  style={{ appearance: "none", paddingRight: "2.5rem" }}
-                                >
-                                  <option>August</option>
-                                  <option>July</option>
-                                  <option>June</option>
-                                </Form.Control>
-                                <span
-                                  style={{
-                                    position: "absolute",
-                                    right: "10px",
-                                    top: "65%",
-                                    transform: "translateY(-50%)",
-                                    pointerEvents: "none",
-                                  }}
-                                >
-                                  <ArrowDown2 size="20" color="black" style={{ marginTop: 12 }} />
+                          <div>
+                            {/* System Filter Header */}
+                            <Form.Group className="mb-3" style={{ position: "relative", cursor: "pointer" }}>
+                              <Form.Label
+                                className="d-flex justify-content-between align-items-center"
+                                onClick={() => setIsOpen(!isOpen)}
+                              >
+                                System Filter
+                                <span>
+                                  {isOpen ? <ArrowUp2 size="20" color="black" /> : <ArrowDown2 size="20" color="black" />}
                                 </span>
-                              </Form.Group>
+                              </Form.Label>
+                            </Form.Group>
 
-                              {/* Custom Date */}
-                              <Form.Group className="mb-3">
-                                <Form.Label>Custom Date</Form.Label>
-                                <div className="d-flex gap-2">
-                                  <Form.Control type="date" />
-                                  <Form.Control type="date" />
-                                </div>
-                              </Form.Group>
+                            {/* Filter Contents - Toggle visibility */}
+                            {isOpen && (
+                              <div className="mb-3">
+                                {/* Month & Year */}
+                                <Form.Group className="mb-3" style={{ position: "relative" }}>
+                                  <Form.Label>Month &amp; Year</Form.Label>
+                                  <Form.Control
+                                    as="select"
+                                    style={{ appearance: "none", paddingRight: "2.5rem" }}
+                                  >
+                                    <option>August</option>
+                                    <option>July</option>
+                                    <option>June</option>
+                                  </Form.Control>
+                                  <span
+                                    style={{
+                                      position: "absolute",
+                                      right: "10px",
+                                      top: "65%",
+                                      transform: "translateY(-50%)",
+                                      pointerEvents: "none",
+                                    }}
+                                  >
+                                    <ArrowDown2 size="20" color="black" style={{ marginTop: 12 }} />
+                                  </span>
+                                </Form.Group>
 
-                              {/* Floor */}
-                              <Form.Group className="mb-3" style={{ position: "relative" }}>
-                                <Form.Label>Floor</Form.Label>
-                                <Form.Control
-                                  as="select"
-                                  style={{ appearance: "none", paddingRight: "2.5rem" }}
-                                >
-                                  <option>Ground Floor</option>
-                                  <option>First Floor</option>
-                                  <option>Second Floor</option>
-                                </Form.Control>
-                                <span
-                                  style={{
-                                    position: "absolute",
-                                    right: "10px",
-                                    top: "65%",
-                                    transform: "translateY(-50%)",
-                                    pointerEvents: "none",
-                                  }}
-                                >
-                                  <ArrowDown2 size="20" color="black" style={{ marginTop: 12 }} />
-                                </span>
-                              </Form.Group>
-                            </div>
-                          )}
-                        </div>
+                                {/* Custom Date */}
+                                <Form.Group className="mb-3">
+                                  <Form.Label>Custom Date</Form.Label>
+                                  <div className="d-flex gap-2">
+                                    <Form.Control type="date" />
+                                    <Form.Control type="date" />
+                                  </div>
+                                </Form.Group>
 
-
-
-
-
-                        <div className="d-flex justify-content-between mt-4">
-                          <Button
-                            variant="secondary"
-                            onClick={handleFilterClose}
-                            style={{ minWidth: "100px" }}
-                          >
-                            Reset
-                          </Button>
-                          <Button
-                            variant="primary"
-                            onClick={handleFilterClose}
-                            style={{ minWidth: "100px" }}
-                          >
-                            Apply
-                          </Button>
-                        </div>
-                      </Form>
-                    </Offcanvas.Body>
-                  </Offcanvas>
-                </div>
-              }
-
-
-
-              {
-                isEbBased &&
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "12px",
-                    alignItems: "center",
-                    zIndex: 20
-                  }}
-                >
-                  <Select
-                    options={monthOptions}
-                    value={selectedMonth}
-                    onChange={handleMonthChange}
-                    classNamePrefix="custom"
-                    menuPlacement="auto"
-                    noOptionsMessage={() => "No options"}
-                    styles={{
-                      control: (base, state) => ({
-                        ...base,
-                        height: 40,
-                        minHeight: 40,
-                        borderRadius: 6,
-                        border: state.isFocused ? "1px solid #1E45E1" : "1px solid #ccc",
-                        boxShadow: state.isFocused ? "0 0 0 1px #1E45E1" : "none",
-                        padding: "0 5px",
-                        fontSize: 14,
-                        color: "#1E45E1",
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                        cursor: "pointer",
-                        width: 180,
-                        zIndex: 2,
-                      }),
-                      menu: (base) => ({
-                        ...base,
-                        backgroundColor: "#f8f9fa",
-                        border: "1px solid #ced4da",
-                        fontFamily: "Gilroy",
-                      }),
-                      option: (base, state) => ({
-                        ...base,
-                        backgroundColor: state.isFocused ? "#1E45E1" : "#fff",
-                        color: state.isFocused ? "#fff" : "#000",
-                        fontWeight: 500,
-                        cursor: "pointer",
-                      }),
-                      indicatorSeparator: () => ({ display: "none" }),
-                      dropdownIndicator: (base) => ({
-                        ...base,
-                        color: "#1E45E1",
-                        cursor: "pointer",
-                      }),
-                    }}
-
-                  />
+                                {/* Floor */}
+                                <Form.Group className="mb-3" style={{ position: "relative" }}>
+                                  <Form.Label>Floor</Form.Label>
+                                  <Form.Control
+                                    as="select"
+                                    style={{ appearance: "none", paddingRight: "2.5rem" }}
+                                  >
+                                    <option>Ground Floor</option>
+                                    <option>First Floor</option>
+                                    <option>Second Floor</option>
+                                  </Form.Control>
+                                  <span
+                                    style={{
+                                      position: "absolute",
+                                      right: "10px",
+                                      top: "65%",
+                                      transform: "translateY(-50%)",
+                                      pointerEvents: "none",
+                                    }}
+                                  >
+                                    <ArrowDown2 size="20" color="black" style={{ marginTop: 12 }} />
+                                  </span>
+                                </Form.Group>
+                              </div>
+                            )}
+                          </div>
 
 
 
 
-                  <Button
-                    onClick={() => canWriteElectricity && handleActionReadingClick()}
+
+                          <div className="d-flex justify-content-between mt-4">
+                            <Button
+                              variant="secondary"
+                              onClick={handleFilterClose}
+                              style={{ minWidth: "100px" }}
+                            >
+                              Reset
+                            </Button>
+                            <Button
+                              variant="primary"
+                              onClick={handleFilterClose}
+                              style={{ minWidth: "100px" }}
+                            >
+                              Apply
+                            </Button>
+                          </div>
+                        </Form>
+                      </Offcanvas.Body>
+                    </Offcanvas>
+                  </div>
+                }
+
+
+
+                {
+                  isEbBased &&
+                  <div
                     style={{
-                      backgroundColor: "#1E45E1",
-                      borderRadius: "8px",
-                      padding: "10px 18px",
-                      border: "none",
                       display: "flex",
+                      gap: "12px",
                       alignItems: "center",
-                      gap: "8px",
-                      fontFamily: "Gilroy",
-                      fontWeight: 600,
-                      fontSize: "14px",
+                      zIndex: 20
                     }}
                   >
-                    <img
-                      src={Group}
-                      alt="action"
-                      style={{
-                        filter: canWriteElectricity
-                          ? "brightness(0) invert(1)"
-                          : "grayscale(100%) brightness(60%)",
-                        opacity: canWriteElectricity ? 1 : 0.6,
-                        cursor: canWriteElectricity ? "pointer" : "default",
+                    <Select
+                      options={monthOptions}
+                      value={selectedMonth}
+                      onChange={handleMonthChange}
+                      classNamePrefix="custom"
+                      menuPlacement="auto"
+                      noOptionsMessage={() => "No options"}
+                      styles={{
+                        control: (base, state) => ({
+                          ...base,
+                          height: 40,
+                          minHeight: 40,
+                          borderRadius: 6,
+                          border: state.isFocused ? "1px solid #1E45E1" : "1px solid #ccc",
+                          boxShadow: state.isFocused ? "0 0 0 1px #1E45E1" : "none",
+                          padding: "0 5px",
+                          fontSize: 14,
+                          color: "#1E45E1",
+                          fontWeight: 600,
+                          fontFamily: "Gilroy",
+                          cursor: "pointer",
+                          width: 180,
+                          zIndex: 2,
+                        }),
+                        menu: (base) => ({
+                          ...base,
+                          backgroundColor: "#f8f9fa",
+                          border: "1px solid #ced4da",
+                          fontFamily: "Gilroy",
+                        }),
+                        option: (base, state) => ({
+                          ...base,
+                          backgroundColor: state.isFocused ? "#1E45E1" : "#fff",
+                          color: state.isFocused ? "#fff" : "#000",
+                          fontWeight: 500,
+                          cursor: "pointer",
+                        }),
+                        indicatorSeparator: () => ({ display: "none" }),
+                        dropdownIndicator: (base) => ({
+                          ...base,
+                          color: "#1E45E1",
+                          cursor: "pointer",
+                        }),
                       }}
 
                     />
-                    Reading
-                  </Button>
-                </div>
-              }
+
+
+
+
+                    <Button
+                      onClick={() => canWriteElectricity && handleActionReadingClick()}
+                      style={{
+                        backgroundColor: "#1E45E1",
+                        borderRadius: "8px",
+                        padding: "10px 18px",
+                        border: "none",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "8px",
+                        fontFamily: "Gilroy",
+                        fontWeight: 600,
+                        fontSize: "14px",
+                      }}
+                    >
+                      <img
+                        src={Group}
+                        alt="action"
+                        style={{
+                          filter: canWriteElectricity
+                            ? "brightness(0) invert(1)"
+                            : "grayscale(100%) brightness(60%)",
+                          opacity: canWriteElectricity ? 1 : 0.6,
+                          cursor: canWriteElectricity ? "pointer" : "default",
+                        }}
+
+                      />
+                      Reading
+                    </Button>
+                  </div>
+                }
 
 
 
 
 
+              </div>
             </div>
+
+
           </div>
 
           {filters.length > 0 && (
@@ -769,7 +817,7 @@ const RoomReadingTable = () => {
                           background: "#fff",
                           borderRadius: 12,
                           boxShadow: "0px 4px 8px rgba(0,0,0,0.05)",
-                          maxHeight: "350px",
+                          maxHeight: "460px",
                           overflowY: "auto",
                           position: "relative"
                         }}
@@ -886,21 +934,6 @@ const RoomReadingTable = () => {
                       </div>
                     )}
 
-
-                    <div className="d-flex justify-content-end mt-3 mb-2 me-2">
-                      <div>
-
-                     
-                      <div className="mb-2">
-                        <label style={{ fontSize: 16, fontWeight: 500, color: "#4B4B4B" }}>Total Units : <span style={{ fontSize: 16, fontWeight: 600, color: "#000000" }}>{totals?.totalUnits.toFixed(0)}</span></label>
-                      </div>
-                      <div>
-                        <label style={{ fontSize: 16, fontWeight: 500, color: "#4B4B4B" }}>Total Amount: <span style={{ fontSize: 16, fontWeight: 600, color: "#000000" }}>₹ {totals?.totalAmount.toFixed(0)}</span></label>
-
-                      </div>
-
- </div>
-                    </div>
 
 
 
