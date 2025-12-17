@@ -4,14 +4,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Table, Modal, Button } from "react-bootstrap";
 import "./UserlistWalkin.css";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import { Edit, Trash } from "iconsax-react";
-import CustomerForm from "./UserlistWalkinForm";
+import { Trash } from "iconsax-react";
+// import CustomerForm from "./UserlistWalkinForm";
 // import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 // import { MdError } from "react-icons/md";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from "react-redux";;
 import PropTypes from "prop-types";
-import moment from "moment";
+// import moment from "moment";
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import { ArrowUp2, ArrowDown2, } from "iconsax-react";
 import PaginationList from "../../Components/PaginationList";
@@ -22,7 +22,7 @@ import addcircle from "../../Assets/Images/New_images/add-circle.png";
 import Addbooking from "./Addbookingform";
 import UserlistForm from "./UserlistForm";
 
-function UserlistWalkin(props) {
+function UserlistWalkin() {
   const state = useSelector((state) => state);
   const [tenantDetails, setTenantDetails] = useState("");
   const dispatch = useDispatch();
@@ -30,11 +30,9 @@ function UserlistWalkin(props) {
   const [showFormCheckIn, setShowFormCheckIn] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [dotsButton, setDotsButton] = useState(null);
-  const [walkInPermissionError, setWalkInPermissionError] = useState("");
-  const [walkInEditPermissionError, setWalkInEditPermissionError] =
-    useState("");
-  const [walkInDeletePermissionError, setWalkInDeletePermissionError] =
-    useState("");
+  // const [walkInPermissionError, setWalkInPermissionError] = useState("");
+  // const [walkInEditPermissionError, setWalkInEditPermissionError] =    useState("");
+  // const [walkInDeletePermissionError, setWalkInDeletePermissionError] = useState("");
      const [formLoading, setFormLoading] = useState(false)
     
 
@@ -48,69 +46,69 @@ function UserlistWalkin(props) {
   const {
     canWriteModule: canWriteWalkin,
     canReadModule: canReadWalkin,
-    canUpdateModule: canUpdateWalkin,
+    // canUpdateModule: canUpdateWalkin,
     canDeleteModule: canDeleteWalkin,
   } = useHasPermission("Walk in");
 
 
 
 
-  useEffect(() => {
-    const userType = props.customerrolePermission[0]?.user_details?.user_type;
-    const isAdmin = userType === "admin" || userType === "agent";
-    if (isAdmin) {
-      if (state?.login?.planStatus === 0) {
-        setWalkInPermissionError("");
-        setWalkInEditPermissionError("Permission Denied");
-        setWalkInDeletePermissionError("Permission Denied");
+  // useEffect(() => {
+  //   const userType = props.customerrolePermission[0]?.user_details?.user_type;
+  //   const isAdmin = userType === "admin" || userType === "agent";
+  //   if (isAdmin) {
+  //     if (state?.login?.planStatus === 0) {
+  //       setWalkInPermissionError("");
+  //       setWalkInEditPermissionError("Permission Denied");
+  //       setWalkInDeletePermissionError("Permission Denied");
 
-      } else if (state?.login?.planStatus === 1) {
-        setWalkInPermissionError("");
-        setWalkInEditPermissionError("");
-        setWalkInDeletePermissionError("");
-      }
-    }
+  //     } else if (state?.login?.planStatus === 1) {
+  //       setWalkInPermissionError("");
+  //       setWalkInEditPermissionError("");
+  //       setWalkInDeletePermissionError("");
+  //     }
+  //   }
 
-  }, [state?.login?.planStatus, state?.login?.selectedHostel_Id, props.customerrolePermission])
+  // }, [state?.login?.planStatus, state?.login?.selectedHostel_Id, props.customerrolePermission])
 
-  useEffect(() => {
-    const WalkinPermission = props.customerrolePermission[0]?.role_permissions?.find(
-      (perm) => perm.permission_name === "Walk In"
-    );
+  // useEffect(() => {
+  //   const WalkinPermission = props.customerrolePermission[0]?.role_permissions?.find(
+  //     (perm) => perm.permission_name === "Walk In"
+  //   );
 
-    const isOwner = props.customerrolePermission[0]?.user_details?.user_type === "staff";
-    const planActive = state?.login?.planStatus === 1;
+  //   const isOwner = props.customerrolePermission[0]?.user_details?.user_type === "staff";
+  //   const planActive = state?.login?.planStatus === 1;
 
-    if (!WalkinPermission || !isOwner) return;
-
-
-    if (WalkinPermission.per_view === 1 && planActive) {
-      setWalkInPermissionError("");
-    } else {
-      setWalkInPermissionError("Permission Denied");
-    }
+  //   if (!WalkinPermission || !isOwner) return;
 
 
+  //   if (WalkinPermission.per_view === 1 && planActive) {
+  //     setWalkInPermissionError("");
+  //   } else {
+  //     setWalkInPermissionError("Permission Denied");
+  //   }
 
 
 
-    if (WalkinPermission.per_edit === 1 && planActive) {
-      setWalkInEditPermissionError("");
-    } else {
-      setWalkInEditPermissionError("Permission Denied");
-    }
 
-    if (WalkinPermission.per_delete === 1 && planActive) {
-      setWalkInDeletePermissionError("");
-    } else {
-      setWalkInDeletePermissionError("Permission Denied");
-    }
-  }, [props.customerrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
+
+  //   if (WalkinPermission.per_edit === 1 && planActive) {
+  //     setWalkInEditPermissionError("");
+  //   } else {
+  //     setWalkInEditPermissionError("Permission Denied");
+  //   }
+
+  //   if (WalkinPermission.per_delete === 1 && planActive) {
+  //     setWalkInDeletePermissionError("");
+  //   } else {
+  //     setWalkInDeletePermissionError("Permission Denied");
+  //   }
+  // }, [props.customerrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
 
   const popupRef = useRef(null);
 
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [customerToDelete, setCustomerToDelete] = useState(null);
+  // const [showDeleteModal, setShowDeleteModal] = useState(false);
+  // const [customerToDelete, setCustomerToDelete] = useState(null);
 
   const [walkInCustomer, setWalkInCustomer] = useState([]);
   const [walkinLoader, setWalkingLoader] = useState(false);
@@ -160,7 +158,7 @@ function UserlistWalkin(props) {
         type: "USERLIST",
         payload: { hostel_id: state.login.selectedHostel_Id, type: 'Inactive' },
       });
-      setShowDeleteModal(false);
+      // setShowDeleteModal(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_WALK_IN_CUSTOMER" });
       }, 1000);
@@ -184,25 +182,25 @@ function UserlistWalkin(props) {
     setPopupPosition({ top: popupTop, left: popupLeft });
   };
 
-  const handleDelete = (customer) => {
-    setCustomerToDelete(customer);
-    setShowDeleteModal(true);
-    setDotsButton(null);
-  };
+  // const handleDelete = (customer) => {
+  //   setCustomerToDelete(customer);
+  //   setShowDeleteModal(true);
+  //   setDotsButton(null);
+  // };
 
-  const confirmDelete = () => {
-    if (customerToDelete.id) {
-      dispatch({
-        type: "DELETEWALKINCUSTOMER",
-        payload: { id: customerToDelete.id },
-      });
-    }
-  };
+  // const confirmDelete = () => {
+  //   if (customerToDelete.id) {
+  //     dispatch({
+  //       type: "DELETEWALKINCUSTOMER",
+  //       payload: { id: customerToDelete.id },
+  //     });
+  //   }
+  // };
 
-  const cancelDelete = () => {
-    setShowDeleteModal(false);
-    setCustomerToDelete(null);
-  };
+  // const cancelDelete = () => {
+  //   setShowDeleteModal(false);
+  //   setCustomerToDelete(null);
+  // };
 
   const handleBooking = (customer) => {
     setDotsButton(null);

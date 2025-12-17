@@ -3,12 +3,12 @@ import React, { useState, useEffect, useRef } from "react";
 import Profiles from "../../Assets/Images/New_images/profile-picture.png";
 import leftarrow from "../../Assets/Images/arrow-left.png";
 import Image from "react-bootstrap/Image";
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+// import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import "./UserList.css";
-import { Call, Sms, House, Buildings, Profile } from "iconsax-react";
+import { Call, Sms, House } from "iconsax-react";
 import Group from "../../Assets/Images/Group.png";
 import { useDispatch, useSelector } from "react-redux";
-import Carousel from "react-bootstrap/Carousel";
+// import Carousel from "react-bootstrap/Carousel";
 import { Button, Form, FormControl, InputGroup } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import Plus from "../../Assets/Images/New_images/add-circle.png";
@@ -25,17 +25,17 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 // import { MdError } from "react-icons/md";
 import "react-datepicker/dist/react-datepicker.css";
-import upload from "../../Assets/Images/New_images/pdf@2x.png";
+// import upload from "../../Assets/Images/New_images/pdf@2x.png";
 import UserListKyc from "./UserListKyc";
 import UserAdditionalContact from "./UserAdditionalContact";
-import { Edit, Trash } from "iconsax-react";
-import docDown from "../../Assets/Images/New_images/downdoc.png";
-import viewdoc from "../../Assets/Images/New_images/viewdoc.png";
+import { Trash } from "iconsax-react";
+// import docDown from "../../Assets/Images/New_images/downdoc.png";
+// import viewdoc from "../../Assets/Images/New_images/viewdoc.png";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-import { CloseCircle, ArchiveAdd, TickCircle, MinusCirlce, DocumentUpload } from "iconsax-react";
+import { CloseCircle, DocumentUpload } from "iconsax-react";
 import { RightOutlined } from '@ant-design/icons';
 import timehalf from "../../Assets/Images/New_images/time-half past.png";
 // import html2canvas from "html2canvas";
@@ -49,9 +49,9 @@ import CityImage from "../../Assets/Images/buildings.png";
 import Floorimage from "../../Assets/Images/floor_icon.png";
 import RoomImage from "../../Assets/Images/room_icon.png";
 import LinkImage from "../../Assets/Images/home-link.png";
-import whiteaddcircle from "../../Assets/Images/white_add-circle.png";
-import MoneyImage from "../../Assets/Images/Money.png";
-import EyeIcon from "../../Assets/Images/eye.png";
+// import whiteaddcircle from "../../Assets/Images/white_add-circle.png";
+// import MoneyImage from "../../Assets/Images/Money.png";
+// import EyeIcon from "../../Assets/Images/eye.png";
 import Stayhistory from "../../Assets/Images/stay_history.png";
 import EditBasicDetails from "./EditBasicDetails";
 import EditAddressDetails from "./EditAddressDetails";
@@ -65,7 +65,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import EditRentalAmount from "./EditRentalAmount";
 import EditAdvanceAmount from "./EditAdvanceAmount";
 import EditJoiningDate from "./EditJoiningDate";
-import { AddSquare, Tag2 } from "iconsax-react";
+import { AddSquare } from "iconsax-react";
 import TenantAmenities from "./TenantAssignAmenities";
 import RequestedAmenities from "./RequestedAmenities";
 import TransactionHistory from "./TransactionHistory";
@@ -137,7 +137,7 @@ function UserListRoomDetail(props) {
 
   const [kycdetailsForm, setKycDetailForm] = useState(false);
   const [additionalForm, setAdditionalForm] = useState(false);
-  const [contactEdit, setContactEdit] = useState("");
+  // const [contactEdit, setContactEdit] = useState("");
   const [editAdditional, setEditAdditional] = useState(false);
   const [deleteAdditional, setDeleteAdditional] = useState(false);
   const [advanceDate, setAdvanceDate] = useState("");
@@ -156,12 +156,12 @@ function UserListRoomDetail(props) {
   const [showDocModal, setShowDocModal] = useState(false);
   const [showDocModaldoc2, setShowDocModaldoc2] = useState(false);
   const [documentvalue, setDocumentValue] = useState("1")
-  const [previewUrl, setPreviewUrl] = useState(null);
-  const [previewUrl2, setPreviewUrl2] = useState(null)
+  // const [previewUrl, setPreviewUrl] = useState(null);
+  // const [previewUrl2, setPreviewUrl2] = useState(null)
   // const [loadingFile, setLoadingFile] = useState(true)
   const [showModal, setShowModal] = useState(false);
   const [basicDetails, setBasicDetails] = useState("")
-  const [imagePreview, setImagePreview] = useState(null);
+  // const [imagePreview, setImagePreview] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
   const [advanceList, setAdvanceList] = useState("")
   const [addamenityShow, setaddamenityShow] = useState(false);
@@ -174,7 +174,7 @@ function UserListRoomDetail(props) {
     canWriteModule: canWriteTenant,
     // canReadModule: canReadInvoice,
     canUpdateModule: canUpdateTenant,
-    canDeleteModule: canDeleteTenant,
+    // canDeleteModule: canDeleteTenant,
   } = useHasPermission("Customers");
 
 
@@ -184,14 +184,14 @@ function UserListRoomDetail(props) {
 
   const {
     canWriteModule: canWriteAmenities,
-    canReadModule: canReadAmenities,
+    // canReadModule: canReadAmenities,
     // canUpdateModule: canUpdateAmenities,
-    canDeleteModule: canDeleteAmenities,
+    // canDeleteModule: canDeleteAmenities,
   } = useHasPermission("Amenities");
 
   const amenitiesRef = useRef(null);
 
-  const { customerId, hostelId, name, totriggerBillTap, isPgWay ,IsOverView, scrollTo } = location.state || {};
+  const { customerId,totriggerBillTap, isPgWay ,IsOverView, scrollTo } = location.state || {};
 
 
 useEffect(() => {
@@ -228,54 +228,54 @@ useEffect(() => {
 
 
 
-  const handleFileOpen = (url) => {
-    if (!url) return;
+  // const handleFileOpen = (url) => {
+  //   if (!url) return;
 
-    const lowerUrl = url.toLowerCase();
+  //   const lowerUrl = url.toLowerCase();
 
-    if (
-      lowerUrl.endsWith(".pdf") ||
-      lowerUrl.endsWith(".jpg") ||
-      lowerUrl.endsWith(".jpeg") ||
-      lowerUrl.endsWith(".png")
-    ) {
+  //   if (
+  //     lowerUrl.endsWith(".pdf") ||
+  //     lowerUrl.endsWith(".jpg") ||
+  //     lowerUrl.endsWith(".jpeg") ||
+  //     lowerUrl.endsWith(".png")
+  //   ) {
 
-      setPreviewUrl(url);
-      setShowDocModal(true);
-    } else if (lowerUrl.endsWith(".xlsx") || lowerUrl.endsWith(".xls")) {
-      const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(url)}`;
-      window.open(viewerUrl, "_blank");
-    } else {
-      window.open(url, "_blank");
-    }
-  };
-
-
+  //     setPreviewUrl(url);
+  //     setShowDocModal(true);
+  //   } else if (lowerUrl.endsWith(".xlsx") || lowerUrl.endsWith(".xls")) {
+  //     const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(url)}`;
+  //     window.open(viewerUrl, "_blank");
+  //   } else {
+  //     window.open(url, "_blank");
+  //   }
+  // };
 
 
 
 
-  const handleFileOpen2 = (url) => {
-    if (!url) return;
 
-    const lowerUrl = url.toLowerCase();
 
-    if (
-      lowerUrl.endsWith(".pdf") ||
-      lowerUrl.endsWith(".jpg") ||
-      lowerUrl.endsWith(".jpeg") ||
-      lowerUrl.endsWith(".png")
-    ) {
+  // const handleFileOpen2 = (url) => {
+  //   if (!url) return;
 
-      setPreviewUrl2(url);
-      setShowDocModaldoc2(true);
-    } else if (lowerUrl.endsWith(".xlsx") || lowerUrl.endsWith(".xls")) {
-      const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(url)}`;
-      window.open(viewerUrl, "_blank");
-    } else {
-      window.open(url, "_blank");
-    }
-  };
+  //   const lowerUrl = url.toLowerCase();
+
+  //   if (
+  //     lowerUrl.endsWith(".pdf") ||
+  //     lowerUrl.endsWith(".jpg") ||
+  //     lowerUrl.endsWith(".jpeg") ||
+  //     lowerUrl.endsWith(".png")
+  //   ) {
+
+  //     setPreviewUrl2(url);
+  //     setShowDocModaldoc2(true);
+  //   } else if (lowerUrl.endsWith(".xlsx") || lowerUrl.endsWith(".xls")) {
+  //     const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(url)}`;
+  //     window.open(viewerUrl, "_blank");
+  //   } else {
+  //     window.open(url, "_blank");
+  //   }
+  // };
 
 
   // const cleanFileName = (url) => {
@@ -285,21 +285,21 @@ useEffect(() => {
   //   const short = parts[0].substring(0, 6); 
   //   return `${short}.${ext}`;
   // };
-  const cleanFileName = (url) => {
-    if (!url) return "";
+  // const cleanFileName = (url) => {
+  //   if (!url) return "";
 
-    const fullName = decodeURIComponent(url.split("/").pop()); 
-    const ext = fullName.split(".").pop(); 
-    const baseName = fullName.replace(/\.[^/.]+$/, ""); 
+  //   const fullName = decodeURIComponent(url.split("/").pop()); 
+  //   const ext = fullName.split(".").pop(); 
+  //   const baseName = fullName.replace(/\.[^/.]+$/, ""); 
 
-    const parts = baseName.split("_");
-    const lastPart = parts[parts.length - 1]; 
+  //   const parts = baseName.split("_");
+  //   const lastPart = parts[parts.length - 1]; 
 
    
-    const short = lastPart.substring(0, 15);
+  //   const short = lastPart.substring(0, 15);
 
-    return `${short}.${ext}`;
-  };
+  //   return `${short}.${ext}`;
+  // };
 
 
 
@@ -668,11 +668,11 @@ useEffect(() => {
     props.onDeleteRoomItem(user);
   };
 
-  const handleContactEdit = (u) => {
-    setEditAdditional(true);
-    setContactEdit(u);
-    setAdditionalForm(true);
-  };
+  // const handleContactEdit = (u) => {
+  //   setEditAdditional(true);
+  //   setContactEdit(u);
+  //   setAdditionalForm(true);
+  // };
 
 
   const handleKYCSubmit = () => {
@@ -1029,8 +1029,8 @@ useEffect(() => {
     }
   };
 
-  const aadharInputRef = useRef(null);
-  const otherDocInputRef = useRef(null);
+  // const aadharInputRef = useRef(null);
+  // const otherDocInputRef = useRef(null);
   const handleImageChange = async (event) => {
     const fileImage = event.target.files[0];
     if (fileImage) {
@@ -1434,10 +1434,11 @@ useEffect(() => {
     setFormLoading(true)
   };
 
-  const [generateForm, seGenerateForm] = useState(false);
-  const handlegenerateForm = () => {
-    seGenerateForm(true);
-  };
+  // const [generateForm, seGenerateForm] = useState(false);
+
+  // const handlegenerateForm = () => {
+  //   seGenerateForm(true);
+  // };
 
 
   useEffect(() => {
@@ -1448,69 +1449,70 @@ useEffect(() => {
     }
   }, [state.UsersList.phoneError]);
 
-  const handleCloseGenerateFormShow = () => {
-    seGenerateForm(false);
-    setAdvanceDateError("");
-    setAdvanceDueDateError("");
-    setAdvanceDate("");
-    setAdvanceDueDate("");
-  };
-  const handleGenerateAdvance = () => {
-    let hasError = false;
+  // const handleCloseGenerateFormShow = () => {
+  //   // seGenerateForm(false);
+  //   setAdvanceDateError("");
+  //   setAdvanceDueDateError("");
+  //   setAdvanceDate("");
+  //   setAdvanceDueDate("");
+  // };
 
-    if (!advanceDate) {
-      setAdvanceDateError("Please Select Invoice Date");
-      hasError = true;
-    } else {
-      setAdvanceDateError("");
-    }
+  // const handleGenerateAdvance = () => {
+  //   let hasError = false;
 
-    if (!advanceDueDate) {
-      setAdvanceDueDateError("Please Select Due Date");
-      hasError = true;
-    } else {
-      setAdvanceDueDateError("");
-    }
+  //   if (!advanceDate) {
+  //     setAdvanceDateError("Please Select Invoice Date");
+  //     hasError = true;
+  //   } else {
+  //     setAdvanceDateError("");
+  //   }
+
+  //   if (!advanceDueDate) {
+  //     setAdvanceDueDateError("Please Select Due Date");
+  //     hasError = true;
+  //   } else {
+  //     setAdvanceDueDateError("");
+  //   }
 
 
-    if (advanceDate && advanceDueDate && advanceDetail[0]?.joining_Date) {
-      const joiningDate = dayjs(advanceDetail[0].joining_Date).startOf("day");
-      const invoiceDate = dayjs(advanceDate).startOf("day");
-      const dueDate = dayjs(advanceDueDate).startOf("day");
+  //   if (advanceDate && advanceDueDate && advanceDetail[0]?.joining_Date) {
+  //     const joiningDate = dayjs(advanceDetail[0].joining_Date).startOf("day");
+  //     const invoiceDate = dayjs(advanceDate).startOf("day");
+  //     const dueDate = dayjs(advanceDueDate).startOf("day");
 
-      if (invoiceDate.isBefore(joiningDate)) {
-        setAdvanceDateError("Before Join Date Not Allowed");
-        hasError = true;
-      }
+  //     if (invoiceDate.isBefore(joiningDate)) {
+  //       setAdvanceDateError("Before Join Date Not Allowed");
+  //       hasError = true;
+  //     }
 
-      if (dueDate.isBefore(invoiceDate)) {
-        setAdvanceDueDateError("Due Date after Invoice Date only");
-        hasError = true;
-      }
-    }
-    if (hasError) {
-      return;
-    }
-    const formattedInvoiceDate = formatDate(advanceDate);
-    const formattedDueDate = formatDate(advanceDueDate);
+  //     if (dueDate.isBefore(invoiceDate)) {
+  //       setAdvanceDueDateError("Due Date after Invoice Date only");
+  //       hasError = true;
+  //     }
+  //   }
+  //   if (hasError) {
+  //     return;
+  //   }
+  //   const formattedInvoiceDate = formatDate(advanceDate);
+  //   const formattedDueDate = formatDate(advanceDueDate);
 
-    dispatch({
-      type: "ADVANCEGENERATE",
-      payload: {
-        user_id: props.id,
-        invoice_date: formattedInvoiceDate,
-        due_date: formattedDueDate,
-        isadvance: 1
-      },
-    });
-  };
-  const formatDate = (dateObj) => {
-    const date = new Date(dateObj);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  };
+  //   dispatch({
+  //     type: "ADVANCEGENERATE",
+  //     payload: {
+  //       user_id: props.id,
+  //       invoice_date: formattedInvoiceDate,
+  //       due_date: formattedDueDate,
+  //       isadvance: 1
+  //     },
+  //   });
+  // };
+  // const formatDate = (dateObj) => {
+  //   const date = new Date(dateObj);
+  //   const year = date.getFullYear();
+  //   const month = String(date.getMonth() + 1).padStart(2, "0");
+  //   const day = String(date.getDate()).padStart(2, "0");
+  //   return `${year}-${month}-${day}`;
+  // };
   const initialState = {
     firstname: "",
     lastname: "",
@@ -1955,55 +1957,60 @@ useEffect(() => {
 
 
 
-  const [uploadError, setUploadError] = useState("");
+  // const [uploadError, setUploadError] = useState("");
 
-  useEffect(() => {
-    setUploadError(state.UsersList.adharuploadfileError);
-  }, [state.UsersList.adharuploadfileError]);
+  // useEffect(() => {
+  //   setUploadError(state.UsersList.adharuploadfileError);
+  // }, [state.UsersList.adharuploadfileError]);
 
-  const handleFileChange = (e, type) => {
-    const file = e.target.files[0];
-    if (file) {
-      if (type === "doc1") {
-        dispatch({
-          type: "UPLOADDOCUMENT",
-          payload: {
-            user_id: props.id,
-            type,
-            file1: file,
-          },
-        });
-      } else if (type === "doc2") {
-        dispatch({
-          type: "UPLOADOTHERDOCUMENT",
-          payload: {
-            user_id: props.id,
-            type,
-            file1: file,
-          },
-        });
-      }
-    }
-  };
+  // const handleFileChange = (e, type) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     if (type === "doc1") {
+  //       dispatch({
+  //         type: "UPLOADDOCUMENT",
+  //         payload: {
+  //           user_id: props.id,
+  //           type,
+  //           file1: file,
+  //         },
+  //       });
+  //     } else if (type === "doc2") {
+  //       dispatch({
+  //         type: "UPLOADOTHERDOCUMENT",
+  //         payload: {
+  //           user_id: props.id,
+  //           type,
+  //           file1: file,
+  //         },
+  //       });
+  //     }
+  //   }
+  // };
 
-  const handleUploadClick = (ref) => {
-    if (ref?.current) {
-      ref.current.click();
-    }
-    setUploadError("");
-    dispatch({ type: "CLEAR_ADHAR_UPLOAD_ERROR" });
-  };
-  useEffect(() => {
-    if (state.UsersList.statuscodeForAdharFileError === 201) {
-      setUploadError(state.UsersList.adharuploadfileError);
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_ADHAR_UPLOAD_ERROR_STATUSCODE" });
-      }, 100);
-    }
-  }, [state.UsersList.statuscodeForAdharFileError]);
-  const handleOtherUploadClick = (ref) => {
-    ref.current.click();
-  };
+  // const handleUploadClick = (ref) => {
+  //   if (ref?.current) {
+  //     ref.current.click();
+  //   }
+  //   setUploadError("");
+  //   dispatch({ type: "CLEAR_ADHAR_UPLOAD_ERROR" });
+  // };
+
+
+  
+  // useEffect(() => {
+  //   if (state.UsersList.statuscodeForAdharFileError === 201) {
+  //     setUploadError(state.UsersList.adharuploadfileError);
+  //     setTimeout(() => {
+  //       dispatch({ type: "CLEAR_ADHAR_UPLOAD_ERROR_STATUSCODE" });
+  //     }, 100);
+  //   }
+  // }, [state.UsersList.statuscodeForAdharFileError]);
+
+
+  // const handleOtherUploadClick = (ref) => {
+  //   ref.current.click();
+  // };
 
   useEffect(() => {
     if (state.UsersList.statusCodeForUploadDocument === 200) {
@@ -2025,17 +2032,18 @@ useEffect(() => {
     }
   }, [state.UsersList.statusCodeForOtherDocu]);
 
-  const [contactDeleteId, setContactDeleteId] = useState("");
-  const handleContactDelete = (v) => {
-    setDeleteAdditional(true);
-    setContactDeleteId(v.id);
-  };
+  // const [contactDeleteId, setContactDeleteId] = useState("");
+
+  // const handleContactDelete = (v) => {
+  //   setDeleteAdditional(true);
+  //   setContactDeleteId(v.id);
+  // };
   const handleCloseDelete = () => {
     setDeleteAdditional(false);
   };
 
   const handleDeleteContact = () => {
-    dispatch({ type: "CONTACTDELETE", payload: { id: contactDeleteId } });
+    // dispatch({ type: "CONTACTDELETE", payload: { id: contactDeleteId } });
   };
 
   useEffect(() => {
@@ -2050,7 +2058,7 @@ useEffect(() => {
 
   useEffect(() => {
     if (state.UsersList.statusCodeForGenerateAdvance === 200) {
-      handleCloseGenerateFormShow();
+      // handleCloseGenerateFormShow();
       dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
       dispatch({ type: "USERLIST", payload: { hostel_id: hostel_Id } });
       setTimeout(() => {
@@ -2175,13 +2183,13 @@ useEffect(() => {
   const handleCloseAddressDetails = () => {
     setEditAddressDetailsShow(false)
   }
-  const [stayDetais, setStayDetails] = useState("")
+  // const [stayDetais, setStayDetails] = useState("")
 
-  const handleEditStayDetails = (item) => {
-    setEditStayDetailsShow(true)
-    setStayDetails(item)
+  // const handleEditStayDetails = (item) => {
+  //   setEditStayDetailsShow(true)
+  //   setStayDetails(item)
 
-  };
+  // };
   const handleCloseStayDetails = () => {
     setEditStayDetailsShow(false)
   }
@@ -2195,7 +2203,7 @@ useEffect(() => {
 
 
 
-  const MobileNumberupload = `${props.userData?.Phone}`;
+  // const MobileNumberupload = `${props.userData?.Phone}`;
 
 
   const handleImageUpload = async (event) => {
@@ -2228,9 +2236,7 @@ useEffect(() => {
   const CustomerOverView = state.UsersList.customerdetails;
 
 
-  const imageUrl = imagePreview
-    ? imagePreview
-    : kycPic
+  const imageUrl = kycPic
       ? kycPic.startsWith("data:image")
         ? kycPic
         : `data:image/jpeg;base64,${kycPic}`
@@ -2242,9 +2248,13 @@ useEffect(() => {
 
 
   const [documents, setDocuments] = useState([
-
-
   ]);
+
+
+  useEffect(() => {
+  setDocuments([]); 
+}, []);
+
 
   // const handleFileUpload = (index, e) => {
   //   const file = e.target.files[0];
@@ -3446,7 +3456,7 @@ useEffect(() => {
                                 >
                                   &times;
                                 </Button>
-                                {previewUrl && previewUrl.match(/\.(jpeg|jpg|png|gif)$/i) ? (
+                                {/* {previewUrl && previewUrl.match(/\.(jpeg|jpg|png|gif)$/i) ? (
                                   <img src={previewUrl} alt="Document Preview" style={{ maxWidth: "100%", maxHeight: "600px" }} />
                                 ) : (
                                   <iframe
@@ -3454,7 +3464,7 @@ useEffect(() => {
                                     style={{ width: "100%", height: "600px", border: "none" }}
                                     title="Document Preview"
                                   />
-                                )}
+                                )} */}
                               </Modal.Body>
                             </Modal>
 
@@ -3493,7 +3503,7 @@ useEffect(() => {
                                 >
                                   &times;
                                 </Button>
-                                {previewUrl2 && previewUrl2.match(/\.(jpeg|jpg|png|gif)$/i) ? (
+                                {/* {previewUrl2 && previewUrl2.match(/\.(jpeg|jpg|png|gif)$/i) ? (
                                   <img src={previewUrl2} alt="Document Preview" style={{ maxWidth: "100%", maxHeight: "600px" }} />
                                 ) : (
                                   <iframe
@@ -3501,7 +3511,7 @@ useEffect(() => {
                                     style={{ width: "100%", height: "600px", border: "none" }}
                                     title="Document Preview"
                                   />
-                                )}
+                                )} */}
                               </Modal.Body>
                             </Modal>
                           </div>
@@ -3938,7 +3948,7 @@ useEffect(() => {
                                           paddingTop: 7
                                         }}
                                       >
-                                        {CustomerOverView.hostelInfo?.monthlyRent != null
+                                        {CustomerOverView.hostelInfo?.monthlyRent !== null
                                           ? `₹${CustomerOverView.hostelInfo?.monthlyRent}`
                                           : 0
                                         }
@@ -3971,7 +3981,7 @@ useEffect(() => {
                                           fontFamily: "Gilroy", paddingTop: 7
                                         }}
                                       >
-                                        {advanceList?.advanceAmount != null
+                                        {advanceList?.advanceAmount !== null
                                           ? `₹${advanceList?.advanceAmount}`
                                           : 0
                                         }
@@ -4003,7 +4013,7 @@ useEffect(() => {
                                         }}
                                       >
 
-                                        {CustomerOverView.bookingInfo?.bookingAmount != null
+                                        {CustomerOverView.bookingInfo?.bookingAmount !== null
                                           ? `₹${CustomerOverView.bookingInfo.bookingAmount}`
                                           : 0
                                         }
@@ -4309,7 +4319,7 @@ useEffect(() => {
                   additionalForm={additionalForm}
                   setAdditionalForm={setAdditionalForm}
                   id={props.id}
-                  contactEdit={contactEdit}
+                  // contactEdit={contactEdit}
                   editAdditional={editAdditional}
                   setEditAdditional={setEditAdditional}
                 />
@@ -5860,7 +5870,7 @@ useEffect(() => {
             </Modal.Footer>
           </Modal>
 
-          <Modal
+          {/* <Modal
             show={generateForm}
             onHide={handleCloseGenerateFormShow}
             backdrop="static"
@@ -6049,7 +6059,7 @@ useEffect(() => {
 
 
             </Modal.Dialog>
-          </Modal>
+          </Modal> */}
 
 
 
@@ -6316,7 +6326,9 @@ useEffect(() => {
         }
 
         {
-          editStayDetailsShow && <EditStayDetails show={editStayDetailsShow} handleClose={handleCloseStayDetails} stayDetais={stayDetais} />
+          editStayDetailsShow && <EditStayDetails show={editStayDetailsShow} handleClose={handleCloseStayDetails}
+          //  stayDetais={stayDetais} 
+           />
         }
 
 

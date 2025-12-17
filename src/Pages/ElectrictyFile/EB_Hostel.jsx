@@ -44,8 +44,8 @@ const RoomReadingTable = () => {
   const {
     canWriteModule: canWriteElectricity,
     canReadModule: canReadElectricity,
-    canUpdateModule: canUpdateElectricity,
-    canDeleteModule: canDeleteElectricity,
+    // canUpdateModule: canUpdateElectricity,
+    // canDeleteModule: canDeleteElectricity,
   } = useHasPermission("Electricity");
 
 
@@ -211,7 +211,7 @@ const RoomReadingTable = () => {
   };
 
   const formattedReadings = customerReadingList?.map((item) => {
-    const [day, month, year] = item.startDate.split("/");
+    const [ month, year] = item.startDate.split("/");
     const billingMonth = new Date(`${year}-${month}-01`).toLocaleString("en-US", {
       month: "short",
       year: "numeric",
@@ -225,15 +225,15 @@ const RoomReadingTable = () => {
       });
     };
 
-    const formatReadingDate = (dateStr) => {
-      if (!dateStr) return "-";
-      const [day, month, year] = dateStr.split("/").map(Number);
-      return new Date(year, month - 1, day).toLocaleDateString("en-GB", {
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-      });
-    };
+    // const formatReadingDate = (dateStr) => {
+    //   if (!dateStr) return "-";
+    //   const [day, month, year] = dateStr.split("/").map(Number);
+    //   return new Date(year, month - 1, day).toLocaleDateString("en-GB", {
+    //     day: "2-digit",
+    //     month: "short",
+    //     year: "numeric",
+    //   });
+    // };
 
 
     return {

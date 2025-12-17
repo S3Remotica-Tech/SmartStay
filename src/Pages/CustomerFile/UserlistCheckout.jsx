@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -41,12 +41,12 @@ function CheckOut(props) {
 
   //   }
   // }, [state.login.selectedHostel_Id]);
-  const [activeDotsId, setActiveDotsId] = useState(null);
+  // const [activeDotsId, setActiveDotsId] = useState(null);
   // const [modalType, setModalType] = useState(null);
   
 
   const [checkOutCustomer, setCheckOutCustomer] = useState([]);
-  const [checkOutPermissionError, setcheckOutPermissionError] = useState("");
+  // const [checkOutPermissionError, setcheckOutPermissionError] = useState("");
   // const [checkOutEditPermissionError, setcheckOutEditPermissionError] = useState("");
   // const [checkOutDeletePermissionError, setcheckOutDeletePermissionError] = useState("");
   const [checkoutLoader, setCheckOutLoader] = useState(false)
@@ -62,10 +62,10 @@ function CheckOut(props) {
 //   const canDeleteCheckout = useHasPermission("Checkout", "canDelete")
 
 const {
-        canWriteModule: canWriteCheckout,
+        // canWriteModule: canWriteCheckout,
         canReadModule: canReadCheckout,
         // canUpdateModule: canUpdateCheckout,
-        canDeleteModule: canDeleteCheckout,
+        // canDeleteModule: canDeleteCheckout,
       } = useHasPermission("Checkout");
 
  useEffect(() => {
@@ -152,18 +152,18 @@ const {
 
   }, [state.UsersList?.checkoutcustomeEmpty])
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (popupRef.current && !popupRef.current.contains(event.target)) {
-        setActiveDotsId(null);
-      }
-    };
+  // useEffect(() => {
+  //   const handleClickOutside = (event) => {
+  //     if (popupRef.current && !popupRef.current.contains(event.target)) {
+  //       setActiveDotsId(null);
+  //     }
+  //   };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  //   document.addEventListener("mousedown", handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, []);
 
   useEffect(() => {
     if (
@@ -186,7 +186,7 @@ const {
     state.UsersList.addCheckoutCustomerStatusCode,
     state.UsersList.deleteCheckoutCustomerStatusCode,
   ]);
-  const popupRef = useRef(null);
+  // const popupRef = useRef(null);
 
   // const indexOfLastCustomer = currentPage * itemsPerPage;
   // const indexOfFirstCustomer = indexOfLastCustomer - itemsPerPage;
@@ -301,12 +301,12 @@ const {
 
   // const [checkOutEdit, setCheckOutEdit] = useState("");
   // const [checkouteditaction, setCheckoutEditAction] = useState(false)
-  const [checkOutconfirm, setCheckOutConfirm] = useState("");
+  // const [checkOutconfirm, setCheckOutConfirm] = useState("");
   // const [deleteCheckOutCustomer, setDeleteCheckOutCustomer] = useState("");
   // const [checkoutaction, setCheckoutAction] = useState(false)
   // const [conformEdit, setConformEdit] = useState(false)
   const [DueCustomerShow, setDueCustomerShow] = useState(false)
-  const [CheckOutDetails, setCheckOutDetails] = useState("");
+  // const [CheckOutDetails, setCheckOutDetails] = useState("");
 
 
   // const handleEdit = (checkout) => {
@@ -327,15 +327,15 @@ const {
 
 
 
-  const handleConfirmCheckout = (checkout) => {
-    if (checkout.customerId) {
-      dispatch({
-        type: "GETCONFIRMCHECKOUTCUSTOMER",
-        payload: { id: checkout.customerId, hostel_id: checkout.Hostel_Id },
-      });
-    }
-    setCheckOutDetails(checkout)
-  }
+  // const handleConfirmCheckout = (checkout) => {
+  //   if (checkout.customerId) {
+  //     dispatch({
+  //       type: "GETCONFIRMCHECKOUTCUSTOMER",
+  //       payload: { id: checkout.customerId, hostel_id: checkout.Hostel_Id },
+  //     });
+  //   }
+  //   setCheckOutDetails(checkout)
+  // }
 
 
 
@@ -384,7 +384,7 @@ const {
 
 
   useEffect(() => {
-    if (state.UsersList.statusCodegetConfirmCheckout && CheckOutDetails) {
+    if (state.UsersList.statusCodegetConfirmCheckout ) {
       setDueCustomerShow(true);
 
     }
@@ -392,7 +392,7 @@ const {
     setTimeout(() => {
       dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
     }, 500);
-  }, [state.UsersList.statusCodegetConfirmCheckout, CheckOutDetails]);
+  }, [state.UsersList.statusCodegetConfirmCheckout]);
 
 
 
@@ -453,39 +453,39 @@ const {
 
 
 
-  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+  // const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
-  const toggleMoreOptions = (id, checkout, event) => {
-    setCheckOutConfirm(checkout)
-    if (activeDotsId === id) {
-      setActiveDotsId(null);
-    } else {
-      setActiveDotsId(id);
-    }
-
-
-
-    const { top, left, height } = event.target.getBoundingClientRect();
-    const popupTop = (top + height / 2) - 45;
-
-
-    const popupLeft = left - (checkOutconfirm.isActive === 0 || checkOutconfirm.isActive === '0' ? 250 : 290);
-
-
-    setPopupPosition({ top: popupTop, left: popupLeft });
-
-
-    setTimeout(() => {
-      if (popupRef.current) {
-        const popupWidth = popupRef.current.offsetWidth;
-        const popupLeft = left - popupWidth + 0;
-        setPopupPosition({ top: popupTop, left: popupLeft });
-      }
-    }, 0);
+  // const toggleMoreOptions = (id, checkout, event) => {
+  //   setCheckOutConfirm(checkout)
+  //   if (activeDotsId === id) {
+  //     setActiveDotsId(null);
+  //   } else {
+  //     setActiveDotsId(id);
+  //   }
 
 
 
-  };
+  //   const { top, left, height } = event.target.getBoundingClientRect();
+  //   const popupTop = (top + height / 2) - 45;
+
+
+  //   const popupLeft = left - (checkOutconfirm.isActive === 0 || checkOutconfirm.isActive === '0' ? 250 : 290);
+
+
+  //   setPopupPosition({ top: popupTop, left: popupLeft });
+
+
+  //   setTimeout(() => {
+  //     if (popupRef.current) {
+  //       const popupWidth = popupRef.current.offsetWidth;
+  //       const popupLeft = left - popupWidth + 0;
+  //       setPopupPosition({ top: popupTop, left: popupLeft });
+  //     }
+  //   }, 0);
+
+
+
+  // };
 
 
 
@@ -1114,7 +1114,7 @@ const {
                 item={checkOutCustomer}
                 handleClose={checkoutcloseModal}
                 // currentItem={checkOutEdit}
-                data={checkOutconfirm}
+                // data={checkOutconfirm}
               // checkouteditaction={checkouteditaction}
               // checkoutaction={checkoutaction}
               // cofirmForm={cofirmForm}
@@ -1228,7 +1228,7 @@ const {
       }
 
       {
-        DueCustomerShow && <DueCustomerConfirmCheckout show={DueCustomerShow} data={CheckOutDetails} handleClose={handleCloseDuePopup} />
+        DueCustomerShow && <DueCustomerConfirmCheckout show={DueCustomerShow}  handleClose={handleCloseDuePopup} />
       }
 
  {
