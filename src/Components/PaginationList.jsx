@@ -335,16 +335,18 @@ function PaginationList({
             borderTop: "1px solid #E5E7EB",
             zIndex: 1000,
             boxShadow: "0 -4px 12px rgba(0, 0, 0, 0.05)",
+            marginLeft:150,
           }}
         >
           <ul
             style={{
               display: "flex",
               alignItems: "center",
-              gap: "8px",
+              gap: "25px",
               listStyle: "none",
               margin: 0,
               padding: 0,
+              justifyContent:"center"
             }}
           >
             
@@ -406,7 +408,7 @@ function PaginationList({
               </li>
             ))}
 
-            {/* Next */}
+           
             <li>
               <button
                 onClick={() => handleChangePage(currentPage + 1)}
