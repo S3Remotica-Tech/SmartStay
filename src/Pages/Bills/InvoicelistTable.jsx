@@ -172,36 +172,53 @@ const InvoiceTable = (props) => {
 
   }
 
+
+  
+
   return (
 
     <>
       <tr key={props.item.invoiceId} style={{ color: "#000", fontFamily: "Gilroy", fontSize: "14px", fontStyle: "normal", lineHeight: "normal", alignItems: 'center', marginTop: '10px', flexWrap: "wrap" }} className='m-2' >
 
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 600, color: "#1E45E1", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8", cursor: "pointer" }} className='ps-2 ps-sm-2 ps-md-3 ps-lg-3'>
-          <div onClick={() => handleDownload(props.item)} className="Invoice_Name ps-1">  {props.item?.invoiceNumber === null || props.item?.invoiceNumber === '' ? '0.00' : props.item?.invoiceNumber}</div>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 600, color: "#1E45E1", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8", cursor: "pointer",lineHeight: 'normal'}} className='ps-2'>
+          <div onClick={() => handleDownload(props.item)} className="Invoice_Name"> 
+             {props.item?.invoiceNumber === null || props.item?.invoiceNumber === '' ? '0.00' : props.item?.invoiceNumber}
+             </div>
         </td>
-        <td className="table-cells ps-2 ps-sm-2 ps-md-3 ps-lg-3" style={{ border: "none", flexWrap: "wrap", whiteSpace: "nowrap", borderBottom: "1px solid #E8E8E8" }} >
-          <div className="d-flex  align-items-center">
+
+
+
+        <td className="table-cells " style={{ verticalAlign: 'middle', border: "none", flexWrap: "wrap", whiteSpace: "nowrap", borderBottom: "1px solid #E8E8E8",lineHeight: 'normal' }} >
+         
 
             <div className="Invoice_Name" style={{
-              fontFamily: 'Gilroy', fontSize: '13px', marginLeft: '8px', color: "#1E45E1",
-              fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer", textAlign: "start", paddingTop: "15px", paddingLeft: 5,
+              fontFamily: 'Gilroy', fontSize: '13px',  color: "#1E45E1",
+              fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer",
+               textAlign: "start", 
             }}
               onClick={()=>handleNavigateTenantProfile(props.item)}
 
             >
-              <div className="ps-1">{props.item?.fullName}</div>
+            {props.item?.fullName}
 
             </div>
 
-          </div>
+          
         </td>
 
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textTransform: "capitalize", borderBottom: "1px solid #E8E8E8" }} className='ps-2 ps-sm-2 ps-md-3 ps-lg-4'>{props.item.invoiceType === 'auto' ? "Recurring" : props.item.invoiceType}</td>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textTransform: "capitalize", borderBottom: "1px solid #E8E8E8" }} className=''>{props.item.invoiceType === 'auto' ? "Recurring" : props.item.invoiceType}</td>
 
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className='ps-2 ps-sm-2 ps-md-3 ps-lg-2'><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }}>{props.item?.invoiceDate}</span></td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className='ps-2 ps-sm-2 ps-md-3 ps-lg-2'><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px", marginLeft: 5 }}>{props.item?.dueDate}</span></td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className='ps-2 ps-sm-2 ps-md-3 ps-lg-4'>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className=''>
+          {/* <span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1em", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }}> */}
+          {props.item?.invoiceDate}
+          {/* </span> */}
+          </td>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className=''>
+          {/* <span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px", marginLeft: 5 }}> */}
+            {props.item?.dueDate}
+            {/* </span> */}
+            </td>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className=''>
           ₹{Number(props.item?.invoiceAmount || 0).toLocaleString('en-IN')}
         </td>
 
@@ -215,7 +232,7 @@ const InvoiceTable = (props) => {
             color: "#000000",
             fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"
           }}
-          className='ps-2 ps-sm-2 ps-md-3 ps-lg-4'
+          className=''
         >
           ₹{Number(props.item?.dueAmount || 0).toLocaleString('en-IN')}
         </td>
@@ -228,17 +245,9 @@ const InvoiceTable = (props) => {
             fontSize: 13,
             fontWeight: 500,
             fontFamily: "Gilroy",
-            color:
-              props.item?.paymentStatus === "Paid"
-                ? "green"
-                : props.item?.paymentStatus === "Refunded"
-                  ? "#d97706"
-                  : props.item?.paymentStatus === "Pending Refund"
-                    ? "#b45309"
-                    : "red",
-            borderBottom: "1px solid #E8E8E8",
+                       borderBottom: "1px solid #E8E8E8",
           }}
-          className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
+          className=""
         >
 
           {(props.item?.paymentStatus === "Pending" ||
@@ -246,10 +255,10 @@ const InvoiceTable = (props) => {
               <span
                 style={{
                   backgroundColor: "#FFD9D9",
-                  color: "#000",
-                  borderRadius: "14px",
+                  color: "#7A1C1C",
+                  borderRadius: "13px",
                   fontFamily: "Gilroy",
-                  padding: "8px 12px",
+                  padding: "4px 12px",lineHeight:1
                 }}
               >
                 {props.item?.paymentStatus}
@@ -263,9 +272,9 @@ const InvoiceTable = (props) => {
                 cursor: "pointer",
                 backgroundColor: "#D9FFD9",
                 fontFamily: "Gilroy",
-                color: "#000",
+                color: "#065F46",
                 borderRadius: "14px",
-                padding: "8px 12px",
+                 padding: "4px 12px",lineHeight:1
               }}
             >
               {props.item?.paymentStatus}
@@ -280,7 +289,7 @@ const InvoiceTable = (props) => {
                 color: "#8B8000",
                 borderRadius: "14px",
                 fontFamily: "Gilroy",
-                padding: "8px 12px",
+                 padding: "4px 12px",lineHeight:1
               }}
             >
               {props.item?.paymentStatus}
@@ -295,7 +304,7 @@ const InvoiceTable = (props) => {
                 color: "#b45309",
                 borderRadius: "14px",
                 fontFamily: "Gilroy",
-                padding: "8px 12px",
+                padding: "4px 12px",lineHeight:1
               }}
             >
               {props.item?.paymentStatus}
@@ -305,10 +314,10 @@ const InvoiceTable = (props) => {
             <span
               style={{
                 backgroundColor: "#FFE6B3",
-                color: "#b45309",
+                color: "#7C2D12",
                 borderRadius: "14px",
                 fontFamily: "Gilroy",
-                padding: "8px 12px",
+                 padding: "4px 12px",lineHeight:1
               }}
             >
               Cancelled
@@ -319,78 +328,17 @@ const InvoiceTable = (props) => {
 
         </td>
 
-        {/* <td
-          style={{
-            border: "none",
-            textAlign: "start",
-            verticalAlign: "middle",
-            fontSize: 13,
-            fontWeight: 500,
-            fontFamily: "Gilroy",
-            borderBottom: "1px solid #E8E8E8",
-          }}
-          className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
-        >
-          {(() => {
-            let bgColor = "";
-            let textColor = "";
-             let label = (props.item?.paymentStatus || "").trim(); 
-
-            if (props.item?.isCancelled) {
-              bgColor = "#FFE6B3";
-              textColor = "#b45309";
-              label = "Cancelled";
-            } else {
-              switch (props.item?.paymentStatus) {
-                case "Paid":
-                  bgColor = "#D9FFD9";
-                  textColor = "#000";
-                  break;
-                case "Refunded":
-                  bgColor = "#FFF3CD";
-                  textColor = "#8B8000";
-                  break;
-                case "Pending Refund":
-                  bgColor = "#FFE6B3";
-                  textColor = "#b45309";
-                  break;
-                case "Pending":
-                case "Partial Payment":
-                  bgColor = "#FFD9D9";
-                  textColor = "#000";
-                  break;
-                default:
-                  bgColor = "#F3F3F3";
-                  textColor = "#000";
-              }
-            }
-
-            return (
-              <span
-                style={{
-                  cursor: "pointer",
-                  backgroundColor: bgColor,
-                  color: textColor,
-                  borderRadius: "14px",
-                  fontFamily: "Gilroy",
-                  padding: "8px 12px",
-                }}
-              >
-                {label}
-              </span>
-            );
-          })()}
-        </td> */}
 
 
         <td style={{ textAlign: 'center', verticalAlign: 'middle', border: "none", borderBottom: "1px solid #E8E8E8" }} className=''>
           <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
             <div style={{
               cursor: "pointer",
-              backgroundColor: showDots ? "#E7F1FF" : "white",
-              height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative"
-            }} onClick={(e) => handleShowDots(e)}>
-              <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, }} />
+              // backgroundColor: showDots ? "#E7F1FF" : "white",
+              // height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", 
+              display: "flex", justifyContent: "center", alignItems: "center", position: "relative"
+            }} >
+              <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, transform: "rotate(90deg)"}} onClick={(e) => handleShowDots(e)} />
 
               {showDots && <>
                 <div
@@ -409,7 +357,7 @@ const InvoiceTable = (props) => {
                     borderRadius: 10,
                     display: "flex",
                     flexDirection: "column",
-                    zIndex: showDots ? 1000 : "auto",
+                    zIndex: showDots ? 3000 : "auto",
                   }}
                 >
                   <div style={{ width: "100%" }}>
@@ -664,6 +612,8 @@ const InvoiceTable = (props) => {
             </div>
           </div>
         </td>
+      
+
       </tr>
 
       {

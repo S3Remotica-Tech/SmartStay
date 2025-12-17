@@ -53,6 +53,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import BillsFilter from '../../Pages/Bills/BillsFilter'
 import { FiSearch } from "react-icons/fi";
+import { padding } from "@mui/system";
 
 const InvoicePage = () => {
   const state = useSelector((state) => state);
@@ -3339,6 +3340,27 @@ const InvoicePage = () => {
     };
   }, []);
 
+const headerStyle = {
+  textAlign: "center",
+  fontFamily: "Gilroy",
+  color: "rgb(147, 147, 147)",
+  fontSize: 14,
+  fontWeight: 500,
+  lineHeight: "1.4",
+  padding: 8,
+  verticalAlign: "middle",
+};
+
+
+const labelStyle = {
+  display: "flex",
+  alignItems: "center",
+  height: "100%",
+  lineHeight: "1.4",  marginTop:5
+};
+
+
+
   return (
     <div style={{ overflowX: "hidden" }}>
       {
@@ -4035,7 +4057,7 @@ const InvoicePage = () => {
 
                   chips.length > 0 && (
                     <div
-                      className="m-3 mt-4"
+                      className="me-3 mt-4"
                       style={{
                         display: "flex",
                         justifyContent: "space-between",
@@ -4121,13 +4143,9 @@ const InvoicePage = () => {
                     ) : (
                       <div
                         className=""
-                        style={{ position: "relative", marginTop: "-5px" }}
+                        style={{ position: "relative", marginTop: "-3px" }}
                       >
-                        <div className="texxttt">
-                          <div style={{ flex: 1 }}>
-
-                          </div>
-                        </div>
+                    
 
 
 
@@ -4839,7 +4857,7 @@ const InvoicePage = () => {
 
 
 
-                        <Container fluid className="p-0 table-bills mt-2">
+                        <Container fluid className="p-0 table-bills mt-4">
                           <Row
                             className={` ${DownloadReceipt
                               ? "m-0 g-2 d-flex justify-content-between"
@@ -5070,7 +5088,7 @@ const InvoicePage = () => {
                                   {sortedData && sortedData.length > 0 ? (
 
                                     <div
-                                      className=" booking-table-userlist  booking-table   ms-2 me-4"
+                                      className=" booking-table-userlist  booking-table  ms-2 me-4"
                                       style={{ marginLeft: "-22px", }}
                                     >
                                       <div
@@ -5078,10 +5096,10 @@ const InvoicePage = () => {
                                         className='show-scrolls'
                                         style={{
 
-                                          height: sortedData?.length >= 5 || sortedData?.length >= 5 ? "430px" : "auto",
+                                          height: sortedData?.length >= 12 ? "500px" : "auto",
                                           overflowY: "auto",
                                           borderTop: "1px solid #E8E8E8",
-                                          marginTop: "20px",
+                                          marginTop: "5px",
                                           paddingRight: 0,
                                           paddingLeft: 0
 
@@ -5101,164 +5119,103 @@ const InvoicePage = () => {
                                           <thead style={{
                                             fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
                                             top: 0,
-                                            zIndex: 1
+                                            zIndex: 1, 
                                           }}>
-                                            <tr>
+                                            <tr className="">
                                               <th
-                                                style={{
-                                                  textAlign: "start",
-                                                  fontFamily: "Gilroy",
-                                                  color: "rgb(147, 147, 147)",
-                                                  fontSize: 14,
-                                                  fontStyle: "normal",
-                                                  fontWeight: 500,
-                                                }}
+                                                style={headerStyle}
                                               >
-                                                <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                <label style={labelStyle}>
+                                                  {/* <div style={{ display: "flex", flexDirection: "column", }} >
                                                     <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Invoices", 'asc')} style={{ cursor: "pointer" }} />
                                                     <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Invoices", 'desc')} style={{ cursor: "pointer" }} />
-                                                  </div>
-                                                  Invoice Number</div>
+                                                  </div> */}
+                                                  Invoice Number</label>
                                               </th>
                                               <th
-                                                style={{
-                                                  textAlign: "start",
-                                                  paddingLeft: "20px",
-                                                  fontFamily: "Gilroy",
-                                                  color: "rgb(147, 147, 147)",
-                                                  fontSize: 14,
-                                                  fontWeight: 500,
-                                                }}
+                                                style={headerStyle}
                                               >
-                                                <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                <label style={labelStyle}>
+                                                  {/* <div style={{ display: "flex", flexDirection: "column", }} >
                                                     <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Name", 'asc')} style={{ cursor: "pointer" }} />
                                                     <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Name", 'desc')} style={{ cursor: "pointer" }} />
-                                                  </div>
-                                                  Name</div>
+                                                  </div> */}
+                                                  Name</label>
                                               </th>
 
                                               <th
-                                                style={{
-                                                  textAlign: "start",
-                                                  fontFamily: "Gilroy",
-                                                  color: "rgb(147, 147, 147)",
-                                                  fontSize: 14,
-                                                  fontStyle: "normal",
-                                                  fontWeight: 500,
-                                                }}
+                                                style={headerStyle}
                                               >
-                                                <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                <label style={labelStyle}>
+                                                  {/* <div style={{ display: "flex", flexDirection: "column",  }} >
                                                     <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("action", 'asc')} style={{ cursor: "pointer" }} />
                                                     <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("action", 'desc')} style={{ cursor: "pointer" }} />
-                                                  </div>
-                                                  Type</div>
+                                                  </div> */}
+                                                  Type</label>
                                               </th>
                                               <th
-                                                style={{
-                                                  textAlign: "center",
-                                                  fontFamily: "Gilroy",
-                                                  color: "rgb(147, 147, 147)",
-                                                  fontSize: 14,
-                                                  fontStyle: "normal",
-                                                  fontWeight: 500,
-                                                }}
+                                               style={headerStyle}
                                               >
-                                                <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                <label style={labelStyle}>
+                                                  {/* <div style={{ display: "flex", flexDirection: "column", }} >
                                                     <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Date", 'asc')} style={{ cursor: "pointer" }} />
                                                     <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Date", 'desc')} style={{ cursor: "pointer" }} />
-                                                  </div>
-                                                  Invoice Date</div>
+                                                  </div> */}
+                                                  Invoice Date</label>
                                               </th>
                                               <th
-                                                style={{
-                                                  textAlign: "center",
-                                                  fontFamily: "Gilroy",
-                                                  color: "rgb(147, 147, 147)",
-                                                  fontSize: 14,
-                                                  fontStyle: "normal",
-                                                  fontWeight: 500,
-                                                }}
+                                               style={headerStyle}
                                               >
-                                                <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                <label style={labelStyle}>
+                                                  {/* <div style={{ display: "flex", flexDirection: "column",  }} >
                                                     <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("DueDate", 'asc')} style={{ cursor: "pointer" }} />
                                                     <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("DueDate", 'desc')} style={{ cursor: "pointer" }} />
-                                                  </div>
-                                                  Due Date</div>
+                                                  </div> */}
+                                                  Due Date</label>
                                               </th>
                                               <th
-                                                style={{
-                                                  textAlign: "start",
-                                                  fontFamily: "Gilroy",
-                                                  color: "rgb(147, 147, 147)",
-                                                  fontSize: 14,
-                                                  fontStyle: "normal",
-                                                  fontWeight: 500,
-                                                }}
+                                              style={headerStyle}
                                               >
-                                                <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                <label style={labelStyle}>
+                                                  {/* <div style={{ display: "flex", flexDirection: "column", }} >
                                                     <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Amount", 'asc')} style={{ cursor: "pointer" }} />
                                                     <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Amount", 'desc')} style={{ cursor: "pointer" }} />
-                                                  </div>
-                                                  Amount</div>
+                                                  </div> */}
+                                                  Amount</label>
                                               </th>
                                               <th
-                                                style={{
-                                                  textAlign: "start",
-                                                  fontFamily: "Gilroy",
-                                                  color: "rgb(147, 147, 147)",
-                                                  fontSize: 14,
-                                                  fontStyle: "normal",
-                                                  fontWeight: 500,
-                                                }}
+                                               style={headerStyle}
                                               >
-                                                <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                <label style={labelStyle} >
+                                                  {/* <div style={{ display: "flex", flexDirection: "column", }} >
                                                     <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("BalanceDue", 'asc')} style={{ cursor: "pointer" }} />
                                                     <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("BalanceDue", 'desc')} style={{ cursor: "pointer" }} />
-                                                  </div>
-                                                  Due</div>
+                                                  </div> */}
+                                                  Due</label>
                                               </th>
                                               <th
-                                                style={{
-                                                  textAlign: "start",
-                                                  fontFamily: "Gilroy",
-                                                  color: "rgb(147, 147, 147)",
-                                                  fontSize: 14,
-                                                  fontStyle: "normal",
-                                                  fontWeight: 500,
-                                                }}
+                                                style={headerStyle}
                                               >
-                                                <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                <label style={labelStyle}>
+                                                  {/* <div style={{ display: "flex", flexDirection: "column", }} >
                                                     <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("status", 'asc')} style={{ cursor: "pointer" }} />
                                                     <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("status", 'desc')} style={{ cursor: "pointer" }} />
-                                                  </div>
-                                                  Status</div>
+                                                  </div> */}
+                                                  Status</label>
                                               </th>
                                               <th
-                                                style={{
-                                                  textAlign: "center",
-                                                  fontFamily: "Gilroy",
-                                                  color: "rgb(147, 147, 147)",
-                                                  fontSize: 14,
-                                                  fontWeight: 500,
-                                                }}
-                                              > Action</th>
-                                            </tr>
+                                               style={headerStyle}
+                                              > <label style={labelStyle}>Action</label></th>
+                                                                                         </tr>
                                           </thead>
 
                                           <tbody style={{ fontSize: "10px", minHeight: "200px", position: "relative" }}>
                                             <PaginationList>
-                                              {sortedData.map((item) => (
+                                              {sortedData.map((item, index) => (
                                                 <InvoiceTable
                                                   key={item.id}
                                                   item={item}
+                                                  index={index}
                                                   OnHandleshowform={handleShowForm}
                                                   OnHandleshowEditform={handleEdit}
                                                   OnHandleshowInvoicePdf={handleInvoiceDetail}

@@ -75,6 +75,7 @@ function App() {
       dispatch({ type: 'LOG_OUT' });
       setData(false);
       localStorage.clear();
+      cookies.remove('selected_hostelId', { path: '/' });
 
     }
 
@@ -91,8 +92,8 @@ function App() {
       localStorage.clear();
       localStorage.removeItem("lastPage");
       localStorage.removeItem("currentPage")
-      localStorage.setItem("selectedResponseHostelId", "");
-      
+      // localStorage.setItem("selectedResponseHostelId", "");
+      cookies.remove('selected_hostelId', { path: '/' });
 
     }
   }, [state.login?.isLoggedIn]);
