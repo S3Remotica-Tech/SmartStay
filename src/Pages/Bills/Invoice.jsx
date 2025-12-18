@@ -66,7 +66,7 @@ const InvoicePage = () => {
   const [bankking, setBanking] = useState("");
   // const [formLoading, setFormLoading] = useState(false)
   const [initials, setInitials] = useState("");
-   const [formRecordLoading, setFormRecordLoading] = useState(false)
+  const [formRecordLoading, setFormRecordLoading] = useState(false)
   const dropdownRef = useRef(null);
   const [invoiceList, setInvoiceList] = useState({
     firstName: "",
@@ -383,9 +383,9 @@ const InvoicePage = () => {
   useEffect(() => {
     if (!state.login.selectedHostel_Id) return;
 
-      dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+    dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
 
-   
+
 
   }, [state.login.selectedHostel_Id]);
 
@@ -2131,15 +2131,15 @@ const InvoicePage = () => {
   const [sortConfigRecure, setSortConfigRecure] = useState({ key: null, direction: null });
 
   const sortedDataRecure = React.useMemo(() => {
-  
+
     if (!sortConfigRecure.key) return recurringbills;
 
-    
+
     return [...recurringbills].sort((a, b) => {
       const valueA = a[sortConfigRecure.key];
       const valueB = b[sortConfigRecure.key];
 
-           if (!isNaN(valueA) && !isNaN(valueB)) {
+      if (!isNaN(valueA) && !isNaN(valueB)) {
         return sortConfigRecure.direction === 'asc' ? valueA - valueB : valueB - valueA;
       }
 
@@ -2268,9 +2268,9 @@ const InvoicePage = () => {
       setLoading(true);
 
       setDownloadReceipt(false);
-      
-        dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
-         }
+
+      dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+    }
 
     if (newValue === "2") {
       // setRecurLoader(true);
@@ -2399,7 +2399,7 @@ const InvoicePage = () => {
       setSelectedDate(null);
       setFormRecordLoading(false)
       setShowform(false)
-           dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+      dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
 
 
       dispatch({ type: "RECEIPTSLIST", payload: hostelId });
@@ -2728,7 +2728,7 @@ const InvoicePage = () => {
       setTotalAmount("");
 
       setNewRows([]);
-            dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+      dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
 
       setLoading(false);
 
@@ -2757,7 +2757,7 @@ const InvoicePage = () => {
       setShowRecurringBillForm(false);
       setReceiptFormShow(false);
       setShowAllBill(true);
-           dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+      dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
 
       setLoading(false);
 
@@ -2774,7 +2774,7 @@ const InvoicePage = () => {
   ]);
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceDeleteStatusCode === 200) {
-          dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+      dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
 
       setLoading(false);
 
@@ -2944,41 +2944,41 @@ const InvoicePage = () => {
   //   }
   // }, [filterInput, value]);
 
- const handlefilterInput = (e) => {
-  setFilterInput(e.target.value);
-};
+  const handlefilterInput = (e) => {
+    setFilterInput(e.target.value);
+  };
 
 
 
-useEffect(() => {
-  if (!state.login?.selectedHostel_Id) return;
+  useEffect(() => {
+    if (!state.login?.selectedHostel_Id) return;
 
-  const delay = setTimeout(() => {
-    const filters = {};
-        if (filterInput && filterInput.trim().length > 0) {
-      filters.search = filterInput.trim();
-    }
+    const delay = setTimeout(() => {
+      const filters = {};
+      if (filterInput && filterInput.trim().length > 0) {
+        filters.search = filterInput.trim();
+      }
 
 
-    if (statusfilter && statusfilter.value !== "ALL") {
-      filters.paymentStatus = [statusfilter.value];
-    }
+      if (statusfilter && statusfilter.value !== "ALL") {
+        filters.paymentStatus = [statusfilter.value];
+      }
 
-    dispatch({
-      type: "INVOICESLISTFILTER",
-      payload: {
-        hostelId: state.login.selectedHostel_Id,
-        filters: Object.keys(filters).length ? filters : undefined,
-      },
-    });
-  }, 500); 
+      dispatch({
+        type: "INVOICESLISTFILTER",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          filters: Object.keys(filters).length ? filters : undefined,
+        },
+      });
+    }, 500);
 
-  return () => clearTimeout(delay);
-}, [
-  filterInput,
-  // statusfilter,              
-  state.login?.selectedHostel_Id,
- ]);
+    return () => clearTimeout(delay);
+  }, [
+    filterInput,
+    // statusfilter,              
+    state.login?.selectedHostel_Id,
+  ]);
 
 
   const handleUserSelect = (user) => {
@@ -2987,7 +2987,7 @@ useEffect(() => {
     if (searchItem && state.login?.selectedHostel_Id) {
       const filters = {
         search: searchItem,
-              };
+      };
       dispatch({
         type: 'INVOICESLISTFILTER',
         payload: {
@@ -3019,9 +3019,9 @@ useEffect(() => {
     // setBills(bills);
     // setRecurringBills(originalRecuiring);
     // setReceiptData(originalReceipt);
-  
-      dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
-   
+
+    dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+
   };
 
 
@@ -3324,7 +3324,7 @@ useEffect(() => {
 
 
   return (
-    <div style={{ overflowX: "hidden" }}>
+    <div style={{}}>
       {
         showBillsFilter && <BillsFilter show={showBillsFilter} handleClose={handleCloseFilterBills} />
       }
@@ -3341,12 +3341,19 @@ useEffect(() => {
             xs={DownloadInvoice || DownloadReceipt ? 12 : 12}
           >
             <div
-              className="container-fluid sticky-top bg-white ps-4 "
+              className=" sticky-top bg-white "
               style={{
-                zIndex: 1000, paddingLeft: 8, paddingRight: 6, backgroundColor: "#ffffff",
-                borderBottom: (!DownloadInvoice && !DownloadReceipt) ? "none" : "1px solid #E0E0E0",
-                height: "50px",
-                boxShadow: "initial",
+                position: "",
+                top: 0,
+                left: 0,
+                right: 0,
+                zIndex: 1000,
+                               backgroundColor: "#ffffff",
+                borderBottom:
+                  !DownloadInvoice && !DownloadReceipt
+                    ? "none"
+                    : "1px solid #E0E0E0",
+               
               }}
             >
               <div className="d-flex justify-content-between align-items-center flex-wrap">
@@ -3391,7 +3398,7 @@ useEffect(() => {
                     )}
                     {(!showPdfModal && !showPdfReceiptModal) && (
                       <div className={` d-flex align-items-center`} >
-                        { search ? (
+                        {value === "1" && search ? (
                           <>
                             <div className="position-relative" style={{ minWidth: 160, maxWidth: 250, zIndex: 3000, position: "relative" }}>
 
@@ -3438,249 +3445,16 @@ useEffect(() => {
                               </div>
 
 
-                              {value === "1" && 
-                                isDropdownVisible &&
-                                originalBillsFilter?.length > 0 && (
-                                  <div ref={dropdownRef}
-                                    style={{
-                                      border: "1px solid #d9d9d9",
-                                      position: "absolute",
-                                      top: 80,
-                                      left: 0,
-                                      zIndex: 9999,
-                                      padding: 10,
-                                      borderRadius: 8,
-                                      backgroundColor: "#fff",
-                                      width: "100%",
-                                    }}
-                                  >
-                                    <ul
-                                      className="show-scroll p-0"
-                                      style={{
-                                        listStyleType: "none",
-                                        maxHeight: 174,
-                                        minHeight: originalBillsFilter?.length > 1 ? "50px" : "auto",
-                                        overflowY: originalBillsFilter?.length > 3 ? "auto" : "hidden",
-                                        margin: 0,
-                                      }}
-                                    >
-                                      {originalBillsFilter
-                                        ?.filter(
-                                          (item, index, self) =>
-                                            index === self.findIndex((t) => t.fullName === item.fullName)
-                                        )
-                                        .map((user, index) => (
-                                          <li
-                                            key={index}
-                                            className="d-flex align-items-center me-1"
-                                            style={{
-                                              padding: "10px 5px",
-                                              cursor: "pointer",
-                                              fontFamily: "Gilroy",
-                                              borderRadius: 8,
-                                              borderBottom:
-                                                index !== originalBillsFilter?.length - 1
-                                                  ? "1px solid #eee"
-                                                  : "none",
-                                              backgroundColor:
-                                                hoveredIndex === index ? "#1E45E1" : "transparent",
-                                              color: hoveredIndex === index ? "white" : "black",
-                                            }}
-                                            onClick={() => handleUserSelect(user)}
-                                            onMouseEnter={() => setHoveredIndex(index)}
-                                            onMouseLeave={() => setHoveredIndex(null)}
-                                          >
-                                            <Image
-                                              src={user.profile || Profile}
-                                              alt={user.Name}
-                                              roundedCircle
-                                              style={{
-                                                height: "30px",
-                                                width: "30px",
-                                                marginRight: "10px",
-                                              }}
-                                              onError={(e) => {
-                                                e.target.onerror = null;
-                                                e.target.src = Profile;
-                                              }}
-                                            />
-                                            <span>{user.fullName}</span>
-                                          </li>
-                                        ))}
-                                    </ul>
-                                  </div>
-                                )}
 
-                              {value === "2" && isDropdownVisible && recurringbills?.length > 0 && (
-                                <div
-                                  style={{
-                                    border: "1px solid #d9d9d9 ",
-                                    position: "absolute",
-                                    top: 80,
-                                    left: 0,
-                                    zIndex: 9999,
-                                    padding: 10,
-                                    borderRadius: 8,
-                                    backgroundColor: "#fff",
-                                    width: "100%",
-                                    pointerEvents: "auto",
-                                  }}
-                                >
-                                  <ul
-                                    className="show-scroll p-0"
-                                    style={{
-                                      backgroundColor: "#fff",
-                                      borderRadius: "4px",
-                                      minHeight: 50,
-                                      maxHeight: recurringbills?.length > 1 ? "174px" : "auto",
-                                      overflowY: recurringbills?.length > 1 ? "auto" : "hidden",
-                                      margin: "0",
-                                      listStyleType: "none",
-                                      boxSizing: "border-box",
-                                    }}
-                                  >
-                                    {recurringbills?.length === 0 ? (
-                                      <li style={{ padding: "10px" }}>No results found</li>
-                                    ) : (
-                                      recurringbills
-                                        ?.filter(
-                                          (item, index, self) =>
-                                            index === self.findIndex((t) => t.user_name === item.user_name)
-                                        )
-                                        .map((user, index) => (
-                                          <li
-                                            key={index}
-                                            className="d-flex align-items-center me-1"
-                                            style={{
-                                              cursor: "pointer",
-                                              fontFamily: "Gilroy",
-                                              borderRadius: 8,
-                                              padding: "10px 5px",
-                                              borderBottom:
-                                                index !== recurringbills.length - 1
-                                                  ? "1px solid #eee"
-                                                  : "none",
-                                              backgroundColor:
-                                                hoveredIndex === index ? "#1E45E1" : "transparent",
-                                              color: hoveredIndex === index ? "white" : "black",
-                                            }}
-                                            onClick={(e) => {
-                                              e.preventDefault();
-                                              e.stopPropagation();
-                                              handleUserRecuire(user);
-                                            }}
-                                            onMouseEnter={() => setHoveredIndex(index)}
-                                            onMouseLeave={() => setHoveredIndex(null)}
-                                          >
-                                            <Image
-                                              src={user.profile || Profile}
-                                              alt={user.user_name || "Default Profile"}
-                                              roundedCircle
-                                              style={{ height: "30px", width: "30px", marginRight: "10px" }}
-                                              onError={(e) => {
-                                                e.target.onerror = null;
-                                                e.target.src = Profile;
-                                              }}
-                                            />
-                                            <span>{user.user_name}</span>
-                                          </li>
-                                        ))
-                                    )}
-                                  </ul>
-                                </div>
-                              )}
-
-
-                              {value === "3" &&
-                                isDropdownVisible &&
-                                receiptdata?.length > 0 && (
-                                  <div
-                                    style={{
-                                      border: "1px solid #d9d9d9 ",
-                                      position: "absolute",
-                                      top: 80,
-                                      left: 0,
-                                      zIndex: 9999,
-                                      padding: 10,
-                                      borderRadius: 8,
-                                      backgroundColor: "#fff",
-                                      width: "100%",
-                                      pointerEvents: "auto",
-                                    }}
-                                  >
-                                    <ul
-                                      className="show-scroll p-0"
-                                      style={{
-                                        backgroundColor: "#fff",
-                                        borderRadius: "4px",
-                                        minHeight: 50,
-                                        maxHeight: receiptdata?.length > 1 ? "100px" : "auto",
-                                        overflowY: receiptdata?.length > 3 ? "auto" : "hidden",
-                                        margin: "0",
-                                        listStyleType: "none",
-                                        boxSizing: "border-box",
-                                      }}
-                                    >
-                                      {receiptdata
-                                        ?.filter(
-                                          (item, index, self) =>
-                                            index === self.findIndex((t) => t.Name === item.Name)
-                                        )
-                                        .map((user, index) => {
-                                          const imagedrop = user.profile || Profile;
-                                          return (
-                                            <li
-                                              key={index}
-                                              className="d-flex align-items-center me-1 "
-                                              style={{
-                                                cursor: "pointer",
-                                                fontFamily: "Gilroy",
-                                                borderRadius: 8,
-                                                padding: "10px 5px",
-                                                borderBottom:
-                                                  index !== receiptdata?.length - 1
-                                                    ? "1px solid #eee"
-                                                    : "none",
-                                                backgroundColor:
-                                                  hoveredIndex === index ? "#1E45E1" : "transparent",
-                                                color: hoveredIndex === index ? "white" : "black",
-                                              }}
-                                              onClick={(e) => {
-                                                e.preventDefault();
-                                                e.stopPropagation();
-                                                handleUserReceipt(user);
-                                              }}
-                                              onMouseEnter={() => setHoveredIndex(index)}
-                                              onMouseLeave={() => setHoveredIndex(null)}
-                                            >
-                                              <Image
-                                                src={imagedrop}
-                                                alt={user.Name || "Default Profile"}
-                                                roundedCircle
-                                                style={{
-                                                  height: "30px",
-                                                  width: "30px",
-                                                  marginRight: "10px",
-                                                }}
-                                                onError={(e) => {
-                                                  e.target.onerror = null;
-                                                  e.target.src = Profile;
-                                                }}
-                                              />
-                                              <span>{user.Name}</span>
-                                            </li>
-                                          );
-                                        })}
-                                    </ul>
-                                  </div>
-                                )}
 
                             </div>
                           </>
                         ) : (
                           <>
-                            <div style={{ marginTop: DownloadInvoice || DownloadReceipt ? 0 : 12, backgroundColor: "", color: "", border: "1px solid #CBD5E1", borderRadius: "50%",
-                               padding: "6px 8px", lineHeight:"normal" , height:"fit-content"}}>
+                            <div style={{
+                              marginTop: DownloadInvoice || DownloadReceipt ? 0 : 12, backgroundColor: "", color: "", border: "1px solid #CBD5E1", borderRadius: "50%",
+                              padding: "6px 8px", lineHeight: "normal", height: "fit-content"
+                            }}>
                               <FiSearch
                                 style={{
                                   height: "20px",
@@ -3699,75 +3473,10 @@ useEffect(() => {
 
 
 
-                        {statusfilter === "date" && value === "1" && (
-                          <div className="mt-4">
-                            <RangePicker
-                              style={{ height: 40, cursor: "pointer" }}
-                              onChange={(dates) => {
-                                if (!dates || dates.length === 0) {
-                                  setStatusfilter("");
-                                  setDateRange([]);
-                                  setStartDate(null);
-                                  setEndDate(null);
-                                } else {
-                                  setDateRange(dates);
-                                  setStartDate(dates[0]);
-                                  setEndDate(dates[1]);
-                                }
-                              }}
-                              value={dateRange}
-                              format="DD-MM-YYYY"
-                              className="w-100"
-                            />
 
-                          </div>
-                        )}
 
-                        {value === "3" && filterStatus && (
-                          <div
-                            className="me-3"
-                            style={{
-                              border: "1px solid #D4D4D4",
-                              borderRadius: 8,
-                              width: search ? "120px" : "120px",
-                              marginTop: "20px",
-                            }}
-                          >
-                            <Form.Select
-                              disabled={!canReadReceipt}
-                              onChange={(e) => handleStatusFilterReceipt(e)}
-                              value={statusFilterReceipt}
-                              aria-label="Select Price Range"
-                              className=""
-                              id="statusselect"
-                              style={{
-                                color: "rgba(34, 34, 34, 1)",
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                                cursor: "pointer"
-                              }}
-                            >
-                              <option value="All">All</option>
-                              <option value="Cash">Cash</option>
-                              <option value="UPI">UPI</option>
-                              <option value="Bank">Bank</option>
-                              <option value="Card">Card</option>
-                              <option value="date">Date</option>
-                            </Form.Select>
-                          </div>
-                        )}
 
-                        {statusFilterReceipt === "date" && value === "3" && (
-                          <div className="me-3 mt-3">
-                            <RangePicker
-                              value={receiptDateRange}
-                              format="YYYY-MM-DD"
-                              onChange={handleDateRangeChangeReceipt}
-                              style={{ height: "38px", borderRadius: 8, cursor: "pointer" }}
-                              allowClear
-                            />
-                          </div>
-                        )}
+
 
                       </div>
                     )}
@@ -3811,7 +3520,7 @@ useEffect(() => {
                             color: "white",
                             fontWeight: 600,
                             borderRadius: "8px",
-                            padding: DownloadReceipt ? "6px 12px" : "11px 12px",
+                            padding: DownloadReceipt ? "6px 12px" : "8px 8px",
                             marginTop: DownloadReceipt ? 0 : 12,
                             whiteSpace: "nowrap",
                             minWidth: DownloadReceipt ? "50px" : "150px",
@@ -3828,7 +3537,7 @@ useEffect(() => {
               </div>
             </div>
 
-            <div className="ps-4 ">
+            <div className="">
               <TabContext value={value} style={{}} >
                 <div
                   style={{
@@ -3849,14 +3558,11 @@ useEffect(() => {
                       activeKey={value}
                       onSelect={(k) => handleChanges(null, k)}
                       id="bill-tabs"
-                      className={`ps-3 custom-tab-list d-flex mt-2
-                      ${isSmallScreen ? "flex-md-row" : "flex-lg-row"
-                        }
-                      
-                      `}
+                      className="ps-3 custom-tab-list d-flex mt-2"
+
                       style={{
                         border: "none",
-                        width: "50%",
+                        // width: "50%",
                         display: "flex",
                         gap: "25px",
                         justifyContent: "", paddingBottom: 10
@@ -3931,61 +3637,62 @@ useEffect(() => {
                     </Tabs>
 
                     <div className="d-flex gap-3 align-items-center me-3 ">
-                      {value === "1" &&  (
-                        <div
-                          className=""
-                          style={{
-                            border: "1px solid #D4D4D4",
-                            borderRadius: 8,
-                            width: 150,
-                            // zIndex:9999
-                            // marginTop: "20px",
-                          }}
-                        >
-                          <Select
-                            options={selectOptions}
-                            styles={CustomStyles}
-                            disabled={!canReadInvoice}
-                            onChange={(e) => handleStatusFilter(e)}
-                            value={statusfilter}
-                            aria-label="Select"
+                      {value === "1" && (!showPdfModal && !showPdfReceiptModal) && (
+                        <>
+                          <div
                             className=""
-                            id="statusselect"
+                            style={{
+                              border: "1px solid #D4D4D4",
+                              borderRadius: 8,
+                              width: 150,
+                              // zIndex:9999
+                              // marginTop: "20px",
+                            }}
+                          >
+                            <Select
+                              options={selectOptions}
+                              styles={CustomStyles}
+                              disabled={!canReadInvoice}
+                              onChange={(e) => handleStatusFilter(e)}
+                              value={statusfilter}
+                              aria-label="Select"
+                              className=""
+                              id="statusselect"
 
 
-                          />
-
-
-
-                        </div>
-                      )}
-                     
-
-                        <div
-                          style={{
-                            display: "flex",
-                            gap: "12px",
-                            alignItems: "center",
-                            // zIndex: 2000
-                          }}
-                        >
-                          <Select
-                            options={monthOptions}
-                            value={selectedMonth}
-                            onChange={handleMonthChange}
-                            classNamePrefix="custom"
-                            menuPlacement="auto"
-                            noOptionsMessage={() => "No options"}
-                            styles={CustomStyles}
-
-                          />
+                            />
 
 
 
+                          </div>
 
 
-                        </div>
-                     
+
+                          <div
+                            style={{
+                              display: "flex",
+                              gap: "12px",
+                              alignItems: "center",
+                              // zIndex: 2000
+                            }}
+                          >
+                            <Select
+                              options={monthOptions}
+                              value={selectedMonth}
+                              onChange={handleMonthChange}
+                              classNamePrefix="custom"
+                              menuPlacement="auto"
+                              noOptionsMessage={() => "No options"}
+                              styles={CustomStyles}
+
+                            />
+
+
+
+
+
+                          </div>
+
                           <div
                             className=" d-flex"
                             style={{
@@ -4003,15 +3710,15 @@ useEffect(() => {
                               transition: "opacity 0.3s ease"
                             }} />
                           </div>
+                        </>
+                      )}
 
-
-                        
                     </div>
                   </div>
                 </div>
 
                 {
-                  
+
 
                   chips.length > 0 && (
                     <div
@@ -5243,7 +4950,7 @@ useEffect(() => {
                     <>
 
 
-                      <div className="d-flex gap-3 align-items-center mt-5 ms-3 mb-2">
+                      <div className="d-flex gap-3 align-items-center mt-4 ms-3 mb-0">
                         <button
                           onClick={() => handleClick("long_stay")}
                           style={{
@@ -5251,10 +4958,10 @@ useEffect(() => {
                             color: activeStay === "long_stay" ? "#fff" : "#1E1E1E",
                             fontFamily: "Gilroy",
                             fontWeight: 600,
-                            padding: "10px 20px",
+                            padding: 8,
                             borderRadius: 20,
                             border: activeStay === "long_stay" ? "1px solid #1E45E1" : "1px solid #D6D6D6",
-                            fontSize: 14,
+                            fontSize: 12,
                           }}
                         >
                           Long Stay
@@ -5267,10 +4974,10 @@ useEffect(() => {
                             color: activeStay === "short_stay" ? "#fff" : "#1E1E1E",
                             fontFamily: "Gilroy",
                             fontWeight: 600,
-                            padding: "10px 20px",
+                            padding: 8,
                             borderRadius: 20,
                             border: activeStay === "short_stay" ? "1px solid #1E45E1" : "1px solid #D6D6D6",
-                            fontSize: 14,
+                            fontSize: 12,
                           }}
                         >
                           Short Stay
@@ -5376,41 +5083,20 @@ useEffect(() => {
 
                       }
 
-
-
-
-
                       {recurringbills && recurringbills.length > 0 && activeStay === 'long_stay' && (
-
-
-
-
-
-
-
-
                         <div
                           className=" booking-table-userlist  booking-table ms-2 me-4 mt-4"
                           style={{ paddingBottom: "20px", marginLeft: "-22px" }}
                         >
 
-
-
-
-
-                          {/* {activeStay === "Longstay" ? ( */}
-
-
                           <div
-
                             className='show-scrolls '
                             style={{
-
-                              height: sortedDataRecure?.length >= 5 || sortedDataRecure?.length >= 5 ? "380px" : "auto",
+                              height: sortedDataRecure?.length >= 12 ? "400px" : "auto",
                               overflowY: "auto",
                               borderTop: "1px solid #E8E8E8",
                               marginBottom: 20,
-                              marginTop: "20px",
+                              marginTop: "10px",
                               paddingRight: 0,
                               paddingLeft: 0
 
@@ -5428,128 +5114,57 @@ useEffect(() => {
                               }}
                             >
                               <thead style={{
-                                fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                                fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)",
+                                fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
                                 top: 0,
                                 zIndex: 1
                               }}>
                                 <tr>
                                   <th
-                                    style={{
-                                      textAlign: "start",
-
-                                      paddingLeft: "20px",
-                                      fontFamily: "Gilroy",
-                                      color: "rgb(147, 147, 147)",
-                                      fontSize: 12,
-                                      fontWeight: 500,
-
-                                    }}
+                                    style={headerStyle}
                                   >
-                                    <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                      <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("user_name", 'asc')} style={{ cursor: "pointer" }} />
-                                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("user_name", 'desc')} style={{ cursor: "pointer" }} />
-                                      </div>
-                                      Name</div>
+                                    <label style={labelStyle}>
+
+                                      Name</label>
                                   </th>
                                   <th
-                                    style={{
-                                      textAlign: "start",
-                                      fontFamily: "Gilroy",
-                                      color: "rgb(147, 147, 147)",
-                                      fontSize: 12,
-                                      fontStyle: "normal",
-                                      fontWeight: 500,
-                                      whiteSpace: "nowrap"
-                                    }}
+                                    style={headerStyle}
                                   >
-                                    <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                      <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("invoice_date", 'asc')} style={{ cursor: "pointer" }} />
-                                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("invoice_date", 'desc')} style={{ cursor: "pointer" }} />
-                                      </div>
-                                      Last Invoice number</div>
+                                    <label style={labelStyle}>
+
+                                      Last Invoice number</label>
                                   </th>
                                   <th
-                                    style={{
-                                      textAlign: "start",
-                                      fontFamily: "Gilroy",
-                                      color: "rgb(147, 147, 147)",
-                                      fontSize: 12,
-                                      fontStyle: "normal",
-                                      fontWeight: 500,
-                                      whiteSpace: "nowrap"
-                                    }}
+                                    style={headerStyle}
                                   >
-                                    <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                      <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("DueDate", 'asc')} style={{ cursor: "pointer" }} />
-                                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("DueDate", 'desc')} style={{ cursor: "pointer" }} />
-                                      </div>
-                                      Last Invoice Date</div>
+                                    <label style={labelStyle}>
+
+                                      Last Invoice Date</label>
                                   </th>
                                   <th
-                                    style={{
-                                      textAlign: "start",
-                                      fontFamily: "Gilroy",
-                                      color: "rgb(147, 147, 147)",
-                                      fontSize: 12,
-                                      fontStyle: "normal",
-                                      fontWeight: 500,
-                                      whiteSpace: "nowrap"
-                                    }}
+                                    style={headerStyle}
                                   >
-                                    <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                      <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("next_invoice_date", 'asc')} style={{ cursor: "pointer" }} />
-                                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("next_invoice_date", 'desc')} style={{ cursor: "pointer" }} />
-                                      </div>
-                                      Next Invoice Date</div>
+                                    <label style={labelStyle} >
+
+                                      Next Invoice Date</label>
                                   </th>
                                   <th
-                                    style={{
-                                      textAlign: "start",
-                                      fontFamily: "Gilroy",
-                                      color: "rgb(147, 147, 147)",
-                                      fontSize: 12,
-                                      fontStyle: "normal",
-                                      fontWeight: 500,
-                                    }}
+                                    style={headerStyle}
                                   >
-                                    <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                      <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("total_amount", 'asc')} style={{ cursor: "pointer" }} />
-                                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("total_amount", 'desc')} style={{ cursor: "pointer" }} />
-                                      </div>
-                                      Amount</div>
+                                    <label style={labelStyle}>
+
+                                      Amount</label>
                                   </th>
                                   <th
-                                    style={{
-                                      textAlign: "start",
-                                      fontFamily: "Gilroy",
-                                      color: "rgb(147, 147, 147)",
-                                      fontSize: 12,
-                                      fontStyle: "normal",
-                                      fontWeight: 500,
-                                    }}
+                                    style={headerStyle}
                                   >
-                                    <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                    <label style={labelStyle}>
 
-                                      Recurring</div>
+                                      Recurring</label>
                                   </th>
-
-
-
-
                                   <th
-                                    style={{
-                                      textAlign: "center",
-                                      fontFamily: "Gilroy",
-                                      color: "rgb(147, 147, 147)",
-                                      fontSize: 12,
-                                      fontWeight: 500,
-                                    }}
-                                  > Action</th>
+                                    style={headerStyle}
+                                  ><label style={labelStyle}>Action</label> </th>
                                 </tr>
                               </thead>
 

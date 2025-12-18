@@ -114,27 +114,6 @@ const InvoiceTable = (props) => {
 
 
 
-
-  // let Dated = new Date(props.item?.invoiceDate);
-
-  // let day = Dated.getDate();
-  // let month = Dated.getMonth() + 1;
-  // let year = Dated.getFullYear();
-
-  // let formattedDate = `${day}/${month}/${year}`;
-
-
-
-  // let dueDated = new Date(props.item?.dueDate);
-
-  // let daydue = dueDated.getDate();
-  // let monthdue = dueDated.getMonth() + 1;
-  // let yeardue = dueDated.getFullYear();
-
-  // let formattedDueDate = `${daydue}/${monthdue}/${yeardue}`;
-
-
-
   const popupRef = useRef(null);
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {

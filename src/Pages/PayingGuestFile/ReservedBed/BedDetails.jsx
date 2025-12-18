@@ -315,8 +315,8 @@ function BedDetails({
                                                             ref={popupRef}
                                                             className="position-absolute"
                                                             style={{
-                                                                right: 0,
-                                                                top: 50,
+                                                                right: 50,
+                                                                top: 10,
                                                                 width: 160,
                                                                 border: "1px solid #EBEBEB",
                                                                 borderRadius: 10,

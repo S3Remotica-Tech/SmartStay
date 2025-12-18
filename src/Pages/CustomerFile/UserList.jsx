@@ -1014,11 +1014,9 @@ function UserList(props) {
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceAddStatusCode === 201) {
       navigate(`/tenant/details/${customername}`)
-
       if (customername) {
         dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: customername } });
       }
-
       // dispatch({ type: "MANUALINVOICESLIST", payload: state.login.selectedHostel_Id })
       setBillLoading(false);
       handleBackBill();
@@ -1029,6 +1027,7 @@ function UserList(props) {
       }, 300);
     }
   }, [state.InvoiceList.manualInvoiceAddStatusCode]);
+
 
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceDeleteStatusCode === 200) {
@@ -1758,7 +1757,7 @@ function UserList(props) {
       handleCloseAddCustomer()
       dispatch({
         type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
+        payload: { hostel_id: state.login.selectedHostel_Id, type: 'Inactive' },
       });
 
       setTimeout(() => {

@@ -4013,8 +4013,8 @@ useEffect(() => {
                                         }}
                                       >
 
-                                        {CustomerOverView.bookingInfo?.bookingAmount !== null
-                                          ? `₹${CustomerOverView.bookingInfo.bookingAmount}`
+                                        {CustomerOverView?.bookingInfo?.bookingAmount !== null
+                                          ? `₹${CustomerOverView?.bookingInfo?.bookingAmount}`
                                           : 0
                                         }
                                       </p>
