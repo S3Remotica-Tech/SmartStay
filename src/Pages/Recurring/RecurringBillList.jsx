@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Delete from '../../Assets/Images/Delete_red.png';
 import Modal from "react-bootstrap/Modal";
-import { Button ,Form} from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import PropTypes from "prop-types";
 // import { FaCheck } from "react-icons/fa";
 import { useSelector } from 'react-redux';
@@ -109,59 +109,70 @@ const RecurringBillList = (props) => {
   } = useHasPermission("Recurring bills");
 
 
-console.log(props,"props")
-
+  
   return (
 
     <>
 
-      <tr key={props.item.customerId} style={{ color: "#000", fontFamily: "Gilroy", fontSize: "14px", fontStyle: "normal", lineHeight: "normal", alignItems: 'center', marginTop: '10px', flexWrap: "wrap" }} className='m-2' >
+      <tr key={props.item.customerId}
+        style={{ color: "#000", fontFamily: "Gilroy", fontSize: "14px", fontStyle: "normal", lineHeight: "", alignItems: 'center', marginTop: '10px', flexWrap: "wrap" }} className='m-2' >
 
 
-        <td className="table-cells ps-2 ps-sm-2 ps-md-3 ps-lg-3" style={{ border: "none", flexWrap: "wrap", paddingTop: '18px', textAlign: "center", whiteSpace: "nowrap", borderBottom: "1px solid #E8E8E8" }}>
+        <td className="table-cells" style={{ border: "none", flexWrap: "wrap", textAlign: "center", whiteSpace: "nowrap", borderBottom: "1px solid #E8E8E8" }}>
           <div className="d-flex  align-items-center">
 
-            <div className="Invoice_Name" style={{ fontFamily: 'Gilroy', fontSize: '13px', marginLeft: '17px', fontStyle: 'normal', lineHeight: 'normal', fontWeight: 500, cursor: "pointer" }}
+            <div className="Invoice_Name" style={{ fontFamily: 'Gilroy', fontSize: '13px',  fontStyle: 'normal', lineHeight: 'normal', fontWeight: 500, cursor: "pointer" }}
 
             >{props.item?.fullName}</div><br />
 
           </div>
         </td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-2"><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "4px 10px", marginLeft: 6 }}>{props?.item?.lastInvoiceNumber || "-"}</span></td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-2"><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "4px 10px", marginLeft: 4 }}>{props.item?.lastInvoiceDate || "-"}</span></td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "4px 10px" }}>{props.item?.nextInvoiceDate || "-"}</span></td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
-          <div style={{ marginLeft: 6 }}>
-            ₹{(props?.item?.invoiceAmount || 0).toLocaleString('en-IN')}
-          </div>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="">
+          {props?.item?.lastInvoiceNumber || "-"}
+        </td>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="">
+          {props.item?.lastInvoiceDate || "-"}
+        </td>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="">
+          {props.item?.nextInvoiceDate || "-"}
+        </td>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="">
+
+          ₹{(props?.item?.invoiceAmount || 0).toLocaleString('en-IN')}
+
 
         </td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="">
           <Form.Check
             type="switch"
-            id="recurring-switch"
+            id="recurring-switch" style={{}}
             checked={props.checked}
             disabled={!canUpdateRecurring}
             onChange={canUpdateRecurring ? props.onToggle : undefined}
-            label={
-              <span
-                style={{
-                  fontWeight: 500,
-                  color: !canUpdateRecurring ? "#9E9E9E" : "#1E1E1E",
-                  marginLeft: 8,
-                }}
-              >
-                {props.checked ? "On" : "Off"}
-              </span>
-            }
+            // label={
+            //   <span
+            //     style={{
+            //       fontWeight: 500,
+            //       color: !canUpdateRecurring ? "#9E9E9E" : "#1E1E1E",
+            //       marginLeft: 8,
+            //     }}
+            //   >
+            //     {props.checked ? "On" : "Off"}
+            //   </span>
+            // }
           />
 
 
         </td>
-        <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none", borderBottom: "1px solid #E8E8E8" }} className=''>
-          <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-            <div style={{ cursor: "pointer", backgroundColor: showDots ? "#E7F1FF" : "white", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative" }} onClick={(e) => handleShowDots(e)}>
-              <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, }} />
+        <td style={{ textAlign: 'start', border: "none", borderBottom: "1px solid #E8E8E8"  }} className=''>
+          <div style={{ width: "100%", display: "flex", justifyContent: "start" }}>
+            <div style={{ cursor: "pointer", 
+            // backgroundColor: showDots ? "#E7F1FF" : "white",
+              //  height: 40, width: 40, 
+               borderRadius: 100,
+                // border: "1px solid #EFEFEF", 
+                display: "flex", alignItems: "center", position: "relative",justifyContent: "" }} onClick={(e) => handleShowDots(e)}>
+              <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, transform:"rotate(90deg)" }} />
 
               {showDots && <>
                 <div
@@ -236,7 +247,7 @@ console.log(props,"props")
 
 
             </div>
-          </div>
+         </div>
         </td>
 
 

@@ -114,27 +114,6 @@ const InvoiceTable = (props) => {
 
 
 
-
-  // let Dated = new Date(props.item?.invoiceDate);
-
-  // let day = Dated.getDate();
-  // let month = Dated.getMonth() + 1;
-  // let year = Dated.getFullYear();
-
-  // let formattedDate = `${day}/${month}/${year}`;
-
-
-
-  // let dueDated = new Date(props.item?.dueDate);
-
-  // let daydue = dueDated.getDate();
-  // let monthdue = dueDated.getMonth() + 1;
-  // let yeardue = dueDated.getFullYear();
-
-  // let formattedDueDate = `${daydue}/${monthdue}/${yeardue}`;
-
-
-
   const popupRef = useRef(null);
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
@@ -332,7 +311,7 @@ const InvoiceTable = (props) => {
 
 
         <td style={{ textAlign: 'center', verticalAlign: 'middle', border: "none", borderBottom: "1px solid #E8E8E8" }} className=''>
-          <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+          <div style={{ width: "100%", display: "flex", justifyContent: "start" }}>
             <div style={{
               cursor: "pointer",
               // backgroundColor: showDots ? "#E7F1FF" : "white",

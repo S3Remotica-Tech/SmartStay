@@ -33,8 +33,8 @@ function UserlistWalkin() {
   // const [walkInPermissionError, setWalkInPermissionError] = useState("");
   // const [walkInEditPermissionError, setWalkInEditPermissionError] =    useState("");
   // const [walkInDeletePermissionError, setWalkInDeletePermissionError] = useState("");
-     const [formLoading, setFormLoading] = useState(false)
-    
+  const [formLoading, setFormLoading] = useState(false)
+
 
   //   const canReadWalkin = useHasPermission("Walk in", "canRead")
   // const canWriteWalkin = useHasPermission("Walk in", "canWrite")
@@ -113,7 +113,7 @@ function UserlistWalkin() {
   const [walkInCustomer, setWalkInCustomer] = useState([]);
   const [walkinLoader, setWalkingLoader] = useState(false);
 
- const [deleteShow, setDeleteShow] = useState(false);
+  const [deleteShow, setDeleteShow] = useState(false);
 
 
 
@@ -277,23 +277,23 @@ function UserlistWalkin() {
     setSortConfig({ key, direction });
   };
 
- const handleDeleteShow = (user) => {
+  const handleDeleteShow = (user) => {
     setDeleteShow(true);
     setDeleteDetails({ room: user.Rooms, bed: user.Bed, user: user });
   };
-const handleCloseDelete = () => {
+  const handleCloseDelete = () => {
     setDeleteShow(false);
   };
 
 
- const [deleteDetails, setDeleteDetails] = useState({ room: null, bed: null });
+  const [deleteDetails, setDeleteDetails] = useState({ room: null, bed: null });
 
 
-useEffect(() => {
+  useEffect(() => {
     if (state.UsersList?.deleteCustomerSuccessStatusCode === 204) {
       setFormLoading(false)
       setDeleteShow(false);
-      dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id  , type: 'Inactive'} });
+      dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id, type: 'Inactive' } });
 
       setDeleteDetails({ room: null, bed: null, user: null });
 
@@ -303,11 +303,11 @@ useEffect(() => {
     }
   }, [state.UsersList?.deleteCustomerSuccessStatusCode]);
 
-const handleDeleteCustomer = () => {
+  const handleDeleteCustomer = () => {
     if (deleteDetails?.user?.customerId) {
       dispatch({
         type: "DELETECUSTOMER",
-        payload: { customerId: deleteDetails?.user?.customerId , hostelId : state.login.selectedHostel_Id  },
+        payload: { customerId: deleteDetails?.user?.customerId, hostelId: state.login.selectedHostel_Id },
       });
     }
     setFormLoading(true)
@@ -401,7 +401,7 @@ const handleDeleteCustomer = () => {
         </>
       ) : (
         <>
-          <div style={{ marginLeft: "-20px" }}>
+          <div >
             {walkinLoader ? (
               <div
                 style={{
@@ -430,20 +430,23 @@ const handleDeleteCustomer = () => {
                 ></div>
               </div>
             ) : (
-              sortedData.length > 0 && (
+ <div className='show-scrolls' style={{
+                  overflow: "auto",
+                  marginBottom: 20,
+                  marginTop: "0px",
+                  paddingRight: 0,
+                  paddingLeft: 0,
+
+                }}>
+
+              {sortedData.length > 0 && (
                 <div
-                  className="p-10 booking-table-userlist  booking-table me-4"
-                  style={{ paddingBottom: "20px", marginLeft: "0px" }}
+                  className="me-2"
+                  style={{  marginLeft: "0px" }}
                 >
                   <div
                     className="show-scrolls"
                     style={{
-                      height:
-                        sortedData.length >= 5 || sortedData.length >= 5
-                          ? "430px"
-                          : "auto",
-                      overflow: "auto",
-                      marginBottom: 20,
                       marginTop: "20px",
                     }}
                   >
@@ -472,13 +475,13 @@ const handleDeleteCustomer = () => {
                               fontSize: 12,
                               fontStyle: "normal",
                               fontWeight: 500,
-                              padding: 10
+                              // padding: 10
                             }}
                           >
                             {" "}
                             <div className="d-flex gap-1 align-items-center justify-content-start">
                               {" "}
-                              <div
+                              {/* <div
                                 style={{
                                   display: "flex",
                                   flexDirection: "column",
@@ -503,7 +506,7 @@ const handleDeleteCustomer = () => {
                                   }
                                   style={{ cursor: "pointer" }}
                                 />
-                              </div>{" "}
+                              </div>{" "} */}
                               Name
                             </div>{" "}
                           </th>
@@ -520,28 +523,7 @@ const handleDeleteCustomer = () => {
                             }}
                           >
                             <div className="d-flex gap-1 align-items-center justify-content-start">
-                              <div
-                                style={{
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  gap: "2px",
-                                }}
-                              >
-                                <ArrowUp2
-                                  size="10"
-                                  variant="Bold"
-                                  color="#1E45E1"
-                                  onClick={() => handleSort("email_Id", "asc")}
-                                  style={{ cursor: "pointer" }}
-                                />
-                                <ArrowDown2
-                                  size="10"
-                                  variant="Bold"
-                                  color="#1E45E1"
-                                  onClick={() => handleSort("email_Id", "desc")}
-                                  style={{ cursor: "pointer" }}
-                                />
-                              </div>{" "}
+                              
                               Email ID{" "}
                             </div>
                           </th>
@@ -558,124 +540,22 @@ const handleDeleteCustomer = () => {
                             }}
                           >
                             <div className="d-flex gap-1 align-items-center justify-content-start">
-                              <div
-                                style={{
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  gap: "2px",
-                                }}
-                              >
-                                <ArrowUp2
-                                  size="10"
-                                  variant="Bold"
-                                  color="#1E45E1"
-                                  onClick={() =>
-                                    handleSort("mobile_Number", "asc")
-                                  }
-                                  style={{ cursor: "pointer" }}
-                                />
-                                <ArrowDown2
-                                  size="10"
-                                  variant="Bold"
-                                  color="#1E45E1"
-                                  onClick={() =>
-                                    handleSort("mobile_Number", "desc")
-                                  }
-                                  style={{ cursor: "pointer" }}
-                                />
-                              </div>{" "}
+                              
                               Mobile No{" "}
                             </div>
                           </th>
 
-                          {/* <th
-                            style={{
-                              textAlign: "start",
-                              fontFamily: "Gilroy",
-                              color: "rgb(147, 147, 147)",
-                              fontSize: 12,
-                              fontStyle: "normal",
-                              fontWeight: 500,
-                              whiteSpace: "nowrap",
-                            }}
-                          >
-                            <div className="d-flex gap-1 align-items-center justify-content-start">
-                              <div
-                                style={{
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  gap: "2px",
-                                }}
-                              >
-                                <ArrowUp2
-                                  size="10"
-                                  variant="Bold"
-                                  color="#1E45E1"
-                                  onClick={() =>
-                                    handleSort("walk_In_Date", "asc")
-                                  }
-                                  style={{ cursor: "pointer" }}
-                                />
-                                <ArrowDown2
-                                  size="10"
-                                  variant="Bold"
-                                  color="#1E45E1"
-                                  onClick={() =>
-                                    handleSort("walk_In_Date", "desc")
-                                  }
-                                  style={{ cursor: "pointer" }}
-                                />
-                              </div>{" "}
-                              Joining Date
-                            </div>
-                          </th> */}
 
-                          {/* <th
-                            style={{
-                              textAlign: "start",
-                              fontFamily: "Gilroy",
-                              color: "rgb(147, 147, 147)",
-                              fontSize: 12,
-                              fontStyle: "normal",
-                              fontWeight: 500,
-                            }}
-                          >
-                            <div className="d-flex gap-1 align-items-center justify-content-start">
-                              <div
-                                style={{
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  gap: "2px",
-                                }}
-                              >
-                                <ArrowUp2
-                                  size="10"
-                                  variant="Bold"
-                                  color="#1E45E1"
-                                  onClick={() => handleSort("comments", "asc")}
-                                  style={{ cursor: "pointer" }}
-                                />
-                                <ArrowDown2
-                                  size="10"
-                                  variant="Bold"
-                                  color="#1E45E1"
-                                  onClick={() => handleSort("comments", "desc")}
-                                  style={{ cursor: "pointer" }}
-                                />
-                              </div>{" "}
-                              Address{" "}
-                            </div>
-                          </th> */}
 
                           <th
                             style={{
-                              textAlign: "start",
+                              textAlign: "center",
                               fontFamily: "Gilroy",
                               color: "rgb(147, 147, 147)",
                               fontSize: 12,
                               fontStyle: "normal",
                               fontWeight: 500,
-                              paddingBottom: 10
+                              // paddingBottom: 10
                             }}
                           >
                             Action
@@ -690,18 +570,18 @@ const handleDeleteCustomer = () => {
                           {sortedData && sortedData.length > 0 && (
                             sortedData.map((v) => (
                               <tr key={v.customerId}>
-                                <td
+                                <td className="ps-2 pt-0 pe-0 pb-0"
                                   style={{
                                     border: "none",
-                                    padding: "10px",
+                                    // padding: "10px",
                                     textAlign: "start",
                                     verticalAlign: "middle",
                                     paddingLeft: "23px",
                                     borderBottom: "1px solid #E8E8E8",
                                   }}
-                                  className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
+                                  
                                 >
-                                  <div>
+                                
                                     <span
                                       style={{
                                         fontSize: 13,
@@ -711,10 +591,9 @@ const handleDeleteCustomer = () => {
                                     >
                                       {v.fullName}
                                     </span>
-                                  </div>
-                                </td>
+                                                                 </td>
 
-                                <td
+                                <td className="p-0"
                                   style={{
                                     fontSize: 13,
                                     fontWeight: 500,
@@ -723,7 +602,7 @@ const handleDeleteCustomer = () => {
                                     verticalAlign: "middle",
                                     borderBottom: "1px solid #E8E8E8",
                                   }}
-                                  className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
+                                 
                                 >
                                   {v.emailId || "N/A"}
                                 </td>
@@ -737,7 +616,7 @@ const handleDeleteCustomer = () => {
                                     fontFamily: "Gilroy",
                                     borderBottom: "1px solid #E8E8E8",
                                   }}
-                                  className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
+                                  className="p-0"
                                 >
                                   +
                                   {v &&
@@ -746,80 +625,35 @@ const handleDeleteCustomer = () => {
                                   {v.mobile}
                                 </td>
 
-                                {/* <td
-                                  style={{
-                                    padding: "10px",
-                                    border: "none",
-                                    textAlign: "start",
-                                    fontSize: "13px",
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy",
-                                    whiteSpace: "nowrap",
-                                    verticalAlign: "middle",
-                                    borderBottom: "1px solid #E8E8E8",
-                                  }}
-                                  className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
-                                >
-                                  <span>
-                                    {v?.actualJoining && v.actualJoining !== "0000-00-00"
-                                      ? moment(v.actualJoining, "DD/MM/YYYY").format("D MMMM YYYY")
-                                      : v?.expectedJoiningDate && v.expectedJoiningDate !== "0000-00-00"
-                                        ? moment(v.expectedJoiningDate, "DD/MM/YYYY").format("D MMMM YYYY")
-                                        : v?.RecheckIn_Date && v.RecheckIn_Date !== "0000-00-00"
-                                          ? moment(v.RecheckIn_Date).format("D MMMM YYYY")
-                                          : "-"
-                                    }
-                                  </span>
-                                </td> */}
 
-                                {/* <td
-                                  style={{
-                                    fontSize: 13,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    textAlign: "start",
-                                    verticalAlign: "middle",
-                                    borderBottom: "1px solid #E8E8E8",
-                                  }}
-                                  className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
-                                >
-                                  {(v.comments || v.area || v.landmark || v.city || v.state || v.pin_code)
-                                    ? (
-                                      <>
-                                        {(v.comments || v.area || v.landmark) && (
-                                          <>
-                                            {v.comments && `${v.comments} , `}
-                                            {v.area && `${v.area} `}
-                                            {v.landmark || ""}
-                                            <br />
-                                          </>
-                                        )}
-                                        {v.city || ""} {v.state || ""} {(v.pin_code && `- ${v.pin_code}`) || ""}
-                                      </>
-                                    )
-                                    : "N/A"}
-                                </td> */}
 
-                                <td style={{ borderBottom: "1px solid #E8E8E8" }}>
+                                <td style={{ borderBottom: "1px solid #E8E8E8" }} >
                                   <div
                                     style={{
                                       cursor: "pointer",
-                                      height: 40,
-                                      width: 40,
-                                      borderRadius: "50%",
-                                      border: "1px solid #EFEFEF",
+                                      // height: 40,
+                                      // width: 40,
+                                      // borderRadius: "50%",
+                                      // border: "1px solid #EFEFEF",
                                       display: "flex",
                                       justifyContent: "center",
                                       alignItems: "center",
                                       position: "relative",
-                                      borderBottom: "1px solid #E8E8E8",
-                                      backgroundColor:
-                                        dotsButton === v.customerId ? "#E7F1FF" : "white",
+                                      // borderBottom: "1px solid #E8E8E8",
+                                      // backgroundColor:
+                                      //   dotsButton === v.customerId ? "#E7F1FF" : "white",
                                     }}
                                     onClick={(e) => handleDotsClick(v.customerId, e)}
                                   >
                                     <PiDotsThreeOutlineVerticalFill
-                                      style={{ height: 20, width: 20 }}
+                                      style={{
+                                        height: 20, width: 20, 
+                                        transform:"rotate(90deg)",
+                                        color:
+                                          dotsButton === v.customerId
+                                            ? "#1E45E1"
+                                            : "#6B7280",
+                                      }}
                                     />
                                     {dotsButton === v.customerId && (
                                       <div
@@ -884,7 +718,7 @@ const handleDeleteCustomer = () => {
                                           </label>
                                         </div>
 
-                                       
+
                                         <div
                                           className="d-flex align-items-center gap-2"
                                           onClick={() => {
@@ -929,49 +763,49 @@ const handleDeleteCustomer = () => {
                                           </label>
                                         </div>
 
-                                                <div
+                                        <div
 
-                                                  className="d-flex align-items-center gap-2"
-                                                  style={{
-                                                    backgroundColor: "#F9F9F9",
-                                                    cursor: !canDeleteWalkin ? "not-allowed" : "pointer",
-                                                    opacity: !canDeleteWalkin ? 0.6 : 1,
-                                                    padding: "8px 12px",
-                                                    borderRadius: 6,
-                                                    transition: "background 0.2s ease-in-out",
-                                                  }}
-                                                  onClick={() => {
-                                                    if (canDeleteWalkin) {
-                                                      handleDeleteShow(v);
-                                                    }
-                                                  }}
-                                                  onMouseEnter={(e) => {
-                                                    e.currentTarget.style.backgroundColor = "#FFF3F3";
+                                          className="d-flex align-items-center gap-2"
+                                          style={{
+                                            backgroundColor: "#F9F9F9",
+                                            cursor: !canDeleteWalkin ? "not-allowed" : "pointer",
+                                            opacity: !canDeleteWalkin ? 0.6 : 1,
+                                            padding: "8px 12px",
+                                            borderRadius: 6,
+                                            transition: "background 0.2s ease-in-out",
+                                          }}
+                                          onClick={() => {
+                                            if (canDeleteWalkin) {
+                                              handleDeleteShow(v);
+                                            }
+                                          }}
+                                          onMouseEnter={(e) => {
+                                            e.currentTarget.style.backgroundColor = "#FFF3F3";
 
-                                                  }}
-                                                  onMouseLeave={(e) => {
-                                                    e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                                  }}
-                                                >
+                                          }}
+                                          onMouseLeave={(e) => {
+                                            e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                          }}
+                                        >
 
-                                                  <Trash
-                                                    size="16"
-                                                    color={!canDeleteWalkin ? "#A9A9A9" : "red"}
-                                                  />
-                                                  <label
-                                                    style={{
-                                                      fontSize: 14,
-                                                      fontWeight: 500,
-                                                      fontFamily: "Gilroy, sans-serif",
-                                                      color: !canDeleteWalkin ? "#888888" : "#FF0000",
-                                                      cursor: !canDeleteWalkin ? "not-allowed" : "pointer",
-                                                      margin: 0,
-                                                    }}
-                                                  >
-                                                    Delete
-                                                  </label>
-                                                </div>
-                                             
+                                          <Trash
+                                            size="16"
+                                            color={!canDeleteWalkin ? "#A9A9A9" : "red"}
+                                          />
+                                          <label
+                                            style={{
+                                              fontSize: 14,
+                                              fontWeight: 500,
+                                              fontFamily: "Gilroy, sans-serif",
+                                              color: !canDeleteWalkin ? "#888888" : "#FF0000",
+                                              cursor: !canDeleteWalkin ? "not-allowed" : "pointer",
+                                              margin: 0,
+                                            }}
+                                          >
+                                            Delete
+                                          </label>
+                                        </div>
+
 
 
                                       </div>
@@ -988,7 +822,8 @@ const handleDeleteCustomer = () => {
                     </Table>
                   </div>
                 </div>
-              )
+              )}
+              </div>
             )}
 
             {!walkinLoader && walkInCustomer?.length === 0 && (
@@ -1049,7 +884,7 @@ const handleDeleteCustomer = () => {
       }
 
 
-  <Modal
+      <Modal
         show={deleteShow}
         onHide={handleCloseDelete}
         backdrop="static"
@@ -1166,7 +1001,7 @@ const handleDeleteCustomer = () => {
 
 
 
-   
+
     </>
   );
 }

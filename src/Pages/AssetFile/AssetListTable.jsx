@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import moment from 'moment';
-import { useDispatch ,useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import AssignAsset from '../../Pages/AssetFile/AssignAsset'
 import 'react-toastify/dist/ReactToastify.css';
 import { Modal } from 'react-bootstrap';
@@ -14,7 +14,7 @@ import { useHasPermission } from '../../Utils/Permission';
 
 function AssetListTable(props) {
 
-const state = useSelector(state => state)
+  const state = useSelector(state => state)
   const dispatch = useDispatch();
 
   const popupRef = useRef(null);
@@ -23,20 +23,20 @@ const state = useSelector(state => state)
   const [showAssignAssetModal, setShowAssignAssetModal] = useState(false)
   const [assign, setAssign] = useState('')
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
- const [showAbove, setShowAbove] = useState(false);
+  const [showAbove, setShowAbove] = useState(false);
 
-const {
-        canWriteModule: canWriteAssets,
-        // canReadModule: canReadAssets,
-        canUpdateModule: canUpdateAsset,
-        canDeleteModule: canDeleteAsset,
-      } = useHasPermission("Assets");
+  const {
+    canWriteModule: canWriteAssets,
+    // canReadModule: canReadAssets,
+    canUpdateModule: canUpdateAsset,
+    canDeleteModule: canDeleteAsset,
+  } = useHasPermission("Assets");
 
 
 
-// const canUpdateAsset = useHasPermission("Assets", "canUpdate")
-//   const canDeleteAsset = useHasPermission("Assets", "canDelete")
-// const canWriteAssets = useHasPermission("Assets", "canWrite");
+  // const canUpdateAsset = useHasPermission("Assets", "canUpdate")
+  //   const canDeleteAsset = useHasPermission("Assets", "canDelete")
+  // const canWriteAssets = useHasPermission("Assets", "canWrite");
 
   const handleShowDots = (id, e) => {
     setShowDots(!showDots)
@@ -55,7 +55,7 @@ const {
     setPopupPosition({ top: popupTop, left: popupLeft });
   }
 
-useEffect(() => {
+  useEffect(() => {
     if (popupRef.current) {
       const popupHeight = popupRef.current.offsetHeight;
       const windowHeight = window.innerHeight;
@@ -129,127 +129,104 @@ useEffect(() => {
     setShowDeleteAsset(false)
   }
 
- useEffect(() => {
-    if ( state.AssetList.deleteAssetStatusCode === 200) {
-       setShowDeleteAsset(false)
-           setTimeout(() => {
-                dispatch({ type: 'CLEAR_DELETE_ASSET_STATUS_CODE' })
-      
+  useEffect(() => {
+    if (state.AssetList.deleteAssetStatusCode === 200) {
+      setShowDeleteAsset(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_DELETE_ASSET_STATUS_CODE' })
+
       }, 100)
-      }
+    }
 
   }, [state.AssetList.deleteAssetStatusCode])
 
   return (
     <>
       <tr style={{ fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} key={props.item.id}>
-        <td className="ps-2 ps-sm-2 ps-md-3 ps-lg-3" title={props.item.product_name}
+        <td className="ps-2" title={props.item.product_name}
           style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", lineHeight: 1, textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", }}>
-          <div className='ps-2'> {props.item.productName}</div></td>
+          <div className=''> {props.item.productName}</div></td>
 
         <td title={props.item.serial_number} style={{ textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
-          <div className='ps-1'>  {props.item.serialNumber}</div>
+          <div className=''>  {props.item.serialNumber}</div>
         </td>
 
-        <td
+        <td className="p-2"
           title={props.item.brandName || "-"}
-          className="ps-2 ps-sm-2 ps-md-3 ps-lg-2"
-          style={{
-            paddingTop: 15,
-            paddingLeft: 20,
+                 style={{
+            // paddingTop: 15,
+            // paddingLeft: 20,
             border: "none",
             textAlign: "start",
             fontSize: "13px",
             fontWeight: 500,
             fontFamily: "Gilroy",
-            marginTop: 10,
+            // marginTop: 10,
             whiteSpace: "nowrap",
 
           }}
         >
-          <span
-            style={{
-              marginLeft: 5, paddingTop: "3px",
-              paddingLeft: "10px",
-              paddingRight: "10px",
-              paddingBottom: "3px",
-              borderRadius: "60px",
-              textAlign: "center",
-              fontSize: "11px",
-              fontWeight: 500,
-              fontFamily: "Gilroy",
-              backgroundColor: "#EBEBEB",
-            }}
-          >
-            {props.item.brandName ? props.item.brandName : "-"}
-          </span>
+
+          {props.item.brandName ? props.item.brandName : "-"}
+
         </td>
 
 
 
-        <td title={props.item.asset_name} className="ps-2 ps-sm-2 ps-md-3 ps-lg-2" style={{ textAlign: 'start', verticalAlign: 'middle', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>
-          <div style={{ width: "100%" }} className='ps-2'>
+        <td className="p-0" title={props.item.asset_name} 
+         style={{ textAlign: 'start', verticalAlign: 'middle', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>
+          <div style={{ width: "100%" }} className=''>
             <div style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", fontWeight: 500, padding: 6, borderRadius: 60, fontSize: 13, fontFamily: "Gilroy" }}>{props.item.assetName ? props.item.assetName : "-"}</div>
           </div>
         </td>
 
-        <td title={props.item.price} style={{ textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
-          <div className='ps-1'>
+        <td className="p-0" title={props.item.price} style={{ textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }} >
+          <div className=''>
             ₹{props.item.price ? props.item.price.toLocaleString('en-IN') : '0'}
           </div>
         </td>
 
         <td
           title={moment(props.item.purchaseDate).format('DD MMM YYYY').toUpperCase()}
-          className="ps-2 ps-sm-2 ps-md-3 ps-lg-2"
+          className=""
           style={{
-            paddingTop: 15,
-            paddingLeft: 20,
+            // paddingTop: 15,
+            // paddingLeft: 20,
             border: "none",
             textAlign: "start",
             fontSize: "13px",
             fontWeight: 500,
             fontFamily: "Gilroy",
-            marginTop: 10,
+            // marginTop: 10,
             whiteSpace: "nowrap",
 
           }}
         >
-          <span
-            style={{
-              marginLeft: 5, paddingTop: "3px",
-              paddingLeft: "10px",
-              paddingRight: "10px",
-              paddingBottom: "3px",
-              borderRadius: "60px",
-              textAlign: "center",
-              fontSize: "11px",
-              fontWeight: 500,
-              fontFamily: "Gilroy",
-              backgroundColor: "#EBEBEB",
-            }}
-          >
-            {props.item.purchaseDate}
-          </span>
+
+          {props.item.purchaseDate}
+
         </td>
 
 
 
-        <td title={props.item.hostelName || "-"} style={{ textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", paddingLeft: 20 }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
-          <div className='ps-2'>
-            {props.item.assignmentStatus  === "Unassigned" ? "-" : props.item.hostelName}
+        <td  className="p-0" title={props.item.hostelName || "-"} style={{ textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",  }} >
+          <div className=''>
+            {props.item.assignmentStatus === "Unassigned" ? "-" : props.item.hostelName}
           </div>
         </td>
 
 
         <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-          <div style={{ width: "100%", display: "flex", justifyContent: "left" }}>
+          <div style={{ width: "100%", display: "flex", justifyContent: "" }}>
             <div style={{
-              cursor: "pointer", backgroundColor: showDots ? "#E7F1FF" : "white", height: 30, width: 30,
-              borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center",
+              cursor: "pointer", backgroundColor: showDots ? "#E7F1FF" : "white",
+              //  height: 30, width: 30,
+              borderRadius: 100,
+              // border: "1px solid #EFEFEF", 
+              display: "flex", justifyContent: "center", alignItems: "center",
               position: "relative"
             }} onClick={(e) => handleShowDots(props.item.id, e)}  >
-              <PiDotsThreeOutlineVerticalFill style={{ height: 15, width: 15, }} />
+              <PiDotsThreeOutlineVerticalFill style={{ height: 15, width: 15, transform: "rotate(90deg)" }} />
               {showDots &&
                 <>
                   <div
@@ -258,13 +235,13 @@ useEffect(() => {
                       cursor: "pointer",
                       backgroundColor: "#F9F9F9",
                       position: "fixed",
-                                              top: showAbove
-                                                ? popupPosition.top - (popupRef.current?.offsetHeight || 100) - 20
-                                                : popupPosition.top - 35,
-                                              left: popupPosition.left,
-                        // position: "absolute",
-                        //                    left:-200,
-                        //                    top:0,
+                      top: showAbove
+                        ? popupPosition.top - (popupRef.current?.offsetHeight || 100) - 20
+                        : popupPosition.top - 35,
+                      left: popupPosition.left,
+                      // position: "absolute",
+                      //                    left:-200,
+                      //                    top:0,
                       width: 160,
                       height: "auto",
                       border: "1px solid #EBEBEB",
@@ -285,7 +262,7 @@ useEffect(() => {
                           }
                         }}
                         onMouseEnter={(e) => {
-                                                      e.currentTarget.style.backgroundColor = "#EDF2FF";
+                          e.currentTarget.style.backgroundColor = "#EDF2FF";
                         }}
                         onMouseLeave={(e) => {
                           e.currentTarget.style.backgroundColor = "#F9F9F9";
@@ -310,7 +287,7 @@ useEffect(() => {
                             color: "#222222",
                           }}
                         >
-                          {props.item.assignmentStatus  === "Unassigned" ? "Assign asset" : "Reassign asset"}
+                          {props.item.assignmentStatus === "Unassigned" ? "Assign asset" : "Reassign asset"}
                         </label>
                       </div>
 
@@ -323,8 +300,8 @@ useEffect(() => {
                           }
                         }}
                         onMouseEnter={(e) => {
-                          
-                            e.currentTarget.style.backgroundColor = "#EDF2FF";
+
+                          e.currentTarget.style.backgroundColor = "#EDF2FF";
                         }}
                         onMouseLeave={(e) => {
                           e.currentTarget.style.backgroundColor = "#F9F9F9";
@@ -355,12 +332,12 @@ useEffect(() => {
                       <div
                         className="d-flex justify-content-start align-items-center gap-2"
                         onClick={() => {
-                          if (canDeleteAsset && props.item.assignmentStatus  === "Unassigned") {
+                          if (canDeleteAsset && props.item.assignmentStatus === "Unassigned") {
                             handleShowDeleteAsset(props.item);
                           }
                         }}
                         onMouseEnter={(e) => {
-                                                     e.currentTarget.style.backgroundColor = "#FFF0F0";
+                          e.currentTarget.style.backgroundColor = "#FFF0F0";
                         }}
                         onMouseLeave={(e) => {
                           e.currentTarget.style.backgroundColor = "#F9F9F9";
@@ -368,12 +345,12 @@ useEffect(() => {
                         style={{
                           backgroundColor: "#F9F9F9",
                           cursor:
-                           !canDeleteAsset || props.item.assignmentStatus  === "Assigned"
+                            !canDeleteAsset || props.item.assignmentStatus === "Assigned"
                               ? "not-allowed"
                               : "pointer",
 
                           opacity:
-                            !canDeleteAsset  ||  props.item.assignmentStatus  === "Assigned" ? 0.5 : 1,
+                            !canDeleteAsset || props.item.assignmentStatus === "Assigned" ? 0.5 : 1,
                           padding: "8px 12px",
                           borderRadius: 6,
                           width: "100%",
@@ -391,7 +368,7 @@ useEffect(() => {
                               fontFamily: "Gilroy, sans-serif",
                               color: "#FF0000",
                               cursor:
-                                !canDeleteAsset  ||  props.item.assignmentStatus  === "Assigned"
+                                !canDeleteAsset || props.item.assignmentStatus === "Assigned"
                                   ? "not-allowed"
                                   : "pointer",
                             }}

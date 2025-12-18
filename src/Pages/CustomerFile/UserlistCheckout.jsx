@@ -572,18 +572,21 @@ const {
                 <div>
                   {sortedData?.length > 0 ? (
                     <div
-                      className="p-0 booking-table-userlist  booking-table me-4"
-                      style={{ paddingBottom: "20px", marginLeft: "-14px" }}
+                      className='show-scrolls'
+                     style={{
+                  overflow: "auto",
+                  marginBottom: 20,
+                  marginTop: "0px",
+                  paddingRight: 0,
+                  paddingLeft: 0,
+
+                }}
                     >
                       <div
 
-                        className='show-scrolls'
+                        className='show-scrolls me-2'
                         style={{
-
-                          height: sortedData?.length >= 5 || sortedData?.length >= 5 ? "430px" : "auto",
-                          overflow: "auto",
                           borderTop: "1px solid #E8E8E8",
-                          marginBottom: 20,
                           marginTop: "20px",
                           paddingRight: 0,
                           paddingLeft: 0
@@ -612,29 +615,26 @@ const {
                               <th
                                 style={{
                                   textAlign: "start",
-                                  padding: "10px",
-                                  color: "rgb(147, 147, 147)",
+                                                                   color: "rgb(147, 147, 147)",
                                   fontSize: "12px",
                                   fontWeight: 500,
                                   fontFamily: "Gilroy",
                                   background: "#E7F1FF",
                                   border: "none",
-
-                                  paddingLeft: "20px"
                                 }}
                               >
                                 <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                  {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                                     <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Name", 'asc')} style={{ cursor: "pointer" }} />
                                     <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Name", 'desc')} style={{ cursor: "pointer" }} />
-                                  </div>
+                                  </div> */}
                                   Name</div>
                               </th>
 
                               <th
                                 style={{
                                   textAlign: "start",
-                                  padding: "10px",
+                                 
                                   color: "rgb(147, 147, 147)",
                                   fontSize: "12px",
                                   fontWeight: 500,
@@ -645,16 +645,16 @@ const {
                                 }}
                               >
                                 <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                  {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                                     <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Phone", 'asc')} style={{ cursor: "pointer" }} />
                                     <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Phone", 'desc')} style={{ cursor: "pointer" }} />
-                                  </div>
+                                  </div> */}
                                   Mobile No</div>
                               </th>
                               <th
                                 style={{
                                   textAlign: "start",
-                                  padding: "10px",
+                                 
                                   color: "rgb(147, 147, 147)",
                                   fontSize: "12px",
                                   fontWeight: 500,
@@ -664,16 +664,16 @@ const {
                                 }}
                               >
                                 <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                  {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                                     <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("floor_name", 'asc')} style={{ cursor: "pointer" }} />
                                     <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("floor_name", 'desc')} style={{ cursor: "pointer" }} />
-                                  </div>
+                                  </div> */}
                                   Floor</div>
                               </th>
                               <th
                                 style={{
                                   textAlign: "start",
-                                  padding: "10px",
+                                  
                                   color: "rgb(147, 147, 147)",
                                   fontSize: "12px",
                                   fontWeight: 500,
@@ -683,16 +683,16 @@ const {
                                 }}
                               >
                                 <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                  {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                                     <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("room_name", 'asc')} style={{ cursor: "pointer" }} />
                                     <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("room_name", 'desc')} style={{ cursor: "pointer" }} />
-                                  </div>
+                                  </div> */}
                                   Room</div>
                               </th>
                               <th
                                 style={{
                                   textAlign: "start",
-                                  padding: "10px",
+                                 
                                   color: "rgb(147, 147, 147)",
                                   fontSize: "12px",
                                   fontWeight: 500,
@@ -702,17 +702,17 @@ const {
                                 }}
                               >
                                 <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                  {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                                     <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("bed_name", 'asc')} style={{ cursor: "pointer" }} />
                                     <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("bed_name", 'desc')} style={{ cursor: "pointer" }} />
-                                  </div>
+                                  </div> */}
                                   Bed</div>
                               </th>
 
                               <th
                                 style={{
                                   textAlign: "start",
-                                  padding: "10px",
+                                 
                                   color: "rgb(147, 147, 147)",
                                   fontSize: "12px",
                                   fontWeight: 500,
@@ -723,16 +723,16 @@ const {
                                 }}
                               >
                                 <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                  {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                                     <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("CheckoutDate", 'asc')} style={{ cursor: "pointer" }} />
                                     <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("CheckoutDate", 'desc')} style={{ cursor: "pointer" }} />
-                                  </div>
+                                  </div> */}
                                   Check-Out Date</div>
                               </th>
                               <th
                                 style={{
                                   textAlign: "start",
-                                  padding: "10px",
+                                
                                   color: "rgb(147, 147, 147)",
                                   fontSize: "12px",
                                   fontWeight: 500,
@@ -742,27 +742,13 @@ const {
                                 }}
                               >
                                 <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                  {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                                     <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("isActive", 'asc')} style={{ cursor: "pointer" }} />
                                     <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("isActive", 'desc')} style={{ cursor: "pointer" }} />
-                                  </div>
+                                  </div> */}
                                   Status</div>
                               </th>
-                              {/* <th
-                                style={{
-                                  textAlign: "start",
-                                  padding: "10px",
-                                  color: "rgb(147, 147, 147)",
-                                  fontSize: "12px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  background: "#E7F1FF",
-                                  border: "none",
-                                  paddingBottom: 12
-                                }}
-                              >
-                                Action
-                              </th> */}
+                             
                             </tr>
                           </thead>
           
@@ -785,12 +771,12 @@ const {
                                             fontWeight: 600,
                                             fontFamily: "Gilroy",
                                             color: "#1E45E1",
-                                            paddingLeft: "4px",
+                                           
                                             textAlign: "start",
                                             verticalAlign: "middle",
                                             cursor: "pointer",
                                           }}
-                                          className="customer-name ps-4 ps-sm-2 ps-md-3 ps-lg-4"
+                                          className="customer-name "
                                         >
                                           {checkout.firstName}
                                         </span>
@@ -807,7 +793,7 @@ const {
                                         verticalAlign: "middle",
                                         borderBottom: "1px solid #E8E8E8",
                                       }}
-                                      className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
+                                      className="p-0"
                                     >
                                       +
                                       {checkout &&
@@ -818,7 +804,7 @@ const {
 
                                     <td
                                       style={{
-                                        padding: "10px",
+                                      
                                         border: "none",
                                         textAlign: "start",
                                         fontSize: "13px",
@@ -828,31 +814,16 @@ const {
                                         verticalAlign: "middle",
                                         borderBottom: "1px solid #E8E8E8",
                                       }}
-                                      className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
+                                      className="p-0"
                                     >
-                                      <span
-                                        style={{
-                                          padding: "3px 10px",
-                                          borderRadius: "60px",
-                                          backgroundColor: "#EBEBEB",
-                                          textAlign: "start",
-                                          fontSize: "13px",
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                          display: "inline-block",
-                                          overflow: "hidden",
-                                          textOverflow: "ellipsis",
-                                          whiteSpace: "nowrap",
-                                          verticalAlign: "middle",
-                                        }}
-                                      >
+                                     
                                         {checkout.floorName || "_"}
-                                      </span>
+                                     
                                     </td>
 
                                     <td
                                       style={{
-                                        padding: "10px",
+                                       
                                         border: "none",
                                         textAlign: "start",
                                         fontSize: "13px",
@@ -862,31 +833,16 @@ const {
                                         verticalAlign: "middle",
                                         borderBottom: "1px solid #E8E8E8",
                                       }}
-                                      className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
+                                      className="p-0"
                                     >
-                                      <span
-                                        style={{
-                                          padding: "3px 10px",
-                                          borderRadius: "60px",
-                                          backgroundColor: "#EBEBEB",
-                                          textAlign: "start",
-                                          fontSize: "11px",
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                          display: "inline-block",
-                                          overflow: "hidden",
-                                          textOverflow: "ellipsis",
-                                          whiteSpace: "nowrap",
-                                          verticalAlign: "middle",
-                                        }}
-                                      >
+                                     
                                         {checkout.roomName || "_"}
-                                      </span>
+                                     
                                     </td>
 
                                     <td
                                       style={{
-                                        padding: "10px",
+                                       
                                         border: "none",
                                         textAlign: "start",
                                         fontSize: "13px",
@@ -896,31 +852,16 @@ const {
                                         verticalAlign: "middle",
                                         borderBottom: "1px solid #E8E8E8",
                                       }}
-                                      className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
+                                      className="p-0"
                                     >
-                                      <span
-                                        style={{
-                                          padding: "3px 10px",
-                                          borderRadius: "60px",
-                                          backgroundColor: "#EBEBEB",
-                                          textAlign: "start",
-                                          fontSize: "13px",
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                          display: "inline-block",
-                                          overflow: "hidden",
-                                          textOverflow: "ellipsis",
-                                          whiteSpace: "nowrap",
-                                          verticalAlign: "middle",
-                                        }}
-                                      >
+                                    
                                         {checkout.bedName || "_"}
-                                      </span>
+                                     
                                     </td>
 
-                                    <td
+                                    <td className="p-0"
                                       style={{
-                                        padding: "10px",
+                                        // padding: "10px",
                                         border: "none",
                                         textAlign: "start",
                                         fontSize: "13px",
@@ -930,7 +871,7 @@ const {
                                         verticalAlign: "middle",
                                         borderBottom: "1px solid #E8E8E8",
                                       }}
-                                      className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
+                                      
                                     >
                                       <span
                                         style={{
@@ -954,7 +895,7 @@ const {
 
                                     <td
                                       style={{
-                                        padding: "10px",
+                                        // padding: "10px",
                                         border: "none",
                                         textAlign: "start",
                                         fontSize: "13px",
@@ -964,12 +905,12 @@ const {
                                         verticalAlign: "middle",
                                         borderBottom: "1px solid #E8E8E8",
                                       }}
-                                      className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
+                                      className="p-0"
                                     >
                                       <span
                                         style={{
                                           backgroundColor: "pink",
-                                          padding: 8,
+                                          padding: 6,
                                           borderRadius: 10,
                                         }}
                                       >
@@ -977,88 +918,7 @@ const {
                                       </span>
                                     </td>
 
-                                    {/* <td style={{ borderBottom: "1px solid #E8E8E8" }}>
-                                      <div
-                                        style={{
-                                          cursor: "pointer",
-                                          height: 40,
-                                          width: 40,
-                                          borderRadius: "50%",
-                                          border: "1px solid #EFEFEF",
-                                          display: "flex",
-                                          justifyContent: "center",
-                                          alignItems: "center",
-                                          position: "relative",
-                                          backgroundColor: activeDotsId === checkout.customerId ? "#E7F1FF" : "white",
-                                        }}
-                                        onClick={(e) => toggleMoreOptions(checkout.customerId, checkout, e)}
-                                      >
-                                        <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-
-                                        {activeDotsId === checkout.customerId && (
-                                          <div
-                                            ref={popupRef}
-                                            style={{
-                                              position: "fixed",
-                                              top: popupPosition.top,
-                                              left: popupPosition.left - 20,
-                                              width: 200,
-                                              backgroundColor: "#F9F9F9",
-                                              border: "1px solid #F9F9F9",
-                                              borderRadius: 12,
-                                              display: "flex",
-                                              flexDirection: "column",
-                                              boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                                              padding: 10,
-                                              zIndex: 10,
-                                            }}
-                                          >
-                                            {checkout.isActive !== 0 && (
-                                              <div
-                                                className="d-flex align-items-center"
-                                                onClick={() => {
-                                                  if (canWriteCheckout) {
-                                                    handleConfirmCheckout(checkout);
-                                                  }
-                                                }}
-                                                style={{
-                                                  cursor: !canWriteCheckout ? "not-allowed" : "pointer",
-                                                  opacity: !canWriteCheckout ? 0.5 : 1,
-                                                  padding: "6px 8px",
-                                                  borderRadius: 6,
-                                                  transition: "background-color 0.2s ease",
-                                                }}
-                                                onMouseEnter={(e) => {
-                                                
-                                                    e.currentTarget.style.backgroundColor = "#FFF3F3";
-                                                  
-                                                }}
-                                                onMouseLeave={(e) => {
-                                                  e.currentTarget.style.backgroundColor = "transparent";
-                                                }}
-                                              >
-                                                <img
-                                                  src={Addbtn}
-                                                  alt="checkout icon"
-                                                  style={{ height: 16, width: 16, marginRight: 8 }}
-                                                />
-                                                <label
-                                                  style={{
-                                                    fontSize: 14,
-                                                    fontWeight: 600,
-                                                    fontFamily: "Gilroy, sans-serif",
-                                                    color: !canWriteCheckout ? "#A9A9A9" : "#222222",
-                                                    cursor:  !canWriteCheckout ? "not-allowed" : "pointer",
-                                                  }}
-                                                >
-                                                  Confirm Check-Out
-                                                </label>
-                                              </div>
-                                            )}
-                                          </div>
-                                        )}
-                                      </div>
-                                    </td> */}
+                                  
                                   </tr>
                                 ))
                               }
@@ -1113,115 +973,12 @@ const {
                 show={checkoutForm}
                 item={checkOutCustomer}
                 handleClose={checkoutcloseModal}
-                // currentItem={checkOutEdit}
-                // data={checkOutconfirm}
-              // checkouteditaction={checkouteditaction}
-              // checkoutaction={checkoutaction}
-              // cofirmForm={cofirmForm}
-              // setConfirmForm={setConfirmForm}
-              // handleCloseConformForm={handleCloseConformForm}
-              // conformEdit={conformEdit}
+                
               />
             )}
 
 
-            {/* <Modal
-          show={modalType === "delete"}
-          onHide={handleModalClose}
-          centered
-          backdrop="static"
-
-          dialogClassName="custom-delete-modal"
-        >
-          <Modal.Header style={{ borderBottom: "none" }}>
-            <Modal.Title
-              className="w-100 text-center"
-              style={{
-                fontSize: "18px",
-                fontFamily: "Gilroy",
-
-                fontWeight: 600,
-                color: "#222222",
-
-              }}
-            >
-              Delete Check-out
-            </Modal.Title>
-          </Modal.Header>
-
-          <Modal.Body
-            className="text-center"
-            style={{
-              fontSize: 14,
-              fontWeight: 500,
-              fontFamily: "Gilroy",
-              color: "#646464",
-
-              marginTop: "-10px",
-            }}
-          >
-            Are you sure you want to delete this check-out?
-          </Modal.Body>
-
-          <Modal.Footer
-            className="d-flex justify-content-center"
-            style={{
-
-              borderTop: "none",
-              marginTop: "-10px",
-            }}
-          >
-            <Button
-              className="me-2"
-              style={{
-                width: "100%",
-                maxWidth: 160,
-                height: 52,
-                borderRadius: 8,
-                padding: "12px 20px",
-                background: "#fff",
-                color: "#1E45E1",
-                border: "1px solid #1E45E1",
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-                fontSize: "14px",
-              }}
-              onClick={handleModalClose}
-            >
-              Cancel
-            </Button>
-            <Button
-              style={{
-                width: "100%",
-                maxWidth: 160,
-                height: 52,
-                borderRadius: 8,
-                padding: "12px 20px",
-                background: "#1E45E1",
-                color: "#FFFFFF",
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-                fontSize: "14px",
-              }}
-              onClick={confirmDelete}
-            >
-              Delete
-            </Button>
-          </Modal.Footer>
-        </Modal> */}
-
-
-
-
-
-
-
-
-
-
-
-
-
+            
 
           </div>
         </>

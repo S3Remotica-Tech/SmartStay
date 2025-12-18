@@ -185,18 +185,18 @@ console.log("props.item",props.item)
           lineHeight: "normal", alignItems: 'center', marginTop: '10px', flexWrap: "wrap"
         }} className='m-2' >
 
-        <td style={{ cursor: "pointer", border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 600, color: "#1E45E1", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
+        <td style={{ cursor: "pointer", border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 600, color: "#1E45E1", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} >
           <div style={{ marginLeft: 7 }} onClick={() => handleDownload(props.item)} className="Invoice_Name">{props.item.transactionNumber ? props.item?.transactionNumber : "-"}</div>
         </td>
 
 
 
-        <td className="table-cells ps-2 ps-sm-2 ps-md-3 ps-lg-3" style={{ border: "none", flexWrap: "wrap", whiteSpace: "nowrap", borderBottom: "1px solid #E8E8E8" }}>
+        <td className="table-cells " style={{ border: "none", flexWrap: "wrap", whiteSpace: "nowrap", borderBottom: "1px solid #E8E8E8" }}>
           <div className="d-flex  align-items-center">
 
             <div className="Invoice_Name" style={{
               fontFamily: 'Gilroy', fontSize: '13px', marginLeft: '17px', color: "#1E45E1",
-              fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer", textAlign: "start", paddingTop: "10px"
+              fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer", textAlign: "start", 
             }}
               onClick={() => handleNavigateTenantProfile(props.item)}
 
@@ -204,32 +204,37 @@ console.log("props.item",props.item)
 
           </div>
         </td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} >
           <div style={{ marginLeft: 7 }}  >{props.item?.referenceNumber ? props.item?.referenceNumber : "-"}</div>
         </td>
 
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} >
           <div className="ps-0" style={{ marginLeft: 6 }}>{!props.item?.invoiceNumber || props.item?.invoiceNumber === "0" ? "-" : props.item.invoiceNumber}</div>
         </td>
 
 
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} >
           <div style={{ marginLeft: 6 }}>{props.item.invoiceType}</div>
         </td>
 
-        <td className="ps-2 ps-sm-2 ps-md-3 ps-lg-2" style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }}>
-          <span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px", marginLeft: 3 }}>{props.item?.paidAt}</span></td>
-        <td className="ps-2 ps-sm-2 ps-md-3 ps-lg-4" style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} > ₹{props.item?.paidAmount !== null ? props.item.paidAmount.toLocaleString('en-IN') : '0'}</td>
-        <td className="ps-2 ps-sm-2 ps-md-3 ps-lg-2" style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }}>
-          <span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px", marginLeft: 2 }}>{props.item?.bankName ? props.item?.bankName : "-"}</span></td>
+        <td  style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }}>
+          {props.item?.paidAt}</td>
+        <td  style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} > ₹{props.item?.paidAmount !== null ? props.item.paidAmount.toLocaleString('en-IN') : '0'}</td>
+        <td  style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }}>
+          {props.item?.bankName ? props.item?.bankName : "-"}</td>
 
 
         <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none", borderBottom: "1px solid #E8E8E8" }} className=''>
           <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-            <div style={{ cursor: "pointer", backgroundColor: showDots ? "#E7F1FF" : "white", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative" }}
+            <div style={{ cursor: "pointer", 
+            // backgroundColor: showDots ? "#E7F1FF" : "white",
+            //  height: 40, width: 40, 
+            //  borderRadius: 100, 
+            //  border: "1px solid #EFEFEF", 
+             display: "flex", justifyContent: "center", alignItems: "center", position: "relative" }}
               onClick={(e) => handleShowDots(e)}
             >
-              <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, }} />
+              <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, transform:" rotate(90deg)" }} />
 
               {showDots && <>
                 <div

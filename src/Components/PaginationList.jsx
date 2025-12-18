@@ -24,7 +24,7 @@
 
 //   const [currentPage, setCurrentPage] = useState(DEFAULT_PAGE);
 //   const [itemsPerPage, setItemsPerPage] = useState(DEFAULT_ITEMS_PER_PAGE);
-  
+
 
 //   const totalPages = Math.max(1, Math.ceil(totalItems / itemsPerPage));
 
@@ -33,7 +33,7 @@
 //     if (currentPage < 1) setCurrentPage(1);
 //   }, [totalPages]);
 
-  
+
 
 //   const handleChangePage = (pageNumber) => {
 //     const p = Math.max(1, Math.min(pageNumber, totalPages));
@@ -266,7 +266,7 @@ import PropTypes from "prop-types";
 
 function PaginationList({
   onPageChange,
-  itemsPerPage = 11,
+  itemsPerPage = 10,
   children,
 }) {
   const totalItems = React.Children.count(children);
@@ -326,112 +326,136 @@ function PaginationList({
           style={{
             position: "fixed",
             bottom: 0,
-            left: "0%",
+            right: 0,
+            left: 0,
             width: "100%",
             background: "#fff",
-            padding: "8px 16px",
+            padding: "0px 16px",
             display: "flex",
             justifyContent: "center",
             borderTop: "1px solid #E5E7EB",
             zIndex: 1000,
             boxShadow: "0 -4px 12px rgba(0, 0, 0, 0.05)",
-            marginLeft:150,
+            // marginLeft: 150,
+            gap: 25,
+            alignItems: "center",
+            fontFamily:"Gilroy"
           }}
         >
-          <ul
+
+          <div
             style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "25px",
-              listStyle: "none",
-              margin: 0,
-              padding: 0,
-              justifyContent:"center"
+              fontSize: 16,
+              color: "#222222",
+              fontWeight: 500,
+              fontFamily:"Gilroy"
             }}
           >
-            
-            <li>
-              <button
-                onClick={() => handleChangePage(currentPage - 1)}
-                disabled={currentPage === 1}
-                style={{
-                  padding: "6px 14px",
-                  borderRadius: "8px",
-                  border: "1px solid #E5E7EB",
-                 backgroundColor:"#E5F0FF",
-                  color:
-                    currentPage === 1  ? "#111827" : "#1D4ED8",
-                  
-                  cursor: currentPage === 1 ? "not-allowed" : "pointer",
-                  fontSize: 14,
-                  fontWeight: 600,
-                  opacity: currentPage === 1 ? "0.5" : "1",
-                }}
-              >
-                ← Previous
-              </button>
-            </li>
+            Total Records : 
+          </div>
 
-           
-            {getPages().map((page, index) => (
-              <li key={index}>
-                {page === "..." ? (
-                  <span
-                    style={{
-                      padding: "6px 10px",
-                      color: "#9CA3AF",
-                      fontSize: 14,
-                    }}
-                  >
-                    …
-                  </span>
-                ) : (
-                  <button
-                    onClick={() => handleChangePage(page)}
-                    style={{
-                      width: 32,
-                      height: 32,
-                      borderRadius: "8px",
-                      border: "none",
-                      fontSize: 14,
-                      fontWeight: 600,
-                      cursor: "pointer",
-                      background:
-                        page === currentPage ? "#1E45E1" : "transparent",
-                      color:
-                        page === currentPage ? "#fff" : "#374151",
-                    }}
-                  >
-                    {page}
-                  </button>
-                )}
+
+
+          <div style={{
+            // position: "absolute",
+            // left: "50%",
+            // transform: "translateX(-50%)",
+          }}>
+            <ul
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "25px",
+                listStyle: "none",
+                margin: 0,
+                padding: 0,fontFamily:"Gilroy"
+                // justifyContent: "center"
+              }}
+            >
+
+              <li>
+                <button
+                  onClick={() => handleChangePage(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  style={{fontFamily:"Gilroy",
+                    padding: "6px 14px",
+                    borderRadius: "8px",
+                    border: "1px solid #E5E7EB",
+                    backgroundColor: "#E5F0FF",
+                    color:
+                      currentPage === 1 ? "#111827" : "#1D4ED8",
+
+                    cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                    fontSize: 14,
+                    fontWeight: 600,
+                    opacity: currentPage === 1 ? "0.5" : "1",
+                  }}
+                >
+                  ← Previous
+                </button>
               </li>
-            ))}
 
-           
-            <li>
-              <button
-                onClick={() => handleChangePage(currentPage + 1)}
-                disabled={currentPage === totalPages}
-                style={{
-                  padding: "6px 14px",
-                  borderRadius: "8px",
-                  border: "1px solid #E5E7EB",
-                   backgroundColor: "#E5F0FF",
-                                      color:
-                    currentPage === totalPages ? "#111827" : "#1D4ED8",
-                  cursor:
-                    currentPage === totalPages
-                      ? "not-allowed"
-                      : "pointer",
-                  fontSize: 14,
-                  fontWeight: 600, opacity: currentPage === totalPages ? "0.5" : "1",
-                }}
-              >
-                Next →
-              </button>
-            </li>
-          </ul>
+
+              {getPages().map((page, index) => (
+                <li key={index}>
+                  {page === "..." ? (
+                    <span
+                      style={{
+                        padding: "6px 10px",
+                        color: "#9CA3AF",
+                        fontSize: 14,fontFamily:"Gilroy" 
+                      }}
+                    >
+                      …
+                    </span>
+                  ) : (
+                    <button
+                      onClick={() => handleChangePage(page)}
+                      style={{
+                        width: 32,fontFamily:"Gilroy",
+                        height: 32,
+                        borderRadius: "8px",
+                        border: "none",
+                        fontSize: 14,
+                        fontWeight: 600,
+                        cursor: "pointer",
+                        background:
+                          page === currentPage ? "#1E45E1" : "transparent",
+                        color:
+                          page === currentPage ? "#fff" : "#374151",
+                      }}
+                    >
+                      {page}
+                    </button>
+                  )}
+                </li>
+              ))}
+
+
+              <li>
+                <button
+                  onClick={() => handleChangePage(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                  style={{fontFamily:"Gilroy",
+                    padding: "6px 14px",
+                    borderRadius: "8px",
+                    border: "1px solid #E5E7EB",
+                    backgroundColor: "#E5F0FF",
+                    color:
+                      currentPage === totalPages ? "#111827" : "#1D4ED8",
+                    cursor:
+                      currentPage === totalPages
+                        ? "not-allowed"
+                        : "pointer",
+                    fontSize: 14,
+                    fontWeight: 600, opacity: currentPage === totalPages ? "0.5" : "1",
+                  }}
+                >
+                  Next →
+                </button>
+              </li>
+            </ul>
+          </div>
         </div>
       )}
     </>
