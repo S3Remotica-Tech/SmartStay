@@ -12,7 +12,7 @@ import { Image } from "react-bootstrap";
 import "flatpickr/dist/themes/material_blue.css";
 import { CloseCircle } from "iconsax-react";
 import { useDispatch, useSelector } from "react-redux";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import "react-datepicker/dist/react-datepicker.css";
 import PropTypes from "prop-types";
 import { DatePicker } from 'antd';

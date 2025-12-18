@@ -6,7 +6,7 @@ import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
 import "../../Pages/AssetFile/addAsset.css";
 import "flatpickr/dist/themes/material_blue.css";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import { CloseCircle } from "iconsax-react";
 import "react-datepicker/dist/react-datepicker.css";
 import PropTypes from "prop-types";

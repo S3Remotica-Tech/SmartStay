@@ -2,9 +2,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, Button, Form } from "react-bootstrap";
-import { CloseCircle, DocumentDownload } from "iconsax-react";
+import { CloseCircle} from "iconsax-react";
 import Profile2 from "../../Assets/Images/New_images/bank.png";
-import homearrow from "../../Assets/Images/New_images/bank.png";
+// import homearrow from "../../Assets/Images/New_images/bank.png";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import Select from "react-select";

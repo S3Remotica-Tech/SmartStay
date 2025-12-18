@@ -1,3 +1,7 @@
+
+
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useState } from "react";
 // import LoaderComponent from "../LoaderComponent";
 import leftarrow from "../../Assets/Images/arrow-left.png";
@@ -10,7 +14,7 @@ import { Table } from "react-bootstrap";
 import PaginationList from "../../Components/PaginationList";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { BiDotsVerticalRounded } from "react-icons/bi";
+// import { BiDotsVerticalRounded } from "react-icons/bi";
 import verify from "../../Assets/Images/New_images/verify.svg";
 import Bed from "../../Assets/Images/New_images/Bed.svg";
 import withErrorBoundary from "../../Hoc/WithErrorBountry"; 
@@ -21,7 +25,7 @@ const EBTenantOverview = ({ tenant, onBack }) => {
     const dispatch = useDispatch();
 
     const [activeTab, setActiveTab] = useState("customer");
-    const [loading, setLoading] = useState(false);
+    // const [loading, setLoading] = useState(false);
 
     const [tenantReadingList, setTenantreadingList] = useState([])
 
@@ -35,7 +39,7 @@ const EBTenantOverview = ({ tenant, onBack }) => {
                     customerId: tenant.customerId
                 }
             })
-            setLoading(true)
+            // setLoading(true)
         }
 
     }, [])
@@ -43,7 +47,7 @@ const EBTenantOverview = ({ tenant, onBack }) => {
 
 useEffect(() => {
         if (state.UsersList.getParticularCustomerReadingStatus === 200) {
-            setLoading(false)
+            // setLoading(false)
                         setTenantreadingList(state.UsersList?.getParticularCustomerReadingList)
             setTimeout(() => {
                 dispatch({ type: 'REMOVE_GET_PARTICULAR_CUSTOMER_READING' })
@@ -55,13 +59,11 @@ useEffect(() => {
 
 
 
-    const billingData = [
-      
-    ];
+    const billingData = [];
 
 const formattedTenantReadings = (tenantReadingList?.electricityHistory || []).map((item) => {
  
-  const [day, month, year] = item.startDate.split("/");
+  const [month, year] = item.startDate.split("/");
 
   const billingMonth = new Date(`${year}-${month}-01`).toLocaleString("en-US", {
     month: "long",
@@ -443,5 +445,6 @@ const formattedTenantReadings = (tenantReadingList?.electricityHistory || []).ma
 
 EBTenantOverview.propTypes = {
     onBack: PropTypes.func.isRequired,
+    tenant: PropTypes.func.isRequired
 };
 export default withErrorBoundary(EBTenantOverview);

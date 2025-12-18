@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import "../../Pages/AssetFile/addAsset.css";
 import moment from "moment";
 import "flatpickr/dist/themes/material_blue.css";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import { CloseCircle } from "iconsax-react";
 import "react-datepicker/dist/react-datepicker.css";
 import PropTypes from "prop-types";
@@ -39,7 +39,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
   const [generalError, setGeneralError] = useState("");
   const [isChangedError, setIsChangedError] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
-  const [netPaymentError, setNetPaymentError] = useState("")
+  // const [netPaymentError, setNetPaymentError] = useState("")
   const [joiningDateErrmsg, setJoingDateErrmsg] = useState('')
   const [formLoading, setFormLoading] = useState(false)
   const calendarRef = useRef(null);
@@ -185,7 +185,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
     setGeneralError("");
     setPaymentError("");
     setIsChangedError("");
-    setNetPaymentError("");
+    // setNetPaymentError("");
     dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
   };
 
@@ -202,7 +202,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
     setGeneralError("");
     setPriceError("");
     setIsChangedError("");
-    setNetPaymentError("")
+    // setNetPaymentError("")
 
     if (/^\d*\.?\d*$/.test(value)) {
       setTotalPrice(value);
@@ -365,7 +365,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
   const handleClose = () => {
     dispatch({ type: 'REMOVE_BANK_INSUFFICIANT_FUND_ERROR' })
     setShowModal(false);
-    setNetPaymentError("")
+    // setNetPaymentError("")
     setJoingDateErrmsg("")
     dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
 

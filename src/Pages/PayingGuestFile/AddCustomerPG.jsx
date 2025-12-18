@@ -11,7 +11,7 @@ import Image from "react-bootstrap/Image";
 import Profile from "../../Assets/Images/New_images/profile-picture.png";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-toastify/dist/ReactToastify.css";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import { CloseCircle } from "iconsax-react";
@@ -229,7 +229,7 @@ function AddCustomer({ showMenu, handleClose }) {
 
   const handleHouseNo = (e) => {
     const value = e.target.value;
-    const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
+    const regex = /^[a-zA-Z0-9 .,'/\\#()&:-]*$/;
 
     if (regex.test(value)) {
       setHouseNo(value);
@@ -240,7 +240,8 @@ function AddCustomer({ showMenu, handleClose }) {
 
   const handleStreetName = (e) => {
     const value = e.target.value;
-    const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
+     const regex = /^[a-zA-Z0-9 .,'/\\#()&:-]*$/;
+
 
     if (regex.test(value)) {
       setStreet(value);
@@ -252,7 +253,7 @@ function AddCustomer({ showMenu, handleClose }) {
 
   const handleLandmark = (e) => {
     const value = e.target.value;
-    const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
+    const regex = /^[a-zA-Z0-9 .,'/\\#()&:-]*$/;
 
     if (regex.test(value)) {
       setLandmark(value);

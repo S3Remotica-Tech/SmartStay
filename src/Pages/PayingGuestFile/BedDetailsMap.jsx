@@ -25,20 +25,20 @@ import DueCustomerConfirmCheckout from '../CustomerFile/DueCustomerConfirmChecko
 import AddCustomerPG from './AddCustomerPG';
 import FinalSettlement from '../CustomerFile/FinalSettlement';
 import { triggerPG } from '../../Redux/Action/smartStayAction';
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Tick from '../../Assets/v2Images/Tick.svg'
 import ConfirmChangeBed from './NoticePeriod/ConfirmChangedBed';
 import { useHasPermission } from '../../Utils/Permission';
 import BackToCheckIn from "../CustomerFile/BackToCheckIn";
-import { clickedBedForChange, changeBedForChange } from '../../Redux/Action/smartStayAction';
+import { clickedBedForChange } from '../../Redux/Action/smartStayAction';
 
 
 function BedDetailsMap({ room, propsValue }) {
 
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const [emptybed, setEmptyBed] = useState(false)
     const [showReservedBed, setShowReservedBed] = useState(false)
     const [occupiedCustomer, setOccupiedCustomer] = useState(false)
@@ -125,7 +125,7 @@ function BedDetailsMap({ room, propsValue }) {
         setShowReAssignBedForm(false)
     }
 
-    const handleShowReAssignBedPopup = (isVisible, customer_id) => {
+    const handleShowReAssignBedPopup = () => {
         setOccubiedBed(false)
         dispatch(triggerPG(true))
         // setShowReAssignBedForm(isVisible)
@@ -302,7 +302,7 @@ function BedDetailsMap({ room, propsValue }) {
 
     };
 
-    const handleclickBedForChangeBed = (bed, room) => {
+    const handleclickBedForChangeBed = (bed) => {
         dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { bedId: bed.id } })
         setChangedBedClicked(bed)
         //   dispatch(changeBedForChange(bed));
@@ -720,7 +720,7 @@ function BedDetailsMap({ room, propsValue }) {
                                                 borderRadius: 5
                                             }}
                                         >
-                                            <img src={Tick}
+                                            <img src={Tick} alt="alt-image"
 
                                                 style={{ cursor: "pointer", height: 20, width: 20, }}
                                             />

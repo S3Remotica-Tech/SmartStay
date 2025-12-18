@@ -53,7 +53,7 @@ const EBRoomOverview = ({ onBack, room }) => {
 
 
     const formattedReadings = roomReadingList?.map((item) => {
-        const [day, month, year] = item.entryDate.split("/");
+        const [ month, year] = item.entryDate.split("/");
         const billingMonth = new Date(`${year}-${month}-01`).toLocaleString("en-US", {
             month: "long",
             year: "numeric",
@@ -97,7 +97,7 @@ const EBRoomOverview = ({ onBack, room }) => {
 
 
     const formattedTenantReadings = tenantReadingList?.map((item) => {
-        const [day, month, year] = item.startDate.split("/");
+        const [ month, year] = item.startDate.split("/");
         const billingMonth = new Date(`${year}-${month}-01`).toLocaleString("en-US", {
             month: "long",
             year: "numeric",

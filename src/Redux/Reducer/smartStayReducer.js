@@ -1,3 +1,6 @@
+import Cookies from 'universal-cookie';
+ const cookies = new Cookies();
+
 export const initialState = {
 
    id: 0,
@@ -32,7 +35,7 @@ export const initialState = {
    userId: '',
    isTrigger: false,
   paymentHtml: "",
-  apiResponseHostelId: ''
+  apiResponseHostelId: cookies?.get("selected_hostelId") ?? ''
 
 }
 const SmartStayReducer = (state = initialState, action) => {
@@ -110,7 +113,7 @@ const SmartStayReducer = (state = initialState, action) => {
       case 'LOGIN-SUCCESS':
          return { ...state, isLoggedIn: true }
       case 'LOG_OUT':
-         return { ...state, isLoggedIn: false, selectedHostel_Id: null }
+         return { ...state, isLoggedIn: false, selectedHostel_Id: null,  apiResponseHostelId: '', }
       case 'CLEAR_STATUSCODE':
          return { ...state, statusCode: 0 }
       case 'OTP_SUCCESS':

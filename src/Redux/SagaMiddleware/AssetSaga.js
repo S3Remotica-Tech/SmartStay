@@ -71,8 +71,7 @@ function* handleGetRoleBasedPermission(action) {
  const hostelId = GlobalHostelId(response);
     if (hostelId) {
       yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
-      // const cookies = new Cookies()
-      // cookies.set('selected_hostelId', hostelId, { path: '/' });
+      
     }
 
       if (response?.status === 200 || response?.data?.statusCode === 200) {
@@ -98,9 +97,7 @@ function* handleGetAsset(action) {
      const hostelId = GlobalHostelId(response);
     if (hostelId) {
       yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
-      // const cookies = new Cookies()
-      // cookies.set('selected_hostelId', hostelId, { path: '/' });
-    }
+          }
     
       if (response?.status === 200 || response?.data?.statusCode === 200) {
          yield put({ type: 'ASSET_LIST', payload: { response: response?.data || [], statusCode: response?.status || response?.data?.statusCode } })

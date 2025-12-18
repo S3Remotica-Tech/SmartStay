@@ -53,12 +53,12 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
 
 
-  const [hosteldetails, setHostelDetails] = useState({})
-  const [userdetails, setUserDetails] = useState({})
-  const [invoice_details, setInvoiceDetails] = useState({})
-  const [tabledetails, setTableDetails] = useState([])
-  const [bill_template, setBillTemplate] = useState({})
-  const [banking_details, setBankingDetails] = useState({})
+  // const [hosteldetails, setHostelDetails] = useState({})
+  // const [userdetails, setUserDetails] = useState({})
+  // const [invoice_details, setInvoiceDetails] = useState({})
+  // const [tabledetails, setTableDetails] = useState([])
+  // const [bill_template, setBillTemplate] = useState({})
+  // const [banking_details, setBankingDetails] = useState({})
   const [isVisible, setIsVisible] = useState(true);
   const [idforwhats, setIdForWhats] = useState("");
   const cardRef = useRef(null);
@@ -68,8 +68,8 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
     setIsVisible(true)
   }, [rowData])
 
-  const [billTransaction, setBillTransaction] = useState("")
-  const [billReceipt, setBillReceipt] = useState("")
+  // const [billTransaction, setBillTransaction] = useState("")
+  // const [billReceipt, setBillReceipt] = useState("")
 
 
   // useEffect(() => {
@@ -130,12 +130,12 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
     const n = ("000000000" + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
     if (!n) return "";
     let str = "";
-    str += n[1] != 0 ? (a[Number(n[1])] || b[n[1][0]] + " " + a[n[1][1]]) + " Crore " : "";
-    str += n[2] != 0 ? (a[Number(n[2])] || b[n[2][0]] + " " + a[n[2][1]]) + " Lakh " : "";
-    str += n[3] != 0 ? (a[Number(n[3])] || b[n[3][0]] + " " + a[n[3][1]]) + " Thousand " : "";
-    str += n[4] != 0 ? (a[Number(n[4])] || b[n[4][0]] + " " + a[n[4][1]]) + " Hundred " : "";
-    str += n[5] != 0
-      ? (str != "" ? "and " : "") +
+    str += n[1] !== 0 ? (a[Number(n[1])] || b[n[1][0]] + " " + a[n[1][1]]) + " Crore " : "";
+    str += n[2] !== 0 ? (a[Number(n[2])] || b[n[2][0]] + " " + a[n[2][1]]) + " Lakh " : "";
+    str += n[3] !== 0 ? (a[Number(n[3])] || b[n[3][0]] + " " + a[n[3][1]]) + " Thousand " : "";
+    str += n[4] !== 0 ? (a[Number(n[4])] || b[n[4][0]] + " " + a[n[4][1]]) + " Hundred " : "";
+    str += n[5] !== 0
+      ? (str !== "" ? "and " : "") +
       (a[Number(n[5])] || b[n[5][0]] + " " + a[n[5][1]]) + " "
       : "";
     return str.trim() + "Rupees Only.";
@@ -217,9 +217,9 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
   }
 
 
-  const isValid = (value) => {
-    return value !== null && value !== undefined && value !== "undefined" && value !== "";
-  };
+  // const isValid = (value) => {
+  //   return value !== null && value !== undefined && value !== "undefined" && value !== "";
+  // };
 
 
   const [isOpen, setIsOpen] = useState(false);
@@ -261,7 +261,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
 
 
-  const hasAmount = -100
+  // const hasAmount = -100
 
 
   const templateColor = pdfDetails?.configurations?.templateColor;

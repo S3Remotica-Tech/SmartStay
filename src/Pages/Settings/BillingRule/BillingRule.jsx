@@ -13,7 +13,7 @@ import Emptystate from "../../../Assets/Images/Empty-State.jpg";
 import ErrorMessage from '../../../Components/ErrorMessage';
 // import "../../Pages/Settings/SettingsBills.css";
 import withErrorBoundary from "../../../Hoc/WithErrorBountry";
-
+import Form from 'react-bootstrap/Form';
 
 
 function BillingRule() {
@@ -31,7 +31,7 @@ function BillingRule() {
   const handleShowLongStay = () => setShowLongStay(true);
   const handleCloseLongStay = () => {
     dispatch({ type: 'REMOVE_BILLING_RULE_ERROR' })
-   setShowLongStay(false)
+    setShowLongStay(false)
   }
 
 
@@ -42,10 +42,10 @@ function BillingRule() {
   // const canWriteBills = useHasPermission("Recurring bills", "canWrite")
 
 
-const {
-        canWriteModule: canWriteBills,
-        canReadModule: canReadRecurring,
-           } = useHasPermission("Bills");
+  const {
+    canWriteModule: canWriteBills,
+    canReadModule: canReadRecurring,
+  } = useHasPermission("Bills");
 
 
 
@@ -306,18 +306,14 @@ const {
                         </Button>
 
 
-                        <div className="custom-toggle-wrapper"
-                        // onClick={handleToggle}
-                        >
-                          <span className={`custom-toggle-label ${checked ? "active" : ""}`}>
-                            {checked ? "On" : "Off"}
-                          </span>
-                          <div className={`custom-toggle-switch ${checked ? "on" : "off"}`}>
-                            <div className="custom-toggle-thumb">
-                              {checked && <FaCheck size={10} color="#1E1E1E" />}
-                            </div>
-                          </div>
-                        </div>
+                      <Form.Check disabled
+  type="switch"
+  id="custom-switch"
+  label={checked ? "On" : "Off"}
+  checked={checked}
+  onChange={(e) => setChecked(e.target.checked)}
+/>
+
 
 
 

@@ -5,7 +5,7 @@ import { Modal, Button, Form } from "react-bootstrap";
 import "flatpickr/dist/flatpickr.css";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import Image from "react-bootstrap/Image";
 import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
@@ -145,10 +145,10 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
   //   
 
   // },[])
-  useEffect(() => {
-    const userData = state.UsersList.Users.filter((item) => item.ID === customerID);
+  // useEffect(() => {
+  //   const userData = state.UsersList.Users.filter((item) => item.ID === customerID);
 
-  }, [state.UsersList, customerID]);
+  // }, [state.UsersList, customerID]);
   const handleConfirmCheckout = () => {
 
 

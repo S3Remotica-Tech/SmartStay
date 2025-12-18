@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import Button from "react-bootstrap/Button";
+// import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import "../../../Pages/AssetFile/addAsset.css";
 import PropTypes from "prop-types";
-import Profile from '../../../Assets/Images/New_images/profile-picture.png'
+// import Profile from '../../../Assets/Images/New_images/profile-picture.png'
 import { PiDotsThreeOutlineFill } from "react-icons/pi";
 import { useDispatch, useSelector } from 'react-redux';
 import Image from 'react-bootstrap/Image';
@@ -12,11 +12,11 @@ import "../../../Pages/AssetFile/addAsset.css";
 import CalenderTick from "../../../Assets/Images/New_images/calendar-tick.svg";
 import TimerPause from "../../../Assets/Images/New_images/timer-pause.svg";
 import logout from "../../../Assets/Images/New_images/logout.svg";
-import UserlistForm from "../../CustomerFile/UserlistForm";
+// import UserlistForm from "../../CustomerFile/UserlistForm";
 import AddPlus from "../../../Assets/Images/New_images/add-circle.png";
 import Exchange from "../../../Assets/v2Images/exchange.svg"
 import MakeAsInAcive from "../../../Assets/v2Images/Inactive.svg"
-import Checkouts from '../../../Assets/v2Images/calendar-tick.svg'
+// import Checkouts from '../../../Assets/v2Images/calendar-tick.svg'
 import Settings from '../../../Assets/v2Images/info-circle.svg'
 import { useHasPermission } from '../../../Utils/Permission';
 import { Edit } from 'iconsax-react';
@@ -28,11 +28,12 @@ function NoticeBedStatusDetails({
   showBooking,
   showNoticeperiodCheckout,
   showfinalsettelemnet,
-  handleOpenChangeBed,
+  // handleOpenChangeBed,
   handleShowInActiveForm,
   handleOpenCancelCheckout,
-  handleDisplayCheckInForm,
+  // handleDisplayCheckInForm,
   showEditBed
+
 }) {
 
 
@@ -80,9 +81,9 @@ function NoticeBedStatusDetails({
     setActiveMenuForReserved((prev) => (prev === type ? null : type));
   }
 
-  const handleChangeBed = () => {
-    handleOpenChangeBed(true)
-  }
+  // const handleChangeBed = () => {
+  //   handleOpenChangeBed(true)
+  // }
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
       setActiveMenu(null);
@@ -112,14 +113,14 @@ function NoticeBedStatusDetails({
     showBooking(true)
   }
 
-  const handleCheckout = (currentItem) => {
+  const handleCheckout = () => {
 
 
     showNoticeperiodCheckout(true)
-    dispatch({
-      type: "GETCONFIRMCHECKOUTCUSTOMER",
-      // payload: { id: customerId, hostel_id: currentItem?.room.Hostel_Id },
-    });
+    // dispatch({
+    //   type: "GETCONFIRMCHECKOUTCUSTOMER",
+    //   // payload: { id: customerId, hostel_id: currentItem?.room.Hostel_Id },
+    // });
 
 
   }
@@ -954,7 +955,10 @@ NoticeBedStatusDetails.propTypes = {
   currentItem: PropTypes.func.isRequired,
   showNoticeperiodCheckout: PropTypes.func.isRequired,
   showBooking: PropTypes.func.isRequired,
-  showfinalsettelemnet: PropTypes.func.isRequired
+  showfinalsettelemnet: PropTypes.func.isRequired,
+  handleShowInActiveForm : PropTypes.func.isRequired,
+  handleOpenCancelCheckout: PropTypes.func.isRequired,
+  showEditBed:  PropTypes.func.isRequired,
 
 };
 export default NoticeBedStatusDetails;

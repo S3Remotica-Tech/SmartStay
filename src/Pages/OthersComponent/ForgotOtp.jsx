@@ -4,7 +4,8 @@ import { Modal, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { CloseCircle } from 'iconsax-react';
 import PropTypes from "prop-types";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
+import ErrorMessage from '../../Components/ErrorMessage'
 
 
 

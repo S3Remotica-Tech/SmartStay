@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import PropTypes from "prop-types";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, Button, Form, } from "react-bootstrap";
 import { FiRepeat } from "react-icons/fi";
 import building from '/src/Assets/Images/New_images/building1.svg';
@@ -151,7 +151,7 @@ const [formLoading, setFormLoading] = useState(false)
 
 
 
-  const invoices = CustomerOverView?.invoiceResponseList || [];
+  // const invoices = CustomerOverView?.invoiceResponseList || [];
   // const lastBillDate = invoices.length > 0
   //   ? dayjs(invoices[invoices.length - 1].invoiceGeneratedDate, "DD/MM/YYYY")
   //   : null;

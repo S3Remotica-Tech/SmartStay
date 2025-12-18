@@ -99,7 +99,7 @@ function Sidebar() {
   const dropdownRef = useRef(null);
   const [isVisibleSidebar, setIsVisibleSidebar] = useState(false)
   const [showNotify, setShowNotify] = useState(false);
-
+  const cookies = new Cookies();
 
   const hideSidebarRoutes = ["/payment-preview"];
 
@@ -376,47 +376,47 @@ function Sidebar() {
   // }, [hostelId]);
 
 
- useEffect(() => {
-  if (!hostelId) return;
+  useEffect(() => {
+    if (!hostelId) return;
 
-  const pathParts = location.pathname.split("/").filter(Boolean);
+    const pathParts = location.pathname.split("/").filter(Boolean);
 
 
-  const mainPage = pathParts[0];
-  const currentHostelId = pathParts[1];
+    const mainPage = pathParts[0];
+    const currentHostelId = pathParts[1];
 
-  const validPages = [
-    "dashboard",
-    "pg-list",
-    "user-list",
-    "user-details",
-    "invoice",
-    "compliance",
-    "reports",
-    "eb",
-    "expenses",
-    "banking",
-    "settingNewDesign",
-    "vendor",
-    "asset",
-  ];
+    const validPages = [
+      "dashboard",
+      "pg-list",
+      "user-list",
+      "user-details",
+      "invoice",
+      "compliance",
+      "reports",
+      "eb",
+      "expenses",
+      "banking",
+      "settingNewDesign",
+      "vendor",
+      "asset",
+    ];
 
- 
-  if (mainPage === "invoice" && pathParts[1] === "new") {
-    return;
-  }
 
-  
-  if (currentHostelId === hostelId) {
-    return;
-  }
+    if (mainPage === "invoice" && pathParts[1] === "new") {
+      return;
+    }
 
- 
-  if (validPages.includes(mainPage) && pathParts.length >  1) {
-    navigate(`/${mainPage}/${hostelId}`, { replace: true });
-  }
 
-}, [hostelId, location.pathname]);
+    if (currentHostelId === hostelId) {
+      return;
+    }
+
+
+    if (validPages.includes(mainPage) && pathParts.length > 1) {
+      navigate(`/${mainPage}/${hostelId}`, { replace: true });
+    }
+
+  }, [hostelId, location.pathname]);
 
 
 
@@ -469,12 +469,12 @@ function Sidebar() {
     localStorage.setItem("loginId", "");
     localStorage.setItem("phoneId", "");
     localStorage.setItem("emilidd", "");
-    localStorage.setItem("selectedResponseHostelId", "");
-    localStorage.setItem("selectedHostelId", "");
+    // localStorage.setItem("selectedResponseHostelId", "");
+    // localStorage.setItem("selectedHostelId", "");
     localStorage.setItem("selectedHostelName", "");
     localStorage.removeItem("lastPage");
     localStorage.removeItem("currentPage")
-    const cookies = new Cookies();
+
     cookies.remove('v2-token', { path: '/' });
     cookies.remove('token', { path: '/' });
     cookies.remove('selected_hostelId', { path: '/' });
@@ -514,7 +514,8 @@ function Sidebar() {
       mainImage && mainImage !== "0" && mainImage !== "" ? mainImage : mainImage
     );
     setIsDropdownOpen(false);
-    localStorage.setItem("selectedHostelId", id);
+    dispatch({ type: "SAVE_RESPONSE_HOSTEL", payload: id });
+
     localStorage.setItem("selectedHostelName", name);
     setIsSidebarOpen(false);
   };
@@ -538,62 +539,52 @@ function Sidebar() {
 
 
 
-  // const cookies = new Cookies();
-  // const apiHostelId = cookies.get("selected_hostelId");
-
-
-
-  // useEffect(() => {
-  //   if (hostelListDetail?.length > 0 && !initials && state.login?.apiResponseHostelId) {
-
-  //     const selectedHostel = state.login?.apiResponseHostelId
-  //       ? hostelListDetail.find(h => h.hostelId === state.login?.apiResponseHostelId)
-  //       : hostelListDetail[0];
-
-  //     if (selectedHostel) {
-  //       setAllPageHostel_Id(selectedHostel.hostelId);
-  //       setPayingGuestName(selectedHostel.name);
-  //       setInitials(selectedHostel.initials)
-  //       setSelectedProfileImage(
-  //         selectedHostel.mainImage &&
-  //         selectedHostel.mainImage !== "0" &&
-  //         selectedHostel.mainImage !== "" &&
-  //         selectedHostel.mainImage
-  //       );
-
-  //       dispatch(StoreSelectedHostelAction(selectedHostel.hostelId));
-  //     }
-  //   }
-  // }, [hostelListDetail, state.login?.apiResponseHostelId]);
-
-  // console.log("state.login?.apiResponseHostelId",state.login?.apiResponseHostelId)
 
 
   useEffect(() => {
-    if (hostelListDetail?.length > 0 && !initials) {
+    const hostelId = state.login?.apiResponseHostelId;
 
-      const selectedHostel = state.login?.apiResponseHostelId
-        ? hostelListDetail.find(h => h.hostelId === state.login?.apiResponseHostelId)
-        : hostelListDetail[0];
-
-      if (selectedHostel) {
-        setAllPageHostel_Id(selectedHostel.hostelId);
-        setPayingGuestName(selectedHostel.name);
-        setInitials(selectedHostel.initials)
-        setSelectedProfileImage(
-          selectedHostel.mainImage &&
-          selectedHostel.mainImage !== "0" &&
-          selectedHostel.mainImage !== "" &&
-          selectedHostel.mainImage
-        );
-
-        dispatch(StoreSelectedHostelAction(selectedHostel.hostelId));
-      }
+    if (hostelId && hostelId !== "undefined") {
+      cookies.set("selected_hostelId", hostelId, { path: "/" });
     }
-  }, [hostelListDetail,state.login.apiResponseHostelId]);
+  }, [state.login?.apiResponseHostelId]);
+
+  const reduxHostelId = state.login?.apiResponseHostelId;
+  const cookieHostelId = cookies.get("selected_hostelId");
+
+  const finalHostelId = reduxHostelId || cookieHostelId;
 
 
-  // console.log("apiResponseHostelId", state.login.apiResponseHostelId)
+
+
+
+
+  useEffect(() => {
+    if (!hostelListDetail?.length || initials) return;
+
+    const selectedHostel = hostelListDetail.find(
+      h => h.hostelId === finalHostelId
+    ) || hostelListDetail[0];
+
+    if (!selectedHostel) return;
+
+    setAllPageHostel_Id(selectedHostel.hostelId);
+    setPayingGuestName(selectedHostel.name);
+    setInitials(selectedHostel.initials);
+
+    setSelectedProfileImage(
+      selectedHostel.mainImage &&
+        selectedHostel.mainImage !== "0" &&
+        selectedHostel.mainImage !== ""
+        ? selectedHostel.mainImage
+        : ""
+    );
+
+    dispatch(StoreSelectedHostelAction(selectedHostel.hostelId));
+  }, [hostelListDetail, finalHostelId]);
+
+
+
 
 
 
@@ -614,7 +605,7 @@ function Sidebar() {
   const handleMouseEnter = (icon) => setHoveredIcon(icon);
   const handleMouseLeave = () => setHoveredIcon(null);
 
- 
+
 
 
   useEffect(() => {
@@ -1766,7 +1757,7 @@ function Sidebar() {
                   />
                 }
               />
-              
+
 
               <Route
                 path="/invoice/:hostelId?"
@@ -1778,13 +1769,13 @@ function Sidebar() {
                 }
               />
 
-              <Route
+              {/* <Route
                 path="/invoice/new/:hostelId?"
                 element={
                   <Invoices
                   />
                 }
-              />
+              /> */}
 
               <Route
                 path="/invoice/details/:invoiceId"

@@ -2,24 +2,24 @@
 import React, { useEffect, useState } from "react";
 // import LoaderComponent from "../LoaderComponent";
 import { Table } from "react-bootstrap";
-import { Modal, Offcanvas, Button, Form, Dropdown, ButtonGroup } from "react-bootstrap";
+import {Offcanvas, Button, Form,  } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FiFilter } from "react-icons/fi";
 import searchteam from "../../Assets/Images/New_images/Search Team.png";
 import arrowSwap from "../../Assets/Images/New_images/arrow-swap.svg";
 import Group from "../../Assets/Images/New_images/Group.svg";
 import { CloseCircle, ArrowUp2, ArrowDown2 } from "iconsax-react";
-import electricity from "../../Assets/Images/New_images/electricity.svg";
-import building from '/src/Assets/Images/New_images/building1.svg';
+// import electricity from "../../Assets/Images/New_images/electricity.svg";
+// import building from '/src/Assets/Images/New_images/building1.svg';
 import PaginationList from "../../Components/PaginationList";
 import EB_RoomOverview from "./EB_RoomOverview";
 import Ellipse1 from "../../Assets/Images/Profile.jpg";
 import emptyimg from "../../Assets/Images/New_images/empty_image.png";
 import EB_TenantOverview from "./EB_TenantOverview";
 //  import WhiteCalender from "../../Assets/Images/New_images/ClipPathGroup.svg";
-import { DatePicker } from 'antd';
-import dayjs from 'dayjs';
-import { MdError } from "react-icons/md";
+// import { DatePicker } from 'antd';
+// import dayjs from 'dayjs';
+// import { MdError } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import AddRoomReading from "./AddRoomReading";
 import { useHasPermission } from '../../Utils/Permission';
@@ -44,8 +44,8 @@ const RoomReadingTable = () => {
   const {
     canWriteModule: canWriteElectricity,
     canReadModule: canReadElectricity,
-    canUpdateModule: canUpdateElectricity,
-    canDeleteModule: canDeleteElectricity,
+    // canUpdateModule: canUpdateElectricity,
+    // canDeleteModule: canDeleteElectricity,
   } = useHasPermission("Electricity");
 
 
@@ -211,7 +211,7 @@ const RoomReadingTable = () => {
   };
 
   const formattedReadings = customerReadingList?.map((item) => {
-    const [day, month, year] = item.startDate.split("/");
+    const [ month, year] = item.startDate.split("/");
     const billingMonth = new Date(`${year}-${month}-01`).toLocaleString("en-US", {
       month: "short",
       year: "numeric",
@@ -225,15 +225,15 @@ const RoomReadingTable = () => {
       });
     };
 
-    const formatReadingDate = (dateStr) => {
-      if (!dateStr) return "-";
-      const [day, month, year] = dateStr.split("/").map(Number);
-      return new Date(year, month - 1, day).toLocaleDateString("en-GB", {
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-      });
-    };
+    // const formatReadingDate = (dateStr) => {
+    //   if (!dateStr) return "-";
+    //   const [day, month, year] = dateStr.split("/").map(Number);
+    //   return new Date(year, month - 1, day).toLocaleDateString("en-GB", {
+    //     day: "2-digit",
+    //     month: "short",
+    //     year: "numeric",
+    //   });
+    // };
 
 
     return {
