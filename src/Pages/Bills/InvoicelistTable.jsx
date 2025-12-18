@@ -100,7 +100,8 @@ const InvoiceTable = (props) => {
   useEffect(() => {
     if (state.InvoiceList.createRefundStatusCode === 200) {
       setPayableForm(false)
-      dispatch({ type: "MANUALINVOICESLIST", payload: state?.login?.selectedHostel_Id })
+           dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+
       setTimeout(() => {
         dispatch({ type: 'REMOVE_CREATE_REFUND' })
       }, 100)

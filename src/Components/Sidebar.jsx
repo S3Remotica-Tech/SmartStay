@@ -1769,13 +1769,13 @@ function Sidebar() {
                 }
               />
 
-              <Route
+              {/* <Route
                 path="/invoice/new/:hostelId?"
                 element={
                   <Invoices
                   />
                 }
-              />
+              /> */}
 
               <Route
                 path="/invoice/details/:invoiceId"

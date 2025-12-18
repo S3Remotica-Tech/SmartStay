@@ -93,9 +93,9 @@ const InvoicePage = () => {
 
 
 
-  const location = useLocation();
+  // const location = useLocation();
 
-  const isDuplicate = location.pathname.includes("/invoice/new/");
+  // const isDuplicate = location.pathname.includes("/invoice/new/");
 
 
   // console.log("isDuplicate", isDuplicate, "location.pathname", location.pathname)
@@ -383,18 +383,11 @@ const InvoicePage = () => {
   useEffect(() => {
     if (!state.login.selectedHostel_Id) return;
 
-    if (isDuplicate) {
       dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
 
-    }
-    else {
-      dispatch({
-        type: "MANUALINVOICESLIST",
-        payload: state.login.selectedHostel_Id
-      });
-    }
+   
 
-  }, [state.login.selectedHostel_Id, isDuplicate]);
+  }, [state.login.selectedHostel_Id]);
 
 
 
@@ -783,6 +776,7 @@ const InvoicePage = () => {
           hostelId: state.login.selectedHostel_Id,
           filters: {
             paymentStatus: [selectedOption.value],
+            search: filterInput
           },
         },
       });
@@ -2274,13 +2268,9 @@ const InvoicePage = () => {
       setLoading(true);
 
       setDownloadReceipt(false);
-      if (isDuplicate) {
+      
         dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
-      } else {
-        dispatch({ type: "MANUALINVOICESLIST", payload: state.login.selectedHostel_Id })
-
-      }
-    }
+         }
 
     if (newValue === "2") {
       // setRecurLoader(true);
@@ -2409,7 +2399,8 @@ const InvoicePage = () => {
       setSelectedDate(null);
       setFormRecordLoading(false)
       setShowform(false)
-      dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
+           dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+
 
       dispatch({ type: "RECEIPTSLIST", payload: hostelId });
 
@@ -2737,7 +2728,8 @@ const InvoicePage = () => {
       setTotalAmount("");
 
       setNewRows([]);
-      dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
+            dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+
       setLoading(false);
 
       setTimeout(() => {
@@ -2765,7 +2757,8 @@ const InvoicePage = () => {
       setShowRecurringBillForm(false);
       setReceiptFormShow(false);
       setShowAllBill(true);
-      dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
+           dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+
       setLoading(false);
 
       setTimeout(() => {
@@ -2781,7 +2774,8 @@ const InvoicePage = () => {
   ]);
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceDeleteStatusCode === 200) {
-      dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
+          dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+
       setLoading(false);
 
       setTimeout(() => {
@@ -2907,75 +2901,85 @@ const InvoicePage = () => {
 
 
 
-  useEffect(() => {
-    if (value === "1") {
-      if (filterInput) {
-        const FilterUser = Array.isArray(bills)
-          ? bills?.filter((item) =>
-            item?.fullName?.toLowerCase().includes(filterInput.toLowerCase())
-          )
-          : [];
-        setOriginalBillsFilter(FilterUser);
-      }
-      else {
-        dispatch({
-          type: 'INVOICESLISTFILTER',
-          payload: {
-            hostelId: state.login?.selectedHostel_Id,
-          }
-        })
-      }
+  // useEffect(() => {
+  //   if (value === "1") {
+  //     if (filterInput) {
+  //       const FilterUser = Array.isArray(bills)
+  //         ? bills?.filter((item) =>
+  //           item?.fullName?.toLowerCase().includes(filterInput.toLowerCase())
+  //         )
+  //         : [];
+  //       setOriginalBillsFilter(FilterUser);
+  //     }
+  //     else {
+  //       dispatch({
+  //         type: 'INVOICESLISTFILTER',
+  //         payload: {
+  //           hostelId: state.login?.selectedHostel_Id,
+  //         }
+  //       })
+  //     }
 
 
+  //   }
+
+  //   if (value === "2") {
+  //     const FilterUsertwo = Array.isArray(recurringbills)
+  //       ? recurringbills.filter((item) =>
+  //         item.user_name?.toLowerCase().includes(filterInput.toLowerCase())
+  //       )
+  //       : [];
+
+  //     setRecurringBills(FilterUsertwo);
+  //   }
+
+  //   if (value === "3") {
+  //     const FilterUserReceipt = Array.isArray(receiptdata)
+  //       ? receiptdata.filter((item) =>
+  //         item.Name?.toLowerCase().includes(filterInput.toLowerCase())
+  //       )
+  //       : [];
+
+  //     setReceiptData(FilterUserReceipt);
+  //   }
+  // }, [filterInput, value]);
+
+ const handlefilterInput = (e) => {
+  setFilterInput(e.target.value);
+};
+
+
+
+useEffect(() => {
+  if (!state.login?.selectedHostel_Id) return;
+
+  const delay = setTimeout(() => {
+    const filters = {};
+        if (filterInput && filterInput.trim().length > 0) {
+      filters.search = filterInput.trim();
     }
 
-    if (value === "2") {
-      const FilterUsertwo = Array.isArray(recurringbills)
-        ? recurringbills.filter((item) =>
-          item.user_name?.toLowerCase().includes(filterInput.toLowerCase())
-        )
-        : [];
 
-      setRecurringBills(FilterUsertwo);
-    }
-
-    if (value === "3") {
-      const FilterUserReceipt = Array.isArray(receiptdata)
-        ? receiptdata.filter((item) =>
-          item.Name?.toLowerCase().includes(filterInput.toLowerCase())
-        )
-        : [];
-
-      setReceiptData(FilterUserReceipt);
-    }
-  }, [filterInput, value]);
-
-  const handlefilterInput = (e) => {
-    setFilterInput(e.target.value);
-    if (e.target.value.length > 0) {
-      setDropdownVisible(true);
-    } else {
-      setDropdownVisible(false);
+    if (statusfilter && statusfilter.value !== "ALL") {
+      filters.paymentStatus = [statusfilter.value];
     }
 
     dispatch({
-      type: "SET_INVOICE_FILTERS",
+      type: "INVOICESLISTFILTER",
       payload: {
-        startDate: undefined,
-        endDate: undefined,
-        type: [],
-        createdBy: [],
-        createdByLabels: [],
-        modes: [],
-        paymentStatus: [],
-        search: "",
+        hostelId: state.login.selectedHostel_Id,
+        filters: Object.keys(filters).length ? filters : undefined,
       },
-    })
-    // setBills(originalBills);
-    // setRecurringBills(originalRecuiring);
-    // setReceiptData(originalReceipt);
+    });
+  }, 500); 
 
-  };
+  return () => clearTimeout(delay);
+}, [
+  filterInput,
+  // statusfilter,              
+  state.login?.selectedHostel_Id,
+ ]);
+
 
   const handleUserSelect = (user) => {
 
@@ -2983,7 +2987,7 @@ const InvoicePage = () => {
     if (searchItem && state.login?.selectedHostel_Id) {
       const filters = {
         search: searchItem,
-      };
+              };
       dispatch({
         type: 'INVOICESLISTFILTER',
         payload: {
@@ -3015,13 +3019,9 @@ const InvoicePage = () => {
     // setBills(bills);
     // setRecurringBills(originalRecuiring);
     // setReceiptData(originalReceipt);
-
-    if (isDuplicate) {
+  
       dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
-    } else {
-      dispatch({ type: "MANUALINVOICESLIST", payload: state.login.selectedHostel_Id })
-
-    }
+   
   };
 
 
@@ -3391,7 +3391,7 @@ const InvoicePage = () => {
                     )}
                     {(!showPdfModal && !showPdfReceiptModal) && (
                       <div className={` d-flex align-items-center`} >
-                        {isDuplicate && search ? (
+                        { search ? (
                           <>
                             <div className="position-relative" style={{ minWidth: 160, maxWidth: 250, zIndex: 3000, position: "relative" }}>
 
@@ -3404,7 +3404,7 @@ const InvoicePage = () => {
                                   <Image
                                     src={searchteam}
                                     style={{
-                                      height: 20, width: 20, cursor: canReadInvoice ? "pointer" : "not-allowed",
+                                      height: 15, width: 15, cursor: canReadInvoice ? "pointer" : "not-allowed",
                                       opacity: canReadInvoice ? 1 : 0.4,
                                       pointerEvents: canReadInvoice ? "auto" : "none",
                                       transition: "opacity 0.3s ease"
@@ -3420,7 +3420,7 @@ const InvoicePage = () => {
                                     outline: "none",
                                     borderColor: "rgb(207,213,219)",
                                     borderRight: "none",
-                                    fontFamily: "Gilroy", padding: "8px 12px"
+                                    fontFamily: "Gilroy", padding: "8px 10px"
                                   }}
                                   value={filterInput}
                                   onChange={(e) => handlefilterInput(e)}
@@ -3438,7 +3438,7 @@ const InvoicePage = () => {
                               </div>
 
 
-                              {value === "1" && isDuplicate &&
+                              {value === "1" && 
                                 isDropdownVisible &&
                                 originalBillsFilter?.length > 0 && (
                                   <div ref={dropdownRef}
@@ -3931,7 +3931,7 @@ const InvoicePage = () => {
                     </Tabs>
 
                     <div className="d-flex gap-3 align-items-center me-3 ">
-                      {value === "1" && isDuplicate && (
+                      {value === "1" &&  (
                         <div
                           className=""
                           style={{
@@ -3959,8 +3959,7 @@ const InvoicePage = () => {
 
                         </div>
                       )}
-                      {
-                        isDuplicate &&
+                     
 
                         <div
                           style={{
@@ -3986,10 +3985,7 @@ const InvoicePage = () => {
 
 
                         </div>
-                      }
-                      {
-                        isDuplicate &&
-                        <>
+                     
                           <div
                             className=" d-flex"
                             style={{
@@ -4009,14 +4005,13 @@ const InvoicePage = () => {
                           </div>
 
 
-                        </>
-                      }
+                        
                     </div>
                   </div>
                 </div>
 
                 {
-                  isDuplicate &&
+                  
 
                   chips.length > 0 && (
                     <div

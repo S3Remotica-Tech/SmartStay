@@ -280,7 +280,8 @@ function CreateBill() {
     }, [state.login.selectedHostel_Id]);
     useEffect(() => {
         if (hostelId) {
-            dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
+                  dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+
         }
     }, [hostelId]);
 
@@ -2076,7 +2077,8 @@ function CreateBill() {
             setSelectedDate(null);
             setFormRecordLoading(false)
             setShowform(false)
-            dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
+                 dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+
 
             dispatch({ type: "RECEIPTSLIST", payload: hostelId });
 
@@ -2328,7 +2330,8 @@ function CreateBill() {
                 navigate(`/invoice/${state.login.selectedHostel_Id}`)
             }
             setNewRows([]);
-            dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
+                 dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+
 
             if (id) {
                 dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: id } });
@@ -2360,7 +2363,8 @@ function CreateBill() {
             setShowRecurringBillForm(false);
             setReceiptFormShow(false);
             setShowAllBill(true);
-            dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
+                 dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+
             setLoading(false);
 
             setTimeout(() => {
@@ -2376,7 +2380,8 @@ function CreateBill() {
     ]);
     useEffect(() => {
         if (state.InvoiceList.manualInvoiceDeleteStatusCode === 200) {
-            dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
+                dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+
             setLoading(false);
 
             setTimeout(() => {
@@ -2403,7 +2408,8 @@ function CreateBill() {
 
     useEffect(() => {
         if (state.InvoiceList.message !== "" && state.InvoiceList.message !== null) {
-            dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
+               dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+
             setBills(state.InvoiceList.ManualInvoices);
             setTimeout(() => {
                 dispatch({ type: "CLEAR_INVOICE_UPDATE_LIST" });
