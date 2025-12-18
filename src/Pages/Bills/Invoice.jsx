@@ -3303,7 +3303,7 @@ const InvoicePage = () => {
   }, []);
 
   const headerStyle = {
-    textAlign: "center",
+    textAlign: "start",
     fontFamily: "Gilroy",
     color: "rgb(147, 147, 147)",
     fontSize: 14,
@@ -3317,6 +3317,7 @@ const InvoicePage = () => {
   const labelStyle = {
     display: "flex",
     alignItems: "center",
+    justifyContent:"start",
     height: "100%",
     lineHeight: "1.4", marginTop: 5
   };
@@ -5616,7 +5617,7 @@ const InvoicePage = () => {
 
                                               <th
                                                 style={{
-                                                  textAlign: "center",
+                                                  textAlign: "start",
                                                   fontFamily: "Gilroy",
                                                   color: "rgb(147, 147, 147)",
                                                   fontSize: 12,

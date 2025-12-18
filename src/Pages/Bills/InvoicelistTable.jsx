@@ -311,7 +311,7 @@ const InvoiceTable = (props) => {
 
 
         <td style={{ textAlign: 'center', verticalAlign: 'middle', border: "none", borderBottom: "1px solid #E8E8E8" }} className=''>
-          <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+          <div style={{ width: "100%", display: "flex", justifyContent: "start" }}>
             <div style={{
               cursor: "pointer",
               // backgroundColor: showDots ? "#E7F1FF" : "white",

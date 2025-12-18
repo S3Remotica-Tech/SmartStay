@@ -266,7 +266,7 @@ import PropTypes from "prop-types";
 
 function PaginationList({
   onPageChange,
-  itemsPerPage = 11,
+  itemsPerPage = 10,
   children,
 }) {
   const totalItems = React.Children.count(children);
@@ -339,6 +339,7 @@ function PaginationList({
             // marginLeft: 150,
             gap: 25,
             alignItems: "center",
+            fontFamily:"Gilroy"
           }}
         >
 
@@ -347,7 +348,7 @@ function PaginationList({
               fontSize: 16,
               color: "#222222",
               fontWeight: 500,
-              
+              fontFamily:"Gilroy"
             }}
           >
             Total Records : 
@@ -367,7 +368,7 @@ function PaginationList({
                 gap: "25px",
                 listStyle: "none",
                 margin: 0,
-                padding: 0,
+                padding: 0,fontFamily:"Gilroy"
                 // justifyContent: "center"
               }}
             >
@@ -376,7 +377,7 @@ function PaginationList({
                 <button
                   onClick={() => handleChangePage(currentPage - 1)}
                   disabled={currentPage === 1}
-                  style={{
+                  style={{fontFamily:"Gilroy",
                     padding: "6px 14px",
                     borderRadius: "8px",
                     border: "1px solid #E5E7EB",
@@ -402,7 +403,7 @@ function PaginationList({
                       style={{
                         padding: "6px 10px",
                         color: "#9CA3AF",
-                        fontSize: 14,
+                        fontSize: 14,fontFamily:"Gilroy" 
                       }}
                     >
                       …
@@ -411,7 +412,7 @@ function PaginationList({
                     <button
                       onClick={() => handleChangePage(page)}
                       style={{
-                        width: 32,
+                        width: 32,fontFamily:"Gilroy",
                         height: 32,
                         borderRadius: "8px",
                         border: "none",
@@ -435,7 +436,7 @@ function PaginationList({
                 <button
                   onClick={() => handleChangePage(currentPage + 1)}
                   disabled={currentPage === totalPages}
-                  style={{
+                  style={{fontFamily:"Gilroy",
                     padding: "6px 14px",
                     borderRadius: "8px",
                     border: "1px solid #E5E7EB",

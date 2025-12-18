@@ -402,9 +402,9 @@ function Sidebar() {
     ];
 
 
-    if (mainPage === "invoice" && pathParts[1] === "new") {
-      return;
-    }
+    // if (mainPage === "invoice" && pathParts[1] === "new") {
+    //   return;
+    // }
 
 
     if (currentHostelId === hostelId) {
@@ -581,7 +581,7 @@ function Sidebar() {
     );
 
     dispatch(StoreSelectedHostelAction(selectedHostel.hostelId));
-  }, [hostelListDetail, finalHostelId]);
+  }, [hostelListDetail, finalHostelId,]);
 
 
 

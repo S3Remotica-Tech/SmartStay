@@ -142,7 +142,7 @@ const RecurringBillList = (props) => {
 
 
         </td>
-        <td style={{ border: "none", textAlign: 'center', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="">
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="">
           <Form.Check
             type="switch"
             id="recurring-switch" style={{}}
@@ -164,14 +164,14 @@ const RecurringBillList = (props) => {
 
 
         </td>
-        <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none", borderBottom: "1px solid #E8E8E8" }} className=''>
-          <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+        <td style={{ textAlign: 'start', border: "none", borderBottom: "1px solid #E8E8E8"  }} className=''>
+          <div style={{ width: "100%", display: "flex", justifyContent: "start" }}>
             <div style={{ cursor: "pointer", 
             // backgroundColor: showDots ? "#E7F1FF" : "white",
               //  height: 40, width: 40, 
                borderRadius: 100,
                 // border: "1px solid #EFEFEF", 
-                display: "flex", justifyContent: "center", alignItems: "center", position: "relative" }} onClick={(e) => handleShowDots(e)}>
+                display: "flex", alignItems: "center", position: "relative",justifyContent: "" }} onClick={(e) => handleShowDots(e)}>
               <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, transform:"rotate(90deg)" }} />
 
               {showDots && <>
@@ -247,7 +247,7 @@ const RecurringBillList = (props) => {
 
 
             </div>
-          </div>
+         </div>
         </td>
 
 

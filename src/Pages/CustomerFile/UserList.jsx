@@ -215,9 +215,9 @@ function UserList(props) {
     }
   }, [canReadTenant]);
 
- const {
+  const {
     canWriteModule: canWriteBooking,
-    
+
   } = useHasPermission("Booking");
 
 
@@ -1559,7 +1559,7 @@ function UserList(props) {
 
 
   const [search, setSearch] = useState(false);
-  
+
 
   const currentItems = React.useMemo(() => {
     return (search || filterStatus) ? filteredUsers : userListDetail;
@@ -1568,7 +1568,7 @@ function UserList(props) {
 
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
- 
+
 
 
   const sortedData = React.useMemo(() => {
@@ -1600,9 +1600,9 @@ function UserList(props) {
 
 
 
-  const handleSort = (key, direction) => {
-    setSortConfig({ key, direction });
-  };
+  // const handleSort = (key, direction) => {
+  //   setSortConfig({ key, direction });
+  // };
 
 
   // const pageOptions = [
@@ -1970,7 +1970,7 @@ function UserList(props) {
     if (deleteDetails?.user?.customerId) {
       dispatch({
         type: "DELETECUSTOMER",
-        payload: { customerId: deleteDetails?.user?.customerId , hostelId : state.login.selectedHostel_Id  },
+        payload: { customerId: deleteDetails?.user?.customerId, hostelId: state.login.selectedHostel_Id },
       });
     }
     setFormLoading(true)
@@ -2359,11 +2359,31 @@ function UserList(props) {
     color: "white",
     fontWeight: 600,
     borderRadius: "8px",
-    padding: "12px",
+    padding: "8px",
     marginBottom: "10px",
-    maxHeight: 45,
+    // maxHeight: 0,
     width: "146px",
     whiteSpace: "nowrap",
+  };
+
+
+  const headerStyle = {
+    textAlign: "center",
+    fontFamily: "Gilroy",
+    color: "rgb(147, 147, 147)",
+    fontSize: 14,
+    fontWeight: 500,
+    lineHeight: "1.4",
+    padding: 8,
+    verticalAlign: "middle",
+  };
+
+
+  const labelStyle = {
+    display: "flex",
+    alignItems: "center",
+    height: "100%",
+    lineHeight: "1",
   };
 
   useEffect(() => {
@@ -2583,7 +2603,7 @@ function UserList(props) {
 
   }, [state.InvoiceList.unableAddInvoiceDetailsError])
   return (
-    <div style={{ overflow: "hidden" }}>
+    <div style={{ overflowY: "hidden" }}>
       {/* <Addbooking
         show={showbookingForm}
         handleClose={closeModal}
@@ -2610,13 +2630,13 @@ function UserList(props) {
       />
 
       {userList && (
-        <div className="container p-0" style={{ backgroundColor: "" }}>
+        <div className="container p-0" style={{ backgroundColor: "", }}>
           <div className="header-container">
             <div
               className="d-flex justify-content-between align-items-center flex-wrap"
               style={{ marginTop: 14 }}
             >
-              <div className="d-flex justify-content-lg-start justify-content-center align-items-center flex-wrap ms-lg-4">
+              <div className="d-flex justify-content-lg-start justify-content-center align-items-center flex-wrap ">
                 <label
                   style={{
                     fontSize: 18,
@@ -3042,7 +3062,7 @@ function UserList(props) {
           <div
             className=""
             style={{
-              paddingLeft: "27px",
+              // paddingLeft: "27px",
               fontFamily: "Gilroy",
               fontSize: 16,
               fontWeight: 500,
@@ -3050,82 +3070,7 @@ function UserList(props) {
             }}
           >
             <TabContext value={value} className="p-0" >
-              {/* <Box sx={{ borderBottom: 0, borderColor: "divider", display: "flex", gap: 32, backgroundColor: "", width: "auto" }}>
-                <TabList
-                  orientation={isSmallScreen ? "vertical" : "horizontal"}
-                  onChange={handleChange}
-                  aria-label="lab API tabs example"
-                  className="d-flex gap-5"
-                  TabIndicatorProps={{ children: <span className="MuiTabs-indicatorSpan" /> }}
-                                 style={{ alignItems: "flex-start", display: "flex", gap: "102px", justifyContent: "space-between", backgroundColor: "", width: "50%" }}
-                >
-                  <Tab
-                    className="tab-label"
-                    style={{
-                      textTransform: "capitalize",
-                      fontSize: 16,
-                      fontWeight: 500,
-                      padding: 0,
-                      fontFamily: "Gilroy",
-                      color: value === "1" ? "#222222" : "#4B4B4B",
-                      minHeight: "unset",
-                      height: "28px",
-                      display: "flex",
-                      alignItems: "start",
-                      justifyContent: "flex-start",
-                      textAlign: "left",
 
-
-                    }}
-                    label="Tenants"
-                    value="1"
-                  />
-
-                  <Tab
-                    className="tab-label"
-                    style={{
-                      textTransform: "capitalize",
-                      fontSize: 16,
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                      color: value === "3" ? "#222222" : "#4B4B4B",
-                      minHeight: "unset",
-                      height: "28px",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "flex-start",
-                      textAlign: "center",
-                      padding: 0,
-                      lineHeight: 1,
-                    }}
-                    label="Check-out"
-                    value="3"
-                  />
-
-                  <Tab
-                    className="tab-label"
-                    style={{
-                      textTransform: "capitalize",
-                      fontSize: 16,
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                      color: value === "4" ? "#222222" : "#4B4B4B",
-                      minHeight: "unset",
-                      height: "28px",
-                      display: "flex",
-                      alignItems: "start",
-                      justifyContent: "flex-start",
-                      textAlign: "right",
-                      padding: 0,
-                      lineHeight: 1,
-
-                    }}
-                    label="Walk-in"
-                    value="4"
-                  />
-                </TabList>
-
-              </Box> */}
 
               <Tabs
                 activeKey={value}
@@ -3161,7 +3106,7 @@ function UserList(props) {
                   }
                 >
                 </Tab>
- <Tab
+                <Tab
                   eventKey="4"
                   title={
                     <span
@@ -3198,7 +3143,7 @@ function UserList(props) {
                 >
                 </Tab>
 
-               
+
               </Tabs>
 
 
@@ -3280,25 +3225,23 @@ function UserList(props) {
                   </div>
                 ) : null}
 
-                <>
+                <div className='show-scrolls' style={{
+                  overflow: "auto",
+                  marginBottom: 20,
+                  marginTop: "20px",
+                  paddingRight: 0,
+                  paddingLeft: 0,
+
+                }}>
                   {canReadTenant && sortedData && sortedData.length > 0 &&
                     <div
-                      className=" booking-table-userlist  booking-table  me-4"
-                      style={{ paddingBottom: "20px", marginLeft: "-14px" }}
+                      className="me-2"
+                      style={{}}
                     >
                       <div ref={tableRef}
                         className="show-scrolls"
                         style={{
-                          height:
-                            sortedData?.length >= 5 || sortedData?.length >= 5
-                              ? "430px"
-                              : "auto",
-                          overflow: "auto",
                           borderTop: "1px solid #E8E8E8",
-                          marginBottom: 20,
-                          marginTop: "20px",
-                          paddingRight: 0,
-                          paddingLeft: 0,
                           position: "relative"
                         }}
                       >
@@ -3331,18 +3274,10 @@ function UserList(props) {
                           >
                             <tr>
                               <th
-                                style={{
-                                  textAlign: "start",
-                                  padding: "10px",
-                                  color: "#939393",
-                                  fontSize: "12px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  paddingLeft: "20px",
-                                }}
+                                style={{ ...headerStyle }}
                               >
-                                <div className="d-flex gap-1 align-items-center justify-content-start">
-                                  <div
+                                <div style={labelStyle}>
+                                  {/* <div
                                     style={{
                                       display: "flex",
                                       flexDirection: "column",
@@ -3367,25 +3302,17 @@ function UserList(props) {
                                       }
                                       style={{ cursor: "pointer" }}
                                     />
-                                  </div>
+                                  </div> */}
                                   Name
                                 </div>
                               </th>
 
 
                               <th
-                                style={{
-                                  textAlign: "start",
-                                  padding: "10px",
-                                  color: "#939393",
-                                  fontSize: "12px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  paddingLeft: "20px",
-                                }}
+                                style={headerStyle}
                               >
-                                <div className="d-flex gap-1 align-items-center justify-content-start">
-                                  <div
+                                <div style={labelStyle}>
+                                  {/* <div
                                     style={{
                                       display: "flex",
                                       flexDirection: "column",
@@ -3410,25 +3337,17 @@ function UserList(props) {
                                       }
                                       style={{ cursor: "pointer" }}
                                     />
-                                  </div>
+                                  </div> */}
                                   Status
                                 </div>
 
 
                               </th>
                               <th
-                                style={{
-                                  textAlign: "start",
-                                  padding: "10px",
-                                  color: "#939393",
-                                  fontSize: "12px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  whiteSpace: "nowrap",
-                                }}
+                                style={headerStyle}
                               >
-                                <div className="d-flex gap-1 align-items-center justify-content-start">
-                                  <div
+                                <div style={labelStyle}>
+                                  {/* <div
                                     style={{
                                       display: "flex",
                                       flexDirection: "column",
@@ -3453,24 +3372,16 @@ function UserList(props) {
                                       }
                                       style={{ cursor: "pointer" }}
                                     />
-                                  </div>
+                                  </div> */}
                                   Joining Date
                                 </div>
                               </th>
 
                               <th
-                                style={{
-                                  textAlign: "start",
-                                  padding: "10px",
-                                  color: "#939393",
-                                  fontSize: "12px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  whiteSpace: "nowrap",
-                                }}
+                                style={headerStyle}
                               >
-                                <div className="d-flex gap-1 align-items-center justify-content-start">
-                                  <div
+                                <div style={labelStyle}>
+                                  {/* <div
                                     style={{
                                       display: "flex",
                                       flexDirection: "column",
@@ -3495,23 +3406,15 @@ function UserList(props) {
                                       }
                                       style={{ cursor: "pointer" }}
                                     />
-                                  </div>
+                                  </div> */}
                                   Mobile No
                                 </div>
                               </th>
                               <th
-                                style={{
-                                  textAlign: "start",
-                                  padding: "10px",
-                                  color: "#939393",
-                                  fontSize: "12px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  whiteSpace: "nowrap",
-                                }}
+                                style={headerStyle}
                               >
-                                <div className="d-flex gap-1 align-items-center justify-content-start">
-                                  <div
+                                <div style={labelStyle}>
+                                  {/* <div
                                     style={{
                                       display: "flex",
                                       flexDirection: "column",
@@ -3536,22 +3439,15 @@ function UserList(props) {
                                       }
                                       style={{ cursor: "pointer" }}
                                     />
-                                  </div>
+                                  </div> */}
                                   Floor
                                 </div>
                               </th>
                               <th
-                                style={{
-                                  textAlign: "start",
-                                  padding: "10px",
-                                  color: "#939393",
-                                  fontSize: "12px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                }}
+                                style={headerStyle}
                               >
-                                <div className="d-flex gap-1 align-items-center justify-content-start">
-                                  <div
+                                <div style={labelStyle}>
+                                  {/* <div
                                     style={{
                                       display: "flex",
                                       flexDirection: "column",
@@ -3576,22 +3472,15 @@ function UserList(props) {
                                       }
                                       style={{ cursor: "pointer" }}
                                     />
-                                  </div>
+                                  </div> */}
                                   Room
                                 </div>
                               </th>
                               <th
-                                style={{
-                                  textAlign: "start",
-                                  padding: "10px",
-                                  color: "#939393",
-                                  fontSize: "12px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                }}
+                                style={headerStyle}
                               >
-                                <div className="d-flex gap-1 align-items-center justify-content-start">
-                                  <div
+                                <div style={labelStyle}>
+                                  {/* <div
                                     style={{
                                       display: "flex",
                                       flexDirection: "column",
@@ -3614,26 +3503,24 @@ function UserList(props) {
                                       }
                                       style={{ cursor: "pointer" }}
                                     />
-                                  </div>
+                                  </div> */}
                                   Bed
                                 </div>
                               </th>
                               <th
                                 style={{
+                                  ...headerStyle,
                                   textAlign: "start",
-                                  fontFamily: "Gilroy",
-                                  color: "#939393",
-                                  fontSize: 12,
-                                  fontWeight: 500,
-                                  paddingBottom: 12
                                 }}
-                              >
-                                Action
+                              ><div style={labelStyle}>
+                                  Action
+                                </div>
+
 
                               </th>
                             </tr>
                           </thead>
-                          <tbody style={{ textAlign: "center" }}>
+                          <tbody style={{ textAlign: "start" }}>
                             <PaginationList>
                               {sortedData && sortedData.length > 0 && (
 
@@ -3643,32 +3530,32 @@ function UserList(props) {
                                     style={{
                                       fontSize: "16px",
                                       fontWeight: 600,
-                                      textAlign: "center",
+                                      // textAlign: "center",
                                     }}
                                   >
 
                                     <td
                                       style={{
                                         border: "none",
-                                        padding: "10px",
+                                        // padding: "10px",
                                         textAlign: "start",
-                                        paddingLeft: "20px",
+                                        // paddingLeft: "20px",
                                         verticalAlign: "middle",
                                         borderBottom: "1px solid #E8E8E8",
                                       }}
-                                      className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
+                                      className=""
                                     >
                                       <span
-                                        className="Customer_Name_Hover  ps-lg-3"
+                                        className="Customer_Name_Hover"
                                         style={{
                                           fontSize: "13px",
                                           fontWeight: 600,
                                           fontFamily: "Gilroy",
                                           color: "#1E45E1",
                                           cursor: "pointer",
-                                          marginTop: 10,
-                                          paddingLeft: 10,
-                                          whiteSpace: "nowrap",
+                                          // marginTop: 10,
+                                          // paddingLeft: 10,
+                                          whiteSpace: "nowrap", verticalAlign: "middle",
                                         }}
                                         onClick={() =>
                                           handleRoomDetailsPage(user)
@@ -3679,8 +3566,8 @@ function UserList(props) {
                                     </td>
                                     <td className=""
                                       style={{
-                                        paddingTop: 15,
-                                        paddingLeft: 26,
+                                        // paddingTop: 15,
+                                        // paddingLeft: 26,
                                         border: "none",
                                         textAlign: "start",
                                         fontSize: "13px",
@@ -3693,8 +3580,8 @@ function UserList(props) {
                                       <span style={{ backgroundColor: "#EDD3D8", padding: 6, borderRadius: 10 }}>{user.currentStatus}</span> </td>
                                     <td className=""
                                       style={{
-                                        paddingTop: 15,
-                                        paddingLeft: 26,
+                                        // paddingTop: 15,
+                                        // paddingLeft: 26,
                                         border: "none",
                                         textAlign: "start",
                                         fontSize: "13px",
@@ -3723,8 +3610,8 @@ function UserList(props) {
 
                                     <td
                                       style={{
-                                        paddingTop: 15,
-                                        paddingLeft: 15,
+                                        // paddingTop: 15,
+                                        // paddingLeft: 15,
                                         border: "none",
                                         textAlign: "start",
                                         fontSize: "13px",
@@ -3735,7 +3622,7 @@ function UserList(props) {
                                         verticalAlign: "middle",
                                         borderBottom: "1px solid #E8E8E8",
                                       }}
-                                      className="ps-0 ps-sm-0 ps-md-3 ps-lg-4"
+                                      className=""
                                     >
                                       +
                                       {user &&
@@ -3752,14 +3639,14 @@ function UserList(props) {
                                         fontSize: "13px",
                                         fontWeight: 500,
                                         fontFamily: "Gilroy",
-                                        paddingTop: 15,
-                                        paddingLeft: 20,
+                                        // paddingTop: 15,
+                                        // paddingLeft: 20,
                                         verticalAlign: "middle",
                                         borderBottom: "1px solid #E8E8E8",
                                       }}
-                                      className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
+                                      className=""
                                     >
-                                      <div className="ps-2">
+                                      <div className="">
 
 
                                         {user.currentStatus === "Booked"
@@ -3773,8 +3660,8 @@ function UserList(props) {
 
                                     <td
                                       style={{
-                                        paddingTop: 15,
-                                        paddingLeft: 20,
+                                        // paddingTop: 15,
+                                        // paddingLeft: 20,
                                         border: "none",
                                         textAlign: "start",
                                         fontSize: "13px",
@@ -3783,7 +3670,7 @@ function UserList(props) {
                                         verticalAlign: "middle",
                                         borderBottom: "1px solid #E8E8E8",
                                       }}
-                                      className="ps-0 ps-sm-0 ps-md-3 ps-lg-4"
+                                      className=""
                                     >
                                       {" "}
 
@@ -3793,9 +3680,9 @@ function UserList(props) {
                                     </td>
 
                                     <td
-                                      className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 "
+                                      className=" "
                                       style={{
-                                        paddingTop: 15,
+                                        // paddingTop: 15,
                                         border: "none",
                                         cursor: "pointer",
                                         textAlign: "start",
@@ -3815,7 +3702,8 @@ function UserList(props) {
                                     </td>
                                     <td
                                       style={{
-                                        paddingTop: 12,
+                                        textAlign: "center",
+                                        // paddingTop: 12,
                                         border: "none",
                                         borderBottom: "1px solid #E8E8E8",
                                       }}
@@ -3824,25 +3712,25 @@ function UserList(props) {
                                       <div
                                         style={{
                                           cursor: "pointer",
-                                          height: 40,
-                                          width: 40,
-                                          borderRadius: 100,
-                                          border: "1px solid #EFEFEF",
+                                          // height: 40,
+                                          // width: 40,
+                                          // borderRadius: 100,
+                                          // border: "1px solid #EFEFEF",
                                           display: "flex",
                                           justifyContent: "center",
                                           alignItems: "center",
                                           position: "relative",
-                                          backgroundColor:
-                                            activeRow === user.customerId
-                                              ? "#E7F1FF"
-                                              : "white",
+                                          // backgroundColor:
+                                          //   activeRow === user.customerId
+                                          //     ? "#E7F1FF"
+                                          //     : "white",
                                         }}
                                         onClick={(e) =>
                                           handleShowDots(user.customerId, e)
                                         }
                                       >
                                         <PiDotsThreeOutlineVerticalFill
-                                          style={{ height: 20, width: 20 }}
+                                          style={{ height: 20, width: 20, transform: "rotate(90deg)" }}
                                         />
                                         {activeRow === user.customerId && (
                                           <div
@@ -4405,7 +4293,7 @@ function UserList(props) {
                       </div>
                     </div>
                   }
-                </>
+                </div>
 
 
 

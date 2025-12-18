@@ -53,11 +53,11 @@ function Asset() {
   // const canReadAssets = useHasPermission("Assets", "canRead");
 
   const {
-        canWriteModule: canWriteAssets,
-        canReadModule: canReadAssets,
-        // canUpdateModule: canUpdateUser,
-        // canDeleteModule: canDeleteUser,
-      } = useHasPermission("Assets");
+    canWriteModule: canWriteAssets,
+    canReadModule: canReadAssets,
+    // canUpdateModule: canUpdateUser,
+    // canDeleteModule: canDeleteUser,
+  } = useHasPermission("Assets");
 
   useEffect(() => {
     if (!canReadAssets) {
@@ -610,18 +610,19 @@ function Asset() {
   return (
     <>
 
-      <div className='container p-0 ' style={{ marginTop: 7 }}>
+      <div className='container p-0 ' style={{ }}>
         <div className="container d-flex justify-content-between align-items-center  flex-wrap h-auto"
           style={{
             position: 'sticky',
 
             backgroundColor: 'white',
             zIndex: 10,
-            paddingLeft: 25, paddingRight: 20,
+            // paddingLeft: 25,
+            //  paddingRight: 20,
             height: 83,
           }}
         >
-          <div style={{ marginTop: 10 }}>
+          <div style={{ marginTop: 0 }}>
             <label style={{ fontSize: 18, color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>
               Assets</label>
           </div>
@@ -631,14 +632,16 @@ function Asset() {
             {
               !showFilterData &&
 
-              <div onClick={()=>canReadAssets && handleShowSearch()} style={{ paddingRight: 30, marginTop: 12, cursor: "pointer" }}>
+              <div onClick={() => canReadAssets && handleShowSearch()} style={{ paddingRight: 30, marginTop: 12, cursor: "pointer" }}>
                 <SearchNormal1
                   size="26"
                   color="#222"
-style={{cursor: canReadAssets ? "pointer" : "not-allowed",
-                  opacity: canReadAssets ? 1 : 0.4,
-                  pointerEvents: canReadAssets ? "auto" : "none",
-                  transition: "opacity 0.3s ease"}}
+                  style={{
+                    cursor: canReadAssets ? "pointer" : "not-allowed",
+                    opacity: canReadAssets ? 1 : 0.4,
+                    pointerEvents: canReadAssets ? "auto" : "none",
+                    transition: "opacity 0.3s ease"
+                  }}
                 />
               </div>
             }
@@ -731,15 +734,17 @@ style={{cursor: canReadAssets ? "pointer" : "not-allowed",
 
 
 
-            <div onClick={()=> canReadAssets && handleFilterByPrice()} style={{ paddingRight: 23, marginTop: 12, cursor: "pointer" }}>
+            <div onClick={() => canReadAssets && handleFilterByPrice()} style={{ paddingRight: 23, marginTop: 12, cursor: "pointer" }}>
               <Sort
                 Size="24"
                 color="#222"
                 variant="Outline"
-                style={{cursor: canReadAssets ? "pointer" : "not-allowed",
+                style={{
+                  cursor: canReadAssets ? "pointer" : "not-allowed",
                   opacity: canReadAssets ? 1 : 0.4,
                   pointerEvents: canReadAssets ? "auto" : "none",
-                  transition: "opacity 0.3s ease"}}
+                  transition: "opacity 0.3s ease"
+                }}
               />
             </div>
 
@@ -867,9 +872,8 @@ style={{cursor: canReadAssets ? "pointer" : "not-allowed",
                   color: "white",
                   fontWeight: 600,
                   borderRadius: "8px",
-                  padding: "12px",
-                  paddingLeft: 50,
-                  paddingRight: 48,
+                                    paddingLeft: 30,  
+                  paddingRight: 30,
                   marginBottom: "10px",
                   maxHeight: 45,
 
@@ -954,21 +958,24 @@ style={{cursor: canReadAssets ? "pointer" : "not-allowed",
             </>
           ) :
 
+ <div className='show-scrolls' style={{
+                  overflow: "auto",
+                  marginBottom: 20,
+                  marginTop: "20px",
+                  paddingRight: 0,
+                  paddingLeft: 0,
 
-            sortedData && sortedData.length > 0 && (
+                }}>
+            {sortedData && sortedData.length > 0 && (
 
-              <div
-                className="p-0 booking-table-userlist  booking-table ms-2 me-4"
-                style={{ paddingBottom: "20px", marginLeft: "-22px" }}
-              >
+             
 
                 <div
-                  className='show-scrolls'
+                  className='show-scrolls me-2'
                   style={{
-                    height: sortedData.length >= 8 || sortedData.length >= 8 ? "460px" : "auto",
-                    overflow: "auto",
-                    marginTop: "20px"
-                  }}>
+                    // height: sortedData.length >= 8 || sortedData.length >= 8 ? "460px" : "auto",
+                    // overflow: "auto",
+                                      }}>
 
                   <Table
                     responsive="md"
@@ -980,76 +987,68 @@ style={{cursor: canReadAssets ? "pointer" : "not-allowed",
                       zIndex: 1
                     }}>
                       <tr>
-                        <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500 }}> <div className='d-flex gap-1 align-items-center '> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                        <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500 }}> 
+                          <div className='d-flex gap-1 align-items-center '> 
+                          {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                           <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("product_name", 'asc')} style={{ cursor: "pointer" }} />
                           <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("product_name", 'desc')} style={{ cursor: "pointer" }} />
-                        </div>  Product Name </div>  </th>
+                        </div>  */}
+                         Product Name </div>  </th>
 
-                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }} > <div className='d-flex gap-1 align-items-center '><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }} > 
+                          <div className='d-flex gap-1 align-items-center '>
+                          {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                           <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("serial_number", 'asc')} style={{ cursor: "pointer" }} />
                           <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("serial_number", 'desc')} style={{ cursor: "pointer" }} />
-                        </div>  Serial Number </div></th>
+                        </div>  */}
+                         Serial Number </div></th>
 
-                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}> <div className='d-flex gap-1 align-items-center '><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}>
+                           <div className='d-flex gap-1 align-items-center '>
+                          {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                           <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("brand_name", 'asc')} style={{ cursor: "pointer" }} />
                           <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("brand_name", 'desc')} style={{ cursor: "pointer" }} />
-                        </div> Brand </div> </th>
+                        </div> */}
+                         Brand </div> </th>
 
-                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}>
+                          <div className='d-flex gap-1 align-items-center'>
+                            {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                           <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("asset_name", 'asc')} style={{ cursor: "pointer" }} />
                           <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("asset_name", 'desc')} style={{ cursor: "pointer" }} />
-                        </div> Asset </div></th>
+                        </div>  */}
+                        Asset </div></th>
 
-                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}>
+                          <div className='d-flex gap-1 align-items-center'>
+                            {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                           <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("price", 'asc')} style={{ cursor: "pointer" }} />
                           <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("price", 'desc')} style={{ cursor: "pointer" }} />
-                        </div>  Price </div></th>
+                        </div>  */}
+                         Price </div></th>
 
-                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center '><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}>
+                          <div className='d-flex gap-1 align-items-center '>
+                            {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                           <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_date", 'asc')} style={{ cursor: "pointer" }} />
                           <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_date", 'desc')} style={{ cursor: "pointer" }} />
-                        </div> Purchase Date </div></th>
+                        </div>  */}
+                        Purchase Date </div></th>
 
-                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center '><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}>
+                          <div className='d-flex gap-1 align-items-center '>
+                            {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                           <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hostel_Name", 'asc')} style={{ cursor: "pointer" }} />
                           <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hostel_Name", 'desc')} style={{ cursor: "pointer" }} />
-                        </div>  Assigned </div></th>
+                        </div>  */}
+                         Assigned </div></th>
 
                         <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, paddingBottom: 10 }}>Action</th>
                       </tr>
                     </thead>
 
 
-                    {/* <tbody>
-                      {
-                        loading ? (
-                          <>
-                            <tr>
-                              <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                              <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                              <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                              <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                              <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                              <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                              <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                            </tr>
-                          </>
-                        )
-
-
-
-                          : (
-                            sortedData && sortedData.length > 0 && (
-                              <>
-                                {sortedData.map((item) => (
-                                  <AssetListTable item={item} OnEditAsset={handleEditAsset} key={item.id} assetEditPermission={assetEditPermission} assetAddPermission={assetAddPermission} assetDeletePermission={assetDeletePermission} disableActions={state?.login?.planStatus === 0} />
-                                ))}
-                              </>
-                            )
-
-                          )
-                      }
-                    </tbody> */}
+                  
                     <tbody>
                       {
                         loading ? (
@@ -1087,8 +1086,9 @@ style={{cursor: canReadAssets ? "pointer" : "not-allowed",
                   </Table>
                 </div>
 
-              </div>
-            )
+             
+            )}
+            </div>
 
         }
         {
