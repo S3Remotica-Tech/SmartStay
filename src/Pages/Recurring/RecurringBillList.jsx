@@ -3,10 +3,10 @@ import React, { useState, useRef, useEffect } from "react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Delete from '../../Assets/Images/Delete_red.png';
 import Modal from "react-bootstrap/Modal";
-import { Button } from "react-bootstrap";
+import { Button ,Form} from "react-bootstrap";
 import PropTypes from "prop-types";
-import { FaCheck } from "react-icons/fa";
-import {  useSelector } from 'react-redux';
+// import { FaCheck } from "react-icons/fa";
+import { useSelector } from 'react-redux';
 import { useHasPermission } from '../../Utils/Permission';
 
 
@@ -104,10 +104,12 @@ const RecurringBillList = (props) => {
 
 
   const {
- canDeleteModule: canDeleteRecurring,
+    canDeleteModule: canDeleteRecurring,
     canUpdateModule: canUpdateRecurring
   } = useHasPermission("Recurring bills");
 
+
+console.log(props,"props")
 
   return (
 
@@ -135,22 +137,25 @@ const RecurringBillList = (props) => {
 
         </td>
         <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
-          <div className="custom-toggle-wrapper" onClick={canUpdateRecurring ? props.onToggle : undefined} style={{
-            pointerEvents: canUpdateRecurring ? "auto" : "none",
-            opacity: canUpdateRecurring ? 1 : 0.5,
-            cursor: canUpdateRecurring ? "pointer" : "not-allowed",
-          }}>
-            <span className={`custom-toggle-label ${props.checked ? "active" : ""}`}>
-              {props.checked ? "On" : "Off"}
-            </span>
-            <div className={`custom-toggle-switch ${props.checked ? "on" : "off"}`} style={{
-      backgroundColor: !canUpdateRecurring ? "#E0E0E0" : undefined,
-    }}>
-              <div className="custom-toggle-thumb">
-                {props.checked && <FaCheck size={10} color="#1E1E1E" />}
-              </div>
-            </div>
-          </div>
+          <Form.Check
+            type="switch"
+            id="recurring-switch"
+            checked={props.checked}
+            disabled={!canUpdateRecurring}
+            onChange={canUpdateRecurring ? props.onToggle : undefined}
+            label={
+              <span
+                style={{
+                  fontWeight: 500,
+                  color: !canUpdateRecurring ? "#9E9E9E" : "#1E1E1E",
+                  marginLeft: 8,
+                }}
+              >
+                {props.checked ? "On" : "Off"}
+              </span>
+            }
+          />
+
 
         </td>
         <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none", borderBottom: "1px solid #E8E8E8" }} className=''>

@@ -33,7 +33,7 @@ import RecurringBill from "../../Pages/Recurring/RecurringBills";
 import RecurringBillList from "../../Pages/Recurring/RecurringBillList";
 import closecircle from "../../Assets/Images/New_images/close-circle.png";
 import searchteam from "../../Assets/Images/New_images/Search Team.png";
-import Filters from "../../Assets/Images/Filters.svg";
+// import Filters from "../../Assets/Images/Filters.svg";
 import Receipt from "../../Pages/Receipt/Receipt";
 import AddReceiptForm from "../Receipt/AddReceipt";
 import ReceiptPdfCard from "../PDF/ReceiptPdfModal";
@@ -53,7 +53,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import BillsFilter from '../../Pages/Bills/BillsFilter'
 import { FiSearch } from "react-icons/fi";
-import { padding } from "@mui/system";
+
 
 const InvoicePage = () => {
   const state = useSelector((state) => state);
@@ -64,8 +64,9 @@ const InvoicePage = () => {
   const [loading, setLoading] = useState(false);
   const [invoiceValue, setInvoiceValue] = useState("");
   const [bankking, setBanking] = useState("");
-  const [formLoading, setFormLoading] = useState(false)
-  const [formRecordLoading, setFormRecordLoading] = useState(false)
+  // const [formLoading, setFormLoading] = useState(false)
+  const [initials, setInitials] = useState("");
+   const [formRecordLoading, setFormRecordLoading] = useState(false)
   const dropdownRef = useRef(null);
   const [invoiceList, setInvoiceList] = useState({
     firstName: "",
@@ -120,8 +121,8 @@ const InvoicePage = () => {
   const [enddate, setEndDate] = useState(null);
   const [invoicedate, setInvoiceDate] = useState(null);
   const [invoiceduedate, setInvoiceDueDate] = useState(null);
-  const [formatinvoicedate, setFormatInvoiceDate] = useState(null);
-  const [formatduedate, setFormatDueDate] = useState(null);
+  // const [formatinvoicedate, setFormatInvoiceDate] = useState(null);
+  // const [formatduedate, setFormatDueDate] = useState(null);
   const [totalAmount, setTotalAmount] = useState("");
   const [bills, setBills] = useState([]);
   const [newRows, setNewRows] = useState([])
@@ -189,7 +190,7 @@ const InvoicePage = () => {
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [dateRange, setDateRange] = useState([null, null]);
   const [hoveredIndex, setHoveredIndex] = useState(null);
-  const [startDate, endDate] = dateRange;
+  // const [startDate, endDate] = dateRange;
   const [checkedRows, setCheckedRows] = useState({});
   // const [manualInvoiceNumberError, setManualInvoiceNumberError] = useState("")
   const [unableAddInvoiceDetailsError, setUnableAddInvoiceDetailsError] = useState("")
@@ -268,7 +269,7 @@ const InvoicePage = () => {
   const handleShowFilterBills = () => {
     setShowBillsFilter(true)
 
-     dispatch({
+    dispatch({
       type: "SET_INVOICE_FILTERS",
       payload: {
         startDate: undefined,
@@ -304,15 +305,15 @@ const InvoicePage = () => {
 
   };
 
-  // useEffect(() => {
-  //   const initialState = {};
-  //   recurringbills?.forEach((item) => {
-  //     initialState[item.customerId] = item.currentStatus === true;
-  //   });
-  //   setCheckedRows(initialState);
-  // }, [recurringbills]);
+  useEffect(() => {
+    const initialState = {};
+    recurringbills?.forEach((item) => {
+      initialState[item.customerId] = item.currentStatus === true;
+    });
+    setCheckedRows(initialState);
+  }, [recurringbills]);
 
-  // console.log("bills", bills)
+
 
   const handleToggle = (id) => {
 
@@ -649,101 +650,91 @@ const InvoicePage = () => {
 
 
 
+  const CustomStyles = {
+    control: (base) => ({
+      ...base,
+      height: "auto",
+      border: "1px solid #D9D9D9",
+      borderRadius: "8px",
+      fontSize: "14px",
+      color: "#4B4B4B",
+      fontFamily: "Gilroy, sans-serif",
+      fontWeight: 500,
+      boxShadow: "none",
+      cursor: "pointer",
+      outline: "none",
+      "&:hover": {
+        border: "1px solid #D9D9D9",
+      },
+    }),
+    valueContainer: (base) => ({
+      ...base,
+      maxHeight: "60px",
+      overflowY: "auto",
+      flexWrap: "wrap",
+    }), multiValue: (base) => ({
+      ...base,
+      backgroundColor: "#FFF",
+      borderRadius: "6px",
+    }),
 
+    multiValueLabel: (base) => ({
+      ...base,
+      fontSize: "12px",
+      fontWeight: 600,
+      color: "#000000",
+    }),
 
+    multiValueRemove: (base) => ({
+      ...base,
+      cursor: "pointer",
+      borderRadius: 10,
+      color: "#FF0000",
+      ":hover": {
+        color: "#FF0000",
+      },
+    }),
 
-
-  // useEffect(() => {
-  //   if (originalBillsFilter.length === 0 && bills.length > 0) {
-  //     setOriginalBillsFilter(bills);
-  //   }
-  // }, [bills]);
-
- const CustomStyles = {
-        control: (base) => ({
-            ...base,
-            height: "auto",
-            border: "1px solid #D9D9D9",
-            borderRadius: "8px",
-            fontSize: "14px",
-            color: "#4B4B4B",
-            fontFamily: "Gilroy, sans-serif",
-            fontWeight: 500,
-            boxShadow: "none",
-            cursor:"pointer",
-            outline: "none",
-            "&:hover": {
-                border: "1px solid #D9D9D9",
-            },
-        }),
-        valueContainer: (base) => ({
-            ...base,
-            maxHeight: "60px",
-            overflowY: "auto",
-            flexWrap: "wrap",
-        }), multiValue: (base) => ({
-            ...base,
-            backgroundColor: "#FFF",
-            borderRadius: "6px",
-        }),
-
-        multiValueLabel: (base) => ({
-            ...base,
-            fontSize: "12px",
-            fontWeight: 600,
-            color: "#000000",
-        }),
-
-        multiValueRemove: (base) => ({
-            ...base,
-            cursor: "pointer",
-            borderRadius: 10,
-            color: "#FF0000",
-            ":hover": {
-                color: "#FF0000",
-            },
-        }),
-
-        menu: (base) => ({
-            ...base,
-            backgroundColor: "#f8f9fa",
-            border: "1px solid #ced4da",
-            fontFamily: "Gilroy, sans-serif", fontSize: "14px",
-        }),
-        menuList: (base) => ({
-            ...base,
-            backgroundColor: "#1E45E1",
-            color:"#FFF",
-            maxHeight: "120px",
-            padding: 0,
-            scrollbarWidth: "thin",
-            overflowY: "auto",
-            fontFamily: "Gilroy, sans-serif", fontSize: "14px",
-        }),
-        placeholder: (base) => ({
-            ...base,
-            color: "#555",
-        }),
-        option: (base, state) => ({
-            ...base,
-            cursor: "pointer",
-            backgroundColor: state.isFocused ? "" : "white",
-             color:state.isFocused  ? "#FFF" : "#000000",
-        }),
-        dropdownIndicator: (base) => ({
-            ...base,
-            color: "#555",
-            cursor: "pointer"
-        }),
-        indicatorSeparator: () => ({
-            display: "none",
-        }), clearIndicator: () => ({
-            display: "none",
-        }),
-    }
+    menu: (base) => ({
+      ...base,
+      backgroundColor: "#f8f9fa",
+      border: "1px solid #ced4da",
+      fontFamily: "Gilroy, sans-serif", fontSize: "14px",
+    }),
+    menuList: (base) => ({
+      ...base,
+      backgroundColor: "#1E45E1",
+      color: "#FFF",
+      maxHeight: "120px",
+      padding: 0,
+      scrollbarWidth: "thin",
+      overflowY: "auto",
+      fontFamily: "Gilroy, sans-serif", fontSize: "14px",
+    }),
+    placeholder: (base) => ({
+      ...base,
+      color: "#555",
+    }),
+    option: (base, state) => ({
+      ...base,
+      cursor: "pointer",
+      backgroundColor: state.isFocused ? "" : "white",
+      color: state.isFocused ? "#FFF" : "#000000",
+    }),
+    dropdownIndicator: (base) => ({
+      ...base,
+      color: "#555",
+      cursor: "pointer"
+    }),
+    indicatorSeparator: () => ({
+      display: "none",
+    }), clearIndicator: () => ({
+      display: "none",
+    }),
+  }
 
   const handleStatusFilter = (selectedOption) => {
-     dispatch({
+    dispatch({
       type: "SET_INVOICE_FILTERS",
       payload: {
         startDate: undefined,
@@ -1206,6 +1197,7 @@ const InvoicePage = () => {
       setRoomName(userDetails[0]?.roomName)
       setBedName(userDetails[0]?.bedName)
       setProfilePic(userDetails[0]?.profilePic)
+      setInitials(userDetails[0]?.initials)
 
       const formattedDate = `${year}-${String(month).padStart(2, "0")}-${String(
         day
@@ -1356,23 +1348,23 @@ const InvoicePage = () => {
 
 
 
-  const handleCustomerName = (selectedOption) => {
+  // const handleCustomerName = (selectedOption) => {
 
-    setCustomerName(selectedOption?.value || '');
-    setAllFieldErrmsg("");
-    if (!selectedOption) {
-      setCustomerErrmsg("Please Select Name");
-    } else {
-      setCustomerErrmsg("");
-    }
-    setStartDate("");
-    setEndDate("");;
-    setTotalAmount("");
-  };
+  //   setCustomerName(selectedOption?.value || '');
+  //   setAllFieldErrmsg("");
+  //   if (!selectedOption) {
+  //     setCustomerErrmsg("Please Select Name");
+  //   } else {
+  //     setCustomerErrmsg("");
+  //   }
+  //   setStartDate("");
+  //   setEndDate("");;
+  //   setTotalAmount("");
+  // };
 
   const handleBackBill = () => {
     dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS' })
-    setFormLoading(false)
+    // setFormLoading(false)
     setShowManualInvoice(false);
     setShowRecurringBillForm(false);
     setReceiptFormShow(false);
@@ -1396,47 +1388,47 @@ const InvoicePage = () => {
     setDropdownValue("")
   };
 
-  const formatDateForPayloadmanualinvoice = (date) => {
-    return dayjs(date).format("YYYY-MM-DD");
-  };
+  // const formatDateForPayloadmanualinvoice = (date) => {
+  //   return dayjs(date).format("YYYY-MM-DD");
+  // };
 
 
 
 
 
-  const handleInvoiceDate = (selectedDate) => {
-    setAllFieldErrmsg("");
+  // const handleInvoiceDate = (selectedDate) => {
+  //   setAllFieldErrmsg("");
 
-    if (!selectedDate) {
-      setInvoiceDate(null);
-      setInvoiceDateErrmsg("Please Select Date");
-      return;
-    }
+  //   if (!selectedDate) {
+  //     setInvoiceDate(null);
+  //     setInvoiceDateErrmsg("Please Select Date");
+  //     return;
+  //   }
 
-    setInvoiceDate(selectedDate);
-    setInvoiceDateErrmsg("");
+  //   setInvoiceDate(selectedDate);
+  //   setInvoiceDateErrmsg("");
 
-    const formattedDate = formatDateForPayloadmanualinvoice(selectedDate);
-    setFormatInvoiceDate(formattedDate);
-  };
-
-
+  //   // const formattedDate = formatDateForPayloadmanualinvoice(selectedDate);
+  //   // setFormatInvoiceDate(formattedDate);
+  // };
 
 
 
-  const handleDueDate = (selectedDates) => {
-    setAllFieldErrmsg("");
-    const date = selectedDates;
-    setInvoiceDueDate(date);
-    if (!selectedDates) {
-      setInvoiceDueDateErrmsg("Please Select Date");
-    } else {
-      setInvoiceDueDateErrmsg("");
-    }
 
-    const formattedDate = formatDateForPayloadmanualinvoice(date);
-    setFormatDueDate(formattedDate);
-  };
+
+  // const handleDueDate = (selectedDates) => {
+  //   setAllFieldErrmsg("");
+  //   const date = selectedDates;
+  //   setInvoiceDueDate(date);
+  //   if (!selectedDates) {
+  //     setInvoiceDueDateErrmsg("Please Select Date");
+  //   } else {
+  //     setInvoiceDueDateErrmsg("");
+  //   }
+
+  //   // const formattedDate = formatDateForPayloadmanualinvoice(date);
+  //   // setFormatDueDate(formattedDate);
+  // };
 
 
 
@@ -1637,58 +1629,58 @@ const InvoicePage = () => {
 
 
 
-  const handleNewRowChange = (index, field, value) => {
-    setNewRows((prevRows) =>
-      prevRows.map((row, i) => (i === index ? { ...row, [field]: value } : row))
-    );
-    setAllFieldErrmsg("");
-    setTableErrmsg("")
-  };
+  // const handleNewRowChange = (index, field, value) => {
+  //   setNewRows((prevRows) =>
+  //     prevRows.map((row, i) => (i === index ? { ...row, [field]: value } : row))
+  //   );
+  //   setAllFieldErrmsg("");
+  //   setTableErrmsg("")
+  // };
   const [dropdownValue, setDropdownValue] = useState("");
-  const handleRowTypeSelect = (type) => {
-    let newRow = { am_name: "", amount: "0" };
+  // const handleRowTypeSelect = (type) => {
+  //   let newRow = { am_name: "", amount: "0" };
 
-    if (type === "RoomRent") {
-      newRow.am_name = "Room Rent";
-    } else if (type === "EB") {
-      newRow.am_name = "EB";
-    }
+  //   if (type === "RoomRent") {
+  //     newRow.am_name = "Room Rent";
+  //   } else if (type === "EB") {
+  //     newRow.am_name = "EB";
+  //   }
 
-    setNewRows((prev) => [...prev, newRow]);
-
-
-    if (type !== "Other" && !selectedTypes.includes(type)) {
-      setSelectedTypes((prev) => [...prev, type]);
-    }
+  //   setNewRows((prev) => [...prev, newRow]);
 
 
-    setAllFieldErrmsg("");
-    setTableErrmsg("");
+  //   if (type !== "Other" && !selectedTypes.includes(type)) {
+  //     setSelectedTypes((prev) => [...prev, type]);
+  //   }
 
 
-    setDropdownValue("");
-  };
+  //   setAllFieldErrmsg("");
+  //   setTableErrmsg("");
+
+
+  //   setDropdownValue("");
+  // };
 
 
 
-  const handleDeleteNewRow = (index) => {
-    setNewRows((prevRows) => {
-      const deletedRow = prevRows[index];
-      const updatedRows = prevRows.filter((_, i) => i !== index);
+  // const handleDeleteNewRow = (index) => {
+  //   setNewRows((prevRows) => {
+  //     const deletedRow = prevRows[index];
+  //     const updatedRows = prevRows.filter((_, i) => i !== index);
 
 
-      if (deletedRow.am_name === "Room Rent") {
-        setSelectedTypes((prevTypes) => prevTypes.filter((type) => type !== "RoomRent"));
-      } else if (deletedRow.am_name === "EB") {
-        setSelectedTypes((prevTypes) => prevTypes.filter((type) => type !== "EB"));
-      }
+  //     if (deletedRow.am_name === "Room Rent") {
+  //       setSelectedTypes((prevTypes) => prevTypes.filter((type) => type !== "RoomRent"));
+  //     } else if (deletedRow.am_name === "EB") {
+  //       setSelectedTypes((prevTypes) => prevTypes.filter((type) => type !== "EB"));
+  //     }
 
-      return updatedRows;
-    });
+  //     return updatedRows;
+  //   });
 
-    setAllFieldErrmsg("");
-    setTableErrmsg("");
-  };
+  //   setAllFieldErrmsg("");
+  //   setTableErrmsg("");
+  // };
 
   useEffect(() => {
     const types = [];
@@ -1702,292 +1694,292 @@ const InvoicePage = () => {
 
 
 
-  const handleCreateBill = () => {
-    let hasError = false;
-    dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS' })
-
-    if (!customername) {
-      setCustomerErrmsg("Please Select Tenant");
-      hasError = true;
-    } else {
-      setCustomerErrmsg("");
-    }
-
-
-
-    if (!invoicedate) {
-      setInvoiceDateErrmsg("Please Select Invoice Date");
-      hasError = true;
-    } else {
-      setInvoiceDateErrmsg("");
-    }
-
-    if (!invoiceduedate) {
-      setInvoiceDueDateErrmsg("Please Select Due Date");
-      hasError = true;
-    } else {
-      setInvoiceDueDateErrmsg("");
-    }
-
-
-    if (!Array.isArray(newRows) || newRows.length === 0) {
-      setTableErrmsg("Please Add At Least One Item Row Before Generating The Bill");
-      hasError = true;
-    } else if (
-      newRows.some(
-        (row) =>
-          !row.am_name?.trim() ||
-          row.amount === "" ||
-          row.amount === null ||
-          row.amount === undefined ||
-          isNaN(row.amount) ||
-          parseFloat(row.amount) <= 0
-      )
-    ) {
-      setTableErrmsg("Please Fill All Details & Amount > 0 Before Generating The Bill");
-      hasError = true;
-    } else {
-      setTableErrmsg("");
-    }
-
-    const selectedUser = state.UsersList.Users.find(item => item.customerId === customername);
-
-
-    if (selectedUser) {
-      const joiningDate = dayjs(selectedUser.actualJoining).format("YYYY-MM-DD");
-      const formattedInvoiceDate = dayjs(invoicedate).format("YYYY-MM-DD");
-      const formattedDueDate = dayjs(invoiceduedate).format("YYYY-MM-DD");
-
-
-      if (dayjs(formattedInvoiceDate).isBefore(joiningDate)) {
-        setInvoiceDateErrmsg("Before join date not allowed");
-        hasError = true;
-      }
-
-
-      if (dayjs(formattedDueDate).isBefore(joiningDate)) {
-        setInvoiceDueDateErrmsg("Before join date not allowed");
-        hasError = true;
-      }
-
-
-      if (dayjs(formattedDueDate).isBefore(formattedInvoiceDate)) {
-        setInvoiceDueDateErrmsg("Due date cannot be before invoice date");
-        hasError = true;
-      }
-    }
-
-    if (hasError) {
-      return;
-    }
-
-    const formatinvoicedate = dayjs(invoicedate).format("DD-MM-YYYY");
-    const formatduedate = dayjs(invoiceduedate).format("DD-MM-YYYY");
-    const rentAmount = newRows
-      .filter((row) => row.am_name?.toLowerCase() === "room rent")
-      .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
-
-    const ebAmount = newRows
-      .filter((row) => row.am_name?.toLowerCase() === "eb")
-      .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
-
-    const amenityAmount = newRows
-      .filter(
-        (row) =>
-          row.am_name?.toLowerCase() !== "room rent" &&
-          row.am_name?.toLowerCase() !== "eb"
-      )
-      .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
-
-    dispatch({
-      type: "MANUAL-INVOICE-ADD",
-      payload: {
-        customerId: customername,
-        invoiceDate: formatinvoicedate,
-        dueDate: formatduedate,
-        invoiceNumber: invoicenumber,
-        total_amount: totalAmount,
-        items: newRows.map((row) => ({
-          invoiceItem: row.am_name,
-          amount: parseFloat(row.amount) || 0,
-        })),
-      },
-    });
+  // const handleCreateBill = () => {
+  //   let hasError = false;
+  //   dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS' })
+
+  //   if (!customername) {
+  //     setCustomerErrmsg("Please Select Tenant");
+  //     hasError = true;
+  //   } else {
+  //     setCustomerErrmsg("");
+  //   }
+
+
+
+  //   if (!invoicedate) {
+  //     setInvoiceDateErrmsg("Please Select Invoice Date");
+  //     hasError = true;
+  //   } else {
+  //     setInvoiceDateErrmsg("");
+  //   }
+
+  //   if (!invoiceduedate) {
+  //     setInvoiceDueDateErrmsg("Please Select Due Date");
+  //     hasError = true;
+  //   } else {
+  //     setInvoiceDueDateErrmsg("");
+  //   }
+
+
+  //   if (!Array.isArray(newRows) || newRows.length === 0) {
+  //     setTableErrmsg("Please Add At Least One Item Row Before Generating The Bill");
+  //     hasError = true;
+  //   } else if (
+  //     newRows.some(
+  //       (row) =>
+  //         !row.am_name?.trim() ||
+  //         row.amount === "" ||
+  //         row.amount === null ||
+  //         row.amount === undefined ||
+  //         isNaN(row.amount) ||
+  //         parseFloat(row.amount) <= 0
+  //     )
+  //   ) {
+  //     setTableErrmsg("Please Fill All Details & Amount > 0 Before Generating The Bill");
+  //     hasError = true;
+  //   } else {
+  //     setTableErrmsg("");
+  //   }
+
+  //   const selectedUser = state.UsersList.Users.find(item => item.customerId === customername);
+
+
+  //   if (selectedUser) {
+  //     const joiningDate = dayjs(selectedUser.actualJoining).format("YYYY-MM-DD");
+  //     const formattedInvoiceDate = dayjs(invoicedate).format("YYYY-MM-DD");
+  //     const formattedDueDate = dayjs(invoiceduedate).format("YYYY-MM-DD");
+
+
+  //     if (dayjs(formattedInvoiceDate).isBefore(joiningDate)) {
+  //       setInvoiceDateErrmsg("Before join date not allowed");
+  //       hasError = true;
+  //     }
+
+
+  //     if (dayjs(formattedDueDate).isBefore(joiningDate)) {
+  //       setInvoiceDueDateErrmsg("Before join date not allowed");
+  //       hasError = true;
+  //     }
+
+
+  //     if (dayjs(formattedDueDate).isBefore(formattedInvoiceDate)) {
+  //       setInvoiceDueDateErrmsg("Due date cannot be before invoice date");
+  //       hasError = true;
+  //     }
+  //   }
+
+  //   if (hasError) {
+  //     return;
+  //   }
+
+  //   const formatinvoicedate = dayjs(invoicedate).format("DD-MM-YYYY");
+  //   const formatduedate = dayjs(invoiceduedate).format("DD-MM-YYYY");
+  //   const rentAmount = newRows
+  //     .filter((row) => row.am_name?.toLowerCase() === "room rent")
+  //     .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
+
+  //   const ebAmount = newRows
+  //     .filter((row) => row.am_name?.toLowerCase() === "eb")
+  //     .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
+
+  //   const amenityAmount = newRows
+  //     .filter(
+  //       (row) =>
+  //         row.am_name?.toLowerCase() !== "room rent" &&
+  //         row.am_name?.toLowerCase() !== "eb"
+  //     )
+  //     .reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
+
+  //   dispatch({
+  //     type: "MANUAL-INVOICE-ADD",
+  //     payload: {
+  //       customerId: customername,
+  //       invoiceDate: formatinvoicedate,
+  //       dueDate: formatduedate,
+  //       invoiceNumber: invoicenumber,
+  //       total_amount: totalAmount,
+  //       items: newRows.map((row) => ({
+  //         invoiceItem: row.am_name,
+  //         amount: parseFloat(row.amount) || 0,
+  //       })),
+  //     },
+  //   });
 
-    setFormLoading(true)
+  //   // setFormLoading(true)
 
 
 
 
-  };
+  // };
 
-  const handleEditBill = () => {
-    let isValid = true;
-    let hasError = false;
+  // const handleEditBill = () => {
+  //   let isValid = true;
+  //   let hasError = false;
 
 
-    setCustomerErrmsg("");
-    setInvoicenumberErrmsg("");
-    setInvoiceDateErrmsg("");
-    setInvoiceDueDateErrmsg("");
-    setAllFieldErrmsg("");
+  //   setCustomerErrmsg("");
+  //   setInvoicenumberErrmsg("");
+  //   setInvoiceDateErrmsg("");
+  //   setInvoiceDueDateErrmsg("");
+  //   setAllFieldErrmsg("");
 
 
-    if (!customername) {
-      setCustomerErrmsg("Please Select Tenant");
-      isValid = false;
-    }
+  //   if (!customername) {
+  //     setCustomerErrmsg("Please Select Tenant");
+  //     isValid = false;
+  //   }
 
 
-    if (!invoicenumber) {
-      setInvoicenumberErrmsg("Please Enter Invoice Number");
-      isValid = false;
-    }
-
-
-    if (!invoicedate) {
-      setInvoiceDateErrmsg("Please Select Invoice Date");
-      isValid = false;
-    }
-
+  //   if (!invoicenumber) {
+  //     setInvoicenumberErrmsg("Please Enter Invoice Number");
+  //     isValid = false;
+  //   }
+
+
+  //   if (!invoicedate) {
+  //     setInvoiceDateErrmsg("Please Select Invoice Date");
+  //     isValid = false;
+  //   }
+
 
-    if (!invoiceduedate) {
-      setInvoiceDueDateErrmsg("Please Select Due Date");
-      isValid = false;
-    }
-    if (!Array.isArray(newRows) || newRows.length === 0) {
-      setTableErrmsg("Please Add At Least One Item Row Before Generating The Bill");
-      hasError = true;
-    } else if (
-      newRows.some(
-        (row) =>
-          !row.am_name?.trim() ||
-          row.amount === "" ||
-          row.amount === null ||
-          row.amount === undefined ||
-          isNaN(row.amount) ||
-          parseFloat(row.amount) <= 0
-      )
-    ) {
-      setTableErrmsg("Please Fill All Details & Amount > 0 Before Generating The Bill");
-      hasError = true;
-    } else {
-      setTableErrmsg("");
-    }
+  //   if (!invoiceduedate) {
+  //     setInvoiceDueDateErrmsg("Please Select Due Date");
+  //     isValid = false;
+  //   }
+  //   if (!Array.isArray(newRows) || newRows.length === 0) {
+  //     setTableErrmsg("Please Add At Least One Item Row Before Generating The Bill");
+  //     hasError = true;
+  //   } else if (
+  //     newRows.some(
+  //       (row) =>
+  //         !row.am_name?.trim() ||
+  //         row.amount === "" ||
+  //         row.amount === null ||
+  //         row.amount === undefined ||
+  //         isNaN(row.amount) ||
+  //         parseFloat(row.amount) <= 0
+  //     )
+  //   ) {
+  //     setTableErrmsg("Please Fill All Details & Amount > 0 Before Generating The Bill");
+  //     hasError = true;
+  //   } else {
+  //     setTableErrmsg("");
+  //   }
 
-
-    const selectedUser = state.UsersList.Users.find(item => item.customerId === customername);
-
-
-
-    if (selectedUser) {
-      const joiningDate = dayjs(selectedUser.user_join_date).format("YYYY-MM-DD");
-      const formattedInvoiceDate = dayjs(invoicedate).format("YYYY-MM-DD");
-      const formattedDueDate = dayjs(invoiceduedate).format("YYYY-MM-DD");
-
-
-      if (dayjs(formattedInvoiceDate).isBefore(joiningDate)) {
-        setInvoiceDateErrmsg("Before join date not allowed");
-        hasError = true;
-      }
-
-
-      if (dayjs(formattedDueDate).isBefore(joiningDate)) {
-        setInvoiceDueDateErrmsg("Before join date not allowed");
-        hasError = true;
-      }
-
-
-      if (dayjs(formattedDueDate).isBefore(formattedInvoiceDate)) {
-        setInvoiceDueDateErrmsg("Due date cannot be before invoice date");
-        hasError = true;
-      }
-    }
-    if (hasError) {
-      return;
-    }
-
-    let isValiding = true;
-    if (
-      !customername ||
-      !invoicenumber ||
-      !invoicedate ||
-      !invoiceduedate
-
-    ) {
-      setAllFieldErrmsg("Please Fill Out All Required Fields");
-      isValiding = false;
-    }
-
-
-    const formatDate = (date) => {
-      if (!date) return "";
-      const d = new Date(date);
-      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-    };
-
-
-    const isChanged = (() => {
-      const userChanged = Number(invoiceDetails?.hos_user_id) !== Number(customername);
-      const invoiceChanged = String(invoiceDetails?.Invoices) !== String(invoicenumber);
-      const invoiceDateChanged = formatDate(invoiceDetails?.Date) !== formatDate(invoicedate);
-      const dueDateChanged = formatDate(invoiceDetails?.DueDate) !== formatDate(invoiceduedate);
-      const rowsCountChanged = newRows.length !== invoiceDetails?.amenity?.length;
-
-      const amenitiesChanged = newRows.some((row, index) => {
-        const originalRow = invoiceDetails?.amenity?.[index] || {};
-        return row.am_name !== originalRow.am_name || row.amount !== originalRow.amount;
-      });
-
-      return (
-        userChanged ||
-        invoiceChanged ||
-        invoiceDateChanged ||
-        dueDateChanged ||
-        rowsCountChanged ||
-        amenitiesChanged
-      );
-    })();
-
-
-    if (!isChanged) {
-      setAllFieldErrmsg("No Changes Detected");
-      return;
-    }
-
-
-    if (isValid && isValiding && isChanged) {
-      const formattedInvoiceDate = formatDate(invoicedate);
-      const formattedDueDate = formatDate(invoiceduedate);
-      setFormLoading(true)
-      dispatch({
-        type: "MANUAL-INVOICE-EDIT",
-        payload: {
-          user_id: customername,
-          date: formattedInvoiceDate,
-          due_date: formattedDueDate,
-          id: invoiceDetails.id,
-          amenity: amenityArray.length > 0 ? amenityArray : [],
-        },
-      });
-
-
-
-
-      setCustomerName("");
-      setInvoiceNumber("");
-      setStartDate("");
-      setEndDate("");
-      setInvoiceDate("");
-      setInvoiceDueDate("");
-      setTotalAmount("");
-      setNewRows([]);
-      setCustomerErrmsg("");
-      setInvoiceDateErrmsg("");
-      setInvoiceDueDateErrmsg("");
-      setAllFieldErrmsg("");
-    }
-  };
+
+  //   const selectedUser = state.UsersList.Users.find(item => item.customerId === customername);
+
+
+
+  //   if (selectedUser) {
+  //     const joiningDate = dayjs(selectedUser.user_join_date).format("YYYY-MM-DD");
+  //     const formattedInvoiceDate = dayjs(invoicedate).format("YYYY-MM-DD");
+  //     const formattedDueDate = dayjs(invoiceduedate).format("YYYY-MM-DD");
+
+
+  //     if (dayjs(formattedInvoiceDate).isBefore(joiningDate)) {
+  //       setInvoiceDateErrmsg("Before join date not allowed");
+  //       hasError = true;
+  //     }
+
+
+  //     if (dayjs(formattedDueDate).isBefore(joiningDate)) {
+  //       setInvoiceDueDateErrmsg("Before join date not allowed");
+  //       hasError = true;
+  //     }
+
+
+  //     if (dayjs(formattedDueDate).isBefore(formattedInvoiceDate)) {
+  //       setInvoiceDueDateErrmsg("Due date cannot be before invoice date");
+  //       hasError = true;
+  //     }
+  //   }
+  //   if (hasError) {
+  //     return;
+  //   }
+
+  //   let isValiding = true;
+  //   if (
+  //     !customername ||
+  //     !invoicenumber ||
+  //     !invoicedate ||
+  //     !invoiceduedate
+
+  //   ) {
+  //     setAllFieldErrmsg("Please Fill Out All Required Fields");
+  //     isValiding = false;
+  //   }
+
+
+  //   const formatDate = (date) => {
+  //     if (!date) return "";
+  //     const d = new Date(date);
+  //     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  //   };
+
+
+  //   const isChanged = (() => {
+  //     const userChanged = Number(invoiceDetails?.hos_user_id) !== Number(customername);
+  //     const invoiceChanged = String(invoiceDetails?.Invoices) !== String(invoicenumber);
+  //     const invoiceDateChanged = formatDate(invoiceDetails?.Date) !== formatDate(invoicedate);
+  //     const dueDateChanged = formatDate(invoiceDetails?.DueDate) !== formatDate(invoiceduedate);
+  //     const rowsCountChanged = newRows.length !== invoiceDetails?.amenity?.length;
+
+  //     const amenitiesChanged = newRows.some((row, index) => {
+  //       const originalRow = invoiceDetails?.amenity?.[index] || {};
+  //       return row.am_name !== originalRow.am_name || row.amount !== originalRow.amount;
+  //     });
+
+  //     return (
+  //       userChanged ||
+  //       invoiceChanged ||
+  //       invoiceDateChanged ||
+  //       dueDateChanged ||
+  //       rowsCountChanged ||
+  //       amenitiesChanged
+  //     );
+  //   })();
+
+
+  //   if (!isChanged) {
+  //     setAllFieldErrmsg("No Changes Detected");
+  //     return;
+  //   }
+
+
+  //   if (isValid && isValiding && isChanged) {
+  //     const formattedInvoiceDate = formatDate(invoicedate);
+  //     const formattedDueDate = formatDate(invoiceduedate);
+  //     // setFormLoading(true)
+  //     dispatch({
+  //       type: "MANUAL-INVOICE-EDIT",
+  //       payload: {
+  //         user_id: customername,
+  //         date: formattedInvoiceDate,
+  //         due_date: formattedDueDate,
+  //         id: invoiceDetails.id,
+  //         amenity: amenityArray.length > 0 ? amenityArray : [],
+  //       },
+  //     });
+
+
+
+
+  //     setCustomerName("");
+  //     setInvoiceNumber("");
+  //     setStartDate("");
+  //     setEndDate("");
+  //     setInvoiceDate("");
+  //     setInvoiceDueDate("");
+  //     setTotalAmount("");
+  //     setNewRows([]);
+  //     setCustomerErrmsg("");
+  //     setInvoiceDateErrmsg("");
+  //     setInvoiceDueDateErrmsg("");
+  //     setAllFieldErrmsg("");
+  //   }
+  // };
 
   // const pageSizeOptions = [
   //   { value: 10, label: "10" },
@@ -2071,9 +2063,9 @@ const InvoicePage = () => {
     });
   }, [bills, sortConfig]);
 
-  const handleSort = (key, direction) => {
-    setSortConfig({ key, direction });
-  };
+  // const handleSort = (key, direction) => {
+  //   setSortConfig({ key, direction });
+  // };
 
 
 
@@ -2145,20 +2137,18 @@ const InvoicePage = () => {
   const [sortConfigRecure, setSortConfigRecure] = useState({ key: null, direction: null });
 
   const sortedDataRecure = React.useMemo(() => {
-    // If no sorting key, just return the full data
+  
     if (!sortConfigRecure.key) return recurringbills;
 
-    // Sort the full recurringbills array
+    
     return [...recurringbills].sort((a, b) => {
       const valueA = a[sortConfigRecure.key];
       const valueB = b[sortConfigRecure.key];
 
-      // Numeric sorting
-      if (!isNaN(valueA) && !isNaN(valueB)) {
+           if (!isNaN(valueA) && !isNaN(valueB)) {
         return sortConfigRecure.direction === 'asc' ? valueA - valueB : valueB - valueA;
       }
 
-      // String sorting
       if (typeof valueA === 'string' && typeof valueB === 'string') {
         return sortConfigRecure.direction === 'asc'
           ? valueA.localeCompare(valueB)
@@ -2388,7 +2378,7 @@ const InvoicePage = () => {
   useEffect(() => {
     if (state.InvoiceList.payapleAmountError) {
       setFormRecordLoading(false)
-      setFormLoading(false)
+      // setFormLoading(false)
       setLoading(false)
       setPayableAmountError(state.InvoiceList.payapleAmountError)
 
@@ -2396,19 +2386,10 @@ const InvoicePage = () => {
 
   }, [state.InvoiceList.payapleAmountError])
 
-  // useEffect(() => {
-  //   if (state.InvoiceList.ManualInvoiceNumberError) {
-  //     setFormLoading(false)
-  //     setLoading(false)
-  //     setManualInvoiceNumberError(state.InvoiceList.ManualInvoiceNumberError)
-
-  //   }
-
-  // }, [state.InvoiceList.ManualInvoiceNumberError])
 
   useEffect(() => {
     if (state.InvoiceList?.unableAddInvoiceDetailsError) {
-      setFormLoading(false)
+      // setFormLoading(false)
       setLoading(false)
       setUnableAddInvoiceDetailsError(state.InvoiceList.unableAddInvoiceDetailsError)
       setTimeout(() => {
@@ -2572,16 +2553,6 @@ const InvoicePage = () => {
   }, [billrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
 
 
-
-
-
-
-
-  // useEffect(() => {
-  //   if (hostelId) {
-  //       dispatch({ type: "BANKINGLIST", payload: hostelId  });
-  //   }
-  // }, [hostelId]);
 
 
 
@@ -2753,7 +2724,7 @@ const InvoicePage = () => {
     if (state.InvoiceList.manualInvoiceAddStatusCode === 201) {
       navigate(`/invoice/${state.login.selectedHostel_Id}`)
       setShowManualInvoice(false)
-      setFormLoading(false)
+      // setFormLoading(false)
       setShowRecurringBillForm(false);
       setReceiptFormShow(false);
       setShowAllBill(true);
@@ -2790,7 +2761,7 @@ const InvoicePage = () => {
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceEditStatusCode === 200) {
       setShowManualInvoice(false)
-      setFormLoading(false)
+      // setFormLoading(false)
       setShowRecurringBillForm(false);
       setReceiptFormShow(false);
       setShowAllBill(true);
@@ -2835,15 +2806,7 @@ const InvoicePage = () => {
     }
   }, [state.InvoiceList?.InvoiceListStatusCode]);
 
-  // useEffect(() => {
-  //   if (state.InvoiceList.message !== "" && state.InvoiceList.message !== null) {
-  //     dispatch({ type: "MANUALINVOICESLIST", payload: hostelId })
-  //     setBills(state.InvoiceList.ManualInvoices);
-  //     setTimeout(() => {
-  //       dispatch({ type: "CLEAR_INVOICE_UPDATE_LIST" });
-  //     }, 100);
-  //   }
-  // }, [state.InvoiceList]);
+
 
   const optionsone = {
     dateFormat: "d/m/Y",
@@ -2995,7 +2958,7 @@ const InvoicePage = () => {
       setDropdownVisible(false);
     }
 
- dispatch({
+    dispatch({
       type: "SET_INVOICE_FILTERS",
       payload: {
         startDate: undefined,
@@ -3053,12 +3016,12 @@ const InvoicePage = () => {
     // setRecurringBills(originalRecuiring);
     // setReceiptData(originalReceipt);
 
-     if (isDuplicate) {
-        dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
-      } else {
-        dispatch({ type: "MANUALINVOICESLIST", payload: state.login.selectedHostel_Id })
+    if (isDuplicate) {
+      dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+    } else {
+      dispatch({ type: "MANUALINVOICESLIST", payload: state.login.selectedHostel_Id })
 
-      }
+    }
   };
 
 
@@ -3082,7 +3045,7 @@ const InvoicePage = () => {
 
   const handleSearch = () => {
     setSearch(!search);
-     dispatch({
+    dispatch({
       type: "SET_INVOICE_FILTERS",
       payload: {
         startDate: undefined,
@@ -3219,7 +3182,7 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
-      setFormLoading(false)
+      // setFormLoading(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_NETWORK_ERROR' })
       }, 3000)
@@ -3298,7 +3261,6 @@ const InvoicePage = () => {
       });
     }
 
-    // console.log("filterData", filterData);
     setChips(filterData)
   }, [state.InvoiceList.invoiceFilters]);
 
@@ -3330,7 +3292,7 @@ const InvoicePage = () => {
 
       ) {
         setDropdownVisible(false);
-        
+
       }
     };
 
@@ -3340,24 +3302,24 @@ const InvoicePage = () => {
     };
   }, []);
 
-const headerStyle = {
-  textAlign: "center",
-  fontFamily: "Gilroy",
-  color: "rgb(147, 147, 147)",
-  fontSize: 14,
-  fontWeight: 500,
-  lineHeight: "1.4",
-  padding: 8,
-  verticalAlign: "middle",
-};
+  const headerStyle = {
+    textAlign: "center",
+    fontFamily: "Gilroy",
+    color: "rgb(147, 147, 147)",
+    fontSize: 14,
+    fontWeight: 500,
+    lineHeight: "1.4",
+    padding: 8,
+    verticalAlign: "middle",
+  };
 
 
-const labelStyle = {
-  display: "flex",
-  alignItems: "center",
-  height: "100%",
-  lineHeight: "1.4",  marginTop:5
-};
+  const labelStyle = {
+    display: "flex",
+    alignItems: "center",
+    height: "100%",
+    lineHeight: "1.4", marginTop: 5
+  };
 
 
 
@@ -3717,11 +3679,12 @@ const labelStyle = {
                           </>
                         ) : (
                           <>
-                            <div style={{ marginTop: DownloadInvoice || DownloadReceipt ? 0 : 12, backgroundColor:"", color:"", border:"1px solid #CBD5E1", borderRadius:"50%" , padding:"6px 8px"}}>
+                            <div style={{ marginTop: DownloadInvoice || DownloadReceipt ? 0 : 12, backgroundColor: "", color: "", border: "1px solid #CBD5E1", borderRadius: "50%",
+                               padding: "6px 8px", lineHeight:"normal" , height:"fit-content"}}>
                               <FiSearch
                                 style={{
-                                  height: "24px",
-                                  width: "24px",
+                                  height: "20px",
+                                  width: "20px",
                                   cursor: canReadInvoice ? "pointer" : "not-allowed",
                                   opacity: canReadInvoice ? 1 : 0.4,
                                   pointerEvents: canReadInvoice ? "auto" : "none",
@@ -3823,10 +3786,10 @@ const labelStyle = {
                             color: "white",
                             fontWeight: 600,
                             borderRadius: "8px",
-                            padding: DownloadInvoice ? "6px 12px" : "11px 12px",
+                            padding: DownloadInvoice ? "6px 12px" : "8px 8px",
                             marginTop: DownloadInvoice ? 0 : 12,
                             whiteSpace: "nowrap",
-                            minWidth: DownloadInvoice ? "50px" : "150px",
+                            minWidth: DownloadInvoice ? "50px" : "auto",
                             textAlign: "center",
                           }}
                         >
@@ -3974,14 +3937,14 @@ const labelStyle = {
                           style={{
                             border: "1px solid #D4D4D4",
                             borderRadius: 8,
-                            width: 150, 
+                            width: 150,
                             // zIndex:9999
                             // marginTop: "20px",
                           }}
                         >
                           <Select
                             options={selectOptions}
-                             styles={CustomStyles}
+                            styles={CustomStyles}
                             disabled={!canReadInvoice}
                             onChange={(e) => handleStatusFilter(e)}
                             value={statusfilter}
@@ -4014,7 +3977,7 @@ const labelStyle = {
                             classNamePrefix="custom"
                             menuPlacement="auto"
                             noOptionsMessage={() => "No options"}
-                          styles={CustomStyles}
+                            styles={CustomStyles}
 
                           />
 
@@ -4145,7 +4108,7 @@ const labelStyle = {
                         className=""
                         style={{ position: "relative", marginTop: "-3px" }}
                       >
-                    
+
 
 
 
@@ -4276,24 +4239,7 @@ const labelStyle = {
                                     }}
                                   >
                                     {`Record Payment `}
-                                    {/* {invoiceValue?.Name && (
-                                  <span>
-                                    -
-                                    <span style={{ color: "#1E45E1" }}>
-                                      {" "}
-                                      {invoiceValue.Name}
-                                    </span>{" "}
-                                  </span>
-                                )} */}
-                                    {/* {invoiceValue?.Invoices && (
-                                  <span>
-                                    -
-                                    <span style={{ color: "#1E45E1" }}>
-                                      {" "}
-                                      {invoiceValue.Invoices}
-                                    </span>{" "}
-                                  </span>
-                                )} */}
+
                                   </div>
 
                                   <CloseCircle size="24" color="#000" onClick={handleCloseForm}
@@ -4305,16 +4251,33 @@ const labelStyle = {
 
                                 <Modal.Body>
                                   <>
-                                    <div className="d-flex align-items-center " >
-                                      <img
-                                        src={profile_pic && profile_pic !== "0" ? profile_pic : Profile}
-                                        style={{ height: 55, width: 55, cursor: "pointer" }}
-                                        alt="profile"
-                                        className="rounded-circle me-3"
-                                      />
-                                      {/* <img src={Profile}  style={{ height: 55, width: 55, cursor: "pointer" }}
-                                alt="profile"
-                                className="rounded-circle me-3"/> */}
+                                    <div className="d-flex align-items-center gap-2 " >
+                                      {profile_pic ?
+                                        <img
+                                          src={profile_pic && profile_pic !== "0" && profile_pic}
+                                          style={{ height: 55, width: 55, cursor: "pointer" }}
+                                          alt="profile"
+                                          className="rounded-circle me-3"
+                                        />
+                                        :
+                                        <div
+                                          style={{
+                                            height: 50,
+                                            width: 50,
+                                            borderRadius: "50%",
+                                            backgroundColor: "#1E45E1",
+                                            display: "flex",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                            fontSize: 20,
+                                            fontWeight: "600",
+                                            color: "white", fontFamily: "Gilroy"
+                                          }}
+                                        >
+                                          {initials || "-"}
+                                        </div>
+                                      }
+
                                       <div>
                                         <p style={{ fontSize: "1.25rem", fontFamily: "Gilroy", fontWeight: 600 }} className="mb-0"> {name}</p>
                                         <div className="d-flex mb-2">
@@ -4335,39 +4298,6 @@ const labelStyle = {
                                       </div>
                                     </div>
                                     <div className="row">
-                                      {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                  <Form.Group
-
-                                    controlId="exampleForm.ControlInput1"
-                                  >
-                                    <Form.Label
-                                      style={{
-                                        fontSize: 14,
-                                        color: "#222222",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                      }}
-                                    >
-                                      Due Amount
-                                    </Form.Label>
-                                    <Form.Control
-                                      type="text"
-                                      style={{
-                                        fontSize: 16,
-                                        color: "#4B4B4B",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                        boxShadow: "none",
-                                        border: "1px solid #D9D9D9",
-                                        height: 50,
-                                        borderRadius: 8,
-                                      }}
-                                      placeholder="Enter Amount"
-                                      value={invoiceList.balanceDue}
-                                      disabled
-                                    />
-                                  </Form.Group>
-                                </div> */}
 
                                       <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                         <Form.Group
@@ -5119,7 +5049,7 @@ const labelStyle = {
                                           <thead style={{
                                             fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
                                             top: 0,
-                                            zIndex: 1, 
+                                            zIndex: 1,
                                           }}>
                                             <tr className="">
                                               <th
@@ -5154,7 +5084,7 @@ const labelStyle = {
                                                   Type</label>
                                               </th>
                                               <th
-                                               style={headerStyle}
+                                                style={headerStyle}
                                               >
                                                 <label style={labelStyle}>
                                                   {/* <div style={{ display: "flex", flexDirection: "column", }} >
@@ -5164,7 +5094,7 @@ const labelStyle = {
                                                   Invoice Date</label>
                                               </th>
                                               <th
-                                               style={headerStyle}
+                                                style={headerStyle}
                                               >
                                                 <label style={labelStyle}>
                                                   {/* <div style={{ display: "flex", flexDirection: "column",  }} >
@@ -5174,7 +5104,7 @@ const labelStyle = {
                                                   Due Date</label>
                                               </th>
                                               <th
-                                              style={headerStyle}
+                                                style={headerStyle}
                                               >
                                                 <label style={labelStyle}>
                                                   {/* <div style={{ display: "flex", flexDirection: "column", }} >
@@ -5184,7 +5114,7 @@ const labelStyle = {
                                                   Amount</label>
                                               </th>
                                               <th
-                                               style={headerStyle}
+                                                style={headerStyle}
                                               >
                                                 <label style={labelStyle} >
                                                   {/* <div style={{ display: "flex", flexDirection: "column", }} >
@@ -5204,9 +5134,9 @@ const labelStyle = {
                                                   Status</label>
                                               </th>
                                               <th
-                                               style={headerStyle}
+                                                style={headerStyle}
                                               > <label style={labelStyle}>Action</label></th>
-                                                                                         </tr>
+                                            </tr>
                                           </thead>
 
                                           <tbody style={{ fontSize: "10px", minHeight: "200px", position: "relative" }}>

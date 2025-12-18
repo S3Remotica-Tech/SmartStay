@@ -171,7 +171,7 @@ const Receipt = (props) => {
 
 
 
-
+console.log("props.item",props.item)
 
 
   return (
@@ -296,49 +296,51 @@ const Receipt = (props) => {
                     </label>
                   </div>
 
+{props.item.invoiceType !== "Settlement" &&
+ props.item.invoiceType !== "Refund" && (
 
-                  <div
-                    className="d-flex justify-content-start align-items-center gap-2 "
-                    style={{
-                      cursor: !canDeleteReceipt ? "not-allowed" : "pointer",
-                      opacity: !canDeleteReceipt ? 0.5 : 1,
-                      padding: "8px 12px",
-                      width: "100%"
-                    }}
-                    onClick={() => {
-                      if (canDeleteReceipt) {
-                        handleDeleteForm(props.item);
-                      }
-                    }}
-                    onMouseEnter={(e) => {
-                      if (!canDeleteReceipt)
-                        e.currentTarget.style.backgroundColor = "#FFF0F0";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = "transparent";
-                    }}
-                  >
-                    <img
-                      src={Delete}
-                      alt="Delete"
-                      style={{
-                        height: 16,
-                        width: 16,
-                      }}
-                    />
-                    <label
-                      style={{
-                        fontSize: 14,
-                        fontWeight: 500,
-                        fontFamily: "Gilroy, sans-serif",
-                        color: "#FF0000",
-                        cursor: !canDeleteReceipt ? "not-allowed" : "pointer",
-                      }}
-                    >
-                      Delete
-                    </label>
-                  </div>
+  <div
+    className="d-flex justify-content-start align-items-center gap-2"
+    style={{
+      cursor: canDeleteReceipt ? "pointer" : "not-allowed",
+      opacity: canDeleteReceipt ? 1 : 0.5,
+      padding: "8px 12px",
+      width: "100%",
+      backgroundColor: "transparent",
+    }}
+    onClick={() => {
+      if (canDeleteReceipt) {
+        handleDeleteForm(props.item);
+      }
+    }}
+    onMouseEnter={(e) => {
+      if (!canDeleteReceipt) {
+        e.currentTarget.style.backgroundColor = "#FFF0F0";
+      }
+    }}
+    onMouseLeave={(e) => {
+      e.currentTarget.style.backgroundColor = "transparent";
+    }}
+  >
+    <img
+      src={Delete}
+      alt="Delete"
+      style={{ height: 16, width: 16 }}
+    />
 
+    <span
+      style={{
+        fontSize: 14,
+        fontWeight: 500,
+        fontFamily: "Gilroy, sans-serif",
+        color: "#FF0000",
+        cursor: canDeleteReceipt ? "pointer" : "not-allowed",
+      }}
+    >
+      Delete
+    </span>
+  </div>
+)}
 
                   <div
                     className="d-flex justify-content-start align-items-center gap-2 "
