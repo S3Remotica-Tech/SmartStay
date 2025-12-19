@@ -14,7 +14,7 @@ import PaginationList from "../../Components/PaginationList";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import withErrorBoundary from "../../Hoc/WithErrorBountry"; 
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
 
 const EBRoomOverview = ({ onBack, room }) => {
@@ -53,9 +53,9 @@ const EBRoomOverview = ({ onBack, room }) => {
 
 
     const formattedReadings = roomReadingList?.map((item) => {
-        const [ month, year] = item.entryDate.split("/");
-        const billingMonth = new Date(`${year}-${month}-01`).toLocaleString("en-US", {
-            month: "long",
+        const [ month, year] = item.entryDate.split("/").map(Number);
+        const billingMonth = new Date(year, month - 1, 1).toLocaleString("en-US", {
+            month: "short",
             year: "numeric",
         });
 
@@ -84,7 +84,7 @@ const EBRoomOverview = ({ onBack, room }) => {
             from: formatDate(item.startDate),
             to: formatDate(item.endDate),
             reading: item.reading,
-                        totalUnits: item.consumption,
+            totalUnits: item.consumption,
             amount: item.consumption * item.unitPrice,
         };
     });
@@ -97,11 +97,7 @@ const EBRoomOverview = ({ onBack, room }) => {
 
 
     const formattedTenantReadings = tenantReadingList?.map((item) => {
-        const [ month, year] = item.startDate.split("/");
-        const billingMonth = new Date(`${year}-${month}-01`).toLocaleString("en-US", {
-            month: "long",
-            year: "numeric",
-        });
+       
 
         const formatDate = (dateStr) => {
             const [d, m, y] = dateStr.split("/").map(Number);
@@ -111,17 +107,32 @@ const EBRoomOverview = ({ onBack, room }) => {
             });
         };
 
+        const getBillingMonth = (dateStr) => {
+            if (!dateStr) return "-";
+
+            const parts = dateStr.split("/");
+            if (parts.length !== 3) return "-";
+
+            const [day, month, year] = parts.map(Number);
+            if (!day || !month || !year) return "-";
+
+            return new Date(year, month - 1, 1).toLocaleString("en-US", {
+                month: "short",
+                year: "numeric",
+            });
+        };
 
 
         return {
             fullName: item.fullName,
             profilePic: item.profilePic,
-            billingMonth,
+            billingMonth: getBillingMonth(item.startDate),
             from: formatDate(item.startDate),
             to: formatDate(item.endDate),
             bed: item.bedName,
             totalUnits: item.totalUnits,
-            amount: item.totalAmount
+            amount: item.totalAmount,
+            initials: item.initials
         };
     });
 
@@ -132,7 +143,7 @@ const EBRoomOverview = ({ onBack, room }) => {
         <>
 
             <div>
-                <div className="mb-5 px-4">
+                <div className="mb-2 px-4">
 
                     <div
                         className="d-flex align-items-center"
@@ -201,7 +212,7 @@ const EBRoomOverview = ({ onBack, room }) => {
                 <div className="d-flex align-items-center mb-3 mx-4">
                     <div
                         className="d-flex"
-                        style={{ marginLeft: "2px", marginTop: "-10px" }}
+                        style={{ marginLeft: "2px", }}
                     >
                         <div
                             onClick={() => setActiveTab("room")}
@@ -285,30 +296,30 @@ const EBRoomOverview = ({ onBack, room }) => {
                                         zIndex: 2,
                                     }}
                                 >
-                                    <tr className="text-uppercase" style={{textAlign:"center"}}>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                    <tr className="text-uppercase" style={{ textAlign: "center" }}>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
                                             BILLING MONTH
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
                                             READING DATE
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
                                             FROM
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
                                             TO
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
                                             READING
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
                                             TOTAL UNITS
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
                                             AMOUNT
                                         </th>
 
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
                                             ACTION
                                         </th>
                                     </tr>
@@ -316,17 +327,17 @@ const EBRoomOverview = ({ onBack, room }) => {
                                 <tbody style={{ fontSize: 14, color: "#000" }}>
                                     <PaginationList>
                                         {formattedReadings?.map((row, i) => (
-                                            <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px", fontFamily: "Gilroy", textAlign:"center" }}>
+                                            <tr key={i} style={{ borderBottom: "1px solid #ddd", fontFamily: "Gilroy", textAlign: "center" }}>
 
-                                                <td style={{padding: "12px 16px" }}>{row.billingMonth}</td>
-                                                <td style={{ padding: "12px 16px" }}>{row.readingDate}</td>
-                                                <td style={{ padding: "12px 16px" }}>{row.from}</td>
-                                                <td style={{ padding: "12px 16px" }}>{row.to}</td>
-                                                 <td style={{ padding: "12px 16px" }}>{row.reading}</td>
-                                                <td style={{ padding: "12px 16px" }}>{row.totalUnits}</td>
-                                                <td style={{ padding: "12px 16px" }}>{row.amount}</td>
-                                                <td style={{ padding: "12px 16px" }}>
-                                                    <BiDotsVerticalRounded style={{ color: '#000', fontSize: 19, cursor: "pointer" }} />
+                                                <td className="p-0" style={{}}>{row.billingMonth}</td>
+                                                <td style={{}}>{row.readingDate}</td>
+                                                <td style={{}}>{row.from}</td>
+                                                <td style={{}}>{row.to}</td>
+                                                <td style={{}}>{row.reading}</td>
+                                                <td style={{}}>{row.totalUnits}</td>
+                                                <td style={{}}>{row.amount}</td>
+                                                <td style={{}}>
+                                                    <BiDotsVerticalRounded style={{ color: '#000', fontSize: 19, cursor: "pointer", transform: "rotate(90deg)" }} />
                                                 </td>
                                             </tr>
                                         ))}
@@ -396,26 +407,26 @@ const EBRoomOverview = ({ onBack, room }) => {
                                         zIndex: 2,
                                     }}
                                 >
-                                    <tr className="text-uppercase" style={{textAlign:"center"}}>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                    <tr className="text-uppercase" style={{ textAlign: "center" }}>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
                                             NAME
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
                                             BILLING MONTH
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
                                             FROM
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
                                             TO
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, }}>
                                             BED
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
                                             TOTAL UNITS
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
                                             AMOUNT
                                         </th>
 
@@ -425,19 +436,39 @@ const EBRoomOverview = ({ onBack, room }) => {
                                 <tbody style={{ fontSize: 14, color: "#000" }}>
                                     <PaginationList>
                                         {formattedTenantReadings?.map((row, i) => (
-                                            <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px", fontFamily: "Gilroy" }}>
+                                            <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "", fontFamily: "Gilroy" }}>
 
-                                                <td style={{ padding: "12px 16px", fontWeight: 600, color: "black", textAlign:"start"  }}>
-                                                    <img src={formattedTenantReadings.profilePic ? formattedTenantReadings.profilePic : Ellipse1} alt="" style={{ marginRight: "12px", height: 45, width: 45 }} />
+                                                <td className="p-1 d-flex  align-items-center gap-2 ms-4" style={{ fontWeight: 600, color: "black", textAlign: "start" }}>
+                                                    {
+                                                        formattedTenantReadings.profilePic ?
+                                                            <img src={formattedTenantReadings.profilePic ? formattedTenantReadings.profilePic : Ellipse1} alt="" style={{ marginRight: "12px", height: 45, width: 45 }} />
+                                                            :
+                                                            <div
+                                                                style={{
+                                                                    height: 35,
+                                                                    width: 35,
+                                                                    borderRadius: "50%",
+                                                                    backgroundColor: "#1E45E1",
+                                                                    display: "flex",
+                                                                    justifyContent: "center",
+                                                                    alignItems: "center",
+                                                                    fontSize: 13,
+                                                                    fontWeight: "600",
+                                                                    color: "white", fontFamily: "Gilroy"
+                                                                }}
+                                                            >
+                                                                {row?.initials || "-"}
+                                                            </div>
+                                                    }
                                                     {row.fullName}
                                                 </td>
 
-                                                <td style={{ padding: "12px 16px" ,textAlign:"center" }}>{row.billingMonth}</td>
-                                                <td style={{ padding: "12px 16px",textAlign:"center"  }}>{row.from}</td>
-                                                <td style={{padding: "12px 16px" ,textAlign:"center" }}>{row.to}</td>
-                                                <td style={{ padding: "12px 16px",textAlign:"center" }}>{row.bed}</td>
-                                                <td style={{ padding: "12px 16px" ,textAlign:"center" }}>{row.totalUnits}</td>
-                                                <td style={{ padding: "12px 16px" ,textAlign:"center" }}>{row.amount}</td>
+                                                <td className="p-0" style={{ textAlign: "center" }}>{row.billingMonth}</td>
+                                                <td className="p-0" style={{ textAlign: "center" }}>{row.from}</td>
+                                                <td className="p-0" style={{ textAlign: "center" }}>{row.to}</td>
+                                                <td className="p-0" style={{ textAlign: "center" }}>{row.bed}</td>
+                                                <td className="p-0" style={{ textAlign: "center" }}>{row.totalUnits}</td>
+                                                <td className="p-0" style={{ textAlign: "center" }}>{row.amount}</td>
 
                                             </tr>
                                         ))}
