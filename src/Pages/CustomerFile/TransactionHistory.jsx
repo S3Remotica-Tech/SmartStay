@@ -99,7 +99,7 @@ function TransactionHistory() {
                         <div className="table-responsive ms-4 mt-3"
                             style={{
                                 background: "#fff",
-                                borderRadius: 12,
+                                // borderRadius: 12,
                                 boxShadow: "0px 4px 8px rgba(0,0,0,0.05)",
                                 maxHeight: "420px",
                                 overflowY: "auto",
@@ -115,21 +115,21 @@ function TransactionHistory() {
                                         position: "sticky",
                                         top: 0,
                                         zIndex: 2,
-                                        borderRadius: 12,
+                                        // borderRadius: 12,
                                     }}
                                 >
                                     <tr className="text-uppercase" style={{ textAlign: "center" }}>
-                                        <th style={{ borderTopLeftRadius: 12, fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
                                             DATE
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
                                             BILL NAME
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>AMOUNT PAID</th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>RECEIPT / REF.NO</th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>RECEIVED BY</th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>PAYMENT MODE</th>
-                                        <th style={{ borderTopRightRadius: 10, fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>STATUS</th>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>AMOUNT PAID</th>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>RECEIPT / REF.NO</th>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>RECEIVED BY</th>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>PAYMENT MODE</th>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>STATUS</th>
 
 
 
@@ -139,35 +139,34 @@ function TransactionHistory() {
                                     <PaginationList>
 
                                         {CustomerOverView?.map((row, i) => {
-                                            const isLast = i === CustomerOverView.length - 1;
+                                            // const isLast = i === CustomerOverView.length - 1;
                                             return (
                                                 <tr key={i} style={{
-                                                    borderBottom: "1px solid #F9FAFF", textAlign: "center", fontFamily: "Gilroy", fontSize: 14, fontWeight: 600, padding: "12px 16px",
+                                                    borderBottom: "1px solid #F9FAFF", textAlign: "center", fontFamily: "Gilroy", fontSize: 14, fontWeight: 500,
 
                                                 }}>
-                                                    <td style={{
-                                                        borderTopLeftRadius: i === 0 ? 12 : 0,
-                                                        borderBottomLeftRadius: isLast ? 12 : 0, fontSize: 14, fontWeight: 600, color: "#6B7280", padding: "12px 16px"
+                                                    <td className="p-0" style={{
+                                                        fontSize: 14, fontWeight: 500, color: "#6B7280",
                                                     }}>{formatDate(row.transactionDate)}</td>
                                                     <td
-                                                        style={{ color: "#111928", fontWeight: 600, padding: "12px 16px" }}
+                                                        style={{ color: "#111928", fontWeight: 500, }}
 
                                                     >
                                                         {row.billName}
                                                     </td>
-                                                    <td style={{ color: "#111928", padding: "12px 16px" }}>{row.amountPaid}</td>
-                                                    <td style={{ color: "#1E45E1", padding: "12px 16px" }}>
+                                                    <td style={{ color: "#111928", }}>{row.amountPaid}</td>
+                                                    <td style={{ color: "#1E45E1", }}>
                                                         {row.referenceNumber || "-"}
                                                     </td>
-                                                    <td style={{ color: "#111928", padding: "12px 16px" }}>{row.paidTo}</td>
-                                                    <td style={{ color: "#111928", padding: "12px 16px" }}>{row.paymentMode}</td>
-                                                    <td style={{ borderBottomRightRadius: isLast ? 12 : 0 }}><span
+                                                    <td style={{ color: "#111928", }}>{row.paidTo}</td>
+                                                    <td style={{ color: "#111928", }}>{row.paymentMode}</td>
+                                                    <td style={{}}><span
                                                         style={{
                                                             backgroundColor: "#D9FFD9",
                                                             color: "#1D760E",
                                                             borderRadius: "14px",
-                                                            fontFamily: "Gilroy",
-                                                            padding: "8px 12px",
+                                                            fontFamily: "Gilroy", padding: "4px 10px"
+
                                                         }}
                                                     >
                                                         {row.status}

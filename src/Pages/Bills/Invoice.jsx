@@ -3483,7 +3483,7 @@ const InvoicePage = () => {
                             padding: DownloadInvoice ? "6px 12px" : "8px 8px",
                             marginTop: DownloadInvoice ? 0 : 12,
                             whiteSpace: "nowrap",
-                            minWidth: DownloadInvoice ? "50px" : "auto",
+                            minWidth: DownloadInvoice ? "50px" : "150px",
                             textAlign: "center",
                           }}
                         >

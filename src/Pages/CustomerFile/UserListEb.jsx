@@ -208,7 +208,7 @@ const formattedTenantReadings = (tenantReadingList?.electricityHistory || []).ma
 
       <div>
         <div
-          className=" booking-table-userlist  booking-table ms-2"
+          className="mt-2 "
           style={{ paddingBottom: "20px" }}
         >
           {
@@ -245,7 +245,7 @@ const formattedTenantReadings = (tenantReadingList?.electricityHistory || []).ma
                                        className="table-responsive mx-4"
                                        style={{
                                            background: "#fff",
-                                           borderRadius: 12,
+                                          //  borderRadius: 12,
                                            boxShadow: "0px 4px 8px rgba(0,0,0,0.05)",
                                            maxHeight: "420px",
                                            overflowY: "auto",
@@ -261,29 +261,29 @@ const formattedTenantReadings = (tenantReadingList?.electricityHistory || []).ma
                                                }}
                                            >
                                                <tr className="text-uppercase">
-                                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
                                                        BILLING MONTH
                                                    </th>
-                                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
                                                        FROM
                                                    </th>
-                                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13,  }}>
                                                        TO
                                                    </th>
-                                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13,}}>
                                                        FLOOR
                                                    </th>
-                                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
                                                        ROOM
                                                    </th>
            
-                                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>
+                                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13 }}>
                                                        BED
                                                    </th>
-                                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>
+                                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
                                                        TOTAL UNITS
                                                    </th>
-                                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>
+                                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13,  }}>
                                                        AMOUNT
                                                    </th>
                                                </tr>
@@ -291,16 +291,16 @@ const formattedTenantReadings = (tenantReadingList?.electricityHistory || []).ma
                                            <tbody style={{ fontSize: 14, color: "#000" }}>
                                                <PaginationList>
                                                    {formattedTenantReadings?.map((row, i) => (
-                                                       <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px", fontFamily:"Gilroy" }}>
+                                                       <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "", fontFamily:"Gilroy" }}>
            
-                                                           <td style={{ paddingLeft: "40px" }}>{row.billingMonth}</td>
-                                                           <td style={{ paddingLeft: "10px" }}>{row.from}</td>
-                                                           <td style={{ paddingLeft: "5px" }}>{row.to}</td>
-                                                           <td style={{ paddingLeft: "10px", }}>{row.floor}</td>
-                                                           <td style={{ paddingLeft: "10px",  }}>{row.room}</td>
-                                                           <td style={{ paddingLeft: "10px", }}>{row.bed}</td>
-                                                           <td style={{ paddingLeft: "40px", }}>{row.totalUnits}</td>
-                                                           <td style={{ paddingLeft: "25px",  }}>{row.amount}</td>
+                                                           <td style={{  }}>{row.billingMonth}</td>
+                                                           <td style={{  }}>{row.from}</td>
+                                                           <td style={{  }}>{row.to}</td>
+                                                           <td style={{  }}>{row.floor}</td>
+                                                           <td style={{  }}>{row.room}</td>
+                                                           <td style={{ }}>{row.bed}</td>
+                                                           <td style={{  }}>{row.totalUnits}</td>
+                                                           <td style={{   }}>{row.amount}</td>
            
            
            

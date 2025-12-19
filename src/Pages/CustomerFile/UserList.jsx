@@ -2360,7 +2360,7 @@ function UserList(props) {
     fontWeight: 600,
     borderRadius: "8px",
     padding: "8px",
-    marginBottom: "10px",
+    // marginBottom: "10px",
     // maxHeight: 0,
     width: "146px",
     whiteSpace: "nowrap",
