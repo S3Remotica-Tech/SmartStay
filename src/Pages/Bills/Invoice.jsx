@@ -3317,7 +3317,7 @@ const InvoicePage = () => {
   const labelStyle = {
     display: "flex",
     alignItems: "center",
-    justifyContent:"start",
+    justifyContent: "start",
     height: "100%",
     lineHeight: "1.4", marginTop: 5
   };
@@ -3325,41 +3325,27 @@ const InvoicePage = () => {
 
 
   return (
-    <div style={{}}>
+    <div >
       {
         showBillsFilter && <BillsFilter show={showBillsFilter} handleClose={handleCloseFilterBills} />
       }
       {showAllBill && (
         <Row className="p-0">
           <Col className="p-0"
-            // lg={4}
-            // md={4}
-            // sm={12}
-            // xs={12}
             lg={DownloadInvoice || DownloadReceipt ? 4 : 12}
             md={DownloadInvoice || DownloadReceipt ? 4 : 12}
             sm={DownloadInvoice || DownloadReceipt ? 12 : 12}
             xs={DownloadInvoice || DownloadReceipt ? 12 : 12}
           >
             <div
-              className=" sticky-top bg-white "
-              style={{
-                position: "",
-                top: 0,
-                left: 0,
-                right: 0,
-                zIndex: 1000,
-                               backgroundColor: "#ffffff",
-                borderBottom:
-                  !DownloadInvoice && !DownloadReceipt
-                    ? "none"
-                    : "1px solid #E0E0E0",
-               
-              }}
+             className="container-fluid sticky-top bg-white"
+            style={{ zIndex: 1000, height: 'auto',  margin: 3 ,borderBottom: (DownloadInvoice || DownloadReceipt) && "1px solid #E5E7EB",
+              rightBottom: (DownloadInvoice || DownloadReceipt) && "1px solid #E5E7EB"
+              ,boxShadow: "initial" }}
             >
               <div className="d-flex justify-content-between align-items-center flex-wrap">
-                <div className=" ms-3 " style={{
-                  marginTop: DownloadInvoice || DownloadReceipt ? 0 : 12,
+                <div className="" style={{
+                  marginTop: DownloadInvoice || DownloadReceipt ? 0 : 12, 
                 }}>
                   <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Bills</label>
                 </div>
@@ -3369,7 +3355,7 @@ const InvoicePage = () => {
                   {loading && <LoaderComponent />}
                   <div className="d-flex flex-wrap align-items-center gap-2" style={{ paddingLeft: 25 }}>
                     {(DownloadInvoice || DownloadReceipt) && (
-                      <div className="d-flex align-items-center mt-1" style={{}}>
+                      <div className="d-flex align-items-center mt-1 mb-1" style={{}}>
                         <button disabled
                           onClick={() => setShowSearchFilter(!showSearchFilter)}
                           style={{
@@ -3377,7 +3363,7 @@ const InvoicePage = () => {
                             fontWeight: 600,
                             fontSize: "0.9rem",
                             borderRadius: 8,
-                            padding: "10px 12px",
+                            padding: "8px 12px",
                             backgroundColor: "#9C9C9C26",
                             border: "none",
                             display: "flex",
@@ -3499,7 +3485,7 @@ const InvoicePage = () => {
                             padding: DownloadInvoice ? "6px 12px" : "8px 8px",
                             marginTop: DownloadInvoice ? 0 : 12,
                             whiteSpace: "nowrap",
-                            minWidth: DownloadInvoice ? "50px" : "auto",
+                            minWidth: DownloadInvoice ? "50px" : "150px",
                             textAlign: "center",
                           }}
                         >
@@ -4490,7 +4476,7 @@ const InvoicePage = () => {
 
 
 
-                        <Container fluid className="p-0 table-bills mt-4">
+                        <Container fluid className={`p-0 table-bills ${DownloadReceipt || DownloadInvoice ? "mt-0" : "mt-4" } `}>
                           <Row
                             className={` ${DownloadReceipt
                               ? "m-0 g-2 d-flex justify-content-between"

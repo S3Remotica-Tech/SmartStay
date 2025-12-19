@@ -98,8 +98,8 @@ function TenantAmenities({ show, handleClose }) {
 
 
   useEffect(() => {
-    if (state.InvoiceList.AmenitiesList) {
-      if (state.InvoiceList.AmenitiesList.length === 0 && isTrigger) {
+    if (state.InvoiceList.AmenitiesList?.amenities) {
+      if (state.InvoiceList.AmenitiesList?.amenities?.length === 0 && isTrigger) {
         toast.error(
           "Please Create Amenities before assign amenities",
           {
@@ -115,7 +115,7 @@ function TenantAmenities({ show, handleClose }) {
       }
 
     }
-  }, [state.InvoiceList.AmenitiesList])
+  }, [state.InvoiceList.AmenitiesList?.amenities])
 
 
 
@@ -125,19 +125,19 @@ function TenantAmenities({ show, handleClose }) {
 
   useEffect(() => {
     if (
-      state.InvoiceList.AmenitiesList &&
-      state.InvoiceList.AmenitiesList.length > 0 &&
+      state.InvoiceList.AmenitiesList?.amenities &&
+      state.InvoiceList.AmenitiesList?.amenities?.length > 0 &&
       selectAmneties
     ) {
       const AmnitiesNamelist =
-        state.InvoiceList.AmenitiesList.filter((item) => {
+        state.InvoiceList.AmenitiesList?.amenities?.filter((item) => {
           return String(item.amenityId) === String(selectAmneties);
         });
       setcreateby(AmnitiesNamelist);
     } else {
       setcreateby('');
     }
-  }, [state.InvoiceList.AmenitiesList, selectAmneties, state.InvoiceList.tenantAssignStatus]);
+  }, [state.InvoiceList.AmenitiesList?.amenities, selectAmneties, state.InvoiceList.tenantAssignStatus]);
 
 
   const uniqueAmenities = [];
@@ -171,29 +171,29 @@ function TenantAmenities({ show, handleClose }) {
     setStatusAmni(e.target.value);
     setSelectError("");
   };
-  const validateAssignField = (value, fieldName) => {
-    if (!value || value === "Select Status") {
-      switch (fieldName) {
-        case "statusAmni":
-          setSelectError("Please Select Status");
-          break;
+  // const validateAssignField = (value, fieldName) => {
+  //   if (!value || value === "Select Status") {
+  //     switch (fieldName) {
+  //       case "statusAmni":
+  //         setSelectError("Please Select Status");
+  //         break;
 
-        default:
-          break;
-      }
-      return false;
-    } else {
-      switch (fieldName) {
-        case "statusAmni":
-          setSelectError("");
-          break;
+  //       default:
+  //         break;
+  //     }
+  //     return false;
+  //   } else {
+  //     switch (fieldName) {
+  //       case "statusAmni":
+  //         setSelectError("");
+  //         break;
 
-        default:
-          break;
-      }
-      return true;
-    }
-  };
+  //       default:
+  //         break;
+  //     }
+  //     return true;
+  //   }
+  // };
 
 
 
@@ -538,12 +538,12 @@ function TenantAmenities({ show, handleClose }) {
                 isDisabled={!canWriteAmenities || state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" || state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" || state.UsersList.customerdetails?.customerCurrentStatus === "VACATED"}
                 placeholder="Select an Amenities"
                 value={
-                  state.InvoiceList.AmenitiesList?.find(
+                  state.InvoiceList.AmenitiesList?.amenities?.find(
                     (item) => item.amenityId === selectAmneties
                   )
                     ? {
                       value: selectAmneties,
-                      label: state.InvoiceList.AmenitiesList.find(
+                      label: state.InvoiceList.AmenitiesList?.amenities?.find(
                         (item) => item.amenityId === selectAmneties
                       )?.amenityName,
                     }
@@ -554,8 +554,7 @@ function TenantAmenities({ show, handleClose }) {
                   handleselect(e);
 
                 }}
-                options={state.InvoiceList.AmenitiesList
-                  ?.filter(
+                options={state.InvoiceList.AmenitiesList?.amenities?.filter(
                     (item) =>
                       !state.UsersList.customerdetails?.assignedAmenities?.some(
                         (a) => a.amenityId === item.amenityId

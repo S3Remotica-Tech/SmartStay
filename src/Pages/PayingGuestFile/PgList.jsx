@@ -775,7 +775,7 @@ useEffect(()=>{
 
 
 
-      <div className="" style={{ position: "relative" }} >
+      <div className="sticky-top bg-white" style={{ margin:5, position: "relative" }}   >
 
 
         {state.login.isTrigger &&
@@ -908,7 +908,7 @@ useEffect(()=>{
 
 
         {selectedHostel && (
-          <div className="container mt-3" >
+          <div className="" >
 
 
             {

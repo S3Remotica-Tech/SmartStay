@@ -26,7 +26,7 @@ import banklogo from "../../Assets/Images/New_images/bank_loga.png";
 import PaginationList from "../../Components/PaginationList";
 import ErrorMessage from '../../Components/ErrorMessage'
 import { useHasPermission } from '../../Utils/Permission';
-import withErrorBoundary from "../../Hoc/WithErrorBountry"; 
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
 function Banking() {
   const state = useSelector((state) => state);
@@ -68,7 +68,7 @@ function Banking() {
   const [amount, setAmount] = useState("");
   const [formLoading, setFormLoading] = useState(false)
 
-const {
+  const {
     canWriteModule: canWriteBanking,
     canReadModule: canReadBanking,
     canUpdateModule: canUpdateBanking,
@@ -76,7 +76,7 @@ const {
   } = useHasPermission("Banking");
 
 
- 
+
 
 
 
@@ -86,13 +86,13 @@ const {
   // const canDeleteBanking = useHasPermission("Banking", "canDelete");
 
 
-useEffect(() => {
-      if (!canReadBanking) {
-        setLoader(false);
-      }else{
-        setLoader(true);
-      }
-    }, [canReadBanking]);
+  useEffect(() => {
+    if (!canReadBanking) {
+      setLoader(false);
+    } else {
+      setLoader(true);
+    }
+  }, [canReadBanking]);
 
 
   useEffect(() => {
@@ -243,7 +243,7 @@ useEffect(() => {
   }, []);
 
   const handleAccountTypeChange = (item) => {
-    
+
     setTypeId(item.bankingId);
     const defaultType = item.isDefault ? item.isDefault : 3;
     setDefaultType(defaultType);
@@ -325,6 +325,20 @@ useEffect(() => {
     setOpenMenuId(false);
   };
 
+   const buttonStyle = {
+    fontFamily: "Gilroy",
+    fontSize: "14px",
+    backgroundColor: "#1E45E1",
+    color: "white",
+    fontWeight: 600,
+    borderRadius: "8px",
+    padding: "8px",
+    marginBottom: "10px",
+    // maxHeight: 0,
+    width: "146px",
+    whiteSpace: "nowrap",
+  };
+
   const handleShowForm = () => {
     if (!state.login.selectedHostel_Id) {
       toast.error('Please add a hostel before adding bank information.', {
@@ -393,8 +407,8 @@ useEffect(() => {
   }, [state.bankingDetails.statusCodeForDeleteTrans]);
 
   const handleShowAddBalance = (item) => {
-    
-    
+
+
     setAddBankName(`${item.accountHolderName} - ${item.accountType}`);
 
     setTypeId(item.bankingId);
@@ -415,9 +429,9 @@ useEffect(() => {
     if (!/^\d*$/.test(value)) {
       return;
     }
-     if (/^0+$/.test(value)) {
-    return;
-  }
+    if (/^0+$/.test(value)) {
+      return;
+    }
     setAddBankAmount(value);
     setAmountError("");
   };
@@ -430,61 +444,14 @@ useEffect(() => {
     dispatch({
       type: "ADDBANKAMOUNT",
       payload: {
-        hostelId , 
-        data : { bankId: typeId ,balance: AddBankAmount }
-        }
+        hostelId,
+        data: { bankId: typeId, balance: AddBankAmount }
+      }
     });
     setFormLoading(true)
   };
 
-  // const [transactionrowsPerPage, setTransactionrowsPerPage] = useState(5);
-  // const [transactioncurrentPage, settransactioncurrentPage] = useState(1);
 
-  // const indexOfLastRowTransaction =
-  //   transactioncurrentPage * transactionrowsPerPage;
-  // const indexOfFirstRowTransaction =
-  //   indexOfLastRowTransaction - transactionrowsPerPage;
-
-  // const currentRowTransaction =
-  //   filterInput.length > 0
-  //     ? transactionFilterddata
-  //     : transactionFilterddata?.slice(indexOfFirstRowTransaction, indexOfLastRowTransaction);
-
-  // const handlePageChange = (pageNumber) => {
-  //   settransactioncurrentPage(pageNumber);
-  // };
-
-
-  // const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
-
-  // const sortedData = React.useMemo(() => {
-  //   if (!sortConfig.key) return currentRowTransaction;
-
-  //   const sorted = [...currentRowTransaction].sort((a, b) => {
-  //     const valueA = a[sortConfig.key];
-  //     const valueB = b[sortConfig.key];
-
-
-  //     if (!isNaN(valueA) && !isNaN(valueB)) {
-  //       return sortConfig.direction === 'asc'
-  //         ? valueA - valueB
-  //         : valueB - valueA;
-  //     }
-
-  //     if (typeof valueA === 'string' && typeof valueB === 'string') {
-  //       return sortConfig.direction === 'asc'
-  //         ? valueA.localeCompare(valueB)
-  //         : valueB.localeCompare(valueA);
-  //     }
-
-  //     return 0;
-  //   });
-
-  //   return sorted;
-  // }, [currentRowTransaction, sortConfig]);
-  // const handleSort = (key, direction) => {
-  //   setSortConfig({ key, direction });
-  // };
 
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
@@ -515,16 +482,6 @@ useEffect(() => {
     setSortConfig({ key, direction });
   };
 
-
-  // const handleItemsPerPageChange = (selectedOption) => {
-  //   setTransactionrowsPerPage(Number(selectedOption.value));
-  //   settransactioncurrentPage(1);
-  // };
-
-
-  // const totalPagesTransaction = Math.ceil(
-  //   transactionFilterddata?.length / transactionrowsPerPage
-  // );
 
 
 
@@ -656,277 +613,268 @@ useEffect(() => {
 
   return (
     <>
-     
-        <div className="container-fluid"  >
-          <div
-            className="d-flex flex-wrap justify-content-between align-items-center "
 
-            style={{ paddingLeft: 4, paddingRight: 4, marginTop: 3 }}  >
-            <div className="ms-2">
-              <label style={{
-                fontSize: 18,
-                color: "#000000",
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-                marginTop: 17
-              }}>Banking</label>
-            </div>
+      <div className="sticky-top bg-white" style={{ margin:5 }} >
+        <div
+          className="d-flex flex-wrap justify-content-between align-items-center"
 
-            <div style={{ marginTop: 19, }} className="d-flex  justify-content-between align-items-center flex-wrap flex-md-nowrap">
-              {search ? (
-                <>
+          style={{  marginTop: 0 }}  >
+          <div className="">
+            <label style={{
+              fontSize: 18,
+              color: "#000000",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+             
+            }}>Banking</label>
+          </div>
+
+          <div style={{ marginTop: 10, }} className="d-flex  justify-content-between align-items-center flex-wrap flex-md-nowrap">
+            {search ? (
+              <>
+                <div
+
+                  style={{
+                    position: "relative",
+                    display: "flex",
+                    alignItems: "center",
+                    marginTop: "0px",
+                    marginBottom: "5px",
+                  }}
+
+                >
                   <div
-
                     style={{
                       position: "relative",
                       display: "flex",
                       alignItems: "center",
-                      marginTop: "0px",
-                      marginBottom: "5px",
+                      width: "100%",
+                      cursor: "pointer",
+
                     }}
-
                   >
-                    <div
-                      style={{
-                        position: "relative",
-                        display: "flex",
-                        alignItems: "center",
-                        width: "100%",
-                        cursor: "pointer",
-
-                      }}
-                    >
-                      <Image
-                        src={searchteam}
-                        alt="Search"
-                        style={{
-                          position: "absolute",
-
-                          width: "24px",
-                          height: "24px",
-                          pointerEvents: "none",
-                        }}
-                      />
-                      <div
-                        className="input-group"
-
-
-
-                      >
-                        <span className="input-group-text bg-white border-end-0">
-                          <Image
-                            src={searchteam}
-                            style={{ height: 20, width: 20,  }}
-                          />
-                        </span>
-                        <input
-                          type="text"
-                          className="form-control border-start-0"
-                          placeholder="Search"
-                          aria-label="Search"
-                          style={{
-                            boxShadow: "none",
-                            outline: "none",
-                            borderColor: "rgb(207,213,219)",
-                            borderRight: "none",
-                            width: "160px",
-                            height: 40,
-                            fontFamily:"Gilroy"
-
-                          }}
-                          value={filterInput}
-                          onChange={(e) => handlefilterInput(e)}
-                        />
-                        <span className="input-group-text bg-white border-start-0">
-                          <img src={closecircle} alt="close" onClick={handleCloseSearch}
-                            style={{ height: 20, width: 20 }}
-                          />
-                        </span>
-                      </div>
-                    </div>
-
-                    {isDropdownVisible && transactionFilterddata?.length > 0 && (
-                      <div
-                        style={{
-                          border: "1px solid #d9d9d9 ",
-                          position: "absolute",
-                          top: 45,
-                          left: 0,
-                          zIndex: 1000,
-                          padding: 10,
-                          borderRadius: 8,
-                          backgroundColor: "#fff",
-                          width: "100%",
-                        }}
-                      >
-                        <ul
-                          className="show-scroll p-0"
-                          style={{
-                            backgroundColor: "#fff",
-                            maxHeight: "174px",
-                            minHeight: transactionFilterddata?.length > 1 ? "100px" : "auto",
-                            overflowY: transactionFilterddata?.length > 3 ? "auto" : "hidden",
-                            margin: "0",
-                            listStyleType: "none",
-                            borderRadius: 8,
-                            boxSizing: "border-box",
-                          }}
-                        >
-                          {transactionFilterddata?.map((user, index) => {
-                            return (
-                              <li
-                                key={index}
-                                className="list-group-item d-flex align-items-center"
-                                style={{
-                                  cursor: "pointer",
-                                  padding: "10px 5px",
-                                  borderBottom:
-                                    index !== transactionFilterddata.length - 1
-                                      ? "1px solid #eee"
-                                      : "none",
-                                }}
-                                onClick={() => handleUserSelect(user)}
-                              >
-
-                                <span>{user.benificiary_name}</span>
-                              </li>
-                            );
-                          })}
-                        </ul>
-                      </div>
-                    )}
-                  </div>
-                </>
-              ) : (
-                <>
-
-                  <div style={{ paddingRight: 15, cursor: "pointer" }}>
                     <Image
                       src={searchteam}
-                      roundedCircle
-                      style={{ height: "24px", width: "24px",
-                        cursor: canReadBanking ? "pointer" : "not-allowed",
-                  opacity: canReadBanking ? 1 : 0.4,
-                  pointerEvents: canReadBanking ? "auto" : "none",
-                  transition: "opacity 0.3s ease" 
-                 }}
-                      onClick={handleSearch}
+                      alt="Search"
+                      style={{
+                        position: "absolute",
+
+                        width: "24px",
+                        height: "24px",
+                        pointerEvents: "none",
+                      }}
                     />
+                    <div
+                      className="input-group"
+
+
+
+                    >
+                      <span className="input-group-text bg-white border-end-0">
+                        <Image
+                          src={searchteam}
+                          style={{ height: 20, width: 20, }}
+                        />
+                      </span>
+                      <input
+                        type="text"
+                        className="form-control border-start-0"
+                        placeholder="Search"
+                        aria-label="Search"
+                        style={{
+                          boxShadow: "none",
+                          outline: "none",
+                          borderColor: "rgb(207,213,219)",
+                          borderRight: "none",
+                          width: "160px",
+                          height: 40,
+                          fontFamily: "Gilroy"
+
+                        }}
+                        value={filterInput}
+                        onChange={(e) => handlefilterInput(e)}
+                      />
+                      <span className="input-group-text bg-white border-start-0">
+                        <img src={closecircle} alt="close" onClick={handleCloseSearch}
+                          style={{ height: 20, width: 20 }}
+                        />
+                      </span>
+                    </div>
                   </div>
-                </>
-              )}
 
+                  {isDropdownVisible && transactionFilterddata?.length > 0 && (
+                    <div
+                      style={{
+                        border: "1px solid #d9d9d9 ",
+                        position: "absolute",
+                        top: 45,
+                        left: 0,
+                        zIndex: 1000,
+                        padding: 10,
+                        borderRadius: 8,
+                        backgroundColor: "#fff",
+                        width: "100%",
+                      }}
+                    >
+                      <ul
+                        className="show-scroll p-0"
+                        style={{
+                          backgroundColor: "#fff",
+                          maxHeight: "174px",
+                          minHeight: transactionFilterddata?.length > 1 ? "100px" : "auto",
+                          overflowY: transactionFilterddata?.length > 3 ? "auto" : "hidden",
+                          margin: "0",
+                          listStyleType: "none",
+                          borderRadius: 8,
+                          boxSizing: "border-box",
+                        }}
+                      >
+                        {transactionFilterddata?.map((user, index) => {
+                          return (
+                            <li
+                              key={index}
+                              className="list-group-item d-flex align-items-center"
+                              style={{
+                                cursor: "pointer",
+                                padding: "10px 5px",
+                                borderBottom:
+                                  index !== transactionFilterddata.length - 1
+                                    ? "1px solid #eee"
+                                    : "none",
+                              }}
+                              onClick={() => handleUserSelect(user)}
+                            >
 
-              <div style={{ paddingRight: 15, cursor: "pointer" }}>
-                <Image
-                  src={Filters}
-                  roundedCircle
-                  style={{ height: "50px", width: "50px", 
-                     cursor: canReadBanking ? "pointer" : "not-allowed",
-                        opacity: canReadBanking ? 1 : 0.4,
-                        pointerEvents: canReadBanking ? "auto" : "none",
-                        transition: "opacity 0.3s ease" }}
-                  onClick={handleFilterd}
-                />
-              </div>
-
-
-              {
-                filterStatus &&
-
-
-                <div className='me-3'
-                  style={{ border: "1px solid #D4D4D4", borderRadius: 8, width: search ? "120px" : "120px", }}>
-
-                  <Form.Select
-                    onChange={(e) => handleStatusFilter(e)}
-                    value={statusfilter}
-                    aria-label="Select Price Range"
-                    id="statusselect"
-                    style={{
-                      color: "rgba(34, 34, 34, 1)",
-                      fontWeight: 600,
-                      fontFamily: "Gilroy",
-                      cursor: "pointer"
-                    }}
-                  >
-                    <option value="All">All</option>
-                    <option value="1">Credit</option>
-                    <option value="2">Debit</option>
-                    <option value="date">Date</option>
-                  </Form.Select>
+                              <span>{user.benificiary_name}</span>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  )}
                 </div>
+              </>
+            ) : (
+              <>
 
-              }
-              {statusfilter === "date" && (
-                <div className="me-3">
-                  <RangePicker
-                    value={dateRange}
-                    format="DD-MM-YYYY"
-                    onChange={handleDateRangeChange}
-                    style={{ height: "38px", borderRadius: 8, cursor: "pointer" }}
+                <div style={{ paddingRight: 15, cursor: "pointer" }}>
+                  <Image
+                    src={searchteam}
+                    roundedCircle
+                    style={{
+                      height: "24px", width: "24px",
+                      cursor: canReadBanking ? "pointer" : "not-allowed",
+                      opacity: canReadBanking ? 1 : 0.4,
+                      pointerEvents: canReadBanking ? "auto" : "none",
+                      transition: "opacity 0.3s ease"
+                    }}
+                    onClick={handleSearch}
                   />
                 </div>
-              )}
+              </>
+            )}
 
 
-              <div className="me-2">
+            <div style={{ paddingRight: 15, cursor: "pointer" }}>
+              <Image
+                src={Filters}
+                roundedCircle
+                style={{
+                  height: "50px", width: "50px",
+                  cursor: canReadBanking ? "pointer" : "not-allowed",
+                  opacity: canReadBanking ? 1 : 0.4,
+                  pointerEvents: canReadBanking ? "auto" : "none",
+                  transition: "opacity 0.3s ease"
+                }}
+                onClick={handleFilterd}
+              />
+            </div>
 
-                <Button
-                  disabled={!canWriteBanking}
-                  onClick={handleShowForm}
+
+            {
+              filterStatus &&
+
+
+              <div className='me-3'
+                style={{ border: "1px solid #D4D4D4", borderRadius: 8, width: search ? "120px" : "120px", }}>
+
+                <Form.Select
+                  onChange={(e) => handleStatusFilter(e)}
+                  value={statusfilter}
+                  aria-label="Select Price Range"
+                  id="statusselect"
                   style={{
-                    fontFamily: "Gilroy",
-                    fontSize: "14px",
-                    backgroundColor: "#1E45E1",
-                    color: "white",
+                    color: "rgba(34, 34, 34, 1)",
                     fontWeight: 600,
-                    borderRadius: "8px",
-                    padding: "12px",
-                    marginBottom: "10px",
-                    maxHeight: 45,
-                    width: "146px",
-                    whiteSpace: "nowrap"
+                    fontFamily: "Gilroy",
+                    cursor: "pointer"
                   }}
                 >
-                  + Add
-                </Button>
-
+                  <option value="All">All</option>
+                  <option value="1">Credit</option>
+                  <option value="2">Debit</option>
+                  <option value="date">Date</option>
+                </Form.Select>
               </div>
+
+            }
+            {statusfilter === "date" && (
+              <div className="me-3">
+                <RangePicker
+                  value={dateRange}
+                  format="DD-MM-YYYY"
+                  onChange={handleDateRangeChange}
+                  style={{ height: "38px", borderRadius: 8, cursor: "pointer" }}
+                />
+              </div>
+            )}
+
+
+            <div className="me-2">
+
+              <Button
+                disabled={!canWriteBanking}
+                onClick={handleShowForm}
+                style={buttonStyle}
+              >
+                + Add
+              </Button>
+
             </div>
           </div>
- {!canReadBanking ? (
-        <>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              height: "60vh",
-            }}
-          >
+        </div>
+        {!canReadBanking ? (
+          <>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "60vh",
+              }}
+            >
 
-            <img
-              src={emptyimg}
-              alt="Empty State"
-              style={{ maxWidth: "100%", height: "auto" }}
-            />
+              <img
+                src={emptyimg}
+                alt="Empty State"
+                style={{ maxWidth: "100%", height: "auto" }}
+              />
 
 
 
-            <ErrorMessage message={['You do not have access to view Banking']} type="warning" />
+              <ErrorMessage message={['You do not have access to view Banking']} type="warning" />
 
-          </div>
-        </>
-      ) : (
-          <div className="d-flex overflow-auto mt-3"  >
+            </div>
+          </>
+        ) : (
+          <div className="d-flex overflow-auto mt-3 gap-2"  >
             {bankking && bankking?.length > 0 ? (
               bankking?.map((item) => {
                 return (
                   <div
                     key={item.id}
-                    className="card mx-2"
+                    className="card gap-2"
                     style={{
                       minWidth: "280px",
                       border: "1px, solid, #ddd",
@@ -1062,7 +1010,7 @@ useEffect(() => {
                                   }
                                 }}
                                 onMouseEnter={(e) => {
-                                                                     e.currentTarget.style.backgroundColor = "#EDF2FF";
+                                  e.currentTarget.style.backgroundColor = "#EDF2FF";
                                 }}
                                 onMouseLeave={(e) => {
                                   e.currentTarget.style.backgroundColor = "#F9F9F9";
@@ -1072,7 +1020,7 @@ useEffect(() => {
                                   width: "100%",
                                   backgroundColor: "#F9F9F9",
                                   cursor: !canUpdateBanking ? "not-allowed" : "pointer",
-                                  pointerEvents: !canUpdateBanking? "none" : "auto",
+                                  pointerEvents: !canUpdateBanking ? "none" : "auto",
                                   opacity: !canUpdateBanking ? 0.5 : 1,
                                 }}
                               >
@@ -1105,7 +1053,7 @@ useEffect(() => {
                                   }
                                 }}
                                 onMouseEnter={(e) => {
-                                                                     e.currentTarget.style.backgroundColor = "#FFF0F0";
+                                  e.currentTarget.style.backgroundColor = "#FFF0F0";
                                 }}
                                 onMouseLeave={(e) => {
                                   e.currentTarget.style.backgroundColor = "#F9F9F9";
@@ -1115,7 +1063,7 @@ useEffect(() => {
                                   width: "100%",
                                   backgroundColor: "#F9F9F9",
                                   cursor: !canDeleteBanking ? "not-allowed" : "pointer",
-                                                                   opacity: !canDeleteBanking ? 0.5 : 1,
+                                  opacity: !canDeleteBanking ? 0.5 : 1,
                                   borderBottomLeftRadius: 10,
                                   borderBottomRightRadius: 10,
                                 }}
@@ -1130,7 +1078,7 @@ useEffect(() => {
                                     fontSize: 14,
                                     fontWeight: 600,
                                     fontFamily: "Gilroy, sans-serif",
-                                    color:!canDeleteBanking ? "#A9A9A9" : "#FF0000",
+                                    color: !canDeleteBanking ? "#A9A9A9" : "#FF0000",
                                     cursor: !canDeleteBanking ? "not-allowed" : "pointer",
                                   }}
                                 >
@@ -1142,45 +1090,29 @@ useEffect(() => {
 
                         )}
                       </div>
-                    
-                    <div    className="mt-3">
-                      <p
-                        className="mt-3"
-                        style={{
-                          fontSize: 20,
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {item?.accountNumber || item?.upiId || item.creditCardNumber}
-                      </p>
-                       </div>
+
+                      <div className="mt-3">
+                        <p
+                          className="mt-3"
+                          style={{
+                            fontSize: 20,
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                          }}
+                        >
+                          {item?.accountNumber || item?.upiId || item.creditCardNumber}
+                        </p>
+                      </div>
 
                       <div className="d-flex justify-content-between align-items-center mb-2">
                         <div style={{ fontFamily: "Gilroy", }}>
-                          {/* <p
-                            className="text-muted mb-0"
-                            style={{
-                              fontSize: 14,
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                              color: "#4B4B4B",
-                            }}
-                          >
-                            {item.setus_default === 1
-                              ? "Default:Credit A/C"
-                              : item.setus_default === 2
-                                ? "Default:Debit A/C"
-                                : item.setus_default === 3
-                                  ? "Default:Both A/C"
-                                  : ""}
-                          </p> */}
+                         
 
                           <p className="text-muted mb-0" style={{ fontSize: 14, fontWeight: 500 }}>
-  {item.isDefault
-    ? `Default: ${item.transactionType === "BOTH" ? "Both A/C" : item.transactionType + " A/C"}`
-    : ""}
-</p>
+                            {item.isDefault
+                              ? `Default: ${item.transactionType === "BOTH" ? "Both A/C" : item.transactionType + " A/C"}`
+                              : ""}
+                          </p>
 
 
                           {item.isDefault === 0 && (
@@ -1355,164 +1287,123 @@ useEffect(() => {
 
             )}
           </div>
-      )}
+        )}
 
-          <div style={{ marginTop: 30 }} className="container bankingtab-table ms-2 me-4">
+        <div >
 
-            {sortedData?.length > 0 ? (
-              <div
-                className=" booking-table-userlist  booking-table"
-                style={{ paddingBottom: "20px", marginLeft: "-22px" }}
-              >
-                <div
+          {sortedData?.length > 0 ? (
+            <div
+               className='show-scrolls me-2 sticky-top'
+                style={{
+                  maxHeight:300,
+                  overflow: "auto",
+                  borderTop: "1px solid #E8E8E8",
+                  marginBottom: 20,
+                  marginTop: "20px",
+                  paddingRight: 0,
+                  paddingLeft: 0
+                }}
+            >
+            
+                <Table
+                  responsive="md"
 
-                  className='show-scrolls'
                   style={{
-
-                    height: sortedData?.length >= 5 || sortedData?.length >= 5 ? "250px" : "auto",
-                    overflow: "auto",
-                    borderTop: "1px solid #E8E8E8",
-                    marginBottom: 20,
-                    marginTop: "20px",
-                    paddingRight: 0,
-                    paddingLeft: 0
+                    fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                    top: 0,
+                    zIndex: 1,
+                    borderRadius: 0
                   }}
                 >
-                  <Table
-                    responsive="md"
+                  <thead style={{
+                    fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                    top: 0,
+                    zIndex: 1
+                  }}>
+                    <tr>
+                      <th
+                        style={{
+                          textAlign: "start",
+                         
+                          color: "rgb(147, 147, 147)",
+                          fontSize: "12px",
+                          fontWeight: 500,
+                          fontFamily: "Gilroy",
+                          // paddingLeft: "20px",
+                          whiteSpace: "nowrap"
 
-                    style={{
-                      fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                      top: 0,
-                      zIndex: 1,
-                      borderRadius: 0
-                    }}
-                  >
-                    <thead style={{
-                      fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                      top: 0,
-                      zIndex: 1
-                    }}>
-                      <tr>
-                        <th
-                          style={{
-                            textAlign: "start",
-                            padding: "10px",
-                            color: "rgb(147, 147, 147)",
-                            fontSize: "12px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            paddingLeft: "20px",
-                            whiteSpace: "nowrap"
+                        }}
+                      >
+                        <div className='d-flex gap-1 align-items-center justify-content-start'>
 
-                          }}
-                        >
-                          <div className='d-flex gap-1 align-items-center justify-content-start'>
-                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("bank_name", 'asc')} style={{ cursor: "pointer" }} />
-                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("bank_name", 'desc')} style={{ cursor: "pointer" }} />
-                            </div>
-                            Account Name</div>
-                        </th>
-                        <th
-                          style={{
-                            textAlign: "center",
-                            padding: "10px",
-                            color: "rgb(147, 147, 147)",
-                            fontSize: "12px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                          }}
-                        >
-                          <div className='d-flex gap-1 align-items-center justify-content-start'>
-                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("date", 'asc')} style={{ cursor: "pointer" }} />
-                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("date", 'desc')} style={{ cursor: "pointer" }} />
-                            </div>
-                            Date</div>
-                        </th>
-                        <th
-                          style={{
-                            textAlign: "start",
-                            padding: "10px",
-                            color: "rgb(147, 147, 147)",
-                            fontSize: "12px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                          }}
-                        >
-                          <div className='d-flex gap-1 align-items-center justify-content-start'>
-                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("amount", 'asc')} style={{ cursor: "pointer" }} />
-                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("amount", 'desc')} style={{ cursor: "pointer" }} />
-                            </div>
-                            Amount</div>
-                        </th>
-                        <th
-                          style={{
-                            textAlign: "start",
-                            padding: "10px",
-                            color: "rgb(147, 147, 147)",
-                            fontSize: "12px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                          }}
-                        >
-                          <div className='d-flex gap-1 align-items-center justify-content-start'>
-                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("desc", 'asc')} style={{ cursor: "pointer" }} />
-                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("desc", 'desc')} style={{ cursor: "pointer" }} />
-                            </div>
-                            Description</div>
-                        </th>
+                          Account Name</div>
+                      </th>
+                      <th
+                        style={{
+                          textAlign: "center",
+                          // padding: "10px",
+                          color: "rgb(147, 147, 147)",
+                          fontSize: "12px",
+                          fontWeight: 500,
+                          fontFamily: "Gilroy",
+                        }}
+                      >
+                        <div className='d-flex gap-1 align-items-center justify-content-start'>
 
-                        <th
-                          style={{
-                            textAlign: "start",
-                            padding: "10px",
-                            color: "rgb(147, 147, 147)",
-                            fontSize: "12px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                          }}
-                        >
-                          <div className='d-flex gap-1 align-items-center justify-content-start'>
-                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("type", 'asc')} style={{ cursor: "pointer" }} />
-                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("type", 'desc')} style={{ cursor: "pointer" }} />
-                            </div>
-                            Transaction</div>
-                        </th>
+                          Date</div>
+                      </th>
+                      <th
+                        style={{
+                          textAlign: "start",
+                          // padding: "10px",
+                          color: "rgb(147, 147, 147)",
+                          fontSize: "12px",
+                          fontWeight: 500,
+                          fontFamily: "Gilroy",
+                        }}
+                      >
+                        <div className='d-flex gap-1 align-items-center justify-content-start'>
 
-                      </tr>
-                    </thead>
-                    {/* <tbody style={{ textAlign: "center" }}>
+                          Amount</div>
+                      </th>
+                      <th
+                        style={{
+                          textAlign: "start",
+                          // padding: "10px",
+                          color: "rgb(147, 147, 147)",
+                          fontSize: "12px",
+                          fontWeight: 500,
+                          fontFamily: "Gilroy",
+                        }}
+                      >
+                        <div className='d-flex gap-1 align-items-center justify-content-start'>
+
+                          Description</div>
+                      </th>
+
+                      <th
+                        style={{
+                          textAlign: "start",
+                          // padding: "10px",
+                          color: "rgb(147, 147, 147)",
+                          fontSize: "12px",
+                          fontWeight: 500,
+                          fontFamily: "Gilroy",
+                        }}
+                      >
+                        <div className='d-flex gap-1 align-items-center justify-content-start'>
+
+                          Transaction</div>
+                      </th>
+
+                    </tr>
+                  </thead>
+
+
+                  <tbody style={{ textAlign: "center" }}>
+                    <PaginationList>
                       {sortedData?.map((user) => {
-                        let Dated = new Date(user.date);
-
-                        let day = Dated.getDate();
-                        let month = Dated.getMonth();
-                        let year = Dated.getFullYear();
-
-
-                        const monthNames = [
-                          "Jan",
-                          "Feb",
-                          "Mar",
-                          "Apr",
-                          "May",
-                          "Jun",
-                          "Jul",
-                          "Aug",
-                          "Sep",
-                          "Oct",
-                          "Nov",
-                          "Dec",
-                        ];
-
-                        let formattedMonth = monthNames[month];
-
-                        let formattedDate = `${day} ${formattedMonth} ${year}`;
+                       
 
                         return (
                           <tr
@@ -1531,46 +1422,39 @@ useEffect(() => {
                                 fontSize: "13px",
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
-                                paddingTop: 15,
-                                marginLeft: 20
+                                // paddingTop: 15,
                               }}
-                              className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
+                              className=""
                             >
-                              <div className="ps-2 ps-lg-2">
-                                {user.benificiary_name} - {user.type}
+                              <div className="">
+                                {user.accountHolder}
                               </div>
-
                             </td>
                             <td
                               style={{
-                                paddingTop: 15,
+                                // paddingTop: 15,
                                 border: "none",
                                 textAlign: "start",
                                 fontSize: "13px",
                                 fontWeight: 500,
                                 fontFamily: "Gilroy",
-                                marginTop: 10,
                                 whiteSpace: "nowrap",
-
                               }}
-                              className="ps-2 ps-lg-2"
+                              className=""
                             >
                               <span
                                 style={{
-                                  paddingTop: "3px",
-                                  paddingLeft: "10px",
-                                  paddingRight: "10px",
-                                  marginLeft: 8,
-                                  paddingBottom: "3px",
+                                  // padding: "3px 10px",
+                                  // color:"6B7280",
                                   borderRadius: "60px",
                                   textAlign: "center",
                                   fontSize: "11px",
                                   fontWeight: 500,
                                   fontFamily: "Gilroy",
-                                  backgroundColor: "#EBEBEB",
+                                  // backgroundColor: "#EBEBEB",
                                 }}
                               >
-                                {formattedDate}
+                                {user.createdAt}
                               </span>
                             </td>
                             <td
@@ -1580,7 +1464,7 @@ useEffect(() => {
                                 fontSize: "13px",
                                 fontWeight: 500,
                                 fontFamily: "Gilroy",
-                                paddingTop: 15,
+                                // paddingTop: 15,
                               }}
                               className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
                             >
@@ -1593,15 +1477,15 @@ useEffect(() => {
                                 fontSize: "13px",
                                 fontWeight: 500,
                                 fontFamily: "Gilroy",
-                                paddingTop: 15,
+                                // paddingTop: 15,
                               }}
                               className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
                             >
-                              {user.desc}
+                              {user.source}
                             </td>
                             <td
                               style={{
-                                paddingTop: 15,
+                                // paddingTop: 15,
                                 border: "none",
                                 textAlign: "start",
                                 fontSize: "13px",
@@ -1609,595 +1493,295 @@ useEffect(() => {
                                 fontFamily: "Gilroy",
                                 whiteSpace: "nowrap",
                               }}
-                              className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
+                              className=""
                             >
                               <span
                                 style={{
-                                  padding: "3px 10px",
+                                  // padding: "3px 10px",
+                                  color:"#222222",
                                   borderRadius: "60px",
-
-                                  backgroundColor: "#EBEBEB",
-
+                                  // backgroundColor: "#EBEBEB",
                                   textAlign: "start",
                                   fontSize: "11px",
                                   fontWeight: 500,
                                   fontFamily: "Gilroy",
                                 }}
                               >
-
-                                {user.desc === "Invoice"
-                                  ? "Credit" : "Debit"
-                                }
+                                {user.type}
                               </span>
                             </td>
-
-
                           </tr>
                         );
                       })}
-                    </tbody> */}
-
-                    <tbody style={{ textAlign: "center" }}>
-                      <PaginationList>
-                        {sortedData?.map((user) => {
-                          const Dated = new Date(user.date);
-                          const day = Dated.getDate();
-                          const month = Dated.getMonth();
-                          const year = Dated.getFullYear();
-
-                          const monthNames = [
-                            "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
-                          ];
-
-                          const formattedDate = `${day} ${monthNames[month]} ${year}`;
-
-                          return (
-                            <tr
-                              key={user.id}
-                              style={{
-                                fontSize: "13px",
-                                fontWeight: 600,
-                                textAlign: "center",
-                                marginTop: 10,
-                              }}
-                            >
-                              <td
-                                style={{
-                                  border: "none",
-                                  textAlign: "start",
-                                  fontSize: "13px",
-                                  fontWeight: 600,
-                                  fontFamily: "Gilroy",
-                                  paddingTop: 15,
-                                }}
-                                className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
-                              >
-                                <div className="ps-2 ps-lg-2">
-                                  {user.accountHolder}
-                                </div>
-                              </td>
-                              <td
-                                style={{
-                                  paddingTop: 15,
-                                  border: "none",
-                                  textAlign: "start",
-                                  fontSize: "13px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  whiteSpace: "nowrap",
-                                }}
-                                className="ps-2 ps-lg-2"
-                              >
-                                <span
-                                  style={{
-                                    padding: "3px 10px",
-                                    borderRadius: "60px",
-                                    textAlign: "center",
-                                    fontSize: "11px",
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    backgroundColor: "#EBEBEB",
-                                  }}
-                                >
-                                  {user.createdAt}
-                                </span>
-                              </td>
-                              <td
-                                style={{
-                                  border: "none",
-                                  textAlign: "start",
-                                  fontSize: "13px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  paddingTop: 15,
-                                }}
-                                className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
-                              >
-                                {user.amount}
-                              </td>
-                              <td
-                                style={{
-                                  border: "none",
-                                  textAlign: "start",
-                                  fontSize: "13px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  paddingTop: 15,
-                                }}
-                                className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
-                              >
-                                {user.source}
-                              </td>
-                              <td
-                                style={{
-                                  paddingTop: 15,
-                                  border: "none",
-                                  textAlign: "start",
-                                  fontSize: "13px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  whiteSpace: "nowrap",
-                                }}
-                                className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
-                              >
-                                <span
-                                  style={{
-                                    padding: "3px 10px",
-                                    borderRadius: "60px",
-                                    backgroundColor: "#EBEBEB",
-                                    textAlign: "start",
-                                    fontSize: "11px",
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                  }}
-                                >
-                                  {user.type}
-                                </span>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </PaginationList>
-                    </tbody>
+                    </PaginationList>
+                  </tbody>
 
 
 
 
-                  </Table>
-                </div>
-              </div>
+                </Table>
+             
+            </div>
 
-            ) : (
+          ) : (
 
-              <div>
-                {!loader && sortedData.length === 0  && canReadBanking &&
+            <div>
+              {!loader && sortedData.length === 0 && canReadBanking &&
 
-                  <div>
+                <div>
 
-                    <div style={{ textAlign: "center" }}>
-                      <img
-                        src={emptyimg}
-                        width={240}
-                        height={240}
-                        alt="emptystate"
-                      />
-                    </div>
-                    <div
-                      className="pb-1"
-                      style={{
-                        textAlign: "center",
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                        fontSize: 18,
-                        color: "rgba(75, 75, 75, 1)",
-                      }}
-                    >
-                      No Transaction{" "}
-                    </div>
-                    <div
-                      className="pb-1"
-                      style={{
-                        textAlign: "center",
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        fontSize: 14,
-                        color: "rgba(75, 75, 75, 1)",
-                      }}
-                    >
-                      There are no Transaction available.{" "}
-                    </div>
+                  <div style={{ textAlign: "center" }}>
+                    <img
+                      src={emptyimg}
+                      width={240}
+                      height={240}
+                      alt="emptystate"
+                    />
                   </div>
-                }
-                {loader &&
                   <div
+                    className="pb-1"
                     style={{
-                      position: 'absolute',
-                      top: 0,
-                      right: 0,
-                      bottom: 0,
-                      left: '200px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      backgroundColor: 'transparent',
-                      opacity: 0.75,
-                      zIndex: 10,
+                      textAlign: "center",
+                      fontWeight: 600,
+                      fontFamily: "Gilroy",
+                      fontSize: 18,
+                      color: "rgba(75, 75, 75, 1)",
                     }}
                   >
-                    <div
-                      style={{
-                        borderTop: '4px solid #1E45E1',
-                        borderRight: '4px solid transparent',
-                        borderRadius: '50%',
-                        width: '40px',
-                        height: '40px',
-                        animation: 'spin 1s linear infinite',
-                      }}
-                    ></div>
+                    No Transaction{" "}
                   </div>
-                }
-              </div>
-            )}
-
-            {/* {transactionFilterddata?.length > 5 && (
-              <nav
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "end",
-                  padding: "10px",
-                  borderRadius: "5px",
-                  position: "fixed",
-                  zIndex: 1000,
-                  width: '83%',
-                  bottom: 0,
-                  left: '17%',
-                  right: '16px',
-                  backgroundColor: "#fff"
-                }}
-              >
-                <div>
-                  <Select
-                    options={transactionPageOptions}
-                    value={
-                      transactionrowsPerPage
-                        ? { value: transactionrowsPerPage, label: `${transactionrowsPerPage}` }
-                        : null
-                    }
-                    onChange={handleItemsPerPageChange}
-                    placeholder="Rows per page"
-                    classNamePrefix="custom"
-                    menuPlacement="auto"
-                    noOptionsMessage={() => "No options"}
-                    styles={{
-                      control: (base) => ({
-                        ...base,
-                        height: "40px",
-                        border: "1px solid #1E45E1",
-                        borderRadius: "5px",
-                        fontSize: "14px",
-                        color: "#1E45E1",
-                       fontWeight: 600,
-                        fontFamily: "Gilroy",
-                        boxShadow: "0 0 0 1px #1E45E1",
-                        cursor: "pointer",
-                         width:90,
-                      }),
-                      menu: (base) => ({
-                        ...base,
-                        backgroundColor: "#f8f9fa",
-                        border: "1px solid #ced4da",
-                        fontFamily: "Gilroy",
-                      }),
-                      menuList: (base) => ({
-                        ...base,
-                        backgroundColor: "#f8f9fa",
-                        maxHeight: "200px",
-                        padding: 0,
-                        scrollbarWidth: "thin",
-                        overflowY: "auto",
-                      }),
-                      placeholder: (base) => ({
-                        ...base,
-                        color: "#555",
-                      }),
-                      dropdownIndicator: (base) => ({
-                        ...base,
-                        color: "#1E45E1",
-                        cursor: "pointer",
-                      }),
-                      indicatorSeparator: () => ({
-                        display: "none",
-                      }),
-                      option: (base, state) => ({
-                        ...base,
-                        cursor: "pointer",
-                        backgroundColor: state.isFocused ? "#1E45E1" : "white",
-                        color: state.isFocused ? "#fff" : "#000",
-                      }),
+                  <div
+                    className="pb-1"
+                    style={{
+                      textAlign: "center",
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
+                      fontSize: 14,
+                      color: "rgba(75, 75, 75, 1)",
                     }}
-                  />
+                  >
+                    There are no Transaction available.{" "}
+                  </div>
                 </div>
-
-                <ul className="selectoption"
+              }
+              {loader &&
+                <div
                   style={{
-                    display: "flex",
-                    alignItems: "center",
-                    listStyleType: "none",
-                    margin: 0,
-                    padding: 0,
+                    position: 'absolute',
+                    top: 0,
+                    right: 0,
+                    bottom: 0,
+                    left: '200px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: 'transparent',
+                    opacity: 0.75,
+                    zIndex: 10,
                   }}
                 >
-
-                  <li style={{ margin: "0 10px" }}>
-                    <button
-                      style={{
-                        padding: "5px",
-                        textDecoration: "none",
-                        color:
-                          transactioncurrentPage === 1 ? "#ccc" : "#1E45E1",
-                        cursor:
-                          transactioncurrentPage === 1
-                            ? "not-allowed"
-                            : "pointer",
-                        borderRadius: "50%",
-                        display: "inline-block",
-                        minWidth: "30px",
-                        textAlign: "center",
-                        backgroundColor: "transparent",
-                        border: "none",
-                      }}
-                      onClick={() =>
-                        handlePageChange(transactioncurrentPage - 1)
-                      }
-                      disabled={transactioncurrentPage === 1}
-                    >
-                      <ArrowLeft2
-                        size="16"
-                        color={
-                          transactioncurrentPage === 1 ? "#ccc" : "#1E45E1"
-                        }
-                      />
-                    </button>
-                  </li>
-
-                  <li
+                  <div
                     style={{
-                      margin: "0 10px",
-                      fontSize: "14px",
-                      fontWeight: "bold",
+                      borderTop: '4px solid #1E45E1',
+                      borderRight: '4px solid transparent',
+                      borderRadius: '50%',
+                      width: '40px',
+                      height: '40px',
+                      animation: 'spin 1s linear infinite',
                     }}
-                  >
-                    {transactioncurrentPage} of {totalPagesTransaction}
-                  </li>
+                  ></div>
+                </div>
+              }
+            </div>
+          )}
 
-                  <li style={{ margin: "0 10px" }}>
-                    <button
-                      style={{
-                        padding: "5px",
-                        textDecoration: "none",
-                        color:
-                          transactioncurrentPage === totalPagesTransaction
-                            ? "#ccc"
-                            : "#1E45E1",
-                        cursor:
-                          transactioncurrentPage === totalPagesTransaction
-                            ? "not-allowed"
-                            : "pointer",
-                        borderRadius: "50%",
-                        display: "inline-block",
-                        minWidth: "30px",
-                        textAlign: "center",
-                        backgroundColor: "transparent",
-                        border: "none",
-                      }}
-                      onClick={() =>
-                        handlePageChange(transactioncurrentPage + 1)
-                      }
-                      disabled={
-                        transactioncurrentPage === totalPagesTransaction
-                      }
-                    >
-                      <ArrowRight2
-                        size="16"
-                        color={
-                          transactioncurrentPage === totalPagesTransaction
-                            ? "#ccc"
-                            : "#1E45E1"
-                        }
-                      />
-                    </button>
-                  </li>
-                </ul>
-              </nav>
-            )}  */}
-          </div>
-          <Modal
-            show={deleteShow}
-            onHide={handleCloseDelete}
-            centered
-            backdrop="static"
-            dialogClassName="custom-delete-modal"
-          >
-            <Modal.Header style={{ borderBottom: "none" }}>
-              <Modal.Title
-                className="w-100 text-center"
-                style={{
-                  fontSize: "18px",
-                  fontFamily: "Gilroy",
-
-                  fontWeight: 600,
-                  color: "#222222",
-
-                }}
-              >
-                Delete Banking?
-              </Modal.Title>
-            </Modal.Header>
-
-            <Modal.Body
-              className="text-center"
+      
+        </div>
+        <Modal
+          show={deleteShow}
+          onHide={handleCloseDelete}
+          centered
+          backdrop="static"
+          dialogClassName="custom-delete-modal"
+        >
+          <Modal.Header style={{ borderBottom: "none" }}>
+            <Modal.Title
+              className="w-100 text-center"
               style={{
-                fontSize: 14,
-                fontWeight: 500,
+                fontSize: "18px",
                 fontFamily: "Gilroy",
-                color: "#646464",
 
-                marginTop: "-10px",
+                fontWeight: 600,
+                color: "#222222",
+
               }}
             >
-              Are you sure you want to delete this Bank-details?
-            </Modal.Body>
+              Delete Banking?
+            </Modal.Title>
+          </Modal.Header>
 
-            <Modal.Footer
-              className="d-flex justify-content-center"
-              style={{
-
-                borderTop: "none",
-                marginTop: "-10px",
-              }}
-            >
-              <Button
-                className="me-2"
-                style={{
-                  width: "100%",
-                  maxWidth: 160,
-                  height: 52,
-                  borderRadius: 8,
-                  padding: "12px 20px",
-                  background: "#fff",
-                  color: "#1E45E1",
-                  border: "1px solid #1E45E1",
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                  fontSize: "14px",
-                }}
-                onClick={handleCloseDelete}
-              >
-                Cancel
-              </Button>
-              <Button
-                style={{
-                  width: "100%",
-                  maxWidth: 160,
-                  height: 52,
-                  borderRadius: 8,
-                  padding: "12px 20px",
-                  background: "#1E45E1",
-                  color: "#FFFFFF",
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                  fontSize: "14px",
-                }}
-                onClick={handleDeleteBank}
-              >
-                Delete
-              </Button>
-            </Modal.Footer>
-          </Modal>
-
-          <Modal
-            show={showAddBalance}
-            onHide={() => handleCloseAddBalance()}
-            backdrop="static"
-            centered
-            className="modal-dialog-centered"
+          <Modal.Body
+            className="text-center"
             style={{
-              maxWidth: "353px",
-              width: "80vw",
+              fontSize: 14,
+              fontWeight: 500,
+              fontFamily: "Gilroy",
+              color: "#646464",
+
+              marginTop: "-10px",
             }}
           >
-            <Modal.Header
-              style={{ position: "relative" }}
+            Are you sure you want to delete this Bank-details?
+          </Modal.Body>
+
+          <Modal.Footer
+            className="d-flex justify-content-center"
+            style={{
+
+              borderTop: "none",
+              marginTop: "-10px",
+            }}
+          >
+            <Button
+              className="me-2"
+              style={{
+                width: "100%",
+                maxWidth: 160,
+                height: 52,
+                borderRadius: 8,
+                padding: "12px 20px",
+                background: "#fff",
+                color: "#1E45E1",
+                border: "1px solid #1E45E1",
+                fontWeight: 600,
+                fontFamily: "Gilroy",
+                fontSize: "14px",
+              }}
+              onClick={handleCloseDelete}
             >
-              <div
-                style={{
-                  fontSize: "1.25rem",
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                }}
-              >
-                Add Balance
-              </div>
-              <CloseCircle size="24" color="#000" onClick={handleCloseAddBalance}
-                style={{ cursor: 'pointer' }} />
+              Cancel
+            </Button>
+            <Button
+              style={{
+                width: "100%",
+                maxWidth: 160,
+                height: 52,
+                borderRadius: 8,
+                padding: "12px 20px",
+                background: "#1E45E1",
+                color: "#FFFFFF",
+                fontWeight: 600,
+                fontFamily: "Gilroy",
+                fontSize: "14px",
+              }}
+              onClick={handleDeleteBank}
+            >
+              Delete
+            </Button>
+          </Modal.Footer>
+        </Modal>
 
-            </Modal.Header>
-            <Modal.Body className="pt-2">
-              <div className="col-12">
-                <Form.Group className="mb-3">
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    Account{" "}
-                    <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                  </Form.Label>
-                  <FormControl
-                    type="text"
-                    id="form-controls"
-                    placeholder="Enter Account"
-                    value={AddBankName}
+        <Modal
+          show={showAddBalance}
+          onHide={() => handleCloseAddBalance()}
+          backdrop="static"
+          centered
+          className="modal-dialog-centered"
+          style={{
+            maxWidth: "353px",
+            width: "80vw",
+          }}
+        >
+          <Modal.Header
+            style={{ position: "relative" }}
+          >
+            <div
+              style={{
+                fontSize: "1.25rem",
+                fontWeight: 600,
+                fontFamily: "Gilroy",
+              }}
+            >
+              Add Balance
+            </div>
+            <CloseCircle size="24" color="#000" onClick={handleCloseAddBalance}
+              style={{ cursor: 'pointer' }} />
 
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                    }}
-                  />
-                </Form.Group>
-              </div>
+          </Modal.Header>
+          <Modal.Body className="pt-2">
+            <div className="col-12">
+              <Form.Group className="mb-3">
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    color: "#222222",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  Account{" "}
+                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                </Form.Label>
+                <FormControl
+                  type="text"
+                  id="form-controls"
+                  placeholder="Enter Account"
+                  value={AddBankName}
 
-              <div className="col-12" style={{ marginTop: -10 }}>
-                <Form.Group className="mb-3">
-                  <Form.Label
-                    style={{
-                      fontSize: "0.875rem",
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    Balance {""}
-                    <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                  </Form.Label>
-                  <FormControl
-                    type="text"
-                    placeholder="Enter Amount"
-                    value={AddBankAmount}
-                    onChange={(e) => handleAddBankAmount(e)}
-                    style={{
-                      fontSize: "1rem",
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: "50px",
-                      borderRadius: "8px",
-                    }}
-                  />
-                  {amountError && (
-                    <ErrorMessage message={amountError} type="error" />
+                  style={{
+                    fontSize: 16,
+                    color: "#4B4B4B",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    boxShadow: "none",
+                    border: "1px solid #D9D9D9",
+                    height: 50,
+                    borderRadius: 8,
+                  }}
+                />
+              </Form.Group>
+            </div>
 
-                  )}
-                </Form.Group>
+            <div className="col-12" style={{ marginTop: -10 }}>
+              <Form.Group className="mb-3">
+                <Form.Label
+                  style={{
+                    fontSize: "0.875rem",
+                    color: "#222222",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  Balance {""}
+                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                </Form.Label>
+                <FormControl
+                  type="text"
+                  placeholder="Enter Amount"
+                  value={AddBankAmount}
+                  onChange={(e) => handleAddBankAmount(e)}
+                  style={{
+                    fontSize: "1rem",
+                    color: "#4B4B4B",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    boxShadow: "none",
+                    border: "1px solid #D9D9D9",
+                    height: "50px",
+                    borderRadius: "8px",
+                  }}
+                />
+                {amountError && (
+                  <ErrorMessage message={amountError} type="error" />
+
+                )}
+              </Form.Group>
 
 
 
 
 
-                {/* {state.createAccount?.networkError ?
+              {/* {state.createAccount?.networkError ?
                 <div className="d-flex justify-content-center mt-1 mb-1">
                   <ErrorMessage message={state.createAccount?.networkError} type="error" />
                   </div>
@@ -2205,209 +1789,209 @@ useEffect(() => {
 
 
 
-                <Button
-                  className="col-12"
-                  style={{
-                    backgroundColor: "#1E45E1",
-                    fontWeight: 600,
-                    height: "50px",
-                    borderRadius: "12px",
-                    fontSize: "16px",
-                    fontFamily: "Gilroy",
-                    marginTop: "10px",
-                  }}
-                  onClick={handleAddAmountSubmit}
-                >
-                  Add balance
-                </Button>
-              </div>
+              <Button
+                className="col-12"
+                style={{
+                  backgroundColor: "#1E45E1",
+                  fontWeight: 600,
+                  height: "50px",
+                  borderRadius: "12px",
+                  fontSize: "16px",
+                  fontFamily: "Gilroy",
+                  marginTop: "10px",
+                }}
+                onClick={handleAddAmountSubmit}
+              >
+                Add balance
+              </Button>
+            </div>
 
-            </Modal.Body>
-
-
+          </Modal.Body>
 
 
 
 
-            {formLoading && <div
+
+
+          {formLoading && <div
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
               style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'transparent',
-                opacity: 0.75,
-                zIndex: 10,
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>}
+        </Modal>
+
+
+
+
+        <Modal show={selfTranfer} onHide={handleCloseSElfTransfer} centered backdrop="static">
+
+          <Modal.Header
+            style={{ position: "relative" }}
+          >
+            <div
+              style={{
+                fontSize: "1.25rem",
+                fontWeight: 600,
+                fontFamily: "Gilroy",
+                color: "#1E45E1"
               }}
             >
-              <div
-                style={{
-                  borderTop: '4px solid #1E45E1',
-                  borderRight: '4px solid transparent',
-                  borderRadius: '50%',
-                  width: '40px',
-                  height: '40px',
-                  animation: 'spin 1s linear infinite',
-                }}
-              ></div>
-            </div>}
-          </Modal>
+              Self Transfer
+            </div>
+            <CloseCircle size="24" color="#000" onClick={handleCloseSElfTransfer}
+              style={{ cursor: 'pointer' }} />
 
+          </Modal.Header>
 
+          <Modal.Body>
+            <div>
+              <h6 style={{ color: "#4B4B4B", fontSize: 16, fontWeight: 500, fontFamily: "Gilroy" }}>From</h6>
 
-
-          <Modal show={selfTranfer} onHide={handleCloseSElfTransfer} centered backdrop="static">
-
-            <Modal.Header
-              style={{ position: "relative" }}
-            >
-              <div
-                style={{
-                  fontSize: "1.25rem",
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                  color: "#1E45E1"
-                }}
-              >
-                Self Transfer
-              </div>
-              <CloseCircle size="24" color="#000" onClick={handleCloseSElfTransfer}
-                style={{ cursor: 'pointer' }} />
-
-            </Modal.Header>
-
-            <Modal.Body>
-              <div>
-                <h6 style={{ color: "#4B4B4B", fontSize: 16, fontWeight: 500, fontFamily: "Gilroy" }}>From</h6>
-
-                <div className="d-flex align-items-center p-3" style={{ borderBottom: "1px solid #ccc" }}>
-                  <img
-                    src={banklogo}
-                    style={{ marginTop: "-10px" }}
-                    width="50"
-                    height="50"
-                    className="me-3"
-                    alt="bank"
-                  />
-
-                  <div className="w-100 d-flex justify-content-between align-items-start">
-                    <div>
-                      <div style={{ fontWeight: 600, color: "#1A1A1A", fontFamily: "Gilroy", fontSize: 14 }}>Canara Bank</div>
-                      <div className="small text-muted" style={{ fontFamily: "Gilroy", fontSize: 12 }}>Savings A/C</div>
-                    </div>
-
-                    <div className="text-end" style={{ fontFamily: "Gilroy" }}>
-                      <div style={{ fontWeight: 500, color: "#1A1A1A", fontSize: 14 }}>Immanuel</div>
-                      <div className="small" style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 400 }}>4561 2013 6210 6540</div>
-                      <div className="small fw-semibold" style={{ color: "#1E45E1" }}>
-                        Avl Bal : ₹10,000.00
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-
-              <div className="mb-3">
-                <h6 className="mt-1" style={{ color: "#4B4B4B", fontSize: 16, fontWeight: 500, fontFamily: "Gilroy" }}>To</h6>
-
-                <div className="d-flex align-items-center p-3" >
-                  <img
-                    src={banklogo}
-                    style={{ marginTop: "-10px" }}
-                    width="50"
-                    height="50"
-                    className="me-3"
-                    alt="bank"
-                  />
-
-                  <div className="w-100 d-flex justify-content-between align-items-start">
-                    <div>
-                      <div style={{ fontWeight: 600, color: "#1A1A1A", fontFamily: "Gilroy", fontSize: 14 }}> State Bank of India</div>
-                      <div className="small text-muted" style={{ fontFamily: "Gilroy", fontSize: 12 }}>Savings A/C</div>
-                    </div>
-
-                    <div className="text-end" style={{ fontFamily: "Gilroy" }}>
-                      <div style={{ fontWeight: 500, color: "#1A1A1A", fontSize: 14 }}>Immanuel</div>
-                      <div className="small" style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 400 }}>4561 2013 6210 6540</div>
-                      <div className="small fw-semibold" style={{ color: "#1E45E1" }}>
-                        Avl Bal : ₹10,000.00
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="d-flex align-items-center p-3" style={{ marginTop: "-10px" }}>
-                  <img
-                    src={banklogo}
-                    style={{ marginTop: "-10px" }}
-                    width="50"
-                    height="50"
-                    className="me-3"
-                    alt="bank"
-                  />
-
-                  <div className="w-100 d-flex justify-content-between align-items-start">
-                    <div>
-                      <div style={{ fontWeight: 600, color: "#1A1A1A", fontFamily: "Gilroy", fontSize: 14 }}> ICICI</div>
-                      <div className="small text-muted" style={{ fontFamily: "Gilroy", fontSize: 12 }}>Savings A/C</div>
-                    </div>
-
-                    <div className="text-end" style={{ fontFamily: "Gilroy" }}>
-                      <div style={{ fontWeight: 500, color: "#1A1A1A", fontSize: 14 }}>Immanuel</div>
-                      <div className="small" style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 400 }}>4561 2013 6210 6540</div>
-                      <div className="small fw-semibold" style={{ color: "#1E45E1" }}>
-                        Avl Bal : ₹10,000.00
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-
-              <div className="input-group">
-                <span className="input-group-text bg-white border-end-0 rounded-start">₹</span>
-                <input
-                  type="text"
-                  className="form-control border-start-0 rounded-end"
-                  placeholder="Enter amount"
-                  value={amount}
-                  onChange={handleChange}
-                  style={{ boxShadow: 'none', outline: "none", fontFamily: "Gilroy" }}
+              <div className="d-flex align-items-center p-3" style={{ borderBottom: "1px solid #ccc" }}>
+                <img
+                  src={banklogo}
+                  style={{ marginTop: "-10px" }}
+                  width="50"
+                  height="50"
+                  className="me-3"
+                  alt="bank"
                 />
+
+                <div className="w-100 d-flex justify-content-between align-items-start">
+                  <div>
+                    <div style={{ fontWeight: 600, color: "#1A1A1A", fontFamily: "Gilroy", fontSize: 14 }}>Canara Bank</div>
+                    <div className="small text-muted" style={{ fontFamily: "Gilroy", fontSize: 12 }}>Savings A/C</div>
+                  </div>
+
+                  <div className="text-end" style={{ fontFamily: "Gilroy" }}>
+                    <div style={{ fontWeight: 500, color: "#1A1A1A", fontSize: 14 }}>Immanuel</div>
+                    <div className="small" style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 400 }}>4561 2013 6210 6540</div>
+                    <div className="small fw-semibold" style={{ color: "#1E45E1" }}>
+                      Avl Bal : ₹10,000.00
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div className="mb-3">
+              <h6 className="mt-1" style={{ color: "#4B4B4B", fontSize: 16, fontWeight: 500, fontFamily: "Gilroy" }}>To</h6>
+
+              <div className="d-flex align-items-center p-3" >
+                <img
+                  src={banklogo}
+                  style={{ marginTop: "-10px" }}
+                  width="50"
+                  height="50"
+                  className="me-3"
+                  alt="bank"
+                />
+
+                <div className="w-100 d-flex justify-content-between align-items-start">
+                  <div>
+                    <div style={{ fontWeight: 600, color: "#1A1A1A", fontFamily: "Gilroy", fontSize: 14 }}> State Bank of India</div>
+                    <div className="small text-muted" style={{ fontFamily: "Gilroy", fontSize: 12 }}>Savings A/C</div>
+                  </div>
+
+                  <div className="text-end" style={{ fontFamily: "Gilroy" }}>
+                    <div style={{ fontWeight: 500, color: "#1A1A1A", fontSize: 14 }}>Immanuel</div>
+                    <div className="small" style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 400 }}>4561 2013 6210 6540</div>
+                    <div className="small fw-semibold" style={{ color: "#1E45E1" }}>
+                      Avl Bal : ₹10,000.00
+                    </div>
+                  </div>
+                </div>
               </div>
 
+              <div className="d-flex align-items-center p-3" style={{ marginTop: "-10px" }}>
+                <img
+                  src={banklogo}
+                  style={{ marginTop: "-10px" }}
+                  width="50"
+                  height="50"
+                  className="me-3"
+                  alt="bank"
+                />
 
-              <div className="text-end mt-3">
-                <Button variant="primary" >
-                  Transfer
-                </Button>
+                <div className="w-100 d-flex justify-content-between align-items-start">
+                  <div>
+                    <div style={{ fontWeight: 600, color: "#1A1A1A", fontFamily: "Gilroy", fontSize: 14 }}> ICICI</div>
+                    <div className="small text-muted" style={{ fontFamily: "Gilroy", fontSize: 12 }}>Savings A/C</div>
+                  </div>
+
+                  <div className="text-end" style={{ fontFamily: "Gilroy" }}>
+                    <div style={{ fontWeight: 500, color: "#1A1A1A", fontSize: 14 }}>Immanuel</div>
+                    <div className="small" style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 400 }}>4561 2013 6210 6540</div>
+                    <div className="small fw-semibold" style={{ color: "#1E45E1" }}>
+                      Avl Bal : ₹10,000.00
+                    </div>
+                  </div>
+                </div>
               </div>
-            </Modal.Body>
-          </Modal>
+            </div>
+
+
+            <div className="input-group">
+              <span className="input-group-text bg-white border-end-0 rounded-start">₹</span>
+              <input
+                type="text"
+                className="form-control border-start-0 rounded-end"
+                placeholder="Enter amount"
+                value={amount}
+                onChange={handleChange}
+                style={{ boxShadow: 'none', outline: "none", fontFamily: "Gilroy" }}
+              />
+            </div>
+
+
+            <div className="text-end mt-3">
+              <Button variant="primary" >
+                Transfer
+              </Button>
+            </div>
+          </Modal.Body>
+        </Modal>
 
 
 
 
 
-          {showForm === true ? (
-            <BankingAddForm
-              handleShowForm={handleShowForm}
-              showForm={showForm}
-              setShowForm={setShowForm}
-              editAddBank={editAddBank}
-              setEditAddBank={setEditAddBank}
-              setEdit={setEdit}
-              edit={edit}
+        {showForm === true ? (
+          <BankingAddForm
+            handleShowForm={handleShowForm}
+            showForm={showForm}
+            setShowForm={setShowForm}
+            editAddBank={editAddBank}
+            setEditAddBank={setEditAddBank}
+            setEdit={setEdit}
+            edit={edit}
 
 
-            />
-          ) : null}
-        </div>
-     
+          />
+        ) : null}
+      </div>
+
     </>
   );
 }

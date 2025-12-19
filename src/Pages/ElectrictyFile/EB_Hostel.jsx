@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 // import LoaderComponent from "../LoaderComponent";
 import { Table } from "react-bootstrap";
-import {Offcanvas, Button, Form,  } from "react-bootstrap";
+import { Offcanvas, Button, Form, } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FiFilter } from "react-icons/fi";
 import searchteam from "../../Assets/Images/New_images/Search Team.png";
@@ -50,6 +50,8 @@ const RoomReadingTable = () => {
 
 
 
+
+  const isEbBased = state.UsersList?.getRoomReadingList?.isHostelBased
 
 
 
@@ -103,6 +105,7 @@ const RoomReadingTable = () => {
     setRoomDetail(true);
   };
   const handleTenantsDetailsPage = (tenant) => {
+    console.log("")
     setSelectedTenant(tenant);
     setTenantsDetail(true);
   };
@@ -192,8 +195,6 @@ const RoomReadingTable = () => {
 
 
 
-  const isEbBased = state.UsersList?.getRoomReadingList?.isHostelBased
-
 
 
 
@@ -211,7 +212,7 @@ const RoomReadingTable = () => {
   };
 
   const formattedReadings = customerReadingList?.map((item) => {
-    const [ month, year] = item.startDate.split("/");
+    const [month, year] = item.startDate.split("/");
     const billingMonth = new Date(`${year}-${month}-01`).toLocaleString("en-US", {
       month: "short",
       year: "numeric",
@@ -225,20 +226,26 @@ const RoomReadingTable = () => {
       });
     };
 
-    // const formatReadingDate = (dateStr) => {
-    //   if (!dateStr) return "-";
-    //   const [day, month, year] = dateStr.split("/").map(Number);
-    //   return new Date(year, month - 1, day).toLocaleDateString("en-GB", {
-    //     day: "2-digit",
-    //     month: "short",
-    //     year: "numeric",
-    //   });
-    // };
+     const getBillingMonth = (dateStr) => {
+            if (!dateStr) return "-";
+
+            const parts = dateStr.split("/");
+            if (parts.length !== 3) return "-";
+
+            const [day, month, year] = parts.map(Number);
+            if (!day || !month || !year) return "-";
+
+            return new Date(year, month - 1, 1).toLocaleString("en-US", {
+                month: "short",
+                year: "numeric",
+            });
+        };
+   
 
 
     return {
       fullName: item.fullName,
-      billingMonth: billingMonth,
+      billingMonth: getBillingMonth(item.startDate),
       from: formatDate(item.startDate),
       to: formatDate(item.endDate),
       // totalUnits: item.consumption,
@@ -248,6 +255,8 @@ const RoomReadingTable = () => {
       bedName: item.bedName,
       totalUnits: item.totalUnits,
       totalAmount: item.totalAmount,
+      initials: item.initials,
+      customerId: item.customerId
     };
   });
 
@@ -322,7 +331,7 @@ const RoomReadingTable = () => {
 
 
       {!roomDetail && !tenantsDetail ? (
-        <div className="container-fluid p-4" style={{ fontFamily: "Gilroy" }}>
+        <div className="sticky-top bg-white" style={{ margin: 5, fontFamily: "Gilroy" }}>
           <div className="mb-3">
             <label
               style={{
@@ -831,21 +840,21 @@ const RoomReadingTable = () => {
                               zIndex: 2,
                             }}
                           >
-                            <tr className="text-uppercase" style={{ textAlign: "center" }}>
-                              <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                            <tr className="text-uppercase" style={{ textAlign: "" }}>
+                              <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
                                 FLOOR <img src={arrowSwap} style={{ marginLeft: "4px" }} alt="swap" />
                               </th>
-                              <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                              <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
                                 ROOM <img src={arrowSwap} style={{ marginLeft: "4px" }} alt="swap" />
                               </th>
-                              <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>OCCUPANTS</th>
-                              <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>BILLING MONTH</th>
-                              <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>FROM</th>
-                              <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>TO</th>
-                              <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>TOTAL UNITS</th>
-                              <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>AMOUNT</th>
+                              <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>OCCUPANTS</th>
+                              <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>BILLING MONTH</th>
+                              <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>FROM</th>
+                              <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>TO</th>
+                              <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>TOTAL UNITS</th>
+                              <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>AMOUNT</th>
                               {
-                                !isEbBased && <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>ACTION</th>
+                                !isEbBased && <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>ACTION</th>
 
                               }
                             </tr>
@@ -853,23 +862,23 @@ const RoomReadingTable = () => {
                           <tbody style={{ fontSize: 14, color: "#000" }}>
                             <PaginationList>
                               {formattedRoomReadings?.map((row, i) => (
-                                <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "", textAlign: "center" }}>
-                                  <td style={{ fontSize: 15, fontWeight: 600, textAlign: "center", padding: "12px 16px" }}>{row?.floorName}</td>
+                                <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "", textAlign: "" }}>
+                                  <td style={{ fontSize: 15, fontWeight: 600, textAlign: "", }}>{row?.floorName}</td>
                                   <td
-                                    style={{ textAlign: "center", padding: "12px 16px", color: canReadElectricity ? "#1E45E1" : "#DBDBDB", cursor: "pointer", fontWeight: 600, paddingLeft: "40px" }}
+                                    style={{ textAlign: "", color: canReadElectricity ? "#1E45E1" : "#DBDBDB", cursor: "pointer", fontWeight: 600,  }}
                                     onClick={() => canReadElectricity && handleRoomDetailsPage(row)}
                                   >
                                     {row?.roomName}
                                   </td>
-                                  <td style={{ padding: "12px 16px" }} >{row?.noOfTenants}</td>
-                                  <td style={{ paddingLeft: "", padding: "12px 16px" }}>
+                                  <td style={{}} >{row?.noOfTenants}</td>
+                                  <td style={{ paddingLeft: "", }}>
                                     {row.billingMonth || "N/A"}
                                   </td>
 
-                                  <td style={{ paddingLeft: "", padding: "12px 16px" }}>{row?.from || "N/A"}</td>
-                                  <td style={{ paddingLeft: "", padding: "12px 16px" }}>{row?.to || "N/A"}</td>
-                                  <td style={{ paddingLeft: "", padding: "12px 16px" }}>{row?.totalUnits}</td>
-                                  <td style={{ paddingLeft: "", padding: "12px 16px" }}>{row?.totalPrice || '0'}</td>
+                                  <td style={{}}>{row?.from || "N/A"}</td>
+                                  <td style={{}}>{row?.to || "N/A"}</td>
+                                  <td style={{}}>{row?.totalUnits}</td>
+                                  <td style={{}}>{row?.totalPrice || '0'}</td>
                                   {
                                     !isEbBased &&
                                     <td style={{ cursor: canWriteElectricity ? "pointer" : "not-allowed" }}>
@@ -978,27 +987,46 @@ const RoomReadingTable = () => {
                           }}
                         >
                           <tr className="text-uppercase" style={{ textAlign: "center" }}>
-                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>NAME</th>
-                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>BILLING MONTH</th>
-                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>FROM</th>
-                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>TO</th>
-                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>FLOOR <img src={arrowSwap} style={{ marginLeft: "4px" }} alt="swap" /></th>
-                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>ROOM <img src={arrowSwap} style={{ marginLeft: "4px" }} alt="swap" /></th>
-                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>BED</th>
+                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>NAME</th>
+                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>BILLING MONTH</th>
+                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>FROM</th>
+                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>TO</th>
+                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>FLOOR <img src={arrowSwap} style={{ marginLeft: "4px" }} alt="swap" /></th>
+                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>ROOM <img src={arrowSwap} style={{ marginLeft: "4px" }} alt="swap" /></th>
+                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>BED</th>
 
-                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>TOTAL UNITS</th>
-                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>AMOUNT <img src={arrowSwap} style={{ marginLeft: "4px" }} alt="swap" /></th>
+                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>TOTAL UNITS</th>
+                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>AMOUNT <img src={arrowSwap} style={{ marginLeft: "4px" }} alt="swap" /></th>
 
                           </tr>
                         </thead>
-                        <tbody style={{ fontSize: 14, color: "" }}>
+                        <tbody style={{ fontSize: 13, color: "" }}>
                           <PaginationList>
                             {formattedReadings?.map((row, i) => (
-                              <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px", color: "" }}>
+                              <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "", color: "" }}>
 
-                                <td style={{ paddingLeft: "", fontWeight: 600, color: "#1E45E1", cursor: "pointer", textAlign: "start" }}
+                                <td className="p-0 d-flex align-items-center gap-2 ms-4 p-1" style={{ paddingLeft: "", fontWeight: 600, color: "#1E45E1", cursor: "pointer", textAlign: "start" }}
                                   onClick={() => handleTenantsDetailsPage(row)}>
-                                  <img src={row.profilePic ? row.profilePic : Ellipse1} alt="" style={{ marginRight: "12px", height: 45, width: 45 }} />
+                                  {row.profilePic ?
+                                    <img src={row.profilePic} alt="" style={{ marginRight: "12px", height: 40, width: 40 }} />
+                                    :
+                                    <div
+                                      style={{
+                                        height: 30,
+                                        width: 30,
+                                        borderRadius: "50%",
+                                        backgroundColor: "#1E45E1",
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        fontSize: 13,
+                                        fontWeight: "600",
+                                        color: "white", fontFamily: "Gilroy"
+                                      }}
+                                    >
+                                      {row?.initials || "-"}
+                                    </div>
+                                  }
                                   {row.fullName}
                                 </td>
                                 <td style={{ fontWeight: 500, textAlign: "center" }}>{row.billingMonth}</td>
@@ -1008,8 +1036,8 @@ const RoomReadingTable = () => {
                                 <td style={{ fontWeight: 500, textAlign: "center" }}>{row.roomName}</td>
                                 <td style={{ fontWeight: 500, textAlign: "center" }}>{row.bedName}</td>
 
-                                <td style={{ fontWeight: 500, paddingLeft: "", textAlign: "center" }}>{row.totalUnits}</td>
-                                <td style={{ fontWeight: 500, paddingLeft: "", textAlign: "center" }}>{row.totalAmount}</td>
+                                <td style={{ fontWeight: 500, textAlign: "center" }}>{row.totalUnits}</td>
+                                <td style={{ fontWeight: 500, textAlign: "center" }}>{row.totalAmount}</td>
 
                               </tr>
                             ))}

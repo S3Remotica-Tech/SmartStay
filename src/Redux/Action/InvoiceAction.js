@@ -307,8 +307,8 @@ export  function InvoiceRecurringsettings() {
 // }
 
 // v2
-export async function DeleteUser(userId) {
-  return await AxiosConfigV2.delete(`/v2/profile/delete-user/${userId}`, {
+export async function DeleteUser(user) {
+  return await AxiosConfigV2.delete(`/v2/profile/delete-user/${user.hostelId}/${user.userId}`, {
     headers: {
       "Content-Type": "application/json",
     },

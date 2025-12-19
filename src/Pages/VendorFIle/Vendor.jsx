@@ -344,25 +344,18 @@ function Vendor() {
   return (
     <>
 
-      <div style={{ width: "100%", fontFamily: "Gilroy", position: "relative", marginTop: 22 }} className='container'>
+      <div className="sticky-top bg-white" style={{ margin:5 }}>
 
 
         <div
 
-          style={{
-            height: 53,
-            position: "sticky",
-            top: 0,
-            left: 0,
-            right: 0,
-            zIndex: 1000,
-            backgroundColor: "#fff"
-          }}>
+       
+          >
 
 
 
 
-          <div className="container d-flex justify-content-between align-items-center flex-wrap"
+          <div className="p-2 d-flex justify-content-between align-items-center flex-wrap"
             style={{
               position: 'sticky',
               backgroundColor: 'white',
@@ -490,19 +483,19 @@ function Vendor() {
 
               <div >
                 <Button disabled={!canWriteVendor} onClick={handleShow} className="vendor-button"
-                  style={{
-                    fontFamily: "Gilroy",
-                    fontSize: "14px",
-                    backgroundColor: "#1E45E1",
-                    color: "white",
-                    fontWeight: 600,
-                    borderRadius: "8px",
-                    padding: "12px",
-                    marginBottom: "10px",
-                    maxHeight: 45,
-                    width: "146px",
-                    whiteSpace: "nowrap"
-                  }}
+                 style={{
+                      fontFamily: "Gilroy",
+                      fontSize: "14px",
+                      backgroundColor: "#1E45E1",
+                      color: "white",
+                      fontWeight: 600,
+                      borderRadius: "8px",
+                      padding: "8px",
+                      // marginBottom: "10px",
+                      // maxHeight: 0,
+                      width: "146px",
+                      whiteSpace: "nowrap",
+                    }}
                 > + Vendor</Button>
               </div>
             </div>

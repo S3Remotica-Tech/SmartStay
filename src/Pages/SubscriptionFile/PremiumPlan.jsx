@@ -302,7 +302,7 @@ function PremiumPlan() {
  
  
                              <tbody style={{ fontSize: "11px", verticalAlign: "middle", height: "50px" }}>
-                                 <PaginationList>
+                                 <PaginationList display={true}>
                                       
                                      {/* {hostelDetails.map((view, index) => {
                              let formattedDate = view.plan_start

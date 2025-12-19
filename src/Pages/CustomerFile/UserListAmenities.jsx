@@ -89,19 +89,19 @@ function UserListAmenities(props) {
 
   useEffect(() => {
     if (
-      state.InvoiceList.AmenitiesList &&
-      state.InvoiceList.AmenitiesList.length > 0 &&
+      state.InvoiceList.AmenitiesList?.amenities &&
+      state.InvoiceList.AmenitiesList?.amenities?.length > 0 &&
       selectAmneties
     ) {
       const AmnitiesNamelist =
-        state.InvoiceList.AmenitiesList.filter((item) => {
+        state.InvoiceList.AmenitiesList?.amenities?.filter((item) => {
           return String(item.amenityId) === String(selectAmneties);
         });
       setcreateby(AmnitiesNamelist);
     } else {
       setcreateby('');
     }
-  }, [state.InvoiceList.AmenitiesList, selectAmneties, state.InvoiceList.tenantAssignStatus]);
+  }, [state.InvoiceList.AmenitiesList?.amenities, selectAmneties, state.InvoiceList.tenantAssignStatus]);
 
 
   const uniqueAmenities = [];
@@ -483,7 +483,7 @@ function UserListAmenities(props) {
                         fontFamily: "Gilroy",
                       }}
                     >
-                      {state.UsersList.customerdetails.fullName}
+                      {state.UsersList?.customerdetails?.fullName}
                     </label>
                   </div>
 
@@ -549,12 +549,12 @@ function UserListAmenities(props) {
                 isDisabled={!canWriteAmenities || state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" || state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" || state.UsersList.customerdetails?.customerCurrentStatus === "VACATED"}
                 placeholder="Select an Amenities"
                 value={
-                  state.InvoiceList.AmenitiesList?.find(
+                  state.InvoiceList?.AmenitiesList?.amenities?.find(
                     (item) => item.amenityId === selectAmneties
                   )
                     ? {
                       value: selectAmneties,
-                      label: state.InvoiceList.AmenitiesList.find(
+                      label: state.InvoiceList?.AmenitiesList?.amenities?.find(
                         (item) => item.amenityId === selectAmneties
                       )?.amenityName,
                     }
@@ -565,8 +565,7 @@ function UserListAmenities(props) {
                     handleselect(e);
                   }
                 }}
-                options={state.InvoiceList.AmenitiesList
-                  ?.filter(
+                options={state.InvoiceList?.AmenitiesList?.amenities?.filter(
                     (item) =>
                       !CustomerOverView?.some(
                         (c) => c.amenityId === item.amenityId

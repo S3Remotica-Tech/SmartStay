@@ -71,7 +71,7 @@ const Compliance = () => {
   const [excelDownload, setExcelDownload] = useState("")
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
-    
+
 
   const {
     canWriteModule: canWriteComplaints,
@@ -81,7 +81,7 @@ const Compliance = () => {
   } = useHasPermission("Complaints");
 
 
-// console.log(state,"state")
+  // console.log(state,"state")
 
   // const canReadComplaints = useHasPermission("Complaints", "canRead");
   // const canWriteComplaints = useHasPermission("Complaints", "canWrite");
@@ -679,30 +679,30 @@ const Compliance = () => {
 
 
   function parseDMY(dateStr) {
-  if (!dateStr || typeof dateStr !== "string") {
-    return null;  
+    if (!dateStr || typeof dateStr !== "string") {
+      return null;
+    }
+
+    const parts = dateStr.split("/");
+    if (parts.length !== 3) {
+      return null;
+    }
+
+    const [day, month, year] = parts;
+    return new Date(`${year}-${month}-${day}`);
   }
 
-  const parts = dateStr.split("/");
-  if (parts.length !== 3) {
-    return null;
-  }
-
-  const [day, month, year] = parts;
-  return new Date(`${year}-${month}-${day}`);
-}
 
 
 
 
+  const currentDate = parseDMY(selectedDate);
+  const initialDate = parseDMY(initialValuesRef.current.selectedDate);
 
-const currentDate = parseDMY(selectedDate);
-const initialDate = parseDMY(initialValuesRef.current.selectedDate);
 
-
-let hasChanges =
-  description !== initialValuesRef?.current?.Description ||
-  currentDate?.getTime() !== initialDate?.getTime();
+  let hasChanges =
+    description !== initialValuesRef?.current?.Description ||
+    currentDate?.getTime() !== initialDate?.getTime();
 
 
 
@@ -738,36 +738,36 @@ let hasChanges =
     // setEdit(false)
 
 
-  
-      // const formattedDate = selectedDate ? moment(selectedDate).format('DD-MM-YYYY') : '';
-      const formattedDate = selectedDate ? selectedDate.format("DD/MM/YYYY") : null
-      const payload = {
-        customerId: userid,
-        complaintTypeId: Complainttype,
-        floorId: Floor,
-        roomId: Rooms,
-        bedId: beds,
-        complaintDate: formattedDate,
-        description: description || "",
-        hostelId: state.login.selectedHostel_Id
-      }
-      if (edit) {
-        dispatch({
-          type: "EDIT_COMPLAINT",
-          payload: {
-            complaintId: complaintId,
-            complaintDate: formattedDate,
-            description: description,
-          },
-        });
-        setFormLoading(true)
-      }
-      else {
-        dispatch({ type: 'COMPLIANCE-ADD', payload })
-        setFormLoading(true)
-      
-      }
-   
+
+    // const formattedDate = selectedDate ? moment(selectedDate).format('DD-MM-YYYY') : '';
+    const formattedDate = selectedDate ? selectedDate.format("DD/MM/YYYY") : null
+    const payload = {
+      customerId: userid,
+      complaintTypeId: Complainttype,
+      floorId: Floor,
+      roomId: Rooms,
+      bedId: beds,
+      complaintDate: formattedDate,
+      description: description || "",
+      hostelId: state.login.selectedHostel_Id
+    }
+    if (edit) {
+      dispatch({
+        type: "EDIT_COMPLAINT",
+        payload: {
+          complaintId: complaintId,
+          complaintDate: formattedDate,
+          description: description,
+        },
+      });
+      setFormLoading(true)
+    }
+    else {
+      dispatch({ type: 'COMPLIANCE-ADD', payload })
+      setFormLoading(true)
+
+    }
+
 
   }
 
@@ -785,7 +785,7 @@ let hasChanges =
 
     setEdit(true)
 
- dispatch({ type: "USERLIST", payload: { hostel_id: hosId } });
+    dispatch({ type: "USERLIST", payload: { hostel_id: hosId } });
     if (Complaintdata) {
 
       dispatch({ type: "PARTICULAR_COMPLIANT", payload: { complaintId: Complaintdata.complaintId } })
@@ -815,10 +815,10 @@ let hasChanges =
       setStatus(Complaintdata.Status)
 
 
-     initialValuesRef.current = {
-  Description: Complaintdata.description,
-  selectedDate: parseDMY(Complaintdata.complaintDate)
-};
+      initialValuesRef.current = {
+        Description: Complaintdata.description,
+        selectedDate: parseDMY(Complaintdata.complaintDate)
+      };
 
     }
   }
@@ -870,7 +870,7 @@ let hasChanges =
 
 
 
-  
+
 
 
   useEffect(() => {
@@ -971,17 +971,17 @@ let hasChanges =
   );
 
   const blockedStatus = [
-  "Vacated",
-  "Booked",
-  "Inactive",
-  "Settlement Generated",
-];
+    "Vacated",
+    "Booked",
+    "Inactive",
+    "Settlement Generated",
+  ];
 
   return (
     <>
 
 
-      <div style={{ width: "100%", fontFamily: "Gilroy", position: "relative" }} >
+     
         <div >
 
           {loading &&
@@ -1016,12 +1016,12 @@ let hasChanges =
 
 
           <div
-            className="container-fluid sticky-top bg-white py-2"
-            style={{ zIndex: 1000, height: 'auto' }}
+            className="sticky-top bg-white"
+            style={{ zIndex: 1000, height: 'auto', margin:5 }}
           >
-            <div className="d-flex justify-content-between align-items-center flex-wrap" style={{ paddingTop: 11 }}>
-              <div className=" ms-2" >
-                <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, marginTop: 5, marginLeft: 3, fontFamily: "Gilroy" }}>Complaints</label>
+            <div className="d-flex justify-content-between align-items-center flex-wrap" style={{  }}>
+              <div className="" >
+                <label style={{ fontSize: 18, color: "#000000", fontWeight: 600,  fontFamily: "Gilroy" }}>Complaints</label>
               </div>
 
               <div className="d-flex flex-wrap align-items-center gap-2">
@@ -1227,13 +1227,19 @@ let hasChanges =
                     disabled={!canWriteComplaints || state?.login?.planStatus === 0}
                     onClick={handleShow}
                     style={{
-                      fontSize: 13, backgroundColor: "#1E45E1", fontWeight: 600, borderRadius: 8,
-                      color: '#FFF', fontFamily: 'Montserrat',
+                      fontFamily: "Gilroy",
+                      fontSize: "14px",
+                      backgroundColor: "#1E45E1",
+                      color: "white",
+                      fontWeight: 600,
+                      borderRadius: "8px",
+                      padding: "8px",
+                      // marginBottom: "10px",
+                      // maxHeight: 0,
+                      width: "146px",
                       whiteSpace: "nowrap",
-                      width: 146,
-                      height: 45,
-                      textAlign: "center"
-                    }} > + Complaint</Button>
+                    }}
+                     > + Complaint</Button>
                 </div>
               </div>
             </div>
@@ -1263,7 +1269,7 @@ let hasChanges =
                 </div>
               </>
             ) :
-              <div className='row row-gap-3 p-4 '
+              <div className='row row-gap-3 p-2 '
                 style={{
                   height: "500px",
                   overflowY: "auto",
@@ -1870,9 +1876,9 @@ let hasChanges =
 
                 {totalErrormsg.trim() !== "" && (
                   <div className='d-flex justify-content-center mb-2'>
-<ErrorMessage message={totalErrormsg} type="error" />
+                    <ErrorMessage message={totalErrormsg} type="error" />
                   </div>
-                  
+
                 )}
 
 
@@ -1886,7 +1892,7 @@ let hasChanges =
 
                 <Modal.Footer style={{ border: "none", paddingTop: 0 }}>
 
-                  <Button  disabled={formLoading} className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 500, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal' }}
+                  <Button disabled={formLoading} className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 500, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal' }}
                     onClick={handleAddcomplaint}
                   >
                     {edit ? "Save complaint" : "Add complaint"}
@@ -1962,7 +1968,7 @@ let hasChanges =
           </div>
         }
 
-      </div>
+    
 
 
 

@@ -935,7 +935,7 @@ function* handleGetAmenities(action) {
    try {
       const response = yield call(GetAmenities, action.payload)
 
-
+console.log("response",response)
       const hostelId = GlobalHostelId(response);
       if (hostelId) {
          yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
@@ -1678,6 +1678,21 @@ function* handleDeleteReceipt(action) {
    }
    catch (error) {
       yield* handleApiError(error);
+
+ if (error.status === 400 || error.status === 403) {
+        toast.error(error.response.data, {
+         style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
+         position: "top-right",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+      });
+      }
+
    }
 
 }

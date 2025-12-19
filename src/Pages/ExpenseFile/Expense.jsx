@@ -707,8 +707,8 @@ function Expenses({ allPageHostel_Id }) {
   return (
     <>
 
-      <div style={{ width: "100%", overflowY: "hidden", backgroundColor: "" }}>
-        <div className="container" style={{ paddingTop: 12 }}>
+      <div style={{ }}>
+        <div className="sticky-top bg-white" style={{ margin:5 }}>
           <div
             className="d-flex justify-content-between align-items-center flex-wrap"
             style={{
@@ -721,7 +721,7 @@ function Expenses({ allPageHostel_Id }) {
             <div
 
               className="col-12 col-md-auto d-flex flex-wrap align-items-center"
-              style={{ marginTop: 13, marginLeft: 11 }}
+              style={{ }}
             >
               <label
                 style={{
@@ -947,7 +947,8 @@ function Expenses({ allPageHostel_Id }) {
               )}
 
               {showFilterExpense && (
-                <div className="me-3 " style={{ position: "relative", width: isSmallScreen && showFilterExpense ? '150px' : '240px' }}>
+                <div className="me-3 " style={{ position: "relative", 
+                width: isSmallScreen && showFilterExpense ? '150px' : '240px' }}>
                   <InputGroup
                     style={{
                       display: "flex",
@@ -1054,7 +1055,7 @@ function Expenses({ allPageHostel_Id }) {
 
               <div
                 className="me-3"
-                style={{ cursor: "pointer", marginTop: 5 }}
+                style={{ cursor: "pointer",  }}
               >
                 <img
                   src={excelimg}
@@ -1071,21 +1072,23 @@ function Expenses({ allPageHostel_Id }) {
                 />
               </div>
 
-              <div className="me-2" style={{ marginTop: 7, paddingRight: 4 }}>
+              <div className="me-2" style={{ }}>
                 <Button
                   disabled={!canWriteExpense || state?.login?.planStatus === 0}
                   onClick={handleShow}
 
                   style={{
-                    fontFamily: "Gilroy",
-                    fontSize: "14px",
-                    backgroundColor: "#1E45E1",
-                    color: "white",
-                    fontWeight: 600,
-                    borderRadius: "8px",
-                    width: 146,
-                    height: 45,
-                    textAlign: "center"
+                     fontFamily: "Gilroy",
+    fontSize: "14px",
+    backgroundColor: "#1E45E1",
+    color: "white",
+    fontWeight: 600,
+    borderRadius: "8px",
+    padding: "8px",
+    // marginBottom: "10px",
+    // maxHeight: 0,
+    width: "146px",
+    whiteSpace: "nowrap",
                   }}
                 >
                   {" "}
@@ -1213,12 +1216,12 @@ function Expenses({ allPageHostel_Id }) {
 
 
             <div
-              className="p-0 booking-table-userlist  booking-table ms-2 me-4"
-              style={{ paddingBottom: "20px", marginLeft: "-22px" }}
+              className=""
+              style={{ margin:5 }}
             >
               <div
 
-                className='show-scrolls'
+                className='show-scrolls me-2'
 
                 // style={{
 
@@ -1229,8 +1232,8 @@ function Expenses({ allPageHostel_Id }) {
 
                 // }}
                 style={{
-                  height: sortedData.length >= 5 ? "430px" : "auto",
-                  overflow: "auto",
+                  // height: sortedData.length >= 5 ? "430px" : "auto",
+                  // overflow: "auto",
                   marginBottom: 20,
                   marginTop: "20px", position: "relative"
                 }}
@@ -1248,40 +1251,57 @@ function Expenses({ allPageHostel_Id }) {
                     zIndex: 100
                   }}>
                     <tr>
-                      <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}> <div className='d-flex gap-1 align-items-center justify-content-start'> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                      <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}>
+                         <div className='d-flex gap-1 align-items-center justify-content-start'>
+                           {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                         <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_date", 'asc')} style={{ cursor: "pointer" }} />
                         <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_date", 'desc')} style={{ cursor: "pointer" }} />
-                      </div> Date </div>  </th>
+                      </div> */}
+                       Date </div> 
+                       </th>
 
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }} > <div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }} > <div className='d-flex gap-1 align-items-center justify-content-start'>
+                        {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                         <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("category_Name", 'asc')} style={{ cursor: "pointer" }} />
                         <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("category_Name", 'desc')} style={{ cursor: "pointer" }} />
-                      </div> Category </div></th>
+                      </div> */}
+                       Category </div></th>
 
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}> <div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}> 
+                        <div className='d-flex gap-1 align-items-center justify-content-start'>
+                          {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                         <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("description", 'asc')} style={{ cursor: "pointer" }} />
                         <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("description", 'desc')} style={{ cursor: "pointer" }} />
-                      </div> Description </div> </th>
+                      </div> */}
+                       Description </div> </th>
 
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}><div className='d-flex gap-1 align-items-center justify-content-start'>
+                        {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                         <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("unit_count", 'asc')} style={{ cursor: "pointer" }} />
                         <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("unit_count", 'desc')} style={{ cursor: "pointer" }} />
-                      </div> Unit Count </div></th>
+                      </div> */}
+                       Unit Count </div></th>
 
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}><div className='d-flex gap-1 align-items-center justify-content-start'>
+                        {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                         <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("unit_amount", 'asc')} style={{ cursor: "pointer" }} />
                         <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("unit_amount", 'desc')} style={{ cursor: "pointer" }} />
-                      </div>  Per Unit Price </div></th>
+                      </div> */}
+                        Per Unit Price </div></th>
 
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}><div className='d-flex gap-1 align-items-center justify-content-start'>
+                        {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                         <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_amount", 'asc')} style={{ cursor: "pointer" }} />
                         <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_amount", 'desc')} style={{ cursor: "pointer" }} />
-                      </div> Total Amount </div></th>
+                      </div>  */}
+                      Total Amount </div></th>
 
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}><div className='d-flex gap-1 align-items-center justify-content-start'>
+                        {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                         <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("payment_mode", 'asc')} style={{ cursor: "pointer" }} />
                         <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("payment_mode", 'desc')} style={{ cursor: "pointer" }} />
-                      </div>  Mode of Payment </div></th>
+                      </div> */}
+                        Mode of Payment </div></th>
 
                       <th style={{ textAlign: "middle", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}>Action</th>
                     </tr>
@@ -1293,15 +1313,7 @@ function Expenses({ allPageHostel_Id }) {
                     <PaginationList
 
                     >
-                      {loading
-                        ? Array.from({ length: 10 }).map((_, i) => (
-                          <tr key={i}>
-                            <td colSpan={5}>
-                              <div style={{ ...skeletonStyle, width: "100%" }}></div>
-                            </td>
-                          </tr>
-                        ))
-                        : sortedData?.map((item) => (
+                      {sortedData?.map((item) => (
                           <ExpensesListTable
                             key={item.id}
                             item={item}

@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 // import { BiDotsVerticalRounded } from "react-icons/bi";
 import verify from "../../Assets/Images/New_images/verify.svg";
 import Bed from "../../Assets/Images/New_images/Bed.svg";
-import withErrorBoundary from "../../Hoc/WithErrorBountry"; 
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
 const EBTenantOverview = ({ tenant, onBack }) => {
 
@@ -29,11 +29,12 @@ const EBTenantOverview = ({ tenant, onBack }) => {
 
     const [tenantReadingList, setTenantreadingList] = useState([])
 
+    console.log("tenant called", tenant)
 
     useEffect(() => {
         if (state.login?.selectedHostel_Id && tenant?.customerId) {
             dispatch({
-                type: 'GETPARTICULARCUSTOMERREADING', 
+                type: 'GETPARTICULARCUSTOMERREADING',
                 payload: {
                     hostelId: state.login.selectedHostel_Id,
                     customerId: tenant.customerId
@@ -42,13 +43,13 @@ const EBTenantOverview = ({ tenant, onBack }) => {
             // setLoading(true)
         }
 
-    }, [])
+    }, [tenant?.customerId, state.login?.selectedHostel_Id])
 
 
-useEffect(() => {
+    useEffect(() => {
         if (state.UsersList.getParticularCustomerReadingStatus === 200) {
             // setLoading(false)
-                        setTenantreadingList(state.UsersList?.getParticularCustomerReadingList)
+            setTenantreadingList(state.UsersList?.getParticularCustomerReadingList)
             setTimeout(() => {
                 dispatch({ type: 'REMOVE_GET_PARTICULAR_CUSTOMER_READING' })
             }, 100)
@@ -61,37 +62,46 @@ useEffect(() => {
 
     const billingData = [];
 
-const formattedTenantReadings = (tenantReadingList?.electricityHistory || []).map((item) => {
- 
-  const [month, year] = item.startDate.split("/");
+    const formattedTenantReadings = (tenantReadingList?.electricityHistory || []).map((item) => {
 
-  const billingMonth = new Date(`${year}-${month}-01`).toLocaleString("en-US", {
-    month: "long",
-    year: "numeric",
-  });
 
-  
-  const formatDate = (dateStr) => {
-    const [d, m, y] = dateStr.split("/").map(Number);
-    return new Date(y, m - 1, d).toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "short",
+        const getBillingMonth = (dateStr) => {
+            if (!dateStr) return "-";
+
+            const parts = dateStr.split("/");
+            if (parts.length !== 3) return "-";
+
+            const [day, month, year] = parts.map(Number);
+            if (!day || !month || !year) return "-";
+
+            return new Date(year, month - 1, 1).toLocaleString("en-US", {
+                month: "short",
+                year: "numeric",
+            });
+        };
+
+
+        const formatDate = (dateStr) => {
+            const [d, m, y] = dateStr.split("/").map(Number);
+            return new Date(y, m - 1, d).toLocaleDateString("en-GB", {
+                day: "2-digit",
+                month: "short",
+            });
+        };
+
+        return {
+            billingMonth: getBillingMonth(item.startDate),
+            from: formatDate(item.startDate),
+            to: formatDate(item.endDate),
+            floor: item.floorName || tenantReadingList.floorName,
+            room: item.roomName || tenantReadingList.roomName,
+            bed: item.bedName || tenantReadingList.bedName,
+            totalUnits: item.consumption || 0,
+            amount: item.amount || 0,
+            profilePic: tenantReadingList.profilePic || null,
+            tenantName: `${tenantReadingList.firstName || ""} ${tenantReadingList.lastName || ""}`.trim(),
+        };
     });
-  };
-
-  return {
-    billingMonth,
-    from: formatDate(item.startDate),
-    to: formatDate(item.endDate),
-    floor: item.floorName || tenantReadingList.floorName,
-    room: item.roomName || tenantReadingList.roomName,
-    bed: item.bedName || tenantReadingList.bedName,
-    totalUnits: item.consumption || 0,
-    amount: item.amount || 0,
-    profilePic: tenantReadingList.profilePic || null,
-    tenantName: `${tenantReadingList.firstName || ""} ${tenantReadingList.lastName || ""}`.trim(),
-  };
-});
 
 
 
@@ -133,7 +143,7 @@ const formattedTenantReadings = (tenantReadingList?.electricityHistory || []).ma
                                 paddingLeft: "10px",
                             }}
                         >
-                            EB Bill Overview 
+                            EB Bill Overview
                         </span>
                     </div>
 
@@ -174,21 +184,21 @@ const formattedTenantReadings = (tenantReadingList?.electricityHistory || []).ma
 
                                     <div className="d-flex align-items-center" style={{ gap: "6px" }}>
                                         <img src={building} height="14" width="14" alt="Floor" />
-                                        <span style={{ color: "Black", fontWeight: 600, fontSize: "14px",fontFamily:"Gilroy" }}>
+                                        <span style={{ color: "Black", fontWeight: 600, fontSize: "14px", fontFamily: "Gilroy" }}>
                                             {tenant.floorName}
                                         </span>
                                     </div>
 
-                                    <span style={{ fontSize: "14px", fontWeight: 600, color: "black", marginLeft: 5,fontFamily:"Gilroy"}}>
+                                    <span style={{ fontSize: "14px", fontWeight: 600, color: "black", marginLeft: 5, fontFamily: "Gilroy" }}>
 
- <img
+                                        <img
                                             src={Bed}
                                             height="14"
                                             width="14"
                                             style={{ marginRight: 6, marginTop: "-4px" }}
                                             alt="Bed"
                                         />
-                                      {tenant.roomName}
+                                        {tenant.roomName}
                                     </span>
 
                                     <span
@@ -196,7 +206,7 @@ const formattedTenantReadings = (tenantReadingList?.electricityHistory || []).ma
                                             fontSize: "14px",
                                             fontWeight: 600,
                                             color: "black",
-                                            marginLeft: 5,fontFamily:"Gilroy"
+                                            marginLeft: 5, fontFamily: "Gilroy"
                                         }}
                                     >
                                         <img
@@ -206,7 +216,7 @@ const formattedTenantReadings = (tenantReadingList?.electricityHistory || []).ma
                                             style={{ marginRight: 6, marginTop: "-4px" }}
                                             alt="Bed"
                                         />
-                                      {tenant.bedName}
+                                        {tenant.bedName}
                                     </span>
 
                                 </div>
@@ -303,29 +313,29 @@ const formattedTenantReadings = (tenantReadingList?.electricityHistory || []).ma
                                     }}
                                 >
                                     <tr className="text-uppercase">
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
                                             BILLING MONTH
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
                                             FROM
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
                                             TO
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
                                             FLOOR
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
                                             ROOM
                                         </th>
 
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, }}>
                                             BED
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, }}>
                                             TOTAL UNITS
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, }}>
                                             AMOUNT
                                         </th>
                                     </tr>
@@ -333,16 +343,16 @@ const formattedTenantReadings = (tenantReadingList?.electricityHistory || []).ma
                                 <tbody style={{ fontSize: 14, color: "#000" }}>
                                     <PaginationList>
                                         {billingData?.map((row, i) => (
-                                            <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px" }}>
+                                            <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "" }}>
 
-                                                <td style={{ paddingLeft: "40px" }}>{row.billingMonth}</td>
-                                                <td style={{ paddingLeft: "10px" }}>{row.from}</td>
-                                                <td style={{ paddingLeft: "5px" }}>{row.to}</td>
-                                                <td style={{ paddingLeft: "10px", fontWeight: 600, color: "black" }}>{row.floor}</td>
-                                                <td style={{ paddingLeft: "10px", fontWeight: 600, color: "black" }}>{row.room}</td>
-                                                <td style={{ paddingLeft: "10px", fontWeight: 600, color: "black" }}>{row.bed}</td>
-                                                <td style={{ paddingLeft: "40px", fontWeight: 600, color: "black" }}>{row.units}</td>
-                                                <td style={{ paddingLeft: "25px", fontWeight: 600, color: "black" }}>{row.amount}</td>
+                                                <td style={{ fontWeight: 600, color: "black" }}>{row.billingMonth}</td>
+                                                <td style={{ fontWeight: 600, color: "black" }}>{row.from}</td>
+                                                <td style={{ fontWeight: 600, color: "black" }}>{row.to}</td>
+                                                <td style={{ fontWeight: 600, color: "black" }}>{row.floor}</td>
+                                                <td style={{ fontWeight: 600, color: "black" }}>{row.room}</td>
+                                                <td style={{ fontWeight: 600, color: "black" }}>{row.bed}</td>
+                                                <td style={{ fontWeight: 600, color: "black" }}>{row.units}</td>
+                                                <td style={{ fontWeight: 600, color: "black" }}>{row.amount}</td>
 
 
 
@@ -387,29 +397,29 @@ const formattedTenantReadings = (tenantReadingList?.electricityHistory || []).ma
                                     }}
                                 >
                                     <tr className="text-uppercase">
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
                                             BILLING MONTH
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
                                             FROM
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
                                             TO
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
                                             FLOOR
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
                                             ROOM
                                         </th>
 
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
                                             BED
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
                                             TOTAL UNITS
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
                                             AMOUNT
                                         </th>
                                     </tr>
@@ -417,16 +427,16 @@ const formattedTenantReadings = (tenantReadingList?.electricityHistory || []).ma
                                 <tbody style={{ fontSize: 14, color: "#000" }}>
                                     <PaginationList>
                                         {formattedTenantReadings?.map((row, i) => (
-                                            <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px", fontFamily:"Gilroy" }}>
+                                            <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "", fontFamily: "Gilroy" }}>
 
-                                                <td style={{ paddingLeft: "40px" }}>{row.billingMonth}</td>
-                                                <td style={{ paddingLeft: "10px" }}>{row.from}</td>
-                                                <td style={{ paddingLeft: "5px" }}>{row.to}</td>
-                                                <td style={{ paddingLeft: "10px", }}>{row.floor}</td>
-                                                <td style={{ paddingLeft: "10px",  }}>{row.room}</td>
-                                                <td style={{ paddingLeft: "10px", }}>{row.bed}</td>
-                                                <td style={{ paddingLeft: "40px", }}>{row.totalUnits}</td>
-                                                <td style={{ paddingLeft: "25px",  }}>{row.amount}</td>
+                                                <td style={{}}>{row.billingMonth}</td>
+                                                <td style={{}}>{row.from}</td>
+                                                <td style={{}}>{row.to}</td>
+                                                <td style={{}}>{row.floor}</td>
+                                                <td style={{}}>{row.room}</td>
+                                                <td style={{}}>{row.bed}</td>
+                                                <td style={{}}>{row.totalUnits}</td>
+                                                <td style={{}}>{row.amount}</td>
 
 
 

@@ -172,7 +172,7 @@ const RecurringBillList = (props) => {
                borderRadius: 100,
                 // border: "1px solid #EFEFEF", 
                 display: "flex", alignItems: "center", position: "relative",justifyContent: "" }} onClick={(e) => handleShowDots(e)}>
-              <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, transform:"rotate(90deg)" }} />
+              <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, transform:"rotate(90deg)",color:showDots ? "#1E45E1" : "#6B7280",  }} />
 
               {showDots && <>
                 <div

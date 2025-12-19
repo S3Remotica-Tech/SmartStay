@@ -33,7 +33,7 @@ function SettingNewUser() {
   const [loading, setLoading] = useState(false);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [edit, setEdit] = useState(false);
- const [showAbove, setShowAbove] = useState(false);
+  const [showAbove, setShowAbove] = useState(false);
 
 
   // const canReadUser = useHasPermission("User", "canRead")
@@ -65,23 +65,23 @@ function SettingNewUser() {
     setShowDots((prev) => (prev === index ? null : index));
 
     const { top, left, height } = event.target.getBoundingClientRect();
-        const popupTop = top + (height / 2);
-        const popupLeft = left - 200;
-    
-        setPopupPosition({ top: popupTop, left: popupLeft });
-    
+    const popupTop = top + (height / 2);
+    const popupLeft = left - 200;
+
+    setPopupPosition({ top: popupTop, left: popupLeft });
+
   };
 
-   useEffect(() => {
-      if (popupRef.current) {
-        const popupHeight = popupRef.current.offsetHeight;
-        const windowHeight = window.innerHeight;
-        const spaceBelow = windowHeight - popupPosition.top;
-  
-  
-        setShowAbove(spaceBelow < popupHeight + 20);
-      }
-    }, [popupPosition]);
+  useEffect(() => {
+    if (popupRef.current) {
+      const popupHeight = popupRef.current.offsetHeight;
+      const windowHeight = window.innerHeight;
+      const spaceBelow = windowHeight - popupPosition.top;
+
+
+      setShowAbove(spaceBelow < popupHeight + 20);
+    }
+  }, [popupPosition]);
 
 
 
@@ -125,7 +125,7 @@ function SettingNewUser() {
 
   const handleDelete = () => {
     if (deleteId) {
-      dispatch({ type: "DELETEUSER", payload: deleteId });
+      dispatch({ type: "DELETEUSER", payload: { userId: deleteId, hostelId: state.login.selectedHostel_Id } });
     }
   };
 
@@ -181,12 +181,12 @@ function SettingNewUser() {
 
 
   useEffect(() => {
-            if (usersFilterddata.length === 0) {
-              setLoading(false);
-            }
-        
-          }, [usersFilterddata])
-  
+    if (usersFilterddata.length === 0) {
+      setLoading(false);
+    }
+
+  }, [usersFilterddata])
+
 
   useEffect(() => {
     if (state.Settings?.StatusForNoStaffList === 204) {
@@ -297,7 +297,7 @@ function SettingNewUser() {
 
 
   return (
-    <div style={{ position: "relative", paddingRight: 10, paddingLeft: 10 }}>
+    <div className="sticky-top bg-white">
       {loading && (
         <div
           style={{
@@ -337,12 +337,12 @@ function SettingNewUser() {
           zIndex: 1000,
           backgroundColor: "#FFFFFF",
           height: 83,
-          paddingRight: 1,
+          // paddingRight: 1,
         }}
       >
         <div
           className="w-100 d-flex justify-content-center justify-content-md-start mt-3"
-          style={{ marinTop: -4 }}
+          style={{}}
         >
           <label
             style={{
@@ -352,7 +352,7 @@ function SettingNewUser() {
               fontWeight: 600,
             }}
           >
-        Staff
+            Staff
           </label>
         </div>
         <div className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0">
@@ -366,11 +366,10 @@ function SettingNewUser() {
               color: "white",
               fontWeight: 600,
               borderRadius: "8px",
-              padding: "11px 52px",
-              width: 146,
-              height: 45,
-              marginLeft: 5,
-              marginTop: 12,
+              padding: "8px",
+              // marginBottom: "10px",
+              // maxHeight: 0,
+              width: "146px",
               whiteSpace: "nowrap",
             }}
           >
@@ -397,11 +396,11 @@ function SettingNewUser() {
         )
           :
           (
-            <div className="mt-4">
+            <div className="">
               {sortedData?.length > 0 ? (
                 <div
-                  className=" booking-table-userlist  booking-table me-2"
-                  style={{ paddingBottom: "20px" }}
+                  className="me-2"
+                  style={{}}
                 >
                   <div
                     className="show-scrolls"
@@ -413,8 +412,8 @@ function SettingNewUser() {
                       overflow: "auto",
                       overflowX: 'hidden',
                       borderTop: "1px solid #E8E8E8",
-                      marginBottom: 20,
-                      marginTop: "20px",
+                      // marginBottom: 20,
+                      // marginTop: "20px",
                       paddingRight: 0,
                       paddingLeft: 0,
                     }}
@@ -459,7 +458,7 @@ function SettingNewUser() {
                             }}
                           >
                             <div className="d-flex gap-1 align-items-center justify-content-start">
-                              <div
+                              {/* <div
                                 style={{
                                   display: "flex",
                                   flexDirection: "column",
@@ -480,7 +479,7 @@ function SettingNewUser() {
                                   onClick={() => handleSort("first_name", "desc")}
                                   style={{ cursor: "pointer" }}
                                 />
-                              </div>
+                              </div> */}
                               Staff Name
                             </div>
                           </th>
@@ -495,7 +494,7 @@ function SettingNewUser() {
                             }}
                           >
                             <div className="d-flex gap-1 align-items-center justify-content-start">
-                              <div
+                              {/* <div
                                 style={{
                                   display: "flex",
                                   flexDirection: "column",
@@ -516,7 +515,7 @@ function SettingNewUser() {
                                   onClick={() => handleSort("email_Id", "desc")}
                                   style={{ cursor: "pointer" }}
                                 />
-                              </div>
+                              </div> */}
                               Email
                             </div>
                           </th>
@@ -531,7 +530,7 @@ function SettingNewUser() {
                             }}
                           >
                             <div className="d-flex gap-1 align-items-center justify-content-start">
-                              <div
+                              {/* <div
                                 style={{
                                   display: "flex",
                                   flexDirection: "column",
@@ -552,7 +551,7 @@ function SettingNewUser() {
                                   onClick={() => handleSort("mobileNo", "desc")}
                                   style={{ cursor: "pointer" }}
                                 />
-                              </div>
+                              </div> */}
                               Mobile No
                             </div>
                           </th>
@@ -567,7 +566,7 @@ function SettingNewUser() {
                             }}
                           >
                             <div className="d-flex gap-1 align-items-center justify-content-start">
-                              <div
+                              {/* <div
                                 style={{
                                   display: "flex",
                                   flexDirection: "column",
@@ -588,7 +587,7 @@ function SettingNewUser() {
                                   onClick={() => handleSort("role_name", "desc")}
                                   style={{ cursor: "pointer" }}
                                 />
-                              </div>
+                              </div> */}
                               Roles
                             </div>
                           </th>
@@ -607,7 +606,7 @@ function SettingNewUser() {
                         </tr>
                       </thead>
                       <tbody>
-                        <PaginationList>
+                        <PaginationList display={true}>
                           {sortedData?.map((item, index) => {
                             return (
                               <tr key={index} style={{ overflowX: "auto" }}>
@@ -615,16 +614,16 @@ function SettingNewUser() {
                                   title={item.firstName}
                                   style={{
                                     border: "none",
-                                    padding: "10px",
+                                    // padding: "10px",
                                     textAlign: "start",
-                                    paddingTop: 18,
+                                    // paddingTop: 18,
                                     whiteSpace: "nowrap",
                                     overflow: "hidden",
                                     textOverflow: "ellipsis",
-                                    paddingLeft: "20px",
+                                    // paddingLeft: "20px",
                                     borderBottom: "1px solid #E8E8E8",
                                   }}
-                                  className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
+                                  className=""
                                 >
                                   <span
                                     className="Customer_Name_Hover ps-3"
@@ -646,15 +645,15 @@ function SettingNewUser() {
                                     fontSize: "13px",
                                     fontFamily: "Gilroy",
                                     textAlign: "start",
-                                    paddingTop: 17,
+                                    // paddingTop: 17,
                                     overflow: "hidden",
                                     textOverflow: "ellipsis",
                                     whiteSpace: "nowrap",
                                     borderBottom: "1px solid #E8E8E8",
                                   }}
-                                  className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
+                                  className=""
                                 >
-                                  <div className="ps-2">
+                                  <div className="">
                                     {item?.mailId}
                                   </div>
 
@@ -663,7 +662,7 @@ function SettingNewUser() {
                                 <td
                                   title={item?.mobileNo}
                                   style={{
-                                    paddingTop: 17,
+                                    // paddingTop: 17,
                                     border: "none",
                                     textAlign: "start",
                                     fontSize: "13px",
@@ -675,7 +674,7 @@ function SettingNewUser() {
                                     textOverflow: "ellipsis",
                                     borderBottom: "1px solid #E8E8E8",
                                   }}
-                                  className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
+                                  className=""
                                 >
                                   + {item?.countryCode}
                                   {item &&
@@ -693,39 +692,39 @@ function SettingNewUser() {
                                     fontSize: "13px",
                                     fontFamily: "Gilroy",
                                     textAlign: "start",
-                                    paddingTop: 17,
+                                    // paddingTop: 17,
                                     overflow: "hidden",
                                     textOverflow: "ellipsis",
                                     whiteSpace: "nowrap",
                                     borderBottom: "1px solid #E8E8E8",
                                   }}
-                                  className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
+                                  className=""
                                 >
                                   {item?.roleName}
                                 </td>
                                 <td
                                   style={{
-                                    textAlign: "center",
-                                    display: "flex",
-                                      paddingTop: 17,
-                                    justifyContent: "center",
-                                    alignItems: "center",
+                                    // textAlign: "center",
+                                    // display: "flex",
+                                    // // paddingTop: 17,
+                                    // justifyContent: "center",
+                                    // alignItems: "center",
                                     borderBottom: "1px solid #E8E8E8",
                                   }}
                                 >
                                   <div
                                     style={{
-                                      height: "35px",
-                                      width: "35px",
-                                      borderRadius: "50%",
-                                      border: "1px solid #EFEFEF",
+                                      // height: "35px",
+                                      // width: "35px",
+                                      // borderRadius: "50%",
+                                      // border: "1px solid #EFEFEF",
                                       display: "flex",
                                       justifyContent: "center",
                                       alignItems: "center",
                                       position: "relative",
                                       cursor: "pointer",
-                                      backgroundColor:
-                                        showDots === index ? "#E7F1FF" : "white",
+                                      // backgroundColor:
+                                      //   showDots === index ? "#E7F1FF" : "white",
                                     }}
                                     onClick={(e) => handleDotsClick(index, e)}
                                   >
@@ -734,6 +733,9 @@ function SettingNewUser() {
                                         height: "18px",
                                         width: "18px",
                                         cursor: "pointer",
+                                        transform: "rotate(90deg)",
+                                        color:showDots === index ? "#1E45E1" : "#6B7280"
+
                                       }}
                                     />
 
@@ -747,7 +749,7 @@ function SettingNewUser() {
                                           top: showAbove
                                             ? popupPosition.top - (popupRef.current?.offsetHeight || 100) - 20
                                             : popupPosition.top - 35,
-                                          left: popupPosition.left,
+                                          left: popupPosition.left-0,
                                           border: "1px solid #E0E0E0",
                                           borderRadius: 10,
                                           boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
@@ -765,7 +767,8 @@ function SettingNewUser() {
                                               width: "100%",
                                               cursor: canUpdateUser ? "pointer" : "not-allowed",
                                               transition: "background 0.2s ease-in-out",
-                                              opacity: canUpdateUser ? 1 : 0.5,
+                                              opacity: canUpdateUser ? 1 : 0.5,borderTopLeftRadius: 10,
+                                              borderTopRightRadius: 10,
                                             }}
                                             onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#F0F4FF")}
                                             onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
@@ -796,7 +799,9 @@ function SettingNewUser() {
                                               width: "100%",
                                               cursor: canDeleteUser ? "pointer" : "not-allowed",
                                               transition: "background 0.2s ease-in-out",
-                                              opacity: canDeleteUser ? 1 : 0.5,
+                                              opacity: canDeleteUser ? 1 : 0.5
+                                              ,borderBottomLeftRadius: 10,
+                                              borderBottomRightRadius: 10,
                                             }}
                                             onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#FFF3F3")}
                                             onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
@@ -907,7 +912,7 @@ function SettingNewUser() {
                 color: "#222222",
               }}
             >
-              Delete User ?
+              Delete Staff ?
             </Modal.Title>
           </Modal.Header>
 
@@ -922,7 +927,7 @@ function SettingNewUser() {
               marginTop: "-27px",
             }}
           >
-            Are you sure you want to delete the User ?{" "}
+            Are you sure you want to delete the Staff ?{" "}
           </Modal.Body>
           <Modal.Footer
             className="d-flex justify-content-center"
