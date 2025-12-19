@@ -3339,11 +3339,13 @@ const InvoicePage = () => {
           >
             <div
              className="container-fluid sticky-top bg-white"
-            style={{ zIndex: 1000, height: 'auto', margin:3 }}
+            style={{ zIndex: 1000, height: 'auto',  margin: 3 ,borderBottom: (DownloadInvoice || DownloadReceipt) && "1px solid #E5E7EB",
+              rightBottom: (DownloadInvoice || DownloadReceipt) && "1px solid #E5E7EB"
+              ,boxShadow: "initial" }}
             >
               <div className="d-flex justify-content-between align-items-center flex-wrap">
                 <div className="" style={{
-                  marginTop: DownloadInvoice || DownloadReceipt ? 0 : 12,
+                  marginTop: DownloadInvoice || DownloadReceipt ? 0 : 12, 
                 }}>
                   <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Bills</label>
                 </div>
@@ -3353,7 +3355,7 @@ const InvoicePage = () => {
                   {loading && <LoaderComponent />}
                   <div className="d-flex flex-wrap align-items-center gap-2" style={{ paddingLeft: 25 }}>
                     {(DownloadInvoice || DownloadReceipt) && (
-                      <div className="d-flex align-items-center mt-1" style={{}}>
+                      <div className="d-flex align-items-center mt-1 mb-1" style={{}}>
                         <button disabled
                           onClick={() => setShowSearchFilter(!showSearchFilter)}
                           style={{
@@ -3361,7 +3363,7 @@ const InvoicePage = () => {
                             fontWeight: 600,
                             fontSize: "0.9rem",
                             borderRadius: 8,
-                            padding: "10px 12px",
+                            padding: "8px 12px",
                             backgroundColor: "#9C9C9C26",
                             border: "none",
                             display: "flex",
@@ -4474,7 +4476,7 @@ const InvoicePage = () => {
 
 
 
-                        <Container fluid className="p-0 table-bills mt-4">
+                        <Container fluid className={`p-0 table-bills ${DownloadReceipt || DownloadInvoice ? "mt-0" : "mt-4" } `}>
                           <Row
                             className={` ${DownloadReceipt
                               ? "m-0 g-2 d-flex justify-content-between"
