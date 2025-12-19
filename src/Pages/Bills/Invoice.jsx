@@ -3317,7 +3317,7 @@ const InvoicePage = () => {
   const labelStyle = {
     display: "flex",
     alignItems: "center",
-    justifyContent:"start",
+    justifyContent: "start",
     height: "100%",
     lineHeight: "1.4", marginTop: 5
   };
@@ -3325,40 +3325,24 @@ const InvoicePage = () => {
 
 
   return (
-    <div style={{}}>
+    <div >
       {
         showBillsFilter && <BillsFilter show={showBillsFilter} handleClose={handleCloseFilterBills} />
       }
       {showAllBill && (
         <Row className="p-0">
           <Col className="p-0"
-            // lg={4}
-            // md={4}
-            // sm={12}
-            // xs={12}
             lg={DownloadInvoice || DownloadReceipt ? 4 : 12}
             md={DownloadInvoice || DownloadReceipt ? 4 : 12}
             sm={DownloadInvoice || DownloadReceipt ? 12 : 12}
             xs={DownloadInvoice || DownloadReceipt ? 12 : 12}
           >
             <div
-              className=" sticky-top bg-white "
-              style={{
-                position: "",
-                top: 0,
-                left: 0,
-                right: 0,
-                zIndex: 1000,
-                               backgroundColor: "#ffffff",
-                borderBottom:
-                  !DownloadInvoice && !DownloadReceipt
-                    ? "none"
-                    : "1px solid #E0E0E0",
-               
-              }}
+             className="container-fluid sticky-top bg-white"
+            style={{ zIndex: 1000, height: 'auto', margin:3 }}
             >
               <div className="d-flex justify-content-between align-items-center flex-wrap">
-                <div className=" ms-3 " style={{
+                <div className="" style={{
                   marginTop: DownloadInvoice || DownloadReceipt ? 0 : 12,
                 }}>
                   <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Bills</label>

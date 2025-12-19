@@ -219,14 +219,19 @@ function AssetListTable(props) {
         <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
           <div style={{ width: "100%", display: "flex", justifyContent: "" }}>
             <div style={{
-              cursor: "pointer", backgroundColor: showDots ? "#E7F1FF" : "white",
+              cursor: "pointer",
+              //  backgroundColor: showDots ? "#E7F1FF" : "white",
               //  height: 30, width: 30,
               borderRadius: 100,
               // border: "1px solid #EFEFEF", 
               display: "flex", justifyContent: "center", alignItems: "center",
               position: "relative"
             }} onClick={(e) => handleShowDots(props.item.id, e)}  >
-              <PiDotsThreeOutlineVerticalFill style={{ height: 15, width: 15, transform: "rotate(90deg)" }} />
+              <PiDotsThreeOutlineVerticalFill style={{ height: 15, width: 15, transform: "rotate(90deg)", 
+                color:showDots? "#1E45E1" : "#6B7280",
+                                              
+                                             
+                                        }} />
               {showDots &&
                 <>
                   <div

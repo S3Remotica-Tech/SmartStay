@@ -610,16 +610,15 @@ function Asset() {
   return (
     <>
 
-      <div className='container p-0 ' style={{ }}>
-        <div className="container d-flex justify-content-between align-items-center  flex-wrap h-auto"
+      <div className=" sticky-top bg-white" style={{ margin:5 }}>
+        <div className=" d-flex justify-content-between align-items-center  flex-wrap h-auto"
           style={{
             position: 'sticky',
-
             backgroundColor: 'white',
             zIndex: 10,
             // paddingLeft: 25,
             //  paddingRight: 20,
-            height: 83,
+            // height: 83,
           }}
         >
           <div style={{ marginTop: 0 }}>
@@ -627,12 +626,12 @@ function Asset() {
               Assets</label>
           </div>
 
-          <div className="d-flex justify-content-between align-items-center flex-wrap ">
+          <div className=" d-flex justify-content-between align-items-center flex-wrap p-2">
 
             {
               !showFilterData &&
 
-              <div onClick={() => canReadAssets && handleShowSearch()} style={{ paddingRight: 30, marginTop: 12, cursor: "pointer" }}>
+              <div onClick={() => canReadAssets && handleShowSearch()} style={{ paddingRight: 30,  cursor: "pointer" }}>
                 <SearchNormal1
                   size="26"
                   color="#222"
@@ -649,7 +648,7 @@ function Asset() {
 
               showFilterData &&
               <div className='me-3 flex flex-wrap ' style={{
-                position: 'relative', cursor: "pointer", marginTop: 10
+                position: 'relative', cursor: "pointer", marginTop: 0
               }}>
                 <InputGroup
                   style={{
@@ -734,7 +733,7 @@ function Asset() {
 
 
 
-            <div onClick={() => canReadAssets && handleFilterByPrice()} style={{ paddingRight: 23, marginTop: 12, cursor: "pointer" }}>
+            <div onClick={() => canReadAssets && handleFilterByPrice()} style={{ paddingRight: 23, marginTop: 0, cursor: "pointer" }}>
               <Sort
                 Size="24"
                 color="#222"
@@ -752,7 +751,7 @@ function Asset() {
               showFilter &&
 
 
-              <div style={{ paddingRight: 30, marginTop: 10 }}>
+              <div style={{ paddingRight: 30, marginTop: 0 }}>
                 <Select
 
                   value={{
@@ -850,7 +849,7 @@ function Asset() {
               </div>
             )}
 
-            <div className='me-2' style={{ marginTop: 8, cursor: "pointer" }}>
+            <div className='me-2' style={{ marginTop:0, cursor: "pointer" }}>
               <img src={excelimg} alt='excel' width={38} height={38}
 
                 style={{
@@ -863,21 +862,21 @@ function Asset() {
               />
             </div>
 
-            <div style={{ marginTop: 15, paddingRight: 4 }}>
+            <div style={{ }}>
               <Button disabled={!canWriteAssets} onClick={handleShow}
                 style={{
-                  fontFamily: "Gilroy",
-                  fontSize: "14px",
-                  backgroundColor: "#1E45E1",
-                  color: "white",
-                  fontWeight: 600,
-                  borderRadius: "8px",
-                                    paddingLeft: 30,  
-                  paddingRight: 30,
-                  marginBottom: "10px",
-                  maxHeight: 45,
-
-                }}
+                      fontFamily: "Gilroy",
+                      fontSize: "14px",
+                      backgroundColor: "#1E45E1",
+                      color: "white",
+                      fontWeight: 600,
+                      borderRadius: "8px",
+                      padding: "8px",
+                      // marginBottom: "10px",
+                      // maxHeight: 0,
+                      width: "146px",
+                      whiteSpace: "nowrap",
+                    }}
               >
                 + Asset</Button>
             </div>

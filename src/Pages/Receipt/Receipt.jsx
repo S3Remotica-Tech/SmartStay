@@ -234,7 +234,7 @@ console.log("props.item",props.item)
              display: "flex", justifyContent: "center", alignItems: "center", position: "relative" }}
               onClick={(e) => handleShowDots(e)}
             >
-              <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, transform:" rotate(90deg)" }} />
+              <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, transform:" rotate(90deg)",color:showDots ? "#1E45E1" : "#6B7280", }} />
 
               {showDots && <>
                 <div
@@ -301,8 +301,8 @@ console.log("props.item",props.item)
                     </label>
                   </div>
 
-{props.item.invoiceType !== "Settlement" &&
- props.item.invoiceType !== "Refund" && (
+{/* {props.item.invoiceType !== "Settlement" &&
+ props.item.invoiceType !== "Refund" && ( */}
 
   <div
     className="d-flex justify-content-start align-items-center gap-2"
@@ -345,7 +345,7 @@ console.log("props.item",props.item)
       Delete
     </span>
   </div>
-)}
+{/* )} */}
 
                   <div
                     className="d-flex justify-content-start align-items-center gap-2 "

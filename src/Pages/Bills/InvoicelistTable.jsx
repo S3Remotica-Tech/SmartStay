@@ -318,7 +318,7 @@ const InvoiceTable = (props) => {
               // height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", 
               display: "flex", justifyContent: "center", alignItems: "center", position: "relative"
             }} >
-              <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, transform: "rotate(90deg)"}} onClick={(e) => handleShowDots(e)} />
+              <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, transform: "rotate(90deg)", color:showDots ? "#1E45E1" : "#6B7280",}} onClick={(e) => handleShowDots(e)} />
 
               {showDots && <>
                 <div

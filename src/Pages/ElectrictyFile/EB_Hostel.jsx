@@ -322,7 +322,7 @@ const RoomReadingTable = () => {
 
 
       {!roomDetail && !tenantsDetail ? (
-        <div className="container-fluid p-4" style={{ fontFamily: "Gilroy" }}>
+        <div className="sticky-top bg-white" style={{ margin:5, fontFamily: "Gilroy" }}>
           <div className="mb-3">
             <label
               style={{

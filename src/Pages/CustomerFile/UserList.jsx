@@ -2630,11 +2630,11 @@ function UserList(props) {
       />
 
       {userList && (
-        <div className="container p-0" style={{ backgroundColor: "", }}>
+        <div className="sticky-top bg-white" style={{ margin:5 }}>
           <div className="header-container">
             <div
               className="d-flex justify-content-between align-items-center flex-wrap"
-              style={{ marginTop: 14 }}
+              style={{ }}
             >
               <div className="d-flex justify-content-lg-start justify-content-center align-items-center flex-wrap ">
                 <label
@@ -2643,7 +2643,7 @@ function UserList(props) {
                     color: "#000000",
                     fontWeight: 600,
                     fontFamily: "Gilroy",
-                    marginTop: -15,
+                    // marginTop: -15,
                   }}
                 >
                   Tenants
@@ -3730,7 +3730,8 @@ function UserList(props) {
                                         }
                                       >
                                         <PiDotsThreeOutlineVerticalFill
-                                          style={{ height: 20, width: 20, transform: "rotate(90deg)" }}
+                                          style={{ height: 20, width: 20, transform: "rotate(90deg)", 
+                                            color:activeRow === user.customerId ? "#1E45E1" : "#6B7280", }}
                                         />
                                         {activeRow === user.customerId && (
                                           <div

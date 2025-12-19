@@ -29,7 +29,15 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
   const [selectAll, setSelectAll] = useState(false);
   const [assignedSelectAll, setAssignedSelectAll] = useState(false);
 
-  console.log("assignedCheckedUsers", assignedCheckedUsers)
+
+  const formatDate = (dateStr) => {
+    if (!dateStr) return "-";
+
+    const [day, month, year] = dateStr.split("/");
+    const date = new Date(year, month - 1, day);
+
+    return date.toLocaleDateString("en-GB");
+  };
 
 
   useEffect(() => {
@@ -240,6 +248,15 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
 
   }, [state.createAccount?.networkError])
 
+  const ellipsisStyle = {
+    maxWidth: "180px",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    display: "block",
+  };
+
+
   return (
     // <div
     //   className="modal show"
@@ -252,7 +269,7 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
       dialogClassName="responsive-modal-fix"
       style={{ border: "none" }}>
       <Modal.Dialog style={{
-        minWidth: 750,
+        minWidth: 850,
         paddingRight: "10px",
         borderRadius: "35px",
       }}
@@ -317,13 +334,18 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
             onClick={handleClose} style={{ cursor: "pointer" }} />
         </Modal.Header>
 
-        <Modal.Body style={{ border: "none" }}>
+        <Modal.Body style={{ border: "none", paddingTop:10 }}>
           {errorAssign && (
-            <ErrorMessage message={errorAssign} type="error" />
+            <div className="mb-2 mt-0">
+              <ErrorMessage message={errorAssign} type="error" />
+            </div>
+
           )}
 
           {errorUnAssign && (
-            <ErrorMessage message={errorUnAssign} type="error" />
+            <div className="mb-2 mt-0">
+              <ErrorMessage message={errorUnAssign} type="error" />
+            </div>
           )}
 
           {/* {state.createAccount?.networkError ?
@@ -413,7 +435,7 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
 
 
                 </Card.Header>
-                <Card.Body style={{ maxHeight: 350, overflowY: "auto" }} className="show-scroll m-1 pe-1 ps-2">
+                <Card.Body style={{ maxHeight: 350, overflowY: "auto" }} className="show-scrolls m-1 pe-1 ps-2">
                   {unAssignedList.length > 0 && unAssignedList.map((list) => {
                     return (
                       <div key={list.customerId}>
@@ -450,27 +472,54 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
 
                             <div>
 
+                              <div className='d-flex align-items-center justify-content-start gap-2 '>
 
-                              <div>
-                                <label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{list.customerName}</label>
 
+                                <div>
+                                  <label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 600, ...ellipsisStyle }} title={list.customerName}>{list.customerName}</label>
+
+                                </div>
+                                <div>
+                                  {
+                                    list?.canAssign === false ?
+                                      <ArrowDown className='mb-1'
+                                        size="16"
+                                        color="#FF0000"
+                                      />
+                                      :
+                                      <ArrowUp className='mb-1'
+                                        size="16"
+                                        color="#1E45E1"
+                                      />
+
+                                  }
+                                </div>
                               </div>
                               {
                                 list?.canAssign === false ?
 
                                   <div>
-                                    <label style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}>{list?.mobileNumber || "1234567898"}</label>
+                                    <label
+                                      style={{
+                                        fontSize: 14,
+                                        color: "#4B4B4B",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500, ...ellipsisStyle
+                                      }}
+                                    >
+                                      {list?.mobile ? `${list.countryCode} ${list.mobile}` : "-"}
+                                    </label>
 
                                   </div>
                                   :
-                                  <div className='d-flex gap-3'>
+                                  <div className='d-flex flex-wrap  gap-3'>
                                     <div style={{ backgroundColor: "#FFEFCF", borderRadius: 10, display: "flex", justifyContent: "center", width: "fit-content", padding: "2px 8px" }} >
-                                      <label style={{ fontSize: 12, color: "#222222", fontFamily: "Gilroy", fontWeight: 400 }}>{list?.floorName || "N/A"}</label>
+                                      <label style={{ fontSize: 12, color: "#222222", fontFamily: "Gilroy", fontWeight: 400, ...ellipsisStyle }} title={list.floorName}>{list?.floorName || "N/A"}</label>
 
                                     </div>
                                     <div style={{ backgroundColor: "#F1F7FF", borderRadius: 10, display: "flex", justifyContent: "center", width: "fit-content", padding: "2px 8px", gap: 2 }} >
-                                      <label style={{ fontSize: 12, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 400 }}>{list?.roomName || "N/A"} {" "} -  {" "}</label>
-                                      <label style={{ fontSize: 12, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 400 }}>{list?.bedName || "N/A"}</label>
+                                      <label style={{ fontSize: 12, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 400, ...ellipsisStyle }} title={list.roomName}>{list?.roomName || "N/A"} {" "} -  {" "}</label>
+                                      <label style={{ fontSize: 12, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 400, ...ellipsisStyle }} title={list.bedName}>{list?.bedName || "N/A"}</label>
 
                                     </div>
                                   </div>
@@ -480,21 +529,7 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
 
 
 
-                          <div>
-                            {
-                              list?.canAssign === false ?
-                                <ArrowDown style={{ marginLeft: 35 }}
-                                  size="18"
-                                  color="#FF0000"
-                                />
-                                :
-                                <ArrowUp
-                                  size="18"
-                                  color="#1E45E1"
-                                />
 
-                            }
-                          </div>
 
                           <div>
                             {
@@ -508,7 +543,7 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
                                 />}
                           </div>
                         </div>
-                        {/* <hr style={{ border: "1px solid #ccc" }} className='p-0 m-1' /> */}
+
                       </div>
                     )
 
@@ -601,19 +636,21 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
                       aria-label="option 1"
                       checked={assignedSelectAll}
                       onChange={handleAssignedGlobalSelectAll}
-                      style={{  cursor: "pointer", boxShadow: "none", transform: "scale(1.2)",
-                        transformOrigin: "center", }}
+                      style={{
+                        cursor: "pointer", boxShadow: "none", transform: "scale(1.2)",
+                        transformOrigin: "center",
+                      }}
                     />
 
                   </div>
 
 
                 </Card.Header>
-                <Card.Body style={{ maxHeight: 350, overflowY: "auto" }} className="show-scroll m-1 pe-2 ps-2">
+                <Card.Body style={{ maxHeight: 350, overflowY: "auto" }} className="show-scrolls m-1 pe-2 ps-2">
                   {AssignedList.length > 0 && AssignedList.map((list) => {
                     return (
-                      <div key={list.customerId}>
-                        <div className='d-flex justify-content-between mb-4'>
+                      <div key={list.customerId} className='mb-2' style={{ height: "fit-content", backgroundColor: list.ending ? "#FFF3F3" : "#FFF", border: list.ending && "1px solid #FFD6D6", borderRadius: list.ending && 8, padding: list.ending && 8 }} >
+                        <div className='d-flex justify-content-between'>
 
                           <div className='d-flex gap-3'>
                             <div>
@@ -648,30 +685,61 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
                             <div>
 
                               <div>
-                                <label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{list.customerName}</label>
+                                <label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 600, ...ellipsisStyle }} title={list.customerName}>{list.customerName}</label>
 
                               </div>
+                              
 
+                              {/* 
                               {
                                 list?.canAssign === false ?
 
                                   <div>
-                                    <label style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}>{list?.mobileNumber || "1234567898"}</label>
+                                    <label
+                                      style={{
+                                        fontSize: 14,
+                                        color: "#4B4B4B",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500, ...ellipsisStyle
+                                      }}
+                                    >
+                                      {list?.mobile ? `${list.countryCode} ${list.mobile}` : "-"}
+                                    </label>
 
                                   </div>
-                                  :
-                                  <div className='d-flex gap-3'>
-                                    <div style={{ backgroundColor: "#FFEFCF", borderRadius: 10, display: "flex", justifyContent: "center", width: "fit-content", padding: "2px 8px" }} >
-                                      <label style={{ fontSize: 12, color: "#222222", fontFamily: "Gilroy", fontWeight: 400 }}>{list?.floorName || "N/A"}</label>
+                                  : */}
 
-                                    </div>
-                                    <div style={{ backgroundColor: "#F1F7FF", borderRadius: 10, display: "flex", justifyContent: "center", width: "fit-content", padding: "2px 8px", gap: 2 }} >
-                                      <label style={{ fontSize: 12, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 400 }}>{list?.roomName || "N/A"} {" "} -  {" "}</label>
-                                      <label style={{ fontSize: 12, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 400 }}>{list?.bedName || "N/A"}</label>
+                              <div className='d-flex flex-wrap  gap-3'>
+                                <div style={{ backgroundColor: "#FFEFCF", borderRadius: 10, display: "flex", justifyContent: "center", width: "fit-content", padding: "2px 8px" }} >
+                                  <label style={{ fontSize: 12, color: "#222222", fontFamily: "Gilroy", fontWeight: 400, ...ellipsisStyle }} title={list.floorName}>{list?.floorName || "N/A"}</label>
 
-                                    </div>
-                                  </div>
-                              }
+                                </div>
+                                <div style={{ backgroundColor: "#F1F7FF", borderRadius: 10, display: "flex", justifyContent: "center", width: "fit-content", padding: "2px 8px", gap: 2 }} >
+                                  <label style={{ fontSize: 12, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 400, ...ellipsisStyle }} title={list.roomName}>{list?.roomName || "N/A"} {" "} -  {" "}</label>
+                                  <label style={{ fontSize: 12, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 400, ...ellipsisStyle }} title={list.bedName}>{list?.bedName || "N/A"}</label>
+
+                                </div>
+                              </div>
+                              {list?.ending && (
+                                <div style={{ marginTop: 4 }} className='mb-2'>
+                                  <span
+                                    style={{
+                                      fontSize: 12,
+                                      fontFamily: "Gilroy",
+                                      fontWeight: 500,
+                                      color: "#D32F2F",
+                                      backgroundColor: "#FFE5E5",
+                                      padding: "2px 8px",
+                                      borderRadius: 8,
+                                      display: "inline-block",
+                                    }}
+                                    title={formatDate(list.endDate)}
+                                  >
+                                    Ending on {formatDate(list.endDate)}
+                                  </span>
+                                </div>
+                              )}
+                              {/* } */}
                             </div>
                           </div>
 

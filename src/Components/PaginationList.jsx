@@ -265,6 +265,7 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 function PaginationList({
+  display,
   onPageChange,
   itemsPerPage = 10,
   children,
@@ -317,6 +318,8 @@ function PaginationList({
 
   if (totalItems === 0) return null;
 
+  console.log("display",display)
+
   return (
     <>
       {paginatedChildren}
@@ -327,15 +330,15 @@ function PaginationList({
             position: "fixed",
             bottom: 0,
             right: 0,
-            left: 0,
-            width: "100%",
-            background: "#fff",
+            left: !display && 0,
+             width: display ?  "60%" : "100%",
+            background: "#FFFFFF",
             padding: "0px 16px",
             display: "flex",
             justifyContent: "center",
-            borderTop: "1px solid #E5E7EB",
+            // borderTop: "1px solid #121a2bff",
             zIndex: 1000,
-            boxShadow: "0 -4px 12px rgba(0, 0, 0, 0.05)",
+            boxShadow: !display && "0 -4px 12px rgba(0, 0, 0, 0.05)",
             // marginLeft: 150,
             gap: 25,
             alignItems: "center",

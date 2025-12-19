@@ -227,7 +227,7 @@ function SettingAmenities() {
     useEffect(() => {
         if (state.InvoiceList.StatusCodeAmenitiesGet === 200) {
 
-            setAmenitiesFilterddata(state.InvoiceList.AmenitiesList)
+            setAmenitiesFilterddata(state.InvoiceList.AmenitiesList?.amenities)
             setLoading(false)
 
             setTimeout(() => {

@@ -430,58 +430,58 @@ function UserlistWalkin() {
                 ></div>
               </div>
             ) : (
- <div className='show-scrolls' style={{
-                  overflow: "auto",
-                  marginBottom: 20,
-                  marginTop: "0px",
-                  paddingRight: 0,
-                  paddingLeft: 0,
+              <div className='show-scrolls' style={{
+                overflow: "auto",
+                marginBottom: 20,
+                marginTop: "0px",
+                paddingRight: 0,
+                paddingLeft: 0,
 
-                }}>
+              }}>
 
-              {sortedData.length > 0 && (
-                <div
-                  className="me-2"
-                  style={{  marginLeft: "0px" }}
-                >
+                {sortedData.length > 0 && (
                   <div
-                    className="show-scrolls"
-                    style={{
-                      marginTop: "20px",
-                    }}
+                    className="me-2"
+                    style={{ marginLeft: "0px" }}
                   >
-                    <Table responsive="md">
-                      <thead
-                        style={{
-                          fontFamily: "Gilroy",
-                          backgroundColor: "rgba(231, 241, 255, 1)",
-                          color: "rgba(34, 34, 34, 1)",
-                          fontSize: 14,
-                          fontStyle: "normal",
-                          fontWeight: 500,
-                          position: "sticky",
-                          top: 0,
-                          zIndex: 1,
-                          borderRadius: 0
-                        }}
-                      >
-                        <tr>
-                          <th
-                            style={{
-                              verticalAlign: "middle",
-                              textAlign: "start",
-                              fontFamily: "Gilroy",
-                              color: "rgb(147, 147, 147)",
-                              fontSize: 12,
-                              fontStyle: "normal",
-                              fontWeight: 500,
-                              // padding: 10
-                            }}
-                          >
-                            {" "}
-                            <div className="d-flex gap-1 align-items-center justify-content-start">
+                    <div
+                      className="show-scrolls"
+                      style={{
+                        marginTop: "20px",
+                      }}
+                    >
+                      <Table responsive="md">
+                        <thead
+                          style={{
+                            fontFamily: "Gilroy",
+                            backgroundColor: "rgba(231, 241, 255, 1)",
+                            color: "rgba(34, 34, 34, 1)",
+                            fontSize: 14,
+                            fontStyle: "normal",
+                            fontWeight: 500,
+                            position: "sticky",
+                            top: 0,
+                            zIndex: 1,
+                            borderRadius: 0
+                          }}
+                        >
+                          <tr>
+                            <th
+                              style={{
+                                verticalAlign: "middle",
+                                textAlign: "start",
+                                fontFamily: "Gilroy",
+                                color: "rgb(147, 147, 147)",
+                                fontSize: 12,
+                                fontStyle: "normal",
+                                fontWeight: 500,
+                                // padding: 10
+                              }}
+                            >
                               {" "}
-                              {/* <div
+                              <div className="d-flex gap-1 align-items-center justify-content-start">
+                                {" "}
+                                {/* <div
                                 style={{
                                   display: "flex",
                                   flexDirection: "column",
@@ -507,81 +507,81 @@ function UserlistWalkin() {
                                   style={{ cursor: "pointer" }}
                                 />
                               </div>{" "} */}
-                              Name
-                            </div>{" "}
-                          </th>
+                                Name
+                              </div>{" "}
+                            </th>
 
-                          <th
-                            style={{
-                              textAlign: "start",
-                              fontFamily: "Gilroy",
-                              color: "rgb(147, 147, 147)",
-                              fontSize: 12,
-                              fontStyle: "normal",
-                              fontWeight: 500,
-                              whiteSpace: "nowrap",
-                            }}
-                          >
-                            <div className="d-flex gap-1 align-items-center justify-content-start">
-                              
-                              Email ID{" "}
-                            </div>
-                          </th>
+                            <th
+                              style={{
+                                textAlign: "start",
+                                fontFamily: "Gilroy",
+                                color: "rgb(147, 147, 147)",
+                                fontSize: 12,
+                                fontStyle: "normal",
+                                fontWeight: 500,
+                                whiteSpace: "nowrap",
+                              }}
+                            >
+                              <div className="d-flex gap-1 align-items-center justify-content-start">
 
-                          <th
-                            style={{
-                              textAlign: "start",
-                              fontFamily: "Gilroy",
-                              color: "rgb(147, 147, 147)",
-                              fontSize: 12,
-                              fontStyle: "normal",
-                              fontWeight: 500,
-                              whiteSpace: "nowrap",
-                            }}
-                          >
-                            <div className="d-flex gap-1 align-items-center justify-content-start">
-                              
-                              Mobile No{" "}
-                            </div>
-                          </th>
+                                Email ID{" "}
+                              </div>
+                            </th>
 
+                            <th
+                              style={{
+                                textAlign: "start",
+                                fontFamily: "Gilroy",
+                                color: "rgb(147, 147, 147)",
+                                fontSize: 12,
+                                fontStyle: "normal",
+                                fontWeight: 500,
+                                whiteSpace: "nowrap",
+                              }}
+                            >
+                              <div className="d-flex gap-1 align-items-center justify-content-start">
 
-
-                          <th
-                            style={{
-                              textAlign: "center",
-                              fontFamily: "Gilroy",
-                              color: "rgb(147, 147, 147)",
-                              fontSize: 12,
-                              fontStyle: "normal",
-                              fontWeight: 500,
-                              // paddingBottom: 10
-                            }}
-                          >
-                            Action
-                          </th>
-                        </tr>
-                      </thead>
+                                Mobile No{" "}
+                              </div>
+                            </th>
 
 
 
-                      <tbody>
-                        <PaginationList>
-                          {sortedData && sortedData.length > 0 && (
-                            sortedData.map((v) => (
-                              <tr key={v.customerId}>
-                                <td className="ps-2 pt-0 pe-0 pb-0"
-                                  style={{
-                                    border: "none",
-                                    // padding: "10px",
-                                    textAlign: "start",
-                                    verticalAlign: "middle",
-                                    paddingLeft: "23px",
-                                    borderBottom: "1px solid #E8E8E8",
-                                  }}
-                                  
-                                >
-                                
+                            <th
+                              style={{
+                                textAlign: "center",
+                                fontFamily: "Gilroy",
+                                color: "rgb(147, 147, 147)",
+                                fontSize: 12,
+                                fontStyle: "normal",
+                                fontWeight: 500,
+                                // paddingBottom: 10
+                              }}
+                            >
+                              Action
+                            </th>
+                          </tr>
+                        </thead>
+
+
+
+                        <tbody>
+                          <PaginationList>
+                            {sortedData && sortedData.length > 0 && (
+                              sortedData.map((v) => (
+                                <tr key={v.customerId}>
+                                  <td className="ps-2 pt-0 pe-0 pb-0"
+                                    style={{
+                                      border: "none",
+                                      // padding: "10px",
+                                      textAlign: "start",
+                                      verticalAlign: "middle",
+                                      paddingLeft: "23px",
+                                      borderBottom: "1px solid #E8E8E8",
+                                    }}
+
+                                  >
+
                                     <span
                                       style={{
                                         fontSize: 13,
@@ -591,238 +591,238 @@ function UserlistWalkin() {
                                     >
                                       {v.fullName}
                                     </span>
-                                                                 </td>
+                                  </td>
 
-                                <td className="p-0"
-                                  style={{
-                                    fontSize: 13,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    textAlign: "start",
-                                    verticalAlign: "middle",
-                                    borderBottom: "1px solid #E8E8E8",
-                                  }}
-                                 
-                                >
-                                  {v.emailId || "N/A"}
-                                </td>
-
-                                <td
-                                  style={{
-                                    textAlign: "start",
-                                    verticalAlign: "middle",
-                                    fontSize: 13,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    borderBottom: "1px solid #E8E8E8",
-                                  }}
-                                  className="p-0"
-                                >
-                                  +
-                                  {v &&
-                                    v.countryCode}
-                                  {" "}
-                                  {v.mobile}
-                                </td>
-
-
-
-                                <td style={{ borderBottom: "1px solid #E8E8E8" }} >
-                                  <div
+                                  <td className="p-0"
                                     style={{
-                                      cursor: "pointer",
-                                      // height: 40,
-                                      // width: 40,
-                                      // borderRadius: "50%",
-                                      // border: "1px solid #EFEFEF",
-                                      display: "flex",
-                                      justifyContent: "center",
-                                      alignItems: "center",
-                                      position: "relative",
-                                      // borderBottom: "1px solid #E8E8E8",
-                                      // backgroundColor:
-                                      //   dotsButton === v.customerId ? "#E7F1FF" : "white",
+                                      fontSize: 13,
+                                      fontWeight: 500,
+                                      fontFamily: "Gilroy",
+                                      textAlign: "start",
+                                      verticalAlign: "middle",
+                                      borderBottom: "1px solid #E8E8E8",
                                     }}
-                                    onClick={(e) => handleDotsClick(v.customerId, e)}
+
                                   >
-                                    <PiDotsThreeOutlineVerticalFill
+                                    {v.emailId || "N/A"}
+                                  </td>
+
+                                  <td
+                                    style={{
+                                      textAlign: "start",
+                                      verticalAlign: "middle",
+                                      fontSize: 13,
+                                      fontWeight: 500,
+                                      fontFamily: "Gilroy",
+                                      borderBottom: "1px solid #E8E8E8",
+                                    }}
+                                    className="p-0"
+                                  >
+                                    +
+                                    {v &&
+                                      v.countryCode}
+                                    {" "}
+                                    {v.mobile}
+                                  </td>
+
+
+
+                                  <td style={{ borderBottom: "1px solid #E8E8E8" }} >
+                                    <div
                                       style={{
-                                        height: 20, width: 20, 
-                                        transform:"rotate(90deg)",
-                                        color:
-                                          dotsButton === v.customerId
-                                            ? "#1E45E1"
-                                            : "#6B7280",
+                                        cursor: "pointer",
+                                        // height: 40,
+                                        // width: 40,
+                                        // borderRadius: "50%",
+                                        // border: "1px solid #EFEFEF",
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        position: "relative",
+                                        // borderBottom: "1px solid #E8E8E8",
+                                        // backgroundColor:
+                                        //   dotsButton === v.customerId ? "#E7F1FF" : "white",
                                       }}
-                                    />
-                                    {dotsButton === v.customerId && (
-                                      <div
-                                        ref={popupRef}
+                                      onClick={(e) => handleDotsClick(v.customerId, e)}
+                                    >
+                                      <PiDotsThreeOutlineVerticalFill
                                         style={{
-                                          cursor: "pointer",
-                                          backgroundColor: "#F9F9F9",
-                                          position: "fixed",
-                                          top: popupPosition.top - 15,
-                                          left: popupPosition.left - 10,
-                                          width: 140,
-                                          border: "1px solid #EBEBEB",
-                                          borderRadius: 10,
-                                          display: "flex",
-                                          flexDirection: "column",
-                                          justifyContent: "center",
-                                          boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                                          zIndex: 10,
+                                          height: 20, width: 20,
+                                          transform: "rotate(90deg)",
+                                          color:
+                                            dotsButton === v.customerId
+                                              ? "#1E45E1"
+                                              : "#6B7280",
                                         }}
-                                      >
-                                        {/* Edit Option */}
+                                      />
+                                      {dotsButton === v.customerId && (
                                         <div
-                                          className="d-flex align-items-center gap-2"
-                                          onClick={() => {
-                                            if (canWriteWalkin) {
-                                              handleCheckIn(v);
-                                            }
-                                          }}
+                                          ref={popupRef}
                                           style={{
-                                            cursor: !canWriteWalkin ? "not-allowed" : "pointer",
-                                            opacity: !canWriteWalkin ? 0.5 : 1,
-                                            padding: "6px 8px",
-                                            borderRadius: 6,
-                                          }}
-                                          onMouseEnter={(e) => {
-                                            e.currentTarget.style.backgroundColor = "#F0F4FF";
-                                          }}
-                                          onMouseLeave={(e) => {
-                                            e.currentTarget.style.backgroundColor = "transparent";
-                                          }}
-                                        >
-                                          <img
-                                            src={addcircle}
-                                            alt="Assign Bed"
-                                            style={{
-                                              height: 16,
-                                              width: 16,
-                                              filter: !canWriteWalkin ? "grayscale(100%)" : "none",
-                                            }}
-                                          />
-
-                                          <label
-                                            style={{
-                                              fontSize: 14,
-                                              fontWeight: 500,
-                                              fontFamily: "Gilroy, sans-serif",
-                                              color: !canWriteWalkin ? "#A9A9A9" : "#222222",
-                                              cursor: !canWriteWalkin ? "not-allowed" : "pointer",
-                                            }}
-                                          >
-                                            Check_In
-                                          </label>
-                                        </div>
-
-
-                                        <div
-                                          className="d-flex align-items-center gap-2"
-                                          onClick={() => {
-                                            if (canWriteWalkin) {
-                                              handleBooking(v);
-                                            }
-                                          }}
-                                          style={{
-                                            cursor: !canWriteWalkin ? "not-allowed" : "pointer",
-                                            opacity: !canWriteWalkin ? 0.5 : 1,
-                                            padding: "6px 8px",
-                                            borderRadius: 6,
-                                          }}
-                                          onMouseEnter={(e) => {
-                                            e.currentTarget.style.backgroundColor = "#FFF3F3";
-                                          }}
-                                          onMouseLeave={(e) => {
-                                            e.currentTarget.style.backgroundColor = "transparent";
-                                          }}
-                                        >
-
-                                          <img
-                                            src={Addbook}
-                                            alt="Addbook"
-                                            style={{
-                                              width: 16,
-                                              height: 16,
-                                              filter: !canWriteWalkin ? "grayscale(100%)" : "none",
-                                              cursor: !canWriteWalkin ? "not-allowed" : "pointer",
-                                            }}
-                                          />
-                                          <label
-                                            style={{
-                                              fontSize: 14,
-                                              fontWeight: 500,
-                                              fontFamily: "Gilroy, sans-serif",
-                                              color: !canWriteWalkin ? "#A9A9A9" : "#1E45E1",
-                                              cursor: !canWriteWalkin ? "not-allowed" : "pointer",
-                                            }}
-                                          >
-                                            Add booking
-                                          </label>
-                                        </div>
-
-                                        <div
-
-                                          className="d-flex align-items-center gap-2"
-                                          style={{
+                                            cursor: "pointer",
                                             backgroundColor: "#F9F9F9",
-                                            cursor: !canDeleteWalkin ? "not-allowed" : "pointer",
-                                            opacity: !canDeleteWalkin ? 0.6 : 1,
-                                            padding: "8px 12px",
-                                            borderRadius: 6,
-                                            transition: "background 0.2s ease-in-out",
-                                          }}
-                                          onClick={() => {
-                                            if (canDeleteWalkin) {
-                                              handleDeleteShow(v);
-                                            }
-                                          }}
-                                          onMouseEnter={(e) => {
-                                            e.currentTarget.style.backgroundColor = "#FFF3F3";
-
-                                          }}
-                                          onMouseLeave={(e) => {
-                                            e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                            position: "fixed",
+                                            top: popupPosition.top - 15,
+                                            left: popupPosition.left - 10,
+                                            width: 140,
+                                            border: "1px solid #EBEBEB",
+                                            borderRadius: 10,
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            justifyContent: "center",
+                                            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                                            zIndex: 10,
                                           }}
                                         >
-
-                                          <Trash
-                                            size="16"
-                                            color={!canDeleteWalkin ? "#A9A9A9" : "red"}
-                                          />
-                                          <label
+                                          {/* Edit Option */}
+                                          <div
+                                            className="d-flex align-items-center gap-2"
+                                            onClick={() => {
+                                              if (canWriteWalkin) {
+                                                handleCheckIn(v);
+                                              }
+                                            }}
                                             style={{
-                                              fontSize: 14,
-                                              fontWeight: 500,
-                                              fontFamily: "Gilroy, sans-serif",
-                                              color: !canDeleteWalkin ? "#888888" : "#FF0000",
-                                              cursor: !canDeleteWalkin ? "not-allowed" : "pointer",
-                                              margin: 0,
+                                              cursor: !canWriteWalkin ? "not-allowed" : "pointer",
+                                              opacity: !canWriteWalkin ? 0.5 : 1,
+                                              padding: "6px 8px",
+                                              borderRadius: 6,
+                                            }}
+                                            onMouseEnter={(e) => {
+                                              e.currentTarget.style.backgroundColor = "#F0F4FF";
+                                            }}
+                                            onMouseLeave={(e) => {
+                                              e.currentTarget.style.backgroundColor = "transparent";
                                             }}
                                           >
-                                            Delete
-                                          </label>
+                                            <img
+                                              src={addcircle}
+                                              alt="Assign Bed"
+                                              style={{
+                                                height: 16,
+                                                width: 16,
+                                                filter: !canWriteWalkin ? "grayscale(100%)" : "none",
+                                              }}
+                                            />
+
+                                            <label
+                                              style={{
+                                                fontSize: 14,
+                                                fontWeight: 500,
+                                                fontFamily: "Gilroy, sans-serif",
+                                                color: !canWriteWalkin ? "#A9A9A9" : "#222222",
+                                                cursor: !canWriteWalkin ? "not-allowed" : "pointer",
+                                              }}
+                                            >
+                                              Check_In
+                                            </label>
+                                          </div>
+
+
+                                          <div
+                                            className="d-flex align-items-center gap-2"
+                                            onClick={() => {
+                                              if (canWriteWalkin) {
+                                                handleBooking(v);
+                                              }
+                                            }}
+                                            style={{
+                                              cursor: !canWriteWalkin ? "not-allowed" : "pointer",
+                                              opacity: !canWriteWalkin ? 0.5 : 1,
+                                              padding: "6px 8px",
+                                              borderRadius: 6,
+                                            }}
+                                            onMouseEnter={(e) => {
+                                              e.currentTarget.style.backgroundColor = "#FFF3F3";
+                                            }}
+                                            onMouseLeave={(e) => {
+                                              e.currentTarget.style.backgroundColor = "transparent";
+                                            }}
+                                          >
+
+                                            <img
+                                              src={Addbook}
+                                              alt="Addbook"
+                                              style={{
+                                                width: 16,
+                                                height: 16,
+                                                filter: !canWriteWalkin ? "grayscale(100%)" : "none",
+                                                cursor: !canWriteWalkin ? "not-allowed" : "pointer",
+                                              }}
+                                            />
+                                            <label
+                                              style={{
+                                                fontSize: 14,
+                                                fontWeight: 500,
+                                                fontFamily: "Gilroy, sans-serif",
+                                                color: !canWriteWalkin ? "#A9A9A9" : "#1E45E1",
+                                                cursor: !canWriteWalkin ? "not-allowed" : "pointer",
+                                              }}
+                                            >
+                                              Add booking
+                                            </label>
+                                          </div>
+
+                                          <div
+
+                                            className="d-flex align-items-center gap-2"
+                                            style={{
+                                              backgroundColor: "#F9F9F9",
+                                              cursor: !canDeleteWalkin ? "not-allowed" : "pointer",
+                                              opacity: !canDeleteWalkin ? 0.6 : 1,
+                                              padding: "8px 12px",
+                                              borderRadius: 6,
+                                              transition: "background 0.2s ease-in-out",
+                                            }}
+                                            onClick={() => {
+                                              if (canDeleteWalkin) {
+                                                handleDeleteShow(v);
+                                              }
+                                            }}
+                                            onMouseEnter={(e) => {
+                                              e.currentTarget.style.backgroundColor = "#FFF3F3";
+
+                                            }}
+                                            onMouseLeave={(e) => {
+                                              e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                            }}
+                                          >
+
+                                            <Trash
+                                              size="16"
+                                              color={!canDeleteWalkin ? "#A9A9A9" : "red"}
+                                            />
+                                            <label
+                                              style={{
+                                                fontSize: 14,
+                                                fontWeight: 500,
+                                                fontFamily: "Gilroy, sans-serif",
+                                                color: !canDeleteWalkin ? "#888888" : "#FF0000",
+                                                cursor: !canDeleteWalkin ? "not-allowed" : "pointer",
+                                                margin: 0,
+                                              }}
+                                            >
+                                              Delete
+                                            </label>
+                                          </div>
+
+
+
                                         </div>
+                                      )}
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))
+                            )}
+                          </PaginationList>
+                        </tbody>
 
 
-
-                                      </div>
-                                    )}
-                                  </div>
-                                </td>
-                              </tr>
-                            ))
-                          )}
-                        </PaginationList>
-                      </tbody>
-
-
-                    </Table>
+                      </Table>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
               </div>
             )}
 
