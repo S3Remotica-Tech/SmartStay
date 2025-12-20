@@ -72,7 +72,7 @@ const checkPermission = (roleData, moduleName, action = "canRead") => {
 export const useHasPermission = (moduleName) => {
   const roleData = useSelector((state) => state.AssetList.getPermissionRoleList);
   const isValidSubscription = useSelector((state) => state.UsersList?.hotelDetailsinPg.isSubscriptionActive);
-
+// console.log("isValidSubscription",isValidSubscription)
   // const canWriteSubscription = checkPermission(roleData, "Subscription", "canWrite");
   // const canReadSubscription = checkPermission(roleData, "Subscription", "canRead");
   // const canUpdateSubscription = checkPermission(roleData, "Subscription", "canUpdate");

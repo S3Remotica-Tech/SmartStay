@@ -175,6 +175,10 @@ const RoomReadingTable = () => {
   }, [state.UsersList?.getCustomerReadingStatus])
 
 
+  useEffect(()=>{
+         setLoading(false)
+     },[state.UsersList?.getCustomerReadingList, state.UsersList?.getRoomReadingList?.listReadings])
+
 
 
   useEffect(() => {

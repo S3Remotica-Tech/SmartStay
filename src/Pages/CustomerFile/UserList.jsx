@@ -934,7 +934,7 @@ function UserList(props) {
 
 
   useEffect(() => {
-    if (userListDetail.length === 0) {
+    if (userListDetail) {
       setLoading(false)
     }
 

@@ -208,7 +208,7 @@ const InvoicePage = () => {
     canReadModule: canReadInvoice,
   } = useHasPermission("Bills");
 
-
+console.log("canWriteInvoice",canWriteInvoice)
 
   // const canReadInvoice = useHasPermission("Bills", "canRead")
   // const canWriteInvoice = useHasPermission("Bills", "canWrite")
@@ -965,7 +965,11 @@ const InvoicePage = () => {
   };
 
   const handleEdit = (props) => {
-
+  navigate('/create-bill', {
+    state: {
+      billData: props,
+    },
+  })
     setShowManualInvoice(true);
     setShowAllBill(false);
     setBillMode("Edit Bill");
@@ -2742,6 +2746,7 @@ const InvoicePage = () => {
 
   useEffect(() => {
     setBills(state.InvoiceList.ManualInvoices);
+   setLoading(false);
   }, [state.InvoiceList.ManualInvoices,])
 
 

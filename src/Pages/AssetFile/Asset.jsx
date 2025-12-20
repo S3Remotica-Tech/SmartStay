@@ -595,22 +595,42 @@ function Asset() {
   });
 
 
-  // useEffect(() => {
-  //   if (
-  //     getData.length > 0 &&
-  //     currentItems.length === 0 &&
-  //     currentPage > 1
-  //   ) {
-  //     setCurrentPage(currentPage - 1);
-  //   }
-  // }, [getData])
+ 
 
 
 
   return (
     <>
 
-      <div className=" sticky-top bg-white" style={{ margin:5 }}>
+      <div className=" sticky-top bg-white" style={{ margin:5, position:"relative" }}>
+         {loading &&
+          <div
+            style={{
+              position: 'absolute',
+              top: "50%",
+              right: 0,
+              bottom: 0,
+              left: '200px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>
+        }
         <div className=" d-flex justify-content-between align-items-center  flex-wrap h-auto"
           style={{
             position: 'sticky',
@@ -902,36 +922,11 @@ function Asset() {
 
 
 
+ 
 
-        {loading &&
-          <div
-            style={{
-              position: 'absolute',
-              top: 0,
-              right: 0,
-              bottom: 0,
-              left: '200px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'transparent',
-              opacity: 0.75,
-              zIndex: 10,
-            }}
-          >
-            <div
-              style={{
-                borderTop: '4px solid #1E45E1',
-                borderRight: '4px solid transparent',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                animation: 'spin 1s linear infinite',
-              }}
-            ></div>
-          </div>
-        }
 
+
+      
 
         {
           !canReadAssets ? (
