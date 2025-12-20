@@ -1935,7 +1935,7 @@ useEffect(() => {
                     onChange={(e) => handleRowTypeSelect(e.target.value)}
                 >
                     <option value="" disabled>Select Item Type</option>
-                    {!selectedTypes.includes("RoomRent") && <option value="RoomRent">Room Rent</option>}
+                    {!billData && !selectedTypes.includes("RoomRent") && <option value="RoomRent">Room Rent</option>}
                     {!selectedTypes.includes("EB") && <option value="EB">EB</option>}
                     <option value="Other">Other</option>
                 </Form.Select>
