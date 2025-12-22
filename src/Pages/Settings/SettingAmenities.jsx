@@ -217,7 +217,7 @@ function SettingAmenities() {
 
         if (state.login.selectedHostel_Id) {
             dispatch({ type: 'AMENITIESLIST', payload: state.login.selectedHostel_Id })
-             setLoading(true);
+            setLoading(true);
         }
 
 
@@ -228,8 +228,12 @@ function SettingAmenities() {
     useEffect(() => {
         if (state.InvoiceList.StatusCodeAmenitiesGet === 200) {
 
-            setAmenitiesFilterddata(state.InvoiceList.AmenitiesList)
-                        // setAmenitiesFilterddata(state.InvoiceList.AmenitiesList?.amenities)
+            setAmenitiesFilterddata(
+                state.InvoiceList?.AmenitiesList?.amenities ??
+                state.InvoiceList?.AmenitiesList ??
+                []
+            );
+            // setAmenitiesFilterddata(state.InvoiceList.AmenitiesList?.amenities)
 
             setLoading(false)
 
@@ -239,10 +243,10 @@ function SettingAmenities() {
         }
     }, [state.InvoiceList.StatusCodeAmenitiesGet])
 
-    useEffect(()=>{
-  setLoading(false)
+    useEffect(() => {
+        setLoading(false)
 
-    },[state.InvoiceList.AmenitiesList])
+    }, [state.InvoiceList.AmenitiesList])
 
 
     useEffect(() => {
@@ -517,7 +521,7 @@ function SettingAmenities() {
                                                                 style={{
                                                                     width: 18,
                                                                     height: 18,
-                                                                    cursor: (canWriteAmenities ) ? "pointer" : "not-allowed",
+                                                                    cursor: (canWriteAmenities) ? "pointer" : "not-allowed",
                                                                     opacity: (canWriteAmenities) ? 1 : 0.5,
                                                                 }}
                                                             />
