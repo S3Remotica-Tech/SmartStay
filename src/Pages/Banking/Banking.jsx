@@ -109,65 +109,65 @@ function Banking() {
 
 
 
-  useEffect(() => {
-    const userType = bankingrolePermission[0]?.user_details?.user_type
-    const isAdmin = userType === "admin" || userType === "agent";
-    if (isAdmin) {
-      if (state?.login?.planStatus === 0) {
-        setBankingPermissionError("");
-        setBankingAddPermission("Permission Denied");
-        setBankingEditPermission("Permission Denied");
-        setBankingDeletePermission("Permission Denied");
+  // useEffect(() => {
+  //   const userType = bankingrolePermission[0]?.user_details?.user_type
+  //   const isAdmin = userType === "admin" || userType === "agent";
+  //   if (isAdmin) {
+  //     if (state?.login?.planStatus === 0) {
+  //       setBankingPermissionError("");
+  //       setBankingAddPermission("Permission Denied");
+  //       setBankingEditPermission("Permission Denied");
+  //       setBankingDeletePermission("Permission Denied");
 
-      } else if (state?.login?.planStatus === 1) {
-        setBankingPermissionError("");
-        setBankingAddPermission("");
-        setBankingEditPermission("");
-        setBankingDeletePermission("");
-      }
-    }
+  //     } else if (state?.login?.planStatus === 1) {
+  //       setBankingPermissionError("");
+  //       setBankingAddPermission("");
+  //       setBankingEditPermission("");
+  //       setBankingDeletePermission("");
+  //     }
+  //   }
 
-  }, [state?.login?.planStatus, state?.login?.selectedHostel_Id, bankingrolePermission])
-
-
-
-  useEffect(() => {
-    const bankingPermission = bankingrolePermission[0]?.role_permissions?.find(
-      (perm) => perm.permission_name === "Banking"
-    );
-
-    const isOwner = bankingrolePermission[0]?.user_details?.user_type === "staff";
-    const planActive = state?.login?.planStatus === 1;
-
-    if (!bankingPermission || !isOwner) return;
+  // }, [state?.login?.planStatus, state?.login?.selectedHostel_Id, bankingrolePermission])
 
 
-    if (bankingPermission.per_view === 1 && planActive) {
-      setBankingPermissionError("");
-    } else {
-      setBankingPermissionError("Permission Denied");
-    }
+
+  // useEffect(() => {
+  //   const bankingPermission = bankingrolePermission[0]?.role_permissions?.find(
+  //     (perm) => perm.permission_name === "Banking"
+  //   );
+
+  //   const isOwner = bankingrolePermission[0]?.user_details?.user_type === "staff";
+  //   const planActive = state?.login?.planStatus === 1;
+
+  //   if (!bankingPermission || !isOwner) return;
 
 
-    if (bankingPermission.per_create === 1 && planActive) {
-      setBankingAddPermission("");
-    } else {
-      setBankingAddPermission("Permission Denied");
-    }
+  //   if (bankingPermission.per_view === 1 && planActive) {
+  //     setBankingPermissionError("");
+  //   } else {
+  //     setBankingPermissionError("Permission Denied");
+  //   }
 
 
-    if (bankingPermission.per_edit === 1 && planActive) {
-      setBankingEditPermission("");
-    } else {
-      setBankingEditPermission("Permission Denied");
-    }
+  //   if (bankingPermission.per_create === 1 && planActive) {
+  //     setBankingAddPermission("");
+  //   } else {
+  //     setBankingAddPermission("Permission Denied");
+  //   }
 
-    if (bankingPermission.per_delete === 1 && planActive) {
-      setBankingDeletePermission("");
-    } else {
-      setBankingDeletePermission("Permission Denied");
-    }
-  }, [bankingrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
+
+  //   if (bankingPermission.per_edit === 1 && planActive) {
+  //     setBankingEditPermission("");
+  //   } else {
+  //     setBankingEditPermission("Permission Denied");
+  //   }
+
+  //   if (bankingPermission.per_delete === 1 && planActive) {
+  //     setBankingDeletePermission("");
+  //   } else {
+  //     setBankingDeletePermission("Permission Denied");
+  //   }
+  // }, [bankingrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
 
 
   ;
@@ -190,7 +190,7 @@ function Banking() {
 
   useEffect(() => {
     if (hostel_id) {
-      // setLoader(true);
+      setLoader(true);
       dispatch({ type: "BANKINGLIST", payload: hostel_id });
     }
   }, [hostel_id]);
@@ -208,7 +208,9 @@ function Banking() {
   }, [state.bankingDetails.statusCodeForGetBanking]);
 
 
-
+useEffect(()=>{
+setLoader(false)
+},[state.bankingDetails?.bankingList?.listTransactions, state.bankingDetails?.bankingList?.listBanks])
 
 
   useEffect(() => {
@@ -1567,11 +1569,11 @@ function Banking() {
               {loader &&
                 <div
                   style={{
-                    position: 'absolute',
+                     position: 'fixed',
                     top: 0,
                     right: 0,
                     bottom: 0,
-                    left: '200px',
+                    left: 0,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',

@@ -157,7 +157,7 @@ function Dashboard() {
     if (state.login.selectedHostel_Id) {
       dispatch({ type: "PGDASHBOARD", payload: state.login.selectedHostel_Id });
 
-      //  setLoading(true);
+       setLoading(true);
     }
   }, [state.login.selectedHostel_Id]);
 
@@ -434,6 +434,7 @@ function Dashboard() {
   useEffect(() => {
     if (state.PgList?.dashboardDetails) {
       setDashboardList(state.PgList?.dashboardDetails);
+      setLoading(false)
     }
   }, [state.PgList?.dashboardDetails]);
 

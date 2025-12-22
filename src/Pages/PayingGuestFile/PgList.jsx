@@ -153,6 +153,7 @@ useEffect(()=>{
   useEffect(() => {
     if (floorList?.length > 0) {
       setFloorClick(floorList[0]?.id);
+
     } else {
       setFloorClick(null);
     }
@@ -171,7 +172,9 @@ useEffect(()=>{
 
 
 
-
+useEffect(()=>{
+ setLoading(false)
+},[state.UsersList.floorList])
 
   useEffect(() => {
 

@@ -98,6 +98,7 @@ const {
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
           dispatch({ type: "CHECKOUTCUSTOMERLIST",payload: { hostelId: state.login.selectedHostel_Id } });
+            setCheckOutLoader(true)
     }
   }, [state.login.selectedHostel_Id]);
 
@@ -122,7 +123,9 @@ const {
   }, [state.UsersList.GetCheckOutCustomerStatusCode]);
 
 
-
+useEffect(()=>{
+setCheckOutLoader(false)
+},[state.UsersList.CheckOutCustomerList])
 
 
   useEffect(() => {

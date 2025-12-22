@@ -405,7 +405,7 @@ function UserlistWalkin() {
             {walkinLoader ? (
               <div
                 style={{
-                  position: "absolute",
+                  position: "fixed",
                   top: 0,
                   right: 0,
                   bottom: 0,
@@ -714,7 +714,7 @@ function UserlistWalkin() {
                                                 cursor: !canWriteWalkin ? "not-allowed" : "pointer",
                                               }}
                                             >
-                                              Check_In
+                                              Check-In
                                             </label>
                                           </div>
 

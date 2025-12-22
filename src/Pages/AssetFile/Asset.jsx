@@ -30,7 +30,7 @@ function Asset() {
   const [selectedPriceRange, setSelectedPriceRange] = useState('All');
   const [show, setShow] = useState(null)
   const [showFilter, setShowFilter] = useState(null)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [assetrolePermission, setAssetRolePermission] = useState("");
 
   const [assetpermissionError, setAssetPermissionError] = useState("");
@@ -256,7 +256,7 @@ function Asset() {
 
   useEffect(() => {
     if (state.login?.selectedHostel_Id) {
-      // setLoading(true)
+      setLoading(true)
 
       dispatch({ type: 'ASSETLIST', payload: state.login.selectedHostel_Id })
       dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
@@ -295,7 +295,9 @@ function Asset() {
 
   }, [state.AssetList.getAssetStatusCode])
 
-
+useEffect(()=>{
+setLoading(false)
+},[state.AssetList.assetList])
 
 
 
@@ -595,22 +597,42 @@ function Asset() {
   });
 
 
-  // useEffect(() => {
-  //   if (
-  //     getData.length > 0 &&
-  //     currentItems.length === 0 &&
-  //     currentPage > 1
-  //   ) {
-  //     setCurrentPage(currentPage - 1);
-  //   }
-  // }, [getData])
+ 
 
 
 
   return (
     <>
 
-      <div className=" sticky-top bg-white" style={{ margin:5 }}>
+      <div className=" sticky-top bg-white" style={{ margin:5, position:"relative" }}>
+         {loading &&
+          <div
+            style={{
+              position: 'fixed',
+              top: 0,
+              right: 0,
+              bottom: 0,
+              left: '200px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>
+        }
         <div className=" d-flex justify-content-between align-items-center  flex-wrap h-auto"
           style={{
             position: 'sticky',
@@ -902,36 +924,11 @@ function Asset() {
 
 
 
+ 
 
-        {loading &&
-          <div
-            style={{
-              position: 'absolute',
-              top: 0,
-              right: 0,
-              bottom: 0,
-              left: '200px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'transparent',
-              opacity: 0.75,
-              zIndex: 10,
-            }}
-          >
-            <div
-              style={{
-                borderTop: '4px solid #1E45E1',
-                borderRight: '4px solid transparent',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                animation: 'spin 1s linear infinite',
-              }}
-            ></div>
-          </div>
-        }
 
+
+      
 
         {
           !canReadAssets ? (
@@ -1050,23 +1047,7 @@ function Asset() {
                   
                     <tbody>
                       {
-                        loading ? (
-                          <>
-                            <tr>
-                              <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                              <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                              <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                              <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                              <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                              <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                              <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                            </tr>
-                          </>
-                        )
-
-
-
-                          : (
+                        
                             sortedData && sortedData.length > 0 && (
                               <>
                                 <PaginationList>
@@ -1077,7 +1058,7 @@ function Asset() {
                               </>
                             )
 
-                          )
+                          
                       }
                     </tbody>
 

@@ -53,7 +53,8 @@ const EBRoomOverview = ({ onBack, room }) => {
 
 
     const formattedReadings = roomReadingList?.map((item) => {
-        const [ month, year] = item.entryDate.split("/").map(Number);
+         const [day, month, year] = item.entryDate.split("/").map(Number);
+
         const billingMonth = new Date(year, month - 1, 1).toLocaleString("en-US", {
             month: "short",
             year: "numeric",

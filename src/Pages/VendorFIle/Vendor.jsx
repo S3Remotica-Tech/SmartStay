@@ -26,11 +26,17 @@ function Vendor() {
   const state = useSelector(state => state)
   const dispatch = useDispatch();
   const [filteredData, setFilteredData] = useState([])
-
+ const [show, setShow] = useState(false);
   const [searchQuery, setSearchQuery] = useState('')
   const [loading, setLoading] = useState(false)
   const [currentItem, setCurrentItem] = useState('')
+  const [hoveredIndex, setHoveredIndex] = useState(null);
 
+  const [showDropDown, setShowDropDown] = useState(false)
+  const [showFilterData, setShowFilterData] = useState(false)
+  
+  const [showDeleteVendor, setShowDeleteVendor] = useState(false)
+  const [showDeleteVendorDetails, setShowDeleteVendorDetails] = useState('')
 
   const {
     canWriteModule: canWriteVendor,
@@ -40,10 +46,6 @@ function Vendor() {
   } = useHasPermission("Vendor");
 
 
-
-
-
-
   useEffect(() => {
     setLoading(!canReadVendor);
   }, [canReadVendor]);
@@ -51,90 +53,9 @@ function Vendor() {
 
 
 
-
-  // const [vendorrolePermission, setVendorRolePermission] = useState("");
-
-  // const [vendorpermissionError, setVendorPermissionError] = useState("");
-  // const [vendorAddPermission, setVendorAddPermission] = useState("")
-  // const [vendorDeletePermission, setVendorDeletePermission] = useState("")
-  // const [vendorEditPermission, setVendorEditPermission] = useState("")
-  const [hoveredIndex, setHoveredIndex] = useState(null);
-
-
-  // useEffect(() => {
-  //   setVendorRolePermission(state.createAccount.accountList);
-  // }, [state.createAccount.accountList]);
-
-
-
-
-
-  // useEffect(() => {
-  //   const userType = vendorrolePermission[0]?.user_details?.user_type;
-  //   const isAdmin = userType === "admin" || userType === "agent";
-  //   if (isAdmin) {
-  //     if (state?.login?.planStatus === 0) {
-  //       setVendorPermissionError("");
-  //       setVendorAddPermission("Permission Denied");
-  //       setVendorEditPermission("Permission Denied");
-  //       setVendorDeletePermission("Permission Denied");
-
-  //     } else if (state?.login?.planStatus === 1) {
-  //       setVendorPermissionError("");
-  //       setVendorAddPermission("");
-  //       setVendorEditPermission("");
-  //       setVendorDeletePermission("");
-  //     }
-  //   }
-
-  // }, [state?.login?.planStatus, state?.login?.selectedHostel_Id, vendorrolePermission])
-
-
-  // useEffect(() => {
-  //   const vendorPermission = vendorrolePermission[0]?.role_permissions?.find(
-  //     (perm) => perm.permission_name === "Vendor"
-  //   );
-
-  //   const isOwner = vendorrolePermission[0]?.user_details?.user_type === "staff";
-  //   const planActive = state?.login?.planStatus === 1;
-
-  //   if (!vendorPermission || !isOwner) return;
-
-
-  //   if (vendorPermission.per_view === 1 && planActive) {
-  //     setVendorPermissionError("");
-  //   } else {
-  //     setVendorPermissionError("Permission Denied");
-  //   }
-
-
-  //   if (vendorPermission.per_create === 1 && planActive) {
-  //     setVendorAddPermission("");
-  //   } else {
-  //     setVendorAddPermission("Permission Denied");
-  //   }
-
-
-  //   if (vendorPermission.per_edit === 1 && planActive) {
-  //     setVendorEditPermission("");
-  //   } else {
-  //     setVendorEditPermission("Permission Denied");
-  //   }
-
-  //   if (vendorPermission.per_delete === 1 && planActive) {
-  //     setVendorDeletePermission("");
-  //   } else {
-  //     setVendorDeletePermission("Permission Denied");
-  //   }
-  // }, [vendorrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
-
-
-
-
-
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-      // setLoading(true)
+      setLoading(true)
       dispatch({ type: 'VENDORLIST', payload: { hostelId: state.login.selectedHostel_Id } })
     }
 
@@ -153,14 +74,10 @@ function Vendor() {
 
 
   useEffect(() => {
-    if (state.ComplianceList.noVendorStatusCode === 201) {
-      setFilteredData([])
-      setLoading(false)
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_ERROR_VENDOR_LIST' })
-      }, 500)
-    }
-  }, [state.ComplianceList.noVendorStatusCode])
+
+    setLoading(false)
+
+  }, [state.ComplianceList.VendorList])
 
 
 
@@ -186,8 +103,6 @@ function Vendor() {
 
 
 
-  const [showDropDown, setShowDropDown] = useState(false)
-  const [showFilterData, setShowFilterData] = useState(false)
 
 
   const handleShowSearch = () => {
@@ -237,7 +152,7 @@ function Vendor() {
     setShowDropDown(false)
   }
 
-  const [show, setShow] = useState(false);
+ 
 
   const handleShow = () => {
     if (!state.login.selectedHostel_Id) {
@@ -252,25 +167,7 @@ function Vendor() {
   }
 
 
-  //   const indexOfLastItem = currentPage * itemsPerPage;
-  //   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  //   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-
-
-  //   const handlePageChange = (pageNumber) => {
-  //     setCurrentPage(pageNumber);
-  //   };
-  //  const handleItemsPerPageChange = (selectedOption) => {
-  //   if (selectedOption) {
-  //     setItemsPerPage(Number(selectedOption.value));
-  //     setCurrentPage(1);
-  //   }
-  // };
-
-
-  //   const totalPages = Math.ceil(filteredData?.length / itemsPerPage);
-
-
+ 
 
 
 
@@ -282,8 +179,6 @@ function Vendor() {
 
 
 
-  const [showDeleteVendor, setShowDeleteVendor] = useState(false)
-  const [showDeleteVendorDetails, setShowDeleteVendorDetails] = useState('')
 
   const handleDeleteVendor = (item) => {
     setShowDeleteVendor(true)
@@ -344,13 +239,13 @@ function Vendor() {
   return (
     <>
 
-      <div className="sticky-top bg-white" style={{ margin:5 }}>
+      <div className="sticky-top bg-white" style={{ margin: 5 }}>
 
 
         <div
 
-       
-          >
+
+        >
 
 
 
@@ -483,19 +378,19 @@ function Vendor() {
 
               <div >
                 <Button disabled={!canWriteVendor} onClick={handleShow} className="vendor-button"
-                 style={{
-                      fontFamily: "Gilroy",
-                      fontSize: "14px",
-                      backgroundColor: "#1E45E1",
-                      color: "white",
-                      fontWeight: 600,
-                      borderRadius: "8px",
-                      padding: "8px",
-                      // marginBottom: "10px",
-                      // maxHeight: 0,
-                      width: "146px",
-                      whiteSpace: "nowrap",
-                    }}
+                  style={{
+                    fontFamily: "Gilroy",
+                    fontSize: "14px",
+                    backgroundColor: "#1E45E1",
+                    color: "white",
+                    fontWeight: 600,
+                    borderRadius: "8px",
+                    padding: "8px",
+                    // marginBottom: "10px",
+                    // maxHeight: 0,
+                    width: "146px",
+                    whiteSpace: "nowrap",
+                  }}
                 > + Vendor</Button>
               </div>
             </div>
@@ -551,13 +446,17 @@ function Vendor() {
               {loading && (
                 <div
                   style={{
-                    position: "fixed",
-                    right: "40%",
-                    top: "40%",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    zIndex: 9999,
+                     position: 'fixed',
+                    top: 0,
+                    right: 0,
+                    bottom: 0,
+                    left: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: 'transparent',
+                    opacity: 0.75,
+                    zIndex: 10,
                   }}
                 >
                   <div
@@ -575,20 +474,22 @@ function Vendor() {
                       justifyContent: "center",
                     }}
                   >
-                  <div style={{ display: "flex",
+                    <div style={{
+                      display: "flex",
                       alignItems: "center",
-                      justifyContent: "center"}}>
-                    <img
-                      src={SmarstayLogo}  
-                      alt="logo"
-                      style={{
-                        width: "35px",
-                        height: "35px",
-                        position: "absolute",
-                        transform: "rotate(0deg)", 
-                             animation: "spinReverse 1s linear infinite",borderRadius:"50%"
-                      }}
-                    /> 
+                      justifyContent: "center"
+                    }}>
+                      <img
+                        src={SmarstayLogo}
+                        alt="logo"
+                        style={{
+                          width: "35px",
+                          height: "35px",
+                          position: "absolute",
+                          transform: "rotate(0deg)",
+                          animation: "spinReverse 1s linear infinite", borderRadius: "50%"
+                        }}
+                      />
                     </div>
                   </div>
                 </div>

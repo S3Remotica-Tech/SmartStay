@@ -375,48 +375,37 @@ function Sidebar() {
   //   }
   // }, [hostelId]);
 
+  // console.log("state",state.login?.selectedHostel_Id)
 
   useEffect(() => {
-    if (!hostelId) return;
+    if (!state.login?.selectedHostel_Id) return;
 
     const pathParts = location.pathname.split("/").filter(Boolean);
 
-
+   
     const mainPage = pathParts[0];
-    const currentHostelId = pathParts[1];
+ 
 
     const validPages = [
       "dashboard",
-      "pg-list",
-      "user-list",
-      "user-details",
+      "paying-guest",
+      "tenant",
       "invoice",
       "compliance",
       "reports",
-      "eb",
-      "expenses",
+      "electricity",
+      "expense",
       "banking",
       "settingNewDesign",
       "vendor",
       "asset",
     ];
 
-
-    // if (mainPage === "invoice" && pathParts[1] === "new") {
-    //   return;
-    // }
-
-
-    if (currentHostelId === hostelId) {
-      return;
-    }
-
-
     if (validPages.includes(mainPage) && pathParts.length > 1) {
       navigate(`/${mainPage}/${hostelId}`, { replace: true });
     }
 
-  }, [hostelId, location.pathname]);
+  }, [state.login?.selectedHostel_Id]);
 
 
 
@@ -515,7 +504,7 @@ function Sidebar() {
     );
     setIsDropdownOpen(false);
     dispatch({ type: "SAVE_RESPONSE_HOSTEL", payload: id });
-
+    dispatch(StoreSelectedHostelAction(id));
     localStorage.setItem("selectedHostelName", name);
     setIsSidebarOpen(false);
   };

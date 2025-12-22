@@ -4,13 +4,13 @@ function LoaderComponent() {
   return (
     <div
     style={{
-      position: 'absolute',
-        top: 180,
+      position: 'fixed',
+        top: 0,
         right: 0,
         bottom: 0,
         left: 0,
       display: 'flex',
-      height: "50vh",
+      // height: "50vh",
       alignItems: 'center',
       justifyContent: 'center',
       backgroundColor: 'transparent',

@@ -230,6 +230,7 @@ function UserList(props) {
           type: "USERLIST",
           payload: { hostel_id: state.login.selectedHostel_Id },
         });
+        setLoading(true)
 
       }
       else if (value === "3") {
@@ -304,7 +305,7 @@ function UserList(props) {
             amount: invoice.totalAmount.toString(),
           });
         }
-        // You can add more conditions here if needed for EB or Other
+        
       });
 
       setNewRows(mappedRows);
@@ -934,7 +935,7 @@ function UserList(props) {
 
 
   useEffect(() => {
-    if (userListDetail.length === 0) {
+    if (userListDetail) {
       setLoading(false)
     }
 
@@ -2630,11 +2631,11 @@ function UserList(props) {
       />
 
       {userList && (
-        <div className="sticky-top bg-white" style={{ margin:5 }}>
+        <div className="sticky-top bg-white" style={{ margin: 5 }}>
           <div className="header-container">
             <div
               className="d-flex justify-content-between align-items-center flex-wrap"
-              style={{ }}
+              style={{}}
             >
               <div className="d-flex justify-content-lg-start justify-content-center align-items-center flex-wrap ">
                 <label
@@ -3067,8 +3068,39 @@ function UserList(props) {
               fontSize: 16,
               fontWeight: 500,
               // textAlign: "left",
+              // position:"relative"
             }}
           >
+
+
+            {loading && (
+              <div
+                style={{
+                  position: "fixed",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: "transparent",
+                  zIndex: 9999,
+                }}
+              >
+                <div
+                  style={{
+                    borderTop: "4px solid #1E45E1",
+                    borderRight: "4px solid transparent",
+                    borderRadius: "50%",
+                    width: "40px",
+                    height: "40px",
+                    animation: "spin 1s linear infinite",
+                  }}
+                />
+              </div>
+            )}
+
             <TabContext value={value} className="p-0" >
 
 
@@ -3148,34 +3180,7 @@ function UserList(props) {
 
 
               <TabPanel value="1">
-                {loading && (
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      right: 0,
-                      bottom: 0,
-                      left: "200px",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      backgroundColor: "transparent",
-                      opacity: 0.75,
-                      zIndex: 10,
-                    }}
-                  >
-                    <div
-                      style={{
-                        borderTop: "4px solid #1E45E1",
-                        borderRight: "4px solid transparent",
-                        borderRadius: "50%",
-                        width: "40px",
-                        height: "40px",
-                        animation: "spin 1s linear infinite",
-                      }}
-                    ></div>
-                  </div>
-                )}
+
                 {!canReadTenant ? (
                   <div
                     style={{
@@ -3730,8 +3735,10 @@ function UserList(props) {
                                         }
                                       >
                                         <PiDotsThreeOutlineVerticalFill
-                                          style={{ height: 20, width: 20, transform: "rotate(90deg)", 
-                                            color:activeRow === user.customerId ? "#1E45E1" : "#6B7280", }}
+                                          style={{
+                                            height: 20, width: 20, transform: "rotate(90deg)",
+                                            color: activeRow === user.customerId ? "#1E45E1" : "#6B7280",
+                                          }}
                                         />
                                         {activeRow === user.customerId && (
                                           <div

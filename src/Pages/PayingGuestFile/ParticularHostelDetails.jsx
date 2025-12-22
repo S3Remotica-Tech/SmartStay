@@ -24,7 +24,7 @@ function ParticularHostelDetails(props) {
   const state = useSelector((state) => state);
 
 
-  
+
 
   const [showDots, setShowDots] = useState('')
   const [roomList, setRoomList] = useState([])
@@ -47,12 +47,12 @@ function ParticularHostelDetails(props) {
   // const canDeletePayingGuests = useHasPermission("Paying Guests", "canDelete");
 
 
-const {
-            canWriteModule: canWritePayingGuests,
-            // canReadModule: canReadExpense,
-            canUpdateModule: canUpdatePayingGuests,
-            canDeleteModule: canDeletePayingGuests,
-          } = useHasPermission("Paying Guests");
+  const {
+    canWriteModule: canWritePayingGuests,
+    // canReadModule: canReadExpense,
+    canUpdateModule: canUpdatePayingGuests,
+    canDeleteModule: canDeletePayingGuests,
+  } = useHasPermission("Paying Guests");
 
 
 
@@ -62,7 +62,7 @@ const {
 
 
 
-    const handleShowDots = (roomId) => {
+  const handleShowDots = (roomId) => {
     setShowDots(!showDots)
     setActiveRoomId(activeRoomId === roomId ? null : roomId);
   }
@@ -70,7 +70,7 @@ const {
 
 
 
-    const popupRef = useRef(null);
+  const popupRef = useRef(null);
 
 
   const handleClickOutside = (event) => {
@@ -144,12 +144,10 @@ const {
       setLoader(true)
       dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
     }
-    else {
-      setLoader(false)
-    }
+   
   }, [props.hostel_Id, props.floorID, state?.login?.selectedHostel_Id])
 
- 
+
   useEffect(() => {
     if (state?.PgList?.getAllRoomSuccessStatus === 200) {
       setRoomList(state.PgList?.roomsList);
@@ -162,19 +160,22 @@ const {
 
   }, [state?.PgList?.getAllRoomSuccessStatus])
 
+  useEffect(() => {
+    setLoaderTrigger(false)
+    setLoader(false)
+  }, [state.PgList?.roomsList])
 
 
-  
   useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser === 201 || state.UsersList?.statusCodeForAddCustomerSaveInfo === 201) {
-           if (props.floorID) {
+      if (props.floorID) {
         dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
       }
-          setTimeout(() => {
+      setTimeout(() => {
         dispatch({ type: 'CLEAR_STATUS_CODES' })
-        dispatch({ type: 'REMOVE_STATUS_CODE_FOR_CREATE_CUSTOMER_SAVE_INFO'})
+        dispatch({ type: 'REMOVE_STATUS_CODE_FOR_CREATE_CUSTOMER_SAVE_INFO' })
       }, 2000)
-         dispatch({ type: 'USERLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+      dispatch({ type: 'USERLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
 
     }
   }, [state.UsersList?.statusCodeForAddUser, state.UsersList?.statusCodeForAddCustomerSaveInfo]);
@@ -209,7 +210,7 @@ const {
 
   useEffect(() => {
     if (state.PgList.createBedStatusCode === 201 || state.PgList.updateBedStatusCode === 201) {
-                   setTimeout(() => {
+      setTimeout(() => {
         dispatch({ type: 'CLEAR_CREATE_BED_STATUS_CODE' })
       }, 100)
     }
@@ -219,7 +220,7 @@ const {
     dispatch({ type: 'USERLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
   }, [])
 
-  
+
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
@@ -238,11 +239,11 @@ const {
   }, [state.UsersList.addCheckoutCustomerStatusCode]);
 
 
-  
+
   useEffect(() => {
     if (state.UsersList.statusCodeForReassinBed === 200) {
-     dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
-           setTimeout(() => {
+      dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
+      setTimeout(() => {
         dispatch({ type: "CLEAR_REASSIGN_BED" });
       }, 3000);
 
@@ -251,18 +252,18 @@ const {
 
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200 || state.UsersList?.statusCodeForAddUser === 201 || state.UsersList?.statusCodeForAddCustomerSaveInfo === 201) {
-     dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
-            setTimeout(() => {
+      dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
+      setTimeout(() => {
         dispatch({ type: "CLEAR_STATUS_CODES" });
-        dispatch({ type: 'REMOVE_STATUS_CODE_FOR_CREATE_CUSTOMER_SAVE_INFO'})
-         dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
+        dispatch({ type: 'REMOVE_STATUS_CODE_FOR_CREATE_CUSTOMER_SAVE_INFO' })
+        dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
       }, 500);
     }
   }, [state?.Booking?.statusCodeForAddBookin, state.UsersList?.statusCodeForAddUser, state.UsersList?.statusCodeForAddCustomerSaveInfo])
 
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
-           dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
+      dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
@@ -311,36 +312,36 @@ const {
 
 
 
-  useEffect(()=>{
-      if(state.UsersList.statusCodeForFinalSettlement === 201){
-            // handleCloseBed()
-           dispatch({
-                  type: "USERLIST",
-                  payload: { hostel_id: state.login.selectedHostel_Id },
-              })
-              dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
-              setTimeout(() => {
-                  dispatch({ type: "CLEAR_FINAL_GENERATE" });
-              }, 500);
-  
-      }
-  },[state.UsersList.statusCodeForFinalSettlement])
+  useEffect(() => {
+    if (state.UsersList.statusCodeForFinalSettlement === 201) {
+      // handleCloseBed()
+      dispatch({
+        type: "USERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      })
+      dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_FINAL_GENERATE" });
+      }, 500);
+
+    }
+  }, [state.UsersList.statusCodeForFinalSettlement])
 
 
 
-  useEffect(()=>{
-      if(state.UsersList.statuscodeForConformCheckout === 200){
-        //  handleCloseBed()
-   dispatch({
-            type: "USERLIST",
-            payload: { hostel_id: state.login.selectedHostel_Id },
-          });
-           dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
-   setTimeout(() => {
-                  dispatch({ type: "REMOVE_CONFORM_CHECKOUT" });
-              }, 500);
-      }
-  },[state.UsersList.statuscodeForConformCheckout])
+  useEffect(() => {
+    if (state.UsersList.statuscodeForConformCheckout === 200) {
+      //  handleCloseBed()
+      dispatch({
+        type: "USERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
+      dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_CONFORM_CHECKOUT" });
+      }, 500);
+    }
+  }, [state.UsersList.statuscodeForConformCheckout])
 
   return (
     <>
@@ -348,8 +349,34 @@ const {
 
       <div >
 
-        <div className='mt-2 mb-2 d-flex justify-content-center w-100 ' style={{ position: "relative" }}>
-          
+        <div className='mt-2 mb-2 d-flex  w-100 ' style={{ position: "relative" }}>
+          {loader &&
+            <div
+               style={{
+              position: 'fixed',
+              top: 0,
+              right: 0,
+              bottom: 0,
+              left: '200px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+            >
+              <div
+                style={{
+                  borderTop: '4px solid #1E45E1',
+                  borderRight: '4px solid transparent',
+                  borderRadius: '50%',
+                  width: '40px',
+                  height: '40px',
+                  animation: 'spin 1s linear infinite',
+                }}
+              ></div>
+            </div>}
         </div>
 
         <div className='container-fluid show-scroll' style={{ maxHeight: "400px", overflowY: "auto", marginTop: "-25px" }}>
@@ -376,9 +403,10 @@ const {
 
 
 
-                    <div onClick={() =>{
-                      if(!state.login.isTrigger) handleShowDots(room.id)} }
-                       style={{ position: "relative", zIndex: showDots ? 1000 : 'auto', cursor: "pointer" }}>
+                    <div onClick={() => {
+                      if (!state.login.isTrigger) handleShowDots(room.id)
+                    }}
+                      style={{ position: "relative", zIndex: showDots ? 1000 : 'auto', cursor: "pointer" }}>
                       <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
                       {String(activeRoomId) === String(room.id) && (
                         <div
@@ -417,7 +445,7 @@ const {
                             onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
                           >
                             <Edit size="16" color={!canUpdatePayingGuests ? "#888888" : "#1E45E1"} />
-                            <label style={{cursor: !canUpdatePayingGuests ? "not-allowed" : "pointer", fontSize: 14, fontWeight: 500, color: !canUpdatePayingGuests ? "#888888" : "#222222", marginBottom: 0 }}>Edit</label>
+                            <label style={{ cursor: !canUpdatePayingGuests ? "not-allowed" : "pointer", fontSize: 14, fontWeight: 500, color: !canUpdatePayingGuests ? "#888888" : "#222222", marginBottom: 0 }}>Edit</label>
                           </div>
 
                           <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
@@ -434,14 +462,14 @@ const {
                               padding: "10px",
                               borderBottomLeftRadius: 10,
                               borderBottomRightRadius: 10,
-                                                            opacity: !canDeletePayingGuests ? 0.5 : 1,
+                              opacity: !canDeletePayingGuests ? 0.5 : 1,
                               cursor: !canDeletePayingGuests ? "not-allowed" : "pointer"
                             }}
                             onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
                             onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
                           >
                             <Trash size="16" color={!canDeletePayingGuests ? "#888888" : "red"} />
-                            <label style={{ cursor: !canDeletePayingGuests ? "not-allowed" : "pointer",fontSize: 14, fontWeight: 500, color: !canDeletePayingGuests ? "#888888" : "#FF0000", marginBottom: 0 }}>Delete</label>
+                            <label style={{ cursor: !canDeletePayingGuests ? "not-allowed" : "pointer", fontSize: 14, fontWeight: 500, color: !canDeletePayingGuests ? "#888888" : "#FF0000", marginBottom: 0 }}>Delete</label>
                           </div>
                         </div>
                       )}
@@ -450,7 +478,7 @@ const {
 
                   <Card.Body>
                     <BedDetailsMap room={room} propsValue={props} />
-                                      </Card.Body>
+                  </Card.Body>
 
 
                 </Card>
@@ -459,9 +487,9 @@ const {
 
             {!loader && !loaderTrigger && roomList?.length === 0 && (
               <div className='d-flex flex-column align-items-center justify-content-center text-center w-100 px-3 fade-in'>
-                               <div>
+                <div>
                   <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" />
-                  </div>
+                </div>
                 <div className="pb-1 mt-1" style={{ fontWeight: 600, fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No rooms available</div>
                 <div className="pb-1 mt-1" style={{ fontWeight: 500, fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There is no room added in this floor.</div>
                 <div className='d-flex justify-content-center pb-1 mt-3'>
@@ -483,12 +511,12 @@ const {
                 </div>
               </div>
             )}
-            
+
           </div>
         </div>
 
 
-        {roomList.length > 0 &&  !state.login.isTrigger && <>
+        {roomList.length > 0 && !state.login.isTrigger && <>
           <div className='row mt-4 ms-2'>
             <div>
               <label
@@ -517,9 +545,9 @@ const {
         }
 
 
-   
 
-       
+
+
         {showRoom && <AddRoom show={showRoom}
           handleClose={handlecloseRoom} hostelDetails={hostelDetails} editRoom={editRoom}
         />}

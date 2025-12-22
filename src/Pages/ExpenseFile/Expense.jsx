@@ -50,7 +50,7 @@ function Expenses({ allPageHostel_Id }) {
   const [ExcelFilterPaymentmode, setExcelFilterPaymentmode] = useState('')
   const [ExcelFiltercategoryValue, setExcelFilterCategoryValue] = useState("");
   const [ExcelFilterDates, setExcelFilterDates] = useState([])
-   const [excelDownload, setExcelDownload] = useState("");
+  const [excelDownload, setExcelDownload] = useState("");
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
   const [dates, setDates] = useState([]);
   const [pickerKey, setPickerKey] = useState(0);
@@ -333,7 +333,7 @@ function Expenses({ allPageHostel_Id }) {
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-      // setLoading(true);
+      setLoading(true);
       dispatch({
         type: "ASSETLIST",
         payload: state.login.selectedHostel_Id,
@@ -368,15 +368,12 @@ function Expenses({ allPageHostel_Id }) {
   }, [getExpenseStatusCode, state.ExpenseList.expenseList]);
 
 
+
+
+
   useEffect(() => {
-    if (state.ExpenseList.nodataGetExpenseStatusCode === 201) {
-      setGetData([]);
-      setLoading(false);
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_NOEXPENSEdATA" });
-      }, 200);
-    }
-  }, [state.ExpenseList.nodataGetExpenseStatusCode]);
+    setLoading(false);
+  }, [state.ExpenseList.expenseList]);
 
   useEffect(() => {
     if (
@@ -707,8 +704,8 @@ function Expenses({ allPageHostel_Id }) {
   return (
     <>
 
-      <div style={{ }}>
-        <div className="sticky-top bg-white" style={{ margin:5 }}>
+      <div style={{}}>
+        <div className="sticky-top bg-white" style={{ margin: 5 }}>
           <div
             className="d-flex justify-content-between align-items-center flex-wrap"
             style={{
@@ -721,7 +718,7 @@ function Expenses({ allPageHostel_Id }) {
             <div
 
               className="col-12 col-md-auto d-flex flex-wrap align-items-center"
-              style={{ }}
+              style={{}}
             >
               <label
                 style={{
@@ -947,8 +944,10 @@ function Expenses({ allPageHostel_Id }) {
               )}
 
               {showFilterExpense && (
-                <div className="me-3 " style={{ position: "relative", 
-                width: isSmallScreen && showFilterExpense ? '150px' : '240px' }}>
+                <div className="me-3 " style={{
+                  position: "relative",
+                  width: isSmallScreen && showFilterExpense ? '150px' : '240px'
+                }}>
                   <InputGroup
                     style={{
                       display: "flex",
@@ -1055,7 +1054,7 @@ function Expenses({ allPageHostel_Id }) {
 
               <div
                 className="me-3"
-                style={{ cursor: "pointer",  }}
+                style={{ cursor: "pointer", }}
               >
                 <img
                   src={excelimg}
@@ -1072,23 +1071,23 @@ function Expenses({ allPageHostel_Id }) {
                 />
               </div>
 
-              <div className="me-2" style={{ }}>
+              <div className="me-2" style={{}}>
                 <Button
                   disabled={!canWriteExpense || state?.login?.planStatus === 0}
                   onClick={handleShow}
 
                   style={{
-                     fontFamily: "Gilroy",
-    fontSize: "14px",
-    backgroundColor: "#1E45E1",
-    color: "white",
-    fontWeight: 600,
-    borderRadius: "8px",
-    padding: "8px",
-    // marginBottom: "10px",
-    // maxHeight: 0,
-    width: "146px",
-    whiteSpace: "nowrap",
+                    fontFamily: "Gilroy",
+                    fontSize: "14px",
+                    backgroundColor: "#1E45E1",
+                    color: "white",
+                    fontWeight: 600,
+                    borderRadius: "8px",
+                    padding: "8px",
+                    // marginBottom: "10px",
+                    // maxHeight: 0,
+                    width: "146px",
+                    whiteSpace: "nowrap",
                   }}
                 >
                   {" "}
@@ -1193,7 +1192,7 @@ function Expenses({ allPageHostel_Id }) {
                 alignItems: "center",
                 justifyContent: "center",
                 height: "60vh",
-                overflowY:""
+                overflowY: ""
               }}
             >
 
@@ -1217,7 +1216,7 @@ function Expenses({ allPageHostel_Id }) {
 
             <div
               className=""
-              style={{ margin:5 }}
+              style={{ margin: 5 }}
             >
               <div
 
@@ -1252,35 +1251,35 @@ function Expenses({ allPageHostel_Id }) {
                   }}>
                     <tr>
                       <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}>
-                         <div className='d-flex gap-1 align-items-center justify-content-start'>
-                           {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                        <div className='d-flex gap-1 align-items-center justify-content-start'>
+                          {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                         <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_date", 'asc')} style={{ cursor: "pointer" }} />
                         <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_date", 'desc')} style={{ cursor: "pointer" }} />
                       </div> */}
-                       Date </div> 
-                       </th>
+                          Date </div>
+                      </th>
 
                       <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }} > <div className='d-flex gap-1 align-items-center justify-content-start'>
                         {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                         <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("category_Name", 'asc')} style={{ cursor: "pointer" }} />
                         <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("category_Name", 'desc')} style={{ cursor: "pointer" }} />
                       </div> */}
-                       Category </div></th>
+                        Category </div></th>
 
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}> 
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}>
                         <div className='d-flex gap-1 align-items-center justify-content-start'>
                           {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                         <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("description", 'asc')} style={{ cursor: "pointer" }} />
                         <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("description", 'desc')} style={{ cursor: "pointer" }} />
                       </div> */}
-                       Description </div> </th>
+                          Description </div> </th>
 
                       <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}><div className='d-flex gap-1 align-items-center justify-content-start'>
                         {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                         <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("unit_count", 'asc')} style={{ cursor: "pointer" }} />
                         <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("unit_count", 'desc')} style={{ cursor: "pointer" }} />
                       </div> */}
-                       Unit Count </div></th>
+                        Unit Count </div></th>
 
                       <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}><div className='d-flex gap-1 align-items-center justify-content-start'>
                         {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
@@ -1294,7 +1293,7 @@ function Expenses({ allPageHostel_Id }) {
                         <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_amount", 'asc')} style={{ cursor: "pointer" }} />
                         <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_amount", 'desc')} style={{ cursor: "pointer" }} />
                       </div>  */}
-                      Total Amount </div></th>
+                        Total Amount </div></th>
 
                       <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}><div className='d-flex gap-1 align-items-center justify-content-start'>
                         {/* <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
@@ -1314,13 +1313,13 @@ function Expenses({ allPageHostel_Id }) {
 
                     >
                       {sortedData?.map((item) => (
-                          <ExpensesListTable
-                            key={item.id}
-                            item={item}
-                            OnEditExpense={handleEditExpen}
-                            handleDelete={handleDeleteExpense}
-                                                     />
-                        ))}
+                        <ExpensesListTable
+                          key={item.id}
+                          item={item}
+                          OnEditExpense={handleEditExpen}
+                          handleDelete={handleDeleteExpense}
+                        />
+                      ))}
                     </PaginationList>
                   </tbody>
 
