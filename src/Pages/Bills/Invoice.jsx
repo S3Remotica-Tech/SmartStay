@@ -396,7 +396,7 @@ const InvoicePage = () => {
   useEffect(() => {
     if (state.InvoiceList.CustomerRecurringEnableDisableStatusCode === 200) {
       dispatch({ type: "RECURRING-BILLS-LIST", payload: state.login?.selectedHostel_Id })
-setLoading(true)
+      setLoading(true)
       dispatch({ type: 'REMOVE_CUSTOMER_RECURRING_ENABLE_DISABLE' })
 
 
@@ -442,11 +442,11 @@ setLoading(true)
   }, [state.InvoiceList.billsListStatusCode]);
 
 
-useEffect(()=>{
-setLoading(false);
-setRecurLoader(false)
+  useEffect(() => {
+    setLoading(false);
+    setRecurLoader(false)
 
-},[state.InvoiceList.ManualInvoices,state.InvoiceList.billsList?.listInvoices,state.InvoiceList.RecurringBills])
+  }, [state.InvoiceList.ManualInvoices, state.InvoiceList.billsList?.listInvoices, state.InvoiceList.RecurringBills])
 
 
 
@@ -2660,14 +2660,14 @@ setRecurLoader(false)
 
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD" });
-       
+
       }, 300);
     }
   }, [state.InvoiceList.manualInvoiceAddStatusCode]);
 
   useEffect(() => {
     setBills(state.InvoiceList.ManualInvoices);
- 
+
   }, [state.InvoiceList.ManualInvoices,])
 
 
@@ -2689,7 +2689,7 @@ setRecurLoader(false)
 
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_EDIT" });
-    
+
         setBills(state.InvoiceList.ManualInvoices);
       }, 100);
     }
@@ -3074,9 +3074,9 @@ setRecurLoader(false)
   }, [state.InvoiceList.ReceiptlistgetStatuscode]);
 
 
-  useEffect(()=>{
-setReceiptLoader(false);
-  },[state.InvoiceList.ReceiptList])
+  useEffect(() => {
+    setReceiptLoader(false);
+  }, [state.InvoiceList.ReceiptList])
 
 
 
@@ -3267,7 +3267,7 @@ setReceiptLoader(false);
         showBillsFilter && <BillsFilter show={showBillsFilter} handleClose={handleCloseFilterBills} />
       }
       {showAllBill && (
-        <Row className="p-0">
+        <Row className="p-0" style={{ width: "100%", overflowX: "hidden" }}>
           <Col className="p-0"
             lg={DownloadInvoice || DownloadReceipt ? 4 : 12}
             md={DownloadInvoice || DownloadReceipt ? 4 : 12}
@@ -3277,9 +3277,13 @@ setReceiptLoader(false);
             <div
               className="container-fluid sticky-top bg-white"
               style={{
-                zIndex: 1000, height: 'auto', margin: 3, borderBottom: (DownloadInvoice || DownloadReceipt) && "1px solid #E5E7EB",
-                rightBottom: (DownloadInvoice || DownloadReceipt) && "1px solid #E5E7EB"
-                , boxShadow: "initial"
+                zIndex: 1000, height: 'auto',
+                margin: (DownloadInvoice || DownloadReceipt) ? 0 : 3,
+                paddingBottom: (DownloadInvoice || DownloadReceipt) ? 4 : 0,
+                borderBottom: (DownloadInvoice || DownloadReceipt)
+                  ? "1px solid #E5E7EB"
+                  : "none",
+                boxShadow: "initial"
               }}
             >
               <div className="d-flex justify-content-between align-items-center flex-wrap">
@@ -3289,177 +3293,177 @@ setReceiptLoader(false);
                   <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Bills</label>
                 </div>
 
-                <div >
-                  {showLoader && <LoaderComponent />}
-                  {loading && <LoaderComponent />}
-                  <div className="d-flex flex-wrap align-items-center gap-2" style={{ paddingLeft: 25 }}>
-                    {(DownloadInvoice || DownloadReceipt) && (
-                      <div className="d-flex align-items-center mt-1 mb-1" style={{}}>
-                        <button disabled
-                          onClick={() => setShowSearchFilter(!showSearchFilter)}
-                          style={{
-                            fontFamily: "Gilroy",
-                            fontWeight: 600,
-                            fontSize: "0.9rem",
-                            borderRadius: 8,
-                            padding: "8px 12px",
-                            backgroundColor: "#9C9C9C26",
-                            border: "none",
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 8,
-                            cursor: "pointer",
-                            transition: "all 0.3s ease",
-                            color: showSearchFilter ? "#1E45E1" : "#000",
+                {/* <div > */}
+                {showLoader && <LoaderComponent />}
+                {loading && <LoaderComponent />}
+                <div className="d-flex flex-wrap align-items-center gap-2" style={{ paddingLeft: 25 }}>
+                  {(DownloadInvoice || DownloadReceipt) && (
+                    <div className="d-flex align-items-center mt-1 mb-1" style={{}}>
+                      <button disabled
+                        onClick={() => setShowSearchFilter(!showSearchFilter)}
+                        style={{
+                          fontFamily: "Gilroy",
+                          fontWeight: 600,
+                          fontSize: "0.9rem",
+                          borderRadius: 8,
+                          padding: "8px 12px",
+                          backgroundColor: "#9C9C9C26",
+                          border: "none",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 8,
+                          cursor: "pointer",
+                          transition: "all 0.3s ease",
+                          color: showSearchFilter ? "#1E45E1" : "#000",
 
-                          }}
-                          onMouseEnter={(e) => (e.target.style.backgroundColor = "#e6e6e6")}
-                          onMouseLeave={(e) => (e.target.style.backgroundColor = "#9C9C9C26")}
-                        >
-                          <HiMiniBars3BottomLeft size={20} color="#000" />
+                        }}
+                        onMouseEnter={(e) => (e.target.style.backgroundColor = "#e6e6e6")}
+                        onMouseLeave={(e) => (e.target.style.backgroundColor = "#9C9C9C26")}
+                      >
+                        <HiMiniBars3BottomLeft size={20} color="#000" />
 
-                        </button>
+                      </button>
 
-                      </div>
-                    )}
-                    {(!showPdfModal && !showPdfReceiptModal) && (
-                      <div className={` d-flex align-items-center`} >
-                        {value === "1" && search ? (
-                          <>
-                            <div className="position-relative" style={{ minWidth: 160, maxWidth: 250, zIndex: 3000, position: "relative" }}>
-
-
-                              <div
-                                className="input-group p-0"
-                                style={{ marginRight: 20, paddingTop: "25px", marginTop: 12 }}
-                              >
-                                <span className="input-group-text bg-white border-end-0" >
-                                  <Image
-                                    src={searchteam}
-                                    style={{
-                                      height: 15, width: 15, cursor: canReadInvoice ? "pointer" : "not-allowed",
-                                      opacity: canReadInvoice ? 1 : 0.4,
-                                      pointerEvents: canReadInvoice ? "auto" : "none",
-                                      transition: "opacity 0.3s ease"
-                                    }}
-                                  />
-                                </span>
-                                <input
-                                  type="text"
-                                  className="form-control border-start-0"
-                                  placeholder="Search"
-                                  style={{
-                                    boxShadow: "none",
-                                    outline: "none",
-                                    borderColor: "rgb(207,213,219)",
-                                    borderRight: "none",
-                                    fontFamily: "Gilroy", padding: "8px 10px"
-                                  }}
-                                  value={filterInput}
-                                  onChange={(e) => handlefilterInput(e)}
-                                  disabled={!canReadInvoice || !canReadReceipt || !canReadRecurring}
-                                />
-                                <span className="input-group-text bg-white border-start-0">
-                                  <img
-                                    src={closecircle}
-                                    alt="close"
-                                    onClick={() => handleCloseSearch()}
-
-                                    style={{ height: 20, width: 20, cursor: "pointer" }}
-                                  />
-                                </span>
-                              </div>
-
-
-
-
-                            </div>
-                          </>
-                        ) : (
-                          <>
-                            <div style={{
-                              marginTop: DownloadInvoice || DownloadReceipt ? 0 : 12, backgroundColor: "", color: "", border: "1px solid #CBD5E1", borderRadius: "50%",
-                              padding: "6px 8px", lineHeight: "normal", height: "fit-content"
-                            }}>
-                              <FiSearch
-                                style={{
-                                  height: "20px",
-                                  width: "20px",
-                                  cursor: canReadInvoice ? "pointer" : "not-allowed",
-                                  opacity: canReadInvoice ? 1 : 0.4,
-                                  pointerEvents: canReadInvoice ? "auto" : "none",
-                                  transition: "opacity 0.3s ease"
-                                }}
-                                onClick={handleSearch}
-                              />
-                            </div>
-                          </>
-                        )}
-
-
-
-
-
-
-
-
-
-                      </div>
-                    )}
-
-
-
-                    <div className="text-center" style={{ paddingRight: 18 }} >
-                      {value === "1" && (
-                        <Button className="d-flex justify-content-center"
-                          disabled={!canWriteInvoice}
-                          onClick={handleManualShow}
-                          style={{
-                            fontFamily: "Gilroy",
-                            fontSize: DownloadInvoice ? "16px" : "14px",
-                            backgroundColor: "#1E45E1",
-                            color: "white",
-                            fontWeight: 600,
-                            borderRadius: "8px",
-                            padding: DownloadInvoice ? "6px 12px" : "8px 8px",
-                            marginTop: DownloadInvoice ? 0 : 12,
-                            whiteSpace: "nowrap",
-                            minWidth: DownloadInvoice ? "50px" : "150px",
-                            textAlign: "center",
-                          }}
-                        >
-                          {DownloadInvoice ? "+ " : "+ Create Bill"}
-                        </Button>
-
-                      )}
-
-
-                      {value === "3" && (
-                        <Button
-                          disabled={!canWriteReceipt}
-                          onClick={handleReceiptShow}
-
-                          style={{
-                            fontFamily: "Gilroy",
-                            fontSize: DownloadReceipt ? "16px" : "14px",
-                            backgroundColor: "#1E45E1",
-                            color: "white",
-                            fontWeight: 600,
-                            borderRadius: "8px",
-                            padding: DownloadReceipt ? "6px 12px" : "8px 8px",
-                            marginTop: DownloadReceipt ? 0 : 12,
-                            whiteSpace: "nowrap",
-                            minWidth: DownloadReceipt ? "50px" : "150px",
-                            textAlign: "center",
-                          }}
-                        >
-                          {" "}
-                          {DownloadReceipt ? "+ " : "+ Create Receipt"}
-                        </Button>
-                      )}
                     </div>
+                  )}
+                  {(!showPdfModal && !showPdfReceiptModal) && (
+                    <div className={` d-flex align-items-center`} >
+                      {value === "1" && search ? (
+                        <>
+                          <div className="position-relative" style={{ minWidth: 160, maxWidth: 250, zIndex: 3000, position: "relative" }}>
+
+
+                            <div
+                              className="input-group p-0"
+                              style={{ marginRight: 20, paddingTop: "25px", marginTop: 12 }}
+                            >
+                              <span className="input-group-text bg-white border-end-0" >
+                                <Image
+                                  src={searchteam}
+                                  style={{
+                                    height: 15, width: 15, cursor: canReadInvoice ? "pointer" : "not-allowed",
+                                    opacity: canReadInvoice ? 1 : 0.4,
+                                    pointerEvents: canReadInvoice ? "auto" : "none",
+                                    transition: "opacity 0.3s ease"
+                                  }}
+                                />
+                              </span>
+                              <input
+                                type="text"
+                                className="form-control border-start-0"
+                                placeholder="Search"
+                                style={{
+                                  boxShadow: "none",
+                                  outline: "none",
+                                  borderColor: "rgb(207,213,219)",
+                                  borderRight: "none",
+                                  fontFamily: "Gilroy", padding: "8px 10px"
+                                }}
+                                value={filterInput}
+                                onChange={(e) => handlefilterInput(e)}
+                                disabled={!canReadInvoice || !canReadReceipt || !canReadRecurring}
+                              />
+                              <span className="input-group-text bg-white border-start-0">
+                                <img
+                                  src={closecircle}
+                                  alt="close"
+                                  onClick={() => handleCloseSearch()}
+
+                                  style={{ height: 20, width: 20, cursor: "pointer" }}
+                                />
+                              </span>
+                            </div>
+
+
+
+
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <div style={{
+                            marginTop: DownloadInvoice || DownloadReceipt ? 0 : 12, backgroundColor: "", color: "", border: "1px solid #CBD5E1", borderRadius: "50%",
+                            padding: "6px 8px", lineHeight: "normal", height: "fit-content"
+                          }}>
+                            <FiSearch
+                              style={{
+                                height: "20px",
+                                width: "20px",
+                                cursor: canReadInvoice ? "pointer" : "not-allowed",
+                                opacity: canReadInvoice ? 1 : 0.4,
+                                pointerEvents: canReadInvoice ? "auto" : "none",
+                                transition: "opacity 0.3s ease"
+                              }}
+                              onClick={handleSearch}
+                            />
+                          </div>
+                        </>
+                      )}
+
+
+
+
+
+
+
+
+
+                    </div>
+                  )}
+
+
+
+                  <div className="text-center" style={{ paddingRight: 18 }} >
+                    {value === "1" && (
+                      <Button className="d-flex justify-content-center"
+                        disabled={!canWriteInvoice}
+                        onClick={handleManualShow}
+                        style={{
+                          fontFamily: "Gilroy",
+                          fontSize: DownloadInvoice ? "16px" : "14px",
+                          backgroundColor: "#1E45E1",
+                          color: "white",
+                          fontWeight: 600,
+                          borderRadius: "8px",
+                          padding: DownloadInvoice ? "6px 12px" : "8px 8px",
+                          marginTop: DownloadInvoice ? 0 : 12,
+                          whiteSpace: "nowrap",
+                          minWidth: DownloadInvoice ? "50px" : "150px",
+                          textAlign: "center",
+                        }}
+                      >
+                        {DownloadInvoice ? "+ " : "+ Create Bill"}
+                      </Button>
+
+                    )}
+
+
+                    {value === "3" && (
+                      <Button
+                        disabled={!canWriteReceipt}
+                        onClick={handleReceiptShow}
+
+                        style={{
+                          fontFamily: "Gilroy",
+                          fontSize: DownloadReceipt ? "16px" : "14px",
+                          backgroundColor: "#1E45E1",
+                          color: "white",
+                          fontWeight: 600,
+                          borderRadius: "8px",
+                          padding: DownloadReceipt ? "6px 12px" : "8px 8px",
+                          marginTop: DownloadReceipt ? 0 : 12,
+                          whiteSpace: "nowrap",
+                          minWidth: DownloadReceipt ? "50px" : "150px",
+                          textAlign: "center",
+                        }}
+                      >
+                        {" "}
+                        {DownloadReceipt ? "+ " : "+ Create Receipt"}
+                      </Button>
+                    )}
                   </div>
                 </div>
+                {/* </div> */}
               </div>
             </div>
 
@@ -5631,11 +5635,16 @@ setReceiptLoader(false);
 
           {
             DownloadInvoice &&
-            <Col className="p-0"
+            <Col className="p-0 m-0"
               lg={DownloadInvoice ? 8 : 12}
               md={DownloadInvoice ? 8 : 12}
               sm={DownloadInvoice ? 12 : 12}
               xs={DownloadInvoice ? 12 : 12}
+              style={{
+                borderLeft: DownloadReceipt
+                  ? "1px solid #ccc"
+                  : "none",
+              }}
             >
               <BillPdfModal
                 show={showPdfModal}
