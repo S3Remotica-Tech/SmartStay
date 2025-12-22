@@ -3286,7 +3286,7 @@ useEffect(() => {
         showBillsFilter && <BillsFilter show={showBillsFilter} handleClose={handleCloseFilterBills} />
       }
       {showAllBill && (
-        <Row className="p-0" style={{ width: "100%", overflowX: "hidden" }}>
+        <Row className="p-0" style={{ width: "100%",  }}>
           <Col className="p-0"
             lg={DownloadInvoice || DownloadReceipt ? 4 : 12}
             md={DownloadInvoice || DownloadReceipt ? 4 : 12}
@@ -4693,7 +4693,7 @@ useEffect(() => {
 
                                       <div
                                         className=" ms-2  me-2"
-                                        style={{ overflowx: "hidden" }}
+                                        style={{ overflowx: "hidden",}}
                                       >
                                         <div
 
