@@ -30,7 +30,7 @@ function Asset() {
   const [selectedPriceRange, setSelectedPriceRange] = useState('All');
   const [show, setShow] = useState(null)
   const [showFilter, setShowFilter] = useState(null)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [assetrolePermission, setAssetRolePermission] = useState("");
 
   const [assetpermissionError, setAssetPermissionError] = useState("");
@@ -256,7 +256,7 @@ function Asset() {
 
   useEffect(() => {
     if (state.login?.selectedHostel_Id) {
-      // setLoading(true)
+      setLoading(true)
 
       dispatch({ type: 'ASSETLIST', payload: state.login.selectedHostel_Id })
       dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
@@ -295,7 +295,9 @@ function Asset() {
 
   }, [state.AssetList.getAssetStatusCode])
 
-
+useEffect(()=>{
+setLoading(false)
+},[state.AssetList.assetList])
 
 
 
@@ -606,8 +608,8 @@ function Asset() {
          {loading &&
           <div
             style={{
-              position: 'absolute',
-              top: "50%",
+              position: 'fixed',
+              top: 0,
               right: 0,
               bottom: 0,
               left: '200px',
@@ -1045,23 +1047,7 @@ function Asset() {
                   
                     <tbody>
                       {
-                        loading ? (
-                          <>
-                            <tr>
-                              <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                              <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                              <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                              <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                              <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                              <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                              <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                            </tr>
-                          </>
-                        )
-
-
-
-                          : (
+                        
                             sortedData && sortedData.length > 0 && (
                               <>
                                 <PaginationList>
@@ -1072,7 +1058,7 @@ function Asset() {
                               </>
                             )
 
-                          )
+                          
                       }
                     </tbody>
 

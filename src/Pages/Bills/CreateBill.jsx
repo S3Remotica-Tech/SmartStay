@@ -584,6 +584,7 @@ function CreateBill() {
         customername,
         state.UsersList?.CustomerdetailsgetStatuscode,
     ]);
+    
     useEffect(() => {
         if (!customername) {
             setSelectedTypes([]);
@@ -592,17 +593,17 @@ function CreateBill() {
     }, [customername]);
 
 
-useEffect(() => {
-  if (!billData) return;
+// useEffect(() => {
+//   if (!billData) return;
 
-  setNewRows((prevRows) =>
-    prevRows.filter((row) => row.am_name !== "Room Rent")
-  );
+//   setNewRows((prevRows) =>
+//     prevRows.filter((row) => row.am_name !== "Room Rent")
+//   );
 
-  setSelectedTypes((prev) =>
-    prev.filter((type) => type !== "RoomRent")
-  );
-}, [billData]);
+//   setSelectedTypes((prev) =>
+//     prev.filter((type) => type !== "RoomRent")
+//   );
+// }, [billData]);
 
 
 

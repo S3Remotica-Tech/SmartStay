@@ -162,6 +162,11 @@ const RoomReadingTable = () => {
 
   }, [state.UsersList?.getRoomReadingStatus])
 
+
+  useEffect(() => {
+    setLoading(false)
+  }, [state.UsersList?.getRoomReadingList?.listReadings, state.UsersList?.getCustomerReadingList])
+
   useEffect(() => {
     if (state.UsersList?.getCustomerReadingStatus === 200) {
       setLoading(false)
@@ -175,9 +180,9 @@ const RoomReadingTable = () => {
   }, [state.UsersList?.getCustomerReadingStatus])
 
 
-  useEffect(()=>{
-         setLoading(false)
-     },[state.UsersList?.getCustomerReadingList, state.UsersList?.getRoomReadingList?.listReadings])
+  useEffect(() => {
+    setLoading(false)
+  }, [state.UsersList?.getCustomerReadingList, state.UsersList?.getRoomReadingList?.listReadings])
 
 
 
@@ -230,21 +235,21 @@ const RoomReadingTable = () => {
       });
     };
 
-     const getBillingMonth = (dateStr) => {
-            if (!dateStr) return "-";
+    const getBillingMonth = (dateStr) => {
+      if (!dateStr) return "-";
 
-            const parts = dateStr.split("/");
-            if (parts.length !== 3) return "-";
+      const parts = dateStr.split("/");
+      if (parts.length !== 3) return "-";
 
-            const [day, month, year] = parts.map(Number);
-            if (!day || !month || !year) return "-";
+      const [day, month, year] = parts.map(Number);
+      if (!day || !month || !year) return "-";
 
-            return new Date(year, month - 1, 1).toLocaleString("en-US", {
-                month: "short",
-                year: "numeric",
-            });
-        };
-   
+      return new Date(year, month - 1, 1).toLocaleString("en-US", {
+        month: "short",
+        year: "numeric",
+      });
+    };
+
 
 
     return {
@@ -869,7 +874,7 @@ const RoomReadingTable = () => {
                                 <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "", textAlign: "" }}>
                                   <td style={{ fontSize: 15, fontWeight: 600, textAlign: "", }}>{row?.floorName}</td>
                                   <td
-                                    style={{ textAlign: "", color: canReadElectricity ? "#1E45E1" : "#DBDBDB", cursor: "pointer", fontWeight: 600,  }}
+                                    style={{ textAlign: "", color: canReadElectricity ? "#1E45E1" : "#DBDBDB", cursor: "pointer", fontWeight: 600, }}
                                     onClick={() => canReadElectricity && handleRoomDetailsPage(row)}
                                   >
                                     {row?.roomName}
@@ -909,10 +914,11 @@ const RoomReadingTable = () => {
                         {loading &&
                           <div
                             style={{
-                              position: 'absolute',
-                              top: '70%',
-                              left: '50%',
-                              transform: 'translate(-50%, -50%)',
+                              position: 'fixed',
+                              top: 0,
+                              right: 0,
+                              bottom: 0,
+                              left: 0,
                               display: 'flex',
                               alignItems: 'center',
                               justifyContent: 'center',

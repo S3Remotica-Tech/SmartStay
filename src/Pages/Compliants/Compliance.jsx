@@ -279,7 +279,7 @@ const Compliance = () => {
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-      // setLoading(true)
+      setLoading(true)
       dispatch({ type: 'COMPLIANCE-LIST', payload: { hostelId: state.login.selectedHostel_Id } })
     }
     else {
@@ -292,16 +292,9 @@ const Compliance = () => {
 
 
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     if (!state.login.selectedHostel_Id) {
-  //       setFilteredUsers([]);
-  //       setLoading(false);
-  //     }
-  //   }, 100);
-
-  //   return () => clearInterval(interval);
-  // }, []);
+  useEffect(() => {
+   setLoading(false)
+  }, [state.ComplianceList.Compliance]);
 
 
 

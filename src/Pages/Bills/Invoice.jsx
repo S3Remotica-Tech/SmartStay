@@ -53,6 +53,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import BillsFilter from '../../Pages/Bills/BillsFilter'
 import { FiSearch } from "react-icons/fi";
+import { useEffectEvent } from "react";
 
 
 const InvoicePage = () => {
@@ -208,7 +209,7 @@ const InvoicePage = () => {
     canReadModule: canReadInvoice,
   } = useHasPermission("Bills");
 
-console.log("canWriteInvoice",canWriteInvoice)
+  console.log("canWriteInvoice", canWriteInvoice)
 
   // const canReadInvoice = useHasPermission("Bills", "canRead")
   // const canWriteInvoice = useHasPermission("Bills", "canWrite")
@@ -384,7 +385,7 @@ console.log("canWriteInvoice",canWriteInvoice)
     if (!state.login.selectedHostel_Id) return;
 
     dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
-
+    setLoading(true)
 
 
   }, [state.login.selectedHostel_Id]);
@@ -395,7 +396,7 @@ console.log("canWriteInvoice",canWriteInvoice)
   useEffect(() => {
     if (state.InvoiceList.CustomerRecurringEnableDisableStatusCode === 200) {
       dispatch({ type: "RECURRING-BILLS-LIST", payload: state.login?.selectedHostel_Id })
-
+setLoading(true)
       dispatch({ type: 'REMOVE_CUSTOMER_RECURRING_ENABLE_DISABLE' })
 
 
@@ -428,6 +429,7 @@ console.log("canWriteInvoice",canWriteInvoice)
   useEffect(() => {
     if (state.InvoiceList.billsListStatusCode === 200) {
       setShowBillsFilter(false)
+      setLoading(false);
       setBills(state.InvoiceList.billsList?.listInvoices);
       // setOriginalBillsFilter(state.InvoiceList.billsList?.listInvoices)
       setOriginalBills(state.InvoiceList.billsList?.listInvoices)
@@ -440,7 +442,11 @@ console.log("canWriteInvoice",canWriteInvoice)
   }, [state.InvoiceList.billsListStatusCode]);
 
 
+useEffect(()=>{
+setLoading(false);
+setRecurLoader(false)
 
+},[state.InvoiceList.ManualInvoices,state.InvoiceList.billsList?.listInvoices,state.InvoiceList.RecurringBills])
 
 
 
@@ -786,38 +792,6 @@ console.log("canWriteInvoice",canWriteInvoice)
 
 
 
-  // useEffect(() => {
-  //   let filtered = originalBillsFilter;
-
-  //   if (statusfilter === "All") {
-  //     filtered = originalBillsFilter;
-  //   } else if (statusfilter === "Paid" || statusfilter === "Unpaid") {
-  //     filtered = filtered.filter(
-  //       (user) =>
-  //         user.status?.trim().toLowerCase() === statusfilter.trim().toLowerCase()
-  //     );
-  //   }
-  //   else if (statusfilter === "date" && startDate && endDate) {
-  //     filtered = filtered.filter((user) => {
-  //       const invoiceDate = new Date(user.Date);
-
-  //       const invoiceOnlyDate = new Date(invoiceDate.setHours(0, 0, 0, 0));
-  //       const startOnlyDate = new Date(startDate).setHours(0, 0, 0, 0);
-  //       const endOnlyDate = new Date(endDate).setHours(0, 0, 0, 0);
-
-  //       return (
-  //         invoiceOnlyDate >= startOnlyDate &&
-  //         invoiceOnlyDate <= endOnlyDate
-  //       );
-  //     });
-  //   }
-
-
-  //   setBills(filtered);
-  //   // setCurrentPage(1)
-  // }, [statusfilter, startDate, endDate, originalBillsFilter]);
-
-
 
   const [statusFilterReceipt, setStatusFilterReceipt] = useState("");
   const handleStatusFilterReceipt = (event) => {
@@ -965,11 +939,11 @@ console.log("canWriteInvoice",canWriteInvoice)
   };
 
   const handleEdit = (props) => {
-  navigate('/create-bill', {
-    state: {
-      billData: props,
-    },
-  })
+    navigate('/create-bill', {
+      state: {
+        billData: props,
+      },
+    })
     setShowManualInvoice(true);
     setShowAllBill(false);
     setBillMode("Edit Bill");
@@ -1346,20 +1320,6 @@ console.log("canWriteInvoice",canWriteInvoice)
 
 
 
-  // const handleCustomerName = (selectedOption) => {
-
-  //   setCustomerName(selectedOption?.value || '');
-  //   setAllFieldErrmsg("");
-  //   if (!selectedOption) {
-  //     setCustomerErrmsg("Please Select Name");
-  //   } else {
-  //     setCustomerErrmsg("");
-  //   }
-  //   setStartDate("");
-  //   setEndDate("");;
-  //   setTotalAmount("");
-  // };
-
   const handleBackBill = () => {
     dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS' })
     // setFormLoading(false)
@@ -1386,47 +1346,9 @@ console.log("canWriteInvoice",canWriteInvoice)
     setDropdownValue("")
   };
 
-  // const formatDateForPayloadmanualinvoice = (date) => {
-  //   return dayjs(date).format("YYYY-MM-DD");
-  // };
 
 
 
-
-
-  // const handleInvoiceDate = (selectedDate) => {
-  //   setAllFieldErrmsg("");
-
-  //   if (!selectedDate) {
-  //     setInvoiceDate(null);
-  //     setInvoiceDateErrmsg("Please Select Date");
-  //     return;
-  //   }
-
-  //   setInvoiceDate(selectedDate);
-  //   setInvoiceDateErrmsg("");
-
-  //   // const formattedDate = formatDateForPayloadmanualinvoice(selectedDate);
-  //   // setFormatInvoiceDate(formattedDate);
-  // };
-
-
-
-
-
-  // const handleDueDate = (selectedDates) => {
-  //   setAllFieldErrmsg("");
-  //   const date = selectedDates;
-  //   setInvoiceDueDate(date);
-  //   if (!selectedDates) {
-  //     setInvoiceDueDateErrmsg("Please Select Date");
-  //   } else {
-  //     setInvoiceDueDateErrmsg("");
-  //   }
-
-  //   // const formattedDate = formatDateForPayloadmanualinvoice(date);
-  //   // setFormatDueDate(formattedDate);
-  // };
 
 
 
@@ -2277,7 +2199,7 @@ console.log("canWriteInvoice",canWriteInvoice)
     }
 
     if (newValue === "2") {
-      // setRecurLoader(true);
+      setRecurLoader(true);
       setDownloadInvoice(false)
       setDownloadReceipt(false)
       dispatch({ type: "RECURRING-BILLS-LIST", payload: state.login?.selectedHostel_Id })
@@ -2738,15 +2660,14 @@ console.log("canWriteInvoice",canWriteInvoice)
 
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD" });
-        setLoading(false);
-
+       
       }, 300);
     }
   }, [state.InvoiceList.manualInvoiceAddStatusCode]);
 
   useEffect(() => {
     setBills(state.InvoiceList.ManualInvoices);
-   setLoading(false);
+ 
   }, [state.InvoiceList.ManualInvoices,])
 
 
@@ -2768,8 +2689,7 @@ console.log("canWriteInvoice",canWriteInvoice)
 
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_EDIT" });
-        setLoading(false);
-
+    
         setBills(state.InvoiceList.ManualInvoices);
       }, 100);
     }
@@ -2856,7 +2776,7 @@ console.log("canWriteInvoice",canWriteInvoice)
   useEffect(() => {
 
     if (state.login?.selectedHostel_Id) {
-      // setRecurLoader(true);
+      setRecurLoader(true);
       dispatch({ type: "RECURRING-BILLS-LIST", payload: state.login?.selectedHostel_Id })
     }
   }, [state.login?.selectedHostel_Id, activeStay]);
@@ -3153,6 +3073,18 @@ console.log("canWriteInvoice",canWriteInvoice)
     }
   }, [state.InvoiceList.ReceiptlistgetStatuscode]);
 
+
+  useEffect(()=>{
+setReceiptLoader(false);
+  },[state.InvoiceList.ReceiptList])
+
+
+
+
+
+
+
+
   useEffect(() => {
     if (
       state.InvoiceList.ReceiptAddsuccessStatuscode === 200 ||
@@ -3343,14 +3275,16 @@ console.log("canWriteInvoice",canWriteInvoice)
             xs={DownloadInvoice || DownloadReceipt ? 12 : 12}
           >
             <div
-             className="container-fluid sticky-top bg-white"
-            style={{ zIndex: 1000, height: 'auto',  margin: 3 ,borderBottom: (DownloadInvoice || DownloadReceipt) && "1px solid #E5E7EB",
-              rightBottom: (DownloadInvoice || DownloadReceipt) && "1px solid #E5E7EB"
-              ,boxShadow: "initial" }}
+              className="container-fluid sticky-top bg-white"
+              style={{
+                zIndex: 1000, height: 'auto', margin: 3, borderBottom: (DownloadInvoice || DownloadReceipt) && "1px solid #E5E7EB",
+                rightBottom: (DownloadInvoice || DownloadReceipt) && "1px solid #E5E7EB"
+                , boxShadow: "initial"
+              }}
             >
               <div className="d-flex justify-content-between align-items-center flex-wrap">
                 <div className="" style={{
-                  marginTop: DownloadInvoice || DownloadReceipt ? 0 : 12, 
+                  marginTop: DownloadInvoice || DownloadReceipt ? 0 : 12,
                 }}>
                   <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Bills</label>
                 </div>
@@ -4481,7 +4415,7 @@ console.log("canWriteInvoice",canWriteInvoice)
 
 
 
-                        <Container fluid className={`p-0 table-bills ${DownloadReceipt || DownloadInvoice ? "mt-0" : "mt-4" } `}>
+                        <Container fluid className={`p-0 table-bills ${DownloadReceipt || DownloadInvoice ? "mt-0" : "mt-4"} `}>
                           <Row
                             className={` ${DownloadReceipt
                               ? "m-0 g-2 d-flex justify-content-between"
