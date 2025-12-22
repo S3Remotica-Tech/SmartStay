@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { CloseCircle } from "iconsax-react";
@@ -35,6 +35,7 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
         dispatch({ type: 'REMOVE_ROOM_READING_ERROR' })
         setReadingDate(date ? date : null);
         setDateError('')
+        // document.body.style.overflow = "hidden";
     };
 
 
@@ -94,143 +95,99 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
     }, [state.UsersList?.roomReadingError])
 
 
-   
 
+    const modalBodyRef = useRef(null);
+
+    useEffect(() => {
+        if (show) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "";
+        }
+
+        return () => {
+            document.body.style.overflow = "";
+        };
+    }, [show]);
 
 
     return (
-        <div>   <Modal show={show} onHide={handleClose} centered backdrop="static">
+        <div>
+            <Modal show={show} onHide={handleClose} centered backdrop="static" keyboard={false}
+                scrollable 
+            >
 
-            <Modal.Header className="d-flex justify-content-between align-items-center" style={{ borderBottom: "none" }}>
-                <Modal.Title
-                    style={{
-                        fontFamily: 'Gilroy, sans-serif',
-                        fontWeight: 600,
-                        fontStyle: 'normal',
-                        fontSize: '20px',
-                    }}>
-                    Add Room Reading
-                </Modal.Title>
-
-                <CloseCircle
-                    size={26}
-                    color="black"
-                    style={{ cursor: "pointer" }}
-                    onClick={handleClose}
-                />
-            </Modal.Header>
-            <Modal.Body >
-
-
-
-
-                <div className="d-flex justify-content-between align-items-center" style={{ width: "100%", borderBottom: "1px solid #E0E0E0", paddingBottom: 10, marginTop: "-15px" }}>
-                    <div className="d-flex align-items-center">
-                        <span
-                            style={{
-                                display: "flex",
-                                alignItems: "center",
-                                background: "#E7F1FF",
-                                borderRadius: "50%",
-                                width: 46,
-                                height: 46,
-                                justifyContent: "center",
-                                marginRight: 10,
-                            }}
-                        >
-                            <img
-                                src={electricity}
-                                alt="electricity"
-                                style={{ width: 20, height: 20 }}
-                            />
-                        </span>
-                        <span
-                            style={{
-                                fontFamily: "Gilroy",
-                                fontSize: 14,
-                                color: "#222",
-                                fontWeight: 600,
-                            }}
-                        >
-                            {selectedRowDetails.roomName}
-                            <div className="d-flex justify-content-start align-items-center" style={{ gap: 6, marginTop: 4 }}>
-                                <img src={building} height="14" width="14" alt="Ground Floor" />
-                                <div style={{ color: "#4B4B4B", fontSize: 12, fontFamily: "Gilroy" }}>{selectedRowDetails.floorName}</div>
-                            </div>
-                        </span>
-                    </div>
-
-
-                </div>
-
-
-
-                {state.UsersList?.roomReadingError && (
-                    <ErrorMessage message={state.UsersList?.roomReadingError} type="error" />
-                )}
-                <Form.Group className="mt-2">
-
-                    <Form.Label
+                <Modal.Header className="d-flex justify-content-between align-items-center"
+                    style={{ borderBottom: "none" }}>
+                    <Modal.Title
                         style={{
-                            fontFamily: 'Gilroy',
-                            fontWeight: 500,
+                            fontFamily: 'Gilroy, sans-serif',
+                            fontWeight: 600,
                             fontStyle: 'normal',
-                            fontSize: '14px',
-                            lineHeight: '100%',
-                            letterSpacing: '0',
-                            marginBottom: 0,
-                            padding: 0
-                        }}
-                    >
-                        Reading Date {" "}  <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                    </Form.Label>
+                            fontSize: '20px',
+                        }}>
+                        Add Room Reading
+                    </Modal.Title>
 
-                    <div
-                        className="datepicker-wrapper"
-                        style={{ position: "relative", width: "100%", marginTop: 6 }}
-                    >
+                    <CloseCircle
+                        size={26}
+                        color="black"
+                        style={{ cursor: "pointer" }}
+                        onClick={handleClose}
+                    />
+                </Modal.Header>
+                <Modal.Body ref={modalBodyRef} 
+                >
 
-                        <div className="datepicker-wrapper" style={{ position: "relative", width: "100%" }}>
-                            <DatePicker
+
+
+
+                    <div className="d-flex justify-content-between align-items-center" style={{ width: "100%", borderBottom: "1px solid #E0E0E0", paddingBottom: 10, marginTop: "-15px" }}>
+                        <div className="d-flex align-items-center">
+                            <span
                                 style={{
-                                    width: "100%",
-                                    height: 48,
-                                    cursor: "pointer",
-                                    fontFamily: "Gilroy",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    background: "#E7F1FF",
+                                    borderRadius: "50%",
+                                    width: 46,
+                                    height: 46,
+                                    justifyContent: "center",
+                                    marginRight: 10,
                                 }}
-                                format="DD/MM/YYYY"
-                                placeholder="DD/MM/YYYY"
-                                value={readingDate ? dayjs(readingDate) : null}
-                                onChange={handleReadingDateChange}
-                                getPopupContainer={() => document.body}
-                                disabledDate={(current) => current && current > dayjs()}
-                            />
+                            >
+                                <img
+                                    src={electricity}
+                                    alt="electricity"
+                                    style={{ width: 20, height: 20 }}
+                                />
+                            </span>
+                            <span
+                                style={{
+                                    fontFamily: "Gilroy",
+                                    fontSize: 14,
+                                    color: "#222",
+                                    fontWeight: 600,
+                                }}
+                            >
+                                {selectedRowDetails.roomName}
+                                <div className="d-flex justify-content-start align-items-center" style={{ gap: 6, marginTop: 4 }}>
+                                    <img src={building} height="14" width="14" alt="Ground Floor" />
+                                    <div style={{ color: "#4B4B4B", fontSize: 12, fontFamily: "Gilroy" }}>{selectedRowDetails.floorName}</div>
+                                </div>
+                            </span>
                         </div>
 
 
-
                     </div>
 
-                    {dateError && (
-                        <ErrorMessage message={dateError} type="error" />
 
+
+                    {state.UsersList?.roomReadingError && (
+                        <ErrorMessage message={state.UsersList?.roomReadingError} type="error" />
                     )}
+                    <Form.Group className="mt-2">
 
-
-                </Form.Group>
-
-
-
-                <Form.Group className="mt-2">
-                    <div
-                        style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            width: '100%',
-                            marginBottom: 5
-                        }}
-                    >
                         <Form.Label
                             style={{
                                 fontFamily: 'Gilroy',
@@ -243,94 +200,157 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
                                 padding: 0
                             }}
                         >
-                            Reading   <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                            Reading Date {" "}  <span style={{ color: "red", fontSize: "20px" }}>*</span>
                         </Form.Label>
 
-                        <span
+                        <div
+                            className="datepicker-wrapper"
+                            style={{ position: "relative", width: "100%", marginTop: 6 }}
+                        >
+
+                            <div className="datepicker-wrapper" style={{ position: "relative", width: "100%" }}>
+                                <DatePicker
+                                    style={{
+                                        width: "100%",
+                                        height: 48,
+                                        cursor: "pointer",
+                                        fontFamily: "Gilroy",
+                                    }}
+                                    format="DD/MM/YYYY"
+                                    placeholder="DD/MM/YYYY"
+                                    value={readingDate ? dayjs(readingDate) : null}
+                                    onChange={handleReadingDateChange}
+                                    getPopupContainer={() =>
+                                        modalBodyRef.current || document.body
+                                    }
+                                    disabledDate={(current) => current && current > dayjs()}
+                                />
+                            </div>
+
+
+
+                        </div>
+
+                        {dateError && (
+                            <ErrorMessage message={dateError} type="error" />
+
+                        )}
+
+
+                    </Form.Group>
+
+
+
+                    <Form.Group className="mt-2">
+                        <div
                             style={{
-                                fontFamily: 'Gilroy',
-                                fontWeight: 400,
-                                fontStyle: 'normal',
-                                fontSize: '14px',
-                                lineHeight: '100%',
-                                letterSpacing: '0',
-                                color: "gray"
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                width: '100%',
+                                marginBottom: 5
                             }}
                         >
-                            Last Reading: <span style={{ color: '#1E45E1', fontFamily: "Gilroy" }}>{selectedRowDetails?.currentReading}</span>
-                        </span>
-                    </div>
+                            <Form.Label
+                                style={{
+                                    fontFamily: 'Gilroy',
+                                    fontWeight: 500,
+                                    fontStyle: 'normal',
+                                    fontSize: '14px',
+                                    lineHeight: '100%',
+                                    letterSpacing: '0',
+                                    marginBottom: 0,
+                                    padding: 0
+                                }}
+                            >
+                                Reading   <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                            </Form.Label>
 
-                    <Form.Control
-                        style={{ marginTop: 10, fontSize: 14, fontWeight: currentReading ? 600 : 500, padding: "12px 14px", fontFamily: "Gilroy" }}
-                        type="number"
-                        placeholder="Enter Reading"
+                            <span
+                                style={{
+                                    fontFamily: 'Gilroy',
+                                    fontWeight: 400,
+                                    fontStyle: 'normal',
+                                    fontSize: '14px',
+                                    lineHeight: '100%',
+                                    letterSpacing: '0',
+                                    color: "gray"
+                                }}
+                            >
+                                Last Reading: <span style={{ color: '#1E45E1', fontFamily: "Gilroy" }}>{selectedRowDetails?.currentReading}</span>
+                            </span>
+                        </div>
 
-                        value={currentReading}
-                        onChange={handleCurrentReadingChange}
-                    />
+                        <Form.Control
+                            style={{ marginTop: 10, fontSize: 14, fontWeight: currentReading ? 600 : 500, padding: "12px 14px", fontFamily: "Gilroy" }}
+                            type="number"
+                            placeholder="Enter Reading"
+
+                            value={currentReading}
+                            onChange={handleCurrentReadingChange}
+                        />
 
 
-                    {readingError && (
-                        <ErrorMessage message={readingError} type="error" />
+                        {readingError && (
+                            <ErrorMessage message={readingError} type="error" />
 
-                    )}
-
-
-
-
-
-
-                </Form.Group>
-
+                        )}
 
 
 
 
-            </Modal.Body>
-            {loading &&
-                <div
-                    style={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        backgroundColor: 'transparent',
-                        opacity: 0.75,
-                        zIndex: 10,
-                    }}
-                >
+
+
+                    </Form.Group>
+
+
+
+
+
+                </Modal.Body>
+                {loading &&
                     <div
                         style={{
-                            borderTop: '4px solid #1E45E1',
-                            borderRight: '4px solid transparent',
-                            borderRadius: '50%',
-                            width: '40px',
-                            height: '40px',
-                            animation: 'spin 1s linear infinite',
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            backgroundColor: 'transparent',
+                            opacity: 0.75,
+                            zIndex: 10,
                         }}
-                    ></div>
-                </div>
-            }
-            <Modal.Footer style={{ border: 'none' }}>
-                <Button style={{ backgroundColor: "transparent", border: "none", color: "black", fontFamily: "Gilroy" }} onClick={handleClose}>
-                    Cancel
-                </Button>
-                <Button style={{ backgroundColor: "#1E45E1", width: '130px', fontFamily: "Gilroy" }} onClick={handleSubmit}>
-                    Add
-                </Button>
-            </Modal.Footer>
-        </Modal></div>
+                    >
+                        <div
+                            style={{
+                                borderTop: '4px solid #1E45E1',
+                                borderRight: '4px solid transparent',
+                                borderRadius: '50%',
+                                width: '40px',
+                                height: '40px',
+                                animation: 'spin 1s linear infinite',
+                            }}
+                        ></div>
+                    </div>
+                }
+                <Modal.Footer style={{ border: 'none' }}>
+                    <Button style={{ backgroundColor: "transparent", border: "none", color: "black", fontFamily: "Gilroy" }} onClick={handleClose}>
+                        Cancel
+                    </Button>
+                    <Button style={{ backgroundColor: "#1E45E1", width: '130px', fontFamily: "Gilroy" }} onClick={handleSubmit}>
+                        Add
+                    </Button>
+                </Modal.Footer>
+            </Modal></div>
     )
 }
 AddRoomReading.propTypes = {
-    show: PropTypes.func.isRequired,
-    handleClose:PropTypes.func.isRequired,
-    selectedRowDetails:PropTypes.func.isRequired,
-    
+    show: PropTypes.bool.isRequired,
+    handleClose: PropTypes.func.isRequired,
+    selectedRowDetails: PropTypes.object.isRequired,
+
 }
 
 export default AddRoomReading

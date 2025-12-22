@@ -30,7 +30,7 @@ function UserlistWalkin() {
   const [showFormCheckIn, setShowFormCheckIn] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [dotsButton, setDotsButton] = useState(null);
-  const [checkinNew, setCheckInNew] = useState("");
+  // const [checkinNew, setCheckInNew] = useState("");
   // const [walkInEditPermissionError, setWalkInEditPermissionError] =    useState("");
   // const [walkInDeletePermissionError, setWalkInDeletePermissionError] = useState("");
   const [formLoading, setFormLoading] = useState(false)
@@ -218,15 +218,15 @@ function UserlistWalkin() {
  const handleCheckIn = (data) => {
     setShowFormCheckIn(true)
     setTenantDetails(data)
-    setCheckInNew(false)
+    // setCheckInNew(false)
   }
 
 
-  const handleCheckInNew = (data) => {
-    setShowFormCheckIn(true)
-    setTenantDetails(data)
-    setCheckInNew(true)
-  }
+  // const handleCheckInNew = (data) => {
+  //   setShowFormCheckIn(true)
+  //   setTenantDetails(data)
+  //   setCheckInNew(true)
+  // }
 
   const handleCloseCheckInForm = () => {
     setShowFormCheckIn(false)
@@ -725,11 +725,11 @@ function UserlistWalkin() {
                                             </label>
                                           </div>
 
- <div
+ {/* <div
                                             className="d-flex align-items-center gap-2"
                                             onClick={() => {
                                               if (canWriteWalkin) {
-                                                handleCheckInNew(v);
+                                                // handleCheckInNew(v);
                                               }
                                             }}
                                             style={{
@@ -766,7 +766,7 @@ function UserlistWalkin() {
                                             >
                                               Check-In-new
                                             </label>
-                                          </div>
+                                          </div> */}
 
                                           <div
                                             className="d-flex align-items-center gap-2"
@@ -929,7 +929,7 @@ function UserlistWalkin() {
       {
         showFormCheckIn && <UserlistForm EditObj={tenantDetails}
           showAssignMenu={showFormCheckIn}
-          setShowAssignMenu={handleCloseCheckInForm} checkinNew={checkinNew}/>
+          setShowAssignMenu={handleCloseCheckInForm} />
       }
 
 
