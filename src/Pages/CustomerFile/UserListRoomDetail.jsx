@@ -2417,8 +2417,8 @@ useEffect(() => {
               <div
                 style={{
                   position: "relative",
-                  width: "80px",
-                  height: "80px",
+                  width: "47px",
+                  height: "47px",
                   marginRight: "10px",
                 }}
                 onMouseEnter={() => setIsHovered(true)}
@@ -2429,8 +2429,8 @@ useEffect(() => {
                     src={imageUrl}
                     alt={CustomerOverView.fullName || "Default Profile"}
                     style={{
-                      height: "80px",
-                      width: "80px",
+                      height: "47x",
+                      width: "47px",
                       borderRadius: "50%",
                       objectFit: "cover",
                     }}
@@ -2443,14 +2443,14 @@ useEffect(() => {
 
                   <div
                     style={{
-                      height: "80px",
-                      width: "80px",
+                      height: "47px",
+                      width: "47px",
                       borderRadius: "50%",
                       backgroundColor: "#1E45E1",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      fontSize: "24px",
+                      fontSize: "20px",
                       fontWeight: "600",
                       color: "#FFF",
                       fontFamily: "Gilroy",

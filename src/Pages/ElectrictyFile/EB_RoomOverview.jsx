@@ -86,7 +86,7 @@ const EBRoomOverview = ({ onBack, room }) => {
             to: formatDate(item.endDate),
             reading: item.reading,
             totalUnits: item.consumption,
-            amount: item.consumption * item.unitPrice,
+            amount: item.amount,
         };
     });
 

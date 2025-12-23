@@ -3218,7 +3218,7 @@ useEffect(() => {
       },
     });
   };
-}, []);
+}, [state.login.selectedHostel_Id]);
 
   const handleReset = () => {
     dispatch({
@@ -3285,6 +3285,7 @@ useEffect(() => {
       {
         showBillsFilter && <BillsFilter show={showBillsFilter} handleClose={handleCloseFilterBills} />
       }
+
       {showAllBill && (
         <Row className="p-0" style={{ width: "100%",  }}>
           <Col className="p-0"
