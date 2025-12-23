@@ -16,7 +16,7 @@ import "sweetalert2/dist/sweetalert2.min.css";
 import LoaderComponent from "../OthersComponent/LoaderComponent";
 import "../Bills/Invoices.css";
 import InvoiceTable from "../Bills/InvoicelistTable";
-import Profile from "../../Assets/Images/New_images/profile-picture.png";
+// import Profile from "../../Assets/Images/New_images/profile-picture.png";
 import TabContext from "@mui/lab/TabContext";
 // import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
@@ -49,11 +49,11 @@ import PaginationList from "../../Components/PaginationList";
 import ErrorMessage from '../../Components/ErrorMessage'
 import { useHasPermission } from '../../Utils/Permission';
 import { HiMiniBars3BottomLeft } from "react-icons/hi2";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import BillsFilter from '../../Pages/Bills/BillsFilter'
 import { FiSearch } from "react-icons/fi";
-import { useEffectEvent } from "react";
+// import { useEffectEvent } from "react";
 
 
 const InvoicePage = () => {
@@ -128,7 +128,7 @@ const InvoicePage = () => {
   const [bills, setBills] = useState([]);
   const [newRows, setNewRows] = useState([])
   const [customererrmsg, setCustomerErrmsg] = useState("");
-  const [invoicenumbererrmsg, setInvoicenumberErrmsg] = useState("");
+  // const [invoicenumbererrmsg, setInvoicenumberErrmsg] = useState("");
   const [invoicedateerrmsg, setInvoiceDateErrmsg] = useState("");
   const [invoiceduedateerrmsg, setInvoiceDueDateErrmsg] = useState("");
   const [allfielderrmsg, setAllFieldErrmsg] = useState("");
@@ -181,7 +181,7 @@ const InvoicePage = () => {
   const [chips, setChips] = useState([])
   const [receiptdata, setReceiptData] = useState([]);
   const [receiptLoader, setReceiptLoader] = useState(false);
-  const [originalBillsFilter, setOriginalBillsFilter] = useState([]);
+  // const [originalBillsFilter, setOriginalBillsFilter] = useState([]);
   const [originalBillsFilterReceipt, setOriginalBillsFilterReceipt] = useState(
     []
   );
@@ -194,7 +194,7 @@ const InvoicePage = () => {
   // const [startDate, endDate] = dateRange;
   const [checkedRows, setCheckedRows] = useState({});
   // const [manualInvoiceNumberError, setManualInvoiceNumberError] = useState("")
-  const [unableAddInvoiceDetailsError, setUnableAddInvoiceDetailsError] = useState("")
+  // const [unableAddInvoiceDetailsError, setUnableAddInvoiceDetailsError] = useState("")
   const [name, setName] = useState("")
   const [floor_name, setFloorName] = useState("")
   const [room_name, setRoomName] = useState("")
@@ -396,7 +396,7 @@ const InvoicePage = () => {
   useEffect(() => {
     if (state.InvoiceList.CustomerRecurringEnableDisableStatusCode === 200) {
       dispatch({ type: "RECURRING-BILLS-LIST", payload: state.login?.selectedHostel_Id })
-setLoading(true)
+      setLoading(true)
       dispatch({ type: 'REMOVE_CUSTOMER_RECURRING_ENABLE_DISABLE' })
 
 
@@ -442,11 +442,11 @@ setLoading(true)
   }, [state.InvoiceList.billsListStatusCode]);
 
 
-useEffect(()=>{
-setLoading(false);
-setRecurLoader(false)
+  useEffect(() => {
+    setLoading(false);
+    setRecurLoader(false)
 
-},[state.InvoiceList.ManualInvoices,state.InvoiceList.billsList?.listInvoices,state.InvoiceList.RecurringBills])
+  }, [state.InvoiceList.ManualInvoices, state.InvoiceList.billsList?.listInvoices, state.InvoiceList.RecurringBills])
 
 
 
@@ -1213,7 +1213,7 @@ setRecurLoader(false)
     setPayableAmount("")
     setPayableAmountError("")
     // setManualInvoiceNumberError("")
-    setUnableAddInvoiceDetailsError("")
+    // setUnableAddInvoiceDetailsError("")
     dispatch({ type: 'CLEAR_PAYABLE_AMOUNT' })
     dispatch({ type: 'CLEAR_INVALID_DETAILS_ERROR' })
     dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS' })
@@ -2307,7 +2307,7 @@ setRecurLoader(false)
     if (state.InvoiceList?.unableAddInvoiceDetailsError) {
       // setFormLoading(false)
       setLoading(false)
-      setUnableAddInvoiceDetailsError(state.InvoiceList.unableAddInvoiceDetailsError)
+      // setUnableAddInvoiceDetailsError(state.InvoiceList.unableAddInvoiceDetailsError)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS' })
       }, 3000)
@@ -2660,14 +2660,14 @@ setRecurLoader(false)
 
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD" });
-       
+
       }, 300);
     }
   }, [state.InvoiceList.manualInvoiceAddStatusCode]);
 
   useEffect(() => {
     setBills(state.InvoiceList.ManualInvoices);
- 
+
   }, [state.InvoiceList.ManualInvoices,])
 
 
@@ -2689,7 +2689,7 @@ setRecurLoader(false)
 
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_EDIT" });
-    
+
         setBills(state.InvoiceList.ManualInvoices);
       }, 100);
     }
@@ -3074,9 +3074,9 @@ setRecurLoader(false)
   }, [state.InvoiceList.ReceiptlistgetStatuscode]);
 
 
-  useEffect(()=>{
-setReceiptLoader(false);
-  },[state.InvoiceList.ReceiptList])
+  useEffect(() => {
+    setReceiptLoader(false);
+  }, [state.InvoiceList.ReceiptList])
 
 
 
@@ -3134,72 +3134,91 @@ setReceiptLoader(false);
     const invoiceFilters = state.InvoiceList.invoiceFilters;
     const filterData = [];
 
+
     if (invoiceFilters?.paymentStatus?.length) {
-      invoiceFilters.paymentStatus.forEach((status) => {
-        filterData.push({
-          key: `status-${status}`,
-          label: `Status is`,
-          type: "paymentStatus",
-          value: status,
-        });
+      filterData.push({
+        key: "payment-status",
+        label: "Status is",
+        type: "paymentStatus",
+        value: invoiceFilters.paymentStatus.join(", "),
       });
     }
+
 
     if (invoiceFilters?.type?.length) {
-      invoiceFilters.type.forEach((type) => {
-        filterData.push({
-          key: `type-${type}`,
-          label: `Type is `,
-          type: "type",
-          value: type,
-        });
+      filterData.push({
+        key: "type",
+        label: "Type is",
+        type: "type",
+        value: invoiceFilters.type.join(", "),
       });
     }
+
 
     if (invoiceFilters?.modes?.length) {
-      invoiceFilters.modes.forEach((mode) => {
-        filterData.push({
-          key: `mode-${mode}`,
-          label: `Mode is `,
-          type: "modes",
-          value: mode,
-        });
+      filterData.push({
+        key: "modes",
+        label: "Mode is",
+        type: "modes",
+        value: invoiceFilters.modes.join(", "),
       });
     }
 
+
     if (invoiceFilters?.createdByLabels?.length) {
-      invoiceFilters.createdByLabels.forEach((label) => {
-        filterData.push({
-          key: `created-${label}`,
-          label: `Created By`,
-          type: "createdBy",
-          value: label,
-        });
+      filterData.push({
+        key: "created-by",
+        label: "Created By",
+        type: "createdBy",
+        value: invoiceFilters.createdByLabels.join(", "),
       });
     }
+
 
     if (invoiceFilters?.startDate || invoiceFilters?.endDate) {
       filterData.push({
         key: "date-range",
-        label: `Date Region is `,
+        label: "Date Range is",
         type: "date",
-        value: invoiceFilters.startDate && invoiceFilters.endDate
-          ? `${invoiceFilters.startDate} - ${invoiceFilters.endDate}`
-          : invoiceFilters.startDate || invoiceFilters.endDate
+        value:
+          invoiceFilters.startDate && invoiceFilters.endDate
+            ? `${invoiceFilters.startDate} - ${invoiceFilters.endDate}`
+            : invoiceFilters.startDate || invoiceFilters.endDate,
       });
     }
+
 
     if (invoiceFilters?.search) {
       filterData.push({
         key: "search",
-        label: `Tenant `,
+        label: "Tenant",
         type: "search",
-        value: `${invoiceFilters.search}`
+        value: invoiceFilters.search,
       });
     }
 
-    setChips(filterData)
+    setChips(filterData);
   }, [state.InvoiceList.invoiceFilters]);
+
+
+useEffect(() => {
+  return () => {
+    
+    dispatch({
+      type: "SET_INVOICE_FILTERS",
+      payload: {
+        startDate: undefined,
+        endDate: undefined,
+        type: [],
+        createdBy: [],
+        createdByLabels: [],
+        modes: [],
+        paymentStatus: [],
+        search: "",
+      },
+    });
+  };
+}, []);
 
   const handleReset = () => {
     dispatch({
@@ -3267,7 +3286,7 @@ setReceiptLoader(false);
         showBillsFilter && <BillsFilter show={showBillsFilter} handleClose={handleCloseFilterBills} />
       }
       {showAllBill && (
-        <Row className="p-0">
+        <Row className="p-0" style={{ width: "100%",  }}>
           <Col className="p-0"
             lg={DownloadInvoice || DownloadReceipt ? 4 : 12}
             md={DownloadInvoice || DownloadReceipt ? 4 : 12}
@@ -3277,9 +3296,13 @@ setReceiptLoader(false);
             <div
               className="container-fluid sticky-top bg-white"
               style={{
-                zIndex: 1000, height: 'auto', margin: 3, borderBottom: (DownloadInvoice || DownloadReceipt) && "1px solid #E5E7EB",
-                rightBottom: (DownloadInvoice || DownloadReceipt) && "1px solid #E5E7EB"
-                , boxShadow: "initial"
+                zIndex: 1000, height: 'auto',
+                margin: (DownloadInvoice || DownloadReceipt) ? 0 : 3,
+                paddingBottom: (DownloadInvoice || DownloadReceipt) ? 4 : 0,
+                borderBottom: (DownloadInvoice || DownloadReceipt)
+                  ? "1px solid #E5E7EB"
+                  : "none",
+                boxShadow: "initial"
               }}
             >
               <div className="d-flex justify-content-between align-items-center flex-wrap">
@@ -3289,177 +3312,177 @@ setReceiptLoader(false);
                   <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Bills</label>
                 </div>
 
-                <div >
-                  {showLoader && <LoaderComponent />}
-                  {loading && <LoaderComponent />}
-                  <div className="d-flex flex-wrap align-items-center gap-2" style={{ paddingLeft: 25 }}>
-                    {(DownloadInvoice || DownloadReceipt) && (
-                      <div className="d-flex align-items-center mt-1 mb-1" style={{}}>
-                        <button disabled
-                          onClick={() => setShowSearchFilter(!showSearchFilter)}
-                          style={{
-                            fontFamily: "Gilroy",
-                            fontWeight: 600,
-                            fontSize: "0.9rem",
-                            borderRadius: 8,
-                            padding: "8px 12px",
-                            backgroundColor: "#9C9C9C26",
-                            border: "none",
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 8,
-                            cursor: "pointer",
-                            transition: "all 0.3s ease",
-                            color: showSearchFilter ? "#1E45E1" : "#000",
 
-                          }}
-                          onMouseEnter={(e) => (e.target.style.backgroundColor = "#e6e6e6")}
-                          onMouseLeave={(e) => (e.target.style.backgroundColor = "#9C9C9C26")}
-                        >
-                          <HiMiniBars3BottomLeft size={20} color="#000" />
+                {showLoader && <LoaderComponent />}
+                {loading && <LoaderComponent />}
+                <div className="d-flex flex-wrap align-items-center gap-2" style={{ paddingLeft: 25 }}>
+                  {(DownloadInvoice || DownloadReceipt) && (
+                    <div className="d-flex align-items-center mt-1 mb-1" style={{}}>
+                      <button disabled
+                        onClick={() => setShowSearchFilter(!showSearchFilter)}
+                        style={{
+                          fontFamily: "Gilroy",
+                          fontWeight: 600,
+                          fontSize: "0.9rem",
+                          borderRadius: 8,
+                          padding: "8px 12px",
+                          backgroundColor: "#9C9C9C26",
+                          border: "none",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 8,
+                          cursor: "pointer",
+                          transition: "all 0.3s ease",
+                          color: showSearchFilter ? "#1E45E1" : "#000",
 
-                        </button>
+                        }}
+                        onMouseEnter={(e) => (e.target.style.backgroundColor = "#e6e6e6")}
+                        onMouseLeave={(e) => (e.target.style.backgroundColor = "#9C9C9C26")}
+                      >
+                        <HiMiniBars3BottomLeft size={20} color="#000" />
 
-                      </div>
-                    )}
-                    {(!showPdfModal && !showPdfReceiptModal) && (
-                      <div className={` d-flex align-items-center`} >
-                        {value === "1" && search ? (
-                          <>
-                            <div className="position-relative" style={{ minWidth: 160, maxWidth: 250, zIndex: 3000, position: "relative" }}>
+                      </button>
 
-
-                              <div
-                                className="input-group p-0"
-                                style={{ marginRight: 20, paddingTop: "25px", marginTop: 12 }}
-                              >
-                                <span className="input-group-text bg-white border-end-0" >
-                                  <Image
-                                    src={searchteam}
-                                    style={{
-                                      height: 15, width: 15, cursor: canReadInvoice ? "pointer" : "not-allowed",
-                                      opacity: canReadInvoice ? 1 : 0.4,
-                                      pointerEvents: canReadInvoice ? "auto" : "none",
-                                      transition: "opacity 0.3s ease"
-                                    }}
-                                  />
-                                </span>
-                                <input
-                                  type="text"
-                                  className="form-control border-start-0"
-                                  placeholder="Search"
-                                  style={{
-                                    boxShadow: "none",
-                                    outline: "none",
-                                    borderColor: "rgb(207,213,219)",
-                                    borderRight: "none",
-                                    fontFamily: "Gilroy", padding: "8px 10px"
-                                  }}
-                                  value={filterInput}
-                                  onChange={(e) => handlefilterInput(e)}
-                                  disabled={!canReadInvoice || !canReadReceipt || !canReadRecurring}
-                                />
-                                <span className="input-group-text bg-white border-start-0">
-                                  <img
-                                    src={closecircle}
-                                    alt="close"
-                                    onClick={() => handleCloseSearch()}
-
-                                    style={{ height: 20, width: 20, cursor: "pointer" }}
-                                  />
-                                </span>
-                              </div>
-
-
-
-
-                            </div>
-                          </>
-                        ) : (
-                          <>
-                            <div style={{
-                              marginTop: DownloadInvoice || DownloadReceipt ? 0 : 12, backgroundColor: "", color: "", border: "1px solid #CBD5E1", borderRadius: "50%",
-                              padding: "6px 8px", lineHeight: "normal", height: "fit-content"
-                            }}>
-                              <FiSearch
-                                style={{
-                                  height: "20px",
-                                  width: "20px",
-                                  cursor: canReadInvoice ? "pointer" : "not-allowed",
-                                  opacity: canReadInvoice ? 1 : 0.4,
-                                  pointerEvents: canReadInvoice ? "auto" : "none",
-                                  transition: "opacity 0.3s ease"
-                                }}
-                                onClick={handleSearch}
-                              />
-                            </div>
-                          </>
-                        )}
-
-
-
-
-
-
-
-
-
-                      </div>
-                    )}
-
-
-
-                    <div className="text-center" style={{ paddingRight: 18 }} >
-                      {value === "1" && (
-                        <Button className="d-flex justify-content-center"
-                          disabled={!canWriteInvoice}
-                          onClick={handleManualShow}
-                          style={{
-                            fontFamily: "Gilroy",
-                            fontSize: DownloadInvoice ? "16px" : "14px",
-                            backgroundColor: "#1E45E1",
-                            color: "white",
-                            fontWeight: 600,
-                            borderRadius: "8px",
-                            padding: DownloadInvoice ? "6px 12px" : "8px 8px",
-                            marginTop: DownloadInvoice ? 0 : 12,
-                            whiteSpace: "nowrap",
-                            minWidth: DownloadInvoice ? "50px" : "150px",
-                            textAlign: "center",
-                          }}
-                        >
-                          {DownloadInvoice ? "+ " : "+ Create Bill"}
-                        </Button>
-
-                      )}
-
-
-                      {value === "3" && (
-                        <Button
-                          disabled={!canWriteReceipt}
-                          onClick={handleReceiptShow}
-
-                          style={{
-                            fontFamily: "Gilroy",
-                            fontSize: DownloadReceipt ? "16px" : "14px",
-                            backgroundColor: "#1E45E1",
-                            color: "white",
-                            fontWeight: 600,
-                            borderRadius: "8px",
-                            padding: DownloadReceipt ? "6px 12px" : "8px 8px",
-                            marginTop: DownloadReceipt ? 0 : 12,
-                            whiteSpace: "nowrap",
-                            minWidth: DownloadReceipt ? "50px" : "150px",
-                            textAlign: "center",
-                          }}
-                        >
-                          {" "}
-                          {DownloadReceipt ? "+ " : "+ Create Receipt"}
-                        </Button>
-                      )}
                     </div>
+                  )}
+                  {(!showPdfModal && !showPdfReceiptModal) && (
+                    <div className={` d-flex align-items-center`} >
+                      {value === "1" && search ? (
+                        <>
+                          <div className="position-relative" style={{ minWidth: 160, maxWidth: 250, zIndex: 3000, position: "relative" }}>
+
+
+                            <div
+                              className="input-group p-0"
+                              style={{ marginRight: 20, paddingTop: "25px", marginTop: 12 }}
+                            >
+                              <span className="input-group-text bg-white border-end-0" >
+                                <Image
+                                  src={searchteam}
+                                  style={{
+                                    height: 15, width: 15, cursor: canReadInvoice ? "pointer" : "not-allowed",
+                                    opacity: canReadInvoice ? 1 : 0.4,
+                                    pointerEvents: canReadInvoice ? "auto" : "none",
+                                    transition: "opacity 0.3s ease"
+                                  }}
+                                />
+                              </span>
+                              <input
+                                type="text"
+                                className="form-control border-start-0"
+                                placeholder="Search"
+                                style={{
+                                  boxShadow: "none",
+                                  outline: "none",
+                                  borderColor: "rgb(207,213,219)",
+                                  borderRight: "none",
+                                  fontFamily: "Gilroy", padding: "8px 10px"
+                                }}
+                                value={filterInput}
+                                onChange={(e) => handlefilterInput(e)}
+                                disabled={!canReadInvoice || !canReadReceipt || !canReadRecurring}
+                              />
+                              <span className="input-group-text bg-white border-start-0">
+                                <img
+                                  src={closecircle}
+                                  alt="close"
+                                  onClick={() => handleCloseSearch()}
+
+                                  style={{ height: 20, width: 20, cursor: "pointer" }}
+                                />
+                              </span>
+                            </div>
+
+
+
+
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <div style={{
+                            marginTop: DownloadInvoice || DownloadReceipt ? 0 : 12, backgroundColor: "", color: "", border: "1px solid #CBD5E1", borderRadius: "50%",
+                            padding: "6px 8px", lineHeight: "normal", height: "fit-content"
+                          }}>
+                            <FiSearch
+                              style={{
+                                height: "20px",
+                                width: "20px",
+                                cursor: canReadInvoice ? "pointer" : "not-allowed",
+                                opacity: canReadInvoice ? 1 : 0.4,
+                                pointerEvents: canReadInvoice ? "auto" : "none",
+                                transition: "opacity 0.3s ease"
+                              }}
+                              onClick={handleSearch}
+                            />
+                          </div>
+                        </>
+                      )}
+
+
+
+
+
+
+
+
+
+                    </div>
+                  )}
+
+
+
+                  <div className="text-center" style={{ paddingRight: 18 }} >
+                    {value === "1" && (
+                      <Button className="d-flex justify-content-center"
+                        disabled={!canWriteInvoice}
+                        onClick={handleManualShow}
+                        style={{
+                          fontFamily: "Gilroy",
+                          fontSize: DownloadInvoice ? "16px" : "14px",
+                          backgroundColor: "#1E45E1",
+                          color: "white",
+                          fontWeight: 600,
+                          borderRadius: "8px",
+                          padding: DownloadInvoice ? "6px 12px" : "8px 8px",
+                          marginTop: DownloadInvoice ? 0 : 12,
+                          whiteSpace: "nowrap",
+                          minWidth: DownloadInvoice ? "50px" : "150px",
+                          textAlign: "center",
+                        }}
+                      >
+                        {DownloadInvoice ? "+ " : "+ Create Bill"}
+                      </Button>
+
+                    )}
+
+
+                    {value === "3" && (
+                      <Button
+                        disabled={!canWriteReceipt}
+                        onClick={handleReceiptShow}
+
+                        style={{
+                          fontFamily: "Gilroy",
+                          fontSize: DownloadReceipt ? "16px" : "14px",
+                          backgroundColor: "#1E45E1",
+                          color: "white",
+                          fontWeight: 600,
+                          borderRadius: "8px",
+                          padding: DownloadReceipt ? "6px 12px" : "8px 8px",
+                          marginTop: DownloadReceipt ? 0 : 12,
+                          whiteSpace: "nowrap",
+                          minWidth: DownloadReceipt ? "50px" : "150px",
+                          textAlign: "center",
+                        }}
+                      >
+                        {" "}
+                        {DownloadReceipt ? "+ " : "+ Create Receipt"}
+                      </Button>
+                    )}
                   </div>
                 </div>
+                {/* </div> */}
               </div>
             </div>
 
@@ -3643,931 +3666,970 @@ setReceiptLoader(false);
                   </div>
                 </div>
 
-                {
+                <div
+
+                  className='show-scrolls'
+                  style={{
+
+                    height: chips.length > 0 ? "500px" : "",
+                    overflowY: chips.length > 0 ? "auto" : "none",
+                    overflowX: "hidden",
+
+                  }}
+                >
+
+                  {
 
 
-                  chips.length > 0 && (
-                    <div
-                      className="me-3 mt-4"
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        padding: "8px 12px",
-                        borderRadius: 8,
-                        background: "#FFFFFF",
-                        fontFamily: "Gilroy, sans-serif",
-                      }}
-                    >
-                      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                        {chips.map((chip) => (
-                          <div
-                            key={chip.key}
-
-                          >
-                            <span style={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: 6,
-                              padding: "4px 10px",
-                              background: "#C5D1FF3B",
-                              border: "1px solid #E5E7EB",
-                              borderRadius: 20,
-                              fontSize: 12,
-                              fontWeight: 500,
-                              color: "#7C7C7C",
-                            }}>{chip.label} :
-                              <span style={{
-
-                                fontSize: 12,
-                                fontWeight: 500,
-                                color: "#16151C",
-                              }}>{chip.value}</span></span>
-
-                          </div>
-                        ))}
-                      </div>
-
-                      <span
-                        onClick={() => handleReset()}
-
+                    chips.length > 0 && (
+                      <div
+                        className="me-3 ms-3 mt-3"
                         style={{
-                          color: "#1E45E1",
-                          fontSize: 13,
-                          fontWeight: 500,
-                          cursor: "pointer",
+                          display: "flex",
+                          alignItems: "flex-start",
+                          gap: 12,
+                          padding: "12px 14px",
+                          borderRadius: 10,
+                          background: "#F9FAFB",
+                          border: "1px solid #E5E7EB",
+                          fontFamily: "Gilroy, sans-serif",
                         }}
                       >
-                        Reset
-                      </span>
-                    </div>
-                  )
+                        <div style={{
+                          display: "flex",
+                          gap: 8,
+                          flex: 1,
+                         flexWrap: "wrap",
+                          overflowX: "hidden",
+                          overflowY: "auto",
+                          whiteSpace: "wrap",
+                          minWidth: 0,
 
-                }
 
-                <TabPanel value="1">
-                  <>
-                    {!canReadInvoice ? (
-                      <>
-                        <div
+                        }}>
+                          {chips.map((chip) => (
+                            <div
+                              key={chip.key}
+
+                            >
+                              <span
+                                style={{
+                                  display: "inline-flex",
+                                  alignItems: "center",
+                                  gap: 6,
+                                  padding: "6px 12px",
+                                  background: "#EEF2FF",
+                                  borderRadius: 999,
+                                  fontSize: 12,
+                                  fontWeight: 500,
+                                  color: "#1F2937",
+                                  border: "1px solid #E0E7FF", flexShrink: 0,
+                                }}
+
+                              >{chip.label} :
+                                <span style={{
+
+                                  fontSize: 12,
+                                  fontWeight: 500,
+                                  color: "#16151C",
+                                }}>{chip.value}</span></span>
+
+                            </div>
+                          ))}
+                        </div>
+
+                        <span
+                          onClick={() => handleReset()}
+
                           style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            marginTop: 90
+                            color: "#1E45E1",
+                            fontSize: 13,
+                            fontWeight: 500,
+                            cursor: "pointer",
                           }}
                         >
+                          Reset
+                        </span>
+                      </div>
+                    )
 
-                          <img
-                            src={Emptystate}
-                            alt="Empty State"
+                  }
 
-                          />
-
-
-
-                          <ErrorMessage message={['You do not have access to view Invoice']} type="warning" />
-
-                        </div>
-                      </>
-                    ) : (
-                      <div
-                        className=""
-                        style={{ position: "relative", marginTop: "-3px" }}
-                      >
-
-
-
-
-                        {showdeleteform && (
-                          <div>
-                            <Modal
-                              show={showdeleteform}
-                              onHide={handleCloseDeleteform}
-                              centered
-                              backdrop="static"
-                              dialogClassName="custom-delete-modal"
-                            >
-                              <Modal.Header style={{ borderBottom: "none" }}>
-                                <Modal.Title
-                                  className="w-100 text-center"
-                                  style={{
-                                    fontSize: "18px",
-                                    fontFamily: "Gilroy",
-
-                                    fontWeight: 600,
-                                    color: "#222222",
-
-                                  }}
-                                >
-                                  Delete Billing?
-                                </Modal.Title>
-                              </Modal.Header>
-
-                              <Modal.Body
-                                className="text-center"
-                                style={{
-                                  fontSize: 14,
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  color: "#646464",
-
-                                  marginTop: "-10px",
-                                }}
-                              >
-                                Are you sure you want to delete this Billing?
-                              </Modal.Body>
-
-                              <Modal.Footer
-                                className="d-flex justify-content-center"
-                                style={{
-
-                                  borderTop: "none",
-                                  marginTop: "-10px",
-                                }}
-                              >
-                                <Button
-                                  className="me-2"
-                                  style={{
-                                    width: "100%",
-                                    maxWidth: 160,
-                                    height: 52,
-                                    borderRadius: 8,
-                                    padding: "12px 20px",
-                                    background: "#fff",
-                                    color: "#1E45E1",
-                                    border: "1px solid #1E45E1",
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy",
-                                    fontSize: "14px",
-                                  }}
-                                  onClick={handleCloseDeleteform}
-                                >
-                                  Cancel
-                                </Button>
-                                <Button
-                                  style={{
-                                    width: "100%",
-                                    maxWidth: 160,
-                                    height: 52,
-                                    borderRadius: 8,
-                                    padding: "12px 20px",
-                                    background: "#1E45E1",
-                                    color: "#FFFFFF",
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy",
-                                    fontSize: "14px",
-                                  }}
-                                  onClick={handleBillDeleted}
-                                >
-                                  Delete
-                                </Button>
-                              </Modal.Footer>
-                            </Modal>
-                          </div>
-                        )}
-
-
-
-
-                        {showform && (
+                  <TabPanel value="1">
+                    <>
+                      {!canReadInvoice ? (
+                        <>
                           <div
-                            className="modal show"
                             style={{
-                              display: "block",
-                              position: "initial",
-                              fontFamily: "Gilroy,sans-serif",
+                              display: "flex",
+                              flexDirection: "column",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              marginTop: 90
                             }}
                           >
-                            <Modal
-                              show={showform}
-                              onHide={handleCloseForm}
-                              backdrop="static"
-                              centered
-                            // dialogClassName="custom-modals-record-payment-style"
 
-                            >
-                              <Modal.Dialog
+                            <img
+                              src={Emptystate}
+                              alt="Empty State"
 
-                                className="m-0 p-0"
+                            />
+
+
+
+                            <ErrorMessage message={['You do not have access to view Invoice']} type="warning" />
+
+                          </div>
+                        </>
+                      ) : (
+                        <div
+                          className=""
+                          style={{ position: "relative", }}
+                        >
+
+
+
+
+                          {showdeleteform && (
+                            <div>
+                              <Modal
+                                show={showdeleteform}
+                                onHide={handleCloseDeleteform}
+                                centered
+                                backdrop="static"
+                                dialogClassName="custom-delete-modal"
                               >
-
-
-
-                                <Modal.Header
-                                  style={{ paddingTop: 10, position: "relative" }}
-                                >
-                                  <div
+                                <Modal.Header style={{ borderBottom: "none" }}>
+                                  <Modal.Title
+                                    className="w-100 text-center"
                                     style={{
-                                      fontSize: 18,
+                                      fontSize: "18px",
+                                      fontFamily: "Gilroy",
+
                                       fontWeight: 600,
-                                      fontFamily: "Gilroy", textAlign: "start",
+                                      color: "#222222",
 
                                     }}
                                   >
-                                    {`Record Payment `}
-
-                                  </div>
-
-                                  <CloseCircle size="24" color="#000" onClick={handleCloseForm}
-                                    style={{ cursor: 'pointer' }} />
+                                    Delete Billing?
+                                  </Modal.Title>
                                 </Modal.Header>
 
-
-
-
-                                <Modal.Body>
-                                  <>
-                                    <div className="d-flex align-items-center gap-2 " >
-                                      {profile_pic ?
-                                        <img
-                                          src={profile_pic && profile_pic !== "0" && profile_pic}
-                                          style={{ height: 55, width: 55, cursor: "pointer" }}
-                                          alt="profile"
-                                          className="rounded-circle me-3"
-                                        />
-                                        :
-                                        <div
-                                          style={{
-                                            height: 50,
-                                            width: 50,
-                                            borderRadius: "50%",
-                                            backgroundColor: "#1E45E1",
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            alignItems: "center",
-                                            fontSize: 20,
-                                            fontWeight: "600",
-                                            color: "white", fontFamily: "Gilroy"
-                                          }}
-                                        >
-                                          {initials || "-"}
-                                        </div>
-                                      }
-
-                                      <div>
-                                        <p style={{ fontSize: "1.25rem", fontFamily: "Gilroy", fontWeight: 600 }} className="mb-0"> {name}</p>
-                                        <div className="d-flex mb-2">
-                                          <span className="badge rounded-pill bg-warning text-dark me-2" style={{ fontSize: "0.75rem", fontFamily: "Gilroy", fontWeight: 400 }}>
-                                            {floor_name}
-                                          </span>
-                                          <span className="badge rounded-pill bg-danger-subtle text-dark" style={{ fontSize: "0.75rem", fontFamily: "Gilroy", fontWeight: 400 }}>
-                                            {room_name} - {bed_name}
-                                            {/* {matchedDet[0]?.Room_Id} - {matchedDet[0]?.Bed} */}
-                                          </span>
-                                        </div>
-                                      </div>
-                                      <div className="ms-auto text-end mt-2">
-                                        <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "#4B4B4B", padding: 0, margin: 0 }}>Due Pending</p>
-                                        <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600, }}>
-                                          {/* {checkOutDate} */} {invoiceList.balanceDue}
-                                        </p>
-                                      </div>
-                                    </div>
-                                    <div className="row">
-
-                                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                        <Form.Group
-
-                                          controlId="exampleForm.ControlInput3"
-                                        >
-                                          <Form.Label
-                                            style={{
-                                              fontSize: 14,
-                                              color: "#222222",
-                                              fontFamily: "Gilroy",
-                                              fontWeight: 500,
-                                              marginBottom: 2
-
-
-                                            }}
-                                          >
-                                            Paid Amount {" "}
-                                            <span
-                                              style={{
-                                                color: "red",
-                                                fontSize: "20px",
-                                              }}
-                                            >
-                                              *
-                                            </span>
-                                          </Form.Label>
-
-                                          <Form.Control
-                                            type="number"
-                                            min="0"
-                                            step="1"
-                                            style={{
-                                              fontSize: 16,
-                                              color: "#4B4B4B",
-                                              fontFamily: "Gilroy",
-                                              fontWeight: 500,
-                                              boxShadow: "none",
-                                              border: "1px solid #D9D9D9",
-                                              height: 50,
-                                              borderRadius: 8,
-
-                                            }}
-                                            placeholder="Enter Amount"
-                                            className="no-spinner"
-                                            value={payableAmount}
-                                            onChange={handleAmount}
-                                            onKeyDown={(e) => {
-                                              if (e.key === "-" || e.key === "e") {
-                                                e.preventDefault();
-                                              }
-                                            }}
-                                          />
-
-
-
-                                          {amounterrormsg && (
-                                            <ErrorMessage message={amounterrormsg} type="error" />
-                                          )}
-                                        </Form.Group>
-                                      </div>
-
-                                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                        <Form.Group
-
-                                          controlId="exampleForm.ControlInput3"
-                                        >
-                                          <Form.Label
-                                            style={{
-                                              fontSize: 14,
-                                              color: "#222222",
-                                              fontFamily: "Gilroy",
-                                              fontWeight: 500,
-                                              marginBottom: 2
-
-
-                                            }}
-                                          >
-                                            Balance Amount {" "}
-                                            <span
-                                              style={{
-                                                color: "red",
-                                                fontSize: "20px",
-                                              }}
-                                            >
-                                              *
-                                            </span>
-                                          </Form.Label>
-
-                                          <Form.Control
-                                            disabled
-                                            type="number"
-                                            min="0"
-                                            step="1"
-                                            style={{
-                                              fontSize: 16,
-                                              color: "#4B4B4B",
-                                              fontFamily: "Gilroy",
-                                              fontWeight: 500,
-                                              boxShadow: "none",
-                                              border: "1px solid #D9D9D9",
-                                              height: 50,
-                                              borderRadius: 8,
-
-                                            }}
-                                            placeholder="Enter Amount"
-                                            className="no-spinner"
-                                            value={balance}
-
-                                          />
-
-
-
-
-                                        </Form.Group>
-                                      </div>
-
-                                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                        <Form.Group
-                                          controlId="purchaseDate"
-                                        >
-                                          <Form.Label
-                                            style={{
-                                              fontSize: 14,
-                                              color: "#222222",
-                                              fontFamily: "Gilroy",
-                                              fontWeight: 500,
-                                            }}
-                                          >
-                                            Paid Date {" "}
-                                            <span
-                                              style={{
-                                                color: "red",
-                                                fontSize: "20px",
-                                              }}
-                                            >
-                                              *
-                                            </span>
-                                          </Form.Label>
-                                          <div
-                                            style={{
-                                              position: "relative",
-                                              width: "100%",
-                                            }}
-                                          >
-
-                                            <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
-                                              <DatePicker
-                                                style={{
-                                                  width: "100%",
-                                                  height: 48,
-                                                  cursor: "pointer",
-                                                  fontFamily: "Gilroy",
-                                                }}
-                                                format="DD/MM/YYYY"
-                                                placeholder="DD/MM/YYYY"
-                                                value={selectedDate ? dayjs(selectedDate) : null}
-                                                onChange={(date) => {
-                                                  setDateErrmsg("");
-                                                  setAccountError("");
-                                                  setSelectedDate(date ? date.toDate() : null);
-                                                }}
-                                                disabledDate={(current) => {
-                                                  // const selectedUser = state.UsersList.Users.find(
-                                                  //   (item) => item.customerId === invoiceValue.customerId
-                                                  // );
-
-
-                                                  const invoiceDate = invoiceValue?.invoiceDate
-                                                    ? dayjs(invoiceValue?.invoiceDate, "DD/MM/YYYY").startOf("day")
-                                                    : null;
-
-                                                  return (
-                                                    (invoiceDate && current.isBefore(invoiceDate, "day")) ||
-                                                    current.isAfter(dayjs().endOf("day"))
-                                                  );
-                                                }}
-
-                                                getPopupContainer={(triggerNode) =>
-                                                  triggerNode.closest(".show-scroll") || document.body
-                                                }
-
-                                              />
-
-
-                                            </div>
-                                          </div>
-                                          {dateerrmsg.trim() !== "" && (
-                                            <ErrorMessage message={dateerrmsg} type="error" />
-                                          )}
-                                        </Form.Group>
-
-
-
-
-                                      </div>
-
-
-
-                                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                        <Form.Group
-                                          className=""
-                                          controlId="exampleForm.ControlInput2"
-                                        >
-                                          <Form.Label
-                                            style={{
-                                              fontSize: 14,
-                                              color: "#222222",
-                                              fontFamily: "'Gilroy', sans-serif",
-                                              fontWeight: 500,
-
-                                            }}
-                                          >
-                                            Mode of Transaction {" "}
-                                            <span
-                                              style={{
-                                                color: "red",
-                                                fontSize: "20px",
-                                              }}
-                                            >
-                                              *
-                                            </span>
-                                          </Form.Label>
-
-                                          <Select
-                                            options={combinedOptions}
-                                            onChange={(selectedOption) => handleTransaction(selectedOption?.value)}
-                                            value={
-                                              invoiceList.transaction
-                                                ? combinedOptions.find(option => option.value === invoiceList.transaction)
-                                                : null
-                                            }
-                                            placeholder="Please Select"
-                                            classNamePrefix="custom"
-                                            menuPlacement="auto"
-                                            noOptionsMessage={() => "No options available"}
-                                            styles={{
-                                              control: (base) => ({
-                                                ...base,
-                                                height: "49px",
-                                                border: "1px solid #D9D9D9",
-                                                borderRadius: "8px",
-                                                fontSize: "16px",
-                                                color: "#4B4B4B",
-                                                fontFamily: "Gilroy, sans-serif",
-                                                fontWeight: 500,
-                                                boxShadow: "none",
-                                              }),
-                                              menu: (base) => ({
-                                                ...base,
-                                                backgroundColor: "#f8f9fa",
-                                                border: "1px solid #ced4da",
-                                                fontFamily: "Gilroy, sans-serif",
-                                              }),
-                                              menuList: (base) => ({
-                                                ...base,
-                                                backgroundColor: "#f8f9fa",
-                                                maxHeight: "120px",
-                                                padding: 0,
-                                                scrollbarWidth: "thin",
-                                                overflowY: "auto",
-                                                fontFamily: "Gilroy, sans-serif",
-                                              }),
-                                              placeholder: (base) => ({
-                                                ...base,
-                                                color: "#555",
-                                              }),
-                                              option: (base, state) => ({
-                                                ...base,
-                                                cursor: "pointer",
-                                                backgroundColor: state.isFocused ? "lightblue" : "white",
-                                                color: "#000",
-                                              }),
-                                              dropdownIndicator: (base) => ({
-                                                ...base,
-                                                color: "#555",
-                                                cursor: "pointer"
-                                              }),
-                                              indicatorSeparator: () => ({
-                                                display: "none",
-                                              }),
-                                            }}
-                                          />
-
-
-
-                                          {paymodeerrormsg.trim() !== "" && (
-                                            <ErrorMessage message={paymodeerrormsg} type="error" />
-                                          )}
-                                        </Form.Group>
-                                      </div>
-
-
-                                      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <Form.Group
-
-                                          controlId="exampleForm.ControlInput1"
-                                        >
-                                          <Form.Label
-                                            style={{
-                                              fontSize: 14,
-                                              color: "#222222",
-                                              fontFamily: "Gilroy",
-                                              fontWeight: 500,
-                                            }}
-                                          >
-                                            Transaction ID
-                                          </Form.Label>
-                                          <Form.Control
-                                            type="text"
-                                            style={{
-                                              fontSize: 16,
-                                              color: "#4B4B4B",
-                                              fontFamily: "Gilroy",
-                                              fontWeight: 500,
-                                              boxShadow: "none",
-                                              border: "1px solid #D9D9D9",
-                                              height: 50,
-                                              borderRadius: 8,
-                                            }}
-                                            placeholder="Enter Transaction ID"
-                                            value={transactionId}
-                                            onChange={handleChange}
-                                          />
-                                        </Form.Group>
-                                      </div>
-
-
-                                      {invoiceList.transaction === "Net Banking" && (
-                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                          <Form.Label
-                                            style={{
-                                              fontSize: 14,
-                                              fontWeight: 500,
-                                              fontFamily: "Gilroy",
-                                            }}
-                                          >
-                                            Account{" "}
-                                            <span
-                                              style={{
-                                                color: "red",
-                                                fontSize: "20px",
-                                              }}
-                                            >
-                                              {" "}
-                                              *{" "}
-                                            </span>
-                                          </Form.Label>
-                                          <Select
-                                            placeholder="Select Account"
-                                            options={
-                                              bankking?.length > 0
-                                                ? bankking.map((u) => ({
-                                                  value: u.id,
-                                                  label: u.bank_name,
-                                                }))
-                                                : []
-                                            }
-                                            value={
-                                              bankking.map((u) => ({
-                                                value: u.id,
-                                                label: u.bank_name,
-                                              })).find((opt) => opt.value === account) || null
-                                            }
-                                            onChange={handleAccount}
-                                            styles={{
-                                              control: (base) => ({
-                                                ...base,
-                                                height: "48px",
-                                                border: "1px solid #D9D9D9",
-                                                borderRadius: "8px",
-                                                fontSize: "16px",
-                                                color: "#4B4B4B",
-                                                fontFamily: "Gilroy",
-                                                fontWeight: 500,
-                                                boxShadow: "none",
-                                              }),
-                                              menu: (base) => ({
-                                                ...base,
-                                                backgroundColor: "#f8f9fa",
-                                                border: "1px solid #ced4da",
-                                                fontFamily: "Gilroy",
-                                              }),
-                                              menuList: (base) => ({
-                                                ...base,
-                                                backgroundColor: "#f8f9fa",
-                                                maxHeight: "120px",
-                                                padding: 0,
-                                                scrollbarWidth: "thin",
-                                                overflowY: "auto",
-                                                fontFamily: "Gilroy",
-                                              }),
-                                              placeholder: (base) => ({
-                                                ...base,
-                                                color: "#555",
-                                              }),
-                                              dropdownIndicator: (base) => ({
-                                                ...base,
-                                                color: "#555",
-                                                cursor: "pointer",
-                                              }),
-                                              indicatorSeparator: () => ({
-                                                display: "none",
-                                              }),
-                                              option: (base, state) => ({
-                                                ...base,
-                                                cursor: "pointer",
-                                                backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                                                color: "#000",
-                                              }),
-                                            }}
-
-                                            noOptionsMessage={() =>
-                                              bankking?.length === 0
-                                                ? "No accounts available"
-                                                : "No match found"
-                                            }
-                                          />
-
-                                          {accountError.trim() !== "" && (
-                                            <ErrorMessage message={accountError} type="error" />
-                                          )}
-                                        </div>
-                                      )}
-
-                                    </div>
-                                  </>
-                                  {totalErrormsg.trim() !== "" && (
-                                    <ErrorMessage message={totalErrormsg} type="error" />
-
-                                  )}
-                                </Modal.Body>
-
-
-                                {state.InvoiceList.payapleAmountError ?
-                                  <div className="d-flex justify-content-center">
-                                    <ErrorMessage message={state.InvoiceList.payapleAmountError} type="error" />
-                                  </div>
-                                  : null
-                                }
-
-
-                                {formRecordLoading && <div
+                                <Modal.Body
+                                  className="text-center"
                                   style={{
-                                    position: 'absolute',
-                                    top: '50%',
-                                    left: '50%',
-                                    transform: 'translate(-50%, -50%)',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    backgroundColor: 'transparent',
-                                    opacity: 0.75,
-                                    zIndex: 10,
+                                    fontSize: 14,
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                    color: "#646464",
+
+                                    marginTop: "-10px",
                                   }}
                                 >
-                                  <div
-                                    style={{
-                                      borderTop: '4px solid #1E45E1',
-                                      borderRight: '4px solid transparent',
-                                      borderRadius: '50%',
-                                      width: '40px',
-                                      height: '40px',
-                                      animation: 'spin 1s linear infinite',
-                                    }}
-                                  ></div>
-                                </div>}
+                                  Are you sure you want to delete this Billing?
+                                </Modal.Body>
 
+                                <Modal.Footer
+                                  className="d-flex justify-content-center"
+                                  style={{
 
-
-                                <Modal.Footer style={{ border: "none" }}>
-
-                                  <div className="text-end mt-4">
-                                    <Button variant="" className="me-2" onClick={handleCloseForm} style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400 }}>
-                                      Cancel
-                                    </Button>
-                                    <Button
-                                      style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400, backgroundColor: "#1E45E1" }}
-                                      onClick={handleSaveInvoiceList}
-                                    >Record</Button>
-                                  </div>
-                                </Modal.Footer>
-                              </Modal.Dialog>
-                            </Modal>
-                          </div>
-                        )}
-
-
-
-                        <Container fluid className={`p-0 table-bills ${DownloadReceipt || DownloadInvoice ? "mt-0" : "mt-4"} `}>
-                          <Row
-                            className={` ${DownloadReceipt
-                              ? "m-0 g-2 d-flex justify-content-between"
-                              : "m-0 g-0"
-                              }`}
-                          >
-                            <Col
-                              // lg={DownloadInvoice ? 3 : 12}
-                              // md={DownloadInvoice ? 3 : 12}
-                              // sm={DownloadInvoice ? 12 : 12}
-                              // xs={DownloadInvoice ? 12 : 12}
-                              lg={12}
-                              md={12}
-                              sm={12}
-                              xs={12}
-                            >
-                              {DownloadInvoice ? (
-                                <div
-                                  className="show-scroll p-2"
-                                  style={{ maxHeight: 500, overflowY: "auto" }}
+                                    borderTop: "none",
+                                    marginTop: "-10px",
+                                  }}
                                 >
-                                  {bills &&
-                                    bills?.map((item) => (
-                                      <>
+                                  <Button
+                                    className="me-2"
+                                    style={{
+                                      width: "100%",
+                                      maxWidth: 160,
+                                      height: 52,
+                                      borderRadius: 8,
+                                      padding: "12px 20px",
+                                      background: "#fff",
+                                      color: "#1E45E1",
+                                      border: "1px solid #1E45E1",
+                                      fontWeight: 600,
+                                      fontFamily: "Gilroy",
+                                      fontSize: "14px",
+                                    }}
+                                    onClick={handleCloseDeleteform}
+                                  >
+                                    Cancel
+                                  </Button>
+                                  <Button
+                                    style={{
+                                      width: "100%",
+                                      maxWidth: 160,
+                                      height: 52,
+                                      borderRadius: 8,
+                                      padding: "12px 20px",
+                                      background: "#1E45E1",
+                                      color: "#FFFFFF",
+                                      fontWeight: 600,
+                                      fontFamily: "Gilroy",
+                                      fontSize: "14px",
+                                    }}
+                                    onClick={handleBillDeleted}
+                                  >
+                                    Delete
+                                  </Button>
+                                </Modal.Footer>
+                              </Modal>
+                            </div>
+                          )}
 
-                                        <div key={item.invoiceId}
-                                          className="mb-3  shadow-sm rounded"
-                                          style={{
-                                            padding: "12px 16px", cursor: "pointer",
-                                            backgroundColor: String(selectedInvoiceId) === String(item.invoiceId) ? "#F8F9FF" : "#FFFFFF"
-                                          }}
-                                        >
-                                          <div className="d-flex align-items-start justify-content-between">
-                                            <div>
-                                              <span>
-                                                {
-                                                  item.profilePic && item.profilePic !== "0" ? (
-                                                    <img
-                                                      src={item.profilePic}
-                                                      alt="User"
-                                                      style={{
-                                                        height: 40,
-                                                        width: 40,
-                                                        borderRadius: "50%",
-                                                        objectFit: "cover",
-                                                      }}
-                                                    />
-                                                  ) : (
-                                                    <div
-                                                      style={{
-                                                        height: 40,
-                                                        width: 40,
-                                                        borderRadius: "50%",
-                                                        backgroundColor: "#1E45E1",
-                                                        display: "flex",
-                                                        alignItems: "center",
-                                                        justifyContent: "center",
-                                                        color: "white",
-                                                        fontWeight: 600,
-                                                        fontSize: 14,
-                                                        textTransform: "uppercase",
-                                                      }}
-                                                    >
-                                                      {item.initials}
-                                                    </div>
-                                                  )
-                                                }
+
+
+
+                          {showform && (
+                            <div
+                              className="modal show"
+                              style={{
+                                display: "block",
+                                position: "initial",
+                                fontFamily: "Gilroy,sans-serif",
+                              }}
+                            >
+                              <Modal
+                                show={showform}
+                                onHide={handleCloseForm}
+                                backdrop="static"
+                                centered
+                              // dialogClassName="custom-modals-record-payment-style"
+
+                              >
+                                <Modal.Dialog
+
+                                  className="m-0 p-0"
+                                >
+
+
+
+                                  <Modal.Header
+                                    style={{ paddingTop: 10, position: "relative" }}
+                                  >
+                                    <div
+                                      style={{
+                                        fontSize: 18,
+                                        fontWeight: 600,
+                                        fontFamily: "Gilroy", textAlign: "start",
+
+                                      }}
+                                    >
+                                      {`Record Payment `}
+
+                                    </div>
+
+                                    <CloseCircle size="24" color="#000" onClick={handleCloseForm}
+                                      style={{ cursor: 'pointer' }} />
+                                  </Modal.Header>
+
+
+
+
+                                  <Modal.Body>
+                                    <>
+                                      <div className="d-flex align-items-center gap-2 " >
+                                        {profile_pic ?
+                                          <img
+                                            src={profile_pic && profile_pic !== "0" && profile_pic}
+                                            style={{ height: 55, width: 55, cursor: "pointer" }}
+                                            alt="profile"
+                                            className="rounded-circle me-3"
+                                          />
+                                          :
+                                          <div
+                                            style={{
+                                              height: 50,
+                                              width: 50,
+                                              borderRadius: "50%",
+                                              backgroundColor: "#1E45E1",
+                                              display: "flex",
+                                              justifyContent: "center",
+                                              alignItems: "center",
+                                              fontSize: 20,
+                                              fontWeight: "600",
+                                              color: "white", fontFamily: "Gilroy"
+                                            }}
+                                          >
+                                            {initials || "-"}
+                                          </div>
+                                        }
+
+                                        <div>
+                                          <p style={{ fontSize: "1.25rem", fontFamily: "Gilroy", fontWeight: 600 }} className="mb-0"> {name}</p>
+                                          <div className="d-flex mb-2">
+                                            <span className="badge rounded-pill bg-warning text-dark me-2" style={{ fontSize: "0.75rem", fontFamily: "Gilroy", fontWeight: 400 }}>
+                                              {floor_name}
+                                            </span>
+                                            <span className="badge rounded-pill bg-danger-subtle text-dark" style={{ fontSize: "0.75rem", fontFamily: "Gilroy", fontWeight: 400 }}>
+                                              {room_name} - {bed_name}
+                                              {/* {matchedDet[0]?.Room_Id} - {matchedDet[0]?.Bed} */}
+                                            </span>
+                                          </div>
+                                        </div>
+                                        <div className="ms-auto text-end mt-2">
+                                          <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "#4B4B4B", padding: 0, margin: 0 }}>Due Pending</p>
+                                          <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600, }}>
+                                            {/* {checkOutDate} */} {invoiceList.balanceDue}
+                                          </p>
+                                        </div>
+                                      </div>
+                                      <div className="row">
+
+                                        <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                          <Form.Group
+
+                                            controlId="exampleForm.ControlInput3"
+                                          >
+                                            <Form.Label
+                                              style={{
+                                                fontSize: 14,
+                                                color: "#222222",
+                                                fontFamily: "Gilroy",
+                                                fontWeight: 500,
+                                                marginBottom: 2
+
+
+                                              }}
+                                            >
+                                              Paid Amount {" "}
+                                              <span
+                                                style={{
+                                                  color: "red",
+                                                  fontSize: "20px",
+                                                }}
+                                              >
+                                                *
                                               </span>
-                                            </div>
+                                            </Form.Label>
 
-                                            <div className="flex-grow-1 ms-3">
-                                              <div className="d-flex justify-content-between align-items-center mb-1">
-                                                <div
-                                                  className="Invoice_Name"
+                                            <Form.Control
+                                              type="number"
+                                              min="0"
+                                              step="1"
+                                              style={{
+                                                fontSize: 16,
+                                                color: "#4B4B4B",
+                                                fontFamily: "Gilroy",
+                                                fontWeight: 500,
+                                                boxShadow: "none",
+                                                border: "1px solid #D9D9D9",
+                                                height: 50,
+                                                borderRadius: 8,
+
+                                              }}
+                                              placeholder="Enter Amount"
+                                              className="no-spinner"
+                                              value={payableAmount}
+                                              onChange={handleAmount}
+                                              onKeyDown={(e) => {
+                                                if (e.key === "-" || e.key === "e") {
+                                                  e.preventDefault();
+                                                }
+                                              }}
+                                            />
+
+
+
+                                            {amounterrormsg && (
+                                              <ErrorMessage message={amounterrormsg} type="error" />
+                                            )}
+                                          </Form.Group>
+                                        </div>
+
+                                        <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                          <Form.Group
+
+                                            controlId="exampleForm.ControlInput3"
+                                          >
+                                            <Form.Label
+                                              style={{
+                                                fontSize: 14,
+                                                color: "#222222",
+                                                fontFamily: "Gilroy",
+                                                fontWeight: 500,
+                                                marginBottom: 2
+
+
+                                              }}
+                                            >
+                                              Balance Amount {" "}
+                                              <span
+                                                style={{
+                                                  color: "red",
+                                                  fontSize: "20px",
+                                                }}
+                                              >
+                                                *
+                                              </span>
+                                            </Form.Label>
+
+                                            <Form.Control
+                                              disabled
+                                              type="number"
+                                              min="0"
+                                              step="1"
+                                              style={{
+                                                fontSize: 16,
+                                                color: "#4B4B4B",
+                                                fontFamily: "Gilroy",
+                                                fontWeight: 500,
+                                                boxShadow: "none",
+                                                border: "1px solid #D9D9D9",
+                                                height: 50,
+                                                borderRadius: 8,
+
+                                              }}
+                                              placeholder="Enter Amount"
+                                              className="no-spinner"
+                                              value={balance}
+
+                                            />
+
+
+
+
+                                          </Form.Group>
+                                        </div>
+
+                                        <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                          <Form.Group
+                                            controlId="purchaseDate"
+                                          >
+                                            <Form.Label
+                                              style={{
+                                                fontSize: 14,
+                                                color: "#222222",
+                                                fontFamily: "Gilroy",
+                                                fontWeight: 500,
+                                              }}
+                                            >
+                                              Paid Date {" "}
+                                              <span
+                                                style={{
+                                                  color: "red",
+                                                  fontSize: "20px",
+                                                }}
+                                              >
+                                                *
+                                              </span>
+                                            </Form.Label>
+                                            <div
+                                              style={{
+                                                position: "relative",
+                                                width: "100%",
+                                              }}
+                                            >
+
+                                              <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                                                <DatePicker
                                                   style={{
-                                                    fontFamily: "Gilroy",
-                                                    fontSize: "14px",
-                                                    wordWrap: "break-word",
-                                                    color: hoveredInvoiceId === item.invoiceId ? "#1E45E1" : "#222222",
-                                                    textDecoration: "underline",
-                                                    fontStyle: "normal",
-                                                    lineHeight: "normal",
-                                                    fontWeight: 600,
+                                                    width: "100%",
+                                                    height: 48,
                                                     cursor: "pointer",
-                                                  }}
-                                                  onMouseEnter={() => setHoveredInvoiceId(item.invoiceId)}
-                                                  onMouseLeave={() => setHoveredInvoiceId(null)}
-                                                  onClick={() => {
-                                                    setSelectedInvoiceId(item.invoiceId);
-                                                    handleDisplayInvoiceDownload(true, item);
-                                                  }}
-                                                >
-                                                  {item.fullName}
-                                                </div>
-                                                <div
-                                                  style={{
                                                     fontFamily: "Gilroy",
-                                                    fontSize: "12px",
-                                                    wordWrap: "break-word",
-                                                    color: "#222",
-                                                    fontStyle: "normal",
-                                                    lineHeight: "normal",
-                                                    fontWeight: 600,
                                                   }}
-                                                >
-                                                  {item.baseAmount}
-                                                </div>
+                                                  format="DD/MM/YYYY"
+                                                  placeholder="DD/MM/YYYY"
+                                                  value={selectedDate ? dayjs(selectedDate) : null}
+                                                  onChange={(date) => {
+                                                    setDateErrmsg("");
+                                                    setAccountError("");
+                                                    setSelectedDate(date ? date.toDate() : null);
+                                                  }}
+                                                  disabledDate={(current) => {
+                                                    // const selectedUser = state.UsersList.Users.find(
+                                                    //   (item) => item.customerId === invoiceValue.customerId
+                                                    // );
+
+
+                                                    const invoiceDate = invoiceValue?.invoiceDate
+                                                      ? dayjs(invoiceValue?.invoiceDate, "DD/MM/YYYY").startOf("day")
+                                                      : null;
+
+                                                    return (
+                                                      (invoiceDate && current.isBefore(invoiceDate, "day")) ||
+                                                      current.isAfter(dayjs().endOf("day"))
+                                                    );
+                                                  }}
+
+                                                  getPopupContainer={(triggerNode) =>
+                                                    triggerNode.closest(".show-scroll") || document.body
+                                                  }
+
+                                                />
+
+
+                                              </div>
+                                            </div>
+                                            {dateerrmsg.trim() !== "" && (
+                                              <ErrorMessage message={dateerrmsg} type="error" />
+                                            )}
+                                          </Form.Group>
+
+
+
+
+                                        </div>
+
+
+
+                                        <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                          <Form.Group
+                                            className=""
+                                            controlId="exampleForm.ControlInput2"
+                                          >
+                                            <Form.Label
+                                              style={{
+                                                fontSize: 14,
+                                                color: "#222222",
+                                                fontFamily: "'Gilroy', sans-serif",
+                                                fontWeight: 500,
+
+                                              }}
+                                            >
+                                              Mode of Transaction {" "}
+                                              <span
+                                                style={{
+                                                  color: "red",
+                                                  fontSize: "20px",
+                                                }}
+                                              >
+                                                *
+                                              </span>
+                                            </Form.Label>
+
+                                            <Select
+                                              options={combinedOptions}
+                                              onChange={(selectedOption) => handleTransaction(selectedOption?.value)}
+                                              value={
+                                                invoiceList.transaction
+                                                  ? combinedOptions.find(option => option.value === invoiceList.transaction)
+                                                  : null
+                                              }
+                                              placeholder="Please Select"
+                                              classNamePrefix="custom"
+                                              menuPlacement="auto"
+                                              noOptionsMessage={() => "No options available"}
+                                              styles={{
+                                                control: (base) => ({
+                                                  ...base,
+                                                  height: "49px",
+                                                  border: "1px solid #D9D9D9",
+                                                  borderRadius: "8px",
+                                                  fontSize: "16px",
+                                                  color: "#4B4B4B",
+                                                  fontFamily: "Gilroy, sans-serif",
+                                                  fontWeight: 500,
+                                                  boxShadow: "none",
+                                                }),
+                                                menu: (base) => ({
+                                                  ...base,
+                                                  backgroundColor: "#f8f9fa",
+                                                  border: "1px solid #ced4da",
+                                                  fontFamily: "Gilroy, sans-serif",
+                                                }),
+                                                menuList: (base) => ({
+                                                  ...base,
+                                                  backgroundColor: "#f8f9fa",
+                                                  maxHeight: "120px",
+                                                  padding: 0,
+                                                  scrollbarWidth: "thin",
+                                                  overflowY: "auto",
+                                                  fontFamily: "Gilroy, sans-serif",
+                                                }),
+                                                placeholder: (base) => ({
+                                                  ...base,
+                                                  color: "#555",
+                                                }),
+                                                option: (base, state) => ({
+                                                  ...base,
+                                                  cursor: "pointer",
+                                                  backgroundColor: state.isFocused ? "lightblue" : "white",
+                                                  color: "#000",
+                                                }),
+                                                dropdownIndicator: (base) => ({
+                                                  ...base,
+                                                  color: "#555",
+                                                  cursor: "pointer"
+                                                }),
+                                                indicatorSeparator: () => ({
+                                                  display: "none",
+                                                }),
+                                              }}
+                                            />
+
+
+
+                                            {paymodeerrormsg.trim() !== "" && (
+                                              <ErrorMessage message={paymodeerrormsg} type="error" />
+                                            )}
+                                          </Form.Group>
+                                        </div>
+
+
+                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                          <Form.Group
+
+                                            controlId="exampleForm.ControlInput1"
+                                          >
+                                            <Form.Label
+                                              style={{
+                                                fontSize: 14,
+                                                color: "#222222",
+                                                fontFamily: "Gilroy",
+                                                fontWeight: 500,
+                                              }}
+                                            >
+                                              Transaction ID
+                                            </Form.Label>
+                                            <Form.Control
+                                              type="text"
+                                              style={{
+                                                fontSize: 16,
+                                                color: "#4B4B4B",
+                                                fontFamily: "Gilroy",
+                                                fontWeight: 500,
+                                                boxShadow: "none",
+                                                border: "1px solid #D9D9D9",
+                                                height: 50,
+                                                borderRadius: 8,
+                                              }}
+                                              placeholder="Enter Transaction ID"
+                                              value={transactionId}
+                                              onChange={handleChange}
+                                            />
+                                          </Form.Group>
+                                        </div>
+
+
+                                        {invoiceList.transaction === "Net Banking" && (
+                                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <Form.Label
+                                              style={{
+                                                fontSize: 14,
+                                                fontWeight: 500,
+                                                fontFamily: "Gilroy",
+                                              }}
+                                            >
+                                              Account{" "}
+                                              <span
+                                                style={{
+                                                  color: "red",
+                                                  fontSize: "20px",
+                                                }}
+                                              >
+                                                {" "}
+                                                *{" "}
+                                              </span>
+                                            </Form.Label>
+                                            <Select
+                                              placeholder="Select Account"
+                                              options={
+                                                bankking?.length > 0
+                                                  ? bankking.map((u) => ({
+                                                    value: u.id,
+                                                    label: u.bank_name,
+                                                  }))
+                                                  : []
+                                              }
+                                              value={
+                                                bankking.map((u) => ({
+                                                  value: u.id,
+                                                  label: u.bank_name,
+                                                })).find((opt) => opt.value === account) || null
+                                              }
+                                              onChange={handleAccount}
+                                              styles={{
+                                                control: (base) => ({
+                                                  ...base,
+                                                  height: "48px",
+                                                  border: "1px solid #D9D9D9",
+                                                  borderRadius: "8px",
+                                                  fontSize: "16px",
+                                                  color: "#4B4B4B",
+                                                  fontFamily: "Gilroy",
+                                                  fontWeight: 500,
+                                                  boxShadow: "none",
+                                                }),
+                                                menu: (base) => ({
+                                                  ...base,
+                                                  backgroundColor: "#f8f9fa",
+                                                  border: "1px solid #ced4da",
+                                                  fontFamily: "Gilroy",
+                                                }),
+                                                menuList: (base) => ({
+                                                  ...base,
+                                                  backgroundColor: "#f8f9fa",
+                                                  maxHeight: "120px",
+                                                  padding: 0,
+                                                  scrollbarWidth: "thin",
+                                                  overflowY: "auto",
+                                                  fontFamily: "Gilroy",
+                                                }),
+                                                placeholder: (base) => ({
+                                                  ...base,
+                                                  color: "#555",
+                                                }),
+                                                dropdownIndicator: (base) => ({
+                                                  ...base,
+                                                  color: "#555",
+                                                  cursor: "pointer",
+                                                }),
+                                                indicatorSeparator: () => ({
+                                                  display: "none",
+                                                }),
+                                                option: (base, state) => ({
+                                                  ...base,
+                                                  cursor: "pointer",
+                                                  backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                                                  color: "#000",
+                                                }),
+                                              }}
+
+                                              noOptionsMessage={() =>
+                                                bankking?.length === 0
+                                                  ? "No accounts available"
+                                                  : "No match found"
+                                              }
+                                            />
+
+                                            {accountError.trim() !== "" && (
+                                              <ErrorMessage message={accountError} type="error" />
+                                            )}
+                                          </div>
+                                        )}
+
+                                      </div>
+                                    </>
+                                    {totalErrormsg.trim() !== "" && (
+                                      <ErrorMessage message={totalErrormsg} type="error" />
+
+                                    )}
+                                  </Modal.Body>
+
+
+                                  {state.InvoiceList.payapleAmountError ?
+                                    <div className="d-flex justify-content-center">
+                                      <ErrorMessage message={state.InvoiceList.payapleAmountError} type="error" />
+                                    </div>
+                                    : null
+                                  }
+
+
+                                  {formRecordLoading && <div
+                                    style={{
+                                      position: 'absolute',
+                                      top: '50%',
+                                      left: '50%',
+                                      transform: 'translate(-50%, -50%)',
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                      justifyContent: 'center',
+                                      backgroundColor: 'transparent',
+                                      opacity: 0.75,
+                                      zIndex: 10,
+                                    }}
+                                  >
+                                    <div
+                                      style={{
+                                        borderTop: '4px solid #1E45E1',
+                                        borderRight: '4px solid transparent',
+                                        borderRadius: '50%',
+                                        width: '40px',
+                                        height: '40px',
+                                        animation: 'spin 1s linear infinite',
+                                      }}
+                                    ></div>
+                                  </div>}
+
+
+
+                                  <Modal.Footer style={{ border: "none" }}>
+
+                                    <div className="text-end mt-4">
+                                      <Button variant="" className="me-2" onClick={handleCloseForm} style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400 }}>
+                                        Cancel
+                                      </Button>
+                                      <Button
+                                        style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400, backgroundColor: "#1E45E1" }}
+                                        onClick={handleSaveInvoiceList}
+                                      >Record</Button>
+                                    </div>
+                                  </Modal.Footer>
+                                </Modal.Dialog>
+                              </Modal>
+                            </div>
+                          )}
+
+
+
+                          <Container fluid className={`p-0 table-bills ${DownloadReceipt || DownloadInvoice ? "mt-0" : "mt-2"} `}>
+                            <Row
+                              className={` ${DownloadReceipt
+                                ? "m-0 g-2 d-flex justify-content-between"
+                                : "m-0 g-0"
+                                }`}
+                            >
+                              <Col
+                                lg={12}
+                                md={12}
+                                sm={12}
+                                xs={12}
+                              >
+                                {DownloadInvoice ? (
+                                  <div
+                                    className="show-scroll p-2"
+                                    style={{ maxHeight: 500, overflowY: "auto" }}
+                                  >
+                                    {bills &&
+                                      bills?.map((item) => (
+                                        <>
+
+                                          <div key={item.invoiceId}
+                                            className="mb-3  shadow-sm rounded"
+                                            style={{
+                                              padding: "12px 16px", cursor: "pointer",
+                                              backgroundColor: String(selectedInvoiceId) === String(item.invoiceId) ? "#F8F9FF" : "#FFFFFF"
+                                            }}
+                                          >
+                                            <div className="d-flex align-items-start justify-content-between">
+                                              <div>
+                                                <span>
+                                                  {
+                                                    item.profilePic && item.profilePic !== "0" ? (
+                                                      <img
+                                                        src={item.profilePic}
+                                                        alt="User"
+                                                        style={{
+                                                          height: 40,
+                                                          width: 40,
+                                                          borderRadius: "50%",
+                                                          objectFit: "cover",
+                                                        }}
+                                                      />
+                                                    ) : (
+                                                      <div
+                                                        style={{
+                                                          height: 40,
+                                                          width: 40,
+                                                          borderRadius: "50%",
+                                                          backgroundColor: "#1E45E1",
+                                                          display: "flex",
+                                                          alignItems: "center",
+                                                          justifyContent: "center",
+                                                          color: "white",
+                                                          fontWeight: 600,
+                                                          fontSize: 14,
+                                                          textTransform: "uppercase",
+                                                        }}
+                                                      >
+                                                        {item.initials}
+                                                      </div>
+                                                    )
+                                                  }
+                                                </span>
                                               </div>
 
-                                              <div className="d-flex justify-content-between gap-3 mb-2">
-                                                <div
-                                                  style={{
-                                                    fontFamily: "Gilroy",
-                                                    fontSize: "12px",
-                                                    wordWrap: "break-word",
-                                                    color: "#222",
-                                                    fontStyle: "normal",
-                                                    lineHeight: "normal",
-                                                    fontWeight: 600,
-                                                  }}
-                                                >
-                                                  {item.invoiceNumber === null ||
-                                                    item.invoiceNumber === ""
-                                                    ? "0.00"
-                                                    : item.invoiceNumber}
+                                              <div className="flex-grow-1 ms-3">
+                                                <div className="d-flex justify-content-between align-items-center mb-1">
+                                                  <div
+                                                    className="Invoice_Name"
+                                                    style={{
+                                                      fontFamily: "Gilroy",
+                                                      fontSize: "14px",
+                                                      wordWrap: "break-word",
+                                                      color: hoveredInvoiceId === item.invoiceId ? "#1E45E1" : "#222222",
+                                                      textDecoration: "underline",
+                                                      fontStyle: "normal",
+                                                      lineHeight: "normal",
+                                                      fontWeight: 600,
+                                                      cursor: "pointer",
+                                                    }}
+                                                    onMouseEnter={() => setHoveredInvoiceId(item.invoiceId)}
+                                                    onMouseLeave={() => setHoveredInvoiceId(null)}
+                                                    onClick={() => {
+                                                      setSelectedInvoiceId(item.invoiceId);
+                                                      handleDisplayInvoiceDownload(true, item);
+                                                    }}
+                                                  >
+                                                    {item.fullName}
+                                                  </div>
+                                                  <div
+                                                    style={{
+                                                      fontFamily: "Gilroy",
+                                                      fontSize: "12px",
+                                                      wordWrap: "break-word",
+                                                      color: "#222",
+                                                      fontStyle: "normal",
+                                                      lineHeight: "normal",
+                                                      fontWeight: 600,
+                                                    }}
+                                                  >
+                                                    {item.baseAmount}
+                                                  </div>
                                                 </div>
-                                                <div
-                                                  style={{
-                                                    fontFamily: "Gilroy",
-                                                    fontSize: "12px",
-                                                    wordWrap: "break-word",
-                                                    color: "#222",
-                                                    fontStyle: "normal",
-                                                    lineHeight: "normal",
-                                                    fontWeight: 600,
-                                                  }}
-                                                >
-                                                  {item.invoiceDate}
+
+                                                <div className="d-flex justify-content-between gap-3 mb-2">
+                                                  <div
+                                                    style={{
+                                                      fontFamily: "Gilroy",
+                                                      fontSize: "12px",
+                                                      wordWrap: "break-word",
+                                                      color: "#222",
+                                                      fontStyle: "normal",
+                                                      lineHeight: "normal",
+                                                      fontWeight: 600,
+                                                    }}
+                                                  >
+                                                    {item.invoiceNumber === null ||
+                                                      item.invoiceNumber === ""
+                                                      ? "0.00"
+                                                      : item.invoiceNumber}
+                                                  </div>
+                                                  <div
+                                                    style={{
+                                                      fontFamily: "Gilroy",
+                                                      fontSize: "12px",
+                                                      wordWrap: "break-word",
+                                                      color: "#222",
+                                                      fontStyle: "normal",
+                                                      lineHeight: "normal",
+                                                      fontWeight: 600,
+                                                    }}
+                                                  >
+                                                    {item.invoiceDate}
+                                                  </div>
                                                 </div>
-                                              </div>
 
-                                              <div className="mb-2">
+                                                <div className="mb-2">
 
-                                                {(item?.paymentStatus === "Pending" ||
-                                                  item?.paymentStatus === "Partial Payment") && (
+                                                  {(item?.paymentStatus === "Pending" ||
+                                                    item?.paymentStatus === "Partial Payment") && (
+                                                      <span
+                                                        style={{
+                                                          backgroundColor: "#FFD9D9",
+                                                          color: "#000",
+                                                          borderRadius: "12px",
+                                                          fontFamily: "Gilroy",
+                                                          padding: "8px 10px", fontSize: 12
+                                                        }}
+                                                      >
+                                                        {item?.paymentStatus}
+                                                      </span>
+                                                    )}
+
+
+                                                  {item?.paymentStatus === "Paid" && (
                                                     <span
                                                       style={{
-                                                        backgroundColor: "#FFD9D9",
-                                                        color: "#000",
-                                                        borderRadius: "12px",
+                                                        cursor: "pointer",
+                                                        backgroundColor: "#D9FFD9",
                                                         fontFamily: "Gilroy",
-                                                        padding: "8px 10px", fontSize: 12
+                                                        color: "#000",
+                                                        borderRadius: "14px",
+                                                        padding: "8px 12px", fontSize: 12
                                                       }}
                                                     >
                                                       {item?.paymentStatus}
@@ -4575,277 +4637,261 @@ setReceiptLoader(false);
                                                   )}
 
 
-                                                {item?.paymentStatus === "Paid" && (
-                                                  <span
-                                                    style={{
-                                                      cursor: "pointer",
-                                                      backgroundColor: "#D9FFD9",
-                                                      fontFamily: "Gilroy",
-                                                      color: "#000",
-                                                      borderRadius: "14px",
-                                                      padding: "8px 12px", fontSize: 12
-                                                    }}
-                                                  >
-                                                    {item?.paymentStatus}
-                                                  </span>
-                                                )}
+                                                  {(item?.paymentStatus === "Refunded" || item?.paymentStatus === "Partially Refunded") && (
+                                                    <span
+                                                      style={{
+                                                        backgroundColor: "#FFF3CD",
+                                                        color: "#8B8000",
+                                                        borderRadius: "14px",
+                                                        fontFamily: "Gilroy",
+                                                        padding: "8px 12px", fontSize: 12
+                                                      }}
+                                                    >
+                                                      {item?.paymentStatus}
+                                                    </span>
+                                                  )}
 
 
-                                                {(item?.paymentStatus === "Refunded" || item?.paymentStatus === "Partially Refunded") && (
-                                                  <span
-                                                    style={{
-                                                      backgroundColor: "#FFF3CD",
-                                                      color: "#8B8000",
-                                                      borderRadius: "14px",
-                                                      fontFamily: "Gilroy",
-                                                      padding: "8px 12px", fontSize: 12
-                                                    }}
-                                                  >
-                                                    {item?.paymentStatus}
-                                                  </span>
-                                                )}
-
-
-                                                {item?.paymentStatus === "Pending Refund" && (
-                                                  <span
-                                                    style={{
-                                                      backgroundColor: "#FFE6B3",
-                                                      color: "#b45309",
-                                                      borderRadius: "14px",
-                                                      fontFamily: "Gilroy",
-                                                      padding: "8px 12px", fontSize: 12
-                                                    }}
-                                                  >
-                                                    {item?.paymentStatus}
-                                                  </span>
-                                                )}
-                                                {item?.isCancelled && (
-                                                  <span
-                                                    style={{
-                                                      backgroundColor: "#FFE6B3",
-                                                      color: "#b45309",
-                                                      borderRadius: "14px",
-                                                      fontFamily: "Gilroy",
-                                                      padding: "8px 12px", fontSize: 12
-                                                    }}
-                                                  >
-                                                    Cancelled
-                                                  </span>
-                                                )
-                                                }
+                                                  {item?.paymentStatus === "Pending Refund" && (
+                                                    <span
+                                                      style={{
+                                                        backgroundColor: "#FFE6B3",
+                                                        color: "#b45309",
+                                                        borderRadius: "14px",
+                                                        fontFamily: "Gilroy",
+                                                        padding: "8px 12px", fontSize: 12
+                                                      }}
+                                                    >
+                                                      {item?.paymentStatus}
+                                                    </span>
+                                                  )}
+                                                  {item?.isCancelled && (
+                                                    <span
+                                                      style={{
+                                                        backgroundColor: "#FFE6B3",
+                                                        color: "#b45309",
+                                                        borderRadius: "14px",
+                                                        fontFamily: "Gilroy",
+                                                        padding: "8px 12px", fontSize: 12
+                                                      }}
+                                                    >
+                                                      Cancelled
+                                                    </span>
+                                                  )
+                                                  }
+                                                </div>
                                               </div>
                                             </div>
                                           </div>
-                                        </div>
 
-                                      </>
-                                    ))}
-                                </div>
-                              ) : (
-                                <>
-                                  {sortedData && sortedData.length > 0 ? (
+                                        </>
+                                      ))}
+                                  </div>
+                                ) : (
+                                  <>
+                                    {sortedData && sortedData.length > 0 ? (
 
-                                    <div
-                                      className=" booking-table-userlist  booking-table  ms-2 me-4"
-                                      style={{ marginLeft: "-22px", }}
-                                    >
                                       <div
-
-                                        className='show-scrolls'
-                                        style={{
-
-                                          height: sortedData?.length >= 12 ? "500px" : "auto",
-                                          overflowY: "auto",
-                                          borderTop: "1px solid #E8E8E8",
-                                          marginTop: "5px",
-                                          paddingRight: 0,
-                                          paddingLeft: 0
-
-                                        }}
+                                        className=" ms-2  me-2"
+                                        style={{ overflowx: "hidden",}}
                                       >
-                                        <Table
-                                          responsive="md"
+                                        <div
 
+                                          className='show-scrolls'
                                           style={{
-                                            fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                                            top: 0,
-                                            zIndex: 1,
-                                            borderRadius: 0
+
+                                            height: sortedData?.length >= 12 ? "500px" : "auto",
+                                            overflowY: "auto",
+                                            borderTop: "1px solid #E8E8E8",
+                                            marginTop: "5px",
+                                            paddingRight: 0,
+                                            paddingLeft: 0
+
                                           }}
-                                          className="mb-0"
                                         >
-                                          <thead style={{
-                                            fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                                            top: 0,
-                                            zIndex: 1,
-                                          }}>
-                                            <tr className="">
-                                              <th
-                                                style={headerStyle}
-                                              >
-                                                <label style={labelStyle}>
-                                                  {/* <div style={{ display: "flex", flexDirection: "column", }} >
+                                          <Table
+                                            responsive="md"
+
+                                            style={{
+                                              fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                                              top: 0,
+                                              zIndex: 1,
+                                              borderRadius: 0
+                                            }}
+                                            className="mb-0"
+                                          >
+                                            <thead style={{
+                                              fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                                              top: 0,
+                                              zIndex: 1,
+                                            }}>
+                                              <tr className="">
+                                                <th
+                                                  style={headerStyle}
+                                                >
+                                                  <label style={labelStyle}>
+                                                    {/* <div style={{ display: "flex", flexDirection: "column", }} >
                                                     <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Invoices", 'asc')} style={{ cursor: "pointer" }} />
                                                     <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Invoices", 'desc')} style={{ cursor: "pointer" }} />
                                                   </div> */}
-                                                  Invoice Number</label>
-                                              </th>
-                                              <th
-                                                style={headerStyle}
-                                              >
-                                                <label style={labelStyle}>
-                                                  {/* <div style={{ display: "flex", flexDirection: "column", }} >
+                                                    Invoice Number</label>
+                                                </th>
+                                                <th
+                                                  style={headerStyle}
+                                                >
+                                                  <label style={labelStyle}>
+                                                    {/* <div style={{ display: "flex", flexDirection: "column", }} >
                                                     <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Name", 'asc')} style={{ cursor: "pointer" }} />
                                                     <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Name", 'desc')} style={{ cursor: "pointer" }} />
                                                   </div> */}
-                                                  Name</label>
-                                              </th>
+                                                    Name</label>
+                                                </th>
 
-                                              <th
-                                                style={headerStyle}
-                                              >
-                                                <label style={labelStyle}>
-                                                  {/* <div style={{ display: "flex", flexDirection: "column",  }} >
+                                                <th
+                                                  style={headerStyle}
+                                                >
+                                                  <label style={labelStyle}>
+                                                    {/* <div style={{ display: "flex", flexDirection: "column",  }} >
                                                     <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("action", 'asc')} style={{ cursor: "pointer" }} />
                                                     <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("action", 'desc')} style={{ cursor: "pointer" }} />
                                                   </div> */}
-                                                  Type</label>
-                                              </th>
-                                              <th
-                                                style={headerStyle}
-                                              >
-                                                <label style={labelStyle}>
-                                                  {/* <div style={{ display: "flex", flexDirection: "column", }} >
+                                                    Type</label>
+                                                </th>
+                                                <th
+                                                  style={headerStyle}
+                                                >
+                                                  <label style={labelStyle}>
+                                                    {/* <div style={{ display: "flex", flexDirection: "column", }} >
                                                     <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Date", 'asc')} style={{ cursor: "pointer" }} />
                                                     <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Date", 'desc')} style={{ cursor: "pointer" }} />
                                                   </div> */}
-                                                  Invoice Date</label>
-                                              </th>
-                                              <th
-                                                style={headerStyle}
-                                              >
-                                                <label style={labelStyle}>
-                                                  {/* <div style={{ display: "flex", flexDirection: "column",  }} >
+                                                    Invoice Date</label>
+                                                </th>
+                                                <th
+                                                  style={headerStyle}
+                                                >
+                                                  <label style={labelStyle}>
+                                                    {/* <div style={{ display: "flex", flexDirection: "column",  }} >
                                                     <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("DueDate", 'asc')} style={{ cursor: "pointer" }} />
                                                     <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("DueDate", 'desc')} style={{ cursor: "pointer" }} />
                                                   </div> */}
-                                                  Due Date</label>
-                                              </th>
-                                              <th
-                                                style={headerStyle}
-                                              >
-                                                <label style={labelStyle}>
-                                                  {/* <div style={{ display: "flex", flexDirection: "column", }} >
+                                                    Due Date</label>
+                                                </th>
+                                                <th
+                                                  style={headerStyle}
+                                                >
+                                                  <label style={labelStyle}>
+                                                    {/* <div style={{ display: "flex", flexDirection: "column", }} >
                                                     <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Amount", 'asc')} style={{ cursor: "pointer" }} />
                                                     <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Amount", 'desc')} style={{ cursor: "pointer" }} />
                                                   </div> */}
-                                                  Amount</label>
-                                              </th>
-                                              <th
-                                                style={headerStyle}
-                                              >
-                                                <label style={labelStyle} >
-                                                  {/* <div style={{ display: "flex", flexDirection: "column", }} >
+                                                    Amount</label>
+                                                </th>
+                                                <th
+                                                  style={headerStyle}
+                                                >
+                                                  <label style={labelStyle} >
+                                                    {/* <div style={{ display: "flex", flexDirection: "column", }} >
                                                     <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("BalanceDue", 'asc')} style={{ cursor: "pointer" }} />
                                                     <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("BalanceDue", 'desc')} style={{ cursor: "pointer" }} />
                                                   </div> */}
-                                                  Due</label>
-                                              </th>
-                                              <th
-                                                style={headerStyle}
-                                              >
-                                                <label style={labelStyle}>
-                                                  {/* <div style={{ display: "flex", flexDirection: "column", }} >
+                                                    Due</label>
+                                                </th>
+                                                <th
+                                                  style={headerStyle}
+                                                >
+                                                  <label style={labelStyle}>
+                                                    {/* <div style={{ display: "flex", flexDirection: "column", }} >
                                                     <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("status", 'asc')} style={{ cursor: "pointer" }} />
                                                     <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("status", 'desc')} style={{ cursor: "pointer" }} />
                                                   </div> */}
-                                                  Status</label>
-                                              </th>
-                                              <th
-                                                style={headerStyle}
-                                              > <label style={labelStyle}>Action</label></th>
-                                            </tr>
-                                          </thead>
+                                                    Status</label>
+                                                </th>
+                                                <th
+                                                  style={headerStyle}
+                                                > <label style={labelStyle}>Action</label></th>
+                                              </tr>
+                                            </thead>
 
-                                          <tbody style={{ fontSize: "10px", minHeight: "200px", position: "relative" }}>
-                                            <PaginationList>
-                                              {sortedData.map((item, index) => (
-                                                <InvoiceTable
-                                                  key={item.id}
-                                                  item={item}
-                                                  index={index}
-                                                  OnHandleshowform={handleShowForm}
-                                                  OnHandleshowEditform={handleEdit}
-                                                  OnHandleshowInvoicePdf={handleInvoiceDetail}
-                                                  OnHandleshowDeleteform={handleBillDelete}
-                                                  DisplayInvoice={handleDisplayInvoiceDownload}
-                                                  billAddPermission={billAddPermission}
-                                                  billEditPermission={billEditPermission}
-                                                  billDeletePermission={billDeletePermission}
-                                                />
-                                              ))}
-                                            </PaginationList>
-                                          </tbody>
+                                            <tbody style={{ fontSize: "10px", minHeight: "200px", position: "relative" }}>
+                                              <PaginationList>
+                                                {sortedData.map((item, index) => (
+                                                  <InvoiceTable
+                                                    key={item.id}
+                                                    item={item}
+                                                    index={index}
+                                                    OnHandleshowform={handleShowForm}
+                                                    OnHandleshowEditform={handleEdit}
+                                                    OnHandleshowInvoicePdf={handleInvoiceDetail}
+                                                    OnHandleshowDeleteform={handleBillDelete}
+                                                    DisplayInvoice={handleDisplayInvoiceDownload}
+                                                    billAddPermission={billAddPermission}
+                                                    billEditPermission={billEditPermission}
+                                                    billDeletePermission={billDeletePermission}
+                                                  />
+                                                ))}
+                                              </PaginationList>
+                                            </tbody>
 
 
-                                        </Table>
-                                      </div>
-                                    </div>
-                                  ) : (
-
-                                    !loading &&
-                                    sortedData &&
-                                    sortedData?.length === 0 && (
-
-                                      <div className="mt-2">
-                                        <div style={{ textAlign: "center" }}>
-                                          {" "}
-                                          <img src={Emptystate} alt="emptystate" />
-                                        </div>
-                                        <div
-                                          className="pb-1"
-                                          style={{
-                                            textAlign: "center",
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy",
-                                            fontSize: 18,
-                                            color: "rgba(75, 75, 75, 1)",
-                                          }}
-                                        >
-                                          No bills available{" "}
-                                        </div>
-                                        <div
-                                          className="pb-1"
-                                          style={{
-                                            textAlign: "center",
-                                            fontWeight: 500,
-                                            fontFamily: "Gilroy",
-                                            fontSize: 14,
-                                            color: "rgba(75, 75, 75, 1)",
-                                          }}
-                                        >
-                                          There are no bills added{" "}
+                                          </Table>
                                         </div>
                                       </div>
-                                    )
-                                  )}
+                                    ) : (
+
+                                      !loading &&
+                                      sortedData &&
+                                      sortedData?.length === 0 && (
+
+                                        <div className="mt-2">
+                                          <div style={{ textAlign: "center" }}>
+                                            {" "}
+                                            <img src={Emptystate} alt="emptystate" />
+                                          </div>
+                                          <div
+                                            className="pb-1"
+                                            style={{
+                                              textAlign: "center",
+                                              fontWeight: 600,
+                                              fontFamily: "Gilroy",
+                                              fontSize: 18,
+                                              color: "rgba(75, 75, 75, 1)",
+                                            }}
+                                          >
+                                            No bills available{" "}
+                                          </div>
+                                          <div
+                                            className="pb-1"
+                                            style={{
+                                              textAlign: "center",
+                                              fontWeight: 500,
+                                              fontFamily: "Gilroy",
+                                              fontSize: 14,
+                                              color: "rgba(75, 75, 75, 1)",
+                                            }}
+                                          >
+                                            There are no bills added{" "}
+                                          </div>
+                                        </div>
+                                      )
+                                    )}
 
 
-                                </>
-                              )}
-                            </Col>
+                                  </>
+                                )}
+                              </Col>
 
-                          </Row>
-                        </Container>
-
-
+                            </Row>
+                          </Container>
 
 
-                      </div>
-                    )}
-                  </>
-                </TabPanel>
 
+
+                        </div>
+                      )}
+                    </>
+                  </TabPanel>
+                </div>
                 <TabPanel value="2">
                   {!canReadRecurring ? (
                     <>
@@ -5631,11 +5677,16 @@ setReceiptLoader(false);
 
           {
             DownloadInvoice &&
-            <Col className="p-0"
+            <Col className="p-0 m-0"
               lg={DownloadInvoice ? 8 : 12}
               md={DownloadInvoice ? 8 : 12}
               sm={DownloadInvoice ? 12 : 12}
               xs={DownloadInvoice ? 12 : 12}
+              style={{
+                borderLeft: DownloadReceipt
+                  ? "1px solid #ccc"
+                  : "none",
+              }}
             >
               <BillPdfModal
                 show={showPdfModal}

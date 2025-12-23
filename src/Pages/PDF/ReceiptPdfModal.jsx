@@ -299,11 +299,11 @@ const getIconStyle = (templateColor) => {
   return (
     <div style={{ position: 'sticky', top: 0, zIndex: 100, background: 'white' }}>
       <div >
-        <div className="d-flex justify-content-between align-items-center">
+        <div className="d-flex justify-content-between align-items-center" style={{borderLeft:"1px solid #E5E7EB"}}>
 
 
           <div
-            className="d-flex justify-content-between align-items-center border"
+            className="d-flex justify-content-between align-items-center "
             style={{
               backgroundColor: "#fff",
               borderBottom: "1px solid #E0E0E0",

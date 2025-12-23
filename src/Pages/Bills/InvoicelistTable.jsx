@@ -100,7 +100,7 @@ const InvoiceTable = (props) => {
   useEffect(() => {
     if (state.InvoiceList.createRefundStatusCode === 200) {
       setPayableForm(false)
-           dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+      dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
 
       setTimeout(() => {
         dispatch({ type: 'REMOVE_CREATE_REFUND' })
@@ -144,8 +144,8 @@ const InvoiceTable = (props) => {
       navigate(`/tenant/details/${view.customerId}`, {
         state: {
           customerId: view.customerId,
-          IsOverView:true,
-          totriggerBillTap:false
+          IsOverView: true,
+          totriggerBillTap: false
         },
       });
     }
@@ -153,51 +153,58 @@ const InvoiceTable = (props) => {
   }
 
 
-  
+
 
   return (
 
     <>
       <tr key={props.item.invoiceId} style={{ color: "#000", fontFamily: "Gilroy", fontSize: "14px", fontStyle: "normal", lineHeight: "normal", alignItems: 'center', marginTop: '10px', flexWrap: "wrap" }} className='m-2' >
 
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 600, color: "#1E45E1", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8", cursor: "pointer",lineHeight: 'normal'}} className='ps-2'>
-          <div onClick={() => handleDownload(props.item)} className="Invoice_Name"> 
-             {props.item?.invoiceNumber === null || props.item?.invoiceNumber === '' ? '0.00' : props.item?.invoiceNumber}
-             </div>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 600, color: "#1E45E1", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8", cursor: "pointer", lineHeight: 'normal' }} className='ps-2'>
+          <div onClick={() => handleDownload(props.item)} className="Invoice_Name">
+            {props.item?.invoiceNumber === null || props.item?.invoiceNumber === '' ? '0.00' : props.item?.invoiceNumber}
+          </div>
         </td>
 
 
 
-        <td className="table-cells " style={{ verticalAlign: 'middle', border: "none", flexWrap: "wrap", whiteSpace: "nowrap", borderBottom: "1px solid #E8E8E8",lineHeight: 'normal' }} >
-         
+        <td className="table-cells " style={{ verticalAlign: 'middle', border: "none", flexWrap: "wrap", whiteSpace: "nowrap", borderBottom: "1px solid #E8E8E8", lineHeight: 'normal' }} >
 
-            <div className="Invoice_Name" style={{
-              fontFamily: 'Gilroy', fontSize: '13px',  color: "#1E45E1",
-              fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer",
-               textAlign: "start", 
-            }}
-              onClick={()=>handleNavigateTenantProfile(props.item)}
 
-            >
+          <div className="Invoice_Name" style={{
+            fontFamily: 'Gilroy', fontSize: '13px', color: "#1E45E1",
+            fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer",
+            textAlign: "start",
+          }}
+            onClick={() => handleNavigateTenantProfile(props.item)}
+
+          >
             {props.item?.fullName}
 
-            </div>
+          </div>
 
-          
+
         </td>
 
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textTransform: "capitalize", borderBottom: "1px solid #E8E8E8" }} className=''>{props.item.invoiceType === 'auto' ? "Recurring" : props.item.invoiceType}</td>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textTransform: "capitalize", borderBottom: "1px solid #E8E8E8" }} className=''>{props.item.invoiceType}
+          <span style={{
+            fontSize: 10,
+            fontWeight: 500,
+            color: "#6B7280",
+            marginTop: 2,
+            textTransform: "",
+          }}>_{props.item.invoiceMode}</span></td>
 
         <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className=''>
           {/* <span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1em", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }}> */}
           {props.item?.invoiceDate}
           {/* </span> */}
-          </td>
+        </td>
         <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className=''>
           {/* <span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px", marginLeft: 5 }}> */}
-            {props.item?.dueDate}
-            {/* </span> */}
-            </td>
+          {props.item?.dueDate}
+          {/* </span> */}
+        </td>
         <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className=''>
           ₹{Number(props.item?.invoiceAmount || 0).toLocaleString('en-IN')}
         </td>
@@ -225,7 +232,7 @@ const InvoiceTable = (props) => {
             fontSize: 13,
             fontWeight: 500,
             fontFamily: "Gilroy",
-                       borderBottom: "1px solid #E8E8E8",
+            borderBottom: "1px solid #E8E8E8",
           }}
           className=""
         >
@@ -238,7 +245,7 @@ const InvoiceTable = (props) => {
                   color: "#7A1C1C",
                   borderRadius: "13px",
                   fontFamily: "Gilroy",
-                  padding: "4px 12px",lineHeight:1
+                  padding: "4px 12px", lineHeight: 1
                 }}
               >
                 {props.item?.paymentStatus}
@@ -254,7 +261,7 @@ const InvoiceTable = (props) => {
                 fontFamily: "Gilroy",
                 color: "#065F46",
                 borderRadius: "14px",
-                 padding: "4px 12px",lineHeight:1
+                padding: "4px 12px", lineHeight: 1
               }}
             >
               {props.item?.paymentStatus}
@@ -269,7 +276,7 @@ const InvoiceTable = (props) => {
                 color: "#8B8000",
                 borderRadius: "14px",
                 fontFamily: "Gilroy",
-                 padding: "4px 12px",lineHeight:1
+                padding: "4px 12px", lineHeight: 1
               }}
             >
               {props.item?.paymentStatus}
@@ -284,7 +291,7 @@ const InvoiceTable = (props) => {
                 color: "#b45309",
                 borderRadius: "14px",
                 fontFamily: "Gilroy",
-                padding: "4px 12px",lineHeight:1
+                padding: "4px 12px", lineHeight: 1
               }}
             >
               {props.item?.paymentStatus}
@@ -297,7 +304,7 @@ const InvoiceTable = (props) => {
                 color: "#7C2D12",
                 borderRadius: "14px",
                 fontFamily: "Gilroy",
-                 padding: "4px 12px",lineHeight:1
+                padding: "4px 12px", lineHeight: 1
               }}
             >
               Cancelled
@@ -318,7 +325,7 @@ const InvoiceTable = (props) => {
               // height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", 
               display: "flex", justifyContent: "center", alignItems: "center", position: "relative"
             }} >
-              <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, transform: "rotate(90deg)", color:showDots ? "#1E45E1" : "#6B7280",}} onClick={(e) => handleShowDots(e)} />
+              <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, transform: "rotate(90deg)", color: showDots ? "#1E45E1" : "#6B7280", }} onClick={(e) => handleShowDots(e)} />
 
               {showDots && <>
                 <div
@@ -343,7 +350,7 @@ const InvoiceTable = (props) => {
                   <div style={{ width: "100%" }}>
 
                     {
-                      (props.item?.paymentStatus !== "Cancelled" && props.item?.paymentStatus !== "Paid") &&
+                      (props.item.invoiceMode === "Recurring") &&
 
                       <div
                         className={`d-flex justify-content-start align-items-center gap-2 ${!canUpdateInvoice ? 'disabled' : ''}`}
@@ -592,7 +599,7 @@ const InvoiceTable = (props) => {
             </div>
           </div>
         </td>
-      
+
 
       </tr>
 

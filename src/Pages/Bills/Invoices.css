@@ -8,6 +8,15 @@
   .css-19kzrtu {
     padding: 0px !important;
 }
+.chips-scroll::-webkit-scrollbar {
+  height: 0;
+  width:0;
+}
+
+/* .chips-scroll:hover::-webkit-scrollbar {
+  height: 6px;
+} */
+
   
  .css-nlzg2n-control:hover {
     border-color: #D9D9D9 !important;

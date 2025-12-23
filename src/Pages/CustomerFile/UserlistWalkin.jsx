@@ -30,7 +30,7 @@ function UserlistWalkin() {
   const [showFormCheckIn, setShowFormCheckIn] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [dotsButton, setDotsButton] = useState(null);
-  // const [walkInPermissionError, setWalkInPermissionError] = useState("");
+  // const [checkinNew, setCheckInNew] = useState("");
   // const [walkInEditPermissionError, setWalkInEditPermissionError] =    useState("");
   // const [walkInDeletePermissionError, setWalkInDeletePermissionError] = useState("");
   const [formLoading, setFormLoading] = useState(false)
@@ -215,11 +215,18 @@ function UserlistWalkin() {
     setSelectedCustomer(null);
   };
 
-
-  const handleCheckIn = (data) => {
+ const handleCheckIn = (data) => {
     setShowFormCheckIn(true)
     setTenantDetails(data)
+    // setCheckInNew(false)
   }
+
+
+  // const handleCheckInNew = (data) => {
+  //   setShowFormCheckIn(true)
+  //   setTenantDetails(data)
+  //   setCheckInNew(true)
+  // }
 
   const handleCloseCheckInForm = () => {
     setShowFormCheckIn(false)
@@ -718,6 +725,48 @@ function UserlistWalkin() {
                                             </label>
                                           </div>
 
+ {/* <div
+                                            className="d-flex align-items-center gap-2"
+                                            onClick={() => {
+                                              if (canWriteWalkin) {
+                                                // handleCheckInNew(v);
+                                              }
+                                            }}
+                                            style={{
+                                              cursor: !canWriteWalkin ? "not-allowed" : "pointer",
+                                              opacity: !canWriteWalkin ? 0.5 : 1,
+                                              padding: "6px 8px",
+                                              borderRadius: 6,
+                                            }}
+                                            onMouseEnter={(e) => {
+                                              e.currentTarget.style.backgroundColor = "#F0F4FF";
+                                            }}
+                                            onMouseLeave={(e) => {
+                                              e.currentTarget.style.backgroundColor = "transparent";
+                                            }}
+                                          >
+                                            <img
+                                              src={addcircle}
+                                              alt="Assign Bed"
+                                              style={{
+                                                height: 16,
+                                                width: 16,
+                                                filter: !canWriteWalkin ? "grayscale(100%)" : "none",
+                                              }}
+                                            />
+
+                                            <label
+                                              style={{
+                                                fontSize: 14,
+                                                fontWeight: 500,
+                                                fontFamily: "Gilroy, sans-serif",
+                                                color: !canWriteWalkin ? "#A9A9A9" : "#222222",
+                                                cursor: !canWriteWalkin ? "not-allowed" : "pointer",
+                                              }}
+                                            >
+                                              Check-In-new
+                                            </label>
+                                          </div> */}
 
                                           <div
                                             className="d-flex align-items-center gap-2"

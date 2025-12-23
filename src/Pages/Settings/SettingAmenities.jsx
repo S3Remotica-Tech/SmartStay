@@ -71,7 +71,7 @@ function SettingAmenities() {
 
 
     useEffect(() => {
-        if (amenitiesFilterddata.length === 0) {
+        if (amenitiesFilterddata?.length === 0) {
             setLoading(false);
         }
 
@@ -201,8 +201,8 @@ function SettingAmenities() {
     // }, [amenitiesFilterddata])
 
     useEffect(() => {
-        if (amenitiesFilterddata.length > 0) {
-            const initialSwitchStates = amenitiesFilterddata.reduce((acc, amenity) => {
+        if (amenitiesFilterddata?.length > 0) {
+            const initialSwitchStates = amenitiesFilterddata?.reduce((acc, amenity) => {
                 acc[amenity.amenityId] = !!amenity.proRate;
                 return acc;
             }, {});
@@ -217,6 +217,7 @@ function SettingAmenities() {
 
         if (state.login.selectedHostel_Id) {
             dispatch({ type: 'AMENITIESLIST', payload: state.login.selectedHostel_Id })
+            setLoading(true);
         }
 
 
@@ -227,7 +228,13 @@ function SettingAmenities() {
     useEffect(() => {
         if (state.InvoiceList.StatusCodeAmenitiesGet === 200) {
 
-            setAmenitiesFilterddata(state.InvoiceList.AmenitiesList?.amenities)
+            setAmenitiesFilterddata(
+                state.InvoiceList?.AmenitiesList?.amenities ??
+                state.InvoiceList?.AmenitiesList ??
+                []
+            );
+            // setAmenitiesFilterddata(state.InvoiceList.AmenitiesList?.amenities)
+
             setLoading(false)
 
             setTimeout(() => {
@@ -236,6 +243,10 @@ function SettingAmenities() {
         }
     }, [state.InvoiceList.StatusCodeAmenitiesGet])
 
+    useEffect(() => {
+        setLoading(false)
+
+    }, [state.InvoiceList.AmenitiesList])
 
 
     useEffect(() => {
@@ -510,7 +521,7 @@ function SettingAmenities() {
                                                                 style={{
                                                                     width: 18,
                                                                     height: 18,
-                                                                    cursor: (canWriteAmenities ) ? "pointer" : "not-allowed",
+                                                                    cursor: (canWriteAmenities) ? "pointer" : "not-allowed",
                                                                     opacity: (canWriteAmenities) ? 1 : 0.5,
                                                                 }}
                                                             />

@@ -86,13 +86,16 @@ export function AddRecurringBill() {
 
 // v2
 export async function GetManualInvoices(hostelId) {
-  return await AxiosConfigV2.get(`/v2/bills/${hostelId}`, {
-  })
+  // return await AxiosConfigV2.get(`/v2/bills/${hostelId}`, {
+  // })
+   new Promise((resolve) => {
+  resolve({status: 200});
+})
 }
 
 
 export async function GetFilterInvoices(hostelId, filters={}) {
-  return AxiosConfigV2.get(`/v2/bills/new/${hostelId}`, {
+  return AxiosConfigV2.get(`/v2/bills/${hostelId}`, {
     params: {
       startDate: filters.startDate,
       endDate: filters.endDate,

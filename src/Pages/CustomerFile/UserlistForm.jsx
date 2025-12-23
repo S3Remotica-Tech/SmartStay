@@ -1443,7 +1443,9 @@ setBed('');
                       </div>
 
 
-
+{/* {
+  props.checkinNew  && <label className="mt-2" style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" , color:"red"}}>Booking amount reduce from advance </label>
+} */}
 
 
                     </div>
@@ -1676,7 +1678,7 @@ setBed('');
                     }}
                     onClick={handleSaveUserlistAddUser}
                   >
-                    Assign Bed
+                Check-In
                   </Button>
                 </>
 
