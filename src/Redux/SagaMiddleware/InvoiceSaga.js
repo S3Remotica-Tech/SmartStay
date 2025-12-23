@@ -1,6 +1,8 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { GetFilterInvoices, updateRecurringTenant, AssignAmenitiesForTenant, UnAssignAmenitiesForTenant, createRefund, getInitializeRefund, getParticularReceiptDetails, getParticularBillsDetails, getFinalSettlementList, CustomerRecurringEnableDisable, UnAssignAmenities, ParticularAmentityList, AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList, RecordPayment, InvoiceSettings, InvoicePDf, GetAmenities, UpdateAmenities, AddAmenity, ManualInvoice, ManualInvoiceUserData, AddManualInvoiceBill, EditManualInvoiceBill, DeleteManualInvoiceBill, ManualInvoiceNumber,
-    GetManualInvoices, RecurrInvoiceamountData, AddRecurringBill, GetRecurrBills, DeleteRecurrBills, InvoiceRecurringsettings, GetReceiptData, AddReceipt, ReferenceIdGet, DeleteReceipt, EditReceipt, ReceiptPDf, AddRecurrBillsUsers, GetBillsPdfDetails } from "../Action/InvoiceAction";
+import {
+   GetFilterInvoices, updateRecurringTenant, AssignAmenitiesForTenant, UnAssignAmenitiesForTenant, createRefund, getInitializeRefund, getParticularReceiptDetails, getParticularBillsDetails, getFinalSettlementList, CustomerRecurringEnableDisable, UnAssignAmenities, ParticularAmentityList, AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList, RecordPayment, InvoiceSettings, InvoicePDf, GetAmenities, UpdateAmenities, AddAmenity, ManualInvoice, ManualInvoiceUserData, AddManualInvoiceBill, EditManualInvoiceBill, DeleteManualInvoiceBill, ManualInvoiceNumber,
+   GetManualInvoices, RecurrInvoiceamountData, AddRecurringBill, GetRecurrBills, DeleteRecurrBills, InvoiceRecurringsettings, GetReceiptData, AddReceipt, ReferenceIdGet, DeleteReceipt, EditReceipt, ReceiptPDf, AddRecurrBillsUsers, GetBillsPdfDetails
+} from "../Action/InvoiceAction";
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -72,15 +74,15 @@ function* handleGetFilterInvoice(action) {
       const hostel_Id = GlobalHostelId(response);
       if (hostel_Id) {
          yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostel_Id })
-              }
+      }
       if (response?.status === 200) {
          yield put({ type: 'INVOICES_LIST_FILTER', payload: { response: response?.data || [], statusCode: response?.status } })
       }
-      
+
       else {
          yield put({ type: 'ERROR', payload: response?.data?.message })
       }
-         }
+   }
    catch (error) {
       yield* handleApiError(error);
 
@@ -101,7 +103,7 @@ function* handleUpdateTenantRecurring(action) {
    try {
       const response = yield call(updateRecurringTenant, action.payload)
 
-          if (response?.status === 200) {
+      if (response?.status === 200) {
          yield put({ type: 'UPDATE_TENANT_RECURRING_SUCCESS', payload: { response: response.data, statusCode: response?.status } })
 
          var toastStyle = {
@@ -936,7 +938,7 @@ function* handleGetAmenities(action) {
    try {
       const response = yield call(GetAmenities, action.payload)
 
-console.log("response",response)
+      console.log("response", response)
       const hostelId = GlobalHostelId(response);
       if (hostelId) {
          yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
@@ -1203,7 +1205,13 @@ function* handleManualInvoiceAdd(params) {
 
 function* handleManualInvoiceEdit(params) {
    try {
-      const response = yield call(EditManualInvoiceBill, params.payload);
+      const { hostelId, invoiceId, payload } = action;
+
+      const response = yield call(EditManualInvoiceBill, {
+         hostelId,
+         invoiceId,
+         items: payload,
+      });
       if (response?.status === 200) {
          yield put({ type: 'MANUAL_INVOICE_EDIT', payload: { response: response.data, statusCode: response?.status } })
          var toastStyle = {
@@ -1217,7 +1225,7 @@ function* handleManualInvoiceEdit(params) {
 
          };
 
-         toast.success(response.data.message, {
+         toast.success(response.data, {
             position: "top-center",
             autoClose: 2000,
             hideProgressBar: true,
@@ -1229,26 +1237,14 @@ function* handleManualInvoiceEdit(params) {
             style: toastStyle
          })
       }
-      else if (response?.status === 201) {
-         yield put({ type: 'MANUAL_INVOICE_ERROR', payload: response?.data?.message })
-         toast.error(response.data.message, {
-            position: "top-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-         })
-      }
-      if (response) {
-         refreshToken(response)
-      }
+
+
    }
    catch (error) {
       yield* handleApiError(error);
-
+      if (error.status === 400 || error.status === 403) {
+         yield put({ type: 'MANUAL_INVOICE_ERROR', payload: error.response.data });
+      }
    }
 }
 
@@ -1680,18 +1676,18 @@ function* handleDeleteReceipt(action) {
    catch (error) {
       yield* handleApiError(error);
 
- if (error.status === 400 || error.status === 403) {
-        toast.error(error.response.data, {
-         style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
-         position: "top-right",
-         autoClose: 2000,
-         hideProgressBar: true,
-         closeButton: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-      });
+      if (error.status === 400 || error.status === 403) {
+         toast.error(error.response.data, {
+            style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+         });
       }
 
    }
@@ -1938,7 +1934,7 @@ function refreshToken(response) {
 
 
 function* InvoiceSaga() {
-    yield takeEvery('INVOICESLISTFILTER', handleGetFilterInvoice)
+   yield takeEvery('INVOICESLISTFILTER', handleGetFilterInvoice)
    yield takeEvery('UPDATE_TENANT_RECURRING', handleUpdateTenantRecurring)
    yield takeEvery('TENANTUNASSIGNAMENITIES', handleUnAssignAmenitiesForTenant)
    yield takeEvery('TENANTASSIGNAMENITIES', handleAssignAmenitiesForTenant)

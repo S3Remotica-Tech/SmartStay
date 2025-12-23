@@ -350,7 +350,8 @@ const InvoiceTable = (props) => {
                   <div style={{ width: "100%" }}>
 
                     {
-                      (props.item.invoiceMode === "Recurring") &&
+                      (props.item.invoiceMode === "Recurring" && props.item?.paymentStatus === "Pending") &&
+                                                    
 
                       <div
                         className={`d-flex justify-content-start align-items-center gap-2 ${!canUpdateInvoice ? 'disabled' : ''}`}
