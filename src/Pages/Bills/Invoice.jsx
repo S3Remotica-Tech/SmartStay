@@ -3297,7 +3297,7 @@ useEffect(() => {
             <div
               className="container-fluid sticky-top bg-white"
               style={{
-                zIndex: 1000, height: 'auto',
+                zIndex: 0, height: 'auto',
                 margin: (DownloadInvoice || DownloadReceipt) ? 0 : 3,
                 paddingBottom: (DownloadInvoice || DownloadReceipt) ? 4 : 0,
                 borderBottom: (DownloadInvoice || DownloadReceipt)
@@ -3490,16 +3490,16 @@ useEffect(() => {
             <div className="">
               <TabContext value={value} style={{}} >
                 <div
-                  style={{
-                    position: "sticky",
-                    top: DownloadInvoice || DownloadReceipt ? 20 : 70,
-                    right: 0,
-                    left: 0,
-                    zIndex: isDropdownVisible ? 0 : 3000,
-                    backgroundColor: search ? undefined : "#FFFFFF",
-                    height: "auto",
-                    marginBottom: 10, marginTop: showSearchFilter ? 100 : 0,
-                  }}
+                  // style={{
+                  //   position: "sticky",
+                  //   top: DownloadInvoice || DownloadReceipt ? 20 : 70,
+                  //   right: 0,
+                  //   left: 0,
+                  //   zIndex: isDropdownVisible ? 0 : 3000,
+                  //   backgroundColor: search ? undefined : "#FFFFFF",
+                  //   height: "auto",
+                  //   marginBottom: 10, marginTop: showSearchFilter ? 100 : 0,
+                  // }}
                 >
 
                   <div className="d-flex justify-content-between pe-2 align-items-center">

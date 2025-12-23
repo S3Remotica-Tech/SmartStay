@@ -24,7 +24,7 @@ import { IoBed } from "react-icons/io5";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
 
-const InvoiceCard = ({ rowData, handleClosed }) => {
+const BookingInvoice = ({ rowData, handleClosed }) => {
 
   const state = useSelector((state) => state);
 
@@ -1409,13 +1409,13 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
   );
 };
 
-InvoiceCard.propTypes = {
+BookingInvoice.propTypes = {
   rowData: PropTypes.func.isRequired,
   handleClosed: PropTypes.func.isRequired
 };
 
 
-export default withErrorBoundary(InvoiceCard);
+export default withErrorBoundary(BookingInvoice);
 
 
 
