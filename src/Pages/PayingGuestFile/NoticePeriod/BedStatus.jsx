@@ -74,7 +74,7 @@ function NoticeBedStatusDetails({
 
   const handleShowDots = (type, tenant) => {
     setActiveMenu((prev) => (prev === type ? null : type));
-    console.log("tenant",tenant)
+    console.log("tenant", tenant)
     setSelectedTenant(tenant)
   }
 
@@ -102,8 +102,8 @@ function NoticeBedStatusDetails({
   }
 
 
-  const handleRecheckInBed = () => {
-    handleOpenCancelCheckout(true)
+  const handleRecheckInBed = (tenant) => {
+    handleOpenCancelCheckout(true, tenant)
     // setBacktoCheckInForm(true)
     // setRecheckin(true)
   }
@@ -118,10 +118,10 @@ function NoticeBedStatusDetails({
 
   console.log("currentItem", currentItem)
 
-  const handleCheckout = () => {
+  const handleCheckout = (tenantDetails) => {
 
 
-    showNoticeperiodCheckout(true)
+    showNoticeperiodCheckout(true, tenantDetails)
     // dispatch({
     //   type: "GETCONFIRMCHECKOUTCUSTOMER",
     //   // payload: { id: customerId, hostel_id: currentItem?.room.Hostel_Id },
@@ -135,10 +135,10 @@ function NoticeBedStatusDetails({
     (user) => user.customerId === selectedTenant?.tenetId
   );
 
-  console.log("matchedData",matchedData)
+  console.log("matchedData", matchedData)
 
-  const handleFinalsettelmentGenerate = () => {
-    showfinalsettelemnet(true)
+  const handleFinalsettelmentGenerate = (tenant) => {
+    showfinalsettelemnet(true, tenant)
     dispatch({
       type: "GETCONFIRMCHECKOUTCUSTOMER",
       // payload: { id: customerId, hostel_id: currentItem?.room.Hostel_Id },
@@ -228,7 +228,7 @@ function NoticeBedStatusDetails({
 
 
   const handleNavigateTenantProfile = (tenantDetails) => {
-    console.log("tenantDetails",tenantDetails)
+    console.log("tenantDetails", tenantDetails)
     if (tenantDetails) {
       dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: tenantDetails.currentTenantInfo?.tenetId || tenantDetails?.tenetId } });
       navigate(`/tenant/details/${tenantDetails.currentTenantInfo?.tenetId || tenantDetails?.tenetId}`, {
@@ -419,7 +419,7 @@ function NoticeBedStatusDetails({
                           </div>
 
                         </div>
-                        <div onClick={() => handleShowDots(index,tenant )}
+                        <div onClick={() => handleShowDots(index, tenant)}
                           style={{
                             cursor: "pointer",
                             height: 40,
@@ -465,7 +465,7 @@ function NoticeBedStatusDetails({
                                   {/* cancel checkout */}
                                   <div
                                     className="d-flex gap-2 align-items-center"
-                                    onClick={() => handleRecheckInBed()}
+                                    onClick={() => handleRecheckInBed(tenant)}
 
 
                                     style={{
@@ -510,7 +510,7 @@ function NoticeBedStatusDetails({
                                   {/* Generate */}
                                   <div
                                     className="d-flex gap-2 align-items-center"
-                                    onClick={() => canWriteCustomers && handleFinalsettelmentGenerate(currentItem)}
+                                    onClick={() => canWriteCustomers && handleFinalsettelmentGenerate(tenant)}
 
                                     style={{
                                       padding: "10px",
@@ -532,7 +532,7 @@ function NoticeBedStatusDetails({
                                 matchedData[0]?.currentStatus === "Settlement Generated" &&
                                 <div
                                   className="d-flex gap-2 align-items-center"
-                                  onClick={canWriteCustomers ? () => handleCheckout(currentItem) : undefined}
+                                  onClick={canWriteCustomers ? () => handleCheckout(tenant) : undefined}
 
                                   style={{
                                     padding: "10px",
@@ -619,14 +619,24 @@ function NoticeBedStatusDetails({
                           <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Last Invoice</label>
                         </div>
                         <div>
-                          <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#1E45E1", fontWeight: 600 }}>
-                            {tenant?.lastInvoiceNumber}
-                            & {tenant?.totalInvoices}
-                            {tenant?.totalInvoices > 2 && (
-                              <span>  more</span>
-                            )}
-                          </label>
-                        </div>
+                            <label
+                              style={{
+                                fontFamily: "Gilroy",
+                                fontSize: 16,
+                                color: "#1E45E1",
+                                fontWeight: 600,
+                              }}
+                            >
+                              {tenant?.lastInvoiceNumber || "N/A"}{" "}
+                              {tenant?.totalInvoices > 1 && `& ${tenant.totalInvoices}`}
+
+                              {tenant?.totalInvoices > 2 && (
+                                <span style={{ marginLeft: 6, fontWeight: 400 }}>
+                                  (+{tenant.totalInvoices - 1} more)
+                                </span>
+                              )}
+                            </label>
+                          </div>
                       </div>
 
 
@@ -935,12 +945,25 @@ function NoticeBedStatusDetails({
                             <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Last Invoice</label>
                           </div>
                           <div>
-                            <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}> {tenant?.lastInvoiceNumber}
-                              & {tenant?.totalInvoices}
+                            <label
+                              style={{
+                                fontFamily: "Gilroy",
+                                fontSize: 16,
+                                color: "#222222",
+                                fontWeight: 600,
+                              }}
+                            >
+                              {tenant?.lastInvoiceNumber || "N/A"}{" "}
+                              {tenant?.totalInvoices > 1 && `& ${tenant.totalInvoices}`}
+
                               {tenant?.totalInvoices > 2 && (
-                                <span>  more</span>
-                              )}</label>
+                                <span style={{ marginLeft: 6, fontWeight: 400 }}>
+                                  (+{tenant.totalInvoices - 1} more)
+                                </span>
+                              )}
+                            </label>
                           </div>
+
                         </div>
 
                       </div>
