@@ -1029,7 +1029,7 @@ const RoomReadingTable = () => {
                                         display: "flex",
                                         justifyContent: "center",
                                         alignItems: "center",
-                                        fontSize: 13,
+                                        fontSize: 11,
                                         fontWeight: "600",
                                         color: "white", fontFamily: "Gilroy"
                                       }}
