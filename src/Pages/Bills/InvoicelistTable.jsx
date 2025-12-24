@@ -40,8 +40,6 @@ const InvoiceTable = (props) => {
       const popupHeight = popupRef.current.offsetHeight;
       const windowHeight = window.innerHeight;
       const spaceBelow = windowHeight - popupPosition.top;
-
-
       setShowAbove(spaceBelow < popupHeight + 20);
     }
   }, [popupPosition]);

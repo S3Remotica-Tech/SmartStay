@@ -349,7 +349,7 @@ function OccupiedBedStatus({
                                                                 onClick={() => canUpdatePayingGuests ? handleEditBed() : undefined}
 
                                                                 style={{
-                                                                    padding: "15px",
+                                                                    padding: "10px",
                                                                     borderBottomLeftRadius: 10,
                                                                     borderBottomRightRadius: 10,
                                                                     cursor: canUpdatePayingGuests ? "pointer" : "not-allowed",
