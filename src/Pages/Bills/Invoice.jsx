@@ -3281,7 +3281,7 @@ useEffect(() => {
 
 
   return (
-    <div >
+    <div className="sticky-top bg-white" >
       {
         showBillsFilter && <BillsFilter show={showBillsFilter} handleClose={handleCloseFilterBills} />
       }
@@ -3295,7 +3295,7 @@ useEffect(() => {
             xs={DownloadInvoice || DownloadReceipt ? 12 : 12}
           >
             <div
-              className="container-fluid sticky-top bg-white"
+              className="container sticky-top bg-white"
               style={{
                 zIndex: 0, height: 'auto',
                 margin: (DownloadInvoice || DownloadReceipt) ? 0 : 3,
@@ -3433,7 +3433,7 @@ useEffect(() => {
 
 
 
-                  <div className="text-center" style={{ paddingRight: 18 }} >
+                  <div className="text-center" style={{  }} >
                     {value === "1" && (
                       <Button className="d-flex justify-content-center"
                         disabled={!canWriteInvoice}
@@ -3490,16 +3490,7 @@ useEffect(() => {
             <div className="">
               <TabContext value={value} style={{}} >
                 <div
-                  // style={{
-                  //   position: "sticky",
-                  //   top: DownloadInvoice || DownloadReceipt ? 20 : 70,
-                  //   right: 0,
-                  //   left: 0,
-                  //   zIndex: isDropdownVisible ? 0 : 3000,
-                  //   backgroundColor: search ? undefined : "#FFFFFF",
-                  //   height: "auto",
-                  //   marginBottom: 10, marginTop: showSearchFilter ? 100 : 0,
-                  // }}
+                 
                 >
 
                   <div className="d-flex justify-content-between pe-2 align-items-center">
@@ -3586,7 +3577,7 @@ useEffect(() => {
                       />
                     </Tabs>
 
-                    <div className="d-flex gap-3 align-items-center me-3 ">
+                    <div className="d-flex gap-3 align-items-center ">
                       {value === "1" && (!showPdfModal && !showPdfReceiptModal) && (
                         <>
                           <div
@@ -4466,7 +4457,7 @@ useEffect(() => {
 
 
 
-                          <Container fluid className={`p-0 table-bills ${DownloadReceipt || DownloadInvoice ? "mt-0" : "mt-2"} `}>
+                          <div className={`p-0 table-bills ${DownloadReceipt || DownloadInvoice ? "mt-0" : "mt-2"} `}>
                             <Row
                               className={` ${DownloadReceipt
                                 ? "m-0 g-2 d-flex justify-content-between"
@@ -4693,7 +4684,7 @@ useEffect(() => {
                                     {sortedData && sortedData.length > 0 ? (
 
                                       <div
-                                        className=" ms-2  me-2"
+                                        className=" ms-2"
                                         style={{ overflowx: "hidden",}}
                                       >
                                         <div
@@ -4883,7 +4874,7 @@ useEffect(() => {
                               </Col>
 
                             </Row>
-                          </Container>
+                          </div>
 
 
 
@@ -4893,7 +4884,7 @@ useEffect(() => {
                     </>
                   </TabPanel>
                 </div>
-                <TabPanel value="2">
+                {/* <TabPanel value="2">
                   {!canReadRecurring ? (
                     <>
                       <div
@@ -5160,38 +5151,7 @@ useEffect(() => {
 
                             </Table>
                           </div>
-                          {/* ) :
-                        (
-                          <div
-                            style={{
-                              height: "400px",
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              backgroundColor: "#f2f6fc",
-                              borderRadius: "10px",
-                              marginTop: "20px",
-                              marginRight: "0",
-                              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
-                              border: "1px dashed #b0c4de",
-                            }}
-                          >
-                            <div style={{ textAlign: "center" }}>
-                              <img
-                                src="https://cdn-icons-png.flaticon.com/512/4076/4076549.png"
-                                alt="Coming Soon"
-                                width="80"
-                                height="80"
-                                style={{ marginBottom: "15px", opacity: 0.7 }}
-                              />
-
-                              <p style={{ color: "#7a7a7a", fontSize: "14px", fontFamily: "Gilroy" }}>Coming Soon. Stay tuned!</p>
-                            </div>
-                          </div>
-
-
-
-                        )} */}
+                         
                         </div>
                       )}
 
@@ -5203,7 +5163,7 @@ useEffect(() => {
 
                     </>
                   )}
-                </TabPanel>
+                </TabPanel> */}
 
                 <TabPanel value="3">
                   {!canReadReceipt ? (

@@ -705,7 +705,7 @@ function Expenses({ allPageHostel_Id }) {
     <>
 
       <div style={{}}>
-        <div className="sticky-top bg-white" style={{ margin: 5 }}>
+        <div className="sticky-top bg-white" style={{  }}>
           <div
             className="d-flex justify-content-between align-items-center flex-wrap"
             style={{
@@ -1216,7 +1216,7 @@ function Expenses({ allPageHostel_Id }) {
 
             <div
               className=""
-              style={{ margin: 5 }}
+              style={{  }}
             >
               <div
 

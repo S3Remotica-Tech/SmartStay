@@ -267,7 +267,7 @@ const {
 
   return (
 
-    <div className='container margin-top-lg' style={{ width: "100%" }}>
+    <div className='container' style={{ width: "100%" }}>
 
       <div className='container'>
         <div className="d-flex justify-content-between  flex-wrap">

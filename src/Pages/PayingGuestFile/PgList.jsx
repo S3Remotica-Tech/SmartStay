@@ -38,7 +38,7 @@ import RoomImage from "../../Assets/Images/room_icon.png";
 import { triggerPG } from '../../Redux/Action/smartStayAction';
 import ErrorMessage from '../../Components/ErrorMessage'
 import { useHasPermission } from '../../Utils/Permission';
-import withErrorBoundary from "../../Hoc/WithErrorBountry"; 
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
 function PgList() {
   const dispatch = useDispatch();
@@ -106,12 +106,12 @@ function PgList() {
 
 
 
-useEffect(()=>{
-  if(floorList.length === 0){
-    setLoading(false);
-  }
+  useEffect(() => {
+    if (floorList.length === 0) {
+      setLoading(false);
+    }
 
-},[floorList])
+  }, [floorList])
 
 
 
@@ -172,9 +172,9 @@ useEffect(()=>{
 
 
 
-useEffect(()=>{
- setLoading(false)
-},[state.UsersList.floorList])
+  useEffect(() => {
+    setLoading(false)
+  }, [state.UsersList.floorList])
 
   useEffect(() => {
 
@@ -363,12 +363,12 @@ useEffect(()=>{
       setShowAddPg(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_PG_STATUS_CODE" });
-        dispatch({ type: 'REMOVE_UPDATE_PG'})
+        dispatch({ type: 'REMOVE_UPDATE_PG' })
       }, 100);
 
 
     }
-  }, [state.PgList.createPgStatusCode,state.PgList.updatePgStatusCode]);
+  }, [state.PgList.createPgStatusCode, state.PgList.updatePgStatusCode]);
 
 
 
@@ -748,37 +748,37 @@ useEffect(()=>{
 
 
 
-      {loading && 
-      <div
-        style={{
-          position: 'absolute',
-          top: '50%',
-          left: '60%',
-          transform: 'translate(-50%, -50%)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: 'transparent',
-          opacity: 0.75,
-          zIndex: 10,
-          height: "100%",
-        }}
-      >
+      {loading &&
         <div
           style={{
-            borderTop: '4px solid #1E45E1',
-            borderRight: '4px solid transparent',
-            borderRadius: '50%',
-            width: '40px',
-            height: '40px',
-            animation: 'spin 1s linear infinite',
+            position: 'absolute',
+            top: '50%',
+            left: '60%',
+            transform: 'translate(-50%, -50%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'transparent',
+            opacity: 0.75,
+            zIndex: 10,
+            height: "100%",
           }}
-        ></div>
-      </div>}
+        >
+          <div
+            style={{
+              borderTop: '4px solid #1E45E1',
+              borderRight: '4px solid transparent',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              animation: 'spin 1s linear infinite',
+            }}
+          ></div>
+        </div>}
 
 
 
-      <div className="sticky-top bg-white" style={{ margin:5, position: "relative" }}   >
+      <div className="sticky-top bg-white" style={{ position: "relative" }}   >
 
 
         {state.login.isTrigger &&
@@ -821,7 +821,7 @@ useEffect(()=>{
                 <div className="d-flex align-items-center mb-3 mb-md-0">
 
                   {state.PgList?.isClickedBed?.currentTenantInfo?.profilePic ? (
-                   
+
                     <img
                       src={state.PgList?.OccupiedCustomer?.currentTenantInfo?.profilePic || Profiles}
                       alt="Tenant Profile"
@@ -944,14 +944,17 @@ useEffect(()=>{
                   <div style={{ marginTop: 5 }}>
                     <Button
                       style={{
-                        fontSize: 14,
+                        fontFamily: "Gilroy",
+                        fontSize: "14px",
                         backgroundColor: "#1E45E1",
                         color: "white",
                         fontWeight: 600,
-                        borderRadius: 8,
-                        padding: "11px 50px",
-                        paddingLeft: 52,
-                        fontFamily: "Gilroy",
+                        borderRadius: "8px",
+                        padding: "8px",
+                        // marginBottom: "10px",
+                        // maxHeight: 0,
+                        width: "146px",
+                        whiteSpace: "nowrap",
                       }}
                       disabled={!canWritePayingGuests}
                       onClick={() => handleAddFloors(state.login.selectedHostel_Id)}
@@ -1281,9 +1284,9 @@ useEffect(()=>{
                               floorID={floorClick}
                               hostel_Id={state.login?.selectedHostel_Id}
                               phoneNumber={showHostelDetails.hostel_PhoneNo}
-                              // editPermissionError={editPermissionError}
-                              // deletePermissionError={deletePermissionError}
-                              // addPermissionError={addPermissionError}
+                            // editPermissionError={editPermissionError}
+                            // deletePermissionError={deletePermissionError}
+                            // addPermissionError={addPermissionError}
                             />
 
 
@@ -1357,9 +1360,9 @@ useEffect(()=>{
           <AddPg
             show={showAddPg}
             handleClose={handleCloses}
-            // editPermissionError={editPermissionError}
-            // deletePermissionError={deletePermissionError}
-            // addPermissionError={addPermissionError}
+          // editPermissionError={editPermissionError}
+          // deletePermissionError={deletePermissionError}
+          // addPermissionError={addPermissionError}
           />
         )}
         {showDelete && (
@@ -1367,9 +1370,9 @@ useEffect(()=>{
             show={showDelete}
             handleClose={handleCloseDelete}
             currentItem={deleteFloor}
-            // editPermissionError={editPermissionError}
-            // deletePermissionError={deletePermissionError}
-            // addPermissionError={addPermissionError}
+          // editPermissionError={editPermissionError}
+          // deletePermissionError={deletePermissionError}
+          // addPermissionError={addPermissionError}
           />
         )}
         {showFloor && (
@@ -1380,9 +1383,9 @@ useEffect(()=>{
             hostelFloor={hostelFloor}
             openFloor={handleDIsplayFloorClick}
             editFloor={editFloor}
-            // editPermissionError={editPermissionError}
-            // deletePermissionError={deletePermissionError}
-            // addPermissionError={addPermissionError}
+          // editPermissionError={editPermissionError}
+          // deletePermissionError={deletePermissionError}
+          // addPermissionError={addPermissionError}
           />
         )}
         {showRoom && (
@@ -1390,9 +1393,9 @@ useEffect(()=>{
             show={showRoom}
             handleClose={handlecloseRoom}
             hostelDetails={hostelDetails}
-            // editPermissionError={editPermissionError}
-            // deletePermissionError={deletePermissionError}
-            // addPermissionError={addPermissionError}
+          // editPermissionError={editPermissionError}
+          // deletePermissionError={deletePermissionError}
+          // addPermissionError={addPermissionError}
           />
         )}
 

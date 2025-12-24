@@ -2604,7 +2604,7 @@ function UserList(props) {
 
   }, [state.InvoiceList.unableAddInvoiceDetailsError])
   return (
-    <div style={{ overflowY: "hidden" }}>
+    <div className="sticky-top bg-white" style={{  }}>
       {/* <Addbooking
         show={showbookingForm}
         handleClose={closeModal}
@@ -2631,7 +2631,7 @@ function UserList(props) {
       />
 
       {userList && (
-        <div className="sticky-top bg-white" style={{ margin: 5 }}>
+        <div >
           <div className="header-container">
             <div
               className="d-flex justify-content-between align-items-center flex-wrap"

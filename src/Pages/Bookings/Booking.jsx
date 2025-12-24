@@ -35,7 +35,7 @@ function Booking() {
     const sortedData = []
 
     return (
-        <div className="sticky-top bg-white" style={{ margin: 5, position: "relative" }}>
+        <div className="sticky-top bg-white" style={{ position: "relative" }}>
             <div className=" d-flex justify-content-between align-items-center  flex-wrap h-auto"
                 style={{
                     position: 'sticky',
