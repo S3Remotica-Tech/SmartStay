@@ -728,14 +728,17 @@ function Sidebar() {
 
                 {hostelListDetail && hostelListDetail?.length > 0 && (
                   <li ref={dropdownRef}
-                    className={`align-items-center list-Item-Hostel ${currentPage === "settingNewDesign" ? "active" : ""}`}
+                    className={`align-items-center list-Item-Hostel mt-2 ${currentPage === "settingNewDesign" ? "active" : ""}`}
                     onClick={toggleDropdown}
                     style={{
                       listStyleType: "none",
                       display: "flex",
                       position: "relative",
                       cursor: "pointer",
-                      fontFamily: "Gilroy", fontSize: 13
+                      fontFamily: "Gilroy", fontSize: 13, 
+                      boxShadow: "0 2px 4px rgba(0,0,0,0.08)",
+    borderRadius: "8px",  
+    backgroundColor: "#fff",
                     }}
                   >
 
@@ -754,12 +757,12 @@ function Sidebar() {
                       <div
                         style={{
                           flexShrink: 0,
-                          height: 25,
-                          width: 25,
-                          minWidth: 25,
+                          height: 35,
+                          width: 35,
+                          minWidth: 35,
                           borderRadius: "50%",
-                          backgroundColor: "#1e45e1",
-                          color: "white",
+                          backgroundColor: "#E2E8F0",
+                          color: "#44536A",
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
@@ -788,7 +791,10 @@ function Sidebar() {
                         verticalAlign: "middle",
                       }}
                     >
-                      {payingGuestName}
+                      {payingGuestName} 
+                      <div>
+
+                      </div>
                     </span>
                     <span className="ms-auto">
                       {isDropdownOpen ? (
@@ -859,8 +865,8 @@ function Sidebar() {
                                       height: 25,
                                       width: 25,
                                       borderRadius: "50%",
-                                      backgroundColor: "#1e45e1",
-                                      color: "white",
+                                       backgroundColor: "#E2E8F0",
+                          color: "#44536A",
                                       display: "flex",
                                       alignItems: "center",
                                       justifyContent: "center",
@@ -900,8 +906,7 @@ function Sidebar() {
                   </li>
                 )}
               </div>
-              <hr style={{ color: "#E2E8F0" }} className="p-0 m-0" />
-              <div
+                          <div
                 className="show-scrolls-sidebar"
                 // style={{
                 //   minHeight: "100vh",
