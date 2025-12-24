@@ -291,7 +291,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
             <div>
 
-              <div className="gap-2 d-flex me-3">
+              <div className="gap-2 d-flex ">
                 <div
                   className="d-flex justify-content-center align-items-center border"
                   style={{ borderRadius: '8px', cursor: "pointer", height: 30, width: 30 }}
@@ -402,7 +402,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
 
         <div style={{
-          backgroundColor: "#F7F8FC", maxHeight: 565,
+          backgroundColor: "#F7F8FC", height:"90vh",
           overflowY: "auto",
           overflowX: 'hidden',
         }}

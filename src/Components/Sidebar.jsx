@@ -82,6 +82,7 @@ import PaymentPreview from "../Pages/SubscriptionFile/PaymentPreview";
 import SettingSecurity from "../Pages/Settings/SettingSecurityPage";
 import Booking from "../Pages/Bookings/Booking";
 import RecurringBills from "../Pages/Recurring/RecurringBills";
+import Receipts from "../Pages/Receipt/Receipt"
 
 
 
@@ -706,7 +707,7 @@ function Sidebar() {
 
               <div
 
-                style={{ padding: "16px 16px", flexShrink: 0 }}
+                style={{ padding: "8px 16px", flexShrink: 0 }}
               >
                 <img
                   src={Smartstay}
@@ -748,7 +749,7 @@ function Sidebar() {
 
                 {hostelListDetail && hostelListDetail?.length > 0 && (
                   <li ref={dropdownRef}
-                    className={`align-items-center list-Item ${currentPage === "settingNewDesign" ? "active" : ""}`}
+                    className={`align-items-center list-Item-Hostel ${currentPage === "settingNewDesign" ? "active" : ""}`}
                     onClick={toggleDropdown}
                     style={{
                       listStyleType: "none",
@@ -1798,7 +1799,7 @@ function Sidebar() {
           {/* main content */}
 
           <div
-            style={{ width: "82%", overflowY: "auto", height: "100vh", margin: "5px 10px" }}
+            style={{ width: "82%", overflowY: "auto", height: "100vh", }}
           >
 
             <Routes>
@@ -1807,31 +1808,37 @@ function Sidebar() {
               <Route
                 path="/dashboard/:hostelId?"
                 element={
-                  <Dashboards
-                    displayCompliance={handledisplaycompliace}
-                    allPageHostel_Id={allPageHostel_Id}
-                    setAllPageHostel_Id={setAllPageHostel_Id}
-                  />
+                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                    <Dashboards
+                      displayCompliance={handledisplaycompliace}
+                      allPageHostel_Id={allPageHostel_Id}
+                      setAllPageHostel_Id={setAllPageHostel_Id}
+                    />
+                  </div>
                 }
               />
               <Route
                 path="/paying-guest/:hostelId?"
                 element={
-                  <PgLists
-                    displaysettings={handledisplaySettingsPG}
-                    allPageHostel_Id={allPageHostel_Id}
-                    setAllPageHostel_Id={setAllPageHostel_Id}
-                  />
+                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                    <PgLists
+                      displaysettings={handledisplaySettingsPG}
+                      allPageHostel_Id={allPageHostel_Id}
+                      setAllPageHostel_Id={setAllPageHostel_Id}
+                    />
+                  </div>
                 }
               />
 
               <Route
                 path="/tenant/:hostelId?"
                 element={
-                  <UserLists
-                    allPageHostel_Id={allPageHostel_Id}
-                    setAllPageHostel_Id={setAllPageHostel_Id}
-                  />
+                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                    <UserLists
+                      allPageHostel_Id={allPageHostel_Id}
+                      setAllPageHostel_Id={setAllPageHostel_Id}
+                    />
+                  </div>
                 }
               />
 
@@ -1839,97 +1846,123 @@ function Sidebar() {
               <Route
                 path="/invoice/:hostelId?"
                 element={
-                  <Invoices
-                    allPageHostel_Id={allPageHostel_Id}
-                    setAllPageHostel_Id={setAllPageHostel_Id}
-                  />
+                  <div style={{ marginTop: 5, marginLeft: 15, marginRight: 5 }}>
+                    <Invoices
+                      allPageHostel_Id={allPageHostel_Id}
+                      setAllPageHostel_Id={setAllPageHostel_Id}
+                    />
+                  </div>
                 }
               />
 
               <Route
                 path="/booking/:hostelId?"
                 element={
-                  <Booking
-                  />
+                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                    <Booking
+                    />
+                  </div>
                 }
               />
 
               <Route
                 path="/recurring/:hostelId?"
                 element={
-                  <RecurringBills
-                  />
+                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                    <RecurringBills
+                    />
+                  </div>
                 }
               />
               <Route
                 path="/receipts/:hostelId?"
                 element={
-                  <Booking
-                  />
+                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                    <Receipts
+                    />
+                  </div>
                 }
               />
               <Route
                 path="/invoice/details/:invoiceId"
                 element={
-                  <BillsDetails />
+                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                    <BillsDetails />
+                  </div>
                 }
               />
               <Route
                 path="/vendor/:hostelId?"
                 element={
-                  <VendorComponent
-                    allPageHostel_Id={allPageHostel_Id}
-                    setAllPageHostel_Id={setAllPageHostel_Id}
-                  />
+                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                    <VendorComponent
+                      allPageHostel_Id={allPageHostel_Id}
+                      setAllPageHostel_Id={setAllPageHostel_Id}
+                    />
+                  </div>
                 }
               />
               <Route
                 path="/compliance/:hostelId?"
                 element={
-                  <Compliances
-                    allPageHostel_Id={allPageHostel_Id}
-                    setAllPageHostel_Id={setAllPageHostel_Id}
-                  />
+                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                    <Compliances
+                      allPageHostel_Id={allPageHostel_Id}
+                      setAllPageHostel_Id={setAllPageHostel_Id}
+                    />
+                  </div>
                 }
               />
               <Route
                 path="/asset/:hostelId?"
-                element={<Assets allPageHostel_Id={allPageHostel_Id} />}
+                element={
+                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                    <Assets allPageHostel_Id={allPageHostel_Id} />
+                  </div>
+                }
               />
               <Route
                 path="/reports/:hostelId?"
                 element={
-                  <Report
-                    allPageHostel_Id={allPageHostel_Id}
-                    setAllPageHostel_Id={setAllPageHostel_Id}
-                  />
+                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                    <Report
+                      allPageHostel_Id={allPageHostel_Id}
+                      setAllPageHostel_Id={setAllPageHostel_Id}
+                    />
+                  </div>
                 }
               />
               <Route
                 path="/electricity/:hostelId?"
                 element={
-                  <EbHostel
-                    allPageHostel_Id={allPageHostel_Id}
-                    setAllPageHostel_Id={setAllPageHostel_Id}
-                  />
+                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                    <EbHostel
+                      allPageHostel_Id={allPageHostel_Id}
+                      setAllPageHostel_Id={setAllPageHostel_Id}
+                    />
+                  </div>
                 }
               />
               <Route
                 path="/expense/:hostelId?"
                 element={
-                  <Expenses
-                    allPageHostel_Id={allPageHostel_Id}
-                    setAllPageHostel_Id={setAllPageHostel_Id}
-                  />
+                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                    <Expenses
+                      allPageHostel_Id={allPageHostel_Id}
+                      setAllPageHostel_Id={setAllPageHostel_Id}
+                    />
+                  </div>
                 }
               />
               <Route
                 path="/banking/:hostelId?"
                 element={
-                  <Banking
-                    allPageHostel_Id={allPageHostel_Id}
-                    setAllPageHostel_Id={setAllPageHostel_Id}
-                  />
+                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                    <Banking
+                      allPageHostel_Id={allPageHostel_Id}
+                      setAllPageHostel_Id={setAllPageHostel_Id}
+                    />
+                  </div>
                 }
               />
 
@@ -1939,23 +1972,29 @@ function Sidebar() {
               <Route
                 path="/create-bill"
                 element={
-                  <CreateBill
-                  />
+                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                    <CreateBill
+                    />
+                  </div>
                 }
               />
 
               <Route
                 path="/tenant/details/:tenantId"
                 element={
-                  <UserListRoomDetail
-                  />
+                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                    <UserListRoomDetail
+                    />
+                  </div>
                 }
               />
 
               <Route
                 path="/tenant/checkout/details/:tenantId"
                 element={
-                  <CheckoutProfile />
+                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                    <CheckoutProfile />
+                  </div>
 
                 }
               />
@@ -1965,14 +2004,16 @@ function Sidebar() {
               <Route
                 path="/settings/:hostelId?/*"
                 element={
-                  <SettingAllPages
-                    allPageHostel_Id={allPageHostel_Id}
-                    setAllPageHostel_Id={setAllPageHostel_Id}
-                    payingGuestName={payingGuestName}
-                    settignspgshow={settignspgshow}
-                    onhandleShowsettingsPG={handleShowsettingsPG}
-                    isVisibleSidebar={isVisibleSidebar}
-                  />
+                  <div >
+                    <SettingAllPages
+                      allPageHostel_Id={allPageHostel_Id}
+                      setAllPageHostel_Id={setAllPageHostel_Id}
+                      payingGuestName={payingGuestName}
+                      settignspgshow={settignspgshow}
+                      onhandleShowsettingsPG={handleShowsettingsPG}
+                      isVisibleSidebar={isVisibleSidebar}
+                    />
+                  </div>
                 }
               >
 

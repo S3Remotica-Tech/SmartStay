@@ -297,9 +297,9 @@ const getIconStyle = (templateColor) => {
   };
 
   return (
-    <div style={{ position: 'sticky', top: 0, zIndex: 100, background: 'white' }}>
-      <div >
-        <div className="d-flex justify-content-between align-items-center" style={{borderLeft:"1px solid #E5E7EB"}}>
+   
+      <>
+        <div className="sticky-top bg-white p-0 m-0 d-flex justify-content-between align-items-center" style={{borderLeft:"1px solid #E5E7EB"}}>
 
 
           <div
@@ -457,7 +457,7 @@ const getIconStyle = (templateColor) => {
 
 
         <div style={{
-          backgroundColor: "#F7F8FC", maxHeight: 565,
+          backgroundColor: "#F7F8FC", height:"90vh",
           overflowY: "auto",
           overflowX: 'hidden',
         }}
@@ -1463,8 +1463,8 @@ const getIconStyle = (templateColor) => {
 
 
         </div>
-      </div>
-    </div>
+      </>
+   
   );
 };
 
