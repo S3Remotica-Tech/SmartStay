@@ -85,7 +85,7 @@ function SettingAllPages({ isVisibleSidebar }) {
     <>
 
       <div
-        className={`col-12 col-lg-12 col-md-9 ${isInvoiceAddMode ? 'd-none d-md-block' : ''
+        className={`col-12 col-lg-12 col-md-10 ${isInvoiceAddMode ? 'd-none d-md-block' : ''
           }`}
         style={{
           overflowY: "auto",

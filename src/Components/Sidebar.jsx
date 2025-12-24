@@ -19,31 +19,10 @@ import CryptoJS from "crypto-js";
 import Smartstay from "../Assets/Images/New_images/LogoSmart.svg";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import Manage from "../Assets/Images/New_images/category.png";
-import Paying from "../Assets/Images/New_images/house.png";
-import Custom from "../Assets/Images/New_images/customers.png";
-import Vendor from "../Assets/Images/New_images/vendor.png";
-import Invo from "../Assets/Images/New_images/invoice.png";
-import Asset from "../Assets/Images/New_images/Asset.png";
-import Eb from "../Assets/Images/New_images/electricity.png";
-import Compl from "../Assets/Images/New_images/messages_gray.png";
-import Expense from "../Assets/Images/New_images/expenses.png";
-import Repo from "../Assets/Images/New_images/reports.png";
 import Assets from "../Pages/AssetFile/Asset";
 import Expenses from "../Pages/ExpenseFile/Expense";
-import Paying2 from "../Assets/Images/New_images/housepay.png";
-import Custom2 from "../Assets/Images/New_images/profile_blue.png";
-import Invoice2 from "../Assets/Images/New_images/clipboard-text.png";
-import Vendor2 from "../Assets/Images/New_images/shop.png";
-import Asset2 from "../Assets/Images/rupee.png";
-import Eb2 from "../Assets/Images/New_images/ele-active.png";
-import Compl2 from "../Assets/Images/New_images/messages-active.png";
-import Expense2 from "../Assets/Images/New_images/coin.png";
-import Repo2 from "../Assets/Images/New_images/clipboard-text.png";
 import Banking from "../Pages/Banking/Banking";
-import bank from "../Assets/Images/New_images/bank.png";
-import bankblank from "../Assets/Images/New_images/blank_bank.png";
-import { ArrowUp2, ArrowDown2, Chart2, DocumentText, Buildings } from "iconsax-react";
+import { ArrowUp2, ArrowDown2, Chart2, DocumentText, Buildings ,LogoutCurve} from "iconsax-react";
 import SettingAllPages from "../Pages/Settings/SettingAllPages";
 import SettingIcon from "../Assets/Images/sidebariconOne.svg";
 import HelpVideoIcon from "../Assets/Images/sidebariconFour.svg";
@@ -699,7 +678,7 @@ function Sidebar() {
               display: "flex",
               flexDirection: "column",
               backgroundColor: "#fff",
-              boxShadow: "3px 0 3px -2px rgba(0,0,0,0.12)",
+              boxShadow: "5px 0 2px -2px rgba(0,0,0,0.12)",
               // padding: 3,
             }}
           >
@@ -1648,7 +1627,7 @@ function Sidebar() {
                           top: "-30px",
                           left: "50%",
                           transform: "translateX(-50%)",
-                          backgroundColor: "white",
+                          backgroundColor: "#E0ECFF",
                           color: "black",
                           padding: "4px 8px",
                           borderRadius: "4px",
@@ -1672,7 +1651,10 @@ function Sidebar() {
                       cursor: "pointer",
                     }}
                   >
-                    <img src={Logout} alt="Logout Icon" style={{ width: 24, height: 24 }} />
+                    <LogoutCurve
+ size="20"
+ color="#FF0000"
+/>
                     {hoveredIcon === "logout" && (
                       <span
                         style={{
@@ -1681,7 +1663,7 @@ function Sidebar() {
                           top: "-30px",
                           left: "50%",
                           transform: "translateX(-50%)",
-                          backgroundColor: "white",
+                          backgroundColor: "#E0ECFF",
                           color: "black",
                           padding: "5px 8px",
                           borderRadius: "4px",
@@ -1719,7 +1701,7 @@ function Sidebar() {
                           top: "-30px",
                           left: "50%",
                           transform: "translateX(-50%)",
-                          backgroundColor: "white",
+                         backgroundColor: "#E0ECFF",
                           color: "black",
                           padding: "5px 8px",
                           borderRadius: "4px",
@@ -1778,7 +1760,7 @@ function Sidebar() {
                           top: "-30px",
                           left: "0%",
                           transform: "translateX(-50%)",
-                          backgroundColor: "white",
+                         backgroundColor: "#E0ECFF",
                           color: "black",
                           padding: "5px 8px",
                           borderRadius: "4px",
@@ -2004,7 +1986,7 @@ function Sidebar() {
               <Route
                 path="/settings/:hostelId?/*"
                 element={
-                  <div >
+                  <div style={{ marginTop: 5, marginLeft: 2, marginRight: 5 }}>
                     <SettingAllPages
                       allPageHostel_Id={allPageHostel_Id}
                       setAllPageHostel_Id={setAllPageHostel_Id}
