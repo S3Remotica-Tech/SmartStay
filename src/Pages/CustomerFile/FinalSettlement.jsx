@@ -16,7 +16,7 @@ import { Tooltip } from "bootstrap";
 import ErrorMessage from '../../Components/ErrorMessage'
 
 
-function FinalSettlement({ show, handleClose, data, }) {
+function FinalSettlement({ show, handleClose, data, pgDetails}) {
 
 
 
@@ -33,13 +33,13 @@ function FinalSettlement({ show, handleClose, data, }) {
     const [finalSettlementList, setFinalSettlementList] = useState()
 
     const [showDetails, setShowDetails] = useState(false);
-
+console.log("data",data)
 
 
 
     useEffect(() => {
-        if (data?.customerId || data.currentTenantInfo?.tenetId) {
-            dispatch({ type: "GETFINALSETTLEMENT", payload: data?.customerId || data?.currentTenantInfo?.tenetId });
+        if (data?.customerId || data?.tenetId) {
+            dispatch({ type: "GETFINALSETTLEMENT", payload: data?.customerId || data?.tenetId });
             setFormLoading(true)
         }
     }, [data])
@@ -372,11 +372,11 @@ function FinalSettlement({ show, handleClose, data, }) {
 
 
 
-        if (data.customerId || data.currentTenantInfo?.tenetId) {
+        if (data?.customerId || data?.tenetId) {
             dispatch({
                 type: "FINALSETTLEMENT",
                 payload: {
-                    customerId: data.customerId || data.currentTenantInfo?.tenetId,
+                    customerId: data?.customerId || data?.tenetId,
                     data: Finalsettelmenntdata
                 },
             });
@@ -463,11 +463,11 @@ function FinalSettlement({ show, handleClose, data, }) {
                                                 backgroundColor: "#FFEFCF"
                                             }}
                                         >
-                                            {data?.floorName}
+                                            {pgDetails?.floorName || data?.floorName}
                                         </span>
                                         <span className="badge rounded-pill bg-danger-subtle text-dark" style={{ fontSize: "0.75rem", fontFamily: "Gilroy", fontWeight: 400 }}>
 
-                                            {data?.roomName} - {data?.bedName}
+                                            {pgDetails?.roomName || data?.roomName} - {pgDetails?.bedName || data?.bedName}
                                         </span>
                                     </div>
 
@@ -1117,7 +1117,7 @@ function FinalSettlement({ show, handleClose, data, }) {
                                 </div>
 
                                 <div className="d-flex justify-content-between align-items-center mt-3">
-                                    <p style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>Total Refund</p>
+                                    <p style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>{ReturnAmount > 0 ? "Amount Paid by Tenant" : "Total Refund" }</p>
                                     <span
                                         style={{ color: "#1E45E1", cursor: "pointer", fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400, marginTop: "-18px" }}
                                         onClick={() => setShowBreakdown(!showBreakdown)}

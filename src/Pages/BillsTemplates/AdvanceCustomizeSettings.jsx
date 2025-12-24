@@ -600,21 +600,21 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
 
 // console.log("oldTemplate",oldTemplate)
 
-    const normalize = (val) => {
-      if (val === null || val === undefined) return "";
-      const v = String(val).trim();
-      return v === "null" || v === "undefined" ? "" : v;
-    };
+    // const normalize = (val) => {
+    //   if (val === null || val === undefined) return "";
+    //   const v = String(val).trim();
+    //   return v === "null" || v === "undefined" ? "" : v;
+    // };
 
 
 
-    const isChanged =
-      normalize(currentTemplate.qrCode) !== normalize(oldTemplate.qrCode) ||
-      normalize(currentTemplate.prefix) !== normalize(oldTemplate.prefix) ||
-      normalize(currentTemplate.suffix) !== normalize(oldTemplate.suffix) ||
-      normalize(currentTemplate.gstPercentile) !== normalize(oldTemplate.gstPercentile) ||
-      normalize(currentTemplate.invoiceNotes) !== normalize(oldTemplate.invoiceNotes) ||
-      normalize(currentTemplate.invoiceTermsAndCondition) !== normalize(oldTemplate.invoiceTermsAndCondition)
+    // const isChanged =
+    //   normalize(currentTemplate.qrCode) !== normalize(oldTemplate.qrCode) ||
+    //   normalize(currentTemplate.prefix) !== normalize(oldTemplate.prefix) ||
+    //   normalize(currentTemplate.suffix) !== normalize(oldTemplate.suffix) ||
+    //   normalize(currentTemplate.gstPercentile) !== normalize(oldTemplate.gstPercentile) ||
+    //   normalize(currentTemplate.invoiceNotes) !== normalize(oldTemplate.invoiceNotes) ||
+    //   normalize(currentTemplate.invoiceTermsAndCondition) !== normalize(oldTemplate.invoiceTermsAndCondition)
       // normalize(currentTemplate.bankId) !== normalize(oldTemplate.bankId) 
       // normalize(currentTemplate.invoiceTemplateColor) !== normalize(oldTemplate.invoiceTemplateColor);
 
@@ -622,11 +622,11 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
 
 
 
-    if (!isChanged) {
-      setEditErrMessage("No changes detected");
-      setSignatureErrMsg("")
-      return;
-    }
+    // if (!isChanged) {
+    //   setEditErrMessage("No changes detected");
+    //   setSignatureErrMsg("")
+    //   return;
+    // }
 
     if (securityDepositInvoiceTemplate.isSignatureCustomized) {
       const Signatureverify = !securityDepositInvoiceTemplate.invoiceSignatureUrl

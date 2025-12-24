@@ -279,31 +279,31 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList ,onTemplateReceiptChange})
 
 
   const handleSaveTemplate = () => {
-    const currentData = {
-      // contact_number: mobilenum,
-      // email: email,
-      // receiptSignatureUrl: signature || '',
-      notes: notes?.replace(/"/g, '') || '',
-      terms_and_condition: terms || '',
-      // template_theme: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
-      // logo_url: hostel_logo || '',
-    };
+    // const currentData = {
+    //   // contact_number: mobilenum,
+    //   // email: email,
+    //   // receiptSignatureUrl: signature || '',
+    //   notes: notes?.replace(/"/g, '') || '',
+    //   terms_and_condition: terms || '',
+    //   // template_theme: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+    //   // logo_url: hostel_logo || '',
+    // };
 
-    const originalData = {
-      // contact_number: RentalreceiptTemplate.receiptMobileNumber,
-      // email: RentalreceiptTemplate.receiptMailId,
-      // receiptSignatureUrl: RentalreceiptTemplate.receiptSignatureUrl || '',
-      notes: RentalreceiptTemplate.receiptNotes?.replace(/"/g, '') || '',
-      terms_and_condition: RentalreceiptTemplate.receiptTermsAndCondition || '',
-      // template_theme: RentalreceiptTemplate.receiptTemplateColor || '',
-      // logo_url: RentalreceiptTemplate.receiptLogoUrl || ''
-    };
+    // const originalData = {
+    //   // contact_number: RentalreceiptTemplate.receiptMobileNumber,
+    //   // email: RentalreceiptTemplate.receiptMailId,
+    //   // receiptSignatureUrl: RentalreceiptTemplate.receiptSignatureUrl || '',
+    //   notes: RentalreceiptTemplate.receiptNotes?.replace(/"/g, '') || '',
+    //   terms_and_condition: RentalreceiptTemplate.receiptTermsAndCondition || '',
+    //   // template_theme: RentalreceiptTemplate.receiptTemplateColor || '',
+    //   // logo_url: RentalreceiptTemplate.receiptLogoUrl || ''
+    // };
 
-    if (JSON.stringify(currentData) === JSON.stringify(originalData)) {
-      setEditErrMessage("No changes detected");
-      setSignatureErrMsg("");
-      return;
-    }
+    // if (JSON.stringify(currentData) === JSON.stringify(originalData)) {
+    //   setEditErrMessage("No changes detected");
+    //   setSignatureErrMsg("");
+    //   return;
+    // }
 
 
     if (RentalreceiptTemplate.isSignatureCustomized) {

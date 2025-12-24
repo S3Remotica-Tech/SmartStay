@@ -908,43 +908,6 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
 
 
-
-
-
-
-
-
-
-
-  // useEffect(() => {
-  //   if (!InvoiceList?.invoiceSettings) return;
-
-  //   const currentData = {
-  //     prefix,
-  //     suffix,
-  //     tax,
-  //     notes: notes?.replace(/"/g, '') || '',
-  //     privacyPolicy: terms,
-  //     signatureFile: signature,
-  //     bankingId: Number(selectedBankId)
-  //   };
-
-  //   const originalData = {
-  //     prefix: InvoiceList.invoiceSettings.prefix || '',
-  //     suffix: InvoiceList.invoiceSettings.suffix || '',
-  //     tax: InvoiceList.invoiceSettings.tax || '',
-  //     notes: InvoiceList.invoiceSettings.notes?.replace(/"/g, '') || '',
-  //     privacyPolicy: InvoiceList.invoiceSettings.privacyPolicyHtml || '',
-  //     signatureFile: InvoiceList.invoiceSettings.signatureFile || '',
-  //     bankingId: Number(InvoiceList.invoiceSettings.bankingId || 0),
-  //   };
-
-  //   if (JSON.stringify(currentData) !== JSON.stringify(originalData)) {
-  //     setEditErrMessage('');
-  //   }
-  // }, [prefix, suffix, tax, notes, terms, signature, selectedBankId, InvoiceList]);
-
-
   const [qrImage, setQrImage] = useState(null);
   const [qrimagepreview, setQRImagePreview] = useState(null)
   const qrFileInputRef = useRef(null);
@@ -1074,7 +1037,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
       currentTemplate.invoiceNotes !== oldTemplate.invoiceNotes ||
       currentTemplate.invoiceTermsAndCondition !== oldTemplate.invoiceTermsAndCondition ||
       currentTemplate.bankId !== oldTemplate.bankId
-    //  currentTemplate.invoiceTemplateColor !== oldTemplate.invoiceTemplateColor;
+     currentTemplate.invoiceTemplateColor !== oldTemplate.invoiceTemplateColor;
 
 
 
@@ -1083,11 +1046,11 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
 
 
-    if (!isChanged) {
-      setEditFormErrMessage("No changes detected");
-      setSignatureErrMsg("");
-      return;
-    }
+    // if (!isChanged) {
+    //   setEditFormErrMessage("No changes detected");
+    //   setSignatureErrMsg("");
+    //   return;
+    // }
 
 
 

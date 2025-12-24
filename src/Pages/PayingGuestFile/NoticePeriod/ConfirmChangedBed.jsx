@@ -81,8 +81,8 @@ const [formLoading, setFormLoading] = useState(false)
 
 
   useEffect(() => {
-    if (isPreviousBed?.currentTenantInfo?.tenetId) {
-      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: isPreviousBed?.currentTenantInfo?.tenetId } });
+    if (isPreviousBed?.currentTenantInfo?.[0]?.tenetId) {
+      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: isPreviousBed?.currentTenantInfo?.[0]?.tenetId } });
     }
   }, [isPreviousBed]);
 
@@ -123,7 +123,7 @@ const [formLoading, setFormLoading] = useState(false)
     if (state.login.selectedHostel_Id && datum) {
       const payload = {
         hostelId: state.login.selectedHostel_Id,
-        customerId: isPreviousBed?.currentTenantInfo?.tenetId,
+        customerId: isPreviousBed?.currentTenantInfo?.[0]?.tenetId,
         datum,
       };
       dispatch({

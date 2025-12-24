@@ -60,11 +60,18 @@ export async function AddManualInvoiceBill(manualinvoice) {
     data: manualinvoice
   })
 }
-export function EditManualInvoiceBill() {
- new Promise((resolve) => {
-  resolve({status: 200});
-})
+
+
+export async function EditManualInvoiceBill({ hostelId, invoiceId, items }) {
+  return AxiosConfigV2.put(
+    `/v2/bills/${hostelId}/${invoiceId}`,
+    items
+  );
 }
+
+
+
+
 export function DeleteManualInvoiceBill() {
  new Promise((resolve) => {
   resolve({status: 200});
