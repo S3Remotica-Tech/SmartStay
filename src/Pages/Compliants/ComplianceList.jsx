@@ -21,7 +21,7 @@ import "./ComplianceList.css";
 import { CloseCircle, Edit, Trash } from "iconsax-react";
 import ErrorMessage from '../../Components/ErrorMessage';
 import { useHasPermission } from '../../Utils/Permission';
-import ComplaintsView from "../../Pages/Compliants/ComplaintsView"
+// import ComplaintsView from "../../Pages/Compliants/ComplaintsView"
 
 const ComplianceList = (props) => {
   const state = useSelector((state) => state);
@@ -585,14 +585,16 @@ const ComplianceList = (props) => {
 
                   <div className="flex-grow-1">
                     <div className="pb-2">
-                      <label onClick={() => handleNavigateComplaintsView(props.complaints)}
+                      <label 
+                      // onClick={() => handleNavigateComplaintsView(props.complaints)}
                         className="d-block"
                         style={{
                           fontFamily: "Gilroy",
                           fontSize: 16,
-                          color: "#1E45E1",
+                          color: "#222222",
                           fontWeight: 600,
-                          marginLeft: "10px", cursor: "pointer", textDecoration: "underline"
+                          marginLeft: "10px", cursor: "pointer",
+                          //  textDecoration: "underline"
                         }}
                       >
                         {props.complaints && props?.complaints?.customerName}

@@ -1117,7 +1117,7 @@ console.log("data",data)
                                 </div>
 
                                 <div className="d-flex justify-content-between align-items-center mt-3">
-                                    <p style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>Total Refund</p>
+                                    <p style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>{ReturnAmount > 0 ? "Amount Paid by Tenant" : "Total Refund" }</p>
                                     <span
                                         style={{ color: "#1E45E1", cursor: "pointer", fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400, marginTop: "-18px" }}
                                         onClick={() => setShowBreakdown(!showBreakdown)}
