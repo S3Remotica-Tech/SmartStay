@@ -43,7 +43,7 @@ import Repo2 from "../Assets/Images/New_images/clipboard-text.png";
 import Banking from "../Pages/Banking/Banking";
 import bank from "../Assets/Images/New_images/bank.png";
 import bankblank from "../Assets/Images/New_images/blank_bank.png";
-import { ArrowUp2, ArrowDown2, Chart2, DocumentText } from "iconsax-react";
+import { ArrowUp2, ArrowDown2, Chart2, DocumentText,Buildings } from "iconsax-react";
 import SettingAllPages from "../Pages/Settings/SettingAllPages";
 import SettingIcon from "../Assets/Images/sidebariconOne.svg";
 import HelpVideoIcon from "../Assets/Images/sidebariconFour.svg";
@@ -73,7 +73,8 @@ import SettingAgreement from "../Pages/Settings/SettingAgreement";
 import BillingRule from "../Pages/Settings/BillingRule/BillingRule";
 import SettingGeneral from "../Pages/Settings/SettingGeneral";
 import SettingManage from "../Pages/Settings/SettingManage";
-import { Notification, RulerPen, CalendarAdd } from 'iconsax-react'
+import { Notification, RulerPen, CalendarAdd,Setting2 ,Chart ,MoneySend ,MessageQuestion ,Flash,Receipt ,
+  Bank , Shop , Box ,Profile2User   } from 'iconsax-react'
 import NotificationForm from "../Utils/Notification";
 import PaymentPreview from "../Pages/SubscriptionFile/PaymentPreview";
 import SettingSecurity from "../Pages/Settings/SettingSecurityPage";
@@ -667,7 +668,7 @@ function Sidebar() {
           display: "flex",
           width: "100%",
           height: "100vh",
-          overflowY: "hidden",
+          overflow: "hidden", 
         }}
         >
 
@@ -690,7 +691,7 @@ function Sidebar() {
           <div
             className=""
             style={{
-              width: "19%",
+              width: "18%",
               display: "flex",
               flexDirection: "column",
               backgroundColor: "#fff",
@@ -698,11 +699,11 @@ function Sidebar() {
               padding: 3,
             }}
           >
-            <div style={{ flexShrink: 0 }}>
+            <div  >
 
               <div
-                className="d-flex align-items-center justify-content-between"
-                style={{ padding: "16px 10px", flexShrink: 0 }}
+                
+                style={{ padding: "16px 16px", flexShrink: 0 }}
               >
                 <img
                   src={Smartstay}
@@ -738,12 +739,12 @@ function Sidebar() {
                     />
                   </svg>
                 </button>
-              </div>
+              
 
 
 
               {hostelListDetail && hostelListDetail?.length > 0 && (
-                <li ref={dropdownRef}
+                <li  ref={dropdownRef}
                   className={`align-items-center list-Item ${currentPage === "settingNewDesign" ? "active" : ""}`}
                   onClick={toggleDropdown}
                   style={{
@@ -915,6 +916,8 @@ function Sidebar() {
                   + Add PG
                 </li>
               )}
+</div>
+              <hr style={{color:"#E2E8F0"}} className="p-0 m-0"/>
               <div
                 className="show-scrolls-sidebar"
                 // style={{
@@ -969,8 +972,8 @@ function Sidebar() {
                     }}
                   >
                     <Chart2
-                      size="20"
-                      color={currentPage === "dashboard" ? "#1E45E1" : "#4B4B4B"}
+                      size="20"  variant="Bold"
+                      // color={currentPage === "dashboard" ? "#1E45E1" : "#4B4B4B"}
                     />
                     <span
                       className="Title"
@@ -1003,11 +1006,7 @@ function Sidebar() {
 
                     }}
                   >
-                    <img
-                      src={Manage}
-                      style={{ height: 20, width: 20 }}
-                      alt="manage"
-                    />
+                   <Setting2 size="20" variant="Bold" />
                     <span
                       className="Title"
                       style={{
@@ -1052,11 +1051,8 @@ function Sidebar() {
 
                           style={{ listStyleType: "none", display: "flex" }}
                         >
-                          <img
-                            src={currentPage === "pg-list" ? Paying2 : Paying}
-                            alt="pg"
-                            style={{ height: 20, width: 20 }}
-                          />
+                         <Buildings size="20" variant="Bold"  />
+                           
                           <span
                             className="Title"
                             style={{
@@ -1087,11 +1083,7 @@ function Sidebar() {
 
                           style={{ listStyleType: "none", display: "flex" }}
                         >
-                          <img
-                            src={currentPage === "user-list" ? Custom2 : Custom}
-                            alt="user"
-                            style={{ height: 20, width: 20 }}
-                          />
+                         <Profile2User size="20" variant="Bold" />
                           <span
                             className="Title"
                             style={{
@@ -1120,11 +1112,8 @@ function Sidebar() {
 
                           style={{ listStyleType: "none", display: "flex" }}
                         >
-                          <img
-                            src={currentPage === "asset" ? Asset2 : Asset}
-                            alt="asset"
-                            style={{ height: 20, width: 20 }}
-                          />
+                         <Box size="20" variant="Bold" />
+
                           <span
                             className="Title"
                             style={{
@@ -1153,11 +1142,8 @@ function Sidebar() {
 
                           style={{ listStyleType: "none", display: "flex" }}
                         >
-                          <img
-                            src={currentPage === "vendor" ? Vendor2 : Vendor}
-                            alt="vendor"
-                            style={{ height: 20, width: 20 }}
-                          />
+                         <Shop size="20" variant="Bold" />
+
                           <span
                             className="Title"
                             style={{
@@ -1190,11 +1176,8 @@ function Sidebar() {
 
                     style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "5px" : "10px" }}
                   >
-                    <img
-                      src={currentPage === "banking" ? bank : bankblank}
-                      alt="banking"
-                      style={{ height: 20, width: 20 }}
-                    />
+                    <Bank size="20" variant="Bold" />
+
 
                     <span
                       className="Title"
@@ -1228,7 +1211,7 @@ function Sidebar() {
                   >
                     <DocumentText
                       size="22"
-                      color="#4B4B4B"
+                      variant="Bold"
                     />
                     <span className="Title"
                       style={{
@@ -1272,11 +1255,8 @@ function Sidebar() {
 
                         style={{ listStyleType: "none", display: "flex", marginTop: billingOpen ? "2px" : "10px" }}
                       >
-                        <img
-                          src={currentPage === "invoice" ? Invoice2 : Invo}
-                          alt="invoice"
-                          style={{ height: 20, width: 20 }}
-                        />
+                        <Receipt size="20" variant="Bold" />
+
 
                         <span
                           className="Title"
@@ -1311,9 +1291,9 @@ function Sidebar() {
                           borderRadius: 6,
                         }}
                       >
-                        <CalendarAdd
+                        <CalendarAdd variant="Bold"
                           size="22"
-                          color="#4B4B4B"
+                          
                         />
                         <span style={{
                           fontSize: 14,
@@ -1340,9 +1320,9 @@ function Sidebar() {
                           // padding: "6px 0",
                         }}
                       >
-                        <RulerPen
+                        <RulerPen variant="Bold"
                           size="22"
-                          color="#4B4B4B"
+                          
                         />
                         <span style={{
                           fontSize: 14,
@@ -1368,9 +1348,9 @@ function Sidebar() {
                           // padding: "6px 0",
                         }}
                       >
-                        <DocumentText
+                        <DocumentText variant="Bold"
                           size="22"
-                          color="#4B4B4B"
+                          
                         />
                         <span style={{
                           fontSize: 14,
@@ -1402,11 +1382,8 @@ function Sidebar() {
 
                     style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "8px" }}
                   >
-                    <img
-                      src={currentPage === "eb" ? Eb2 : Eb}
-                      alt="eb"
-                      style={{ height: 20, width: 20 }}
-                    />
+                    <Flash size="20" variant="Bold" />
+
                     <span
                       className=" Title"
                       style={{
@@ -1437,11 +1414,8 @@ function Sidebar() {
 
                     style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "8px" }}
                   >
-                    <img
-                      src={currentPage === "compliance" ? Compl2 : Compl}
-                      alt="compliance"
-                      style={{ height: 20, width: 20, }}
-                    />
+                    <MessageQuestion size="20" variant="Bold" />
+
                     <span
                       className=" Title"
                       style={{
@@ -1470,11 +1444,8 @@ function Sidebar() {
 
                     style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "8px" }}
                   >
-                    <img
-                      src={currentPage === "expenses" ? Expense2 : Expense}
-                      alt="expence"
-                      style={{ height: 20, width: 20 }}
-                    />
+                   <MoneySend size="20" variant="Bold" />
+
                     <span
                       className="Title"
                       style={{
@@ -1504,11 +1475,8 @@ function Sidebar() {
 
                     style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "8px" }}
                   >
-                    <img
-                      src={currentPage === "reports" ? Repo2 : Repo}
-                      alt="report"
-                      style={{ height: 20, width: 20 }}
-                    />
+                    <Chart size="20" variant="Bold" />
+
                     <span
                       className="Title"
                       style={{
@@ -1524,8 +1492,8 @@ function Sidebar() {
                 </ul>
               </div>
 
-              {/* </div> */}
-
+           
+ 
               <div
                 style={{
                   flexShrink: 0,
@@ -1537,6 +1505,7 @@ function Sidebar() {
                   zIndex: 5,
                 }}
               >
+                <hr style={{color:"#E2E8F0"}} className="p-0 m-0"/>
                 <div
                   style={{
                     display: "flex",
@@ -1709,36 +1678,7 @@ function Sidebar() {
                   </div>
 
 
-                  {/* <div
-                    onMouseEnter={() => handleMouseEnter("helpDoc")}
-                    onMouseLeave={handleMouseLeave}
-                    style={{
-                      position: "relative",
-                      display: "inline-block",
-                      cursor: "pointer",
-                    }}
-                  >
-                    <img src={HelpDocumentIcon} alt="Help Document Icon" />
-                    {hoveredIcon === "helpDoc" && (
-                      <span
-                        style={{
-                          display: "block",
-                          position: "absolute",
-                          top: "-30px",
-                          left: "50%",
-                          transform: "translateX(-50%)",
-                          backgroundColor: "white",
-                          color: "black",
-                          padding: "5px 8px",
-                          borderRadius: "4px",
-                          fontSize: "12px",
-                          whiteSpace: "nowrap",
-                        }}
-                      >
-                        Help Document
-                      </span>
-                    )}
-                  </div> */}
+                
 
                   <div onClick={handleShowNotification}
                     onMouseEnter={() => handleMouseEnter("notification")}
@@ -1842,7 +1782,7 @@ function Sidebar() {
           {/* main content */}
 
           <div
-            style={{ width: "81%", overflowY: "auto", padding: 3 }}
+            style={{ width: "82%", overflowY: "auto", padding: 3 }}
           >
 
             <Routes>
