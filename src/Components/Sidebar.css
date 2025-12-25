@@ -1,5 +1,5 @@
 .show-scrolls-sidebar::-webkit-scrollbar {
-  width: 6px;
+  width: 2px !important;
 }
 
 .show-scrolls-sidebar::-webkit-scrollbar-thumb {
@@ -46,9 +46,9 @@
 }
 
 
-.show-scrolls-sidebar ul li {
+/* .show-scrolls-sidebar ul li {
   min-height: 0;
-}
+} */
 
 /* .sidebar::-webkit-scrollbar { display: none }
 .main-content::-webkit-scrollbar { display: none } */

@@ -22,7 +22,7 @@ import Button from "react-bootstrap/Button";
 import Assets from "../Pages/AssetFile/Asset";
 import Expenses from "../Pages/ExpenseFile/Expense";
 import Banking from "../Pages/Banking/Banking";
-import { ArrowUp2, ArrowDown2, Chart2, DocumentText, Buildings ,LogoutCurve} from "iconsax-react";
+import { ArrowUp2, ArrowDown2, Chart2, DocumentText, Buildings, LogoutCurve } from "iconsax-react";
 import SettingAllPages from "../Pages/Settings/SettingAllPages";
 import SettingIcon from "../Assets/Images/sidebariconOne.svg";
 import HelpVideoIcon from "../Assets/Images/sidebariconFour.svg";
@@ -645,13 +645,13 @@ function Sidebar() {
       {
         showNotify && <NotificationForm show={showNotify} handleClose={handleClose} />
       }
-      <Container fluid className="p-0">
+      <Container fluid className="p-0" >
         {/* parent */}
         <div style={{
-          display: "flex",
+          display: "flex", position:"relative",
           width: "100%",
           height: "100vh",
-          overflow: "hidden",
+          overflowY: "hidden",
         }}
         >
 
@@ -680,6 +680,7 @@ function Sidebar() {
               backgroundColor: "#fff",
               boxShadow: "5px 0 2px -2px rgba(0,0,0,0.12)",
               // padding: 3,
+              
             }}
           >
             <div  >
@@ -735,10 +736,10 @@ function Sidebar() {
                       display: "flex",
                       position: "relative",
                       cursor: "pointer",
-                      fontFamily: "Gilroy", fontSize: 13, 
+                      fontFamily: "Gilroy", fontSize: 13,
                       boxShadow: "0 2px 4px rgba(0,0,0,0.08)",
-    borderRadius: "8px",  
-    backgroundColor: "#fff",
+                      borderRadius: "8px",
+                      backgroundColor: "#fff",
                     }}
                   >
 
@@ -791,7 +792,7 @@ function Sidebar() {
                         verticalAlign: "middle",
                       }}
                     >
-                      {payingGuestName} 
+                      {payingGuestName}
                       <div>
 
                       </div>
@@ -865,8 +866,8 @@ function Sidebar() {
                                       height: 25,
                                       width: 25,
                                       borderRadius: "50%",
-                                       backgroundColor: "#E2E8F0",
-                          color: "#44536A",
+                                      backgroundColor: "#E2E8F0",
+                                      color: "#44536A",
                                       display: "flex",
                                       alignItems: "center",
                                       justifyContent: "center",
@@ -906,23 +907,19 @@ function Sidebar() {
                   </li>
                 )}
               </div>
-                          <div
+              <div
+              
                 className="show-scrolls-sidebar"
-                // style={{
-                //   minHeight: "100vh",
-                //   overflow: "hidden",
-                //   display: "flex",
-                //   display: "flex",
-                //   flexDirection: "column",
-                //   backgroundColor: "",
-                //   margin: 5,
-                // }}
+                
                 style={{
                   flex: 1,
-                  overflow: "hidden",
+                  maxHeight: 430,
+                  overflow: "auto",
                   display: "flex",
                   flexDirection: "column",
                   margin: 5,
+                  // minHeight: 430,
+              overflowY: "auto",
                 }}
               >
 
@@ -981,7 +978,7 @@ function Sidebar() {
                       }`}
                     onClick={() => {
                       setManageOpen(!manageOpen);
-                      setBillingOpen(false);
+                      // setBillingOpen(false);
                       localStorage.setItem("manageOpen", !manageOpen);
                     }}
                     style={{
@@ -1186,7 +1183,7 @@ function Sidebar() {
                     className={`align-items-center list-Item ${currentPage.startsWith("billing") ? "active" : ""}`}
                     onClick={() => {
                       setBillingOpen(!billingOpen);
-                      setManageOpen(false);
+                      // setManageOpen(false);
                     }}
                     style={{
                       listStyleType: "none",
@@ -1498,11 +1495,10 @@ function Sidebar() {
               <div
                 style={{
                   flexShrink: 0,
-                  position: "sticky",
+                  position: "absolute",
                   bottom: 0,
                   backgroundColor: "#fff",
-                  // borderTop: "1px solid #E5E7EB",
-                  padding: "12px 0",
+                                    padding: "12px 0",
                   zIndex: 5,
                 }}
               >
@@ -1657,9 +1653,9 @@ function Sidebar() {
                     }}
                   >
                     <LogoutCurve
- size="20"
- color="#FF0000"
-/>
+                      size="20"
+                      color="#FF0000"
+                    />
                     {hoveredIcon === "logout" && (
                       <span
                         style={{
@@ -1706,7 +1702,7 @@ function Sidebar() {
                           top: "-30px",
                           left: "50%",
                           transform: "translateX(-50%)",
-                         backgroundColor: "#E0ECFF",
+                          backgroundColor: "#E0ECFF",
                           color: "black",
                           padding: "5px 8px",
                           borderRadius: "4px",
@@ -1765,7 +1761,7 @@ function Sidebar() {
                           top: "-30px",
                           left: "0%",
                           transform: "translateX(-50%)",
-                         backgroundColor: "#E0ECFF",
+                          backgroundColor: "#E0ECFF",
                           color: "black",
                           padding: "5px 8px",
                           borderRadius: "4px",
