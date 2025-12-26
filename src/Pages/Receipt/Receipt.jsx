@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import ReceiptList from "../../Pages/Receipt/ReceiptList";
-import { Container, Row, Col, InputGroup, Table,  Button, FormControl, Form } from "react-bootstrap";
+import { Container, Row, Col, InputGroup, Table, Button, FormControl, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,7 +21,7 @@ import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-import { CloseCircle, ArrowUp2, ArrowDown2,} from "iconsax-react";
+import { CloseCircle, ArrowUp2, ArrowDown2, } from "iconsax-react";
 import '../OthersComponent/BillPdfModal.css';
 import AxiosConfig from "../../WebService/AxiosConfig";
 import Swal from 'sweetalert2';
@@ -189,16 +189,16 @@ function Receipt() {
 
 
 
-       const {
+    const {
         canReadModule: canReadRecurring,
     } = useHasPermission("Recurring bills");
 
-      const {
+    const {
         canWriteModule: canWriteReceipt,
         canReadModule: canReadReceipt,
     } = useHasPermission("Receipt");
 
-  
+
 
     useEffect(() => {
         if (!canReadInvoice) {
@@ -319,14 +319,14 @@ function Receipt() {
 
 
 
-//   useEffect(() => {
-//         if (!state.login.selectedHostel_Id) return;
+    //   useEffect(() => {
+    //         if (!state.login.selectedHostel_Id) return;
 
-//         dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
-//         setLoading(true)
+    //         dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+    //         setLoading(true)
 
 
-//     }, [state.login.selectedHostel_Id]);
+    //     }, [state.login.selectedHostel_Id]);
 
 
 
@@ -2185,11 +2185,7 @@ function Receipt() {
         setSearch(false)
         setRowData(rowData);
         setSelectedTransactionId(rowData?.transactionId);
-        if (rowData?.transactionId && state.login.selectedHostel_Id) {
-
-            dispatch({ type: "RECEIPTPDF_NEWCHANGES", payload: { hostelId: state.login.selectedHostel_Id, transactionId: rowData.transactionId } })
-        }
-
+       
     };
 
     useEffect(() => {
@@ -2711,13 +2707,7 @@ function Receipt() {
         }
     }, [newRows]);
 
-    // useEffect(() => {
-
-    //     if (state.login?.selectedHostel_Id) {
-    //         setRecurLoader(true);
-    //         dispatch({ type: "RECURRING-BILLS-LIST", payload: state.login?.selectedHostel_Id })
-    //     }
-    // }, [state.login?.selectedHostel_Id, activeStay]);
+  
 
 
 
@@ -2728,164 +2718,6 @@ function Receipt() {
 
 
 
-
-    // useEffect(() => {
-    //     if (state.InvoiceList?.RecurringbillsgetStatuscode === 200) {
-    //         setRecurLoader(false);
-    //         setRecurringBills(state.InvoiceList.RecurringBills?.customers);
-    //         setOriginalRecuiring(state.InvoiceList.RecurringBills)
-
-    //         setTimeout(() => {
-    //             dispatch({ type: "REMOVE_STATUS_CODE_RECURRING_BILLS_LIST" });
-    //         }, 100);
-    //     }
-    // }, [state.InvoiceList.RecurringbillsgetStatuscode]);
-
-    // useEffect(() => {
-    //     if (
-    //         state.InvoiceList.RecurringBillAddStatusCode === 200 ||
-    //         state.InvoiceList.deleterecurringbillsStatuscode
-    //     ) {
-    //         dispatch({ type: "RECURRING-BILLS-LIST", payload: state.login?.selectedHostel_Id })
-    //         setRecurringBills(state.InvoiceList.RecurringBills);
-
-    //         setTimeout(() => {
-    //             dispatch({ type: "REMOVE_STATUS_CODE_RECURRING_BILLS_ADD" });
-    //         }, 1000);
-
-    //         setTimeout(() => {
-    //             dispatch({ type: "CLEAR_DELETE_RECURRINGBILLS_STATUS_CODE" });
-    //         }, 1000);
-    //     }
-    // }, [
-    //     state.InvoiceList.RecurringBillAddStatusCode,
-    //     state.InvoiceList.deleterecurringbillsStatuscode,
-    // ]);
-
-
-
-    // useEffect(() => {
-    //   if (value === "1") {
-    //     if (filterInput) {
-    //       const FilterUser = Array.isArray(bills)
-    //         ? bills?.filter((item) =>
-    //           item?.fullName?.toLowerCase().includes(filterInput.toLowerCase())
-    //         )
-    //         : [];
-    //       setOriginalBillsFilter(FilterUser);
-    //     }
-    //     else {
-    //       dispatch({
-    //         type: 'INVOICESLISTFILTER',
-    //         payload: {
-    //           hostelId: state.login?.selectedHostel_Id,
-    //         }
-    //       })
-    //     }
-
-
-    //   }
-
-    //   if (value === "2") {
-    //     const FilterUsertwo = Array.isArray(recurringbills)
-    //       ? recurringbills.filter((item) =>
-    //         item.user_name?.toLowerCase().includes(filterInput.toLowerCase())
-    //       )
-    //       : [];
-
-    //     setRecurringBills(FilterUsertwo);
-    //   }
-
-    //   if (value === "3") {
-    //     const FilterUserReceipt = Array.isArray(receiptdata)
-    //       ? receiptdata.filter((item) =>
-    //         item.Name?.toLowerCase().includes(filterInput.toLowerCase())
-    //       )
-    //       : [];
-
-    //     setReceiptData(FilterUserReceipt);
-    //   }
-    // }, [filterInput, value]);
-
-    // const handlefilterInput = (e) => {
-    //     setFilterInput(e.target.value);
-    // };
-
-
-
-    // useEffect(() => {
-    //     if (!state.login?.selectedHostel_Id) return;
-
-    //     const delay = setTimeout(() => {
-    //         const filters = {};
-    //         if (filterInput && filterInput.trim().length > 0) {
-    //             filters.search = filterInput.trim();
-    //         }
-
-
-    //         if (statusfilter && statusfilter.value !== "ALL") {
-    //             filters.paymentStatus = [statusfilter.value];
-    //         }
-
-    //         dispatch({
-    //             type: "INVOICESLISTFILTER",
-    //             payload: {
-    //                 hostelId: state.login.selectedHostel_Id,
-    //                 filters: Object.keys(filters).length ? filters : undefined,
-    //             },
-    //         });
-    //     }, 500);
-
-    //     return () => clearTimeout(delay);
-    // }, [
-    //     filterInput,
-    //     // statusfilter,              
-    //     state.login?.selectedHostel_Id,
-    // ]);
-
-
-    // const handleUserSelect = (user) => {
-
-    //     const searchItem = user.fullName
-    //     if (searchItem && state.login?.selectedHostel_Id) {
-    //         const filters = {
-    //             search: searchItem,
-    //         };
-    //         dispatch({
-    //             type: 'INVOICESLISTFILTER',
-    //             payload: {
-    //                 hostelId: state.login?.selectedHostel_Id,
-    //                 filters: filters
-    //             }
-    //         })
-    //     } else {
-    //         dispatch({
-    //             type: 'INVOICESLISTFILTER',
-    //             payload: {
-    //                 hostelId: state.login?.selectedHostel_Id,
-    //             }
-    //         })
-    //     }
-
-    //     setDropdownVisible(false);
-    // };
-
-
-
-
-
-
-    // const handleCloseSearch = () => {
-    //     setDropdownVisible(false);
-    //     setSearch(false);
-    //     setFilterInput("");
-    //     // setBills(bills);
-    //     // setRecurringBills(originalRecuiring);
-    //     // setReceiptData(originalReceipt);
-
-    //     dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
-
-    // };
 
 
     useEffect(() => {
@@ -2894,17 +2726,7 @@ function Receipt() {
         }
     }, [receiptdata]);
 
-    // useEffect(() => {
-    //     if (bills?.length > 0 && originalBills?.length === 0) {
-    //         setOriginalBills(bills);
-    //     }
-    // }, [bills]);
-
-    // useEffect(() => {
-    //     if (recurringbills?.length > 0 && originalRecuiring?.length === 0) {
-    //         setOriginalRecuiring(recurringbills);
-    //     }
-    // }, [recurringbills]);
+  
 
     const handleSearch = () => {
         setSearch(!search);
@@ -2924,62 +2746,8 @@ function Receipt() {
 
     };
 
-    // const handleUserRecuire = (user) => {
-    //     setFilterInput(user.user_name);
-    //     const searchItem = user.user_name
+   
 
-    //     if (searchItem !== "") {
-    //         const filteredItems =
-    //             state.InvoiceList.RecurringBills &&
-    //             state.InvoiceList.RecurringBills.filter(
-    //                 (user) =>
-    //                     user.user_name &&
-    //                     user.user_name.toLowerCase().includes(searchItem.toLowerCase())
-    //             );
-    //         setRecurringBills(filteredItems);
-
-    //     } else {
-    //         setRecurringBills(state.InvoiceList.RecurringBills);
-    //     }
-    //     // setCurrentPage(1);
-
-    //     setDropdownVisible(false);
-    // };
-
-
-
-
-    // const handleUserReceipt = (user) => {
-    //     setFilterInput(user.Name);
-
-
-    //     const searchItem = user.Name
-
-    //     if (searchItem !== "") {
-    //         const filteredItems =
-    //             state.InvoiceList.ReceiptList &&
-    //             state.InvoiceList.ReceiptList.filter(
-    //                 (user) =>
-    //                     user.Name &&
-    //                     user.Name.toLowerCase().includes(searchItem.toLowerCase())
-    //             );
-    //         setReceiptData(filteredItems);
-
-    //     } else {
-    //         setReceiptData(state.InvoiceList.ReceiptList);
-    //     }
-    //     // setCurrentPage(1);
-
-    //     setDropdownVisible(false);
-    // };
-
-
-
-    // const handleFilterd = () => {
-    //   setFilterStatus(!filterStatus);
-    //   setBills(originalBillsFilter)
-    //   setReceiptData(originalBillsFilterReceipt);
-    // };
 
     useEffect(() => {
         if (!filterStatus) {
@@ -3219,7 +2987,7 @@ function Receipt() {
 
 
     return (
-        <div className="sticky-top bg-white" style={{ position: "relative", overflow:"hidden" }}>
+        <div className="sticky-top bg-white" style={{ position: "relative", overflow: "hidden" }}>
 
 
             {!canReadReceipt ? (
@@ -3247,7 +3015,7 @@ function Receipt() {
                 <>
 
 
-                    { receiptLoader &&
+                    {receiptLoader &&
                         <div
                             style={{
                                 position: 'absolute',
@@ -3280,22 +3048,20 @@ function Receipt() {
 
                     <Container fluid className="p-0 ">
                         <Row
-                            className={` ${DownloadReceipt
-                                ? "m-0 g-0 d-flex justify-content-between sticky-top"
-                                : "m-0 g-0"
+                            className={` "m-0 g-0"
                                 }`}
                         >
                             <Col
-                                lg={DownloadReceipt ? 4 : 12}
-                                md={DownloadReceipt ? 4 : 12}
-                                sm={DownloadReceipt ? 12 : 12}
-                                xs={DownloadReceipt ? 12 : 12}
+                                lg={12}
+                                md={12}
+                                sm={12}
+                                xs={12}
                             >
                                 <div className="sticky-top bg-white d-flex justify-content-between align-items-center  flex-wrap h-auto"
                                     style={{
                                         position: 'sticky',
                                         backgroundColor: 'white',
-                                        zIndex: 10, borderBottom: DownloadReceipt ? "1px solid #E5E7EB" : "none",
+                                        zIndex: 10, borderBottom: "none",
                                         boxShadow: "initial"
 
                                     }}
@@ -3308,27 +3074,26 @@ function Receipt() {
                                     <div className=" d-flex justify-content-between gap-2 align-items-center flex-wrap p-2">
 
 
+
+                                        <div style={{
+                                            backgroundColor: "", color: "", border: "1px solid #CBD5E1", borderRadius: "50%",
+                                            padding: "6px 8px", lineHeight: "normal", height: "fit-content"
+                                        }}>
+                                            <FiSearch
+                                                style={{
+                                                    height: "20px",
+                                                    width: "20px",
+                                                    cursor: canReadRecurring ? "pointer" : "not-allowed",
+                                                    opacity: canReadRecurring ? 1 : 0.4,
+                                                    pointerEvents: canReadRecurring ? "auto" : "none",
+                                                    transition: "opacity 0.3s ease"
+                                                }}
+                                                onClick={handleSearch}
+                                            />
+                                        </div>
+
                                         {
-                                            !DownloadReceipt &&
-                                            <div style={{
-                                                backgroundColor: "", color: "", border: "1px solid #CBD5E1", borderRadius: "50%",
-                                                padding: "6px 8px", lineHeight: "normal", height: "fit-content"
-                                            }}>
-                                                <FiSearch
-                                                    style={{
-                                                        height: "20px",
-                                                        width: "20px",
-                                                        cursor: canReadRecurring ? "pointer" : "not-allowed",
-                                                        opacity: canReadRecurring ? 1 : 0.4,
-                                                        pointerEvents: canReadRecurring ? "auto" : "none",
-                                                        transition: "opacity 0.3s ease"
-                                                    }}
-                                                    onClick={handleSearch}
-                                                />
-                                            </div>
-                                        }
-                                        {
-                                            search && !DownloadReceipt &&
+                                            search &&
 
                                             <div className='  flex flex-wrap ' style={{
                                                 position: 'relative', cursor: "pointer", marginTop: 0
@@ -3365,22 +3130,21 @@ function Receipt() {
                                             </div>
 
                                         }
-                                        {
-                                            !DownloadReceipt &&
 
-                                            <div className='me-2' style={{ marginTop: 0, cursor: "pointer" }}>
-                                                <img src={excelimg} alt='excel' width={38} height={38}
 
-                                                    style={{
-                                                        cursor: canReadRecurring ? "pointer" : "not-allowed",
-                                                        opacity: canReadRecurring ? 1 : 0.4,
-                                                        pointerEvents: canReadRecurring ? "auto" : "none",
-                                                        transition: "opacity 0.3s ease"
-                                                    }}
-                                                //    onClick={() => { if (canReadRecurring) handleAssetsExcel() }}
-                                                />
-                                            </div>
-                                        }
+                                        <div className='me-2' style={{ marginTop: 0, cursor: "pointer" }}>
+                                            <img src={excelimg} alt='excel' width={38} height={38}
+
+                                                style={{
+                                                    cursor: canReadRecurring ? "pointer" : "not-allowed",
+                                                    opacity: canReadRecurring ? 1 : 0.4,
+                                                    pointerEvents: canReadRecurring ? "auto" : "none",
+                                                    transition: "opacity 0.3s ease"
+                                                }}
+                                            //    onClick={() => { if (canReadRecurring) handleAssetsExcel() }}
+                                            />
+                                        </div>
+
 
                                         <Button
                                             disabled={!canWriteReceipt}
@@ -3388,20 +3152,19 @@ function Receipt() {
 
                                             style={{
                                                 fontFamily: "Gilroy",
-                                                fontSize: DownloadReceipt ? "16px" : "14px",
+                                                fontSize: "14px",
                                                 backgroundColor: "#1E45E1",
                                                 color: "white",
                                                 fontWeight: 600,
                                                 borderRadius: "8px",
-                                                padding: DownloadReceipt ? "6px 12px" : "8px 8px",
-                                                marginTop: DownloadReceipt ? 0 : 0,
+                                                padding: "8px 8px",
+                                                marginTop: 0,
                                                 whiteSpace: "nowrap",
-                                                minWidth: DownloadReceipt ? "50px" : "150px",
+                                                minWidth: "150px",
                                                 textAlign: "center",
                                             }}
                                         >
-                                            {" "}
-                                            {DownloadReceipt ? "+ " : "+ Create Receipt"}
+                                            {" "} + Create Receipt
                                         </Button>
                                     </div>
                                 </div>
@@ -3411,411 +3174,270 @@ function Receipt() {
 
 
 
-                                {DownloadReceipt ? (
-                                    <div
-                                        className="show-scroll p-2"
-                                        style={{ height: "90vh", overflowY: "auto" }}
-                                    >
-                                        {receiptdata &&
-                                            receiptdata.map((item) => (
-                                                <>
-                                                    <div
-                                                        className="mb-3  shadow-sm rounded"
-                                                        style={{ padding: "12px 12px", cursor: "pointer", backgroundColor: String(selectedTransactionId) === String(item.transactionId) ? "#F8F9FF" : "#FFFFFF" }}
-                                                    >
-                                                        <div className="d-flex align-items-start justify-content-between">
-                                                            <div>
-                                                                {
-                                                                    item.profilePic && item.profilePic !== "0" ? (
-                                                                        <img
-                                                                            src={item.profilePic}
-                                                                            alt="User"
-                                                                            style={{
-                                                                                height: 40,
-                                                                                width: 40,
-                                                                                borderRadius: "50%",
-                                                                                objectFit: "cover",
-                                                                            }}
-                                                                        />
-                                                                    ) : (
-                                                                        <div
-                                                                            style={{
-                                                                                height: 40,
-                                                                                width: 40,
-                                                                                borderRadius: "50%",
-                                                                                backgroundColor: "#1E45E1",
-                                                                                display: "flex",
-                                                                                alignItems: "center",
-                                                                                justifyContent: "center",
-                                                                                color: "white",
-                                                                                fontWeight: 600,
-                                                                                fontSize: 14,
-                                                                                textTransform: "uppercase",
-                                                                            }}
-                                                                        >
-                                                                            {item.initials}
-                                                                        </div>
-                                                                    )
-                                                                }
-
-                                                            </div>
-
-                                                            <div className="flex-grow-1 ms-2">
-                                                                <div className="d-flex justify-content-between align-items-center mb-1">
-                                                                    <div
-                                                                        className="Invoice_Name d-flex flex-wrap"
-                                                                        style={{
-                                                                            fontFamily: "Gilroy",
-                                                                            fontSize: "14px",
-                                                                            fontWeight: 600,
-                                                                            color: "#222",
-                                                                            cursor: "pointer",
-                                                                        }}
-                                                                        onClick={() => {
-                                                                            setSelectedTransactionId(item.transactionId);
-                                                                            handleDisplayReceiptDownload(true, item)
-                                                                        }}
-                                                                    >
-                                                                        {item.fullName || "Unnamed"}
-                                                                    </div>
-                                                                    <div
-                                                                        style={{
-                                                                            fontFamily: "Gilroy",
-                                                                            fontSize: "14px",
-                                                                            fontWeight: 600,
-                                                                            color: "#222",
-                                                                        }}
-                                                                    >
-                                                                        ₹ {item.paidAmount || "0"}
-                                                                    </div>
-                                                                </div>
-
-                                                                <div className="d-flex justify-content-between align-items-center">
-                                                                    <div
-                                                                        style={{
-                                                                            fontFamily: "Gilroy",
-                                                                            fontSize: "12px",
-                                                                            fontWeight: 500,
-                                                                            color: "#555",
-                                                                        }}
-                                                                    >
-                                                                        {item?.paidAt}
-                                                                    </div>
-                                                                    <span
-                                                                        style={{
-                                                                            fontSize: "10px",
-                                                                            backgroundColor: "#D9FFD9",
-                                                                            color: "#000",
-                                                                            borderRadius: "14px",
-                                                                            fontFamily: "Gilroy",
-                                                                            padding: "4px 10px",
-                                                                            height: "24px",
-                                                                            lineHeight: "16px",
-                                                                            display: "inline-flex",
-                                                                            alignItems: "center",
-                                                                        }}
-                                                                    >
-                                                                        {item?.paymentStatus === "PAID" ? "Paid" : "Unpaid"}
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
 
 
+                                {sortedDataReceipt &&
+                                    sortedDataReceipt.length > 0 && (
+                                        <div
+                                            className=" booking-table-userlist  booking-table ms-2 me-4"
+                                            style={{ paddingBottom: "20px", marginLeft: "-22px" }}
+                                        >
+                                            <div
 
-                                                </>
-                                            ))}
-                                    </div>
-                                ) : (
-                                    <>
-                                        {sortedDataReceipt &&
-                                            sortedDataReceipt.length > 0 && (
-                                                <div
-                                                    className=" booking-table-userlist  booking-table ms-2 me-4"
-                                                    style={{ paddingBottom: "20px", marginLeft: "-22px" }}
+                                                className='show-scrolls'
+                                                style={{
+
+                                                    height: sortedDataReceipt?.length >= 5 || sortedDataReceipt?.length >= 5 ? "450px" : "auto",
+                                                    overflow: "auto",
+                                                    borderTop: "1px solid #E8E8E8",
+                                                    marginBottom: 20,
+                                                    marginTop: "20px",
+                                                    paddingRight: 0,
+                                                    paddingLeft: 0
+
+                                                }}
+                                            >
+                                                <Table
+                                                    responsive="md"
+
+                                                    style={{
+                                                        fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                                                        top: 0,
+                                                        zIndex: 1,
+                                                        borderRadius: 0
+                                                    }}
                                                 >
-                                                    <div
+                                                    <thead style={{
+                                                        fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                                                        top: 0,
+                                                        zIndex: 1
+                                                    }}>
+                                                        <tr>
+                                                            <th
+                                                                style={{
+                                                                    textAlign: "start",
+                                                                    fontFamily: "Gilroy",
+                                                                    color: "rgb(147, 147, 147)",
+                                                                    fontSize: 12,
+                                                                    fontStyle: "normal",
+                                                                    fontWeight: 500,
+                                                                    whiteSpace: "nowrap"
+                                                                }}
+                                                            >
+                                                                <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                    <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("receipt", 'asc')} style={{ cursor: "pointer" }} />
+                                                                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("receipt", 'desc')} style={{ cursor: "pointer" }} />
+                                                                    </div>
+                                                                    Receipt No</div>
+                                                            </th>
 
-                                                        className='show-scrolls'
-                                                        style={{
+                                                            <th
+                                                                style={{
+                                                                    textAlign: "start",
 
-                                                            height: sortedDataReceipt?.length >= 5 || sortedDataReceipt?.length >= 5 ? "450px" : "auto",
-                                                            overflow: "auto",
-                                                            borderTop: "1px solid #E8E8E8",
-                                                            marginBottom: 20,
-                                                            marginTop: "20px",
-                                                            paddingRight: 0,
-                                                            paddingLeft: 0
+                                                                    paddingLeft: "20px",
+                                                                    fontFamily: "Gilroy",
+                                                                    color: "rgb(147, 147, 147)",
+                                                                    fontSize: 12,
+                                                                    fontWeight: 500,
 
-                                                        }}
-                                                    >
-                                                        <Table
-                                                            responsive="md"
+                                                                }}
+                                                            >
+                                                                <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                    <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("Name", 'asc')} style={{ cursor: "pointer" }} />
+                                                                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("Name", 'desc')} style={{ cursor: "pointer" }} />
+                                                                    </div>
+                                                                    Name</div>
+                                                            </th>
 
-                                                            style={{
-                                                                fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                                                                top: 0,
-                                                                zIndex: 1,
-                                                                borderRadius: 0
-                                                            }}
-                                                        >
-                                                            <thead style={{
-                                                                fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                                                                top: 0,
-                                                                zIndex: 1
-                                                            }}>
-                                                                <tr>
-                                                                    <th
-                                                                        style={{
-                                                                            textAlign: "start",
-                                                                            fontFamily: "Gilroy",
-                                                                            color: "rgb(147, 147, 147)",
-                                                                            fontSize: 12,
-                                                                            fontStyle: "normal",
-                                                                            fontWeight: 500,
-                                                                            whiteSpace: "nowrap"
-                                                                        }}
-                                                                    >
-                                                                        <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("receipt", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("receipt", 'desc')} style={{ cursor: "pointer" }} />
-                                                                            </div>
-                                                                            Receipt No</div>
-                                                                    </th>
+                                                            <th
+                                                                style={{
+                                                                    textAlign: "start",
+                                                                    fontFamily: "Gilroy",
+                                                                    color: "rgb(147, 147, 147)",
+                                                                    fontSize: 12,
+                                                                    fontStyle: "normal",
+                                                                    fontWeight: 500,
+                                                                    whiteSpace: "nowrap"
+                                                                }}
+                                                            >
+                                                                <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                    <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("reference_id", 'asc')} style={{ cursor: "pointer" }} />
+                                                                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("reference_id", 'desc')} style={{ cursor: "pointer" }} />
+                                                                    </div>
+                                                                    Reference_Id</div>
+                                                            </th>
 
-                                                                    <th
-                                                                        style={{
-                                                                            textAlign: "start",
+                                                            <th
+                                                                style={{
+                                                                    textAlign: "start",
+                                                                    fontFamily: "Gilroy",
+                                                                    color: "rgb(147, 147, 147)",
+                                                                    fontSize: 12,
+                                                                    fontStyle: "normal",
+                                                                    fontWeight: 500,
+                                                                    whiteSpace: "nowrap"
+                                                                }}
+                                                            >
+                                                                <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                    <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("invoice_number", 'asc')} style={{ cursor: "pointer" }} />
+                                                                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("invoice_number", 'desc')} style={{ cursor: "pointer" }} />
+                                                                    </div>
+                                                                    Invoice Number</div>
+                                                            </th>
+                                                            <th
+                                                                style={{
+                                                                    textAlign: "start",
+                                                                    fontFamily: "Gilroy",
+                                                                    color: "rgb(147, 147, 147)",
+                                                                    fontSize: 12,
+                                                                    fontStyle: "normal",
+                                                                    fontWeight: 500,
+                                                                    whiteSpace: "nowrap"
+                                                                }}
+                                                            >
+                                                                <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                    <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("type", 'asc')} style={{ cursor: "pointer" }} />
+                                                                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("type", 'desc')} style={{ cursor: "pointer" }} />
+                                                                    </div>
+                                                                    Type</div>
+                                                            </th>
+                                                            <th
+                                                                style={{
+                                                                    textAlign: "start",
+                                                                    fontFamily: "Gilroy",
+                                                                    color: "rgb(147, 147, 147)",
+                                                                    fontSize: 12,
+                                                                    fontStyle: "normal",
+                                                                    fontWeight: 500,
+                                                                    whiteSpace: "nowrap"
+                                                                }}
+                                                            >
+                                                                <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                    <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("payment_date", 'asc')} style={{ cursor: "pointer" }} />
+                                                                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("payment_date", 'desc')} style={{ cursor: "pointer" }} />
+                                                                    </div>
+                                                                    Payment Date</div>
+                                                            </th>
 
-                                                                            paddingLeft: "20px",
-                                                                            fontFamily: "Gilroy",
-                                                                            color: "rgb(147, 147, 147)",
-                                                                            fontSize: 12,
-                                                                            fontWeight: 500,
+                                                            <th
+                                                                style={{
+                                                                    textAlign: "start",
+                                                                    fontFamily: "Gilroy",
+                                                                    color: "rgb(147, 147, 147)",
+                                                                    fontSize: 12,
+                                                                    fontStyle: "normal",
+                                                                    fontWeight: 500,
+                                                                }}
+                                                            >
+                                                                <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                    <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("amount_received", 'asc')} style={{ cursor: "pointer" }} />
+                                                                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("amount_received", 'desc')} style={{ cursor: "pointer" }} />
+                                                                    </div>
+                                                                    Amount</div>
+                                                            </th>
+                                                            <th
+                                                                style={{
+                                                                    textAlign: "start",
+                                                                    fontFamily: "Gilroy",
+                                                                    color: "rgb(147, 147, 147)",
+                                                                    fontSize: 12,
+                                                                    fontStyle: "normal",
+                                                                    fontWeight: 500,
+                                                                    whiteSpace: "nowrap"
+                                                                }}
+                                                            >
+                                                                <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                    <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("payment_mode", 'asc')} style={{ cursor: "pointer" }} />
+                                                                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("payment_mode", 'desc')} style={{ cursor: "pointer" }} />
+                                                                    </div>
+                                                                    Payment Mode</div>
+                                                            </th>
 
-                                                                        }}
-                                                                    >
-                                                                        <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("Name", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("Name", 'desc')} style={{ cursor: "pointer" }} />
-                                                                            </div>
-                                                                            Name</div>
-                                                                    </th>
+                                                            <th
+                                                                style={{
+                                                                    textAlign: "start",
+                                                                    fontFamily: "Gilroy",
+                                                                    color: "rgb(147, 147, 147)",
+                                                                    fontSize: 12,
+                                                                    fontWeight: 500,
 
-                                                                    <th
-                                                                        style={{
-                                                                            textAlign: "start",
-                                                                            fontFamily: "Gilroy",
-                                                                            color: "rgb(147, 147, 147)",
-                                                                            fontSize: 12,
-                                                                            fontStyle: "normal",
-                                                                            fontWeight: 500,
-                                                                            whiteSpace: "nowrap"
-                                                                        }}
-                                                                    >
-                                                                        <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("reference_id", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("reference_id", 'desc')} style={{ cursor: "pointer" }} />
-                                                                            </div>
-                                                                            Reference_Id</div>
-                                                                    </th>
-
-                                                                    <th
-                                                                        style={{
-                                                                            textAlign: "start",
-                                                                            fontFamily: "Gilroy",
-                                                                            color: "rgb(147, 147, 147)",
-                                                                            fontSize: 12,
-                                                                            fontStyle: "normal",
-                                                                            fontWeight: 500,
-                                                                            whiteSpace: "nowrap"
-                                                                        }}
-                                                                    >
-                                                                        <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("invoice_number", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("invoice_number", 'desc')} style={{ cursor: "pointer" }} />
-                                                                            </div>
-                                                                            Invoice Number</div>
-                                                                    </th>
-                                                                    <th
-                                                                        style={{
-                                                                            textAlign: "start",
-                                                                            fontFamily: "Gilroy",
-                                                                            color: "rgb(147, 147, 147)",
-                                                                            fontSize: 12,
-                                                                            fontStyle: "normal",
-                                                                            fontWeight: 500,
-                                                                            whiteSpace: "nowrap"
-                                                                        }}
-                                                                    >
-                                                                        <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("type", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("type", 'desc')} style={{ cursor: "pointer" }} />
-                                                                            </div>
-                                                                            Type</div>
-                                                                    </th>
-                                                                    <th
-                                                                        style={{
-                                                                            textAlign: "start",
-                                                                            fontFamily: "Gilroy",
-                                                                            color: "rgb(147, 147, 147)",
-                                                                            fontSize: 12,
-                                                                            fontStyle: "normal",
-                                                                            fontWeight: 500,
-                                                                            whiteSpace: "nowrap"
-                                                                        }}
-                                                                    >
-                                                                        <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("payment_date", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("payment_date", 'desc')} style={{ cursor: "pointer" }} />
-                                                                            </div>
-                                                                            Payment Date</div>
-                                                                    </th>
-
-                                                                    <th
-                                                                        style={{
-                                                                            textAlign: "start",
-                                                                            fontFamily: "Gilroy",
-                                                                            color: "rgb(147, 147, 147)",
-                                                                            fontSize: 12,
-                                                                            fontStyle: "normal",
-                                                                            fontWeight: 500,
-                                                                        }}
-                                                                    >
-                                                                        <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("amount_received", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("amount_received", 'desc')} style={{ cursor: "pointer" }} />
-                                                                            </div>
-                                                                            Amount</div>
-                                                                    </th>
-                                                                    <th
-                                                                        style={{
-                                                                            textAlign: "start",
-                                                                            fontFamily: "Gilroy",
-                                                                            color: "rgb(147, 147, 147)",
-                                                                            fontSize: 12,
-                                                                            fontStyle: "normal",
-                                                                            fontWeight: 500,
-                                                                            whiteSpace: "nowrap"
-                                                                        }}
-                                                                    >
-                                                                        <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("payment_mode", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("payment_mode", 'desc')} style={{ cursor: "pointer" }} />
-                                                                            </div>
-                                                                            Payment Mode</div>
-                                                                    </th>
-
-                                                                    <th
-                                                                        style={{
-                                                                            textAlign: "start",
-                                                                            fontFamily: "Gilroy",
-                                                                            color: "rgb(147, 147, 147)",
-                                                                            fontSize: 12,
-                                                                            fontWeight: 500,
-
-                                                                        }}
-                                                                    >Action</th>
-                                                                </tr>
-                                                            </thead>
+                                                                }}
+                                                            >Action</th>
+                                                        </tr>
+                                                    </thead>
 
 
-                                                            <tbody style={{ fontSize: "10px", minHeight: "200px", position: "relative" }}>
-                                                                <PaginationList pageSizeOptions={[{ value: 10, label: "10" }, { value: 50, label: "50" }, { value: 100, label: "100" }]}>
-                                                                    {sortedDataReceipt.map((item) => (
-                                                                        <ReceiptList
-                                                                            key={item.id}
-                                                                            item={item}
-                                                                            receiptaddPermission={receiptaddPermission}
-                                                                            billrolePermission={billrolePermission}
-                                                                            OnHandleshowform={handleShowForm}
-                                                                            OnHandleshowInvoicePdf={handleReceiptDetail}
-                                                                            onhandleEdit={handleEditReceipt}
-                                                                            DisplayInvoice={handleDisplayReceiptDownload}
+                                                    <tbody style={{ fontSize: "10px", minHeight: "200px", position: "relative" }}>
+                                                        <PaginationList pageSizeOptions={[{ value: 10, label: "10" }, { value: 50, label: "50" }, { value: 100, label: "100" }]}>
+                                                            {sortedDataReceipt.map((item) => (
+                                                                <ReceiptList
+                                                                    key={item.id}
+                                                                    item={item}
+                                                                    receiptaddPermission={receiptaddPermission}
+                                                                    billrolePermission={billrolePermission}
+                                                                    OnHandleshowform={handleShowForm}
+                                                                    OnHandleshowInvoicePdf={handleReceiptDetail}
+                                                                    onhandleEdit={handleEditReceipt}
+                                                                    DisplayInvoice={handleDisplayReceiptDownload}
 
-                                                                        />
-                                                                    ))}
-                                                                </PaginationList>
-                                                            </tbody>
+                                                                />
+                                                            ))}
+                                                        </PaginationList>
+                                                    </tbody>
 
-                                                        </Table>
-                                                    </div>
-                                                </div>
-                                            )}
+                                                </Table>
+                                            </div>
+                                        </div>
+                                    )}
 
 
-                                        {!receiptLoader && sortedDataReceipt &&
-                                            sortedDataReceipt?.length === 0 && (
-                                                <div style={{ marginTop: 20 }}>
-                                                    <div style={{ textAlign: "center" }}>
-                                                        {" "}
-                                                        <img src={Emptystate} alt="emptystate" />
-                                                    </div>
-                                                    <div
-                                                        className="pb-1"
-                                                        style={{
-                                                            textAlign: "center",
-                                                            fontWeight: 600,
-                                                            fontFamily: "Gilroy",
-                                                            fontSize: 18,
-                                                            color: "rgba(75, 75, 75, 1)",
-                                                        }}
-                                                    >
-                                                        No Receipt available{" "}
-                                                    </div>
-                                                    <div
-                                                        className="pb-1"
-                                                        style={{
-                                                            textAlign: "center",
-                                                            fontWeight: 500,
-                                                            fontFamily: "Gilroy",
-                                                            fontSize: 14,
-                                                            color: "rgba(75, 75, 75, 1)",
-                                                        }}
-                                                    >
-                                                        There are no receipt added{" "}
-                                                    </div>
-                                                </div>
-                                            )}
-                                    </>
-                                )}
+                                {!receiptLoader && sortedDataReceipt &&
+                                    sortedDataReceipt?.length === 0 && (
+                                        <div style={{ marginTop: 20 }}>
+                                            <div style={{ textAlign: "center" }}>
+                                                {" "}
+                                                <img src={Emptystate} alt="emptystate" />
+                                            </div>
+                                            <div
+                                                className="pb-1"
+                                                style={{
+                                                    textAlign: "center",
+                                                    fontWeight: 600,
+                                                    fontFamily: "Gilroy",
+                                                    fontSize: 18,
+                                                    color: "rgba(75, 75, 75, 1)",
+                                                }}
+                                            >
+                                                No Receipt available{" "}
+                                            </div>
+                                            <div
+                                                className="pb-1"
+                                                style={{
+                                                    textAlign: "center",
+                                                    fontWeight: 500,
+                                                    fontFamily: "Gilroy",
+                                                    fontSize: 14,
+                                                    color: "rgba(75, 75, 75, 1)",
+                                                }}
+                                            >
+                                                There are no receipt added{" "}
+                                            </div>
+                                        </div>
+                                    )}
+
+
                             </Col>
 
-                            {DownloadReceipt && (
-                                <>
-
-
-                                    <Col className="p-0"
-                                        lg={DownloadReceipt ? 8 : 12}
-                                        md={DownloadReceipt ? 8 : 12}
-                                        sm={DownloadReceipt ? 12 : 12}
-                                        xs={DownloadReceipt ? 12 : 12}
-                                        style={{
-                                            borderLeft: DownloadReceipt
-                                                ? "1px solid #ccc"
-                                                : "none",
-                                        }}
-                                    >
-                                        <ReceiptPdfCard
-                                            show={showPdfReceiptModal}
-                                            handleClosed={handleClosePdfReceipt}
-                                            rowData={rowData}
-                                        />
-
-
-                                    </Col>
-                                </>
-                            )}
-
+                          
                         </Row>
                     </Container>
                 </>

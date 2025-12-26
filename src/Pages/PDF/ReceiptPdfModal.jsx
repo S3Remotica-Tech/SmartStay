@@ -20,13 +20,15 @@ import Refund from '../../Assets/Images/New_images/Refund.png';
 import { Location, Call, Profile, } from 'iconsax-react'
 import { IoBed } from "react-icons/io5";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
+import { useNavigate } from "react-router-dom";
 
-const InvoiceCard = ({ rowData, handleClosed }) => {
+
+const InvoiceCard = ({ rowData,  }) => {
 
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-
-
+  const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
 
   const [hoveredItem, setHoveredItem] = useState(null);
 
@@ -51,14 +53,6 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
     },
   ];
 
-
-
-  // const [hosteldetails, setHostelDetails] = useState({})
-  // const [userdetails, setUserDetails] = useState({})
-  // const [invoice_details, setInvoiceDetails] = useState({})
-  // const [tabledetails, setTableDetails] = useState([])
-  // const [bill_template, setBillTemplate] = useState({})
-  // const [banking_details, setBankingDetails] = useState({})
   const [isVisible, setIsVisible] = useState(true);
   const [idforwhats, setIdForWhats] = useState("");
   const cardRef = useRef(null);
@@ -68,53 +62,6 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
     setIsVisible(true)
   }, [rowData])
 
-  // const [billTransaction, setBillTransaction] = useState("")
-  // const [billReceipt, setBillReceipt] = useState("")
-
-
-  // useEffect(() => {
-  //   if (state.login.selectedHostel_Id) {
-  //     dispatch({ type: 'GET_TEMPLATE_LIST', payload: state.login.selectedHostel_Id })
-  //   }
-
-  // }, [])
-
-
-
-  
-
-  //   useEffect(() => {
-  //     if (state.InvoiceList.statusCodeNewReceiptStatusCode === 200) {
-
-  //       // const invoiceTypeMap = {
-  //       //   Rent: "RENTAL",
-  //       //   Advance: "ADVANCE",
-  //       // };
-
-  // //       const selectedType = invoiceTypeMap[rowData.invoiceType];
-  // //       const TempArray = state.InvoiceList?.newReceiptchanges?.configurations?.filter(
-  // //         (template) => template.receiptType === selectedType
-  // //       );
-
-
-
-
-
-  //       setHostelDetails(state.InvoiceList?.newReceiptchanges.configurations)
-  //       setUserDetails(state.InvoiceList?.newReceiptchanges.customerInfo)
-  //       setTableDetails(state.InvoiceList?.newReceiptchanges)
-  //       setInvoiceDetails(state.InvoiceList?.newReceiptchanges)
-
-  //       setBillTemplate(state.InvoiceList?.newReceiptchanges.configurations)
-
-  //       setBankingDetails(state.InvoiceList.BillsPdfDetails.banking_details)
-  //       setBillTransaction(state.InvoiceList.BillsPdfDetails.Transaction)
-  //       setBillReceipt(state.InvoiceList.BillsPdfDetails)
-  //       setTimeout(() => {
-  //         dispatch({ type: "CLEAR_NEE_RECEIPT_PDF_STATUS_CODE" });
-  //       }, 100);
-  //     }
-  //   }, [state.InvoiceList.statusCodeNewReceiptStatusCode]);
 
 
 
@@ -213,16 +160,11 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
 
   const handleBackInvoice = () => {
-    handleClosed()
+    navigate(`/receipts/${state.login?.selectedHostel_Id}`);
   }
 
 
-  // const isValid = (value) => {
-  //   return value !== null && value !== undefined && value !== "undefined" && value !== "";
-  // };
 
-
-  const [isOpen, setIsOpen] = useState(false);
 
   const handleShareClick = () => {
     setIsOpen(!isOpen);

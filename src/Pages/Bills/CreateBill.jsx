@@ -1245,38 +1245,7 @@ function CreateBill() {
         }
     }, [state.InvoiceList.manualInvoiceAddStatusCode]);
 
-    // useEffect(() => {
-    //     setBills(state.InvoiceList.ManualInvoices);
-    // }, [state.InvoiceList.ManualInvoices,])
-
-
-
-
-
-
-
-    // useEffect(() => {
-    //     if (state.InvoiceList.manualInvoiceEditStatusCode === 200) {
-    //         // setShowManualInvoice(false)
-    //         setFormLoading(false)
-    //         // setShowRecurringBillForm(false);
-    //         // setReceiptFormShow(false);
-    //         // setShowAllBill(true);
-    //         dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
-
-    //         setLoading(false);
-
-    //         setTimeout(() => {
-    //             dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_EDIT" });
-    //             setLoading(false);
-
-    //             setBills(state.InvoiceList.ManualInvoices);
-    //         }, 100);
-    //     }
-    // }, [
-    //     state.InvoiceList.manualInvoiceEditStatusCode,
-    //     state.InvoiceList.ManualInvoices,
-    // ]);
+   
 
 
     const optionsone = {

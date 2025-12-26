@@ -132,7 +132,18 @@ const InvoiceTable = (props) => {
 
   const handleDownload = (item) => {
     if (item) {
-      props.DisplayInvoice(true, item)
+      // props.DisplayInvoice(true, item)
+
+      console.log("item", item)
+
+      dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: item.hostelId, invoiceId: item.invoiceId } })
+
+      navigate(`/invoice/details/${item.invoiceId}`, {
+        state: {
+          rowData: item
+        },
+      });
+
     }
   }
 

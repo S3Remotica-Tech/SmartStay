@@ -1762,26 +1762,26 @@ const InvoicePage = () => {
     setSearch(false)
     setRowData(rowData);
     setSelectedInvoiceId(rowData.invoiceId);
-    if (rowData) {
-      dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: rowData.hostelId, invoiceId: rowData.invoiceId } })
+    // if (rowData) {
+    //   dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: rowData.hostelId, invoiceId: rowData.invoiceId } })
 
-    }
+    // }
   };
 
 
-  const handleDisplayReceiptDownload = (isVisible, rowData) => {
-    setDownloadReceipt(isVisible);
-    setShowPdfReceiptModal(true);
-    setStatusfilter(false)
-    setSearch(false)
-    setRowData(rowData);
-    setSelectedTransactionId(rowData?.transactionId);
-    if (rowData?.transactionId && state.login.selectedHostel_Id) {
+  // const handleDisplayReceiptDownload = (isVisible, rowData) => {
+  //   setDownloadReceipt(isVisible);
+  //   setShowPdfReceiptModal(true);
+  //   setStatusfilter(false)
+  //   setSearch(false)
+  //   setRowData(rowData);
+  //   setSelectedTransactionId(rowData?.transactionId);
+  //   if (rowData?.transactionId && state.login.selectedHostel_Id) {
 
-      dispatch({ type: "RECEIPTPDF_NEWCHANGES", payload: { hostelId: state.login.selectedHostel_Id, transactionId: rowData.transactionId } })
-    }
+  //     dispatch({ type: "RECEIPTPDF_NEWCHANGES", payload: { hostelId: state.login.selectedHostel_Id, transactionId: rowData.transactionId } })
+  //   }
 
-  };
+  // };
 
   useEffect(() => {
     if (state.InvoiceList.statusCodeNewReceiptStatusCode === 200) {
@@ -1865,138 +1865,11 @@ const InvoicePage = () => {
     }
   }, [state.InvoiceList.RecordPaymentUpdateStatusCode]);
 
-  useEffect(() => {
-    setBillRolePermission(state.createAccount.accountList);
-  }, [state.createAccount.accountList]);
-
-
-  useEffect(() => {
-    const userType = billrolePermission[0]?.user_details?.user_type;
-    const isAdmin = userType === "admin" || userType === "agent";
-    if (isAdmin) {
-      if (state?.login?.planStatus === 0) {
-
-        setBillPermissionError("");
-        setBillAddPermission("Permission Denied");
-        setBillEditPermission("Permission Denied");
-        setBillDeletePermission("Permission Denied");
-
-        setRecurringPermission("");
-        setRecuringBillAddPermission("Permission Denied");
-
-        setReceiptPermission("");
-        setReceiptAddPermission("Permission Denied");
-
-
-      } else if (state?.login?.planStatus === 1) {
-        setBillPermissionError("");
-        setBillAddPermission("");
-        setBillEditPermission("");
-        setBillDeletePermission("");
-        setRecuringBillAddPermission("");
-        setRecurringPermission("");
-        setReceiptPermission("");
-        setReceiptAddPermission("");
-      }
-    }
-
-  }, [state?.login?.planStatus, state.login?.selectedHostel_Id, billrolePermission])
+  
 
 
 
-  useEffect(() => {
-    const billPermission = billrolePermission[0]?.role_permissions?.find(
-      (perm) => perm.permission_name === "Bills"
-    );
-
-    const isOwner = billrolePermission[0]?.user_details?.user_type === "staff";
-    const planActive = state?.login?.planStatus === 1;
-
-    if (!billPermission || !isOwner) return;
-
-
-    if (billPermission.per_view === 1 && planActive) {
-      setBillPermissionError("");
-    } else {
-      setLoading(false);
-      setBillPermissionError("Permission Denied");
-    }
-
-
-    if (billPermission.per_create === 1 && planActive) {
-      setBillAddPermission("");
-    } else {
-      setBillAddPermission("Permission Denied");
-    }
-
-
-    if (billPermission.per_edit === 1 && planActive) {
-      setBillEditPermission("");
-    } else {
-      setBillEditPermission("Permission Denied");
-    }
-
-    if (billPermission.per_delete === 1 && planActive) {
-      setBillDeletePermission("");
-    } else {
-      setBillDeletePermission("Permission Denied");
-    }
-  }, [billrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
-
-
-
-  useEffect(() => {
-    const billPermission = billrolePermission[0]?.role_permissions?.find(
-      (perm) => perm.permission_name === "Recuring Bills"
-    );
-
-    const isOwner = billrolePermission[0]?.user_details?.user_type === "staff";
-    const planActive = state?.login?.planStatus === 1;
-
-    if (!billPermission || !isOwner) return;
-
-    if (billPermission.per_create === 1 && planActive) {
-      setRecuringBillAddPermission("");
-    } else {
-      setRecuringBillAddPermission("Permission Denied");
-      setLoading(false)
-    }
-    if (billPermission.per_view === 1 && planActive) {
-      setRecurringPermission("");
-    } else {
-      setRecurringPermission("Permission Denied");
-      setLoading(false)
-    }
-  }, [billrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
-
-
-
-
-  useEffect(() => {
-    const receiptPermission = billrolePermission[0]?.role_permissions?.find(
-      (perm) => perm.permission_name === "Receipt"
-    );
-
-    const isOwner = billrolePermission[0]?.user_details?.user_type === "staff";
-    const planActive = state?.login?.planStatus === 1;
-
-    if (!receiptPermission || !isOwner) return;
-
-
-    if (receiptPermission.per_view === 1 && planActive) {
-      setReceiptPermission("");
-    } else {
-      setReceiptPermission("Permission Denied");
-      setLoading(false);
-    }
-
-
-    if (receiptPermission.per_create === 1 && planActive) {
-      setReceiptAddPermission("");
-    } else {
-      setReceiptAddPermission("Permission Denied");
-    }
-  }, [billrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
+ 
 
 
 
@@ -2818,10 +2691,10 @@ const InvoicePage = () => {
       {showAllBill && (
         <Row className="p-0" style={{ width: "100%", }}>
           <Col className="p-0"
-            lg={DownloadInvoice || DownloadReceipt ? 4 : 12}
-            md={DownloadInvoice || DownloadReceipt ? 4 : 12}
-            sm={DownloadInvoice || DownloadReceipt ? 12 : 12}
-            xs={DownloadInvoice || DownloadReceipt ? 12 : 12}
+            lg={ 12}
+            md={12}
+            sm={12}
+            xs={12}
           >
             <div
               className="container sticky-top bg-white"
@@ -2829,16 +2702,14 @@ const InvoicePage = () => {
                 zIndex: 0,
                 height: 'auto',
                 // margin: (DownloadInvoice) ? 0 : 3,
-                paddingBottom: (DownloadInvoice) ? 4 : 0,
-                borderBottom: (DownloadInvoice)
-                  ? "1px solid #E5E7EB"
-                  : "none",
+                paddingBottom:  0,
+                borderBottom:  "none",
                 boxShadow: "initial"
               }}
             >
               <div className="d-flex justify-content-between align-items-center flex-wrap">
                 <div className="" style={{
-                  marginTop: DownloadInvoice ? 0 : 12,
+                  marginTop: 12,
                 }}>
                   <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Bills</label>
                 </div>
@@ -2847,7 +2718,7 @@ const InvoicePage = () => {
                 {showLoader && <LoaderComponent />}
                 {loading && <LoaderComponent />}
                 <div className="d-flex flex-wrap align-items-center gap-2" style={{ paddingLeft: 25 }}>
-                  {(DownloadInvoice) && (
+                  {/* {(DownloadInvoice) && (
                     <div className="d-flex align-items-center mt-1 mb-1" style={{}}>
                       <button disabled
                         onClick={() => setShowSearchFilter(!showSearchFilter)}
@@ -2875,8 +2746,8 @@ const InvoicePage = () => {
                       </button>
 
                     </div>
-                  )}
-                  {(!showPdfModal) && (
+                  )} */}
+                 
                     <div className={` d-flex align-items-center`} >
                       {search ? (
                         <>
@@ -2926,7 +2797,7 @@ const InvoicePage = () => {
                       ) : (
                         <>
                           <div style={{
-                            marginTop: DownloadInvoice || DownloadReceipt ? 0 : 12, backgroundColor: "", color: "", border: "1px solid #CBD5E1", borderRadius: "50%",
+                            marginTop:  12, backgroundColor: "", color: "", border: "1px solid #CBD5E1", borderRadius: "50%",
                             padding: "6px 8px", lineHeight: "normal", height: "fit-content"
                           }}>
                             <FiSearch
@@ -2953,7 +2824,7 @@ const InvoicePage = () => {
 
 
                     </div>
-                  )}
+              
 
 
 
@@ -2998,7 +2869,7 @@ const InvoicePage = () => {
 
 
                   <div className="d-flex gap-3 align-items-center">
-                    {!showPdfModal && (
+                  
                       <>
                         <div
                           className=""
@@ -3073,7 +2944,7 @@ const InvoicePage = () => {
                           }} />
                         </div>
                       </>
-                    )}
+                   
 
                   </div>
                 </div>
@@ -3293,7 +3164,277 @@ const InvoicePage = () => {
 
 
 
-                    {showform && (
+                  
+
+
+
+                    <div className={`p-0 table-bills  "mt-0" `}>
+                      <Row
+                        className={` 
+                          "m-0 g-0"
+                          }`}
+                      >
+                        <Col
+                          lg={12}
+                          md={12}
+                          sm={12}
+                          xs={12}
+                        >
+                        
+                            <>
+                              {sortedData && sortedData.length > 0 ? (
+
+                                <div
+                                  className=" ms-2"
+                                  style={{ overflowx: "hidden", }}
+                                >
+                                  <div
+
+                                    className='show-scrolls'
+                                    style={{
+
+                                      height: sortedData?.length >= 12 ? "500px" : "auto",
+                                      overflowY: "auto",
+                                      borderTop: "1px solid #E8E8E8",
+                                      marginTop: "5px",
+                                      paddingRight: 0,
+                                      paddingLeft: 0
+
+                                    }}
+                                  >
+                                    <Table
+                                      responsive="md"
+
+                                      style={{
+                                        fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                                        top: 0,
+                                        zIndex: 1,
+                                        borderRadius: 0
+                                      }}
+                                      className="mb-0"
+                                    >
+                                      <thead style={{
+                                        fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                                        top: 0,
+                                        zIndex: 1,
+                                      }}>
+                                        <tr className="">
+                                          <th
+                                            style={headerStyle}
+                                          >
+                                            <label style={labelStyle}>
+
+                                              Invoice Number</label>
+                                          </th>
+                                          <th
+                                            style={headerStyle}
+                                          >
+                                            <label style={labelStyle}>
+
+                                              Name</label>
+                                          </th>
+
+                                          <th
+                                            style={headerStyle}
+                                          >
+                                            <label style={labelStyle}>
+
+                                              Type</label>
+                                          </th>
+                                          <th
+                                            style={headerStyle}
+                                          >
+                                            <label style={labelStyle}>
+                                              Invoice Date</label>
+                                          </th>
+                                          <th
+                                            style={headerStyle}
+                                          >
+                                            <label style={labelStyle}>
+                                              Due Date</label>
+                                          </th>
+                                          <th
+                                            style={headerStyle}
+                                          >
+                                            <label style={labelStyle}>
+                                              Amount</label>
+                                          </th>
+                                          <th
+                                            style={headerStyle}
+                                          >
+                                            <label style={labelStyle} >
+                                              Due</label>
+                                          </th>
+                                          <th
+                                            style={headerStyle}
+                                          >
+                                            <label style={labelStyle}>
+
+                                              Status</label>
+                                          </th>
+                                          <th
+                                            style={headerStyle}
+                                          > <label style={labelStyle}>Action</label></th>
+                                        </tr>
+                                      </thead>
+
+                                      <tbody style={{ fontSize: "10px", minHeight: "200px", position: "relative" }}>
+
+                                        <PaginationList>
+                                          {sortedData.map((item, index) => (
+                                            <InvoiceTable
+                                              key={item.id}
+                                              item={item}
+                                              index={index}
+                                              OnHandleshowform={handleShowForm}
+                                              OnHandleshowEditform={handleEdit}
+                                              OnHandleshowInvoicePdf={handleInvoiceDetail}
+                                              OnHandleshowDeleteform={handleBillDelete}
+                                              DisplayInvoice={handleDisplayInvoiceDownload}
+                                              billAddPermission={billAddPermission}
+                                              billEditPermission={billEditPermission}
+                                              billDeletePermission={billDeletePermission}
+                                            />
+                                          ))}
+                                        </PaginationList>
+
+                                      </tbody>
+
+
+                                    </Table>
+
+
+
+                                  </div>
+
+                                </div>
+                              ) : (
+
+                                !loading &&
+                                sortedData &&
+                                sortedData?.length === 0 && (
+
+                                  <div className="mt-2">
+                                    <div style={{ textAlign: "center" }}>
+                                      {" "}
+                                      <img src={Emptystate} alt="emptystate" />
+                                    </div>
+                                    <div
+                                      className="pb-1"
+                                      style={{
+                                        textAlign: "center",
+                                        fontWeight: 600,
+                                        fontFamily: "Gilroy",
+                                        fontSize: 18,
+                                        color: "rgba(75, 75, 75, 1)",
+                                      }}
+                                    >
+                                      No bills available{" "}
+                                    </div>
+                                    <div
+                                      className="pb-1"
+                                      style={{
+                                        textAlign: "center",
+                                        fontWeight: 500,
+                                        fontFamily: "Gilroy",
+                                        fontSize: 14,
+                                        color: "rgba(75, 75, 75, 1)",
+                                      }}
+                                    >
+                                      There are no bills added{" "}
+                                    </div>
+                                  </div>
+                                )
+                              )}
+
+
+                            </>
+                          
+                        </Col>
+
+
+                      </Row>
+                    </div>
+
+
+
+
+                  </div>
+                )}
+
+              </div>
+
+
+            </div>
+
+
+
+          </Col>
+
+
+          {/* {
+            DownloadInvoice &&
+            <Col className="p-0 m-0"
+              lg={DownloadInvoice ? 8 : 12}
+              md={DownloadInvoice ? 8 : 12}
+              sm={DownloadInvoice ? 12 : 12}
+              xs={DownloadInvoice ? 12 : 12}
+              style={{
+                borderLeft: DownloadReceipt
+                  ? "1px solid #ccc"
+                  : "none",
+              }}
+            >
+              <BillPdfModal
+                show={showPdfModal}
+                handleClosed={handleClosePdfModal}
+                rowData={rowData}
+              />
+
+
+            </Col>
+          } */}
+
+
+
+
+
+
+
+
+
+        </Row>
+      )}
+
+
+
+
+      {state.InvoiceList.unableAddInvoiceDetailsError ?
+        <div className="d-flex justify-content-center mt-5">
+
+          <ErrorMessage message={state.InvoiceList.unableAddInvoiceDetailsError} type="error" />
+        </div>
+        : null}
+
+      {showRecurringBillForm && (
+        <>
+          <RecurringBill hostelId={hostelId} onhandleback={handleBackBill} />
+        </>
+      )}
+
+      {receiptformShow && (
+        <>
+          <AddReceiptForm
+            onhandleback={handleBackBill}
+            editvalue={editvalue}
+            receiptedit={receiptedit}
+          />
+        </>
+      )}
+
+
+
+        {showform && (
                       <div
                         className="modal show"
                         style={{
@@ -3874,534 +4015,6 @@ const InvoicePage = () => {
                         </Modal>
                       </div>
                     )}
-
-
-
-                    <div className={`p-0 table-bills ${DownloadReceipt || DownloadInvoice ? "mt-0" : "mt-2"} `}>
-                      <Row
-                        className={` ${DownloadReceipt
-                          ? "m-0 g-0 d-flex justify-content-between"
-                          : "m-0 g-0"
-                          }`}
-                      >
-                        <Col
-                          lg={12}
-                          md={12}
-                          sm={12}
-                          xs={12}
-                        >
-                          {DownloadInvoice ? (
-                            <div
-                              className="show-scroll p-2"
-                              style={{ height: "90vh", overflowY: "auto" }}
-                            >
-                              {bills &&
-                                bills?.map((item) => (
-                                  <>
-
-                                    <div key={item.invoiceId}
-                                      className="mb-3  shadow-sm rounded"
-                                      style={{
-                                        padding: "12px 16px", cursor: "pointer",
-                                        backgroundColor: String(selectedInvoiceId) === String(item.invoiceId) ? "#F8F9FF" : "#FFFFFF"
-                                      }}
-                                    >
-                                      <div className="d-flex align-items-start justify-content-between">
-                                        <div>
-                                          <span>
-                                            {
-                                              item.profilePic && item.profilePic !== "0" ? (
-                                                <img
-                                                  src={item.profilePic}
-                                                  alt="User"
-                                                  style={{
-                                                    height: 40,
-                                                    width: 40,
-                                                    borderRadius: "50%",
-                                                    objectFit: "cover",
-                                                  }}
-                                                />
-                                              ) : (
-                                                <div
-                                                  style={{
-                                                    height: 40,
-                                                    width: 40,
-                                                    borderRadius: "50%",
-                                                    backgroundColor: "#1E45E1",
-                                                    display: "flex",
-                                                    alignItems: "center",
-                                                    justifyContent: "center",
-                                                    color: "white",
-                                                    fontWeight: 600,
-                                                    fontSize: 14,
-                                                    textTransform: "uppercase",
-                                                  }}
-                                                >
-                                                  {item.initials}
-                                                </div>
-                                              )
-                                            }
-                                          </span>
-                                        </div>
-
-                                        <div className="flex-grow-1 ms-3">
-                                          <div className="d-flex justify-content-between align-items-center mb-1">
-                                            <div
-                                              className="Invoice_Name"
-                                              style={{
-                                                fontFamily: "Gilroy",
-                                                fontSize: "14px",
-                                                wordWrap: "break-word",
-                                                color: hoveredInvoiceId === item.invoiceId ? "#1E45E1" : "#222222",
-                                                textDecoration: "underline",
-                                                fontStyle: "normal",
-                                                lineHeight: "normal",
-                                                fontWeight: 600,
-                                                cursor: "pointer",
-                                              }}
-                                              onMouseEnter={() => setHoveredInvoiceId(item.invoiceId)}
-                                              onMouseLeave={() => setHoveredInvoiceId(null)}
-                                              onClick={() => {
-                                                setSelectedInvoiceId(item.invoiceId);
-                                                handleDisplayInvoiceDownload(true, item);
-                                              }}
-                                            >
-                                              {item.fullName}
-                                            </div>
-                                            <div
-                                              style={{
-                                                fontFamily: "Gilroy",
-                                                fontSize: "12px",
-                                                wordWrap: "break-word",
-                                                color: "#222",
-                                                fontStyle: "normal",
-                                                lineHeight: "normal",
-                                                fontWeight: 600,
-                                              }}
-                                            >
-                                              {item.baseAmount}
-                                            </div>
-                                          </div>
-
-                                          <div className="d-flex justify-content-between gap-3 mb-2">
-                                            <div
-                                              style={{
-                                                fontFamily: "Gilroy",
-                                                fontSize: "12px",
-                                                wordWrap: "break-word",
-                                                color: "#222",
-                                                fontStyle: "normal",
-                                                lineHeight: "normal",
-                                                fontWeight: 600,
-                                              }}
-                                            >
-                                              {item.invoiceNumber === null ||
-                                                item.invoiceNumber === ""
-                                                ? "0.00"
-                                                : item.invoiceNumber}
-                                            </div>
-                                            <div
-                                              style={{
-                                                fontFamily: "Gilroy",
-                                                fontSize: "12px",
-                                                wordWrap: "break-word",
-                                                color: "#222",
-                                                fontStyle: "normal",
-                                                lineHeight: "normal",
-                                                fontWeight: 600,
-                                              }}
-                                            >
-                                              {item.invoiceDate}
-                                            </div>
-                                          </div>
-
-                                          <div className="mb-2">
-
-                                            {(item?.paymentStatus === "Pending" ||
-                                              item?.paymentStatus === "Partial Payment") && (
-                                                <span
-                                                  style={{
-                                                    backgroundColor: "#FFD9D9",
-                                                    color: "#000",
-                                                    borderRadius: "12px",
-                                                    fontFamily: "Gilroy",
-                                                    padding: "8px 10px", fontSize: 12
-                                                  }}
-                                                >
-                                                  {item?.paymentStatus}
-                                                </span>
-                                              )}
-
-
-                                            {item?.paymentStatus === "Paid" && (
-                                              <span
-                                                style={{
-                                                  cursor: "pointer",
-                                                  backgroundColor: "#D9FFD9",
-                                                  fontFamily: "Gilroy",
-                                                  color: "#000",
-                                                  borderRadius: "14px",
-                                                  padding: "8px 12px", fontSize: 12
-                                                }}
-                                              >
-                                                {item?.paymentStatus}
-                                              </span>
-                                            )}
-
-
-                                            {(item?.paymentStatus === "Refunded" || item?.paymentStatus === "Partially Refunded") && (
-                                              <span
-                                                style={{
-                                                  backgroundColor: "#FFF3CD",
-                                                  color: "#8B8000",
-                                                  borderRadius: "14px",
-                                                  fontFamily: "Gilroy",
-                                                  padding: "8px 12px", fontSize: 12
-                                                }}
-                                              >
-                                                {item?.paymentStatus}
-                                              </span>
-                                            )}
-
-
-                                            {item?.paymentStatus === "Pending Refund" && (
-                                              <span
-                                                style={{
-                                                  backgroundColor: "#FFE6B3",
-                                                  color: "#b45309",
-                                                  borderRadius: "14px",
-                                                  fontFamily: "Gilroy",
-                                                  padding: "8px 12px", fontSize: 12
-                                                }}
-                                              >
-                                                {item?.paymentStatus}
-                                              </span>
-                                            )}
-                                            {item?.isCancelled && (
-                                              <span
-                                                style={{
-                                                  backgroundColor: "#FFE6B3",
-                                                  color: "#b45309",
-                                                  borderRadius: "14px",
-                                                  fontFamily: "Gilroy",
-                                                  padding: "8px 12px", fontSize: 12
-                                                }}
-                                              >
-                                                Cancelled
-                                              </span>
-                                            )
-                                            }
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-
-                                  </>
-                                ))}
-                            </div>
-                          ) : (
-                            <>
-                              {sortedData && sortedData.length > 0 ? (
-
-                                <div
-                                  className=" ms-2"
-                                  style={{ overflowx: "hidden", }}
-                                >
-                                  <div
-
-                                    className='show-scrolls'
-                                    style={{
-
-                                      height: sortedData?.length >= 12 ? "500px" : "auto",
-                                      overflowY: "auto",
-                                      borderTop: "1px solid #E8E8E8",
-                                      marginTop: "5px",
-                                      paddingRight: 0,
-                                      paddingLeft: 0
-
-                                    }}
-                                  >
-                                    <Table
-                                      responsive="md"
-
-                                      style={{
-                                        fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                                        top: 0,
-                                        zIndex: 1,
-                                        borderRadius: 0
-                                      }}
-                                      className="mb-0"
-                                    >
-                                      <thead style={{
-                                        fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                                        top: 0,
-                                        zIndex: 1,
-                                      }}>
-                                        <tr className="">
-                                          <th
-                                            style={headerStyle}
-                                          >
-                                            <label style={labelStyle}>
-                                              {/* <div style={{ display: "flex", flexDirection: "column", }} >
-                                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Invoices", 'asc')} style={{ cursor: "pointer" }} />
-                                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Invoices", 'desc')} style={{ cursor: "pointer" }} />
-                                                  </div> */}
-                                              Invoice Number</label>
-                                          </th>
-                                          <th
-                                            style={headerStyle}
-                                          >
-                                            <label style={labelStyle}>
-                                              {/* <div style={{ display: "flex", flexDirection: "column", }} >
-                                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Name", 'asc')} style={{ cursor: "pointer" }} />
-                                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Name", 'desc')} style={{ cursor: "pointer" }} />
-                                                  </div> */}
-                                              Name</label>
-                                          </th>
-
-                                          <th
-                                            style={headerStyle}
-                                          >
-                                            <label style={labelStyle}>
-                                              {/* <div style={{ display: "flex", flexDirection: "column",  }} >
-                                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("action", 'asc')} style={{ cursor: "pointer" }} />
-                                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("action", 'desc')} style={{ cursor: "pointer" }} />
-                                                  </div> */}
-                                              Type</label>
-                                          </th>
-                                          <th
-                                            style={headerStyle}
-                                          >
-                                            <label style={labelStyle}>
-                                              {/* <div style={{ display: "flex", flexDirection: "column", }} >
-                                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Date", 'asc')} style={{ cursor: "pointer" }} />
-                                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Date", 'desc')} style={{ cursor: "pointer" }} />
-                                                  </div> */}
-                                              Invoice Date</label>
-                                          </th>
-                                          <th
-                                            style={headerStyle}
-                                          >
-                                            <label style={labelStyle}>
-                                              {/* <div style={{ display: "flex", flexDirection: "column",  }} >
-                                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("DueDate", 'asc')} style={{ cursor: "pointer" }} />
-                                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("DueDate", 'desc')} style={{ cursor: "pointer" }} />
-                                                  </div> */}
-                                              Due Date</label>
-                                          </th>
-                                          <th
-                                            style={headerStyle}
-                                          >
-                                            <label style={labelStyle}>
-                                              {/* <div style={{ display: "flex", flexDirection: "column", }} >
-                                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Amount", 'asc')} style={{ cursor: "pointer" }} />
-                                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Amount", 'desc')} style={{ cursor: "pointer" }} />
-                                                  </div> */}
-                                              Amount</label>
-                                          </th>
-                                          <th
-                                            style={headerStyle}
-                                          >
-                                            <label style={labelStyle} >
-                                              {/* <div style={{ display: "flex", flexDirection: "column", }} >
-                                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("BalanceDue", 'asc')} style={{ cursor: "pointer" }} />
-                                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("BalanceDue", 'desc')} style={{ cursor: "pointer" }} />
-                                                  </div> */}
-                                              Due</label>
-                                          </th>
-                                          <th
-                                            style={headerStyle}
-                                          >
-                                            <label style={labelStyle}>
-                                              {/* <div style={{ display: "flex", flexDirection: "column", }} >
-                                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("status", 'asc')} style={{ cursor: "pointer" }} />
-                                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("status", 'desc')} style={{ cursor: "pointer" }} />
-                                                  </div> */}
-                                              Status</label>
-                                          </th>
-                                          <th
-                                            style={headerStyle}
-                                          > <label style={labelStyle}>Action</label></th>
-                                        </tr>
-                                      </thead>
-
-                                      <tbody style={{ fontSize: "10px", minHeight: "200px", position: "relative" }}>
-
-                                       <PaginationList>
-                                          {sortedData.map((item, index) => (
-                                            <InvoiceTable
-                                              key={item.id}
-                                              item={item}
-                                              index={index}
-                                              OnHandleshowform={handleShowForm}
-                                              OnHandleshowEditform={handleEdit}
-                                              OnHandleshowInvoicePdf={handleInvoiceDetail}
-                                              OnHandleshowDeleteform={handleBillDelete}
-                                              DisplayInvoice={handleDisplayInvoiceDownload}
-                                              billAddPermission={billAddPermission}
-                                              billEditPermission={billEditPermission}
-                                              billDeletePermission={billDeletePermission}
-                                            />
-                                          ))}
-                                      </PaginationList>
-
-                                      </tbody>
-
-
-                                    </Table>
-                                   
-
-
-                                  </div>
-                                  
-                                </div>
-                              ) : (
-
-                                !loading &&
-                                sortedData &&
-                                sortedData?.length === 0 && (
-
-                                  <div className="mt-2">
-                                    <div style={{ textAlign: "center" }}>
-                                      {" "}
-                                      <img src={Emptystate} alt="emptystate" />
-                                    </div>
-                                    <div
-                                      className="pb-1"
-                                      style={{
-                                        textAlign: "center",
-                                        fontWeight: 600,
-                                        fontFamily: "Gilroy",
-                                        fontSize: 18,
-                                        color: "rgba(75, 75, 75, 1)",
-                                      }}
-                                    >
-                                      No bills available{" "}
-                                    </div>
-                                    <div
-                                      className="pb-1"
-                                      style={{
-                                        textAlign: "center",
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                        fontSize: 14,
-                                        color: "rgba(75, 75, 75, 1)",
-                                      }}
-                                    >
-                                      There are no bills added{" "}
-                                    </div>
-                                  </div>
-                                )
-                              )}
-
-
-                            </>
-                          )}
-                        </Col>
-
-
-                      </Row>
-                    </div>
-
-
-
-
-                  </div>
-                )}
-
-              </div>
-
-
-            </div>
-
-
-
-          </Col>
-
-
-          {
-            DownloadInvoice &&
-            <Col className="p-0 m-0"
-              lg={DownloadInvoice ? 8 : 12}
-              md={DownloadInvoice ? 8 : 12}
-              sm={DownloadInvoice ? 12 : 12}
-              xs={DownloadInvoice ? 12 : 12}
-              style={{
-                borderLeft: DownloadReceipt
-                  ? "1px solid #ccc"
-                  : "none",
-              }}
-            >
-              <BillPdfModal
-                show={showPdfModal}
-                handleClosed={handleClosePdfModal}
-                rowData={rowData}
-              />
-
-
-            </Col>
-          }
-
-          {/* {DownloadReceipt && (
-            <>
-
-
-              <Col className="p-0"
-                lg={DownloadReceipt ? 8 : 12}
-                md={DownloadReceipt ? 8 : 12}
-                sm={DownloadReceipt ? 12 : 12}
-                xs={DownloadReceipt ? 12 : 12}
-                style={{
-                  borderLeft: DownloadReceipt
-                    ? "1px solid #ccc"
-                    : "none",
-                }}
-              >
-                <ReceiptPdfCard
-                  show={showPdfReceiptModal}
-                  handleClosed={handleClosePdfReceipt}
-                  rowData={rowData}
-                />
-
-
-              </Col>
-            </>
-          )} */}
-
-
-
-
-
-
-
-        </Row>
-      )}
-
-
-
-
-      {state.InvoiceList.unableAddInvoiceDetailsError ?
-        <div className="d-flex justify-content-center mt-5">
-
-          <ErrorMessage message={state.InvoiceList.unableAddInvoiceDetailsError} type="error" />
-        </div>
-        : null}
-
-      {showRecurringBillForm && (
-        <>
-          <RecurringBill hostelId={hostelId} onhandleback={handleBackBill} />
-        </>
-      )}
-
-      {receiptformShow && (
-        <>
-          <AddReceiptForm
-            onhandleback={handleBackBill}
-            editvalue={editvalue}
-            receiptedit={receiptedit}
-          />
-        </>
-      )}
     </div>
   );
 };

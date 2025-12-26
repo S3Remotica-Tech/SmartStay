@@ -25,7 +25,7 @@ import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useNavigate } from "react-router-dom";
 
 
-const InvoiceCard = ({ rowData, handleClosed }) => {
+const InvoiceCard = ({ rowData}) => {
 
   const state = useSelector((state) => state);
   const navigate = useNavigate();
@@ -151,7 +151,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
 
   const handleBackInvoice = () => {
-    navigate(`/invoice/${state.login?.selectedHostel_Id}`);
+    navigate(`/booking/${state.login?.selectedHostel_Id}`);
   }
 
 
@@ -190,9 +190,6 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
 
 
-  // const taxAmount = (invoice_details?.total_amount * bill_template?.tax) / 100;
-
-  // const totalAmount = invoice_details?.total_amount + taxAmount;
 
 
 
@@ -473,19 +470,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                 <div className="container bg-white rounded-bottom  position-relative" style={{ width: "100%", }}>
                   <div className="text-center pt-2 pb-1">
                     <h5 style={{ ...textStyle, fontSize: '17px', fontFamily: 'Gilroy', fontWeight: 600 }}>
-
-                      {
-                        pdfDetails?.invoiceType === 'SETTLEMENT'
-                          ? "Final Settlement Invoice"
-                          : pdfDetails?.configurations?.invoiceType === 'Advance'
-                            ? "Security Deposit"
-                            : pdfDetails?.configurations?.invoiceType === 'Rent'
-                              ? "Payment Bills"
-                              : "Invoice"
-                      }
-
-
-
+                     Booking Invoice
                     </h5>
                   </div>
 

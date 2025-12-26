@@ -36,7 +36,7 @@ import Tooltip from "react-bootstrap/Tooltip"
 import CreateBill from "../Pages/Bills/CreateBill";
 import UserListRoomDetail from "../Pages/CustomerFile/UserListRoomDetail";
 import CheckoutProfile from '../Pages/CustomerFile/CheckoutProfile';
-import BillsDetails from '../Pages/Bills/BillsDetails';
+// import BillsDetails from '../Pages/Bills/BillsDetails';
 // import UserlistCheckout from '../Pages/CustomerFile/UserlistCheckout'
 import SettingSubscription from "../Pages/SubscriptionFile/SettingSubscription";
 import SettingIntergration from "../Pages/Settings/SettingIntergration";
@@ -62,6 +62,9 @@ import SettingSecurity from "../Pages/Settings/SettingSecurityPage";
 import Booking from "../Pages/Bookings/Booking";
 import RecurringBills from "../Pages/Recurring/RecurringBills";
 import Receipts from "../Pages/Receipt/Receipt"
+import BillsPdfDetails from "../Pages/Bills/BillsPdfDetails";
+import ReceiptPdfDetails from "../Pages/Receipt/ReceiptPdfDetails";
+import BookingsPdfDetails from "../Pages/Bookings/BookingsPdfDetails";
 
 
 
@@ -893,13 +896,14 @@ function Sidebar() {
 
                 {!(hostelListDetail ?? []).length && (
                   <li
-                    className="align-items-center d-flex justify-content-center
+                    className="align-items-center d-flex justify-content-center mt-2
                    list-Button mb-2"
                     style={{
                       listStyleType: "none",
                       display: "flex",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
+                      fontFamily: "Gilroy",color:"#FFFFFF",
+                      fontWeight: 500, backgroundColor: "#1E45E1",
+              boxShadow: "5px 0 2px -2px rgba(0,0,0,0.12)",padding:8, borderRadius: "8px", cursor:"pointer",
                     }}
                     onClick={() => handleShowsettingsPG("manage-pg", "Manage PG")}
                   >
@@ -978,7 +982,7 @@ function Sidebar() {
                       }`}
                     onClick={() => {
                       setManageOpen(!manageOpen);
-                      // setBillingOpen(false);
+                      setBillingOpen(false);
                       localStorage.setItem("manageOpen", !manageOpen);
                     }}
                     style={{
@@ -1183,7 +1187,7 @@ function Sidebar() {
                     className={`align-items-center list-Item ${currentPage.startsWith("billing") ? "active" : ""}`}
                     onClick={() => {
                       setBillingOpen(!billingOpen);
-                      // setManageOpen(false);
+                      setManageOpen(false);
                     }}
                     style={{
                       listStyleType: "none",
@@ -1847,6 +1851,15 @@ function Sidebar() {
                   </div>
                 }
               />
+                <Route
+                path="/booking/details/:hostelId?"
+                element={
+                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                    <BookingsPdfDetails
+                    />
+                  </div>
+                }
+              />
 
               <Route
                 path="/recurring/:hostelId?"
@@ -1866,13 +1879,22 @@ function Sidebar() {
                   </div>
                 }
               />
+               <Route
+                path="/receipts/details/:receiptId?"
+                element={
+                  <div style={{ marginTop: 5, marginLeft: 15, marginRight: 5 }}>
+                    <ReceiptPdfDetails />
+                    
+                  </div>
+                }
+              />
               <Route
                 path="/invoice/details/:invoiceId"
                 element={
-                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
-                    <BillsDetails />
+                  <div style={{ marginTop: 5, marginLeft: 15, marginRight: 5 }}>
+                    <BillsPdfDetails />
                   </div>
-                }
+                } 
               />
               <Route
                 path="/vendor/:hostelId?"

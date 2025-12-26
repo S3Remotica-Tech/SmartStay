@@ -98,6 +98,8 @@ const Receipt = (props) => {
 
   const handleInvoicepdf = (item) => {
     props.OnHandleshowInvoicePdf(item)
+
+
   }
 
 
@@ -124,7 +126,17 @@ const Receipt = (props) => {
 
   const handleDownload = (item) => {
     if (item) {
-      props.DisplayInvoice(true, item)
+      // props.DisplayInvoice(true, item)
+      if (item?.transactionId && state.login.selectedHostel_Id) {
+        dispatch({ type: "RECEIPTPDF_NEWCHANGES", payload: { hostelId: state.login.selectedHostel_Id, transactionId: item.transactionId } })
+        navigate(`/receipts/details/${item.transactionId}`, {
+          state: {
+            rowData: item
+          },
+        });
+
+      }
+
     }
 
 
@@ -146,7 +158,7 @@ const Receipt = (props) => {
   useEffect(() => {
     if (state.InvoiceList.ReceiptDeletesuccessStatuscode === 204) {
       setDeleteShow(false)
-       setTimeout(() => {
+      setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_RECEIPT_STATUS_CODE" });
       }, 1000);
     }
@@ -156,7 +168,7 @@ const Receipt = (props) => {
 
 
   const handleNavigateTenantProfile = (view) => {
-        if (view) {
+    if (view) {
       dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: view.customerId } });
       navigate(`/tenant/details/${view.customerId}`, {
         state: {
@@ -171,7 +183,7 @@ const Receipt = (props) => {
 
 
 
-console.log("props.item",props.item)
+  console.log("props.item", props.item)
 
 
   return (
@@ -196,7 +208,7 @@ console.log("props.item",props.item)
 
             <div className="Invoice_Name" style={{
               fontFamily: 'Gilroy', fontSize: '13px', marginLeft: '17px', color: "#1E45E1",
-              fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer", textAlign: "start", 
+              fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer", textAlign: "start",
             }}
               onClick={() => handleNavigateTenantProfile(props.item)}
 
@@ -217,24 +229,26 @@ console.log("props.item",props.item)
           <div style={{ marginLeft: 6 }}>{props.item.invoiceType}</div>
         </td>
 
-        <td  style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }}>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }}>
           {props.item?.paidAt}</td>
-        <td  style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} > ₹{props.item?.paidAmount !== null ? props.item.paidAmount.toLocaleString('en-IN') : '0'}</td>
-        <td  style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }}>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} > ₹{props.item?.paidAmount !== null ? props.item.paidAmount.toLocaleString('en-IN') : '0'}</td>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }}>
           {props.item?.bankName ? props.item?.bankName : "-"}</td>
 
 
         <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none", borderBottom: "1px solid #E8E8E8" }} className=''>
           <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-            <div style={{ cursor: "pointer", 
-            // backgroundColor: showDots ? "#E7F1FF" : "white",
-            //  height: 40, width: 40, 
-            //  borderRadius: 100, 
-            //  border: "1px solid #EFEFEF", 
-             display: "flex", justifyContent: "center", alignItems: "center", position: "relative" }}
+            <div style={{
+              cursor: "pointer",
+              // backgroundColor: showDots ? "#E7F1FF" : "white",
+              //  height: 40, width: 40, 
+              //  borderRadius: 100, 
+              //  border: "1px solid #EFEFEF", 
+              display: "flex", justifyContent: "center", alignItems: "center", position: "relative"
+            }}
               onClick={(e) => handleShowDots(e)}
             >
-              <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, transform:" rotate(90deg)",color:showDots ? "#1E45E1" : "#6B7280", }} />
+              <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, transform: " rotate(90deg)", color: showDots ? "#1E45E1" : "#6B7280", }} />
 
               {showDots && <>
                 <div
@@ -301,51 +315,51 @@ console.log("props.item",props.item)
                     </label>
                   </div>
 
-{/* {props.item.invoiceType !== "Settlement" &&
+                  {/* {props.item.invoiceType !== "Settlement" &&
  props.item.invoiceType !== "Refund" && ( */}
 
-  <div
-    className="d-flex justify-content-start align-items-center gap-2"
-    style={{
-      cursor: canDeleteReceipt ? "pointer" : "not-allowed",
-      opacity: canDeleteReceipt ? 1 : 0.5,
-      padding: "8px 12px",
-      width: "100%",
-      backgroundColor: "transparent",
-    }}
-    onClick={() => {
-      if (canDeleteReceipt) {
-        handleDeleteForm(props.item);
-      }
-    }}
-    onMouseEnter={(e) => {
-      if (!canDeleteReceipt) {
-        e.currentTarget.style.backgroundColor = "#FFF0F0";
-      }
-    }}
-    onMouseLeave={(e) => {
-      e.currentTarget.style.backgroundColor = "transparent";
-    }}
-  >
-    <img
-      src={Delete}
-      alt="Delete"
-      style={{ height: 16, width: 16 }}
-    />
+                  <div
+                    className="d-flex justify-content-start align-items-center gap-2"
+                    style={{
+                      cursor: canDeleteReceipt ? "pointer" : "not-allowed",
+                      opacity: canDeleteReceipt ? 1 : 0.5,
+                      padding: "8px 12px",
+                      width: "100%",
+                      backgroundColor: "transparent",
+                    }}
+                    onClick={() => {
+                      if (canDeleteReceipt) {
+                        handleDeleteForm(props.item);
+                      }
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!canDeleteReceipt) {
+                        e.currentTarget.style.backgroundColor = "#FFF0F0";
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = "transparent";
+                    }}
+                  >
+                    <img
+                      src={Delete}
+                      alt="Delete"
+                      style={{ height: 16, width: 16 }}
+                    />
 
-    <span
-      style={{
-        fontSize: 14,
-        fontWeight: 500,
-        fontFamily: "Gilroy, sans-serif",
-        color: "#FF0000",
-        cursor: canDeleteReceipt ? "pointer" : "not-allowed",
-      }}
-    >
-      Delete
-    </span>
-  </div>
-{/* )} */}
+                    <span
+                      style={{
+                        fontSize: 14,
+                        fontWeight: 500,
+                        fontFamily: "Gilroy, sans-serif",
+                        color: "#FF0000",
+                        cursor: canDeleteReceipt ? "pointer" : "not-allowed",
+                      }}
+                    >
+                      Delete
+                    </span>
+                  </div>
+                  {/* )} */}
 
                   <div
                     className="d-flex justify-content-start align-items-center gap-2 "
