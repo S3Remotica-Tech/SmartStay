@@ -351,22 +351,7 @@ function Sidebar() {
 
   const hostelId = state.login?.selectedHostel_Id;
 
-  // useEffect(() => {
-  //   if (!hostelId) return;
-
-  //   const currentPath = location.pathname.split("/")[1];
-
-
-  //   const validPages = ["dashboard", "pg-list", "user-list", "user-details", "invoice", "compliance",
-  //     "reports", "eb", "expenses", "banking", "settingNewDesign", "vendor", "asset"];
-
-  //   if (validPages.includes(currentPath)) {
-  //     navigate(`/${currentPath}/${hostelId}`);
-  //   }
-  // }, [hostelId]);
-
-  // console.log("state",state.login?.selectedHostel_Id)
-
+ 
   useEffect(() => {
     if (!state.login?.selectedHostel_Id) return;
 
@@ -918,26 +903,35 @@ function Sidebar() {
 
 
                 {!(hostelListDetail ?? []).length && (
-                  <li
-                    className="align-items-center d-flex justify-content-center mt-2
-                   list-Button mb-2"
+                  <NavLink
+                    to={settingsPath}
+                    className="align-items-center d-flex justify-content-center mt-2 list-Button mb-2"
                     style={{
                       listStyleType: "none",
                       display: "flex",
-                      fontFamily: "Gilroy", color: "#FFFFFF",
-                      fontWeight: 500, backgroundColor: "#1E45E1",
-                      boxShadow: "5px 0 2px -2px rgba(0,0,0,0.12)", padding: 8, borderRadius: "8px", cursor: "pointer",
+                      fontFamily: "Gilroy",
+                      color: "#FFFFFF",
+                      fontWeight: 500,
+                      backgroundColor: "#1E45E1",
+                      boxShadow: "5px 0 2px -2px rgba(0,0,0,0.12)",
+                      padding: 8,
+                      borderRadius: "8px",
+                      cursor: "pointer",
+                      textDecoration: "none",
                     }}
-                    onClick={() => handleShowsettingsPG("manage-pg", "Manage PG")}
+                    onClick={() => {
+                      handledisplaySettingsPG("manage-pg", "Manage PG");
+                      dispatch({ type: "MANAGE_PG" });
+                      setIsSidebarOpen(false);
+                    }}
                   >
                     + Add PG
-                  </li>
+                  </NavLink>
+
                 )}
               </div>
               <div
-
                 className="show-scrolls-sidebar"
-
                 style={{
                   flex: 1,
                   maxHeight: 400,
