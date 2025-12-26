@@ -280,110 +280,11 @@ function Dashboard() {
 
 
 
-  // useEffect(() => {
-  //   setRolePermission(state.createAccount.accountList);
-  // }, [state.createAccount.accountList]);
+ 
 
 
 
 
-
-  // useEffect(() => {
-  //   const userType = rolePermission[0]?.user_details?.user_type
-  //   const isAdmin = userType === "admin" || userType === "agent";
-  //   if (isAdmin) {
-  //     if (state?.login?.planStatus === 0) {
-  //       setPermissionError("");
-  //       setAnnouncementAddPermission("Permission Denied");
-  //       setAnnouncementEditPermission("Permission Denied");
-  //       setAnnouncementDeletePermission("Permission Denied");
-
-  //     } else if (state?.login?.planStatus === 1) {
-  //       setPermissionError("");
-  //       setAnnouncementAddPermission("");
-  //       setAnnouncementEditPermission("");
-  //       setAnnouncementDeletePermission("");
-  //     }
-  //   }
-
-  // }, [state?.login?.planStatus, state?.login?.selectedHostel_Id, rolePermission])
-
-
-
-
-
-
-  // useEffect(() => {
-  //   const DashboardPermission = rolePermission[0]?.role_permissions?.find(
-  //     (perm) => perm.permission_name === "Dashboard"
-  //   );
-
-  //   const isOwner = rolePermission[0]?.user_details?.user_type === "staff";
-  //   const planActive = state?.login?.planStatus === 1;
-
-  //   if (!DashboardPermission || !isOwner) return;
-
-
-  //   if (DashboardPermission.per_view === 1 && planActive) {
-  //     setPermissionError("");
-  //   } else {
-  //     setPermissionError("Permission Denied");
-  //   }
-
-
-  // }, [rolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
-
-
-  // useEffect(() => {
-  //   const AnnounceMentPermission = rolePermission[0]?.role_permissions?.find(
-  //     (perm) => perm.permission_name === "Announcement"
-  //   );
-
-  //   const isOwner = rolePermission[0]?.user_details?.user_type === "staff";
-  //   const planActive = state?.login?.planStatus === 1;
-
-  //   if (!AnnounceMentPermission || !isOwner) return;
-
-
-  //   if (AnnounceMentPermission.per_view === 1 && planActive) {
-  //     setPermissionError("");
-  //   } else {
-  //     setPermissionError("Permission Denied");
-  //   }
-
-
-  //   if (AnnounceMentPermission.per_create === 1 && planActive) {
-  //     setAnnouncementAddPermission("");
-  //   } else {
-  //     setAnnouncementAddPermission("Permission Denied");
-  //   }
-
-
-  //   if (AnnounceMentPermission.per_edit === 1 && planActive) {
-  //     setAnnouncementEditPermission("");
-  //   } else {
-  //     setAnnouncementEditPermission("Permission Denied");
-  //   }
-
-  //   if (AnnounceMentPermission.per_delete === 1 && planActive) {
-  //     setAnnouncementDeletePermission("");
-  //   } else {
-  //     setAnnouncementDeletePermission("Permission Denied");
-  //   }
-  // }, [rolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
-
-
-
-  // useEffect(() => {
-  //   if (
-  //     rolePermission[0]?.is_owner === 1 ||
-  //     rolePermission[0]?.role_permissions[2]?.per_view === 1
-  //   ) {
-  //     setupdatePermissionError("");
-  //   } else {
-  //     setupdatePermissionError("Permission Denied");
-  //   }
-  // }, [rolePermission]);
 
   useEffect(() => {
     const appearOptions = {
@@ -569,7 +470,7 @@ function Dashboard() {
 
   return (
     <>
-      <div className="container px-3 py-3">
+      <div className="container p-0">
         <Marquee pauseOnHover gradient={false}>
           {showWarning && (
             <div

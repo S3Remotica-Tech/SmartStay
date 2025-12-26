@@ -28,7 +28,7 @@ import SettingIcon from "../Assets/Images/sidebariconOne.svg";
 import HelpVideoIcon from "../Assets/Images/sidebariconFour.svg";
 import Logout from "../Assets/Images/turn-off.png";
 import { useNavigate, useLocation, Navigate } from "react-router-dom";
-import { Route, Routes, } from "react-router-dom";
+import { Route, Routes, NavLink } from "react-router-dom";
 import Cookies from 'universal-cookie';
 import { checkoutCustomerProfile } from "../Redux/Action/smartStayAction";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
@@ -630,6 +630,9 @@ function Sidebar() {
   }
 
 
+  const withHostel = (path) =>
+    hostelId ? `${path}/${hostelId}` : path;
+
 
 
 
@@ -640,7 +643,7 @@ function Sidebar() {
       }
       <Container fluid className="p-0" >
         <div style={{
-          display: "flex", position: "relative",
+          display: "flex",
           width: "100%",
           height: "100vh",
           overflowY: "hidden",
@@ -667,7 +670,7 @@ function Sidebar() {
               display: "flex",
               flexDirection: "column",
               backgroundColor: "#fff",
-              boxShadow: "5px 0 2px -2px rgba(0,0,0,0.12)",
+              boxShadow: "5px 0 2px -2px rgba(0,0,0,0.12)", position: "relative",
               // padding: 3,
 
             }}
@@ -736,8 +739,8 @@ function Sidebar() {
                       <img
                         src={selectedProfileImage}
                         style={{
-                          height: 25,
-                          width: 25,
+                          height: 35,
+                          width: 35,
                           borderRadius: "50%",
                           marginRight: 8,
                         }}
@@ -778,15 +781,42 @@ function Sidebar() {
                         whiteSpace: "nowrap",
                         overflow: "hidden",
                         textOverflow: "ellipsis",
-                        verticalAlign: "middle", color: "#222222"
+                        verticalAlign: "middle", color: "#222222", cursor: "pointer",
                       }}
                     >
                       {payingGuestName}
                       <div>
-                        <label style={{ fontSize: 12, color: "#9C9C9C" }}><Location className="me-1"
-                          size="16"
-                          color="#FF8A65" variant="Bold"
-                        />  {locationName}</label>
+                        <OverlayTrigger
+                          placement="right"
+                          overlay={
+                            <Tooltip className="custom-tooltip">
+                              {payingGuestName} {locationName}
+                            </Tooltip>
+                          }
+                        >
+                          <span
+                            style={{
+                              fontSize: 12,
+                              color: "#9C9C9C",
+                              maxWidth: "100px",
+                              cursor: "pointer",
+                              whiteSpace: "nowrap",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              display: "inline-flex",
+                              alignItems: "center",
+                            }}
+                          >
+                            <Location
+                              className="me-1"
+                              size="16"
+                              color="#FF8A65"
+                              variant="Bold"
+                            />
+                            {locationName}
+                          </span>
+                        </OverlayTrigger>
+
                       </div>
                     </span>
                     <span className="ms-auto">
@@ -922,25 +952,13 @@ function Sidebar() {
                     minHeight: 0,
                     overflowY: "auto",
                     listStyle: "none",
-                    padding: 0,
-                    margin: 0,
+                    padding: 5,
+
                     width: "100%",
                   }}
                 >
 
                   <li
-                    className={`align-items-center  list-Item ${currentPage === "dashboard" ? "active" : ""
-                      }`}
-                    onClick={() => {
-                      handlePageClick("dashboard");
-
-                      const hostelId = state.login?.selectedHostel_Id;
-                      if (hostelId) {
-                        navigate(`/dashboard/${hostelId}`);
-                      } else {
-                        navigate(`/dashboard`);
-                      }
-                    }}
 
                     style={{
                       listStyleType: "none",
@@ -948,21 +966,29 @@ function Sidebar() {
                       alignItems: "center",
                     }}
                   >
-                    <Chart2
-                      size="20" variant="Bold"
-                    // color={currentPage === "dashboard" ? "#1E45E1" : "#4B4B4B"}
-                    />
-                    <span
-                      className="Title"
-                      style={{
-                        fontSize: 14,
-                        fontWeight: 600,
-                        display: "inline-block",
-                        fontFamily: "Gilroy",
-                      }}
+                    <NavLink
+                      to={withHostel("/dashboard")}
+                      className={({ isActive }) =>
+                        `align-items-center d-flex list-Item ${isActive ? "active" : ""}`
+                      }
+                      onClick={() => handlePageClick("dashboard")}
                     >
-                      Home
-                    </span>
+                      <Chart2
+                        size="20" variant="Bold"
+                      // color={currentPage === "dashboard" ? "#1E45E1" : "#4B4B4B"}
+                      />
+                      <span
+                        className="Title"
+                        style={{
+                          fontSize: 14,
+                          fontWeight: 600,
+                          display: "inline-block",
+                          fontFamily: "Gilroy",
+                        }}
+                      >
+                        Home
+                      </span>
+                    </NavLink>
                   </li>
 
                   <li
@@ -1013,161 +1039,138 @@ function Sidebar() {
                         }}
                       >
                         <li
-                          className={`align-items-center list-sub-Item ${currentPage === "pg-list" ? "active" : ""
-                            }`}
-                          onClick={() => {
-                            handlePageClick("pg-list");
-
-                            const hostelId = state.login?.selectedHostel_Id;
-                            if (hostelId) {
-                              navigate(`/paying-guest/${hostelId}`);
-                            } else {
-                              navigate(`/paying-guest`);
-                            }
-                          }}
 
                           style={{ listStyleType: "none", display: "flex" }}
                         >
-                          <Buildings size="20" variant="Bold" />
-
-                          <span
-                            className="Title"
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 600,
-                              display: "inline-block",
-                              fontFamily: "Gilroy",
-                            }}
-                          >
-                            Paying Guest
-                          </span>
-                        </li>
-                        <li
-                          className={`list-sub-Item ${currentPage === "user-list" || currentPage === "user-details" ? "active" : ""
-                            }`}
-
-
-                          onClick={() => {
-                            handlePageClick("user-list");
-
-                            const hostelId = state.login?.selectedHostel_Id;
-                            if (hostelId) {
-                              navigate(`/tenant/${hostelId}`);
-                            } else {
-                              navigate(`/tenant`);
+                          <NavLink
+                            to={withHostel("/paying-guest")}
+                            className={({ isActive }) =>
+                              `align-items-center d-flex list-Item ${isActive ? "active" : ""}`
                             }
-                          }}
-
-                          style={{ listStyleType: "none", display: "flex" }}
-                        >
-                          <Profile2User size="20" variant="Bold" />
-                          <span
-                            className="Title"
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 600,
-                              display: "inline-block",
-                              fontFamily: "Gilroy",
-                            }}
+                            onClick={() => handlePageClick("pg-list")}
                           >
-                            Tenant
-                          </span>
-                        </li>
-                        <li
-                          className={`align-items-center list-sub-Item ${currentPage === "asset" ? "active" : ""
-                            }`}
-                          onClick={() => {
-                            handlePageClick("asset");
+                            <Buildings size="20" variant="Bold" />
 
-                            const hostelId = state.login?.selectedHostel_Id;
-                            if (hostelId) {
-                              navigate(`/asset/${hostelId}`);
-                            } else {
-                              navigate(`/asset`);
+                            <span
+                              className="Title"
+                              style={{
+                                fontSize: 14,
+                                fontWeight: 600,
+                                display: "inline-block",
+                                fontFamily: "Gilroy",
+                              }}
+                            >
+                              Paying Guest
+                            </span>
+                          </NavLink>
+                        </li>
+                        <li style={{ listStyleType: "none" }}>
+                          <NavLink
+                            to={withHostel("/tenant")}
+                            className={({ isActive }) =>
+                              `list-sub-Item d-flex align-items-center ${isActive || currentPage === "user-details" ? "active" : ""
+                              }`
                             }
-                          }}
-
-                          style={{ listStyleType: "none", display: "flex" }}
-                        >
-                          <Box size="20" variant="Bold" />
-
-                          <span
-                            className="Title"
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 600,
-                              display: "inline-block",
-                              fontFamily: "Gilroy",
-                            }}
+                            onClick={() => handlePageClick("user-list")}
+                            style={{ textDecoration: "none" }}
                           >
-                            Assets
-                          </span>
-                        </li>
-                        <li
-                          className={`align-items-center list-sub-Item ${currentPage === "vendor" ? "active" : ""
-                            }`}
-                          onClick={() => {
-                            handlePageClick("vendor");
+                            <Profile2User size="20" variant="Bold" />
 
-                            const hostelId = state.login?.selectedHostel_Id;
-                            if (hostelId) {
-                              navigate(`/vendor/${hostelId}`);
-                            } else {
-                              navigate(`/vendor`);
+                            <span
+                              className="Title"
+                              style={{
+                                fontSize: 14,
+                                fontWeight: 600,
+                                display: "inline-block",
+                                fontFamily: "Gilroy",
+                              }}
+                            >
+                              Tenant
+                            </span>
+                          </NavLink>
+                        </li>
+                        <li style={{ listStyleType: "none" }}>
+                          <NavLink
+                            to={withHostel("/asset")}
+                            className={({ isActive }) =>
+                              `align-items-center list-sub-Item d-flex ${isActive || currentPage === "asset" ? "active" : ""
+                              }`
                             }
-                          }}
-
-                          style={{ listStyleType: "none", display: "flex" }}
-                        >
-                          <Shop size="20" variant="Bold" />
-
-                          <span
-                            className="Title"
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 600,
-                              display: "inline-block",
-                              fontFamily: "Gilroy",
-                            }}
+                            onClick={() => handlePageClick("asset")}
+                            style={{ textDecoration: "none" }}
                           >
-                            Vendor
-                          </span>
+                            <Box size="20" variant="Bold" />
+
+                            <span
+                              className="Title"
+                              style={{
+                                fontSize: 14,
+                                fontWeight: 600,
+                                display: "inline-block",
+                                fontFamily: "Gilroy",
+                              }}
+                            >
+                              Assets
+                            </span>
+                          </NavLink>
                         </li>
+
+                        <li style={{ listStyleType: "none" }}>
+                          <NavLink
+                            to={withHostel("/vendor")}
+                            className={({ isActive }) =>
+                              `align-items-center list-sub-Item d-flex ${isActive || currentPage === "vendor" ? "active" : ""
+                              }`
+                            }
+                            onClick={() => handlePageClick("vendor")}
+                            style={{ textDecoration: "none" }}
+                          >
+                            <Shop size="20" variant="Bold" />
+
+                            <span
+                              className="Title"
+                              style={{
+                                fontSize: 14,
+                                fontWeight: 600,
+                                display: "inline-block",
+                                fontFamily: "Gilroy",
+                              }}
+                            >
+                              Vendor
+                            </span>
+                          </NavLink>
+                        </li>
+
                       </ul>
                     </div>
                   )}
 
-                  <li
-                    className={`align-items-center list-Item ${currentPage === "banking" ? "active" : ""
-                      }`}
-                    onClick={() => {
-                      handlePageClick("banking");
-
-                      const hostelId = state.login?.selectedHostel_Id;
-                      if (hostelId) {
-                        navigate(`/banking/${hostelId}`);
-                      } else {
-                        navigate(`/banking`);
+                  <li style={{ listStyleType: "none", marginTop: manageOpen ? "5px" : "10px" }}>
+                    <NavLink
+                      to={withHostel("/banking")}
+                      className={({ isActive }) =>
+                        `align-items-center list-Item d-flex ${isActive || currentPage === "banking" ? "active" : ""
+                        }`
                       }
-                    }}
-
-                    style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "5px" : "10px" }}
-                  >
-                    <Bank size="20" variant="Bold" />
-
-
-                    <span
-                      className="Title"
-                      style={{
-                        fontSize: 14,
-                        fontWeight: 600,
-                        display: "inline-block",
-                        fontFamily: "Gilroy",
-                      }}
+                      onClick={() => handlePageClick("banking")}
+                      style={{ textDecoration: "none" }}
                     >
-                      Banking
-                    </span>
+                      <Bank size="20" variant="Bold" />
+
+                      <span
+                        className="Title"
+                        style={{
+                          fontSize: 14,
+                          fontWeight: 600,
+                          display: "inline-block",
+                          fontFamily: "Gilroy",
+                        }}
+                      >
+                        Banking
+                      </span>
+                    </NavLink>
                   </li>
+
 
 
 
@@ -1218,267 +1221,257 @@ function Sidebar() {
                       >
 
                         <li
-                          className={`align-items-center list-sub-Item ${currentPage === "invoice" ? "active" : ""
-                            }`}
-                          onClick={() => {
-                            handlePageClick("invoice");
-
-                            const hostelId = state.login?.selectedHostel_Id;
-                            if (hostelId) {
-                              navigate(`/invoice/${hostelId}`);
-                            } else {
-                              navigate(`/invoice`);
-                            }
-                          }}
-
-                          style={{ listStyleType: "none", display: "flex", marginTop: billingOpen ? "2px" : "10px" }}
-                        >
-                          <Receipt size="20" variant="Bold" />
-
-
-                          <span
-                            className="Title"
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 600,
-                              display: "inline-block",
-                              fontFamily: "Gilroy",
-                            }}
-                          >
-                            Bills
-                          </span>
-                        </li>
-                        <li
-                          className={`list-sub-Item ${currentPage === "booking" ? "active" : ""}`}
-                          onClick={() => {
-                            handlePageClick("booking");
-
-                            const hostelId = state.login?.selectedHostel_Id;
-                            if (hostelId) {
-                              navigate(`/booking/${hostelId}`);
-                            } else {
-                              navigate(`/booking`);
-                            }
-                          }}
-
                           style={{
                             listStyleType: "none",
-                            display: "flex",
-                            alignItems: "center",
-                            cursor: "pointer",
+                            marginTop: billingOpen ? "2px" : "10px",
+                          }}
+                        >
+                          <NavLink
+                            to={withHostel("/invoice")}
+                            className={({ isActive }) =>
+                              `align-items-center list-sub-Item d-flex ${isActive || currentPage === "invoice" ? "active" : ""
+                              }`
+                            }
+                            onClick={() => handlePageClick("invoice")}
+                            style={{ textDecoration: "none" }}
+                          >
+                            <Receipt size="20" variant="Bold" />
+
+                            <span
+                              className="Title"
+                              style={{
+                                fontSize: 14,
+                                fontWeight: 600,
+                                display: "inline-block",
+                                fontFamily: "Gilroy",
+                              }}
+                            >
+                              Bills
+                            </span>
+                          </NavLink>
+                        </li>
+
+                        <li
+                          style={{
+                            listStyleType: "none",
                             borderRadius: 6,
                           }}
                         >
-                          <CalendarAdd variant="Bold"
-                            size="22"
+                          <NavLink
+                            to={withHostel("/booking")}
+                            className={({ isActive }) =>
+                              `list-sub-Item d-flex align-items-center ${isActive || currentPage === "booking" ? "active" : ""
+                              }`
+                            }
+                            onClick={() => handlePageClick("booking")}
+                            style={{ textDecoration: "none", cursor: "pointer" }}
+                          >
+                            <CalendarAdd variant="Bold" size="22" />
 
-                          />
-                          <span style={{
-                            fontSize: 14,
-                            fontWeight: 600,
-                            display: "inline-block",
-                            fontFamily: "Gilroy",
-                          }}>
-                            Bookings
-                          </span>
-
+                            <span
+                              style={{
+                                fontSize: 14,
+                                fontWeight: 600,
+                                display: "inline-block",
+                                fontFamily: "Gilroy",
+                              }}
+                            >
+                              Bookings
+                            </span>
+                          </NavLink>
                         </li>
+
 
                         <li
-                          className={`list-sub-Item ${currentPage === "recurring" ? "active" : ""}`}
-                          onClick={() => {
-                            handlePageClick("recurring");
-
-                            const hostelId = state.login?.selectedHostel_Id;
-                            if (hostelId) {
-                              navigate(`/recurring/${hostelId}`);
-                            } else {
-                              navigate(`/recurring`);
-                            }
-                          }}
                           style={{
                             listStyleType: "none",
-                            display: "flex",
-                            alignItems: "center",
-                            cursor: "pointer",
-                            // padding: "6px 0",
                           }}
                         >
-                          <RulerPen variant="Bold"
-                            size="22"
+                          <NavLink
+                            to={withHostel("/recurring")}
+                            className={({ isActive }) =>
+                              `list-sub-Item d-flex align-items-center ${isActive || currentPage === "recurring" ? "active" : ""
+                              }`
+                            }
+                            onClick={() => handlePageClick("recurring")}
+                            style={{ textDecoration: "none", cursor: "pointer" }}
+                          >
+                            <RulerPen variant="Bold" size="22" />
 
-                          />
-                          <span style={{
-                            fontSize: 14,
-                            fontWeight: 600,
-                            display: "inline-block",
-                            fontFamily: "Gilroy",
-                          }}>
-                            Recurring bills
-                          </span>
+                            <span
+                              style={{
+                                fontSize: 14,
+                                fontWeight: 600,
+                                display: "inline-block",
+                                fontFamily: "Gilroy",
+                              }}
+                            >
+                              Recurring bills
+                            </span>
+                          </NavLink>
                         </li>
+
 
                         <li
-                          className={`list-sub-Item ${currentPage === "receipts" ? "active" : ""}`}
-                          onClick={() => {
-                            handlePageClick("receipts");
-
-                            const hostelId = state.login?.selectedHostel_Id;
-                            if (hostelId) {
-                              navigate(`/receipts/${hostelId}`);
-                            } else {
-                              navigate(`/receipts`);
-                            }
-                          }}
                           style={{
                             listStyleType: "none",
-                            display: "flex",
-                            alignItems: "center",
-                            cursor: "pointer",
-                            // padding: "6px 0",
                           }}
                         >
-                          <DocumentText variant="Bold"
-                            size="22"
+                          <NavLink
+                            to={withHostel("/receipts")}
+                            className={({ isActive }) =>
+                              `list-sub-Item d-flex align-items-center ${isActive || currentPage === "receipts" ? "active" : ""
+                              }`
+                            }
+                            onClick={() => handlePageClick("receipts")}
+                            style={{ textDecoration: "none", cursor: "pointer" }}
+                          >
+                            <DocumentText variant="Bold" size="22" />
 
-                          />
-                          <span style={{
-                            fontSize: 14,
-                            fontWeight: 600,
-                            display: "inline-block",
-                            fontFamily: "Gilroy",
-                          }}>
-                            Receipts
-                          </span>
+                            <span
+                              style={{
+                                fontSize: 14,
+                                fontWeight: 600,
+                                display: "inline-block",
+                                fontFamily: "Gilroy",
+                              }}
+                            >
+                              Receipts
+                            </span>
+                          </NavLink>
                         </li>
+
                       </ul>
                     </div>
                   )}
 
 
                   <li
-                    className={`align-items-center list-Item ${currentPage === "eb" ? "active" : ""
-                      }`}
-                    onClick={() => {
-                      handlePageClick("eb");
-
-                      const hostelId = state.login?.selectedHostel_Id;
-                      if (hostelId) {
-                        navigate(`/electricity/${hostelId}`);
-                      } else {
-                        navigate(`/electricity`);
-                      }
+                    style={{
+                      listStyleType: "none",
+                      marginTop: manageOpen ? "2px" : "8px",
                     }}
-
-                    style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "8px" }}
                   >
-                    <Flash size="20" variant="Bold" />
-
-                    <span
-                      className=" Title"
-                      style={{
-                        fontSize: 14,
-                        fontWeight: 600,
-                        display: "inline-block",
-                        fontFamily: "Gilroy",
-                      }}
+                    <NavLink
+                      to={withHostel("/electricity")}
+                      className={({ isActive }) =>
+                        `align-items-center list-Item d-flex ${isActive || currentPage === "eb" ? "active" : ""
+                        }`
+                      }
+                      onClick={() => handlePageClick("eb")}
+                      style={{ textDecoration: "none" }}
                     >
-                      Electricity
-                    </span>
+                      <Flash size="20" variant="Bold" />
+
+                      <span
+                        className="Title"
+                        style={{
+                          fontSize: 14,
+                          fontWeight: 600,
+                          display: "inline-block",
+                          fontFamily: "Gilroy",
+                        }}
+                      >
+                        Electricity
+                      </span>
+                    </NavLink>
+                  </li>
+
+
+                  <li
+                    style={{
+                      listStyleType: "none",
+                      marginTop: manageOpen ? "2px" : "8px",
+                    }}
+                  >
+                    <NavLink
+                      to={withHostel("/compliance")}
+                      className={({ isActive }) =>
+                        `align-items-center list-Item d-flex ${isActive || currentPage === "compliance" ? "active" : ""
+                        }`
+                      }
+                      onClick={() => handlePageClick("compliance")}
+                      style={{ textDecoration: "none" }}
+                    >
+                      <MessageQuestion size="20" variant="Bold" />
+
+                      <span
+                        className="Title"
+                        style={{
+                          fontSize: 14,
+                          fontWeight: 600,
+                          display: "inline-block",
+                          fontFamily: "Gilroy",
+                        }}
+                      >
+                        Compliants
+                      </span>
+                    </NavLink>
                   </li>
 
                   <li
-                    className={` align-items-center list-Item ${currentPage === "compliance" ? "active" : ""
-                      }`}
-                    onClick={() => {
-                      handlePageClick("compliance");
-
-                      const hostelId = state.login?.selectedHostel_Id;
-                      if (hostelId) {
-                        navigate(`/compliance/${hostelId}`);
-                      } else {
-                        navigate(`/compliance`);
-                      }
+                    style={{
+                      listStyleType: "none",
+                      marginTop: manageOpen ? "2px" : "8px",
                     }}
-
-
-                    style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "8px" }}
                   >
-                    <MessageQuestion size="20" variant="Bold" />
-
-                    <span
-                      className=" Title"
-                      style={{
-                        fontSize: 14,
-                        fontWeight: 600,
-                        display: "inline-block",
-                        fontFamily: "Gilroy",
-                      }}
-                    >
-                      Compliants
-                    </span>
-                  </li>
-                  <li
-                    className={`align-items-center list-Item ${currentPage === "expenses" ? "active" : ""
-                      }`}
-                    onClick={() => {
-                      handlePageClick("expenses");
-
-                      const hostelId = state.login?.selectedHostel_Id;
-                      if (hostelId) {
-                        navigate(`/expense/${hostelId}`);
-                      } else {
-                        navigate(`/expense`);
+                    <NavLink
+                      to={withHostel("/expense")}
+                      className={({ isActive }) =>
+                        `align-items-center list-Item d-flex ${isActive || currentPage === "expenses" ? "active" : ""
+                        }`
                       }
-                    }}
-
-                    style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "8px" }}
-                  >
-                    <MoneySend size="20" variant="Bold" />
-
-                    <span
-                      className="Title"
-                      style={{
-                        fontSize: 14,
-                        fontWeight: 600,
-                        display: "inline-block",
-                        fontFamily: "Gilroy",
-                      }}
+                      onClick={() => handlePageClick("expenses")}
+                      style={{ textDecoration: "none" }}
                     >
-                      Expenses
-                    </span>
+                      <MoneySend size="20" variant="Bold" />
+
+                      <span
+                        className="Title"
+                        style={{
+                          fontSize: 14,
+                          fontWeight: 600,
+                          display: "inline-block",
+                          fontFamily: "Gilroy",
+                        }}
+                      >
+                        Expenses
+                      </span>
+                    </NavLink>
                   </li>
+
 
                   <li
-                    className={` align-items-center list-Item ${currentPage === "reports" ? "active" : ""
-                      }`}
-                    onClick={() => {
-                      handlePageClick("reports");
-
-                      const hostelId = state.login?.selectedHostel_Id;
-                      if (hostelId) {
-                        navigate(`/reports/${hostelId}`);
-                      } else {
-                        navigate(`/reports`);
-                      }
+                    style={{
+                      listStyleType: "none",
+                      marginTop: manageOpen ? "2px" : "8px",
                     }}
-
-                    style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "8px" }}
                   >
-                    <Chart size="20" variant="Bold" />
-
-                    <span
-                      className="Title"
-                      style={{
-                        fontSize: 14,
-                        fontWeight: 600,
-                        display: "inline-block",
-                        fontFamily: "Gilroy",
-                      }}
+                    <NavLink
+                      to={withHostel("/reports")}
+                      className={({ isActive }) =>
+                        `align-items-center list-Item d-flex ${isActive || currentPage === "reports" ? "active" : ""
+                        }`
+                      }
+                      onClick={() => handlePageClick("reports")}
+                      style={{ textDecoration: "none" }}
                     >
-                      Reports
-                    </span>
+                      <Chart size="20" variant="Bold" />
+
+                      <span
+                        className="Title"
+                        style={{
+                          fontSize: 14,
+                          fontWeight: 600,
+                          display: "inline-block",
+                          fontFamily: "Gilroy",
+                        }}
+                      >
+                        Reports
+                      </span>
+                    </NavLink>
                   </li>
+
                 </ul>
               </div>
 
@@ -1489,9 +1482,11 @@ function Sidebar() {
                   flexShrink: 0,
                   position: "absolute",
                   bottom: 0,
+                  right: 0,
                   backgroundColor: "#fff",
                   padding: "12px 0",
                   zIndex: 5,
+
                 }}
               >
                 <hr style={{ color: "#E2E8F0" }} className="p-0 m-0" />
@@ -1783,7 +1778,7 @@ function Sidebar() {
               <Route
                 path="/dashboard/:hostelId?"
                 element={
-                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                  <div style={{ marginTop: 5, marginLeft: 13, marginRight: 5 }}>
                     <Dashboards
                       displayCompliance={handledisplaycompliace}
                       allPageHostel_Id={allPageHostel_Id}
