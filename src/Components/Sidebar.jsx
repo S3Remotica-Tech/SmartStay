@@ -952,8 +952,8 @@ function Sidebar() {
                     minHeight: 0,
                     overflowY: "auto",
                     listStyle: "none",
-                    padding: 5,
-
+                    padding: 2,
+marginBottom:0,
                     width: "100%",
                   }}
                 >
