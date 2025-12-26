@@ -501,16 +501,20 @@ function Sidebar() {
     setIsSidebarOpen(false);
   };
 
-  const handleSettingspage = (view) => {
-    handlePageClick("settingNewDesign");
-    setSettingsPGShow(false);
-    const hostelId = state.login?.selectedHostel_Id;
-    if (hostelId) {
-      navigate(`/settings/${hostelId}`);
-    } else {
-      navigate(`/settings`);
-    }
-  };
+  // const handleSettingspage = (view) => {
+  //   handlePageClick("settingNewDesign");
+  //   setSettingsPGShow(false);
+  //   const hostelId = state.login?.selectedHostel_Id;
+  //   if (hostelId) {
+  //     navigate(`/settings/${hostelId}`);
+  //   } else {
+  //     navigate(`/settings`);
+  //   }
+  // };
+
+  const settingsPath = hostelId
+    ? `/settings/${hostelId}`
+    : `/settings`;
 
   useEffect(() => {
     if (allPageHostel_Id) {
@@ -953,7 +957,7 @@ function Sidebar() {
                     overflowY: "auto",
                     listStyle: "none",
                     padding: 2,
-marginBottom:0,
+                    marginBottom: 0,
                     width: "100%",
                   }}
                 >
@@ -1596,14 +1600,22 @@ marginBottom:0,
                   }}
                 >
 
-                  <div
+                  <NavLink
+                    to={settingsPath}
                     onMouseEnter={() => handleMouseEnter("settings")}
                     onMouseLeave={handleMouseLeave}
-                    onClick={handleSettingspage}
+                    onClick={() => {
+                      handlePageClick("settingNewDesign");
+                      setSettingsPGShow(false);
+                    }}
+                    className={({ isActive }) =>
+                      `settings-link ${isActive ? "active" : ""}`
+                    }
                     style={{
                       cursor: "pointer",
                       position: "relative",
                       display: "inline-block",
+                      textDecoration: "none",
                     }}
                   >
                     <img src={SettingIcon} alt="Settings Icon" />
@@ -1626,7 +1638,7 @@ marginBottom:0,
                         Settings
                       </span>
                     )}
-                  </div>
+                  </NavLink>
 
 
                   <div
