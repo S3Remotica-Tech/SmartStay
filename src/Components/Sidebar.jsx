@@ -54,7 +54,7 @@ import SettingGeneral from "../Pages/Settings/SettingGeneral";
 import SettingManage from "../Pages/Settings/SettingManage";
 import {
   Notification, RulerPen, CalendarAdd, Setting2, Chart, MoneySend, MessageQuestion, Flash, Receipt,
-  Bank, Shop, Box, Profile2User
+  Bank, Shop, Box, Profile2User, Location
 } from 'iconsax-react'
 import NotificationForm from "../Utils/Notification";
 import PaymentPreview from "../Pages/SubscriptionFile/PaymentPreview";
@@ -144,7 +144,7 @@ function Sidebar() {
   // },[currentPage])
 
 
-  const LastPageIs = localStorage.getItem("lastPage")
+  // const LastPageIs = localStorage.getItem("lastPage")
 
 
 
@@ -483,10 +483,11 @@ function Sidebar() {
 
   const [selectedProfileImage, setSelectedProfileImage] = useState("");
   const [initials, setInitials] = useState('')
+  const [locationName, setLocationName] = useState('')
 
 
-  const handleHostelId = (id, name, mainImage, initials) => {
-
+  const handleHostelId = (id, name, mainImage, initials, locations) => {
+    setLocationName(locations)
     setInitials(initials)
     setPayingGuestName(name);
     setAllPageHostel_Id(id);
@@ -550,6 +551,7 @@ function Sidebar() {
 
     setAllPageHostel_Id(selectedHostel.hostelId);
     setPayingGuestName(selectedHostel.name);
+    setLocationName(selectedHostel.city)
     setInitials(selectedHostel.initials);
 
     setSelectedProfileImage(
@@ -631,35 +633,19 @@ function Sidebar() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
   return (
     <>
       {
         showNotify && <NotificationForm show={showNotify} handleClose={handleClose} />
       }
       <Container fluid className="p-0" >
-        {/* parent */}
         <div style={{
-          display: "flex", position:"relative",
+          display: "flex", position: "relative",
           width: "100%",
           height: "100vh",
           overflowY: "hidden",
         }}
         >
-
-
-
           <div className="d-md-none p-2 bg-white">
             <button
               onClick={toggleSidebar}
@@ -683,7 +669,7 @@ function Sidebar() {
               backgroundColor: "#fff",
               boxShadow: "5px 0 2px -2px rgba(0,0,0,0.12)",
               // padding: 3,
-              
+
             }}
           >
             <div  >
@@ -792,12 +778,15 @@ function Sidebar() {
                         whiteSpace: "nowrap",
                         overflow: "hidden",
                         textOverflow: "ellipsis",
-                        verticalAlign: "middle",
+                        verticalAlign: "middle", color: "#222222"
                       }}
                     >
                       {payingGuestName}
                       <div>
-
+                        <label style={{ fontSize: 12, color: "#9C9C9C" }}><Location className="me-1"
+                          size="16"
+                          color="#FF8A65" variant="Bold"
+                        />  {locationName}</label>
                       </div>
                     </span>
                     <span className="ms-auto">
@@ -848,7 +837,7 @@ function Sidebar() {
                                   textOverflow: "ellipsis",
                                   verticalAlign: "middle",
                                 }}
-                                onClick={() => handleHostelId(item.hostelId, item.name, item.mainImage, item.initials)}
+                                onClick={() => handleHostelId(item.hostelId, item.name, item.mainImage, item.initials, item.city)}
                               >
                                 {item.mainImage && item.mainImage !== "0" && item.mainImage !== "" ? (
                                   <img
@@ -901,9 +890,9 @@ function Sidebar() {
                     style={{
                       listStyleType: "none",
                       display: "flex",
-                      fontFamily: "Gilroy",color:"#FFFFFF",
+                      fontFamily: "Gilroy", color: "#FFFFFF",
                       fontWeight: 500, backgroundColor: "#1E45E1",
-              boxShadow: "5px 0 2px -2px rgba(0,0,0,0.12)",padding:8, borderRadius: "8px", cursor:"pointer",
+                      boxShadow: "5px 0 2px -2px rgba(0,0,0,0.12)", padding: 8, borderRadius: "8px", cursor: "pointer",
                     }}
                     onClick={() => handleShowsettingsPG("manage-pg", "Manage PG")}
                   >
@@ -912,18 +901,17 @@ function Sidebar() {
                 )}
               </div>
               <div
-              
+
                 className="show-scrolls-sidebar"
-                
+
                 style={{
                   flex: 1,
-                  maxHeight: 430,
+                  maxHeight: 400,
                   overflow: "auto",
                   display: "flex",
                   flexDirection: "column",
                   margin: 5,
-                  // minHeight: 430,
-              overflowY: "auto",
+                  overflowY: "auto",
                 }}
               >
 
@@ -1502,7 +1490,7 @@ function Sidebar() {
                   position: "absolute",
                   bottom: 0,
                   backgroundColor: "#fff",
-                                    padding: "12px 0",
+                  padding: "12px 0",
                   zIndex: 5,
                 }}
               >
@@ -1851,7 +1839,7 @@ function Sidebar() {
                   </div>
                 }
               />
-                <Route
+              <Route
                 path="/booking/details/:hostelId?"
                 element={
                   <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
@@ -1879,12 +1867,12 @@ function Sidebar() {
                   </div>
                 }
               />
-               <Route
+              <Route
                 path="/receipts/details/:receiptId?"
                 element={
                   <div style={{ marginTop: 5, marginLeft: 15, marginRight: 5 }}>
                     <ReceiptPdfDetails />
-                    
+
                   </div>
                 }
               />
@@ -1894,7 +1882,7 @@ function Sidebar() {
                   <div style={{ marginTop: 5, marginLeft: 15, marginRight: 5 }}>
                     <BillsPdfDetails />
                   </div>
-                } 
+                }
               />
               <Route
                 path="/vendor/:hostelId?"
