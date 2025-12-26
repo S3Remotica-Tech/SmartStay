@@ -1,52 +1,35 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import React, { useState, useEffect, useRef } from "react";
-import { Container, Row, Col, InputGroup, Table, Modal, Button, FormControl, Form } from "react-bootstrap";
+import { InputGroup, Table, FormControl } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
-import Image from "react-bootstrap/Image";
-// import User from "../../Assets/Images/New_images/profile-picture.png";
-import Select from "react-select";
+// import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
 import "sweetalert2/dist/sweetalert2.min.css";
-import LoaderComponent from "../OthersComponent/LoaderComponent";
 import "../Bills/Invoices.css";
-import InvoiceTable from "../Bills/InvoicelistTable";
-// import Profile from "../../Assets/Images/New_images/profile-picture.png";
-import TabContext from "@mui/lab/TabContext";
-// import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
-import { Tabs, Tab } from "react-bootstrap";
 import Calendars from "../../Assets/Images/New_images/calendar.png";
 import "flatpickr/dist/themes/material_blue.css";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
-import BillPdfModal from "../PDF/BillPdfModal";
 import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
-import RecurringBill from "../../Pages/Recurring/RecurringBills";
 import RecurringBillList from "../../Pages/Recurring/RecurringBillList";
-import closecircle from "../../Assets/Images/New_images/close-circle.png";
-import searchteam from "../../Assets/Images/New_images/Search Team.png";
-import Receipt from "../../Pages/Receipt/Receipt";
-import AddReceiptForm from "../Receipt/AddReceipt";
-import ReceiptPdfCard from "../PDF/ReceiptPdfModal";
-import PropTypes from "prop-types";
 import { toast } from "react-toastify";
-import { DatePicker } from "antd";
-import dayjs from "dayjs";
-import { CloseCircle, ArrowUp2, ArrowDown2, Filter, SearchNormal1 } from "iconsax-react";
+// import { DatePicker } from "antd";
+// import dayjs from "dayjs";
+import { CloseCircle, } from "iconsax-react";
 import '../OthersComponent/BillPdfModal.css';
 import AxiosConfig from "../../WebService/AxiosConfig";
 import Swal from 'sweetalert2';
 import PaginationList from "../../Components/PaginationList";
 import ErrorMessage from '../../Components/ErrorMessage'
 import { useHasPermission } from '../../Utils/Permission';
-import { HiMiniBars3BottomLeft } from "react-icons/hi2";
+// import { HiMiniBars3BottomLeft } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
-import withErrorBoundary from "../../Hoc/WithErrorBountry";
-import BillsFilter from '../../Pages/Bills/BillsFilter'
+// import withErrorBoundary from "../../Hoc/WithErrorBountry";
+// import BillsFilter from '../../Pages/Bills/BillsFilter'
 import { FiSearch } from "react-icons/fi";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 
@@ -55,14 +38,14 @@ function RecurringBills() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { RangePicker } = DatePicker;
+  // const { RangePicker } = DatePicker;
   const [recurLoader, setRecurLoader] = useState(false);
   const [loading, setLoading] = useState(false);
   const [invoiceValue, setInvoiceValue] = useState("");
-  const [bankking, setBanking] = useState("");
+  // const [bankking, setBanking] = useState("");
   // const [formLoading, setFormLoading] = useState(false)
-  const [initials, setInitials] = useState("");
-  const [formRecordLoading, setFormRecordLoading] = useState(false)
+  // const [initials, setInitials] = useState("");
+  // const [formRecordLoading, setFormRecordLoading] = useState(false)
   const dropdownRef = useRef(null);
   const [invoiceList, setInvoiceList] = useState({
     firstName: "",
@@ -86,25 +69,10 @@ function RecurringBills() {
 
 
 
+  // const [showSearchFilter, setShowSearchFilter] = useState(false);
+  // const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
 
-
-
-  // const location = useLocation();
-
-  // const isDuplicate = location.pathname.includes("/invoice/new/");
-
-
-  // console.log("isDuplicate", isDuplicate, "location.pathname", location.pathname)
-
-
-
-
-
-
-  const [showSearchFilter, setShowSearchFilter] = useState(false);
-  const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
-
-  const [showLoader, setShowLoader] = useState(false);
+  // const [showLoader, setShowLoader] = useState(false);
   const [statusfilter, setStatusfilter] = useState("");
   const [selectedUserId, setSelectedUserId] = useState("");
   const [paymodeerrormsg, setPaymodeErrmsg] = useState("");
@@ -199,12 +167,12 @@ function RecurringBills() {
   const [selectedTransactionId, setSelectedTransactionId] = useState(null);
   const [activeStay, setActiveStay] = useState("long_stay");
 
-  const {
-    canWriteModule: canWriteInvoice,
-    canReadModule: canReadInvoice,
-  } = useHasPermission("Bills");
+  // const {
+  //   canWriteModule: canWriteInvoice,
+  //   canReadModule: canReadInvoice,
+  // } = useHasPermission("Bills");
 
-  console.log("canWriteInvoice", canWriteInvoice)
+  // console.log("canWriteInvoice", canWriteInvoice)
 
   // const canReadInvoice = useHasPermission("Bills", "canRead")
   // const canWriteInvoice = useHasPermission("Bills", "canWrite")
@@ -220,10 +188,10 @@ function RecurringBills() {
 
 
 
-  const {
-    canWriteModule: canWriteReceipt,
-    canReadModule: canReadReceipt,
-  } = useHasPermission("Receipt");
+  // const {
+  //   canWriteModule: canWriteReceipt,
+  //   canReadModule: canReadReceipt,
+  // } = useHasPermission("Receipt");
 
   // const canReadReceipt = useHasPermission("Receipt", "canRead")
   // const canWriteReceipt = useHasPermission("Receipt", "canWrite")
@@ -237,13 +205,13 @@ function RecurringBills() {
   //   setInvoiceNumber(e.target.value);
   // };
 
-  useEffect(() => {
-    if (!canReadInvoice) {
-      setLoading(false);
-    } else {
-      setLoading(true);
-    }
-  }, [canReadInvoice]);
+  // useEffect(() => {
+  //   if (!canReadInvoice) {
+  //     setLoading(false);
+  //   } else {
+  //     setLoading(true);
+  //   }
+  // }, [canReadInvoice]);
 
   useEffect(() => {
     if (!canReadRecurring) {
@@ -260,31 +228,31 @@ function RecurringBills() {
     setActiveStay(stayType);
   };
 
-  const [showBillsFilter, setShowBillsFilter] = useState(false);
+  // const [showBillsFilter, setShowBillsFilter] = useState(false);
 
-  const handleShowFilterBills = () => {
-    setShowBillsFilter(true)
+  // const handleShowFilterBills = () => {
+  //   setShowBillsFilter(true)
 
-    dispatch({
-      type: "SET_INVOICE_FILTERS",
-      payload: {
-        startDate: undefined,
-        endDate: undefined,
-        type: [],
-        createdBy: [],
-        createdByLabels: [],
-        modes: [],
-        paymentStatus: [],
-        search: "",
-      },
-    })
+  //   dispatch({
+  //     type: "SET_INVOICE_FILTERS",
+  //     payload: {
+  //       startDate: undefined,
+  //       endDate: undefined,
+  //       type: [],
+  //       createdBy: [],
+  //       createdByLabels: [],
+  //       modes: [],
+  //       paymentStatus: [],
+  //       search: "",
+  //     },
+  //   })
 
-  }
+  // }
 
-  const handleCloseFilterBills = () => {
-    setShowBillsFilter(false)
+  // const handleCloseFilterBills = () => {
+  //   setShowBillsFilter(false)
 
-  }
+  // }
 
 
   const monthOptions = [
@@ -376,14 +344,14 @@ function RecurringBills() {
 
 
 
-  useEffect(() => {
-    if (!state.login.selectedHostel_Id) return;
+  // useEffect(() => {
+  //   if (!state.login.selectedHostel_Id) return;
 
-    dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
-    setLoading(true)
+  //   dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+  //   setLoading(true)
 
 
-  }, [state.login.selectedHostel_Id]);
+  // }, [state.login.selectedHostel_Id]);
 
 
 
@@ -423,7 +391,7 @@ function RecurringBills() {
 
   useEffect(() => {
     if (state.InvoiceList.billsListStatusCode === 200) {
-      setShowBillsFilter(false)
+      // setShowBillsFilter(false)
       setLoading(false);
       setBills(state.InvoiceList.billsList?.listInvoices);
       // setOriginalBillsFilter(state.InvoiceList.billsList?.listInvoices)
@@ -554,61 +522,61 @@ function RecurringBills() {
   ];
 
 
-  const handleInvoiceDetail = (item) => {
+  // const handleInvoiceDetail = (item) => {
 
-    if (item.User_Id) {
-      const originalDate = new Date(item.Date);
-      const year = originalDate.getFullYear();
-      const month = (originalDate.getMonth() + 1).toString().padStart(2, "0");
-      const day = originalDate.getDate().toString().padStart(2, "0");
-      const newDate = `${year}-${month}-${day}`;
+  //   if (item.User_Id) {
+  //     const originalDate = new Date(item.Date);
+  //     const year = originalDate.getFullYear();
+  //     const month = (originalDate.getMonth() + 1).toString().padStart(2, "0");
+  //     const day = originalDate.getDate().toString().padStart(2, "0");
+  //     const newDate = `${year}-${month}-${day}`;
 
-      if (
-        (item.EbAmount === 0 || item.EbAmount === undefined) &&
-        item.invoice_type === 1 &&
-        item.AmnitiesAmount === 0
-      ) {
-        dispatch({
-          type: "INVOICEPDF",
-          payload: {
-            Date: newDate,
-            User_Id: item.User_Id,
-            id: item.id,
-            hostel_Id: item.Hostel_Id,
-            invoice_type: item.invoice_type,
-          },
-        });
-      } else if (item.invoice_type === 2) {
-        dispatch({
-          type: "INVOICEPDF",
-          payload: {
-            User_Id: item.User_Id,
-            id: item.id,
-            hostel_Id: item.Hostel_Id,
-            invoice_type: item.invoice_type,
-          },
-        });
-      } else {
-        dispatch({
-          type: "INVOICEPDF",
-          payload: {
-            Date: newDate,
-            User_Id: item.User_Id,
-            id: item.id,
-          },
-        });
-      }
+  //     if (
+  //       (item.EbAmount === 0 || item.EbAmount === undefined) &&
+  //       item.invoice_type === 1 &&
+  //       item.AmnitiesAmount === 0
+  //     ) {
+  //       dispatch({
+  //         type: "INVOICEPDF",
+  //         payload: {
+  //           Date: newDate,
+  //           User_Id: item.User_Id,
+  //           id: item.id,
+  //           hostel_Id: item.Hostel_Id,
+  //           invoice_type: item.invoice_type,
+  //         },
+  //       });
+  //     } else if (item.invoice_type === 2) {
+  //       dispatch({
+  //         type: "INVOICEPDF",
+  //         payload: {
+  //           User_Id: item.User_Id,
+  //           id: item.id,
+  //           hostel_Id: item.Hostel_Id,
+  //           invoice_type: item.invoice_type,
+  //         },
+  //       });
+  //     } else {
+  //       dispatch({
+  //         type: "INVOICEPDF",
+  //         payload: {
+  //           Date: newDate,
+  //           User_Id: item.User_Id,
+  //           id: item.id,
+  //         },
+  //       });
+  //     }
 
-      setShowLoader(true);
-    }
-  };
+  //     setShowLoader(true);
+  //   }
+  // };
 
 
 
   useEffect(() => {
     if (state.InvoiceList.pdfErrorStatusCode === 201) {
       setLoading(false)
-      setShowLoader(false);
+      // setShowLoader(false);
       setTimeout(() => {
         dispatch({ type: "REMOVE_PDF_ERROR" });
       }, 100);
@@ -617,7 +585,7 @@ function RecurringBills() {
   useEffect(() => {
     if (state.createAccount?.networkError) {
       setLoading(false)
-      setShowLoader(false);
+      // setShowLoader(false);
       setTimeout(() => {
         dispatch({ type: 'CLEAR_NETWORK_ERROR' })
       }, 3000)
@@ -625,249 +593,249 @@ function RecurringBills() {
 
   }, [state.createAccount?.networkError])
 
-  const handleReceiptDetail = (item) => {
+  // const handleReceiptDetail = (item) => {
 
 
-    if (item.user_id) {
+  //   if (item.user_id) {
 
-      dispatch({
-        type: "RECEIPTPDF",
-        payload: {
-          id: item.id,
-        },
-      });
+  //     dispatch({
+  //       type: "RECEIPTPDF",
+  //       payload: {
+  //         id: item.id,
+  //       },
+  //     });
 
-      setShowLoader(true);
-    }
-  };
-
-
-
-
-  const CustomStyles = {
-    control: (base) => ({
-      ...base,
-      height: "auto",
-      border: "1px solid #D9D9D9",
-      borderRadius: "8px",
-      fontSize: "14px",
-      color: "#4B4B4B",
-      fontFamily: "Gilroy, sans-serif",
-      fontWeight: 500,
-      boxShadow: "none",
-      cursor: "pointer",
-      outline: "none",
-      "&:hover": {
-        border: "1px solid #D9D9D9",
-      },
-    }),
-    valueContainer: (base) => ({
-      ...base,
-      maxHeight: "60px",
-      overflowY: "auto",
-      flexWrap: "wrap",
-    }), multiValue: (base) => ({
-      ...base,
-      backgroundColor: "#FFF",
-      borderRadius: "6px",
-    }),
-
-    multiValueLabel: (base) => ({
-      ...base,
-      fontSize: "12px",
-      fontWeight: 600,
-      color: "#000000",
-    }),
-
-    multiValueRemove: (base) => ({
-      ...base,
-      cursor: "pointer",
-      borderRadius: 10,
-      color: "#FF0000",
-      ":hover": {
-        color: "#FF0000",
-      },
-    }),
-
-    menu: (base) => ({
-      ...base,
-      backgroundColor: "#f8f9fa",
-      border: "1px solid #ced4da",
-      fontFamily: "Gilroy, sans-serif", fontSize: "14px",
-    }),
-    menuList: (base) => ({
-      ...base,
-      backgroundColor: "#1E45E1",
-      color: "#FFF",
-      maxHeight: "120px",
-      padding: 0,
-      scrollbarWidth: "thin",
-      overflowY: "auto",
-      fontFamily: "Gilroy, sans-serif", fontSize: "14px",
-    }),
-    placeholder: (base) => ({
-      ...base,
-      color: "#555",
-    }),
-    option: (base, state) => ({
-      ...base,
-      cursor: "pointer",
-      backgroundColor: state.isFocused ? "" : "white",
-      color: state.isFocused ? "#FFF" : "#000000",
-    }),
-    dropdownIndicator: (base) => ({
-      ...base,
-      color: "#555",
-      cursor: "pointer"
-    }),
-    indicatorSeparator: () => ({
-      display: "none",
-    }), clearIndicator: () => ({
-      display: "none",
-    }),
-  }
-
-  const handleStatusFilter = (selectedOption) => {
-    dispatch({
-      type: "SET_INVOICE_FILTERS",
-      payload: {
-        startDate: undefined,
-        endDate: undefined,
-        type: [],
-        createdBy: [],
-        createdByLabels: [],
-        modes: [],
-        paymentStatus: [],
-        search: "",
-      },
-    })
-    if (!selectedOption) {
-      setStatusfilter(null);
-
-      if (state.login?.selectedHostel_Id) {
-        dispatch({
-          type: "INVOICESLISTFILTER",
-          payload: {
-            hostelId: state.login.selectedHostel_Id,
-          },
-        });
-      }
-      return;
-    }
-
-    setStatusfilter(selectedOption);
-    // console.log("selectedOption", selectedOption);
-
-    if (!state.login?.selectedHostel_Id) return;
-
-
-    if (selectedOption.value === "ALL") {
-      dispatch({
-        type: "INVOICESLISTFILTER",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-        },
-      });
-    }
-
-    else {
-      dispatch({
-        type: "INVOICESLISTFILTER",
-        payload: {
-          hostelId: state.login.selectedHostel_Id,
-          filters: {
-            paymentStatus: [selectedOption.value],
-            search: filterInput
-          },
-        },
-      });
-    }
-  };
+  //     setShowLoader(true);
+  //   }
+  // };
 
 
 
 
+  // const CustomStyles = {
+  //   control: (base) => ({
+  //     ...base,
+  //     height: "auto",
+  //     border: "1px solid #D9D9D9",
+  //     borderRadius: "8px",
+  //     fontSize: "14px",
+  //     color: "#4B4B4B",
+  //     fontFamily: "Gilroy, sans-serif",
+  //     fontWeight: 500,
+  //     boxShadow: "none",
+  //     cursor: "pointer",
+  //     outline: "none",
+  //     "&:hover": {
+  //       border: "1px solid #D9D9D9",
+  //     },
+  //   }),
+  //   valueContainer: (base) => ({
+  //     ...base,
+  //     maxHeight: "60px",
+  //     overflowY: "auto",
+  //     flexWrap: "wrap",
+  //   }), multiValue: (base) => ({
+  //     ...base,
+  //     backgroundColor: "#FFF",
+  //     borderRadius: "6px",
+  //   }),
 
-  const [statusFilterReceipt, setStatusFilterReceipt] = useState("");
-  const handleStatusFilterReceipt = (event) => {
-    const searchTerm = event.target.value;
-    setStatusFilterReceipt(searchTerm);
-  };
+  //   multiValueLabel: (base) => ({
+  //     ...base,
+  //     fontSize: "12px",
+  //     fontWeight: 600,
+  //     color: "#000000",
+  //   }),
 
-  useEffect(() => {
-    if (statusFilterReceipt !== "date") {
-      setReceiptDateRange([]);
+  //   multiValueRemove: (base) => ({
+  //     ...base,
+  //     cursor: "pointer",
+  //     borderRadius: 10,
+  //     color: "#FF0000",
+  //     ":hover": {
+  //       color: "#FF0000",
+  //     },
+  //   }),
 
-      if (statusFilterReceipt === "All") {
-        setReceiptData(originalBillsFilterReceipt);
-      } else {
-        const filteredItemsReceipt = originalBillsFilterReceipt.filter((user) => {
-          const mode = user.paymentMode?.toLowerCase() || "";
+  //   menu: (base) => ({
+  //     ...base,
+  //     backgroundColor: "#f8f9fa",
+  //     border: "1px solid #ced4da",
+  //     fontFamily: "Gilroy, sans-serif", fontSize: "14px",
+  //   }),
+  //   menuList: (base) => ({
+  //     ...base,
+  //     backgroundColor: "#1E45E1",
+  //     color: "#FFF",
+  //     maxHeight: "120px",
+  //     padding: 0,
+  //     scrollbarWidth: "thin",
+  //     overflowY: "auto",
+  //     fontFamily: "Gilroy, sans-serif", fontSize: "14px",
+  //   }),
+  //   placeholder: (base) => ({
+  //     ...base,
+  //     color: "#555",
+  //   }),
+  //   option: (base, state) => ({
+  //     ...base,
+  //     cursor: "pointer",
+  //     backgroundColor: state.isFocused ? "" : "white",
+  //     color: state.isFocused ? "#FFF" : "#000000",
+  //   }),
+  //   dropdownIndicator: (base) => ({
+  //     ...base,
+  //     color: "#555",
+  //     cursor: "pointer"
+  //   }),
+  //   indicatorSeparator: () => ({
+  //     display: "none",
+  //   }), clearIndicator: () => ({
+  //     display: "none",
+  //   }),
+  // }
 
-          if (statusFilterReceipt === "Cash") return mode.endsWith("-cash");
-          if (statusFilterReceipt === "UPI") return mode.endsWith("-upi");
-          if (statusFilterReceipt === "Bank") return mode.endsWith("-bank");
-          if (statusFilterReceipt === "Card") return mode.endsWith("-card");
+  // const handleStatusFilter = (selectedOption) => {
+  //   dispatch({
+  //     type: "SET_INVOICE_FILTERS",
+  //     payload: {
+  //       startDate: undefined,
+  //       endDate: undefined,
+  //       type: [],
+  //       createdBy: [],
+  //       createdByLabels: [],
+  //       modes: [],
+  //       paymentStatus: [],
+  //       search: "",
+  //     },
+  //   })
+  //   if (!selectedOption) {
+  //     setStatusfilter(null);
 
-          return false;
-        });
+  //     if (state.login?.selectedHostel_Id) {
+  //       dispatch({
+  //         type: "INVOICESLISTFILTER",
+  //         payload: {
+  //           hostelId: state.login.selectedHostel_Id,
+  //         },
+  //       });
+  //     }
+  //     return;
+  //   }
 
-        setReceiptData(filteredItemsReceipt);
-        // setCurrentReceiptPage(1);
-      }
-    }
-  }, [statusFilterReceipt]);
+  //   setStatusfilter(selectedOption);
+  //   // console.log("selectedOption", selectedOption);
+
+  //   if (!state.login?.selectedHostel_Id) return;
+
+
+  //   if (selectedOption.value === "ALL") {
+  //     dispatch({
+  //       type: "INVOICESLISTFILTER",
+  //       payload: {
+  //         hostelId: state.login.selectedHostel_Id,
+  //       },
+  //     });
+  //   }
+
+  //   else {
+  //     dispatch({
+  //       type: "INVOICESLISTFILTER",
+  //       payload: {
+  //         hostelId: state.login.selectedHostel_Id,
+  //         filters: {
+  //           paymentStatus: [selectedOption.value],
+  //           search: filterInput
+  //         },
+  //       },
+  //     });
+  //   }
+  // };
 
 
 
 
 
-  const [receiptDateRange, setReceiptDateRange] = useState([]);
-  const handleDateRangeChangeReceipt = (dates) => {
-    setReceiptDateRange(dates);
+  // const [statusFilterReceipt, setStatusFilterReceipt] = useState("");
+  // const handleStatusFilterReceipt = (event) => {
+  //   const searchTerm = event.target.value;
+  //   setStatusFilterReceipt(searchTerm);
+  // };
+
+  // useEffect(() => {
+  //   if (statusFilterReceipt !== "date") {
+  //     setReceiptDateRange([]);
+
+  //     if (statusFilterReceipt === "All") {
+  //       setReceiptData(originalBillsFilterReceipt);
+  //     } else {
+  //       const filteredItemsReceipt = originalBillsFilterReceipt.filter((user) => {
+  //         const mode = user.paymentMode?.toLowerCase() || "";
+
+  //         if (statusFilterReceipt === "Cash") return mode.endsWith("-cash");
+  //         if (statusFilterReceipt === "UPI") return mode.endsWith("-upi");
+  //         if (statusFilterReceipt === "Bank") return mode.endsWith("-bank");
+  //         if (statusFilterReceipt === "Card") return mode.endsWith("-card");
+
+  //         return false;
+  //       });
+
+  //       setReceiptData(filteredItemsReceipt);
+  //       // setCurrentReceiptPage(1);
+  //     }
+  //   }
+  // }, [statusFilterReceipt]);
 
 
-    if (!dates || dates.length !== 2) {
-      setStatusFilterReceipt("All");
-      setReceiptData(originalBillsFilterReceipt);
-      return;
-    }
-
-    const [start, end] = dates;
-
-    const filtered = originalBillsFilterReceipt.filter((item) => {
-      const itemDate = dayjs(item.payment_date);
-      return (
-        itemDate.isSame(start, 'day') ||
-        itemDate.isSame(end, 'day') ||
-        (itemDate.isAfter(start) && itemDate.isBefore(end))
-      );
-    });
-
-    setReceiptData(filtered);
-    // setCurrentReceiptPage(1)
-  };
 
 
-  useEffect(() => {
-    if (statusFilterReceipt !== "date") {
-      setReceiptDateRange([]);
-    }
-  }, [statusFilterReceipt]);
-  useEffect(() => {
-    if (statusFilterReceipt === "All") {
-      setReceiptData(originalBillsFilterReceipt);
-      setReceiptDateRange([]);
 
-    }
-  }, [statusFilterReceipt]);
+  // const [receiptDateRange, setReceiptDateRange] = useState([]);
+  // const handleDateRangeChangeReceipt = (dates) => {
+  //   setReceiptDateRange(dates);
 
 
-  useEffect(() => {
-    if (originalBillsFilterReceipt.length === 0 && receiptdata.length > 0) {
-      setOriginalBillsFilterReceipt(receiptdata);
-    }
-  }, [receiptdata]);
+  //   if (!dates || dates.length !== 2) {
+  //     setStatusFilterReceipt("All");
+  //     setReceiptData(originalBillsFilterReceipt);
+  //     return;
+  //   }
+
+  //   const [start, end] = dates;
+
+  //   const filtered = originalBillsFilterReceipt.filter((item) => {
+  //     const itemDate = dayjs(item.payment_date);
+  //     return (
+  //       itemDate.isSame(start, 'day') ||
+  //       itemDate.isSame(end, 'day') ||
+  //       (itemDate.isAfter(start) && itemDate.isBefore(end))
+  //     );
+  //   });
+
+  //   setReceiptData(filtered);
+  //   // setCurrentReceiptPage(1)
+  // };
+
+
+  // useEffect(() => {
+  //   if (statusFilterReceipt !== "date") {
+  //     setReceiptDateRange([]);
+  //   }
+  // }, [statusFilterReceipt]);
+  // useEffect(() => {
+  //   if (statusFilterReceipt === "All") {
+  //     setReceiptData(originalBillsFilterReceipt);
+  //     setReceiptDateRange([]);
+
+  //   }
+  // }, [statusFilterReceipt]);
+
+
+  // useEffect(() => {
+  //   if (originalBillsFilterReceipt.length === 0 && receiptdata.length > 0) {
+  //     setOriginalBillsFilterReceipt(receiptdata);
+  //   }
+  // }, [receiptdata]);
 
 
 
@@ -916,7 +884,7 @@ function RecurringBills() {
 
 
   const [editvalue, setEditvalue] = useState("");
-  const [receiptedit, setReceiptEdit] = useState(false);
+  // const [receiptedit, setReceiptEdit] = useState(false);
   const [invoiceDetails, setInvoiceDetails] = useState(false);
   const [totalAmountPayable, setTotalAmountPayable] = useState(0);
   const [nonRefundableAmount, setNonRefundableAmount] = useState(0);
@@ -926,167 +894,167 @@ function RecurringBills() {
 
 
 
-  const handleEditReceipt = (item) => {
-    setShowAllBill(false);
-    setReceiptFormShow(true);
-    setEditvalue(item);
-    setReceiptEdit(true);
-  };
+  // const handleEditReceipt = (item) => {
+  //   setShowAllBill(false);
+  //   setReceiptFormShow(true);
+  //   setEditvalue(item);
+  //   setReceiptEdit(true);
+  // };
 
-  const handleEdit = (props) => {
-    navigate('/create-bill', {
-      state: {
-        billData: props,
-      },
-    })
-    setShowManualInvoice(true);
-    setShowAllBill(false);
-    setBillMode("Edit Bill");
-    setIsEditing(true);
-    setInvoiceDetails(null);
-    setTimeout(() => {
-      setInvoiceDetails(props);
-    }, 0);
+  // const handleEdit = (props) => {
+  //   navigate('/create-bill', {
+  //     state: {
+  //       billData: props,
+  //     },
+  //   })
+  //   setShowManualInvoice(true);
+  //   setShowAllBill(false);
+  //   setBillMode("Edit Bill");
+  //   setIsEditing(true);
+  //   setInvoiceDetails(null);
+  //   setTimeout(() => {
+  //     setInvoiceDetails(props);
+  //   }, 0);
 
-  };
-
-
-
-  useEffect(() => {
-
-    if (invoiceDetails?.ID) {
-      setCustomerName(invoiceDetails?.ID);
-    }
-
-
-    if (invoiceDetails?.DueDate) {
-      const parsedDate = new Date(invoiceDetails.DueDate);
-      if (!isNaN(parsedDate.getTime())) {
-        setInvoiceDueDate(parsedDate);
-      }
-    }
-
-    if (invoiceDetails?.Date) {
-      const parsedDate = new Date(invoiceDetails.Date);
-      if (!isNaN(parsedDate.getTime())) {
-        setInvoiceDate(parsedDate);
-      }
-    }
-
-    if (invoiceDetails?.start_date) {
-      const parsedDate = new Date(invoiceDetails.start_date);
-      if (!isNaN(parsedDate.getTime())) {
-        setStartDate(parsedDate);
-      }
-    }
-
-    if (invoiceDetails?.end_date) {
-      const parsedDate = new Date(invoiceDetails.end_date);
-      if (!isNaN(parsedDate.getTime())) {
-        setEndDate(parsedDate);
-      }
-    }
-
-    setTotalAmount(invoiceDetails?.Amount);
-
-    let newRows = [];
-
-    const existingAmenities = invoiceDetails?.amenity || [];
-
-    const doesAmenityExist = (name) =>
-      existingAmenities.some((item) => item.am_name === name);
-
-    if (invoiceDetails?.RoomRent && !doesAmenityExist("Room Rent")) {
-      newRows.push({
-        "S.No": newRows.length + 1,
-        am_name: "Room Rent",
-        amount: invoiceDetails.RoomRent,
-      });
-    }
-
-    if (invoiceDetails?.advance_amount && !doesAmenityExist("Advance Amount")) {
-      newRows.push({
-        "S.No": newRows.length + 1,
-        am_name: "Advance Amount",
-        amount: invoiceDetails.advance_amount,
-      });
-    }
-
-    if (invoiceDetails?.EbAmount && !doesAmenityExist("EB Amount")) {
-      newRows.push({
-        "S.No": newRows.length + 1,
-        am_name: "EB Amount",
-        amount: invoiceDetails.EbAmount,
-      });
-    }
-
-    if (invoiceDetails?.amenity && invoiceDetails.amenity.length > 0) {
-      newRows = [
-        ...newRows,
-        ...invoiceDetails.amenity.map((item, index) => ({
-          "S.No": newRows.length + index + 1,
-          am_name: item.am_name,
-          amount: item.amount,
-        })),
-      ];
-    }
+  // };
 
 
 
-    setNewRows(newRows);
-    const types = [];
-    newRows.forEach((row) => {
-      if (row.am_name === "Room Rent") types.push("RoomRent");
-      if (row.am_name === "EB") types.push("EB");
-    });
-    setSelectedTypes(types);
+  // useEffect(() => {
+
+  //   if (invoiceDetails?.ID) {
+  //     setCustomerName(invoiceDetails?.ID);
+  //   }
 
 
+  //   if (invoiceDetails?.DueDate) {
+  //     const parsedDate = new Date(invoiceDetails.DueDate);
+  //     if (!isNaN(parsedDate.getTime())) {
+  //       setInvoiceDueDate(parsedDate);
+  //     }
+  //   }
+
+  //   if (invoiceDetails?.Date) {
+  //     const parsedDate = new Date(invoiceDetails.Date);
+  //     if (!isNaN(parsedDate.getTime())) {
+  //       setInvoiceDate(parsedDate);
+  //     }
+  //   }
+
+  //   if (invoiceDetails?.start_date) {
+  //     const parsedDate = new Date(invoiceDetails.start_date);
+  //     if (!isNaN(parsedDate.getTime())) {
+  //       setStartDate(parsedDate);
+  //     }
+  //   }
+
+  //   if (invoiceDetails?.end_date) {
+  //     const parsedDate = new Date(invoiceDetails.end_date);
+  //     if (!isNaN(parsedDate.getTime())) {
+  //       setEndDate(parsedDate);
+  //     }
+  //   }
+
+  //   setTotalAmount(invoiceDetails?.Amount);
+
+  //   let newRows = [];
+
+  //   const existingAmenities = invoiceDetails?.amenity || [];
+
+  //   const doesAmenityExist = (name) =>
+  //     existingAmenities.some((item) => item.am_name === name);
+
+  //   if (invoiceDetails?.RoomRent && !doesAmenityExist("Room Rent")) {
+  //     newRows.push({
+  //       "S.No": newRows.length + 1,
+  //       am_name: "Room Rent",
+  //       amount: invoiceDetails.RoomRent,
+  //     });
+  //   }
+
+  //   if (invoiceDetails?.advance_amount && !doesAmenityExist("Advance Amount")) {
+  //     newRows.push({
+  //       "S.No": newRows.length + 1,
+  //       am_name: "Advance Amount",
+  //       amount: invoiceDetails.advance_amount,
+  //     });
+  //   }
+
+  //   if (invoiceDetails?.EbAmount && !doesAmenityExist("EB Amount")) {
+  //     newRows.push({
+  //       "S.No": newRows.length + 1,
+  //       am_name: "EB Amount",
+  //       amount: invoiceDetails.EbAmount,
+  //     });
+  //   }
+
+  //   if (invoiceDetails?.amenity && invoiceDetails.amenity.length > 0) {
+  //     newRows = [
+  //       ...newRows,
+  //       ...invoiceDetails.amenity.map((item, index) => ({
+  //         "S.No": newRows.length + index + 1,
+  //         am_name: item.am_name,
+  //         amount: item.amount,
+  //       })),
+  //     ];
+  //   }
+
+
+
+  //   setNewRows(newRows);
+  //   const types = [];
+  //   newRows.forEach((row) => {
+  //     if (row.am_name === "Room Rent") types.push("RoomRent");
+  //     if (row.am_name === "EB") types.push("EB");
+  //   });
+  //   setSelectedTypes(types);
 
 
 
 
-  }, [invoiceDetails,]);
 
 
-  useEffect(() => {
-    const refundableNames = ["Advance Amount", "EB Amount", "Room Rent", "Advance", "EB", "Room Rent"];
-    let total = 0;
-    let nonRefundable = 0;
-
-    newRows.forEach((item) => {
-      const amt = parseFloat(item.amount) || 0;
-
-      if (refundableNames.includes(item.am_name)) {
-        total += amt;
-      }
-      if (!refundableNames.includes(item.am_name)) {
-        nonRefundable += amt;
-      }
-    });
-
-    setTotalAmountPayable(total);
-    setNonRefundableAmount(nonRefundable);
-    setRefundableAmount(total - nonRefundable);
-  }, [newRows]);
+  // }, [invoiceDetails,]);
 
 
+  // useEffect(() => {
+  //   const refundableNames = ["Advance Amount", "EB Amount", "Room Rent", "Advance", "EB", "Room Rent"];
+  //   let total = 0;
+  //   let nonRefundable = 0;
+
+  //   newRows.forEach((item) => {
+  //     const amt = parseFloat(item.amount) || 0;
+
+  //     if (refundableNames.includes(item.am_name)) {
+  //       total += amt;
+  //     }
+  //     if (!refundableNames.includes(item.am_name)) {
+  //       nonRefundable += amt;
+  //     }
+  //   });
+
+  //   setTotalAmountPayable(total);
+  //   setNonRefundableAmount(nonRefundable);
+  //   setRefundableAmount(total - nonRefundable);
+  // }, [newRows]);
 
 
-  const handleBillDelete = (props) => {
-    setShowDeleteform(true);
-    setDeleteId(props.item.id);
-  };
 
-  const handleBillDeleted = () => {
-    dispatch({
-      type: "MANUAL-INVOICE-DELETE",
-      payload: {
-        id: deleteId,
-      },
-    });
-    setShowDeleteform(false);
-  };
+
+  // const handleBillDelete = (props) => {
+  //   setShowDeleteform(true);
+  //   setDeleteId(props.item.id);
+  // };
+
+  // const handleBillDeleted = () => {
+  //   dispatch({
+  //     type: "MANUAL-INVOICE-DELETE",
+  //     payload: {
+  //       id: deleteId,
+  //     },
+  //   });
+  //   setShowDeleteform(false);
+  // };
 
   useEffect(() => {
     if (customername) {
@@ -1096,42 +1064,42 @@ function RecurringBills() {
 
 
 
-  useEffect(() => {
-    const SelectedCustomerRoomRent =
-      state.UsersList?.customerdetails?.hostelInfo?.monthlyRent;
+  // useEffect(() => {
+  //   const SelectedCustomerRoomRent =
+  //     state.UsersList?.customerdetails?.hostelInfo?.monthlyRent;
 
-    if (SelectedCustomerRoomRent) {
-      setNewRows((prevRows) => {
-        const roomRentIndex = prevRows.findIndex(
-          (row) => row.am_name === "Room Rent"
-        );
+  //   if (SelectedCustomerRoomRent) {
+  //     setNewRows((prevRows) => {
+  //       const roomRentIndex = prevRows.findIndex(
+  //         (row) => row.am_name === "Room Rent"
+  //       );
 
-        if (roomRentIndex !== -1) {
-          const updatedRows = [...prevRows];
-          updatedRows[roomRentIndex].amount =
-            SelectedCustomerRoomRent.toString();
-          return updatedRows;
-        } else {
-          return [
-            ...prevRows,
-            { am_name: "Room Rent", amount: SelectedCustomerRoomRent.toString() },
-          ];
-        }
-      });
+  //       if (roomRentIndex !== -1) {
+  //         const updatedRows = [...prevRows];
+  //         updatedRows[roomRentIndex].amount =
+  //           SelectedCustomerRoomRent.toString();
+  //         return updatedRows;
+  //       } else {
+  //         return [
+  //           ...prevRows,
+  //           { am_name: "Room Rent", amount: SelectedCustomerRoomRent.toString() },
+  //         ];
+  //       }
+  //     });
 
-      setSelectedTypes((prev) =>
-        prev.includes("RoomRent") ? prev : [...prev, "RoomRent"]
-      );
+  //     setSelectedTypes((prev) =>
+  //       prev.includes("RoomRent") ? prev : [...prev, "RoomRent"]
+  //     );
 
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
-      }, 500);
-    }
-  }, [
-    state.UsersList?.customerdetails?.hostelInfo?.monthlyRent,
-    customername,
-    state.UsersList?.CustomerdetailsgetStatuscode,
-  ]);
+  //     setTimeout(() => {
+  //       dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
+  //     }, 500);
+  //   }
+  // }, [
+  //   state.UsersList?.customerdetails?.hostelInfo?.monthlyRent,
+  //   customername,
+  //   state.UsersList?.CustomerdetailsgetStatuscode,
+  // ]);
 
 
   const [tenantJoingDate, setTenantjoingDate] = useState('')
@@ -1164,7 +1132,7 @@ function RecurringBills() {
       setRoomName(userDetails[0]?.roomName)
       setBedName(userDetails[0]?.bedName)
       setProfilePic(userDetails[0]?.profilePic)
-      setInitials(userDetails[0]?.initials)
+      // setInitials(userDetails[0]?.initials)
 
       const formattedDate = `${year}-${String(month).padStart(2, "0")}-${String(
         day
@@ -1302,7 +1270,7 @@ function RecurringBills() {
 
 
     }
-    setFormRecordLoading(true)
+    // setFormRecordLoading(true)
   };
 
   const options = {
@@ -1323,7 +1291,7 @@ function RecurringBills() {
     setReceiptFormShow(false);
     setShowAllBill(true);
     setEditvalue("");
-    setReceiptEdit(false);
+    // setReceiptEdit(false);
     setCustomerName("");
     setInvoiceNumber("");
     setStartDate("");
@@ -1621,32 +1589,32 @@ function RecurringBills() {
 
 
 
-  const [sortConfigReceipt, setSortConfigReceipt] = useState({ key: null, direction: null });
+  // const [sortConfigReceipt, setSortConfigReceipt] = useState({ key: null, direction: null });
 
-  const sortedDataReceipt = React.useMemo(() => {
-    if (!sortConfigReceipt.key) return receiptdata;
+  // const sortedDataReceipt = React.useMemo(() => {
+  //   if (!sortConfigReceipt.key) return receiptdata;
 
-    return [...receiptdata].sort((a, b) => {
-      const valueA = a[sortConfigReceipt.key];
-      const valueB = b[sortConfigReceipt.key];
+  //   return [...receiptdata].sort((a, b) => {
+  //     const valueA = a[sortConfigReceipt.key];
+  //     const valueB = b[sortConfigReceipt.key];
 
-      if (!isNaN(valueA) && !isNaN(valueB)) {
-        return sortConfigReceipt.direction === 'asc' ? valueA - valueB : valueB - valueA;
-      }
+  //     if (!isNaN(valueA) && !isNaN(valueB)) {
+  //       return sortConfigReceipt.direction === 'asc' ? valueA - valueB : valueB - valueA;
+  //     }
 
-      if (typeof valueA === 'string' && typeof valueB === 'string') {
-        return sortConfigReceipt.direction === 'asc'
-          ? valueA.localeCompare(valueB)
-          : valueB.localeCompare(valueA);
-      }
+  //     if (typeof valueA === 'string' && typeof valueB === 'string') {
+  //       return sortConfigReceipt.direction === 'asc'
+  //         ? valueA.localeCompare(valueB)
+  //         : valueB.localeCompare(valueA);
+  //     }
 
-      return 0;
-    });
-  }, [receiptdata, sortConfigReceipt]);
+  //     return 0;
+  //   });
+  // }, [receiptdata, sortConfigReceipt]);
 
-  const handleSortReceipt = (key, direction) => {
-    setSortConfigReceipt({ key, direction });
-  };
+  // const handleSortReceipt = (key, direction) => {
+  //   setSortConfigReceipt({ key, direction });
+  // };
 
 
 
@@ -1659,116 +1627,116 @@ function RecurringBills() {
     }
   };
 
-  const handleChanges = (event, newValue) => {
+  // const handleChanges = (event, newValue) => {
 
-    setShowSearchFilter(false)
-    setShowPdfModal(false)
-    setShowPdfReceiptModal(false)
+  //   setShowSearchFilter(false)
+  //   setShowPdfModal(false)
+  //   setShowPdfReceiptModal(false)
 
-    if (newValue === "1") {
-      setLoading(true);
+  //   if (newValue === "1") {
+  //     setLoading(true);
 
-      setDownloadReceipt(false);
+  //     setDownloadReceipt(false);
 
-      dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
-    }
+  //     dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+  //   }
 
-    if (newValue === "2") {
-      setRecurLoader(true);
-      setDownloadInvoice(false)
-      setDownloadReceipt(false)
-      dispatch({ type: "RECURRING-BILLS-LIST", payload: state.login?.selectedHostel_Id })
-    }
+  //   if (newValue === "2") {
+  //     setRecurLoader(true);
+  //     setDownloadInvoice(false)
+  //     setDownloadReceipt(false)
+  //     dispatch({ type: "RECURRING-BILLS-LIST", payload: state.login?.selectedHostel_Id })
+  //   }
 
-    if (newValue === "3") {
-      setDownloadInvoice(false)
-      setReceiptLoader(true);
-      dispatch({ type: "RECEIPTSLIST", payload: hostelId });
-    }
-
-
-    setValue(newValue);
-    setSearch(false);
-    setFilterInput("");
-    setDropdownVisible(false)
-    setFilterStatus(false)
-    setStatusFilterReceipt("")
-    setStatusfilter("");
-    setDateRange([]);
-    setStartDate(null);
-    setEndDate(null);
-  };
+  //   if (newValue === "3") {
+  //     setDownloadInvoice(false)
+  //     setReceiptLoader(true);
+  //     dispatch({ type: "RECEIPTSLIST", payload: hostelId });
+  //   }
 
 
-
-  const handleDisplayInvoiceDownload = (isVisible, rowData) => {
-    setDownloadInvoice(isVisible);
-    setShowPdfModal(true);
-    setStatusfilter(false)
-    setSearch(false)
-    setRowData(rowData);
-    setSelectedInvoiceId(rowData.invoiceId);
-    if (rowData) {
-      dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: rowData.hostelId, invoiceId: rowData.invoiceId } })
-
-    }
-  };
-
-
-  const handleDisplayReceiptDownload = (isVisible, rowData) => {
-    setDownloadReceipt(isVisible);
-    setShowPdfReceiptModal(true);
-    setStatusfilter(false)
-    setSearch(false)
-    setRowData(rowData);
-    setSelectedTransactionId(rowData?.transactionId);
-    if (rowData?.transactionId && state.login.selectedHostel_Id) {
-
-      dispatch({ type: "RECEIPTPDF_NEWCHANGES", payload: { hostelId: state.login.selectedHostel_Id, transactionId: rowData.transactionId } })
-    }
-
-  };
-
-  useEffect(() => {
-    if (state.InvoiceList.statusCodeNewReceiptStatusCode === 200) {
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_NEE_RECEIPT_PDF_STATUS_CODE" });
-      }, 500);
-    }
-
-  }, [state.InvoiceList.statusCodeNewReceiptStatusCode])
+  //   setValue(newValue);
+  //   setSearch(false);
+  //   setFilterInput("");
+  //   setDropdownVisible(false)
+  //   setFilterStatus(false)
+  //   setStatusFilterReceipt("")
+  //   setStatusfilter("");
+  //   setDateRange([]);
+  //   setStartDate(null);
+  //   setEndDate(null);
+  // };
 
 
 
+  // const handleDisplayInvoiceDownload = (isVisible, rowData) => {
+  //   setDownloadInvoice(isVisible);
+  //   setShowPdfModal(true);
+  //   setStatusfilter(false)
+  //   setSearch(false)
+  //   setRowData(rowData);
+  //   setSelectedInvoiceId(rowData.invoiceId);
+  //   if (rowData) {
+  //     dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: rowData.hostelId, invoiceId: rowData.invoiceId } })
 
-  const handleClosePdfReceipt = () => {
-    setDownloadReceipt(false);
-    setShowPdfReceiptModal(false)
-  };
+  //   }
+  // };
 
-  const handleClosePdfModal = () => {
-    setDownloadInvoice(false);
-    setShowPdfModal(false)
-  };
 
-  useEffect(() => {
-    if (hostelId) {
-      dispatch({ type: "BANKINGLIST", payload: hostelId });
-    }
-  }, [hostelId]);
+  // const handleDisplayReceiptDownload = (isVisible, rowData) => {
+  //   setDownloadReceipt(isVisible);
+  //   setShowPdfReceiptModal(true);
+  //   setStatusfilter(false)
+  //   setSearch(false)
+  //   setRowData(rowData);
+  //   setSelectedTransactionId(rowData?.transactionId);
+  //   if (rowData?.transactionId && state.login.selectedHostel_Id) {
 
-  useEffect(() => {
-    if (state.bankingDetails.statusCodeForGetBanking === 200) {
-      setBanking(state.bankingDetails.bankingList.banks);
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_BANKING_LIST" });
-      }, 200);
-    }
-  }, [state.bankingDetails.statusCodeForGetBanking]);
+  //     dispatch({ type: "RECEIPTPDF_NEWCHANGES", payload: { hostelId: state.login.selectedHostel_Id, transactionId: rowData.transactionId } })
+  //   }
+
+  // };
+
+  // useEffect(() => {
+  //   if (state.InvoiceList.statusCodeNewReceiptStatusCode === 200) {
+  //     setTimeout(() => {
+  //       dispatch({ type: "CLEAR_NEE_RECEIPT_PDF_STATUS_CODE" });
+  //     }, 500);
+  //   }
+
+  // }, [state.InvoiceList.statusCodeNewReceiptStatusCode])
+
+
+
+
+  // const handleClosePdfReceipt = () => {
+  //   setDownloadReceipt(false);
+  //   setShowPdfReceiptModal(false)
+  // };
+
+  // const handleClosePdfModal = () => {
+  //   setDownloadInvoice(false);
+  //   setShowPdfModal(false)
+  // };
+
+  // useEffect(() => {
+  //   if (hostelId) {
+  //     dispatch({ type: "BANKINGLIST", payload: hostelId });
+  //   }
+  // }, [hostelId]);
+
+  // useEffect(() => {
+  //   if (state.bankingDetails.statusCodeForGetBanking === 200) {
+  //     setBanking(state.bankingDetails.bankingList.banks);
+  //     setTimeout(() => {
+  //       dispatch({ type: "CLEAR_BANKING_LIST" });
+  //     }, 200);
+  //   }
+  // }, [state.bankingDetails.statusCodeForGetBanking]);
 
   useEffect(() => {
     if (state.InvoiceList.payapleAmountError) {
-      setFormRecordLoading(false)
+      // setFormRecordLoading(false)
       // setFormLoading(false)
       setLoading(false)
       setPayableAmountError(state.InvoiceList.payapleAmountError)
@@ -1798,12 +1766,12 @@ function RecurringBills() {
       setBalance("")
       setTransactionId('')
       setSelectedDate(null);
-      setFormRecordLoading(false)
+      // setFormRecordLoading(false)
       setShowform(false)
-      dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+      // dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
 
 
-      dispatch({ type: "RECEIPTSLIST", payload: hostelId });
+      // dispatch({ type: "RECEIPTSLIST", payload: hostelId });
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_RECORD_PAYMENT" });
@@ -1811,183 +1779,51 @@ function RecurringBills() {
     }
   }, [state.InvoiceList.RecordPaymentUpdateStatusCode]);
 
-  useEffect(() => {
-    setBillRolePermission(state.createAccount.accountList);
-  }, [state.createAccount.accountList]);
-
-
-  useEffect(() => {
-    const userType = billrolePermission[0]?.user_details?.user_type;
-    const isAdmin = userType === "admin" || userType === "agent";
-    if (isAdmin) {
-      if (state?.login?.planStatus === 0) {
-
-        setBillPermissionError("");
-        setBillAddPermission("Permission Denied");
-        setBillEditPermission("Permission Denied");
-        setBillDeletePermission("Permission Denied");
-
-        setRecurringPermission("");
-        setRecuringBillAddPermission("Permission Denied");
-
-        setReceiptPermission("");
-        setReceiptAddPermission("Permission Denied");
-
-
-      } else if (state?.login?.planStatus === 1) {
-        setBillPermissionError("");
-        setBillAddPermission("");
-        setBillEditPermission("");
-        setBillDeletePermission("");
-        setRecuringBillAddPermission("");
-        setRecurringPermission("");
-        setReceiptPermission("");
-        setReceiptAddPermission("");
-      }
-    }
-
-  }, [state?.login?.planStatus, state.login?.selectedHostel_Id, billrolePermission])
-
-
-
-  useEffect(() => {
-    const billPermission = billrolePermission[0]?.role_permissions?.find(
-      (perm) => perm.permission_name === "Bills"
-    );
-
-    const isOwner = billrolePermission[0]?.user_details?.user_type === "staff";
-    const planActive = state?.login?.planStatus === 1;
-
-    if (!billPermission || !isOwner) return;
-
-
-    if (billPermission.per_view === 1 && planActive) {
-      setBillPermissionError("");
-    } else {
-      setLoading(false);
-      setBillPermissionError("Permission Denied");
-    }
-
-
-    if (billPermission.per_create === 1 && planActive) {
-      setBillAddPermission("");
-    } else {
-      setBillAddPermission("Permission Denied");
-    }
-
-
-    if (billPermission.per_edit === 1 && planActive) {
-      setBillEditPermission("");
-    } else {
-      setBillEditPermission("Permission Denied");
-    }
-
-    if (billPermission.per_delete === 1 && planActive) {
-      setBillDeletePermission("");
-    } else {
-      setBillDeletePermission("Permission Denied");
-    }
-  }, [billrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
-
-
-
-  useEffect(() => {
-    const billPermission = billrolePermission[0]?.role_permissions?.find(
-      (perm) => perm.permission_name === "Recuring Bills"
-    );
-
-    const isOwner = billrolePermission[0]?.user_details?.user_type === "staff";
-    const planActive = state?.login?.planStatus === 1;
-
-    if (!billPermission || !isOwner) return;
-
-    if (billPermission.per_create === 1 && planActive) {
-      setRecuringBillAddPermission("");
-    } else {
-      setRecuringBillAddPermission("Permission Denied");
-      setLoading(false)
-    }
-    if (billPermission.per_view === 1 && planActive) {
-      setRecurringPermission("");
-    } else {
-      setRecurringPermission("Permission Denied");
-      setLoading(false)
-    }
-  }, [billrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
+  
 
 
 
 
-  useEffect(() => {
-    const receiptPermission = billrolePermission[0]?.role_permissions?.find(
-      (perm) => perm.permission_name === "Receipt"
-    );
+  // useEffect(() => {
+  //   if (
+  //     state.InvoiceList.InvoiceListStatusCode === 200 ||
+  //     state.InvoiceList.statusCodeForPDf === 200 ||
+  //     state.InvoiceList.statusCodeForReceiptPDf === 200
+  //   ) {
+  //     setLoading(false)
+  //     setShowLoader(false);
+  //     setTimeout(() => {
+  //       dispatch({ type: "CLEAR_INVOICE_LIST" });
+  //     }, 100);
 
-    const isOwner = billrolePermission[0]?.user_details?.user_type === "staff";
-    const planActive = state?.login?.planStatus === 1;
+  //     setTimeout(() => {
+  //       dispatch({ type: "CLEAR_INVOICE_PDF_STATUS_CODE" });
+  //     }, 200);
 
-    if (!receiptPermission || !isOwner) return;
-
-
-    if (receiptPermission.per_view === 1 && planActive) {
-      setReceiptPermission("");
-    } else {
-      setReceiptPermission("Permission Denied");
-      setLoading(false);
-    }
-
-
-    if (receiptPermission.per_create === 1 && planActive) {
-      setReceiptAddPermission("");
-    } else {
-      setReceiptAddPermission("Permission Denied");
-    }
-  }, [billrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
-
-
+  //     setTimeout(() => {
+  //       dispatch({ type: "CLEAR_RECEIPT_PDF_STATUS_CODE" });
+  //     }, 200);
+  //   }
+  // }, [
+  //   state.InvoiceList?.InvoiceListStatusCode,
+  //   state.InvoiceList?.statusCodeForPDf,
+  //   state.InvoiceList.statusCodeForReceiptPDf,
+  // ]);
 
 
 
-  useEffect(() => {
-    if (
-      state.InvoiceList.InvoiceListStatusCode === 200 ||
-      state.InvoiceList.statusCodeForPDf === 200 ||
-      state.InvoiceList.statusCodeForReceiptPDf === 200
-    ) {
-      setLoading(false)
-      setShowLoader(false);
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_INVOICE_LIST" });
-      }, 100);
+  // useEffect(() => {
+  //   if (
+  //     state.login.UpdateNotificationMessage !== null &&
+  //     state.login.UpdateNotificationMessage !== ""
+  //   ) {
 
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_INVOICE_PDF_STATUS_CODE" });
-      }, 200);
+  //     setTimeout(() => {
+  //       dispatch({ type: "AFTER_UPDATE_NOTIFICATION", message: null });
 
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_RECEIPT_PDF_STATUS_CODE" });
-      }, 200);
-    }
-  }, [
-    state.InvoiceList?.InvoiceListStatusCode,
-    state.InvoiceList?.statusCodeForPDf,
-    state.InvoiceList.statusCodeForReceiptPDf,
-  ]);
-
-
-
-  useEffect(() => {
-    if (
-      state.login.UpdateNotificationMessage !== null &&
-      state.login.UpdateNotificationMessage !== ""
-    ) {
-
-      setTimeout(() => {
-        dispatch({ type: "AFTER_UPDATE_NOTIFICATION", message: null });
-
-      }, 100);
-    }
-  }, [state.login.UpdateNotificationMessage]);
+  //     }, 100);
+  //   }
+  // }, [state.login.UpdateNotificationMessage]);
 
 
 
@@ -2002,7 +1838,7 @@ function RecurringBills() {
       : state.InvoiceList.newReceiptchanges?.receipt ?? state.InvoiceList.BillsPdfDetails;
 
     if (statusCode === 200 && pdfUrl && state.InvoiceList.triggeredBy === "whatsapp") {
-      setShowLoader(false);
+      // setShowLoader(false);
 
       if (!isWhatsAppEnabled) {
         Swal.fire({
@@ -2104,101 +1940,48 @@ function RecurringBills() {
 
 
 
-  useEffect(() => {
-    if (hostelId) {
-      dispatch({ type: "USERLIST", payload: { hostel_id: hostelId } });
-    }
-  }, [hostelId]);
+  // useEffect(() => {
+  //   if (hostelId) {
+  //     dispatch({ type: "USERLIST", payload: { hostel_id: hostelId } });
+  //   }
+  // }, [hostelId]);
 
 
 
-  useEffect(() => {
-    if (state.InvoiceList.manualInvoiceAddStatusCode === 201) {
-      navigate(`/invoice/${state.login.selectedHostel_Id}`)
-      setShowManualInvoice(false)
-      // setFormLoading(false)
-      setShowRecurringBillForm(false);
-      setReceiptFormShow(false);
-      setShowAllBill(true);
-      setCustomerName("");
-      setInvoiceNumber("");
-      setStartDate("");
-      setEndDate("");
-      setInvoiceDate("");
-      setInvoiceDueDate("");
-      setTotalAmount("");
+  // useEffect(() => {
+  //   if (state.InvoiceList.manualInvoiceAddStatusCode === 201) {
+  //     navigate(`/invoice/${state.login.selectedHostel_Id}`)
+  //     setShowManualInvoice(false)
+  //     // setFormLoading(false)
+  //     setShowRecurringBillForm(false);
+  //     setReceiptFormShow(false);
+  //     setShowAllBill(true);
+  //     setCustomerName("");
+  //     setInvoiceNumber("");
+  //     setStartDate("");
+  //     setEndDate("");
+  //     setInvoiceDate("");
+  //     setInvoiceDueDate("");
+  //     setTotalAmount("");
 
-      setNewRows([]);
-      dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+  //     setNewRows([]);
+  //     // dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
 
-      setLoading(false);
+  //     setLoading(false);
 
-      setTimeout(() => {
-        dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD" });
+  //     setTimeout(() => {
+  //       dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD" });
 
-      }, 300);
-    }
-  }, [state.InvoiceList.manualInvoiceAddStatusCode]);
+  //     }, 300);
+  //   }
+  // }, [state.InvoiceList.manualInvoiceAddStatusCode]);
 
-  useEffect(() => {
-    setBills(state.InvoiceList.ManualInvoices);
+  // useEffect(() => {
+  //   setBills(state.InvoiceList.ManualInvoices);
 
-  }, [state.InvoiceList.ManualInvoices,])
-
-
+  // }, [state.InvoiceList.ManualInvoices,])
 
 
-
-
-
-  useEffect(() => {
-    if (state.InvoiceList.manualInvoiceEditStatusCode === 200) {
-      setShowManualInvoice(false)
-      // setFormLoading(false)
-      setShowRecurringBillForm(false);
-      setReceiptFormShow(false);
-      setShowAllBill(true);
-      dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
-
-      setLoading(false);
-
-      setTimeout(() => {
-        dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_EDIT" });
-
-        setBills(state.InvoiceList.ManualInvoices);
-      }, 100);
-    }
-  }, [
-    state.InvoiceList.manualInvoiceEditStatusCode,
-    state.InvoiceList.ManualInvoices,
-  ]);
-  useEffect(() => {
-    if (state.InvoiceList.manualInvoiceDeleteStatusCode === 200) {
-      dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
-
-      setLoading(false);
-
-      setTimeout(() => {
-        dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_DELETE" });
-
-        setBills(state.InvoiceList.ManualInvoices);
-      }, 100);
-    }
-  }, [
-    state.InvoiceList.manualInvoiceDeleteStatusCode,
-    state.InvoiceList.ManualInvoices,
-  ]);
-
-  useEffect(() => {
-    if (state.InvoiceList?.InvoiceListStatusCode === 200) {
-      setLoading(false);
-
-      setBills(state.InvoiceList.ManualInvoices);
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_INVOICE_LIST" });
-      }, 1000);
-    }
-  }, [state.InvoiceList?.InvoiceListStatusCode]);
 
 
 
@@ -2227,26 +2010,26 @@ function RecurringBills() {
 
 
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    if (newRows) {
-      const allRows = newRows
-        .map((detail) => ({
-          am_name: detail.am_name,
-          amount: Number(detail.amount),
-        }))
-        .filter((detail) => detail.am_name && detail.amount);
+  //   if (newRows) {
+  //     const allRows = newRows
+  //       .map((detail) => ({
+  //         am_name: detail.am_name,
+  //         amount: Number(detail.amount),
+  //       }))
+  //       .filter((detail) => detail.am_name && detail.amount);
 
-      setamenityArray(allRows);
+  //     setamenityArray(allRows);
 
-      const Total_amout = allRows.reduce(
-        (sum, item) => sum + parseFloat(item.amount || 0),
-        0
-      );
+  //     const Total_amout = allRows.reduce(
+  //       (sum, item) => sum + parseFloat(item.amount || 0),
+  //       0
+  //     );
 
-      setTotalAmount(Total_amout);
-    }
-  }, [newRows]);
+  //     setTotalAmount(Total_amout);
+  //   }
+  // }, [newRows]);
 
   useEffect(() => {
 
@@ -2304,9 +2087,9 @@ function RecurringBills() {
 
 
 
-  const handlefilterInput = (e) => {
-    setFilterInput(e.target.value);
-  };
+  // const handlefilterInput = (e) => {
+  //   setFilterInput(e.target.value);
+  // };
 
 
 
@@ -2325,7 +2108,7 @@ function RecurringBills() {
       }
 
       dispatch({
-        type: "INVOICESLISTFILTER",
+        // type: "INVOICESLISTFILTER",
         payload: {
           hostelId: state.login.selectedHostel_Id,
           filters: Object.keys(filters).length ? filters : undefined,
@@ -2341,61 +2124,61 @@ function RecurringBills() {
   ]);
 
 
-  const handleUserSelect = (user) => {
+  // const handleUserSelect = (user) => {
 
-    const searchItem = user.fullName
-    if (searchItem && state.login?.selectedHostel_Id) {
-      const filters = {
-        search: searchItem,
-      };
-      dispatch({
-        type: 'INVOICESLISTFILTER',
-        payload: {
-          hostelId: state.login?.selectedHostel_Id,
-          filters: filters
-        }
-      })
-    } else {
-      dispatch({
-        type: 'INVOICESLISTFILTER',
-        payload: {
-          hostelId: state.login?.selectedHostel_Id,
-        }
-      })
-    }
+  //   const searchItem = user.fullName
+  //   if (searchItem && state.login?.selectedHostel_Id) {
+  //     const filters = {
+  //       search: searchItem,
+  //     };
+  //     dispatch({
+  //       type: 'INVOICESLISTFILTER',
+  //       payload: {
+  //         hostelId: state.login?.selectedHostel_Id,
+  //         filters: filters
+  //       }
+  //     })
+  //   } else {
+  //     dispatch({
+  //       type: 'INVOICESLISTFILTER',
+  //       payload: {
+  //         hostelId: state.login?.selectedHostel_Id,
+  //       }
+  //     })
+  //   }
 
-    setDropdownVisible(false);
-  };
-
-
+  //   setDropdownVisible(false);
+  // };
 
 
 
 
-  const handleCloseSearch = () => {
-    setDropdownVisible(false);
-    setSearch(false);
-    setFilterInput("");
-    // setBills(bills);
-    // setRecurringBills(originalRecuiring);
-    // setReceiptData(originalReceipt);
-
-    dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
-
-  };
 
 
-  useEffect(() => {
-    if (receiptdata?.length > 0 && originalReceipt?.length === 0) {
-      setOriginalReceipt(receiptdata);
-    }
-  }, [receiptdata]);
+  // const handleCloseSearch = () => {
+  //   setDropdownVisible(false);
+  //   setSearch(false);
+  //   setFilterInput("");
+  //   // setBills(bills);
+  //   // setRecurringBills(originalRecuiring);
+  //   // setReceiptData(originalReceipt);
 
-  useEffect(() => {
-    if (bills?.length > 0 && originalBills?.length === 0) {
-      setOriginalBills(bills);
-    }
-  }, [bills]);
+  //   dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+
+  // };
+
+
+  // useEffect(() => {
+  //   if (receiptdata?.length > 0 && originalReceipt?.length === 0) {
+  //     setOriginalReceipt(receiptdata);
+  //   }
+  // }, [receiptdata]);
+
+  // useEffect(() => {
+  //   if (bills?.length > 0 && originalBills?.length === 0) {
+  //     setOriginalBills(bills);
+  //   }
+  // }, [bills]);
 
   useEffect(() => {
     if (recurringbills?.length > 0 && originalRecuiring?.length === 0) {
@@ -2421,54 +2204,54 @@ function RecurringBills() {
 
   };
 
-  const handleUserRecuire = (user) => {
-    setFilterInput(user.user_name);
-    const searchItem = user.user_name
+  // const handleUserRecuire = (user) => {
+  //   setFilterInput(user.user_name);
+  //   const searchItem = user.user_name
 
-    if (searchItem !== "") {
-      const filteredItems =
-        state.InvoiceList.RecurringBills &&
-        state.InvoiceList.RecurringBills.filter(
-          (user) =>
-            user.user_name &&
-            user.user_name.toLowerCase().includes(searchItem.toLowerCase())
-        );
-      setRecurringBills(filteredItems);
+  //   if (searchItem !== "") {
+  //     const filteredItems =
+  //       state.InvoiceList.RecurringBills &&
+  //       state.InvoiceList.RecurringBills.filter(
+  //         (user) =>
+  //           user.user_name &&
+  //           user.user_name.toLowerCase().includes(searchItem.toLowerCase())
+  //       );
+  //     setRecurringBills(filteredItems);
 
-    } else {
-      setRecurringBills(state.InvoiceList.RecurringBills);
-    }
-    // setCurrentPage(1);
+  //   } else {
+  //     setRecurringBills(state.InvoiceList.RecurringBills);
+  //   }
+  //   // setCurrentPage(1);
 
-    setDropdownVisible(false);
-  };
-
-
+  //   setDropdownVisible(false);
+  // };
 
 
-  const handleUserReceipt = (user) => {
-    setFilterInput(user.Name);
 
 
-    const searchItem = user.Name
+  // const handleUserReceipt = (user) => {
+  //   setFilterInput(user.Name);
 
-    if (searchItem !== "") {
-      const filteredItems =
-        state.InvoiceList.ReceiptList &&
-        state.InvoiceList.ReceiptList.filter(
-          (user) =>
-            user.Name &&
-            user.Name.toLowerCase().includes(searchItem.toLowerCase())
-        );
-      setReceiptData(filteredItems);
 
-    } else {
-      setReceiptData(state.InvoiceList.ReceiptList);
-    }
-    // setCurrentPage(1);
+  //   const searchItem = user.Name
 
-    setDropdownVisible(false);
-  };
+  //   if (searchItem !== "") {
+  //     const filteredItems =
+  //       state.InvoiceList.ReceiptList &&
+  //       state.InvoiceList.ReceiptList.filter(
+  //         (user) =>
+  //           user.Name &&
+  //           user.Name.toLowerCase().includes(searchItem.toLowerCase())
+  //       );
+  //     setReceiptData(filteredItems);
+
+  //   } else {
+  //     setReceiptData(state.InvoiceList.ReceiptList);
+  //   }
+  //   // setCurrentPage(1);
+
+  //   setDropdownVisible(false);
+  // };
 
 
 
@@ -2482,72 +2265,30 @@ function RecurringBills() {
     if (!filterStatus) {
       setStatusfilter("All");
       setDateRange([null, null]);
-      setStatusFilterReceipt("All");
-      setReceiptDateRange([]);
+      // setStatusFilterReceipt("All");
+      // setReceiptDateRange([]);
     }
   }, [filterStatus]);
 
 
-  useEffect(() => {
+  
 
-    if (hostelId) {
-      setReceiptLoader(true);
-      dispatch({ type: "RECEIPTSLIST", payload: hostelId });
-    }
-  }, [hostelId]);
-
-  useEffect(() => {
-    if (state.InvoiceList.ReceiptlistgetStatuscode === 200) {
-      setReceiptData(state.InvoiceList.ReceiptList);
-      setOriginalBillsFilterReceipt(state.InvoiceList.ReceiptList)
-      setOriginalReceipt(state.InvoiceList.ReceiptList)
-      setReceiptLoader(false);
-      setTimeout(() => {
-        dispatch({ type: "REMOVE_STATUS_CODE_RECEIPTS_LIST" });
-      }, 100);
-    }
-  }, [state.InvoiceList.ReceiptlistgetStatuscode]);
+  // useEffect(() => {
+  //   if (state.InvoiceList.ReceiptlistgetStatuscode === 200) {
+  //     setReceiptData(state.InvoiceList.ReceiptList);
+  //     setOriginalBillsFilterReceipt(state.InvoiceList.ReceiptList)
+  //     setOriginalReceipt(state.InvoiceList.ReceiptList)
+  //     setReceiptLoader(false);
+  //     setTimeout(() => {
+  //       dispatch({ type: "REMOVE_STATUS_CODE_RECEIPTS_LIST" });
+  //     }, 100);
+  //   }
+  // }, [state.InvoiceList.ReceiptlistgetStatuscode]);
 
 
-  useEffect(() => {
-    setReceiptLoader(false);
-  }, [state.InvoiceList.ReceiptList])
-
-
-
-
-
-
-
-
-  useEffect(() => {
-    if (
-      state.InvoiceList.ReceiptAddsuccessStatuscode === 200 ||
-      state.InvoiceList.ReceiptDeletesuccessStatuscode === 204 ||
-      state.InvoiceList.ReceiptEditsuccessStatuscode === 200
-    ) {
-      handleBackBill()
-
-      dispatch({ type: "RECEIPTSLIST", payload: hostelId });
-
-      setTimeout(() => {
-        dispatch({ type: "REMOVE_STATUS_CODE_RECEIPTS_ADD" });
-      }, 1000);
-
-      setTimeout(() => {
-        dispatch({ type: "REMOVE_STATUS_CODE_RECEIPTS_EDIT" });
-      }, 1000);
-
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_DELETE_RECEIPT_STATUS_CODE" });
-      }, 1000);
-    }
-  }, [
-    state.InvoiceList.ReceiptAddsuccessStatuscode,
-    state.InvoiceList.ReceiptDeletesuccessStatuscode,
-    state.InvoiceList.ReceiptEditsuccessStatuscode,
-  ]);
-
+  // useEffect(() => {
+  //   setReceiptLoader(false);
+  // }, [state.InvoiceList.ReceiptList])
 
 
 
