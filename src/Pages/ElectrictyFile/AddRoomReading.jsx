@@ -112,9 +112,14 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
 
 
     return (
-        <div>
-            <Modal show={show} onHide={handleClose} centered backdrop="static" keyboard={false}
-                scrollable 
+        <div
+        className="modal show"
+        style={{
+          display: "block",
+          position: "initial",overflow:"hidden"
+        }}
+      >
+            <Modal show={show} onHide={handleClose} centered backdrop="static" 
             >
 
                 <Modal.Header className="d-flex justify-content-between align-items-center"
@@ -136,12 +141,8 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
                         onClick={handleClose}
                     />
                 </Modal.Header>
-                <Modal.Body ref={modalBodyRef} 
+                <Modal.Body   ref={modalBodyRef}
                 >
-
-
-
-
                     <div className="d-flex justify-content-between align-items-center" style={{ width: "100%", borderBottom: "1px solid #E0E0E0", paddingBottom: 10, marginTop: "-15px" }}>
                         <div className="d-flex align-items-center">
                             <span
@@ -220,9 +221,7 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
                                     placeholder="DD/MM/YYYY"
                                     value={readingDate ? dayjs(readingDate) : null}
                                     onChange={handleReadingDateChange}
-                                    getPopupContainer={() =>
-                                        modalBodyRef.current || document.body
-                                    }
+                                    getPopupContainer={() => modalBodyRef.current}
                                     disabledDate={(current) => current && current > dayjs()}
                                 />
                             </div>
