@@ -30,22 +30,9 @@ function CustomerCheckout(props) {
   const [lastDate, setLastDate] = useState("");
   const [joiningdate, setJoiningDate] = useState("")
 
-  // useEffect(() => {
-  //   if(props?.data?.ID || props?.data[0]?.id ){
-  //   dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: props?.data?.ID || props?.data[0]?.id } });
-  //      }
+ 
 
-  //   }, [props]);
-
-
-  // useEffect(() => {
-
-  //   if (props.data.ID || props.data) {
-  //     dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.data.ID || props.data } });
-  //   }
-  // }, [props.data]);
-
-
+console.log("props",props)
 
 
 
@@ -92,8 +79,8 @@ function CustomerCheckout(props) {
 
 
   useEffect(() => {
-    if (props.bedData.actualJoining || props.bedData.currentTenantInfo?.joiningDate) {
-      setJoiningDate(props.bedData.actualJoining || props.bedData.currentTenantInfo?.joiningDate)
+    if (props.bedData.actualJoining || props.bedData.currentTenantInfo?.[0].joiningDate) {
+      setJoiningDate(props.bedData.actualJoining || props.bedData.currentTenantInfo?.[0].joiningDate)
     }
 
   }, [props.bedData.actualJoining, props.bedData.currentTenantInfo])
@@ -153,7 +140,7 @@ function CustomerCheckout(props) {
     const formattedrequestDate = dayjs(requestDate).isValid()
       ? dayjs(requestDate).format("DD-MM-YYYY")
       : null;
-    const customerId = props.bedData?.currentTenantInfo?.tenetId  || props.bedData?.customerId;
+    const customerId = props.bedData?.currentTenantInfo?.[0].tenetId  || props.bedData?.customerId;
     if (customerId && formattedDate && formattedrequestDate) {
 
       dispatch({
@@ -279,18 +266,18 @@ function CustomerCheckout(props) {
                         >
 
                           {
-                            props.bedData &&
+                            props?.bedData   &&
                               (
-                                props.bedData.currentTenantInfo?.profilePic && props.bedData.currentTenantInfo?.profilePic !== "" ||
-                                props.bedData.profilePic && props.bedData.profilePic !== ""
+                                props.bedData?.currentTenantInfo?.[0].profilePic && props.bedData?.currentTenantInfo?.[0].profilePic !== "" ||
+                                props.bedData?.profilePic && props.bedData?.profilePic !== ""
                               )
                               ? (
                                 <Image
                                   src={
-                                    props.bedData.currentTenantInfo?.profilePic && props.bedData.currentTenantInfo?.profilePic !== ""
-                                      ? typeof props.bedData.currentTenantInfo?.profilePic === "string"
-                                        ? props.bedData.currentTenantInfo?.profilePic
-                                        : URL.createObjectURL(props.bedData.currentTenantInfo?.profilePic)
+                                    props.bedData.currentTenantInfo?.[0].profilePic && props.bedData.currentTenantInfo?.[0].profilePic !== ""
+                                      ? typeof props.bedData.currentTenantInfo?.[0].profilePic === "string"
+                                        ? props.bedData.currentTenantInfo?.[0].profilePic
+                                        : URL.createObjectURL(props.bedData.currentTenantInfo?.[0].profilePic)
                                       : typeof props.bedData.profilePic === "string"
                                         ? props.bedData.profilePic
                                         : URL.createObjectURL(props.bedData.profilePic)
@@ -319,7 +306,7 @@ function CustomerCheckout(props) {
                                             color: "white", fontFamily: "Gilroy"
                                         }}
                                 >
-                                  {props.bedData?.initials || props.bedData?.currentTenantInfo?.tenantInitials || "-"}
+                                  {props.bedData?.initials || props.bedData?.currentTenantInfo?.[0].tenantInitials || "-"}
                                 </div>
                               )
                           }
@@ -338,7 +325,7 @@ function CustomerCheckout(props) {
                                   fontFamily: "Gilroy",
                                 }}
                               >
-                                {props.bedData?.currentTenantInfo?.tenantFullName || props.bedData?.fullName}
+                                {props.bedData?.currentTenantInfo?.[0].tenantFullName || props.bedData?.fullName}
                               </label>
                             </div>
 

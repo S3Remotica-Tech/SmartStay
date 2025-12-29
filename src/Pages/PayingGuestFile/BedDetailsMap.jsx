@@ -54,7 +54,7 @@ function BedDetailsMap({ room, propsValue }) {
     const [Noticeperiod_bed, setNoticePeriodBed] = useState(false)
     const [deleteBedDetails, setDeleteBedDetails] = useState({ bed: null, room: null })
     const [customer, setCustomer] = useState([])
-   const [customerID, setCustomerID] = useState('')
+    const [customerID, setCustomerID] = useState('')
     const [add_customerform, setAddCustomerForm] = useState(false)
     const [assign_tenantform, setAssignTenantForm] = useState(false)
     const [showDeleteBed, setShowDeleteBed] = useState(false)
@@ -79,11 +79,12 @@ function BedDetailsMap({ room, propsValue }) {
     } = useHasPermission("Paying Guests");
 
 
-    const handleshowfinalsettlement = (isvisible, customerId) => {
-        setCustomerId(customerId)
-
+    const handleshowfinalsettlement = (isvisible,  tenantDetails) => {
+        // setCustomerId(customerId)
+console.log("tenantDetails",tenantDetails, )
         setFinalSettlePage(isvisible)
         setNoticePeriodBed(false)
+        setSelectedTenant(tenantDetails)
     }
 
     const handleClosefinalsettelment = () => {
@@ -190,10 +191,11 @@ function BedDetailsMap({ room, propsValue }) {
     }
 
 
-    const handleshowNoticePeriodCheckout = (isVisible, customerId) => {
+    const handleshowNoticePeriodCheckout = (isVisible, tenantDetails) => {
         setNoticePeriodCheckout(isVisible)
         setNoticePeriodBed(false)
-        setCustomerID(customerId)
+        // setCustomerID(customerId)
+        setSelectedTenant(tenantDetails)
 
     }
 
@@ -263,10 +265,11 @@ function BedDetailsMap({ room, propsValue }) {
     }
 
     const [selectedTenant, setSelectedTenant] = useState(null);
+    console.log("state", state)
 
     useEffect(() => {
-        if (state.PgList?.OccupiedCustomer && state.PgList?.OccupiedCustomer?.currentTenantInfo?.tenetId) {
-             dispatch(clickedBedForChange(state.PgList?.OccupiedCustomer));
+        if (state.PgList?.OccupiedCustomer && state.PgList?.OccupiedCustomer?.currentTenantInfo?.[0]?.tenetId) {
+            dispatch(clickedBedForChange(state.PgList?.OccupiedCustomer));
         }
     }, [state.PgList?.OccupiedCustomer]);
 
@@ -318,10 +321,10 @@ function BedDetailsMap({ room, propsValue }) {
         setSelectedTenant(reservedTenant)
     }
 
-    const handleOpenCancelCheckout = () => {
+    const handleOpenCancelCheckout = (isVisible, tenantDetails) => {
         setNoticePeriodBed(false)
-        setBacktoCheckInForm(true)
-
+        setBacktoCheckInForm(isVisible)
+        setSelectedTenant(tenantDetails)
 
     }
 
@@ -409,7 +412,7 @@ function BedDetailsMap({ room, propsValue }) {
 
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_CREATE_BED_STATUS_CODE' })
-                dispatch({ type: 'CLEAR_UPDATE_BED_STATUS_CODE'})
+                dispatch({ type: 'CLEAR_UPDATE_BED_STATUS_CODE' })
             }, 4000)
         }
     }, [state.PgList.createBedStatusCode, state.PgList.updateBedStatusCode])
@@ -564,7 +567,7 @@ function BedDetailsMap({ room, propsValue }) {
         <div>
 
             {
-                bactocheckinForm && <BackToCheckIn show={bactocheckinForm} handleClose={handleCloseBackToCheckIn} checkInDetails={customer} />
+                bactocheckinForm && <BackToCheckIn show={bactocheckinForm} handleClose={handleCloseBackToCheckIn} checkInDetails={selectedTenant}  pgDetails={customer} />
 
             }
 
@@ -594,7 +597,7 @@ function BedDetailsMap({ room, propsValue }) {
 
 
 
-             {
+            {
                 add_customerform && <AddCustomerPG showMenu={add_customerform} handleClose={handleCloseAddCustomer} />
             }
 
@@ -614,7 +617,7 @@ function BedDetailsMap({ room, propsValue }) {
             }
 
             {
-                showCheckIn && <Check_In show={showCheckIn} handleClose={handleCloseCheck_In} currentItem={selectedTenant} pgDetails={customer}/>
+                showCheckIn && <Check_In show={showCheckIn} handleClose={handleCloseCheck_In} currentItem={selectedTenant} pgDetails={customer} />
             }
 
             {
@@ -675,9 +678,9 @@ function BedDetailsMap({ room, propsValue }) {
 
             {
                 Noticeperiod_checkout && <DueCustomerConfirmCheckout show={Noticeperiod_checkout} handleClose={handlecloseNoticeperiodCheckout}
-                    customerID={customerID}
-
-                    data={customer}
+                    // customerID={customerID}
+data={selectedTenant}
+                    pgDetails={customer}
                 />
             }
 
@@ -694,8 +697,10 @@ function BedDetailsMap({ room, propsValue }) {
 
             {
                 finalsettlepage && <FinalSettlement show={finalsettlepage} handleClose={handleClosefinalsettelment}
-                    data={customer}
-                    customerID={customerId} />
+                    data={selectedTenant}
+                    // customerID={customerId} 
+                    pgDetails={customer}
+                    />
             }
 
             <div className='row g-2 overflow-auto' style={{ maxHeight: 240 }}>
@@ -730,28 +735,65 @@ function BedDetailsMap({ room, propsValue }) {
 
 
 
-                                    {bed.isBooked && bed.onNotice && (
+                                    {(bed.isBooked || bed.onNotice) && (bed.overDue) && (
                                         <div className="action-circle">
-                                            2
+                                            {(bed.onNotice && bed.overDue && bed.isBooked) ? 3
+
+
+
+                                                : 2}
+
                                             <div className="action-icons">
-                                                <img
-                                                    src={recerverimg}
-                                                    alt="booking"
-                                                    height={20}
-                                                    width={20}
+                                                {
+                                                    bed.isBooked &&
 
-                                                    style={{ cursor: "pointer" }}
-                                                />
-                                                <img
-                                                    src={noticeimg}
-                                                    alt="notice"
-                                                    height={20}
-                                                    width={20}
+                                                    <img
+                                                        src={recerverimg}
+                                                        alt="occupied"
+                                                        height={20}
+                                                        width={20}
+                                                        style={{ cursor: "pointer" }}
+                                                    />
+                                                }
 
-                                                    style={{ cursor: "pointer" }}
-                                                />
+                                                {bed.onNotice && (
+                                                    <img
+                                                        src={noticeimg}
+                                                        alt="notice"
+                                                        height={20}
+                                                        width={20}
+                                                        style={{ cursor: "pointer" }}
+                                                    />
+                                                )}
+
+
+                                                {bed.overDue && (
+                                                    <img
+                                                        src={overDude}
+                                                        alt="overDude"
+                                                        height={20}
+                                                        width={20}
+                                                        style={{ cursor: "pointer" }}
+                                                    />
+                                                )}
                                             </div>
                                         </div>
+                                    )}
+
+
+                                    {!bed.isBooked && !bed.onNotice && bed.overDue && (
+                                        <img
+                                            src={overDude}
+                                            alt="overDude"
+                                            height={20}
+                                            width={20}
+                                            style={{
+                                                position: "absolute",
+                                                top: 1,
+                                                right: -10,
+                                                cursor: "pointer",
+                                            }}
+                                        />
                                     )}
 
 
@@ -775,25 +817,8 @@ function BedDetailsMap({ room, propsValue }) {
                                     )}
 
 
-                                    {
-                                        bed.overDue && (
-                                            <img
-                                                src={overDude}
-                                                alt="overDude"
-                                                height={20}
-                                                width={20}
-                                                style={{
-                                                    position: "absolute",
-                                                    top: 1,
-                                                    right: -10,
-                                                    cursor: "pointer",
-                                                }}
 
-                                            />
-                                        )
-                                    }
-
-                                    {bed.onNotice && !bed.isBooked && (
+                                    {bed.onNotice && !bed.isBooked && !bed.overDue && (
                                         <img
                                             src={noticeimg}
                                             alt="notice"

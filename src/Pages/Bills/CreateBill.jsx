@@ -36,7 +36,7 @@ function CreateBill() {
     const { id, billData } = location.state || {};
 
 
-       const [formLoading, setFormLoading] = useState(false)
+    const [formLoading, setFormLoading] = useState(false)
     //    const [invoiceList, setInvoiceList] = useState({
     //     firstName: "",
     //     lastName: "",
@@ -190,37 +190,6 @@ function CreateBill() {
 
 
 
-    // useEffect(() => {
-    //     if (originalBillsFilter.length === 0 && bills.length > 0) {
-    //         setOriginalBillsFilter(bills);
-    //     }
-    // }, [bills]);
-
-
-    // const handleStatusFilter = (event) => {
-    //     const selected = event.target.value;
-    //     setStatusfilter(selected);
-
-
-    //     if (selected !== "date") {
-    //         setDateRange([null, null]);
-    //     }
-    // };
-
-
-
-
-
-
-
-    // const [receiptDateRange, setReceiptDateRange] = useState([]);
-
-
-
-
-
-    // const [payableAmount, setPayableAmount] = useState("");
-    // const [balance, setBalance] = useState(0);
 
 
 
@@ -229,37 +198,8 @@ function CreateBill() {
 
 
 
-    // const [editvalue, setEditvalue] = useState("");
-    // const [receiptedit, setReceiptEdit] = useState(false);
-    // const [invoiceDetails, setInvoiceDetails] = useState(false);
-    // const [totalAmountPayable, setTotalAmountPayable] = useState(0);
-    // const [nonRefundableAmount, setNonRefundableAmount] = useState(0);
-    // const [refundableAmount, setRefundableAmount] = useState(0);
-    // const [payableamountError, setPayableAmountError] = useState("")
 
 
-
-
-    // useEffect(() => {
-    //     const refundableNames = ["Advance Amount", "EB Amount", "Room Rent", "Advance", "EB", "Room Rent"];
-    //     let total = 0;
-    //     // let nonRefundable = 0;
-
-    //     newRows.forEach((item) => {
-    //         const amt = parseFloat(item.amount) || 0;
-
-    //         if (refundableNames.includes(item.am_name)) {
-    //             total += amt;
-    //         }
-    //         // if (!refundableNames.includes(item.am_name)) {
-    //         //     nonRefundable += amt;
-    //         // }
-    //     });
-
-    //     // setTotalAmountPayable(total);
-    //     // setNonRefundableAmount(nonRefundable);
-    //     // setRefundableAmount(total - nonRefundable);
-    // }, [newRows]);
 
 
 
@@ -820,6 +760,8 @@ function CreateBill() {
 
     };
 
+    console.log("billData", billData)
+
     useEffect(() => {
         if (!billData) return;
 
@@ -848,39 +790,13 @@ function CreateBill() {
 
 
     const handleEditBill = () => {
-        let isValid = true;
         let hasError = false;
-        console.log("trigeerrrrrrrrrrrrrrrrrrrr")
-
         setCustomerErrmsg("");
         setInvoicenumberErrmsg("");
         setInvoiceDateErrmsg("");
         setInvoiceDueDateErrmsg("");
         setAllFieldErrmsg("");
 
-
-        if (!customername) {
-            setCustomerErrmsg("Please Select Tenant");
-            isValid = false;
-        }
-
-
-        if (!invoicenumber) {
-            setInvoicenumberErrmsg("Please Enter Invoice Number");
-            isValid = false;
-        }
-
-
-        if (!invoicedate) {
-            setInvoiceDateErrmsg("Please Select Invoice Date");
-            isValid = false;
-        }
-
-
-        if (!invoiceduedate) {
-            setInvoiceDueDateErrmsg("Please Select Due Date");
-            isValid = false;
-        }
         if (!Array.isArray(newRows) || newRows.length === 0) {
             setTableErrmsg("Please Add At Least One Item Row Before Generating The Bill");
             hasError = true;
@@ -902,100 +818,23 @@ function CreateBill() {
         }
 
 
-        const selectedUser = state.UsersList.Users.find(item => item.customerId === customername);
 
-
-
-        if (selectedUser) {
-            const joiningDate = dayjs(selectedUser.actualJoining).format("YYYY-MM-DD");
-            const formattedInvoiceDate = dayjs(invoicedate).format("YYYY-MM-DD");
-            const formattedDueDate = dayjs(invoiceduedate).format("YYYY-MM-DD");
-
-
-            if (dayjs(formattedInvoiceDate).isBefore(joiningDate)) {
-                setInvoiceDateErrmsg("Before join date not allowed");
-                hasError = true;
-            }
-
-
-            if (dayjs(formattedDueDate).isBefore(joiningDate)) {
-                setInvoiceDueDateErrmsg("Before join date not allowed");
-                hasError = true;
-            }
-
-
-            if (dayjs(formattedDueDate).isBefore(formattedInvoiceDate)) {
-                setInvoiceDueDateErrmsg("Due date cannot be before invoice date");
-                hasError = true;
-            }
-        }
         if (hasError) {
             return;
         }
 
-        let isValiding = true;
-        if (
-            !customername ||
-            !invoicenumber ||
-            !invoicedate ||
-            !invoiceduedate
-
-        ) {
-            setAllFieldErrmsg("Please Fill Out All Required Fields");
-            isValiding = false;
-        }
-
-
-        const formatDate = (date) => {
-            if (!date) return "";
-            const d = new Date(date);
-            return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-        };
-
-
-        // const isChanged = (() => {
-        //     const userChanged = Number(invoiceDetails?.hos_user_id) !== Number(customername);
-        //     const invoiceChanged = String(invoiceDetails?.Invoices) !== String(invoicenumber);
-        //     const invoiceDateChanged = formatDate(invoiceDetails?.Date) !== formatDate(invoicedate);
-        //     const dueDateChanged = formatDate(invoiceDetails?.DueDate) !== formatDate(invoiceduedate);
-        //     const rowsCountChanged = newRows.length !== invoiceDetails?.amenity?.length;
-
-        //     const amenitiesChanged = newRows.some((row, index) => {
-        //         const originalRow = invoiceDetails?.amenity?.[index] || {};
-        //         return row.am_name !== originalRow.am_name || row.amount !== originalRow.amount;
-        //     });
-
-        //     return (
-        //         userChanged ||
-        //         invoiceChanged ||
-        //         invoiceDateChanged ||
-        //         dueDateChanged ||
-        //         rowsCountChanged ||
-        //         amenitiesChanged
-        //     );
-        // })();
-
-
-        // if (!isChanged) {
-        //     setAllFieldErrmsg("No Changes Detected");
-        //     return;
-        // }
-
-
-        if (isValid && isValiding) {
-            const formattedInvoiceDate = formatDate(invoicedate);
-            const formattedDueDate = formatDate(invoiceduedate);
+        if (newRows.length > 0 && billData?.invoiceId) {
             setFormLoading(true)
             dispatch({
                 type: "MANUAL-INVOICE-EDIT",
-                payload: {
-                    user_id: customername,
-                    date: formattedInvoiceDate,
-                    due_date: formattedDueDate,
-                    // id: invoiceDetails.id,
-                    amenity: amenityArray.length > 0 ? amenityArray : [],
-                },
+                hostelId: state.login.selectedHostel_Id,
+                invoiceId: billData?.invoiceId,
+                payload: newRows.map((row) => ({
+                    type: row.am_name,
+                    amount: parseFloat(row.amount) || 0,
+                })),
             });
+
 
 
 
@@ -1026,174 +865,19 @@ function CreateBill() {
 
 
 
-    // useEffect(() => {
-    //     if (state.InvoiceList.payapleAmountError) {
-    //         // setFormRecordLoading(false)
-    //         setFormLoading(false)
-    //         // setLoading(false)
-    //         setPayableAmountError(state.InvoiceList.payapleAmountError)
+    useEffect(() => {
+        if (state.InvoiceList.recurringEditError) {
+                       setFormLoading(false)
+                       
+        }
 
-    //     }
-
-    // }, [state.InvoiceList.payapleAmountError])
+    }, [state.InvoiceList.recurringEditError])
 
 
-    // useEffect(() => {
-    //     if (state.InvoiceList?.unableAddInvoiceDetailsError) {
-    //         setFormLoading(false)
-    //         // setLoading(false)
-    //         setUnableAddInvoiceDetailsError(state.InvoiceList.unableAddInvoiceDetailsError)
-    //         setTimeout(() => {
-    //             dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS' })
-    //         }, 3000)
-
-    //     }
-
-    // }, [state.InvoiceList.unableAddInvoiceDetailsError])
-
-
-    // useEffect(() => {
-    //     if (state.InvoiceList.RecordPaymentUpdateStatusCode === 200) {
-    //         setPayableAmount("")
-    //         setBalance("")
-    //         setSelectedDate(null);
-    //         // setFormRecordLoading(false)
-    //         setShowform(false)
-    //         dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
-
-
-    //         dispatch({ type: "RECEIPTSLIST", payload: hostelId });
-
-    //         setTimeout(() => {
-    //             dispatch({ type: "CLEAR_RECORD_PAYMENT" });
-    //         }, 300);
-    //     }
-    // }, [state.InvoiceList.RecordPaymentUpdateStatusCode]);
-
-    // useEffect(() => {
-    //     setBillRolePermission(state.createAccount.accountList);
-    // }, [state.createAccount.accountList]);
-
-
-    // useEffect(() => {
-    //     const userType = billrolePermission[0]?.user_details?.user_type;
-    //     const isAdmin = userType === "admin" || userType === "agent";
-    //     if (isAdmin) {
-    //         if (state?.login?.planStatus === 0) {
-
-    //             setBillPermissionError("");
-    //             setBillAddPermission("Permission Denied");
-    //             setBillEditPermission("Permission Denied");
-    //             setBillDeletePermission("Permission Denied");
-
-    //             setRecurringPermission("");
-    //             setRecuringBillAddPermission("Permission Denied");
-
-    //             setReceiptPermission("");
-    //             setReceiptAddPermission("Permission Denied");
-
-
-    //         } else if (state?.login?.planStatus === 1) {
-    //             setBillPermissionError("");
-    //             setBillAddPermission("");
-    //             setBillEditPermission("");
-    //             setBillDeletePermission("");
-    //             setRecuringBillAddPermission("");
-    //             setRecurringPermission("");
-    //             setReceiptPermission("");
-    //             setReceiptAddPermission("");
-    //         }
-    //     }
-
-    // }, [state?.login?.planStatus, state.login?.selectedHostel_Id, billrolePermission])
+  
 
 
 
-
-
-
-
-
-
-
-
-
-
-    // useEffect(() => {
-    //     if (
-    //         state.InvoiceList.InvoiceListStatusCode === 200 ||
-    //         state.InvoiceList.statusCodeForPDf === 200 ||
-    //         state.InvoiceList.statusCodeForReceiptPDf === 200
-    //     ) {
-    //         // setLoading(false)
-    //         // setShowLoader(false);
-    //         setTimeout(() => {
-    //             dispatch({ type: "CLEAR_INVOICE_LIST" });
-    //         }, 100);
-
-    //         setTimeout(() => {
-    //             dispatch({ type: "CLEAR_INVOICE_PDF_STATUS_CODE" });
-    //         }, 200);
-
-    //         setTimeout(() => {
-    //             dispatch({ type: "CLEAR_RECEIPT_PDF_STATUS_CODE" });
-    //         }, 200);
-    //     }
-    // }, [
-    //     state.InvoiceList?.InvoiceListStatusCode,
-    //     state.InvoiceList?.statusCodeForPDf,
-    //     state.InvoiceList.statusCodeForReceiptPDf,
-    // ]);
-
-
-
-    // useEffect(() => {
-    //     if (
-    //         state.login.UpdateNotificationMessage !== null &&
-    //         state.login.UpdateNotificationMessage !== ""
-    //     ) {
-
-    //         setTimeout(() => {
-    //             dispatch({ type: "AFTER_UPDATE_NOTIFICATION", message: null });
-
-    //         }, 100);
-    //     }
-    // }, [state.login.UpdateNotificationMessage]);
-
-
-
-
-    // useEffect(() => {
-    //     if (selectedUserId) {
-    //         const filteredDetails = state.UsersList?.Users?.find(
-    //             (item) => item.User_Id === selectedUserId
-    //         );
-    //         if (filteredDetails) {
-
-    //             setInvoiceList({
-    //                 ...invoiceList,
-    //                 firstName: filteredDetails.Name.split(" ")[0] || "",
-    //                 lastName: filteredDetails.Name.split(" ")[1] || "",
-    //                 phone: filteredDetails.Phone || "",
-    //                 email: filteredDetails.Email || "",
-    //                 hostel_Name: filteredDetails.HostelName || "",
-    //                 hostel_Id: filteredDetails.Hostel_Id || "",
-    //                 FloorNo: filteredDetails.Floor || "",
-    //                 RoomNo: filteredDetails.Rooms || "",
-    //             });
-    //         }
-
-    //     }
-
-    // }, [selectedUserId, state.UsersList?.Users, state.InvoiceList?.Invoice]);
-
-
-    // useEffect(() => {
-    //     if (calendarRef.current) {
-    //         calendarRef.current.flatpickr.set(options);
-
-    //     }
-    // }, [selectedDate]);
 
 
 
@@ -1295,19 +979,6 @@ function CreateBill() {
     }, [newRows]);
 
 
-
-
-
-
-
-    // useEffect(() => {
-    //     if (!filterStatus) {
-    //         setStatusfilter("All");
-    //         setDateRange([null, null]);
-    //         // setStatusFilterReceipt("All");
-    //         // setReceiptDateRange([]);
-    //     }
-    // }, [filterStatus]);
 
 
 
@@ -1421,7 +1092,7 @@ function CreateBill() {
                                     }
                                     : null
                             }
-                            isDisabled={Boolean(id)}
+                            isDisabled={billData}
                             placeholder="Select Customer"
                             classNamePrefix="custom"
                             menuPlacement="auto"
@@ -1495,7 +1166,7 @@ function CreateBill() {
                         >
                             Invoice Number
                         </Form.Label>
-                        <Form.Control
+                        <Form.Control disabled={billData}
                             style={{
                                 padding: "12px 10px",
                                 fontSize: 16,
@@ -1536,7 +1207,7 @@ function CreateBill() {
                                 width: "100%",
                             }}
                         >
-                            <DatePicker
+                            <DatePicker disabled={billData}
                                 style={{
                                     width: "100%",
                                     height: 48,
@@ -1580,7 +1251,7 @@ function CreateBill() {
                     <div style={{ position: "relative", width: "100%" }}>
 
 
-                        <DatePicker
+                        <DatePicker disabled={billData}
                             style={{
                                 width: "100%",
                                 height: 48,
@@ -1762,15 +1433,15 @@ function CreateBill() {
                             </div>
                         </div>
                         : */}
-                        <div className="row mt-3">
-                            <div className="col-md-6 offset-md-6">
-                                {Array.isArray(newRows) && newRows.length > 0 && (
-                                    <h5 style={{ fontFamily: "Gilroy" }}>
-                                        Total Amount ₹{totalAmount}
-                                    </h5>
-                                )}
-                            </div>
-                        </div>
+                <div className="row mt-3">
+                    <div className="col-md-6 offset-md-6">
+                        {Array.isArray(newRows) && newRows.length > 0 && (
+                            <h5 style={{ fontFamily: "Gilroy" }}>
+                                Total Amount ₹{totalAmount}
+                            </h5>
+                        )}
+                    </div>
+                </div>
                 {/* } */}
 
 
@@ -1792,10 +1463,10 @@ function CreateBill() {
                     state.InvoiceList.unableAddInvoiceDetailsError &&
                     <ErrorMessage message={state.InvoiceList.unableAddInvoiceDetailsError} type="error" />
                 }
-                {/* {state.createAccount?.networkError ?
+                 {state.InvoiceList.recurringEditError ?
                              <div className="d-flex justify-content-center mt-1 mb-1">
-                              <ErrorMessage message={state.createAccount?.networkError} type="error"/></div>
-                              : null} */}
+                              <ErrorMessage message={state.InvoiceList.recurringEditError} type="error"/></div>
+                              : null} 
             </div>
 
 
@@ -1859,8 +1530,8 @@ function CreateBill() {
 }
 
 CreateBill.propTypes = {
-  value: PropTypes.string,
-  onClick: PropTypes.func.isRequired,
+    value: PropTypes.string,
+    onClick: PropTypes.func.isRequired,
 };
 
 export default CreateBill

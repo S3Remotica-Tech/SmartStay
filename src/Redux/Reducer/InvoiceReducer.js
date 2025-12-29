@@ -90,6 +90,7 @@ export const initialState = {
     updateTenantRecurringStatusCode: 0,
     tenantAssignStatus: 0,
     tenantUnAssignStatus: 0,
+     recurringEditError: "" ,
     billsList: [],
     billsListStatusCode: 0,
     invoiceFilters: {
@@ -101,7 +102,7 @@ export const initialState = {
         modes: [],
         paymentStatus: [],
         search: "",
-        
+
     },
 
     whatsappSettings:
@@ -139,6 +140,11 @@ const InvoiceReducer = (state = initialState, action) => {
 
         case 'REMOVE_REFUNDABLE_ERROR':
             return { ...state, refundableError: '' }
+        case 'MANUAL_INVOICE_ERROR':
+            return { ...state, recurringEditError: action.payload }
+        case 'REMOVE_MANUAL_INVOICE_ERROR':
+            return { ...state, recurringEditError: "" }
+
 
 
         case 'TENANT_ASSIGN_AMENITIES':
@@ -232,10 +238,6 @@ const InvoiceReducer = (state = initialState, action) => {
 
         case 'REMOVE_UN_ASSIGN_AMENITIES_STATUS_CODE':
             return { ...state, UnAssignAmenitiesSuccessStatusCode: 0 }
-
-
-
-
 
         case 'GET_ASSIGN_AMENITIES':
             return { ...state, GetAssignAmenitiesList: action.payload.Assigned, GetUnAssignAmenitiesList: action.payload.unAssigned, getAssignAmenitiesSuccessStatusCode: action.payload.statusCode }

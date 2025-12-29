@@ -13,7 +13,7 @@ import ErrorMessage from '../../Components/ErrorMessage'
 
 
 
-function DueCustomerConfirmCheckout({ show, handleClose, data, customerID }) {
+function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
 
 
     const handleClosecheck = () => {
@@ -245,10 +245,10 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, customerID }) {
 
 
     const handleConfirmCheckout = () => {
-        if (data.customerId || data.currentTenantInfo?.tenetId) {
+        if (data.customerId || data?.tenetId) {
             dispatch({
                 type: "CONFIRMCHECKOUT",
-                payload: { customerId: data.customerId || data.currentTenantInfo?.tenetId, comments: comments }
+                payload: { customerId: data.customerId || data?.tenetId, comments: comments }
 
             })
             setFormLoading(true)
@@ -269,10 +269,10 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, customerID }) {
     }, [state.UsersList.statuscodeForConformCheckout])
 
     useEffect(() => {
-        if (state.login.selectedHostel_Id && (data.customerId || data.currentTenantInfo?.tenetId)) {
+        if (state.login.selectedHostel_Id && (data.customerId || data?.tenetId)) {
             dispatch({
                 type: "GETINITIALIZECHECKOUT",
-                payload: { customerId: data.customerId || data.currentTenantInfo?.tenetId, hostelId: state.login.selectedHostel_Id }
+                payload: { customerId: data.customerId || data?.tenetId, hostelId: state.login.selectedHostel_Id }
 
             })
         }
@@ -284,8 +284,8 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, customerID }) {
             return data.user_profile;
         }
 
-        if (data?.currentTenantInfo?.profilePic && data?.currentTenantInfo?.profilePic !== "0") {
-            return data?.currentTenantInfo?.profilePic;
+        if (data?.profilePic && data?.profilePic !== "0") {
+            return data?.profilePic;
         }
 
         return null;
@@ -347,26 +347,26 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, customerID }) {
                                     cursor: "pointer"
                                 }}
                             >
-                                {data?.initials || data.currentTenantInfo?.tenantInitials ||
+                                {data?.initials || data?.tenantInitials ||
 
                                     "--"}
                             </div>
                         )}
 
                         <div>
-                            <p style={{ fontSize: "1.25rem", fontFamily: "Gilroy", fontWeight: 600 }} className="mb-0">{data?.firstName || data?.currentTenantInfo?.tenantFullName}</p>
+                            <p style={{ fontSize: "1.25rem", fontFamily: "Gilroy", fontWeight: 600 }} className="mb-0">{data?.firstName || data?.tenantFullName}</p>
                             <div className="d-flex mb-2">
                                 <span className="badge rounded-pill bg-warning text-dark me-2" style={{ fontSize: "0.75rem", fontFamily: "Gilroy", fontWeight: 400 }}>
-                                    {data.floorName}
+                                    {data.floorName || pgDetails.floorName}
                                 </span>
                                 <span className="badge rounded-pill bg-danger-subtle text-dark" style={{ fontSize: "0.75rem", fontFamily: "Gilroy", fontWeight: 400 }}>
-                                    {data.roomName} - {data.bedName}
+                                    {data.roomName || pgDetails.roomName} - {data.roomName || pgDetails.roomName}
                                 </span>
                             </div>
                         </div>
                         <div className="ms-auto text-end mt-2">
                             <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "#4B4B4B", padding: 0, margin: 0 }}>Checkout Date</p>
-                            <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600, }}>{data?.currentTenantInfo?.leavingDate || data?.leavingDate || state.UsersList?.initializeCheckout?.checkoutDate}</p>
+                            <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600, }}>{data?.leavingDate || data?.leavingDate || state.UsersList?.initializeCheckout?.checkoutDate}</p>
                         </div>
                     </div>
 

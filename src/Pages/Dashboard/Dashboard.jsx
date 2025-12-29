@@ -334,8 +334,9 @@ function Dashboard() {
 
   useEffect(() => {
     if (state.PgList?.dashboardDetails) {
-      setDashboardList(state.PgList?.dashboardDetails);
       setLoading(false)
+      setDashboardList(state.PgList?.dashboardDetails);
+      
     }
   }, [state.PgList?.dashboardDetails]);
 

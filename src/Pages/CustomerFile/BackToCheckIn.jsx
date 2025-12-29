@@ -10,12 +10,12 @@ import Profileimage from "../../Assets/Images/New_images/profile-picture.png";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { JoininDatecustomer } from "../../Redux/Action/smartStayAction";
 
-function BackToCheckIn({ show, handleClose, checkInDetails }) {
+function BackToCheckIn({ show, handleClose, checkInDetails ,pgDetails}) {
     const dispatch = useDispatch();
 
     const state = useSelector((state) => state);
 
-
+console.log("checkInDetails",checkInDetails,"pgDetails",pgDetails)
 
 
     const [activeTab, setActiveTab] = useState("LONG");
@@ -68,10 +68,10 @@ function BackToCheckIn({ show, handleClose, checkInDetails }) {
         dispatch({
             type: 'CANCELCHECKOUT',
             payload: {
-                customerId: checkInDetails?.customerId || checkInDetails?.currentTenantInfo?.tenetId,
+                customerId: checkInDetails?.customerId || checkInDetails?.tenetId,
                 hostelId: state.login.selectedHostel_Id,
                 // roomId: checkInDetails?.roomId,
-                bedId: Number(checkInDetails?.bedId),
+                bedId: Number(pgDetails?.bedId),
                 reCheckInDate: dayjs(recheckInDate).format("DD-MM-YYYY"),
                 reason: reason.trim(),
             }
@@ -97,8 +97,8 @@ function BackToCheckIn({ show, handleClose, checkInDetails }) {
   
 
     const imgsrc =
-        checkInDetails?.currentTenantInfo?.profilePic && checkInDetails.currentTenantInfo?.profilePic.trim() !== ""
-            ? checkInDetails.currentTenantInfo?.profilePic
+        checkInDetails?.profilePic && checkInDetails?.profilePic.trim() !== ""
+            ? checkInDetails.profilePic
             : checkInDetails?.profilePic && checkInDetails.profilePic.trim() !== ""
                 ? checkInDetails.profilePic
                 : null;
@@ -164,7 +164,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails }) {
                                         fontFamily: "Gilroy"
                                     }}
                                 >
-                                    {checkInDetails?.initials || checkInDetails?.currentTenantInfo?.tenantInitials}
+                                    {checkInDetails?.initials || checkInDetails?.tenantInitials}
 
                                 </div>
                             )
@@ -175,7 +175,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails }) {
                                 className="mb-1"
                                 style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px", fontFamily: "Gilroy" }}
                             >
-                                {checkInDetails?.fullName || checkInDetails?.currentTenantInfo?.tenantFullName}
+                                {checkInDetails?.fullName || checkInDetails?.tenantFullName}
                             </p>
                             <div className="d-flex gap-2">
                                 <span
@@ -189,7 +189,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails }) {
                                         fontFamily: "Gilroy"
                                     }}
                                 >
-                                    {checkInDetails?.floorName}
+                                    {pgDetails?.floorName}
                                 </span>
                                 <span
                                     style={{
@@ -201,7 +201,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails }) {
                                         fontWeight: 500, fontFamily: "Gilroy"
                                     }}
                                 >
-                                    {checkInDetails?.roomName} - {checkInDetails?.bedName}
+                                    {pgDetails?.roomName} - {pgDetails?.bedName}
                                 </span>
                             </div>
                         </div>
