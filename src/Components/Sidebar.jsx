@@ -351,7 +351,7 @@ function Sidebar() {
 
   const hostelId = state.login?.selectedHostel_Id;
 
- 
+
   useEffect(() => {
     if (!state.login?.selectedHostel_Id) return;
 
@@ -785,15 +785,13 @@ function Sidebar() {
                         >
                           <span
                             style={{
-                              fontSize: 12,
-                              color: "#9C9C9C",
-                              maxWidth: "100px",
-                              cursor: "pointer",
-                              whiteSpace: "nowrap",
-                              overflow: "hidden",
-                              textOverflow: "ellipsis",
-                              display: "inline-flex",
-                              alignItems: "center",
+                               fontSize: 12,
+      color: "#9C9C9C",
+      maxWidth: "100px",
+      cursor: "pointer",
+      display: "flex",
+      alignItems: "center",
+      gap: "4px",
                             }}
                           >
                             <Location
@@ -801,8 +799,18 @@ function Sidebar() {
                               size="16"
                               color="#FF8A65"
                               variant="Bold"
+                              style={{ flexShrink: 0 }}
                             />
-                            {locationName}
+                            <span
+                              style={{
+                                whiteSpace: "nowrap",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                minWidth: 0,
+                              }}
+                            >
+                              {locationName}
+                            </span>
                           </span>
                         </OverlayTrigger>
 
