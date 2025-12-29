@@ -489,9 +489,9 @@ function AssetListTable(props) {
 AssetListTable.propTypes = {
   OnEditAsset: PropTypes.func.isRequired,
   item: PropTypes.func.isRequired,
-  assetAddPermission: PropTypes.func.isRequired,
-  assetEditPermission: PropTypes.func.isRequired,
-  assetDeletePermission: PropTypes.func.isRequired
+  // assetAddPermission: PropTypes.func.isRequired,
+  // assetEditPermission: PropTypes.func.isRequired,
+  // assetDeletePermission: PropTypes.func.isRequired
 };
 
 export default AssetListTable

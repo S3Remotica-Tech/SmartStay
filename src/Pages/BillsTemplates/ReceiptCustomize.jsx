@@ -5,45 +5,26 @@ import "../../Pages/Settings/Settings.css";
 // import { MdError } from "react-icons/md";
 import TextAreaICon from '../../Assets/Images/textarea.png'
 import "react-datepicker/dist/react-datepicker.css";
-import mob from "../../Assets/Images/New_images/Rectangle 77.png";
-import substrac from "../../Assets/Images/New_images/Subtract.png";
-import frame from "../../Assets/Images/New_images/FramePDF.png";
-import receiptLogo from '../../Assets/Images/New_images/receiptlogo.png';
-import received from '../../Assets/Images/New_images/received.png'
 import Button from 'react-bootstrap/Button';
 import "react-toastify/dist/ReactToastify.css";
 import { RgbaColorPicker } from "react-colorful";
-import ZoomImage from '../../Assets/Images/zoom.png'
-import Topbottom from '../../Assets/Images/cancel_presentation.png';
-import left85arrow from '../../Assets/Images/arrow85.png';
-import printdown from '../../Assets/Images/printericon.png';
-import downloadicon from '../../Assets/Images/pdfdown.png';
-import CloseIcon from '../../Assets/Images/close_icon.png';
 import EditICon from '../../Assets/Images/New_images/edit.png';
 import uploadsett from "../../Assets/Images/New_images/upload setting.png";
 import Modal from 'react-bootstrap/Modal';
 import Questionimage from '../../Assets/Images/question.png';
 import ErrorMessage from '../../Components/ErrorMessage'
 import { useHasPermission } from '../../Utils/Permission';
-import { Location, Call, Profile, } from 'iconsax-react'
-import { IoBed } from "react-icons/io5";
-import { Container, Row, Col, Table } from "react-bootstrap";
-import Payment from '../../Assets/Images/New_images/Mask-group.png'
-import Refund from '../../Assets/Images/New_images/Refund.png';
-
-
+import PropTypes from "prop-types";
 
 const RentalReceiptPdfTemplate = ({ BillsTemplateList ,onTemplateReceiptChange}) => {
 
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
-  const cardRef = useRef(null);
-  const innerScrollRef = useRef(null);
-  const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false)
 
   const [notes_errmsg, setNotesErrMsg] = useState('')
   const [terms_errmsg, setTermsErrMsg] = useState('')
-  const [showFullView, setShowFullView] = useState(false);
+  // const [showFullView, setShowFullView] = useState(false);
   const [editErrmsg, setEditErrMessage] = useState('')
 
   const [color, setColor] = useState({ r: 0, g: 163, b: 46, a: 1 });
@@ -1072,4 +1053,27 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList ,onTemplateReceiptChange})
   )
 
 }
+RentalReceiptPdfTemplate.propTypes = {
+  onTemplateReceiptChange: PropTypes.func,
+
+  BillsTemplateList: PropTypes.shape({
+    mobile: PropTypes.string,
+    emailId: PropTypes.string,
+    logo: PropTypes.string,
+    signature: PropTypes.string,
+
+    isMobileCustomized: PropTypes.bool,
+    isMailIdCustomized: PropTypes.bool,
+    isLogoCustomized: PropTypes.bool,
+    isSignatureCustomized: PropTypes.bool,
+
+    templates: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        name: PropTypes.string,
+      })
+    ),
+  }),
+};
+
 export default RentalReceiptPdfTemplate;

@@ -1,12 +1,31 @@
+// import React from "react";
+// import ErrorBoundary from "./ErrorBountry";
+
+// const withErrorBoundary = (WrappedComponent, fallbackUI = null) => {
+//   return (props) => (
+//     <ErrorBoundary fallback={fallbackUI}>
+//       <WrappedComponent {...props} />
+//     </ErrorBoundary>
+//   );
+// };
+
+// export default withErrorBoundary;
 import React from "react";
 import ErrorBoundary from "./ErrorBountry";
 
 const withErrorBoundary = (WrappedComponent, fallbackUI = null) => {
-  return (props) => (
+  const ComponentWithErrorBoundary = (props) => (
     <ErrorBoundary fallback={fallbackUI}>
       <WrappedComponent {...props} />
     </ErrorBoundary>
   );
+
+  ComponentWithErrorBoundary.displayName = `withErrorBoundary(${
+    WrappedComponent.displayName || WrappedComponent.name || "Component"
+  })`;
+
+  return ComponentWithErrorBoundary;
 };
 
 export default withErrorBoundary;
+

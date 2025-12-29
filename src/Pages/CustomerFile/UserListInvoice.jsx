@@ -6,18 +6,15 @@ import { Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { Button } from "react-bootstrap";
-import {
-  ArrowLeft2,
-  ArrowRight2, ArrowUp2, ArrowDown2
-} from "iconsax-react";
 import Edit from '../../Assets/Images/Edit-blue.png';
 import Delete from '../../Assets/Images/Delete_red.png';
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
-import Select from "react-select";
+// import Select from "react-select";
 import ErrorMessage from '../../Components/ErrorMessage'
 import { useHasPermission } from '../../Utils/Permission';
 // import InvoicePage from "../../Invoice";
 import { useNavigate } from "react-router-dom";
+import PaginationList from "../../Components/PaginationList";
 
 
 
@@ -28,12 +25,12 @@ function UserListInvoice(props) {
   const dispatch = useDispatch();
 
   const popupRef = useRef(null);
-  const [invoicerowsPerPage, setInvoicerowsPerPage] = useState(4);
-  const [invoicecurrentPage, setinvoicecurrentPage] = useState(1);
+  // const [invoicerowsPerPage, setInvoicerowsPerPage] = useState(4);
+  // const [invoicecurrentPage, setinvoicecurrentPage] = useState(1);
   const [invoiceFilterddata, setinvoiceFilterddata] = useState([]);
-  const [tabletrue, setTableTrue] = useState(true)
-  const [billMode, setBillMode] = useState("New Bill");
-  const [showmanualinvoice, setShowManualInvoice] = useState(false);
+  // const [tabletrue, setTableTrue] = useState(true)
+  // const [billMode, setBillMode] = useState("New Bill");
+  // const [showmanualinvoice, setShowManualInvoice] = useState(false);
   const [activeId, setActiveId] = useState(null);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
@@ -51,66 +48,72 @@ function UserListInvoice(props) {
 
 
 
-  const indexOfLastRowinvoice = invoicecurrentPage * invoicerowsPerPage;
-  const indexOfFirstRowinvoice = indexOfLastRowinvoice - invoicerowsPerPage;
-  const currentRowinvoice = invoiceFilterddata?.slice(
-    indexOfFirstRowinvoice,
-    indexOfLastRowinvoice
-  );
+  // const indexOfLastRowinvoice = invoicecurrentPage * invoicerowsPerPage;
+  // const indexOfFirstRowinvoice = indexOfLastRowinvoice - invoicerowsPerPage;
+  // const currentRowinvoice = invoiceFilterddata?.slice(
+  //   indexOfFirstRowinvoice,
+  //   indexOfLastRowinvoice
+  // );
 
-  const handleInvoicePageChange = (InvoicepageNumber) => {
-    setinvoicecurrentPage(InvoicepageNumber);
-  };
+  // const handleInvoicePageChange = (InvoicepageNumber) => {
+  //   setinvoicecurrentPage(InvoicepageNumber);
+  // };
 
-  const invoiceOptions = [
-    { value: 4, label: "4" },
-    { value: 10, label: "10" },
-    { value: 50, label: "50" },
-    { value: 100, label: "100" },
-  ];
+  // const invoiceOptions = [
+  //   { value: 4, label: "4" },
+  //   { value: 10, label: "10" },
+  //   { value: 50, label: "50" },
+  //   { value: 100, label: "100" },
+  // ];
 
 
 
-  const handleItemsPerPageChange = (selectedOption) => {
-    if (selectedOption?.value) {
-      setInvoicerowsPerPage(selectedOption.value);
-      setinvoicecurrentPage(1);
-    }
-  };
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+  // const handleItemsPerPageChange = (selectedOption) => {
+  //   if (selectedOption?.value) {
+  //     setInvoicerowsPerPage(selectedOption.value);
+  //     setinvoicecurrentPage(1);
+  //   }
+  // };
+  // const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
-  const sortedData = React.useMemo(() => {
-    if (!sortConfig.key) return currentRowinvoice;
+  // const sortedData = React.useMemo(() => {
+  //   if (!sortConfig.key) return currentRowinvoice;
 
-    const sorted = [...currentRowinvoice].sort((a, b) => {
-      const valueA = a[sortConfig.key];
-      const valueB = b[sortConfig.key];
+  //   const sorted = [...currentRowinvoice].sort((a, b) => {
+  //     const valueA = a[sortConfig.key];
+  //     const valueB = b[sortConfig.key];
 
-      if (!isNaN(valueA) && !isNaN(valueB)) {
-        return sortConfig.direction === "asc"
-          ? valueA - valueB
-          : valueB - valueA;
-      }
+  //     if (!isNaN(valueA) && !isNaN(valueB)) {
+  //       return sortConfig.direction === "asc"
+  //         ? valueA - valueB
+  //         : valueB - valueA;
+  //     }
 
-      if (typeof valueA === "string" && typeof valueB === "string") {
-        return sortConfig.direction === "asc"
-          ? valueA.localeCompare(valueB)
-          : valueB.localeCompare(valueA);
-      }
+  //     if (typeof valueA === "string" && typeof valueB === "string") {
+  //       return sortConfig.direction === "asc"
+  //         ? valueA.localeCompare(valueB)
+  //         : valueB.localeCompare(valueA);
+  //     }
 
-      return 0;
-    });
+  //     return 0;
+  //   });
 
-    return sorted;
-  }, [currentRowinvoice, sortConfig]);
+  //   return sorted;
+  // }, [currentRowinvoice, sortConfig]);
 
-  const handleSort = (key, direction) => {
-    setSortConfig({ key, direction });
-  };
+  // const handleSort = (key, direction) => {
+  //   setSortConfig({ key, direction });
+  // };
 
-  const totalPagesinvoice = Math.ceil(
-    invoiceFilterddata?.length / invoicerowsPerPage
-  );
+  // const totalPagesinvoice = Math.ceil(
+  //   invoiceFilterddata?.length / invoicerowsPerPage
+  // );
+
+const sortedData = React.useMemo(() => {
+    return Array.isArray(invoiceFilterddata) ? invoiceFilterddata : [];
+  }, [invoiceFilterddata]);
+
+
 
 
   useEffect(() => {
@@ -141,19 +144,19 @@ function UserListInvoice(props) {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-  const [BillsForm, setBillsForm] = useState(false)
+  // const [BillsForm, setBillsForm] = useState(false)
 
   const handleEditBill = (item) => {
 
     props.handleEditItem(item)
-    setBillsForm(false)
+    // setBillsForm(false)
 
     dispatch({ type: 'USERROOMAVAILABLETRUE' });
 
   };
 
   const handleAddBill = () => {
-    setBillMode("New Bill");
+    // setBillMode("New Bill");
     // setTableTrue(false)
     // setBillsForm(true)
     navigate('/create-bill', { state: { id: props.id } });
@@ -263,8 +266,7 @@ function UserListInvoice(props) {
                   paddingLeft: 0
                 }}
               >
-                {
-                  tabletrue &&
+               
 
                   <Table
                     responsive="md"
@@ -422,6 +424,7 @@ function UserListInvoice(props) {
                         verticalAlign: "middle",
                       }}
                     >
+                      <PaginationList>
                       {sortedData?.map((view) => {
 
 
@@ -780,7 +783,8 @@ function UserListInvoice(props) {
                           </tr>
                         );
                       })}
-                      {currentRowinvoice?.length === 0 && (
+                      </PaginationList>
+                      {invoiceFilterddata?.length === 0 && (
                         <tr>
                           <td colSpan="6" style={{ textAlign: "center", color: "red" }}>
                             No data found
@@ -790,7 +794,7 @@ function UserListInvoice(props) {
                     </tbody>
                   </Table>
 
-                }
+                
 
               </div>
             ) : <div>

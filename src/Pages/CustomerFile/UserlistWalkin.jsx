@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";;
 import PropTypes from "prop-types";
 // import moment from "moment";
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
-import { ArrowUp2, ArrowDown2, } from "iconsax-react";
+// import { ArrowUp2, ArrowDown2, } from "iconsax-react";
 import PaginationList from "../../Components/PaginationList";
 import ErrorMessage from '../../Components/ErrorMessage'
 import { useHasPermission } from '../../Utils/Permission';
@@ -254,35 +254,39 @@ function UserlistWalkin() {
 
 
 
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+  // const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+
+  // const sortedData = React.useMemo(() => {
+  //   if (!sortConfig.key) return walkInCustomer;
+
+  //   const sorted = [...walkInCustomer].sort((a, b) => {
+  //     const valueA = a[sortConfig.key];
+  //     const valueB = b[sortConfig.key];
+
+  //     if (!isNaN(valueA) && !isNaN(valueB)) {
+  //       return sortConfig.direction === "asc" ? valueA - valueB : valueB - valueA;
+  //     }
+
+  //     if (typeof valueA === "string" && typeof valueB === "string") {
+  //       return sortConfig.direction === "asc"
+  //         ? valueA.localeCompare(valueB)
+  //         : valueB.localeCompare(valueA);
+  //     }
+
+  //     return 0;
+  //   });
+
+  //   return sorted;
+  // }, [walkInCustomer, sortConfig]);
+
+
+  // const handleSort = (key, direction) => {
+  //   setSortConfig({ key, direction });
+  // };
 
   const sortedData = React.useMemo(() => {
-    if (!sortConfig.key) return walkInCustomer;
-
-    const sorted = [...walkInCustomer].sort((a, b) => {
-      const valueA = a[sortConfig.key];
-      const valueB = b[sortConfig.key];
-
-      if (!isNaN(valueA) && !isNaN(valueB)) {
-        return sortConfig.direction === "asc" ? valueA - valueB : valueB - valueA;
-      }
-
-      if (typeof valueA === "string" && typeof valueB === "string") {
-        return sortConfig.direction === "asc"
-          ? valueA.localeCompare(valueB)
-          : valueB.localeCompare(valueA);
-      }
-
-      return 0;
-    });
-
-    return sorted;
-  }, [walkInCustomer, sortConfig]);
-
-
-  const handleSort = (key, direction) => {
-    setSortConfig({ key, direction });
-  };
+      return Array.isArray(walkInCustomer) ? walkInCustomer : [];
+    }, [walkInCustomer]);
 
   const handleDeleteShow = (user) => {
     setDeleteShow(true);

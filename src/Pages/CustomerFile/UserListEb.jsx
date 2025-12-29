@@ -2,10 +2,10 @@
 import React, { useState, useEffect } from "react";
 import { Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2 } from 'iconsax-react';
+// import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2 } from 'iconsax-react';
 import PropTypes from "prop-types";
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
-import Select from "react-select";
+// import Select from "react-select";
 import ErrorMessage from '../../Components/ErrorMessage';
 import { useHasPermission } from '../../Utils/Permission';
 import PaginationList from "../../Components/PaginationList";
@@ -16,29 +16,29 @@ function UserEb(props) {
 
   const dispatch = useDispatch();
 
-  const [EbrowsPerPage, setEbrowsPerPage] = useState(4);
-  const [EbcurrentPage, setEbCurrentPage] = useState(1);
-  const [EbFilterddata, setEbFilterddata] = useState([]);
+  // const [EbrowsPerPage, setEbrowsPerPage] = useState(4);
+  // const [EbcurrentPage, setEbCurrentPage] = useState(1);
+  // const [EbFilterddata, setEbFilterddata] = useState([]);
    const [tenantReadingList, setTenantreadingList] = useState([])
-  const indexOfLastRowEb = EbcurrentPage * EbrowsPerPage;
-  const indexOfFirstRowEb = indexOfLastRowEb - EbrowsPerPage;
+  // const indexOfLastRowEb = EbcurrentPage * EbrowsPerPage;
+  // const indexOfFirstRowEb = indexOfLastRowEb - EbrowsPerPage;
 
-  const [selectedHostel, setSelectedHostel] = useState("");
+  // const [selectedHostel, setSelectedHostel] = useState("");
 
-  const handleEbPageChange = (EbpageNumber) => {
-    setEbCurrentPage(EbpageNumber);
+  // const handleEbPageChange = (EbpageNumber) => {
+  //   setEbCurrentPage(EbpageNumber);
 
-  }
+  // }
 
 
-const ebOptions = [
-  { value: 4, label: "4" },
-  { value: 10, label: "10" },
-  { value: 50, label: "50" },
-  { value: 100, label: "100" },
-];
+// const ebOptions = [
+//   { value: 4, label: "4" },
+//   { value: 10, label: "10" },
+//   { value: 50, label: "50" },
+//   { value: 100, label: "100" },
+// ];
 
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+  // const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
 
 
@@ -50,51 +50,57 @@ const ebOptions = [
 
 
 const {
-        canWriteModule: canWriteElectricity,
+        // canWriteModule: canWriteElectricity,
         canReadModule: canReadElectricity,
         // canUpdateModule: canUpdateElectricity,
-        canDeleteModule: canDeleteElectricity,
+        // canDeleteModule: canDeleteElectricity,
       } = useHasPermission("Electricity");
 
 
 
 
 
-  const sortedData = React.useMemo(() => {
-    if (!sortConfig.key) return tenantReadingList;
+  // const sortedData = React.useMemo(() => {
+  //   if (!sortConfig.key) return tenantReadingList;
 
-    const sorted = [...tenantReadingList].sort((a, b) => {
-      const valueA = a[sortConfig.key];
-      const valueB = b[sortConfig.key];
+  //   const sorted = [...tenantReadingList].sort((a, b) => {
+  //     const valueA = a[sortConfig.key];
+  //     const valueB = b[sortConfig.key];
 
-      if (!isNaN(valueA) && !isNaN(valueB)) {
-        return sortConfig.direction === "asc"
-          ? valueA - valueB
-          : valueB - valueA;
-      }
+  //     if (!isNaN(valueA) && !isNaN(valueB)) {
+  //       return sortConfig.direction === "asc"
+  //         ? valueA - valueB
+  //         : valueB - valueA;
+  //     }
 
-      if (typeof valueA === "string" && typeof valueB === "string") {
-        return sortConfig.direction === "asc"
-          ? valueA.localeCompare(valueB)
-          : valueB.localeCompare(valueA);
-      }
+  //     if (typeof valueA === "string" && typeof valueB === "string") {
+  //       return sortConfig.direction === "asc"
+  //         ? valueA.localeCompare(valueB)
+  //         : valueB.localeCompare(valueA);
+  //     }
 
-      return 0;
-    });
+  //     return 0;
+  //   });
 
-    return sorted;
-  }, [tenantReadingList, sortConfig]);
+  //   return sorted;
+  // }, [tenantReadingList, sortConfig]);
   
-  const handleSort = (key, direction) => {
-    setSortConfig({ key, direction });
-  };
 
-  const handleItemsPerPageChange = (selectedOption) => {
-  if (selectedOption?.value) {
-    setEbrowsPerPage(selectedOption.value);
-    setEbCurrentPage(1);
-  }
-};
+// const sortedData = React.useMemo(() => {
+//       return Array.isArray(tenantReadingList) ? tenantReadingList : [];
+//     }, [tenantReadingList]);
+
+
+//   const handleSort = (key, direction) => {
+//     setSortConfig({ key, direction });
+//   };
+
+//   const handleItemsPerPageChange = (selectedOption) => {
+//   if (selectedOption?.value) {
+//     setEbrowsPerPage(selectedOption.value);
+//     setEbCurrentPage(1);
+//   }
+// };
 
 
 
@@ -124,22 +130,22 @@ const {
 
 
 
-  useEffect(() => {
-    setSelectedHostel(state.login.selectedHostel_Id);
+  // useEffect(() => {
+  //   setSelectedHostel(state.login.selectedHostel_Id);
 
 
 
-  }, [props, state.login.selectedHostel_Id]);
+  // }, [props, state.login.selectedHostel_Id]);
 
 
 
 
-  const totalPagesEb = Math.ceil(EbFilterddata?.length / EbrowsPerPage);
+  // const totalPagesEb = Math.ceil(EbFilterddata?.length / EbrowsPerPage);
 
 
-  useEffect(() => {
-    setEbFilterddata(state?.UsersList?.customerdetails?.eb_data)
-  }, [state?.UsersList?.customerdetails?.eb_data])
+  // useEffect(() => {
+  //   setEbFilterddata(state?.UsersList?.customerdetails?.eb_data)
+  // }, [state?.UsersList?.customerdetails?.eb_data])
 
 
 
@@ -172,7 +178,7 @@ useEffect(() => {
 
 const formattedTenantReadings = (tenantReadingList?.electricityHistory || []).map((item) => {
  
-  const [day, month, year] = item.startDate.split("/");
+  const [, month, year] = item.startDate.split("/");
 
   const billingMonth = new Date(`${year}-${month}-01`).toLocaleString("en-US", {
     month: "long",
@@ -353,5 +359,6 @@ UserEb.propTypes = {
   handleDeleteRoomReading: PropTypes.func.isRequired,
   handleEditHostelItem: PropTypes.func.isRequired,
   handleDeleteHostelItem: PropTypes.func.isRequired,
+  id: PropTypes.func.isRequired
 };
 export default UserEb;

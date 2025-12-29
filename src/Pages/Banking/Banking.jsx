@@ -13,7 +13,7 @@ import BankingAddForm from "../Banking/BankingAddForm";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import emptyimg from "../../Assets/Images/New_images/empty_image.png";
-import { ArrowUp2, ArrowDown2, Edit, Trash } from "iconsax-react";
+import { Edit, Trash } from "iconsax-react";
 import money from "../../Assets/Images/New_images/Amount.png";
 import { toast } from "react-toastify";
 import { DatePicker } from "antd";
@@ -50,11 +50,11 @@ function Banking() {
   const [AddBankName, setAddBankName] = useState("");
   const [AddBankAmount, setAddBankAmount] = useState("");
   const [deleteBankId, setDeleteBankId] = useState("");
-  const [bankingrolePermission, setBankingRolePermission] = useState("");
-  const [bankingpermissionError, setBankingPermissionError] = useState("");
-  const [bankingAddPermission, setBankingAddPermission] = useState("");
-  const [bankingDeletePermission, setBankingDeletePermission] = useState("");
-  const [bankingEditPermission, setBankingEditPermission] = useState("");
+  // const [bankingrolePermission, setBankingRolePermission] = useState("");
+  // const [bankingpermissionError, setBankingPermissionError] = useState("");
+  // const [bankingAddPermission, setBankingAddPermission] = useState("");
+  // const [bankingDeletePermission, setBankingDeletePermission] = useState("");
+  // const [bankingEditPermission, setBankingEditPermission] = useState("");
   const [hostel_id, setHostel_Id] = useState("");
   const [filterInput, setFilterInput] = useState("");
   const [isDropdownVisible, setDropdownVisible] = useState(false);
@@ -101,90 +101,9 @@ function Banking() {
 
 
 
-  useEffect(() => {
-    setBankingRolePermission(state.createAccount.accountList);
-  }, [state.createAccount.accountList]);
-
-
-
-
-
   // useEffect(() => {
-  //   const userType = bankingrolePermission[0]?.user_details?.user_type
-  //   const isAdmin = userType === "admin" || userType === "agent";
-  //   if (isAdmin) {
-  //     if (state?.login?.planStatus === 0) {
-  //       setBankingPermissionError("");
-  //       setBankingAddPermission("Permission Denied");
-  //       setBankingEditPermission("Permission Denied");
-  //       setBankingDeletePermission("Permission Denied");
-
-  //     } else if (state?.login?.planStatus === 1) {
-  //       setBankingPermissionError("");
-  //       setBankingAddPermission("");
-  //       setBankingEditPermission("");
-  //       setBankingDeletePermission("");
-  //     }
-  //   }
-
-  // }, [state?.login?.planStatus, state?.login?.selectedHostel_Id, bankingrolePermission])
-
-
-
-  // useEffect(() => {
-  //   const bankingPermission = bankingrolePermission[0]?.role_permissions?.find(
-  //     (perm) => perm.permission_name === "Banking"
-  //   );
-
-  //   const isOwner = bankingrolePermission[0]?.user_details?.user_type === "staff";
-  //   const planActive = state?.login?.planStatus === 1;
-
-  //   if (!bankingPermission || !isOwner) return;
-
-
-  //   if (bankingPermission.per_view === 1 && planActive) {
-  //     setBankingPermissionError("");
-  //   } else {
-  //     setBankingPermissionError("Permission Denied");
-  //   }
-
-
-  //   if (bankingPermission.per_create === 1 && planActive) {
-  //     setBankingAddPermission("");
-  //   } else {
-  //     setBankingAddPermission("Permission Denied");
-  //   }
-
-
-  //   if (bankingPermission.per_edit === 1 && planActive) {
-  //     setBankingEditPermission("");
-  //   } else {
-  //     setBankingEditPermission("Permission Denied");
-  //   }
-
-  //   if (bankingPermission.per_delete === 1 && planActive) {
-  //     setBankingDeletePermission("");
-  //   } else {
-  //     setBankingDeletePermission("Permission Denied");
-  //   }
-  // }, [bankingrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
-
-
-  ;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  //   setBankingRolePermission(state.createAccount.accountList);
+  // }, [state.createAccount.accountList]);
 
 
 
@@ -455,35 +374,38 @@ setLoader(false)
 
 
 
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+  // const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
-  const sortedData = React.useMemo(() => {
-    if (!sortConfig.key) return transactionFilterddata;
+  // const sortedData = React.useMemo(() => {
+  //   if (!sortConfig.key) return transactionFilterddata;
 
-    const sorted = [...transactionFilterddata].sort((a, b) => {
-      const valueA = a[sortConfig.key];
-      const valueB = b[sortConfig.key];
+  //   const sorted = [...transactionFilterddata].sort((a, b) => {
+  //     const valueA = a[sortConfig.key];
+  //     const valueB = b[sortConfig.key];
 
-      if (!isNaN(valueA) && !isNaN(valueB)) {
-        return sortConfig.direction === 'asc' ? valueA - valueB : valueB - valueA;
-      }
+  //     if (!isNaN(valueA) && !isNaN(valueB)) {
+  //       return sortConfig.direction === 'asc' ? valueA - valueB : valueB - valueA;
+  //     }
 
-      if (typeof valueA === 'string' && typeof valueB === 'string') {
-        return sortConfig.direction === 'asc'
-          ? valueA.localeCompare(valueB)
-          : valueB.localeCompare(valueA);
-      }
+  //     if (typeof valueA === 'string' && typeof valueB === 'string') {
+  //       return sortConfig.direction === 'asc'
+  //         ? valueA.localeCompare(valueB)
+  //         : valueB.localeCompare(valueA);
+  //     }
 
-      return 0;
-    });
+  //     return 0;
+  //   });
 
-    return sorted;
-  }, [transactionFilterddata, sortConfig]);
+  //   return sorted;
+  // }, [transactionFilterddata, sortConfig]);
 
-  const handleSort = (key, direction) => {
-    setSortConfig({ key, direction });
-  };
+  // const handleSort = (key, direction) => {
+  //   setSortConfig({ key, direction });
+  // };
 
+ const sortedData = React.useMemo(() => {
+    return Array.isArray(transactionFilterddata) ? transactionFilterddata : [];
+  }, [transactionFilterddata]);
 
 
 

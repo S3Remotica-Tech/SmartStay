@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import {
+import {getInitializeEditRecurring, 
    GetFilterInvoices, updateRecurringTenant, AssignAmenitiesForTenant, UnAssignAmenitiesForTenant, createRefund, getInitializeRefund, getParticularReceiptDetails, getParticularBillsDetails, getFinalSettlementList, CustomerRecurringEnableDisable, UnAssignAmenities, ParticularAmentityList, AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList, RecordPayment, InvoiceSettings, InvoicePDf, GetAmenities, UpdateAmenities, AddAmenity, ManualInvoice, ManualInvoiceUserData, AddManualInvoiceBill, EditManualInvoiceBill, DeleteManualInvoiceBill, ManualInvoiceNumber,
    GetManualInvoices, RecurrInvoiceamountData, AddRecurringBill, GetRecurrBills, DeleteRecurrBills, InvoiceRecurringsettings, GetReceiptData, AddReceipt, ReferenceIdGet, DeleteReceipt, EditReceipt, ReceiptPDf, AddRecurrBillsUsers, GetBillsPdfDetails
 } from "../Action/InvoiceAction";
@@ -63,6 +63,29 @@ function* handleApiError(error) {
    //    });
    // }
 }
+
+function* handleGetInitializeEditRecurring(action) {
+
+   try {
+      const response = yield call(getInitializeEditRecurring, action.payload)
+
+
+      const hostelId = GlobalHostelId(response);
+      if (hostelId) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
+             }
+      if (response?.status === 200) {
+         yield put({ type: 'GET_INITIALIZE_EDIT_RECURRING', payload: { response: response.data, statusCode: response?.status } })
+      }
+
+         }
+   catch (error) {
+      yield* handleApiError(error);
+
+   }
+
+}
+
 
 
 
@@ -1203,7 +1226,7 @@ function* handleManualInvoiceAdd(params) {
 }
 
 
-function* handleManualInvoiceEdit(params) {
+function* handleManualInvoiceEdit(action) {
    try {
       const { hostelId, invoiceId, payload } = action;
 
@@ -1934,6 +1957,7 @@ function refreshToken(response) {
 
 
 function* InvoiceSaga() {
+   yield takeEvery('GETINITIALIZEEDITRECURRING',handleGetInitializeEditRecurring)
    yield takeEvery('INVOICESLISTFILTER', handleGetFilterInvoice)
    yield takeEvery('UPDATE_TENANT_RECURRING', handleUpdateTenantRecurring)
    yield takeEvery('TENANTUNASSIGNAMENITIES', handleUnAssignAmenitiesForTenant)

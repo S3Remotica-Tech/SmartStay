@@ -983,61 +983,61 @@ function SettingInvoice({ hostelid, handleFormPage }) {
 
   const handleSaveRentalTemplate = () => {
     setEditFormErrMessage('')
-    const currentTemplate = {
-      // hostelId: Number(state.login.selectedHostel_Id),
-      // templateTypeId: RentalinvoiceTemplate.typeId,
-      // invSign: rentalSignatureFile,
-      // isSignatureCustomized: isCheckedSignature,
-      // invoicePhoneNumber: paymentmobilenum,
-      // isMobileCustomized: isCheckedmobile,
-      // invoiceMailId: paymentinvoiceemail,
-      // isEmailCustomized: isCheckedEmail,
-      // invLogo: hostel_logo,
-      // isLogoCustomized: isCheckedLogo,
-      qrCode: qrimagepreview,
-      prefix: prefix,
-      suffix: suffix,
-      gstPercentile: tax,
-      invoiceNotes: notes,
-      invoiceTermsAndCondition: terms,
-      bankId: selectedBankId || "",
-      invoiceTemplateColor: useGradient
-        ? defaultGradient
-        : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
-    };
+    // const currentTemplate = {
+    //   // hostelId: Number(state.login.selectedHostel_Id),
+    //   // templateTypeId: RentalinvoiceTemplate.typeId,
+    //   // invSign: rentalSignatureFile,
+    //   // isSignatureCustomized: isCheckedSignature,
+    //   // invoicePhoneNumber: paymentmobilenum,
+    //   // isMobileCustomized: isCheckedmobile,
+    //   // invoiceMailId: paymentinvoiceemail,
+    //   // isEmailCustomized: isCheckedEmail,
+    //   // invLogo: hostel_logo,
+    //   // isLogoCustomized: isCheckedLogo,
+    //   qrCode: qrimagepreview,
+    //   prefix: prefix,
+    //   suffix: suffix,
+    //   gstPercentile: tax,
+    //   invoiceNotes: notes,
+    //   invoiceTermsAndCondition: terms,
+    //   bankId: selectedBankId || "",
+    //   invoiceTemplateColor: useGradient
+    //     ? defaultGradient
+    //     : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+    // };
 
-    const oldTemplate = {
-      // hostelId: Number(state.login.selectedHostel_Id),
-      // templateTypeId: RentalinvoiceTemplate.typeId,
-      // invSign: RentalinvoiceTemplate.invSign || null,
-      // isSignatureCustomized: RentalinvoiceTemplate.isSignatureCustomized,
-      // invoicePhoneNumber: RentalinvoiceTemplate.invoicePhoneNumber || "",
-      // isMobileCustomized: RentalinvoiceTemplate.isMobileCustomized,
-      // invoiceMailId: RentalinvoiceTemplate.invoiceMailId || "",
-      // isEmailCustomized: RentalinvoiceTemplate.isEmailCustomized,
-      // invLogo: RentalinvoiceTemplate.invLogo || null,
-      // isLogoCustomized: RentalinvoiceTemplate.isLogoCustomized,
-      qrCode: RentalinvoiceTemplate.qrCodeUrl || null,
-      prefix: RentalinvoiceTemplate.prefix || "",
-      suffix: RentalinvoiceTemplate.suffix || "",
-      gstPercentile: RentalinvoiceTemplate.gstPercentile || "",
-      invoiceNotes: RentalinvoiceTemplate.invoiceNotes || "",
-      invoiceTermsAndCondition: RentalinvoiceTemplate.invoiceTermsAndCondition || "",
-      bankId: RentalinvoiceTemplate.selectedBankId || "",
-      invoiceTemplateColor: RentalinvoiceTemplate.invoiceTemplateColor || "",
-    };
+    // const oldTemplate = {
+    //   // hostelId: Number(state.login.selectedHostel_Id),
+    //   // templateTypeId: RentalinvoiceTemplate.typeId,
+    //   // invSign: RentalinvoiceTemplate.invSign || null,
+    //   // isSignatureCustomized: RentalinvoiceTemplate.isSignatureCustomized,
+    //   // invoicePhoneNumber: RentalinvoiceTemplate.invoicePhoneNumber || "",
+    //   // isMobileCustomized: RentalinvoiceTemplate.isMobileCustomized,
+    //   // invoiceMailId: RentalinvoiceTemplate.invoiceMailId || "",
+    //   // isEmailCustomized: RentalinvoiceTemplate.isEmailCustomized,
+    //   // invLogo: RentalinvoiceTemplate.invLogo || null,
+    //   // isLogoCustomized: RentalinvoiceTemplate.isLogoCustomized,
+    //   qrCode: RentalinvoiceTemplate.qrCodeUrl || null,
+    //   prefix: RentalinvoiceTemplate.prefix || "",
+    //   suffix: RentalinvoiceTemplate.suffix || "",
+    //   gstPercentile: RentalinvoiceTemplate.gstPercentile || "",
+    //   invoiceNotes: RentalinvoiceTemplate.invoiceNotes || "",
+    //   invoiceTermsAndCondition: RentalinvoiceTemplate.invoiceTermsAndCondition || "",
+    //   bankId: RentalinvoiceTemplate.selectedBankId || "",
+    //   invoiceTemplateColor: RentalinvoiceTemplate.invoiceTemplateColor || "",
+    // };
 
 
-    const isChanged =
+    // const isChanged =
 
-      currentTemplate.qrCode !== oldTemplate.qrCode ||
-      currentTemplate.prefix !== oldTemplate.prefix ||
-      currentTemplate.suffix !== oldTemplate.suffix ||
-      currentTemplate.gstPercentile !== oldTemplate.gstPercentile ||
-      currentTemplate.invoiceNotes !== oldTemplate.invoiceNotes ||
-      currentTemplate.invoiceTermsAndCondition !== oldTemplate.invoiceTermsAndCondition ||
-      currentTemplate.bankId !== oldTemplate.bankId
-     currentTemplate.invoiceTemplateColor !== oldTemplate.invoiceTemplateColor;
+    //   currentTemplate.qrCode !== oldTemplate.qrCode ||
+    //   currentTemplate.prefix !== oldTemplate.prefix ||
+    //   currentTemplate.suffix !== oldTemplate.suffix ||
+    //   currentTemplate.gstPercentile !== oldTemplate.gstPercentile ||
+    //   currentTemplate.invoiceNotes !== oldTemplate.invoiceNotes ||
+    //   currentTemplate.invoiceTermsAndCondition !== oldTemplate.invoiceTermsAndCondition ||
+    //   currentTemplate.bankId !== oldTemplate.bankId
+    //  currentTemplate.invoiceTemplateColor !== oldTemplate.invoiceTemplateColor;
 
 
 
@@ -1368,9 +1368,9 @@ function SettingInvoice({ hostelid, handleFormPage }) {
       {showform &&
 
         <>
-          <Row className="" style={{ backgroundColor: "", height: "100vh" }}  >
+          <Row className="ps-1 " style={{ backgroundColor: "", height: "100vh" }}  >
             <Col md={4}
-              className="ps-0 "
+              className=""
             >
               <div
                 className="bg-white"

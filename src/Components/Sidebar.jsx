@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { StoreSelectedHostelAction } from "../Redux/Action/smartStayAction";
 import "../Components/Sidebar.css";
 import Dashboards from "../Pages/Dashboard/Dashboard";
@@ -26,7 +26,7 @@ import { ArrowUp2, ArrowDown2, Chart2, DocumentText, Buildings, LogoutCurve } fr
 import SettingAllPages from "../Pages/Settings/SettingAllPages";
 import SettingIcon from "../Assets/Images/sidebariconOne.svg";
 import HelpVideoIcon from "../Assets/Images/sidebariconFour.svg";
-import Logout from "../Assets/Images/turn-off.png";
+// import Logout from "../Assets/Images/turn-off.png";
 import { useNavigate, useLocation, Navigate } from "react-router-dom";
 import { Route, Routes, NavLink } from "react-router-dom";
 import Cookies from 'universal-cookie';
@@ -75,7 +75,7 @@ function Sidebar() {
   const state = useSelector((state) => state);
 
   const stateData = useSelector((state) => state.createAccount);
-  const [zoom, setZoom] = useState('')
+  // const [zoom, setZoom] = useState('')
   const [manageOpen, setManageOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [allPageHostel_Id, setAllPageHostel_Id] = useState("");
@@ -427,7 +427,10 @@ function Sidebar() {
   };
 
   const handleLogout = () => {
-    dispatch({ type: "LOG_OUT" });
+     cookies.remove('selected_hostelId', { path: '/' });
+     cookies.remove('v2-token', { path: '/' });
+    cookies.remove('token', { path: '/' });
+      dispatch({ type: "LOG_OUT" });
     dispatch({ type: 'RESET_ALL' })
     const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), "abcd");
     localStorage.setItem("login", encryptData.toString());
@@ -440,9 +443,7 @@ function Sidebar() {
     localStorage.removeItem("lastPage");
     localStorage.removeItem("currentPage")
 
-    cookies.remove('v2-token', { path: '/' });
-    cookies.remove('token', { path: '/' });
-    cookies.remove('selected_hostelId', { path: '/' });
+   
   };
 
 
@@ -483,6 +484,7 @@ function Sidebar() {
     dispatch({ type: "SAVE_RESPONSE_HOSTEL", payload: id });
     dispatch(StoreSelectedHostelAction(id));
     localStorage.setItem("selectedHostelName", name);
+     cookies.set("selected_hostelId",id, { path: "/" });
     setIsSidebarOpen(false);
   };
 
@@ -511,22 +513,24 @@ function Sidebar() {
 
 
 
-  useEffect(() => {
-    const hostelId = state.login?.apiResponseHostelId;
+  // useEffect(() => {
+  //   const hostelId = state.login?.apiResponseHostelId;
 
-    if (hostelId && hostelId !== "undefined") {
-      cookies.set("selected_hostelId", hostelId, { path: "/" });
-    }
-  }, [state.login?.apiResponseHostelId]);
+  //   if (hostelId && hostelId !== "undefined") {
+  //     cookies.set("selected_hostelId", hostelId, { path: "/" });
+  //   }
+  // }, [state.login?.apiResponseHostelId]);
 
-  const reduxHostelId = state.login?.apiResponseHostelId;
+
+
+  // const reduxHostelId = state.login?.apiResponseHostelId;
   const cookieHostelId = cookies.get("selected_hostelId");
 
-  const finalHostelId = reduxHostelId || cookieHostelId;
+  const finalHostelId = cookieHostelId;
 
 
 
-
+console.log("cookieHostelId",cookieHostelId,)
 
 
   useEffect(() => {
@@ -589,25 +593,25 @@ function Sidebar() {
     setIsVisibleSidebar(isVisible)
   }
 
-  const getZoomLevel = () => {
-    const zoom = Math.round(window.devicePixelRatio * 100);
-    return zoom;
-  };
+  // const getZoomLevel = () => {
+  //   const zoom = Math.round(window.devicePixelRatio * 100);
+  //   return zoom;
+  // };
 
-  useEffect(() => {
-    const handleZoomDetect = () => {
-      const zoom = getZoomLevel();
-      setZoom(zoom);
-    };
+  // useEffect(() => {
+  //   const handleZoomDetect = () => {
+  //     const zoom = getZoomLevel();
+  //     setZoom(zoom);
+  //   };
 
-    window.addEventListener("resize", handleZoomDetect);
-    window.addEventListener("mousemove", handleZoomDetect);
+  //   window.addEventListener("resize", handleZoomDetect);
+  //   window.addEventListener("mousemove", handleZoomDetect);
 
-    return () => {
-      window.removeEventListener("resize", handleZoomDetect);
-      window.removeEventListener("mousemove", handleZoomDetect);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("resize", handleZoomDetect);
+  //     window.removeEventListener("mousemove", handleZoomDetect);
+  //   };
+  // }, []);
 
 
   const handleClose = () => {

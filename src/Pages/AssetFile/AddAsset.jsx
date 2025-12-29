@@ -302,9 +302,9 @@ function StaticExample({ show, setShow, currentItem }) {
     }
   };
 
-  const cleanSerialNumber = (serialNumber) => {
-    return serialNumber.trim().replace(/[\t\n\r]+/g, "");
-  };
+  // const cleanSerialNumber = (serialNumber) => {
+  //   return serialNumber.trim().replace(/[\t\n\r]+/g, "");
+  // };
 
 
   const nochangeRef = useRef(null)
@@ -313,7 +313,7 @@ function StaticExample({ show, setShow, currentItem }) {
     dispatch({ type: "CLEAR_ASSET_NAME_ERROR" });
     dispatch({ type: "CLEAR_SERIAL_NUMBER_ERROR" });
     dispatch({ type: "CLEAR_BANK_AMOUNT_ERROR" });
-    const cleanedSerialNumber = cleanSerialNumber(serialNumber);
+    // const cleanedSerialNumber = cleanSerialNumber(serialNumber);
     const focusedRef = { current: false };
 
     if (!assetName) {

@@ -123,7 +123,7 @@ console.log("props",props)
 
   const [bankaccount, setBankAccount] = useState("");
   const [bankaccountError, setBankAccountError] = useState("");
-  const [isSelectOpen, setIsSelectOpen] = useState(false);
+  // const [isSelectOpen, setIsSelectOpen] = useState(false);
   const [bankking, setBanking] = useState("")
   const [bankHolderName, setBankHolderName] = useState("");
 
@@ -155,12 +155,12 @@ console.log("props",props)
     setBankAccount(selectedOption.value);
   };
 
-  const labelMap = {
-    bank: "Bank",
-    upi: "UPI",
-    card: "Card",
-    cash: "Cash",
-  };
+  // const labelMap = {
+  //   bank: "Bank",
+  //   upi: "UPI",
+  //   card: "Card",
+  //   cash: "Cash",
+  // };
 
 
 
@@ -212,6 +212,14 @@ console.log("props",props)
       </components.MenuList>
     );
   };
+  CustomMenuList.propTypes = {
+  children: PropTypes.node,
+  selectProps: PropTypes.shape({
+    onAddBank: PropTypes.func,
+  }).isRequired,
+};
+  
+
 
 
   useEffect(() => {
@@ -1062,8 +1070,8 @@ console.log("props",props)
                     onChange={(selectedOption) =>
                       handleModeOfPaymentChange(selectedOption)
                     }
-                    onMenuOpen={() => setIsSelectOpen(true)}
-                    onMenuClose={() => setIsSelectOpen(false)}
+                    // onMenuOpen={() => setIsSelectOpen(true)}
+                    // onMenuClose={() => setIsSelectOpen(false)}
                     placeholder="Select Bank"
                     components={{ MenuList: CustomMenuList }}
                     onAddBank={() => setActiveTab("BANK")}
@@ -1271,8 +1279,8 @@ console.log("props",props)
                     onChange={(selectedOption) =>
                       handleModeOfPaymentChange(selectedOption)
                     }
-                    onMenuOpen={() => setIsSelectOpen(true)}
-                    onMenuClose={() => setIsSelectOpen(false)}
+                    // onMenuOpen={() => setIsSelectOpen(true)}
+                    // onMenuClose={() => setIsSelectOpen(false)}
                     placeholder="Select Bank"
                     components={{ MenuList: CustomMenuList }}
                     onAddBank={() => setActiveTab("BANK")}

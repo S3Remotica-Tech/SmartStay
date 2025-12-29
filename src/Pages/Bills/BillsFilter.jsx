@@ -7,6 +7,7 @@ import { components } from "react-select";
 import { FaCheck } from "react-icons/fa6";
 import { IoCloseOutline } from "react-icons/io5";
 import ErrorMessage from '../../Components/ErrorMessage'
+import PropTypes from "prop-types";
 
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
@@ -265,7 +266,13 @@ useEffect(() => {
                 </div>
             </components.Option>
         );
-    };
+    }
+   CheckboxOption.propTypes = {
+  isSelected: PropTypes.bool.isRequired,
+  label: PropTypes.string.isRequired,
+};
+
+
 
     const periodOptions = [
         { label: "This Month", value: "THIS_MONTH" },
@@ -880,5 +887,9 @@ useEffect(() => {
             </Offcanvas></div>
     )
 }
+BillsFilter.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+};
 
 export default BillsFilter

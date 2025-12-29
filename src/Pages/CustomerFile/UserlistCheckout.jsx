@@ -5,7 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "react-loading-skeleton/dist/skeleton.css";
 // import Addbtn from "../../Assets/Images/New_images/add-circle.png"
 // import { Edit, Trash } from "iconsax-react";
-import { ArrowUp2, ArrowDown2, } from "iconsax-react";
+// import { ArrowUp2, ArrowDown2, } from "iconsax-react";
 import { useDispatch, useSelector } from "react-redux";
 import CheckOutForm from "./UserListCheckoutForm";
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
@@ -20,7 +20,7 @@ import ErrorMessage from '../../Components/ErrorMessage';
 import { useHasPermission } from '../../Utils/Permission';
 import { useNavigate } from "react-router-dom";
 
-function CheckOut(props) {
+function CheckOut() {
 
 
  const navigate = useNavigate();
@@ -244,56 +244,33 @@ setCheckOutLoader(false)
   //   return sorted;
   // }, [currentCustomers, sortConfig]);
 
-  const currentCustomers = React.useMemo(() => {
-    const useFiltered =
-      props.search ||
-      props.filterStatus ||
-      (props.checkoutDateRange?.length === 2);
+  // const currentCustomers = React.useMemo(() => {
+  //   const useFiltered =
+  //     props.search ||
+  //     props.filterStatus ||
+  //     (props.checkoutDateRange?.length === 2);
 
-    if (useFiltered) {
-      return props.filteredUsers || [];
-    }
+  //   if (useFiltered) {
+  //     return props.filteredUsers || [];
+  //   }
 
-    return checkOutCustomer || [];
-  }, [
-    props.search,
-    props.filterStatus,
-    props.checkoutDateRange,
-    props.filteredUsers,
+  //   return checkOutCustomer || [];
+  // }, [
+  //   props.search,
+  //   props.filterStatus,
+  //   props.checkoutDateRange,
+  //   props.filteredUsers,
 
-  ]);
+  // ]);
 
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+  
+ const sortedData = React.useMemo(() => {
+    return Array.isArray(checkOutCustomer) ? checkOutCustomer : [];
+  }, [checkOutCustomer]);
 
-  const sortedData = React.useMemo(() => {
-    if (!sortConfig.key) return currentCustomers;
-
-    const sorted = [...currentCustomers].sort((a, b) => {
-      const valueA = a[sortConfig.key];
-      const valueB = b[sortConfig.key];
-
-      if (!isNaN(valueA) && !isNaN(valueB)) {
-        return sortConfig.direction === "asc"
-          ? valueA - valueB
-          : valueB - valueA;
-      }
-
-      if (typeof valueA === "string" && typeof valueB === "string") {
-        return sortConfig.direction === "asc"
-          ? valueA.localeCompare(valueB)
-          : valueB.localeCompare(valueA);
-      }
-
-      return 0;
-    });
-
-    return sorted;
-  }, [currentCustomers, sortConfig]);
-
-
-  const handleSort = (key, direction) => {
-    setSortConfig({ key, direction });
-  };
+  // const handleSort = (key, direction) => {
+  //   setSortConfig({ key, direction });
+  // };
 
   // useEffect(() => {
   //   if (props.resetPage) {
@@ -934,7 +911,7 @@ setCheckOutLoader(false)
                     
                     </div>
 
-                  ) : (!checkoutLoader && currentCustomers?.length === 0 && (
+                  ) : (!checkoutLoader && checkOutCustomer?.length === 0 && (
                     <div style={{ marginTop: 30,  }} className="animated-text">
                       <div style={{ textAlign: "center" }}>
                         {" "}

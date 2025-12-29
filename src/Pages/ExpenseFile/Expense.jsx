@@ -20,7 +20,7 @@ import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import Filters from "../../Assets/Images/Filters.svg";
 import Image from 'react-bootstrap/Image';
-import { ArrowUp2, ArrowDown2 } from 'iconsax-react';
+// import { ArrowUp2, ArrowDown2 } from 'iconsax-react';
 import { useMediaQuery, useTheme } from '@mui/material'
 import PaginationList from "../../Components/PaginationList";
 import ErrorMessage from '../../Components/ErrorMessage';
@@ -440,44 +440,11 @@ function Expenses({ allPageHostel_Id }) {
     () => filterByPriceRange(getData) || [],
     [getData]
   );
+const sortedData = React.useMemo(() => {
+    return Array.isArray(filteredData) ? filteredData : [];
+  }, [filteredData]);
 
-
-
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
-
-  const sortedData = React.useMemo(() => {
-    if (!sortConfig.key) return filteredData;
-
-    const sorted = [...filteredData].sort((a, b) => {
-      const valueA = a[sortConfig.key];
-      const valueB = b[sortConfig.key];
-
-      if (!isNaN(valueA) && !isNaN(valueB)) {
-        return sortConfig.direction === "asc"
-          ? valueA - valueB
-          : valueB - valueA;
-      }
-
-      if (typeof valueA === "string" && typeof valueB === "string") {
-        return sortConfig.direction === "asc"
-          ? valueA.localeCompare(valueB)
-          : valueB.localeCompare(valueA);
-      }
-
-      return 0;
-    });
-
-    return sorted;
-  }, [filteredData, sortConfig]);
-
-
-
-
-  const handleSort = (key, direction) => {
-    setSortConfig({ key, direction });
-  };
-
-
+  
   const handleEditExpen = (item) => {
     setShowModal(true);
     setCurrentItem(item);
@@ -537,12 +504,7 @@ function Expenses({ allPageHostel_Id }) {
     setShowFilter(false);
   };
 
-  const skeletonStyle = {
-    backgroundColor: "#dcdcdc",
-    borderRadius: "10px",
-    height: "20px",
-    marginBottom: "10px",
-  };
+  
 
   const [showFilterExpense, setShowFilterExpense] = useState(false);
 

@@ -71,7 +71,7 @@ function CreateBill() {
     const [invoicedateerrmsg, setInvoiceDateErrmsg] = useState("");
     const [invoiceduedateerrmsg, setInvoiceDueDateErrmsg] = useState("");
     const [allfielderrmsg, setAllFieldErrmsg] = useState("");
-    const [amenityArray, setamenityArray] = useState([]);
+    // const [amenityArray, setamenityArray] = useState([]);
 
     const startRef = useRef(null);
     const endRef = useRef(null);
@@ -317,7 +317,7 @@ function CreateBill() {
         setInvoiceDueDateErrmsg("");
         setAllFieldErrmsg("");
         setTableErrmsg("");
-        setamenityArray([]);
+        // setamenityArray([]);
         setNewRows([]);
         setDropdownValue("")
         if (state.UsersList.userRoomfor) {
@@ -957,26 +957,26 @@ function CreateBill() {
 
 
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        if (newRows) {
-            const allRows = newRows
-                .map((detail) => ({
-                    am_name: detail.am_name,
-                    amount: Number(detail.amount),
-                }))
-                .filter((detail) => detail.am_name && detail.amount);
+    //     if (newRows) {
+    //         const allRows = newRows
+    //             .map((detail) => ({
+    //                 am_name: detail.am_name,
+    //                 amount: Number(detail.amount),
+    //             }))
+    //             .filter((detail) => detail.am_name && detail.amount);
 
-            setamenityArray(allRows);
+    //         setamenityArray(allRows);
 
-            const Total_amout = allRows.reduce(
-                (sum, item) => sum + parseFloat(item.amount || 0),
-                0
-            );
+    //         const Total_amout = allRows.reduce(
+    //             (sum, item) => sum + parseFloat(item.amount || 0),
+    //             0
+    //         );
 
-            setTotalAmount(Total_amout);
-        }
-    }, [newRows]);
+    //         setTotalAmount(Total_amout);
+    //     }
+    // }, [newRows]);
 
 
 

@@ -4,14 +4,14 @@ import Form from "react-bootstrap/Form";
 import "../../Pages/Settings/Settings.css";
 import { useDispatch, useSelector } from "react-redux";
 // import { MdError } from "react-icons/md";
-import Logo from '../../Assets/Images/get.png'
-import Dial from '../../Assets/Images/dial.png'
-import Room from '../../Assets/Images/Car.png'
-import Locat from '../../Assets/Images/location 03.png'
-import Barcode from '../../Assets/Images/invoice_barcode.svg'
-import Gpay from '../../Assets/Images/gpay.png'
-import Phonepe from '../../Assets/Images/phonepe.png'
-import Paytm from '../../Assets/Images/paytm.png'
+// import Logo from '../../Assets/Images/get.png'
+// import Dial from '../../Assets/Images/dial.png'
+// import Room from '../../Assets/Images/Car.png'
+// import Locat from '../../Assets/Images/location 03.png'
+// import Barcode from '../../Assets/Images/invoice_barcode.svg'
+// import Gpay from '../../Assets/Images/gpay.png'
+// import Phonepe from '../../Assets/Images/phonepe.png'
+// import Paytm from '../../Assets/Images/paytm.png'
 import Questionimage from '../../Assets/Images/question.png';
 import EditICon from '../../Assets/Images/New_images/edit.png';
 import TextAreaICon from '../../Assets/Images/textarea.png'
@@ -19,23 +19,23 @@ import BankICon from '../../Assets/Images/bank_white.png'
 import "react-datepicker/dist/react-datepicker.css";
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import { CloseCircle } from "iconsax-react";
+// import { CloseCircle } from "iconsax-react";
 import "react-toastify/dist/ReactToastify.css";
 import { RgbaColorPicker } from "react-colorful";
 import uploadsett from "../../Assets/Images/New_images/upload setting.png";
-import ZoomImage from '../../Assets/Images/zoom.png'
-import Topbottom from '../../Assets/Images/cancel_presentation.png';
-import left85arrow from '../../Assets/Images/arrow85.png';
-import printdown from '../../Assets/Images/printericon.png';
-import downloadicon from '../../Assets/Images/pdfdown.png';
-import CloseIcon from '../../Assets/Images/close_icon.png';
+// import ZoomImage from '../../Assets/Images/zoom.png'
+// import Topbottom from '../../Assets/Images/cancel_presentation.png';
+// import left85arrow from '../../Assets/Images/arrow85.png';
+// import printdown from '../../Assets/Images/printericon.png';
+// import downloadicon from '../../Assets/Images/pdfdown.png';
+// import CloseIcon from '../../Assets/Images/close_icon.png';
 import PropTypes from "prop-types";
 import BankingAddForm from "../../Pages/Banking/BankingAddForm";
 import ErrorMessage from '../../Components/ErrorMessage'
 import { useHasPermission } from '../../Utils/Permission';
-import { Location, Call, Profile, } from 'iconsax-react'
-import { IoBed } from "react-icons/io5";
-import { Container, Row, Col, Table } from "react-bootstrap";
+// import { Location, Call, Profile, } from 'iconsax-react'
+// import { IoBed } from "react-icons/io5";
+// import { Container, Row, Col, Table } from "react-bootstrap";
 
 const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
 
@@ -44,31 +44,31 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
 
   const [selectedDate, setSelectedDate] = useState(null);
   const [invoicedueDate, setInvoiceDueDate] = useState('');
-  const [accountName, setAccountName] = useState("")
-  const [account_number, setAccount_Number] = useState("");
-  const [description, setDescription] = useState("");
-  const [ifsccode, setIfscCode] = useState("");
-  const [bank_name, setBankName] = useState("");
+  // const [accountName, setAccountName] = useState("")
+  // const [account_number, setAccount_Number] = useState("");
+  // const [description, setDescription] = useState("");
+  // const [ifsccode, setIfscCode] = useState("");
+  // const [bank_name, setBankName] = useState("");
   const [prefix, setPrefix] = useState("");
   const [suffix, setSuffix] = useState("");
   const [tax, setTax] = useState("");
   const [banking, setBanking] = useState([])
   const [selectedBankId, setSelectedBankId] = useState(null);
-  const [loading, setLoading] = useState(false)
+  // const [loading, setLoading] = useState(false)
   const [editErrmsg, setEditErrMessage] = useState('')
   const [formLoading, setFormLoading] = useState(false)
   const [contactnumberform, setContactNumberForm] = useState(false)
 
-  const cardRef = useRef(null);
-  const innerScrollRef = useRef(null);
+  // const cardRef = useRef(null);
+  // const innerScrollRef = useRef(null);
 
-  const [accountNameError, setaccountnameError] = useState("");
+  // const [accountNameError, setaccountnameError] = useState("");
   const [prefix_errmsg, setPrefixErrMsg] = useState('')
   const [suffix_errmsg, setSuffixErrMsg] = useState('')
   const [tax_errmsg, setTaxErrMsg] = useState('')
   const [notes_errmsg, setNotesErrMsg] = useState('')
   const [terms_errmsg, setTermsErrMsg] = useState('')
-  const [showFullView, setShowFullView] = useState(false);
+  // const [showFullView, setShowFullView] = useState(false);
 
   const [mobilenum, setMobileNum] = useState("")
   const [MobileError, setMobileError] = useState("")
@@ -93,6 +93,10 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
   const [edit, setEdit] = useState(false);
 
 
+  useEffect(()=>{
+setEdit(false)
+  },[])
+
 
   // const canUpdateInvoice = useHasPermission("Bills", "canUpdate")
 
@@ -116,7 +120,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
 
   const handleCloseForm = () => {
     setBankAccountForm(false);
-    setEdit(false);
+    // setEdit(false);
   }
 
   const handleShowContactNumberForm = () => {
@@ -215,62 +219,62 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
 
 
 
-  const handleAccountName = (e) => {
-    const value = e.target.value
-    const pattern = /^[a-zA-Z\s]*$/;
-    if (!pattern.test(value)) {
-      return;
-    }
-    setAccountName(value);
-    setaccountnameError("")
-  };
+  // const handleAccountName = (e) => {
+  //   const value = e.target.value
+  //   const pattern = /^[a-zA-Z\s]*$/;
+  //   if (!pattern.test(value)) {
+  //     return;
+  //   }
+  //   setAccountName(value);
+  //   // setaccountnameError("")
+  // };
 
 
 
-  const handleAccountNumberChange = (e) => {
-    const numericValue = e.target.value.replace(/[^0-9]/g, "");
-    setAccount_Number(numericValue);
+  // const handleAccountNumberChange = (e) => {
+  //   const numericValue = e.target.value.replace(/[^0-9]/g, "");
+  //   setAccount_Number(numericValue);
 
-  };
-
-
-  const handleIfscCodeChange = (e) => {
-    const Value = e.target.value
-    setIfscCode(Value)
+  // };
 
 
-  }
-
-  const handleBankNameChange = (e) => {
-    const Value = e.target.value
-    setBankName(Value)
+  // const handleIfscCodeChange = (e) => {
+  //   const Value = e.target.value
+  //   setIfscCode(Value)
 
 
-  }
+  // }
 
-  const handleDescription = (e) => {
-    setDescription(e.target.value);
-  };
+  // const handleBankNameChange = (e) => {
+  //   const Value = e.target.value
+  //   setBankName(Value)
 
 
-  const handleSubmitBank = () => {
+  // }
 
-    if (!accountName) {
-      setaccountnameError("Please Enter Benificiary Name");
-      return;
-    }
-    setaccountnameError("");
+  // const handleDescription = (e) => {
+  //   setDescription(e.target.value);
+  // };
 
-    if (accountName) {
-      dispatch({
-        type: "ADD_BANKING",
-        payload: {
-          type: "bank", benificiary_name: accountName, acc_no: account_number, bank_name: bank_name,
-          ifsc_code: ifsccode, desc: description, hostel_id: state.login.selectedHostel_Id
-        },
-      });
-    }
-  };
+
+  // const handleSubmitBank = () => {
+
+  //   if (!accountName) {
+  //     setaccountnameError("Please Enter Benificiary Name");
+  //     return;
+  //   }
+  //   setaccountnameError("");
+
+  //   if (accountName) {
+  //     dispatch({
+  //       type: "ADD_BANKING",
+  //       payload: {
+  //         type: "bank", benificiary_name: accountName, acc_no: account_number, bank_name: bank_name,
+  //         ifsc_code: ifsccode, desc: description, hostel_id: state.login.selectedHostel_Id
+  //       },
+  //     });
+  //   }
+  // };
 
 
   const hanldePrefix = (e) => {
@@ -418,12 +422,12 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
 
   const handleCloseBankAccount = () => {
     setBankAccountForm(false)
-    setaccountnameError("")
-    setAccountName("")
-    setAccount_Number("")
-    setIfscCode("")
-    setBankName("")
-    setDescription("")
+    // setaccountnameError("")
+    // setAccountName("")
+    // setAccount_Number("")
+    // setIfscCode("")
+    // setBankName("")
+    // setDescription("")
   }
 
 
@@ -440,11 +444,11 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForAddBanking === 200) {
-      setAccountName("")
-      setAccount_Number("")
-      setIfscCode("")
-      setBankName("")
-      setDescription("")
+      // setAccountName("")
+      // setAccount_Number("")
+      // setIfscCode("")
+      // setBankName("")
+      // setDescription("")
       handleCloseBankAccount();
 
       dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
@@ -492,13 +496,13 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
 
 
 
-  useEffect(() => {
-    if (showFullView) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
-  }, [showFullView]);
+  // useEffect(() => {
+  //   if (showFullView) {
+  //     document.body.style.overflow = 'hidden';
+  //   } else {
+  //     document.body.style.overflow = 'auto';
+  //   }
+  // }, [showFullView]);
 
 
   const [logoPreview, setLogoPreview] = useState(null);
@@ -541,57 +545,57 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
 
   const handleSaveTemplate = () => {
 
-    const currentTemplate = {
-      // hostelId: state.login.selectedHostel_Id,
-      // templateTypeId: securityDepositInvoiceTemplate.typeId,
-      // mobile: BillsTemplateList.mobile,
-      // email: BillsTemplateList.emailId,
-      // invoicePhoneNumber: mobilenum,
-      // invoiceMailId: email,
-      // isMobileCustomized: BillsTemplateList?.isMobileCustomized,
-      // isEmailCustomized: BillsTemplateList?.isMailIdCustomized,
-      // isLogoCustomized: BillsTemplateList?.isLogoCustomized,
-      // isSignatureCustomized: BillsTemplateList?.isSignatureCustomized,
-      // hostelLogo: BillsTemplateList?.logo,
-      // billSignature: BillsTemplateList?.signature,
-      // invLogo: hostel_logo,
-      // invSign: signature,
-      qrCode: qrimagepreview,
-      prefix: prefix,
-      suffix: suffix,
-      gstPercentile: tax,
-      invoiceNotes: notes,
-      invoiceTermsAndCondition: terms,
-      bankId: selectedBankId || "",
-      invoiceTemplateColor: useGradient
-        ? defaultGradient
-        : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
-    };
+    // const currentTemplate = {
+    //   // hostelId: state.login.selectedHostel_Id,
+    //   // templateTypeId: securityDepositInvoiceTemplate.typeId,
+    //   // mobile: BillsTemplateList.mobile,
+    //   // email: BillsTemplateList.emailId,
+    //   // invoicePhoneNumber: mobilenum,
+    //   // invoiceMailId: email,
+    //   // isMobileCustomized: BillsTemplateList?.isMobileCustomized,
+    //   // isEmailCustomized: BillsTemplateList?.isMailIdCustomized,
+    //   // isLogoCustomized: BillsTemplateList?.isLogoCustomized,
+    //   // isSignatureCustomized: BillsTemplateList?.isSignatureCustomized,
+    //   // hostelLogo: BillsTemplateList?.logo,
+    //   // billSignature: BillsTemplateList?.signature,
+    //   // invLogo: hostel_logo,
+    //   // invSign: signature,
+    //   qrCode: qrimagepreview,
+    //   prefix: prefix,
+    //   suffix: suffix,
+    //   gstPercentile: tax,
+    //   invoiceNotes: notes,
+    //   invoiceTermsAndCondition: terms,
+    //   bankId: selectedBankId || "",
+    //   invoiceTemplateColor: useGradient
+    //     ? defaultGradient
+    //     : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+    // };
 
-    const oldTemplate = {
-      // hostelId: state.login.selectedHostel_Id,
-      // templateTypeId: securityDepositInvoiceTemplate.typeId,
-      // mobile: BillsTemplateList.mobile,
-      // email: BillsTemplateList.emailId,
-      // invoicePhoneNumber: securityDepositInvoiceTemplate.contact_number || "",
-      // invoiceMailId: securityDepositInvoiceTemplate.email || "",
-      // isMobileCustomized: BillsTemplateList?.isMobileCustomized,
-      // isEmailCustomized: BillsTemplateList?.isMailIdCustomized,
-      // isLogoCustomized: BillsTemplateList?.isLogoCustomized,
-      // isSignatureCustomized: BillsTemplateList?.isSignatureCustomized,
-      // hostelLogo: BillsTemplateList?.logo,
-      // billSignature: BillsTemplateList?.signature,
-      // invLogo: securityDepositInvoiceTemplate.logo_url || null,
-      // invSign: securityDepositInvoiceTemplate.invoiceSignatureUrl || null,
-      qrCode: securityDepositInvoiceTemplate.qrCodeUrl || null,
-      prefix: securityDepositInvoiceTemplate.prefix || "",
-      suffix: securityDepositInvoiceTemplate.suffix || "",
-      gstPercentile: securityDepositInvoiceTemplate.gstPercentile || "",
-      invoiceNotes: securityDepositInvoiceTemplate.invoiceNotes || "",
-      invoiceTermsAndCondition: securityDepositInvoiceTemplate.invoiceTermsAndCondition || "",
-      bankId: securityDepositInvoiceTemplate.selectedBankId || "",
-      invoiceTemplateColor: securityDepositInvoiceTemplate.invoiceTemplateColor || "",
-    };
+    // const oldTemplate = {
+    //   // hostelId: state.login.selectedHostel_Id,
+    //   // templateTypeId: securityDepositInvoiceTemplate.typeId,
+    //   // mobile: BillsTemplateList.mobile,
+    //   // email: BillsTemplateList.emailId,
+    //   // invoicePhoneNumber: securityDepositInvoiceTemplate.contact_number || "",
+    //   // invoiceMailId: securityDepositInvoiceTemplate.email || "",
+    //   // isMobileCustomized: BillsTemplateList?.isMobileCustomized,
+    //   // isEmailCustomized: BillsTemplateList?.isMailIdCustomized,
+    //   // isLogoCustomized: BillsTemplateList?.isLogoCustomized,
+    //   // isSignatureCustomized: BillsTemplateList?.isSignatureCustomized,
+    //   // hostelLogo: BillsTemplateList?.logo,
+    //   // billSignature: BillsTemplateList?.signature,
+    //   // invLogo: securityDepositInvoiceTemplate.logo_url || null,
+    //   // invSign: securityDepositInvoiceTemplate.invoiceSignatureUrl || null,
+    //   qrCode: securityDepositInvoiceTemplate.qrCodeUrl || null,
+    //   prefix: securityDepositInvoiceTemplate.prefix || "",
+    //   suffix: securityDepositInvoiceTemplate.suffix || "",
+    //   gstPercentile: securityDepositInvoiceTemplate.gstPercentile || "",
+    //   invoiceNotes: securityDepositInvoiceTemplate.invoiceNotes || "",
+    //   invoiceTermsAndCondition: securityDepositInvoiceTemplate.invoiceTermsAndCondition || "",
+    //   bankId: securityDepositInvoiceTemplate.selectedBankId || "",
+    //   invoiceTemplateColor: securityDepositInvoiceTemplate.invoiceTemplateColor || "",
+    // };
 
 
 
@@ -728,7 +732,7 @@ const AdvanceCustomizeSettings = ({ BillsTemplateList, onTemplateChange }) => {
   useEffect(() => {
     if (state.Settings?.SettingsBilltemplategetErrorCode === 500) {
       setTimeout(() => {
-        setLoading(false)
+        // setLoading(false)
         dispatch({ type: "CLEAR_ERROR_TEMPLATELIST_STATUS_CODE" });
       }, 500);
     }
@@ -809,7 +813,7 @@ console.log("securityDepositInvoiceTemplate",securityDepositInvoiceTemplate)
   useEffect(() => {
     if (state.Settings.settingGlobalAddStatusCode === 200) {
       setFormLoading(false)
-      setLoading(false)
+      // setLoading(false)
       dispatch({ type: 'GET_TEMPLATE_LIST', payload: state.login.selectedHostel_Id })
 
       setTimeout(() => {
@@ -1790,8 +1794,8 @@ console.log("securityDepositInvoiceTemplate",securityDepositInvoiceTemplate)
 
         <BankingAddForm showForm={bankaccountform}
           setShowForm={handleCloseForm}
-          setEdit={setEdit}
-
+          setEdit={setEdit} 
+edit={edit}
 
         />
 
@@ -1801,6 +1805,33 @@ console.log("securityDepositInvoiceTemplate",securityDepositInvoiceTemplate)
 }
 AdvanceCustomizeSettings.propTypes = {
   hostelid: PropTypes.func.isRequired,
+   onTemplateChange: PropTypes.func.isRequired,
+  BillsTemplateList: PropTypes.shape({
+    mobile: PropTypes.string,
+    emailId: PropTypes.string,
+
+    isMobileCustomized: PropTypes.bool,
+    isMailIdCustomized: PropTypes.bool,
+    isLogoCustomized: PropTypes.bool,
+    isSignatureCustomized: PropTypes.bool,
+
+    logo: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.object,
+    ]),
+
+    signature: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.object,
+    ]),
+
+    templates: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        name: PropTypes.string,
+      })
+    ),
+  }),
 
 }
 export default AdvanceCustomizeSettings;

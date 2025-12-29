@@ -282,7 +282,7 @@ function PaginationList({
   const handleChangePage = (page) => {
     const p = Math.max(1, Math.min(page, totalPages));
     setCurrentPage(p);
-    onPageChange && onPageChange(p);
+     onPageChange?.(p);
   };
 
 
@@ -473,6 +473,7 @@ PaginationList.propTypes = {
   onPageChange: PropTypes.func,
   itemsPerPage: PropTypes.number,
   children: PropTypes.node,
+  display: PropTypes.bool
 };
 
 export default PaginationList;

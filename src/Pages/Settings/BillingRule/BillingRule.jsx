@@ -7,7 +7,7 @@ import LongStayRecurringModal from "./LongStay";
 import ShortStayRecurringModal from "./ShortStay";
 import { useDispatch, useSelector } from "react-redux";
 import { ArrowSwapHorizontal } from 'iconsax-react';
-import { FaCheck } from "react-icons/fa";
+// import { FaCheck } from "react-icons/fa";
 import { useHasPermission } from '../../../Utils/Permission';
 import Emptystate from "../../../Assets/Images/Empty-State.jpg";
 import ErrorMessage from '../../../Components/ErrorMessage';

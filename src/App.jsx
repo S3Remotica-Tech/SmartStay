@@ -93,7 +93,8 @@ function App() {
       localStorage.removeItem("lastPage");
       localStorage.removeItem("currentPage")
       // localStorage.setItem("selectedResponseHostelId", "");
-      cookies.remove('selected_hostelId', { path: '/' });
+      // cookies.remove('selected_hostelId', { path: '/' });
+      
 
     }
   }, [state.login?.isLoggedIn]);

@@ -48,13 +48,13 @@ function BedDetailsMap({ room, propsValue }) {
     const [Noticeperiod_checkout, setNoticePeriodCheckout] = useState(false)
     const [showReAssignBedForm, setShowReAssignBedForm] = useState(false);
     const [moveToNoticePeriodForm, setMoveToNoticePeriodForm] = useState(false);
-    const [customerId, setCustomerId] = useState('')
+    // const [customerId, setCustomerId] = useState('')
     const [customerDetails, setCustomerDetails] = useState('');
     const [Occubied_bed, setOccubiedBed] = useState(false)
     const [Noticeperiod_bed, setNoticePeriodBed] = useState(false)
     const [deleteBedDetails, setDeleteBedDetails] = useState({ bed: null, room: null })
     const [customer, setCustomer] = useState([])
-    const [customerID, setCustomerID] = useState('')
+    // const [customerID, setCustomerID] = useState('')
     const [add_customerform, setAddCustomerForm] = useState(false)
     const [assign_tenantform, setAssignTenantForm] = useState(false)
     const [showDeleteBed, setShowDeleteBed] = useState(false)

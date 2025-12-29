@@ -2,7 +2,7 @@ import React from "react";
 import { PiWarningCircle } from "react-icons/pi";
 import { IoIosCheckmark } from "react-icons/io";
 import { MdWarningAmber } from "react-icons/md";
-
+import PropTypes from "prop-types";
 const Message = ({ message, type = "error" }) => {
   if (!message || (Array.isArray(message) && message.length === 0)) return null;
 
@@ -70,5 +70,13 @@ const Message = ({ message, type = "error" }) => {
     </div>
   );
 };
+Message.propTypes = {
+  message: PropTypes.oneOfType([
+  PropTypes.string,
+  PropTypes.array,
+  PropTypes.node,
+]),
 
+  type: PropTypes.string,
+};
 export default Message;

@@ -6,14 +6,14 @@ import Modal from "react-bootstrap/Modal";
 import { Button, Form } from "react-bootstrap";
 import PropTypes from "prop-types";
 // import { FaCheck } from "react-icons/fa";
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 import { useHasPermission } from '../../Utils/Permission';
 
 
 
 const RecurringBillList = (props) => {
-  const state = useSelector((state) => state);
-  const [recurringBillDeletePermission, setRecurringBillDeletePermission] = useState("")
+  // const state = useSelector((state) => state);
+  // const [recurringBillDeletePermission, setRecurringBillDeletePermission] = useState("")
   const [deleteShow, setDeleteShow] = useState(false)
   // const dispatch = useDispatch()
 
@@ -30,37 +30,37 @@ const RecurringBillList = (props) => {
 
 
 
-  useEffect(() => {
-    const userType = props.billrolePermission[0]?.user_details?.user_type;
-    const isAdmin = userType === "admin" || userType === "agent";
-    if (isAdmin) {
-      if (state?.login?.planStatus === 0) {
-        setRecurringBillDeletePermission("Permission Denied");
-      } else if (state?.login?.planStatus === 1) {
-        setRecurringBillDeletePermission("");
-      }
-    }
+  // useEffect(() => {
+  //   const userType = props.billrolePermission[0]?.user_details?.user_type;
+  //   const isAdmin = userType === "admin" || userType === "agent";
+  //   if (isAdmin) {
+  //     if (state?.login?.planStatus === 0) {
+  //       setRecurringBillDeletePermission("Permission Denied");
+  //     } else if (state?.login?.planStatus === 1) {
+  //       setRecurringBillDeletePermission("");
+  //     }
+  //   }
 
-  }, [state?.login?.planStatus, state.login?.selectedHostel_Id, props.billrolePermission])
+  // }, [state?.login?.planStatus, state.login?.selectedHostel_Id, props.billrolePermission])
 
 
 
-  useEffect(() => {
-    const billPermission = props.billrolePermission[0]?.role_permissions?.find(
-      (perm) => perm.permission_name === "Recuring Bills"
-    );
+  // useEffect(() => {
+  //   const billPermission = props.billrolePermission[0]?.role_permissions?.find(
+  //     (perm) => perm.permission_name === "Recuring Bills"
+  //   );
 
-    const isOwner = props.billrolePermission[0]?.user_details?.user_type === "staff";
-    const planActive = state?.login?.planStatus === 1;
+  //   const isOwner = props.billrolePermission[0]?.user_details?.user_type === "staff";
+  //   const planActive = state?.login?.planStatus === 1;
 
-    if (!billPermission || !isOwner) return;
+  //   if (!billPermission || !isOwner) return;
 
-    if (billPermission.per_delete === 1 && planActive) {
-      setRecurringBillDeletePermission("");
-    } else {
-      setRecurringBillDeletePermission("Permission Denied");
-    }
-  }, [props.billrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
+  //   if (billPermission.per_delete === 1 && planActive) {
+  //     setRecurringBillDeletePermission("");
+  //   } else {
+  //     setRecurringBillDeletePermission("Permission Denied");
+  //   }
+  // }, [props.billrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
 
 
 
@@ -197,7 +197,7 @@ const RecurringBillList = (props) => {
                     width: "100%", borderRadius: 10,
                   }}>
                     <div
-                      className={`d-flex justify-content-start align-items-center gap-2 ${recurringBillDeletePermission ? "disabled" : ""
+                      className={`d-flex justify-content-start align-items-center gap-2 ${canDeleteRecurring ? "disabled" : ""
                         }`}
                       style={{
                         cursor: !canDeleteRecurring ? "not-allowed" : "pointer",

@@ -12,11 +12,11 @@ import UserListRoomDetail from "./UserListRoomDetail";
 import Modal from "react-bootstrap/Modal";
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import closecircle from "../../Assets/Images/New_images/close-circle.png";
-import Box from "@mui/material/Box";
-import TabList from "@mui/lab/TabList";
+// import Box from "@mui/material/Box";
+// import TabList from "@mui/lab/TabList";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 import CustomerReAssign from "./CustomerReAssign";
-import { ArrowUp2, ArrowDown2, Trash } from "iconsax-react";
+import { Trash } from "iconsax-react";
 import Profile from "../../Assets/Images/New_images/profile-picture.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import TabPanel from "@mui/lab/TabPanel";
@@ -47,7 +47,7 @@ import isBetween from "dayjs/plugin/isBetween";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import leftarrow from "../../Assets/Images/arrow-left.png";
-import { Routes, Route, Outlet, Navigate } from "react-router-dom";
+// import { Routes, Route, Outlet, Navigate } from "react-router-dom";
 import Addbook from "../../Assets/Images/New_images/calendar-tick.svg";
 import logout from "../../Assets/Images/New_images/logout.png";
 import DueCustomerConfirmCheckout from "./DueCustomerConfirmCheckout";
@@ -79,18 +79,18 @@ function UserList(props) {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [value, setValue] = React.useState("1");
-  const [customerrolePermission, setCustomerRolePermission] = useState("");
-  const [customerpermissionError, setCustomerPermissionError] = useState("");
-  const [customerAddPermission, setCustomerAddPermission] = useState("");
-  const [customerDeletePermission, setCustomerDeletePermission] =
-    useState("");
-  const [customerEditPermission, setCustomerEditPermission] = useState("");
-  const [customerBookingAddPermission, setCustomerBookingAddPermission] =
-    useState("");
-  const [customerWalkInAddPermission, setCustomerWalkInAddPermission] =
-    useState("");
-  const [customerCheckoutPermission, setCustomerCheckoutAddPermission] =
-    useState("");
+  // const [customerrolePermission, setCustomerRolePermission] = useState("");
+  // const [customerpermissionError, setCustomerPermissionError] = useState("");
+  // const [customerAddPermission, setCustomerAddPermission] = useState("");
+  // const [customerDeletePermission, setCustomerDeletePermission] =
+  //   useState("");
+  // const [customerEditPermission, setCustomerEditPermission] = useState("");
+  // const [customerBookingAddPermission, setCustomerBookingAddPermission] =
+    // useState("");
+  // const [customerWalkInAddPermission, setCustomerWalkInAddPermission] =
+    // useState("");
+  // const [customerCheckoutPermission, setCustomerCheckoutAddPermission] =
+    // useState("");
   const [excelDownload, setExcelDownload] = useState("");
   const [excelDownloadBooking, setExcelDownloadBooking] = useState("");
   const [excelDownloadChecout, setExcelDownloadCheckout] = useState("");
@@ -116,7 +116,7 @@ function UserList(props) {
   const [invoiceduedateerrmsg, setInvoiceDueDateErrmsg] = useState("");
   const [allfielderrmsg, setAllFieldErrmsg] = useState("");
   const [isEditing, setIsEditing] = useState(false);
-  const [currentView, setCurrentView] = useState(false);
+  // const [currentView, setCurrentView] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteId, setDeleteId] = useState("");
   const [deleteDetails, setDeleteDetails] = useState({ room: null, bed: null });
@@ -139,7 +139,7 @@ function UserList(props) {
 
   const [hostelDelete, setHostelDelete] = useState(false);
   const [roomDelete, setRoomDelete] = useState(false);
-  const [amenityArray, setamenityArray] = useState([]);
+  // const [amenityArray, setamenityArray] = useState([]);
   const [formatinvoicedate, setFormatInvoiceDate] = useState(null);
   const [formatduedate, setFormatDueDate] = useState(null);
   const [id, setId] = useState("");
@@ -330,7 +330,7 @@ function UserList(props) {
     state.InvoiceList.Manulainvoicenumberstatuscode,
   ]);
 
-  const handleEditItem = (details) => {
+  const handleEditItem = () => {
     setBillsAddShow(true);
     // setCurrentView(null);
     setCustomerName(id);
@@ -340,11 +340,11 @@ function UserList(props) {
 
   };
 
-  useEffect(() => {
-    if (isAddMode && !currentView && !billsAddshow) {
-      setCustomerName(id);
-    }
-  }, [isAddMode, billsAddshow]);
+  // useEffect(() => {
+  //   if (isAddMode && !currentView && !billsAddshow) {
+  //     setCustomerName(id);
+  //   }
+  // }, [isAddMode, billsAddshow]);
   const handleAddItems = () => {
     setIsAddMode(true);
     setBillsAddShow(true);
@@ -495,72 +495,72 @@ function UserList(props) {
       isValid = false;
     }
 
-    const formatDateToInvoicedate = (invoicedate) => {
-      if (!invoicedate) return "";
-      const d = new Date(invoicedate);
-      return (
-        d.getFullYear() +
-        "-" +
-        String(d.getMonth() + 1).padStart(2, "0") +
-        "-" +
-        String(d.getDate()).padStart(2, "0")
-      );
-    };
+    // const formatDateToInvoicedate = (invoicedate) => {
+    //   if (!invoicedate) return "";
+    //   const d = new Date(invoicedate);
+    //   return (
+    //     d.getFullYear() +
+    //     "-" +
+    //     String(d.getMonth() + 1).padStart(2, "0") +
+    //     "-" +
+    //     String(d.getDate()).padStart(2, "0")
+    //   );
+    // };
 
-    const formatDateToSInvoiceDuedate = (invoiceduedate) => {
-      if (!invoiceduedate) return "";
-      const d = new Date(invoiceduedate);
-      return (
-        d.getFullYear() +
-        "-" +
-        String(d.getMonth() + 1).padStart(2, "0") +
-        "-" +
-        String(d.getDate()).padStart(2, "0")
-      );
-    };
+    // const formatDateToSInvoiceDuedate = (invoiceduedate) => {
+    //   if (!invoiceduedate) return "";
+    //   const d = new Date(invoiceduedate);
+    //   return (
+    //     d.getFullYear() +
+    //     "-" +
+    //     String(d.getMonth() + 1).padStart(2, "0") +
+    //     "-" +
+    //     String(d.getDate()).padStart(2, "0")
+    //   );
+    // };
 
-    const isChanged = (() => {
-      const userChanged =
-        Number(currentView.hos_user_id) !== Number(customername);
+    // const isChanged = (() => {
+    //   const userChanged =
+    //     Number(currentView.hos_user_id) !== Number(customername);
 
-      const invoiceChanged =
-        String(currentView.Invoices) !== String(invoicenumber);
+    //   // const invoiceChanged =
+    //   //   String(currentView.Invoices) !== String(invoicenumber);
 
-      const invoiceDateChanged =
-        formatDateToInvoicedate(currentView.Date) !==
-        formatDateToInvoicedate(invoicedate);
-      const dueDateChanged =
-        formatDateToSInvoiceDuedate(currentView.DueDate) !==
-        formatDateToSInvoiceDuedate(invoiceduedate);
+    //   const invoiceDateChanged =
+    //     formatDateToInvoicedate(currentView.Date) !==
+    //     formatDateToInvoicedate(invoicedate);
+    //   const dueDateChanged =
+    //     formatDateToSInvoiceDuedate(currentView.DueDate) !==
+    //     formatDateToSInvoiceDuedate(invoiceduedate);
 
-      const amenitiesChanged =
-        newRows?.length !== currentView.amenity?.length ||
-        newRows.some((row, index) => {
-          const originalRow = currentView.amenity?.[index] || {};
-          return (
-            row.am_name !== originalRow.am_name ||
-            row.amount !== originalRow.amount
-          );
-        });
-
-
+    //   const amenitiesChanged =
+    //     newRows?.length !== currentView.amenity?.length ||
+    //     newRows.some((row, index) => {
+    //       const originalRow = currentView.amenity?.[index] || {};
+    //       return (
+    //         row.am_name !== originalRow.am_name ||
+    //         row.amount !== originalRow.amount
+    //       );
+    //     });
 
 
-      return (
-        userChanged ||
-        // invoiceChanged ||
-        invoiceDateChanged ||
-        dueDateChanged ||
-        amenitiesChanged
-      );
-    })();
 
-    if (!isChanged) {
-      setAllFieldErrmsg("No Changes Detected");
-      isValid = false;
-    }
 
-    if (isValid && isChanged) {
+    //   return (
+    //     userChanged ||
+    //     // invoiceChanged ||
+    //     invoiceDateChanged ||
+    //     dueDateChanged ||
+    //     amenitiesChanged
+    //   );
+    // })();
+
+    // if (!isChanged) {
+    //   setAllFieldErrmsg("No Changes Detected");
+    //   isValid = false;
+    // }
+
+    if (isValid ) {
       const dueDateObject = new Date(invoiceduedate);
       const formatduedate = `${dueDateObject.getFullYear()}-${String(
         dueDateObject.getMonth() + 1
@@ -580,7 +580,7 @@ function UserList(props) {
           user_id: customername,
           date: formattedDate,
           due_date: formatduedate,
-          id: currentView.id,
+          // id: currentView.id,
           amenity: newRows,
         },
       });
@@ -748,9 +748,9 @@ function UserList(props) {
     setTotalAmount("");
   };
 
-  const formatDateForPayloadmanualinvoice = (date) => {
-    return dayjs(date).format("YYYY-MM-DD");
-  };
+  // const formatDateForPayloadmanualinvoice = (date) => {
+  //   return dayjs(date).format("YYYY-MM-DD");
+  // };
 
   const handleInvoiceDate = (selectedDates) => {
     setAllFieldErrmsg("");
@@ -852,41 +852,41 @@ function UserList(props) {
 
 
 
-  useEffect(() => {
-    if (currentView && billsAddshow) {
-      setCustomerName(currentView.hos_user_id);
-      setInvoiceNumber(currentView.Invoices);
-      if (currentView.DueDate) {
-        const parsedDate = new Date(currentView.DueDate);
-        if (!isNaN(parsedDate.getTime())) {
-          setInvoiceDueDate(parsedDate);
-        }
-      }
+  // useEffect(() => {
+  //   if (currentView && billsAddshow) {
+  //     setCustomerName(currentView.hos_user_id);
+  //     setInvoiceNumber(currentView.Invoices);
+  //     if (currentView.DueDate) {
+  //       const parsedDate = new Date(currentView.DueDate);
+  //       if (!isNaN(parsedDate.getTime())) {
+  //         setInvoiceDueDate(parsedDate);
+  //       }
+  //     }
 
-      if (currentView.Date) {
-        const parsedDate = new Date(currentView.Date);
-        if (!isNaN(parsedDate.getTime())) {
-          setInvoiceDate(parsedDate);
-        }
-      }
+  //     if (currentView.Date) {
+  //       const parsedDate = new Date(currentView.Date);
+  //       if (!isNaN(parsedDate.getTime())) {
+  //         setInvoiceDate(parsedDate);
+  //       }
+  //     }
 
-      setTotalAmount(currentView.Amount);
+  //     setTotalAmount(currentView.Amount);
 
 
-      if (currentView.amenity && Array.isArray(currentView.amenity)) {
-        setNewRows(currentView.amenity);
+  //     if (currentView.amenity && Array.isArray(currentView.amenity)) {
+  //       setNewRows(currentView.amenity);
 
-        const types = [];
-        currentView.amenity.forEach((item) => {
-          const name = item.am_name?.toLowerCase().replace(/\s/g, "");
-          if (name === "roomrent") types.push("RoomRent");
-          if (name === "eb") types.push("EB");
-        });
+  //       const types = [];
+  //       currentView.amenity.forEach((item) => {
+  //         const name = item.am_name?.toLowerCase().replace(/\s/g, "");
+  //         if (name === "roomrent") types.push("RoomRent");
+  //         if (name === "eb") types.push("EB");
+  //       });
 
-        setSelectedTypes(types);
-      }
-    }
-  }, [currentView]);
+  //       setSelectedTypes(types);
+  //     }
+  //   }
+  // }, [currentView]);
 
   useEffect(() => {
     if (state.UsersList?.CustomerdetailsgetStatuscode === 200) {
@@ -897,25 +897,25 @@ function UserList(props) {
     }
   }, [state.UsersList?.CustomerdetailsgetStatuscode])
 
-  useEffect(() => {
-    if (newRows) {
-      const allRows = newRows
-        .map((detail) => ({
-          am_name: detail.am_name,
-          amount: Number(detail.amount),
-        }))
-        .filter((detail) => detail.am_name && detail.amount);
+  // useEffect(() => {
+  //   if (newRows) {
+  //     const allRows = newRows
+  //       .map((detail) => ({
+  //         am_name: detail.am_name,
+  //         amount: Number(detail.amount),
+  //       }))
+  //       .filter((detail) => detail.am_name && detail.amount);
 
-      setamenityArray(allRows);
+  //     setamenityArray(allRows);
 
-      const Total_amout = allRows.reduce(
-        (sum, item) => sum + parseFloat(item.amount || 0),
-        0
-      );
+  //     const Total_amout = allRows.reduce(
+  //       (sum, item) => sum + parseFloat(item.amount || 0),
+  //       0
+  //     );
 
-      setTotalAmount(Total_amout);
-    }
-  }, [newRows]);
+  //     setTotalAmount(Total_amout);
+  //   }
+  // }, [newRows]);
 
   useEffect(() => {
     if (isReading) {
@@ -1129,143 +1129,6 @@ function UserList(props) {
     setCustomerCheckoutData(item);
   };
 
-  useEffect(() => {
-    setCustomerRolePermission(state.createAccount.accountList);
-  }, [state.createAccount.accountList]);
-
-
-  useEffect(() => {
-    const userType = customerrolePermission[0]?.user_details?.user_type;
-    const isAdmin = userType === "admin" || userType === "agent";
-    if (isAdmin) {
-      if (state?.login?.planStatus === 0) {
-        setCustomerPermissionError("");
-        setCustomerAddPermission("Permission Denied");
-        setCustomerEditPermission("Permission Denied");
-        setCustomerDeletePermission("Permission Denied");
-        setCustomerBookingAddPermission("Permission Denied")
-        setCustomerCheckoutAddPermission("Permission Denied")
-        setCustomerWalkInAddPermission("Permission Denied")
-
-      } else if (state?.login?.planStatus === 1) {
-        setCustomerPermissionError("");
-        setCustomerAddPermission("");
-        setCustomerEditPermission("");
-        setCustomerDeletePermission("");
-        setCustomerBookingAddPermission("")
-        setCustomerCheckoutAddPermission("")
-        setCustomerWalkInAddPermission("")
-      }
-    }
-
-  }, [state?.login?.planStatus, state?.login?.selectedHostel_Id, customerrolePermission, value])
-
-
-
-  useEffect(() => {
-    const CustomerPermission = customerrolePermission[0]?.role_permissions?.find(
-      (perm) => perm.permission_name === "Customers"
-    );
-
-    const isOwner = customerrolePermission[0]?.user_details?.user_type === "staff";
-    const planActive = state?.login?.planStatus === 1;
-
-    if (!CustomerPermission || !isOwner) return;
-
-
-    if (CustomerPermission.per_view === 1 && planActive) {
-      setCustomerPermissionError("");
-    } else {
-      setCustomerPermissionError("Permission Denied");
-    }
-
-
-    if (CustomerPermission.per_create === 1 && planActive) {
-      setCustomerAddPermission("");
-    } else {
-      setCustomerAddPermission("Permission Denied");
-    }
-
-
-    if (CustomerPermission.per_edit === 1 && planActive) {
-      setCustomerEditPermission("");
-    } else {
-      setCustomerEditPermission("Permission Denied");
-    }
-
-    if (CustomerPermission.per_delete === 1 && planActive) {
-      setCustomerDeletePermission("");
-    } else {
-      setCustomerDeletePermission("Permission Denied");
-    }
-  }, [customerrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
-
-
-  useEffect(() => {
-    const CustomerPermission = customerrolePermission[0]?.role_permissions?.find(
-      (perm) => perm.permission_name === "Bookings"
-    );
-
-    const isOwner = customerrolePermission[0]?.user_details?.user_type === "staff";
-    const planActive = state?.login?.planStatus === 1;
-
-    if (!CustomerPermission || !isOwner) return;
-
-
-    if (CustomerPermission.per_create === 1 && planActive) {
-      setCustomerBookingAddPermission("");
-    } else {
-      setCustomerBookingAddPermission("Permission Denied");
-    }
-
-
-
-
-
-  }, [customerrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id, value]);
-
-
-
-  useEffect(() => {
-    const CustomerPermission = customerrolePermission[0]?.role_permissions?.find(
-      (perm) => perm.permission_name === "Walk In"
-    );
-
-    const isOwner = customerrolePermission[0]?.user_details?.user_type === "staff";
-    const planActive = state?.login?.planStatus === 1;
-
-    if (!CustomerPermission || !isOwner) return;
-
-
-    if (CustomerPermission.per_create === 1 && planActive) {
-      setCustomerWalkInAddPermission("");
-    } else {
-      setCustomerWalkInAddPermission("Permission Denied");
-    }
-
-
-
-
-
-  }, [customerrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id, value]);
-
-  useEffect(() => {
-    const CustomerPermission = customerrolePermission[0]?.role_permissions?.find(
-      (perm) => perm.permission_name === "Check out"
-    );
-
-    const isOwner = customerrolePermission[0]?.user_details?.user_type === "staff";
-    const planActive = state?.login?.planStatus === 1;
-
-    if (!CustomerPermission || !isOwner) return;
-
-
-    if (CustomerPermission.per_create === 1 && planActive) {
-      setCustomerCheckoutAddPermission("");
-    } else {
-      setCustomerCheckoutAddPermission("Permission Denied");
-    }
-  }, [customerrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id, value]);
 
   const [checkOutCustomer, setCheckOutCustomer] = useState([]);
 
@@ -1562,43 +1425,34 @@ function UserList(props) {
   const [search, setSearch] = useState(false);
 
 
-  const currentItems = React.useMemo(() => {
-    return (search || filterStatus) ? filteredUsers : userListDetail;
-  }, [search, filterStatus, filteredUsers, userListDetail]);
-
-
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
-
-
-
-
   const sortedData = React.useMemo(() => {
-    if (!sortConfig.key) return currentItems;
-
-    return [...currentItems].sort((a, b) => {
-      const valueA = a[sortConfig.key];
-      const valueB = b[sortConfig.key];
-
-      if (!isNaN(valueA) && !isNaN(valueB)) {
-        return sortConfig.direction === "asc" ? valueA - valueB : valueB - valueA;
-      }
-
-      if (typeof valueA === "string" && typeof valueB === "string") {
-        return sortConfig.direction === "asc"
-          ? valueA.localeCompare(valueB)
-          : valueB.localeCompare(valueA);
-      }
-
-      return 0;
-    });
-  }, [currentItems, sortConfig]);
+  const items = (search || filterStatus) ? filteredUsers : userListDetail;
+  return Array.isArray(items) ? items : [];
+}, [search, filterStatus, filteredUsers, userListDetail]);
 
 
 
 
+  // const sortedData = React.useMemo(() => {
+  //   if (!sortConfig.key) return currentItems;
 
+  //   return [...currentItems].sort((a, b) => {
+  //     const valueA = a[sortConfig.key];
+  //     const valueB = b[sortConfig.key];
 
+  //     if (!isNaN(valueA) && !isNaN(valueB)) {
+  //       return sortConfig.direction === "asc" ? valueA - valueB : valueB - valueA;
+  //     }
 
+  //     if (typeof valueA === "string" && typeof valueB === "string") {
+  //       return sortConfig.direction === "asc"
+  //         ? valueA.localeCompare(valueB)
+  //         : valueB.localeCompare(valueA);
+  //     }
+
+  //     return 0;
+  //   });
+  // }, [currentItems, sortConfig]);
 
 
   // const handleSort = (key, direction) => {
@@ -2105,21 +1959,25 @@ function UserList(props) {
   };
 
   const [walkInForm, setWalkinForm] = useState(false);
-  const walkinForm = () => {
-    if (!state.login.selectedHostel_Id) {
-      toast.error("Please add a hostel before adding walking information.", {
-        hideProgressBar: true,
-        autoClose: 1500,
-        style: {
-          color: "#000",
-          borderBottom: "5px solid red",
-          fontFamily: "Gilroy",
-        },
-      });
-      return;
-    }
-    setWalkinForm(true);
-  };
+  // const walkinForm = () => {
+  //   if (!state.login.selectedHostel_Id) {
+  //     toast.error("Please add a hostel before adding walking information.", {
+  //       hideProgressBar: true,
+  //       autoClose: 1500,
+  //       style: {
+  //         color: "#000",
+  //         borderBottom: "5px solid red",
+  //         fontFamily: "Gilroy",
+  //       },
+  //     });
+  //     return;
+  //   }
+  //   setWalkinForm(true);
+  // };
+ 
+  
+  
+  
   const walkinFormcloseModal = () => {
     setWalkinForm(false);
   };
@@ -2625,7 +2483,7 @@ function UserList(props) {
       <UserlistWalkinForm
         show={walkInForm}
         handleClose={walkinFormcloseModal}
-        customerrolePermission={customerrolePermission}
+        // customerrolePermission={customerrolePermission}
         uniqueostel_Id={uniqueostel_Id}
         setUniqostel_Id={setUniqostel_Id}
       />
@@ -2973,7 +2831,7 @@ function UserList(props) {
                       + Tenant
                     </Button>
                   )} */}
-                  {value === "2" && (
+                  {/* {value === "2" && (
                     <Button
                       disabled={customerBookingAddPermission}
                       onClick={toggleForm}
@@ -2981,7 +2839,7 @@ function UserList(props) {
                     >
                       + Bookings
                     </Button>
-                  )}
+                  )} */}
                   {/* {value === "3" && (
                     <Button
                       disabled={customerCheckoutPermission}
@@ -3198,7 +3056,7 @@ function UserList(props) {
                     />
                     <ErrorMessage message={['You do not have access to view Tenant']} type="warning" />
                   </div>
-                ) : !loading && Array.isArray(currentItems) && currentItems.length === 0 ? (
+                ) : !loading && Array.isArray(sortedData) && sortedData.length === 0 ? (
                   <div style={{ marginTop: 30, height: "auto" }} className="animated-text">
                     <div style={{ textAlign: "center" }}>
                       <img src={Emptystate} alt="emptystate" />
@@ -4492,11 +4350,11 @@ function UserList(props) {
                   id={props.id}
                   setFilteredUsers={setFilteredUsers}
                   filteredUsers={filteredUsers}
-                  currentItems={currentItems}
+                  currentItems={sortedData}
                   showbookingForm={showbookingForm}
                   toggleForm={toggleForm}
-                  customerBookingAddPermission={customerBookingAddPermission}
-                  customerrolePermission={customerrolePermission}
+                  // customerBookingAddPermission={customerBookingAddPermission}
+                  // customerrolePermission={customerrolePermission}
                   uniqueostel_Id={uniqueostel_Id}
                   setUniqostel_Id={setUniqostel_Id}
                   filterInput={filterInput}
@@ -4518,8 +4376,8 @@ function UserList(props) {
 
                 <UserlistCheckout
                   id={props.id}
-                  customerrolePermission={customerrolePermission}
-                  customerCheckoutPermission={customerCheckoutPermission}
+                  // customerrolePermission={customerrolePermission}
+                  // customerCheckoutPermission={customerCheckoutPermission}
                   uniqueostel_Id={uniqueostel_Id}
                   setUniqostel_Id={setUniqostel_Id}
                   filteredUsers={filteredUsers}
@@ -4536,8 +4394,8 @@ function UserList(props) {
               <TabPanel value="4">
                 <UserlistWalkin
                   id={props.id}
-                  customerrolePermission={customerrolePermission}
-                  customerWalkInAddPermission={customerWalkInAddPermission}
+                  // customerrolePermission={customerrolePermission}
+                  // customerWalkInAddPermission={customerWalkInAddPermission}
                   uniqueostel_Id={uniqueostel_Id}
                   setUniqostel_Id={setUniqostel_Id}
                   filteredUsers={filteredUsers}
@@ -4715,9 +4573,9 @@ function UserList(props) {
           customerUser_Id={customerUser_Id}
           hostelIds={hostelIds}
           handleAdhaarChange={handleAdhaarChange}
-          customerEditPermission={customerEditPermission}
-          customerAddPermission={customerAddPermission}
-          customerDeletePermission={customerDeletePermission}
+          // customerEditPermission={customerEditPermission}
+          // customerAddPermission={customerAddPermission}
+          // customerDeletePermission={customerDeletePermission}
           uniqueostel_Id={uniqueostel_Id}
           setUniqostel_Id={setUniqostel_Id}
         />
