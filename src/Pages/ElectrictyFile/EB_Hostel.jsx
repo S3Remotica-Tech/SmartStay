@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
-// import LoaderComponent from "../LoaderComponent";
+import React, { useEffect, useState, useRef } from "react";
 import { Table } from "react-bootstrap";
 import { Offcanvas, Button, Form, } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -9,17 +8,11 @@ import searchteam from "../../Assets/Images/New_images/Search Team.png";
 import arrowSwap from "../../Assets/Images/New_images/arrow-swap.svg";
 import Group from "../../Assets/Images/New_images/Group.svg";
 import { CloseCircle, ArrowUp2, ArrowDown2 } from "iconsax-react";
-// import electricity from "../../Assets/Images/New_images/electricity.svg";
-// import building from '/src/Assets/Images/New_images/building1.svg';
 import PaginationList from "../../Components/PaginationList";
 import EB_RoomOverview from "./EB_RoomOverview";
 import Ellipse1 from "../../Assets/Images/Profile.jpg";
 import emptyimg from "../../Assets/Images/New_images/empty_image.png";
 import EB_TenantOverview from "./EB_TenantOverview";
-//  import WhiteCalender from "../../Assets/Images/New_images/ClipPathGroup.svg";
-// import { DatePicker } from 'antd';
-// import dayjs from 'dayjs';
-// import { MdError } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import AddRoomReading from "./AddRoomReading";
 import { useHasPermission } from '../../Utils/Permission';
@@ -27,8 +20,10 @@ import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import ErrorMessage from '../../Components/ErrorMessage';
 import Select from "react-select";
 import AddHostelReading from "./AddHostelReading";
-// import WhiteCalender from  "../../../Assets/Images/New_images/ClipPathGroup.svg";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
+import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+import Edit from '../../Assets/Images/Edit-blue.png';
+import Delete from '../../Assets/Images/Delete_red.png';
 
 const RoomReadingTable = () => {
   const state = useSelector((state) => state);
@@ -44,8 +39,8 @@ const RoomReadingTable = () => {
   const {
     canWriteModule: canWriteElectricity,
     canReadModule: canReadElectricity,
-    // canUpdateModule: canUpdateElectricity,
-    // canDeleteModule: canDeleteElectricity,
+    canUpdateModule: canUpdateElectricity,
+    canDeleteModule: canDeleteElectricity,
   } = useHasPermission("Electricity");
 
 
@@ -68,10 +63,24 @@ const RoomReadingTable = () => {
   const [roomReadingList, setRoomReadingList] = useState([])
   const [customerReadingList, setCustomerReadingList] = useState([])
   const [showHostelModal, setShowHostelModal] = useState(false)
-
+const [showDots, setShowDots] = useState('')
+  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [filters, setFilters] = useState([]);
+ const [showAbove, setShowAbove] = useState(false);
 
+ const popupRef = useRef(null);
+  const handleClickOutside = (event) => {
+    if (popupRef.current && !popupRef.current.contains(event.target)) {
+      setShowDots(false);
+    }
+  };
 
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
 
   useEffect(() => {
@@ -201,7 +210,15 @@ const RoomReadingTable = () => {
 
 
 
+const handleShowDotsHostelReading = (row, index) =>{
+  setShowDots(index)
 
+    const { top, left, height } = event.target.getBoundingClientRect();
+    const popupTop = top + (height / 2);
+    const popupLeft = left - 200;
+
+    setPopupPosition({ top: popupTop, left: popupLeft });
+}
 
 
 
@@ -340,7 +357,7 @@ const RoomReadingTable = () => {
 
 
       {!roomDetail && !tenantsDetail ? (
-        <div className="sticky-top bg-white" style={{  fontFamily: "Gilroy" }}>
+        <div className="sticky-top bg-white" style={{ fontFamily: "Gilroy" }}>
           <div className="mb-3">
             <label
               style={{
@@ -817,142 +834,355 @@ const RoomReadingTable = () => {
 
 
                   <>
-                    {/* {isEbBased && ( */}
+                    {
+                      isEbBased ?
 
-                    {roomReadingList?.length === 0 && !loading ? (
-                      <div style={{ textAlign: "center", marginTop: 40 }}>
-                        <img src={emptyimg} width={240} height={240} alt="emptystate" />
-                        <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "rgba(75, 75, 75, 1)" }}>
-                          No Room Reading
-                        </div>
-                        <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 14, color: "rgba(75, 75, 75, 1)" }}>
-                          There are no Room Reading available.
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="table-responsive show-scrolls"
+                        roomReadingList?.length === 0 && !loading ? (
+                          <div style={{ textAlign: "center", marginTop: 40 }}>
+                            <img src={emptyimg} width={240} height={240} alt="emptystate" />
+                            <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "rgba(75, 75, 75, 1)" }}>
+                              No Hostel Reading
+                            </div>
+                            <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 14, color: "rgba(75, 75, 75, 1)" }}>
+                              There are no Hostel Reading available.
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="table-responsive show-scrolls"
+                            style={{
+                              background: "#fff",
+                              borderRadius: 12,
+                              boxShadow: "0px 4px 8px rgba(0,0,0,0.05)",
+                              maxHeight: "460px",
+                              overflowY: "auto",
+                              position: "relative"
+                            }}
+                          >
+                            <Table bordered={false} className="align-middle mb-0">
+                              <thead
+                                style={{
+                                  backgroundColor: "rgba(231, 241, 255, 1)",
+                                  position: "sticky",
+                                  top: 0,
+                                  zIndex: 2,
+                                }}
+                              >
+                                <tr className="text-uppercase" style={{ textAlign: "" }}>
+                                  <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
+                                    PAYING GUEST NAME 
+                                  </th>
+                                  
+                                  <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>DATE</th>
+                                  <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
+                                    READING 
+                                  </th>
+                                  
+                                  
+                                  <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>UNIT</th>
+                                  <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>AMOUNT</th>
+                                  <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>ACTION</th>
+                                </tr>
+                              </thead>
+                              <tbody style={{ fontSize: 14, color: "#000" }}>
+                                <PaginationList>
+                                  {formattedRoomReadings?.map((row, i) => (
+                                    <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "", textAlign: "" }}>
+                                      <td style={{ fontSize: 15, fontWeight: 600, textAlign: "", }}>{row?.floorName}</td>
+                                      <td
+                                        style={{ textAlign: "", color: canReadElectricity ? "#1E45E1" : "#DBDBDB", cursor: "pointer", fontWeight: 600, }}
+                                        onClick={() => canReadElectricity && handleRoomDetailsPage(row)}
+                                      >
+                                        {row?.roomName}
+                                      </td>
+                                      <td style={{}} >{row?.noOfTenants}</td>
+                                      <td style={{ paddingLeft: "", }}>
+                                        {row.billingMonth || "N/A"}
+                                      </td>
+
+                                      <td style={{}}>{row?.from || "N/A"}</td>
+
+                                      <td style={{ cursor: canWriteElectricity ? "pointer" : "not-allowed" }}>
+                                        <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, transform: "rotate(90deg)", color:showDots === i ? "#1E45E1" : "#6B7280", }} onClick={() => handleShowDotsHostelReading(row, i)} />
+ {showDots === i && <>
+                <div
+                  ref={popupRef}
+                  style={{
+                    cursor: "pointer",
+                    backgroundColor: "#F9F9F9",
+                    position: "fixed",
+                    top: showAbove
+                      ? popupPosition.top - (popupRef.current?.offsetHeight || 100) - 20
+                      : popupPosition.top - 35,
+                    left: popupPosition.left,
+                    width: 170,
+                    height: "auto",
+                    border: "1px solid #EBEBEB",
+                    borderRadius: 10,
+                    display: "flex",
+                    flexDirection: "column",
+                    zIndex: showDots === i ? 3000 : "auto",
+                  }}
+                >
+                  <div style={{ width: "100%" }}>
+
+                   
+                                                    
+
+                      <div
+                        className={`d-flex justify-content-start align-items-center gap-2 ${!canUpdateElectricity ? 'disabled' : ''}`}
                         style={{
-                          background: "#fff",
-                          borderRadius: 12,
-                          boxShadow: "0px 4px 8px rgba(0,0,0,0.05)",
-                          maxHeight: "460px",
-                          overflowY: "auto",
-                          position: "relative"
+                          cursor: !canUpdateElectricity ? "not-allowed" : "pointer",
+                          borderTopLeftRadius: 10,
+                          borderTopRightRadius: 10,
+                          backgroundColor: "#F9F9F9",
+                          padding: "8px 12px",
+                          opacity: !canUpdateElectricity ? 0.5 : 1,
+                        }}
+                        onClick={() => {
+                          // if (canUpdateElectricity) handleEdit(props);
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor = "#EDF2FF";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = "#F9F9F9";
                         }}
                       >
-                        <Table bordered={false} className="align-middle mb-0">
-                          <thead
+                        <img
+                          src={Edit}
+                          alt="Edit"
+                          style={{
+                            height: 16,
+                            width: 16,
+                            filter: !canUpdateElectricity ? "grayscale(100%)" : "none",
+                          }}
+                        />
+                        <label
+                          style={{
+                            fontSize: 14,
+                            fontWeight: 500,
+                            fontFamily: "Gilroy, sans-serif",
+                            color: "#222",
+                            cursor: !canUpdateElectricity ? "not-allowed" : "pointer",
+                          }}
+                        >
+                          Edit
+                        </label>
+                      </div>
+
+                   
+
+                                  
+                   
+                      <div
+                        className={`d-flex justify-content-start align-items-center gap-2  ${!canDeleteElectricity ? 'disabled' : ''}`}
+                        style={{
+                          cursor: !canDeleteElectricity ? "not-allowed" : "pointer",
+                          borderBottomLeftRadius: 10,
+                          borderBottomRightRadius: 10,
+                          padding: "8px 12px",
+                          opacity: !canDeleteElectricity ? 0.5 : 1,
+                        }}
+                        onClick={() => {
+                          // if (canDeleteElectricity) handleBillDelete(props);
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor = "#FFF0F0";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = "#F9F9F9";
+                        }}
+                      >
+                        <img
+                          src={Delete}
+                          alt="Delete"
+                          style={{
+                            height: 16,
+                            width: 16,
+                            filter: !canDeleteElectricity ? "grayscale(100%)" : "none",
+                          }}
+                        />
+                        <label
+                          style={{
+                            fontSize: 14,
+                            fontWeight: 500,
+                            fontFamily: "Gilroy, sans-serif",
+                            color: "#FF0000",
+                            cursor: !canDeleteElectricity ? "not-allowed" : "pointer",
+                          }}
+                        >
+                          Delete
+                        </label>
+                      </div>
+                  
+                  </div>
+                </div>
+
+              </>}
+                                      </td>
+
+                                    </tr>
+                                  ))}
+                                </PaginationList>
+                              </tbody>
+                            </Table>
+
+
+
+
+
+
+
+
+
+
+
+                          </div>
+                        )
+
+
+
+                        :
+
+
+
+
+
+                        roomReadingList?.length === 0 && !loading ? (
+                          <div style={{ textAlign: "center", marginTop: 40 }}>
+                            <img src={emptyimg} width={240} height={240} alt="emptystate" />
+                            <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "rgba(75, 75, 75, 1)" }}>
+                              No Room Reading
+                            </div>
+                            <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 14, color: "rgba(75, 75, 75, 1)" }}>
+                              There are no Room Reading available.
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="table-responsive show-scrolls"
                             style={{
-                              backgroundColor: "rgba(231, 241, 255, 1)",
-                              position: "sticky",
-                              top: 0,
-                              zIndex: 2,
+                              background: "#fff",
+                              borderRadius: 12,
+                              boxShadow: "0px 4px 8px rgba(0,0,0,0.05)",
+                              maxHeight: "460px",
+                              overflowY: "auto",
+                              position: "relative"
                             }}
                           >
-                            <tr className="text-uppercase" style={{ textAlign: "" }}>
-                              <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
-                                FLOOR <img src={arrowSwap} style={{ marginLeft: "4px" }} alt="swap" />
-                              </th>
-                              <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
-                                ROOM <img src={arrowSwap} style={{ marginLeft: "4px" }} alt="swap" />
-                              </th>
-                              <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>OCCUPANTS</th>
-                              <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>BILLING MONTH</th>
-                              <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>FROM</th>
-                              <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>TO</th>
-                              <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>TOTAL UNITS</th>
-                              <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>AMOUNT</th>
-                              {
-                                !isEbBased && <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>ACTION</th>
-
-                              }
-                            </tr>
-                          </thead>
-                          <tbody style={{ fontSize: 14, color: "#000" }}>
-                            <PaginationList>
-                              {formattedRoomReadings?.map((row, i) => (
-                                <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "", textAlign: "" }}>
-                                  <td style={{ fontSize: 15, fontWeight: 600, textAlign: "", }}>{row?.floorName}</td>
-                                  <td
-                                    style={{ textAlign: "", color: canReadElectricity ? "#1E45E1" : "#DBDBDB", cursor: "pointer", fontWeight: 600, }}
-                                    onClick={() => canReadElectricity && handleRoomDetailsPage(row)}
-                                  >
-                                    {row?.roomName}
-                                  </td>
-                                  <td style={{}} >{row?.noOfTenants}</td>
-                                  <td style={{ paddingLeft: "", }}>
-                                    {row.billingMonth || "N/A"}
-                                  </td>
-
-                                  <td style={{}}>{row?.from || "N/A"}</td>
-                                  <td style={{}}>{row?.to || "N/A"}</td>
-                                  <td style={{}}>{row?.totalUnits}</td>
-                                  <td style={{}}>{row?.totalPrice || '0'}</td>
+                            <Table bordered={false} className="align-middle mb-0">
+                              <thead
+                                style={{
+                                  backgroundColor: "rgba(231, 241, 255, 1)",
+                                  position: "sticky",
+                                  top: 0,
+                                  zIndex: 2,
+                                }}
+                              >
+                                <tr className="text-uppercase" style={{ textAlign: "" }}>
+                                  <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
+                                    FLOOR <img src={arrowSwap} style={{ marginLeft: "4px" }} alt="swap" />
+                                  </th>
+                                  <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
+                                    ROOM <img src={arrowSwap} style={{ marginLeft: "4px" }} alt="swap" />
+                                  </th>
+                                  <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>OCCUPANTS</th>
+                                  <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>BILLING MONTH</th>
+                                  <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>FROM</th>
+                                  <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>TO</th>
+                                  <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>TOTAL UNITS</th>
+                                  <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>AMOUNT</th>
                                   {
-                                    !isEbBased &&
-                                    <td style={{ cursor: canWriteElectricity ? "pointer" : "not-allowed" }}>
-                                      <img
-                                        src={Group}
-                                        alt="action"
-                                        style={{
-                                          filter: canWriteElectricity ? "none" : "grayscale(100%) brightness(60%)",
-                                          opacity: canWriteElectricity ? 1 : 0.6,
-                                          cursor: canWriteElectricity ? "pointer" : "not-allowed"
-                                        }}
-                                        onClick={() => canWriteElectricity && handleActionClick(row)}
-                                      />
-                                    </td>
+                                    !isEbBased && <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>ACTION</th>
+
                                   }
                                 </tr>
-                              ))}
-                            </PaginationList>
-                          </tbody>
-                        </Table>
+                              </thead>
+                              <tbody style={{ fontSize: 14, color: "#000" }}>
+                                <PaginationList>
+                                  {formattedRoomReadings?.map((row, i) => (
+                                    <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "", textAlign: "" }}>
+                                      <td style={{ fontSize: 15, fontWeight: 600, textAlign: "", }}>{row?.floorName}</td>
+                                      <td
+                                        style={{ textAlign: "", color: canReadElectricity ? "#1E45E1" : "#DBDBDB", cursor: "pointer", fontWeight: 600, }}
+                                        onClick={() => canReadElectricity && handleRoomDetailsPage(row)}
+                                      >
+                                        {row?.roomName}
+                                      </td>
+                                      <td style={{}} >{row?.noOfTenants}</td>
+                                      <td style={{ paddingLeft: "", }}>
+                                        {row.billingMonth || "N/A"}
+                                      </td>
+
+                                      <td style={{}}>{row?.from || "N/A"}</td>
+                                      <td style={{}}>{row?.to || "N/A"}</td>
+                                      <td style={{}}>{row?.totalUnits}</td>
+                                      <td style={{}}>{row?.totalPrice || '0'}</td>
+                                      {
+                                        !isEbBased &&
+                                        <td style={{ cursor: canWriteElectricity ? "pointer" : "not-allowed" }}>
+                                          <img
+                                            src={Group}
+                                            alt="action"
+                                            style={{
+                                              filter: canWriteElectricity ? "none" : "grayscale(100%) brightness(60%)",
+                                              opacity: canWriteElectricity ? 1 : 0.6,
+                                              cursor: canWriteElectricity ? "pointer" : "not-allowed"
+                                            }}
+                                            onClick={() => canWriteElectricity && handleActionClick(row)}
+                                          />
+                                        </td>
+                                      }
+                                    </tr>
+                                  ))}
+                                </PaginationList>
+                              </tbody>
+                            </Table>
 
 
 
-                        {loading &&
-                          <div
-                            style={{
-                              position: 'fixed',
-                              top: 0,
-                              right: 0,
-                              bottom: 0,
-                              left: 0,
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              backgroundColor: 'transparent',
-                              opacity: 0.75,
-                              zIndex: 10,
-                            }}
-                          >
-                            <div
-                              style={{
-                                borderTop: '4px solid #1E45E1',
-                                borderRight: '4px solid transparent',
-                                borderRadius: '50%',
-                                width: '40px',
-                                height: '40px',
-                                animation: 'spin 1s linear infinite',
-                              }}
-                            ></div>
+                            {loading &&
+                              <div
+                                style={{
+                                  position: 'fixed',
+                                  top: 0,
+                                  right: 0,
+                                  bottom: 0,
+                                  left: 0,
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  backgroundColor: 'transparent',
+                                  opacity: 0.75,
+                                  zIndex: 10,
+                                }}
+                              >
+                                <div
+                                  style={{
+                                    borderTop: '4px solid #1E45E1',
+                                    borderRight: '4px solid transparent',
+                                    borderRadius: '50%',
+                                    width: '40px',
+                                    height: '40px',
+                                    animation: 'spin 1s linear infinite',
+                                  }}
+                                ></div>
+                              </div>
+                            }
+
+
+
+
+
+
+
+
+
+
+
                           </div>
-                        }
+                        )
 
-
-
-
-
-
-
-
-
-
-
-                      </div>
-                    )}
-
+                    }
 
 
 
@@ -966,6 +1196,16 @@ const RoomReadingTable = () => {
 
 
                 )}
+
+
+
+
+
+
+
+
+
+
                 {activeTab === "customer" && (
                   customerReadingList?.length === 0 ? (
                     <div style={{ textAlign: "center", marginTop: 40 }}>

@@ -427,7 +427,10 @@ function Sidebar() {
   };
 
   const handleLogout = () => {
-    dispatch({ type: "LOG_OUT" });
+     cookies.remove('selected_hostelId', { path: '/' });
+     cookies.remove('v2-token', { path: '/' });
+    cookies.remove('token', { path: '/' });
+      dispatch({ type: "LOG_OUT" });
     dispatch({ type: 'RESET_ALL' })
     const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), "abcd");
     localStorage.setItem("login", encryptData.toString());
@@ -440,9 +443,7 @@ function Sidebar() {
     localStorage.removeItem("lastPage");
     localStorage.removeItem("currentPage")
 
-    cookies.remove('v2-token', { path: '/' });
-    cookies.remove('token', { path: '/' });
-    cookies.remove('selected_hostelId', { path: '/' });
+   
   };
 
 
@@ -483,6 +484,7 @@ function Sidebar() {
     dispatch({ type: "SAVE_RESPONSE_HOSTEL", payload: id });
     dispatch(StoreSelectedHostelAction(id));
     localStorage.setItem("selectedHostelName", name);
+     cookies.set("selected_hostelId",id, { path: "/" });
     setIsSidebarOpen(false);
   };
 
@@ -511,22 +513,24 @@ function Sidebar() {
 
 
 
-  useEffect(() => {
-    const hostelId = state.login?.apiResponseHostelId;
+  // useEffect(() => {
+  //   const hostelId = state.login?.apiResponseHostelId;
 
-    if (hostelId && hostelId !== "undefined") {
-      cookies.set("selected_hostelId", hostelId, { path: "/" });
-    }
-  }, [state.login?.apiResponseHostelId]);
+  //   if (hostelId && hostelId !== "undefined") {
+  //     cookies.set("selected_hostelId", hostelId, { path: "/" });
+  //   }
+  // }, [state.login?.apiResponseHostelId]);
 
-  const reduxHostelId = state.login?.apiResponseHostelId;
+
+
+  // const reduxHostelId = state.login?.apiResponseHostelId;
   const cookieHostelId = cookies.get("selected_hostelId");
 
-  const finalHostelId = reduxHostelId || cookieHostelId;
+  const finalHostelId = cookieHostelId;
 
 
 
-
+console.log("cookieHostelId",cookieHostelId,)
 
 
   useEffect(() => {
