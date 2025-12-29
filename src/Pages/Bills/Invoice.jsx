@@ -1074,28 +1074,19 @@ const InvoicePage = () => {
 
   const handleBackBill = () => {
     dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS' })
-    // setFormLoading(false)
-    // setShowManualInvoice(false);
+   
     setShowRecurringBillForm(false);
     setReceiptFormShow(false);
     setShowAllBill(true);
     setEditvalue("");
     setReceiptEdit(false);
     setCustomerName("");
-    // setInvoiceNumber("");
-    setStartDate("");
+        setStartDate("");
     setEndDate("");
     setInvoiceDate("");
     setInvoiceDueDate("");
-    // setTotalAmount("");
-    // setCustomerErrmsg("");
-    // setInvoiceDateErrmsg("");
-    // setInvoiceDueDateErrmsg("");
-    // setAllFieldErrmsg("");
-    // setTableErrmsg("");
-    // setamenityArray([]);
-    setNewRows([]);
-    // setDropdownValue("")
+       setNewRows([]);
+   
   };
 
 
@@ -1723,55 +1714,19 @@ const InvoicePage = () => {
   ]);
 
 
-  // const handleUserSelect = (user) => {
-
-  //   const searchItem = user.fullName
-  //   if (searchItem && state.login?.selectedHostel_Id) {
-  //     const filters = {
-  //       search: searchItem,
-  //     };
-  //     dispatch({
-  //       type: 'INVOICESLISTFILTER',
-  //       payload: {
-  //         hostelId: state.login?.selectedHostel_Id,
-  //         filters: filters
-  //       }
-  //     })
-  //   } else {
-  //     dispatch({
-  //       type: 'INVOICESLISTFILTER',
-  //       payload: {
-  //         hostelId: state.login?.selectedHostel_Id,
-  //       }
-  //     })
-  //   }
-
-  //   // setDropdownVisible(false);
-  // };
-
-
-
-
+  
 
 
   const handleCloseSearch = () => {
-    // setDropdownVisible(false);
+
     setSearch(false);
     setFilterInput("");
-    // setBills(bills);
-    // setRecurringBills(originalRecuiring);
-    // setReceiptData(originalReceipt);
-
+ 
     dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
 
   };
 
 
-  // useEffect(() => {
-  //   if (receiptdata?.length > 0 && originalReceipt?.length === 0) {
-  //     setOriginalReceipt(receiptdata);
-  //   }
-  // }, [receiptdata]);
 
   useEffect(() => {
     if (bills?.length > 0 && originalBills?.length === 0) {
@@ -1779,11 +1734,6 @@ const InvoicePage = () => {
     }
   }, [bills]);
 
-  // useEffect(() => {
-  //   if (recurringbills?.length > 0 && originalRecuiring?.length === 0) {
-  //     setOriginalRecuiring(recurringbills);
-  //   }
-  // }, [recurringbills]);
 
   const handleSearch = () => {
     setSearch(!search);
@@ -1803,26 +1753,7 @@ const InvoicePage = () => {
 
   };
 
-  // const handleUserRecuire = (user) => {
-  //   setFilterInput(user.user_name);
-  //   const searchItem = user.user_name
-
-  //   if (searchItem !== "") {
-  //     const filteredItems =
-  //       state.InvoiceList.RecurringBills &&
-  //       state.InvoiceList.RecurringBills.filter(
-  //         (user) =>
-  //           user.user_name &&
-  //           user.user_name.toLowerCase().includes(searchItem.toLowerCase())
-  //       );
-  //     setRecurringBills(filteredItems);
-
-  //   } else {
-  //     setRecurringBills(state.InvoiceList.RecurringBills);
-  //   }
   
-    
-  // };
 
 
 
@@ -2554,10 +2485,7 @@ const InvoicePage = () => {
                                               OnHandleshowInvoicePdf={handleInvoiceDetail}
                                               OnHandleshowDeleteform={handleBillDelete}
                                               DisplayInvoice={handleDisplayInvoiceDownload}
-                                              // billAddPermission={billAddPermission}
-                                              // billEditPermission={billEditPermission}
-                                              // billDeletePermission={billDeletePermission}
-                                            />
+                                                                                         />
                                           ))}
                                         </PaginationList>
 
@@ -2635,37 +2563,7 @@ const InvoicePage = () => {
           </Col>
 
 
-          {/* {
-            DownloadInvoice &&
-            <Col className="p-0 m-0"
-              lg={DownloadInvoice ? 8 : 12}
-              md={DownloadInvoice ? 8 : 12}
-              sm={DownloadInvoice ? 12 : 12}
-              xs={DownloadInvoice ? 12 : 12}
-              style={{
-                borderLeft: DownloadReceipt
-                  ? "1px solid #ccc"
-                  : "none",
-              }}
-            >
-              <BillPdfModal
-                show={showPdfModal}
-                handleClosed={handleClosePdfModal}
-                rowData={rowData}
-              />
-
-
-            </Col>
-          } */}
-
-
-
-
-
-
-
-
-
+        
         </Row>
       )}
 
