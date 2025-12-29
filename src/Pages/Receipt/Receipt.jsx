@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import ReceiptList from "../../Pages/Receipt/ReceiptList";
 import { Container, Row, Col, InputGroup, Table, Button, FormControl, } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -7,10 +7,10 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { useDispatch, useSelector } from "react-redux";
 import "sweetalert2/dist/sweetalert2.min.css";
 import "../Bills/Invoices.css";
-import Calendars from "../../Assets/Images/New_images/calendar.png";
+// import Calendars from "../../Assets/Images/New_images/calendar.png";
 import "flatpickr/dist/themes/material_blue.css";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { useTheme } from "@mui/material/styles";
+// import useMediaQuery from "@mui/material/useMediaQuery";
+// import { useTheme } from "@mui/material/styles";
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
@@ -20,12 +20,12 @@ import { toast } from "react-toastify";
 // import dayjs from "dayjs";
 import { CloseCircle, } from "iconsax-react";
 import '../OthersComponent/BillPdfModal.css';
-import AxiosConfig from "../../WebService/AxiosConfig";
-import Swal from 'sweetalert2';
+// import AxiosConfig from "../../WebService/AxiosConfig";
+// import Swal from 'sweetalert2';
 import PaginationList from "../../Components/PaginationList";
 import ErrorMessage from '../../Components/ErrorMessage'
 import { useHasPermission } from '../../Utils/Permission';
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { FiSearch } from "react-icons/fi";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 
@@ -34,30 +34,30 @@ function Receipt() {
 
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     // const [recurLoader, setRecurLoader] = useState(false);
     //    const [initials, setInitials] = useState("");
     // const [formRecordLoading, setFormRecordLoading] = useState(false)
     // const dropdownRef = useRef(null);
-    const [invoiceList, setInvoiceList] = useState({
-        firstName: "",
-        lastName: "",
-        phone: "",
-        email: "",
-        hostel_Name: "",
-        hostel_Id: "",
-        FloorNo: "",
-        RoomNo: "",
-        date: "",
-        paymentType: "",
-        amount: "",
-        balanceDue: "",
-        dueDate: "",
-        payableAmount: "",
-        InvoiceId: "",
-        invoice_type: "",
-        transaction: "",
-    });
+    // const [invoiceList, setInvoiceList] = useState({
+    //     firstName: "",
+    //     lastName: "",
+    //     phone: "",
+    //     email: "",
+    //     hostel_Name: "",
+    //     hostel_Id: "",
+    //     FloorNo: "",
+    //     RoomNo: "",
+    //     date: "",
+    //     paymentType: "",
+    //     amount: "",
+    //     balanceDue: "",
+    //     dueDate: "",
+    //     payableAmount: "",
+    //     InvoiceId: "",
+    //     invoice_type: "",
+    //     transaction: "",
+    // });
 
 
 
@@ -74,17 +74,17 @@ function Receipt() {
 
     // const [showLoader, setShowLoader] = useState(false);
     // const [statusfilter, setStatusfilter] = useState("");
-    const [selectedUserId, setSelectedUserId] = useState("");
+    // const [selectedUserId, setSelectedUserId] = useState("");
     // const [paymodeerrormsg, setPaymodeErrmsg] = useState("");
     // const [amounterrormsg, setAmountErrmsg] = useState("");
     // const [dateerrmsg, setDateErrmsg] = useState("");
     // const [totalErrormsg, setTotalErrmsg] = useState("");
-    const [customername, setCustomerName] = useState("");
+    // const [customername, setCustomerName] = useState("");
     // const [invoicenumber, setInvoiceNumber] = useState("");
-    const [startdate, setStartDate] = useState(null);
-    const [enddate, setEndDate] = useState(null);
-    const [invoicedate, setInvoiceDate] = useState(null);
-    const [invoiceduedate, setInvoiceDueDate] = useState(null);
+    // const [startdate, setStartDate] = useState(null);
+    // const [enddate, setEndDate] = useState(null);
+    // const [invoicedate, setInvoiceDate] = useState(null);
+    // const [invoiceduedate, setInvoiceDueDate] = useState(null);
     // const [formatinvoicedate, setFormatInvoiceDate] = useState(null);
     // const [formatduedate, setFormatDueDate] = useState(null);
     // const [totalAmount, setTotalAmount] = useState("");
@@ -99,14 +99,14 @@ function Receipt() {
     // const [recurringbills, setRecurringBills] = useState([]);
     // const [account, setAccount] = useState("");
     // const [accountError, setAccountError] = useState("");
-    const startRef = useRef(null);
-    const endRef = useRef(null);
-    const invoiceRef = useRef(null);
-    const dueRef = useRef(null);
-    const [showmanualinvoice, setShowManualInvoice] = useState(false);
-    const [showRecurringBillForm, setShowRecurringBillForm] = useState(false);
+    // const startRef = useRef(null);
+    // const endRef = useRef(null);
+    // const invoiceRef = useRef(null);
+    // const dueRef = useRef(null);
+    // const [showmanualinvoice, setShowManualInvoice] = useState(false);
+    // const [showRecurringBillForm, setShowRecurringBillForm] = useState(false);
     const [receiptformShow, setReceiptFormShow] = useState(false);
-    const [showAllBill, setShowAllBill] = useState(true);
+    // const [showAllBill, setShowAllBill] = useState(true);
     // const [billrolePermission, setBillRolePermission] = useState("");
     // const [billpermissionError, setBillPermissionError] = useState("");
     // const [billAddPermission, setBillAddPermission] = useState("");
@@ -242,15 +242,15 @@ function Receipt() {
 
    
 
-    useEffect(() => {
-        if (state.InvoiceList.BillsErrorstatusCode === 201) {
+    // useEffect(() => {
+    //     if (state.InvoiceList.BillsErrorstatusCode === 201) {
 
-            setTimeout(() => {
-                setLoading(false);
-                dispatch({ type: "REMOVE_NODATA_BILL_LIST" });
-            }, 100);
-        }
-    }, [state.InvoiceList.BillsErrorstatusCode]);
+    //         setTimeout(() => {
+    //             setLoading(false);
+    //             dispatch({ type: "REMOVE_NODATA_BILL_LIST" });
+    //         }, 100);
+    //     }
+    // }, [state.InvoiceList.BillsErrorstatusCode]);
 
 
 
@@ -261,7 +261,7 @@ function Receipt() {
             });
             return;
         }
-        setShowAllBill(false);
+        // setShowAllBill(false);
         // setReceiptFormShow(true);
         // dispatch({ type: "GET_REFERENCE_ID" });
     };
@@ -585,7 +585,7 @@ function Receipt() {
 
 
     const handleEditReceipt = (item) => {
-        setShowAllBill(false);
+        // setShowAllBill(false);
         setReceiptFormShow(true);
         setEditvalue(item);
         setReceiptEdit(true);
@@ -598,77 +598,77 @@ function Receipt() {
 
 
 
-    useEffect(() => {
-        if (customername) {
-            dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: customername } });
-        }
-    }, [customername])
+    // useEffect(() => {
+    //     if (customername) {
+    //         dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: customername } });
+    //     }
+    // }, [customername])
 
 
 
    
 
-    const handleShowForm = (props) => {
+    // const handleShowForm = (props) => {
      
-        if (props.item.invoiceId !== undefined) {
+    //     if (props.item.invoiceId !== undefined) {
 
-            const dateObject = new Date(props.item.Date);
-            const year = dateObject.getFullYear();
-            const month = dateObject.getMonth() + 1;
-            const day = dateObject.getDate();
+    //         const dateObject = new Date(props.item.Date);
+    //         const year = dateObject.getFullYear();
+    //         const month = dateObject.getMonth() + 1;
+    //         const day = dateObject.getDate();
 
-            const lastDayOfMonth = new Date(year, month, 0);
-            const formattedDueDate = `${lastDayOfMonth.getFullYear()}-${String(
-                lastDayOfMonth.getMonth() + 1
-            ).padStart(2, "0")}-${String(lastDayOfMonth.getDate()).padStart(2, "0")}`;
+    //         const lastDayOfMonth = new Date(year, month, 0);
+    //         const formattedDueDate = `${lastDayOfMonth.getFullYear()}-${String(
+    //             lastDayOfMonth.getMonth() + 1
+    //         ).padStart(2, "0")}-${String(lastDayOfMonth.getDate()).padStart(2, "0")}`;
 
-            // let value = props.item.Name.split(" ");
-            setSelectedUserId(props.item.customerId);
-            const userDetails = state?.UsersList?.Users.filter((u) => u.customerId === props?.item?.customerId)
+    //         // let value = props.item.Name.split(" ");
+    //         setSelectedUserId(props.item.customerId);
+    //         const userDetails = state?.UsersList?.Users.filter((u) => u.customerId === props?.item?.customerId)
 
-            // setTenantjoingDate()
+    //         // setTenantjoingDate()
 
-            // setName(props.item?.fullName)
-            // setFloorName(userDetails[0]?.floorName)
-            // setRoomName(userDetails[0]?.roomName)
-            // setBedName(userDetails[0]?.bedName)
-            // setProfilePic(userDetails[0]?.profilePic)
-            // setInitials(userDetails[0]?.initials)
+    //         // setName(props.item?.fullName)
+    //         // setFloorName(userDetails[0]?.floorName)
+    //         // setRoomName(userDetails[0]?.roomName)
+    //         // setBedName(userDetails[0]?.bedName)
+    //         // setProfilePic(userDetails[0]?.profilePic)
+    //         // setInitials(userDetails[0]?.initials)
 
-            const formattedDate = `${year}-${String(month).padStart(2, "0")}-${String(
-                day
-            ).padStart(2, "0")}`;
-            setInvoiceList({
-                id: props.item?.id,
-                firstName: props.item?.firstName,
-                lastName: props.item?.lastName,
-                phone: props.item?.phoneNo,
-                email: props.item?.EmailID,
-                hostel_Name: props.item?.Hostel_Name,
-                hostel_Id: props.item?.Hostel_Id,
-                FloorNo: props?.item?.Floor_Id,
-                RoomNo: props?.item?.Room_No,
-                date: formattedDate,
-                amount: props.item?.invoiceAmount,
-                paidAmount: props.item?.paidAmount,
-                balanceDue: props.item?.dueAmount === 0 ? "00" : props.item?.dueAmount,
-                dueDate: formattedDueDate,
-                InvoiceId: props.item?.invoiceId,
-                invoice_type: props.item?.invoiceType,
-            });
+    //         const formattedDate = `${year}-${String(month).padStart(2, "0")}-${String(
+    //             day
+    //         ).padStart(2, "0")}`;
+    //         // setInvoiceList({
+    //         //     id: props.item?.id,
+    //         //     firstName: props.item?.firstName,
+    //         //     lastName: props.item?.lastName,
+    //         //     phone: props.item?.phoneNo,
+    //         //     email: props.item?.EmailID,
+    //         //     hostel_Name: props.item?.Hostel_Name,
+    //         //     hostel_Id: props.item?.Hostel_Id,
+    //         //     FloorNo: props?.item?.Floor_Id,
+    //         //     RoomNo: props?.item?.Room_No,
+    //         //     date: formattedDate,
+    //         //     amount: props.item?.invoiceAmount,
+    //         //     paidAmount: props.item?.paidAmount,
+    //         //     balanceDue: props.item?.dueAmount === 0 ? "00" : props.item?.dueAmount,
+    //         //     dueDate: formattedDueDate,
+    //         //     InvoiceId: props.item?.invoiceId,
+    //         //     invoice_type: props.item?.invoiceType,
+    //         // });
 
-        } else {
-            setSelectedUserId("");
-        }
-    }
+    //     } else {
+    //         setSelectedUserId("");
+    //     }
+    // }
 
   
-    const options = {
-        dateFormat: "d/m/Y",
-        defaultDate: null,
-        maxDate: new Date(),
-        minDate: null,
-    };
+    // const options = {
+    //     dateFormat: "d/m/Y",
+    //     defaultDate: null,
+    //     maxDate: new Date(),
+    //     minDate: null,
+    // };
 
 
 
@@ -676,18 +676,18 @@ function Receipt() {
     const handleBackBill = () => {
         dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS' })
         // setFormLoading(false)
-        setShowManualInvoice(false);
-        setShowRecurringBillForm(false);
+        // setShowManualInvoice(false);
+        // setShowRecurringBillForm(false);
         setReceiptFormShow(false);
-        setShowAllBill(true);
+        // setShowAllBill(true);
         setEditvalue("");
         setReceiptEdit(false);
-        setCustomerName("");
+        // setCustomerName("");
         // setInvoiceNumber("");
-        setStartDate("");
-        setEndDate("");
-        setInvoiceDate("");
-        setInvoiceDueDate("");
+        // setStartDate("");
+        // setEndDate("");
+        // setInvoiceDate("");
+        // setInvoiceDueDate("");
           };
 
 
@@ -698,197 +698,197 @@ function Receipt() {
 
 
 
-    const CustomStartDateInput = React.forwardRef(({ value, onClick }, ref) => {
-        return (
-            <div
-                className="date-input-container w-100"
-                onClick={onClick}
-                style={{ position: "relative" }}
-            >
-                <FormControl
-                    type="text"
-                    className="date_input"
-                    value={value || "DD/MM/YYYY"}
-                    readOnly
-                    ref={ref}
-                    style={{
-                        border: "1px solid #D9D9D9",
-                        borderRadius: 8,
-                        padding: 9,
-                        fontSize: 14,
-                        fontFamily: "Gilroy",
-                        fontWeight: value ? 600 : 500,
-                        width: "100%",
-                        height: 50,
-                        boxSizing: "border-box",
-                        boxShadow: "none",
-                        backgroundColor: "#fff",
-                        cursor: "pointer",
-                    }}
-                />
-                <img
-                    src={Calendars}
-                    style={{
-                        height: 24,
-                        width: 24,
-                        marginLeft: 10,
-                        cursor: "pointer",
-                        position: "absolute",
-                        right: 10,
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                    }}
-                    alt="Calendar"
-                    onClick={onClick}
-                />
-            </div>
-        );
-    });
-    CustomStartDateInput.displayName = "CustomStartDateInput";
+    // const CustomStartDateInput = React.forwardRef(({ value, onClick }, ref) => {
+    //     return (
+    //         <div
+    //             className="date-input-container w-100"
+    //             onClick={onClick}
+    //             style={{ position: "relative" }}
+    //         >
+    //             <FormControl
+    //                 type="text"
+    //                 className="date_input"
+    //                 value={value || "DD/MM/YYYY"}
+    //                 readOnly
+    //                 ref={ref}
+    //                 style={{
+    //                     border: "1px solid #D9D9D9",
+    //                     borderRadius: 8,
+    //                     padding: 9,
+    //                     fontSize: 14,
+    //                     fontFamily: "Gilroy",
+    //                     fontWeight: value ? 600 : 500,
+    //                     width: "100%",
+    //                     height: 50,
+    //                     boxSizing: "border-box",
+    //                     boxShadow: "none",
+    //                     backgroundColor: "#fff",
+    //                     cursor: "pointer",
+    //                 }}
+    //             />
+    //             <img
+    //                 src={Calendars}
+    //                 style={{
+    //                     height: 24,
+    //                     width: 24,
+    //                     marginLeft: 10,
+    //                     cursor: "pointer",
+    //                     position: "absolute",
+    //                     right: 10,
+    //                     top: "50%",
+    //                     transform: "translateY(-50%)",
+    //                 }}
+    //                 alt="Calendar"
+    //                 onClick={onClick}
+    //             />
+    //         </div>
+    //     );
+    // });
+    // CustomStartDateInput.displayName = "CustomStartDateInput";
 
-    const CustomEndDateInput = React.forwardRef(({ value, onClick }, ref) => {
-        return (
-            <div
-                className="date-input-container w-100"
-                onClick={onClick}
-                style={{ position: "relative" }}
-            >
-                <FormControl
-                    type="text"
-                    className="date_input"
-                    value={value || "DD/MM/YYYY"}
-                    readOnly
-                    ref={ref}
-                    style={{
-                        border: "1px solid #D9D9D9",
-                        borderRadius: 8,
-                        padding: 9,
-                        fontSize: 14,
-                        fontFamily: "Gilroy",
-                        fontWeight: value ? 600 : 500,
-                        width: "100%",
-                        height: 50,
-                        boxSizing: "border-box",
-                        boxShadow: "none",
-                        backgroundColor: "#fff",
-                        cursor: "pointer",
-                    }}
-                />
-                <img
-                    src={Calendars}
-                    style={{
-                        height: 24,
-                        width: 24,
-                        marginLeft: 10,
-                        cursor: "pointer",
-                        position: "absolute",
-                        right: 10,
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                    }}
-                    alt="Calendar"
-                    onClick={onClick} />
-            </div>
-        );
-    });
+    // const CustomEndDateInput = React.forwardRef(({ value, onClick }, ref) => {
+    //     return (
+    //         <div
+    //             className="date-input-container w-100"
+    //             onClick={onClick}
+    //             style={{ position: "relative" }}
+    //         >
+    //             <FormControl
+    //                 type="text"
+    //                 className="date_input"
+    //                 value={value || "DD/MM/YYYY"}
+    //                 readOnly
+    //                 ref={ref}
+    //                 style={{
+    //                     border: "1px solid #D9D9D9",
+    //                     borderRadius: 8,
+    //                     padding: 9,
+    //                     fontSize: 14,
+    //                     fontFamily: "Gilroy",
+    //                     fontWeight: value ? 600 : 500,
+    //                     width: "100%",
+    //                     height: 50,
+    //                     boxSizing: "border-box",
+    //                     boxShadow: "none",
+    //                     backgroundColor: "#fff",
+    //                     cursor: "pointer",
+    //                 }}
+    //             />
+    //             <img
+    //                 src={Calendars}
+    //                 style={{
+    //                     height: 24,
+    //                     width: 24,
+    //                     marginLeft: 10,
+    //                     cursor: "pointer",
+    //                     position: "absolute",
+    //                     right: 10,
+    //                     top: "50%",
+    //                     transform: "translateY(-50%)",
+    //                 }}
+    //                 alt="Calendar"
+    //                 onClick={onClick} />
+    //         </div>
+    //     );
+    // });
 
-    CustomEndDateInput.displayName = "CustomEndDateInput";
+    // CustomEndDateInput.displayName = "CustomEndDateInput";
 
-    const CustomInvoiceDateInput = React.forwardRef(({ value, onClick }, ref) => {
-        return (
-            <div
-                className="date-input-container w-100"
-                onClick={onClick}
-                style={{ position: "relative" }}
-            >
-                <FormControl
-                    type="text"
-                    className="date_input"
-                    value={value || "DD/MM/YYYY"}
-                    readOnly
-                    ref={ref}
-                    style={{
-                        border: "1px solid #D9D9D9",
-                        borderRadius: 8,
-                        padding: 9,
-                        fontSize: 14,
-                        fontFamily: "Gilroy",
-                        fontWeight: value ? 600 : 500,
-                        width: "100%",
-                        height: 50,
-                        boxSizing: "border-box",
-                        boxShadow: "none",
-                        backgroundColor: "#fff",
-                        cursor: "pointer",
-                    }}
-                />
-                <img
-                    src={Calendars}
-                    style={{
-                        height: 24,
-                        width: 24,
-                        marginLeft: 10,
-                        cursor: "pointer",
-                        position: "absolute",
-                        right: 10,
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                    }}
-                    alt="Calendar"
-                    onClick={onClick}
-                />
-            </div>
-        );
-    });
-    CustomInvoiceDateInput.displayName = "CustomInvoiceDateInput";
-    const CustomInvoiceDueDateInput = React.forwardRef(({ value, onClick }, ref) => {
-        return (
-            <div
-                className="date-input-container w-100"
-                onClick={onClick}
-                style={{ position: "relative" }}
-            >
-                <FormControl
-                    type="text"
-                    className="date_input"
-                    value={value || "DD/MM/YYYY"}
-                    readOnly
-                    ref={ref}
-                    style={{
-                        border: "1px solid #D9D9D9",
-                        borderRadius: 8,
-                        padding: 9,
-                        fontSize: 14,
-                        fontFamily: "Gilroy",
-                        fontWeight: value ? 600 : 500,
-                        width: "100%",
-                        height: 50,
-                        boxSizing: "border-box",
-                        boxShadow: "none",
-                        backgroundColor: "#fff",
-                        cursor: "pointer",
-                    }}
-                />
-                <img
-                    src={Calendars}
-                    style={{
-                        height: 24,
-                        width: 24,
-                        marginLeft: 10,
-                        cursor: "pointer",
-                        position: "absolute",
-                        right: 10,
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                    }}
-                    alt="Calendar"
-                    onClick={onClick}
-                />
-            </div>
-        );
-    });
+    // const CustomInvoiceDateInput = React.forwardRef(({ value, onClick }, ref) => {
+    //     return (
+    //         <div
+    //             className="date-input-container w-100"
+    //             onClick={onClick}
+    //             style={{ position: "relative" }}
+    //         >
+    //             <FormControl
+    //                 type="text"
+    //                 className="date_input"
+    //                 value={value || "DD/MM/YYYY"}
+    //                 readOnly
+    //                 ref={ref}
+    //                 style={{
+    //                     border: "1px solid #D9D9D9",
+    //                     borderRadius: 8,
+    //                     padding: 9,
+    //                     fontSize: 14,
+    //                     fontFamily: "Gilroy",
+    //                     fontWeight: value ? 600 : 500,
+    //                     width: "100%",
+    //                     height: 50,
+    //                     boxSizing: "border-box",
+    //                     boxShadow: "none",
+    //                     backgroundColor: "#fff",
+    //                     cursor: "pointer",
+    //                 }}
+    //             />
+    //             <img
+    //                 src={Calendars}
+    //                 style={{
+    //                     height: 24,
+    //                     width: 24,
+    //                     marginLeft: 10,
+    //                     cursor: "pointer",
+    //                     position: "absolute",
+    //                     right: 10,
+    //                     top: "50%",
+    //                     transform: "translateY(-50%)",
+    //                 }}
+    //                 alt="Calendar"
+    //                 onClick={onClick}
+    //             />
+    //         </div>
+    //     );
+    // });
+    // CustomInvoiceDateInput.displayName = "CustomInvoiceDateInput";
+    // const CustomInvoiceDueDateInput = React.forwardRef(({ value, onClick }, ref) => {
+    //     return (
+    //         <div
+    //             className="date-input-container w-100"
+    //             onClick={onClick}
+    //             style={{ position: "relative" }}
+    //         >
+    //             <FormControl
+    //                 type="text"
+    //                 className="date_input"
+    //                 value={value || "DD/MM/YYYY"}
+    //                 readOnly
+    //                 ref={ref}
+    //                 style={{
+    //                     border: "1px solid #D9D9D9",
+    //                     borderRadius: 8,
+    //                     padding: 9,
+    //                     fontSize: 14,
+    //                     fontFamily: "Gilroy",
+    //                     fontWeight: value ? 600 : 500,
+    //                     width: "100%",
+    //                     height: 50,
+    //                     boxSizing: "border-box",
+    //                     boxShadow: "none",
+    //                     backgroundColor: "#fff",
+    //                     cursor: "pointer",
+    //                 }}
+    //             />
+    //             <img
+    //                 src={Calendars}
+    //                 style={{
+    //                     height: 24,
+    //                     width: 24,
+    //                     marginLeft: 10,
+    //                     cursor: "pointer",
+    //                     position: "absolute",
+    //                     right: 10,
+    //                     top: "50%",
+    //                     transform: "translateY(-50%)",
+    //                 }}
+    //                 alt="Calendar"
+    //                 onClick={onClick}
+    //             />
+    //         </div>
+    //     );
+    // });
 
-    CustomInvoiceDueDateInput.displayName = "CustomInvoiceDueDateInput";
+    // CustomInvoiceDueDateInput.displayName = "CustomInvoiceDueDateInput";
 
 
 
@@ -936,197 +936,197 @@ function Receipt() {
 
    
 
-    useEffect(() => {
-        if (state.InvoiceList.payapleAmountError) {
+    // useEffect(() => {
+    //     if (state.InvoiceList.payapleAmountError) {
            
 
-        }
+    //     }
 
-    }, [state.InvoiceList.payapleAmountError])
+    // }, [state.InvoiceList.payapleAmountError])
 
 
-    useEffect(() => {
-        if (state.InvoiceList?.unableAddInvoiceDetailsError) {
+    // useEffect(() => {
+    //     if (state.InvoiceList?.unableAddInvoiceDetailsError) {
            
-            setTimeout(() => {
-                dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS' })
-            }, 3000)
+    //         setTimeout(() => {
+    //             dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS' })
+    //         }, 3000)
 
-        }
+    //     }
 
-    }, [state.InvoiceList.unableAddInvoiceDetailsError])
-
-
+    // }, [state.InvoiceList.unableAddInvoiceDetailsError])
 
 
 
 
 
-    useEffect(() => {
-        if (
-            state.InvoiceList.InvoiceListStatusCode === 200 ||
-            state.InvoiceList.statusCodeForPDf === 200 ||
-            state.InvoiceList.statusCodeForReceiptPDf === 200
-        ) {
-                        setTimeout(() => {
-                dispatch({ type: "CLEAR_INVOICE_LIST" });
-            }, 100);
-
-            setTimeout(() => {
-                dispatch({ type: "CLEAR_INVOICE_PDF_STATUS_CODE" });
-            }, 200);
-
-            setTimeout(() => {
-                dispatch({ type: "CLEAR_RECEIPT_PDF_STATUS_CODE" });
-            }, 200);
-        }
-    }, [
-        state.InvoiceList?.InvoiceListStatusCode,
-        state.InvoiceList?.statusCodeForPDf,
-        state.InvoiceList.statusCodeForReceiptPDf,
-    ]);
 
 
+    // useEffect(() => {
+    //     if (
+    //         state.InvoiceList.InvoiceListStatusCode === 200 ||
+    //         state.InvoiceList.statusCodeForPDf === 200 ||
+    //         state.InvoiceList.statusCodeForReceiptPDf === 200
+    //     ) {
+    //                     setTimeout(() => {
+    //             dispatch({ type: "CLEAR_INVOICE_LIST" });
+    //         }, 100);
 
-    useEffect(() => {
-        if (
-            state.login.UpdateNotificationMessage !== null &&
-            state.login.UpdateNotificationMessage !== ""
-        ) {
+    //         setTimeout(() => {
+    //             dispatch({ type: "CLEAR_INVOICE_PDF_STATUS_CODE" });
+    //         }, 200);
 
-            setTimeout(() => {
-                dispatch({ type: "AFTER_UPDATE_NOTIFICATION", message: null });
-
-            }, 100);
-        }
-    }, [state.login.UpdateNotificationMessage]);
+    //         setTimeout(() => {
+    //             dispatch({ type: "CLEAR_RECEIPT_PDF_STATUS_CODE" });
+    //         }, 200);
+    //     }
+    // }, [
+    //     state.InvoiceList?.InvoiceListStatusCode,
+    //     state.InvoiceList?.statusCodeForPDf,
+    //     state.InvoiceList.statusCodeForReceiptPDf,
+    // ]);
 
 
 
-    const sendWhatsAppMessage = async (type) => {
-        const isInvoice = type === "invoice";
+    // useEffect(() => {
+    //     if (
+    //         state.login.UpdateNotificationMessage !== null &&
+    //         state.login.UpdateNotificationMessage !== ""
+    //     ) {
 
-        const pdfUrl = isInvoice ? state.InvoiceList.invoicePDF : state.InvoiceList.ReceiptPDF;
-        const statusCode = isInvoice ? state.InvoiceList?.statusCodeForPDf : state.InvoiceList?.statusCodeForReceiptPDf;
-        const isWhatsAppEnabled = state.InvoiceList.whatsappSettings?.[isInvoice ? 1 : 2];
-        const receiptData = isInvoice
-            ? state.InvoiceList.BillsPdfDetails
-            : state.InvoiceList.newReceiptchanges?.receipt ?? state.InvoiceList.BillsPdfDetails;
+    //         setTimeout(() => {
+    //             dispatch({ type: "AFTER_UPDATE_NOTIFICATION", message: null });
 
-        if (statusCode === 200 && pdfUrl && state.InvoiceList.triggeredBy === "whatsapp") {
-            // setShowLoader(false);
-
-            if (!isWhatsAppEnabled) {
-                Swal.fire({
-                    icon: "info",
-                    text: `WhatsApp notification for ${isInvoice ? "Bills" : "Deposit Receipt"} is not enabled. Please enable it in Settings > Notifications.`,
-                });
-                return;
-            }
-
-            // setLoading(true);
-
-            try {
-                const parsedUrl = new URL(pdfUrl);
-                const filename = parsedUrl.pathname.slice(1);
-                const userName = receiptData?.user_details?.name || '';
-                let userPhone = receiptData?.user_details?.phone?.toString() || '';
-
-                if (!userPhone.startsWith("+91")) {
-                    userPhone = userPhone.startsWith("91") ? "+" + userPhone : "+91" + userPhone;
-                }
-
-                const response = await AxiosConfig.post("/send-whatsapp", {
-                    to: userPhone,
-                    templateName: "invoice_notification",
-                    parameters: [userName, filename],
-                });
-
-                if (response.data.statusCode === 200) {
-                    Swal.fire({
-                        icon: "success",
-                        text: response.data.message,
-                    });
-                } else {
-                    Swal.fire({
-                        icon: "warning",
-                        text: "Unexpected response from server.",
-                    });
-                }
-            } catch (error) {
-                Swal.fire({
-                    icon: "error",
-                    text: error.response?.data?.error || "Failed to send WhatsApp message",
-                });
-            }
-
-            dispatch({ type: isInvoice ? "CLEAR_INVOICE_PDF_STATUS_CODE" : "CLEAR_RECEIPT_PDF_STATUS_CODE" });
-        } else if (statusCode === 200 && pdfUrl) {
-            const pdfWindow = window.open("", "_blank");
-            if (pdfWindow) {
-                pdfWindow.location.href = pdfUrl;
-            }
-            dispatch({ type: isInvoice ? "CLEAR_INVOICE_PDF_STATUS_CODE" : "CLEAR_RECEIPT_PDF_STATUS_CODE" });
-        }
-    };
+    //         }, 100);
+    //     }
+    // }, [state.login.UpdateNotificationMessage]);
 
 
 
-    useEffect(() => {
-        sendWhatsAppMessage("invoice");
-    }, [state.InvoiceList?.statusCodeForPDf, state.InvoiceList.triggeredBy, state.InvoiceList.whatsappSettings]);
+    // const sendWhatsAppMessage = async (type) => {
+    //     const isInvoice = type === "invoice";
 
-    useEffect(() => {
-        sendWhatsAppMessage("receipt");
-    }, [state.InvoiceList?.statusCodeForReceiptPDf, state.InvoiceList.triggeredBy, state.InvoiceList.whatsappSettings]);
+    //     const pdfUrl = isInvoice ? state.InvoiceList.invoicePDF : state.InvoiceList.ReceiptPDF;
+    //     const statusCode = isInvoice ? state.InvoiceList?.statusCodeForPDf : state.InvoiceList?.statusCodeForReceiptPDf;
+    //     const isWhatsAppEnabled = state.InvoiceList.whatsappSettings?.[isInvoice ? 1 : 2];
+    //     const receiptData = isInvoice
+    //         ? state.InvoiceList.BillsPdfDetails
+    //         : state.InvoiceList.newReceiptchanges?.receipt ?? state.InvoiceList.BillsPdfDetails;
 
-    useEffect(() => {
-        if (selectedUserId) {
-            const filteredDetails = state.UsersList?.Users?.find(
-                (item) => item.User_Id === selectedUserId
-            );
-            if (filteredDetails) {
+    //     if (statusCode === 200 && pdfUrl && state.InvoiceList.triggeredBy === "whatsapp") {
+    //         // setShowLoader(false);
 
-                setInvoiceList({
-                    ...invoiceList,
-                    firstName: filteredDetails.Name.split(" ")[0] || "",
-                    lastName: filteredDetails.Name.split(" ")[1] || "",
-                    phone: filteredDetails.Phone || "",
-                    email: filteredDetails.Email || "",
-                    hostel_Name: filteredDetails.HostelName || "",
-                    hostel_Id: filteredDetails.Hostel_Id || "",
-                    FloorNo: filteredDetails.Floor || "",
-                    RoomNo: filteredDetails.Rooms || "",
-                });
-            }
+    //         if (!isWhatsAppEnabled) {
+    //             Swal.fire({
+    //                 icon: "info",
+    //                 text: `WhatsApp notification for ${isInvoice ? "Bills" : "Deposit Receipt"} is not enabled. Please enable it in Settings > Notifications.`,
+    //             });
+    //             return;
+    //         }
 
-        }
+    //         // setLoading(true);
 
-    }, [selectedUserId, state.UsersList?.Users, state.InvoiceList?.Invoice]);
+    //         try {
+    //             const parsedUrl = new URL(pdfUrl);
+    //             const filename = parsedUrl.pathname.slice(1);
+    //             const userName = receiptData?.user_details?.name || '';
+    //             let userPhone = receiptData?.user_details?.phone?.toString() || '';
+
+    //             if (!userPhone.startsWith("+91")) {
+    //                 userPhone = userPhone.startsWith("91") ? "+" + userPhone : "+91" + userPhone;
+    //             }
+
+    //             const response = await AxiosConfig.post("/send-whatsapp", {
+    //                 to: userPhone,
+    //                 templateName: "invoice_notification",
+    //                 parameters: [userName, filename],
+    //             });
+
+    //             if (response.data.statusCode === 200) {
+    //                 Swal.fire({
+    //                     icon: "success",
+    //                     text: response.data.message,
+    //                 });
+    //             } else {
+    //                 Swal.fire({
+    //                     icon: "warning",
+    //                     text: "Unexpected response from server.",
+    //                 });
+    //             }
+    //         } catch (error) {
+    //             Swal.fire({
+    //                 icon: "error",
+    //                 text: error.response?.data?.error || "Failed to send WhatsApp message",
+    //             });
+    //         }
+
+    //         dispatch({ type: isInvoice ? "CLEAR_INVOICE_PDF_STATUS_CODE" : "CLEAR_RECEIPT_PDF_STATUS_CODE" });
+    //     } else if (statusCode === 200 && pdfUrl) {
+    //         const pdfWindow = window.open("", "_blank");
+    //         if (pdfWindow) {
+    //             pdfWindow.location.href = pdfUrl;
+    //         }
+    //         dispatch({ type: isInvoice ? "CLEAR_INVOICE_PDF_STATUS_CODE" : "CLEAR_RECEIPT_PDF_STATUS_CODE" });
+    //     }
+    // };
+
+
+
+    // useEffect(() => {
+    //     sendWhatsAppMessage("invoice");
+    // }, [state.InvoiceList?.statusCodeForPDf, state.InvoiceList.triggeredBy, state.InvoiceList.whatsappSettings]);
+
+    // useEffect(() => {
+    //     sendWhatsAppMessage("receipt");
+    // }, [state.InvoiceList?.statusCodeForReceiptPDf, state.InvoiceList.triggeredBy, state.InvoiceList.whatsappSettings]);
+
+    // useEffect(() => {
+    //     if (selectedUserId) {
+    //         const filteredDetails = state.UsersList?.Users?.find(
+    //             (item) => item.User_Id === selectedUserId
+    //         );
+    //         if (filteredDetails) {
+
+    //             // setInvoiceList({
+    //             //     ...invoiceList,
+    //             //     firstName: filteredDetails.Name.split(" ")[0] || "",
+    //             //     lastName: filteredDetails.Name.split(" ")[1] || "",
+    //             //     phone: filteredDetails.Phone || "",
+    //             //     email: filteredDetails.Email || "",
+    //             //     hostel_Name: filteredDetails.HostelName || "",
+    //             //     hostel_Id: filteredDetails.Hostel_Id || "",
+    //             //     FloorNo: filteredDetails.Floor || "",
+    //             //     RoomNo: filteredDetails.Rooms || "",
+    //             // });
+    //         }
+
+    //     }
+
+    // }, [selectedUserId, state.UsersList?.Users, state.InvoiceList?.Invoice]);
 
 
    
 
-    const optionsone = {
-        dateFormat: "d/m/Y",
-        defaultDate: null,
-        minDate: null,
-    };
+    // const optionsone = {
+    //     dateFormat: "d/m/Y",
+    //     defaultDate: null,
+    //     minDate: null,
+    // };
 
-    useEffect(() => {
-        if (startRef.current) {
-            startRef.current.flatpickr.set(options);
-        }
-        if (endRef.current) {
-            endRef.current.flatpickr.set(options);
-        }
-        if (invoiceRef.current) {
-            invoiceRef.current.flatpickr.set(options);
-        }
-        if (dueRef.current) {
-            dueRef.current.flatpickr.set(optionsone);
-        }
-    }, [startdate, enddate, invoicedate, invoiceduedate]);
+    // useEffect(() => {
+    //     if (startRef.current) {
+    //         startRef.current.flatpickr.set(options);
+    //     }
+    //     if (endRef.current) {
+    //         endRef.current.flatpickr.set(options);
+    //     }
+    //     if (invoiceRef.current) {
+    //         invoiceRef.current.flatpickr.set(options);
+    //     }
+    //     if (dueRef.current) {
+    //         dueRef.current.flatpickr.set(optionsone);
+    //     }
+    // }, [startdate, enddate, invoicedate, invoiceduedate]);
 
 
 
@@ -1728,7 +1728,7 @@ function Receipt() {
                                                                     item={item}
                                                                     // receiptaddPermission={receiptaddPermission}
                                                                     // billrolePermission={billrolePermission}
-                                                                    OnHandleshowform={handleShowForm}
+                                                                    // OnHandleshowform={handleShowForm}
                                                                     OnHandleshowInvoicePdf={handleReceiptDetail}
                                                                     onhandleEdit={handleEditReceipt}
                                                                     DisplayInvoice={handleDisplayReceiptDownload}

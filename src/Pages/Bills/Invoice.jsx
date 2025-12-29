@@ -16,8 +16,8 @@ import "../Bills/Invoices.css";
 import InvoiceTable from "../Bills/InvoicelistTable";
 import Calendars from "../../Assets/Images/New_images/calendar.png";
 import "flatpickr/dist/themes/material_blue.css";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { useTheme } from "@mui/material/styles";
+// import useMediaQuery from "@mui/material/useMediaQuery";
+// import { useTheme } from "@mui/material/styles";
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
@@ -47,14 +47,14 @@ const InvoicePage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // const { RangePicker } = DatePicker;
-  const [recurLoader, setRecurLoader] = useState(false);
+  // const [recurLoader, setRecurLoader] = useState(false);
   const [loading, setLoading] = useState(false);
   const [invoiceValue, setInvoiceValue] = useState("");
   const [bankking, setBanking] = useState("");
   // const [formLoading, setFormLoading] = useState(false)
   const [initials, setInitials] = useState("");
   const [formRecordLoading, setFormRecordLoading] = useState(false)
-  const dropdownRef = useRef(null);
+  // const dropdownRef = useRef(null);
   const [invoiceList, setInvoiceList] = useState({
     firstName: "",
     lastName: "",
@@ -112,14 +112,14 @@ const InvoicePage = () => {
   // const [formatduedate, setFormatDueDate] = useState(null);
   // const [totalAmount, setTotalAmount] = useState("");
   const [bills, setBills] = useState([]);
-  const [newRows, setNewRows] = useState([])
+  // const [newRows, setNewRows] = useState([])
   // const [customererrmsg, setCustomerErrmsg] = useState("");
   // const [invoicenumbererrmsg, setInvoicenumberErrmsg] = useState("");
   // const [invoicedateerrmsg, setInvoiceDateErrmsg] = useState("");
   // const [invoiceduedateerrmsg, setInvoiceDueDateErrmsg] = useState("");
   // const [allfielderrmsg, setAllFieldErrmsg] = useState("");
   // const [amenityArray, setamenityArray] = useState([]);
-  const [recurringbills, setRecurringBills] = useState([]);
+  // const [recurringbills, setRecurringBills] = useState([]);
   const [account, setAccount] = useState("");
   const [accountError, setAccountError] = useState("");
   const startRef = useRef(null);
@@ -157,7 +157,7 @@ const InvoicePage = () => {
   // const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [search, setSearch] = useState(false);
   // const [filterStatus, setFilterStatus] = useState(false);
-  const theme = useTheme();
+  // const theme = useTheme();
   // const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
 
@@ -165,12 +165,12 @@ const InvoicePage = () => {
   const [transactionId, setTransactionId] = useState("");
   const [hostelId, setHostelId] = useState("");
   const [chips, setChips] = useState([])
-  const [receiptdata, setReceiptData] = useState([]);
+  // const [receiptdata, setReceiptData] = useState([]);
   // const [receiptLoader, setReceiptLoader] = useState(false);
   // const [originalBillsFilter, setOriginalBillsFilter] = useState([]);
-  const [originalBillsFilterReceipt, setOriginalBillsFilterReceipt] = useState(
-    []
-  );
+  // const [originalBillsFilterReceipt, setOriginalBillsFilterReceipt] = useState(
+  //   []
+  // );
   const [originalBills, setOriginalBills] = useState([]);
   // const [originalRecuiring, setOriginalRecuiring] = useState([]);
   // const [originalReceipt, setOriginalReceipt] = useState([]);
@@ -178,7 +178,7 @@ const InvoicePage = () => {
   // const [dateRange, setDateRange] = useState([null, null]);
   // const [hoveredIndex, setHoveredIndex] = useState(null);
   // const [startDate, endDate] = dateRange;
-  const [checkedRows, setCheckedRows] = useState({});
+  // const [checkedRows, setCheckedRows] = useState({});
   // const [manualInvoiceNumberError, setManualInvoiceNumberError] = useState("")
   // const [unableAddInvoiceDetailsError, setUnableAddInvoiceDetailsError] = useState("")
   const [name, setName] = useState("")
@@ -186,7 +186,7 @@ const InvoicePage = () => {
   const [room_name, setRoomName] = useState("")
   const [bed_name, setBedName] = useState("")
   const [profile_pic, setProfilePic] = useState(null)
-  const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);
+  // const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);
   // const [selectedTransactionId, setSelectedTransactionId] = useState(null);
   // const [activeStay, setActiveStay] = useState("long_stay");
 
@@ -284,13 +284,13 @@ const InvoicePage = () => {
 
   };
 
-  useEffect(() => {
-    const initialState = {};
-    recurringbills?.forEach((item) => {
-      initialState[item.customerId] = item.currentStatus === true;
-    });
-    setCheckedRows(initialState);
-  }, [recurringbills]);
+  // useEffect(() => {
+  //   const initialState = {};
+  //   recurringbills?.forEach((item) => {
+  //     initialState[item.customerId] = item.currentStatus === true;
+  //   });
+  //   setCheckedRows(initialState);
+  // }, [recurringbills]);
 
 
 
@@ -412,7 +412,7 @@ const InvoicePage = () => {
 
   useEffect(() => {
     setLoading(false);
-    setRecurLoader(false)
+    // setRecurLoader(false)
 
   }, [state.InvoiceList.ManualInvoices, state.InvoiceList.billsList?.listInvoices, state.InvoiceList.RecurringBills])
 
@@ -431,15 +431,7 @@ const InvoicePage = () => {
     }
   }, [state.InvoiceList.BillsErrorstatusCode]);
 
-  useEffect(() => {
-    if (state.InvoiceList.NodataRecurringStatusCode === 201) {
-
-      setTimeout(() => {
-        setRecurLoader(false);
-        dispatch({ type: "CLEAR_NODATA_RECURRINGBILLS_LIST" });
-      }, 100);
-    }
-  }, [state.InvoiceList.NodataRecurringStatusCode]);
+ 
 
 
 
@@ -793,7 +785,7 @@ const InvoicePage = () => {
     }
 
     setPayableAmount(value);
-    setPayableAmountError("")
+    // setPayableAmountError("")
     dispatch({ type: 'CLEAR_PAYABLE_AMOUNT' })
   };
 
@@ -1085,7 +1077,7 @@ const InvoicePage = () => {
     setEndDate("");
     setInvoiceDate("");
     setInvoiceDueDate("");
-    setNewRows([]);
+    // setNewRows([]);
 
   };
 
@@ -1300,11 +1292,11 @@ const InvoicePage = () => {
 
 
 
-  const handleDisplayInvoiceDownload = (isVisible, rowData) => {
+  const handleDisplayInvoiceDownload = (isVisible) => {
     setDownloadInvoice(isVisible);
     setStatusfilter(false)
     setSearch(false)
-    setSelectedInvoiceId(rowData.invoiceId);
+    // setSelectedInvoiceId(rowData.invoiceId);
   };
 
 
@@ -1568,7 +1560,7 @@ const InvoicePage = () => {
       setInvoiceDueDate("");
       // setTotalAmount("");
 
-      setNewRows([]);
+      // setNewRows([]);
       dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
 
       setLoading(false);

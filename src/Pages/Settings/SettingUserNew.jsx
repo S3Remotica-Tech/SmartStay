@@ -6,7 +6,7 @@ import { Button, Modal } from "react-bootstrap";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
 import emptyimg from "../../Assets/Images/New_images/empty_image.png";
-import { ArrowUp2, ArrowDown2 } from "iconsax-react";
+// import { ArrowUp2, ArrowDown2 } from "iconsax-react";
 import Edit from "../../Assets/Images/Edit-blue.png";
 import Delete from "../../Assets/Images/Delete_red.png";
 import AddUser from "../../Pages/UserFile/AddUser";
@@ -265,37 +265,42 @@ function SettingNewUser() {
   //     setSortConfig({ key, direction });
   //   };
 
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+  // const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
-  const sortedData = React.useMemo(() => {
-    if (!sortConfig.key) return usersFilterddata; // Use full filtered data
+  // const sortedData = React.useMemo(() => {
+  //   if (!sortConfig.key) return usersFilterddata; // Use full filtered data
 
-    const sorted = [...usersFilterddata].sort((a, b) => {
-      const valueA = a[sortConfig.key];
-      const valueB = b[sortConfig.key];
+  //   const sorted = [...usersFilterddata].sort((a, b) => {
+  //     const valueA = a[sortConfig.key];
+  //     const valueB = b[sortConfig.key];
 
-      if (!isNaN(valueA) && !isNaN(valueB)) {
-        return sortConfig.direction === "asc" ? valueA - valueB : valueB - valueA;
-      }
+  //     if (!isNaN(valueA) && !isNaN(valueB)) {
+  //       return sortConfig.direction === "asc" ? valueA - valueB : valueB - valueA;
+  //     }
 
-      if (typeof valueA === "string" && typeof valueB === "string") {
-        return sortConfig.direction === "asc"
-          ? valueA.localeCompare(valueB)
-          : valueB.localeCompare(valueA);
-      }
+  //     if (typeof valueA === "string" && typeof valueB === "string") {
+  //       return sortConfig.direction === "asc"
+  //         ? valueA.localeCompare(valueB)
+  //         : valueB.localeCompare(valueA);
+  //     }
 
-      return 0;
-    });
+  //     return 0;
+  //   });
 
-    return sorted;
-  }, [usersFilterddata, sortConfig]);
+  //   return sorted;
+  // }, [usersFilterddata, sortConfig]);
 
-  const handleSort = (key, direction) => {
-    setSortConfig({ key, direction });
-  };
+  // const handleSort = (key, direction) => {
+  //   setSortConfig({ key, direction });
+  // };
+
+ const sortedData = React.useMemo(() => {
+        return Array.isArray(usersFilterddata) ? usersFilterddata : [];
+    }, [usersFilterddata]);
 
 
 
+    
   return (
     <div className="sticky-top bg-white">
       {loading && (

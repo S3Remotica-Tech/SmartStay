@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { StoreSelectedHostelAction } from "../Redux/Action/smartStayAction";
 import "../Components/Sidebar.css";
 import Dashboards from "../Pages/Dashboard/Dashboard";
@@ -26,7 +26,7 @@ import { ArrowUp2, ArrowDown2, Chart2, DocumentText, Buildings, LogoutCurve } fr
 import SettingAllPages from "../Pages/Settings/SettingAllPages";
 import SettingIcon from "../Assets/Images/sidebariconOne.svg";
 import HelpVideoIcon from "../Assets/Images/sidebariconFour.svg";
-import Logout from "../Assets/Images/turn-off.png";
+// import Logout from "../Assets/Images/turn-off.png";
 import { useNavigate, useLocation, Navigate } from "react-router-dom";
 import { Route, Routes, NavLink } from "react-router-dom";
 import Cookies from 'universal-cookie';
@@ -75,7 +75,7 @@ function Sidebar() {
   const state = useSelector((state) => state);
 
   const stateData = useSelector((state) => state.createAccount);
-  const [zoom, setZoom] = useState('')
+  // const [zoom, setZoom] = useState('')
   const [manageOpen, setManageOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [allPageHostel_Id, setAllPageHostel_Id] = useState("");
@@ -593,25 +593,25 @@ console.log("cookieHostelId",cookieHostelId,)
     setIsVisibleSidebar(isVisible)
   }
 
-  const getZoomLevel = () => {
-    const zoom = Math.round(window.devicePixelRatio * 100);
-    return zoom;
-  };
+  // const getZoomLevel = () => {
+  //   const zoom = Math.round(window.devicePixelRatio * 100);
+  //   return zoom;
+  // };
 
-  useEffect(() => {
-    const handleZoomDetect = () => {
-      const zoom = getZoomLevel();
-      setZoom(zoom);
-    };
+  // useEffect(() => {
+  //   const handleZoomDetect = () => {
+  //     const zoom = getZoomLevel();
+  //     setZoom(zoom);
+  //   };
 
-    window.addEventListener("resize", handleZoomDetect);
-    window.addEventListener("mousemove", handleZoomDetect);
+  //   window.addEventListener("resize", handleZoomDetect);
+  //   window.addEventListener("mousemove", handleZoomDetect);
 
-    return () => {
-      window.removeEventListener("resize", handleZoomDetect);
-      window.removeEventListener("mousemove", handleZoomDetect);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("resize", handleZoomDetect);
+  //     window.removeEventListener("mousemove", handleZoomDetect);
+  //   };
+  // }, []);
 
 
   const handleClose = () => {

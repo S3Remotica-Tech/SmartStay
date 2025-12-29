@@ -10,7 +10,7 @@ import Group from "../../Assets/Images/New_images/Group.svg";
 import { CloseCircle, ArrowUp2, ArrowDown2 } from "iconsax-react";
 import PaginationList from "../../Components/PaginationList";
 import EB_RoomOverview from "./EB_RoomOverview";
-import Ellipse1 from "../../Assets/Images/Profile.jpg";
+// import Ellipse1 from "../../Assets/Images/Profile.jpg";
 import emptyimg from "../../Assets/Images/New_images/empty_image.png";
 import EB_TenantOverview from "./EB_TenantOverview";
 import { useDispatch, useSelector } from "react-redux";
@@ -82,6 +82,17 @@ const [showDots, setShowDots] = useState('')
     };
   }, []);
 
+
+   useEffect(() => {
+      if (popupRef.current) {
+        const popupHeight = popupRef.current.offsetHeight;
+        const windowHeight = window.innerHeight;
+        const spaceBelow = windowHeight - popupPosition.top;
+  
+  
+        setShowAbove(spaceBelow < popupHeight + 20);
+      }
+    }, [popupPosition]);
 
   useEffect(() => {
     if (!canReadElectricity) {
@@ -238,11 +249,11 @@ const handleShowDotsHostelReading = (row, index) =>{
   };
 
   const formattedReadings = customerReadingList?.map((item) => {
-    const [month, year] = item.startDate.split("/");
-    const billingMonth = new Date(`${year}-${month}-01`).toLocaleString("en-US", {
-      month: "short",
-      year: "numeric",
-    });
+    // const [month, year] = item.startDate.split("/");
+    // const billingMonth = new Date(`${year}-${month}-01`).toLocaleString("en-US", {
+    //   month: "short",
+    //   year: "numeric",
+    // });
 
     const formatDate = (dateStr) => {
       const [d, m, y] = dateStr.split("/").map(Number);

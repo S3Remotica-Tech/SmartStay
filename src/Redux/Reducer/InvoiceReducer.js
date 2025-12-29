@@ -90,9 +90,14 @@ export const initialState = {
     updateTenantRecurringStatusCode: 0,
     tenantAssignStatus: 0,
     tenantUnAssignStatus: 0,
-     recurringEditError: "" ,
+    recurringEditError: "",
     billsList: [],
     billsListStatusCode: 0,
+    getInitializeRecurring: [],
+    getInitializeRecurringStatusCode: 0,
+
+
+
     invoiceFilters: {
         startDate: undefined,
         endDate: undefined,
@@ -172,6 +177,15 @@ const InvoiceReducer = (state = initialState, action) => {
             return { ...state, refundDetails: action.payload.response, refundDetailsStatusCode: action.payload.statusCode }
         case 'REMOVE_GET_INITIALIZE_REFUND_DETAILS':
             return { ...state, refundDetailsStatusCode: 0 }
+
+        case 'GET_INITIALIZE_EDIT_RECURRING':
+            return { ...state, getInitializeRecurring: action.payload.response, getInitializeRecurringStatusCode: action.payload.statusCode }
+
+        case 'REMOVE_GET_INITIALIZE_EDIT_RECURRING':
+            return { ...state, getInitializeRecurringStatusCode: 0 }
+
+
+
 
         case "INVOICES_LIST_FILTER":
             return { ...state, billsList: action.payload.response, billsListStatusCode: action.payload.statusCode }

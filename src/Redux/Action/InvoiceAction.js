@@ -92,7 +92,7 @@ export function AddRecurringBill() {
 // }
 
 // v2
-export async function GetManualInvoices(hostelId) {
+export async function GetManualInvoices() {
   // return await AxiosConfigV2.get(`/v2/bills/${hostelId}`, {
   // })
    new Promise((resolve) => {
@@ -145,7 +145,12 @@ export async function createRefund(bill) {
   })
 }
 
+export async function getInitializeEditRecurring(hostel) {
+  return await AxiosConfigV2.get(`/v2/bills/${hostel.hostelId}/${hostel.invoiceId}`, {
+  })
+  
 
+}
 
 export  function AddRecurrBillsUsers() {
  new Promise((resolve) => {

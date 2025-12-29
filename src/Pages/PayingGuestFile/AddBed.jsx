@@ -102,11 +102,12 @@ function AddBed({ show, setShowBed, currentItem, editBedMode, isOccupied }) {
     }
 
     const isChanged = () => {
-      return (
-        bedNo !== (isOccupied?.bedName || "") ||
-        amount !== (isOccupied?.rentAmount || "")
-      );
-    };
+  return (
+    bedNo !== (isOccupied?.bedName || "") ||
+    String(amount) !== String(isOccupied?.rentAmount || "")
+  );
+};
+
 
 
     if (editBedMode && !isChanged()) {

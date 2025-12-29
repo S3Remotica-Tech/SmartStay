@@ -12,14 +12,14 @@ import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
 import ReceiptPdfCard from "../PDF/ReceiptPdfModal";
 import '../OthersComponent/BillPdfModal.css';
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 function ReceiptPdfDetails() {
 
     const location = useLocation();
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
 
     const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);

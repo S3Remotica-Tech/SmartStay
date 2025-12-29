@@ -1,17 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import { Table } from "react-bootstrap";
+// import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+// import { Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 // import { MdError } from "react-icons/md";
-import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2 } from "iconsax-react";
+// import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2 } from "iconsax-react";
 import Modal from "react-bootstrap/Modal";
 import { Button, Form } from "react-bootstrap";
-import cross from "../../Assets/Images/cross.png";
+// import cross from "../../Assets/Images/cross.png";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import "./UserList.css";
-import { CloseCircle, AddSquare, Tag2 } from "iconsax-react";
+import { CloseCircle,  Tag2 } from "iconsax-react";
 import { useHasPermission } from '../../Utils/Permission';
 import ErrorMessage from '../../Components/ErrorMessage'
 import Image from "react-bootstrap/Image";
@@ -44,7 +44,7 @@ function UserListAmenities(props) {
     canWriteModule: canWriteAmenities,
     canReadModule: canReadAmenities,
     // canUpdateModule: canUpdateAmenities,
-    canDeleteModule: canDeleteAmenities,
+    // canDeleteModule: canDeleteAmenities,
   } = useHasPermission("Amenities");
 
 
@@ -80,12 +80,14 @@ function UserListAmenities(props) {
   };
 
 
-  const handleShowAssignAmenities = () => {
+  // const handleShowAssignAmenities = () => {
 
-    setaddamenityShow(true);
-    setstatusShow(false);
+  //   setaddamenityShow(true);
+  //   setstatusShow(false);
 
-  };
+  // };
+
+
 
   useEffect(() => {
     if (
@@ -204,19 +206,19 @@ function UserListAmenities(props) {
     setselectAmneties("");
   };
 
-  const handleUnAssignAmenities = (amenities) => {
+  // const handleUnAssignAmenities = (amenities) => {
 
 
-    // dispatch({
-    //   type: 'TENANTUNASSIGNAMENITIES',
-    //   payload: {
-    //     hostelId: state.login.selectedHostel_Id,
-    //     amenityId: amenities.amenityId,
-    //     customers: [state.UsersList?.customerdetails?.customerId]
+  //   // dispatch({
+  //   //   type: 'TENANTUNASSIGNAMENITIES',
+  //   //   payload: {
+  //   //     hostelId: state.login.selectedHostel_Id,
+  //   //     amenityId: amenities.amenityId,
+  //   //     customers: [state.UsersList?.customerdetails?.customerId]
 
-    //   },
-    // })
-  }
+  //   //   },
+  //   // })
+  // }
 
 
   // useEffect(() => {
@@ -274,18 +276,18 @@ function UserListAmenities(props) {
   }, [state.InvoiceList.UnAssignAmenitiesSuccessStatusCode])
 
 
-  const [activeDotsId, setActiveDotsId] = useState(null);
-  const handleEdit = (v) => {
-    setActiveDotsId((prev) => (prev === v.id ? null : v.id));
-    setaddamenityShow(true);
-    setstatusShow(true);
-    setselectAmneties(v.amenity_Id);
-  };
+  // const [activeDotsId, setActiveDotsId] = useState(null);
+  // const handleEdit = (v) => {
+  //   setActiveDotsId((prev) => (prev === v.id ? null : v.id));
+  //   setaddamenityShow(true);
+  //   setstatusShow(true);
+  //   setselectAmneties(v.amenity_Id);
+  // };
   const handleFormClose = () => {
     setselectAmneties("");
     setSelectError("");
     setaddamenityShow(false);
-    setActiveDotsId(null)
+    // setActiveDotsId(null)
     setStatusAmni(false)
     setamnityError("");
 
@@ -298,71 +300,71 @@ function UserListAmenities(props) {
     }
   }, [state.UsersList.statusCustomerAddUser]);
 
-  const [amentiesrowsPerPage, setAmentiesrowsPerPage] = useState(2);
-  const [amnitiescurrentPage, setAmnitycurrentPage] = useState(1);
-  const [amnitiesFilterddata, setamnitiesFilterddata] = useState([]);
-  const indexOfLastRowamneties = amnitiescurrentPage * amentiesrowsPerPage;
-  const indexOfFirstRowamnities = indexOfLastRowamneties - amentiesrowsPerPage;
-  const currentRowAmnities = amnitiesFilterddata?.slice(
-    indexOfFirstRowamnities,
-    indexOfLastRowamneties
-  );
+  // const [amentiesrowsPerPage, setAmentiesrowsPerPage] = useState(2);
+  // const [amnitiescurrentPage, setAmnitycurrentPage] = useState(1);
+  // const [amnitiesFilterddata, setamnitiesFilterddata] = useState([]);
+  // const indexOfLastRowamneties = amnitiescurrentPage * amentiesrowsPerPage;
+  // const indexOfFirstRowamnities = indexOfLastRowamneties - amentiesrowsPerPage;
+  // const currentRowAmnities = amnitiesFilterddata?.slice(
+  //   indexOfFirstRowamnities,
+  //   indexOfLastRowamneties
+  // );
 
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+  // const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
-  const sortedData = React.useMemo(() => {
-    if (!sortConfig.key) return currentRowAmnities;
+  // // const sortedData = React.useMemo(() => {
+  // //   if (!sortConfig.key) return currentRowAmnities;
 
-    const sorted = [...currentRowAmnities].sort((a, b) => {
-      const valueA = a[sortConfig.key];
-      const valueB = b[sortConfig.key];
+  // //   const sorted = [...currentRowAmnities].sort((a, b) => {
+  // //     const valueA = a[sortConfig.key];
+  // //     const valueB = b[sortConfig.key];
 
-      if (!isNaN(valueA) && !isNaN(valueB)) {
-        return sortConfig.direction === "asc"
-          ? valueA - valueB
-          : valueB - valueA;
-      }
+  // //     if (!isNaN(valueA) && !isNaN(valueB)) {
+  // //       return sortConfig.direction === "asc"
+  // //         ? valueA - valueB
+  // //         : valueB - valueA;
+  // //     }
 
-      if (typeof valueA === "string" && typeof valueB === "string") {
-        return sortConfig.direction === "asc"
-          ? valueA.localeCompare(valueB)
-          : valueB.localeCompare(valueA);
-      }
+  // //     if (typeof valueA === "string" && typeof valueB === "string") {
+  // //       return sortConfig.direction === "asc"
+  // //         ? valueA.localeCompare(valueB)
+  // //         : valueB.localeCompare(valueA);
+  // //     }
 
-      return 0;
-    });
+  // //     return 0;
+  // //   });
 
-    return sorted;
-  }, [currentRowAmnities, sortConfig]);
-  const handleSort = (key, direction) => {
-    setSortConfig({ key, direction });
-  };
+  // //   return sorted;
+  // // }, [currentRowAmnities, sortConfig]);
+  // const handleSort = (key, direction) => {
+  //   setSortConfig({ key, direction });
+  // };
 
 
-  const handleAmnitiesPageChange = (amnitiespageNumber) => {
-    setAmnitycurrentPage(amnitiespageNumber);
+  // const handleAmnitiesPageChange = (amnitiespageNumber) => {
+  //   setAmnitycurrentPage(amnitiespageNumber);
 
-  };
+  // };
 
-  const amenitiesOptions = [
-    { value: 2, label: "2" },
-    { value: 5, label: "5" },
-    { value: 10, label: "10" },
-    { value: 50, label: "50" },
-    { value: 100, label: "100" },
-  ]
+  // const amenitiesOptions = [
+  //   { value: 2, label: "2" },
+  //   { value: 5, label: "5" },
+  //   { value: 10, label: "10" },
+  //   { value: 50, label: "50" },
+  //   { value: 100, label: "100" },
+  // ]
 
-  const handleItemsPerPageChange = (selectedOption) => {
-    setAmentiesrowsPerPage(selectedOption.value);
-    setAmnitycurrentPage(1);
-  };
-  const totalPagesAmnities = Math.ceil(
-    amnitiesFilterddata?.length / amentiesrowsPerPage
-  );
+  // const handleItemsPerPageChange = (selectedOption) => {
+  //   setAmentiesrowsPerPage(selectedOption.value);
+  //   setAmnitycurrentPage(1);
+  // };
+  // const totalPagesAmnities = Math.ceil(
+  //   amnitiesFilterddata?.length / amentiesrowsPerPage
+  // );
 
-  useEffect(() => {
-    setamnitiesFilterddata(state.UsersList?.amnetieshistory);
-  }, [state.UsersList?.amnetieshistory]);
+  // useEffect(() => {
+  //   setamnitiesFilterddata(state.UsersList?.amnetieshistory);
+  // }, [state.UsersList?.amnetieshistory]);
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
@@ -386,21 +388,7 @@ function UserListAmenities(props) {
 
 
 
-  const isDisabled =
-    !canWriteAmenities ||
-    state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" ||
-    state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" ||
-    state.UsersList.customerdetails?.customerCurrentStatus === "VACATED";
-
-
-
-
-
-
-
-
-
-
+  
   return (
     <div className="">
 
@@ -446,7 +434,7 @@ function UserListAmenities(props) {
                     style={{ height: 60, width: 60 }}
                     onError={(e) => {
                       e.target.onerror = null;
-                      e.target.src = Profiles;
+                      
                     }}
                   />
                 ) : (
@@ -866,7 +854,7 @@ function UserListAmenities(props) {
               <div className="row d-flex flex-wrap g-2">
                 {CustomerOverView.length > 0 ? CustomerOverView.map((v) => (
 
-                  <div className="col-md-4 col-12">
+                  <div key={v?.amenityId} className="col-md-4 col-12">
                     <div className="card " style={{
                       backgroundColor: "#FFF", padding: 14,
                       fontFamily: "Gilroy",

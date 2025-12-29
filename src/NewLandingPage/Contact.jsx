@@ -11,6 +11,8 @@ import Location from "../Assets/Images/landingpageimages/Location.png";
 import Call from "../Assets/Images/landingpageimages/call.png";
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from "react-helmet-async";
+import ErrorMessage from '../Components/ErrorMessage'
+
 function Contact() {
 
    const ogImage = "https://smartstay.qbatz.com/assets/Smartstay_LOGO-CEWVemGR.svg";
@@ -78,7 +80,7 @@ function Contact() {
 
     if (formData.user_name && formData.user_phone) {
       try {
-        const response = await axios.post('https://marketingapi.s3remotica.com/api/user/add_lead', formData);
+       await axios.post('https://marketingapi.s3remotica.com/api/user/add_lead', formData);
      
 
         await send('service_ael05nx',

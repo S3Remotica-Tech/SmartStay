@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import AddAsset from './AddAsset'
 import AssetListTable from '../../Pages/AssetFile/AssetListTable'
 import EmptyState from '../../Assets/Images/New_images/empty_image.png';
-import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort } from 'iconsax-react';
+import { CloseCircle, SearchNormal1, Sort } from 'iconsax-react';
 // import { MdError } from "react-icons/md";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 import { toast } from 'react-toastify';
@@ -31,12 +31,12 @@ function Asset() {
   const [show, setShow] = useState(null)
   const [showFilter, setShowFilter] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [assetrolePermission, setAssetRolePermission] = useState("");
+  // const [assetrolePermission, setAssetRolePermission] = useState("");
 
-  const [assetpermissionError, setAssetPermissionError] = useState("");
-  const [assetAddPermission, setAssetAddPermission] = useState("")
-  const [assetDeletePermission, setAssetDeletePermission] = useState("")
-  const [assetEditPermission, setAssetEditPermission] = useState("")
+  // const [assetpermissionError, setAssetPermissionError] = useState("");
+  // const [assetAddPermission, setAssetAddPermission] = useState("")
+  // const [assetDeletePermission, setAssetDeletePermission] = useState("")
+  // const [assetEditPermission, setAssetEditPermission] = useState("")
   const [excelDownload, setExcelDownload] = useState("")
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
   // const [currentPage, setCurrentPage] = useState(1);
@@ -160,73 +160,7 @@ function Asset() {
 
 
 
-  useEffect(() => {
-    setAssetRolePermission(state.createAccount.accountList);
-  }, [state.createAccount.accountList]);
-
-
-
-
-  useEffect(() => {
-
-    const userType = assetrolePermission[0]?.user_details?.user_type;
-    const isAdmin = userType === "admin" || userType === "agent";
-    if (isAdmin) {
-      if (state?.login?.planStatus === 0) {
-        setAssetPermissionError("");
-        setAssetAddPermission("Permission Denied");
-        setAssetEditPermission("Permission Denied");
-        setAssetDeletePermission("Permission Denied");
-
-      } else if (state?.login?.planStatus === 1) {
-        setAssetPermissionError("");
-        setAssetAddPermission("");
-        setAssetEditPermission("");
-        setAssetDeletePermission("");
-      }
-    }
-
-  }, [state?.login?.planStatus, state.login?.selectedHostel_Id, assetrolePermission])
-
-
-
-  useEffect(() => {
-    const assetPermission = assetrolePermission[0]?.role_permissions?.find(
-      (perm) => perm.permission_name === "Assets"
-    );
-
-    const isOwner = assetrolePermission[0]?.user_details?.user_type === "staff";
-    const planActive = state?.login?.planStatus === 1;
-
-    if (!assetPermission || !isOwner) return;
-
-
-    if (assetPermission.per_view === 1 && planActive) {
-      setAssetPermissionError("");
-    } else {
-      setAssetPermissionError("Permission Denied");
-    }
-
-
-    if (assetPermission.per_create === 1 && planActive) {
-      setAssetAddPermission("");
-    } else {
-      setAssetAddPermission("Permission Denied");
-    }
-
-    if (assetPermission.per_edit === 1 && planActive) {
-      setAssetEditPermission("");
-    } else {
-      setAssetEditPermission("Permission Denied");
-    }
-
-
-    if (assetPermission.per_delete === 1 && planActive) {
-      setAssetDeletePermission("");
-    } else {
-      setAssetDeletePermission("Permission Denied");
-    }
-  }, [assetrolePermission, state?.login?.planStatus, state.login?.selectedHostel_Id]);
+  
 
 
   const handleShow = () => {
@@ -474,37 +408,17 @@ setLoading(false)
   //   return sorted;
   // }, [currentItems, sortConfig]);
 
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+ 
+
 
   const sortedData = React.useMemo(() => {
-    if (!sortConfig.key) return filteredData;
-
-    const sorted = [...filteredData].sort((a, b) => {
-      const valueA = a[sortConfig.key];
-      const valueB = b[sortConfig.key];
-
-      if (!isNaN(valueA) && !isNaN(valueB)) {
-        return sortConfig.direction === "asc"
-          ? valueA - valueB
-          : valueB - valueA;
-      }
-
-      if (typeof valueA === "string" && typeof valueB === "string") {
-        return sortConfig.direction === "asc"
-          ? valueA.localeCompare(valueB)
-          : valueB.localeCompare(valueA);
-      }
-
-      return 0;
-    });
-
-    return sorted;
-  }, [filteredData, sortConfig]);
+    return Array.isArray(filteredData) ? filteredData : [];
+  }, [filteredData]);
 
 
-  const handleSort = (key, direction) => {
-    setSortConfig({ key, direction });
-  };
+  // const handleSort = (key, direction) => {
+  //   setSortConfig({ key, direction });
+  // };
 
 
 
@@ -567,12 +481,12 @@ setLoading(false)
 
 
 
-  const skeletonStyle = {
-    backgroundColor: '#dcdcdc',
-    borderRadius: '10px',
-    height: '20px',
-    marginBottom: '10px',
-  };
+  // const skeletonStyle = {
+  //   backgroundColor: '#dcdcdc',
+  //   borderRadius: '10px',
+  //   height: '20px',
+  //   marginBottom: '10px',
+  // };
 
 
   useEffect(() => {
@@ -1052,7 +966,11 @@ setLoading(false)
                               <>
                                 <PaginationList>
                                   {sortedData.map((item) => (
-                                    <AssetListTable item={item} OnEditAsset={handleEditAsset} key={item.id} assetEditPermission={assetEditPermission} assetAddPermission={assetAddPermission} assetDeletePermission={assetDeletePermission} disableActions={state?.login?.planStatus === 0} />
+                                    <AssetListTable item={item} OnEditAsset={handleEditAsset} key={item.id} 
+                                    // assetEditPermission={assetEditPermission}
+                                    //  assetAddPermission={assetAddPermission} 
+                                    // assetDeletePermission={assetDeletePermission}
+                                     disableActions={state?.login?.planStatus === 0} />
                                   ))}
                                 </PaginationList>
                               </>

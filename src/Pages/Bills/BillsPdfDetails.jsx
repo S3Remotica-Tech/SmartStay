@@ -1,65 +1,25 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-
 import React, { useState, useEffect, useRef } from "react";
-import { Container, Row, Col } from "react-bootstrap";
-import { Modal, Button, } from "react-bootstrap";
+import {  Row, Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
-import { FormControl } from "react-bootstrap";
-import Image from "react-bootstrap/Image";
-import { Table } from "react-bootstrap";
-import { Form } from "react-bootstrap";
-// import User from "../../Assets/Images/New_images/profile-picture.png";
-import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
 import "sweetalert2/dist/sweetalert2.min.css";
-import LoaderComponent from "../OthersComponent/LoaderComponent";
 import "../Bills/Invoices.css";
-import InvoiceTable from "../Bills/InvoicelistTable";
-// import Profile from "../../Assets/Images/New_images/profile-picture.png";
-import TabContext from "@mui/lab/TabContext";
-// import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
-import { Tabs, Tab } from "react-bootstrap";
-import Calendars from "../../Assets/Images/New_images/calendar.png";
 import "flatpickr/dist/themes/material_blue.css";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { useTheme } from "@mui/material/styles";
-import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import BillPdfModal from "../PDF/BillPdfModal";
 import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
-import RecurringBill from "../../Pages/Recurring/RecurringBills";
-import RecurringBillList from "../../Pages/Recurring/RecurringBillList";
-import closecircle from "../../Assets/Images/New_images/close-circle.png";
-import searchteam from "../../Assets/Images/New_images/Search Team.png";
-// import Filters from "../../Assets/Images/Filters.svg";
-import Receipt from "../../Pages/Receipt/Receipt";
-import AddReceiptForm from "../Receipt/AddReceipt";
-import ReceiptPdfCard from "../PDF/ReceiptPdfModal";
-import PropTypes from "prop-types";
-import { toast } from "react-toastify";
-import { DatePicker } from "antd";
-import dayjs from "dayjs";
-import { CloseCircle, ArrowUp2, ArrowDown2, Filter } from "iconsax-react";
 import '../OthersComponent/BillPdfModal.css';
-import AxiosConfig from "../../WebService/AxiosConfig";
-import Swal from 'sweetalert2';
-import PaginationList from "../../Components/PaginationList";
-import ErrorMessage from '../../Components/ErrorMessage'
-import { useHasPermission } from '../../Utils/Permission';
-import { HiMiniBars3BottomLeft } from "react-icons/hi2";
-import { useNavigate, useLocation } from "react-router-dom";
-import withErrorBoundary from "../../Hoc/WithErrorBountry";
-import BillsFilter from '../../Pages/Bills/BillsFilter'
-import { FiSearch } from "react-icons/fi";
+import {  useLocation } from "react-router-dom";
+
 
 function BillsPdfDetails() {
 
     const location = useLocation();
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
     const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);
@@ -71,12 +31,12 @@ function BillsPdfDetails() {
 
 
     useEffect(() => {
-        setSelectedInvoiceId(rowData.invoiceId)
+        setSelectedInvoiceId(rowData?.invoiceId)
     }, [rowData])
 
     const handleDisplayInvoiceDownload = (item) => {
         setRowDatas(item)
-        setSelectedInvoiceId(item.invoiceId)
+        setSelectedInvoiceId(item?.invoiceId)
         if (item) {
             dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: item.hostelId, invoiceId: item.invoiceId } })
 

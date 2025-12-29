@@ -1,13 +1,13 @@
 import React from "react";
 import { BiSolidError } from "react-icons/bi";
-
+import PropTypes from "prop-types";
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError() {
     return { hasError: true };
 
   }
@@ -71,5 +71,7 @@ class ErrorBoundary extends React.Component {
     return this.props.children;
   }
 }
-
+ErrorBoundary.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 export default ErrorBoundary;

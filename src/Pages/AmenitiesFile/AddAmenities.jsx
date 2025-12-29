@@ -22,7 +22,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
   const [hostelError, setHostelError] = useState("");
   const [errorAmenity, setErrorAmenity] = useState("");
   const [errorAmount, setErrorAmount] = useState("");
-  const [amnitiesError, setAmnitiesError] = useState("")
+  // const [amnitiesError, setAmnitiesError] = useState("")
   const [formLoading, setFormLoading] = useState(false)
 
   useEffect(() => {
@@ -70,7 +70,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
   setAmenity(value);
   setErrorAmenity("");
   setIsChangedError("");
-  setAmnitiesError("");
+  // setAmnitiesError("");
   dispatch({ type: 'REMOVE_ERROR_AMENITIES_SETTINGS' });
 };
 
@@ -89,14 +89,14 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
 
   const handleCloseForm = () => {
     handleClose()
-    setAmnitiesError("")
+    // setAmnitiesError("")
     dispatch({ type: 'REMOVE_ERROR_AMENITIES_SETTINGS' })
   }
 
   useEffect(() => {
     if (state.InvoiceList.amnitiessAddError) {
       setFormLoading(false)
-      setAmnitiesError(state.InvoiceList.amnitiessAddError)
+      // setAmnitiesError(state.InvoiceList.amnitiessAddError)
     }
 
   }, [state.InvoiceList.amnitiessAddError])
