@@ -280,18 +280,11 @@ function Dashboard() {
 
 
 
-
-
-
-
-
-
-
-
  
-  
 
- 
+
+
+
 
   useEffect(() => {
     const appearOptions = {
@@ -478,7 +471,7 @@ function Dashboard() {
 
   return (
     <>
-      <div className="container px-3 py-3">
+      <div className="container p-0">
         <Marquee pauseOnHover gradient={false}>
           {showWarning && (
             <div

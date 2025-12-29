@@ -604,7 +604,7 @@ setLoading(false)
   return (
     <>
 
-      <div className=" sticky-top bg-white" style={{ margin:5, position:"relative" }}>
+      <div className=" sticky-top bg-white" style={{ position:"relative" }}>
          {loading &&
           <div
             style={{

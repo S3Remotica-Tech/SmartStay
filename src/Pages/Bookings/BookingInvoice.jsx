@@ -22,13 +22,12 @@ import {  Row, Col, Table } from "react-bootstrap";
 import { Location, Call, Profile, } from 'iconsax-react'
 import { IoBed } from "react-icons/io5";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
-import { useNavigate } from "react-router-dom";
 
 
-const InvoiceCard = ({ rowData, handleClosed }) => {
+const BookingInvoice = ({ rowData, handleClosed }) => {
 
   const state = useSelector((state) => state);
-  const navigate = useNavigate();
+
 
 
 
@@ -151,7 +150,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
 
   const handleBackInvoice = () => {
-    navigate(`/invoice/${state.login?.selectedHostel_Id}`);
+    handleClosed()
   }
 
 
@@ -292,7 +291,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
             <div>
 
-              <div className="gap-2 d-flex ">
+              <div className="gap-2 d-flex me-3">
                 <div
                   className="d-flex justify-content-center align-items-center border"
                   style={{ borderRadius: '8px', cursor: "pointer", height: 30, width: 30 }}
@@ -403,7 +402,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
 
         <div style={{
-          backgroundColor: "#F7F8FC", height:"90vh",
+          backgroundColor: "#F7F8FC", maxHeight: 565,
           overflowY: "auto",
           overflowX: 'hidden',
         }}
@@ -1184,21 +1183,21 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                               }}
                             >
 
-                              <div style={{ color: "#4B4B4B", fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}>Grand Total</div>
-                              <div style={{ fontSize: 12, fontWeight: 600, color: "#4B4B4B", fontFamily: "Gilroy" }}>₹{" "}
+                              <div style={{ color: "#4B4B4B", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>Grand Total</div>
+                              <div style={{ fontSize: 14, fontWeight: 600, color: "#4B4B4B", fontFamily: "Gilroy" }}>₹{" "}
                                 {Number(pdfDetails?.invoiceInfo?.totalAmount || 0)}</div>
                             </div>
                             <div
                               className="d-flex justify-content-between align-items-center mb-2"
                               style={{
                                 backgroundColor: "#FAFBFF",
-                                fontSize: 12,
+                                fontSize: 13,
                                 fontWeight: 600,
                               }}
                             >
 
-                              <div style={{ color: "#4B4B4B", fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}>Payment Made</div>
-                              <div style={{ fontSize: 12, fontWeight: 600, color: "rgba(0,163, 46, 1)", fontFamily: "Gilroy" }}>₹{" "}
+                              <div style={{ color: "#4B4B4B", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>Payment Made</div>
+                              <div style={{ fontSize: 14, fontWeight: 600, color: "rgba(0,163, 46, 1)", fontFamily: "Gilroy" }}>₹{" "}
                                 {Number(pdfDetails?.invoiceInfo?.paidAmount || 0)}</div>
                             </div>
 
@@ -1206,13 +1205,13 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                               className="d-flex justify-content-between align-items-center mb-2"
                               style={{
                                 backgroundColor: "#FAFBFF",
-                                fontSize: 12,
+                                fontSize: 13,
                                 fontWeight: 600,
                               }}
                             >
 
-                              <div style={{ color: "#4B4B4B", fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}>Balance Due</div>
-                              <div style={{ fontSize: 12, fontWeight: 600, color: "#FF0000", fontFamily: "Gilroy" }}>₹{" "}
+                              <div style={{ color: "#4B4B4B", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>Balance Due</div>
+                              <div style={{ fontSize: 14, fontWeight: 600, color: "#FF0000", fontFamily: "Gilroy" }}>₹{" "}
                                 {Number(pdfDetails?.invoiceInfo?.balanceAmount || 0)}</div>
                             </div>
                           </div>
@@ -1289,7 +1288,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                           ""}
                       </div>
 
-                      {/* <div className="d-flex justify-content-end">
+                      <div className="d-flex justify-content-end">
                         {[Paytm, Phonepe, Gpay].map((icon, idx) => (
                           <img
                             key={idx}
@@ -1299,7 +1298,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                             className="ms-2"
                           />
                         ))}
-                      </div> */}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1410,13 +1409,13 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
   );
 };
 
-InvoiceCard.propTypes = {
+BookingInvoice.propTypes = {
   rowData: PropTypes.func.isRequired,
   handleClosed: PropTypes.func.isRequired
 };
 
 
-export default withErrorBoundary(InvoiceCard);
+export default withErrorBoundary(BookingInvoice);
 
 
 

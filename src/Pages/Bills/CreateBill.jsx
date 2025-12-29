@@ -932,7 +932,6 @@ function CreateBill() {
    
 
 
-
     const optionsone = {
         dateFormat: "d/m/Y",
         defaultDate: null,

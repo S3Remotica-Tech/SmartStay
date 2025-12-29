@@ -1,391 +1,931 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useRef, useEffect } from "react";
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import Edit from '../../Assets/Images/Edit-blue.png';
-import Delete from '../../Assets/Images/Delete_red.png';
-import Modal from "react-bootstrap/Modal";
-import { Button } from "react-bootstrap";
+import React, { useState, useEffect, useRef } from "react";
+import ReceiptList from "../../Pages/Receipt/ReceiptList";
+import { Container, Row, Col, InputGroup, Table, Button, FormControl, } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "react-loading-skeleton/dist/skeleton.css";
 import { useDispatch, useSelector } from "react-redux";
-import Download from '../../Assets/Images/New_images/download.png';
-import PropTypes from "prop-types";
-import { useNavigate } from "react-router-dom";
+import "sweetalert2/dist/sweetalert2.min.css";
+import "../Bills/Invoices.css";
+import Calendars from "../../Assets/Images/New_images/calendar.png";
+import "flatpickr/dist/themes/material_blue.css";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
+import Emptystate from "../../Assets/Images/Empty-State.jpg";
+import "react-toastify/dist/ReactToastify.css";
+import "react-datepicker/dist/react-datepicker.css";
+import AddReceiptForm from "../Receipt/AddReceipt";
+import { toast } from "react-toastify";
+// import { DatePicker } from "antd";
+// import dayjs from "dayjs";
+import { CloseCircle, } from "iconsax-react";
+import '../OthersComponent/BillPdfModal.css';
+import AxiosConfig from "../../WebService/AxiosConfig";
+import Swal from 'sweetalert2';
+import PaginationList from "../../Components/PaginationList";
+import ErrorMessage from '../../Components/ErrorMessage'
 import { useHasPermission } from '../../Utils/Permission';
+import { useNavigate } from "react-router-dom";
+import { FiSearch } from "react-icons/fi";
+import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 
-const Receipt = (props) => {
-
-
-
-  const state = useSelector((state) => state);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  // const [receiptdeletePermission, setReceiptDeletePermission] = useState("");
-  // const [receiptEditPermission, setReceiptEditPermission] = useState("")
-  const [deleteShow, setDeleteShow] = useState(false)
-  const [deleteitem, setDeleteItem] = useState('')
-  const [showDots, setShowDots] = useState('')
-  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+function Receipt() {
 
 
-  const {
-    canReadModule: canReadReceipt,
-    canDeleteModule: canDeleteReceipt,
-    canUpdateModule: canUpdateReceipt,
-  } = useHasPermission("Receipt");
-
-
-
-
-  const handleDeleteForm = (item) => {
-    setDeleteShow(true)
-    setDeleteItem(item)
-  }
-
-  const handleCloseDelete = () => {
-    setDeleteShow(false)
-  }
-
-
-  // useEffect(() => {
-  //   const userType = props.billrolePermission[0]?.user_details?.user_type;
-  //   const isAdmin = userType === "admin" || userType === "agent";
-  //   if (isAdmin) {
-  //     if (state?.login?.planStatus === 0) {
-  //       setReceiptDeletePermission("Permission Denied");
-  //       setReceiptEditPermission("Permission Denied");
-  //     } else if (state?.login?.planStatus === 1) {
-  //       setReceiptDeletePermission("");
-  //       setReceiptEditPermission("");
-  //     }
-  //   }
-
-  // }, [state?.login?.planStatus, state.login?.selectedHostel_Id, props.billrolePermission])
-
-
-
-
-  const handleShowDots = (event) => {
-    setShowDots(!showDots)
-    const { top, left, height } = event.target.getBoundingClientRect();
-    const popupTop = top + (height / 2);
-    const popupLeft = left - 150;
-
-    setPopupPosition({ top: popupTop, left: popupLeft });
-  }
-
-
-  const handleDelete = () => {
-
-    if (deleteitem) {
-      dispatch({
-        type: "DELETE_RECEIPT",
-        payload: {
-          hostelId: state.login?.selectedHostel_Id, receiptId: deleteitem.transactionId
-        },
-      });
-    }
-
-  }
-
-
-
-  const handleEdit = (item) => {
-    props.onhandleEdit(item)
-  }
-
-
-
-
-  const handleInvoicepdf = (item) => {
-    props.OnHandleshowInvoicePdf(item)
-  }
+    const state = useSelector((state) => state);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    // const [recurLoader, setRecurLoader] = useState(false);
+    //    const [initials, setInitials] = useState("");
+    // const [formRecordLoading, setFormRecordLoading] = useState(false)
+    // const dropdownRef = useRef(null);
+    const [invoiceList, setInvoiceList] = useState({
+        firstName: "",
+        lastName: "",
+        phone: "",
+        email: "",
+        hostel_Name: "",
+        hostel_Id: "",
+        FloorNo: "",
+        RoomNo: "",
+        date: "",
+        paymentType: "",
+        amount: "",
+        balanceDue: "",
+        dueDate: "",
+        payableAmount: "",
+        InvoiceId: "",
+        invoice_type: "",
+        transaction: "",
+    });
 
 
 
 
 
 
+    // const location = useLocation();
+
+    // const isDuplicate = location.pathname.includes("/invoice/new/");
 
 
-  const popupRef = useRef(null);
-  const handleClickOutside = (event) => {
-    if (popupRef.current && !popupRef.current.contains(event.target)) {
-      setShowDots(false);
-    }
-  };
+    // console.log("isDuplicate", isDuplicate, "location.pathname", location.pathname)
 
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+
+    // const [showLoader, setShowLoader] = useState(false);
+    // const [statusfilter, setStatusfilter] = useState("");
+    const [selectedUserId, setSelectedUserId] = useState("");
+    // const [paymodeerrormsg, setPaymodeErrmsg] = useState("");
+    // const [amounterrormsg, setAmountErrmsg] = useState("");
+    // const [dateerrmsg, setDateErrmsg] = useState("");
+    // const [totalErrormsg, setTotalErrmsg] = useState("");
+    const [customername, setCustomerName] = useState("");
+    // const [invoicenumber, setInvoiceNumber] = useState("");
+    const [startdate, setStartDate] = useState(null);
+    const [enddate, setEndDate] = useState(null);
+    const [invoicedate, setInvoiceDate] = useState(null);
+    const [invoiceduedate, setInvoiceDueDate] = useState(null);
+    // const [formatinvoicedate, setFormatInvoiceDate] = useState(null);
+    // const [formatduedate, setFormatDueDate] = useState(null);
+    // const [totalAmount, setTotalAmount] = useState("");
+    // const [bills, setBills] = useState([]);
+    // const [newRows, setNewRows] = useState([])
+    // const [customererrmsg, setCustomerErrmsg] = useState("");
+    // const [invoicenumbererrmsg, setInvoicenumberErrmsg] = useState("");
+    // const [invoicedateerrmsg, setInvoiceDateErrmsg] = useState("");
+    // const [invoiceduedateerrmsg, setInvoiceDueDateErrmsg] = useState("");
+    // const [allfielderrmsg, setAllFieldErrmsg] = useState("");
+    // const [amenityArray, setamenityArray] = useState([]);
+    // const [recurringbills, setRecurringBills] = useState([]);
+    // const [account, setAccount] = useState("");
+    // const [accountError, setAccountError] = useState("");
+    const startRef = useRef(null);
+    const endRef = useRef(null);
+    const invoiceRef = useRef(null);
+    const dueRef = useRef(null);
+    const [showmanualinvoice, setShowManualInvoice] = useState(false);
+    const [showRecurringBillForm, setShowRecurringBillForm] = useState(false);
+    const [receiptformShow, setReceiptFormShow] = useState(false);
+    const [showAllBill, setShowAllBill] = useState(true);
+    // const [billrolePermission, setBillRolePermission] = useState("");
+    // const [billpermissionError, setBillPermissionError] = useState("");
+    // const [billAddPermission, setBillAddPermission] = useState("");
+    // const [billDeletePermission, setBillDeletePermission] = useState("");
+    // const [billEditPermission, setBillEditPermission] = useState("");
+    // const [recuringbillAddPermission, setRecuringBillAddPermission] = useState("");
+    // const [recurringPermission, setRecurringPermission] = useState("");
+    // const [receiptPermission, setReceiptPermission] = useState("");
+    // const [receiptaddPermission, setReceiptAddPermission] = useState("");
+    // const [showform, setShowform] = useState(false);
+    // const [selectedDate, setSelectedDate] = useState(null);
+    // const calendarRef = useRef(null);;
+    // const [tableErrmsg, setTableErrmsg] = useState("");
+    // const [value, setValue] = React.useState("1");
+    // const [DownloadInvoice, setDownloadInvoice] = useState(false);
+    // const [DownloadReceipt, setDownloadReceipt] = useState(false);
+    // const [showPdfModal, setShowPdfModal] = useState(false);
+    // const [showPdfReceiptModal, setShowPdfReceiptModal] = useState(false);
+    // const [rowData, setRowData] = useState("");
+    // const [showdeleteform, setShowDeleteform] = useState(false);
+    // const [billMode, setBillMode] = useState("New Bill");
+    // const [isEditing, setIsEditing] = useState(false);
+    // const [deleteId, setDeleteId] = useState("");
+    // const [filterInput, setFilterInput] = useState("");
+    // const [isDropdownVisible, setDropdownVisible] = useState(false);
+    const [search, setSearch] = useState(false);
+    // const [filterStatus, setFilterStatus] = useState(false);
+    // const theme = useTheme();
+    // const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
+
+
+    // const [transactionId, setTransactionId] = useState("");
+    // const [hostelId, setHostelId] = useState("");
+    // const [chips, setChips] = useState([])
+    const [receiptdata, setReceiptData] = useState([]);
+    const [receiptLoader, setReceiptLoader] = useState(false);
+    // const [originalBillsFilter, setOriginalBillsFilter] = useState([]);
+    // const [originalBillsFilterReceipt, setOriginalBillsFilterReceipt] = useState(
+    //     []
+    // );
+    // const [originalBills, setOriginalBills] = useState([]);
+    // const [originalRecuiring, setOriginalRecuiring] = useState([]);
+    // const [originalReceipt, setOriginalReceipt] = useState([]);
+    // const [selectedTypes, setSelectedTypes] = useState([]);
+    // const [dateRange, setDateRange] = useState([null, null]);
+    // const [hoveredIndex, setHoveredIndex] = useState(null);
+    // const [startDate, endDate] = dateRange;
+    // const [checkedRows, setCheckedRows] = useState({});
+    // const [manualInvoiceNumberError, setManualInvoiceNumberError] = useState("")
+    // const [unableAddInvoiceDetailsError, setUnableAddInvoiceDetailsError] = useState("")
+    // const [name, setName] = useState("")
+    // const [floor_name, setFloorName] = useState("")
+    // const [room_name, setRoomName] = useState("")
+    // const [bed_name, setBedName] = useState("")
+    // const [profile_pic, setProfilePic] = useState(null)
+    // const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);
+    // const [selectedTransactionId, setSelectedTransactionId] = useState(null);
+    // const [activeStay, setActiveStay] = useState("long_stay");
+
+
+    const {
+        canWriteModule: canWriteReceipt,
+        canReadModule: canReadReceipt,
+    } = useHasPermission("Receipt");
+
+
+
+    // const handleClick = (stayType) => {
+    //     setActiveStay(stayType);
+    // };
+
+    // const [showBillsFilter, setShowBillsFilter] = useState(false);
+
+    // const handleShowFilterBills = () => {
+    //     setShowBillsFilter(true)
+
+    //     dispatch({
+    //         type: "SET_INVOICE_FILTERS",
+    //         payload: {
+    //             startDate: undefined,
+    //             endDate: undefined,
+    //             type: [],
+    //             createdBy: [],
+    //             createdByLabels: [],
+    //             modes: [],
+    //             paymentStatus: [],
+    //             search: "",
+    //         },
+    //     })
+
+    // }
+
+    // const handleCloseFilterBills = () => {
+    //     setShowBillsFilter(false)
+
+    // }
+
+
+    // const monthOptions = [
+    //     { value: "this_month", label: "This Month" },
+    //     { value: "previous_month", label: "Previous Month" },
+    // ];
+
+    // const [selectedMonth, setSelectedMonth] = useState(monthOptions[0]);
+
+
+
+    // const handleMonthChange = (selectedOption) => {
+    //     setSelectedMonth(selectedOption);
+
+    // };
+
+   
+
+
+
+
+    useEffect(() => {
+        if (state.InvoiceList.updateTenantRecurringStatusCode) {
+
+            dispatch({ type: "RECURRING-BILLS-LIST", payload: state.login?.selectedHostel_Id })
+
+            setTimeout(() => {
+                dispatch({ type: 'REMOVE_UPDATE_TENANT_RECURRING' })
+            }, 100)
+        }
+
+    }, [state.InvoiceList.updateTenantRecurringStatusCode])
+
+
+ 
+
+   
+
+    useEffect(() => {
+        if (state.InvoiceList.BillsErrorstatusCode === 201) {
+
+            setTimeout(() => {
+                setLoading(false);
+                dispatch({ type: "REMOVE_NODATA_BILL_LIST" });
+            }, 100);
+        }
+    }, [state.InvoiceList.BillsErrorstatusCode]);
+
+
+
+    const handleReceiptShow = () => {
+        if (!state.login.selectedHostel_Id) {
+            toast.error('Please add a hostel before adding receipt information.', {
+                hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
+            });
+            return;
+        }
+        setShowAllBill(false);
+        // setReceiptFormShow(true);
+        // dispatch({ type: "GET_REFERENCE_ID" });
     };
-  }, []);
 
 
-  const handleDownload = (item) => {
-    if (item) {
-      props.DisplayInvoice(true, item)
+  
+
+    useEffect(() => {
+        if (state.InvoiceList.pdfErrorStatusCode === 201) {
+                       setTimeout(() => {
+                dispatch({ type: "REMOVE_PDF_ERROR" });
+            }, 100);
+        }
+    }, [state.InvoiceList.pdfErrorStatusCode]);
+    useEffect(() => {
+        if (state.createAccount?.networkError) {
+            // setLoading(false)
+            // setShowLoader(false);
+            setTimeout(() => {
+                dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+            }, 3000)
+        }
+
+    }, [state.createAccount?.networkError])
+
+    const handleReceiptDetail = (item) => {
+
+
+        if (item.user_id) {
+
+            dispatch({
+                type: "RECEIPTPDF",
+                payload: {
+                    id: item.id,
+                },
+            });
+
+            // setShowLoader(true);
+        }
+    };
+
+
+
+
+    // const CustomStyles = {
+    //     control: (base) => ({
+    //         ...base,
+    //         height: "auto",
+    //         border: "1px solid #D9D9D9",
+    //         borderRadius: "8px",
+    //         fontSize: "14px",
+    //         color: "#4B4B4B",
+    //         fontFamily: "Gilroy, sans-serif",
+    //         fontWeight: 500,
+    //         boxShadow: "none",
+    //         cursor: "pointer",
+    //         outline: "none",
+    //         "&:hover": {
+    //             border: "1px solid #D9D9D9",
+    //         },
+    //     }),
+    //     valueContainer: (base) => ({
+    //         ...base,
+    //         maxHeight: "60px",
+    //         overflowY: "auto",
+    //         flexWrap: "wrap",
+    //     }), multiValue: (base) => ({
+    //         ...base,
+    //         backgroundColor: "#FFF",
+    //         borderRadius: "6px",
+    //     }),
+
+    //     multiValueLabel: (base) => ({
+    //         ...base,
+    //         fontSize: "12px",
+    //         fontWeight: 600,
+    //         color: "#000000",
+    //     }),
+
+    //     multiValueRemove: (base) => ({
+    //         ...base,
+    //         cursor: "pointer",
+    //         borderRadius: 10,
+    //         color: "#FF0000",
+    //         ":hover": {
+    //             color: "#FF0000",
+    //         },
+    //     }),
+
+    //     menu: (base) => ({
+    //         ...base,
+    //         backgroundColor: "#f8f9fa",
+    //         border: "1px solid #ced4da",
+    //         fontFamily: "Gilroy, sans-serif", fontSize: "14px",
+    //     }),
+    //     menuList: (base) => ({
+    //         ...base,
+    //         backgroundColor: "#1E45E1",
+    //         color: "#FFF",
+    //         maxHeight: "120px",
+    //         padding: 0,
+    //         scrollbarWidth: "thin",
+    //         overflowY: "auto",
+    //         fontFamily: "Gilroy, sans-serif", fontSize: "14px",
+    //     }),
+    //     placeholder: (base) => ({
+    //         ...base,
+    //         color: "#555",
+    //     }),
+    //     option: (base, state) => ({
+    //         ...base,
+    //         cursor: "pointer",
+    //         backgroundColor: state.isFocused ? "" : "white",
+    //         color: state.isFocused ? "#FFF" : "#000000",
+    //     }),
+    //     dropdownIndicator: (base) => ({
+    //         ...base,
+    //         color: "#555",
+    //         cursor: "pointer"
+    //     }),
+    //     indicatorSeparator: () => ({
+    //         display: "none",
+    //     }), clearIndicator: () => ({
+    //         display: "none",
+    //     }),
+    // }
+
+    // const handleStatusFilter = (selectedOption) => {
+    //     dispatch({
+    //         type: "SET_INVOICE_FILTERS",
+    //         payload: {
+    //             startDate: undefined,
+    //             endDate: undefined,
+    //             type: [],
+    //             createdBy: [],
+    //             createdByLabels: [],
+    //             modes: [],
+    //             paymentStatus: [],
+    //             search: "",
+    //         },
+    //     })
+    //     if (!selectedOption) {
+    //         setStatusfilter(null);
+
+    //         if (state.login?.selectedHostel_Id) {
+    //             dispatch({
+    //                 type: "INVOICESLISTFILTER",
+    //                 payload: {
+    //                     hostelId: state.login.selectedHostel_Id,
+    //                 },
+    //             });
+    //         }
+    //         return;
+    //     }
+
+    //     setStatusfilter(selectedOption);
+    //     // console.log("selectedOption", selectedOption);
+
+    //     if (!state.login?.selectedHostel_Id) return;
+
+
+    //     if (selectedOption.value === "ALL") {
+    //         dispatch({
+    //             type: "INVOICESLISTFILTER",
+    //             payload: {
+    //                 hostelId: state.login.selectedHostel_Id,
+    //             },
+    //         });
+    //     }
+
+    //     else {
+    //         dispatch({
+    //             type: "INVOICESLISTFILTER",
+    //             payload: {
+    //                 hostelId: state.login.selectedHostel_Id,
+    //                 filters: {
+    //                     paymentStatus: [selectedOption.value],
+    //                     search: filterInput
+    //                 },
+    //             },
+    //         });
+    //     }
+    // };
+
+
+
+
+
+    // const [statusFilterReceipt, setStatusFilterReceipt] = useState("");
+    // const handleStatusFilterReceipt = (event) => {
+    //     const searchTerm = event.target.value;
+    //     setStatusFilterReceipt(searchTerm);
+    // };
+
+    // useEffect(() => {
+    //     if (statusFilterReceipt !== "date") {
+    //         setReceiptDateRange([]);
+
+    //         if (statusFilterReceipt === "All") {
+    //             setReceiptData(originalBillsFilterReceipt);
+    //         } else {
+    //             const filteredItemsReceipt = originalBillsFilterReceipt.filter((user) => {
+    //                 const mode = user.paymentMode?.toLowerCase() || "";
+
+    //                 if (statusFilterReceipt === "Cash") return mode.endsWith("-cash");
+    //                 if (statusFilterReceipt === "UPI") return mode.endsWith("-upi");
+    //                 if (statusFilterReceipt === "Bank") return mode.endsWith("-bank");
+    //                 if (statusFilterReceipt === "Card") return mode.endsWith("-card");
+
+    //                 return false;
+    //             });
+
+    //             setReceiptData(filteredItemsReceipt);
+    //             // setCurrentReceiptPage(1);
+    //         }
+    //     }
+    // }, [statusFilterReceipt]);
+
+
+
+
+
+    // const [receiptDateRange, setReceiptDateRange] = useState([]);
+    // const handleDateRangeChangeReceipt = (dates) => {
+    //     setReceiptDateRange(dates);
+
+
+    //     if (!dates || dates.length !== 2) {
+    //         setStatusFilterReceipt("All");
+    //         setReceiptData(originalBillsFilterReceipt);
+    //         return;
+    //     }
+
+    //     const [start, end] = dates;
+
+    //     const filtered = originalBillsFilterReceipt.filter((item) => {
+    //         const itemDate = dayjs(item.payment_date);
+    //         return (
+    //             itemDate.isSame(start, 'day') ||
+    //             itemDate.isSame(end, 'day') ||
+    //             (itemDate.isAfter(start) && itemDate.isBefore(end))
+    //         );
+    //     });
+
+    //     setReceiptData(filtered);
+    //     // setCurrentReceiptPage(1)
+    // };
+
+
+    // useEffect(() => {
+    //     if (statusFilterReceipt !== "date") {
+    //         setReceiptDateRange([]);
+    //     }
+    // }, [statusFilterReceipt]);
+    // useEffect(() => {
+    //     if (statusFilterReceipt === "All") {
+    //         setReceiptData(originalBillsFilterReceipt);
+    //         setReceiptDateRange([]);
+
+    //     }
+    // }, [statusFilterReceipt]);
+
+
+    // useEffect(() => {
+    //     if (originalBillsFilterReceipt.length === 0 && receiptdata.length > 0) {
+    //         setOriginalBillsFilterReceipt(receiptdata);
+    //     }
+    // }, [receiptdata]);
+
+
+
+
+    // const formatDateForPayload = (date) => {
+    //     if (!date) return null;
+    //     const offset = date.getTimezoneOffset();
+    //     const localDate = new Date(date.getTime() - offset * 60 * 1000);
+
+    //     const day = String(localDate.getDate()).padStart(2, "0");
+    //     const month = String(localDate.getMonth() + 1).padStart(2, "0");
+    //     const year = localDate.getFullYear();
+
+    //     return `${day}-${month}-${year}`;
+    // };
+
+
+    // const [payableAmount, setPayableAmount] = useState("");
+    // const [balance, setBalance] = useState(0);
+
+
+    // const handleAmount = (e) => {
+    //     setAmountErrmsg('')
+    //     let value = e.target.value;
+
+    //     if (value !== "") {
+    //         let numValue = Number(value);
+    //         if (numValue > (invoiceList.balanceDue || 0)) {
+    //             numValue = invoiceList.balanceDue || 0;
+    //         }
+    //         value = numValue;
+    //         setBalance((invoiceList.balanceDue || 0) - numValue);
+    //     } else {
+
+    //         setBalance(invoiceList.balanceDue || 0);
+    //     }
+
+    //     setPayableAmount(value);
+    //     setPayableAmountError("")
+    //     dispatch({ type: 'CLEAR_PAYABLE_AMOUNT' })
+    // };
+
+
+
+
+
+
+    const [editvalue, setEditvalue] = useState("");
+    const [receiptedit, setReceiptEdit] = useState(false);
+        // const [payableamountError, setPayableAmountError] = useState("")
+
+
+
+
+    const handleEditReceipt = (item) => {
+        setShowAllBill(false);
+        setReceiptFormShow(true);
+        setEditvalue(item);
+        setReceiptEdit(true);
+    };
+
+  
+   
+
+
+
+
+
+    useEffect(() => {
+        if (customername) {
+            dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: customername } });
+        }
+    }, [customername])
+
+
+
+   
+
+    const handleShowForm = (props) => {
+     
+        if (props.item.invoiceId !== undefined) {
+
+            const dateObject = new Date(props.item.Date);
+            const year = dateObject.getFullYear();
+            const month = dateObject.getMonth() + 1;
+            const day = dateObject.getDate();
+
+            const lastDayOfMonth = new Date(year, month, 0);
+            const formattedDueDate = `${lastDayOfMonth.getFullYear()}-${String(
+                lastDayOfMonth.getMonth() + 1
+            ).padStart(2, "0")}-${String(lastDayOfMonth.getDate()).padStart(2, "0")}`;
+
+            // let value = props.item.Name.split(" ");
+            setSelectedUserId(props.item.customerId);
+            const userDetails = state?.UsersList?.Users.filter((u) => u.customerId === props?.item?.customerId)
+
+            // setTenantjoingDate()
+
+            // setName(props.item?.fullName)
+            // setFloorName(userDetails[0]?.floorName)
+            // setRoomName(userDetails[0]?.roomName)
+            // setBedName(userDetails[0]?.bedName)
+            // setProfilePic(userDetails[0]?.profilePic)
+            // setInitials(userDetails[0]?.initials)
+
+            const formattedDate = `${year}-${String(month).padStart(2, "0")}-${String(
+                day
+            ).padStart(2, "0")}`;
+            setInvoiceList({
+                id: props.item?.id,
+                firstName: props.item?.firstName,
+                lastName: props.item?.lastName,
+                phone: props.item?.phoneNo,
+                email: props.item?.EmailID,
+                hostel_Name: props.item?.Hostel_Name,
+                hostel_Id: props.item?.Hostel_Id,
+                FloorNo: props?.item?.Floor_Id,
+                RoomNo: props?.item?.Room_No,
+                date: formattedDate,
+                amount: props.item?.invoiceAmount,
+                paidAmount: props.item?.paidAmount,
+                balanceDue: props.item?.dueAmount === 0 ? "00" : props.item?.dueAmount,
+                dueDate: formattedDueDate,
+                InvoiceId: props.item?.invoiceId,
+                invoice_type: props.item?.invoiceType,
+            });
+
+        } else {
+            setSelectedUserId("");
+        }
     }
 
-
-  }
-
-
-
-  useEffect(() => {
-    if (state.InvoiceList.statusCodeNewReceiptStatusCode === 200) {
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_NEE_RECEIPT_PDF_STATUS_CODE" });
-      }, 500);
-    }
-
-  }, [state.InvoiceList.statusCodeNewReceiptStatusCode])
-
-
-
-  useEffect(() => {
-    if (state.InvoiceList.ReceiptDeletesuccessStatuscode === 204) {
-      setDeleteShow(false)
-       setTimeout(() => {
-        dispatch({ type: "CLEAR_DELETE_RECEIPT_STATUS_CODE" });
-      }, 1000);
-    }
-  }, [state.InvoiceList.ReceiptDeletesuccessStatuscode,]);
+  
+    const options = {
+        dateFormat: "d/m/Y",
+        defaultDate: null,
+        maxDate: new Date(),
+        minDate: null,
+    };
 
 
 
 
-  const handleNavigateTenantProfile = (view) => {
-        if (view) {
-      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: view.customerId } });
-      navigate(`/tenant/details/${view.customerId}`, {
-        state: {
-          customerId: view.customerId,
-          IsOverView: true,
-          totriggerBillTap: false
-        },
-      });
-    }
-
-  }
-
-
-
-console.log("props.item",props.item)
-
-
-  return (
-
-    <>
-
-      <tr
-        // key={props.item.id} 
-        style={{
-          color: "#000", fontFamily: "Gilroy", fontSize: "14px", fontStyle: "normal",
-          lineHeight: "normal", alignItems: 'center', marginTop: '10px', flexWrap: "wrap"
-        }} className='m-2' >
-
-        <td style={{ cursor: "pointer", border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 600, color: "#1E45E1", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} >
-          <div style={{ marginLeft: 7 }} onClick={() => handleDownload(props.item)} className="Invoice_Name">{props.item.transactionNumber ? props.item?.transactionNumber : "-"}</div>
-        </td>
+    const handleBackBill = () => {
+        dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS' })
+        // setFormLoading(false)
+        setShowManualInvoice(false);
+        setShowRecurringBillForm(false);
+        setReceiptFormShow(false);
+        setShowAllBill(true);
+        setEditvalue("");
+        setReceiptEdit(false);
+        setCustomerName("");
+        // setInvoiceNumber("");
+        setStartDate("");
+        setEndDate("");
+        setInvoiceDate("");
+        setInvoiceDueDate("");
+          };
 
 
 
-        <td className="table-cells " style={{ border: "none", flexWrap: "wrap", whiteSpace: "nowrap", borderBottom: "1px solid #E8E8E8" }}>
-          <div className="d-flex  align-items-center">
-
-            <div className="Invoice_Name" style={{
-              fontFamily: 'Gilroy', fontSize: '13px', marginLeft: '17px', color: "#1E45E1",
-              fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer", textAlign: "start", 
-            }}
-              onClick={() => handleNavigateTenantProfile(props.item)}
-
-            >{props.item?.fullName}</div><br />
-
-          </div>
-        </td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} >
-          <div style={{ marginLeft: 7 }}  >{props.item?.referenceNumber ? props.item?.referenceNumber : "-"}</div>
-        </td>
-
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} >
-          <div className="ps-0" style={{ marginLeft: 6 }}>{!props.item?.invoiceNumber || props.item?.invoiceNumber === "0" ? "-" : props.item.invoiceNumber}</div>
-        </td>
 
 
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} >
-          <div style={{ marginLeft: 6 }}>{props.item.invoiceType}</div>
-        </td>
-
-        <td  style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }}>
-          {props.item?.paidAt}</td>
-        <td  style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} > ₹{props.item?.paidAmount !== null ? props.item.paidAmount.toLocaleString('en-IN') : '0'}</td>
-        <td  style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }}>
-          {props.item?.bankName ? props.item?.bankName : "-"}</td>
 
 
-        <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none", borderBottom: "1px solid #E8E8E8" }} className=''>
-          <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-            <div style={{ cursor: "pointer", 
-            // backgroundColor: showDots ? "#E7F1FF" : "white",
-            //  height: 40, width: 40, 
-            //  borderRadius: 100, 
-            //  border: "1px solid #EFEFEF", 
-             display: "flex", justifyContent: "center", alignItems: "center", position: "relative" }}
-              onClick={(e) => handleShowDots(e)}
+
+
+    const CustomStartDateInput = React.forwardRef(({ value, onClick }, ref) => {
+        return (
+            <div
+                className="date-input-container w-100"
+                onClick={onClick}
+                style={{ position: "relative" }}
             >
-              <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, transform:" rotate(90deg)",color:showDots ? "#1E45E1" : "#6B7280", }} />
-
-              {showDots && <>
-                <div
-                  ref={popupRef}
-                  style={{
-                    cursor: "pointer",
-                    backgroundColor: "#F9F9F9",
-                    position: "fixed",
-                    top: popupPosition.top,
-                    left: popupPosition.left,
-                    width: 130,
-                    border: "1px solid #EBEBEB",
-                    borderRadius: 10,
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "flex-start",
-                    zIndex: showDots ? 1000 : "auto",
-                  }}
-                >
-
-                  <div
-                    className="d-flex justify-content-start align-items-center gap-2 "
+                <FormControl
+                    type="text"
+                    className="date_input"
+                    value={value || "DD/MM/YYYY"}
+                    readOnly
+                    ref={ref}
                     style={{
-                      cursor: !canUpdateReceipt ? "not-allowed" : "pointer",
-                      opacity: !canUpdateReceipt ? 0.5 : 1,
-                      borderTopLeftRadius: 10,
-                      borderTopRightRadius: 10,
-                      backgroundColor: "#F9F9F9",
-                      padding: "8px 12px",
-                      width: "100%"
-                    }}
-                    onClick={() => {
-                      if (canUpdateReceipt) {
-                        handleEdit(props.item);
-                      }
-                    }}
-                    onMouseEnter={(e) => {
-                      if (!canUpdateReceipt)
-                        e.currentTarget.style.backgroundColor = "#EDF2FF";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = "transparent";
-                    }}
-                  >
-                    <img
-                      src={Edit}
-                      alt="Edit"
-                      style={{
-                        height: 16,
-                        width: 16,
-
-                      }}
-                    />
-                    <label
-                      style={{
+                        border: "1px solid #D9D9D9",
+                        borderRadius: 8,
+                        padding: 9,
                         fontSize: 14,
-                        fontWeight: 500,
-                        fontFamily: "Gilroy, sans-serif",
-                        color: "#222222",
-                        cursor: !canUpdateReceipt ? "not-allowed" : "pointer",
-                      }}
-                    >
-                      Edit
-                    </label>
-                  </div>
-
-{/* {props.item.invoiceType !== "Settlement" &&
- props.item.invoiceType !== "Refund" && ( */}
-
-  <div
-    className="d-flex justify-content-start align-items-center gap-2"
-    style={{
-      cursor: canDeleteReceipt ? "pointer" : "not-allowed",
-      opacity: canDeleteReceipt ? 1 : 0.5,
-      padding: "8px 12px",
-      width: "100%",
-      backgroundColor: "transparent",
-    }}
-    onClick={() => {
-      if (canDeleteReceipt) {
-        handleDeleteForm(props.item);
-      }
-    }}
-    onMouseEnter={(e) => {
-      if (!canDeleteReceipt) {
-        e.currentTarget.style.backgroundColor = "#FFF0F0";
-      }
-    }}
-    onMouseLeave={(e) => {
-      e.currentTarget.style.backgroundColor = "transparent";
-    }}
-  >
-    <img
-      src={Delete}
-      alt="Delete"
-      style={{ height: 16, width: 16 }}
-    />
-
-    <span
-      style={{
-        fontSize: 14,
-        fontWeight: 500,
-        fontFamily: "Gilroy, sans-serif",
-        color: "#FF0000",
-        cursor: canDeleteReceipt ? "pointer" : "not-allowed",
-      }}
-    >
-      Delete
-    </span>
-  </div>
-{/* )} */}
-
-                  <div
-                    className="d-flex justify-content-start align-items-center gap-2 "
+                        fontFamily: "Gilroy",
+                        fontWeight: value ? 600 : 500,
+                        width: "100%",
+                        height: 50,
+                        boxSizing: "border-box",
+                        boxShadow: "none",
+                        backgroundColor: "#fff",
+                        cursor: "pointer",
+                    }}
+                />
+                <img
+                    src={Calendars}
                     style={{
-                      opacity: !canReadReceipt ? 0.5 : 1,
-                      cursor: !canReadReceipt ? "not-allowed" : "pointer",
-                      padding: "8px 12px",
-                      width: "100%"
+                        height: 24,
+                        width: 24,
+                        marginLeft: 10,
+                        cursor: "pointer",
+                        position: "absolute",
+                        right: 10,
+                        top: "50%",
+                        transform: "translateY(-50%)",
                     }}
-                    onClick={() => {
-                      if (canReadReceipt) { handleInvoicepdf(props.item) }
-                    }}
-                    onMouseEnter={(e) => {
-                      if (canReadReceipt) e.currentTarget.style.backgroundColor = "#EDF2FF";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = "transparent";
-                    }}
-                  >
-                    <img src={Download} alt="Download" style={{ height: 16, width: 16 }} />
-                    <label
-                      style={{
-                        fontSize: 14,
-                        fontWeight: 500,
-                        fontFamily: "Gilroy, sans-serif",
-                        color: "#222222",
-                        cursor: !canReadReceipt ? "not-allowed" : "pointer",
-                      }}
-                    >
-                      Download
-                    </label>
-                  </div>
-                </div>
-
-              </>}
-
-
+                    alt="Calendar"
+                    onClick={onClick}
+                />
             </div>
-          </div>
-        </td>
+        );
+    });
+    CustomStartDateInput.displayName = "CustomStartDateInput";
+
+    const CustomEndDateInput = React.forwardRef(({ value, onClick }, ref) => {
+        return (
+            <div
+                className="date-input-container w-100"
+                onClick={onClick}
+                style={{ position: "relative" }}
+            >
+                <FormControl
+                    type="text"
+                    className="date_input"
+                    value={value || "DD/MM/YYYY"}
+                    readOnly
+                    ref={ref}
+                    style={{
+                        border: "1px solid #D9D9D9",
+                        borderRadius: 8,
+                        padding: 9,
+                        fontSize: 14,
+                        fontFamily: "Gilroy",
+                        fontWeight: value ? 600 : 500,
+                        width: "100%",
+                        height: 50,
+                        boxSizing: "border-box",
+                        boxShadow: "none",
+                        backgroundColor: "#fff",
+                        cursor: "pointer",
+                    }}
+                />
+                <img
+                    src={Calendars}
+                    style={{
+                        height: 24,
+                        width: 24,
+                        marginLeft: 10,
+                        cursor: "pointer",
+                        position: "absolute",
+                        right: 10,
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                    }}
+                    alt="Calendar"
+                    onClick={onClick} />
+            </div>
+        );
+    });
+
+    CustomEndDateInput.displayName = "CustomEndDateInput";
+
+    const CustomInvoiceDateInput = React.forwardRef(({ value, onClick }, ref) => {
+        return (
+            <div
+                className="date-input-container w-100"
+                onClick={onClick}
+                style={{ position: "relative" }}
+            >
+                <FormControl
+                    type="text"
+                    className="date_input"
+                    value={value || "DD/MM/YYYY"}
+                    readOnly
+                    ref={ref}
+                    style={{
+                        border: "1px solid #D9D9D9",
+                        borderRadius: 8,
+                        padding: 9,
+                        fontSize: 14,
+                        fontFamily: "Gilroy",
+                        fontWeight: value ? 600 : 500,
+                        width: "100%",
+                        height: 50,
+                        boxSizing: "border-box",
+                        boxShadow: "none",
+                        backgroundColor: "#fff",
+                        cursor: "pointer",
+                    }}
+                />
+                <img
+                    src={Calendars}
+                    style={{
+                        height: 24,
+                        width: 24,
+                        marginLeft: 10,
+                        cursor: "pointer",
+                        position: "absolute",
+                        right: 10,
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                    }}
+                    alt="Calendar"
+                    onClick={onClick}
+                />
+            </div>
+        );
+    });
+    CustomInvoiceDateInput.displayName = "CustomInvoiceDateInput";
+    const CustomInvoiceDueDateInput = React.forwardRef(({ value, onClick }, ref) => {
+        return (
+            <div
+                className="date-input-container w-100"
+                onClick={onClick}
+                style={{ position: "relative" }}
+            >
+                <FormControl
+                    type="text"
+                    className="date_input"
+                    value={value || "DD/MM/YYYY"}
+                    readOnly
+                    ref={ref}
+                    style={{
+                        border: "1px solid #D9D9D9",
+                        borderRadius: 8,
+                        padding: 9,
+                        fontSize: 14,
+                        fontFamily: "Gilroy",
+                        fontWeight: value ? 600 : 500,
+                        width: "100%",
+                        height: 50,
+                        boxSizing: "border-box",
+                        boxShadow: "none",
+                        backgroundColor: "#fff",
+                        cursor: "pointer",
+                    }}
+                />
+                <img
+                    src={Calendars}
+                    style={{
+                        height: 24,
+                        width: 24,
+                        marginLeft: 10,
+                        cursor: "pointer",
+                        position: "absolute",
+                        right: 10,
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                    }}
+                    alt="Calendar"
+                    onClick={onClick}
+                />
+            </div>
+        );
+    });
+
+    CustomInvoiceDueDateInput.displayName = "CustomInvoiceDueDateInput";
+
+
+
+
+
+    
+
+
+   
+
+
+    const sortedDataReceipt = React.useMemo(() => {
+        return Array.isArray(receiptdata) ? receiptdata : [];
+    }, [receiptdata]);
+
+
+   
+
+
+
+
+    const handleDisplayReceiptDownload = (
+        // isVisible,
+        //  rowData
+        ) => {
+       
+        setSearch(false)
+           };
+
+    useEffect(() => {
+        if (state.InvoiceList.statusCodeNewReceiptStatusCode === 200) {
+            setTimeout(() => {
+                dispatch({ type: "CLEAR_NEE_RECEIPT_PDF_STATUS_CODE" });
+            }, 500);
+        }
+
+    }, [state.InvoiceList.statusCodeNewReceiptStatusCode])
 
 
 
@@ -393,102 +933,870 @@ console.log("props.item",props.item)
 
 
 
-      </tr>
 
-      <Modal
-        show={deleteShow}
-        onHide={handleCloseDelete}
-        centered
-        backdrop="static"
-        dialogClassName="custom-delete-modal"
-      >
-        <Modal.Header style={{ borderBottom: "none" }}>
-          <Modal.Title
-            className="w-100 text-center"
-            style={{
-              fontSize: "18px",
-              fontFamily: "Gilroy",
+   
 
-              fontWeight: 600,
-              color: "#222222",
+    useEffect(() => {
+        if (state.InvoiceList.payapleAmountError) {
+           
 
-            }}
-          >
-            Delete Receipt?
-          </Modal.Title>
-        </Modal.Header>
+        }
 
-        <Modal.Body
-          className="text-center"
-          style={{
-            fontSize: 14,
-            fontWeight: 500,
-            fontFamily: "Gilroy",
-            color: "#646464",
-
-            marginTop: "-10px",
-          }}
-        >
-          Are you sure you want to delete this Receipt?
-        </Modal.Body>
-
-        <Modal.Footer
-          className="d-flex justify-content-center"
-          style={{
-
-            borderTop: "none",
-            marginTop: "-10px",
-          }}
-        >
-          <Button
-            className="me-2"
-            style={{
-              width: "100%",
-              maxWidth: 160,
-              height: 52,
-              borderRadius: 8,
-              padding: "12px 20px",
-              background: "#fff",
-              color: "#1E45E1",
-              border: "1px solid #1E45E1",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-            }}
-            onClick={handleCloseDelete}
-          >
-            Cancel
-          </Button>
-          <Button
-            style={{
-              width: "100%",
-              maxWidth: 160,
-              height: 52,
-              borderRadius: 8,
-              padding: "12px 20px",
-              background: "#1E45E1",
-              color: "#FFFFFF",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-            }}
-            onClick={handleDelete}
-          >
-            Delete
-          </Button>
-        </Modal.Footer>
-      </Modal>
+    }, [state.InvoiceList.payapleAmountError])
 
 
-    </>
-  )
+    useEffect(() => {
+        if (state.InvoiceList?.unableAddInvoiceDetailsError) {
+           
+            setTimeout(() => {
+                dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS' })
+            }, 3000)
+
+        }
+
+    }, [state.InvoiceList.unableAddInvoiceDetailsError])
+
+
+
+
+
+
+
+    useEffect(() => {
+        if (
+            state.InvoiceList.InvoiceListStatusCode === 200 ||
+            state.InvoiceList.statusCodeForPDf === 200 ||
+            state.InvoiceList.statusCodeForReceiptPDf === 200
+        ) {
+                        setTimeout(() => {
+                dispatch({ type: "CLEAR_INVOICE_LIST" });
+            }, 100);
+
+            setTimeout(() => {
+                dispatch({ type: "CLEAR_INVOICE_PDF_STATUS_CODE" });
+            }, 200);
+
+            setTimeout(() => {
+                dispatch({ type: "CLEAR_RECEIPT_PDF_STATUS_CODE" });
+            }, 200);
+        }
+    }, [
+        state.InvoiceList?.InvoiceListStatusCode,
+        state.InvoiceList?.statusCodeForPDf,
+        state.InvoiceList.statusCodeForReceiptPDf,
+    ]);
+
+
+
+    useEffect(() => {
+        if (
+            state.login.UpdateNotificationMessage !== null &&
+            state.login.UpdateNotificationMessage !== ""
+        ) {
+
+            setTimeout(() => {
+                dispatch({ type: "AFTER_UPDATE_NOTIFICATION", message: null });
+
+            }, 100);
+        }
+    }, [state.login.UpdateNotificationMessage]);
+
+
+
+    const sendWhatsAppMessage = async (type) => {
+        const isInvoice = type === "invoice";
+
+        const pdfUrl = isInvoice ? state.InvoiceList.invoicePDF : state.InvoiceList.ReceiptPDF;
+        const statusCode = isInvoice ? state.InvoiceList?.statusCodeForPDf : state.InvoiceList?.statusCodeForReceiptPDf;
+        const isWhatsAppEnabled = state.InvoiceList.whatsappSettings?.[isInvoice ? 1 : 2];
+        const receiptData = isInvoice
+            ? state.InvoiceList.BillsPdfDetails
+            : state.InvoiceList.newReceiptchanges?.receipt ?? state.InvoiceList.BillsPdfDetails;
+
+        if (statusCode === 200 && pdfUrl && state.InvoiceList.triggeredBy === "whatsapp") {
+            // setShowLoader(false);
+
+            if (!isWhatsAppEnabled) {
+                Swal.fire({
+                    icon: "info",
+                    text: `WhatsApp notification for ${isInvoice ? "Bills" : "Deposit Receipt"} is not enabled. Please enable it in Settings > Notifications.`,
+                });
+                return;
+            }
+
+            // setLoading(true);
+
+            try {
+                const parsedUrl = new URL(pdfUrl);
+                const filename = parsedUrl.pathname.slice(1);
+                const userName = receiptData?.user_details?.name || '';
+                let userPhone = receiptData?.user_details?.phone?.toString() || '';
+
+                if (!userPhone.startsWith("+91")) {
+                    userPhone = userPhone.startsWith("91") ? "+" + userPhone : "+91" + userPhone;
+                }
+
+                const response = await AxiosConfig.post("/send-whatsapp", {
+                    to: userPhone,
+                    templateName: "invoice_notification",
+                    parameters: [userName, filename],
+                });
+
+                if (response.data.statusCode === 200) {
+                    Swal.fire({
+                        icon: "success",
+                        text: response.data.message,
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "warning",
+                        text: "Unexpected response from server.",
+                    });
+                }
+            } catch (error) {
+                Swal.fire({
+                    icon: "error",
+                    text: error.response?.data?.error || "Failed to send WhatsApp message",
+                });
+            }
+
+            dispatch({ type: isInvoice ? "CLEAR_INVOICE_PDF_STATUS_CODE" : "CLEAR_RECEIPT_PDF_STATUS_CODE" });
+        } else if (statusCode === 200 && pdfUrl) {
+            const pdfWindow = window.open("", "_blank");
+            if (pdfWindow) {
+                pdfWindow.location.href = pdfUrl;
+            }
+            dispatch({ type: isInvoice ? "CLEAR_INVOICE_PDF_STATUS_CODE" : "CLEAR_RECEIPT_PDF_STATUS_CODE" });
+        }
+    };
+
+
+
+    useEffect(() => {
+        sendWhatsAppMessage("invoice");
+    }, [state.InvoiceList?.statusCodeForPDf, state.InvoiceList.triggeredBy, state.InvoiceList.whatsappSettings]);
+
+    useEffect(() => {
+        sendWhatsAppMessage("receipt");
+    }, [state.InvoiceList?.statusCodeForReceiptPDf, state.InvoiceList.triggeredBy, state.InvoiceList.whatsappSettings]);
+
+    useEffect(() => {
+        if (selectedUserId) {
+            const filteredDetails = state.UsersList?.Users?.find(
+                (item) => item.User_Id === selectedUserId
+            );
+            if (filteredDetails) {
+
+                setInvoiceList({
+                    ...invoiceList,
+                    firstName: filteredDetails.Name.split(" ")[0] || "",
+                    lastName: filteredDetails.Name.split(" ")[1] || "",
+                    phone: filteredDetails.Phone || "",
+                    email: filteredDetails.Email || "",
+                    hostel_Name: filteredDetails.HostelName || "",
+                    hostel_Id: filteredDetails.Hostel_Id || "",
+                    FloorNo: filteredDetails.Floor || "",
+                    RoomNo: filteredDetails.Rooms || "",
+                });
+            }
+
+        }
+
+    }, [selectedUserId, state.UsersList?.Users, state.InvoiceList?.Invoice]);
+
+
+   
+
+    const optionsone = {
+        dateFormat: "d/m/Y",
+        defaultDate: null,
+        minDate: null,
+    };
+
+    useEffect(() => {
+        if (startRef.current) {
+            startRef.current.flatpickr.set(options);
+        }
+        if (endRef.current) {
+            endRef.current.flatpickr.set(options);
+        }
+        if (invoiceRef.current) {
+            invoiceRef.current.flatpickr.set(options);
+        }
+        if (dueRef.current) {
+            dueRef.current.flatpickr.set(optionsone);
+        }
+    }, [startdate, enddate, invoicedate, invoiceduedate]);
+
+
+
+    const handleSearch = () => {
+        setSearch(!search);
+        dispatch({
+            type: "SET_INVOICE_FILTERS",
+            payload: {
+                startDate: undefined,
+                endDate: undefined,
+                type: [],
+                createdBy: [],
+                createdByLabels: [],
+                modes: [],
+                paymentStatus: [],
+                search: "",
+            },
+        })
+
+    };
+
+
+    useEffect(() => {
+
+        if (state.login.selectedHostel_Id) {
+            setReceiptLoader(true);
+            dispatch({ type: "RECEIPTSLIST", payload: state.login.selectedHostel_Id });
+        }
+    }, [state.login.selectedHostel_Id]);
+
+    useEffect(() => {
+        if (state.InvoiceList.ReceiptlistgetStatuscode === 200) {
+            setReceiptData(state.InvoiceList.ReceiptList);
+                        setReceiptLoader(false);
+            setTimeout(() => {
+                dispatch({ type: "REMOVE_STATUS_CODE_RECEIPTS_LIST" });
+            }, 100);
+        }
+    }, [state.InvoiceList.ReceiptlistgetStatuscode]);
+
+
+    useEffect(() => {
+        setReceiptLoader(false);
+    }, [state.InvoiceList.ReceiptList])
+
+
+
+
+
+
+
+
+    useEffect(() => {
+        if (
+            state.InvoiceList.ReceiptAddsuccessStatuscode === 200 ||
+            state.InvoiceList.ReceiptDeletesuccessStatuscode === 204 ||
+            state.InvoiceList.ReceiptEditsuccessStatuscode === 200
+        ) {
+            handleBackBill()
+
+            dispatch({ type: "RECEIPTSLIST", payload: state.login.selectedHostel_Id });
+
+            setTimeout(() => {
+                dispatch({ type: "REMOVE_STATUS_CODE_RECEIPTS_ADD" });
+            }, 1000);
+
+            setTimeout(() => {
+                dispatch({ type: "REMOVE_STATUS_CODE_RECEIPTS_EDIT" });
+            }, 1000);
+
+            setTimeout(() => {
+                dispatch({ type: "CLEAR_DELETE_RECEIPT_STATUS_CODE" });
+            }, 1000);
+        }
+    }, [
+        state.InvoiceList.ReceiptAddsuccessStatuscode,
+        state.InvoiceList.ReceiptDeletesuccessStatuscode,
+        state.InvoiceList.ReceiptEditsuccessStatuscode,
+    ]);
+
+
+
+
+
+    useEffect(() => {
+        if (state.createAccount?.networkError) {
+            // setFormLoading(false)
+            setTimeout(() => {
+                dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+            }, 3000)
+        }
+
+    }, [state.createAccount?.networkError])
+
+
+
+
+    // useEffect(() => {
+    //     const invoiceFilters = state.InvoiceList.invoiceFilters;
+    //     const filterData = [];
+
+
+    //     if (invoiceFilters?.paymentStatus?.length) {
+    //         filterData.push({
+    //             key: "payment-status",
+    //             label: "Status is",
+    //             type: "paymentStatus",
+    //             value: invoiceFilters.paymentStatus.join(", "),
+    //         });
+    //     }
+
+
+    //     if (invoiceFilters?.type?.length) {
+    //         filterData.push({
+    //             key: "type",
+    //             label: "Type is",
+    //             type: "type",
+    //             value: invoiceFilters.type.join(", "),
+    //         });
+    //     }
+
+
+    //     if (invoiceFilters?.modes?.length) {
+    //         filterData.push({
+    //             key: "modes",
+    //             label: "Mode is",
+    //             type: "modes",
+    //             value: invoiceFilters.modes.join(", "),
+    //         });
+    //     }
+
+
+    //     if (invoiceFilters?.createdByLabels?.length) {
+    //         filterData.push({
+    //             key: "created-by",
+    //             label: "Created By",
+    //             type: "createdBy",
+    //             value: invoiceFilters.createdByLabels.join(", "),
+    //         });
+    //     }
+
+
+    //     if (invoiceFilters?.startDate || invoiceFilters?.endDate) {
+    //         filterData.push({
+    //             key: "date-range",
+    //             label: "Date Range is",
+    //             type: "date",
+    //             value:
+    //                 invoiceFilters.startDate && invoiceFilters.endDate
+    //                     ? `${invoiceFilters.startDate} - ${invoiceFilters.endDate}`
+    //                     : invoiceFilters.startDate || invoiceFilters.endDate,
+    //         });
+    //     }
+
+
+    //     if (invoiceFilters?.search) {
+    //         filterData.push({
+    //             key: "search",
+    //             label: "Tenant",
+    //             type: "search",
+    //             value: invoiceFilters.search,
+    //         });
+    //     }
+
+    //     setChips(filterData);
+    // }, [state.InvoiceList.invoiceFilters]);
+
+
+    useEffect(() => {
+        return () => {
+
+            dispatch({
+                type: "SET_INVOICE_FILTERS",
+                payload: {
+                    startDate: undefined,
+                    endDate: undefined,
+                    type: [],
+                    createdBy: [],
+                    createdByLabels: [],
+                    modes: [],
+                    paymentStatus: [],
+                    search: "",
+                },
+            });
+        };
+    }, [state.login.selectedHostel_Id]);
+
+    // const handleReset = () => {
+    //     dispatch({
+    //         type: "SET_INVOICE_FILTERS",
+    //         payload: {
+    //             startDate: undefined,
+    //             endDate: undefined,
+    //             type: [],
+    //             createdBy: [],
+    //             createdByLabels: [],
+    //             modes: [],
+    //             paymentStatus: [],
+    //             search: "",
+    //         },
+    //     })
+
+
+    //     dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+    // }
+
+
+    // useEffect(() => {
+    //     const handleClickOutside = (event) => {
+    //         if (
+    //             dropdownRef.current &&
+    //             !dropdownRef.current.contains(event.target)
+
+    //         ) {
+    //             setDropdownVisible(false);
+
+    //         }
+    //     };
+
+    //     document.addEventListener("mousedown", handleClickOutside);
+    //     return () => {
+    //         document.removeEventListener("mousedown", handleClickOutside);
+    //     };
+    // }, []);
+
+
+
+
+
+    return (
+        <div className="sticky-top bg-white" style={{ position: "relative", overflow: "hidden" }}>
+
+
+            {!canReadReceipt ? (
+                <>
+                    <div
+                        style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            marginTop: 90
+
+                        }}
+                    >
+                        <img
+                            src={Emptystate}
+                            alt="Empty State"
+
+                        />
+                        <ErrorMessage message={['You do not have access to view Receipt']} type="warning" />
+
+                    </div>
+                </>
+            ) : (
+                <>
+
+
+                    {receiptLoader &&
+                        <div
+                            style={{
+                                position: 'absolute',
+                                top: 200,
+                                right: 0,
+                                bottom: 0,
+                                left: 200,
+                                display: 'flex',
+                                height: "50vh",
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                backgroundColor: 'transparent',
+                                opacity: 0.75,
+                                zIndex: 10,
+                            }}
+                        >
+                            <div
+                                style={{
+                                    borderTop: '4px solid #1E45E1',
+                                    borderRight: '4px solid transparent',
+                                    borderRadius: '50%',
+                                    width: '40px',
+                                    height: '40px',
+                                    animation: 'spin 1s linear infinite',
+                                }}
+                            ></div>
+                        </div>
+
+                    }
+
+                    <Container fluid className="p-0 ">
+                        <Row
+                            className={` "m-0 g-0"
+                                }`}
+                        >
+                            <Col
+                                lg={12}
+                                md={12}
+                                sm={12}
+                                xs={12}
+                            >
+                                <div className="sticky-top bg-white d-flex justify-content-between align-items-center  flex-wrap h-auto"
+                                    style={{
+                                        position: 'sticky',
+                                        backgroundColor: 'white',
+                                        zIndex: 10, borderBottom: "none",
+                                        boxShadow: "initial"
+
+                                    }}
+                                >
+                                    <div style={{ marginTop: 0 }}>
+                                        <label style={{ fontSize: 18, color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>
+                                            Receipt</label>
+                                    </div>
+
+                                    <div className=" d-flex justify-content-between gap-2 align-items-center flex-wrap p-2">
+
+
+
+                                        <div style={{
+                                            backgroundColor: "", color: "", border: "1px solid #CBD5E1", borderRadius: "50%",
+                                            padding: "6px 8px", lineHeight: "normal", height: "fit-content"
+                                        }}>
+                                            <FiSearch
+                                                style={{
+                                                    height: "20px",
+                                                    width: "20px",
+                                                    cursor: canReadReceipt ? "pointer" : "not-allowed",
+                                                    opacity: canReadReceipt ? 1 : 0.4,
+                                                    pointerEvents: canReadReceipt ? "auto" : "none",
+                                                    transition: "opacity 0.3s ease"
+                                                }}
+                                                onClick={handleSearch}
+                                            />
+                                        </div>
+
+                                        {
+                                            search &&
+
+                                            <div className='  flex flex-wrap ' style={{
+                                                position: 'relative', cursor: "pointer", marginTop: 0
+                                            }}>
+                                                <InputGroup
+                                                    style={{
+                                                        maxWidth: "100%",
+                                                        flexWrap: 'nowrap', fontFamily: "Gilroy"
+                                                    }}
+                                                >
+
+                                                    <FormControl size="lg"
+                                                        //    value={searchQuery}
+                                                        //    onChange={handleInputChange}
+
+                                                        style={{
+                                                            width: "100%",
+                                                            maxWidth: "235px",
+                                                            boxShadow: "none",
+                                                            borderColor: "lightgray", fontFamily: "Gilroy",
+                                                            borderRight: "none", fontSize: 15, fontWeight: 500, color: "#222",
+                                                        }}
+                                                        placeholder="Search..."
+                                                    />
+                                                    <InputGroup.Text style={{ backgroundColor: "#ffffff", cursor: "pointer" }}>
+                                                        <CloseCircle size="24" color="#222"
+                                                        //    onClick={handleCloseSearch}
+                                                        />
+                                                    </InputGroup.Text>
+                                                </InputGroup>
+
+
+
+                                            </div>
+
+                                        }
+
+
+                                        <div className='me-2' style={{ marginTop: 0, cursor: "pointer" }}>
+                                            <img src={excelimg} alt='excel' width={38} height={38}
+
+                                                style={{
+                                                    cursor: canReadReceipt ? "pointer" : "not-allowed",
+                                                    opacity: canReadReceipt ? 1 : 0.4,
+                                                    pointerEvents: canReadReceipt ? "auto" : "none",
+                                                    transition: "opacity 0.3s ease"
+                                                }}
+                                            //    onClick={() => { if (canReadReceipt) handleAssetsExcel() }}
+                                            />
+                                        </div>
+
+
+                                        <Button
+                                            disabled={!canWriteReceipt}
+                                            onClick={handleReceiptShow}
+
+                                            style={{
+                                                fontFamily: "Gilroy",
+                                                fontSize: "14px",
+                                                backgroundColor: "#1E45E1",
+                                                color: "white",
+                                                fontWeight: 600,
+                                                borderRadius: "8px",
+                                                padding: "8px 8px",
+                                                marginTop: 0,
+                                                whiteSpace: "nowrap",
+                                                minWidth: "150px",
+                                                textAlign: "center",
+                                            }}
+                                        >
+                                            {" "} + Create Receipt
+                                        </Button>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
+
+                                {sortedDataReceipt &&
+                                    sortedDataReceipt.length > 0 && (
+                                        <div
+                                            className=" booking-table-userlist  booking-table ms-2 me-4"
+                                            style={{ paddingBottom: "20px", marginLeft: "-22px" }}
+                                        >
+                                            <div
+
+                                                className='show-scrolls'
+                                                style={{
+
+                                                    height: sortedDataReceipt?.length >= 5 || sortedDataReceipt?.length >= 5 ? "450px" : "auto",
+                                                    overflow: "auto",
+                                                    borderTop: "1px solid #E8E8E8",
+                                                    marginBottom: 20,
+                                                    marginTop: "20px",
+                                                    paddingRight: 0,
+                                                    paddingLeft: 0
+
+                                                }}
+                                            >
+                                                <Table
+                                                    responsive="md"
+
+                                                    style={{
+                                                        fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                                                        top: 0,
+                                                        zIndex: 1,
+                                                        borderRadius: 0
+                                                    }}
+                                                >
+                                                    <thead style={{
+                                                        fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                                                        top: 0,
+                                                        zIndex: 1
+                                                    }}>
+                                                        <tr>
+                                                            <th
+                                                                style={{
+                                                                    textAlign: "start",
+                                                                    fontFamily: "Gilroy",
+                                                                    color: "rgb(147, 147, 147)",
+                                                                    fontSize: 12,
+                                                                    fontStyle: "normal",
+                                                                    fontWeight: 500,
+                                                                    whiteSpace: "nowrap"
+                                                                }}
+                                                            >
+                                                                <div className='d-flex gap-1 align-items-center justify-content-start'>
+
+                                                                    Receipt No</div>
+                                                            </th>
+
+                                                            <th
+                                                                style={{
+                                                                    textAlign: "start",
+
+                                                                    paddingLeft: "20px",
+                                                                    fontFamily: "Gilroy",
+                                                                    color: "rgb(147, 147, 147)",
+                                                                    fontSize: 12,
+                                                                    fontWeight: 500,
+
+                                                                }}
+                                                            >
+                                                                <div className='d-flex gap-1 align-items-center justify-content-start'>
+
+                                                                    Name</div>
+                                                            </th>
+
+                                                            <th
+                                                                style={{
+                                                                    textAlign: "start",
+                                                                    fontFamily: "Gilroy",
+                                                                    color: "rgb(147, 147, 147)",
+                                                                    fontSize: 12,
+                                                                    fontStyle: "normal",
+                                                                    fontWeight: 500,
+                                                                    whiteSpace: "nowrap"
+                                                                }}
+                                                            >
+                                                                <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                    Reference_Id</div>
+                                                            </th>
+
+                                                            <th
+                                                                style={{
+                                                                    textAlign: "start",
+                                                                    fontFamily: "Gilroy",
+                                                                    color: "rgb(147, 147, 147)",
+                                                                    fontSize: 12,
+                                                                    fontStyle: "normal",
+                                                                    fontWeight: 500,
+                                                                    whiteSpace: "nowrap"
+                                                                }}
+                                                            >
+                                                                <div className='d-flex gap-1 align-items-center justify-content-start'>
+
+                                                                    Invoice Number</div>
+                                                            </th>
+                                                            <th
+                                                                style={{
+                                                                    textAlign: "start",
+                                                                    fontFamily: "Gilroy",
+                                                                    color: "rgb(147, 147, 147)",
+                                                                    fontSize: 12,
+                                                                    fontStyle: "normal",
+                                                                    fontWeight: 500,
+                                                                    whiteSpace: "nowrap"
+                                                                }}
+                                                            >
+                                                                <div className='d-flex gap-1 align-items-center justify-content-start'>
+
+                                                                    Type</div>
+                                                            </th>
+                                                            <th
+                                                                style={{
+                                                                    textAlign: "start",
+                                                                    fontFamily: "Gilroy",
+                                                                    color: "rgb(147, 147, 147)",
+                                                                    fontSize: 12,
+                                                                    fontStyle: "normal",
+                                                                    fontWeight: 500,
+                                                                    whiteSpace: "nowrap"
+                                                                }}
+                                                            >
+                                                                <div className='d-flex gap-1 align-items-center justify-content-start'>
+
+                                                                    Payment Date</div>
+                                                            </th>
+
+                                                            <th
+                                                                style={{
+                                                                    textAlign: "start",
+                                                                    fontFamily: "Gilroy",
+                                                                    color: "rgb(147, 147, 147)",
+                                                                    fontSize: 12,
+                                                                    fontStyle: "normal",
+                                                                    fontWeight: 500,
+                                                                }}
+                                                            >
+                                                                <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                    Amount</div>
+                                                            </th>
+                                                            <th
+                                                                style={{
+                                                                    textAlign: "start",
+                                                                    fontFamily: "Gilroy",
+                                                                    color: "rgb(147, 147, 147)",
+                                                                    fontSize: 12,
+                                                                    fontStyle: "normal",
+                                                                    fontWeight: 500,
+                                                                    whiteSpace: "nowrap"
+                                                                }}
+                                                            >
+                                                                <div className='d-flex gap-1 align-items-center justify-content-start'>
+
+                                                                    Payment Mode</div>
+                                                            </th>
+
+                                                            <th
+                                                                style={{
+                                                                    textAlign: "start",
+                                                                    fontFamily: "Gilroy",
+                                                                    color: "rgb(147, 147, 147)",
+                                                                    fontSize: 12,
+                                                                    fontWeight: 500,
+
+                                                                }}
+                                                            >Action</th>
+                                                        </tr>
+                                                    </thead>
+
+
+                                                    <tbody style={{ fontSize: "10px", minHeight: "200px", position: "relative" }}>
+                                                        <PaginationList pageSizeOptions={[{ value: 10, label: "10" }, { value: 50, label: "50" }, { value: 100, label: "100" }]}>
+                                                            {sortedDataReceipt.map((item) => (
+                                                                <ReceiptList
+                                                                    key={item.id}
+                                                                    item={item}
+                                                                    // receiptaddPermission={receiptaddPermission}
+                                                                    // billrolePermission={billrolePermission}
+                                                                    OnHandleshowform={handleShowForm}
+                                                                    OnHandleshowInvoicePdf={handleReceiptDetail}
+                                                                    onhandleEdit={handleEditReceipt}
+                                                                    DisplayInvoice={handleDisplayReceiptDownload}
+
+                                                                />
+                                                            ))}
+                                                        </PaginationList>
+                                                    </tbody>
+
+                                                </Table>
+                                            </div>
+                                        </div>
+                                    )}
+
+
+                                {!receiptLoader && sortedDataReceipt &&
+                                    sortedDataReceipt?.length === 0 && (
+                                        <div style={{ marginTop: 20 }}>
+                                            <div style={{ textAlign: "center" }}>
+                                                {" "}
+                                                <img src={Emptystate} alt="emptystate" />
+                                            </div>
+                                            <div
+                                                className="pb-1"
+                                                style={{
+                                                    textAlign: "center",
+                                                    fontWeight: 600,
+                                                    fontFamily: "Gilroy",
+                                                    fontSize: 18,
+                                                    color: "rgba(75, 75, 75, 1)",
+                                                }}
+                                            >
+                                                No Receipt available{" "}
+                                            </div>
+                                            <div
+                                                className="pb-1"
+                                                style={{
+                                                    textAlign: "center",
+                                                    fontWeight: 500,
+                                                    fontFamily: "Gilroy",
+                                                    fontSize: 14,
+                                                    color: "rgba(75, 75, 75, 1)",
+                                                }}
+                                            >
+                                                There are no receipt added{" "}
+                                            </div>
+                                        </div>
+                                    )}
+
+
+                            </Col>
+
+
+                        </Row>
+                        {receiptformShow && (
+                            <>
+                                <AddReceiptForm
+                                    onhandleback={handleBackBill}
+                                    editvalue={editvalue}
+                                    receiptedit={receiptedit}
+                                />
+                            </>
+                        )}
+                    </Container>
+                </>
+            )}
+        </div>
+    )
 }
-Receipt.propTypes = {
-  billrolePermission: PropTypes.func.isRequired,
-  receiptaddPermission: PropTypes.func.isRequired,
-  onhandleEdit: PropTypes.func.isRequired,
-  DisplayInvoice: PropTypes.func.isRequired,
-  item: PropTypes.func.isRequired,
-  OnHandleshowInvoicePdf: PropTypes.func.isRequired,
-};
-export default Receipt;
+
+export default Receipt

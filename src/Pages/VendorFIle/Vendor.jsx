@@ -239,7 +239,7 @@ function Vendor() {
   return (
     <>
 
-      <div className="sticky-top bg-white" style={{ margin: 5 }}>
+      <div className="sticky-top bg-white" style={{  }}>
 
 
         <div

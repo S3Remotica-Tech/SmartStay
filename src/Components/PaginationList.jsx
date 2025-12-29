@@ -318,31 +318,32 @@ function PaginationList({
 
   if (totalItems === 0) return null;
 
-  console.log("display",display)
+  // console.log("display",display)
 
   return (
     <>
+
+
+
       {paginatedChildren}
+
 
       {totalPages > 1 && (
         <div
           style={{
             position: "fixed",
             bottom: 0,
-            right: 0,
-            left: !display && 0,
-             width: display ?  "60%" : "100%",
-            background: "#FFFFFF",
+            left: display ? "50%" : "30%",
+            width: "100%",
+            background: "#FFFF",
             padding: "0px 16px",
             display: "flex",
-            justifyContent: "center",
-            // borderTop: "1px solid #121a2bff",
-            zIndex: 1000,
-            boxShadow: !display && "0 -4px 12px rgba(0, 0, 0, 0.05)",
-            // marginLeft: 150,
-            gap: 25,
+            justifyContent: "start",
             alignItems: "center",
-            fontFamily:"Gilroy"
+            gap: 24,
+            zIndex: 10,
+            fontFamily: "Gilroy",
+            // boxShadow: !display && "0 -4px 12px rgba(0, 0, 0, 0.05)",
           }}
         >
 
@@ -351,10 +352,10 @@ function PaginationList({
               fontSize: 16,
               color: "#222222",
               fontWeight: 500,
-              fontFamily:"Gilroy"
+              fontFamily: "Gilroy"
             }}
           >
-            Total Records : 
+            Total Records :  {children?.length}
           </div>
 
 
@@ -371,7 +372,7 @@ function PaginationList({
                 gap: "25px",
                 listStyle: "none",
                 margin: 0,
-                padding: 0,fontFamily:"Gilroy"
+                padding: 0, fontFamily: "Gilroy"
                 // justifyContent: "center"
               }}
             >
@@ -380,7 +381,8 @@ function PaginationList({
                 <button
                   onClick={() => handleChangePage(currentPage - 1)}
                   disabled={currentPage === 1}
-                  style={{fontFamily:"Gilroy",
+                  style={{
+                    fontFamily: "Gilroy",
                     padding: "6px 14px",
                     borderRadius: "8px",
                     border: "1px solid #E5E7EB",
@@ -406,7 +408,7 @@ function PaginationList({
                       style={{
                         padding: "6px 10px",
                         color: "#9CA3AF",
-                        fontSize: 14,fontFamily:"Gilroy" 
+                        fontSize: 14, fontFamily: "Gilroy"
                       }}
                     >
                       …
@@ -415,7 +417,7 @@ function PaginationList({
                     <button
                       onClick={() => handleChangePage(page)}
                       style={{
-                        width: 32,fontFamily:"Gilroy",
+                        width: 32, fontFamily: "Gilroy",
                         height: 32,
                         borderRadius: "8px",
                         border: "none",
@@ -439,7 +441,8 @@ function PaginationList({
                 <button
                   onClick={() => handleChangePage(currentPage + 1)}
                   disabled={currentPage === totalPages}
-                  style={{fontFamily:"Gilroy",
+                  style={{
+                    fontFamily: "Gilroy",
                     padding: "6px 14px",
                     borderRadius: "8px",
                     border: "1px solid #E5E7EB",
@@ -461,6 +464,7 @@ function PaginationList({
           </div>
         </div>
       )}
+
     </>
   );
 }

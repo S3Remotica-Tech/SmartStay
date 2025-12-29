@@ -19,37 +19,16 @@ import CryptoJS from "crypto-js";
 import Smartstay from "../Assets/Images/New_images/LogoSmart.svg";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import Manage from "../Assets/Images/New_images/category.png";
-import Paying from "../Assets/Images/New_images/house.png";
-import Custom from "../Assets/Images/New_images/customers.png";
-import Vendor from "../Assets/Images/New_images/vendor.png";
-import Invo from "../Assets/Images/New_images/invoice.png";
-import Asset from "../Assets/Images/New_images/Asset.png";
-import Eb from "../Assets/Images/New_images/electricity.png";
-import Compl from "../Assets/Images/New_images/messages_gray.png";
-import Expense from "../Assets/Images/New_images/expenses.png";
-import Repo from "../Assets/Images/New_images/reports.png";
 import Assets from "../Pages/AssetFile/Asset";
 import Expenses from "../Pages/ExpenseFile/Expense";
-import Paying2 from "../Assets/Images/New_images/housepay.png";
-import Custom2 from "../Assets/Images/New_images/profile_blue.png";
-import Invoice2 from "../Assets/Images/New_images/clipboard-text.png";
-import Vendor2 from "../Assets/Images/New_images/shop.png";
-import Asset2 from "../Assets/Images/rupee.png";
-import Eb2 from "../Assets/Images/New_images/ele-active.png";
-import Compl2 from "../Assets/Images/New_images/messages-active.png";
-import Expense2 from "../Assets/Images/New_images/coin.png";
-import Repo2 from "../Assets/Images/New_images/clipboard-text.png";
 import Banking from "../Pages/Banking/Banking";
-import bank from "../Assets/Images/New_images/bank.png";
-import bankblank from "../Assets/Images/New_images/blank_bank.png";
-import { ArrowUp2, ArrowDown2, Chart2 } from "iconsax-react";
+import { ArrowUp2, ArrowDown2, Chart2, DocumentText, Buildings, LogoutCurve } from "iconsax-react";
 import SettingAllPages from "../Pages/Settings/SettingAllPages";
 import SettingIcon from "../Assets/Images/sidebariconOne.svg";
 import HelpVideoIcon from "../Assets/Images/sidebariconFour.svg";
 import Logout from "../Assets/Images/turn-off.png";
 import { useNavigate, useLocation, Navigate } from "react-router-dom";
-import { Route, Routes, } from "react-router-dom";
+import { Route, Routes, NavLink } from "react-router-dom";
 import Cookies from 'universal-cookie';
 import { checkoutCustomerProfile } from "../Redux/Action/smartStayAction";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
@@ -57,7 +36,7 @@ import Tooltip from "react-bootstrap/Tooltip"
 import CreateBill from "../Pages/Bills/CreateBill";
 import UserListRoomDetail from "../Pages/CustomerFile/UserListRoomDetail";
 import CheckoutProfile from '../Pages/CustomerFile/CheckoutProfile';
-import BillsDetails from '../Pages/Bills/BillsDetails';
+// import BillsDetails from '../Pages/Bills/BillsDetails';
 // import UserlistCheckout from '../Pages/CustomerFile/UserlistCheckout'
 import SettingSubscription from "../Pages/SubscriptionFile/SettingSubscription";
 import SettingIntergration from "../Pages/Settings/SettingIntergration";
@@ -73,10 +52,19 @@ import SettingAgreement from "../Pages/Settings/SettingAgreement";
 import BillingRule from "../Pages/Settings/BillingRule/BillingRule";
 import SettingGeneral from "../Pages/Settings/SettingGeneral";
 import SettingManage from "../Pages/Settings/SettingManage";
-import { Notification } from 'iconsax-react'
+import {
+  Notification, RulerPen, CalendarAdd, Setting2, Chart, MoneySend, MessageQuestion, Flash, Receipt,
+  Bank, Shop, Box, Profile2User, Location
+} from 'iconsax-react'
 import NotificationForm from "../Utils/Notification";
 import PaymentPreview from "../Pages/SubscriptionFile/PaymentPreview";
 import SettingSecurity from "../Pages/Settings/SettingSecurityPage";
+import Booking from "../Pages/Bookings/Booking";
+import RecurringBills from "../Pages/Recurring/RecurringBills";
+import Receipts from "../Pages/Receipt/Receipt"
+import BillsPdfDetails from "../Pages/Bills/BillsPdfDetails";
+import ReceiptPdfDetails from "../Pages/Receipt/ReceiptPdfDetails";
+import BookingsPdfDetails from "../Pages/Bookings/BookingsPdfDetails";
 
 
 
@@ -92,19 +80,20 @@ function Sidebar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [allPageHostel_Id, setAllPageHostel_Id] = useState("");
   const [payingGuestName, setPayingGuestName] = useState("payingGuest");
-  // const [isInitialized, setIsInitialized] = useState(false);
+  const [billingOpen, setBillingOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState("dashboard");
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const isFirstLogin = useRef(true);
   const dropdownRef = useRef(null);
   const [isVisibleSidebar, setIsVisibleSidebar] = useState(false)
   const [showNotify, setShowNotify] = useState(false);
   const cookies = new Cookies();
 
-  const hideSidebarRoutes = ["/payment-preview"];
 
-  const path = location.pathname.split("?")[0].replace(/\/$/, "");
-  const shouldHideSidebar = hideSidebarRoutes.includes(path);
+  // const hideSidebarRoutes = ["/payment-preview"];
+
+  // const path = location.pathname.split("?")[0].replace(/\/$/, "");
+  // const shouldHideSidebar = hideSidebarRoutes.includes(path);
 
 
   const pageMap = {
@@ -122,6 +111,7 @@ function Sidebar() {
     "/expense/:hostelId": "expenses",
     "/banking/:hostelId": "banking",
     "/settings/:hostelId": "settingNewDesign",
+    "/booking/:hostelId": "booking",
   };
 
   useEffect(() => {
@@ -154,7 +144,7 @@ function Sidebar() {
   // },[currentPage])
 
 
-  const LastPageIs = localStorage.getItem("lastPage")
+  // const LastPageIs = localStorage.getItem("lastPage")
 
 
 
@@ -361,30 +351,15 @@ function Sidebar() {
 
   const hostelId = state.login?.selectedHostel_Id;
 
-  // useEffect(() => {
-  //   if (!hostelId) return;
-
-  //   const currentPath = location.pathname.split("/")[1];
-
-
-  //   const validPages = ["dashboard", "pg-list", "user-list", "user-details", "invoice", "compliance",
-  //     "reports", "eb", "expenses", "banking", "settingNewDesign", "vendor", "asset"];
-
-  //   if (validPages.includes(currentPath)) {
-  //     navigate(`/${currentPath}/${hostelId}`);
-  //   }
-  // }, [hostelId]);
-
-  // console.log("state",state.login?.selectedHostel_Id)
 
   useEffect(() => {
     if (!state.login?.selectedHostel_Id) return;
 
     const pathParts = location.pathname.split("/").filter(Boolean);
 
-   
+
     const mainPage = pathParts[0];
- 
+
 
     const validPages = [
       "dashboard",
@@ -399,6 +374,7 @@ function Sidebar() {
       "settingNewDesign",
       "vendor",
       "asset",
+      "booking"
     ];
 
     if (validPages.includes(mainPage) && pathParts.length > 1) {
@@ -492,10 +468,11 @@ function Sidebar() {
 
   const [selectedProfileImage, setSelectedProfileImage] = useState("");
   const [initials, setInitials] = useState('')
+  const [locationName, setLocationName] = useState('')
 
 
-  const handleHostelId = (id, name, mainImage, initials) => {
-
+  const handleHostelId = (id, name, mainImage, initials, locations) => {
+    setLocationName(locations)
     setInitials(initials)
     setPayingGuestName(name);
     setAllPageHostel_Id(id);
@@ -509,16 +486,20 @@ function Sidebar() {
     setIsSidebarOpen(false);
   };
 
-  const handleSettingspage = (view) => {
-    handlePageClick("settingNewDesign");
-    setSettingsPGShow(false);
-    const hostelId = state.login?.selectedHostel_Id;
-    if (hostelId) {
-      navigate(`/settings/${hostelId}`);
-    } else {
-      navigate(`/settings`);
-    }
-  };
+  // const handleSettingspage = (view) => {
+  //   handlePageClick("settingNewDesign");
+  //   setSettingsPGShow(false);
+  //   const hostelId = state.login?.selectedHostel_Id;
+  //   if (hostelId) {
+  //     navigate(`/settings/${hostelId}`);
+  //   } else {
+  //     navigate(`/settings`);
+  //   }
+  // };
+
+  const settingsPath = hostelId
+    ? `/settings/${hostelId}`
+    : `/settings`;
 
   useEffect(() => {
     if (allPageHostel_Id) {
@@ -559,6 +540,7 @@ function Sidebar() {
 
     setAllPageHostel_Id(selectedHostel.hostelId);
     setPayingGuestName(selectedHostel.name);
+    setLocationName(selectedHostel.city)
     setInitials(selectedHostel.initials);
 
     setSelectedProfileImage(
@@ -637,17 +619,8 @@ function Sidebar() {
   }
 
 
-
-
-
-
-
-
-
-
-
-
-
+  const withHostel = (path) =>
+    hostelId ? `${path}/${hostelId}` : path;
 
 
 
@@ -657,10 +630,15 @@ function Sidebar() {
       {
         showNotify && <NotificationForm show={showNotify} handleClose={handleClose} />
       }
-      <Container fluid className="p-0">
-        <Row className="g-0 m-0">
-
-          <Col xs={12} sm={12} className="d-md-none p-2 bg-white position-relative">
+      <Container fluid className="p-0" >
+        <div style={{
+          display: "flex",
+          width: "100%",
+          height: "100vh",
+          overflowY: "hidden",
+        }}
+        >
+          <div className="d-md-none p-2 bg-white">
             <button
               onClick={toggleSidebar}
               style={{
@@ -670,304 +648,340 @@ function Sidebar() {
                 cursor: "pointer",
               }}
             >
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M4 6H20M4 12H20M4 18H20"
-                  stroke="#000000"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              ☰
             </button>
-          </Col>
+          </div>
+          {/* sidebar */}
+          <div
+            className=""
+            style={{
+              width: "18%",
+              display: "flex",
+              flexDirection: "column",
+              backgroundColor: "#fff",
+              boxShadow: "5px 0 2px -2px rgba(0,0,0,0.12)", position: "relative",
+              // padding: 3,
 
-          {!shouldHideSidebar &&
-            <Col
-              lg={2}
-              md={2}
-              sm={3}
-              xs={12}
-              className={`sidebar 
-              ${isSidebarOpen ? "sidebar-open" : "sidebar-closed"} d-md-block`}
-              style={{
-                cursor: "pointer",
-                backgroundColor: "#E0ECFF",
-                position: "fixed",
-                top: 0,
-                bottom: 0,
-                left: 0,
-                overflowY: "auto",
-                zIndex: 1000,
-                minWidth: 210,
-              }}
-            >
-              <div style={{ display: "flex", justifyContent: "space-between", flexDirection: "column", height: manageOpen && "100vh", }}>
-                <div className="container" style={{ position: "relative", }}>
-                  <div
-                    className="d-flex align-items-center justify-content-between"
-                    style={{ padding: "16px 10px" }}
+            }}
+          >
+            <div  >
+
+              <div
+
+                style={{ padding: "8px 16px", flexShrink: 0 }}
+              >
+                <img
+                  src={Smartstay}
+                  alt="smartstay"
+                  style={{ height: 25.06, width: 134 }}
+                  className="Title"
+                  onClick={() => handlePageClick("dashboard")}
+                />
+                <button
+                  onClick={closeSidebar}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    fontSize: "24px",
+                    cursor: "pointer",
+                    display: isSidebarOpen ? "block" : "none",
+                  }}
+                  className="d-md-none"
+                >
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <img
-                      src={Smartstay}
-                      alt="smartstay"
-                      style={{ height: 25.06, width: 134 }}
-                      className="Title"
-                      onClick={() => handlePageClick("dashboard")}
+                    <path
+                      d="M6 18L18 6M6 6L18 18"
+                      stroke="#000000"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
-                    <button
-                      onClick={closeSidebar}
-                      style={{
-                        background: "none",
-                        border: "none",
-                        fontSize: "24px",
-                        cursor: "pointer",
-                        display: isSidebarOpen ? "block" : "none",
-                      }}
-                      className="d-md-none"
-                    >
-                      <svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M6 18L18 6M6 6L18 18"
-                          stroke="#000000"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </button>
-                  </div>
+                  </svg>
+                </button>
 
 
 
-                  {hostelListDetail && hostelListDetail?.length > 0 && (
-                    <li ref={dropdownRef}
-                      className={`align-items-center list-Item ${currentPage === "settingNewDesign" ? "active" : ""}`}
-                      onClick={toggleDropdown}
-                      style={{
-                        listStyleType: "none",
-                        display: "flex",
-                        position: "relative",
-                        cursor: "pointer",
-                        fontFamily: "Gilroy",
-                      }}
-                    >
 
-                      {selectedProfileImage && selectedProfileImage !== null && selectedProfileImage !== "" ? (
-                        <img
-                          src={selectedProfileImage}
-                          style={{
-                            height: 25,
-                            width: 25,
-                            borderRadius: "50%",
-                            marginRight: 8,
-                          }}
-                          alt="Selected Profile"
-                        />
-                      ) : (
-                        <div
-                          style={{
-                            flexShrink: 0,
-                            height: 25,
-                            width: 25,
-                            minWidth: 25,
-                            borderRadius: "50%",
-                            backgroundColor: "#1e45e1",
-                            color: "white",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            fontWeight: 600,
-                            fontSize: 12,
-                            marginRight: 8,
-                            textTransform: "uppercase",
-                            lineHeight: "1",
-                          }}
-                        >
-                          {initials}
-                        </div>
-                      )}
-
-                      <span
-                        className="Title"
-                        style={{
-                          fontSize: 14,
-                          fontWeight: 600,
-                          display: "inline-block",
-                          fontFamily: "Gilroy",
-                          maxWidth: "150px",
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          verticalAlign: "middle",
-                        }}
-                      >
-                        {payingGuestName}
-                      </span>
-                      <span className="ms-auto">
-                        {isDropdownOpen ? (
-                          <ArrowUp2 size="16" color="#4B4B4B" />
-                        ) : (
-                          <ArrowDown2 size="16" color="#4B4B4B" />
-                        )}
-                      </span>
-
-
-                      {isDropdownOpen && (
-                        <div
-                          className="show-scrolls"
-                          style={{
-                            position: "absolute",
-                            top: "100%",
-                            left: 0,
-                            backgroundColor: "white",
-                            boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
-                            padding: "5px 0",
-                            borderRadius: "4px",
-                            width: "100%",
-                            zIndex: 10,
-                            maxHeight: "200px",
-                            overflowY: "auto",
-                            overflowX: "hidden",
-                          }}
-                        >
-                          <ul style={{ margin: 0, padding: 0 }}>
-                            {hostelListDetail.map((item) => (
-                              <OverlayTrigger
-                                key={item.id}
-                                placement="right"
-                                overlay={<Tooltip className="custom-tooltip" id={`tooltip-${item.id}`}>{item.name}</Tooltip>}
-                              >
-                                <li
-                                  key={item.id}
-                                  style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    padding: "8px 12px",
-                                    cursor: "pointer",
-                                    color: "#1e45e1",
-                                    maxWidth: "160px",
-                                    whiteSpace: "nowrap",
-                                    overflow: "hidden",
-                                    textOverflow: "ellipsis",
-                                    verticalAlign: "middle",
-                                  }}
-                                  onClick={() => handleHostelId(item.hostelId, item.name, item.mainImage, item.initials)}
-                                >
-                                  {item.mainImage && item.mainImage !== "0" && item.mainImage !== "" ? (
-                                    <img
-                                      src={item.mainImage}
-                                      style={{
-                                        height: 25,
-                                        width: 25,
-                                        borderRadius: "50%",
-                                        marginRight: 8,
-                                      }}
-                                      alt={item.initials || "Default Profile"}
-                                    />
-                                  ) : (
-                                    <div
-                                      style={{
-                                        flexShrink: 0,
-                                        minWidth: 25,
-                                        height: 25,
-                                        width: 25,
-                                        borderRadius: "50%",
-                                        backgroundColor: "#1e45e1",
-                                        color: "white",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        fontWeight: 600,
-                                        fontSize: 12,
-                                        marginRight: 8,
-                                        textTransform: "uppercase",
-                                      }}
-                                    >
-                                      {item.initials}
-                                    </div>
-                                  )}
-                                  {item.name}
-                                </li>
-                              </OverlayTrigger>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                    </li>
-                  )}
-
-
-                  {!(hostelListDetail ?? []).length && (
-                    <li
-                      className="align-items-center d-flex justify-content-center
-                   list-Button mb-2"
-                      style={{
-                        listStyleType: "none",
-                        display: "flex",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                      onClick={() => handleShowsettingsPG("manage-pg", "Manage PG")}
-                    >
-                      + Add PG
-                    </li>
-                  )}
-
-                  <ul
-                    className="first p-2 show-scrolls-sidebar"
+                {hostelListDetail && hostelListDetail?.length > 0 && (
+                  <li ref={dropdownRef}
+                    className={`align-items-center list-Item-Hostel mt-2 ${currentPage === "settingNewDesign" ? "active" : ""}`}
+                    onClick={toggleDropdown}
                     style={{
+                      listStyleType: "none",
                       display: "flex",
-                      flexDirection: "column",
-                      alignItems: "start",
                       position: "relative",
-                      marginBottom: "20px",
-                      maxHeight: (manageOpen && zoom <= 80)
-                        ? "550px"
-                        : manageOpen
-                          ? "400px"
-                          : "420px",
-
-                      overflowY: manageOpen ? "auto" : "hidden",
-                      paddingBottom: "10px",
+                      cursor: "pointer",
+                      fontFamily: "Gilroy", fontSize: 13,
+                      boxShadow: "0 2px 4px rgba(0,0,0,0.08)",
+                      borderRadius: "8px",
+                      backgroundColor: "#fff",
                     }}
                   >
 
-                    <li
-                      className={`align-items-center  list-Item ${currentPage === "dashboard" ? "active" : ""
-                        }`}
-                      onClick={() => {
-                        handlePageClick("dashboard");
+                    {selectedProfileImage && selectedProfileImage !== null && selectedProfileImage !== "" ? (
+                      <img
+                        src={selectedProfileImage}
+                        style={{
+                          height: 35,
+                          width: 35,
+                          borderRadius: "50%",
+                          marginRight: 8,
+                        }}
+                        alt="Selected Profile"
+                      />
+                    ) : (
+                      <div
+                        style={{
+                          flexShrink: 0,
+                          height: 35,
+                          width: 35,
+                          minWidth: 35,
+                          borderRadius: "50%",
+                          backgroundColor: "#E2E8F0",
+                          color: "#44536A",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          fontWeight: 600,
+                          fontSize: 12,
+                          marginRight: 8,
+                          textTransform: "uppercase",
+                          lineHeight: "1",
+                        }}
+                      >
+                        {initials}
+                      </div>
+                    )}
 
-                        const hostelId = state.login?.selectedHostel_Id;
-                        if (hostelId) {
-                          navigate(`/dashboard/${hostelId}`);
-                        } else {
-                          navigate(`/dashboard`);
-                        }
-                      }}
-
+                    <span
+                      className="Title"
                       style={{
-                        listStyleType: "none",
-                        display: "flex",
-                        alignItems: "center",
+                        fontSize: 14,
+                        fontWeight: 600,
+                        display: "inline-block",
+                        fontFamily: "Gilroy",
+                        maxWidth: "150px",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        verticalAlign: "middle", color: "#222222", cursor: "pointer",
                       }}
                     >
+                      {payingGuestName}
+                      <div>
+                        <OverlayTrigger
+                          placement="right"
+                          overlay={
+                            <Tooltip className="custom-tooltip">
+                              {payingGuestName} {locationName}
+                            </Tooltip>
+                          }
+                        >
+                          <span
+                            style={{
+                               fontSize: 12,
+      color: "#9C9C9C",
+      maxWidth: "100px",
+      cursor: "pointer",
+      display: "flex",
+      alignItems: "center",
+      gap: "4px",
+                            }}
+                          >
+                            <Location
+                              className="me-1"
+                              size="16"
+                              color="#FF8A65"
+                              variant="Bold"
+                              style={{ flexShrink: 0 }}
+                            />
+                            <span
+                              style={{
+                                whiteSpace: "nowrap",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                minWidth: 0,
+                              }}
+                            >
+                              {locationName}
+                            </span>
+                          </span>
+                        </OverlayTrigger>
+
+                      </div>
+                    </span>
+                    <span className="ms-auto">
+                      {isDropdownOpen ? (
+                        <ArrowUp2 size="16" color="#4B4B4B" />
+                      ) : (
+                        <ArrowDown2 size="16" color="#4B4B4B" />
+                      )}
+                    </span>
+
+
+                    {isDropdownOpen && (
+                      <div
+                        className="show-scrolls"
+                        style={{
+                          position: "absolute",
+                          top: "100%",
+                          left: 0,
+                          backgroundColor: "white",
+                          boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
+                          padding: "5px 0",
+                          borderRadius: "4px",
+                          width: "100%",
+                          zIndex: 10,
+                          maxHeight: "200px",
+                          overflowY: "auto",
+                          overflowX: "hidden",
+                        }}
+                      >
+                        <ul style={{ margin: 0, padding: 0 }}>
+                          {hostelListDetail.map((item) => (
+                            <OverlayTrigger
+                              key={item.id}
+                              placement="right"
+                              overlay={<Tooltip className="custom-tooltip" id={`tooltip-${item.id}`}>{item.name}</Tooltip>}
+                            >
+                              <li
+                                key={item.id}
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  padding: "8px 12px",
+                                  cursor: "pointer",
+                                  color: "#1e45e1",
+                                  maxWidth: "160px",
+                                  whiteSpace: "nowrap",
+                                  overflow: "hidden",
+                                  textOverflow: "ellipsis",
+                                  verticalAlign: "middle",
+                                }}
+                                onClick={() => handleHostelId(item.hostelId, item.name, item.mainImage, item.initials, item.city)}
+                              >
+                                {item.mainImage && item.mainImage !== "0" && item.mainImage !== "" ? (
+                                  <img
+                                    src={item.mainImage}
+                                    style={{
+                                      height: 25,
+                                      width: 25,
+                                      borderRadius: "50%",
+                                      marginRight: 8,
+                                    }}
+                                    alt={item.initials || "Default Profile"}
+                                  />
+                                ) : (
+                                  <div
+                                    style={{
+                                      flexShrink: 0,
+                                      minWidth: 25,
+                                      height: 25,
+                                      width: 25,
+                                      borderRadius: "50%",
+                                      backgroundColor: "#E2E8F0",
+                                      color: "#44536A",
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                      fontWeight: 600,
+                                      fontSize: 12,
+                                      marginRight: 8,
+                                      textTransform: "uppercase",
+                                    }}
+                                  >
+                                    {item.initials}
+                                  </div>
+                                )}
+                                {item.name}
+                              </li>
+                            </OverlayTrigger>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </li>
+                )}
+
+
+                {!(hostelListDetail ?? []).length && (
+                  <NavLink
+                    to={settingsPath}
+                    className="align-items-center d-flex justify-content-center mt-2 list-Button mb-2"
+                    style={{
+                      listStyleType: "none",
+                      display: "flex",
+                      fontFamily: "Gilroy",
+                      color: "#FFFFFF",
+                      fontWeight: 500,
+                      backgroundColor: "#1E45E1",
+                      boxShadow: "5px 0 2px -2px rgba(0,0,0,0.12)",
+                      padding: 8,
+                      borderRadius: "8px",
+                      cursor: "pointer",
+                      textDecoration: "none",
+                    }}
+                    onClick={() => {
+                      handledisplaySettingsPG("manage-pg", "Manage PG");
+                      dispatch({ type: "MANAGE_PG" });
+                      setIsSidebarOpen(false);
+                    }}
+                  >
+                    + Add PG
+                  </NavLink>
+
+                )}
+              </div>
+              <div
+                className="show-scrolls-sidebar"
+                style={{
+                  flex: 1,
+                  maxHeight: 400,
+                  overflow: "auto",
+                  display: "flex",
+                  flexDirection: "column",
+                  margin: 5,
+                  overflowY: "auto",
+                }}
+              >
+
+                <ul
+                  className=""
+                  style={{
+                    flex: 1,
+                    minHeight: 0,
+                    overflowY: "auto",
+                    listStyle: "none",
+                    padding: 2,
+                    marginBottom: 0,
+                    width: "100%",
+                  }}
+                >
+
+                  <li
+
+                    style={{
+                      listStyleType: "none",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <NavLink
+                      to={withHostel("/dashboard")}
+                      className={({ isActive }) =>
+                        `align-items-center d-flex list-Item ${isActive ? "active" : ""}`
+                      }
+                      onClick={() => handlePageClick("dashboard")}
+                    >
                       <Chart2
-                        size="20"
-                        color={currentPage === "dashboard" ? "#1E45E1" : "#4B4B4B"}
+                        size="20" variant="Bold"
+                      // color={currentPage === "dashboard" ? "#1E45E1" : "#4B4B4B"}
                       />
                       <span
                         className="Title"
@@ -980,216 +994,174 @@ function Sidebar() {
                       >
                         Home
                       </span>
-                    </li>
+                    </NavLink>
+                  </li>
 
-                    <li
-                      className={`align-items-center list-Item ${currentPage === "manage" ? "active" : ""
-                        }`}
-                      onClick={() => {
-                        setManageOpen(!manageOpen);
-                        localStorage.setItem("manageOpen", !manageOpen);
-                      }}
+                  <li
+                    className={`align-items-center list-Item ${manageOpen ? "active" : ""
+                      }`}
+                    onClick={() => {
+                      setManageOpen(!manageOpen);
+                      setBillingOpen(false);
+                      localStorage.setItem("manageOpen", !manageOpen);
+                    }}
+                    style={{
+                      listStyleType: "none",
+                      display: "flex",
+                      position: "relative",
+                      marginTop: manageOpen ? "2px" : "10px",
+                      backgroundColor: manageOpen ? "#F6F8FF" : "#FFF",
+                      color: manageOpen ? "#1E45E1" : "#64748B",
+
+                    }}
+                  >
+                    <Setting2 size="20" variant="Bold" />
+                    <span
+                      className="Title"
                       style={{
-                        listStyleType: "none",
-                        display: "flex",
-                        position: "relative",
-                        marginTop: manageOpen ? "2px" : "10px"
-
+                        fontSize: 14,
+                        fontWeight: 600,
+                        display: "inline-block",
+                        fontFamily: "Gilroy",
                       }}
                     >
-                      <img
-                        src={Manage}
-                        style={{ height: 20, width: 20 }}
-                        alt="manage"
-                      />
-                      <span
-                        className="Title"
-                        style={{
-                          fontSize: 14,
-                          fontWeight: 600,
-                          display: "inline-block",
-                          fontFamily: "Gilroy",
-                        }}
-                      >
-                        Manage
-                      </span>
-                      <span className="ms-auto ">
-                        {manageOpen ? (
-                          <ArrowUp2 size="16" color="#4B4B4B" />
-                        ) : (
-                          <ArrowDown2 size="16" color="#4B4B4B" />
-                        )}
-                      </span>
-                    </li>
+                      Manage
+                    </span>
+                    <span className="ms-auto ">
+                      {manageOpen ? (
+                        <ArrowUp2 size="16" color="#4B4B4B" />
+                      ) : (
+                        <ArrowDown2 size="16" color="#4B4B4B" />
+                      )}
+                    </span>
+                  </li>
 
-                    {manageOpen && (
+                  {manageOpen && (
+                    <div className={`submenu ${manageOpen ? "open" : ""}`}>
                       <ul
                         className="p-1 "
                         style={{
                           marginLeft: 10, position: "relative",
-                          //       maxHeight: manageOpen ? "100px" :"400px",
-                          // overflowY: manageOpen ? "auto" : "hidden", backgroundColor:"",
-
                         }}
                       >
                         <li
-                          className={`align-items-center list-sub-Item ${currentPage === "pg-list" ? "active" : ""
-                            }`}
-                          onClick={() => {
-                            handlePageClick("pg-list");
-
-                            const hostelId = state.login?.selectedHostel_Id;
-                            if (hostelId) {
-                              navigate(`/paying-guest/${hostelId}`);
-                            } else {
-                              navigate(`/paying-guest`);
-                            }
-                          }}
 
                           style={{ listStyleType: "none", display: "flex" }}
                         >
-                          <img
-                            src={currentPage === "pg-list" ? Paying2 : Paying}
-                            alt="pg"
-                            style={{ height: 20, width: 20 }}
-                          />
-                          <span
-                            className="Title"
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 600,
-                              display: "inline-block",
-                              fontFamily: "Gilroy",
-                            }}
-                          >
-                            Paying Guest
-                          </span>
-                        </li>
-                        <li
-                          className={`list-sub-Item ${currentPage === "user-list" || currentPage === "user-details" ? "active" : ""
-                            }`}
-
-
-                          onClick={() => {
-                            handlePageClick("user-list");
-
-                            const hostelId = state.login?.selectedHostel_Id;
-                            if (hostelId) {
-                              navigate(`/tenant/${hostelId}`);
-                            } else {
-                              navigate(`/tenant`);
+                          <NavLink
+                            to={withHostel("/paying-guest")}
+                            className={({ isActive }) =>
+                              `align-items-center d-flex list-Item ${isActive ? "active" : ""}`
                             }
-                          }}
-
-                          style={{ listStyleType: "none", display: "flex" }}
-                        >
-                          <img
-                            src={currentPage === "user-list" ? Custom2 : Custom}
-                            alt="user"
-                            style={{ height: 20, width: 20 }}
-                          />
-                          <span
-                            className="Title"
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 600,
-                              display: "inline-block",
-                              fontFamily: "Gilroy",
-                            }}
+                            onClick={() => handlePageClick("pg-list")}
                           >
-                            Tenant
-                          </span>
-                        </li>
-                        <li
-                          className={`align-items-center list-sub-Item ${currentPage === "asset" ? "active" : ""
-                            }`}
-                          onClick={() => {
-                            handlePageClick("asset");
+                            <Buildings size="20" variant="Bold" />
 
-                            const hostelId = state.login?.selectedHostel_Id;
-                            if (hostelId) {
-                              navigate(`/asset/${hostelId}`);
-                            } else {
-                              navigate(`/asset`);
+                            <span
+                              className="Title"
+                              style={{
+                                fontSize: 14,
+                                fontWeight: 600,
+                                display: "inline-block",
+                                fontFamily: "Gilroy",
+                              }}
+                            >
+                              Paying Guest
+                            </span>
+                          </NavLink>
+                        </li>
+                        <li style={{ listStyleType: "none" }}>
+                          <NavLink
+                            to={withHostel("/tenant")}
+                            className={({ isActive }) =>
+                              `list-sub-Item d-flex align-items-center ${isActive || currentPage === "user-details" ? "active" : ""
+                              }`
                             }
-                          }}
-
-                          style={{ listStyleType: "none", display: "flex" }}
-                        >
-                          <img
-                            src={currentPage === "asset" ? Asset2 : Asset}
-                            alt="asset"
-                            style={{ height: 20, width: 20 }}
-                          />
-                          <span
-                            className="Title"
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 600,
-                              display: "inline-block",
-                              fontFamily: "Gilroy",
-                            }}
+                            onClick={() => handlePageClick("user-list")}
+                            style={{ textDecoration: "none" }}
                           >
-                            Assets
-                          </span>
-                        </li>
-                        <li
-                          className={`align-items-center list-sub-Item ${currentPage === "vendor" ? "active" : ""
-                            }`}
-                          onClick={() => {
-                            handlePageClick("vendor");
+                            <Profile2User size="20" variant="Bold" />
 
-                            const hostelId = state.login?.selectedHostel_Id;
-                            if (hostelId) {
-                              navigate(`/vendor/${hostelId}`);
-                            } else {
-                              navigate(`/vendor`);
+                            <span
+                              className="Title"
+                              style={{
+                                fontSize: 14,
+                                fontWeight: 600,
+                                display: "inline-block",
+                                fontFamily: "Gilroy",
+                              }}
+                            >
+                              Tenant
+                            </span>
+                          </NavLink>
+                        </li>
+                        <li style={{ listStyleType: "none" }}>
+                          <NavLink
+                            to={withHostel("/asset")}
+                            className={({ isActive }) =>
+                              `align-items-center list-sub-Item d-flex ${isActive || currentPage === "asset" ? "active" : ""
+                              }`
                             }
-                          }}
-
-                          style={{ listStyleType: "none", display: "flex" }}
-                        >
-                          <img
-                            src={currentPage === "vendor" ? Vendor2 : Vendor}
-                            alt="vendor"
-                            style={{ height: 20, width: 20 }}
-                          />
-                          <span
-                            className="Title"
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 600,
-                              display: "inline-block",
-                              fontFamily: "Gilroy",
-                            }}
+                            onClick={() => handlePageClick("asset")}
+                            style={{ textDecoration: "none" }}
                           >
-                            Vendor
-                          </span>
+                            <Box size="20" variant="Bold" />
+
+                            <span
+                              className="Title"
+                              style={{
+                                fontSize: 14,
+                                fontWeight: 600,
+                                display: "inline-block",
+                                fontFamily: "Gilroy",
+                              }}
+                            >
+                              Assets
+                            </span>
+                          </NavLink>
                         </li>
+
+                        <li style={{ listStyleType: "none" }}>
+                          <NavLink
+                            to={withHostel("/vendor")}
+                            className={({ isActive }) =>
+                              `align-items-center list-sub-Item d-flex ${isActive || currentPage === "vendor" ? "active" : ""
+                              }`
+                            }
+                            onClick={() => handlePageClick("vendor")}
+                            style={{ textDecoration: "none" }}
+                          >
+                            <Shop size="20" variant="Bold" />
+
+                            <span
+                              className="Title"
+                              style={{
+                                fontSize: 14,
+                                fontWeight: 600,
+                                display: "inline-block",
+                                fontFamily: "Gilroy",
+                              }}
+                            >
+                              Vendor
+                            </span>
+                          </NavLink>
+                        </li>
+
                       </ul>
-                    )}
+                    </div>
+                  )}
 
-                    <li
-                      className={`align-items-center list-Item ${currentPage === "banking" ? "active" : ""
-                        }`}
-                      onClick={() => {
-                        handlePageClick("banking");
-
-                        const hostelId = state.login?.selectedHostel_Id;
-                        if (hostelId) {
-                          navigate(`/banking/${hostelId}`);
-                        } else {
-                          navigate(`/banking`);
-                        }
-                      }}
-
-                      style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "5px" : "10px" }}
+                  <li style={{ listStyleType: "none", marginTop: manageOpen ? "5px" : "10px" }}>
+                    <NavLink
+                      to={withHostel("/banking")}
+                      className={({ isActive }) =>
+                        `align-items-center list-Item d-flex ${isActive || currentPage === "banking" ? "active" : ""
+                        }`
+                      }
+                      onClick={() => handlePageClick("banking")}
+                      style={{ textDecoration: "none" }}
                     >
-                      <img
-                        src={currentPage === "banking" ? bank : bankblank}
-                        alt="banking"
-                        style={{ height: 20, width: 20 }}
-                      />
+                      <Bank size="20" variant="Bold" />
 
                       <span
                         className="Title"
@@ -1202,29 +1174,200 @@ function Sidebar() {
                       >
                         Banking
                       </span>
-                    </li>
+                    </NavLink>
+                  </li>
 
-                    <li
-                      className={`align-items-center list-Item ${currentPage === "invoice" ? "active" : ""
-                        }`}
-                      onClick={() => {
-                        handlePageClick("invoice");
 
-                        const hostelId = state.login?.selectedHostel_Id;
-                        if (hostelId) {
-                          navigate(`/invoice/${hostelId}`);
-                        } else {
-                          navigate(`/invoice`);
-                        }
+
+
+                  <li
+                    className={`align-items-center list-Item ${currentPage.startsWith("billing") ? "active" : ""}`}
+                    onClick={() => {
+                      setBillingOpen(!billingOpen);
+                      setManageOpen(false);
+                    }}
+                    style={{
+                      listStyleType: "none",
+                      display: "flex",
+                      alignItems: "center",
+                      // padding: "10px",
+                      cursor: "pointer", backgroundColor: billingOpen ? "#F6F8FF" : "#FFF",
+                      color: billingOpen ? "#1E45E1" : "#64748B",
+                      marginTop: manageOpen ? "5px" : "10px"
+                    }}
+                  >
+                    <DocumentText
+                      size="22"
+                      variant="Bold"
+                    />
+                    <span className="Title"
+                      style={{
+                        fontSize: 14,
+                        fontWeight: 600,
+                        fontFamily: "Gilroy",
+                        // marginLeft: 10,
                       }}
-
-                      style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "10px" }}
                     >
-                      <img
-                        src={currentPage === "invoice" ? Invoice2 : Invo}
-                        alt="invoice"
-                        style={{ height: 20, width: 20 }}
-                      />
+                      Billing & Payments
+                    </span>
+                    <span className="ms-auto">
+                      {billingOpen ? <ArrowUp2 size={14} /> : <ArrowDown2 size={14} />}
+                    </span>
+                  </li>
+
+                  {billingOpen && (
+                    <div className={`submenu ${billingOpen ? "open" : ""}`} style={{}}>
+                      <ul
+                        className="p-1 "
+                        style={{
+                          marginLeft: 10, position: "relative",
+
+
+                        }}
+                      >
+
+                        <li
+                          style={{
+                            listStyleType: "none",
+                            marginTop: billingOpen ? "2px" : "10px",
+                          }}
+                        >
+                          <NavLink
+                            to={withHostel("/invoice")}
+                            className={({ isActive }) =>
+                              `align-items-center list-sub-Item d-flex ${isActive || currentPage === "invoice" ? "active" : ""
+                              }`
+                            }
+                            onClick={() => handlePageClick("invoice")}
+                            style={{ textDecoration: "none" }}
+                          >
+                            <Receipt size="20" variant="Bold" />
+
+                            <span
+                              className="Title"
+                              style={{
+                                fontSize: 14,
+                                fontWeight: 600,
+                                display: "inline-block",
+                                fontFamily: "Gilroy",
+                              }}
+                            >
+                              Bills
+                            </span>
+                          </NavLink>
+                        </li>
+
+                        <li
+                          style={{
+                            listStyleType: "none",
+                            borderRadius: 6,
+                          }}
+                        >
+                          <NavLink
+                            to={withHostel("/booking")}
+                            className={({ isActive }) =>
+                              `list-sub-Item d-flex align-items-center ${isActive || currentPage === "booking" ? "active" : ""
+                              }`
+                            }
+                            onClick={() => handlePageClick("booking")}
+                            style={{ textDecoration: "none", cursor: "pointer" }}
+                          >
+                            <CalendarAdd variant="Bold" size="22" />
+
+                            <span
+                              style={{
+                                fontSize: 14,
+                                fontWeight: 600,
+                                display: "inline-block",
+                                fontFamily: "Gilroy",
+                              }}
+                            >
+                              Bookings
+                            </span>
+                          </NavLink>
+                        </li>
+
+
+                        <li
+                          style={{
+                            listStyleType: "none",
+                          }}
+                        >
+                          <NavLink
+                            to={withHostel("/recurring")}
+                            className={({ isActive }) =>
+                              `list-sub-Item d-flex align-items-center ${isActive || currentPage === "recurring" ? "active" : ""
+                              }`
+                            }
+                            onClick={() => handlePageClick("recurring")}
+                            style={{ textDecoration: "none", cursor: "pointer" }}
+                          >
+                            <RulerPen variant="Bold" size="22" />
+
+                            <span
+                              style={{
+                                fontSize: 14,
+                                fontWeight: 600,
+                                display: "inline-block",
+                                fontFamily: "Gilroy",
+                              }}
+                            >
+                              Recurring bills
+                            </span>
+                          </NavLink>
+                        </li>
+
+
+                        <li
+                          style={{
+                            listStyleType: "none",
+                          }}
+                        >
+                          <NavLink
+                            to={withHostel("/receipts")}
+                            className={({ isActive }) =>
+                              `list-sub-Item d-flex align-items-center ${isActive || currentPage === "receipts" ? "active" : ""
+                              }`
+                            }
+                            onClick={() => handlePageClick("receipts")}
+                            style={{ textDecoration: "none", cursor: "pointer" }}
+                          >
+                            <DocumentText variant="Bold" size="22" />
+
+                            <span
+                              style={{
+                                fontSize: 14,
+                                fontWeight: 600,
+                                display: "inline-block",
+                                fontFamily: "Gilroy",
+                              }}
+                            >
+                              Receipts
+                            </span>
+                          </NavLink>
+                        </li>
+
+                      </ul>
+                    </div>
+                  )}
+
+
+                  <li
+                    style={{
+                      listStyleType: "none",
+                      marginTop: manageOpen ? "2px" : "8px",
+                    }}
+                  >
+                    <NavLink
+                      to={withHostel("/electricity")}
+                      className={({ isActive }) =>
+                        `align-items-center list-Item d-flex ${isActive || currentPage === "eb" ? "active" : ""
+                        }`
+                      }
+                      onClick={() => handlePageClick("eb")}
+                      style={{ textDecoration: "none" }}
+                    >
+                      <Flash size="20" variant="Bold" />
 
                       <span
                         className="Title"
@@ -1235,68 +1378,31 @@ function Sidebar() {
                           fontFamily: "Gilroy",
                         }}
                       >
-                        Bills
-                      </span>
-                    </li>
-
-                    <li
-                      className={`align-items-center list-Item ${currentPage === "eb" ? "active" : ""
-                        }`}
-                      onClick={() => {
-                        handlePageClick("eb");
-
-                        const hostelId = state.login?.selectedHostel_Id;
-                        if (hostelId) {
-                          navigate(`/electricity/${hostelId}`);
-                        } else {
-                          navigate(`/electricity`);
-                        }
-                      }}
-
-                      style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "8px" }}
-                    >
-                      <img
-                        src={currentPage === "eb" ? Eb2 : Eb}
-                        alt="eb"
-                        style={{ height: 20, width: 20 }}
-                      />
-                      <span
-                        className=" Title"
-                        style={{
-                          fontSize: 14,
-                          fontWeight: 600,
-                          display: "inline-block",
-                          fontFamily: "Gilroy",
-                        }}
-                      >
                         Electricity
                       </span>
-                    </li>
-
-                    <li
-                      className={` align-items-center list-Item ${currentPage === "compliance" ? "active" : ""
-                        }`}
-                      onClick={() => {
-                        handlePageClick("compliance");
-
-                        const hostelId = state.login?.selectedHostel_Id;
-                        if (hostelId) {
-                          navigate(`/compliance/${hostelId}`);
-                        } else {
-                          navigate(`/compliance`);
-                        }
-                      }}
+                    </NavLink>
+                  </li>
 
 
-                      style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "8px" }}
+                  <li
+                    style={{
+                      listStyleType: "none",
+                      marginTop: manageOpen ? "2px" : "8px",
+                    }}
+                  >
+                    <NavLink
+                      to={withHostel("/compliance")}
+                      className={({ isActive }) =>
+                        `align-items-center list-Item d-flex ${isActive || currentPage === "compliance" ? "active" : ""
+                        }`
+                      }
+                      onClick={() => handlePageClick("compliance")}
+                      style={{ textDecoration: "none" }}
                     >
-                      <img
-                        src={currentPage === "compliance" ? Compl2 : Compl}
-                        alt="compliance"
-                        style={{ height: 20, width: 20, }}
-                      />
+                      <MessageQuestion size="20" variant="Bold" />
+
                       <span
-                        className=" Title"
+                        className="Title"
                         style={{
                           fontSize: 14,
                           fontWeight: 600,
@@ -1306,28 +1412,26 @@ function Sidebar() {
                       >
                         Compliants
                       </span>
-                    </li>
-                    <li
-                      className={`align-items-center list-Item ${currentPage === "expenses" ? "active" : ""
-                        }`}
-                      onClick={() => {
-                        handlePageClick("expenses");
+                    </NavLink>
+                  </li>
 
-                        const hostelId = state.login?.selectedHostel_Id;
-                        if (hostelId) {
-                          navigate(`/expense/${hostelId}`);
-                        } else {
-                          navigate(`/expense`);
-                        }
-                      }}
-
-                      style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "8px" }}
+                  <li
+                    style={{
+                      listStyleType: "none",
+                      marginTop: manageOpen ? "2px" : "8px",
+                    }}
+                  >
+                    <NavLink
+                      to={withHostel("/expense")}
+                      className={({ isActive }) =>
+                        `align-items-center list-Item d-flex ${isActive || currentPage === "expenses" ? "active" : ""
+                        }`
+                      }
+                      onClick={() => handlePageClick("expenses")}
+                      style={{ textDecoration: "none" }}
                     >
-                      <img
-                        src={currentPage === "expenses" ? Expense2 : Expense}
-                        alt="expence"
-                        style={{ height: 20, width: 20 }}
-                      />
+                      <MoneySend size="20" variant="Bold" />
+
                       <span
                         className="Title"
                         style={{
@@ -1339,29 +1443,27 @@ function Sidebar() {
                       >
                         Expenses
                       </span>
-                    </li>
+                    </NavLink>
+                  </li>
 
-                    <li
-                      className={` align-items-center list-Item ${currentPage === "reports" ? "active" : ""
-                        }`}
-                      onClick={() => {
-                        handlePageClick("reports");
 
-                        const hostelId = state.login?.selectedHostel_Id;
-                        if (hostelId) {
-                          navigate(`/reports/${hostelId}`);
-                        } else {
-                          navigate(`/reports`);
-                        }
-                      }}
-
-                      style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "8px" }}
+                  <li
+                    style={{
+                      listStyleType: "none",
+                      marginTop: manageOpen ? "2px" : "8px",
+                    }}
+                  >
+                    <NavLink
+                      to={withHostel("/reports")}
+                      className={({ isActive }) =>
+                        `align-items-center list-Item d-flex ${isActive || currentPage === "reports" ? "active" : ""
+                        }`
+                      }
+                      onClick={() => handlePageClick("reports")}
+                      style={{ textDecoration: "none" }}
                     >
-                      <img
-                        src={currentPage === "reports" ? Repo2 : Repo}
-                        alt="report"
-                        style={{ height: 20, width: 20 }}
-                      />
+                      <Chart size="20" variant="Bold" />
+
                       <span
                         className="Title"
                         style={{
@@ -1373,211 +1475,153 @@ function Sidebar() {
                       >
                         Reports
                       </span>
-                    </li>
-                  </ul>
+                    </NavLink>
+                  </li>
+
+                </ul>
+              </div>
 
 
+
+              <div
+                style={{
+                  flexShrink: 0,
+                  position: "absolute",
+                  bottom: 0,
+                  right: 0,
+                  backgroundColor: "#fff",
+                  padding: "12px 0",
+                  zIndex: 5,
+
+                }}
+              >
+                <hr style={{ color: "#E2E8F0" }} className="p-0 m-0" />
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "flex-start",
+                    height: "fit-content",
+                    width: "100%",
+                    padding: 16,
+                    marginBottom: 12,
+                  }}
+                >
+                  <div className="Profile_Hover" style={{ display: "flex", width: 190, margin: "-20px auto", gap: 10 }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "start",
+                        width: "fit-content",
+                        textAlign: "center",
+                      }}
+                    >
+                      {profiles === "null" ||
+                        profiles === null ||
+                        profiles === undefined ||
+                        profiles === "undefined" ||
+                        profiles === "" ||
+                        profiles === 0 ||
+                        profiles === "0" ? (
+
+                        <div
+                          style={{
+                            height: "35px",
+                            width: "35px",
+                            borderRadius: "50%",
+                            backgroundColor: "#1e45e1",
+                            color: "white",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            fontWeight: "bold",
+                            fontSize: "14px",
+                            textTransform: "uppercase",
+                          }}
+                        >
+                          {stateData?.accountList?.initial || ""}
+                        </div>
+                      ) : (
+
+                        <Image
+                          src={profiles}
+                          alt="profile-image"
+                          roundedCircle
+                          style={{ height: "35px", width: "35px", objectFit: "cover" }}
+                        />
+                      )}
+                    </div>
+
+
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                      <span
+
+                        title={profilename}
+                        style={{
+                          fontSize: 14,
+                          fontWeight: 600,
+                          fontFamily: "Gilroy",
+                          textTransform: "capitalize",
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          display: "inline-block",
+                          maxWidth: 120,
+                        }}
+
+                      >
+                        {profilename}
+                      </span>
+                      <span
+                        style={{
+                          fontSize: 12,
+                          fontWeight: 600,
+                          fontFamily: "Gilroy",
+                          color: "blue",
+                        }}
+                      >
+                        {stateData?.accountList?.roleName}
+                      </span>
+                    </div>
+                  </div>
                 </div>
+
 
                 <div
                   style={{
-                    position: "absolute",
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
                     display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    height: "auto",
-                    padding: "12px 0",
-                    backgroundColor: "#E0ECFF",
+                    flexDirection: "row",
+                    justifyContent: "space-around",
+                    width: "100%",
+                    marginTop: 8,
+                    zIndex: 1000,
+                    overflow: "visible"
 
                   }}
                 >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "flex-start",
-                      height: "fit-content",
-                      width: "100%",
-                      padding: 16,
-                      marginBottom: 12,
-                    }}
-                  >
-                    <div className="Profile_Hover" style={{ display: "flex", width: 190, margin: "-20px auto", gap: 10 }}>
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          justifyContent: "start",
-                          width: "fit-content",
-                          textAlign: "center",
-                        }}
-                      >
-                        {profiles === "null" ||
-                          profiles === null ||
-                          profiles === undefined ||
-                          profiles === "undefined" ||
-                          profiles === "" ||
-                          profiles === 0 ||
-                          profiles === "0" ? (
 
-                          <div
-                            style={{
-                              height: "35px",
-                              width: "35px",
-                              borderRadius: "50%",
-                              backgroundColor: "#1e45e1",
-                              color: "white",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              fontWeight: "bold",
-                              fontSize: "14px",
-                              textTransform: "uppercase",
-                            }}
-                          >
-                            {stateData?.accountList?.initial || ""}
-                          </div>
-                        ) : (
-
-                          <Image
-                            src={profiles}
-                            alt="profile-image"
-                            roundedCircle
-                            style={{ height: "35px", width: "35px", objectFit: "cover" }}
-                          />
-                        )}
-                      </div>
-
-
-                      <div style={{ display: "flex", flexDirection: "column" }}>
-                        <span
-
-                          title={profilename}
-                          style={{
-                            fontSize: 14,
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
-                            textTransform: "capitalize",
-                            whiteSpace: "nowrap",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            display: "inline-block",
-                            maxWidth: 120,
-                          }}
-
-                        >
-                          {profilename}
-                        </span>
-                        <span
-                          style={{
-                            fontSize: 12,
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
-                            color: "blue",
-                          }}
-                        >
-                          {stateData?.accountList?.roleName}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      justifyContent: "space-around",
-                      width: "100%",
-                      marginTop: 8,
-                      zIndex: 1000,
-                      overflow: "visible"
-
-                    }}
-                  >
-
-                    <div
-                      onMouseEnter={() => handleMouseEnter("settings")}
-                      onMouseLeave={handleMouseLeave}
-                      onClick={handleSettingspage}
-                      style={{
-                        cursor: "pointer",
-                        position: "relative",
-                        display: "inline-block",
-                      }}
-                    >
-                      <img src={SettingIcon} alt="Settings Icon" />
-                      {hoveredIcon === "settings" && (
-                        <span
-                          style={{
-                            display: "block",
-                            position: "absolute",
-                            top: "-30px",
-                            left: "50%",
-                            transform: "translateX(-50%)",
-                            backgroundColor: "white",
-                            color: "black",
-                            padding: "4px 8px",
-                            borderRadius: "4px",
-                            fontSize: "12px",
-                            whiteSpace: "nowrap",
-                          }}
-                        >
-                          Settings
-                        </span>
-                      )}
-                    </div>
-
-
-                    <div
-                      onMouseEnter={() => handleMouseEnter("logout")}
-                      onMouseLeave={handleMouseLeave}
-                      onClick={handleShowLogout}
-                      style={{
-                        position: "relative",
-                        display: "inline-block",
-                        cursor: "pointer",
-                      }}
-                    >
-                      <img src={Logout} alt="Logout Icon" style={{ width: 24, height: 24 }} />
-                      {hoveredIcon === "logout" && (
-                        <span
-                          style={{
-                            display: "block",
-                            position: "absolute",
-                            top: "-30px",
-                            left: "50%",
-                            transform: "translateX(-50%)",
-                            backgroundColor: "white",
-                            color: "black",
-                            padding: "5px 8px",
-                            borderRadius: "4px",
-                            fontSize: "12px",
-                            whiteSpace: "nowrap",
-                          }}
-                        >
-                          Logout
-                        </span>
-                      )}
-                    </div>
-
-
-                    {/* <div
-                    onMouseEnter={() => handleMouseEnter("helpDoc")}
+                  <NavLink
+                    to={settingsPath}
+                    onMouseEnter={() => handleMouseEnter("settings")}
                     onMouseLeave={handleMouseLeave}
+                    onClick={() => {
+                      handlePageClick("settingNewDesign");
+                      setSettingsPGShow(false);
+                    }}
+                    className={({ isActive }) =>
+                      `settings-link ${isActive ? "active" : ""}`
+                    }
                     style={{
+                      cursor: "pointer",
                       position: "relative",
                       display: "inline-block",
-                      cursor: "pointer",
+                      textDecoration: "none",
                     }}
                   >
-                    <img src={HelpDocumentIcon} alt="Help Document Icon" />
-                    {hoveredIcon === "helpDoc" && (
+                    <img src={SettingIcon} alt="Settings Icon" />
+                    {hoveredIcon === "settings" && (
                       <span
                         style={{
                           display: "block",
@@ -1585,7 +1629,43 @@ function Sidebar() {
                           top: "-30px",
                           left: "50%",
                           transform: "translateX(-50%)",
-                          backgroundColor: "white",
+                          backgroundColor: "#E0ECFF",
+                          color: "black",
+                          padding: "4px 8px",
+                          borderRadius: "4px",
+                          fontSize: "12px",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        Settings
+                      </span>
+                    )}
+                  </NavLink>
+
+
+                  <div
+                    onMouseEnter={() => handleMouseEnter("logout")}
+                    onMouseLeave={handleMouseLeave}
+                    onClick={handleShowLogout}
+                    style={{
+                      position: "relative",
+                      display: "inline-block",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <LogoutCurve
+                      size="20"
+                      color="#FF0000"
+                    />
+                    {hoveredIcon === "logout" && (
+                      <span
+                        style={{
+                          display: "block",
+                          position: "absolute",
+                          top: "-30px",
+                          left: "50%",
+                          transform: "translateX(-50%)",
+                          backgroundColor: "#E0ECFF",
                           color: "black",
                           padding: "5px 8px",
                           borderRadius: "4px",
@@ -1593,124 +1673,117 @@ function Sidebar() {
                           whiteSpace: "nowrap",
                         }}
                       >
-                        Help Document
+                        Logout
                       </span>
                     )}
-                  </div> */}
-
-                    <div onClick={handleShowNotification}
-                      onMouseEnter={() => handleMouseEnter("notification")}
-                      onMouseLeave={handleMouseLeave}
-                      style={{
-                        position: "relative",
-                        display: "inline-block",
-                        cursor: "pointer",
-                      }}
-                    >
-
-                      <Notification
-                        size="24"
-                        color="#64748B"
-                        onClick={handleShowNotification} />
-                      {hoveredIcon === "notification" && (
-                        <span
-                          style={{
-                            display: "block",
-                            position: "absolute",
-                            top: "-30px",
-                            left: "50%",
-                            transform: "translateX(-50%)",
-                            backgroundColor: "white",
-                            color: "black",
-                            padding: "5px 8px",
-                            borderRadius: "4px",
-                            fontSize: "12px",
-                            whiteSpace: "nowrap",
-                          }}
-                        >
-                          Notifications
-                        </span>
-                      )}
+                  </div>
 
 
-                      {state.UsersList.hotelDetailsinPg.unreadNotificationCount > 0 && (
-                        <span
-                          style={{
-                            position: "absolute",
-                            top: "-2px",
-                            right: "-2px",
-                            minHeight: "16px",
-                            minWidth: "16px",
-                            padding: "0px 3px",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            backgroundColor: "#F97316",
-                            color: "white",
-                            fontSize: 10, textAlign: "center",
-                            borderRadius: "50%",
-                            border: "2px solid white",
-                            fontWeight: 600,
-                            lineHeight: 1,
 
-                          }}
-                        >{state.UsersList?.hotelDetailsinPg?.unreadNotificationCount}</span>
-                      )}
-                    </div>
 
-                    <div
-                      onMouseEnter={() => handleMouseEnter("helpVideo")}
-                      onMouseLeave={handleMouseLeave}
-                      style={{
-                        position: "relative",
-                        display: "inline-block",
-                        cursor: "pointer",
-                        zIndex: 10,
-                        overflow: "visible"
+                  <div onClick={handleShowNotification}
+                    onMouseEnter={() => handleMouseEnter("notification")}
+                    onMouseLeave={handleMouseLeave}
+                    style={{
+                      position: "relative",
+                      display: "inline-block",
+                      cursor: "pointer",
+                    }}
+                  >
 
-                      }}
-                    >
-                      <img src={HelpVideoIcon} alt="Help Video Icon" />
-                      {hoveredIcon === "helpVideo" && (
-                        <span
-                          style={{
-                            display: "block",
-                            position: "absolute",
-                            top: "-30px",
-                            left: "0%",
-                            transform: "translateX(-50%)",
-                            backgroundColor: "white",
-                            color: "black",
-                            padding: "5px 8px",
-                            borderRadius: "4px",
-                            fontSize: "12px",
-                            whiteSpace: "nowrap",
-                            zIndex: 1000,
-                          }}
-                        >
-                          Help Video
-                        </span>
-                      )}
-                    </div>
+                    <Notification
+                      size="24"
+                      color="#64748B"
+                      onClick={handleShowNotification} />
+                    {hoveredIcon === "notification" && (
+                      <span
+                        style={{
+                          display: "block",
+                          position: "absolute",
+                          top: "-30px",
+                          left: "50%",
+                          transform: "translateX(-50%)",
+                          backgroundColor: "#E0ECFF",
+                          color: "black",
+                          padding: "5px 8px",
+                          borderRadius: "4px",
+                          fontSize: "12px",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        Notifications
+                      </span>
+                    )}
+
+
+                    {state.UsersList.hotelDetailsinPg.unreadNotificationCount > 0 && (
+                      <span
+                        style={{
+                          position: "absolute",
+                          top: "-2px",
+                          right: "-2px",
+                          minHeight: "16px",
+                          minWidth: "16px",
+                          padding: "0px 3px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          backgroundColor: "#F97316",
+                          color: "white",
+                          fontSize: 10, textAlign: "center",
+                          borderRadius: "50%",
+                          border: "2px solid white",
+                          fontWeight: 600,
+                          lineHeight: 1,
+
+                        }}
+                      >{state.UsersList?.hotelDetailsinPg?.unreadNotificationCount}</span>
+                    )}
+                  </div>
+
+                  <div
+                    onMouseEnter={() => handleMouseEnter("helpVideo")}
+                    onMouseLeave={handleMouseLeave}
+                    style={{
+                      position: "relative",
+                      display: "inline-block",
+                      cursor: "pointer",
+                      zIndex: 10,
+                      overflow: "visible"
+
+                    }}
+                  >
+                    <img src={HelpVideoIcon} alt="Help Video Icon" />
+                    {hoveredIcon === "helpVideo" && (
+                      <span
+                        style={{
+                          display: "block",
+                          position: "absolute",
+                          top: "-30px",
+                          left: "0%",
+                          transform: "translateX(-50%)",
+                          backgroundColor: "#E0ECFF",
+                          color: "black",
+                          padding: "5px 8px",
+                          borderRadius: "4px",
+                          fontSize: "12px",
+                          whiteSpace: "nowrap",
+                          zIndex: 1000,
+                        }}
+                      >
+                        Help Video
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>
-            </Col>
+            </div>
+          </div>
 
-          }
+          {/* main content */}
 
-
-          <Col
-            className="bg-white main-content"
-            lg={{ span: 10, offset: 2 }}
-            md={{ span: 10, offset: 2 }}
-            sm={{ span: 9, offset: 3 }}
-            xs={{ span: 9, offset: 3 }}
-            style={{
-              height: "100vh",
-              overflowY: "auto",
-              zIndex: 10,
-            }}
+          <div
+            style={{ width: "82%", overflowY: "auto", height: "100vh", }}
           >
 
             <Routes>
@@ -1719,31 +1792,37 @@ function Sidebar() {
               <Route
                 path="/dashboard/:hostelId?"
                 element={
-                  <Dashboards
-                    displayCompliance={handledisplaycompliace}
-                    allPageHostel_Id={allPageHostel_Id}
-                    setAllPageHostel_Id={setAllPageHostel_Id}
-                  />
+                  <div style={{ marginTop: 5, marginLeft: 13, marginRight: 5 }}>
+                    <Dashboards
+                      displayCompliance={handledisplaycompliace}
+                      allPageHostel_Id={allPageHostel_Id}
+                      setAllPageHostel_Id={setAllPageHostel_Id}
+                    />
+                  </div>
                 }
               />
               <Route
                 path="/paying-guest/:hostelId?"
                 element={
-                  <PgLists
-                    displaysettings={handledisplaySettingsPG}
-                    allPageHostel_Id={allPageHostel_Id}
-                    setAllPageHostel_Id={setAllPageHostel_Id}
-                  />
+                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                    <PgLists
+                      displaysettings={handledisplaySettingsPG}
+                      allPageHostel_Id={allPageHostel_Id}
+                      setAllPageHostel_Id={setAllPageHostel_Id}
+                    />
+                  </div>
                 }
               />
 
               <Route
                 path="/tenant/:hostelId?"
                 element={
-                  <UserLists
-                    allPageHostel_Id={allPageHostel_Id}
-                    setAllPageHostel_Id={setAllPageHostel_Id}
-                  />
+                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                    <UserLists
+                      allPageHostel_Id={allPageHostel_Id}
+                      setAllPageHostel_Id={setAllPageHostel_Id}
+                    />
+                  </div>
                 }
               />
 
@@ -1751,83 +1830,141 @@ function Sidebar() {
               <Route
                 path="/invoice/:hostelId?"
                 element={
-                  <Invoices
-                    allPageHostel_Id={allPageHostel_Id}
-                    setAllPageHostel_Id={setAllPageHostel_Id}
-                  />
+                  <div style={{ marginTop: 5, marginLeft: 15, marginRight: 5 }}>
+                    <Invoices
+                      allPageHostel_Id={allPageHostel_Id}
+                      setAllPageHostel_Id={setAllPageHostel_Id}
+                    />
+                  </div>
                 }
               />
 
-              {/* <Route
-                path="/invoice/new/:hostelId?"
+              <Route
+                path="/booking/:hostelId?"
                 element={
-                  <Invoices
-                  />
+                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                    <Booking
+                    />
+                  </div>
                 }
-              /> */}
+              />
+              <Route
+                path="/booking/details/:hostelId?"
+                element={
+                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                    <BookingsPdfDetails
+                    />
+                  </div>
+                }
+              />
 
+              <Route
+                path="/recurring/:hostelId?"
+                element={
+                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                    <RecurringBills
+                    />
+                  </div>
+                }
+              />
+              <Route
+                path="/receipts/:hostelId?"
+                element={
+                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                    <Receipts
+                    />
+                  </div>
+                }
+              />
+              <Route
+                path="/receipts/details/:receiptId?"
+                element={
+                  <div style={{ marginTop: 5, marginLeft: 15, marginRight: 5 }}>
+                    <ReceiptPdfDetails />
+
+                  </div>
+                }
+              />
               <Route
                 path="/invoice/details/:invoiceId"
                 element={
-                  <BillsDetails />
+                  <div style={{ marginTop: 5, marginLeft: 15, marginRight: 5 }}>
+                    <BillsPdfDetails />
+                  </div>
                 }
               />
               <Route
                 path="/vendor/:hostelId?"
                 element={
-                  <VendorComponent
-                    allPageHostel_Id={allPageHostel_Id}
-                    setAllPageHostel_Id={setAllPageHostel_Id}
-                  />
+                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                    <VendorComponent
+                      allPageHostel_Id={allPageHostel_Id}
+                      setAllPageHostel_Id={setAllPageHostel_Id}
+                    />
+                  </div>
                 }
               />
               <Route
                 path="/compliance/:hostelId?"
                 element={
-                  <Compliances
-                    allPageHostel_Id={allPageHostel_Id}
-                    setAllPageHostel_Id={setAllPageHostel_Id}
-                  />
+                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                    <Compliances
+                      allPageHostel_Id={allPageHostel_Id}
+                      setAllPageHostel_Id={setAllPageHostel_Id}
+                    />
+                  </div>
                 }
               />
               <Route
                 path="/asset/:hostelId?"
-                element={<Assets allPageHostel_Id={allPageHostel_Id} />}
+                element={
+                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                    <Assets allPageHostel_Id={allPageHostel_Id} />
+                  </div>
+                }
               />
               <Route
                 path="/reports/:hostelId?"
                 element={
-                  <Report
-                    allPageHostel_Id={allPageHostel_Id}
-                    setAllPageHostel_Id={setAllPageHostel_Id}
-                  />
+                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                    <Report
+                      allPageHostel_Id={allPageHostel_Id}
+                      setAllPageHostel_Id={setAllPageHostel_Id}
+                    />
+                  </div>
                 }
               />
               <Route
                 path="/electricity/:hostelId?"
                 element={
-                  <EbHostel
-                    allPageHostel_Id={allPageHostel_Id}
-                    setAllPageHostel_Id={setAllPageHostel_Id}
-                  />
+                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                    <EbHostel
+                      allPageHostel_Id={allPageHostel_Id}
+                      setAllPageHostel_Id={setAllPageHostel_Id}
+                    />
+                  </div>
                 }
               />
               <Route
                 path="/expense/:hostelId?"
                 element={
-                  <Expenses
-                    allPageHostel_Id={allPageHostel_Id}
-                    setAllPageHostel_Id={setAllPageHostel_Id}
-                  />
+                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                    <Expenses
+                      allPageHostel_Id={allPageHostel_Id}
+                      setAllPageHostel_Id={setAllPageHostel_Id}
+                    />
+                  </div>
                 }
               />
               <Route
                 path="/banking/:hostelId?"
                 element={
-                  <Banking
-                    allPageHostel_Id={allPageHostel_Id}
-                    setAllPageHostel_Id={setAllPageHostel_Id}
-                  />
+                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                    <Banking
+                      allPageHostel_Id={allPageHostel_Id}
+                      setAllPageHostel_Id={setAllPageHostel_Id}
+                    />
+                  </div>
                 }
               />
 
@@ -1837,23 +1974,29 @@ function Sidebar() {
               <Route
                 path="/create-bill"
                 element={
-                  <CreateBill
-                  />
+                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                    <CreateBill
+                    />
+                  </div>
                 }
               />
 
               <Route
                 path="/tenant/details/:tenantId"
                 element={
-                  <UserListRoomDetail
-                  />
+                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                    <UserListRoomDetail
+                    />
+                  </div>
                 }
               />
 
               <Route
                 path="/tenant/checkout/details/:tenantId"
                 element={
-                  <CheckoutProfile />
+                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                    <CheckoutProfile />
+                  </div>
 
                 }
               />
@@ -1863,14 +2006,16 @@ function Sidebar() {
               <Route
                 path="/settings/:hostelId?/*"
                 element={
-                  <SettingAllPages
-                    allPageHostel_Id={allPageHostel_Id}
-                    setAllPageHostel_Id={setAllPageHostel_Id}
-                    payingGuestName={payingGuestName}
-                    settignspgshow={settignspgshow}
-                    onhandleShowsettingsPG={handleShowsettingsPG}
-                    isVisibleSidebar={isVisibleSidebar}
-                  />
+                  <div style={{ marginTop: 5, marginLeft: 2, marginRight: 5 }}>
+                    <SettingAllPages
+                      allPageHostel_Id={allPageHostel_Id}
+                      setAllPageHostel_Id={setAllPageHostel_Id}
+                      payingGuestName={payingGuestName}
+                      settignspgshow={settignspgshow}
+                      onhandleShowsettingsPG={handleShowsettingsPG}
+                      isVisibleSidebar={isVisibleSidebar}
+                    />
+                  </div>
                 }
               >
 
@@ -1905,8 +2050,8 @@ function Sidebar() {
 
             </Routes>
 
-          </Col>
-        </Row>
+          </div>
+        </div>
       </Container >
 
 
