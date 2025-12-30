@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import Modal from "react-bootstrap/Modal";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-toastify/dist/ReactToastify.css";
-// import { MdError } from "react-icons/md";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from "antd";
@@ -15,7 +14,6 @@ import { CloseCircle } from "iconsax-react";
 import { JoininDatecustomer } from "../../Redux/Action/smartStayAction";
 import { Trash } from 'iconsax-react';
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
-// import Profileimage from "../../Assets/Images/New_images/profile-picture.png";
 import ErrorMessage from '../../Components/ErrorMessage'
 
 
@@ -26,8 +24,7 @@ function UserlistForm(props) {
   const [file, setFile] = useState(null);
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
-  // const [recheckinbedname, setRecheckinbedName] = useState("")
-
+ 
   const [Floor, setFloor] = useState("");
   const [Rooms, setRooms] = useState("");
   const [Bed, setBed] = useState("");
@@ -47,10 +44,7 @@ function UserlistForm(props) {
   const [formLoading, setFormLoading] = useState(false)
 
   const [loading, setLoading] = useState(false)
-  // const countryCode = "91";
   const [errors, setErrors] = useState([]);
-  // const [reason, setReason] = useState("");
-  // const [recheckInDate, setRecheckInDate] = useState("");
   const [activeTab, setActiveTab] = useState("LONG");
 
 
@@ -165,7 +159,7 @@ setBed('');
   }, [Rooms, selectedDate, state.UsersList?.availableBedList?.listBeds])
 
 
-// view.floorId === Floor &&
+
 
   const handleBed = (selectedOption) => {
     dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR' })
@@ -223,12 +217,6 @@ setBed('');
 
 
 
-
-
-  // const [advanceDate, setAdvanceDate] = useState(null);
-  // const [advanceDueDate, setAdvanceDueDate] = useState(null);
-  // const [advanceDateError, setAdvanceDateError] = useState("");
-  // const [advanceDueDateError, setAdvanceDueDateError] = useState("");
 
 
   const handleCloseAssign = () => {
@@ -431,10 +419,6 @@ setBed('');
   };
 
 
-  // const [bookingFlooorId, setBookingFloorId] = useState("")
-  // const [bookingRoomId, setBookingRoomId] = useState("")
-  // const [bookingBedId, setBookingBedId] = useState("")
-
 
 
 
@@ -463,10 +447,7 @@ setBed('');
 
       setFloor(props.EditObj.booking_floor_id)
       setSelectedDate(props.EditObj.booking_joining_date)
-      // setBookingFloorId(props.EditObj.Booking_FloorName)
-      // setBookingRoomId(props.EditObj.booking_room_id)
-      // setBookingBedId(props.EditObj.booking_bed_id)
-
+      
       setFile(props.EditObj.profile)
 
 
@@ -516,13 +497,7 @@ setBed('');
     }
   }, [state.UsersList?.statusCodeForAddUser, state.UsersList?.statusCodeForAddCustomerSaveInfo]);
 
-  // const handleCloseAdvanceForm = () => {
-  //   if (props.setAdvanceForm) props.setAdvanceForm(false);
-  //   setAdvanceDate("");
-  //   setAdvanceDueDate("");
-
-  // };
-
+ 
   useEffect(() => {
     if (state.createAccount?.networkError || state.UsersList?.bedAvailableError) {
       setFormLoading(false)
@@ -712,164 +687,6 @@ setBed('');
 
 
 
-
-  // const selectedFloor = React.useMemo(() => {
-  //   const list = state.UsersList?.hosteldetailslist;
-  //   if (!list) return null;
-
-  //   if (Floor) {
-
-  //     return list.find((option) => String(option.floor_id) === String(Floor)) || null;
-  //     // } else if (props.EditObj?.floor_name || props?.customer_details?.floor_name) {
-  //     //   return list.find(
-  //     //     (option) => option.floor_name?.toLowerCase() === props.EditObj.floor_name?.toLowerCase()
-  //     //   ) || null;
-  //     // }
-  //   } else if (props.EditObj?.floor_name || props?.customer_details?.floor_name) {
-  //     const floorName =
-  //       props.EditObj?.floor_name || props?.customer_details?.floor_name;
-
-  //     return (
-  //       list.find(
-  //         (option) =>
-  //           option.floor_name?.toLowerCase() === floorName?.toLowerCase()
-  //       ) || null
-  //     );
-  //   }
-  //   return null;
-  // }, [Floor, props.EditObj?.floor_name, state.UsersList?.hosteldetailslist, props?.customer_details]);
-
-
-
-
-  // const selectedRoom = React.useMemo(() => {
-  //   const list = state.UsersList?.roomdetails;
-  //   if (!list) return null;
-
-  //   if (Rooms) {
-  //     return list.find(
-  //       (option) => String(option.Room_Id) === String(Rooms)
-  //     ) || null;
-  //   } else if (props.EditObj?.Rooms) {
-  //     return list.find(
-  //       (option) =>
-  //         String(option.Room_Id) === String(props.EditObj.Rooms)
-  //     ) || null;
-  //   }
-  //   return null;
-  // }, [Rooms, props.EditObj?.Rooms, state.UsersList?.roomdetails  , props?.customer_details]);
-
-
-
-  // const selectedRoom = React.useMemo(() => {
-  //   const list = state.UsersList?.roomdetails;
-  //   if (!list) return null;
-
-  //   // Prefer customer_details if available
-  //   // if (props.customer_details?.Rooms) {
-  //   //   return list.find(
-  //   //     (option) => String(option.Room_Id) === String(props.customer_details.Rooms)
-  //   //   ) || null;
-  //   // }
-
-  //   // Then check Rooms from state
-  //   if (Rooms) {
-  //     return list.find(
-  //       (option) => String(option.Room_Id) === String(Rooms)
-  //     ) || null;
-  //   }
-
-  //   // Finally check EditObj
-  //   if (props.EditObj?.Rooms) {
-  //     return list.find(
-  //       (option) => String(option.Room_Id) === String(props.EditObj.Rooms)
-  //     ) || null;
-  //   }
-
-  //   return null;
-  // }, [
-  //   Rooms,
-  //   props.EditObj?.Rooms,
-  //   props.customer_details?.Rooms,
-  //   state.UsersList?.roomdetails
-  // ]);
-
-
-
-
-  // const handleRecheckin = (e) => {
-  //   setReason(e.target.value)
-  //   setReasonError("")
-  // }
-  // const [recheckinDateError, setRecheckinDateError] = useState("")
-  // const [reasonError, setReasonError] = useState("")
-  // const reasonRef = useRef(null);
-  // const dateRef = useRef(null);
-
-  // const handleSaveBacktoCheckin = () => {
-  //   if (!reason) {
-  //     setReasonError("Please Enter Reason");
-  //     reasonRef.current?.focus();
-  //     return;
-  //   }
-  //   if (!recheckInDate) {
-  //     setRecheckinDateError("Please Select Date");
-  //     dateRef.current?.focus();
-  //     return;
-  //   }
-  //   const incrementDateAndFormat = (date) => {
-  //     const newDate = new Date(date);
-  //     const year = newDate.getFullYear();
-  //     const month = String(newDate.getMonth() + 1).padStart(2, "0");
-  //     const day = String(newDate.getDate()).padStart(2, "0");
-  //     return `${year}-${month}-${day}`;
-  //   };
-
-  //   const formattedDate = recheckInDate
-  //     ? incrementDateAndFormat(recheckInDate) + "T00:00:00"
-  //     : "";
-
-
-  //   dispatch({ type: "BACKTOCHECKIN", payload: { userId: id, RecheckIn_Reason: reason, RecheckIn_Date: formattedDate } });
-  //   setFormLoading(true)
-  // }
-
-  // const handleSaveBacktoCheckin = () => {
-  //   setRecheckinDateError("");
-
-  //   if (!reason) {
-  //     setReasonError("Please Enter Reason");
-  //     reasonRef.current?.focus();
-  //     return;
-  //   }
-  //   if (!recheckInDate) {
-  //     setRecheckinDateError("Please Select Date");
-  //     dateRef.current?.focus();
-  //     return;
-  //   }
-
-  //   if (!recheckInDate) {
-  //     setRecheckinDateError("Please Select Date");
-  //     dateRef.current?.focus();
-  //     return;
-  //   }
-
-  //   const incrementDateAndFormat = (date) => {
-  //     const newDate = new Date(date);
-  //     const year = newDate.getFullYear();
-  //     const month = String(newDate.getMonth() + 1).padStart(2, "0");
-  //     const day = String(newDate.getDate()).padStart(2, "0");
-  //     return `${year}-${month}-${day}`;
-  //   };
-
-  //   const formattedDate = recheckInDate
-  //     ? incrementDateAndFormat(recheckInDate) + "T00:00:00"
-  //     : "";
-
-
-  //   dispatch({ type: "BACKTOCHECKIN", payload: { userId: id, RecheckIn_Reason: reason, RecheckIn_Date: formattedDate } });
-  //   setFormLoading(true)
-  // }
 
 
 

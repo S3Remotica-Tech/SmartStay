@@ -676,6 +676,9 @@ OccupiedBedStatus.propTypes = {
     currentItem: PropTypes.object.isRequired,
     handleShowReassignBed: PropTypes.func.isRequired,
     handleShowNoticePeriod: PropTypes.func.isRequired,
-    showEditBed: PropTypes.func.isRequired
+    showEditBed: PropTypes.func.isRequired,
+    handleShowCheck_In: PropTypes.func.isRequired,
+    handleShowInActiveForm: PropTypes.func.isRequired,
+
 };
 export default OccupiedBedStatus;
