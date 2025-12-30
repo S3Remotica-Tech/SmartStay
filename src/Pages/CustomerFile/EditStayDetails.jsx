@@ -14,7 +14,7 @@ import { CloseCircle } from "iconsax-react";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import { JoininDatecustomer } from "../../Redux/Action/smartStayAction";
-import ErrorMessage from '../../Components/ErrorMessage'
+// import ErrorMessage from '../../Components/ErrorMessage'
 
 function EditStayDetails({ show, handleClose,stayDetais }) {
 

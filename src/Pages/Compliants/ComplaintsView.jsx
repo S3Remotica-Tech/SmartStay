@@ -1,14 +1,20 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import React from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { ArrowCircleRight } from "iconsax-react";
-import { MessageText, TagUser } from "iconsax-react";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import {  TagUser } from "iconsax-react";
+import { useEffect } from "react";
+import { useDispatch, 
+    // useSelector
+ } from "react-redux";
 import { Row, Col, Image } from "react-bootstrap";
 import { FaCheck } from "react-icons/fa6";
 import { IoCheckmarkDoneOutline } from "react-icons/io5";
 import { TiLeaf } from "react-icons/ti";
 import { RiMessage2Fill } from "react-icons/ri";
 import '../CustomerFile/UserList.css';
+import PropTypes from "prop-types";
+
 
 
 function Complaints({ show, handleClose, complaintsDetails, trigger }) {
@@ -16,7 +22,7 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
     // console.log("complaintsDetails", complaintsDetails)
 
 
-    const state = useSelector((state) => state);
+    // const state = useSelector((state) => state);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -29,41 +35,45 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
 
 
         const getIcon = () => {
-            switch (type) {
-                case "Complaint Resolved":
-                    return {
-                        bg: "#16A34A",
-                        icon: <IoCheckmarkDoneOutline color="#fff" size={20} />
-                    };
-                case "Work Completed":
-                    return {
-                        bg: "#E0FFE1",
-                        icon: <FaCheck color="#16A34A" size={20} />
-                    };
+  switch (type) {
+    case "Complaint Resolved":
+      return {
+        bg: "#16A34A",
+        icon: <IoCheckmarkDoneOutline color="#fff" size={20} />,
+      };
 
-                case "Complaint In Progress":
-                    return {
-                        bg: "#FFF2DE",
-                        icon: <TiLeaf color="#F59E0B" size={20} />
-                    };
+    case "Work Completed":
+      return {
+        bg: "#E0FFE1",
+        icon: <FaCheck color="#16A34A" size={20} />,
+      };
 
-                case "Complaint Assigned":
-                    return {
-                        bg: "#E2E8F0",
-                        icon: <TagUser
-                            size="20"
-                            color="#73839B"
-                        />
-                    };
+    case "Complaint In Progress":
+      return {
+        bg: "#FFF2DE",
+        icon: <TiLeaf color="#F59E0B" size={20} />,
+      };
 
-                case "Complaint Raised":
+    case "Complaint Assigned":
+      return {
+        bg: "#E2E8F0",
+        icon: <TagUser size={20} color="#73839B" />,
+      };
 
-                    return {
-                        bg: "#E2E8F0",
-                        icon: <RiMessage2Fill color="#73839B" size={20} />
-                    };
-            }
-        };
+    case "Complaint Raised":
+      return {
+        bg: "#E2E8F0",
+        icon: <RiMessage2Fill color="#73839B" size={20} />,
+      };
+
+    default:
+      return {
+        bg: "#E2E8F0",
+        icon: <RiMessage2Fill color="#73839B" size={20} />,
+      };
+  }
+};
+
 
         const { bg, icon } = getIcon();
 
@@ -273,7 +283,7 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
                     <StepItem type="Work Completed">
                         <div style={{ fontWeight: 600, fontSize: 15, color: "#222222" }}>Work Completed.</div>
                         <div style={{ fontSize: 14, color: "#1E293B", marginTop: 4 }}>
-                            Staff marked complaint as "Completed".
+                            Staff marked complaint as &quot;Completed&quot;.
                         </div>
                         <div style={{ fontSize: 12, color: "#475569", marginTop: 4 }}>
                             Added at: 25 Oct 2025, 12:30 PM
@@ -283,7 +293,7 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
                     <StepItem type="Complaint In Progress">
                         <div style={{ fontWeight: 600, fontSize: 15, color: "#222222" }}>Complaint In Progress</div>
                         <div style={{ fontSize: 14, color: "#1E293B", marginTop: 4 }}>
-                            Staff marked complaint as "In Progress"
+                            Staff marked complaint as &quot;In Progress&quot;
                         </div>
                         <div style={{ fontSize: 12, color: "#475569", marginTop: 4 }}>
                             Added at: 24 Oct 2025, 11:00 AM
@@ -356,4 +366,23 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
         </Offcanvas>
     );
 }
+Complaints.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  trigger: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
+  complaintsDetails: PropTypes.shape({
+    complaintId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    customerProfile: PropTypes.string,
+    initials: PropTypes.string,
+  }).isRequired,
+
+ 
+  children: PropTypes.node,
+
+  
+  isLast: PropTypes.bool,
+  type: PropTypes.string,
+};
+
 export default Complaints;

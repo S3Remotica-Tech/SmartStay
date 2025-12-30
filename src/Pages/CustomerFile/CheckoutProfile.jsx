@@ -1,5 +1,6 @@
 
-/* eslint-disable react-hooks/exhaustive-deps */import React, { useEffect, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from "react";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
@@ -11,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import { checkoutCustomerProfile } from "../../Redux/Action/smartStayAction";
-import { Call, Sms, House } from "iconsax-react";
+import { Call, Sms, House,DocumentUpload } from "iconsax-react";
 import Areaimage from "../../Assets/Images/area_icon.png";
 import PincodeImage from "../../Assets/Images/pin.png";
 import CityImage from "../../Assets/Images/buildings.png";
@@ -48,7 +49,7 @@ function CustomerProfile(props) {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [details, setDetails] = useState("")
-  const [deductionDetails, setDeductionDetails] = useState("")
+  // const [deductionDetails, setDeductionDetails] = useState("")
   const [value, setValue] = useState("1");
   // const [show, setShow] = useState(false);
   // const [showDoc2, setShowDoc2] = useState(false)
@@ -110,27 +111,27 @@ const [activeTab, setActiveTab] = useState("kyc");
     }
   };
 
-  const handleFileOpen2 = (url) => {
-    if (!url) return;
+  // const handleFileOpen2 = (url) => {
+  //   if (!url) return;
 
-    const lowerUrl = url.toLowerCase();
+  //   const lowerUrl = url.toLowerCase();
 
-    if (
-      lowerUrl.endsWith(".pdf") ||
-      lowerUrl.endsWith(".jpg") ||
-      lowerUrl.endsWith(".jpeg") ||
-      lowerUrl.endsWith(".png")
-    ) {
+  //   if (
+  //     lowerUrl.endsWith(".pdf") ||
+  //     lowerUrl.endsWith(".jpg") ||
+  //     lowerUrl.endsWith(".jpeg") ||
+  //     lowerUrl.endsWith(".png")
+  //   ) {
 
-      // setPreviewUrl2(url);
-      // setShowDoc2(true);
-    } else if (lowerUrl.endsWith(".xlsx") || lowerUrl.endsWith(".xls")) {
-      const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(url)}`;
-      window.open(viewerUrl, "_blank");
-    } else {
-      window.open(url, "_blank");
-    }
-  };
+  //     // setPreviewUrl2(url);
+  //     // setShowDoc2(true);
+  //   } else if (lowerUrl.endsWith(".xlsx") || lowerUrl.endsWith(".xls")) {
+  //     const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(url)}`;
+  //     window.open(viewerUrl, "_blank");
+  //   } else {
+  //     window.open(url, "_blank");
+  //   }
+  // };
 
 
 
@@ -145,7 +146,7 @@ const [activeTab, setActiveTab] = useState("kyc");
   useEffect(() => {
     if (state.UsersList.StatuscodeforCheckoutProfile) {
       setDetails(state.UsersList.checkoutprofileDetails.hostelData)
-      setDeductionDetails(state.UsersList.checkoutprofileDetails.deduction_details)
+      // setDeductionDetails(state.UsersList.checkoutprofileDetails.deduction_details)
       setTimeout(() => {
         dispatch({ type: "REMOVE_CHECKOUT_PROFILE_DETAILS" });
 
@@ -156,8 +157,8 @@ const [activeTab, setActiveTab] = useState("kyc");
   }, [state.UsersList.StatuscodeforCheckoutProfile])
 
 
-  const [advanceReturn, setAdvanceReturn] = useState(null);
-  const [otherDetails, setOtherDetails] = useState([]);
+  // const [advanceReturn, setAdvanceReturn] = useState(null);
+  // const [otherDetails, setOtherDetails] = useState([]);
 
 
 
@@ -165,15 +166,15 @@ const [activeTab, setActiveTab] = useState("kyc");
     setAdvanceList(state.UsersList.customerdetails.advanceInfo);
   }, [state.UsersList.customerdetails.advanceInfo]);
 
-  useEffect(() => {
-    if (Array.isArray(deductionDetails) && deductionDetails.length > 0) {
-      const adv = deductionDetails.find(item => item.reason === "Advance Return");
-      const others = deductionDetails.filter(item => item.reason !== "Advance Return" && item.reason !== "DueAmount");
+  // useEffect(() => {
+  //   if (Array.isArray(deductionDetails) && deductionDetails.length > 0) {
+  //     // const adv = deductionDetails.find(item => item.reason === "Advance Return");
+  //     // const others = deductionDetails.filter(item => item.reason !== "Advance Return" && item.reason !== "DueAmount");
 
-      setAdvanceReturn(adv || null);
-      setOtherDetails(others);
-    }
-  }, [details]);
+  //     // setAdvanceReturn(adv || null);
+  //     setOtherDetails(others);
+  //   }
+  // }, [details]);
 
 
   const handleBack = () => {
@@ -197,10 +198,10 @@ const [activeTab, setActiveTab] = useState("kyc");
 
 
   const {
-    canWriteModule: canWriteTenant,
+    // canWriteModule: canWriteTenant,
     // canReadModule: canReadInvoice,
     canUpdateModule: canUpdateTenant,
-    canDeleteModule: canDeleteTenant,
+    // canDeleteModule: canDeleteTenant,
   } = useHasPermission("Customers");
 
 
@@ -888,7 +889,7 @@ const [activeTab, setActiveTab] = useState("kyc");
                                     paddingTop: 7
                                   }}
                                 >
-                                  {CustomerOverView.hostelInfo?.monthlyRent != null
+                                  {CustomerOverView.hostelInfo?.monthlyRent !== null
                                     ? `₹${CustomerOverView.hostelInfo?.monthlyRent}`
                                     : 0
                                   }
@@ -912,7 +913,7 @@ const [activeTab, setActiveTab] = useState("kyc");
                                     fontFamily: "Gilroy", paddingTop: 7
                                   }}
                                 >
-                                  {advanceList?.advanceAmount != null
+                                  {advanceList?.advanceAmount !== null
                                     ? `₹${advanceList?.advanceAmount}`
                                     : 0
                                   }
@@ -944,7 +945,7 @@ const [activeTab, setActiveTab] = useState("kyc");
                                   }}
                                 >
 
-                                  {CustomerOverView.bookingInfo?.bookingAmount != null
+                                  {CustomerOverView.bookingInfo?.bookingAmount !== null
                                     ? `₹${CustomerOverView.bookingInfo.bookingAmount}`
                                     : 0
                                   }
@@ -1098,9 +1099,10 @@ const [activeTab, setActiveTab] = useState("kyc");
 
 
                                 {documents.length > 0 && (
-                                  <div className="d-flex" onClick={() =>
-                                    handlePreview()
-                                  }
+                                  <div className="d-flex" 
+                                  // onClick={() =>
+                                  //   handlePreview()
+                                  // }
                                     style={{
                                       position: "absolute",
                                       bottom: 0,

@@ -6,8 +6,8 @@ import "flatpickr/dist/flatpickr.css";
 import { useDispatch, useSelector } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
 import PropTypes from "prop-types";
-import { CloseCircle, DocumentDownload } from "iconsax-react";
-import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
+import { CloseCircle } from "iconsax-react";
+// import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
 import { Tooltip } from "bootstrap";
 import ErrorMessage from '../../Components/ErrorMessage'
 
@@ -25,20 +25,20 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
 
     const dispatch = useDispatch();
 
-    const [fields, setFields] = useState([]);
+    // const [fields, setFields] = useState([]);
     const [comments, setComments] = useState("");
-    const [checkOutDate, setCheckOutDate] = useState("");
-    const [uploadFile, setUploadFile] = useState(null);
+    // const [checkOutDate, setCheckOutDate] = useState("");
+    // const [uploadFile, setUploadFile] = useState(null);
 
-    const [ReturnAmount, setReturnAmount] = useState('')
+    // const [ReturnAmount, setReturnAmount] = useState('')
 
     const [formLoading, setFormLoading] = useState(false)
 
-    const [dataBed, setDataBed] = useState([])
+    // const [dataBed, setDataBed] = useState([])
 
-    const [hostelData, setHostelData] = useState("")
+    // const [hostelData, setHostelData] = useState("")
 
-    const [detuction, setDetuction] = useState("")
+    // const [detuction, setDetuction] = useState("")
 
 
     useEffect(() => {
@@ -60,82 +60,82 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
 
     // console.log("data", data)
 
-    useEffect(() => {
-        if (state.UsersList.statusCodegetConfirmCheckout) {
-            const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter(
-                (invoice) => invoice.balance > 0
-            );
+    // useEffect(() => {
+    //     if (state.UsersList.statusCodegetConfirmCheckout) {
+    //         const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter(
+    //             (invoice) => invoice.balance > 0
+    //         );
 
 
 
-            const deduction_details = state?.UsersList?.nonRefundable_details?.filter(
-                (deduction) => deduction.amount > 0
-            );
+    //         const deduction_details = state?.UsersList?.nonRefundable_details?.filter(
+    //             (deduction) => deduction.amount > 0
+    //         );
 
 
-            const invoiceTotal = Array.isArray(validInvoices)
-                ? validInvoices.reduce((total, invoice) => total + Number(invoice.balance || 0), 0)
-                : 0;
-
-
-
-            if (Array.isArray(deduction_details) && deduction_details.length > 0) {
-                const formattedFields = deduction_details.map((item) => ({
-                    reason_name: item.reason || "",
-                    amount: Number(item.amount) || 0,
-                    showInput: false,
-                    isDefault: false,
-                }));
-
-                formattedFields.unshift({
-                    reason_name: "DueAmount",
-                    amount: invoiceTotal,
-                    showInput: false,
-                    isDefault: true,
-                });
-
-                setFields(formattedFields);
-            } else {
-                setFields([
-                    { reason_name: "DueAmount", amount: invoiceTotal, showInput: false, isDefault: true },
-                ]);
-            }
-
-            setDetuction(state?.UsersList?.Deduction)
+    //         const invoiceTotal = Array.isArray(validInvoices)
+    //             ? validInvoices.reduce((total, invoice) => total + Number(invoice.balance || 0), 0)
+    //             : 0;
 
 
 
-            setHostelData(state?.UsersList?.hostelData)
+    //         if (Array.isArray(deduction_details) && deduction_details.length > 0) {
+    //             const formattedFields = deduction_details.map((item) => ({
+    //                 reason_name: item.reason || "",
+    //                 amount: Number(item.amount) || 0,
+    //                 showInput: false,
+    //                 isDefault: false,
+    //             }));
 
-        }
+    //             formattedFields.unshift({
+    //                 reason_name: "DueAmount",
+    //                 amount: invoiceTotal,
+    //                 showInput: false,
+    //                 isDefault: true,
+    //             });
 
-        setTimeout(() => {
-            dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
-        }, 500);
-    }, [state.UsersList.statusCodegetConfirmCheckout, data]);
+    //             setFields(formattedFields);
+    //         } else {
+    //             setFields([
+    //                 { reason_name: "DueAmount", amount: invoiceTotal, showInput: false, isDefault: true },
+    //             ]);
+    //         }
 
-
-    const advanceAmount = state?.UsersList?.GetconfirmcheckoutUserDetails?.advance_amount
-
-    useEffect(() => {
-        if (fields || advanceAmount) {
-            const totalDeductions = fields.reduce((acc, item) => acc + Number(item.amount || 0), 0);
-            const returnAmount = Number(advanceAmount || 0) - totalDeductions;
-            setReturnAmount(returnAmount)
-        }
-    }, [fields, advanceAmount])
+    //         setDetuction(state?.UsersList?.Deduction)
 
 
 
+    //         // setHostelData(state?.UsersList?.hostelData)
+
+    //     }
+
+    //     setTimeout(() => {
+    //         dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
+    //     }, 500);
+    // }, [state.UsersList.statusCodegetConfirmCheckout, data]);
+
+
+    // const advanceAmount = state?.UsersList?.GetconfirmcheckoutUserDetails?.advance_amount
+
+    // useEffect(() => {
+    //     if (fields || advanceAmount) {
+    //         // const totalDeductions = fields.reduce((acc, item) => acc + Number(item.amount || 0), 0);
+    //         // const returnAmount = Number(advanceAmount || 0) - totalDeductions;
+    //         // setReturnAmount(returnAmount)
+    //     }
+    // }, [fields, advanceAmount])
 
 
 
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            setUploadFile(file);
-        }
-    };
+
+
+
+    // const handleFileChange = (e) => {
+    //     const file = e.target.files[0];
+    //     if (file) {
+    //         setUploadFile(file);
+    //     }
+    // };
 
 
 
@@ -181,12 +181,12 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
 
 
 
-    useEffect(() => {
-        if (hostelData) {
-            setCheckOutDate(hostelData?.CheckoutDate)
-        }
+    // useEffect(() => {
+    //     if (hostelData) {
+    //         setCheckOutDate(hostelData?.CheckoutDate)
+    //     }
 
-    }, [hostelData])
+    // }, [hostelData])
 
     useEffect(() => {
         if (state.UsersList.statusCodeForDueCustomer === 200 || state.UsersList.statusCodeAddConfirmCheckout === 200) {
@@ -370,28 +370,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
                         </div>
                     </div>
 
-                    {detuction?.DueAmount ? (
-                        <div className="d-flex justify-content-between align-items-center mb-3">
-                            <span style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400 }}>Status</span>
-                            <div className="d-flex justify-content-between align-items-center mb-3">
-
-                                <Button
-                                    style={{
-                                        fontSize: 12,
-                                        fontWeight: 600,
-                                        fontFamily: "Gilroy",
-                                        backgroundColor: "#F03E3E",
-                                        padding: "3px 12px",
-                                        borderRadius: 50,
-                                        border: "none",
-                                    }}
-                                >
-                                    Write-Off
-                                </Button>
-                            </div>
-
-                        </div>
-                    ) :
+                
                         <div className="d-flex justify-content-between align-items-center mb-3">
                             <span style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400 }}>Status</span>
                             <div className="d-flex justify-content-between align-items-center mb-3">
@@ -411,7 +390,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
                                 </Button>
                             </div>
 
-                        </div>}
+                        </div>
 
 
                     <Form.Group >
@@ -472,10 +451,14 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
     )
 }
 DueCustomerConfirmCheckout.propTypes = {
-    show: PropTypes.func.isRequired,
+   show: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
     data: PropTypes.func.isRequired,
-    customerID: PropTypes.func.isRequired,
+    customerID: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    pgDetails: PropTypes.shape({
+    floorName: PropTypes.string,
+    roomName: PropTypes.string,
+  }).isRequired,
 
 
 };

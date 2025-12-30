@@ -28,11 +28,11 @@ function CustomerReAssign(props) {
   const [currentFloor, setCurrentFloor] = useState("");
   const [currentRoom, setCurrentRoom] = useState("");
   const [currentBed, setCurrentBed] = useState("");
-  const [currentRoomId, setCurrentRoomId] = useState("");
-  const [currentBedId, setCurrentBedId] = useState("");
+  // const [currentRoomId, setCurrentRoomId] = useState("");
+  // const [currentBedId, setCurrentBedId] = useState("");
   const [currentRoomRent, setCurrentRoomRent] = useState("");
   const [newRoomRent, setNewRoomRent] = useState("");
-  const [currentHostel_id, setCurrentHostel_Id] = useState("");
+  // const [currentHostel_id, setCurrentHostel_Id] = useState("");
   const [newFloor, setNewFloor] = useState("");
   const [newRoom, setNewRoom] = useState("");
   const [newBed, setNewBed] = useState("");
@@ -43,7 +43,7 @@ function CustomerReAssign(props) {
   const [rentError, setRentError] = useState("");
   const [formLoading, setFormLoading] = useState(false);
   const [availableBed, setAvailableBed] = useState('')
-  const [bedWarning, setBedWarning] = useState('')
+  // const [bedWarning, setBedWarning] = useState('')
 
 
   const rentRef = useRef(null);
@@ -175,7 +175,7 @@ function CustomerReAssign(props) {
   const handleBed = (selectedOption) => {
     dispatch({ type: "REMOVE_CHANGE_BED_ERROR" });
     dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR' })
-    setBedWarning("");
+    // setBedWarning("");
     const selectedBedId = selectedOption?.value || "";
     setNewBed(selectedBedId);
 
@@ -186,11 +186,11 @@ function CustomerReAssign(props) {
 
     if (selectedBed) {
       setNewRoomRent(selectedBed.rentAmount)
-      if (selectedBed.showWarning) {
-        setBedWarning(selectedBed.warningMessage);
-      } else {
-        setBedWarning("");
-      }
+      // if (selectedBed.showWarning) {
+      //   setBedWarning(selectedBed.warningMessage);
+      // } else {
+      //   setBedWarning("");
+      // }
 
     }
 
@@ -446,24 +446,24 @@ function CustomerReAssign(props) {
 
   // }, [userId])
 
-  useEffect(() => {
-    dispatch({
-      type: "HOSTELDETAILLIST",
-      payload: { hostel_Id: state.login.selectedHostel_Id },
-    });
-  }, [currentHostel_id]);
+  // useEffect(() => {
+  //   dispatch({
+  //     type: "HOSTELDETAILLIST",
+  //     payload: { hostel_Id: state.login.selectedHostel_Id },
+  //   });
+  // }, [currentHostel_id]);
 
-  useEffect(() => {
-    if (currentHostel_id && newFloor) {
-      dispatch({
-        type: "ROOMDETAILS",
-        payload: {
-          hostel_Id: state.login.selectedHostel_Id,
-          floor_Id: newFloor,
-        },
-      });
-    }
-  }, [newFloor]);
+  // useEffect(() => {
+  //   if (currentHostel_id && newFloor) {
+  //     dispatch({
+  //       type: "ROOMDETAILS",
+  //       payload: {
+  //         hostel_Id: state.login.selectedHostel_Id,
+  //         floor_Id: newFloor,
+  //       },
+  //     });
+  //   }
+  // }, [newFloor]);
 
 
   useEffect(() => {
@@ -478,7 +478,7 @@ function CustomerReAssign(props) {
 
 
 
-  const [currentFloorId, setCurrentFloorId] = useState("")
+  // const [currentFloorId, setCurrentFloorId] = useState("")
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       dispatch({
@@ -543,9 +543,9 @@ function CustomerReAssign(props) {
       setCurrentBed(hostelInfo.bedName || "");
       setCurrentRoomRent(hostelInfo.monthlyRent || "");
       setUserId(customerData.customerId || "");
-      setCurrentBedId(hostelInfo.bedId || "");
-      setCurrentRoomId(hostelInfo.roomId || "");
-      setCurrentFloorId(hostelInfo.floorId || "");
+      // setCurrentBedId(hostelInfo.bedId || "");
+      // setCurrentRoomId(hostelInfo.roomId || "");
+      // setCurrentFloorId(hostelInfo.floorId || "");
       setCustomerProfile(customerData.profilePic || null);
 
       if (hostelInfo.joiningDate) {

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, Button, Form } from "react-bootstrap";
 import { CloseCircle} from "iconsax-react";
@@ -10,6 +10,7 @@ import dayjs from 'dayjs';
 import Select from "react-select";
 import ErrorMessage from '../../Components/ErrorMessage'
 import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from "prop-types";
 
 
 
@@ -612,5 +613,17 @@ function RefundAmount({ show, handleClose, refundDetails }) {
         </Modal>
     )
 }
+RefundAmount.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+
+  refundDetails: PropTypes.shape({
+    invoiceId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    invoiceNumber: PropTypes.string,
+    fullName: PropTypes.string,
+    profilePic: PropTypes.string,
+    invoiceDate: PropTypes.string,
+  }).isRequired,
+};
 
 export default RefundAmount

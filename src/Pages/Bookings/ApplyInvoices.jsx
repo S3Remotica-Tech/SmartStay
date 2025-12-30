@@ -1,9 +1,11 @@
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { 
+    // useEffect, 
+    useState } from 'react';
 import { Modal, Button, Table, Form } from "react-bootstrap";
-import { useDispatch, useSelector } from 'react-redux';
-
+// import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from "prop-types";
 
 const initialData = [
     {
@@ -334,5 +336,9 @@ function ApplyBookingModal({ show, handleClose }) {
         </Modal>
     );
 }
+ApplyBookingModal.propTypes = {
+  show: PropTypes.bool,        
+  handleClose: PropTypes.func.isRequired,
+};
 
 export default ApplyBookingModal;

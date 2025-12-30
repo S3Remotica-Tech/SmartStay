@@ -1,11 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import "react-loading-skeleton/dist/skeleton.css";
 import "./UserList.css";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Image } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useDispatch, useSelector } from "react-redux";
 import Modal from "react-bootstrap/Modal";
-import Profile from "../../Assets/Images/New_images/profile-picture.png";
+// import Profile from "../../Assets/Images/New_images/profile-picture.png";
 // import { MdError } from "react-icons/md";
 import "react-datepicker/dist/react-datepicker.css";
 import PropTypes from "prop-types";
@@ -90,15 +91,15 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails, currentIte
             setFormLoading(false);
         }
 
-    }, [state.Booking.bookingMakeAsError , state.createAccount?.networkError])
+    }, [state.Booking.bookingMakeAsError, state.createAccount?.networkError])
 
 
     useEffect(() => {
         if (!inActiveDetails) return;
-        if (inActiveDetails.customerId || inActiveDetails?.tenetId ) {
+        if (inActiveDetails.customerId || inActiveDetails?.tenetId) {
             dispatch({
                 type: 'INITIALIZECANCELBOOKING',
-                payload: inActiveDetails.customerId || inActiveDetails?.tenetId 
+                payload: inActiveDetails.customerId || inActiveDetails?.tenetId
             });
         }
     }, [inActiveDetails]);
@@ -109,8 +110,8 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails, currentIte
 
 
     useEffect(() => {
-        if (inActiveDetails?.customerId || inActiveDetails?.tenetId ) {
-            dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: inActiveDetails.customerId || inActiveDetails?.tenetId  } });
+        if (inActiveDetails?.customerId || inActiveDetails?.tenetId) {
+            dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: inActiveDetails.customerId || inActiveDetails?.tenetId } });
 
         }
     }, [inActiveDetails]);
@@ -143,8 +144,9 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails, currentIte
 
 
 
-                {inActiveDetails.profilePic || inActiveDetails?.profilePic &&
-                    (inActiveDetails.profilePic !== "0" || inActiveDetails?.profilePic !== "0") ? (
+                {inActiveDetails?.profilePic &&
+                    inActiveDetails.profilePic !== "0" &&
+                    inActiveDetails.profilePic !== "null" ? (
                     <Image
                         src={inActiveDetails.profilePic || inActiveDetails?.profilePic}
                         roundedCircle
@@ -323,7 +325,7 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails, currentIte
                             Cancel
                         </Button>
 
-                        <Button  disabled={formLoading}
+                        <Button disabled={formLoading}
                             onClick={SubmitInActiveForm}
                             className="w-100"
                             style={{
@@ -372,14 +374,33 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails, currentIte
     )
 }
 MakeAsInactive.propTypes = {
-    show: PropTypes.func.isRequired,
+    show: PropTypes.bool.isRequired,
     handleCloseInActive: PropTypes.func.isRequired,
+
+    currentItem: PropTypes.shape({
+        floorName: PropTypes.string,
+        roomName: PropTypes.string,
+        bedName: PropTypes.string,
+    }),
+
     inActiveDetails: PropTypes.shape({
+        customerId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        tenetId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
         profilePic: PropTypes.string,
+        initials: PropTypes.string,
+        tenantInitials: PropTypes.string,
+
+        fullName: PropTypes.string,
+        tenantFullName: PropTypes.string,
+
+        floorName: PropTypes.string,
+        roomName: PropTypes.string,
+        bedName: PropTypes.string,
+
         firstName: PropTypes.string,
         bookedAt: PropTypes.string,
     }).isRequired,
-
-}
+};
 
 export default MakeAsInactive

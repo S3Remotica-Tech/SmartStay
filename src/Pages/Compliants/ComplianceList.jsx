@@ -6,7 +6,7 @@ import Image from "react-bootstrap/Image";
 import User from "../../Assets/Images/New_images/profile-picture.png";
 import Tickicon from "../../Assets/Images/tick-circle.png";
 import Profile_add from "../../Assets/Images/profile-add.png";
-import moment from "moment";
+// import moment from "moment";
 import ChangeStatusIcon from "../../Assets/Images/ComplaintChangeStatusicon.svg";
 import AssignComplaintIcon from "../../Assets/Images/profile-add-AssingnComplaint.svg";
 import CommentIcon from "../../Assets/Images/Comment-icon-complaints page.svg";
@@ -21,7 +21,7 @@ import "./ComplianceList.css";
 import { CloseCircle, Edit, Trash } from "iconsax-react";
 import ErrorMessage from '../../Components/ErrorMessage';
 import { useHasPermission } from '../../Utils/Permission';
-// import ComplaintsView from "../../Pages/Compliants/ComplaintsView"
+import ComplaintsView from "../../Pages/Compliants/ComplaintsView"
 
 const ComplianceList = (props) => {
   const state = useSelector((state) => state);
@@ -42,9 +42,9 @@ const ComplianceList = (props) => {
   const [formLoading, setFormLoading] = useState(false)
   const [commentsLoading, setCommentsLoading] = useState(false)
   const [showComplaint, setShowComplaint] = useState(false);
-  const [complaintsDetails, setComplaintsDetails] = useState('')
+  // const [complaintsDetails, setComplaintsDetails] = useState('')
   const popupRef = useRef(null);
-  const [trigger, setTrigger] = useState(false);
+  // const [trigger, setTrigger] = useState(false);
 
   const [alreadyAssigned, setAlreadyAssigned] = useState('')
 
@@ -120,8 +120,8 @@ const ComplianceList = (props) => {
 
   const [customer_Id, setCustomer_Id] = useState("");
   // const [name, setName] = useState("");
-  const [date, setDate] = useState("");
-  const [profile, setProfile] = useState("");
+  // const [date, setDate] = useState("");
+  // const [profile, setProfile] = useState("");
 
   const handleIconClick = (item) => {
 
@@ -134,32 +134,32 @@ const ComplianceList = (props) => {
 
     setShowCard(true);
     // setName(item.Name);
-    let Dated = new Date(item.complaintDate);
+    // let Dated = new Date(item.complaintDate);
 
-    let day = Dated.getDate();
-    let month = Dated.getMonth();
-    let year = Dated.getFullYear();
+    // let day = Dated.getDate();
+    // let month = Dated.getMonth();
+    // let year = Dated.getFullYear();
 
-    const monthNames = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
+    // const monthNames = [
+    //   "January",
+    //   "February",
+    //   "March",
+    //   "April",
+    //   "May",
+    //   "June",
+    //   "July",
+    //   "August",
+    //   "September",
+    //   "October",
+    //   "November",
+    //   "December",
+    // ];
 
-    let formattedMonth = monthNames[month];
-    let formattedDate = `${day} ${formattedMonth} ${year}`;
-    setDate(formattedDate);
+    // let formattedMonth = monthNames[month];
+    // let formattedDate = `${day} ${formattedMonth} ${year}`;
+    // setDate(formattedDate);
 
-    setProfile(item.profile && item.profile !== "0" ? item.profile : User);
+    // setProfile(item.profile && item.profile !== "0" ? item.profile : User);
   };
 
   // useEffect(() => {
@@ -500,11 +500,11 @@ const ComplianceList = (props) => {
 
 
 
-  const handleNavigateComplaintsView = (view) => {
-    setComplaintsDetails(view)
-    setShowComplaint(true)
-    setTrigger(true)
-  }
+  // const handleNavigateComplaintsView = (view) => {
+  //   setComplaintsDetails(view)
+  //   setShowComplaint(true)
+  //   setTrigger(true)
+  // }
 
   const handleCloseComplaintsView = () => {
     setShowComplaint(false)
@@ -1270,7 +1270,8 @@ const ComplianceList = (props) => {
                         {state.ComplianceList?.complaintsView?.comments?.length > 0 ? (
                           state.ComplianceList?.complaintsView?.comments.map((item, index) => {
 
-                            let [day, month, year] = item?.commentedAt.split("/");
+                           const [day, month, year] = item?.commentedAt?.split("/") || [];
+
 
                             let Dated = new Date(year, month - 1, day);
 
@@ -1305,22 +1306,23 @@ const ComplianceList = (props) => {
                                   {
                                     item?.profilePic ?
 
-                                      <img
-                                        src={
-                                          item?.profilePic !== "0" ||
-                                          item?.profilePic !== "null" ||
-                                          item?.profilePic !== null
-                                          &&
-                                          item?.profilePic
-                                        }
-                                        alt="User"
-                                        style={{
-                                          width: "40px",
-                                          height: "40px",
-                                          borderRadius: "50%",
-                                          marginRight: "10px",
-                                        }}
-                                      />
+                                     <img
+  src={
+    item?.profilePic &&
+    item.profilePic !== "0" &&
+    item.profilePic !== "null"
+      ? item.profilePic
+      : undefined
+  }
+  alt="User"
+  style={{
+    width: "40px",
+    height: "40px",
+    borderRadius: "50%",
+    marginRight: "10px",
+  }}
+/>
+
                                       :
 
                                       <div
@@ -2072,7 +2074,10 @@ const ComplianceList = (props) => {
       </Modal>
 
       {
-        showComplaint && <ComplaintsView show={showComplaint} handleClose={handleCloseComplaintsView} complaintsDetails={complaintsDetails} trigger={trigger} />
+        showComplaint && <ComplaintsView show={showComplaint} handleClose={handleCloseComplaintsView} 
+        // complaintsDetails={complaintsDetails} 
+        // trigger={trigger} 
+         />
       }
 
 

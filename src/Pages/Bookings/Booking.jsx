@@ -1,24 +1,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React,{useEffect, useState} from 'react';
 import { FormControl, InputGroup, Table, Row, Col } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
-import { useDispatch, useSelector } from 'react-redux';
+// import { useDispatch, useSelector } from 'react-redux';
 // import AddAsset from './AddAsset'
 // import AssetListTable from '../../Pages/AssetFile/AssetListTable'
 import EmptyState from '../../Assets/Images/New_images/empty_image.png';
-import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, Filter } from 'iconsax-react';
+import {  CloseCircle,Filter } from 'iconsax-react';
 // import { MdError } from "react-icons/md";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
-import { toast } from 'react-toastify';
-import { DatePicker } from "antd";
-import dayjs from "dayjs";
-import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+// import { toast } from 'react-toastify';
+// import { DatePicker } from "antd";
+// import dayjs from "dayjs";
+// import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+// import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import Select from "react-select";
-import PaginationList from '../../Components/PaginationList';
+// import PaginationList from '../../Components/PaginationList';
 import ErrorMessage from '../../Components/ErrorMessage';
 import { useHasPermission } from '../../Utils/Permission';
-import withErrorBoundary from "../../Hoc/WithErrorBountry";
+// import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import BookingInvoice from '../Bookings/BookingInvoice'
 import { FiSearch } from "react-icons/fi";
 import ApplyBookingModal from './ApplyInvoices';
@@ -28,16 +28,21 @@ function Booking() {
   const [showBookingPdf, setShowBookingPdf] = useState(false)
   const [search, setSearch] = useState(false);
   const [statusfilter, setStatusfilter] = useState("");
-  const [showBillsFilter, setShowBillsFilter] = useState(false);
+  // const [showBillsFilter, setShowBillsFilter] = useState(false);
   const [applyInvoice, setApplyInvoice] = useState(false);
   const {
-    canWriteModule: canWriteBooking,
+    // canWriteModule: canWriteBooking,
     canReadModule: canReadBooking,
     // canUpdateModule: canUpdateInvoice,
     // canDeleteModule: canDeleteTenant,
   } = useHasPermission("Booking");
 
   const sortedData = []
+
+useEffect(()=>{
+setShowBookingPdf(false)
+},[])
+
 
 
   const handleSearch = () => {

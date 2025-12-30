@@ -27,54 +27,54 @@ function CustomerCheckout(props) {
   const [checkoUtDateError, setCheckOutDateError] = useState('')
   const [joiningError, setJoiningError] = useState('')
   const [checkoUtrequestDateError, setCheckOutRequestDateError] = useState('')
-  const [lastDate, setLastDate] = useState("");
+  // const [lastDate, setLastDate] = useState("");
   const [joiningdate, setJoiningDate] = useState("")
 
  
 
-console.log("props",props)
+// console.log("props",props)
 
 
 
 
 
-  useEffect(() => {
-    if (state.UsersList.CustomerdetailsgetStatuscode === 200) {
-      const customerData = state.UsersList.customerdetails?.data?.[0]
-      const invoiceDetails = state.UsersList.customerdetails?.invoice_details;
+  // useEffect(() => {
+  //   if (state.UsersList.CustomerdetailsgetStatuscode === 200) {
+  //     const customerData = state.UsersList.customerdetails?.data?.[0]
+  //     const invoiceDetails = state.UsersList.customerdetails?.invoice_details;
 
 
-      if (customerData?.joining_Date) {
-        const joining = new Date(customerData.joining_Date);
-        const formattedJoining = `${String(joining.getDate()).padStart(2, "0")}-${String(
-          joining.getMonth() + 1
-        ).padStart(2, "0")}-${joining.getFullYear()}`;
-        setJoiningDate(formattedJoining);
-      } else {
-        setJoiningDate("");
-      }
+  //     if (customerData?.joining_Date) {
+  //       const joining = new Date(customerData.joining_Date);
+  //       const formattedJoining = `${String(joining.getDate()).padStart(2, "0")}-${String(
+  //         joining.getMonth() + 1
+  //       ).padStart(2, "0")}-${joining.getFullYear()}`;
+  //       setJoiningDate(formattedJoining);
+  //     } else {
+  //       setJoiningDate("");
+  //     }
 
 
-      if (invoiceDetails && invoiceDetails.length > 0) {
-        const dates = invoiceDetails.map((item) => item.Date).filter(Boolean);
-        if (dates.length > 0) {
-          const maxDate = new Date(Math.max(...dates.map((d) => new Date(d))));
-          const formatted = `${String(maxDate.getDate()).padStart(2, "0")}-${String(
-            maxDate.getMonth() + 1
-          ).padStart(2, "0")}-${maxDate.getFullYear()}`;
-          setLastDate(formatted);
-        } else {
-          setLastDate("");
-        }
-      } else {
-        setLastDate("");
-      }
+  //     // if (invoiceDetails && invoiceDetails.length > 0) {
+  //     //   const dates = invoiceDetails.map((item) => item.Date).filter(Boolean);
+  //     //   if (dates.length > 0) {
+  //     //     const maxDate = new Date(Math.max(...dates.map((d) => new Date(d))));
+  //     //     const formatted = `${String(maxDate.getDate()).padStart(2, "0")}-${String(
+  //     //       maxDate.getMonth() + 1
+  //     //     ).padStart(2, "0")}-${maxDate.getFullYear()}`;
+  //     //   // setLastDate(formatted);  
+  //     //   } else {
+  //     //     // setLastDate("");
+  //     //   }
+  //     // } else {
+  //     //   // setLastDate("");
+  //     // }
 
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
-      }, 1000);
-    }
-  }, [state.UsersList.CustomerdetailsgetStatuscode]);
+  //     setTimeout(() => {
+  //       dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
+  //     }, 1000);
+  //   }
+  // }, [state.UsersList.CustomerdetailsgetStatuscode]);
 
 
 
@@ -268,8 +268,8 @@ console.log("props",props)
                           {
                             props?.bedData   &&
                               (
-                                props.bedData?.currentTenantInfo?.[0].profilePic && props.bedData?.currentTenantInfo?.[0].profilePic !== "" ||
-                                props.bedData?.profilePic && props.bedData?.profilePic !== ""
+                                (props.bedData?.currentTenantInfo?.[0]?.profilePic?.trim()) ||
+    (props.bedData?.profilePic?.trim())
                               )
                               ? (
                                 <Image
@@ -607,22 +607,39 @@ CustomerCheckout.propTypes = {
   bed_no: PropTypes.string,
   bed_amount: PropTypes.number,
   bedData: PropTypes.shape({
-    customerId: PropTypes.string.isRequired,
-    hostelId: PropTypes.string.isRequired,
-    profilePic: PropTypes.string.isRequired,
-    fullName: PropTypes.string.isRequired,
-    floorName: PropTypes.string.isRequired,
-    roomName: PropTypes.string.isRequired,
-    bedName: PropTypes.string.isRequired,
-    room: PropTypes.shape({
-      Hostel_Id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-      Floor_Id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-      Room_Name: PropTypes.string,
-    }),
-    bed: PropTypes.shape({
-      bed_no: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    }),
-  }).isRequired,
+  customerId: PropTypes.string.isRequired,
+  hostelId: PropTypes.string.isRequired,
+
+  actualJoining: PropTypes.string,   
+  initials: PropTypes.string,         
+  profilePic: PropTypes.string,
+  fullName: PropTypes.string,
+
+  floorName: PropTypes.string,
+  roomName: PropTypes.string,
+  bedName: PropTypes.string,
+
+  currentTenantInfo: PropTypes.arrayOf(
+    PropTypes.shape({
+      joiningDate: PropTypes.string,
+      tenetId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      profilePic: PropTypes.string,
+      tenantInitials: PropTypes.string,
+      tenantFullName: PropTypes.string,
+    })
+  ),
+
+  room: PropTypes.shape({
+    Hostel_Id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    Floor_Id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    Room_Name: PropTypes.string,
+  }),
+
+  bed: PropTypes.shape({
+    bed_no: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  }),
+}).isRequired,
+
 };
 
 export default CustomerCheckout

@@ -1,17 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect,  } from "react";
 import {ArchiveAdd, TickCircle, MinusCirlce } from "iconsax-react";
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import { Button,} from "react-bootstrap";
 
 
 function RequestedAmenities() {
 
   const state = useSelector((state) => state);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const [CustomerOverView, setCustomerOverView] = useState([]);
-  const [addamenityShow, setaddamenityShow] = useState(false);
+  // const [addamenityShow, setaddamenityShow] = useState(false);
 
   useEffect(() => {
     if (state.UsersList?.customerdetails?.requestedAmenities) {

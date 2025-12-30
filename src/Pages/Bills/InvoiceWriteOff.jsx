@@ -1,14 +1,15 @@
-import React, { useState, useEffect, useRef } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, Button, Form } from "react-bootstrap";
 import { CloseCircle } from "iconsax-react";
 import Profile2 from "../../Assets/Images/New_images/bank.png";
 import homearrow from "../../Assets/Images/New_images/bank.png";
-import { DatePicker } from 'antd';
-import dayjs from 'dayjs';
-import Select from "react-select";
-import ErrorMessage from '../../Components/ErrorMessage'
-
+// import { DatePicker } from 'antd';
+// import dayjs from 'dayjs';
+// import Select from "react-select";
+// import ErrorMessage from '../../Components/ErrorMessage'
+import PropTypes from "prop-types";
 
 function WriteOffForm(props) {
 
@@ -133,4 +134,8 @@ function WriteOffForm(props) {
     </>
   )
 }
+WriteOffForm.propTypes = {
+  WriteoffForm: PropTypes.bool,        
+  handleCloseWriteOffForm: PropTypes.func.isRequired,
+};
 export default WriteOffForm;
