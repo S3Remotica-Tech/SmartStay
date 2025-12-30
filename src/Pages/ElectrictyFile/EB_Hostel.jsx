@@ -845,10 +845,9 @@ console.log("isEbBased",isEbBased)
 
 
                   <>
-                    {
-                      !isEbBased &&
 
-                        roomReadingList?.length === 0 && !loading ? (
+                    { isEbBased ? (
+                       roomReadingList?.length === 0 && !loading ? (
                           <div style={{ textAlign: "center", marginTop: 40 }}>
                             <img src={emptyimg} width={240} height={240} alt="emptystate" />
                             <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "rgba(75, 75, 75, 1)" }}>
@@ -859,7 +858,7 @@ console.log("isEbBased",isEbBased)
                             </div>
                           </div>
                         ) : (
-                          <div className="table-responsive show-scrolls"
+                          <div className="table-responsive show-scrolls mb-3"
                             style={{
                               background: "#fff",
                               borderRadius: 12,
@@ -901,7 +900,7 @@ console.log("isEbBased",isEbBased)
                                       <td style={{ fontSize: 15, fontWeight: 600, textAlign: "", }}>{row?.floorName}</td>
                                       <td
                                         style={{ textAlign: "", color: canReadElectricity ? "#1E45E1" : "#DBDBDB", cursor: "pointer", fontWeight: 600, }}
-                                        onClick={() => canReadElectricity && handleRoomDetailsPage(row)}
+                                        // onClick={() => canReadElectricity && handleRoomDetailsPage(row)}
                                       >
                                         {row?.roomName}
                                       </td>
@@ -1050,10 +1049,8 @@ console.log("isEbBased",isEbBased)
 
                           </div>
                         )
-
-
-
-                          }
+                      
+                      ) : null}
 
 
 
@@ -1193,7 +1190,7 @@ console.log("isEbBased",isEbBased)
                           </div>
                         )}
 
-                  
+               
 
 
 
