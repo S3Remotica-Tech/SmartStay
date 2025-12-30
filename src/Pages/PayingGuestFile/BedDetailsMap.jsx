@@ -643,7 +643,7 @@ console.log("tenantDetails",tenantDetails, )
 
 
             {
-                Occubied_bed && <OccupiedBedStatus show={Occubied_bed} showEditBed={handleEditBed}
+                Occubied_bed && <OccupiedBedStatus show={Occubied_bed} showEditBed={handleEditBed} handleShowInActiveForm={handleShowInActiveForm}  handleShowCheck_In={handleShowCheck_In}
                     handleCloseBed={handlecloseoccubiedbed} currentItem={customer} handleShowReassignBed={handleShowReAssignBedPopup} handleShowNoticePeriod={handleShowNoticePeriod} />
             }
 
