@@ -49,7 +49,7 @@ const RoomReadingTable = () => {
   const isEbBased = state.UsersList?.getRoomReadingList?.isHostelBased
 
 
-
+console.log("isEbBased",isEbBased)
 
   const [showModal, setShowModal] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
@@ -63,12 +63,12 @@ const RoomReadingTable = () => {
   const [roomReadingList, setRoomReadingList] = useState([])
   const [customerReadingList, setCustomerReadingList] = useState([])
   const [showHostelModal, setShowHostelModal] = useState(false)
-const [showDots, setShowDots] = useState('')
+  const [showDots, setShowDots] = useState('')
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [filters, setFilters] = useState([]);
- const [showAbove, setShowAbove] = useState(false);
+  const [showAbove, setShowAbove] = useState(false);
 
- const popupRef = useRef(null);
+  const popupRef = useRef(null);
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
       setShowDots(false);
@@ -83,16 +83,16 @@ const [showDots, setShowDots] = useState('')
   }, []);
 
 
-   useEffect(() => {
-      if (popupRef.current) {
-        const popupHeight = popupRef.current.offsetHeight;
-        const windowHeight = window.innerHeight;
-        const spaceBelow = windowHeight - popupPosition.top;
-  
-  
-        setShowAbove(spaceBelow < popupHeight + 20);
-      }
-    }, [popupPosition]);
+  useEffect(() => {
+    if (popupRef.current) {
+      const popupHeight = popupRef.current.offsetHeight;
+      const windowHeight = window.innerHeight;
+      const spaceBelow = windowHeight - popupPosition.top;
+
+
+      setShowAbove(spaceBelow < popupHeight + 20);
+    }
+  }, [popupPosition]);
 
   useEffect(() => {
     if (!canReadElectricity) {
@@ -221,15 +221,15 @@ const [showDots, setShowDots] = useState('')
 
 
 
-const handleShowDotsHostelReading = (row, index) =>{
-  setShowDots(index)
+  const handleShowDotsHostelReading = (row, index) => {
+    setShowDots(index)
 
     const { top, left, height } = event.target.getBoundingClientRect();
     const popupTop = top + (height / 2);
     const popupLeft = left - 200;
 
     setPopupPosition({ top: popupTop, left: popupLeft });
-}
+  }
 
 
 
@@ -846,7 +846,7 @@ const handleShowDotsHostelReading = (row, index) =>{
 
                   <>
                     {
-                      isEbBased ?
+                      !isEbBased &&
 
                         roomReadingList?.length === 0 && !loading ? (
                           <div style={{ textAlign: "center", marginTop: 40 }}>
@@ -880,15 +880,15 @@ const handleShowDotsHostelReading = (row, index) =>{
                               >
                                 <tr className="text-uppercase" style={{ textAlign: "" }}>
                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
-                                    PAYING GUEST NAME 
+                                    PAYING GUEST NAME
                                   </th>
-                                  
+
                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>DATE</th>
                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>
-                                    READING 
+                                    READING
                                   </th>
-                                  
-                                  
+
+
                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>UNIT</th>
                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>AMOUNT</th>
                                   <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, }}>ACTION</th>
@@ -913,123 +913,123 @@ const handleShowDotsHostelReading = (row, index) =>{
                                       <td style={{}}>{row?.from || "N/A"}</td>
 
                                       <td style={{ cursor: canWriteElectricity ? "pointer" : "not-allowed" }}>
-                                        <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, transform: "rotate(90deg)", color:showDots === i ? "#1E45E1" : "#6B7280", }} onClick={() => handleShowDotsHostelReading(row, i)} />
- {showDots === i && <>
-                <div
-                  ref={popupRef}
-                  style={{
-                    cursor: "pointer",
-                    backgroundColor: "#F9F9F9",
-                    position: "fixed",
-                    top: showAbove
-                      ? popupPosition.top - (popupRef.current?.offsetHeight || 100) - 20
-                      : popupPosition.top - 35,
-                    left: popupPosition.left,
-                    width: 170,
-                    height: "auto",
-                    border: "1px solid #EBEBEB",
-                    borderRadius: 10,
-                    display: "flex",
-                    flexDirection: "column",
-                    zIndex: showDots === i ? 3000 : "auto",
-                  }}
-                >
-                  <div style={{ width: "100%" }}>
+                                        <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, transform: "rotate(90deg)", color: showDots === i ? "#1E45E1" : "#6B7280", }} onClick={() => handleShowDotsHostelReading(row, i)} />
+                                        {showDots === i && <>
+                                          <div
+                                            ref={popupRef}
+                                            style={{
+                                              cursor: "pointer",
+                                              backgroundColor: "#F9F9F9",
+                                              position: "fixed",
+                                              top: showAbove
+                                                ? popupPosition.top - (popupRef.current?.offsetHeight || 100) - 20
+                                                : popupPosition.top - 35,
+                                              left: popupPosition.left,
+                                              width: 170,
+                                              height: "auto",
+                                              border: "1px solid #EBEBEB",
+                                              borderRadius: 10,
+                                              display: "flex",
+                                              flexDirection: "column",
+                                              zIndex: showDots === i ? 3000 : "auto",
+                                            }}
+                                          >
+                                            <div style={{ width: "100%" }}>
 
-                   
-                                                    
 
-                      <div
-                        className={`d-flex justify-content-start align-items-center gap-2 ${!canUpdateElectricity ? 'disabled' : ''}`}
-                        style={{
-                          cursor: !canUpdateElectricity ? "not-allowed" : "pointer",
-                          borderTopLeftRadius: 10,
-                          borderTopRightRadius: 10,
-                          backgroundColor: "#F9F9F9",
-                          padding: "8px 12px",
-                          opacity: !canUpdateElectricity ? 0.5 : 1,
-                        }}
-                        onClick={() => {
-                          // if (canUpdateElectricity) handleEdit(props);
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.backgroundColor = "#EDF2FF";
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.backgroundColor = "#F9F9F9";
-                        }}
-                      >
-                        <img
-                          src={Edit}
-                          alt="Edit"
-                          style={{
-                            height: 16,
-                            width: 16,
-                            filter: !canUpdateElectricity ? "grayscale(100%)" : "none",
-                          }}
-                        />
-                        <label
-                          style={{
-                            fontSize: 14,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy, sans-serif",
-                            color: "#222",
-                            cursor: !canUpdateElectricity ? "not-allowed" : "pointer",
-                          }}
-                        >
-                          Edit
-                        </label>
-                      </div>
 
-                   
 
-                                  
-                   
-                      <div
-                        className={`d-flex justify-content-start align-items-center gap-2  ${!canDeleteElectricity ? 'disabled' : ''}`}
-                        style={{
-                          cursor: !canDeleteElectricity ? "not-allowed" : "pointer",
-                          borderBottomLeftRadius: 10,
-                          borderBottomRightRadius: 10,
-                          padding: "8px 12px",
-                          opacity: !canDeleteElectricity ? 0.5 : 1,
-                        }}
-                        onClick={() => {
-                          // if (canDeleteElectricity) handleBillDelete(props);
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.backgroundColor = "#FFF0F0";
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.backgroundColor = "#F9F9F9";
-                        }}
-                      >
-                        <img
-                          src={Delete}
-                          alt="Delete"
-                          style={{
-                            height: 16,
-                            width: 16,
-                            filter: !canDeleteElectricity ? "grayscale(100%)" : "none",
-                          }}
-                        />
-                        <label
-                          style={{
-                            fontSize: 14,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy, sans-serif",
-                            color: "#FF0000",
-                            cursor: !canDeleteElectricity ? "not-allowed" : "pointer",
-                          }}
-                        >
-                          Delete
-                        </label>
-                      </div>
-                  
-                  </div>
-                </div>
+                                              <div
+                                                className={`d-flex justify-content-start align-items-center gap-2 ${!canUpdateElectricity ? 'disabled' : ''}`}
+                                                style={{
+                                                  cursor: !canUpdateElectricity ? "not-allowed" : "pointer",
+                                                  borderTopLeftRadius: 10,
+                                                  borderTopRightRadius: 10,
+                                                  backgroundColor: "#F9F9F9",
+                                                  padding: "8px 12px",
+                                                  opacity: !canUpdateElectricity ? 0.5 : 1,
+                                                }}
+                                                onClick={() => {
+                                                  // if (canUpdateElectricity) handleEdit(props);
+                                                }}
+                                                onMouseEnter={(e) => {
+                                                  e.currentTarget.style.backgroundColor = "#EDF2FF";
+                                                }}
+                                                onMouseLeave={(e) => {
+                                                  e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                                }}
+                                              >
+                                                <img
+                                                  src={Edit}
+                                                  alt="Edit"
+                                                  style={{
+                                                    height: 16,
+                                                    width: 16,
+                                                    filter: !canUpdateElectricity ? "grayscale(100%)" : "none",
+                                                  }}
+                                                />
+                                                <label
+                                                  style={{
+                                                    fontSize: 14,
+                                                    fontWeight: 500,
+                                                    fontFamily: "Gilroy, sans-serif",
+                                                    color: "#222",
+                                                    cursor: !canUpdateElectricity ? "not-allowed" : "pointer",
+                                                  }}
+                                                >
+                                                  Edit
+                                                </label>
+                                              </div>
 
-              </>}
+
+
+
+
+                                              <div
+                                                className={`d-flex justify-content-start align-items-center gap-2  ${!canDeleteElectricity ? 'disabled' : ''}`}
+                                                style={{
+                                                  cursor: !canDeleteElectricity ? "not-allowed" : "pointer",
+                                                  borderBottomLeftRadius: 10,
+                                                  borderBottomRightRadius: 10,
+                                                  padding: "8px 12px",
+                                                  opacity: !canDeleteElectricity ? 0.5 : 1,
+                                                }}
+                                                onClick={() => {
+                                                  // if (canDeleteElectricity) handleBillDelete(props);
+                                                }}
+                                                onMouseEnter={(e) => {
+                                                  e.currentTarget.style.backgroundColor = "#FFF0F0";
+                                                }}
+                                                onMouseLeave={(e) => {
+                                                  e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                                }}
+                                              >
+                                                <img
+                                                  src={Delete}
+                                                  alt="Delete"
+                                                  style={{
+                                                    height: 16,
+                                                    width: 16,
+                                                    filter: !canDeleteElectricity ? "grayscale(100%)" : "none",
+                                                  }}
+                                                />
+                                                <label
+                                                  style={{
+                                                    fontSize: 14,
+                                                    fontWeight: 500,
+                                                    fontFamily: "Gilroy, sans-serif",
+                                                    color: "#FF0000",
+                                                    cursor: !canDeleteElectricity ? "not-allowed" : "pointer",
+                                                  }}
+                                                >
+                                                  Delete
+                                                </label>
+                                              </div>
+
+                                            </div>
+                                          </div>
+
+                                        </>}
                                       </td>
 
                                     </tr>
@@ -1053,13 +1053,13 @@ const handleShowDotsHostelReading = (row, index) =>{
 
 
 
-                        :
+                          }
 
 
 
 
 
-                        roomReadingList?.length === 0 && !loading ? (
+                        {roomReadingList?.length === 0 && !loading ? (
                           <div style={{ textAlign: "center", marginTop: 40 }}>
                             <img src={emptyimg} width={240} height={240} alt="emptystate" />
                             <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "rgba(75, 75, 75, 1)" }}>
@@ -1191,9 +1191,9 @@ const handleShowDotsHostelReading = (row, index) =>{
 
 
                           </div>
-                        )
+                        )}
 
-                    }
+                  
 
 
 
