@@ -451,7 +451,7 @@ function NoticeBedStatusDetails({
                               style={{
                                 right: 0,
                                 top: 50,
-                                width: 160,
+                                width: 200,
                                 border: "1px solid #EBEBEB",
                                 borderRadius: 10,
                                 backgroundColor: "#f9f9f9",
