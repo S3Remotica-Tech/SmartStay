@@ -945,8 +945,8 @@ const [activeTab, setActiveTab] = useState("kyc");
                                   }}
                                 >
 
-                                  {CustomerOverView.bookingInfo?.bookingAmount !== null
-                                    ? `₹${CustomerOverView.bookingInfo.bookingAmount}`
+                                  {CustomerOverView.bookingInfo?.bookingAmount 
+                                    ? `₹${CustomerOverView.bookingInfo?.bookingAmount}`
                                     : 0
                                   }
                                 </p>

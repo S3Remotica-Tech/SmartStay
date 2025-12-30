@@ -35,7 +35,7 @@ function CreateBill() {
     const location = useLocation();
     const { id, billData } = location.state || {};
 
-
+    console.log("billData", billData,)
     const [formLoading, setFormLoading] = useState(false)
     //    const [invoiceList, setInvoiceList] = useState({
     //     firstName: "",
@@ -117,8 +117,34 @@ function CreateBill() {
         if (hostelId) {
             dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
 
+
         }
     }, [hostelId]);
+
+
+
+    useEffect(() => {
+        if (billData) {
+            dispatch({
+                type: 'GETINITIALIZEEDITRECURRING', payload: {
+                    hostelId: state.login.selectedHostel_Id,
+                    invoiceId: billData?.invoiceId
+                }
+            })
+        }
+
+    }, [billData])
+
+
+    console.log("state", state.InvoiceList.getInitializeRecurring)
+
+
+
+
+
+
+
+
 
 
 
@@ -764,29 +790,24 @@ function CreateBill() {
 
     useEffect(() => {
         if (!billData) return;
-
-
         setCustomerName(billData.customerId);
-
-
         setInvoiceNumber(billData.invoiceNumber);
         setInvoiceDate(dayjs(billData.invoiceDate, "DD/MM/YYYY"));
         setInvoiceDueDate(dayjs(billData.dueDate, "DD/MM/YYYY"));
-
         setTotalAmount(billData.baseAmount);
 
 
-        if (Array.isArray(billData.listDeductions)) {
+        if (Array.isArray(state.InvoiceList?.getInitializeRecurring?.invoiceItems)) {
             setNewRows(
-                billData.listDeductions.map((item) => ({
-                    am_name: item.name || "",
+                state.InvoiceList?.getInitializeRecurring?.invoiceItems?.map((item) => ({
+                    am_name: item.description || "",
                     amount: item.amount || "",
                 }))
             );
         } else {
             setNewRows([]);
         }
-    }, [billData]);
+    }, [billData, state.InvoiceList?.getInitializeRecurring?.invoiceItems]);
 
 
     const handleEditBill = () => {
@@ -867,14 +888,14 @@ function CreateBill() {
 
     useEffect(() => {
         if (state.InvoiceList.recurringEditError) {
-                       setFormLoading(false)
-                       
+            setFormLoading(false)
+
         }
 
     }, [state.InvoiceList.recurringEditError])
 
 
-  
+
 
 
 
@@ -929,7 +950,7 @@ function CreateBill() {
         }
     }, [state.InvoiceList.manualInvoiceAddStatusCode]);
 
-   
+
 
 
     const optionsone = {
@@ -957,26 +978,26 @@ function CreateBill() {
 
 
 
-    // useEffect(() => {
+    useEffect(() => {
 
-    //     if (newRows) {
-    //         const allRows = newRows
-    //             .map((detail) => ({
-    //                 am_name: detail.am_name,
-    //                 amount: Number(detail.amount),
-    //             }))
-    //             .filter((detail) => detail.am_name && detail.amount);
+        if (newRows) {
+            const allRows = newRows
+                .map((detail) => ({
+                    am_name: detail.am_name,
+                    amount: Number(detail.amount),
+                }))
+                .filter((detail) => detail.am_name && detail.amount);
 
-    //         setamenityArray(allRows);
+            // setamenityArray(allRows);
 
-    //         const Total_amout = allRows.reduce(
-    //             (sum, item) => sum + parseFloat(item.amount || 0),
-    //             0
-    //         );
+            const Total_amout = allRows.reduce(
+                (sum, item) => sum + parseFloat(item.amount || 0),
+                0
+            );
 
-    //         setTotalAmount(Total_amout);
-    //     }
-    // }, [newRows]);
+            setTotalAmount(Total_amout);
+        }
+    }, [newRows]);
 
 
 
@@ -1345,6 +1366,7 @@ function CreateBill() {
                                             <Form.Control
                                                 type="text"
                                                 style={{ fontFamily: "Gilroy" }}
+                                                disabled={u.am_name === "Rent"}
                                                 value={u.am_name}
                                                 onChange={(e) => handleNewRowChange(index, "am_name", e.target.value)}
                                                 placeholder="Enter Description"
@@ -1354,6 +1376,7 @@ function CreateBill() {
                                             <Form.Control
                                                 type="text"
                                                 style={{ fontFamily: "Gilroy" }}
+                                                 disabled={u.am_name === "Rent"}
                                                 value={u.amount !== "0" ? u.amount : ""}
                                                 placeholder="Please Enter Amount"
                                                 onChange={(e) => {
@@ -1367,12 +1390,16 @@ function CreateBill() {
                                         <td style={{ width: "15%", paddingLeft: 20 }}>
                                             <img
                                                 src={Closebtn}
-                                                onClick={() => handleDeleteNewRow(index)}
-                                                style={{ cursor: "pointer" }}
+                                                onClick={() => u.am_name !== "Rent" && handleDeleteNewRow(index)}
+                                                style={{
+                                                    cursor: u.am_name === "Rent" ? "not-allowed" : "pointer",
+                                                    opacity: u.am_name === "Rent" ? 0.4 : 1,
+                                                }}
                                                 height={15}
                                                 width={15}
                                                 alt="delete"
                                             />
+
                                         </td>
                                     </tr>
                                 ))}
@@ -1384,55 +1411,7 @@ function CreateBill() {
 
                 </div>
 
-                {/* {
-                    invoiceDetails?.action === "advance" ?
-                        <div className="row mt-3">
-                            <div className="col-md-6 offset-md-5">
-                                <div className=" ">
 
-                                    <div className="row">
-                                        <div className="col-lg-6">
-                                            <label className="" style={{ fontFamily: "Gilroy", fontSize: 16, fontWeight: 500, color: "#222" }} >
-                                                Payable Amount:
-                                            </label>
-                                        </div>
-                                        <div className="col-lg-6">
-                                            <label className="" style={{ fontFamily: "Gilroy", fontSize: 16, fontWeight: 500, color: "#222" }}>
-                                                Rs.{totalAmountPayable}
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <div className="row mt-1">
-                                        <div className="col-lg-6">
-                                            <label style={{ fontFamily: "Gilroy", fontSize: 16, fontWeight: 500, color: "#222" }}>
-                                                Non Refundable:
-                                            </label>
-                                        </div>
-                                        <div className="col-lg-6">
-                                            <label style={{ fontFamily: "Gilroy", fontSize: 16, fontWeight: 500, color: "#222" }}>
-                                                Rs. {nonRefundableAmount}
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div className="row mt-1">
-                                        <div className="col-lg-6">
-                                            <label style={{ fontFamily: "Gilroy", fontSize: 16, fontWeight: 500, color: "#222" }}>
-                                                Refundable Amount:
-                                            </label>
-                                        </div>
-                                        <div className="col-lg-6">
-                                            <label style={{ fontFamily: "Gilroy", fontSize: 16, fontWeight: 500, color: "#222" }}>
-                                                Rs.{refundableAmount}
-                                            </label>
-                                        </div>
-                                    </div>
-
-
-                                </div>
-                            </div>
-                        </div>
-                        : */}
                 <div className="row mt-3">
                     <div className="col-md-6 offset-md-6">
                         {Array.isArray(newRows) && newRows.length > 0 && (
@@ -1442,7 +1421,7 @@ function CreateBill() {
                         )}
                     </div>
                 </div>
-                {/* } */}
+               
 
 
 
@@ -1463,10 +1442,10 @@ function CreateBill() {
                     state.InvoiceList.unableAddInvoiceDetailsError &&
                     <ErrorMessage message={state.InvoiceList.unableAddInvoiceDetailsError} type="error" />
                 }
-                 {state.InvoiceList.recurringEditError ?
-                             <div className="d-flex justify-content-center mt-1 mb-1">
-                              <ErrorMessage message={state.InvoiceList.recurringEditError} type="error"/></div>
-                              : null} 
+                {state.InvoiceList.recurringEditError ?
+                    <div className="d-flex justify-content-center mt-1 mb-1">
+                        <ErrorMessage message={state.InvoiceList.recurringEditError} type="error" /></div>
+                    : null}
             </div>
 
 
