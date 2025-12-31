@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from "react";
-
-import { Call, Sms, House, Buildings, Profile } from "iconsax-react";
+import React from "react";
+import { Call, House, } from "iconsax-react";
 import Areaimage from "../../Assets/Images/area_icon.png";
 import Landamrkimage from "../../Assets/Images/landmark.png";
 

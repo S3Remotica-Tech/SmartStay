@@ -8,12 +8,13 @@ import {
 
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { CloseCircle, MessageQuestion, Trash } from "iconsax-react";
+import { CloseCircle, MessageQuestion } from "iconsax-react";
 import Select from "react-select";
 import ErrorMessage from '../../Components/ErrorMessage'
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
-import { TypeSpecimenRounded } from "@mui/icons-material";
+import PropTypes from "prop-types";
+// import { TypeSpecimenRounded } from "@mui/icons-material";
 
 function EditRentalAmount({ show, handleClose }) {
 
@@ -31,7 +32,7 @@ function EditRentalAmount({ show, handleClose }) {
     const rentInputRef = useRef(null);
     const dateRef = useRef(null);
     const typeRef = useRef(null)
-    const Ref = useRef(null)
+    // const Ref = useRef(null)
     const [IsChangedError, setIsChangedError] = useState("");
 
     const [typeError, setTypeError] = useState('')
@@ -660,5 +661,8 @@ function EditRentalAmount({ show, handleClose }) {
         </div>
     )
 }
-
+EditRentalAmount.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+};
 export default EditRentalAmount

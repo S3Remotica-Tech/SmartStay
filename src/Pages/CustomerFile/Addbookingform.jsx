@@ -19,7 +19,7 @@ import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import Select from "react-select";
 import { toast } from 'react-toastify';
-import Profiles from "../../Assets/Images/New_images/profile-picture.png";
+// import Profiles from "../../Assets/Images/New_images/profile-picture.png";
 import ErrorMessage from '../../Components/ErrorMessage'
 
 function BookingModal(props) {
@@ -48,7 +48,7 @@ function BookingModal(props) {
   const [floorError, setFloorError] = useState("");
   const [roomError, setRoomError] = useState("");
   const [bedError, setBedError] = useState("");
-  const [file, setFile] = useState(null);
+  // const [file, setFile] = useState(null);
 
   // useEffect(() => {
   //   if (state.login.selectedHostel_Id) {
@@ -349,9 +349,9 @@ function BookingModal(props) {
 
 
 
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-  };
+  // const handleFileChange = (e) => {
+  //   setFile(e.target.files[0]);
+  // };
 
 
 
@@ -1299,6 +1299,8 @@ BookingModal.propTypes = {
     customerId: PropTypes.string,
     profilePic: PropTypes.string,
     firstName: PropTypes.string,
+    initials:PropTypes.string,
+    fullName:PropTypes.string,
 
   }).isRequired
 };

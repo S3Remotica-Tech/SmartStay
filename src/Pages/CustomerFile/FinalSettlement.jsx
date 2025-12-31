@@ -231,10 +231,10 @@ console.log("data",data)
                 apiDeductions.map(item => [item.type?.toLowerCase(), Number(item.amount) || 0])
             );
 
-            const totalApiDeductions = apiDeductions.reduce(
-                (sum, item) => sum + (Number(item.amount) || 0),
-                0
-            );
+            // const totalApiDeductions = apiDeductions.reduce(
+            //     (sum, item) => sum + (Number(item.amount) || 0),
+            //     0
+            // );
 
             const totalUserDeductions = (fields || []).reduce((sum, item) => {
                 const reasonName = item.reason_name?.toLowerCase();
@@ -258,7 +258,7 @@ console.log("data",data)
                 return sum + userAmount;
             }, 0);
 
-            const totalDeductions = totalApiDeductions + totalUserDeductions;
+            // const totalDeductions = totalApiDeductions + totalUserDeductions;
 
 
             let finalAmount = 0;
@@ -1264,6 +1264,14 @@ FinalSettlement.propTypes = {
     show: PropTypes.func.isRequired,
     handleClose: PropTypes.func.isRequired,
     data: PropTypes.func.isRequired,
-    customerID: PropTypes.func.isRequired,
-};
+   customerID: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
+  pgDetails: PropTypes.shape({
+    floorName: PropTypes.string,
+    roomName: PropTypes.string,
+    bedName: PropTypes.string,
+  }).isRequired,
+}
 export default FinalSettlement;

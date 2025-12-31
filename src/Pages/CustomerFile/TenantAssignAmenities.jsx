@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import Select from "react-select";
 import "./UserList.css";
 import { toast } from 'react-toastify';
-import { CloseCircle, AddSquare } from "iconsax-react";
+import { CloseCircle } from "iconsax-react";
 import { useHasPermission } from '../../Utils/Permission';
 import ErrorMessage from '../../Components/ErrorMessage'
 import Image from "react-bootstrap/Image";
@@ -20,7 +20,7 @@ function TenantAmenities({ show, handleClose }) {
 
   const [selectAmneties, setselectAmneties] = useState("");
 
-  const [addamenityShow, setaddamenityShow] = useState(false);
+  // const [addamenityShow, setaddamenityShow] = useState(false);
   const [createby, setcreateby] = useState("");
   const [amnityError, setamnityError] = useState("");
 
@@ -36,23 +36,23 @@ function TenantAmenities({ show, handleClose }) {
 
   const {
     canWriteModule: canWriteAmenities,
-    canReadModule: canReadAmenities,
+    // canReadModule: canReadAmenities,
     // canUpdateModule: canUpdateAmenities,
-    canDeleteModule: canDeleteAmenities,
+    // canDeleteModule: canDeleteAmenities,
   } = useHasPermission("Amenities");
 
 
-  const [CustomerOverView, setCustomerOverView] = useState([]);
+  // const [CustomerOverView, setCustomerOverView] = useState([]);
   const [isTrigger, setIsTrigger] = useState(false)
 
 
-  useEffect(() => {
-    if (state.UsersList?.customerdetails?.amenities) {
-      setCustomerOverView(state.UsersList.customerdetails.amenities);
-    } else {
-      setCustomerOverView([]);
-    }
-  }, [state.UsersList?.customerdetails?.amenities]);
+  // useEffect(() => {
+  //   if (state.UsersList?.customerdetails?.amenities) {
+  //     setCustomerOverView(state.UsersList.customerdetails.amenities);
+  //   } else {
+  //     setCustomerOverView([]);
+  //   }
+  // }, [state.UsersList?.customerdetails?.amenities]);
 
 
 
@@ -63,23 +63,23 @@ function TenantAmenities({ show, handleClose }) {
 
     if (value === "") {
       setamnityError("Please select a valid amenity");
-      setaddamenityShow(false);
+      // setaddamenityShow(false);
       return;
     } else {
       setamnityError("");
     }
-    setaddamenityShow(true);
+    // setaddamenityShow(true);
     setstatusShow(false);
 
   };
 
 
-  const handleShowAssignAmenities = () => {
+  // const handleShowAssignAmenities = () => {
 
-    setaddamenityShow(true);
-    setstatusShow(false);
+  //   setaddamenityShow(true);
+  //   setstatusShow(false);
 
-  };
+  // };
 
 
   var toastStyle = {
@@ -232,7 +232,7 @@ function TenantAmenities({ show, handleClose }) {
     if (state.InvoiceList.tenantAssignStatus === 201 || state.InvoiceList?.tenantUnAssignStatus === 201) {
       setFormLoading(false)
 
-      setaddamenityShow(false);
+      // setaddamenityShow(false);
       dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: state.UsersList?.customerdetails?.customerId } });
       setTimeout(() => {
         dispatch({ type: 'REMOVE_TENANT_ASSIGN_AMENITIES' })
@@ -264,18 +264,19 @@ function TenantAmenities({ show, handleClose }) {
   }, [state.InvoiceList.UnAssignAmenitiesSuccessStatusCode])
 
 
-  const [activeDotsId, setActiveDotsId] = useState(null);
-  const handleEdit = (v) => {
-    setActiveDotsId((prev) => (prev === v.id ? null : v.id));
-    setaddamenityShow(true);
-    setstatusShow(true);
-    setselectAmneties(v.amenity_Id);
-  };
+  // const [activeDotsId, setActiveDotsId] = useState(null);
+
+  // const handleEdit = (v) => {
+  //   setActiveDotsId((prev) => (prev === v.id ? null : v.id));
+  //   setaddamenityShow(true);
+  //   setstatusShow(true);
+  //   setselectAmneties(v.amenity_Id);
+  // };
   const handleFormClose = () => {
     setselectAmneties("");
     setSelectError("");
-    setaddamenityShow(false);
-    setActiveDotsId(null)
+    // setaddamenityShow(false);
+    // setActiveDotsId(null)
     setStatusAmni(false)
     setamnityError("");
     handleClose()
@@ -288,71 +289,71 @@ function TenantAmenities({ show, handleClose }) {
     }
   }, [state.UsersList.statusCustomerAddUser]);
 
-  const [amentiesrowsPerPage, setAmentiesrowsPerPage] = useState(2);
-  const [amnitiescurrentPage, setAmnitycurrentPage] = useState(1);
-  const [amnitiesFilterddata, setamnitiesFilterddata] = useState([]);
-  const indexOfLastRowamneties = amnitiescurrentPage * amentiesrowsPerPage;
-  const indexOfFirstRowamnities = indexOfLastRowamneties - amentiesrowsPerPage;
-  const currentRowAmnities = amnitiesFilterddata?.slice(
-    indexOfFirstRowamnities,
-    indexOfLastRowamneties
-  );
+  // const [amentiesrowsPerPage, setAmentiesrowsPerPage] = useState(2);
+  // const [amnitiescurrentPage, setAmnitycurrentPage] = useState(1);
+  // const [amnitiesFilterddata, setamnitiesFilterddata] = useState([]);
+  // const indexOfLastRowamneties = amnitiescurrentPage * amentiesrowsPerPage;
+  // const indexOfFirstRowamnities = indexOfLastRowamneties - amentiesrowsPerPage;
+  // const currentRowAmnities = amnitiesFilterddata?.slice(
+  //   indexOfFirstRowamnities,
+  //   indexOfLastRowamneties
+  // );
 
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+  // const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
-  const sortedData = React.useMemo(() => {
-    if (!sortConfig.key) return currentRowAmnities;
+  // const sortedData = React.useMemo(() => {
+  //   if (!sortConfig.key) return currentRowAmnities;
 
-    const sorted = [...currentRowAmnities].sort((a, b) => {
-      const valueA = a[sortConfig.key];
-      const valueB = b[sortConfig.key];
+  //   const sorted = [...currentRowAmnities].sort((a, b) => {
+  //     const valueA = a[sortConfig.key];
+  //     const valueB = b[sortConfig.key];
 
-      if (!isNaN(valueA) && !isNaN(valueB)) {
-        return sortConfig.direction === "asc"
-          ? valueA - valueB
-          : valueB - valueA;
-      }
+  //     if (!isNaN(valueA) && !isNaN(valueB)) {
+  //       return sortConfig.direction === "asc"
+  //         ? valueA - valueB
+  //         : valueB - valueA;
+  //     }
 
-      if (typeof valueA === "string" && typeof valueB === "string") {
-        return sortConfig.direction === "asc"
-          ? valueA.localeCompare(valueB)
-          : valueB.localeCompare(valueA);
-      }
+  //     if (typeof valueA === "string" && typeof valueB === "string") {
+  //       return sortConfig.direction === "asc"
+  //         ? valueA.localeCompare(valueB)
+  //         : valueB.localeCompare(valueA);
+  //     }
 
-      return 0;
-    });
+  //     return 0;
+  //   });
 
-    return sorted;
-  }, [currentRowAmnities, sortConfig]);
-  const handleSort = (key, direction) => {
-    setSortConfig({ key, direction });
-  };
+  //   return sorted;
+  // }, [currentRowAmnities, sortConfig]);
+  // const handleSort = (key, direction) => {
+  //   setSortConfig({ key, direction });
+  // };
 
 
-  const handleAmnitiesPageChange = (amnitiespageNumber) => {
-    setAmnitycurrentPage(amnitiespageNumber);
+  // const handleAmnitiesPageChange = (amnitiespageNumber) => {
+  //   setAmnitycurrentPage(amnitiespageNumber);
 
-  };
+  // };
 
-  const amenitiesOptions = [
-    { value: 2, label: "2" },
-    { value: 5, label: "5" },
-    { value: 10, label: "10" },
-    { value: 50, label: "50" },
-    { value: 100, label: "100" },
-  ]
+  // const amenitiesOptions = [
+  //   { value: 2, label: "2" },
+  //   { value: 5, label: "5" },
+  //   { value: 10, label: "10" },
+  //   { value: 50, label: "50" },
+  //   { value: 100, label: "100" },
+  // ]
 
-  const handleItemsPerPageChange = (selectedOption) => {
-    setAmentiesrowsPerPage(selectedOption.value);
-    setAmnitycurrentPage(1);
-  };
-  const totalPagesAmnities = Math.ceil(
-    amnitiesFilterddata?.length / amentiesrowsPerPage
-  );
+  // const handleItemsPerPageChange = (selectedOption) => {
+  //   setAmentiesrowsPerPage(selectedOption.value);
+  //   setAmnitycurrentPage(1);
+  // // };
+  // const totalPagesAmnities = Math.ceil(
+  //   amnitiesFilterddata?.length / amentiesrowsPerPage
+  // );
 
-  useEffect(() => {
-    setamnitiesFilterddata(state.UsersList?.amnetieshistory);
-  }, [state.UsersList?.amnetieshistory]);
+  // useEffect(() => {
+  //   setamnitiesFilterddata(state.UsersList?.amnetieshistory);
+  // }, [state.UsersList?.amnetieshistory]);
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
@@ -435,8 +436,7 @@ function TenantAmenities({ show, handleClose }) {
                     style={{ height: 60, width: 60 }}
                     onError={(e) => {
                       e.target.onerror = null;
-                      e.target.src = Profiles;
-                    }}
+                                          }}
                   />
                 ) : (
                   <div

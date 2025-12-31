@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect } from "react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Edit from '../../Assets/Images/Edit-blue.png';
@@ -78,7 +79,7 @@ const InvoiceTable = (props) => {
   }
 
 
-  const handleWriteOffFrom = (item) => {
+  const handleWriteOffFrom = () => {
 
     setWriteOffForm(true)
     setPayableForm(false)
@@ -358,8 +359,8 @@ const InvoiceTable = (props) => {
                 >
                   <div style={{ width: "100%" }}>
 
-                    {
-                      (props.item.invoiceMode === "Recurring" && props.item?.paymentStatus === "Pending") &&
+                     {
+                      (props.item.invoiceMode === "Recurring" && props.item?.paymentStatus === "Pending") && 
                                                     
 
                       <div
@@ -404,7 +405,7 @@ const InvoiceTable = (props) => {
                         </label>
                       </div>
 
-                    }
+                    } 
 
                     <div
                       className="d-flex justify-content-start align-items-center gap-2 "

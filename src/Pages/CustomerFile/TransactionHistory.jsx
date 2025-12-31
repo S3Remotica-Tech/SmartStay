@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React from "react";
 // import LoaderComponent from "../LoaderComponent";
 import { Table } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import PaginationList from "../../Components/PaginationList";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import ErrorMessage from '../../Components/ErrorMessage';
 import { useHasPermission } from '../../Utils/Permission';
 import emptyimg from "../../Assets/Images/New_images/empty_image.png";
@@ -14,7 +14,7 @@ function TransactionHistory() {
 
 
     const state = useSelector((state) => state);
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
 
 
@@ -24,10 +24,10 @@ function TransactionHistory() {
 
 
     const {
-        canWriteModule: canWriteTenant,
+        // canWriteModule: canWriteTenant,
         canReadModule: canReadTenant,
-        canUpdateModule: canUpdateTenant,
-        canDeleteModule: canDeleteTenant,
+        // canUpdateModule: canUpdateTenant,
+        // canDeleteModule: canDeleteTenant,
     } = useHasPermission("Customers");
 
 

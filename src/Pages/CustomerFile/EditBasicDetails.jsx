@@ -4,7 +4,7 @@ import {
     Modal,
     Form,
     Button,
-    InputGroup,
+    // InputGroup,
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
@@ -21,8 +21,8 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
-    const [countryCode, setCountryCode] = useState("91");
-    const [id, setId] = useState("")
+    // const [countryCode, setCountryCode] = useState("91");
+    // const [id, setId] = useState("")
     const [firstNameError, setFirstNameError] = useState("")
     const [phoneError, setPhoneError] = useState("")
     const [initialValues, setInitialValues] = useState(null);
@@ -67,22 +67,22 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
         setIsChanged("")
     };
 
-    const handlePhoneChange = (e) => {
-        const input = e.target.value.replace(/\D/g, "");
-        setPhone(input);
+    // const handlePhoneChange = (e) => {
+    //     const input = e.target.value.replace(/\D/g, "");
+    //     setPhone(input);
 
-        if (input.length === 0) {
-            setPhoneError("");
-        } else if (input.length < 10) {
-            setPhoneError("Please Enter Mobile Number");
-        } else if (input.length === 10) {
-            setPhoneError("");
-        }
+    //     if (input.length === 0) {
+    //         setPhoneError("");
+    //     } else if (input.length < 10) {
+    //         setPhoneError("Please Enter Mobile Number");
+    //     } else if (input.length === 10) {
+    //         setPhoneError("");
+    //     }
 
-        setIsChanged("")
+    //     setIsChanged("")
 
-        dispatch({ type: "CLEAR_PHONE_ERROR" });
-    };
+    //     dispatch({ type: "CLEAR_PHONE_ERROR" });
+    // };
 
 
 
@@ -94,8 +94,8 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
             setFirstName(basicDetails?.firstName);
             setLastName(basicDetails?.lastName);
             setPhone(basicDetails?.mobileNo);
-            setCountryCode(basicDetails?.countryCode);
-            setId(basicDetails.customerId);
+            // setCountryCode(basicDetails?.countryCode);
+            // setId(basicDetails.customerId);
             setEmail(basicDetails?.emailId)
 
 

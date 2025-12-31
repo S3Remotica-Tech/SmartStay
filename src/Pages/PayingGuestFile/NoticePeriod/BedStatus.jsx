@@ -1,10 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-// import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import "../../../Pages/AssetFile/addAsset.css";
 import PropTypes from "prop-types";
-// import Profile from '../../../Assets/Images/New_images/profile-picture.png'
 import { PiDotsThreeOutlineFill } from "react-icons/pi";
 import { useDispatch, useSelector } from 'react-redux';
 import Image from 'react-bootstrap/Image';
@@ -12,15 +10,15 @@ import "../../../Pages/AssetFile/addAsset.css";
 import CalenderTick from "../../../Assets/Images/New_images/calendar-tick.svg";
 import TimerPause from "../../../Assets/Images/New_images/timer-pause.svg";
 import logout from "../../../Assets/Images/New_images/logout.svg";
-// import UserlistForm from "../../CustomerFile/UserlistForm";
 import AddPlus from "../../../Assets/Images/New_images/add-circle.png";
 import Exchange from "../../../Assets/v2Images/exchange.svg"
 import MakeAsInAcive from "../../../Assets/v2Images/Inactive.svg"
-// import Checkouts from '../../../Assets/v2Images/calendar-tick.svg'
+import { FiCalendar, } from "react-icons/fi";
 import Settings from '../../../Assets/v2Images/info-circle.svg'
 import { useHasPermission } from '../../../Utils/Permission';
 import { Edit } from 'iconsax-react';
 import { useNavigate } from "react-router-dom";
+import { LogoutCurve} from "iconsax-react";
 function NoticeBedStatusDetails({
   show,
   handleCloseBed,
@@ -32,7 +30,9 @@ function NoticeBedStatusDetails({
   handleShowInActiveForm,
   handleOpenCancelCheckout,
   // handleDisplayCheckInForm,
-  showEditBed
+  showEditBed,
+  handleShowReassignBed,
+  handleShowNoticePeriod
 
 }) {
 
@@ -224,7 +224,13 @@ function NoticeBedStatusDetails({
     }
   }, [state.UsersList?.StatusCodeBacktoCheckin]);
 
+ const handleReAssignBed = (currentItem) => {
+        handleShowReassignBed(true, currentItem)
+    };
 
+    const handleMoveToNoticePeriod = (currentItem) => {
+        handleShowNoticePeriod(true, currentItem)
+    }
 
 
   const handleNavigateTenantProfile = (tenantDetails) => {
@@ -257,6 +263,8 @@ function NoticeBedStatusDetails({
       dispatch({ type: "UPDATE_USERSLIST_FALSE" });
     }
   }
+
+
 
   return (
     <>
@@ -443,7 +451,7 @@ function NoticeBedStatusDetails({
                               style={{
                                 right: 0,
                                 top: 50,
-                                width: 160,
+                                width: 200,
                                 border: "1px solid #EBEBEB",
                                 borderRadius: 10,
                                 backgroundColor: "#f9f9f9",
@@ -484,9 +492,7 @@ function NoticeBedStatusDetails({
                                   </div>
 
                                   <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
-                                  {/* new booking */}
-                                  {/* {currentItem?.newTenantInfo[0]?.tenetId && */}
-
+                                 
                                   <div
                                     className="d-flex gap-2 align-items-center"
                                     onClick={canWriteCustomers ? () => handleNewBooking() : undefined}
@@ -505,9 +511,9 @@ function NoticeBedStatusDetails({
                                       New Booking
                                     </label>
                                   </div>
-                                  {/* } */}
+                              
                                   <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
-                                  {/* Generate */}
+                                  
                                   <div
                                     className="d-flex gap-2 align-items-center"
                                     onClick={() => canWriteCustomers && handleFinalsettelmentGenerate(tenant)}
@@ -527,7 +533,74 @@ function NoticeBedStatusDetails({
                                   </div>
                                 </div>
                               }
-                              {/* Checkout */}
+
+                              {
+                                
+                                matchedData[0]?.currentStatus === "Checked In" && 
+
+<div>
+                                                            <div
+                                                                className="d-flex gap-2 align-items-center"
+                                                                onClick={() => canWriteCustomers && handleReAssignBed(tenant)}
+
+
+                                                                style={{
+                                                                    padding: "15px",
+                                                                    borderTopLeftRadius: 10,
+                                                                    borderTopRightRadius: 10,
+                                                                    cursor: canWriteCustomers ? "pointer" : "not-allowed",
+                                                                    opacity: canWriteCustomers ? 1 : 0.6,
+                                                                }}
+                                                                onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#F0F4FF"; }}
+                                                                onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
+                                                            >
+
+                                                                <FiCalendar size={16} color={canWriteCustomers ? "#1E45E1" : "#A9A9A9"} />
+                                                                <label style={{ fontSize: 13, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed", }}>Change Bed</label>
+                                                            </div>
+
+                                                            <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
+
+
+                                                            <div
+                                                                className="d-flex gap-2 align-items-center"
+                                                                onClick={() => canWriteCustomers && handleMoveToNoticePeriod(tenant)}
+                                                                style={{
+                                                                    padding: "15px",
+                                                                    borderBottomLeftRadius: 10,
+                                                                    borderBottomRightRadius: 10,
+                                                                    cursor: canWriteCustomers ? "pointer" : "not-allowed",
+                                                                    opacity: canWriteCustomers ? 1 : 0.6,
+                                                                }}
+                                                                onMouseEnter={(e) => {
+                                                                    e.currentTarget.style.backgroundColor = "#FFF3F3";
+                                                                }}
+                                                                onMouseLeave={(e) => {
+                                                                    e.currentTarget.style.backgroundColor = "transparent";
+                                                                }}
+                                                            >
+                                                                <LogoutCurve
+                                                                    size="18"
+                                                                    color={canWriteCustomers ? "#FF9500" : "#A9A9A9"}
+                                                                />
+                                                                <label
+                                                                    style={{
+                                                                        fontSize: 13,
+                                                                        fontWeight: 500,
+                                                                        color: canWriteCustomers ? "#222222" : "#A9A9A9",
+                                                                        marginBottom: 0,
+                                                                        fontFamily: "Gilroy",
+                                                                        cursor: canWriteCustomers ? "pointer" : "not-allowed",
+                                                                    }}
+                                                                >
+                                                                    Move To Notice Period
+                                                                </label>
+                                                            </div>
+                                                            <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
+</div>
+
+                              }
+                           
                               {
                                 matchedData[0]?.currentStatus === "Settlement Generated" &&
                                 <div
@@ -998,6 +1071,8 @@ NoticeBedStatusDetails.propTypes = {
   handleShowInActiveForm: PropTypes.func.isRequired,
   handleOpenCancelCheckout: PropTypes.func.isRequired,
   showEditBed: PropTypes.func.isRequired,
+  handleShowReassignBed:  PropTypes.func.isRequired,
+   handleShowNoticePeriod: PropTypes.func.isRequired,
 
 };
 export default NoticeBedStatusDetails;

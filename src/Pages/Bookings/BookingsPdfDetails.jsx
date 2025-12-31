@@ -11,7 +11,7 @@ import "flatpickr/dist/themes/material_blue.css";
 import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
 import '../OthersComponent/BillPdfModal.css';
-import { useNavigate, useLocation } from "react-router-dom";
+import {  useLocation } from "react-router-dom";
 import BookingPdfModal from "./BookingPdfModal";
 
 
@@ -21,7 +21,7 @@ function BookingsPdfDetails() {
   const location = useLocation();
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
 
   const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);

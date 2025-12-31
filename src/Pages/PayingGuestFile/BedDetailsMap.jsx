@@ -79,9 +79,9 @@ function BedDetailsMap({ room, propsValue }) {
     } = useHasPermission("Paying Guests");
 
 
-    const handleshowfinalsettlement = (isvisible,  tenantDetails) => {
+    const handleshowfinalsettlement = (isvisible, tenantDetails) => {
         // setCustomerId(customerId)
-console.log("tenantDetails",tenantDetails, )
+        console.log("tenantDetails", tenantDetails,)
         setFinalSettlePage(isvisible)
         setNoticePeriodBed(false)
         setSelectedTenant(tenantDetails)
@@ -129,12 +129,13 @@ console.log("tenantDetails",tenantDetails, )
     const handleShowReAssignBedPopup = () => {
         setOccubiedBed(false)
         dispatch(triggerPG(true))
+        setNoticePeriodBed(false)
         // setShowReAssignBedForm(isVisible)
         // setCustomerId(customer_id)
 
     }
     const handleShowNoticePeriod = (isVisible, customer) => {
-
+        setNoticePeriodBed(false)
         setOccubiedBed(false)
         setMoveToNoticePeriodForm(isVisible)
         setCustomerDetails(customer)
@@ -567,7 +568,7 @@ console.log("tenantDetails",tenantDetails, )
         <div>
 
             {
-                bactocheckinForm && <BackToCheckIn show={bactocheckinForm} handleClose={handleCloseBackToCheckIn} checkInDetails={selectedTenant}  pgDetails={customer} />
+                bactocheckinForm && <BackToCheckIn show={bactocheckinForm} handleClose={handleCloseBackToCheckIn} checkInDetails={selectedTenant} pgDetails={customer} />
 
             }
 
@@ -643,8 +644,9 @@ console.log("tenantDetails",tenantDetails, )
 
 
             {
-                Occubied_bed && <OccupiedBedStatus show={Occubied_bed} showEditBed={handleEditBed}
-                    handleCloseBed={handlecloseoccubiedbed} currentItem={customer} handleShowReassignBed={handleShowReAssignBedPopup} handleShowNoticePeriod={handleShowNoticePeriod} />
+                Occubied_bed && <OccupiedBedStatus show={Occubied_bed} showEditBed={handleEditBed} handleShowInActiveForm={handleShowInActiveForm} handleShowCheck_In={handleShowCheck_In}
+                    handleCloseBed={handlecloseoccubiedbed} currentItem={customer}
+                    handleShowReassignBed={handleShowReAssignBedPopup} handleShowNoticePeriod={handleShowNoticePeriod} />
             }
 
 
@@ -652,10 +654,13 @@ console.log("tenantDetails",tenantDetails, )
 
             {/* Notice period  */}
             {
-                Noticeperiod_bed && <NoticeBedStatusDetails showEditBed={handleEditBed} show={Noticeperiod_bed} handleDisplayCheckInForm={handleDisplayCheckInForm}
-                    handleCloseBed={handlecloseNoticePeriodBed} currentItem={customer}
+                Noticeperiod_bed && <NoticeBedStatusDetails  showEditBed={handleEditBed} show={Noticeperiod_bed} handleDisplayCheckInForm={handleDisplayCheckInForm}
+                    handleCloseBed={handlecloseNoticePeriodBed} currentItem={customer} handleShowReassignBed={handleShowReAssignBedPopup}
                     showBooking={handleshowNoticePeriodBooking} showNoticeperiodCheckout={handleshowNoticePeriodCheckout} showfinalsettelemnet={handleshowfinalsettlement}
                     handleOpenChangeBed={handleOpenChangeBed} handleShowInActiveForm={handleShowInActiveForm} handleOpenCancelCheckout={handleOpenCancelCheckout}
+                
+                handleShowNoticePeriod={handleShowNoticePeriod}
+                
                 />}
 
 
@@ -679,7 +684,7 @@ console.log("tenantDetails",tenantDetails, )
             {
                 Noticeperiod_checkout && <DueCustomerConfirmCheckout show={Noticeperiod_checkout} handleClose={handlecloseNoticeperiodCheckout}
                     // customerID={customerID}
-data={selectedTenant}
+                    data={selectedTenant}
                     pgDetails={customer}
                 />
             }
@@ -700,7 +705,7 @@ data={selectedTenant}
                     data={selectedTenant}
                     // customerID={customerId} 
                     pgDetails={customer}
-                    />
+                />
             }
 
             <div className='row g-2 overflow-auto' style={{ maxHeight: 240 }}>

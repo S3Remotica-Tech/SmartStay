@@ -6,16 +6,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import { CloseCircle } from "iconsax-react";
-import Profileimage from "../../Assets/Images/New_images/profile-picture.png";
+// import Profileimage from "../../Assets/Images/New_images/profile-picture.png";
 import ErrorMessage from "../../Components/ErrorMessage";
 import { JoininDatecustomer } from "../../Redux/Action/smartStayAction";
+import PropTypes from "prop-types";
+
 
 function BackToCheckIn({ show, handleClose, checkInDetails ,pgDetails}) {
     const dispatch = useDispatch();
 
     const state = useSelector((state) => state);
 
-console.log("checkInDetails",checkInDetails,"pgDetails",pgDetails)
+// console.log("checkInDetails",checkInDetails,"pgDetails",pgDetails)
 
 
     const [activeTab, setActiveTab] = useState("LONG");
@@ -456,5 +458,28 @@ console.log("checkInDetails",checkInDetails,"pgDetails",pgDetails)
         </Modal>
     );
 }
+BackToCheckIn.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+
+  checkInDetails: PropTypes.shape({
+    customerId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    tenetId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
+    profilePic: PropTypes.string,   
+    initials: PropTypes.string,
+    tenantInitials: PropTypes.string,
+
+    fullName: PropTypes.string,
+    tenantFullName: PropTypes.string,
+  }).isRequired,
+
+  pgDetails: PropTypes.shape({
+    bedId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    floorName: PropTypes.string,
+    roomName: PropTypes.string,
+    bedName: PropTypes.string,
+  }).isRequired,
+};
 
 export default BackToCheckIn;

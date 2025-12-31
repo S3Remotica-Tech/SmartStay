@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import "../../../Pages/AssetFile/addAsset.css";
 import PropTypes from "prop-types";
 // import Profile from '../../../Assets/Images/New_images/profile-picture.png'
-import { LogoutCurve } from "iconsax-react";
+import { LogoutCurve,AddCircle} from "iconsax-react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Image from 'react-bootstrap/Image';
 import { FiCalendar, } from "react-icons/fi";
@@ -21,7 +21,9 @@ function OccupiedBedStatus({
     currentItem,
     handleShowReassignBed,
     handleShowNoticePeriod,
-    showEditBed
+    showEditBed,
+    handleShowCheck_In,
+    handleShowInActiveForm
 }) {
 
     const state = useSelector(state => state)
@@ -31,6 +33,7 @@ function OccupiedBedStatus({
     const [showDots, setShowDots] = useState('')
     const [activeRoomId, setActiveRoomId] = useState(null);
 
+    const [activeRoomIdReserved, setActiveRoomIdReserved] = useState(null);
 
     const navigate = useNavigate();
     const popupRef = useRef(null);
@@ -69,6 +72,22 @@ function OccupiedBedStatus({
         setShowDots(!showDots)
         setActiveRoomId(activeRoomId === roomId ? null : roomId);
     }
+
+
+    const handleShowDotsRerved = (roomId) => {
+        setActiveRoomIdReserved(activeRoomIdReserved === roomId ? null : roomId);
+    }
+
+ const handleCheckin = (tenant) => {
+     
+        handleShowCheck_In(true, tenant)
+
+    }
+
+    const handleMakeInActive = (tenant) => {
+        handleShowInActiveForm(true, tenant)
+    }
+
 
     const handleClickOutside = (event) => {
         if (popupRef.current && !popupRef.current.contains(event.target)) {
@@ -423,6 +442,218 @@ function OccupiedBedStatus({
 
 
                             </div>
+
+                            <div className="row mt-1">
+                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <label style={{ fontSize: 16, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }} className="mt-0 mb-1">Reserved by</label>
+
+                                    {currentItem?.newTenantInfo?.map((tenant, index) => (
+                                        <div key={index} >
+                                            <div className="d-flex justify-content-between">
+
+
+                                                <div className="d-flex gap-3 align-items-center">
+
+                                                    <div>
+                                                        {tenant?.profilePic &&
+                                                            tenant?.profilePic !== "0" ? (
+                                                            <Image
+                                                                src={tenant?.profilePic}
+                                                                roundedCircle
+                                                                style={{ height: 50, width: 50 }}
+                                                                alt="image"
+                                                            />
+                                                        ) : (
+                                                            <div
+                                                                style={{
+                                                                    height: 50,
+                                                                    width: 50,
+                                                                    borderRadius: "50%",
+                                                                    backgroundColor: "#1E45E1",
+                                                                    display: "flex",
+                                                                    justifyContent: "center",
+                                                                    alignItems: "center",
+                                                                    fontSize: 20,
+                                                                    fontWeight: "600",
+                                                                    color: "white", fontFamily: "Gilroy"
+                                                                }}
+                                                            >
+                                                                {tenant?.tenantInitials || "-"}
+                                                            </div>
+                                                        )}
+                                                        {/* <Image src={currentItem?.newTenantProfilePic && currentItem?.newTenantProfilePic !== "0" ? currentItem?.newTenantProfilePic : Profile} roundedCircle style={{ height: 50, width: 50 }} alt="image" /> */}
+                                                    </div>
+                                                    <div className="mt-2">
+                                                        <div>
+                                                            <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600, cursor: "pointer", textDecoration: "underline" }} onClick={() => handleNavigateTenantProfile(tenant)}>{tenant?.tenantFullName || "N/A"}</label>
+                                                        </div>
+                                                        <div><label style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                                            {tenant?.mobile ? `+ ${tenant?.countryCode} ${String(tenant?.mobile)}` : 'No phone'}
+
+                                                        </label></div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div onClick={() => handleShowDotsRerved(index)}
+                                                    style={{
+                                                        cursor: "pointer",
+                                                        height: 40,
+                                                        width: 40,
+                                                        borderRadius: 100,
+                                                        border: "1px solid #EFEFEF",
+                                                        display: "flex",
+                                                        justifyContent: "center",
+                                                        alignItems: "center",
+                                                        position: "relative",
+
+                                                        backgroundColor: activeRoomIdReserved === index ? "#E0ECFF" : "white",
+                                                    }}>
+                                                    <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+                                                    {activeRoomIdReserved === index && (
+                                                        <div
+                                                            ref={popupRef}
+                                                            className="position-absolute"
+                                                            style={{
+                                                                right: 50,
+                                                                top: 10,
+                                                                width: 160,
+                                                                border: "1px solid #EBEBEB",
+                                                                borderRadius: 10,
+                                                                backgroundColor: "#f9f9f9",
+                                                                display: "flex",
+                                                                flexDirection: "column",
+                                                                zIndex: 1000 + index,
+                                                                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+                                                            }}
+                                                        >
+
+                                                            <div
+                                                                className="d-flex gap-2 align-items-center"
+                                                                onClick={() => canWriteCustomers && handleCheckin(tenant)}
+
+
+                                                                style={{
+                                                                    padding: "10px",
+                                                                    borderTopLeftRadius: 10,
+                                                                    borderTopRightRadius: 10,
+                                                                    cursor: canWriteCustomers ? "pointer" : "not-allowed",
+                                                                    opacity: canWriteCustomers ? 1 : 0.5,
+                                                                }}
+                                                                onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#F0F4FF"; }}
+                                                                onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
+                                                            >
+                                                                <AddCircle
+                                                                    size="18"
+                                                                    color={canWriteCustomers ? "#1E45E1" : "#A0A0A0"}
+                                                                />
+                                                                <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#dcdcdc", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed" }}>Check-In</label>
+                                                            </div>
+
+                                                            <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
+
+
+                                                            <div
+                                                                className="d-flex gap-2 align-items-center"
+                                                                onClick={() => handleMakeInActive(tenant)}
+
+                                                                style={{
+                                                                    padding: "10px",
+                                                                    borderBottomLeftRadius: 10,
+                                                                    borderBottomRightRadius: 10,
+
+                                                                    cursor: canWriteCustomers ? "pointer" : "not-allowed",
+                                                                    opacity: canWriteCustomers ? 1 : 0.5,
+                                                                }}
+                                                                onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
+                                                                onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
+                                                            >
+                                                                <LogoutCurve
+                                                                    size="18"
+                                                                    color={canWriteCustomers ? "#FF9500" : "#A0A0A0"}
+
+                                                                />                                            <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#dcdcdc", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed" }}>Make as Inactive</label>
+                                                            </div>
+
+                                                            <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
+                                                            <div
+                                                                className="d-flex gap-2 align-items-center"
+
+                                                                onClick={() => canUpdatePayingGuests ? handleEditBed() : undefined}
+
+                                                                style={{
+                                                                    padding: "10px",
+                                                                    borderBottomLeftRadius: 10,
+                                                                    borderBottomRightRadius: 10,
+                                                                    cursor: canUpdatePayingGuests ? "pointer" : "not-allowed",
+                                                                    opacity: canUpdatePayingGuests ? 1 : 0.6,
+                                                                }}
+                                                                onMouseEnter={(e) => {
+                                                                    e.currentTarget.style.backgroundColor = "#FFF3F3";
+                                                                }}
+                                                                onMouseLeave={(e) => {
+                                                                    e.currentTarget.style.backgroundColor = "transparent";
+                                                                }}
+                                                            >
+                                                                <Edit size="16" color={!canUpdatePayingGuests ? "#888888" : "#1E45E1"} className="ms-0" />
+
+                                                                <label
+                                                                    style={{
+                                                                        fontSize: 14,
+                                                                        fontWeight: 500,
+                                                                        color: canUpdatePayingGuests ? "#222222" : "#A9A9A9",
+                                                                        marginBottom: 0,
+                                                                        fontFamily: "Gilroy",
+                                                                        cursor: canUpdatePayingGuests ? "pointer" : "not-allowed",
+                                                                    }}
+                                                                >
+                                                                    Edit
+                                                                </label>
+
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </div>
+
+                                            </div>
+
+
+                                            <div className="d-flex justify-content-between mb-2 mt-1">
+                                                <div>
+                                                    <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Booking Amount</label>
+                                                </div>
+                                                <div>
+                                                    <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>{tenant?.bookingAmount || "N/A"}</label>
+                                                </div>
+                                            </div>
+
+                                            <div className="d-flex justify-content-between mb-2">
+                                                <div>
+                                                    <label style={{ fontFamily: "Gilroy", fontSize: 14, color: "#222222" }}>Booking Date</label>
+                                                </div>
+                                                <div>
+                                                    <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222222", fontWeight: 600 }}>{tenant?.bookingDate || "N/A"}</label>
+                                                </div>
+                                            </div>
+
+                                            <hr style={{ border: "1px solid #EDEDED" }} />
+
+                                        </div>
+                                    ))}
+                                </div>
+
+
+                            </div>
+
+
+
+
+
+
+
+
+
+
                         </Modal.Body>
 
 
@@ -445,6 +676,9 @@ OccupiedBedStatus.propTypes = {
     currentItem: PropTypes.object.isRequired,
     handleShowReassignBed: PropTypes.func.isRequired,
     handleShowNoticePeriod: PropTypes.func.isRequired,
-    showEditBed: PropTypes.func.isRequired
+    showEditBed: PropTypes.func.isRequired,
+    handleShowCheck_In: PropTypes.func.isRequired,
+    handleShowInActiveForm: PropTypes.func.isRequired,
+
 };
 export default OccupiedBedStatus;

@@ -2,6 +2,8 @@
 import React, { useRef, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { CloseCircle, DocumentUpload, CloseSquare } from "iconsax-react";
+import PropTypes from "prop-types";
+
 
 function ManualDocumentsUpload({ show, handleClose }) {
     const fileInputRef = useRef(null);
@@ -292,5 +294,8 @@ function ManualDocumentsUpload({ show, handleClose }) {
         </Modal>
     );
 }
-
+ManualDocumentsUpload.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+};
 export default ManualDocumentsUpload;

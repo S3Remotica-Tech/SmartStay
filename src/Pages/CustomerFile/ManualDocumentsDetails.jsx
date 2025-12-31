@@ -1,8 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
 import upload from "../../Assets/Images/New_images/pdf@2x.png";
 
 import docDown from "../../Assets/Images/New_images/downdoc.png";
 import viewdoc from "../../Assets/Images/New_images/viewdoc.png";
+
+import PropTypes from "prop-types";
+
 
 
 
@@ -55,4 +58,13 @@ function ManualDocumentsDetails({documents}) {
   )
 }
 
-export default ManualDocumentsDetails
+ManualDocumentsDetails.propTypes = {
+  documents: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      name: PropTypes.string,
+          })
+  ).isRequired,
+};
+
+export default ManualDocumentsDetails;

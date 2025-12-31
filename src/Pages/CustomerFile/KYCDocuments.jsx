@@ -1,5 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, 
+   useEffect
+} from "react";
 import upload from "../../Assets/Images/New_images/pdf@2x.png";
 import docDown from "../../Assets/Images/New_images/downdoc.png";
 import viewdoc from "../../Assets/Images/New_images/viewdoc.png";
@@ -9,7 +11,9 @@ function KYCDocuments() {
  const [documents, setDocuments] = useState([
   ]);
 
-
+useEffect(()=>{
+setDocuments([])
+},[])
   return (
     <div className="row mt-3">
                                {documents.length > 0 ? documents.map((doc, index) => (

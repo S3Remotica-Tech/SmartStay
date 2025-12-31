@@ -32,10 +32,10 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
 
 
 
-    const [firstName, setFirstname] = useState("")
-    const [lastname, setLastname] = useState("")
-    const [phone, setPhone] = useState("")
-    const [countryCode, setCountryCode] = useState("91");
+    // const [firstName, setFirstname] = useState("")
+    // const [lastname, setLastname] = useState("")
+    // const [phone, setPhone] = useState("")
+    // const [countryCode, setCountryCode] = useState("91");
     const [initialState, setInitialstate] = useState("")
     const [pincodeError, setPincodeError] = useState("")
 
@@ -77,7 +77,7 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
 
     const handleHouseNoChange = (e) => {
         const value = e.target.value;
-        const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
+               const regex = /^[a-zA-Z0-9 .,'/\\#()&:-]*$/;
 
         if (regex.test(value)) {
             setHouseNo(value);
@@ -87,7 +87,7 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
 
     const handleStreetChange = (e) => {
         const value = e.target.value;
-        const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
+           const regex = /^[a-zA-Z0-9 .,'/\\#()&:-]*$/;
         if (regex.test(value)) {
             setStreet(value);
             setFormError("")
@@ -96,7 +96,7 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
 
     const handleLandmarkChange = (e) => {
         const value = e.target.value;
-        const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
+           const regex = /^[a-zA-Z0-9 .,'/\\#()&:-]*$/;
         if (regex.test(value)) {
             setLandmark(value);
             setFormError("")
@@ -279,8 +279,8 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
         }
 
         
-        const capitalizeFirstLetter = (str) =>
-            str ? str.charAt(0).toUpperCase() + str.slice(1).toLowerCase() : "";
+        // const capitalizeFirstLetter = (str) =>
+        //     str ? str.charAt(0).toUpperCase() + str.slice(1).toLowerCase() : "";
 
          
         dispatch({

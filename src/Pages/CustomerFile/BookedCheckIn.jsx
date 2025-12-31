@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Form, FormControl } from "react-bootstrap";
+import { Button, Form, FormControl ,Image} from "react-bootstrap";
 import React, { useState, useEffect, useRef } from "react";
 import "./UserList.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,7 +15,7 @@ import { CloseCircle } from "iconsax-react";
 import { JoininDatecustomer } from "../../Redux/Action/smartStayAction";
 import { Trash } from 'iconsax-react';
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
-import Profileimage from "../../Assets/Images/New_images/profile-picture.png";
+// import Profileimage from "../../Assets/Images/New_images/profile-picture.png";
 import ErrorMessage from '../../Components/ErrorMessage'
 import customParseFormat from "dayjs/plugin/customParseFormat";
 function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {

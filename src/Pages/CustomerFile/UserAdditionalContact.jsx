@@ -33,12 +33,12 @@ function UserAdditionalContact(props) {
   const [userNameError, setUserNameError] = useState("");
   const [guardianError, setGuardianError] = useState("");
   const [guardianAlreadyError, setGuardianAlreadyError] = useState("");
-  const [house_noError, setHouse_NoError] = useState("");
-  const [streetError, setStreetError] = useState("");
-  const [landmarkError, setLandmarkError] = useState("");
-  const [pincodeError, setPincodeError] = useState("");
-  const [cityError, setCityError] = useState("");
-  const [state_nameError, setStateNameError] = useState("");
+  // const [house_noError, setHouse_NoError] = useState("");
+  // const [streetError, setStreetError] = useState("");
+  // const [landmarkError, setLandmarkError] = useState("");
+  // const [pincodeError, setPincodeError] = useState("");
+  // const [cityError, setCityError] = useState("");
+  // const [state_nameError, setStateNameError] = useState("");
   const MobileNumber = `${countryCode}${Phone}`;
   const [formLoading, setFormLoading] = useState(false)
   const [isOthers, setIsOthers] = useState(false);
@@ -61,44 +61,44 @@ function UserAdditionalContact(props) {
   });
 
 
-  const indianStates = [
-    { value: "Andhra Pradesh", label: "Andhra Pradesh" },
-    { value: "Arunachal Pradesh", label: "Arunachal Pradesh" },
-    { value: "Assam", label: "Assam" },
-    { value: "Bihar", label: "Bihar" },
-    { value: "Chhattisgarh", label: "Chhattisgarh" },
-    { value: "Goa", label: "Goa" },
-    { value: "Gujarat", label: "Gujarat" },
-    { value: "Haryana", label: "Haryana" },
-    { value: "Himachal Pradesh", label: "Himachal Pradesh" },
-    { value: "Jharkhand", label: "Jharkhand" },
-    { value: "Karnataka", label: "Karnataka" },
-    { value: "Kerala", label: "Kerala" },
-    { value: "Madhya Pradesh", label: "Madhya Pradesh" },
-    { value: "Maharashtra", label: "Maharashtra" },
-    { value: "Manipur", label: "Manipur" },
-    { value: "Meghalaya", label: "Meghalaya" },
-    { value: "Mizoram", label: "Mizoram" },
-    { value: "Nagaland", label: "Nagaland" },
-    { value: "Odisha", label: "Odisha" },
-    { value: "Punjab", label: "Punjab" },
-    { value: "Rajasthan", label: "Rajasthan" },
-    { value: "Sikkim", label: "Sikkim" },
-    { value: "Tamil Nadu", label: "Tamil Nadu" },
-    { value: "Telangana", label: "Telangana" },
-    { value: "Tripura", label: "Tripura" },
-    { value: "Uttar Pradesh", label: "Uttar Pradesh" },
-    { value: "Uttarakhand", label: "Uttarakhand" },
-    { value: "West Bengal", label: "West Bengal" },
-    { value: "Andaman and Nicobar Islands", label: "Andaman and Nicobar Islands" },
-    { value: "Chandigarh", label: "Chandigarh" },
-    { value: "Dadra and Nagar Haveli and Daman and Diu", label: "Dadra and Nagar Haveli and Daman and Diu" },
-    { value: "Delhi", label: "Delhi" },
-    { value: "Jammu and Kashmir", label: "Jammu and Kashmir" },
-    { value: "Ladakh", label: "Ladakh" },
-    { value: "Lakshadweep", label: "Lakshadweep" },
-    { value: "Puducherry", label: "Puducherry" },
-  ];
+  // const indianStates = [
+  //   { value: "Andhra Pradesh", label: "Andhra Pradesh" },
+  //   { value: "Arunachal Pradesh", label: "Arunachal Pradesh" },
+  //   { value: "Assam", label: "Assam" },
+  //   { value: "Bihar", label: "Bihar" },
+  //   { value: "Chhattisgarh", label: "Chhattisgarh" },
+  //   { value: "Goa", label: "Goa" },
+  //   { value: "Gujarat", label: "Gujarat" },
+  //   { value: "Haryana", label: "Haryana" },
+  //   { value: "Himachal Pradesh", label: "Himachal Pradesh" },
+  //   { value: "Jharkhand", label: "Jharkhand" },
+  //   { value: "Karnataka", label: "Karnataka" },
+  //   { value: "Kerala", label: "Kerala" },
+  //   { value: "Madhya Pradesh", label: "Madhya Pradesh" },
+  //   { value: "Maharashtra", label: "Maharashtra" },
+  //   { value: "Manipur", label: "Manipur" },
+  //   { value: "Meghalaya", label: "Meghalaya" },
+  //   { value: "Mizoram", label: "Mizoram" },
+  //   { value: "Nagaland", label: "Nagaland" },
+  //   { value: "Odisha", label: "Odisha" },
+  //   { value: "Punjab", label: "Punjab" },
+  //   { value: "Rajasthan", label: "Rajasthan" },
+  //   { value: "Sikkim", label: "Sikkim" },
+  //   { value: "Tamil Nadu", label: "Tamil Nadu" },
+  //   { value: "Telangana", label: "Telangana" },
+  //   { value: "Tripura", label: "Tripura" },
+  //   { value: "Uttar Pradesh", label: "Uttar Pradesh" },
+  //   { value: "Uttarakhand", label: "Uttarakhand" },
+  //   { value: "West Bengal", label: "West Bengal" },
+  //   { value: "Andaman and Nicobar Islands", label: "Andaman and Nicobar Islands" },
+  //   { value: "Chandigarh", label: "Chandigarh" },
+  //   { value: "Dadra and Nagar Haveli and Daman and Diu", label: "Dadra and Nagar Haveli and Daman and Diu" },
+  //   { value: "Delhi", label: "Delhi" },
+  //   { value: "Jammu and Kashmir", label: "Jammu and Kashmir" },
+  //   { value: "Ladakh", label: "Ladakh" },
+  //   { value: "Lakshadweep", label: "Lakshadweep" },
+  //   { value: "Puducherry", label: "Puducherry" },
+  // ];
 
   useEffect(() => {
     if (props.contactEdit && props.editAdditional) {
@@ -148,116 +148,116 @@ function UserAdditionalContact(props) {
 
 
 
-  const handleHouseNo = (e) => {
-    setHouseNo(e.target.value);
-    setHouse_NoError("")
+  // const handleHouseNo = (e) => {
+  //   setHouseNo(e.target.value);
+  //   setHouse_NoError("")
 
-  };
+  // };
 
-  const handleStreetName = (e) => {
-    setStreet(e.target.value);
-    setStreetError("");
-
-
-
-  }
-
-  const handleLandmark = (e) => {
-    setLandmark(e.target.value);
-    setLandmarkError("");
-
-  }
-
-
-  const handlePinCodeChange = (e) => {
-    const value = e.target.value;
-
-    if (!/^\d{0,6}$/.test(value)) return;
-
-    setPincode(value);
-
-    if (value.length === 6) {
-      setPincodeError("");
-    } else {
-      setPincodeError("Pin Code Must Be Exactly 6 Digits");
-    }
-    setFormError("")
-  };
+  // const handleStreetName = (e) => {
+  //   setStreet(e.target.value);
+  //   setStreetError("");
 
 
 
+  // }
 
-  const handleCity = (e) => {
-    const value = e.target.value;
-    const regex = /^[a-zA-Z\s]*$/;
-    if (regex.test(value)) {
-      setCity(value);
-      setCityError("");
-      setFormError("");
-    }
-  }
-  const validateAssignField = (value, fieldName, ref, setError, focusedRef) => {
-    const trimmedValue = (value ?? "").toString().trim();
+  // const handleLandmark = (e) => {
+  //   setLandmark(e.target.value);
+  //   setLandmarkError("");
 
-    const isValueEmpty =
-      trimmedValue === "" || trimmedValue === "null" || trimmedValue === "undefined" || trimmedValue === "0";
-
-    if (isValueEmpty) {
-      switch (fieldName) {
-        case "gurardian":
-          setError("Please Enter Guardian Name");
-          break;
-        case "userName":
-          setError("Please Enter User Name");
-          break;
-        case "Phone":
-          setError("Please Enter your Phone No");
-          break;
-        case "City":
-          setError("Please Enter City");
-          break;
-        case "Pincode":
-          setError("Please Enter Pincode");
-          break;
-        case "Statename":
-          setError("Please Select State");
-          break;
-        default:
-          break;
-      }
-
-      if (!focusedRef.current && ref?.current) {
-        ref.current.focus();
-        focusedRef.current = true;
-      }
-
-      return false;
-    }
+  // }
 
 
-    if (fieldName === "Pincode" && trimmedValue.length !== 6) {
-      setError("Pin Code Must Be Exactly 6 Digits");
+  // const handlePinCodeChange = (e) => {
+  //   const value = e.target.value;
 
-      if (!focusedRef.current && ref?.current) {
-        ref.current.focus();
-        focusedRef.current = true;
-      }
+  //   if (!/^\d{0,6}$/.test(value)) return;
 
-      return false;
-    }
+  //   setPincode(value);
 
-    setError("");
-    return true;
-  };
+  //   if (value.length === 6) {
+  //     setPincodeError("");
+  //   } else {
+  //     setPincodeError("Pin Code Must Be Exactly 6 Digits");
+  //   }
+  //   setFormError("")
+  // };
+
+
+
+
+  // const handleCity = (e) => {
+  //   const value = e.target.value;
+  //   const regex = /^[a-zA-Z\s]*$/;
+  //   if (regex.test(value)) {
+  //     setCity(value);
+  //     setCityError("");
+  //     setFormError("");
+  //   }
+  // }
+  // const validateAssignField = (value, fieldName, ref, setError, focusedRef) => {
+  //   const trimmedValue = (value ?? "").toString().trim();
+
+  //   const isValueEmpty =
+  //     trimmedValue === "" || trimmedValue === "null" || trimmedValue === "undefined" || trimmedValue === "0";
+
+  //   if (isValueEmpty) {
+  //     switch (fieldName) {
+  //       case "gurardian":
+  //         setError("Please Enter Guardian Name");
+  //         break;
+  //       case "userName":
+  //         setError("Please Enter User Name");
+  //         break;
+  //       case "Phone":
+  //         setError("Please Enter your Phone No");
+  //         break;
+  //       case "City":
+  //         setError("Please Enter City");
+  //         break;
+  //       case "Pincode":
+  //         setError("Please Enter Pincode");
+  //         break;
+  //       case "Statename":
+  //         setError("Please Select State");
+  //         break;
+  //       default:
+  //         break;
+  //     }
+
+  //     if (!focusedRef.current && ref?.current) {
+  //       ref.current.focus();
+  //       focusedRef.current = true;
+  //     }
+
+  //     return false;
+  //   }
+
+
+  //   if (fieldName === "Pincode" && trimmedValue.length !== 6) {
+  //     setError("Pin Code Must Be Exactly 6 Digits");
+
+  //     if (!focusedRef.current && ref?.current) {
+  //       ref.current.focus();
+  //       focusedRef.current = true;
+  //     }
+
+  //     return false;
+  //   }
+
+  //   setError("");
+  //   return true;
+  // };
 
 
 
   const usernameRef = useRef(null)
   const guardianRef = useRef(null)
   const PhoneRef = useRef(null)
-  const cityRef = useRef(null)
-  const pincodeRef = useRef(null)
-  const stateRef = useRef(null)
+  // const cityRef = useRef(null)
+  // const pincodeRef = useRef(null)
+  // const stateRef = useRef(null)
   const nochangeRef = useRef(null)
 
 
@@ -267,12 +267,12 @@ function UserAdditionalContact(props) {
     const focusedRef = { current: false };
 
 
-    if (!validateAssignField(userName, "userName", usernameRef, setUserNameError, focusedRef)) hasError = true;
-    if (!validateAssignField(guardian, "gurardian", guardianRef, setGuardianError, focusedRef)) hasError = true;
-    if (!validateAssignField(Phone, "Phone", PhoneRef, setPhoneError, focusedRef)) hasError = true;
-    if (!validateAssignField(city, "City", cityRef, setCityError, focusedRef)) hasError = true;
-    if (!validateAssignField(pincode, "Pincode", pincodeRef, setPincodeError, focusedRef)) hasError = true;
-    if (!validateAssignField(state_name, "Statename", stateRef, setStateNameError, focusedRef)) hasError = true;
+    // if (!validateAssignField(userName, "userName", usernameRef, setUserNameError, focusedRef)) hasError = true;
+    // if (!validateAssignField(guardian, "gurardian", guardianRef, setGuardianError, focusedRef)) hasError = true;
+    // if (!validateAssignField(Phone, "Phone", PhoneRef, setPhoneError, focusedRef)) hasError = true;
+    // if (!validateAssignField(city, "City", cityRef, setCityError, focusedRef)) hasError = true;
+    // if (!validateAssignField(pincode, "Pincode", pincodeRef, setPincodeError, focusedRef)) hasError = true;
+    // if (!validateAssignField(state_name, "Statename", stateRef, setStateNameError, focusedRef)) hasError = true;
 
 
     if (Phone && Phone.length !== 10) {

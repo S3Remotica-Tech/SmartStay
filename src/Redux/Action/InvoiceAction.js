@@ -146,7 +146,7 @@ export async function createRefund(bill) {
 }
 
 export async function getInitializeEditRecurring(hostel) {
-  return await AxiosConfigV2.get(`/v2/bills/${hostel.hostelId}/${hostel.invoiceId}`, {
+  return await AxiosConfigV2.get(`/v2/bills/details/${hostel.hostelId}/${hostel.invoiceId}`, {
   })
   
 

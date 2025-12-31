@@ -2,6 +2,7 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import PropTypes from "prop-types";
 
 const ChangeBedModal = ({show, handleClose}) => {
   return (
@@ -72,6 +73,9 @@ const ChangeBedModal = ({show, handleClose}) => {
     </Modal>
   );
 };
-
+ChangeBedModal.propTypes = {
+        show: PropTypes.bool.isRequired,
+    handleClose: PropTypes.func.isRequired,
+}
 
 export default ChangeBedModal;

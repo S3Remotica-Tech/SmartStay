@@ -537,9 +537,13 @@ function* handleDeleteAmenities(action) {
 
 
       }
-      else if (response?.status === 201) {
-         yield put({ type: 'ALREADY_ASSIGN_ERROR', payload: { statusCode: response?.status } })
-         toast.error('This amenity is assigned and cannot be deleted', {
+      
+   }
+   catch (error) {
+      yield* handleApiError(error);
+        if (error.status === 400 || error.status === 403) {
+            yield put({ type: 'ALREADY_ASSIGN_ERROR', payload: error.response.data });
+             toast.error('This amenity is assigned and cannot be deleted', {
             position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: true,
@@ -550,13 +554,7 @@ function* handleDeleteAmenities(action) {
             progress: undefined,
          })
 
-      }
-      if (response) {
-         refreshToken(response)
-      }
-   }
-   catch (error) {
-      yield* handleApiError(error);
+         }
    }
 }
 
@@ -1034,7 +1032,7 @@ function* handleUpdateAmenities(action) {
    }
    catch (error) {
       yield* handleApiError(error);
-      if (error.status === 403 || error.response?.status === 403) {
+      if (error.status === 400 || error.response?.status === 403) {
          yield put({ type: 'ERROR_AMENITIES_SETTINGS', payload: { response: error.response.data } })
       }
 

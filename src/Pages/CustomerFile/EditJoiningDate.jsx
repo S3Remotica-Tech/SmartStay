@@ -8,12 +8,13 @@ import {
 
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { CloseCircle, MessageQuestion, Trash } from "iconsax-react";
-import Select from "react-select";
+import { CloseCircle,  } from "iconsax-react";
+// import Select from "react-select";
 import ErrorMessage from '../../Components/ErrorMessage'
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import PropTypes from "prop-types";
 dayjs.extend(customParseFormat);
 
 function EditJoiningDate({ show, handleClose }) {
@@ -452,5 +453,8 @@ function EditJoiningDate({ show, handleClose }) {
         </div>
     )
 }
-
+EditJoiningDate.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+};
 export default EditJoiningDate

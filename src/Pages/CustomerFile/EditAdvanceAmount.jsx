@@ -10,7 +10,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { CloseCircle } from "iconsax-react";
 import ErrorMessage from '../../Components/ErrorMessage'
-
+import PropTypes from "prop-types";
 
 function EditAdvanceAmount({ show, handleClose }) {
 
@@ -450,5 +450,8 @@ const oldAmount = Number(CustomerOverView.hostelInfo.advanceAmount);
         </div>
     )
 }
-
+EditAdvanceAmount.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+};
 export default EditAdvanceAmount
