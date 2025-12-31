@@ -13,15 +13,22 @@ import PropTypes from "prop-types";
 
 
 
-function AddRoomReading({ show, handleClose, selectedRowDetails }) {
+function AddRoomReading({ show, handleClose, selectedRowDetails, editRoomReading }) {
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
-
+    const [changesError, setChangesError] = useState("");
     const [readingError, setReadingError] = useState("");
     const [dateError, setDateError] = useState("");
     const [currentReading, setCurrentReading] = useState("");
     const [readingDate, setReadingDate] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [initialValues, setInitialValues] = useState({
+        reading: "",
+        date: "",
+    });
+
+
+
     const handleCurrentReadingChange = (e) => {
         dispatch({ type: 'REMOVE_ROOM_READING_ERROR' })
         const value = e.target.value;
@@ -37,6 +44,28 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
         setDateError('')
         // document.body.style.overflow = "hidden";
     };
+
+
+    // console.log("editRoomReading", editRoomReading)
+    const formatToInputDate = (dateStr) => {
+        if (!dateStr) return "";
+        const [dd, mm, yyyy] = dateStr.split("/");
+        return `${yyyy}-${mm}-${dd}`;
+    };
+
+
+    useEffect(() => {
+        if (editRoomReading) {
+            setReadingDate(formatToInputDate(editRoomReading.entryDate));
+            setCurrentReading(editRoomReading?.lastReading)
+            const formattedInputDate = formatToInputDate(editRoomReading.entryDate);
+            setInitialValues({
+                reading: Number(editRoomReading?.lastReading),
+                date: formattedInputDate,
+            });
+        }
+
+    }, [editRoomReading])
 
 
     const handleSubmit = () => {
@@ -59,7 +88,34 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
 
         if (hasError) return;
         const formattedDate = readingDate ? dayjs(readingDate).format("DD-MM-YYYY") : "";
-        if (currentReading) {
+        if (editRoomReading && currentReading) {
+
+
+            const isReadingChanged =
+                Number(currentReading) !== Number(initialValues.reading);
+
+            const isDateChanged = !dayjs(readingDate).isSame(
+                dayjs(initialValues.date),
+                "day"
+            );
+
+            if (!isReadingChanged && !isDateChanged) {
+                setChangesError("No changes detected");
+                return;
+            }
+
+            dispatch({
+                type: 'EDITHOSTELREADING',
+                payload: {
+                    hostelId: state.login.selectedHostel_Id,
+                    readingId: editRoomReading?.id,
+                    reading: Number(currentReading),
+                    entryDate: formattedDate,
+
+                }
+            })
+            setLoading(true)
+        } else if (currentReading) {
             dispatch({
                 type: 'ADDROOMREADING',
                 payload: {
@@ -81,7 +137,7 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
 
 
     useEffect(() => {
-        if (state.UsersList?.addRoomReadingStatusCode === 201) {
+        if (state.UsersList?.addRoomReadingStatusCode === 201 || state.UsersList?.addRoomReadingStatusCode === 200) {
             setLoading(false)
         }
 
@@ -113,13 +169,13 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
 
     return (
         <div
-        className="modal show"
-        style={{
-          display: "block",
-          position: "initial",overflow:"hidden"
-        }}
-      >
-            <Modal show={show} onHide={handleClose} centered backdrop="static" 
+            className="modal show"
+            style={{
+                display: "block",
+                position: "initial", overflow: "hidden"
+            }}
+        >
+            <Modal show={show} onHide={handleClose} centered backdrop="static"
             >
 
                 <Modal.Header className="d-flex justify-content-between align-items-center"
@@ -131,7 +187,7 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
                             fontStyle: 'normal',
                             fontSize: '20px',
                         }}>
-                        Add Room Reading
+                        {editRoomReading ? "Edit Room Reading " : "Add Room Reading"}
                     </Modal.Title>
 
                     <CloseCircle
@@ -141,7 +197,7 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
                         onClick={handleClose}
                     />
                 </Modal.Header>
-                <Modal.Body   ref={modalBodyRef}
+                <Modal.Body ref={modalBodyRef}
                 >
                     <div className="d-flex justify-content-between align-items-center" style={{ width: "100%", borderBottom: "1px solid #E0E0E0", paddingBottom: 10, marginTop: "-15px" }}>
                         <div className="d-flex align-items-center">
@@ -304,7 +360,12 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
 
 
 
-
+                    {
+                        changesError &&
+                        <div className="d-flex justify-content-center">
+                            <ErrorMessage message={changesError} type="error" />
+                        </div>
+                    }
 
                 </Modal.Body>
                 {loading &&
@@ -339,7 +400,7 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
                         Cancel
                     </Button>
                     <Button style={{ backgroundColor: "#1E45E1", width: '130px', fontFamily: "Gilroy" }} onClick={handleSubmit}>
-                        Add
+                        {editRoomReading ? "Update" : "Add"}
                     </Button>
                 </Modal.Footer>
             </Modal></div>
@@ -349,6 +410,7 @@ AddRoomReading.propTypes = {
     show: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
     selectedRowDetails: PropTypes.object.isRequired,
+    editRoomReading: PropTypes.object.isRequired,
 
 }
 

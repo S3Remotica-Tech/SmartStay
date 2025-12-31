@@ -35,7 +35,7 @@ export const initialState = {
     Kyc_Ref_Id: '',
     kycValidateOtpVerifySuccess: 0,
     createFloorSuccessStatusCode: 0,
-
+    editHostelStatusCode: 0,
     noHosteListStatusCode: 0,
     alreadyFloorHere: '',
     deleteFloorError: '',
@@ -216,6 +216,11 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, addRoomReadingStatusCode: action.payload.statusCode }
         case 'REMOVE_ADD_ROOM_READING':
             return { ...state, addRoomReadingStatusCode: 0 }
+        case 'EDIT_HOSTEL_READING':
+            return { ...state, editHostelStatusCode: action.payload.statusCode }
+        case 'REMOVE_EDIT_HOSTEL_READING':
+            return { ...state, editHostelStatusCode: 0 }
+
         case 'BOOKING_TO_CHECKIN':
             return { ...state, bookingToCheckinStatusCode: action.payload.statusCode }
         case 'REMOVE_BOOKING_TO_CHECKIN':

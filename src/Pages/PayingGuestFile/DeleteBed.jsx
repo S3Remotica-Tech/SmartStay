@@ -249,16 +249,8 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
 
 
 
-      <Modal show={show} onHide={handleClose} centered backdrop="static">
-        <div>
-          <Nav fill variant="tabs">
-
-            <Nav.Item onClick={() => handleShow('deleteBed')}>
-              <Nav.Link style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy", borderColor: '#e0ecff', borderTopLeftRadius: '0px', color: actionType === 'deleteBed' ? "black" : "black", backgroundColor: actionType === 'deleteBed' ? "#e0ecff" : "#FFF" }}>Delete Bed ?</Nav.Link>
-            </Nav.Item>
-
-          </Nav>
-        </div>
+      <Modal show={show} onHide={handleClose} centered backdrop="static" className=''>
+       
 
 
 
@@ -277,6 +269,16 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
             paddingBottom: 10,
           }}
         >
+
+           <div>
+          <Nav fill variant="tabs">
+
+            <Nav.Item onClick={() => handleShow('deleteBed')}>
+              <Nav.Link style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy", borderColor: '#e0ecff', borderTopLeftRadius: '10px', color: actionType === 'deleteBed' ? "black" : "black", backgroundColor: actionType === 'deleteBed' ? "#e0ecff" : "#FFF" }}>Delete Bed ?</Nav.Link>
+            </Nav.Item>
+
+          </Nav>
+        </div> 
           Are you sure you want to delete the bed?
 
           {/* {`Are you sure you want to delete the bed ${deleteBedDetails.bed.bed_no}?`} */}
