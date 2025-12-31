@@ -152,7 +152,7 @@ function BedDetailsMap({ room, propsValue }) {
         setShowCheckIn(isVisible)
         setShowReservedBed(false)
         setSelectedTenant(reservedTenant)
-
+ setOccubiedBed(false)
 
     }
 
@@ -320,6 +320,7 @@ function BedDetailsMap({ room, propsValue }) {
         setShowReservedBed(false);
         setNoticePeriodBed(false)
         setSelectedTenant(reservedTenant)
+         setOccubiedBed(false);
     }
 
     const handleOpenCancelCheckout = (isVisible, tenantDetails) => {

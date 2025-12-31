@@ -427,10 +427,10 @@ function Sidebar() {
   };
 
   const handleLogout = () => {
-     cookies.remove('selected_hostelId', { path: '/' });
-     cookies.remove('v2-token', { path: '/' });
+    cookies.remove('selected_hostelId', { path: '/' });
+    cookies.remove('v2-token', { path: '/' });
     cookies.remove('token', { path: '/' });
-      dispatch({ type: "LOG_OUT" });
+    dispatch({ type: "LOG_OUT" });
     dispatch({ type: 'RESET_ALL' })
     const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), "abcd");
     localStorage.setItem("login", encryptData.toString());
@@ -443,7 +443,7 @@ function Sidebar() {
     localStorage.removeItem("lastPage");
     localStorage.removeItem("currentPage")
 
-   
+
   };
 
 
@@ -484,7 +484,7 @@ function Sidebar() {
     dispatch({ type: "SAVE_RESPONSE_HOSTEL", payload: id });
     dispatch(StoreSelectedHostelAction(id));
     localStorage.setItem("selectedHostelName", name);
-     cookies.set("selected_hostelId",id, { path: "/" });
+    cookies.set("selected_hostelId", id, { path: "/" });
     setIsSidebarOpen(false);
   };
 
@@ -530,7 +530,7 @@ function Sidebar() {
 
 
 
-console.log("cookieHostelId",cookieHostelId,)
+  console.log("cookieHostelId", cookieHostelId,)
 
 
   useEffect(() => {
@@ -789,13 +789,13 @@ console.log("cookieHostelId",cookieHostelId,)
                         >
                           <span
                             style={{
-                               fontSize: 12,
-      color: "#9C9C9C",
-      maxWidth: "100px",
-      cursor: "pointer",
-      display: "flex",
-      alignItems: "center",
-      gap: "4px",
+                              fontSize: 12,
+                              color: "#9C9C9C",
+                              maxWidth: "100px",
+                              cursor: "pointer",
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "4px",
                             }}
                           >
                             <Location
@@ -946,7 +946,7 @@ console.log("cookieHostelId",cookieHostelId,)
                 className="show-scrolls-sidebar"
                 style={{
                   flex: 1,
-                  maxHeight: 400,
+                                   maxHeight: 415,
                   overflow: "auto",
                   display: "flex",
                   flexDirection: "column",

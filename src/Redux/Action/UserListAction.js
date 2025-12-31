@@ -830,6 +830,15 @@ export async function addRoomReading(reading) {
   })
 }
 
+export async function editHostelReading(payload) {
+
+  return await AxiosConfigV2.put(`/v2/electricity/${payload.hostelId}/${payload.readingId}`, null, {
+     params: {
+        reading: payload.reading,
+        entryDate: payload?.entryDate,
+      },
+  })
+}
 
 export async function getRoomReading(hostelId) {
   return await AxiosConfigV2.get(`/v2/electricity/${hostelId}`)

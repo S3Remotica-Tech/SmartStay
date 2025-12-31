@@ -81,7 +81,7 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
 
 
     useEffect(() => {
-        if (state.UsersList?.addRoomReadingStatusCode === 201) {
+        if (state.UsersList?.addRoomReadingStatusCode === 201 || state.UsersList?.addRoomReadingStatusCode === 200) {
             setLoading(false)
         }
 

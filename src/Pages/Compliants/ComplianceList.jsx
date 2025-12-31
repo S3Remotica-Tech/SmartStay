@@ -22,6 +22,7 @@ import { CloseCircle, Edit, Trash } from "iconsax-react";
 import ErrorMessage from '../../Components/ErrorMessage';
 import { useHasPermission } from '../../Utils/Permission';
 import ComplaintsView from "../../Pages/Compliants/ComplaintsView"
+import { fontFamily } from "@mui/system";
 
 const ComplianceList = (props) => {
   const state = useSelector((state) => state);
@@ -1042,9 +1043,9 @@ const ComplianceList = (props) => {
                     </label>
                   </div>
 
-                  <div>
+                  <div style={{fontFamily:"Gilroy", fontSize:14}}>
                     <label
-                      style={
+                      style={ 
                         props.complaints &&
                           props?.complaints?.status?.toUpperCase() === "1"
                           ? { color: "#00A32E" }
@@ -1569,7 +1570,7 @@ const ComplianceList = (props) => {
                             <Select
                               options={[
                                 { value: "pending", label: "Pending" },
-                                { value: "assigned", label: "assigned" },
+                                { value: "inprogress", label: "Inprogress" },
                                 { value: "resolved", label: "Resolved" },
                               ]}
                               onChange={handleStatus}

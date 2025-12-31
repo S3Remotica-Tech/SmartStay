@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { Modal,  Button, Form } from "react-bootstrap";
+import { Modal, Button, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { CloseCircle,  } from "iconsax-react";
+import { CloseCircle, } from "iconsax-react";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import { useDispatch, useSelector } from "react-redux";
@@ -13,17 +13,27 @@ import PropTypes from "prop-types";
 
 function AddHostelReading({ show, handleClose
     ,
+    editHostelReading,
     //  selectedRowDetails, roomReadingList 
 }) {
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
 
     const [readingError, setReadingError] = useState("");
+    const [changesError, setChangesError] = useState("");
     const [dateError, setDateError] = useState("");
     const [currentReading, setCurrentReading] = useState("");
     const [readingDate, setReadingDate] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [initialValues, setInitialValues] = useState({
+        reading: "",
+        date: "",
+    });
+
+
+
     const handleCurrentReadingChange = (e) => {
+        setChangesError('')
         dispatch({ type: 'REMOVE_ROOM_READING_ERROR' })
         const value = e.target.value;
         if (/^\d*\.?\d*$/.test(value)) {
@@ -33,14 +43,40 @@ function AddHostelReading({ show, handleClose
     };
 
     const handleReadingDateChange = (date) => {
+        setChangesError('')
         dispatch({ type: 'REMOVE_ROOM_READING_ERROR' })
         setReadingDate(date ? date : null);
         setDateError('')
     };
 
+    const formatToInputDate = (dateStr) => {
+        if (!dateStr) return "";
+        const [dd, mm, yyyy] = dateStr.split("/");
+        return `${yyyy}-${mm}-${dd}`;
+    };
+
+    useEffect(() => {
+        if (editHostelReading) {
+            setReadingDate(formatToInputDate(editHostelReading.entryDate));
+            setCurrentReading(editHostelReading?.lastReading)
+            const formattedInputDate = formatToInputDate(editHostelReading.entryDate);
+            setInitialValues({
+                reading: Number(editHostelReading?.lastReading),
+                date: formattedInputDate,
+            });
+        }
+
+    }, [editHostelReading])
+
+
+    console.log("editHostelReading", editHostelReading)
+
+
+
+
 
     const handleSubmit = () => {
- dispatch({ type: 'REMOVE_ROOM_READING_ERROR' })
+        dispatch({ type: 'REMOVE_ROOM_READING_ERROR' })
         let hasError = false;
 
         if (!currentReading) {
@@ -59,7 +95,35 @@ function AddHostelReading({ show, handleClose
 
         if (hasError) return;
         const formattedDate = readingDate ? dayjs(readingDate).format("DD-MM-YYYY") : "";
-        if (currentReading) {
+        if (editHostelReading && currentReading) {
+
+
+            const isReadingChanged =
+                Number(currentReading) !== Number(initialValues.reading);
+
+            const isDateChanged = !dayjs(readingDate).isSame(
+                dayjs(initialValues.date),
+                "day"
+            );
+
+            if (!isReadingChanged && !isDateChanged) {
+                setChangesError("No changes detected");
+                return;
+            }
+
+            dispatch({
+                type: 'EDITHOSTELREADING',
+                payload: {
+                    hostelId: state.login.selectedHostel_Id,
+                    readingId: editHostelReading?.id,
+                    reading: Number(currentReading),
+                    entryDate: formattedDate,
+
+                }
+            })
+            setLoading(true)
+        }
+        else if (currentReading) {
             dispatch({
                 type: 'ADDROOMREADING',
                 payload: {
@@ -70,6 +134,7 @@ function AddHostelReading({ show, handleClose
             })
             setLoading(true)
 
+
         }
 
 
@@ -78,11 +143,11 @@ function AddHostelReading({ show, handleClose
 
 
     useEffect(() => {
-        if (state.UsersList?.addRoomReadingStatusCode === 201) {
+        if (state.UsersList?.addRoomReadingStatusCode === 201 || state.UsersList?.addRoomReadingStatusCode === 200 || state.UsersList?.editHostelStatusCode === 200) {
             setLoading(false)
         }
 
-    }, [state.UsersList?.addRoomReadingStatusCode])
+    }, [state.UsersList?.addRoomReadingStatusCode, state.UsersList?.editHostelStatusCode])
 
     useEffect(() => {
         if (state.UsersList?.roomReadingError) {
@@ -92,7 +157,7 @@ function AddHostelReading({ show, handleClose
     }, [state.UsersList?.roomReadingError])
 
 
-   
+
 
 
     return (
@@ -106,7 +171,7 @@ function AddHostelReading({ show, handleClose
                         fontStyle: 'normal',
                         fontSize: '20px',
                     }}>
-                    Add Hostel Reading
+                    {editHostelReading ? "Edit Hostel Reading" : "Add Hostel Reading"}
                 </Modal.Title>
 
                 <CloseCircle
@@ -121,7 +186,7 @@ function AddHostelReading({ show, handleClose
 
 
 
-              
+
 
 
 
@@ -204,23 +269,26 @@ function AddHostelReading({ show, handleClose
                         >
                             Reading  {" "}  <span style={{ color: "red", fontSize: "20px" }}>*</span>
                         </Form.Label>
+                        {
+                            !editHostelReading &&
 
-                        <span
-                            style={{
-                                fontFamily: 'Gilroy',
-                                fontWeight: 400,
-                                fontStyle: 'normal',
-                                fontSize: '14px',
-                                lineHeight: '100%',
-                                letterSpacing: '0',
-                                color: "gray"
-                            }}
-                        >
-                            Last Reading : {" "}
-                            <span style={{ color: '#1E45E1', fontFamily: "Gilroy" }}>
-                                {state.UsersList?.getRoomReadingList?.lastReading}
+                            <span
+                                style={{
+                                    fontFamily: 'Gilroy',
+                                    fontWeight: 400,
+                                    fontStyle: 'normal',
+                                    fontSize: '14px',
+                                    lineHeight: '100%',
+                                    letterSpacing: '0',
+                                    color: "gray"
+                                }}
+                            >
+                                Last Reading : {" "}
+                                <span style={{ color: '#1E45E1', fontFamily: "Gilroy" }}>
+                                    {state.UsersList?.getRoomReadingList?.hostelReadings[0]?.lastReading}
+                                </span>
                             </span>
-                        </span>
+                        }
                     </div>
 
                     <Form.Control
@@ -245,7 +313,12 @@ function AddHostelReading({ show, handleClose
 
                 </Form.Group>
 
-
+                {
+                    changesError &&
+                    <div className="d-flex justify-content-center">
+                        <ErrorMessage message={changesError} type="error" />
+                    </div>
+                }
 
 
 
@@ -282,7 +355,7 @@ function AddHostelReading({ show, handleClose
                     Cancel
                 </Button>
                 <Button style={{ backgroundColor: "#1E45E1", width: '130px', fontFamily: "Gilroy" }} onClick={handleSubmit}>
-                    Add
+                    {editHostelReading ? "Update" : "Add"}
                 </Button>
             </Modal.Footer>
         </Modal>
@@ -290,9 +363,9 @@ function AddHostelReading({ show, handleClose
     )
 }
 AddHostelReading.propTypes = {
-    show: PropTypes.func.isRequired,
-    handleClose:PropTypes.func.isRequired,
-    
+    show: PropTypes.bool.isRequired,
+    handleClose: PropTypes.func.isRequired,
+    editHostelReading: PropTypes.func.isRequired,
 }
 
 

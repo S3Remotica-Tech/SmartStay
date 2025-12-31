@@ -3,7 +3,7 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import {getInitializeCheckout, EditTenantAmount, editAdvanceAmount, 
    editBasicDetails, CancelCheckOutCustomer, getParticularCustomerReading, getParticularRoomReading, getCustomerReading,
-   cancelBookingGet, bookingToCheckIn, addRoomReading, getRoomReading,
+   cancelBookingGet, bookingToCheckIn, addRoomReading, getRoomReading,editHostelReading, 
    bookedDetails, availableBedDetailsForDate, checkoutDetailView, customerSaveInfo, CheckIn, GetAllFloor, getParticularHostelList, ConfirmCheckout_Due_Customer, deleteCustomer,
    AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer,
    getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail,
@@ -600,7 +600,59 @@ function* handleAddRoomReading(reading) {
 
 
 
+function* handleEditHostelReading(reading) {
+   try {
+      const response = yield call(editHostelReading, reading.payload)
 
+      if (response?.status === 201 || response?.status === 200) {
+         yield put({ type: 'EDIT_HOSTEL_READING', payload: { response: response.data, statusCode: response?.status } })
+
+         var toastStyle = {
+            backgroundColor: "#E6F6E6",
+            color: "black",
+            width: "100%",
+            borderRadius: "60px",
+            height: "20px",
+            fontFamily: "Gilroy",
+            fontWeight: 600,
+            fontSize: 14,
+            textAlign: "start",
+            display: "flex",
+            alignItems: "center",
+            padding: "10px",
+
+         };
+
+         toast.success(response.data, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
+
+      }
+
+      if (response) {
+         refreshToken(response)
+      }
+   }
+   catch (error) {
+
+      yield* handleApiError(error);
+      if (error.code === 'ERR_BAD_REQUEST') {
+         if (error.status === 400) {
+            yield put({ type: 'ROOM_READING_ERROR', payload: error.response.data });
+         }
+      } 
+   }
+
+
+}
 
 
 
@@ -2992,6 +3044,7 @@ function* UserListSaga() {
    yield takeEvery('BOOKINGTOCHECKIN', handleBookingToCheckIn)
    yield takeEvery('INITIALIZECANCELBOOKING', handleCancelBookingGet)
    yield takeEvery('ADDROOMREADING', handleAddRoomReading)
+    yield takeEvery('EDITHOSTELREADING',handleEditHostelReading)
    yield takeEvery('BOOKEDDETAILS', handleBookedDetails)
    yield takeEvery('AVAILBALEBEDDETAILS', handleAvailableBedDetailsForDate)
    yield takeEvery('CREATECUSTOMERSAVEINFO', handleCustomerSaveInfo)
