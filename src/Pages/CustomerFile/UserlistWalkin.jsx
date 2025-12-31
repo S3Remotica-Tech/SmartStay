@@ -485,8 +485,8 @@ function UserlistWalkin() {
                                 color: "rgb(147, 147, 147)",
                                 fontSize: 12,
                                 fontStyle: "normal",
-                                fontWeight: 500,
-                                // padding: 10
+                                fontWeight: 500,width:"25%"
+                                // padding: 10, 
                               }}
                             >
                               {" "}
@@ -530,7 +530,7 @@ function UserlistWalkin() {
                                 fontSize: 12,
                                 fontStyle: "normal",
                                 fontWeight: 500,
-                                whiteSpace: "nowrap",
+                                whiteSpace: "nowrap",width:"25%"
                               }}
                             >
                               <div className="d-flex gap-1 align-items-center justify-content-start">
@@ -547,7 +547,7 @@ function UserlistWalkin() {
                                 fontSize: 12,
                                 fontStyle: "normal",
                                 fontWeight: 500,
-                                whiteSpace: "nowrap",
+                                whiteSpace: "nowrap",width:"25%"
                               }}
                             >
                               <div className="d-flex gap-1 align-items-center justify-content-start">
@@ -565,7 +565,7 @@ function UserlistWalkin() {
                                 color: "rgb(147, 147, 147)",
                                 fontSize: 12,
                                 fontStyle: "normal",
-                                fontWeight: 500,
+                                fontWeight: 500,width:"25%"
                                 // paddingBottom: 10
                               }}
                             >
@@ -604,12 +604,12 @@ function UserlistWalkin() {
                                     </span>
                                   </td>
 
-                                  <td className="p-0"
+                                  <td className="ps-2"
                                     style={{
                                       fontSize: 13,
                                       fontWeight: 500,
                                       fontFamily: "Gilroy",
-                                      textAlign: "start",
+                                       textAlign: "start",
                                       verticalAlign: "middle",
                                       borderBottom: "1px solid #E8E8E8",
                                     }}
@@ -627,7 +627,7 @@ function UserlistWalkin() {
                                       fontFamily: "Gilroy",
                                       borderBottom: "1px solid #E8E8E8",
                                     }}
-                                    className="p-0"
+                                    className="ps-2"
                                   >
                                     +
                                     {v &&

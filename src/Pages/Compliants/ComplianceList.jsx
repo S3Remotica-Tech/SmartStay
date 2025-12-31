@@ -22,7 +22,7 @@ import { CloseCircle, Edit, Trash } from "iconsax-react";
 import ErrorMessage from '../../Components/ErrorMessage';
 import { useHasPermission } from '../../Utils/Permission';
 import ComplaintsView from "../../Pages/Compliants/ComplaintsView"
-import { fontFamily } from "@mui/system";
+
 
 const ComplianceList = (props) => {
   const state = useSelector((state) => state);

@@ -65,10 +65,17 @@ function BedDetailsMap({ room, propsValue }) {
     const [showConfirmChangeBedModal, setShowConfirmChangeBedModal] = useState(false)
     const [clickedBed, setClickedBed] = useState('')
     const [changeBedClicked, setChangedBedClicked] = useState('')
+    const [selectedBed, setSelectedBed] = useState({
+        bedId: null,
+        roomId: null
+    });
+
+
     const [bactocheckinForm, setBacktoCheckInForm] = useState(false)
     const [editBedMode, setEditBedMode] = useState(false)
 
     // const canWritePayingGuests = useHasPermission("Paying Guests", "canWrite");
+
 
 
     const {
@@ -102,6 +109,8 @@ function BedDetailsMap({ room, propsValue }) {
         setBacktoCheckInForm(false)
     }
 
+
+    console.log("room****", room)
 
     useEffect(() => {
         if (state.UsersList.cancelCheckoutStatusCode === 200) {
@@ -152,7 +161,7 @@ function BedDetailsMap({ room, propsValue }) {
         setShowCheckIn(isVisible)
         setShowReservedBed(false)
         setSelectedTenant(reservedTenant)
- setOccubiedBed(false)
+        setOccubiedBed(false)
 
     }
 
@@ -307,11 +316,19 @@ function BedDetailsMap({ room, propsValue }) {
     };
 
     const handleclickBedForChangeBed = (bed) => {
+        setSelectedBed({
+            bedId: bed.id,
+            roomId: bed.roomId
+        });
         dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { bedId: bed.id } })
         setChangedBedClicked(bed)
+
         //   dispatch(changeBedForChange(bed));
+        console.log("render bed:", bed.id, bed.roomId);
 
     }
+
+
 
 
 
@@ -320,7 +337,7 @@ function BedDetailsMap({ room, propsValue }) {
         setShowReservedBed(false);
         setNoticePeriodBed(false)
         setSelectedTenant(reservedTenant)
-         setOccubiedBed(false);
+        setOccubiedBed(false);
     }
 
     const handleOpenCancelCheckout = (isVisible, tenantDetails) => {
@@ -367,7 +384,7 @@ function BedDetailsMap({ room, propsValue }) {
 
     useEffect(() => {
         if (!state.login.isTrigger) {
-            setChangedBedClicked('')
+            setChangedBedClicked(null)
         }
 
     }, [state.login.isTrigger])
@@ -459,16 +476,27 @@ function BedDetailsMap({ room, propsValue }) {
 
 
 
-    const filteredBeds = state.login.isTrigger
-        ? bedsForRoom.filter(
-            (bed) =>
+    // const filteredBeds = state.login.isTrigger
+    //     ? bedsForRoom.filter(
+    //         (bed) =>
+    //             (!bed.isBooked && !bed.isOccupied) ||
+    //             (bed.onNotice === true && !bed.isBooked && !bed.isOccupied)
+    //     )
+    //     : bedsForRoom;
+
+    const filteredBeds = React.useMemo(() => {
+        if (!state.login.isTrigger) return bedsForRoom;
+
+        return bedsForRoom.filter(
+            bed =>
                 (!bed.isBooked && !bed.isOccupied) ||
-                (bed.onNotice === true && !bed.isBooked && !bed.isOccupied)
-        )
-        : bedsForRoom;
+                (bed.onNotice && !bed.isBooked && !bed.isOccupied)
+        );
+    }, [bedsForRoom, state.login.isTrigger]);
 
 
 
+    console.log("filteredBeds", filteredBeds)
 
     useEffect(() => {
         if (state?.Booking?.statusCodeForAddBooking === 200) {
@@ -562,7 +590,7 @@ function BedDetailsMap({ room, propsValue }) {
 
 
 
-
+    console.log("changeBedClicked", changeBedClicked)
 
     return (
 
@@ -655,13 +683,13 @@ function BedDetailsMap({ room, propsValue }) {
 
             {/* Notice period  */}
             {
-                Noticeperiod_bed && <NoticeBedStatusDetails  showEditBed={handleEditBed} show={Noticeperiod_bed} handleDisplayCheckInForm={handleDisplayCheckInForm}
+                Noticeperiod_bed && <NoticeBedStatusDetails showEditBed={handleEditBed} show={Noticeperiod_bed} handleDisplayCheckInForm={handleDisplayCheckInForm}
                     handleCloseBed={handlecloseNoticePeriodBed} currentItem={customer} handleShowReassignBed={handleShowReAssignBedPopup}
                     showBooking={handleshowNoticePeriodBooking} showNoticeperiodCheckout={handleshowNoticePeriodCheckout} showfinalsettelemnet={handleshowfinalsettlement}
                     handleOpenChangeBed={handleOpenChangeBed} handleShowInActiveForm={handleShowInActiveForm} handleOpenCancelCheckout={handleOpenCancelCheckout}
-                
-                handleShowNoticePeriod={handleShowNoticePeriod}
-                
+
+                    handleShowNoticePeriod={handleShowNoticePeriod}
+
                 />}
 
 
@@ -720,23 +748,26 @@ function BedDetailsMap({ room, propsValue }) {
                             >
                                 <div style={{ position: "relative", width: 34, height: 41 }}>
 
-                                    {state.login.isTrigger && Number(changeBedClicked.id) === Number(bed.id) && (
-                                        <div
-                                            style={{
-                                                position: "absolute",
-                                                top: 1,
-                                                right: -10,
-                                                cursor: "pointer",
-                                                backgroundColor: "#fff",
-                                                borderRadius: 5
-                                            }}
-                                        >
-                                            <img src={Tick} alt="alt-image"
+                                    {state.login.isTrigger &&
+                                        Number(selectedBed?.bedId) === Number(bed.id)
+                                        && Number(selectedBed?.roomId) === Number(bed.roomId)
+                                        && (
+                                            <div
+                                                style={{
+                                                    position: "absolute",
+                                                    top: 1,
+                                                    right: -10,
+                                                    cursor: "pointer",
+                                                    backgroundColor: "#fff",
+                                                    borderRadius: 5
+                                                }}
+                                            >
+                                                <img src={Tick} alt="alt-image"
 
-                                                style={{ cursor: "pointer", height: 20, width: 20, }}
-                                            />
-                                        </div>
-                                    )}
+                                                    style={{ cursor: "pointer", height: 20, width: 20, }}
+                                                />
+                                            </div>
+                                        )}
 
 
 
@@ -898,14 +929,14 @@ function BedDetailsMap({ room, propsValue }) {
 
 
             {
-                state.login.isTrigger && changeBedClicked.roomId &&
+                state.login.isTrigger && changeBedClicked?.roomId &&
 
                 <div
                     className="d-flex justify-content-center align-items-center p-2 border-top bg-white flex-wrap"
                     style={{
                         position: "fixed",
                         bottom: 0,
-                        left: 0,
+                        left: "19%",
                         right: 0,
                         zIndex: 1050,
                     }}

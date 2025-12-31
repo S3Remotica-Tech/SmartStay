@@ -2235,7 +2235,7 @@ function UserList(props) {
     lineHeight: "1.4",
     padding: 8,
     verticalAlign: "middle",
-  };
+      };
 
 
   const labelStyle = {
@@ -3119,7 +3119,7 @@ function UserList(props) {
                             position: "sticky",
                             top: 0,
                             zIndex: 1,
-                            borderRadius: 0,
+                            borderRadius: 0,tableLayout: "fixed", width: "100%"
                           }}
                         >
                           <thead
@@ -3137,243 +3137,91 @@ function UserList(props) {
                           >
                             <tr>
                               <th
-                                style={{ ...headerStyle }}
+                                 style={{
+                                  ...headerStyle,
+                                  textAlign: "start", width:"14%"
+                                }}
                               >
                                 <div style={labelStyle}>
-                                  {/* <div
-                                    style={{
-                                      display: "flex",
-                                      flexDirection: "column",
-                                      gap: "2px",
-                                    }}
-                                  >
-                                    <ArrowUp2
-                                      size="10"
-                                      variant="Bold"
-                                      color="#1E45E1"
-                                      onClick={() =>
-                                        handleSort("Name", "asc")
-                                      }
-                                      style={{ cursor: "pointer" }}
-                                    />
-                                    <ArrowDown2
-                                      size="10"
-                                      variant="Bold"
-                                      color="#1E45E1"
-                                      onClick={() =>
-                                        handleSort("Name", "desc")
-                                      }
-                                      style={{ cursor: "pointer" }}
-                                    />
-                                  </div> */}
+                                 
                                   Name
                                 </div>
                               </th>
 
 
                               <th
-                                style={headerStyle}
+                                 style={{
+                                  ...headerStyle,
+                                  textAlign: "start", width:"16%"
+                                }}
                               >
                                 <div style={labelStyle}>
-                                  {/* <div
-                                    style={{
-                                      display: "flex",
-                                      flexDirection: "column",
-                                      gap: "2px",
-                                    }}
-                                  >
-                                    <ArrowUp2
-                                      size="10"
-                                      variant="Bold"
-                                      color="#1E45E1"
-                                      onClick={() =>
-                                        handleSort("currentStatus", "asc")
-                                      }
-                                      style={{ cursor: "pointer" }}
-                                    />
-                                    <ArrowDown2
-                                      size="10"
-                                      variant="Bold"
-                                      color="#1E45E1"
-                                      onClick={() =>
-                                        handleSort("currentStatus", "desc")
-                                      }
-                                      style={{ cursor: "pointer" }}
-                                    />
-                                  </div> */}
+                                 
                                   Status
                                 </div>
 
 
                               </th>
                               <th
-                                style={headerStyle}
+                                style={{
+                                  ...headerStyle,
+                                  textAlign: "start", width:"14%"
+                                }}
                               >
                                 <div style={labelStyle}>
-                                  {/* <div
-                                    style={{
-                                      display: "flex",
-                                      flexDirection: "column",
-                                      gap: "2px",
-                                    }}
-                                  >
-                                    <ArrowUp2
-                                      size="10"
-                                      variant="Bold"
-                                      color="#1E45E1"
-                                      onClick={() =>
-                                        handleSort("user_join_date", "asc")
-                                      }
-                                      style={{ cursor: "pointer" }}
-                                    />
-                                    <ArrowDown2
-                                      size="10"
-                                      variant="Bold"
-                                      color="#1E45E1"
-                                      onClick={() =>
-                                        handleSort("user_join_date", "desc")
-                                      }
-                                      style={{ cursor: "pointer" }}
-                                    />
-                                  </div> */}
+                                 
                                   Joining Date
                                 </div>
                               </th>
 
                               <th
-                                style={headerStyle}
+                                style={{
+                                  ...headerStyle,
+                                  textAlign: "start", width:"14%"
+                                }}
                               >
                                 <div style={labelStyle}>
-                                  {/* <div
-                                    style={{
-                                      display: "flex",
-                                      flexDirection: "column",
-                                      gap: "2px",
-                                    }}
-                                  >
-                                    <ArrowUp2
-                                      size="10"
-                                      variant="Bold"
-                                      color="#1E45E1"
-                                      onClick={() =>
-                                        handleSort("Phone", "asc")
-                                      }
-                                      style={{ cursor: "pointer" }}
-                                    />
-                                    <ArrowDown2
-                                      size="10"
-                                      variant="Bold"
-                                      color="#1E45E1"
-                                      onClick={() =>
-                                        handleSort("Phone", "desc")
-                                      }
-                                      style={{ cursor: "pointer" }}
-                                    />
-                                  </div> */}
+                                 
                                   Mobile No
                                 </div>
                               </th>
                               <th
-                                style={headerStyle}
+                                 style={{
+                                  ...headerStyle,
+                                  textAlign: "start", width:"10%"
+                                }}
                               >
                                 <div style={labelStyle}>
-                                  {/* <div
-                                    style={{
-                                      display: "flex",
-                                      flexDirection: "column",
-                                      gap: "2px",
-                                    }}
-                                  >
-                                    <ArrowUp2
-                                      size="10"
-                                      variant="Bold"
-                                      color="#1E45E1"
-                                      onClick={() =>
-                                        handleSort("floor_name", "asc")
-                                      }
-                                      style={{ cursor: "pointer" }}
-                                    />
-                                    <ArrowDown2
-                                      size="10"
-                                      variant="Bold"
-                                      color="#1E45E1"
-                                      onClick={() =>
-                                        handleSort("floor_name", "desc")
-                                      }
-                                      style={{ cursor: "pointer" }}
-                                    />
-                                  </div> */}
+                                
                                   Floor
                                 </div>
                               </th>
                               <th
-                                style={headerStyle}
+                                 style={{
+                                  ...headerStyle,
+                                  textAlign: "start", width:"10%"
+                                }}
                               >
                                 <div style={labelStyle}>
-                                  {/* <div
-                                    style={{
-                                      display: "flex",
-                                      flexDirection: "column",
-                                      gap: "2px",
-                                    }}
-                                  >
-                                    <ArrowUp2
-                                      size="10"
-                                      variant="Bold"
-                                      color="#1E45E1"
-                                      onClick={() =>
-                                        handleSort("Rooms", "asc")
-                                      }
-                                      style={{ cursor: "pointer" }}
-                                    />
-                                    <ArrowDown2
-                                      size="10"
-                                      variant="Bold"
-                                      color="#1E45E1"
-                                      onClick={() =>
-                                        handleSort("Rooms", "desc")
-                                      }
-                                      style={{ cursor: "pointer" }}
-                                    />
-                                  </div> */}
+                                 
                                   Room
                                 </div>
                               </th>
                               <th
-                                style={headerStyle}
+                                 style={{
+                                  ...headerStyle,
+                                  textAlign: "start", width:"10%"
+                                }}
                               >
                                 <div style={labelStyle}>
-                                  {/* <div
-                                    style={{
-                                      display: "flex",
-                                      flexDirection: "column",
-                                      gap: "2px",
-                                    }}
-                                  >
-                                    <ArrowUp2
-                                      size="10"
-                                      variant="Bold"
-                                      color="#1E45E1"
-                                      onClick={() => handleSort("Bed", "asc")}
-                                      style={{ cursor: "pointer" }}
-                                    />
-                                    <ArrowDown2
-                                      size="10"
-                                      variant="Bold"
-                                      color="#1E45E1"
-                                      onClick={() =>
-                                        handleSort("Bed", "desc")
-                                      }
-                                      style={{ cursor: "pointer" }}
-                                    />
-                                  </div> */}
+                                 
                                   Bed
                                 </div>
                               </th>
                               <th
                                 style={{
                                   ...headerStyle,
-                                  textAlign: "start",
+                                  textAlign: "start", width:"10%"
                                 }}
                               ><div style={labelStyle}>
                                   Action
@@ -3568,6 +3416,7 @@ function UserList(props) {
                                         textAlign: "center",
                                         // paddingTop: 12,
                                         border: "none",
+                                        
                                         borderBottom: "1px solid #E8E8E8",
                                       }}
                                     >
@@ -3580,7 +3429,7 @@ function UserList(props) {
                                           // borderRadius: 100,
                                           // border: "1px solid #EFEFEF",
                                           display: "flex",
-                                          justifyContent: "center",
+                                          justifyContent: "start",
                                           alignItems: "center",
                                           position: "relative",
                                           // backgroundColor:
