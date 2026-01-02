@@ -1241,6 +1241,8 @@ const RoomReadingTable = () => {
                                               onClick={() => canWriteElectricity && handleActionClick(row)}
                                               onMouseEnter={(e) => {
                                                 e.currentTarget.style.backgroundColor = "#EDF2FF";
+                                                e.currentTarget.style.borderBottomLeftRadius = "10px";
+                                                e.currentTarget.style.borderBottomRightRadius = "10px";
                                               }}
                                               onMouseLeave={(e) => {
                                                 e.currentTarget.style.backgroundColor = "#F9F9F9";
@@ -1269,92 +1271,92 @@ const RoomReadingTable = () => {
                                             </div>
                                             {
                                               row?.currentReading ?
-<>
-                                                <div
-                                                  className={`d-flex justify-content-start align-items-center gap-2 ${!canUpdateElectricity ? 'disabled' : ''}`}
-                                                  style={{
-                                                    cursor: !canUpdateElectricity ? "not-allowed" : "pointer",
-                                                    borderTopLeftRadius: 10,
-                                                    borderTopRightRadius: 10,
-                                                    backgroundColor: "#F9F9F9",
-                                                    padding: "8px 12px",
-                                                    opacity: !canUpdateElectricity ? 0.5 : 1,
-                                                  }}
-                                                  onClick={() => {
-                                                    if (canUpdateElectricity) handleEditRoomReading(row);
-                                                  }}
-                                                  onMouseEnter={(e) => {
-                                                    e.currentTarget.style.backgroundColor = "#EDF2FF";
-                                                  }}
-                                                  onMouseLeave={(e) => {
-                                                    e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                                  }}
-                                                >
-                                                  <img
-                                                    src={Edit}
-                                                    alt="Edit"
+                                                <>
+                                                  <div
+                                                    className={`d-flex justify-content-start align-items-center gap-2 ${!canUpdateElectricity ? 'disabled' : ''}`}
                                                     style={{
-                                                      height: 16,
-                                                      width: 16,
-                                                      filter: !canUpdateElectricity ? "grayscale(100%)" : "none",
-                                                    }}
-                                                  />
-                                                  <label
-                                                    style={{
-                                                      fontSize: 14,
-                                                      fontWeight: 500,
-                                                      fontFamily: "Gilroy, sans-serif",
-                                                      color: "#222",
                                                       cursor: !canUpdateElectricity ? "not-allowed" : "pointer",
+                                                      borderTopLeftRadius: 10,
+                                                      borderTopRightRadius: 10,
+                                                      backgroundColor: "#F9F9F9",
+                                                      padding: "8px 12px",
+                                                      opacity: !canUpdateElectricity ? 0.5 : 1,
+                                                    }}
+                                                    onClick={() => {
+                                                      if (canUpdateElectricity) handleEditRoomReading(row);
+                                                    }}
+                                                    onMouseEnter={(e) => {
+                                                      e.currentTarget.style.backgroundColor = "#EDF2FF";
+                                                    }}
+                                                    onMouseLeave={(e) => {
+                                                      e.currentTarget.style.backgroundColor = "#F9F9F9";
                                                     }}
                                                   >
-                                                    Edit
-                                                  </label>
-                                                </div>
-                                               
+                                                    <img
+                                                      src={Edit}
+                                                      alt="Edit"
+                                                      style={{
+                                                        height: 16,
+                                                        width: 16,
+                                                        filter: !canUpdateElectricity ? "grayscale(100%)" : "none",
+                                                      }}
+                                                    />
+                                                    <label
+                                                      style={{
+                                                        fontSize: 14,
+                                                        fontWeight: 500,
+                                                        fontFamily: "Gilroy, sans-serif",
+                                                        color: "#222",
+                                                        cursor: !canUpdateElectricity ? "not-allowed" : "pointer",
+                                                      }}
+                                                    >
+                                                      Edit
+                                                    </label>
+                                                  </div>
 
-                                            <div
-                                              className={`d-flex justify-content-start align-items-center gap-2  ${!canDeleteElectricity ? 'disabled' : ''}`}
-                                              style={{
-                                                cursor: !canDeleteElectricity ? "not-allowed" : "pointer",
-                                                borderBottomLeftRadius: 10,
-                                                borderBottomRightRadius: 10,
-                                                padding: "8px 12px",
-                                                opacity: !canDeleteElectricity ? 0.5 : 1,
-                                              }}
-                                              onClick={() => {
-                                                if (canDeleteElectricity) handleReadingDelete(row);
-                                              }}
-                                              onMouseEnter={(e) => {
-                                                e.currentTarget.style.backgroundColor = "#FFF0F0";
-                                              }}
-                                              onMouseLeave={(e) => {
-                                                e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                              }}
-                                            >
-                                              <img
-                                                src={Delete}
-                                                alt="Delete"
-                                                style={{
-                                                  height: 16,
-                                                  width: 16,
-                                                  filter: !canDeleteElectricity ? "grayscale(100%)" : "none",
-                                                }}
-                                              />
-                                              <label
-                                                style={{
-                                                  fontSize: 14,
-                                                  fontWeight: 500,
-                                                  fontFamily: "Gilroy, sans-serif",
-                                                  color: "#FF0000",
-                                                  cursor: !canDeleteElectricity ? "not-allowed" : "pointer",
-                                                }}
-                                              >
-                                                Delete
-                                              </label>
-                                            </div>
-                                            </>
-                                             :
+
+                                                  <div
+                                                    className={`d-flex justify-content-start align-items-center gap-2  ${!canDeleteElectricity ? 'disabled' : ''}`}
+                                                    style={{
+                                                      cursor: !canDeleteElectricity ? "not-allowed" : "pointer",
+                                                      borderBottomLeftRadius: 10,
+                                                      borderBottomRightRadius: 10,
+                                                      padding: "8px 12px",
+                                                      opacity: !canDeleteElectricity ? 0.5 : 1,
+                                                    }}
+                                                    onClick={() => {
+                                                      if (canDeleteElectricity) handleReadingDelete(row);
+                                                    }}
+                                                    onMouseEnter={(e) => {
+                                                      e.currentTarget.style.backgroundColor = "#FFF0F0";
+                                                    }}
+                                                    onMouseLeave={(e) => {
+                                                      e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                                    }}
+                                                  >
+                                                    <img
+                                                      src={Delete}
+                                                      alt="Delete"
+                                                      style={{
+                                                        height: 16,
+                                                        width: 16,
+                                                        filter: !canDeleteElectricity ? "grayscale(100%)" : "none",
+                                                      }}
+                                                    />
+                                                    <label
+                                                      style={{
+                                                        fontSize: 14,
+                                                        fontWeight: 500,
+                                                        fontFamily: "Gilroy, sans-serif",
+                                                        color: "#FF0000",
+                                                        cursor: !canDeleteElectricity ? "not-allowed" : "pointer",
+                                                      }}
+                                                    >
+                                                      Delete
+                                                    </label>
+                                                  </div>
+                                                </>
+                                                :
                                                 ""
 
                                             }
