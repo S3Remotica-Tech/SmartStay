@@ -63,7 +63,7 @@ const RoomReadingTable = () => {
   const [customerReadingList, setCustomerReadingList] = useState([])
   const [showHostelModal, setShowHostelModal] = useState(false)
   const [showDots, setShowDots] = useState('')
-  // const [showDotsRoom, setShowDotsRoom] = useState('')
+  const [showDotsRoom, setShowDotsRoom] = useState('')
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [filters, setFilters] = useState([]);
   const [showAbove, setShowAbove] = useState(false);
@@ -75,7 +75,7 @@ const RoomReadingTable = () => {
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
       setShowDots(false);
-      // setShowDotsRoom('')
+      setShowDotsRoom('')
     }
   };
 
@@ -249,15 +249,15 @@ const RoomReadingTable = () => {
   }
 
 
-// const handleShowDotsRoomReading = (row, index) => {
-//     setShowDotsRoom(index)
+const handleShowDotsRoomReading = (row, index) => {
+    setShowDotsRoom(index)
 
-//     const { top, left, height } = event.target.getBoundingClientRect();
-//     const popupTop = top + (height / 2);
-//     const popupLeft = left-150;
+    const { top, left, height } = event.target.getBoundingClientRect();
+    const popupTop = top + (height / 2);
+    const popupLeft = left-150;
 
-//     setPopupPosition({ top: popupTop, left: popupLeft });
-//   }
+    setPopupPosition({ top: popupTop, left: popupLeft });
+  }
 
 
   const monthOptions = [
@@ -279,10 +279,11 @@ const RoomReadingTable = () => {
   }
 
 
-//   const handleEditRoomReading = (rowData) =>{
-//  setShowModal(true);
-//  setEditRoomReading(rowData)
-//   }
+  const handleEditRoomReading = (rowData) =>{
+    console.log("rowData",rowData)
+ setShowModal(true);
+ setEditRoomReading(rowData)
+  }
 
 
 
@@ -378,7 +379,9 @@ const RoomReadingTable = () => {
 
       totalUnits: item.consumption,
       totalPrice: item.totalPrice,
-      currentReading: item.currentReading
+      currentReading: item.currentReading,
+      entryDate: item.entryDate,
+      readingId: item.readingId
     };
   });
 
@@ -396,7 +399,7 @@ const RoomReadingTable = () => {
   //   }
   // );
 
-  console.log("mathu", roomReadingList);
+  // console.log("mathu", roomReadingList);
 
 
 
@@ -1164,7 +1167,7 @@ const RoomReadingTable = () => {
                                   {
                                     !isEbBased &&
                                     <td style={{ cursor: canWriteElectricity ? "pointer" : "not-allowed" }}>
-                                      <img
+                                      {/* <img
                                         src={Group}
                                         alt="action"
                                          onClick={() => canWriteElectricity && handleActionClick(row)}
@@ -1174,8 +1177,8 @@ const RoomReadingTable = () => {
                                           cursor: canWriteElectricity ? "pointer" : "not-allowed"
                                         }}
                                         
-                                      />
-                                      {/* <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, transform: "rotate(90deg)", color: showDotsRoom === i ? "#1E45E1" : "#6B7280", }} onClick={() => handleShowDotsRoomReading(row, i)} />
+                                      /> */}
+                                      <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, transform: "rotate(90deg)", color: showDotsRoom === i ? "#1E45E1" : "#6B7280", }} onClick={() => handleShowDotsRoomReading(row, i)} />
                                       {showDotsRoom === i && <>
                                         <div
                                           ref={popupRef}
@@ -1238,6 +1241,8 @@ const RoomReadingTable = () => {
                                                 Add
                                               </label>
                                             </div>
+{
+  row?.currentReading ?
 
                                             <div
                                               className={`d-flex justify-content-start align-items-center gap-2 ${!canUpdateElectricity ? 'disabled' : ''}`}
@@ -1250,7 +1255,7 @@ const RoomReadingTable = () => {
                                                 opacity: !canUpdateElectricity ? 0.5 : 1,
                                               }}
                                               onClick={() => {
-                                                if (canUpdateElectricity) handleEditRoomReading(row);
+                                                if (canUpdateElectricity ) handleEditRoomReading(row);
                                               }}
                                               onMouseEnter={(e) => {
                                                 e.currentTarget.style.backgroundColor = "#EDF2FF";
@@ -1280,9 +1285,10 @@ const RoomReadingTable = () => {
                                                 Edit
                                               </label>
                                             </div>
+:
+""
 
-
-
+                                              }
 
 
                                             <div
@@ -1329,7 +1335,7 @@ const RoomReadingTable = () => {
                                           </div>
                                         </div>
 
-                                      </>} */}
+                                      </>}
                                     </td>
                                   }
                                 </tr>
@@ -1507,7 +1513,7 @@ const RoomReadingTable = () => {
       ) : null
       }
 
-      {showModal && selectedRow && (
+      {showModal &&  (
         <AddRoomReading show={showModal} handleClose={handleCloseShowModal} selectedRowDetails={selectedRow}  editRoomReading={editRoomReading}/>
       )}
 
