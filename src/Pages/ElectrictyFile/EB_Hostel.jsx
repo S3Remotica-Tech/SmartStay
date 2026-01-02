@@ -1241,6 +1241,8 @@ const RoomReadingTable = () => {
                                               onClick={() => canWriteElectricity && handleActionClick(row)}
                                               onMouseEnter={(e) => {
                                                 e.currentTarget.style.backgroundColor = "#EDF2FF";
+                                                e.currentTarget.style.borderBottomLeftRadius = "10px";
+    e.currentTarget.style.borderBottomRightRadius = "10px";
                                               }}
                                               onMouseLeave={(e) => {
                                                 e.currentTarget.style.backgroundColor = "#F9F9F9";
