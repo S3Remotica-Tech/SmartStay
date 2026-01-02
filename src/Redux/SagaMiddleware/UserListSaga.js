@@ -923,6 +923,24 @@ function* handleDeleteReading(reading) {
    }
    catch (error) {
       yield* handleApiError(error);
+      if (error.code === 'ERR_BAD_REQUEST') {
+         if (error.status === 400 || error.status === 403) {
+
+            toast.error(`${error.response.data}`, {
+               style: { fontFamily: "Gilroy", font: "#000", borderBottom: "5px solid red" },
+               position: "top-right",
+               autoClose: 2000,
+               hideProgressBar: true,
+               closeButton: false,
+               closeOnClick: true,
+               pauseOnHover: true,
+               draggable: true,
+               progress: undefined,
+
+            });
+
+         }
+      } 
    }
 }
 
