@@ -445,8 +445,11 @@ function OccupiedBedStatus({
 
                             <div className="row mt-1">
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    {
+                                        currentItem?.newTenantInfo?.length > 0 &&
+                                    
                                     <label style={{ fontSize: 16, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }} className="mt-0 mb-1">Reserved by</label>
-
+                                    }
                                     {currentItem?.newTenantInfo?.map((tenant, index) => (
                                         <div key={index} >
                                             <div className="d-flex justify-content-between">
@@ -530,7 +533,7 @@ function OccupiedBedStatus({
 
                                                             <div
                                                                 className="d-flex gap-2 align-items-center"
-                                                                onClick={() => canWriteCustomers && handleCheckin(tenant)}
+                                                                // onClick={() => canWriteCustomers && handleCheckin(tenant)}
 
 
                                                                 style={{
@@ -547,7 +550,9 @@ function OccupiedBedStatus({
                                                                     size="18"
                                                                     color={canWriteCustomers ? "#1E45E1" : "#A0A0A0"}
                                                                 />
-                                                                <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#dcdcdc", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed" }}>Check-In</label>
+                                                                <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#dcdcdc", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed" }}>
+                                                                    Check-In
+                                                                    </label>
                                                             </div>
 
                                                             <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
