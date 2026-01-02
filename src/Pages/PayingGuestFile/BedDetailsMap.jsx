@@ -34,7 +34,9 @@ import BackToCheckIn from "../CustomerFile/BackToCheckIn";
 import { clickedBedForChange } from '../../Redux/Action/smartStayAction';
 
 
-function BedDetailsMap({ room, propsValue }) {
+function BedDetailsMap({ room, propsValue, 
+     selectedBed,
+  setSelectedBed}) {
 
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
@@ -65,10 +67,7 @@ function BedDetailsMap({ room, propsValue }) {
     const [showConfirmChangeBedModal, setShowConfirmChangeBedModal] = useState(false)
     const [clickedBed, setClickedBed] = useState('')
     const [changeBedClicked, setChangedBedClicked] = useState('')
-    const [selectedBed, setSelectedBed] = useState({
-        bedId: null,
-        roomId: null
-    });
+    
 
 
     const [bactocheckinForm, setBacktoCheckInForm] = useState(false)
@@ -88,7 +87,7 @@ function BedDetailsMap({ room, propsValue }) {
 
     const handleshowfinalsettlement = (isvisible, tenantDetails) => {
         // setCustomerId(customerId)
-        console.log("tenantDetails", tenantDetails,)
+     
         setFinalSettlePage(isvisible)
         setNoticePeriodBed(false)
         setSelectedTenant(tenantDetails)
@@ -105,12 +104,11 @@ function BedDetailsMap({ room, propsValue }) {
         setShowReservedBed(false)
     }
 
-    const handleCloseBackToCheckIn = () => {
+    const handleCloseBackToCheckIn = () => {f
         setBacktoCheckInForm(false)
     }
 
-
-    console.log("room****", room)
+  
 
     useEffect(() => {
         if (state.UsersList.cancelCheckoutStatusCode === 200) {
@@ -275,7 +273,7 @@ function BedDetailsMap({ room, propsValue }) {
     }
 
     const [selectedTenant, setSelectedTenant] = useState(null);
-    console.log("state", state)
+   
 
     useEffect(() => {
         if (state.PgList?.OccupiedCustomer && state.PgList?.OccupiedCustomer?.currentTenantInfo?.[0]?.tenetId) {
@@ -324,7 +322,7 @@ function BedDetailsMap({ room, propsValue }) {
         setChangedBedClicked(bed)
 
         //   dispatch(changeBedForChange(bed));
-        console.log("render bed:", bed.id, bed.roomId);
+      
 
     }
 
@@ -496,7 +494,7 @@ function BedDetailsMap({ room, propsValue }) {
 
 
 
-    console.log("filteredBeds", filteredBeds)
+    
 
     useEffect(() => {
         if (state?.Booking?.statusCodeForAddBooking === 200) {
@@ -590,7 +588,7 @@ function BedDetailsMap({ room, propsValue }) {
 
 
 
-    console.log("changeBedClicked", changeBedClicked)
+   
 
     return (
 
@@ -740,7 +738,8 @@ function BedDetailsMap({ room, propsValue }) {
             <div className='row g-2 overflow-auto' style={{ maxHeight: 240 }}>
                 {Array.isArray(filteredBeds) && filteredBeds.length > 0 ?
                     filteredBeds?.map((bed) => (
-                        <div key={bed.id}
+                        <div key={`${bed.roomId}-${bed.id}`}
+
                             className={`col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center ${propsValue.addPermissionError ? 'disabled' : ''}`}
                         >
                             <div className="d-flex flex-column align-items-center w-100"
@@ -749,9 +748,11 @@ function BedDetailsMap({ room, propsValue }) {
                                 <div style={{ position: "relative", width: 34, height: 41 }}>
 
                                     {state.login.isTrigger &&
-                                        Number(selectedBed?.bedId) === Number(bed.id)
-                                        && Number(selectedBed?.roomId) === Number(bed.roomId)
-                                        && (
+                                        Number(selectedBed?.bedId) === Number(bed.id) 
+                                        && 
+                                        Number(selectedBed?.roomId) === Number(bed.roomId)
+                                        &&
+                                         (
                                             <div
                                                 style={{
                                                     position: "absolute",
@@ -999,6 +1000,11 @@ function BedDetailsMap({ room, propsValue }) {
 BedDetailsMap.propTypes = {
     room: PropTypes.func.isRequired,
     propsValue: PropTypes.func.isRequired,
+selectedBed: PropTypes.shape({
+    bedId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    roomId: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+  }),
 
+  setSelectedBed: PropTypes.func.isRequired
 };
 export default BedDetailsMap
