@@ -215,22 +215,6 @@ function CreateBill() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     useEffect(() => {
         if (customername) {
             dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: customername } });
@@ -911,7 +895,7 @@ function CreateBill() {
 
 
     useEffect(() => {
-        if (state.InvoiceList.manualInvoiceAddStatusCode === 201) {
+        if (state.InvoiceList.manualInvoiceAddStatusCode === 201 || state.InvoiceList.manualInvoiceEditStatusCode === 200) {
             // setShowManualInvoice(false)
             setFormLoading(false)
             // setShowRecurringBillForm(false);
@@ -948,7 +932,7 @@ function CreateBill() {
 
             }, 300);
         }
-    }, [state.InvoiceList.manualInvoiceAddStatusCode]);
+    }, [state.InvoiceList.manualInvoiceAddStatusCode, state.InvoiceList.manualInvoiceEditStatusCode]);
 
 
 
