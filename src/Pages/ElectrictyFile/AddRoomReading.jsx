@@ -46,7 +46,7 @@ function AddRoomReading({ show, handleClose, selectedRowDetails, editRoomReading
     };
 
 
-    // console.log("editRoomReading", editRoomReading)
+    console.log("editRoomReading", editRoomReading)
     const formatToInputDate = (dateStr) => {
         if (!dateStr) return "";
         const [dd, mm, yyyy] = dateStr.split("/");
@@ -57,10 +57,10 @@ function AddRoomReading({ show, handleClose, selectedRowDetails, editRoomReading
     useEffect(() => {
         if (editRoomReading) {
             setReadingDate(formatToInputDate(editRoomReading.entryDate));
-            setCurrentReading(editRoomReading?.lastReading)
+            setCurrentReading(editRoomReading?.currentReading)
             const formattedInputDate = formatToInputDate(editRoomReading.entryDate);
             setInitialValues({
-                reading: Number(editRoomReading?.lastReading),
+                reading: Number(editRoomReading?.currentReading),
                 date: formattedInputDate,
             });
         }
@@ -108,7 +108,7 @@ function AddRoomReading({ show, handleClose, selectedRowDetails, editRoomReading
                 type: 'EDITHOSTELREADING',
                 payload: {
                     hostelId: state.login.selectedHostel_Id,
-                    readingId: editRoomReading?.id,
+                    readingId: editRoomReading?.readingId,
                     reading: Number(currentReading),
                     entryDate: formattedDate,
 
@@ -137,11 +137,11 @@ function AddRoomReading({ show, handleClose, selectedRowDetails, editRoomReading
 
 
     useEffect(() => {
-        if (state.UsersList?.addRoomReadingStatusCode === 201 || state.UsersList?.addRoomReadingStatusCode === 200) {
+        if (state.UsersList?.addRoomReadingStatusCode === 201 || state.UsersList?.addRoomReadingStatusCode === 200 ||  state.UsersList?.editHostelStatusCode === 200) {
             setLoading(false)
         }
 
-    }, [state.UsersList?.addRoomReadingStatusCode])
+    }, [state.UsersList?.addRoomReadingStatusCode, state.UsersList?.editHostelStatusCode])
 
     useEffect(() => {
         if (state.UsersList?.roomReadingError) {
@@ -227,10 +227,10 @@ function AddRoomReading({ show, handleClose, selectedRowDetails, editRoomReading
                                     fontWeight: 600,
                                 }}
                             >
-                                {selectedRowDetails.roomName}
+                                {selectedRowDetails?.roomName || editRoomReading?.roomName}
                                 <div className="d-flex justify-content-start align-items-center" style={{ gap: 6, marginTop: 4 }}>
                                     <img src={building} height="14" width="14" alt="Ground Floor" />
-                                    <div style={{ color: "#4B4B4B", fontSize: 12, fontFamily: "Gilroy" }}>{selectedRowDetails.floorName}</div>
+                                    <div style={{ color: "#4B4B4B", fontSize: 12, fontFamily: "Gilroy" }}>{selectedRowDetails?.floorName  || editRoomReading?.floorName}</div>
                                 </div>
                             </span>
                         </div>
@@ -321,6 +321,8 @@ function AddRoomReading({ show, handleClose, selectedRowDetails, editRoomReading
                                 Reading   <span style={{ color: "red", fontSize: "20px" }}>*</span>
                             </Form.Label>
 
+                           {
+                            selectedRowDetails?.currentReading ?
                             <span
                                 style={{
                                     fontFamily: 'Gilroy',
@@ -334,6 +336,9 @@ function AddRoomReading({ show, handleClose, selectedRowDetails, editRoomReading
                             >
                                 Last Reading: <span style={{ color: '#1E45E1', fontFamily: "Gilroy" }}>{selectedRowDetails?.currentReading}</span>
                             </span>
+                            :
+                            ""
+}
                         </div>
 
                         <Form.Control

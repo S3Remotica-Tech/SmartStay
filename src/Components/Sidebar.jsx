@@ -530,7 +530,7 @@ function Sidebar() {
 
 
 
-  console.log("cookieHostelId", cookieHostelId,)
+  // console.log("cookieHostelId", cookieHostelId,)
 
 
   useEffect(() => {

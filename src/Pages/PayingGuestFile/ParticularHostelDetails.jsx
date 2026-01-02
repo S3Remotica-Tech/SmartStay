@@ -36,6 +36,7 @@ function ParticularHostelDetails(props) {
   const [showDeleteRoom, setShowDeleteRoom] = useState(false)
   const [deleteRoomDetails, setDeleteRoomDetails] = useState({ hostel_Id: null, floor_Id: null, room_Id: null })
   const [editRoom, setEditRoom] = useState({ hostel_Id: null, floor_Id: null, room_Id: null, Room_Name: null })
+const [selectedBed, setSelectedBed] = useState(null);
 
 
 
@@ -477,7 +478,9 @@ function ParticularHostelDetails(props) {
                   </Card.Header>
 
                   <Card.Body>
-                    <BedDetailsMap room={room} propsValue={props} />
+                    <BedDetailsMap room={room} propsValue={props} 
+                    selectedBed={selectedBed}
+  setSelectedBed={setSelectedBed}/>
                   </Card.Body>
 
 

@@ -1246,7 +1246,7 @@ function* handleManualInvoiceEdit(action) {
 
          };
 
-         toast.success(response.data, {
+         toast.success("Updated successfully", {
             position: "top-center",
             autoClose: 2000,
             hideProgressBar: true,

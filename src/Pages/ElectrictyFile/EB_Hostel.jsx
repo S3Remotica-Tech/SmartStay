@@ -24,6 +24,7 @@ import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Edit from '../../Assets/Images/Edit-blue.png';
 import Delete from '../../Assets/Images/Delete_red.png';
+import DeleteReading from "./DeleteReading";
 
 const RoomReadingTable = () => {
   const state = useSelector((state) => state);
@@ -63,19 +64,20 @@ const RoomReadingTable = () => {
   const [customerReadingList, setCustomerReadingList] = useState([])
   const [showHostelModal, setShowHostelModal] = useState(false)
   const [showDots, setShowDots] = useState('')
-  // const [showDotsRoom, setShowDotsRoom] = useState('')
+  const [showDotsRoom, setShowDotsRoom] = useState('')
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [filters, setFilters] = useState([]);
   const [showAbove, setShowAbove] = useState(false);
   const [editHostelReading, setEditHostelReading] = useState('')
-  const [editRoomReading, setEditRoomReading] =  useState('')
-
+  const [editRoomReading, setEditRoomReading] = useState('')
+  const [showDelete, setShowDelete] = useState(false)
+  const [deleteDetails, setDeleteDetails] = useState("")
 
   const popupRef = useRef(null);
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
       setShowDots(false);
-      // setShowDotsRoom('')
+      setShowDotsRoom('')
     }
   };
 
@@ -149,6 +151,20 @@ const RoomReadingTable = () => {
     setShowModal(true);
     setEditRoomReading('')
   };
+
+
+
+
+  const handleReadingDelete = (row) => {
+    console.log("delete", row)
+    setShowDelete(true)
+    setDeleteDetails(row)
+  }
+
+  const handleCloseDelete = () => {
+    setShowDelete(false)
+  }
+
 
   const handleActionReadingClick = () => {
     setShowHostelModal(true);
@@ -238,6 +254,20 @@ const RoomReadingTable = () => {
 
   }, [state.UsersList?.editHostelStatusCode])
 
+
+
+  useEffect(() => {
+    if (state.UsersList?.deleteReadingStatusCode === 204) {
+      dispatch({ type: 'GETROOMREADING', payload: state.login.selectedHostel_Id })
+      dispatch({ type: 'GETCUSTOMERREADING', payload: state.login.selectedHostel_Id })
+      setShowDelete(false)
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_DELETE_READING' })
+      }, 100)
+    }
+
+  }, [state.UsersList?.deleteReadingStatusCode])
+
   const handleShowDotsHostelReading = (row, index) => {
     setShowDots(index)
 
@@ -249,15 +279,15 @@ const RoomReadingTable = () => {
   }
 
 
-// const handleShowDotsRoomReading = (row, index) => {
-//     setShowDotsRoom(index)
+  const handleShowDotsRoomReading = (row, index) => {
+    setShowDotsRoom(index)
 
-//     const { top, left, height } = event.target.getBoundingClientRect();
-//     const popupTop = top + (height / 2);
-//     const popupLeft = left-150;
+    const { top, left, height } = event.target.getBoundingClientRect();
+    const popupTop = top + (height / 2);
+    const popupLeft = left - 150;
 
-//     setPopupPosition({ top: popupTop, left: popupLeft });
-//   }
+    setPopupPosition({ top: popupTop, left: popupLeft });
+  }
 
 
   const monthOptions = [
@@ -279,10 +309,11 @@ const RoomReadingTable = () => {
   }
 
 
-//   const handleEditRoomReading = (rowData) =>{
-//  setShowModal(true);
-//  setEditRoomReading(rowData)
-//   }
+  const handleEditRoomReading = (rowData) => {
+    console.log("rowData", rowData)
+    setShowModal(true);
+    setEditRoomReading(rowData)
+  }
 
 
 
@@ -378,7 +409,9 @@ const RoomReadingTable = () => {
 
       totalUnits: item.consumption,
       totalPrice: item.totalPrice,
-      currentReading: item.currentReading
+      currentReading: item.currentReading,
+      entryDate: item.entryDate,
+      readingId: item.readingId
     };
   });
 
@@ -396,7 +429,7 @@ const RoomReadingTable = () => {
   //   }
   // );
 
-  console.log("mathu", roomReadingList);
+  // console.log("mathu", roomReadingList);
 
 
 
@@ -896,7 +929,7 @@ const RoomReadingTable = () => {
                           position: "relative"
                         }}
                       >
-                        <Table bordered={false} className="align-middle mb-0"  style={{ tableLayout: "fixed", width: "100%" }}>
+                        <Table bordered={false} className="align-middle mb-0" style={{ tableLayout: "fixed", width: "100%" }}>
                           <thead
                             style={{
                               backgroundColor: "rgba(231, 241, 255, 1)",
@@ -1001,10 +1034,6 @@ const RoomReadingTable = () => {
                                             </label>
                                           </div>
 
-
-
-
-
                                           <div
                                             className={`d-flex justify-content-start align-items-center gap-2  ${!canDeleteElectricity ? 'disabled' : ''}`}
                                             style={{
@@ -1015,7 +1044,7 @@ const RoomReadingTable = () => {
                                               opacity: !canDeleteElectricity ? 0.5 : 1,
                                             }}
                                             onClick={() => {
-                                              // if (canDeleteElectricity) handleBillDelete(props);
+                                              if (canDeleteElectricity) handleReadingDelete(row);
                                             }}
                                             onMouseEnter={(e) => {
                                               e.currentTarget.style.backgroundColor = "#FFF0F0";
@@ -1064,7 +1093,7 @@ const RoomReadingTable = () => {
                                       padding: "20px",
                                       fontWeight: 600,
                                       color: "#4B4B4B",
-                                    }}> There are No Hostel Reading available</td>
+                                    }}> There are no hostel reading available</td>
 
                                 </tr>
 
@@ -1113,7 +1142,7 @@ const RoomReadingTable = () => {
                           position: "relative"
                         }}
                       >
-                        <Table bordered={false} className="align-middle mb-0"   style={{ tableLayout: "fixed", width: "100%" }}>
+                        <Table bordered={false} className="align-middle mb-0" style={{ tableLayout: "fixed", width: "100%" }}>
                           <thead
                             style={{
                               backgroundColor: "rgba(231, 241, 255, 1)",
@@ -1164,7 +1193,7 @@ const RoomReadingTable = () => {
                                   {
                                     !isEbBased &&
                                     <td style={{ cursor: canWriteElectricity ? "pointer" : "not-allowed" }}>
-                                      <img
+                                      {/* <img
                                         src={Group}
                                         alt="action"
                                          onClick={() => canWriteElectricity && handleActionClick(row)}
@@ -1174,8 +1203,8 @@ const RoomReadingTable = () => {
                                           cursor: canWriteElectricity ? "pointer" : "not-allowed"
                                         }}
                                         
-                                      />
-                                      {/* <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, transform: "rotate(90deg)", color: showDotsRoom === i ? "#1E45E1" : "#6B7280", }} onClick={() => handleShowDotsRoomReading(row, i)} />
+                                      /> */}
+                                      <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, transform: "rotate(90deg)", color: showDotsRoom === i ? "#1E45E1" : "#6B7280", }} onClick={() => handleShowDotsRoomReading(row, i)} />
                                       {showDotsRoom === i && <>
                                         <div
                                           ref={popupRef}
@@ -1187,7 +1216,7 @@ const RoomReadingTable = () => {
                                               ? popupPosition.top - (popupRef.current?.offsetHeight || 100) - 20
                                               : popupPosition.top - 35,
                                             left: popupPosition.left,
-                                                                                        width: 130,
+                                            width: 130,
                                             height: "auto",
                                             border: "1px solid #EBEBEB",
                                             borderRadius: 10,
@@ -1238,52 +1267,51 @@ const RoomReadingTable = () => {
                                                 Add
                                               </label>
                                             </div>
-
-                                            <div
-                                              className={`d-flex justify-content-start align-items-center gap-2 ${!canUpdateElectricity ? 'disabled' : ''}`}
-                                              style={{
-                                                cursor: !canUpdateElectricity ? "not-allowed" : "pointer",
-                                                borderTopLeftRadius: 10,
-                                                borderTopRightRadius: 10,
-                                                backgroundColor: "#F9F9F9",
-                                                padding: "8px 12px",
-                                                opacity: !canUpdateElectricity ? 0.5 : 1,
-                                              }}
-                                              onClick={() => {
-                                                if (canUpdateElectricity) handleEditRoomReading(row);
-                                              }}
-                                              onMouseEnter={(e) => {
-                                                e.currentTarget.style.backgroundColor = "#EDF2FF";
-                                              }}
-                                              onMouseLeave={(e) => {
-                                                e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                              }}
-                                            >
-                                              <img
-                                                src={Edit}
-                                                alt="Edit"
-                                                style={{
-                                                  height: 16,
-                                                  width: 16,
-                                                  filter: !canUpdateElectricity ? "grayscale(100%)" : "none",
-                                                }}
-                                              />
-                                              <label
-                                                style={{
-                                                  fontSize: 14,
-                                                  fontWeight: 500,
-                                                  fontFamily: "Gilroy, sans-serif",
-                                                  color: "#222",
-                                                  cursor: !canUpdateElectricity ? "not-allowed" : "pointer",
-                                                }}
-                                              >
-                                                Edit
-                                              </label>
-                                            </div>
-
-
-
-
+                                            {
+                                              row?.currentReading ?
+<>
+                                                <div
+                                                  className={`d-flex justify-content-start align-items-center gap-2 ${!canUpdateElectricity ? 'disabled' : ''}`}
+                                                  style={{
+                                                    cursor: !canUpdateElectricity ? "not-allowed" : "pointer",
+                                                    borderTopLeftRadius: 10,
+                                                    borderTopRightRadius: 10,
+                                                    backgroundColor: "#F9F9F9",
+                                                    padding: "8px 12px",
+                                                    opacity: !canUpdateElectricity ? 0.5 : 1,
+                                                  }}
+                                                  onClick={() => {
+                                                    if (canUpdateElectricity) handleEditRoomReading(row);
+                                                  }}
+                                                  onMouseEnter={(e) => {
+                                                    e.currentTarget.style.backgroundColor = "#EDF2FF";
+                                                  }}
+                                                  onMouseLeave={(e) => {
+                                                    e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                                  }}
+                                                >
+                                                  <img
+                                                    src={Edit}
+                                                    alt="Edit"
+                                                    style={{
+                                                      height: 16,
+                                                      width: 16,
+                                                      filter: !canUpdateElectricity ? "grayscale(100%)" : "none",
+                                                    }}
+                                                  />
+                                                  <label
+                                                    style={{
+                                                      fontSize: 14,
+                                                      fontWeight: 500,
+                                                      fontFamily: "Gilroy, sans-serif",
+                                                      color: "#222",
+                                                      cursor: !canUpdateElectricity ? "not-allowed" : "pointer",
+                                                    }}
+                                                  >
+                                                    Edit
+                                                  </label>
+                                                </div>
+                                               
 
                                             <div
                                               className={`d-flex justify-content-start align-items-center gap-2  ${!canDeleteElectricity ? 'disabled' : ''}`}
@@ -1295,7 +1323,7 @@ const RoomReadingTable = () => {
                                                 opacity: !canDeleteElectricity ? 0.5 : 1,
                                               }}
                                               onClick={() => {
-                                                // if (canDeleteElectricity) handleBillDelete(props);
+                                                if (canDeleteElectricity) handleReadingDelete(row);
                                               }}
                                               onMouseEnter={(e) => {
                                                 e.currentTarget.style.backgroundColor = "#FFF0F0";
@@ -1325,11 +1353,17 @@ const RoomReadingTable = () => {
                                                 Delete
                                               </label>
                                             </div>
+                                            </>
+                                             :
+                                                ""
+
+                                            }
+
 
                                           </div>
                                         </div>
 
-                                      </>} */}
+                                      </>}
                                     </td>
                                   }
                                 </tr>
@@ -1427,7 +1461,7 @@ const RoomReadingTable = () => {
                         overflowY: "auto",
                       }}
                     >
-                      <Table bordered={false} className="align-middle mb-0"  style={{ tableLayout: "fixed", width: "100%" }}>
+                      <Table bordered={false} className="align-middle mb-0" style={{ tableLayout: "fixed", width: "100%" }}>
                         <thead
                           style={{
                             backgroundColor: "rgba(231, 241, 255, 1)",
@@ -1507,13 +1541,18 @@ const RoomReadingTable = () => {
       ) : null
       }
 
-      {showModal && selectedRow && (
-        <AddRoomReading show={showModal} handleClose={handleCloseShowModal} selectedRowDetails={selectedRow}  editRoomReading={editRoomReading}/>
+      {showModal && (
+        <AddRoomReading show={showModal} handleClose={handleCloseShowModal} selectedRowDetails={selectedRow} editRoomReading={editRoomReading} />
       )}
 
       {showHostelModal && (
         <AddHostelReading show={showHostelModal} handleClose={handleCloseHostelShowModal} roomReadingList={roomReadingList} editHostelReading={editHostelReading} />
       )}
+
+      {
+        showDelete &&
+        <DeleteReading show={showDelete} handleClose={handleCloseDelete} deleteDetails={deleteDetails} />
+      }
     </>
 
   );
