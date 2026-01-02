@@ -91,15 +91,15 @@ function CreateBill() {
 
 
     useEffect(() => {
-        if (id && state.UsersList?.Users?.length > 0) {
-            const selectedCustomer = state.UsersList.Users.find(
+        if (id && state.UsersList?.Users?.listCustomers?.length > 0) {
+            const selectedCustomer = state.UsersList.Users.listCustomers.find(
                 (u) => u.customerId === id
             );
             if (selectedCustomer) {
                 setCustomerName(selectedCustomer.customerId);
             }
         }
-    }, [id, state.UsersList?.Users]);
+    }, [id, state.UsersList?.Users.listCustomers]);
 
 
 
@@ -699,7 +699,7 @@ function CreateBill() {
             setTableErrmsg("");
         }
 
-        const selectedUser = state.UsersList.Users.find(item => item.customerId === customername);
+        const selectedUser = state.UsersList.Users.listCustomers?.find(item => item.customerId === customername);
 
 
         if (selectedUser) {
@@ -1055,9 +1055,8 @@ function CreateBill() {
 
                         <Select
                             options={
-                                state.UsersList?.Users?.length > 0
-                                    ? state.UsersList.Users
-                                        .filter((u) => {
+                                state.UsersList?.Users?.listCustomers?.length > 0
+                                    ? state.UsersList.Users.listCustomers.filter((u) => {
                                             if (EXCLUDED_STATUSES.includes(u.currentStatus)) {
                                                 return false;
                                             }
@@ -1091,7 +1090,7 @@ function CreateBill() {
                                     ? {
                                         value: customername,
                                         label:
-                                            state.UsersList?.Users?.find(
+                                            state.UsersList?.Users?.listCustomers?.find(
                                                 (u) => u.customerId === customername
                                             )?.firstName || "Select Customer",
                                     }

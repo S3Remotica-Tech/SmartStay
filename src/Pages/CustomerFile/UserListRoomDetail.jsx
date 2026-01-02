@@ -373,7 +373,7 @@ useEffect(() => {
     if (state.UsersList?.UserListStatusCode === 200) {
       handleCloseGenerateAdvance()
 
-      const ParticularUserDetails = state.UsersList.Users.filter((item) => {
+      const ParticularUserDetails = state.UsersList.Users.listCustomers?.filter((item) => {
         return item.User_Id === props?.customerUser_Id;
       });
 
@@ -389,7 +389,7 @@ useEffect(() => {
 
 
   useEffect(() => {
-    const ParticularUserDetails = state.UsersList.Users.filter((item) => {
+    const ParticularUserDetails = state.UsersList.Users.listCustomers?.filter((item) => {
       return item.User_Id === props?.customerUser_Id;
     });
 
@@ -1947,7 +1947,7 @@ useEffect(() => {
         dispatch({ type: "CLEAR_STATUS_CODES" });
       }, 100);
     }
-  }, [state.UsersList.statusCodeForAddUser, state.UsersList.Users]);
+  }, [state.UsersList.statusCodeForAddUser, state.UsersList.Users.listCustomers]);
 
   useEffect(() => {
     if (state.UsersList.customerdetails) {
