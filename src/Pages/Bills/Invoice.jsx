@@ -1504,7 +1504,7 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (selectedUserId) {
-      const filteredDetails = state.UsersList?.Users?.find(
+      const filteredDetails = state.UsersList?.Users?.listCustomers?.find(
         (item) => item.User_Id === selectedUserId
       );
       if (filteredDetails) {
@@ -1524,7 +1524,7 @@ const InvoicePage = () => {
 
     }
 
-  }, [selectedUserId, state.UsersList?.Users, state.InvoiceList?.Invoice]);
+  }, [selectedUserId, state.UsersList?.Users.listCustomers, state.InvoiceList?.Invoice]);
 
 
   useEffect(() => {

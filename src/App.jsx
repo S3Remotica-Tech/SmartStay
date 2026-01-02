@@ -18,6 +18,8 @@ import LoaderComponent from './Pages/OthersComponent/LoaderComponent';
 import ThankYou from './NewLandingPage/ThankYou';
 import Sidebar from './Components/Sidebar';
 // import PaymentPreview from "./Pages/SubscriptionFile/PaymentPreview";
+// import { generatetoken , messaging} from './Utils/FirebaseNotification';
+// import { onMessage } from 'firebase/messaging';
 
 function App() {
   const cookies = new Cookies();
@@ -31,6 +33,32 @@ function App() {
 
   const login = localStorage.getItem("login");
   const TwoStepEnable = localStorage.getItem("IsEnable");
+
+// useEffect(() => {
+//   if (data || state.login?.isLoggedIn) {
+//     generatetoken()
+//       .then((token) => {
+//         if (token) {
+//           dispatch({ type: "SET_FCM_TOKEN", payload: token });
+//         }
+//       })
+//       .catch((err) => console.error("Token error:", err));
+
+//     onMessage(messaging, (payload) => {
+//       console.log("message_received", payload);
+//     });
+//   }
+// }, [data, state.login?.isLoggedIn]); 
+
+// const fcmToken = useSelector((state) => state.login?.fcmToken);
+// console.log("FCMToken", fcmToken);
+
+
+
+
+
+
+
 
 
   useEffect(() => {

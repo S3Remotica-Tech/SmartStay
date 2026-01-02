@@ -49,7 +49,7 @@ const AddReceiptForm = (props) => {
   const [edit, setEdit] = useState(false)
 
 
- 
+
 
 
 
@@ -162,7 +162,7 @@ const AddReceiptForm = (props) => {
 
   // const [isSelectOpen, setIsSelectOpen] = useState(false);
 
-   const handleModeOfPaymentChange = (selectedOption) => {
+  const handleModeOfPaymentChange = (selectedOption) => {
     if (!selectedOption) return;
     setAllFieldErrmsg("");
     setPaymentError("");
@@ -170,22 +170,22 @@ const AddReceiptForm = (props) => {
   };
 
 
-const labelMap = {
-  bank: "Bank",
-  upi: "UPI",
-  card: "Card",
-  cash: "Cash",
-};
+  const labelMap = {
+    bank: "Bank",
+    upi: "UPI",
+    card: "Card",
+    cash: "Cash",
+  };
 
-const paymentOptions = Array.isArray(bankking)
-  ? bankking.map((item) => ({
-      value: String(item.id), 
+  const paymentOptions = Array.isArray(bankking)
+    ? bankking.map((item) => ({
+      value: String(item.id),
       label: `${item.benificiary_name} - ${labelMap[item.type] || ""}`,
     }))
-  : [];
+    : [];
 
 
-   useEffect(() => {
+  useEffect(() => {
     if (props.editvalue && props.receiptedit) {
       setEdit(true)
       setEdit_Id(props.editvalue.user_id)
@@ -216,7 +216,7 @@ const paymentOptions = Array.isArray(bankking)
 
 
 
- 
+
 
 
 
@@ -352,7 +352,7 @@ const paymentOptions = Array.isArray(bankking)
       setAllFieldErrmsg("No Changes Detected");
       return;
     }
-const selectedUser = state.UsersList.Users.find(item => item.ID === customername);
+    const selectedUser = state.UsersList.Users.listCustomers?.find(item => item.ID === customername);
 
     if (selectedUser) {
       const joiningDate = dayjs(selectedUser.user_join_date).format("YYYY-MM-DD");
@@ -403,7 +403,7 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
 
 
   useEffect(() => {
-       dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id  });
+    dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
     // dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
     dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } })
   }, [])
@@ -461,7 +461,7 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
 
 
 
- useEffect(() => {
+  useEffect(() => {
     if (state.createAccount?.networkError) {
       setFormLoading(false)
       setTimeout(() => {
@@ -490,67 +490,67 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
 
         <div style={{ display: 'flex', flexDirection: 'row', marginTop: '20px' }} >
           <svg onClick={handleBackBill} style={{ fontSize: '22px', marginRight: '10px', cursor: 'pointer' }} xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"><path fill="#000000" d="M9.57 18.82c-.19 0-.38-.07-.53-.22l-6.07-6.07a.754.754 0 010-1.06L9.04 5.4c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06L4.56 12l5.54 5.54c.29.29.29.77 0 1.06-.14.15-.34.22-.53.22z"></path><path fill="#000000" d="M20.5 12.75H3.67c-.41 0-.75-.34-.75-.75s.34-.75.75-.75H20.5c.41 0 .75.34.75.75s-.34.75-.75.75z"></path></svg>
-          <p className='mt-1'  style={{
-                  fontWeight: 500,
-                  fontSize: "18px",
-                  fontFamily: "Gilroy",
-                  paddingLeft: "10px"
-                }}>{edit ? "Edit Receipt" : "New Receipt"} </p>
+          <p className='mt-1' style={{
+            fontWeight: 500,
+            fontSize: "18px",
+            fontFamily: "Gilroy",
+            paddingLeft: "10px"
+          }}>{edit ? "Edit Receipt" : "New Receipt"} </p>
         </div>
 
 
 
-<div className="row">
-        <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-          <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-            <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222" }}>
-              Customer {" "} <span style={{ color: "red", fontSize: "20px" }}>*</span>
-            </Form.Label>
+        <div className="row">
+          <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
+              <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222" }}>
+                Customer {" "} <span style={{ color: "red", fontSize: "20px" }}>*</span>
+              </Form.Label>
 
 
-            <Select
-              className="show-scroll"
-              classNamePrefix="custom"
-              menuPlacement="auto"
-              options={[...new Map(state?.InvoiceList?.ManualInvoices?.map(u => [u.hos_user_id, {
-                value: u.hos_user_id,
-                label: u.Name
-              }])).values()]}
-              onChange={handleCustomerName}
-              value={state?.InvoiceList?.ManualInvoices?.find(u => u.hos_user_id === customername)
-                ? { value: customername, label: state.InvoiceList.ManualInvoices.find(u => u.hos_user_id === customername)?.Name }
-                : null
-              }
-              isDisabled={edit}
-              styles={{
-                menu: (base) => ({
-                  ...base,
-                  maxHeight: "200px",
-                  overflowY: "auto",
-                  fontFamily: "Gilroy",
-                }),
-                menuList: (base) => ({
-                  ...base,
-                  maxHeight: "200px",
-                  overflowY: "auto",
-                  scrollbarWidth: "thin",
-                  msOverflowStyle: "none",
-                  fontFamily: "Gilroy",
-                }),
-                dropdownIndicator: (base) => ({
-                  ...base,
-                  color: "#555",
-                  cursor: "pointer"
-                }),
-                option: (base, state) => ({
-                  ...base,
-                  cursor: "pointer",
-                  backgroundColor: state.isFocused ? "lightblue" : "white",
-                  color: "#000",
-                }),
-                control: (base) => ({
+              <Select
+                className="show-scroll"
+                classNamePrefix="custom"
+                menuPlacement="auto"
+                options={[...new Map(state?.InvoiceList?.ManualInvoices?.map(u => [u.hos_user_id, {
+                  value: u.hos_user_id,
+                  label: u.Name
+                }])).values()]}
+                onChange={handleCustomerName}
+                value={state?.InvoiceList?.ManualInvoices?.find(u => u.hos_user_id === customername)
+                  ? { value: customername, label: state.InvoiceList.ManualInvoices.find(u => u.hos_user_id === customername)?.Name }
+                  : null
+                }
+                isDisabled={edit}
+                styles={{
+                  menu: (base) => ({
                     ...base,
-                   padding:"3px 5px ",
+                    maxHeight: "200px",
+                    overflowY: "auto",
+                    fontFamily: "Gilroy",
+                  }),
+                  menuList: (base) => ({
+                    ...base,
+                    maxHeight: "200px",
+                    overflowY: "auto",
+                    scrollbarWidth: "thin",
+                    msOverflowStyle: "none",
+                    fontFamily: "Gilroy",
+                  }),
+                  dropdownIndicator: (base) => ({
+                    ...base,
+                    color: "#555",
+                    cursor: "pointer"
+                  }),
+                  option: (base, state) => ({
+                    ...base,
+                    cursor: "pointer",
+                    backgroundColor: state.isFocused ? "lightblue" : "white",
+                    color: "#000",
+                  }),
+                  control: (base) => ({
+                    ...base,
+                    padding: "3px 5px ",
                     border: "1px solid #D9D9D9",
                     borderRadius: "8px",
                     fontSize: "16px",
@@ -559,22 +559,22 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
                     fontWeight: customername ? 600 : 500,
                     boxShadow: "none",
                   }),
-              }}
-            />
+                }}
+              />
 
 
 
-            {customererrmsg && (
-              <ErrorMessage message={customererrmsg} type="error" />
-            )}
+              {customererrmsg && (
+                <ErrorMessage message={customererrmsg} type="error" />
+              )}
 
 
-          </Form.Group>
+            </Form.Group>
 
 
 
+          </div>
         </div>
-</div>
         <div className="row mb-1 gap-1">
           <div className='col-lg-3 col-md-6 col-sm-12 col-xs-12'>
             <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
@@ -621,7 +621,7 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
                       fontWeight: 500,
                       boxShadow: "none",
                       border: "1px solid #D9D9D9",
-                     padding: '12px 10px',
+                      padding: '12px 10px',
                       borderRadius: 8,
                       backgroundColor: "#E7F1FF",
                     }}
@@ -674,14 +674,14 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
                         borderRadius: 8,
                         border: "1px solid #D9D9D9",
                         fontFamily: "Gilroy",
-                        padding:"3px 5px"
+                        padding: "3px 5px"
                       }),
                     }}
                   />
                 )}
 
                 {invoicenumbererrmsg && (
-                <ErrorMessage message={invoicenumbererrmsg} type="error" />
+                  <ErrorMessage message={invoicenumbererrmsg} type="error" />
                 )}
               </Form.Group>
             </div>
@@ -714,7 +714,7 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
                 </Form.Label>
                 <Form.Control
                   style={{
-                   padding: '12px 10px',
+                    padding: '12px 10px',
                     fontSize: 16,
                     color: "#4B4B4B",
                     fontFamily: "Gilroy",
@@ -784,7 +784,7 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
               </div>
             </Form.Group>
             {payment_dateerrmsg && (
-             <ErrorMessage message={payment_dateerrmsg} type="error" />
+              <ErrorMessage message={payment_dateerrmsg} type="error" />
             )}
           </div>
 
@@ -804,68 +804,68 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
                 Mode of Transaction{" "}
                 <span style={{ color: "red", fontSize: "20px" }}>*</span>
               </Form.Label>
-             <Select
-               options={paymentOptions}
-               value={
-                 paymentOptions.find((opt) => opt.value === String(modeOfPayment)) || null
-               }
-               onChange={(selectedOption) =>
-                 handleModeOfPaymentChange(selectedOption?.value)
-               }
-              //   onMenuOpen={() => setIsSelectOpen(true)}      
-              //  onMenuClose={() => setIsSelectOpen(false)} 
-               placeholder="Select Payment"
-               isDisabled={props.receiptedit}
-               
-                 styles={{
-                                   control: (base) => ({
-                                     ...base,
-                                     fontSize: 14,
-                                     color: "rgba(75, 75, 75, 1)",
-                                     fontFamily: "Gilroy",
-                                     fontWeight: modeOfPayment ? 600 : 500,
-                                     border: "1px solid #D9D9D9",
-                                     borderRadius: "8px",
-                                     boxShadow: "none",
-                                     height: 48,
-                                     cursor: "pointer",
-                                   }),
-                                   menu: (base) => ({
-                                     ...base,
-                                     backgroundColor: "#f8f9fa",
-                                     border: "1px solid #ced4da",
-                                     fontFamily: "Gilroy",
-                                   }),
-                                   menuList: (base) => ({
-                                     ...base,
-                                     backgroundColor: "#f8f9fa",
-                                     maxHeight: "80px",
-                                     padding: 0,
-                                     scrollbarWidth: "thin",
-                                     overflowY: "auto",
-                                     fontFamily: "Gilroy",
-                                   }),
-                                   placeholder: (base) => ({
-                                     ...base,
-                                     color: "#555",
-                                   }),
-                                   dropdownIndicator: (base) => ({
-                                     ...base,
-                                     color: "#555",
-                                     cursor: "pointer",
-                                   }),
-                                   option: (base, state) => ({
-                                     ...base,
-                                     cursor: "pointer",
-                                     backgroundColor: state.isFocused ? "lightblue" : "white",
-                                     color: "#000",
-                                     fontFamily: "Gilroy",
-                                   }),
-                                   indicatorSeparator: () => ({
-                                     display: "none",
-                                   }),
-                                 }}
-             />
+              <Select
+                options={paymentOptions}
+                value={
+                  paymentOptions.find((opt) => opt.value === String(modeOfPayment)) || null
+                }
+                onChange={(selectedOption) =>
+                  handleModeOfPaymentChange(selectedOption?.value)
+                }
+                //   onMenuOpen={() => setIsSelectOpen(true)}      
+                //  onMenuClose={() => setIsSelectOpen(false)} 
+                placeholder="Select Payment"
+                isDisabled={props.receiptedit}
+
+                styles={{
+                  control: (base) => ({
+                    ...base,
+                    fontSize: 14,
+                    color: "rgba(75, 75, 75, 1)",
+                    fontFamily: "Gilroy",
+                    fontWeight: modeOfPayment ? 600 : 500,
+                    border: "1px solid #D9D9D9",
+                    borderRadius: "8px",
+                    boxShadow: "none",
+                    height: 48,
+                    cursor: "pointer",
+                  }),
+                  menu: (base) => ({
+                    ...base,
+                    backgroundColor: "#f8f9fa",
+                    border: "1px solid #ced4da",
+                    fontFamily: "Gilroy",
+                  }),
+                  menuList: (base) => ({
+                    ...base,
+                    backgroundColor: "#f8f9fa",
+                    maxHeight: "80px",
+                    padding: 0,
+                    scrollbarWidth: "thin",
+                    overflowY: "auto",
+                    fontFamily: "Gilroy",
+                  }),
+                  placeholder: (base) => ({
+                    ...base,
+                    color: "#555",
+                  }),
+                  dropdownIndicator: (base) => ({
+                    ...base,
+                    color: "#555",
+                    cursor: "pointer",
+                  }),
+                  option: (base, state) => ({
+                    ...base,
+                    cursor: "pointer",
+                    backgroundColor: state.isFocused ? "lightblue" : "white",
+                    color: "#000",
+                    fontFamily: "Gilroy",
+                  }),
+                  indicatorSeparator: () => ({
+                    display: "none",
+                  }),
+                }}
+              />
 
 
 
@@ -921,7 +921,7 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
 
 
 
-  {/* {state.createAccount?.networkError ?
+        {/* {state.createAccount?.networkError ?
             <ErrorMessage message={state.createAccount?.networkError} type="error" />
             : null} */}
 
@@ -955,7 +955,7 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
 
 
 
-       
+
 
 
 
@@ -965,11 +965,11 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
 
         <div style={{ display: "flex", flexDirection: "row", justifyContent: 'center' }}>
 
- {allfielderrmsg.trim() !== "" && (
-           <ErrorMessage message={allfielderrmsg} type="error" />
-        )}
+          {allfielderrmsg.trim() !== "" && (
+            <ErrorMessage message={allfielderrmsg} type="error" />
+          )}
 
-        
+
 
         </div>
       </div>

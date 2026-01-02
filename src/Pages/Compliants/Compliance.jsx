@@ -490,7 +490,7 @@ const Compliance = () => {
 
   useEffect(() => {
     if (selectedUsername) {
-      const filteredDetails = state.UsersList.Users.filter(item => {
+      const filteredDetails = state.UsersList.Users?.listCustomers?.filter(item => {
         return item.customerId === selectedUsername
       }
       )
@@ -1419,7 +1419,7 @@ const Compliance = () => {
 
                         <Select
                           options={
-                            state?.UsersList?.Users?.filter(
+                            state?.UsersList?.Users?.listCustomers?.filter(
                               (u) =>
                                 u.floorId &&
                                 u.roomId &&

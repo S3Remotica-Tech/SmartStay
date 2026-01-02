@@ -237,7 +237,7 @@ const CheckOutForm = ({
   useEffect(() => {
 
     if (selectedCustomer && !data && !currentItem) {
-      const filteruserlist = state.UsersList.Users?.filter(
+      const filteruserlist = state.UsersList.Users?.listCustomers?.filter(
         (u) => u.ID === selectedCustomer
       );
 
@@ -260,7 +260,7 @@ const CheckOutForm = ({
         }
       }
     }
-  }, [selectedCustomer, state.UsersList.Users, data, currentItem]);
+  }, [selectedCustomer, state.UsersList.Users.listCustomers, data, currentItem]);
 
   const [customerWError, setCustomerError] = useState("");
   const [checkoUtDateError, setCheckOutDateError] = useState("");

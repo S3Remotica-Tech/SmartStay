@@ -468,7 +468,7 @@ function UserList(props) {
     }
 
 
-    const selectedUser = state.UsersList.Users.find(item => item.ID === customername);
+    const selectedUser = state.UsersList.Users?.listCustomers?.find(item => item.ID === customername);
 
 
 
@@ -656,7 +656,7 @@ function UserList(props) {
     }
 
 
-    const selectedUser = state.UsersList.Users.find(item => item.customerId === customername);
+    const selectedUser = state.UsersList.Users.listCustomers?.find(item => item.customerId === customername);
 
 
 
@@ -726,7 +726,7 @@ function UserList(props) {
   };
   useEffect(() => {
     if (billsAddshow && id) {
-      const customeraId = state.UsersList?.Users?.find((u) => u.customerId === id);
+      const customeraId = state.UsersList?.Users?.listCustomers?.find((u) => u.customerId === id);
 
 
       if (customeraId) {
@@ -944,7 +944,7 @@ function UserList(props) {
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode === 200) {
 
-      setUserListDetail(state.UsersList.Users);
+      setUserListDetail(state.UsersList.Users.listCustomers);
       setLoading(false)
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_USER" });
@@ -1282,7 +1282,7 @@ function UserList(props) {
     }
   }, [
     filterInput,
-    state.UsersList?.Users,
+    state.UsersList?.Users?.listCustomers,
     state.UsersList?.UserListStatusCode,
     value,
     state?.Booking?.CustomerBookingList?.bookings,
@@ -1290,7 +1290,7 @@ function UserList(props) {
     state.UsersList?.WalkInCustomerList,
     state.UsersList?.getWalkInStatusCode,
     state.UsersList.GetCheckOutCustomerStatusCode,
-    state.UsersList.CheckOutCustomerList,
+    state.UsersList.CheckOutCustomerList.checkoutCustomers,
   ]);
 
   const handlefilterInput = (e) => {
@@ -1605,7 +1605,7 @@ function UserList(props) {
     });
 
     setUserDetails(ParticularUserDetails);
-  }, [customerUser_Id, state.UsersList?.Users, state.InvoiceList?.Invoice]);
+  }, [customerUser_Id, state.UsersList?.Users?.listCustomers, state.InvoiceList?.Invoice]);
 
   useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser === 201 || state.UsersList?.statusCodeForAddCustomerSaveInfo === 201) {
@@ -5102,8 +5102,8 @@ function UserList(props) {
                 }}
               >
                 <option value="">Select Customer</option>
-                {state.UsersList?.Users &&
-                  state.UsersList?.Users?.length > 0 &&
+                {state.UsersList?.Users?.listCustomers &&
+                  state.UsersList?.Users?.listCustomers?.length > 0 &&
                   state?.UsersList?.Users?.filter(
                     (u) =>
                       u.bedId !== "undefined" &&

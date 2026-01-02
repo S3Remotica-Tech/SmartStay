@@ -115,7 +115,7 @@ const {
   useEffect(() => {
     if (state.UsersList.GetCheckOutCustomerStatusCode === 200) {
       setCheckOutLoader(false)
-      setCheckOutCustomer(state.UsersList.CheckOutCustomerList);
+      setCheckOutCustomer(state.UsersList.CheckOutCustomerList?.checkoutCustomers);
       setTimeout(() => {
         dispatch({ type: "CLEAR_CHECKOUT_CUSTOMER_LIST" });
       }, 10);
