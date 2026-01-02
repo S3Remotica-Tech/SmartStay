@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import {getInitializeCheckout, EditTenantAmount, editAdvanceAmount, 
+import {getInitializeCheckout, EditTenantAmount, editAdvanceAmount, deleteReading,
    editBasicDetails, CancelCheckOutCustomer, getParticularCustomerReading, getParticularRoomReading, getCustomerReading,
    cancelBookingGet, bookingToCheckIn, addRoomReading, getRoomReading,editHostelReading, 
    bookedDetails, availableBedDetailsForDate, checkoutDetailView, customerSaveInfo, CheckIn, GetAllFloor, getParticularHostelList, ConfirmCheckout_Due_Customer, deleteCustomer,
@@ -883,7 +883,48 @@ function* handleDeleteCustomer(customer) {
 }
 
 
+function* handleDeleteReading(reading) {
+   try {
+      const response = yield call(deleteReading, reading.payload);
 
+          var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center",
+         padding: "10px",
+
+      };
+
+      if (response?.status === 204  || response?.status === 200 ) {
+         yield put({ type: 'DELETE_READING', payload: { response: response.data, statusCode: response?.status } })
+
+         toast.success('Deleted successfully!', {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
+
+      }
+      
+   }
+   catch (error) {
+      yield* handleApiError(error);
+   }
+}
 
 
 
@@ -3032,6 +3073,7 @@ function* handleCheckoutProfile(action) {
 
 
 function* UserListSaga() {
+   yield takeEvery('DELETEREADING',handleDeleteReading)
   yield takeEvery('GETINITIALIZECHECKOUT',  handleGetInitializeCheckout)
    yield takeEvery('EDITADVANCE', handleEditAdvance)
    yield takeEvery('EDITAMOUNTDETAILS',handleEditTenantAmount)

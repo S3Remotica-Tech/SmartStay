@@ -220,6 +220,10 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, editHostelStatusCode: action.payload.statusCode }
         case 'REMOVE_EDIT_HOSTEL_READING':
             return { ...state, editHostelStatusCode: 0 }
+            case 'DELETE_READING':
+                 return { ...state, deleteReadingStatusCode: action.payload.statusCode }
+                 case 'REMOVE_DELETE_READING':
+                 return { ...state, deleteReadingStatusCode: 0 }
 
         case 'BOOKING_TO_CHECKIN':
             return { ...state, bookingToCheckinStatusCode: action.payload.statusCode }

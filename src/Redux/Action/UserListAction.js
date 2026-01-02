@@ -845,6 +845,11 @@ export async function getRoomReading(hostelId) {
 }
 
 
+
+export async function deleteReading(hostel) {
+  return await AxiosConfigV2.delete(`/v2/electricity/${hostel.hostelId}/${hostel.readingId}`)
+}
+
 export async function getParticularRoomReading(reading) {
   return await AxiosConfigV2.get(`/v2/electricity/${reading.hostelId}/${reading.roomId}`)
 }
