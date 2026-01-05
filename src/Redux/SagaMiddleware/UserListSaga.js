@@ -2846,7 +2846,7 @@ const hostelId = GlobalHostelId(response);
       // cookies.set('selected_hostelId', hostelId, { path: '/' });
     }
       if (response?.status === 200) {
-         yield put({ type: 'UNASSIGN_CUSTOMER', payload: { response: response.data, statusCode: response?.status } })
+         yield put({ type: 'UNASSIGN_CUSTOMER', payload: { response: response.data.listCustomers, statusCode: response?.status } })
       }
       else {
          yield put({ type: 'ERROR', payload: response?.data?.message })

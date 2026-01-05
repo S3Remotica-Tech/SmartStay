@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Form, FormControl ,Image} from "react-bootstrap";
+import { Button, Form, FormControl, Image } from "react-bootstrap";
 import React, { useState, useEffect, useRef } from "react";
 import "./UserList.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -75,6 +75,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
 
     const handleAdvanceAmount = (e) => {
+        dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR_BOOKED' })
         const advanceAmount = e.target.value;
         if (!/^\d*$/.test(advanceAmount)) {
             return;
@@ -85,6 +86,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
 
     const handleRoomRent = (e) => {
+        dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR_BOOKED' })
         const newAmount = e.target.value;
         if (!/^\d*$/.test(newAmount)) {
             return;
@@ -138,6 +140,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
     // };
 
     const handleInputChange = (index, field, value) => {
+        dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR_BOOKED' })
         const updatedFields = [...fields];
         const updatedErrors = [...errors];
 
@@ -193,7 +196,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
 
     const handleSaveBooking = async () => {
-
+        dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR_BOOKED' })
         let hasError = false;
         setRoomRentError("");
         setAdvanceAmountError("");
@@ -301,11 +304,11 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                 }
             });
 
+            setFormLoading(true)
 
 
 
         }
-        setFormLoading(true)
 
     };
 
@@ -342,9 +345,9 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
     useEffect(() => {
         if (state.UsersList?.bedError) {
             setFormLoading(false)
-            setTimeout(() => {
-                dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR_BOOKED' })
-            }, 3000)
+            // setTimeout(() => {
+            //     dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR_BOOKED' })
+            // }, 3000)
 
         }
 
@@ -614,7 +617,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                                             setDateError("");
                                                             setSelectedDate(date);
                                                             setJoingDateErrmsg('')
-
+                                                            dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR_BOOKED' })
                                                             dispatch(JoininDatecustomer(date ? date.toDate() : null));
                                                         }}
 
@@ -946,7 +949,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
                                 <Button
                                     className="w-100"
-                                    disabled={state.UsersList.bedError || formLoading}
+                                    disabled={state.UsersList.bedError || formLoading || !state.UsersList?.bookedDetails?.canCheckIn}
                                     style={{
                                         backgroundColor: "#1E45E1",
                                         fontWeight: 600,

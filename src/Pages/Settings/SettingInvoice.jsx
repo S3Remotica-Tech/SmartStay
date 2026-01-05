@@ -5,9 +5,9 @@ import "../../Pages/Settings/Settings.css";
 import { useDispatch, useSelector } from "react-redux";
 import leftarrow from "../../Assets/Images/arrow-left.png"
 import Logo from "../../Assets/Images/New_images/Group_Logo.png";
-import Gpay from '../../Assets/Images/gpay.png'
-import Phonepe from '../../Assets/Images/phonepe.png'
-import Paytm from '../../Assets/Images/paytm.png'
+// import Gpay from '../../Assets/Images/gpay.png'
+// import Phonepe from '../../Assets/Images/phonepe.png'
+// import Paytm from '../../Assets/Images/paytm.png'
 import Questionimage from '../../Assets/Images/question.png';
 import EditICon from '../../Assets/Images/New_images/edit.png';
 import TextAreaICon from '../../Assets/Images/textarea.png'
@@ -27,7 +27,7 @@ import BankingAddForm from "../../Pages/Banking/BankingAddForm";
 import ErrorMessage from '../../Components/ErrorMessage'
 import { useHasPermission } from '../../Utils/Permission';
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
-import { Location, Call, Profile, Edit } from 'iconsax-react'
+import { Location, Call, Profile, Edit, Trash } from 'iconsax-react'
 import { IoBed } from "react-icons/io5";
 import { Row, Col, Table, Card } from "react-bootstrap";
 import AdvanceCustomizeSettings from '../BillsTemplates/AdvanceCustomizeSettings'
@@ -828,6 +828,13 @@ function SettingInvoice({ hostelid, handleFormPage }) {
     setBankAccountForm(true)
   }
 
+  const handleRemoveQr = () => {
+    setQrImage(null);
+    setQRImagePreview(null)
+    if (qrFileInputRef.current) {
+      qrFileInputRef.current.value = "";
+    }
+  };
 
   const handleCloseBankAccount = () => {
     setBankAccountForm(false)
@@ -2099,31 +2106,96 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                           Valid UPI QR Code for Payment Easy</p>
                         <div className="col-12">
                           <div className="d-flex align-items-center justify-content-center p-3 border rounded" style={{ backgroundColor: '#f9f9f9' }}>
-                            {qrImage ? (
-                              <img
-                                src={qrImage}
-                                alt="QR Preview"
-                                style={{
-                                  width: "100%",
-                                  maxWidth: "100px",
-                                  height: "auto",
-                                  objectFit: "cover",
-                                  borderRadius: "8px",
-                                  marginBottom: "10px",
-                                  border: "1px solid #ddd",
-                                  backgroundColor: "#fff",
-                                }}
-                              />
-                            ) : (
-                              <img
-                                src={uploadsett}
-                                alt="upload"
-                                style={{
-                                  height: 30,
-                                  marginBottom: "10px",
-                                }}
-                              />
-                            )}
+
+                            <div
+                              style={{
+                                position: "relative",
+                                width: "100%",
+                                maxWidth: 120,
+                                aspectRatio: "1 / 1",
+                                backgroundColor: "#fff",
+                                // border: "1px solid #ddd",
+                                borderRadius: 8,
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                              }}
+                              onMouseEnter={(e) => {
+                                const trash = e.currentTarget.querySelector(".qr-trash");
+                                const overlay = e.currentTarget.querySelector(".qr-overlay");
+                                if (trash) trash.style.display = "flex";
+                                if (overlay) overlay.style.display = "block";
+                              }}
+                              onMouseLeave={(e) => {
+                                const trash = e.currentTarget.querySelector(".qr-trash");
+                                const overlay = e.currentTarget.querySelector(".qr-overlay");
+                                if (trash) trash.style.display = "none";
+                                if (overlay) overlay.style.display = "none";
+                              }}
+                            >
+
+                              {qrImage ? (
+                                <>
+                                  <img
+                                    src={qrImage}
+                                    alt="QR Preview"
+                                    style={{
+                                      width: "100%",
+                                      height: "100%",
+                                      objectFit: "contain",
+                                      borderRadius: "8px",
+                                      marginBottom: "10px",
+                                      // border: "1px solid #ddd",
+                                      backgroundColor: "#fff", zIndex: 1,
+                                    }}
+                                  />
+                                  <div
+                                    className="qr-overlay"
+                                    style={{
+                                      display: "none",
+                                      position: "absolute",
+                                      inset: 0,
+                                      backgroundColor: "rgba(0,0,0,0.15)",
+                                      borderRadius: 8,
+                                      zIndex: 2,
+                                      pointerEvents: "none",
+                                    }}
+                                  />
+
+
+                                  <div
+                                    className="qr-trash"
+                                    onClick={handleRemoveQr}
+                                    style={{
+                                      display: "none",
+                                      position: "absolute",
+                                      // top: "50%",
+                                      // right: 6,
+                                      width: 28,
+                                      height: 28,
+                                      borderRadius: "50%",
+                                      backgroundColor: "rgba(0,0,0,0.7)",
+                                      color: "#fff",
+                                      cursor: "pointer",
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                      fontSize: 14, zIndex: 3,
+                                    }}
+                                  >
+                                    <Trash size="20" />
+                                  </div>
+                                </>
+                              ) : (
+                                <img
+                                  src={uploadsett}
+                                  alt="upload"
+                                  style={{
+                                    height: 30,
+                                    marginBottom: "10px",
+                                  }}
+                                />
+                              )}
+                            </div>
                             <div className="d-flex flex-column ms-3">
                               <div>
                                 <label style={{ cursor: 'pointer', color: 'rgba(30, 69, 225, 1)', fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400 }}>
@@ -2799,11 +2871,11 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                   <BsQrCode style={{ height: 89, width: 89, borderRadius: '2px', color: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})` }} />
                               }
                             </div>
-                            <div className="d-flex flex-row justify-content-end">
+                            {/* <div className="d-flex flex-row justify-content-end">
                               <img src={Paytm} alt="Paytm" style={{ height: 38, width: 38 }} className="m-2" />
                               <img src={Phonepe} alt="PhonePe" style={{ height: 38, width: 38 }} className="m-2" />
                               <img src={Gpay} alt="GPay" style={{ height: 38, width: 38 }} className="m-2" />
-                            </div>
+                            </div> */}
 
                           </div>
                         </div>

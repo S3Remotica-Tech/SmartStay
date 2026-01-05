@@ -845,45 +845,7 @@ const InvoicePage = () => {
 
 
 
-  // useEffect(() => {
-  //   const SelectedCustomerRoomRent =
-  //     state.UsersList?.customerdetails?.hostelInfo?.monthlyRent;
 
-  //   if (SelectedCustomerRoomRent) {
-  //     setNewRows((prevRows) => {
-  //       const roomRentIndex = prevRows.findIndex(
-  //         (row) => row.am_name === "Room Rent"
-  //       );
-
-  //       if (roomRentIndex !== -1) {
-  //         const updatedRows = [...prevRows];
-  //         updatedRows[roomRentIndex].amount =
-  //           SelectedCustomerRoomRent.toString();
-  //         return updatedRows;
-  //       } else {
-  //         return [
-  //           ...prevRows,
-  //           { am_name: "Room Rent", amount: SelectedCustomerRoomRent.toString() },
-  //         ];
-  //       }
-  //     });
-
-  //     // setSelectedTypes((prev) =>
-  //     //   prev.includes("RoomRent") ? prev : [...prev, "RoomRent"]
-  //     // );
-
-  //     setTimeout(() => {
-  //       dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
-  //     }, 500);
-  //   }
-  // }, [
-  //   state.UsersList?.customerdetails?.hostelInfo?.monthlyRent,
-  //   customername,
-  //   state.UsersList?.CustomerdetailsgetStatuscode,
-  // ]);
-
-
-  // const [tenantJoingDate, setTenantjoingDate] = useState('')
 
   const handleShowForm = (props) => {
     setShowform(true);
@@ -902,9 +864,8 @@ const InvoicePage = () => {
         lastDayOfMonth.getMonth() + 1
       ).padStart(2, "0")}-${String(lastDayOfMonth.getDate()).padStart(2, "0")}`;
 
-      // let value = props.item.Name.split(" ");
       setSelectedUserId(props.item.customerId);
-      const userDetails = state?.UsersList?.Users.filter((u) => u.customerId === props?.item?.customerId)
+      const userDetails = state?.UsersList?.Users.listCustomers?.filter((u) => u.customerId === props?.item?.customerId)
 
       // setTenantjoingDate()
 

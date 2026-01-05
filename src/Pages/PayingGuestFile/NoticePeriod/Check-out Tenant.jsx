@@ -327,7 +327,7 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
 
   useEffect(() => {
 
-    const usersList = state?.UsersList?.Users;
+    const usersList = state?.UsersList?.Users?.listCustomers;
     const userDetails = state?.PgList?.OccupiedCustomer;
 
     if (
@@ -344,7 +344,7 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
 
       setCustomerDetails(foundCustomer || null);
     }
-  }, [state?.UsersList?.Users, state?.PgList?.OccupiedCustomer]);
+  }, [state?.UsersList?.Users?.listCustomers, state?.PgList?.OccupiedCustomer]);
 
 
   useEffect(() => {

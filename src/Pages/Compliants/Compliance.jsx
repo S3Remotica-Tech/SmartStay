@@ -1432,14 +1432,14 @@ const Compliance = () => {
                           onChange={handleCheckoutChange}
                           value={
                             selectedUsername
-                              ? state?.UsersList?.Users?.find((u) => u.customerId === selectedUsername) && {
+                              ? state?.UsersList?.Users?.listCustomers?.find((u) => u.customerId === selectedUsername) && {
                                 value: selectedUsername,
                                 label:
-                                  state?.UsersList?.Users?.find((u) => u.customerId === selectedUsername)
+                                  state?.UsersList?.Users?.listCustomers?.find((u) => u.customerId === selectedUsername)
                                     ?.firstName || "",
                               }
                               : null
-                          }
+                          } 
                           placeholder="Select a customer"
                           classNamePrefix="custom"
                           // menuPlacement="auto"
@@ -1721,7 +1721,7 @@ const Compliance = () => {
                                 return true
                               }
 
-                              const selectedUser = state?.UsersList?.Users?.find(
+                              const selectedUser = state?.UsersList?.Users?.listCustomers?.find(
                                 (item) => item.customerId === userid
                               );
 

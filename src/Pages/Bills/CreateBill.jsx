@@ -595,7 +595,11 @@ function CreateBill() {
     };
 
     const handleRowTypeSelect = (type) => {
-        let newRow = { am_name: "", amount: "0" };
+        let newRow = {
+    am_name: "",
+    amount: "0",
+    isFromApi: false, 
+  };
 
         if (type === "RoomRent") {
             newRow.am_name = "Room Rent";
@@ -771,6 +775,23 @@ function CreateBill() {
     };
 
     console.log("billData", billData)
+    const [originalRows, setOriginalRows] = useState([]);
+
+
+    const getChangedRows = () => {
+        return newRows.filter((row, index) => {
+            const original = originalRows[index];
+
+
+            if (!original) return true;
+
+
+            return (
+                row.am_name !== original.am_name ||
+                Number(row.amount) !== Number(original.amount)
+            );
+        });
+    };
 
     useEffect(() => {
         if (!billData) return;
@@ -782,13 +803,17 @@ function CreateBill() {
 
 
         if (Array.isArray(state.InvoiceList?.getInitializeRecurring?.invoiceItems)) {
-            setNewRows(
-                state.InvoiceList?.getInitializeRecurring?.invoiceItems?.map((item) => ({
+            const formattedRows =
+                state.InvoiceList.getInitializeRecurring.invoiceItems.map(item => ({
                     am_name: item.description || "",
-                    amount: item.amount || "",
-                }))
-            );
+                    amount: String(item.amount || ""),
+                    isFromApi: true,
+                }));
+
+            setOriginalRows(formattedRows);
+            setNewRows(formattedRows);
         } else {
+            setOriginalRows([]);
             setNewRows([]);
         }
     }, [billData, state.InvoiceList?.getInitializeRecurring?.invoiceItems]);
@@ -827,16 +852,21 @@ function CreateBill() {
         if (hasError) {
             return;
         }
+        const changedRows = getChangedRows();
 
-        if (newRows.length > 0 && billData?.invoiceId) {
+        if (changedRows.length === 0) {
+            setTableErrmsg("No changes detected to update");
+            return;
+        }
+        if (billData?.invoiceId) {
             setFormLoading(true)
             dispatch({
                 type: "MANUAL-INVOICE-EDIT",
                 hostelId: state.login.selectedHostel_Id,
                 invoiceId: billData?.invoiceId,
-                payload: newRows.map((row) => ({
+                payload: changedRows.map((row) => ({
                     type: row.am_name,
-                    amount: parseFloat(row.amount) || 0,
+                    amount: parseFloat(row.amount),
                 })),
             });
 
@@ -1057,27 +1087,27 @@ function CreateBill() {
                             options={
                                 state.UsersList?.Users?.listCustomers?.length > 0
                                     ? state.UsersList.Users.listCustomers.filter((u) => {
-                                            if (EXCLUDED_STATUSES.includes(u.currentStatus)) {
-                                                return false;
-                                            }
-                                            const validBed =
-                                                u.bedId !== "undefined" &&
-                                                u.bedId !== "0" &&
-                                                typeof u.bedId === "string" &&
-                                                u.bedId.trim() !== "";
+                                        if (EXCLUDED_STATUSES.includes(u.currentStatus)) {
+                                            return false;
+                                        }
+                                        const validBed =
+                                            u.bedId !== "undefined" &&
+                                            u.bedId !== "0" &&
+                                            typeof u.bedId === "string" &&
+                                            u.bedId.trim() !== "";
 
-                                            const validRoom =
-                                                u.roomId !== "undefined" &&
-                                                u.roomId !== "0" &&
-                                                typeof u.roomId === "string" &&
-                                                u.roomId.trim() !== "";
+                                        const validRoom =
+                                            u.roomId !== "undefined" &&
+                                            u.roomId !== "0" &&
+                                            typeof u.roomId === "string" &&
+                                            u.roomId.trim() !== "";
 
-                                            if (id) {
-                                                return validBed && validRoom && u.customerId === id;
-                                            }
+                                        if (id) {
+                                            return validBed && validRoom && u.customerId === id;
+                                        }
 
-                                            return validBed && validRoom;
-                                        })
+                                        return validBed && validRoom;
+                                    })
                                         .map((u) => ({
                                             value: u.customerId,
                                             label: u.fullName,
@@ -1349,7 +1379,9 @@ function CreateBill() {
                                             <Form.Control
                                                 type="text"
                                                 style={{ fontFamily: "Gilroy" }}
-                                                disabled={u.am_name === "Rent"}
+                                                // disabled={u.am_name === "Rent" || u.am_name === "Amenity"}
+                                                disabled={u.isFromApi}
+
                                                 value={u.am_name}
                                                 onChange={(e) => handleNewRowChange(index, "am_name", e.target.value)}
                                                 placeholder="Enter Description"
@@ -1359,7 +1391,8 @@ function CreateBill() {
                                             <Form.Control
                                                 type="text"
                                                 style={{ fontFamily: "Gilroy" }}
-                                                 disabled={u.am_name === "Rent"}
+                                                disabled={u.isFromApi}
+                                                // disabled={u.am_name === "Rent" || u.am_name === "Amenity"}
                                                 value={u.amount !== "0" ? u.amount : ""}
                                                 placeholder="Please Enter Amount"
                                                 onChange={(e) => {
@@ -1373,15 +1406,26 @@ function CreateBill() {
                                         <td style={{ width: "15%", paddingLeft: 20 }}>
                                             <img
                                                 src={Closebtn}
-                                                onClick={() => u.am_name !== "Rent" && handleDeleteNewRow(index)}
+                                                onClick={() =>
+                                                    u.am_name !== "Rent" &&
+                                                    u.am_name !== "Amenity" &&
+                                                    handleDeleteNewRow(index)
+                                                }
                                                 style={{
-                                                    cursor: u.am_name === "Rent" ? "not-allowed" : "pointer",
-                                                    opacity: u.am_name === "Rent" ? 0.4 : 1,
+                                                    cursor:
+                                                        u.am_name === "Rent" || u.am_name === "Amenity"
+                                                            ? "not-allowed"
+                                                            : "pointer",
+                                                    opacity:
+                                                        u.am_name === "Rent" || u.am_name === "Amenity"
+                                                            ? 0.4
+                                                            : 1,
                                                 }}
                                                 height={15}
                                                 width={15}
                                                 alt="delete"
                                             />
+
 
                                         </td>
                                     </tr>
@@ -1404,7 +1448,7 @@ function CreateBill() {
                         )}
                     </div>
                 </div>
-               
+
 
 
 

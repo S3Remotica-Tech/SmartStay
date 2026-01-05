@@ -5104,7 +5104,7 @@ function UserList(props) {
                 <option value="">Select Customer</option>
                 {state.UsersList?.Users?.listCustomers &&
                   state.UsersList?.Users?.listCustomers?.length > 0 &&
-                  state?.UsersList?.Users?.filter(
+                  state?.UsersList?.Users?.listCustomers?.filter(
                     (u) =>
                       u.bedId !== "undefined" &&
                       u.bedId !== "0" &&

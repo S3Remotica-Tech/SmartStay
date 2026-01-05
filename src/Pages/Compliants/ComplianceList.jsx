@@ -43,9 +43,9 @@ const ComplianceList = (props) => {
   const [formLoading, setFormLoading] = useState(false)
   const [commentsLoading, setCommentsLoading] = useState(false)
   const [showComplaint, setShowComplaint] = useState(false);
-  // const [complaintsDetails, setComplaintsDetails] = useState('')
+  const [complaintsDetails, setComplaintsDetails] = useState('')
   const popupRef = useRef(null);
-  // const [trigger, setTrigger] = useState(false);
+  const [trigger, setTrigger] = useState(false);
 
   const [alreadyAssigned, setAlreadyAssigned] = useState('')
 
@@ -134,43 +134,10 @@ const ComplianceList = (props) => {
     }
 
     setShowCard(true);
-    // setName(item.Name);
-    // let Dated = new Date(item.complaintDate);
-
-    // let day = Dated.getDate();
-    // let month = Dated.getMonth();
-    // let year = Dated.getFullYear();
-
-    // const monthNames = [
-    //   "January",
-    //   "February",
-    //   "March",
-    //   "April",
-    //   "May",
-    //   "June",
-    //   "July",
-    //   "August",
-    //   "September",
-    //   "October",
-    //   "November",
-    //   "December",
-    // ];
-
-    // let formattedMonth = monthNames[month];
-    // let formattedDate = `${day} ${formattedMonth} ${year}`;
-    // setDate(formattedDate);
-
-    // setProfile(item.profile && item.profile !== "0" ? item.profile : User);
+   
   };
 
-  // useEffect(() => {
-  //   if (customer_Id) {
-  //     dispatch({
-  //       type: "GET_COMPLIANCE_COMMENT",
-  //       payload: { com_id: customer_Id },
-  //     });
-  //   }
-  // }, [customer_Id]);
+ 
 
   useEffect(() => {
     if (state.ComplianceList.statusCodeForGetComplianceComment === 200) {
@@ -501,11 +468,12 @@ const ComplianceList = (props) => {
 
 
 
-  // const handleNavigateComplaintsView = (view) => {
-  //   setComplaintsDetails(view)
-  //   setShowComplaint(true)
-  //   setTrigger(true)
-  // }
+  const handleNavigateComplaintsView = (view) => {
+    setComplaintsDetails(view)
+    
+    setShowComplaint(true)
+    setTrigger(true)
+  }
 
   const handleCloseComplaintsView = () => {
     setShowComplaint(false)
@@ -587,15 +555,15 @@ const ComplianceList = (props) => {
                   <div className="flex-grow-1">
                     <div className="pb-2">
                       <label 
-                      // onClick={() => handleNavigateComplaintsView(props.complaints)}
+                      onClick={() => handleNavigateComplaintsView(props.complaints)}
                         className="d-block"
                         style={{
                           fontFamily: "Gilroy",
                           fontSize: 16,
-                          color: "#222222",
+                          color: "#1E45E1",
                           fontWeight: 600,
                           marginLeft: "10px", cursor: "pointer",
-                          //  textDecoration: "underline"
+                           textDecoration: "underline"
                         }}
                       >
                         {props.complaints && props?.complaints?.customerName}
@@ -2076,8 +2044,8 @@ const ComplianceList = (props) => {
 
       {
         showComplaint && <ComplaintsView show={showComplaint} handleClose={handleCloseComplaintsView} 
-        // complaintsDetails={complaintsDetails} 
-        // trigger={trigger} 
+        complaintsDetails={complaintsDetails} 
+        trigger={trigger} 
          />
       }
 

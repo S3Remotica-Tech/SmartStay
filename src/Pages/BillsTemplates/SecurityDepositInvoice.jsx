@@ -3,9 +3,9 @@ import React, { useRef, useState, useEffect } from "react";
 import "../../Pages/Settings/Settings.css";
 import { useDispatch, useSelector } from "react-redux";
 import Logo from "../../Assets/Images/New_images/Group_Logo.png";
-import Gpay from '../../Assets/Images/gpay.png'
-import Phonepe from '../../Assets/Images/phonepe.png'
-import Paytm from '../../Assets/Images/paytm.png'
+// import Gpay from '../../Assets/Images/gpay.png'
+// import Phonepe from '../../Assets/Images/phonepe.png'
+// import Paytm from '../../Assets/Images/paytm.png'
 import "react-datepicker/dist/react-datepicker.css";
 import "react-toastify/dist/ReactToastify.css";
 import PropTypes from "prop-types";
@@ -1175,11 +1175,11 @@ useEffect(() => {
                       
                     </div>
 
-                    <div className="d-flex">
+                    {/* <div className="d-flex">
                       <img src={Paytm} alt="Paytm" style={{ height: 38, width: 38 }} className="m-1" />
                       <img src={Phonepe} alt="PhonePe" style={{ height: 38, width: 38 }} className="m-1" />
                       <img src={Gpay} alt="GPay" style={{ height: 38, width: 38 }} className="m-1" />
-                    </div>
+                    </div> */}
                   </div>
 
                 </div>
