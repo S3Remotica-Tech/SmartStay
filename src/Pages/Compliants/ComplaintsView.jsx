@@ -2,11 +2,12 @@
 import React from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { ArrowCircleRight } from "iconsax-react";
-import {  TagUser } from "iconsax-react";
+import { TagUser } from "iconsax-react";
 import { useEffect } from "react";
-import { useDispatch, 
-    // useSelector
- } from "react-redux";
+import {
+    useDispatch,
+    useSelector
+} from "react-redux";
 import { Row, Col, Image } from "react-bootstrap";
 import { FaCheck } from "react-icons/fa6";
 import { IoCheckmarkDoneOutline } from "react-icons/io5";
@@ -19,15 +20,16 @@ import PropTypes from "prop-types";
 
 function Complaints({ show, handleClose, complaintsDetails, trigger }) {
 
-    // console.log("complaintsDetails", complaintsDetails)
+    console.log("complaintsDetails", complaintsDetails)
 
 
-    // const state = useSelector((state) => state);
+    const state = useSelector((state) => state);
     const dispatch = useDispatch();
 
     useEffect(() => {
         if (complaintsDetails?.complaintId) {
-            dispatch({ type: 'COMPLAINTSVIEW', payload: complaintsDetails?.complaintId })
+            console.log("callededdddd")
+            dispatch({ type: 'COMPLAINTSVIEWUPDATES', payload: { hostelId: state.login.selectedHostel_Id, complaintsId: complaintsDetails?.complaintId } })
         }
     }, [complaintsDetails?.complaintId])
 
@@ -35,55 +37,51 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
 
 
         const getIcon = () => {
-  switch (type) {
-    case "Complaint Resolved":
-      return {
-        bg: "#16A34A",
-        icon: <IoCheckmarkDoneOutline color="#fff" size={20} />,
-      };
+            switch (type) {
+                case "Complaint Resolved":
+                    return {
+                        bg: "#16A34A",
+                        icon: <IoCheckmarkDoneOutline color="#fff" size={20} />,
+                    };
 
-    case "Work Completed":
-      return {
-        bg: "#E0FFE1",
-        icon: <FaCheck color="#16A34A" size={20} />,
-      };
+                case "Work Completed":
+                    return {
+                        bg: "#E0FFE1",
+                        icon: <FaCheck color="#16A34A" size={20} />,
+                    };
 
-    case "Complaint In Progress":
-      return {
-        bg: "#FFF2DE",
-        icon: <TiLeaf color="#F59E0B" size={20} />,
-      };
+                case "Complaint In Progress":
+                    return {
+                        bg: "#FFF2DE",
+                        icon: <TiLeaf color="#F59E0B" size={20} />,
+                    };
 
-    case "Complaint Assigned":
-      return {
-        bg: "#E2E8F0",
-        icon: <TagUser size={20} color="#73839B" />,
-      };
+                case "Complaint Assigned":
+                    return {
+                        bg: "#E2E8F0",
+                        icon: <TagUser size={20} color="#73839B" />,
+                    };
 
-    case "Complaint Raised":
-      return {
-        bg: "#E2E8F0",
-        icon: <RiMessage2Fill color="#73839B" size={20} />,
-      };
+                case "Complaint Raised":
+                    return {
+                        bg: "#E2E8F0",
+                        icon: <RiMessage2Fill color="#73839B" size={20} />,
+                    };
 
-    default:
-      return {
-        bg: "#E2E8F0",
-        icon: <RiMessage2Fill color="#73839B" size={20} />,
-      };
-  }
-};
+                default:
+                    return {
+                        bg: "#E2E8F0",
+                        icon: <RiMessage2Fill color="#73839B" size={20} />,
+                    };
+            }
+        };
 
 
         const { bg, icon } = getIcon();
 
 
 
-// console.log("state ",state.ComplianceList.complaintsView)
-
-
-
-
+        // console.log("state ",state.ComplianceList.complaintsView)
 
 
 
@@ -121,7 +119,7 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
                     )}
                 </Col>
 
-                {/* CONTENT */}
+
                 <Col style={{ paddingBottom: 20 }}>
                     {children}
                 </Col>
@@ -129,6 +127,17 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
         );
     };
 
+    const getStepType = (update) => {
+        const text = update?.toLowerCase();
+
+        if (text?.includes("resolved")) return "Complaint Resolved";
+        if (text?.includes("completed")) return "Work Completed";
+        if (text?.includes("progress")) return "Complaint In Progress";
+        if (text?.includes("assigned")) return "Complaint Assigned";
+        if (text?.includes("raised")) return "Complaint Raised";
+
+        return "Complaint Raised";
+    };
 
 
 
@@ -149,19 +158,7 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
 
             <Offcanvas.Header className="gap-0 d-flex justify-content-between">
                 <div className="d-flex align-items-center gap-3">
-                    {/* <div
-                        style={{
-                            width: 46,
-                            height: 46,
-                            borderRadius: "50%",
-                            background: "#1E45E1",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                        }}
-                    >
-                        <MessageText size={24} color="#FFF" />
-                    </div> */}
+
 
                     <div>
                         <div style={{ fontSize: 20, fontWeight: 600, color: "#1F2633" }}>
@@ -183,7 +180,7 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
 
             <hr className="m-0" style={{ border: "1px solid #ccc" }} />
 
-            {/* BODY */}
+
             <Offcanvas.Body
                 style={{ padding: "15px", overflowY: "auto", maxHeight: "90vh" }}
             >
@@ -213,13 +210,14 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
                                     height: 50,
                                     width: 50,
                                     borderRadius: "50%",
-                                    backgroundColor: "#1E45E1",
+                                    backgroundColor: "#E2E8F0",
+                                                             color: "#44536A",
                                     display: "flex",
                                     justifyContent: "center",
                                     alignItems: "center",
                                     fontSize: 20,
                                     fontWeight: "600",
-                                    color: "white", fontFamily: "Gilroy"
+                                     fontFamily: "Gilroy"
                                 }}
                             >
                                 {complaintsDetails?.initials || "-"}
@@ -267,99 +265,93 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
 
 
 
+
+
                 <div style={{ marginTop: 10 }}>
-
-
-                    <StepItem type="Complaint Resolved">
-                        <div style={{ fontWeight: 600, fontSize: 15, color: "#222222" }}>Complaint Resolved</div>
-                        <div style={{ fontSize: 14, color: "#1E293B", marginTop: 4 }}>
-                            Tenant confirmed the complaint is resolved
-                        </div>
-                        <div style={{ fontSize: 12, color: "#475569", marginTop: 4 }}>
-                            Added at: 25 Oct 2025, 1:00 PM
-                        </div>
-                    </StepItem>
-
-                    <StepItem type="Work Completed">
-                        <div style={{ fontWeight: 600, fontSize: 15, color: "#222222" }}>Work Completed.</div>
-                        <div style={{ fontSize: 14, color: "#1E293B", marginTop: 4 }}>
-                            Staff marked complaint as &quot;Completed&quot;.
-                        </div>
-                        <div style={{ fontSize: 12, color: "#475569", marginTop: 4 }}>
-                            Added at: 25 Oct 2025, 12:30 PM
-                        </div>
-                    </StepItem>
-
-                    <StepItem type="Complaint In Progress">
-                        <div style={{ fontWeight: 600, fontSize: 15, color: "#222222" }}>Complaint In Progress</div>
-                        <div style={{ fontSize: 14, color: "#1E293B", marginTop: 4 }}>
-                            Staff marked complaint as &quot;In Progress&quot;
-                        </div>
-                        <div style={{ fontSize: 12, color: "#475569", marginTop: 4 }}>
-                            Added at: 24 Oct 2025, 11:00 AM
-                        </div>
-
-
-                        <Row className="mt-2 align-items-center g-1">
-                            <Col xs="auto" className="p-0">
-                                <Image
-                                    src="https://ui-avatars.com/api/?name=Malar"
-                                    roundedCircle
-                                    width={37}
-                                    height={37}
-                                    style={{ fontFamily: "Gilroy" }}
-                                />
-                            </Col>
-                            <Col className="p-0" style={{ padding: 0 }}>
-                                <div className="d-flex align-items-center gap-2 p-0">
-                                    <div style={{ fontSize: 12, fontWeight: 600, color: "#3E3E3E" }}>Malar - Admin</div>
-                                    <div style={{ fontSize: 12, color: "#3E3E3E", fontWeight: 400 }}>added a Comment</div>
-
-                                </div>
-
-                            </Col>
-                        </Row>
-
-                        <div
-                            style={{
-                                border: "1px solid #D1D5DB",
-                                borderRadius: 8,
-                                padding: 14,
-                                marginTop: 10,
-                                background: "#FFF",
-                                fontSize: 12,
-                                height: 60,
-                                fontWeight: 400, color: "#222222"
-                            }}
+                    {state.ComplianceList?.ComplianceUpdates?.map((item, index, arr) => (
+                        <StepItem
+                            key={index}
+                            type={getStepType(item.update)}
+                            isLast={index === arr.length - 1}
                         >
-                            Complaint will Resolve by Tomorrow
-                        </div>
-                    </StepItem>
+
+                            <div style={{ fontWeight: 600, fontSize: 15, color: "#222222" }}>
+                                {item.update}
+                            </div>
 
 
-                    <StepItem type="Complaint Assigned">
-                        <div style={{ fontWeight: 600, fontSize: 15, color: "#222222" }}>Complaint Assigned</div>
-                        <div style={{ fontSize: 14, color: "#1E293B", marginTop: 4 }}>
-                            Complaint assigned to Maintenance Staff – Rajesh.
-                        </div>
-                        <div style={{ fontSize: 12, color: "#475569", marginTop: 4 }}>
-                            Added at: 24 Oct 2025, 10:00 AM
-                        </div>
-                    </StepItem>
+                            <div style={{ fontSize: 14, color: "#1E293B", marginTop: 4 }}>
+                                {item.description}
+                            </div>
 
 
-                    <StepItem isLast={true} type="Complaint Raised">
-                        <div style={{ fontWeight: 600, fontSize: 15, color: "#222222" }}>Complaint Raised – Plumbing</div>
-                        <div style={{ fontSize: 14, color: "#1E293B", marginTop: 4 }}>
-                            Water leaking continuously near bathroom
-                        </div>
-                        <div style={{ fontSize: 12, color: "#475569", marginTop: 4 }}>
-                            Added at: 23 Oct 2025, 5:00 PM
-                        </div>
-                    </StepItem>
+                            <div style={{ fontSize: 12, color: "#475569", marginTop: 4 }}>
+                                Added at: {item.updatedAt}, {item.updatedTime}
+                            </div>
 
+
+                            {Array.isArray(item.comments) && item.comments.length > 0 && (
+                                <>
+                                    {item.comments.map((comment, i) => (
+                                        <div key={i} style={{ marginTop: 10 }}>
+                                            <Row className="mt-2 align-items-center g-1">
+                                                <Col xs="auto" className="p-0">
+                                                    {comment.profilePic ? (
+                                                        <Image
+                                                            src={comment.profilePic}
+                                                            roundedCircle
+                                                            width={37}
+                                                            height={37}
+                                                        />
+                                                    ) : (
+                                                        <div
+                                                            style={{
+                                                                width: 37,
+                                                                height: 37,
+                                                                borderRadius: "50%",
+                                                                 backgroundColor: "#E2E8F0",
+                                                                                          color: "#44536A",
+                                                                display: "flex",
+                                                                alignItems: "center",
+                                                                justifyContent: "center",
+                                                                fontSize: 13,
+                                                                fontWeight: 600,
+                                                            }}
+                                                        >
+                                                            {comment.initials || "-"}
+                                                        </div>
+                                                    )}
+                                                </Col>
+
+                                                <Col className="ps-2 d-flex gap-2">
+                                                    <div style={{ fontSize: 12, fontWeight: 600 }}>
+                                                        {comment.commentedBy}
+                                                    </div>
+
+                                                    <div style={{ fontSize: 12, color: "#3E3E3E", fontWeight: 400 }}>added a Comment</div>
+
+                                                </Col>
+                                            </Row>
+
+                                            <div
+                                                style={{
+                                                    border: "1px solid #D1D5DB",
+                                                    borderRadius: 8,
+                                                    padding: 14,
+                                                    marginTop: 8,
+                                                    background: "#FFF",
+                                                    fontSize: 12,
+                                                }}
+                                            >
+                                                {comment.comment}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </>
+                            )}
+                        </StepItem>
+                    ))}
                 </div>
-
 
 
             </Offcanvas.Body>
@@ -367,22 +359,22 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
     );
 }
 Complaints.propTypes = {
-  show: PropTypes.bool.isRequired,
-  handleClose: PropTypes.func.isRequired,
-  trigger: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    show: PropTypes.bool.isRequired,
+    handleClose: PropTypes.func.isRequired,
+    trigger: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 
-  complaintsDetails: PropTypes.shape({
-    complaintId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    customerProfile: PropTypes.string,
-    initials: PropTypes.string,
-  }).isRequired,
+    complaintsDetails: PropTypes.shape({
+        complaintId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        customerProfile: PropTypes.string,
+        initials: PropTypes.string,
+    }).isRequired,
 
- 
-  children: PropTypes.node,
 
-  
-  isLast: PropTypes.bool,
-  type: PropTypes.string,
+    children: PropTypes.node,
+
+
+    isLast: PropTypes.bool,
+    type: PropTypes.string,
 };
 
 export default Complaints;

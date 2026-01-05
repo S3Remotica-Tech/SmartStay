@@ -74,8 +74,12 @@ function Notification({ show, handleClose }) {
     }
 
 
-    const handleNavigateComplaintsView = () => {
+    const handleNavigateComplaintsView = (complaintId) => {
         setShowComplaint(true)
+        if(complaintId){
+                    dispatch({ type: 'COMPLAINTSVIEWUPDATES', payload: { hostelId: state.login.selectedHostel_Id, complaintsId: complaintId } })
+        }
+
     }
 
     const handleCloseComplaintsView = () => {
@@ -220,7 +224,7 @@ function Notification({ show, handleClose }) {
 
                                             {
                                                 item.typeCode === 4 ?
-                                                    <button onClick={handleNavigateComplaintsView}
+                                                    <button onClick={()=>handleNavigateComplaintsView(item.requestId)}
                                                         style={{
                                                             marginTop: 10,
                                                             background: "#1E45E1",

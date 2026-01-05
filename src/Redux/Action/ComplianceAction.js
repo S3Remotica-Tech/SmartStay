@@ -69,6 +69,13 @@ export async function complaintsView(complaintsId) {
   return await AxiosConfigV2.get(`/v2/complaint/${complaintsId}`);
 }
 
+export async function complaintsViewUpdates(complaint) {
+  console.log("complaintsViewUpdates",complaint)
+  return await AxiosConfigV2.get(`/v2/complaint/updates/${complaint.hostelId}/${complaint.complaintsId}`);
+}
+
+
+
 
 export async function VendorList(vendor) {
   return await AxiosConfigV2.get(`/v2/vendors/all-vendors/${vendor.hostelId}`)

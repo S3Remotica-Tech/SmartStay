@@ -33,7 +33,10 @@ export const initialState = {
     statusCodeforgetparticularCompliant: 0,
     complaintsView: [],
     getcomplaintsViewStatus: 0,
-    apiResponseHostelId:'',
+    apiResponseHostelId: '',
+    ComplianceUpdates: [], 
+     statusCodeComplianceUpdates: 0
+
 
 
 }
@@ -44,12 +47,19 @@ const ComplianceReducer = (state = initialState, action) => {
         case 'RESET_ALL':
             return initialState;
 
-            case 'SET_HOSTEL_ID':
-                 return { ...state, apiResponseHostelId: action.payload }
+        case 'SET_HOSTEL_ID':
+            return { ...state, apiResponseHostelId: action.payload }
         case 'COMPLIANCE_LIST':
             return { ...state, Compliance: action.payload.response, filterOptions: action.payload.filterOptions, statusCodeCompliance: action.payload.statusCode }
         case 'CLEAR_COMPLIANCE_LIST':
             return { ...state, statusCodeCompliance: 0 }
+
+        case 'COMPLAINTS_VIEW_UPDATES':
+            return { ...state, ComplianceUpdates: action.payload.response, statusCodeComplianceUpdates: action.payload.statusCode }
+        case 'REMOVE_COMPLAINTS_VIEW_UPDATES':
+            return { ...state, statusCodeComplianceUpdates: 0 }
+
+
 
         case 'COMPLIANCE_ADD':
             return { ...state, messageShow: true, statusCodeForAddCompliance: action.payload.statusCode }

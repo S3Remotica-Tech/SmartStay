@@ -134,43 +134,10 @@ const ComplianceList = (props) => {
     }
 
     setShowCard(true);
-    // setName(item.Name);
-    // let Dated = new Date(item.complaintDate);
-
-    // let day = Dated.getDate();
-    // let month = Dated.getMonth();
-    // let year = Dated.getFullYear();
-
-    // const monthNames = [
-    //   "January",
-    //   "February",
-    //   "March",
-    //   "April",
-    //   "May",
-    //   "June",
-    //   "July",
-    //   "August",
-    //   "September",
-    //   "October",
-    //   "November",
-    //   "December",
-    // ];
-
-    // let formattedMonth = monthNames[month];
-    // let formattedDate = `${day} ${formattedMonth} ${year}`;
-    // setDate(formattedDate);
-
-    // setProfile(item.profile && item.profile !== "0" ? item.profile : User);
+   
   };
 
-  // useEffect(() => {
-  //   if (customer_Id) {
-  //     dispatch({
-  //       type: "GET_COMPLIANCE_COMMENT",
-  //       payload: { com_id: customer_Id },
-  //     });
-  //   }
-  // }, [customer_Id]);
+ 
 
   useEffect(() => {
     if (state.ComplianceList.statusCodeForGetComplianceComment === 200) {
@@ -503,6 +470,7 @@ const ComplianceList = (props) => {
 
   const handleNavigateComplaintsView = (view) => {
     setComplaintsDetails(view)
+    
     setShowComplaint(true)
     setTrigger(true)
   }
@@ -592,10 +560,10 @@ const ComplianceList = (props) => {
                         style={{
                           fontFamily: "Gilroy",
                           fontSize: 16,
-                          color: "#222222",
+                          color: "#1E45E1",
                           fontWeight: 600,
                           marginLeft: "10px", cursor: "pointer",
-                          //  textDecoration: "underline"
+                           textDecoration: "underline"
                         }}
                       >
                         {props.complaints && props?.complaints?.customerName}
