@@ -595,7 +595,11 @@ function CreateBill() {
     };
 
     const handleRowTypeSelect = (type) => {
-        let newRow = { am_name: "", amount: "0" };
+        let newRow = {
+    am_name: "",
+    amount: "0",
+    isFromApi: false, 
+  };
 
         if (type === "RoomRent") {
             newRow.am_name = "Room Rent";
@@ -803,6 +807,7 @@ function CreateBill() {
                 state.InvoiceList.getInitializeRecurring.invoiceItems.map(item => ({
                     am_name: item.description || "",
                     amount: String(item.amount || ""),
+                    isFromApi: true,
                 }));
 
             setOriginalRows(formattedRows);
@@ -1374,7 +1379,9 @@ function CreateBill() {
                                             <Form.Control
                                                 type="text"
                                                 style={{ fontFamily: "Gilroy" }}
-                                                disabled={u.am_name === "Rent" || u.am_name === "Amenity"}
+                                                // disabled={u.am_name === "Rent" || u.am_name === "Amenity"}
+                                                disabled={u.isFromApi}
+
                                                 value={u.am_name}
                                                 onChange={(e) => handleNewRowChange(index, "am_name", e.target.value)}
                                                 placeholder="Enter Description"
@@ -1384,7 +1391,8 @@ function CreateBill() {
                                             <Form.Control
                                                 type="text"
                                                 style={{ fontFamily: "Gilroy" }}
-                                                disabled={u.am_name === "Rent" || u.am_name === "Amenity"}
+                                                disabled={u.isFromApi}
+                                                // disabled={u.am_name === "Rent" || u.am_name === "Amenity"}
                                                 value={u.amount !== "0" ? u.amount : ""}
                                                 placeholder="Please Enter Amount"
                                                 onChange={(e) => {
