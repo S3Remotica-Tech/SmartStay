@@ -491,7 +491,7 @@ function CustomerReAssign(props) {
   const [customerName, setCustomerName] = useState("")
   const [customerProfile, setCustomerProfile] = useState("")
 
-  const userDetails = state?.UsersList?.Users?.find(
+  const userDetails = state?.UsersList?.Users?.listCustomers?.find(
     (user) => String(user.customerId) === String(props.customerId)
   );
 

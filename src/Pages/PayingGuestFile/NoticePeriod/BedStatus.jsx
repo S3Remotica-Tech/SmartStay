@@ -131,7 +131,7 @@ function NoticeBedStatusDetails({
   }
 
 
-  const matchedData = state?.UsersList?.Users?.filter(
+  const matchedData = state?.UsersList?.Users?.listCustomers?.filter(
     (user) => user.customerId === selectedTenant?.tenetId
   );
 

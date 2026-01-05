@@ -43,9 +43,9 @@ const ComplianceList = (props) => {
   const [formLoading, setFormLoading] = useState(false)
   const [commentsLoading, setCommentsLoading] = useState(false)
   const [showComplaint, setShowComplaint] = useState(false);
-  // const [complaintsDetails, setComplaintsDetails] = useState('')
+  const [complaintsDetails, setComplaintsDetails] = useState('')
   const popupRef = useRef(null);
-  // const [trigger, setTrigger] = useState(false);
+  const [trigger, setTrigger] = useState(false);
 
   const [alreadyAssigned, setAlreadyAssigned] = useState('')
 
@@ -501,11 +501,11 @@ const ComplianceList = (props) => {
 
 
 
-  // const handleNavigateComplaintsView = (view) => {
-  //   setComplaintsDetails(view)
-  //   setShowComplaint(true)
-  //   setTrigger(true)
-  // }
+  const handleNavigateComplaintsView = (view) => {
+    setComplaintsDetails(view)
+    setShowComplaint(true)
+    setTrigger(true)
+  }
 
   const handleCloseComplaintsView = () => {
     setShowComplaint(false)
@@ -587,7 +587,7 @@ const ComplianceList = (props) => {
                   <div className="flex-grow-1">
                     <div className="pb-2">
                       <label 
-                      // onClick={() => handleNavigateComplaintsView(props.complaints)}
+                      onClick={() => handleNavigateComplaintsView(props.complaints)}
                         className="d-block"
                         style={{
                           fontFamily: "Gilroy",
@@ -2076,8 +2076,8 @@ const ComplianceList = (props) => {
 
       {
         showComplaint && <ComplaintsView show={showComplaint} handleClose={handleCloseComplaintsView} 
-        // complaintsDetails={complaintsDetails} 
-        // trigger={trigger} 
+        complaintsDetails={complaintsDetails} 
+        trigger={trigger} 
          />
       }
 

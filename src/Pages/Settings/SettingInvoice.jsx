@@ -5,9 +5,9 @@ import "../../Pages/Settings/Settings.css";
 import { useDispatch, useSelector } from "react-redux";
 import leftarrow from "../../Assets/Images/arrow-left.png"
 import Logo from "../../Assets/Images/New_images/Group_Logo.png";
-import Gpay from '../../Assets/Images/gpay.png'
-import Phonepe from '../../Assets/Images/phonepe.png'
-import Paytm from '../../Assets/Images/paytm.png'
+// import Gpay from '../../Assets/Images/gpay.png'
+// import Phonepe from '../../Assets/Images/phonepe.png'
+// import Paytm from '../../Assets/Images/paytm.png'
 import Questionimage from '../../Assets/Images/question.png';
 import EditICon from '../../Assets/Images/New_images/edit.png';
 import TextAreaICon from '../../Assets/Images/textarea.png'
@@ -2799,11 +2799,11 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                                   <BsQrCode style={{ height: 89, width: 89, borderRadius: '2px', color: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})` }} />
                               }
                             </div>
-                            <div className="d-flex flex-row justify-content-end">
+                            {/* <div className="d-flex flex-row justify-content-end">
                               <img src={Paytm} alt="Paytm" style={{ height: 38, width: 38 }} className="m-2" />
                               <img src={Phonepe} alt="PhonePe" style={{ height: 38, width: 38 }} className="m-2" />
                               <img src={Gpay} alt="GPay" style={{ height: 38, width: 38 }} className="m-2" />
-                            </div>
+                            </div> */}
 
                           </div>
                         </div>

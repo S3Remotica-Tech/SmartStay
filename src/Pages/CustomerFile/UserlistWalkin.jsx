@@ -134,7 +134,7 @@ function UserlistWalkin() {
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode) {
       setWalkingLoader(false);
-      setWalkInCustomer(state.UsersList?.Users.listCustomers);
+      setWalkInCustomer(state.UsersList?.Users?.listCustomers);
       setTimeout(() => {
         dispatch({ type: "CLEAR_WALK_IN_STATUS_CODE" });
       }, 100);
