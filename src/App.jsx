@@ -98,6 +98,9 @@ function App() {
           vapidKey: "BMXC5Wm4kkMiJDq2o98v_QMaXMctNWwtuFlpezETQ-hpSLG1HIKsN0SIFKW-ebfg8tILguRwWisjb0-syzlRgFE"
         });
         console.log("fcm token", token);
+        if(token){
+          dispatch({ type: 'FCMTOKENSAGA', payload: {token: token , source: "Web"}})
+        }
       }
     };
 
