@@ -19,9 +19,9 @@ import leftarrow from "../../Assets/Images/arrow-left.png"
 import PropTypes from "prop-types";
 import dayjs from "dayjs";
 import ErrorMessage from '../../Components/ErrorMessage'
-import Closebtn from "../../Assets/Images/CloseCircle.png";
+// import Closebtn from "../../Assets/Images/CloseCircle.png";
 import { useNavigate, useLocation } from "react-router-dom";
-
+import { CloseCircle } from "iconsax-react";
 
 
 
@@ -594,6 +594,11 @@ function CreateBill() {
         setTableErrmsg("")
     };
 
+
+    const isApiEBPresent = newRows.some(
+  row => row.isFromApi && row.am_name === "EB"
+);
+  
     const handleRowTypeSelect = (type) => {
         let newRow = {
     am_name: "",
@@ -1040,8 +1045,8 @@ function CreateBill() {
                     width: "100%",
                     zIndex: 1000,
                     backgroundColor: "#FFFFFF",
-                    height: "60px",
-                    padding: "10px 5px",
+                    height: "50px",
+                    padding: "5px 5px",
                 }}
             >
                 <div style={{ position: "fixed" }}>
@@ -1336,7 +1341,7 @@ function CreateBill() {
                 >
                     <option value="" disabled>Select Item Type</option>
                     {!billData && !selectedTypes.includes("RoomRent") && <option value="RoomRent">Room Rent</option>}
-                    {!selectedTypes.includes("EB") && <option value="EB">EB</option>}
+                    {!isApiEBPresent && !selectedTypes.includes("EB") && <option value="EB">EB</option>}
                     <option value="Other">Other</option>
                 </Form.Select>
 
@@ -1380,7 +1385,7 @@ function CreateBill() {
                                                 type="text"
                                                 style={{ fontFamily: "Gilroy" }}
                                                 // disabled={u.am_name === "Rent" || u.am_name === "Amenity"}
-                                               disabled={u.isFromApi && u.am_name !== "EB"}
+                                               disabled={u.isFromApi}
 
                                                 value={u.am_name}
                                                 onChange={(e) => handleNewRowChange(index, "am_name", e.target.value)}
@@ -1404,26 +1409,23 @@ function CreateBill() {
                                             />
                                         </td>
                                         <td style={{ width: "15%", paddingLeft: 20 }}>
-                                            <img
-                                                src={Closebtn}
+                                            <CloseCircle
                                                 onClick={() =>
-                                                    u.am_name !== "Rent" &&
-                                                    u.am_name !== "Amenity" &&
-                                                    handleDeleteNewRow(index)
+                                                    !u.isFromApi &&
+                                                     handleDeleteNewRow(index)
                                                 }
                                                 style={{
+                                                    color:u.isFromApi ? "gray" : "#FF0000",
                                                     cursor:
-                                                        u.am_name === "Rent" || u.am_name === "Amenity"
-                                                            ? "not-allowed"
-                                                            : "pointer",
+                                                        !u.isFromApi ? "pointer" : "not-allowed",
+                                                                                                                       
                                                     opacity:
-                                                        u.am_name === "Rent" || u.am_name === "Amenity"
+                                                        u.isFromApi
                                                             ? 0.4
                                                             : 1,
                                                 }}
-                                                height={15}
-                                                width={15}
-                                                alt="delete"
+                                               size="24"
+                                                
                                             />
 
 

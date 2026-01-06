@@ -205,6 +205,7 @@ const [selectedBed, setSelectedBed] = useState(null);
       setShowRoom(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_CREATE_ROOM_STATUS_CODE' })
+        dispatch({ type: 'REMOVE_UPDATE_ROOM'})
       }, 100)
     }
   }, [state.PgList.statusCodeCreateRoom, state.PgList.statusCodeUpdateRoom])

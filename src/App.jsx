@@ -19,8 +19,8 @@ import ThankYou from './NewLandingPage/ThankYou';
 import Sidebar from './Components/Sidebar';
 // import PaymentPreview from "./Pages/SubscriptionFile/PaymentPreview";
 // import { onMessage } from "firebase/messaging";
-// import { messaging ,onMessageListener } from "./Utils/FirebaseNotification";
-// import { getToken } from "firebase/messaging";
+import { messaging  } from "./Utils/FirebaseNotification";
+import { getToken } from "firebase/messaging";
 function App() {
   const cookies = new Cookies();
   const dispatch = useDispatch();
@@ -88,21 +88,23 @@ function App() {
 
 
 
-  // useEffect(() => {
-  //   const askPermission = async () => {
-  //     const permission = await Notification.requestPermission();
-  //     console.log("Permission:", permission);
+  useEffect(() => {
+    const askPermission = async () => {
+      const permission = await Notification.requestPermission();
+      console.log("Permission", permission);
 
-  //     if (permission === "granted") {
-  //       const token = await getToken(messaging, {
-  //         vapidKey: "AIzaSyAfEOOtBi9rbNrV8mnIoPD-uIvCmkvnXY4"
-  //       });
-  //       console.log("FCM TOKEN:", token);
-  //     }
-  //   };
+      if (permission === "granted") {
+        const token = await getToken(messaging, {
+          vapidKey: "BMXC5Wm4kkMiJDq2o98v_QMaXMctNWwtuFlpezETQ-hpSLG1HIKsN0SIFKW-ebfg8tILguRwWisjb0-syzlRgFE"
+        });
+        console.log("fcm token", token);
+      }
+    };
 
-  //   askPermission();
-  // }, [])
+    askPermission();
+  }, [])
+
+
 
 
 // useEffect(() => {
@@ -111,8 +113,11 @@ function App() {
 //     alert(payload.notification.title);
 //   });
 
-//   return () => unsubscribe();
+//   return () => {
+//     if (unsubscribe) unsubscribe();
+//   };
 // }, []);
+
 
 
 
