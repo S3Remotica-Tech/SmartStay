@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
 // import { MdError } from "react-icons/md";
 import PropTypes from "prop-types";
-import ErrorMessage from '../../Components/ErrorMessage'
+// import ErrorMessage from '../../Components/ErrorMessage'
 
 function DeleteReading({ show, handleClose, deleteDetails }) {
     const state = useSelector((state) => state);
@@ -21,11 +21,11 @@ function DeleteReading({ show, handleClose, deleteDetails }) {
     };
 
    
-    console.log("deleteDetails", deleteDetails)
+    // console.log("deleteDetails", deleteDetails)
 
 
     const handleDeleteConfirm = () => {
-        console.log("calledddd")
+        // console.log("calledddd")
         if ((deleteDetails?.readingId || deleteDetails?.id) && state.login.selectedHostel_Id ) {
             dispatch({
                 type: 'DELETEREADING',

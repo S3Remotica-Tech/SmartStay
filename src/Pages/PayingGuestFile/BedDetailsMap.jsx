@@ -104,7 +104,7 @@ function BedDetailsMap({ room, propsValue,
         setShowReservedBed(false)
     }
 
-    const handleCloseBackToCheckIn = () => {f
+    const handleCloseBackToCheckIn = () => {
         setBacktoCheckInForm(false)
     }
 

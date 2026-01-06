@@ -19,8 +19,8 @@ import ThankYou from './NewLandingPage/ThankYou';
 import Sidebar from './Components/Sidebar';
 // import PaymentPreview from "./Pages/SubscriptionFile/PaymentPreview";
 // import { onMessage } from "firebase/messaging";
-import { messaging ,onMessageListener } from "./Utils/FirebaseNotification";
-import { getToken } from "firebase/messaging";
+// import { messaging ,onMessageListener } from "./Utils/FirebaseNotification";
+// import { getToken } from "firebase/messaging";
 function App() {
   const cookies = new Cookies();
   const dispatch = useDispatch();
