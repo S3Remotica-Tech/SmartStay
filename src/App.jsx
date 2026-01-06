@@ -18,8 +18,8 @@ import LoaderComponent from './Pages/OthersComponent/LoaderComponent';
 import ThankYou from './NewLandingPage/ThankYou';
 import Sidebar from './Components/Sidebar';
 // import PaymentPreview from "./Pages/SubscriptionFile/PaymentPreview";
-import { onMessage } from "firebase/messaging";
-import { messaging } from "./Utils/FirebaseNotification";
+// import { onMessage } from "firebase/messaging";
+import { messaging ,onMessageListener } from "./Utils/FirebaseNotification";
 import { getToken } from "firebase/messaging";
 function App() {
   const cookies = new Cookies();
@@ -86,31 +86,41 @@ function App() {
   }, [state.AssetList?.unAuthorized])
 
 
- useEffect(() => {
-        const unsubscribe = onMessage(messaging, (payload) => {
-      console.log("notification", payload);
 
-      alert(payload.notification.title);
-    });
 
-    return () => unsubscribe();
-  }, []);
+  // useEffect(() => {
+  //   const askPermission = async () => {
+  //     const permission = await Notification.requestPermission();
+  //     console.log("Permission:", permission);
 
-  useEffect(() => {
-    const askPermission = async () => {
-      const permission = await Notification.requestPermission();
-      console.log("Permission:", permission);
+  //     if (permission === "granted") {
+  //       const token = await getToken(messaging, {
+  //         vapidKey: "AIzaSyAfEOOtBi9rbNrV8mnIoPD-uIvCmkvnXY4"
+  //       });
+  //       console.log("FCM TOKEN:", token);
+  //     }
+  //   };
 
-      if (permission === "granted") {
-        const token = await getToken(messaging, {
-          vapidKey: "AIzaSyAfEOOtBi9rbNrV8mnIoPD-uIvCmkvnXY4"
-        });
-        console.log("FCM TOKEN:", token);
-      }
-    };
+  //   askPermission();
+  // }, [])
 
-    askPermission();
-  }, [])
+
+// useEffect(() => {
+//   const unsubscribe = onMessageListener((payload) => {
+//     console.log("message", payload);
+//     alert(payload.notification.title);
+//   });
+
+//   return () => unsubscribe();
+// }, []);
+
+
+
+
+
+
+
+
 
   useEffect(() => {
     if (!state.login?.isLoggedIn && !data) {

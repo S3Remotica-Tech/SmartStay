@@ -1197,7 +1197,7 @@ const Compliance = () => {
             ) :
               <div className='row row-gap-3 p-2 '
                 style={{
-                  height: "500px",
+                  height: "600px",
                   overflowY: "auto",
                   // position: "relative",
                   // paddingRight: 20

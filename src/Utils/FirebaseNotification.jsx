@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 // import { getAnalytics , getToken } from "firebase/messaging";
-
+import { onMessage } from "firebase/messaging";
 import { getMessaging } from "firebase/messaging";
 
 const firebaseConfig = {
@@ -16,3 +16,12 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 export const messaging = getMessaging(app);
+
+
+
+export const onMessageListener = () =>
+  new Promise((resolve) => {
+    onMessage(messaging, (payload) => {
+      resolve(payload);
+    });
+  });

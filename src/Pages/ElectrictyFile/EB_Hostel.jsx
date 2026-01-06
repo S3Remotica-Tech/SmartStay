@@ -7,7 +7,7 @@ import { FiFilter } from "react-icons/fi";
 import searchteam from "../../Assets/Images/New_images/Search Team.png";
 import arrowSwap from "../../Assets/Images/New_images/arrow-swap.svg";
 import Group from "../../Assets/Images/New_images/Group.svg";
-import { CloseCircle, ArrowUp2, ArrowDown2 } from "iconsax-react";
+import { CloseCircle, ArrowUp2, ArrowDown2,Flash } from "iconsax-react";
 import PaginationList from "../../Components/PaginationList";
 import EB_RoomOverview from "./EB_RoomOverview";
 // import Ellipse1 from "../../Assets/Images/Profile.jpg";
@@ -1152,7 +1152,7 @@ const RoomReadingTable = () => {
                                     fontSize: 18,
                                   }}
                                 >
-                                  ⚡
+                                  <Flash />
                                 </div>
 
 
@@ -1367,14 +1367,56 @@ const RoomReadingTable = () => {
                         ) : (
                           <div
                             style={{
-                              textAlign: "center",
-                              padding: 30,
-                              fontWeight: 600,
-                              color: "#4B4B4B",
+                              background: "#FFFFFF",
+                              borderRadius: 16,
+                              padding: "18px 20px",
+                              marginBottom: 14,
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 12,
+                              border: "1px dashed #DCDCDC",
+                              color: "#6B6B6B",
                             }}
                           >
-                            There are no hostel reading available
+                            <div
+                              style={{
+                                height: 36,
+                                width: 36,
+                                borderRadius: "50%",
+                                background: "#F5F5F5",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                fontSize: 18,
+                              }}
+                            >
+                            <Flash />
+                            </div>
+
+                            <div style={{ lineHeight: 1.4 }}>
+                              <div
+                                style={{
+                                  fontSize: 18,
+                                  fontWeight: 600,
+                                  fontFamily: "Gilroy",
+                                  color: "#2B2B2B",
+                                }}
+                              >
+                                No readings available
+                              </div>
+
+                              <div
+                                style={{
+                                  fontSize: 14,
+                                  fontFamily: "Gilroy",
+                                  color: "#7A7A7A",
+                                }}
+                              >
+                                Hostel electricity readings have not been added yet
+                              </div>
+                            </div>
                           </div>
+
                         )}
                       </div>
                     )}

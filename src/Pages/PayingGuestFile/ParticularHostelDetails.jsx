@@ -380,7 +380,7 @@ const [selectedBed, setSelectedBed] = useState(null);
             </div>}
         </div>
 
-        <div className='container-fluid show-scroll' style={{ maxHeight: "400px", overflowY: "auto", marginTop: "-25px" }}>
+        <div className='container-fluid show-scroll' style={{ maxHeight: "480px", overflowY: "auto", marginTop: "-25px" }}>
           <div className='row mt-4 mb-2 row-gap-3' style={{ fontFamily: "Gilroy" }}>
             {roomList?.length > 0 && roomList?.map((room) => (
               <div className='col-lg-6 col-md-6 col-sm-12 d-flex justify-content-center' key={room.id}>
