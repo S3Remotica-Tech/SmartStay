@@ -188,6 +188,25 @@ export function UpdateNotification() {
 }
 
 
+export async function FCM_Token(token) {
+    return await AxiosConfigV2.put('/v2/profile/fcm',token,{
+    data:token
+   
+  })
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 export const StoreSelectedHostelAction = (data) => {
  
   return {

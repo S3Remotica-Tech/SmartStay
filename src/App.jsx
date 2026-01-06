@@ -18,9 +18,9 @@ import LoaderComponent from './Pages/OthersComponent/LoaderComponent';
 import ThankYou from './NewLandingPage/ThankYou';
 import Sidebar from './Components/Sidebar';
 // import PaymentPreview from "./Pages/SubscriptionFile/PaymentPreview";
-// import { generatetoken , messaging} from './Utils/FirebaseNotification';
-// import { onMessage } from 'firebase/messaging';
-
+// import { onMessage } from "firebase/messaging";
+import { messaging  } from "./Utils/FirebaseNotification";
+import { getToken } from "firebase/messaging";
 function App() {
   const cookies = new Cookies();
   const dispatch = useDispatch();
@@ -33,30 +33,6 @@ function App() {
 
   const login = localStorage.getItem("login");
   const TwoStepEnable = localStorage.getItem("IsEnable");
-
-// useEffect(() => {
-//   if (data || state.login?.isLoggedIn) {
-//     generatetoken()
-//       .then((token) => {
-//         if (token) {
-//           dispatch({ type: "SET_FCM_TOKEN", payload: token });
-//         }
-//       })
-//       .catch((err) => console.error("Token error:", err));
-
-//     onMessage(messaging, (payload) => {
-//       console.log("message_received", payload);
-//     });
-//   }
-// }, [data, state.login?.isLoggedIn]); 
-
-// const fcmToken = useSelector((state) => state.login?.fcmToken);
-// console.log("FCMToken", fcmToken);
-
-
-
-
-
 
 
 
@@ -108,6 +84,48 @@ function App() {
     }
 
   }, [state.AssetList?.unAuthorized])
+
+
+
+
+  useEffect(() => {
+    const askPermission = async () => {
+      const permission = await Notification.requestPermission();
+      console.log("Permission", permission);
+
+      if (permission === "granted") {
+        const token = await getToken(messaging, {
+          vapidKey: "BMXC5Wm4kkMiJDq2o98v_QMaXMctNWwtuFlpezETQ-hpSLG1HIKsN0SIFKW-ebfg8tILguRwWisjb0-syzlRgFE"
+        });
+        console.log("fcm token", token);
+        if(token){
+          dispatch({ type: 'FCMTOKENSAGA', payload: {token: token , source: "Web"}})
+        }
+      }
+    };
+
+    askPermission();
+  }, [])
+
+
+
+
+// useEffect(() => {
+//   const unsubscribe = onMessageListener((payload) => {
+//     console.log("message", payload);
+//     alert(payload.notification.title);
+//   });
+
+//   return () => {
+//     if (unsubscribe) unsubscribe();
+//   };
+// }, []);
+
+
+
+
+
+
 
 
 

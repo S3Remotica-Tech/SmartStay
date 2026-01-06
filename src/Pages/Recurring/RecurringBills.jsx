@@ -519,7 +519,7 @@ function RecurringBills() {
                 </div>
               </div>
             ) : !recurLoader && activeStay === 'short_stay' ?
-              <div
+              <div className="mt-5"
                 style={{
                   height: "400px",
                   display: "flex",
@@ -545,9 +545,7 @@ function RecurringBills() {
                   <p style={{ color: "#7a7a7a", fontSize: "14px", fontFamily: "Gilroy" }}>Coming Soon. Stay tuned!</p>
                 </div>
               </div>
-
-
-              :
+             :
               ""}
 
 

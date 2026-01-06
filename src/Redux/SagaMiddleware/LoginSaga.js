@@ -1,5 +1,5 @@
 import { call, takeEvery, put } from 'redux-saga/effects';
-import { login, OTPverification, loginV2 ,GetAllNotification} from '../Action/smartStayAction';
+import { login, OTPverification, loginV2 ,GetAllNotification, FCM_Token} from '../Action/smartStayAction';
 
 
 function* handleApiError(error) {
@@ -153,11 +153,26 @@ function* handleNotification(action) {
   }
 
 
-
 }
 
 
+function* handleFCM_Token(args) {
+  try {
+    const response = yield call(FCM_Token, args.payload);
+    console.log("response",response)
+    if (response?.status === 200) {
+      yield put({ type: 'FCM_TOKEN', payload: { response: response.data, statusCode: response?.status } });
+
+    }
+      }
+  catch (error) {
+    yield* handleApiError(error);
+  }
+
+}
+
 function* LoginSaga() {
+  yield takeEvery('FCMTOKENSAGA',handleFCM_Token)
   yield takeEvery('ALLNOTIFICATION', handleNotification)
   yield takeEvery('LOGININFO', handleLogin)
   yield takeEvery('OTPVERIFY', handleOTPVerified)

@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
-import { getAnalytics , getToken } from "firebase/messaging";
-
-
+// import { getAnalytics , getToken } from "firebase/messaging";
+import { onMessage } from "firebase/messaging";
+import { getMessaging } from "firebase/messaging";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAfEOOtBi9rbNrV8mnIoPD-uIvCmkvnXY4",
@@ -12,11 +12,17 @@ const firebaseConfig = {
   appId: "1:251194789789:web:ce464d9ab1b6e888272974",
   measurementId: "G-R17ZQ1WK8K"
 };
- s
+ 
 
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+export const messaging = getMessaging(app);
 
-console.log("analytics",analytics)
 
-export default firebaseApp;
+
+export const onMessageListener = (callback) => {
+  const unsubscribe = onMessage(messaging, (payload) => {
+    callback(payload);
+  });
+
+  return unsubscribe; 
+};

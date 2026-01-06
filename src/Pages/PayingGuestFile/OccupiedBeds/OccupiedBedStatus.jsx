@@ -22,7 +22,7 @@ function OccupiedBedStatus({
     handleShowReassignBed,
     handleShowNoticePeriod,
     showEditBed,
-    handleShowCheck_In,
+    // handleShowCheck_In,
     handleShowInActiveForm
 }) {
 
@@ -78,11 +78,11 @@ function OccupiedBedStatus({
         setActiveRoomIdReserved(activeRoomIdReserved === roomId ? null : roomId);
     }
 
- const handleCheckin = (tenant) => {
+//  const handleCheckin = (tenant) => {
      
-        handleShowCheck_In(true, tenant)
+//         handleShowCheck_In(true, tenant)
 
-    }
+//     }
 
     const handleMakeInActive = (tenant) => {
         handleShowInActiveForm(true, tenant)
@@ -682,7 +682,7 @@ OccupiedBedStatus.propTypes = {
     handleShowReassignBed: PropTypes.func.isRequired,
     handleShowNoticePeriod: PropTypes.func.isRequired,
     showEditBed: PropTypes.func.isRequired,
-    handleShowCheck_In: PropTypes.func.isRequired,
+    // handleShowCheck_In: PropTypes.func.isRequired,
     handleShowInActiveForm: PropTypes.func.isRequired,
 
 };

@@ -33,7 +33,8 @@ export const initialState = {
    userId: '',
    isTrigger: false,
   paymentHtml: "",
-  apiResponseHostelId: ''
+  apiResponseHostelId: '',
+  fcmStatus:0,
 
 }
 const SmartStayReducer = (state = initialState, action) => {
@@ -137,8 +138,10 @@ const SmartStayReducer = (state = initialState, action) => {
          return { ...state, twoStepOtpError: '' }
       case 'SET_CHECKOUT_PROFILE':
          return { ...state, checkoutProfileStatus: action.payload }
-
-
+case 'FCM_TOKEN':
+   return { ...state, fcmStatus: action.payload.statusCode }
+case 'REMOVE_FCM_TOKEN':
+   return { ...state, fcmStatus: 0}
       case 'RESET_ALL':
          return initialState;
       default:
