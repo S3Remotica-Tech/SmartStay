@@ -18,9 +18,9 @@ import LoaderComponent from './Pages/OthersComponent/LoaderComponent';
 import ThankYou from './NewLandingPage/ThankYou';
 import Sidebar from './Components/Sidebar';
 // import PaymentPreview from "./Pages/SubscriptionFile/PaymentPreview";
-// import { generatetoken , messaging} from './Utils/FirebaseNotification';
-// import { onMessage } from 'firebase/messaging';
-
+import { onMessage } from "firebase/messaging";
+import { messaging } from "./Utils/FirebaseNotification";
+import { getToken } from "firebase/messaging";
 function App() {
   const cookies = new Cookies();
   const dispatch = useDispatch();
@@ -33,30 +33,6 @@ function App() {
 
   const login = localStorage.getItem("login");
   const TwoStepEnable = localStorage.getItem("IsEnable");
-
-// useEffect(() => {
-//   if (data || state.login?.isLoggedIn) {
-//     generatetoken()
-//       .then((token) => {
-//         if (token) {
-//           dispatch({ type: "SET_FCM_TOKEN", payload: token });
-//         }
-//       })
-//       .catch((err) => console.error("Token error:", err));
-
-//     onMessage(messaging, (payload) => {
-//       console.log("message_received", payload);
-//     });
-//   }
-// }, [data, state.login?.isLoggedIn]); 
-
-// const fcmToken = useSelector((state) => state.login?.fcmToken);
-// console.log("FCMToken", fcmToken);
-
-
-
-
-
 
 
 
@@ -110,7 +86,31 @@ function App() {
   }, [state.AssetList?.unAuthorized])
 
 
+ useEffect(() => {
+        const unsubscribe = onMessage(messaging, (payload) => {
+      console.log("notification", payload);
 
+      alert(payload.notification.title);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    const askPermission = async () => {
+      const permission = await Notification.requestPermission();
+      console.log("Permission:", permission);
+
+      if (permission === "granted") {
+        const token = await getToken(messaging, {
+          vapidKey: "AIzaSyAfEOOtBi9rbNrV8mnIoPD-uIvCmkvnXY4"
+        });
+        console.log("FCM TOKEN:", token);
+      }
+    };
+
+    askPermission();
+  }, [])
 
   useEffect(() => {
     if (!state.login?.isLoggedIn && !data) {

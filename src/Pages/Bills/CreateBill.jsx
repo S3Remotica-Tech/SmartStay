@@ -874,14 +874,14 @@ function CreateBill() {
 
 
 
-            setCustomerName("");
-            setInvoiceNumber("");
-            setStartDate("");
-            setEndDate("");
-            setInvoiceDate("");
-            setInvoiceDueDate("");
-            setTotalAmount("");
-            setNewRows([]);
+            // setCustomerName("");
+            // setInvoiceNumber("");
+            // setStartDate("");
+            // setEndDate("");
+            // setInvoiceDate("");
+            // setInvoiceDueDate("");
+            // setTotalAmount("");
+            // setNewRows([]);
             setCustomerErrmsg("");
             setInvoiceDateErrmsg("");
             setInvoiceDueDateErrmsg("");
@@ -1380,7 +1380,7 @@ function CreateBill() {
                                                 type="text"
                                                 style={{ fontFamily: "Gilroy" }}
                                                 // disabled={u.am_name === "Rent" || u.am_name === "Amenity"}
-                                                disabled={u.isFromApi}
+                                               disabled={u.isFromApi && u.am_name !== "EB"}
 
                                                 value={u.am_name}
                                                 onChange={(e) => handleNewRowChange(index, "am_name", e.target.value)}
@@ -1391,7 +1391,7 @@ function CreateBill() {
                                             <Form.Control
                                                 type="text"
                                                 style={{ fontFamily: "Gilroy" }}
-                                                disabled={u.isFromApi}
+                                                disabled={u.isFromApi && u.am_name !== "EB"}
                                                 // disabled={u.am_name === "Rent" || u.am_name === "Amenity"}
                                                 value={u.amount !== "0" ? u.amount : ""}
                                                 placeholder="Please Enter Amount"
