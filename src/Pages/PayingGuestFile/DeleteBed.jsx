@@ -55,7 +55,7 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
 
 
   const handleDeleteBed = () => {
-
+dispatch({ type: 'CLEAR_DELETE_BED_ERROR' });
     if ( deleteBedDetails?.bed.id) {
        setFormLoading(true);
       dispatch({ type: 'DELETEBED', 
@@ -254,9 +254,7 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
 
 
 
-        {state.PgList?.deleteBedError && (
-          <ErrorMessage message={state.PgList?.deleteBedError} type="error"/>
-        )}
+       
 
 
         <Modal.Body
@@ -274,7 +272,7 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
           <Nav fill variant="tabs">
 
             <Nav.Item onClick={() => handleShow('deleteBed')}>
-              <Nav.Link style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy", borderColor: '#e0ecff', borderTopLeftRadius: '10px', color: actionType === 'deleteBed' ? "black" : "black", backgroundColor: actionType === 'deleteBed' ? "#e0ecff" : "#FFF" }}>Delete Bed ?</Nav.Link>
+              <Nav.Link style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy", borderColor: '#e0ecff', borderTopLeftRadius: '10px', color: actionType === 'deleteBed' ? "black" : "black", backgroundColor:  "#FFF" }}>Delete Bed ?</Nav.Link>
             </Nav.Item>
 
           </Nav>
@@ -283,7 +281,9 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
 
           {/* {`Are you sure you want to delete the bed ${deleteBedDetails.bed.bed_no}?`} */}
         </Modal.Body>
-
+ {/* {state.PgList?.deleteBedError && (
+          <ErrorMessage message={state.PgList?.deleteBedError} type="error"/>
+        )} */}
         {formLoading &&
           <div
             style={{

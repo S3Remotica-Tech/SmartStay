@@ -18,7 +18,7 @@ const app = initializeApp(firebaseConfig);
 export const messaging = getMessaging(app);
 
 
-
+// App OPEN (Foreground)
 export const onMessageListener = (callback) => {
   const unsubscribe = onMessage(messaging, (payload) => {
     callback(payload);

@@ -64,7 +64,7 @@ export const initialState = {
     RecurenotenableStatusCode: 0,
     Errmessage: '',
     amnitiessAddError: '',
-
+finalSettlementError: '',
     BillsPdfDetails: [],
     BillsPdfSuccessCode: 0,
 
@@ -453,7 +453,8 @@ const InvoiceReducer = (state = initialState, action) => {
         case 'CLEAR_NEE_RECEIPT_PDF_STATUS_CODE':
             return { ...state, statusCodeNewReceiptStatusCode: 0 }
 
-
+        case 'FINAL_SETTLMENT_ERROR':
+            return { ...state, finalSettlementError: action.payload };
 
 
         case 'SET_TRIGGER_SOURCE':

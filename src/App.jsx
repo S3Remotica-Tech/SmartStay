@@ -19,7 +19,7 @@ import ThankYou from './NewLandingPage/ThankYou';
 import Sidebar from './Components/Sidebar';
 // import PaymentPreview from "./Pages/SubscriptionFile/PaymentPreview";
 // import { onMessage } from "firebase/messaging";
-import { messaging  } from "./Utils/FirebaseNotification";
+import { messaging ,onMessageListener  } from "./Utils/FirebaseNotification";
 import { getToken } from "firebase/messaging";
 function App() {
   const cookies = new Cookies();
@@ -89,9 +89,9 @@ function App() {
 
 
   useEffect(() => {
-    const askPermission = async () => {
+     const askPermission = async () => {
       const permission = await Notification.requestPermission();
-      console.log("Permission", permission);
+      // console.log("Permission", permission);
 
       if (permission === "granted") {
         const token = await getToken(messaging, {
@@ -105,21 +105,22 @@ function App() {
     };
 
     askPermission();
-  }, [])
+  }, [state.login?.isLoggedIn])
 
 
+useEffect(() => {
+    const unsubscribe = onMessageListener((payload) => {
+      console.log("FCM Foreground Message", payload);
+   
+      toast.info(payload?.notification?.title || "New Notification");
+    });
+
+    return () => {
+      if (unsubscribe) unsubscribe(); 
+    };
+  }, []);
 
 
-// useEffect(() => {
-//   const unsubscribe = onMessageListener((payload) => {
-//     console.log("message", payload);
-//     alert(payload.notification.title);
-//   });
-
-//   return () => {
-//     if (unsubscribe) unsubscribe();
-//   };
-// }, []);
 
 
 

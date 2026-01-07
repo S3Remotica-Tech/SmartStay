@@ -30,6 +30,7 @@ function AddRoomReading({ show, handleClose, selectedRowDetails, editRoomReading
 
 
     const handleCurrentReadingChange = (e) => {
+        setChangesError('')
         dispatch({ type: 'REMOVE_ROOM_READING_ERROR' })
         const value = e.target.value;
         if (/^\d*\.?\d*$/.test(value)) {
@@ -39,6 +40,7 @@ function AddRoomReading({ show, handleClose, selectedRowDetails, editRoomReading
     };
 
     const handleReadingDateChange = (date) => {
+        setChangesError('')
         dispatch({ type: 'REMOVE_ROOM_READING_ERROR' })
         setReadingDate(date ? date : null);
         setDateError('')
@@ -69,6 +71,7 @@ function AddRoomReading({ show, handleClose, selectedRowDetails, editRoomReading
 
 
     const handleSubmit = () => {
+        setChangesError('')
         dispatch({ type: 'REMOVE_ROOM_READING_ERROR' })
         let hasError = false;
 

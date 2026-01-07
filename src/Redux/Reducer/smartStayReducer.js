@@ -15,10 +15,10 @@ export const initialState = {
    OtpVerifyStatusCode: 0,
    JWTtoken: '',
    Notification: [],
-   notificationStatus: 0 ,
+   notificationStatus: 0,
    UpdateNotificationMessage: '',
    twoStepOtpError: '',
-   selectedHostel_Id: "" ,
+   selectedHostel_Id: "",
    Settings_Hostel_Id: '',
    IsVisible: null,
    errorStatusCode: 0,
@@ -32,9 +32,10 @@ export const initialState = {
    isOtpRequired: false,
    userId: '',
    isTrigger: false,
-  paymentHtml: "",
-  apiResponseHostelId: '',
-  fcmStatus:0,
+   paymentHtml: "",
+   apiResponseHostelId: '',
+   fcmStatus: 0,
+   logoutAdminStatusCode: 0
 
 }
 const SmartStayReducer = (state = initialState, action) => {
@@ -48,11 +49,11 @@ const SmartStayReducer = (state = initialState, action) => {
             planStatus: action.payload,
          };
 
-          case "SET_PAYMENT_HTML":
-      return {
-        ...state,
-        paymentHtml: action.payload,
-      };
+      case "SET_PAYMENT_HTML":
+         return {
+            ...state,
+            paymentHtml: action.payload,
+         };
       case "SET_JOINING_DATE":
          return {
             ...state,
@@ -67,8 +68,8 @@ const SmartStayReducer = (state = initialState, action) => {
       case "CLEAR_HOSTEL_DATA":
          return { ...state, selectedHostel_Id: '' };
 
-         case 'SAVE_RESPONSE_HOSTEL':
-            return { ...state, apiResponseHostelId: action.payload };
+      case 'SAVE_RESPONSE_HOSTEL':
+         return { ...state, apiResponseHostelId: action.payload };
 
       case "SETTINGS_STORE_HOSTEL_DATA":
          return { ...state, Settings_Hostel_Id: action.payload };
@@ -112,7 +113,11 @@ const SmartStayReducer = (state = initialState, action) => {
       case 'LOGIN-SUCCESS':
          return { ...state, isLoggedIn: true }
       case 'LOG_OUT':
-         return { ...state, isLoggedIn: false, selectedHostel_Id: null,  apiResponseHostelId: null }
+         return { ...state, isLoggedIn: false, selectedHostel_Id: null, apiResponseHostelId: null }
+      case 'LOGOUT_ADMIN':
+         return { ...state, logoutAdminStatusCode: action.payload.statusCode }
+      case 'REMOVE_LOGOUT_ADMIN':
+         return { ...state, logoutAdminStatusCode: 0 }
       case 'CLEAR_STATUSCODE':
          return { ...state, statusCode: 0 }
       case 'OTP_SUCCESS':
@@ -138,10 +143,10 @@ const SmartStayReducer = (state = initialState, action) => {
          return { ...state, twoStepOtpError: '' }
       case 'SET_CHECKOUT_PROFILE':
          return { ...state, checkoutProfileStatus: action.payload }
-case 'FCM_TOKEN':
-   return { ...state, fcmStatus: action.payload.statusCode }
-case 'REMOVE_FCM_TOKEN':
-   return { ...state, fcmStatus: 0}
+      case 'FCM_TOKEN':
+         return { ...state, fcmStatus: action.payload.statusCode }
+      case 'REMOVE_FCM_TOKEN':
+         return { ...state, fcmStatus: 0 }
       case 'RESET_ALL':
          return initialState;
       default:

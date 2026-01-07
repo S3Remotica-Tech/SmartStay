@@ -28,10 +28,11 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
 
     useEffect(() => {
         if (complaintsDetails?.complaintId) {
-            console.log("callededdddd")
-            dispatch({ type: 'COMPLAINTSVIEWUPDATES', payload: { hostelId: state.login.selectedHostel_Id, complaintsId: complaintsDetails?.complaintId } })
+                        dispatch({ type: 'COMPLAINTSVIEWUPDATES', payload: { hostelId: state.login.selectedHostel_Id, complaintsId: complaintsDetails?.complaintId } })
         }
     }, [complaintsDetails?.complaintId])
+
+
 
     const StepItem = ({ children, isLast, type }) => {
 
@@ -196,10 +197,10 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
                 >
                     <div>
 
-                        {complaintsDetails?.customerProfile &&
-                            complaintsDetails?.customerProfile !== "0" ? (
+                        {state.createAccount?.accountList?.profilePic &&
+                            state.createAccount?.accountList.profilePic !== "0" ? (
                             <Image
-                                src={complaintsDetails.customerProfile}
+                                src={state.createAccount?.accountList.profilePic}
                                 roundedCircle
                                 style={{ height: 50, width: 50 }}
                                 alt="image"
@@ -220,7 +221,7 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
                                      fontFamily: "Gilroy"
                                 }}
                             >
-                                {complaintsDetails?.initials || "-"}
+                                {state.createAccount?.accountList?.initial || "-"}
                             </div>
                         )}
 
