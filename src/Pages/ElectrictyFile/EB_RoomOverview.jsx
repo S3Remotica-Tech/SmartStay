@@ -53,7 +53,7 @@ const EBRoomOverview = ({ onBack, room }) => {
 
 
     const formattedReadings = roomReadingList?.map((item) => {
-         const [, month, year] = item.entryDate.split("/").map(Number);
+        const [, month, year] = item.entryDate.split("/").map(Number);
 
         const billingMonth = new Date(year, month - 1, 1).toLocaleString("en-US", {
             month: "short",
@@ -98,7 +98,7 @@ const EBRoomOverview = ({ onBack, room }) => {
 
 
     const formattedTenantReadings = tenantReadingList?.map((item) => {
-       
+
 
         const formatDate = (dateStr) => {
             const [d, m, y] = dateStr.split("/").map(Number);
@@ -449,13 +449,14 @@ const EBRoomOverview = ({ onBack, room }) => {
                                                                     height: 35,
                                                                     width: 35,
                                                                     borderRadius: "50%",
-                                                                    backgroundColor: "#1E45E1",
+                                                                    backgroundColor: "#E2E8F0",
+                                                                    color: "#44536A",
                                                                     display: "flex",
                                                                     justifyContent: "center",
                                                                     alignItems: "center",
                                                                     fontSize: 13,
                                                                     fontWeight: "600",
-                                                                    color: "white", fontFamily: "Gilroy"
+                                                                    fontFamily: "Gilroy"
                                                                 }}
                                                             >
                                                                 {row?.initials || "-"}

@@ -554,7 +554,7 @@ function SettingGeneral() {
   const MobileNumber = `${Phone}`;
 
   const handleEditGeneralUser = (user) => {
- 
+
     // const phoneNumber = String(user.mobileNo || "");
     // const countryCode = mobileNo.slice(0, mobileNo.length - 10);
     // const mobileNumber = mobileNo.slice(-10);
@@ -673,7 +673,7 @@ function SettingGeneral() {
 
 
   const handleSave = () => {
-    
+
     dispatch({ type: 'CLEAR_GENERAL_EMAIL_ERROR' })
     dispatch({ type: 'CLEAR_MOBILE_ERROR' })
 
@@ -686,7 +686,7 @@ function SettingGeneral() {
       validateField(firstName, "firstName"),
       validateField(emilId, "emilId"),
       validateField(Phone, "Phone"),
-       !edit ? validateField(password, "password") : true,
+      !edit ? validateField(password, "password") : true,
       validateField(city, "City"),
       validateField(pincode, "Pincode"),
       validateField(state_name, "state_name"),
@@ -704,28 +704,28 @@ function SettingGeneral() {
     }
 
 
-if (!edit) {
-    if (!password) {
-      setPasswordError("Please Enter Password");
-      hasError = true;
-    } else if (password.length < 8) {
-      setPasswordError("Password must be at least 8 characters long");
-      hasError = true;
-    }
-
-    if (password) {
-      const hasUppercase = /[A-Z]/.test(password);
-      const hasNumber = /[0-9]/.test(password);
-      const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-
-      if (!hasUppercase || !hasNumber || !hasSpecialChar) {
-        setPasswordError(
-          "Password must include a capital letter, a number, and a special character"
-        );
+    if (!edit) {
+      if (!password) {
+        setPasswordError("Please Enter Password");
+        hasError = true;
+      } else if (password.length < 8) {
+        setPasswordError("Password must be at least 8 characters long");
         hasError = true;
       }
+
+      if (password) {
+        const hasUppercase = /[A-Z]/.test(password);
+        const hasNumber = /[0-9]/.test(password);
+        const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+        if (!hasUppercase || !hasNumber || !hasSpecialChar) {
+          setPasswordError(
+            "Password must include a capital letter, a number, and a special character"
+          );
+          hasError = true;
+        }
+      }
     }
-  }
 
 
 
@@ -811,7 +811,7 @@ if (!edit) {
       profilePic: isFile(profileimage) ? profileimage : null
     };
 
-   
+
 
 
 
@@ -833,11 +833,11 @@ if (!edit) {
         (profileimage && profileimage !== initialStateAssign.file);
 
 
-    
+
 
 
       if (!isChanged) {
-       
+
         setFormError("No Changes Detected");
         return
       }
@@ -851,7 +851,7 @@ if (!edit) {
       //   }
       // })
       if (isChanged) {
-       
+
         dispatch({ type: "EDITGENERALSETTING", payload: payloadForApi });
       }
 
@@ -1282,11 +1282,11 @@ if (!edit) {
                                 height: 40,
                                 width: 40,
                                 borderRadius: "50%",
-                                backgroundColor: "#1E45E1",
+                                backgroundColor: "#E2E8F0",
+                                color: "#44536A",
                                 display: "flex",
                                 alignItems: "center",
                                 justifyContent: "center",
-                                color: "white",
                                 fontWeight: 600,
                                 fontSize: 14,
                                 textTransform: "uppercase",

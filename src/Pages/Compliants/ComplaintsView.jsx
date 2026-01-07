@@ -28,7 +28,7 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
 
     useEffect(() => {
         if (complaintsDetails?.complaintId) {
-                        dispatch({ type: 'COMPLAINTSVIEWUPDATES', payload: { hostelId: state.login.selectedHostel_Id, complaintsId: complaintsDetails?.complaintId } })
+            dispatch({ type: 'COMPLAINTSVIEWUPDATES', payload: { hostelId: state.login.selectedHostel_Id, complaintsId: complaintsDetails?.complaintId } })
         }
     }, [complaintsDetails?.complaintId])
 
@@ -212,13 +212,13 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
                                     width: 50,
                                     borderRadius: "50%",
                                     backgroundColor: "#E2E8F0",
-                                                             color: "#44536A",
+                                    color: "#44536A",
                                     display: "flex",
                                     justifyContent: "center",
                                     alignItems: "center",
                                     fontSize: 20,
                                     fontWeight: "600",
-                                     fontFamily: "Gilroy"
+                                    fontFamily: "Gilroy"
                                 }}
                             >
                                 {state.createAccount?.accountList?.initial || "-"}
@@ -310,8 +310,8 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
                                                                 width: 37,
                                                                 height: 37,
                                                                 borderRadius: "50%",
-                                                                 backgroundColor: "#E2E8F0",
-                                                                                          color: "#44536A",
+                                                                backgroundColor: "#E2E8F0",
+                                                                color: "#44536A",
                                                                 display: "flex",
                                                                 alignItems: "center",
                                                                 justifyContent: "center",

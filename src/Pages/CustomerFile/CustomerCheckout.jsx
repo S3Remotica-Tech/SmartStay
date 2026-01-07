@@ -30,9 +30,9 @@ function CustomerCheckout(props) {
   // const [lastDate, setLastDate] = useState("");
   const [joiningdate, setJoiningDate] = useState("")
 
- 
 
-// console.log("props",props)
+
+  // console.log("props",props)
 
 
 
@@ -140,7 +140,7 @@ function CustomerCheckout(props) {
     const formattedrequestDate = dayjs(requestDate).isValid()
       ? dayjs(requestDate).format("DD-MM-YYYY")
       : null;
-    const customerId = props.bedData?.currentTenantInfo?.[0].tenetId  || props.bedData?.customerId;
+    const customerId = props.bedData?.currentTenantInfo?.[0].tenetId || props.bedData?.customerId;
     if (customerId && formattedDate && formattedrequestDate) {
 
       dispatch({
@@ -266,10 +266,10 @@ function CustomerCheckout(props) {
                         >
 
                           {
-                            props?.bedData   &&
+                            props?.bedData &&
                               (
                                 (props.bedData?.currentTenantInfo?.[0]?.profilePic?.trim()) ||
-    (props.bedData?.profilePic?.trim())
+                                (props.bedData?.profilePic?.trim())
                               )
                               ? (
                                 <Image
@@ -294,17 +294,18 @@ function CustomerCheckout(props) {
                               : (
                                 <div
                                   style={{
-                                            height: 50,
-                                            width: 50,
-                                            borderRadius: "50%",
-                                            backgroundColor: "#1E45E1",
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            alignItems: "center",
-                                            fontSize: 20,
-                                            fontWeight: "600",
-                                            color: "white", fontFamily: "Gilroy"
-                                        }}
+                                    height: 50,
+                                    width: 50,
+                                    borderRadius: "50%",
+                                    backgroundColor: "#E2E8F0",
+                                    color: "#44536A",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    fontSize: 20,
+                                    fontWeight: "600",
+                                    fontFamily: "Gilroy"
+                                  }}
                                 >
                                   {props.bedData?.initials || props.bedData?.currentTenantInfo?.[0].tenantInitials || "-"}
                                 </div>
@@ -607,38 +608,38 @@ CustomerCheckout.propTypes = {
   bed_no: PropTypes.string,
   bed_amount: PropTypes.number,
   bedData: PropTypes.shape({
-  customerId: PropTypes.string.isRequired,
-  hostelId: PropTypes.string.isRequired,
+    customerId: PropTypes.string.isRequired,
+    hostelId: PropTypes.string.isRequired,
 
-  actualJoining: PropTypes.string,   
-  initials: PropTypes.string,         
-  profilePic: PropTypes.string,
-  fullName: PropTypes.string,
+    actualJoining: PropTypes.string,
+    initials: PropTypes.string,
+    profilePic: PropTypes.string,
+    fullName: PropTypes.string,
 
-  floorName: PropTypes.string,
-  roomName: PropTypes.string,
-  bedName: PropTypes.string,
+    floorName: PropTypes.string,
+    roomName: PropTypes.string,
+    bedName: PropTypes.string,
 
-  currentTenantInfo: PropTypes.arrayOf(
-    PropTypes.shape({
-      joiningDate: PropTypes.string,
-      tenetId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-      profilePic: PropTypes.string,
-      tenantInitials: PropTypes.string,
-      tenantFullName: PropTypes.string,
-    })
-  ),
+    currentTenantInfo: PropTypes.arrayOf(
+      PropTypes.shape({
+        joiningDate: PropTypes.string,
+        tenetId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        profilePic: PropTypes.string,
+        tenantInitials: PropTypes.string,
+        tenantFullName: PropTypes.string,
+      })
+    ),
 
-  room: PropTypes.shape({
-    Hostel_Id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    Floor_Id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    Room_Name: PropTypes.string,
-  }),
+    room: PropTypes.shape({
+      Hostel_Id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      Floor_Id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      Room_Name: PropTypes.string,
+    }),
 
-  bed: PropTypes.shape({
-    bed_no: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  }),
-}).isRequired,
+    bed: PropTypes.shape({
+      bed_no: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    }),
+  }).isRequired,
 
 };
 

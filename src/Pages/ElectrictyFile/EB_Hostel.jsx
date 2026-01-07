@@ -1803,13 +1803,14 @@ const RoomReadingTable = () => {
                                         height: 30,
                                         width: 30,
                                         borderRadius: "50%",
-                                        backgroundColor: "#1E45E1",
+                                        backgroundColor: "#E2E8F0",
+                          color: "#44536A",
                                         display: "flex",
                                         justifyContent: "center",
                                         alignItems: "center",
                                         fontSize: 11,
                                         fontWeight: "600",
-                                        color: "white", fontFamily: "Gilroy"
+                                         fontFamily: "Gilroy"
                                       }}
                                     >
                                       {row?.initials || "-"}
