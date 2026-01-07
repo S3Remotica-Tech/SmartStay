@@ -43,7 +43,7 @@ function AddHostelReading({ show, handleClose
     };
 
     const handleReadingDateChange = (date) => {
-        setChangesError('')
+              setChangesError('')
         dispatch({ type: 'REMOVE_ROOM_READING_ERROR' })
         setReadingDate(date ? date : null);
         setDateError('')
@@ -76,6 +76,7 @@ function AddHostelReading({ show, handleClose
 
 
     const handleSubmit = () => {
+        setChangesError('')
         dispatch({ type: 'REMOVE_ROOM_READING_ERROR' })
         let hasError = false;
 

@@ -731,16 +731,28 @@ function* handleDeleteBed(action) {
         progress: undefined,
         style: toastStyle,
       });
-    } else if (response?.status === 201) {
-      yield put({ type: "DELETE_BED_ERROR", payload: response?.data?.message });
-
-    }
-    if (response) {
-      refreshToken(response);
-    }
+    } 
+    
   }
   catch (error) {
     yield* handleApiError(error);
+    if (error.code === 'ERR_BAD_REQUEST') {
+      if (error.status === 400) {
+        yield put({ type: 'DELETE_BED_ERROR', payload: error.response.data });
+         toast.error(`${error.response.data}`, {
+          style: { fontFamily: "Gilroy", font: "#000", borderBottom: "5px solid red" },
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeButton: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+
+        });
+      }
+    }
   }
 }
 
@@ -791,6 +803,19 @@ function* handleDeletePG(action) {
     if (error.code === 'ERR_BAD_REQUEST') {
       if (error.status === 400) {
         yield put({ type: 'DELETE_PG_ERROR', payload: error.response.data });
+         toast.error(`${error.response.data}`, {
+          style: { fontFamily: "Gilroy", font: "#000", borderBottom: "5px solid red" },
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeButton: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+
+        });
+
       }
     }
   }

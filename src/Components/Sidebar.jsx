@@ -661,12 +661,12 @@ function Sidebar() {
             style={{
               width: "18%",
               display: "flex",
+               height: "100%",
+          overflowY: "visible",
               flexDirection: "column",
               backgroundColor: "#fff",
               boxShadow: "5px 0 2px -2px rgba(0,0,0,0.12)", position: "relative",
-              // padding: 3,
-
-            }}
+                     }}
           >
             <div  >
 

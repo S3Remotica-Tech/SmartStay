@@ -89,6 +89,7 @@ function App() {
 
 
   useEffect(() => {
+     if (!state.login?.isLoggedIn) return;
     const askPermission = async () => {
       const permission = await Notification.requestPermission();
       console.log("Permission", permission);
@@ -105,7 +106,7 @@ function App() {
     };
 
     askPermission();
-  }, [])
+  }, [state.login?.isLoggedIn])
 
 
 
