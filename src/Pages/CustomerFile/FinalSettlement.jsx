@@ -16,7 +16,7 @@ import { Tooltip } from "bootstrap";
 import ErrorMessage from '../../Components/ErrorMessage'
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-import { Edit2 } from "iconsax-react";
+import { Edit } from "iconsax-react";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 dayjs.extend(customParseFormat);
 function FinalSettlement({ show, handleClose, data, pgDetails }) {
@@ -593,7 +593,7 @@ function FinalSettlement({ show, handleClose, data, pgDetails }) {
                                             ? finalSettlementList?.stayInfo?.actualCheckoutDate
                                             : checkoutDate?.format("DD/MM/YYYY")}
 
-                                        <Edit2
+                                        <Edit
                                             size={16}
                                             color="#555"
                                             style={{ cursor: "pointer" }}

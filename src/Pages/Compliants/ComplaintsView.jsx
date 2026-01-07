@@ -3,7 +3,7 @@ import React from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { ArrowCircleRight } from "iconsax-react";
 import { TagUser } from "iconsax-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
     useDispatch,
     useSelector
@@ -15,6 +15,7 @@ import { TiLeaf } from "react-icons/ti";
 import { RiMessage2Fill } from "react-icons/ri";
 import '../CustomerFile/UserList.css';
 import PropTypes from "prop-types";
+import ErrorMessage from '../../Components/ErrorMessage';
 
 
 
@@ -25,6 +26,9 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
 
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
+    const [comments, setComments] = useState("");
+    const [commentsLoading, setCommentsLoading] = useState(false);
+const [commentsError, setCommentsError] = useState("");
 
     useEffect(() => {
         if (complaintsDetails?.complaintId) {
@@ -141,7 +145,25 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
     };
 
 
+const handleAddComment = () => {
+    
+ if (!comments || !comments.trim()) {
+    setCommentsError("Please enter a comment");
+    return;
+  }
 
+  setCommentsError("");
+      if (comments) {
+      dispatch({
+        type: "Add_COMPLIANCE_COMMENT",
+        payload: {
+        //   complaintId: compliants_Id,
+          data: { message: comments }
+        },
+      });
+      setCommentsLoading(true)
+    }
+  };
     return (
         <Offcanvas
             show={show}
@@ -166,7 +188,7 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
                             History & Comments
                         </div>
                         <div style={{ fontSize: 13, color: "#1E45E1", fontWeight: 600 }}>
-                            Complaint Id -
+                            Complaint Id
                         </div>
                     </div>
                 </div>
@@ -234,6 +256,8 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
 
                         <textarea
                             placeholder="Add New comment..."
+                            value={comments}
+                            onChange={(e) => setComments(e.target.value)}
                             style={{
                                 width: "100%",
                                 borderRadius: 6,
@@ -245,8 +269,15 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
                             }}
                             rows={3}
                         ></textarea>
+{commentsError && (
+  <div >
+                            <ErrorMessage message={commentsError} type="error" />
 
+  </div>
+)}
                         <button
+                            onClick={handleAddComment}
+                            disabled={commentsLoading}
                             style={{
                                 marginTop: 10,
                                 background: "#1E45E1",
@@ -255,11 +286,11 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
                                 borderRadius: 8,
                                 color: "white",
                                 fontSize: 14,
-                                cursor: "pointer",
+                                cursor:  "pointer",
                                 fontWeight: 500,
                             }}
                         >
-                            Add Comment
+                            {commentsLoading ? "Adding..." : "Add Comment"}
                         </button>
                     </div>
                 </div>
