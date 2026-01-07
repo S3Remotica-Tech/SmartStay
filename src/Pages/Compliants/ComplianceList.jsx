@@ -119,14 +119,14 @@ const ComplianceList = (props) => {
   };
 
 
-  const [customer_Id, setCustomer_Id] = useState("");
+  const [compliants_Id, setComplaints_Id] = useState("");
   // const [name, setName] = useState("");
   // const [date, setDate] = useState("");
   // const [profile, setProfile] = useState("");
 
   const handleIconClick = (item) => {
 
-    setCustomer_Id(item.complaintId);
+    setComplaints_Id(item.complaintId);
 
 
     if (item.complaintId) {
@@ -204,11 +204,11 @@ const ComplianceList = (props) => {
 
     if (!isFloorValid) return;
 
-    if (comments && customer_Id) {
+    if (comments && compliants_Id) {
       dispatch({
         type: "Add_COMPLIANCE_COMMENT",
         payload: {
-          complaintId: customer_Id,
+          complaintId: compliants_Id,
           data: { message: comments }
         },
       });
@@ -218,7 +218,7 @@ const ComplianceList = (props) => {
   const handleCloseIconClick = () => {
     setShowCard(false);
     setComments("");
-    setCustomer_Id("");
+    setComplaints_Id("");
     setCommentError("");
   };
 
