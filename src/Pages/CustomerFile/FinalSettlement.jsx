@@ -26,7 +26,7 @@ function FinalSettlement({ show, handleClose, data, pgDetails }) {
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
 
-
+    const datePickerRef = useRef(null);
     const [fields, setFields] = useState([]);
     const [errors, setErrors] = useState([]);
 
@@ -36,46 +36,61 @@ function FinalSettlement({ show, handleClose, data, pgDetails }) {
     const [finalSettlementList, setFinalSettlementList] = useState()
 
     const [showDetails, setShowDetails] = useState(false);
-    console.log("data", data)
+
 
     const [isEditingDate, setIsEditingDate] = useState(false);
     const [checkoutDate, setCheckoutDate] = useState(dayjs())
 
 
-    console.log("checkoutDate", checkoutDate);
-    console.log("isDayjs valid", dayjs(checkoutDate).isValid());
 
 
-   useEffect(() => {
-  if (!data?.customerId && !data?.tenetId) return;
+    useEffect(() => {
+        if (!data?.customerId && !data?.tenetId) return;
 
-  const payload = {
-    customerId: data?.customerId || data?.tenetId,
-  };
+        const payload = {
+            customerId: data?.customerId || data?.tenetId,
+        };
 
-  if (checkoutDate) {
-    payload.leavingDate = checkoutDate?.format("DD-MM-YYYY");
-  }
+        if (checkoutDate) {
+            payload.leavingDate = checkoutDate?.format("DD-MM-YYYY");
+        }
 
-  dispatch({ type: "GETFINALSETTLEMENT", payload });
-  setFormLoading(true);
-}, [data, checkoutDate]);
-
-
+        dispatch({ type: "GETFINALSETTLEMENT", payload });
+        setFormLoading(true);
+    }, [data, checkoutDate]);
 
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                isEditingDate &&
+                datePickerRef.current &&
+                !datePickerRef.current.contains(event.target)
+            ) {
+                setIsEditingDate(false);
+            }
+        };
 
-//     useEffect(() => {
-//   if (data?.customerId || data?.tenetId) {
-//     dispatch({
-//       type: "GETFINALSETTLEMENT",
-//       payload: {
-//         customerId: data?.customerId || data?.tenetId,
-//       },
-//     });
-//     setFormLoading(true);
-//   }
-// }, [data]);
+        document.addEventListener("mousedown", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [isEditingDate]);
+
+
+
+    //     useEffect(() => {
+    //   if (data?.customerId || data?.tenetId) {
+    //     dispatch({
+    //       type: "GETFINALSETTLEMENT",
+    //       payload: {
+    //         customerId: data?.customerId || data?.tenetId,
+    //       },
+    //     });
+    //     setFormLoading(true);
+    //   }
+    // }, [data]);
 
 
 
@@ -441,6 +456,12 @@ function FinalSettlement({ show, handleClose, data, pgDetails }) {
         }
     }, [state.UsersList.statusCodeForFinalSettlement])
 
+    useEffect(() => {
+        if (state.InvoiceList.finalSettlementError) {
+            setFormLoading(false)
+        }
+    }, [state.InvoiceList.finalSettlementError])
+
 
     return (
         <div>
@@ -568,9 +589,9 @@ function FinalSettlement({ show, handleClose, data, pgDetails }) {
                                             gap: 8,
                                         }}
                                     >
-{finalSettlementList?.stayInfo?.actualCheckoutDate
-  ? finalSettlementList?.stayInfo?.actualCheckoutDate
-  : checkoutDate.format("DD/MM/YYYY")}
+                                        {finalSettlementList?.stayInfo?.actualCheckoutDate
+                                            ? finalSettlementList?.stayInfo?.actualCheckoutDate
+                                            : checkoutDate?.format("DD/MM/YYYY")}
 
                                         <Edit2
                                             size={16}
@@ -582,19 +603,20 @@ function FinalSettlement({ show, handleClose, data, pgDetails }) {
                                 ) : null}
                             </div>
                             {isEditingDate && (
-                                <div
+                                <div ref={datePickerRef}
                                     className="datepicker-wrapper"
                                     style={{ position: "relative", width: "100%", marginTop: 1 }}
                                 >
                                     <DatePicker
                                         value={checkoutDate}
+                                        allowClear={false}
                                         style={{
                                             width: "100%",
                                             height: 48,
                                             cursor: "pointer",
                                             fontFamily: "Gilroy",
                                         }}
-                                       format="DD/MM/YYYY"
+                                        format="DD/MM/YYYY"
                                         placeholder="DD/MM/YYYY"
                                         disabledDate={(current) =>
                                             current && current > dayjs().endOf("day")

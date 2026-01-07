@@ -15,6 +15,7 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 
+// App CLOSED / Background-la irundha
 messaging.onBackgroundMessage((payload) => {
   console.log(" Background message", payload);
 

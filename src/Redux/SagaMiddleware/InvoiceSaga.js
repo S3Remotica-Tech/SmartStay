@@ -1,5 +1,6 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import {getInitializeEditRecurring, 
+import {
+   getInitializeEditRecurring,
    GetFilterInvoices, updateRecurringTenant, AssignAmenitiesForTenant, UnAssignAmenitiesForTenant, createRefund, getInitializeRefund, getParticularReceiptDetails, getParticularBillsDetails, getFinalSettlementList, CustomerRecurringEnableDisable, UnAssignAmenities, ParticularAmentityList, AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList, RecordPayment, InvoiceSettings, InvoicePDf, GetAmenities, UpdateAmenities, AddAmenity, ManualInvoice, ManualInvoiceUserData, AddManualInvoiceBill, EditManualInvoiceBill, DeleteManualInvoiceBill, ManualInvoiceNumber,
    GetManualInvoices, RecurrInvoiceamountData, AddRecurringBill, GetRecurrBills, DeleteRecurrBills, InvoiceRecurringsettings, GetReceiptData, AddReceipt, ReferenceIdGet, DeleteReceipt, EditReceipt, ReceiptPDf, AddRecurrBillsUsers, GetBillsPdfDetails
 } from "../Action/InvoiceAction";
@@ -73,12 +74,12 @@ function* handleGetInitializeEditRecurring(action) {
       const hostelId = GlobalHostelId(response);
       if (hostelId) {
          yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
-             }
+      }
       if (response?.status === 200) {
          yield put({ type: 'GET_INITIALIZE_EDIT_RECURRING', payload: { response: response.data, statusCode: response?.status } })
       }
 
-         }
+   }
    catch (error) {
       yield* handleApiError(error);
 
@@ -372,9 +373,7 @@ function* handleGetFinalSettlementList(action) {
       const hostelId = GlobalHostelId(response);
       if (hostelId) {
          yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
-         // const cookies = new Cookies()
-         // cookies.set('selected_hostelId', hostelId, { path: '/' });
-      }
+               }
 
 
 
@@ -389,7 +388,22 @@ function* handleGetFinalSettlementList(action) {
    }
    catch (error) {
       yield* handleApiError(error);
+ if (error.status === 400 || error.status === 403) {
+         yield put({ type: 'FINAL_SETTLMENT_ERROR', payload: error.response.data });
+        toast.error(`${error.response.data}`, {
+               style: { fontFamily: "Gilroy", font: "#000", borderBottom: "5px solid red" },
+               position: "top-right",
+               autoClose: 2000,
+               hideProgressBar: true,
+               closeButton: false,
+               closeOnClick: true,
+               pauseOnHover: true,
+               draggable: true,
+               progress: undefined,
 
+            });
+
+      }
    }
 
 }
@@ -537,13 +551,13 @@ function* handleDeleteAmenities(action) {
 
 
       }
-      
+
    }
    catch (error) {
       yield* handleApiError(error);
-        if (error.status === 400 || error.status === 403) {
-            yield put({ type: 'ALREADY_ASSIGN_ERROR', payload: error.response.data });
-             toast.error('This amenity is assigned and cannot be deleted', {
+      if (error.status === 400 || error.status === 403) {
+         yield put({ type: 'ALREADY_ASSIGN_ERROR', payload: error.response.data });
+         toast.error('This amenity is assigned and cannot be deleted', {
             position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: true,
@@ -554,7 +568,7 @@ function* handleDeleteAmenities(action) {
             progress: undefined,
          })
 
-         }
+      }
    }
 }
 
@@ -1955,7 +1969,7 @@ function refreshToken(response) {
 
 
 function* InvoiceSaga() {
-   yield takeEvery('GETINITIALIZEEDITRECURRING',handleGetInitializeEditRecurring)
+   yield takeEvery('GETINITIALIZEEDITRECURRING', handleGetInitializeEditRecurring)
    yield takeEvery('INVOICESLISTFILTER', handleGetFilterInvoice)
    yield takeEvery('UPDATE_TENANT_RECURRING', handleUpdateTenantRecurring)
    yield takeEvery('TENANTUNASSIGNAMENITIES', handleUnAssignAmenitiesForTenant)
