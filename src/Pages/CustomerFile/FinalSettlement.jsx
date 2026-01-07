@@ -14,9 +14,12 @@ import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
 import arrowTot from "../../Assets/Images/New_images/direction-down 01.png";
 import { Tooltip } from "bootstrap";
 import ErrorMessage from '../../Components/ErrorMessage'
-
-
-function FinalSettlement({ show, handleClose, data, pgDetails}) {
+import { DatePicker } from "antd";
+import dayjs from "dayjs";
+import { Edit2 } from "iconsax-react";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+dayjs.extend(customParseFormat);
+function FinalSettlement({ show, handleClose, data, pgDetails }) {
 
 
 
@@ -33,16 +36,47 @@ function FinalSettlement({ show, handleClose, data, pgDetails}) {
     const [finalSettlementList, setFinalSettlementList] = useState()
 
     const [showDetails, setShowDetails] = useState(false);
-console.log("data",data)
+    console.log("data", data)
+
+    const [isEditingDate, setIsEditingDate] = useState(false);
+    const [checkoutDate, setCheckoutDate] = useState(dayjs())
+
+
+    console.log("checkoutDate", checkoutDate);
+    console.log("isDayjs valid", dayjs(checkoutDate).isValid());
+
+
+   useEffect(() => {
+  if (!data?.customerId && !data?.tenetId) return;
+
+  const payload = {
+    customerId: data?.customerId || data?.tenetId,
+  };
+
+  if (checkoutDate) {
+    payload.leavingDate = checkoutDate?.format("DD-MM-YYYY");
+  }
+
+  dispatch({ type: "GETFINALSETTLEMENT", payload });
+  setFormLoading(true);
+}, [data, checkoutDate]);
 
 
 
-    useEffect(() => {
-        if (data?.customerId || data?.tenetId) {
-            dispatch({ type: "GETFINALSETTLEMENT", payload: data?.customerId || data?.tenetId });
-            setFormLoading(true)
-        }
-    }, [data])
+
+
+//     useEffect(() => {
+//   if (data?.customerId || data?.tenetId) {
+//     dispatch({
+//       type: "GETFINALSETTLEMENT",
+//       payload: {
+//         customerId: data?.customerId || data?.tenetId,
+//       },
+//     });
+//     setFormLoading(true);
+//   }
+// }, [data]);
+
 
 
     useEffect(() => {
@@ -414,7 +448,7 @@ console.log("data",data)
                 <Modal.Body className="p-0">
                     <div className="d-flex" style={{ height: "90vh" }}>
 
-                        <div className="p-4 border-end rounded" style={{ flex: "0 0 35%", background: "#f9f9f9" }}>
+                        <div className="p-4 border-end rounded" style={{ flex: "0 0 40%", background: "#f9f9f9" }}>
                             <div className="d-flex align-items-center gap-3">
                                 {
                                     finalSettlementList?.customerInfo?.profilePic ?
@@ -518,12 +552,64 @@ console.log("data",data)
 
                                 </span>
                             </div>
-                            <div className="d-flex justify-content-between mb-3">
-                                <span style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}> Actual Checkout Date</span>
-                                <span style={{ fontSize: "1rem", fontFamily: "Gilroy", fontWeight: 600 }}> {finalSettlementList?.stayInfo?.checkoutDate}
-
+                            <div className="d-flex justify-content-between mb-3 align-items-center">
+                                <span style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>
+                                    Actual Checkout Date
                                 </span>
+
+                                {!isEditingDate ? (
+                                    <span
+                                        style={{
+                                            fontSize: "1rem",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 600,
+                                            display: "flex",
+                                            alignItems: "center",
+                                            gap: 8,
+                                        }}
+                                    >
+{finalSettlementList?.stayInfo?.actualCheckoutDate
+  ? finalSettlementList?.stayInfo?.actualCheckoutDate
+  : checkoutDate.format("DD/MM/YYYY")}
+
+                                        <Edit2
+                                            size={16}
+                                            color="#555"
+                                            style={{ cursor: "pointer" }}
+                                            onClick={() => setIsEditingDate(true)}
+                                        />
+                                    </span>
+                                ) : null}
                             </div>
+                            {isEditingDate && (
+                                <div
+                                    className="datepicker-wrapper"
+                                    style={{ position: "relative", width: "100%", marginTop: 1 }}
+                                >
+                                    <DatePicker
+                                        value={checkoutDate}
+                                        style={{
+                                            width: "100%",
+                                            height: 48,
+                                            cursor: "pointer",
+                                            fontFamily: "Gilroy",
+                                        }}
+                                       format="DD/MM/YYYY"
+                                        placeholder="DD/MM/YYYY"
+                                        disabledDate={(current) =>
+                                            current && current > dayjs().endOf("day")
+                                        }
+                                        onChange={(date) => {
+                                            setCheckoutDate(date);
+                                            setIsEditingDate(false);
+                                        }}
+                                        getPopupContainer={(triggerNode) =>
+                                            triggerNode.closest(".datepicker-wrapper")
+                                        }
+                                    />
+                                </div>
+                            )}
+
                             <div className="mt-2" style={{ textAlign: "center", backgroundColor: "#FFF7F7" }}>
                                 {ReturnAmount < 0 && <span style={{ color: "red", fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400, textAlign: "center" }}>Pending</span>}
                             </div>
@@ -1117,7 +1203,7 @@ console.log("data",data)
                                 </div>
 
                                 <div className="d-flex justify-content-between align-items-center mt-3">
-                                    <p style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>{ReturnAmount > 0 ? "Outstanding Amount Payable" : "Refund Payable to Tenant" }</p>
+                                    <p style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>{ReturnAmount > 0 ? "Outstanding Amount Payable" : "Refund Payable to Tenant"}</p>
                                     <span
                                         style={{ color: "#1E45E1", cursor: "pointer", fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400, marginTop: "-18px" }}
                                         onClick={() => setShowBreakdown(!showBreakdown)}
@@ -1264,14 +1350,14 @@ FinalSettlement.propTypes = {
     show: PropTypes.func.isRequired,
     handleClose: PropTypes.func.isRequired,
     data: PropTypes.func.isRequired,
-   customerID: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ]),
-  pgDetails: PropTypes.shape({
-    floorName: PropTypes.string,
-    roomName: PropTypes.string,
-    bedName: PropTypes.string,
-  }).isRequired,
+    customerID: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]),
+    pgDetails: PropTypes.shape({
+        floorName: PropTypes.string,
+        roomName: PropTypes.string,
+        bedName: PropTypes.string,
+    }).isRequired,
 }
 export default FinalSettlement;

@@ -89,10 +89,9 @@ function App() {
 
 
   useEffect(() => {
-     if (!state.login?.isLoggedIn) return;
-    const askPermission = async () => {
+     const askPermission = async () => {
       const permission = await Notification.requestPermission();
-      console.log("Permission", permission);
+      // console.log("Permission", permission);
 
       if (permission === "granted") {
         const token = await getToken(messaging, {

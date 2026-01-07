@@ -118,10 +118,17 @@ export async function GetFilterInvoices(hostelId, filters={}) {
 }
 
  
-export async function getFinalSettlementList(customerId) {
-  return await AxiosConfigV2.get(`/v2/customers/settlement/${customerId}`, {
-  })
+export async function getFinalSettlementList(customer) {
+  return await AxiosConfigV2.get(
+    `/v2/customers/settlement/${customer.customerId}`,
+    {
+      params: customer.leavingDate
+        ? { leavingDate: customer.leavingDate }
+        : {}, 
+    }
+  );
 }
+
 
 
 export async function getParticularBillsDetails(bill) {

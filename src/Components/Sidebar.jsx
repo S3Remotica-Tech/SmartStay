@@ -448,8 +448,25 @@ function Sidebar() {
 
 
 
+  useEffect(() => {
+     if (!state.login?.isLoggedIn) return;
+    const askPermission = async () => {
+      const permission = await Notification.requestPermission();
+      console.log("Permission", permission);
 
+      if (permission === "granted") {
+        const token = await getToken(messaging, {
+          vapidKey: "BMXC5Wm4kkMiJDq2o98v_QMaXMctNWwtuFlpezETQ-hpSLG1HIKsN0SIFKW-ebfg8tILguRwWisjb0-syzlRgFE"
+        });
+        console.log("fcm token", token);
+        if(token){
+          dispatch({ type: 'FCMTOKENSAGA', payload: {token: token , source: "Web"}})
+        }
+      }
+    };
 
+    askPermission();
+  }, [state.login?.isLoggedIn])
 
 
   const handledisplaycompliace = () => {
