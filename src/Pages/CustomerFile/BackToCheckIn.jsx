@@ -17,7 +17,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
 
     const state = useSelector((state) => state);
 
-    // console.log("checkInDetails",checkInDetails,"pgDetails",pgDetails)
+    console.log("checkInDetails", checkInDetails, "pgDetails", pgDetails)
 
 
     const [activeTab, setActiveTab] = useState("LONG");
@@ -42,6 +42,22 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
     };
 
 
+    useEffect(() => {
+        if (checkInDetails?.customerId || checkInDetails?.tenetId) {
+            dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: checkInDetails?.customerId || checkInDetails?.tenetId } });
+        }
+    }, [checkInDetails?.customerId, checkInDetails?.tenetId])
+
+
+
+
+
+    const noticeDate = state.UsersList.customerdetails?.checkoutInfo?.noticeDate;
+
+
+    const noticeDayjs = noticeDate
+        ? dayjs(noticeDate, "DD/MM/YYYY")
+        : null;
 
 
     const handleSaveBacktoCheckin = () => {
@@ -191,7 +207,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
                                         fontFamily: "Gilroy"
                                     }}
                                 >
-                                    {pgDetails?.floorName}
+                                    {pgDetails?.floorName || checkInDetails?.floorName}
                                 </span>
                                 <span
                                     style={{
@@ -203,7 +219,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
                                         fontWeight: 500, fontFamily: "Gilroy"
                                     }}
                                 >
-                                    {pgDetails?.roomName} - {pgDetails?.bedName}
+                                    {pgDetails?.roomName || checkInDetails?.roomName} - {pgDetails?.bedName || checkInDetails?.bedName}
                                 </span>
                             </div>
                         </div>
@@ -323,7 +339,18 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
                                             fontFamily: "Gilroy",
                                         }}
                                         disabledDate={(current) => {
-                                            return current && current < dayjs().startOf("day");
+                                            if (!current) return false;
+
+                                            const today = dayjs().endOf("day");
+
+                                            if (noticeDayjs && current.isBefore(noticeDayjs.startOf("day"))) {
+                                                return true;
+                                            }
+                                            if (current.isAfter(today)) {
+                                                return true;
+                                            }
+
+                                            return false;
                                         }}
                                         format="DD/MM/YYYY"
                                         placeholder="DD/MM/YYYY"

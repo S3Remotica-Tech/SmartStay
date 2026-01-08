@@ -2067,26 +2067,7 @@ useEffect(() => {
     }
   }, [state.UsersList.statusCodeForGenerateAdvance]);
 
-  // const handleDownloadKYC = async () => {
-  //   const kycCard = document.getElementById("kyc-download-card");
-  //   if (!kycCard) return;
-
-
-
-  //   await new Promise((res) => setTimeout(res, 300));
-
-  //   html2canvas(kycCard).then((canvas) => {
-  //     const link = document.createElement("a");
-  //     link.download = "kyc_details.png";
-  //     link.href = canvas.toDataURL("image/png");
-  //     link.click();
-  //   });
-  // };
-
-
-  // const handleViewKYC = () => {
-  //   setShowModal(true);
-  // };
+  
 
   const handleClose = () => {
     setShowModal(false);
@@ -2164,9 +2145,7 @@ useEffect(() => {
 
 
   const handleEditBasicDetails = (item) => {
-
     setBasicDetails(item)
-
     setEditBasicDetailsShow(true)
     setCountryCode("91")
 
