@@ -7,7 +7,6 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { FormControl } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import { Table } from "react-bootstrap";
-import { Form } from "react-bootstrap";
 import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
 import "sweetalert2/dist/sweetalert2.min.css";
@@ -17,7 +16,7 @@ import InvoiceTable from "../Bills/InvoicelistTable";
 import Calendars from "../../Assets/Images/New_images/calendar.png";
 import "flatpickr/dist/themes/material_blue.css";
 // import useMediaQuery from "@mui/material/useMediaQuery";
-// import { useTheme } from "@mui/material/styles";
+// import { useTheme } from "@mui/material/styles";F
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
@@ -27,9 +26,7 @@ import searchteam from "../../Assets/Images/New_images/Search Team.png";
 import AddReceiptForm from "../Receipt/AddReceipt";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
-import { DatePicker } from "antd";
-import dayjs from "dayjs";
-import { CloseCircle, Filter } from "iconsax-react";
+import { Filter } from "iconsax-react";
 import '../OthersComponent/BillPdfModal.css';
 import AxiosConfig from "../../WebService/AxiosConfig";
 import Swal from 'sweetalert2';
@@ -40,6 +37,7 @@ import { useNavigate } from "react-router-dom";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import BillsFilter from '../../Pages/Bills/BillsFilter'
 import { FiSearch } from "react-icons/fi";
+import RecordPayment from "./RecordPayment";
 
 
 const InvoicePage = () => {
@@ -98,29 +96,19 @@ const InvoicePage = () => {
   const [showLoader, setShowLoader] = useState(false);
   const [statusfilter, setStatusfilter] = useState("ALL");
   const [selectedUserId, setSelectedUserId] = useState("");
-  const [paymodeerrormsg, setPaymodeErrmsg] = useState("");
+  // const [paymodeerrormsg, setPaymodeErrmsg] = useState("");
   const [amounterrormsg, setAmountErrmsg] = useState("");
   const [dateerrmsg, setDateErrmsg] = useState("");
-  const [totalErrormsg, setTotalErrmsg] = useState("");
+  // const [totalErrormsg, setTotalErrmsg] = useState("");
   const [customername, setCustomerName] = useState("");
-  // const [invoicenumber, setInvoiceNumber] = useState("");
-  const [startdate, setStartDate] = useState(null);
+    const [startdate, setStartDate] = useState(null);
   const [enddate, setEndDate] = useState(null);
   const [invoicedate, setInvoiceDate] = useState(null);
   const [invoiceduedate, setInvoiceDueDate] = useState(null);
-  // const [formatinvoicedate, setFormatInvoiceDate] = useState(null);
-  // const [formatduedate, setFormatDueDate] = useState(null);
-  // const [totalAmount, setTotalAmount] = useState("");
+ 
   const [bills, setBills] = useState([]);
-  // const [newRows, setNewRows] = useState([])
-  // const [customererrmsg, setCustomerErrmsg] = useState("");
-  // const [invoicenumbererrmsg, setInvoicenumberErrmsg] = useState("");
-  // const [invoicedateerrmsg, setInvoiceDateErrmsg] = useState("");
-  // const [invoiceduedateerrmsg, setInvoiceDueDateErrmsg] = useState("");
-  // const [allfielderrmsg, setAllFieldErrmsg] = useState("");
-  // const [amenityArray, setamenityArray] = useState([]);
-  // const [recurringbills, setRecurringBills] = useState([]);
-  const [account, setAccount] = useState("");
+ 
+  // const [account, setAccount] = useState("");
   const [accountError, setAccountError] = useState("");
   const startRef = useRef(null);
   const endRef = useRef(null);
@@ -130,15 +118,7 @@ const InvoicePage = () => {
   const [showRecurringBillForm, setShowRecurringBillForm] = useState(false);
   const [receiptformShow, setReceiptFormShow] = useState(false);
   const [showAllBill, setShowAllBill] = useState(true);
-  // const [billrolePermission, setBillRolePermission] = useState("");
-  // const [billpermissionError, setBillPermissionError] = useState("");
-  // const [billAddPermission, setBillAddPermission] = useState("");
-  // const [billDeletePermission, setBillDeletePermission] = useState("");
-  // const [billEditPermission, setBillEditPermission] = useState("");
-  // const [recuringbillAddPermission, setRecuringBillAddPermission] = useState("");
-  // const [recurringPermission, setRecurringPermission] = useState("");
-  // const [receiptPermission, setReceiptPermission] = useState("");
-  // const [receiptaddPermission, setReceiptAddPermission] = useState("");
+ 
   const [showform, setShowform] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const calendarRef = useRef(null);;
@@ -162,7 +142,7 @@ const InvoicePage = () => {
 
 
 
-  const [transactionId, setTransactionId] = useState("");
+  // const [transactionId, setTransactionId] = useState("");
   const [hostelId, setHostelId] = useState("");
   const [chips, setChips] = useState([])
   // const [receiptdata, setReceiptData] = useState([]);
@@ -181,11 +161,11 @@ const InvoicePage = () => {
   // const [checkedRows, setCheckedRows] = useState({});
   // const [manualInvoiceNumberError, setManualInvoiceNumberError] = useState("")
   // const [unableAddInvoiceDetailsError, setUnableAddInvoiceDetailsError] = useState("")
-  const [name, setName] = useState("")
-  const [floor_name, setFloorName] = useState("")
-  const [room_name, setRoomName] = useState("")
-  const [bed_name, setBedName] = useState("")
-  const [profile_pic, setProfilePic] = useState(null)
+  // const [name, setName] = useState("")
+  // const [floor_name, setFloorName] = useState("")
+  // const [room_name, setRoomName] = useState("")
+  // const [bed_name, setBedName] = useState("")
+  // const [profile_pic, setProfilePic] = useState(null)
   // const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);
   // const [selectedTransactionId, setSelectedTransactionId] = useState(null);
   // const [activeStay, setActiveStay] = useState("long_stay");
@@ -197,36 +177,9 @@ const InvoicePage = () => {
 
   console.log("canWriteInvoice", canWriteInvoice)
 
-  // const canReadInvoice = useHasPermission("Bills", "canRead")
-  // const canWriteInvoice = useHasPermission("Bills", "canWrite")
-  // const canUpdateInvoice = useHasPermission("Bills", "canUpdate")
-  // const canDeleteInvoice = useHasPermission("Bills", "canDelete")
-
-  // const {
-  //   canReadModule: canReadRecurring,
-  // } = useHasPermission("Recurring bills");
-
-  // const canReadRecurring = useHasPermission("Recurring bills", "canRead")
-  // const canWriteRecurring = useHasPermission("Recurring bills", "canWrite")
 
 
 
-  // const {
-  //   // canWriteModule: canWriteReceipt,
-  //   // canReadModule: canReadReceipt,
-  // } = useHasPermission("Receipt");
-
-  // const canReadReceipt = useHasPermission("Receipt", "canRead")
-  // const canWriteReceipt = useHasPermission("Receipt", "canWrite")
-
-
-
-
-
-
-  // const handleInvoiceChange = (e) => {
-  //   setInvoiceNumber(e.target.value);
-  // };
 
   useEffect(() => {
     if (!canReadInvoice) {
@@ -238,10 +191,6 @@ const InvoicePage = () => {
 
 
 
-
-  // const handleClick = (stayType) => {
-  //   setActiveStay(stayType);
-  // };
 
   const [showBillsFilter, setShowBillsFilter] = useState(false);
 
@@ -284,56 +233,7 @@ const InvoicePage = () => {
 
   };
 
-  // useEffect(() => {
-  //   const initialState = {};
-  //   recurringbills?.forEach((item) => {
-  //     initialState[item.customerId] = item.currentStatus === true;
-  //   });
-  //   setCheckedRows(initialState);
-  // }, [recurringbills]);
 
-
-
-  // const handleToggle = (id) => {
-
-  //   if (!id) return;
-
-  //   const updatedValue = !checkedRows[id];
-  //   const stringValue = updatedValue ? "true" : "false";
-
-  //   setCheckedRows((prev) => ({
-  //     ...prev,
-  //     [id]: updatedValue,
-  //   }));
-
-  //   dispatch({
-  //     type: "UPDATE_TENANT_RECURRING",
-  //     payload: {
-  //       status: stringValue,
-  //       hostelId: state.login.selectedHostel_Id,
-  //       customerId: id
-  //     },
-  //   });
-  // };
-
-
-
-
-
-
-
-
-  // useEffect(() => {
-  //   if (state.InvoiceList.updateTenantRecurringStatusCode) {
-
-  //     dispatch({ type: "RECURRING-BILLS-LIST", payload: state.login?.selectedHostel_Id })
-
-  //     setTimeout(() => {
-  //       dispatch({ type: 'REMOVE_UPDATE_TENANT_RECURRING' })
-  //     }, 100)
-  //   }
-
-  // }, [state.InvoiceList.updateTenantRecurringStatusCode])
 
 
 
@@ -431,7 +331,7 @@ const InvoicePage = () => {
     }
   }, [state.InvoiceList.BillsErrorstatusCode]);
 
- 
+
 
 
 
@@ -465,42 +365,26 @@ const InvoicePage = () => {
   // };
 
 
-  const handleAccount = (selectedOption) => {
-    setAccount(selectedOption?.value || "");
-    setAccountError("");
-    dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
-  };
+  // const handleAccount = (selectedOption) => {
+  //   setAccount(selectedOption?.value || "");
+  //   setAccountError("");
+  //   dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
+  // };
 
-  const handleTransaction = (selectedOption) => {
-    setInvoiceList({ ...invoiceList, transaction: selectedOption });
-    setAccountError("");
-    setPaymodeErrmsg("");
-    setAccount("");
-  };
-
-
-
-  const handleChange = (e) => {
-    setTransactionId(e.target.value);
-  };
-
-  const bankingOptions = Array.isArray(state.bankingDetails?.bankingList?.listBanks)
-    ? state.bankingDetails?.bankingList?.listBanks.map((item) => {
-      let label = "";
-      if (item.accountType === "BANK") label = "BANK";
-      else if (item.accountType === "UPI") label = "UPI";
-      else if (item.accountType === "CARD") label = "CARD";
-      else if (item.accountType === "CASH") label = "CASH";
-
-      return {
-        value: item?.bankingId,
-        label: `${item?.accountHolderName} - ${label}`,
-      };
-    })
-    : [];
+  // const handleTransaction = (selectedOption) => {
+  //   setInvoiceList({ ...invoiceList, transaction: selectedOption });
+  //   setAccountError("");
+  //   setPaymodeErrmsg("");
+  //   setAccount("");
+  // };
 
 
-  const combinedOptions = [...bankingOptions];
+
+  // const handleChange = (e) => {
+  //   setTransactionId(e.target.value);
+  // };
+
+
 
 
   const selectOptions = [
@@ -751,17 +635,7 @@ const InvoicePage = () => {
 
 
 
-  const formatDateForPayload = (date) => {
-    if (!date) return null;
-    const offset = date.getTimezoneOffset();
-    const localDate = new Date(date.getTime() - offset * 60 * 1000);
-
-    const day = String(localDate.getDate()).padStart(2, "0");
-    const month = String(localDate.getMonth() + 1).padStart(2, "0");
-    const year = localDate.getFullYear();
-
-    return `${day}-${month}-${year}`;
-  };
+ 
 
 
   const [payableAmount, setPayableAmount] = useState("");
@@ -865,16 +739,16 @@ const InvoicePage = () => {
       ).padStart(2, "0")}-${String(lastDayOfMonth.getDate()).padStart(2, "0")}`;
 
       setSelectedUserId(props.item.customerId);
-      const userDetails = state?.UsersList?.Users.listCustomers?.filter((u) => u.customerId === props?.item?.customerId)
+      // const userDetails = state?.UsersList?.Users.listCustomers?.filter((u) => u.customerId === props?.item?.customerId)
 
-      // setTenantjoingDate()
+      // // setTenantjoingDate()
 
-      setName(props.item?.fullName)
-      setFloorName(userDetails[0]?.floorName)
-      setRoomName(userDetails[0]?.roomName)
-      setBedName(userDetails[0]?.bedName)
-      setProfilePic(userDetails[0]?.profilePic)
-      setInitials(userDetails[0]?.initials)
+      // setName(props.item?.fullName)
+      // setFloorName(userDetails[0]?.floorName)
+      // setRoomName(userDetails[0]?.roomName)
+      // setBedName(userDetails[0]?.bedName)
+      // setProfilePic(userDetails[0]?.profilePic)
+      // setInitials(userDetails[0]?.initials)
 
       const formattedDate = `${year}-${String(month).padStart(2, "0")}-${String(
         day
@@ -904,8 +778,8 @@ const InvoicePage = () => {
   }
 
   const handleCloseForm = () => {
-    setTransactionId('')
-    setPaymodeErrmsg("")
+    // setTransactionId('')
+    // setPaymodeErrmsg("")
     setAccountError("")
     setDateErrmsg("")
     setAmountErrmsg("")
@@ -914,11 +788,9 @@ const InvoicePage = () => {
     setSelectedDate(null);
     setAmountErrmsg("");
     setDateErrmsg("");
-    setPaymodeErrmsg("");
+    // setPaymodeErrmsg("");
     setPayableAmount("")
-    // setPayableAmountError("")
-    // setManualInvoiceNumberError("")
-    // setUnableAddInvoiceDetailsError("")
+
     dispatch({ type: 'CLEAR_PAYABLE_AMOUNT' })
     dispatch({ type: 'CLEAR_INVALID_DETAILS_ERROR' })
     dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS' })
@@ -945,75 +817,75 @@ const InvoicePage = () => {
     setShowDeleteform(false);
   };
 
-  const handleSaveInvoiceList = () => {
-    const formatpaiddate = formatDateForPayload(selectedDate);
-    const billDate = new Date(invoiceValue.Date);
-    const paidDate = new Date(formatpaiddate);
+  // const handleSaveInvoiceList = () => {
+  //   const formatpaiddate = formatDateForPayload(selectedDate);
+  //   const billDate = new Date(invoiceValue.Date);
+  //   const paidDate = new Date(formatpaiddate);
 
-    if (!payableAmount) {
-      setAmountErrmsg("Please Enter Amount");
-    } else {
-      setAmountErrmsg("");
-    }
+  //   if (!payableAmount) {
+  //     setAmountErrmsg("Please Enter Amount");
+  //   } else {
+  //     setAmountErrmsg("");
+  //   }
 
-    if (!formatpaiddate) {
-      setDateErrmsg("Please Select Date");
-    } else if (paidDate < billDate) {
-      setDateErrmsg("Paid date should not be before Bill date");
-      return;
-    } else {
-      setDateErrmsg("");
-    }
+  //   if (!formatpaiddate) {
+  //     setDateErrmsg("Please Select Date");
+  //   } else if (paidDate < billDate) {
+  //     setDateErrmsg("Paid date should not be before Bill date");
+  //     return;
+  //   } else {
+  //     setDateErrmsg("");
+  //   }
 
-    if (!invoiceList.transaction || invoiceList.transaction === "select") {
-      setPaymodeErrmsg("Please Select Transaction Type");
-      return;
-    }
+  //   if (!invoiceList.transaction || invoiceList.transaction === "select") {
+  //     setPaymodeErrmsg("Please Select Transaction Type");
+  //     return;
+  //   }
 
-    if (invoiceList.transaction === "Net Banking" && !account) {
-      setAccountError("Please Choose Bank Account");
-      return;
-    }
+  //   if (invoiceList.transaction === "Net Banking" && !account) {
+  //     setAccountError("Please Choose Bank Account");
+  //     return;
+  //   }
 
-    if (
-      !payableAmount ||
-      !formatpaiddate ||
-      !invoiceList.transaction
-    ) {
-      setTimeout(() => {
-        setTotalErrmsg("");
-      }, 1000);
-      return;
-    }
-
-
-
-    if (
-      invoiceList.InvoiceId &&
-      payableAmount &&
-      invoiceList.transaction &&
-      formatpaiddate && hostelId
-    ) {
-      dispatch({
-        type: "RECORD_PAYMENT",
-        payload: {
-          hostelId: hostelId,
-          invoiceId: invoiceList.InvoiceId,
-          data: {
-            bankId: invoiceList.transaction,
-            paymentDate: formatpaiddate,
-            referenceId: transactionId,
-            amount: payableAmount
-          }
-        },
-      });
+  //   if (
+  //     !payableAmount ||
+  //     !formatpaiddate ||
+  //     !invoiceList.transaction
+  //   ) {
+  //     setTimeout(() => {
+  //       setTotalErrmsg("");
+  //     }, 1000);
+  //     return;
+  //   }
 
 
 
+  //   if (
+  //     invoiceList.InvoiceId &&
+  //     payableAmount &&
+  //     invoiceList.transaction &&
+  //     formatpaiddate && hostelId
+  //   ) {
+  //     dispatch({
+  //       type: "RECORD_PAYMENT",
+  //       payload: {
+  //         hostelId: hostelId,
+  //         invoiceId: invoiceList.InvoiceId,
+  //         data: {
+  //           bankId: invoiceList.transaction,
+  //           paymentDate: formatpaiddate,
+  //           referenceId: transactionId,
+  //           amount: payableAmount
+  //         }
+  //       },
+  //     });
 
-    }
-    setFormRecordLoading(true)
-  };
+
+
+
+  //   }
+  //   setFormRecordLoading(true)
+  // };
 
   const options = {
     dateFormat: "d/m/Y",
@@ -1316,7 +1188,7 @@ const InvoicePage = () => {
     if (state.InvoiceList.RecordPaymentUpdateStatusCode === 200) {
       setPayableAmount("")
       setBalance("")
-      setTransactionId('')
+      // setTransactionId('')
       setSelectedDate(null);
       setFormRecordLoading(false)
       setShowform(false)
@@ -2308,13 +2180,6 @@ const InvoicePage = () => {
                       </div>
                     )}
 
-
-
-
-
-
-
-
                     <div className={`p-0 table-bills  "mt-0" `}>
                       <Row
                         className={` 
@@ -2549,586 +2414,8 @@ const InvoicePage = () => {
 
 
       {showform && (
-        <div
-          className="modal show"
-          style={{
-            display: "block",
-            position: "initial",
-            fontFamily: "Gilroy,sans-serif",
-          }}
-        >
-          <Modal
-            show={showform}
-            onHide={handleCloseForm}
-            backdrop="static"
-            centered
-          // dialogClassName="custom-modals-record-payment-style"
+        <RecordPayment show={showform} handleClose={handleCloseForm} selectedUserId={selectedUserId} invoiceValue={invoiceValue} invoiceList={invoiceList}/>
 
-          >
-            <Modal.Dialog
-
-              className="m-0 p-0"
-            >
-
-
-
-              <Modal.Header
-                style={{ paddingTop: 10, position: "relative" }}
-              >
-                <div
-                  style={{
-                    fontSize: 18,
-                    fontWeight: 600,
-                    fontFamily: "Gilroy", textAlign: "start",
-
-                  }}
-                >
-                  {`Record Payment `}
-
-                </div>
-
-                <CloseCircle size="24" color="#000" onClick={handleCloseForm}
-                  style={{ cursor: 'pointer' }} />
-              </Modal.Header>
-
-
-
-
-              <Modal.Body>
-                <>
-                  <div className="d-flex align-items-center gap-2 " >
-                    {profile_pic ?
-                      <img
-                        src={profile_pic && profile_pic !== "0" && profile_pic}
-                        style={{ height: 55, width: 55, cursor: "pointer" }}
-                        alt="profile"
-                        className="rounded-circle me-3"
-                      />
-                      :
-                      <div
-                        style={{
-                          height: 50,
-                          width: 50,
-                          borderRadius: "50%",
-                          backgroundColor: "#E2E8F0",
-                          color: "#44536A",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          fontSize: 20,
-                          fontWeight: "600",
-                          fontFamily: "Gilroy"
-                        }}
-                      >
-                        {initials || "-"}
-                      </div>
-                    }
-
-                    <div>
-                      <p style={{ fontSize: "1.25rem", fontFamily: "Gilroy", fontWeight: 600 }} className="mb-0"> {name}</p>
-                      <div className="d-flex mb-2">
-                        <span className="badge rounded-pill bg-warning text-dark me-2" style={{ fontSize: "0.75rem", fontFamily: "Gilroy", fontWeight: 400 }}>
-                          {floor_name}
-                        </span>
-                        <span className="badge rounded-pill bg-danger-subtle text-dark" style={{ fontSize: "0.75rem", fontFamily: "Gilroy", fontWeight: 400 }}>
-                          {room_name} - {bed_name}
-                          {/* {matchedDet[0]?.Room_Id} - {matchedDet[0]?.Bed} */}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="ms-auto text-end mt-2">
-                      <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "#4B4B4B", padding: 0, margin: 0 }}>Due Pending</p>
-                      <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600, }}>
-                        {/* {checkOutDate} */} {invoiceList.balanceDue}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="row">
-
-                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                      <Form.Group
-
-                        controlId="exampleForm.ControlInput3"
-                      >
-                        <Form.Label
-                          style={{
-                            fontSize: 14,
-                            color: "#222222",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            marginBottom: 2
-
-
-                          }}
-                        >
-                          Paid Amount {" "}
-                          <span
-                            style={{
-                              color: "red",
-                              fontSize: "20px",
-                            }}
-                          >
-                            *
-                          </span>
-                        </Form.Label>
-
-                        <Form.Control
-                          type="number"
-                          min="0"
-                          step="1"
-                          style={{
-                            fontSize: 16,
-                            color: "#4B4B4B",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            boxShadow: "none",
-                            border: "1px solid #D9D9D9",
-                            height: 50,
-                            borderRadius: 8,
-
-                          }}
-                          placeholder="Enter Amount"
-                          className="no-spinner"
-                          value={payableAmount}
-                          onChange={handleAmount}
-                          onKeyDown={(e) => {
-                            if (e.key === "-" || e.key === "e") {
-                              e.preventDefault();
-                            }
-                          }}
-                        />
-
-
-
-                        {amounterrormsg && (
-                          <ErrorMessage message={amounterrormsg} type="error" />
-                        )}
-                      </Form.Group>
-                    </div>
-
-                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                      <Form.Group
-
-                        controlId="exampleForm.ControlInput3"
-                      >
-                        <Form.Label
-                          style={{
-                            fontSize: 14,
-                            color: "#222222",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            marginBottom: 2
-
-
-                          }}
-                        >
-                          Balance Amount {" "}
-                          <span
-                            style={{
-                              color: "red",
-                              fontSize: "20px",
-                            }}
-                          >
-                            *
-                          </span>
-                        </Form.Label>
-
-                        <Form.Control
-                          disabled
-                          type="number"
-                          min="0"
-                          step="1"
-                          style={{
-                            fontSize: 16,
-                            color: "#4B4B4B",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            boxShadow: "none",
-                            border: "1px solid #D9D9D9",
-                            height: 50,
-                            borderRadius: 8,
-
-                          }}
-                          placeholder="Enter Amount"
-                          className="no-spinner"
-                          value={balance}
-
-                        />
-
-
-
-
-                      </Form.Group>
-                    </div>
-
-                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                      <Form.Group
-                        controlId="purchaseDate"
-                      >
-                        <Form.Label
-                          style={{
-                            fontSize: 14,
-                            color: "#222222",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          Paid Date {" "}
-                          <span
-                            style={{
-                              color: "red",
-                              fontSize: "20px",
-                            }}
-                          >
-                            *
-                          </span>
-                        </Form.Label>
-                        <div
-                          style={{
-                            position: "relative",
-                            width: "100%",
-                          }}
-                        >
-
-                          <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
-                            <DatePicker
-                              style={{
-                                width: "100%",
-                                height: 48,
-                                cursor: "pointer",
-                                fontFamily: "Gilroy",
-                              }}
-                              format="DD/MM/YYYY"
-                              placeholder="DD/MM/YYYY"
-                              value={selectedDate ? dayjs(selectedDate) : null}
-                              onChange={(date) => {
-                                setDateErrmsg("");
-                                setAccountError("");
-                                setSelectedDate(date ? date.toDate() : null);
-                              }}
-                              disabledDate={(current) => {
-                                // const selectedUser = state.UsersList.Users.find(
-                                //   (item) => item.customerId === invoiceValue.customerId
-                                // );
-
-
-                                const invoiceDate = invoiceValue?.invoiceDate
-                                  ? dayjs(invoiceValue?.invoiceDate, "DD/MM/YYYY").startOf("day")
-                                  : null;
-
-                                return (
-                                  (invoiceDate && current.isBefore(invoiceDate, "day")) ||
-                                  current.isAfter(dayjs().endOf("day"))
-                                );
-                              }}
-
-                              getPopupContainer={(triggerNode) =>
-                                triggerNode.closest(".show-scroll") || document.body
-                              }
-
-                            />
-
-
-                          </div>
-                        </div>
-                        {dateerrmsg.trim() !== "" && (
-                          <ErrorMessage message={dateerrmsg} type="error" />
-                        )}
-                      </Form.Group>
-
-
-
-
-                    </div>
-
-
-
-                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                      <Form.Group
-                        className=""
-                        controlId="exampleForm.ControlInput2"
-                      >
-                        <Form.Label
-                          style={{
-                            fontSize: 14,
-                            color: "#222222",
-                            fontFamily: "'Gilroy', sans-serif",
-                            fontWeight: 500,
-
-                          }}
-                        >
-                          Mode of Transaction {" "}
-                          <span
-                            style={{
-                              color: "red",
-                              fontSize: "20px",
-                            }}
-                          >
-                            *
-                          </span>
-                        </Form.Label>
-
-                        <Select
-                          options={combinedOptions}
-                          onChange={(selectedOption) => handleTransaction(selectedOption?.value)}
-                          value={
-                            invoiceList.transaction
-                              ? combinedOptions.find(option => option.value === invoiceList.transaction)
-                              : null
-                          }
-                          placeholder="Please Select"
-                          classNamePrefix="custom"
-                          menuPlacement="auto"
-                          noOptionsMessage={() => "No options available"}
-                          styles={{
-                            control: (base) => ({
-                              ...base,
-                              height: "49px",
-                              border: "1px solid #D9D9D9",
-                              borderRadius: "8px",
-                              fontSize: "16px",
-                              color: "#4B4B4B",
-                              fontFamily: "Gilroy, sans-serif",
-                              fontWeight: 500,
-                              boxShadow: "none",
-                            }),
-                            menu: (base) => ({
-                              ...base,
-                              backgroundColor: "#f8f9fa",
-                              border: "1px solid #ced4da",
-                              fontFamily: "Gilroy, sans-serif",
-                            }),
-                            menuList: (base) => ({
-                              ...base,
-                              backgroundColor: "#f8f9fa",
-                              maxHeight: "120px",
-                              padding: 0,
-                              scrollbarWidth: "thin",
-                              overflowY: "auto",
-                              fontFamily: "Gilroy, sans-serif",
-                            }),
-                            placeholder: (base) => ({
-                              ...base,
-                              color: "#555",
-                            }),
-                            option: (base, state) => ({
-                              ...base,
-                              cursor: "pointer",
-                              backgroundColor: state.isFocused ? "lightblue" : "white",
-                              color: "#000",
-                            }),
-                            dropdownIndicator: (base) => ({
-                              ...base,
-                              color: "#555",
-                              cursor: "pointer"
-                            }),
-                            indicatorSeparator: () => ({
-                              display: "none",
-                            }),
-                          }}
-                        />
-
-
-
-                        {paymodeerrormsg.trim() !== "" && (
-                          <ErrorMessage message={paymodeerrormsg} type="error" />
-                        )}
-                      </Form.Group>
-                    </div>
-
-
-                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                      <Form.Group
-
-                        controlId="exampleForm.ControlInput1"
-                      >
-                        <Form.Label
-                          style={{
-                            fontSize: 14,
-                            color: "#222222",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          Transaction ID
-                        </Form.Label>
-                        <Form.Control
-                          type="text"
-                          style={{
-                            fontSize: 16,
-                            color: "#4B4B4B",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            boxShadow: "none",
-                            border: "1px solid #D9D9D9",
-                            height: 50,
-                            borderRadius: 8,
-                          }}
-                          placeholder="Enter Transaction ID"
-                          value={transactionId}
-                          onChange={handleChange}
-                        />
-                      </Form.Group>
-                    </div>
-
-
-                    {invoiceList.transaction === "Net Banking" && (
-                      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <Form.Label
-                          style={{
-                            fontSize: 14,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                          }}
-                        >
-                          Account{" "}
-                          <span
-                            style={{
-                              color: "red",
-                              fontSize: "20px",
-                            }}
-                          >
-                            {" "}
-                            *{" "}
-                          </span>
-                        </Form.Label>
-                        <Select
-                          placeholder="Select Account"
-                          options={
-                            bankking?.length > 0
-                              ? bankking.map((u) => ({
-                                value: u.id,
-                                label: u.bank_name,
-                              }))
-                              : []
-                          }
-                          value={
-                            bankking.map((u) => ({
-                              value: u.id,
-                              label: u.bank_name,
-                            })).find((opt) => opt.value === account) || null
-                          }
-                          onChange={handleAccount}
-                          styles={{
-                            control: (base) => ({
-                              ...base,
-                              height: "48px",
-                              border: "1px solid #D9D9D9",
-                              borderRadius: "8px",
-                              fontSize: "16px",
-                              color: "#4B4B4B",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                              boxShadow: "none",
-                            }),
-                            menu: (base) => ({
-                              ...base,
-                              backgroundColor: "#f8f9fa",
-                              border: "1px solid #ced4da",
-                              fontFamily: "Gilroy",
-                            }),
-                            menuList: (base) => ({
-                              ...base,
-                              backgroundColor: "#f8f9fa",
-                              maxHeight: "120px",
-                              padding: 0,
-                              scrollbarWidth: "thin",
-                              overflowY: "auto",
-                              fontFamily: "Gilroy",
-                            }),
-                            placeholder: (base) => ({
-                              ...base,
-                              color: "#555",
-                            }),
-                            dropdownIndicator: (base) => ({
-                              ...base,
-                              color: "#555",
-                              cursor: "pointer",
-                            }),
-                            indicatorSeparator: () => ({
-                              display: "none",
-                            }),
-                            option: (base, state) => ({
-                              ...base,
-                              cursor: "pointer",
-                              backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                              color: "#000",
-                            }),
-                          }}
-
-                          noOptionsMessage={() =>
-                            bankking?.length === 0
-                              ? "No accounts available"
-                              : "No match found"
-                          }
-                        />
-
-                        {accountError.trim() !== "" && (
-                          <ErrorMessage message={accountError} type="error" />
-                        )}
-                      </div>
-                    )}
-
-                  </div>
-                </>
-                {totalErrormsg.trim() !== "" && (
-                  <ErrorMessage message={totalErrormsg} type="error" />
-
-                )}
-              </Modal.Body>
-
-
-              {state.InvoiceList.payapleAmountError ?
-                <div className="d-flex justify-content-center">
-                  <ErrorMessage message={state.InvoiceList.payapleAmountError} type="error" />
-                </div>
-                : null
-              }
-
-
-              {formRecordLoading && <div
-                style={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  backgroundColor: 'transparent',
-                  opacity: 0.75,
-                  zIndex: 10,
-                }}
-              >
-                <div
-                  style={{
-                    borderTop: '4px solid #1E45E1',
-                    borderRight: '4px solid transparent',
-                    borderRadius: '50%',
-                    width: '40px',
-                    height: '40px',
-                    animation: 'spin 1s linear infinite',
-                  }}
-                ></div>
-              </div>}
-
-
-
-              <Modal.Footer style={{ border: "none" }}>
-
-                <div className="text-end mt-4">
-                  <Button variant="" className="me-2" onClick={handleCloseForm} style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400 }}>
-                    Cancel
-                  </Button>
-                  <Button
-                    style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400, backgroundColor: "#1E45E1" }}
-                    onClick={handleSaveInvoiceList}
-                  >Record</Button>
-                </div>
-              </Modal.Footer>
-            </Modal.Dialog>
-          </Modal>
-        </div>
       )}
     </div>
   );

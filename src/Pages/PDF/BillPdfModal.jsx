@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect } from "react";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import "../Bills/Invoices.css";
 import DownLoad from '../../Assets/Images/New_images/searchss.png'
 import Whatsapp from '../../Assets/Images/whatsapp.png'
@@ -15,12 +15,15 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import PropTypes from "prop-types";
 import { IoClose } from "react-icons/io5";
-import {  Row, Col, Table } from "react-bootstrap";
+import { Row, Col, Table } from "react-bootstrap";
 import { Location, Call, Profile, } from 'iconsax-react'
 import { IoBed } from "react-icons/io5";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { useNavigate } from "react-router-dom";
-
+// import Accordion from "react-bootstrap/Accordion";
+import Button from "react-bootstrap/Button";
+import Badge from "react-bootstrap/Badge";
+import { ArrowUp2, ArrowDown2, AddCircle } from "iconsax-react";
 
 const InvoiceCard = ({ rowData }) => {
 
@@ -28,7 +31,7 @@ const InvoiceCard = ({ rowData }) => {
   const navigate = useNavigate();
 
 
-
+  const [isOpenPayment, setIsOpenPayment] = useState(true);
 
   const [hoveredItem, setHoveredItem] = useState(null);
 
@@ -60,7 +63,7 @@ const InvoiceCard = ({ rowData }) => {
   const cardRef = useRef(null);
 
   useEffect(() => {
-   
+
     setIsVisible(true)
   }, [rowData])
 
@@ -75,7 +78,7 @@ const InvoiceCard = ({ rowData }) => {
 
 
 
- 
+
 
   const innerScrollRef = useRef(null);
 
@@ -187,9 +190,7 @@ const InvoiceCard = ({ rowData }) => {
 
 
 
-  // const taxAmount = (invoice_details?.total_amount * bill_template?.tax) / 100;
 
-  // const totalAmount = invoice_details?.total_amount + taxAmount;
 
 
 
@@ -241,176 +242,183 @@ const InvoiceCard = ({ rowData }) => {
 
 
   const showRentalPeriod =
-  pdfDetails?.configurations?.invoiceType === 'Rent' &&
-  pdfDetails?.invoiceType !== 'SETTLEMENT';
+    pdfDetails?.configurations?.invoiceType === 'Rent' &&
+    pdfDetails?.invoiceType !== 'SETTLEMENT';
 
+  const handleNavigateRecordPayment = () => {
+
+  }
 
   return (
-    <div style={{ position: 'sticky', top: 0, zIndex: 100, background: 'white' }}>
-      <div >
-        <div className="d-flex justify-content-between align-items-center"  style={{borderLeft:"1px solid #E5E7EB"}}>
+    <div style={{
+      position: 'relative ',
+
+    }}>
+
+      <div className="" style={{ borderLeft: "1px solid #E5E7EB" }}>
 
 
-          <div
-            className="d-flex justify-content-between align-items-center "
-            style={{
-              backgroundColor: "#fff",
-              borderBottom: "1px solid #E0E0E0",
-              height: "48px",
-              boxShadow: "initial",
-              width: "100%"
-            }}
-          >
-            <div className="d-flex align-items-center gap-2">
-              <div className="ps-1">
-                <label style={{
-                  fontSize: 14, fontWeight: 500, color: "#222222",
-                  fontFamily: "Gilroy"
-                }}
-                >{pdfDetails?.invoiceNumber}
-                </label>
-              </div>
+        <div
+          className="d-flex justify-content-between align-items-center "
+          style={{
+            backgroundColor: "#fff",
+            borderBottom: "1px solid #E0E0E0",
+            height: "48px",
+            boxShadow: "initial",
+            width: "100%", position: "sticky", zIndex: 10, top: 0, right: 0, left: 0
 
-              <div className="">
-                {rowData?.paymentStatus !== "Pending" ? <span
-                  style={{
-                    fontSize: '10px',
-                    backgroundColor: '#D9FFD9', color: '#000',
-                    borderRadius: '14px', fontFamily: 'Gilroy', padding: "8px 12px"
-                  }}>
-                  Paid
-                </span> : <span
-                  style={{
-                    fontSize: '10px', cursor: 'pointer',
-                    backgroundColor: '#FFF0F0', fontFamily: 'Gilroy', color: '#EB2427',
-                    borderRadius: '14px', padding: "8px 12px"
-                  }}>
-                  Unpaid</span>}
-              </div>
-
+          }}
+        >
+          <div className="d-flex align-items-center gap-2">
+            <div className="ps-1">
+              <label style={{
+                fontSize: 14, fontWeight: 500, color: "#222222",
+                fontFamily: "Gilroy"
+              }}
+              >{pdfDetails?.invoiceNumber}
+              </label>
             </div>
 
-
-
-
-            <div>
-
-              <div className="gap-2 d-flex ">
-                <div
-                  className="d-flex justify-content-center align-items-center border"
-                  style={{ borderRadius: '8px', cursor: "pointer", height: 30, width: 30 }}
-                  onClick={handleDownload}
-                >
-                  <img
-                    src={DownLoad}
-                    alt="Download Invoice"
-                    style={{ height: 15, width: 15 }}
-                  />
-                </div>
-
-                <div className="position-relative d-inline-block">
-                  <div
-                    className="d-flex align-items-center justify-content-center gap-2"
-                    onClick={handleShareClick}
-                    style={{
-                      height: 30,
-                      width: 80,
-                      borderRadius: "8px",
-                      cursor: "pointer",
-                      backgroundColor: "rgba(30, 69, 225, 1)",
-                    }}
-                  >
-                    <img
-                      src={Whatsapp}
-                      alt="Share"
-                      style={{
-                        height: 15,
-                        width: 15,
-                        filter: "brightness(0) invert(1)",
-                      }}
-                    />
-                    <span
-                      style={{
-                        fontSize: 14,
-                        fontWeight: 400,
-                        fontFamily: "Gilroy",
-                        color: "#fff",
-                        lineHeight: 1,
-                      }}
-                    >
-                      Share
-                    </span>
-                  </div>
-
-
-
-
-                  {isOpen && (
-                    <div
-                      className="position-absolute  start-0 mt-2 p-2 shadow"
-                      style={{
-                        borderRadius: "8px",
-                        backgroundColor: "#fff",
-                        width: 160,
-                        zIndex: 10,
-                      }}
-                    >
-                      {menuItems.map((item) => (
-                        <div
-                          key={item.key}
-                          className="d-flex align-items-center mb-2 hover-item p-1 rounded"
-                          style={{
-                            backgroundColor:
-                              hoveredItem === item.key ? "rgba(30, 69, 225, 1)" : "#fff",
-                          }}
-                          onMouseEnter={() => setHoveredItem(item.key)}
-                          onMouseLeave={() => setHoveredItem(null)}
-                          onClick={() => handleMenuClick(item.key)}
-                        >
-                          <img
-                            src={hoveredItem === item.key ? item.iconWhite : item.icon}
-                            className="me-2"
-                            alt={item.label}
-                          />
-                          <span
-                            style={{
-                              fontSize: 13,
-                              fontWeight: 400,
-                              fontFamily: "Gilroy",
-                              color:
-                                hoveredItem === item.key
-                                  ? "rgba(255, 255, 255, 1)"
-                                  : "rgba(33, 37, 41, 1)",
-                            }}
-                          >
-                            {item.label}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  )
-                  }
-
-                </div>
-                <div>
-                  <IoClose style={{ height: 20, width: 20, cursor: "pointer", color: "#FF0000" }} onClick={handleBackInvoice} />
-
-                </div>
-
-              </div>
+            <div className="">
+              {rowData?.paymentStatus !== "Pending" ? <span
+                style={{
+                  fontSize: '10px',
+                  backgroundColor: '#D9FFD9', color: '#000',
+                  borderRadius: '14px', fontFamily: 'Gilroy', padding: "8px 12px"
+                }}>
+                Paid
+              </span> : <span
+                style={{
+                  fontSize: '10px', cursor: 'pointer',
+                  backgroundColor: '#FFF0F0', fontFamily: 'Gilroy', color: '#EB2427',
+                  borderRadius: '14px', padding: "8px 12px"
+                }}>
+                Unpaid</span>}
             </div>
+
           </div>
 
 
+
+
+          <div>
+
+            <div className="gap-2 d-flex ">
+              <div
+                className="d-flex justify-content-center align-items-center border"
+                style={{ borderRadius: '8px', cursor: "pointer", height: 30, width: 30 }}
+                onClick={handleDownload}
+              >
+                <img
+                  src={DownLoad}
+                  alt="Download Invoice"
+                  style={{ height: 15, width: 15 }}
+                />
+              </div>
+
+              <div className="position-relative d-inline-block">
+                <div
+                  className="d-flex align-items-center justify-content-center gap-2"
+                  onClick={handleShareClick}
+                  style={{
+                    height: 30,
+                    width: 80,
+                    borderRadius: "8px",
+                    cursor: "pointer",
+                    backgroundColor: "rgba(30, 69, 225, 1)",
+                  }}
+                >
+                  <img
+                    src={Whatsapp}
+                    alt="Share"
+                    style={{
+                      height: 15,
+                      width: 15,
+                      filter: "brightness(0) invert(1)",
+                    }}
+                  />
+                  <span
+                    style={{
+                      fontSize: 14,
+                      fontWeight: 400,
+                      fontFamily: "Gilroy",
+                      color: "#fff",
+                      lineHeight: 1,
+                    }}
+                  >
+                    Share
+                  </span>
+                </div>
+
+
+
+
+                {isOpen && (
+                  <div
+                    className="position-absolute  start-0 mt-2 p-2 shadow"
+                    style={{
+                      borderRadius: "8px",
+                      backgroundColor: "#fff",
+                      width: 160,
+
+                    }}
+                  >
+                    {menuItems.map((item) => (
+                      <div
+                        key={item.key}
+                        className="d-flex align-items-center mb-2 hover-item p-1 rounded"
+                        style={{
+                          backgroundColor:
+                            hoveredItem === item.key ? "rgba(30, 69, 225, 1)" : "#fff",
+                        }}
+                        onMouseEnter={() => setHoveredItem(item.key)}
+                        onMouseLeave={() => setHoveredItem(null)}
+                        onClick={() => handleMenuClick(item.key)}
+                      >
+                        <img
+                          src={hoveredItem === item.key ? item.iconWhite : item.icon}
+                          className="me-2"
+                          alt={item.label}
+                        />
+                        <span
+                          style={{
+                            fontSize: 13,
+                            fontWeight: 400,
+                            fontFamily: "Gilroy",
+                            color:
+                              hoveredItem === item.key
+                                ? "rgba(255, 255, 255, 1)"
+                                : "rgba(33, 37, 41, 1)",
+                          }}
+                        >
+                          {item.label}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )
+                }
+
+              </div>
+              <div className="me-3">
+                <IoClose style={{ height: 20, width: 20, cursor: "pointer", color: "#FF0000" }} onClick={handleBackInvoice} />
+
+              </div>
+
+            </div>
+          </div>
         </div>
 
 
-        <div style={{
-          backgroundColor: "#F7F8FC", height:"90vh",
-          overflowY: "auto",
-          overflowX: 'hidden',
-        }}
-          className="d-flex justify-content-center p-3 show-scrolls" >
+
+        <div
+          style={{
+            height: "calc(100vh - 38px)",
+            overflowY: "auto",
+            // position: "relative",
+            marginBottom: 20, zIndex: 100,
+          }}
+          className="d-flex justify-content-center p-3 show-scrolls"  >
 
           {isVisible &&
             <div className=""
@@ -644,7 +652,7 @@ const InvoiceCard = ({ rowData }) => {
                                     </tr>
                                   ))}
 
-                                 
+
                                 </tbody>
                               </Table>
 
@@ -699,10 +707,10 @@ const InvoiceCard = ({ rowData }) => {
                                   ))
                                     :
                                     <tr>
-                                      <td  colSpan="2"  style={{ fontSize: 12,textAlign: "center",color: "#2D2D2D", fontWeight: 500 , backgroundColor:"" }}>
+                                      <td colSpan="2" style={{ fontSize: 12, textAlign: "center", color: "#2D2D2D", fontWeight: 500, backgroundColor: "" }}>
                                         No Deductions
                                       </td>
-                                     
+
                                     </tr>}
 
                                   {/* <tr
@@ -961,7 +969,7 @@ const InvoiceCard = ({ rowData }) => {
                             </tbody>
                           </table>
 
-   <div className="mb-3 mt-3  px-3 py-2 border rounded" style={{
+                          <div className="mb-3 mt-3  px-3 py-2 border rounded" style={{
                             backgroundColor: "#FAFBFF",
                             fontSize: 13,
                             fontWeight: 600,
@@ -1408,6 +1416,154 @@ const InvoiceCard = ({ rowData }) => {
 
 
         </div>
+      </div>
+      <div
+        style={{
+          position: "sticky",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          zIndex: 1000,
+          padding: 2,
+          backgroundColor: "#fff",
+          boxShadow: "0 -6px 10px -6px rgba(0,0,0,0.15)",
+          borderRadius: 12,
+        }}
+      >
+        {/* HEADER */}
+        <div
+          className="d-flex justify-content-between align-items-center px-3 py-2"
+          style={{ cursor: "pointer" }}
+        >
+          <span
+            style={{
+              fontWeight: 600,
+              fontSize: 16,
+              color: "#222",
+              fontFamily: "Gilroy",
+            }}
+          >
+            Payments Made
+          </span>
+
+          <div className="d-flex align-items-center gap-2">
+            {
+              Number(pdfDetails?.invoiceInfo?.balanceAmount) > 0 &&
+              <Button
+                size="sm"
+                style={{
+                  background: "#1E45E1",
+                  border: "none",
+                  borderRadius: 8,
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                }}
+                onClick={(e) => handleNavigateRecordPayment()}
+              >
+                <AddCircle size="16" color="#fff" variant="Bold" /> Record Payment
+              </Button>
+            }
+            {
+              (
+                isOpenPayment ? (
+                  <ArrowUp2
+                    size="18"
+                    color="#1E45E1"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => { setIsOpenPayment(false); setIsOpen(false) }}
+                  />
+                ) : (
+                  <ArrowDown2
+                    size="18"
+                    color="#1E45E1"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => { setIsOpenPayment(true); setIsOpen(false) }}
+                  />
+                )
+              )
+            }
+
+
+          </div>
+
+        </div>
+
+        {isOpenPayment && (
+          <div style={{ fontFamily: "Gilroy" }}>
+            <Table responsive className="mb-0">
+              <thead style={{ background: "#F9FAFB" }}>
+                <tr>
+                  <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>DATE</th>
+                  <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>REF NO</th>
+                  <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>PAYMENT MODE</th>
+                  <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>AMOUNT</th>
+                  <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>STATUS</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {pdfDetails?.paymentHistory?.length > 0 ? (
+                  pdfDetails.paymentHistory.map((item, index) => (
+                    <tr key={index}>
+                                     <td style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>
+                        {item.paidDate || "-"}
+                      </td>
+
+                                            <td
+                        style={{
+                          color: "#1E45E1",
+                          fontWeight: 500,
+                          fontSize: 12,
+                        }}
+                      >
+                        {item.transactionReferenceId || item.referenceNumber || "-"}
+                      </td>
+
+                  
+                      <td style={{ color: "#111928", fontSize: 12, fontWeight: 600 }}>
+                        CASH
+                      </td>
+
+              
+                      <td style={{ color: "#111928", fontSize: 12, fontWeight: 600 }}>
+                        ₹{item.amount}
+                      </td>
+
+                      
+                      <td>
+                        <Badge
+                          bg="success"
+                          style={{
+                            borderRadius: 20,
+                            fontWeight: 500,
+                            padding: "6px 10px",
+                            fontSize: 12,
+                          }}
+                        >
+                          ● Paid
+                        </Badge>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={5} className="text-center py-3" style={{ fontSize: 12 }}>
+                      No payments found
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </Table>
+
+            <div
+              className="d-flex justify-content-end px-5 py-2"
+              style={{ borderTop: "1px solid #eee" }}
+            >
+              <span className="me-2" style={{ color: "#4B4B4B", fontSize: 14, fontWeight: 500 }}>Balance Due</span>
+              <span style={{ color: "#E53935", fontSize: 14, fontWeight: 500 }}>₹{pdfDetails?.invoiceInfo?.balanceAmount}</span>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
