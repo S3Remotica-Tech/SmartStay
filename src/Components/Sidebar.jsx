@@ -26,7 +26,6 @@ import { ArrowUp2, ArrowDown2, Chart2, DocumentText, Buildings, LogoutCurve } fr
 import SettingAllPages from "../Pages/Settings/SettingAllPages";
 import SettingIcon from "../Assets/Images/sidebariconOne.svg";
 import HelpVideoIcon from "../Assets/Images/sidebariconFour.svg";
-// import Logout from "../Assets/Images/turn-off.png";
 import { useNavigate, useLocation, Navigate } from "react-router-dom";
 import { Route, Routes, NavLink } from "react-router-dom";
 import Cookies from 'universal-cookie';
@@ -36,8 +35,6 @@ import Tooltip from "react-bootstrap/Tooltip"
 import CreateBill from "../Pages/Bills/CreateBill";
 import UserListRoomDetail from "../Pages/CustomerFile/UserListRoomDetail";
 import CheckoutProfile from '../Pages/CustomerFile/CheckoutProfile';
-// import BillsDetails from '../Pages/Bills/BillsDetails';
-// import UserlistCheckout from '../Pages/CustomerFile/UserlistCheckout'
 import SettingSubscription from "../Pages/SubscriptionFile/SettingSubscription";
 import SettingIntergration from "../Pages/Settings/SettingIntergration";
 import SettingElectricity from "../Pages/Settings/SettingElectricity";
@@ -75,7 +72,6 @@ function Sidebar() {
   const state = useSelector((state) => state);
 
   const stateData = useSelector((state) => state.createAccount);
-  // const [zoom, setZoom] = useState('')
   const [manageOpen, setManageOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [allPageHostel_Id, setAllPageHostel_Id] = useState("");
@@ -88,12 +84,6 @@ function Sidebar() {
   const [isVisibleSidebar, setIsVisibleSidebar] = useState(false)
   const [showNotify, setShowNotify] = useState(false);
   const cookies = new Cookies();
-
-
-  // const hideSidebarRoutes = ["/payment-preview"];
-
-  // const path = location.pathname.split("?")[0].replace(/\/$/, "");
-  // const shouldHideSidebar = hideSidebarRoutes.includes(path);
 
 
   const pageMap = {
@@ -258,15 +248,6 @@ function Sidebar() {
   }, [state.UsersList.hosteListStatusCode]);
 
 
-
-
-
-
-
-
-
-
-
   useEffect(() => {
     if (stateData.statusCodeForAccountList === 200) {
       const loginInfo = stateData.accountList;
@@ -348,7 +329,6 @@ function Sidebar() {
   // }, [currentPage]);
 
 
-
   const hostelId = state.login?.selectedHostel_Id;
 
 
@@ -382,12 +362,6 @@ function Sidebar() {
     }
 
   }, [state.login?.selectedHostel_Id]);
-
-
-
-
-
-
 
 
 
@@ -535,10 +509,6 @@ function Sidebar() {
   const finalHostelId = cookieHostelId;
 
 
-
-  // console.log("cookieHostelId", cookieHostelId,)
-
-
   useEffect(() => {
     if (!hostelListDetail?.length || initials) return;
 
@@ -636,6 +606,7 @@ function Sidebar() {
 
 
   return (
+
     <>
       {
         showNotify && <NotificationForm show={showNotify} handleClose={handleClose} />
@@ -667,11 +638,11 @@ function Sidebar() {
             style={{
               width: "18%",
               display: "flex",
-              height: "100%",
-              overflowY: "visible",
               flexDirection: "column",
+              height: "100vh",
               backgroundColor: "#fff",
-              boxShadow: "5px 0 2px -2px rgba(0,0,0,0.12)", position: "relative",
+              boxShadow: "5px 0 2px -2px rgba(0,0,0,0.12)",
+              position: "relative"
             }}
           >
             <div  >
@@ -951,13 +922,10 @@ function Sidebar() {
               <div
                 className="show-scrolls-sidebar"
                 style={{
-                  flex: 1,
-                  maxHeight: 415,
-                  overflow: "auto",
-                  display: "flex",
-                  flexDirection: "column",
-                  margin: 5,
                   overflowY: "auto",
+                  overflowX: "hidden",
+                  height: "calc(100vh - 190px)",
+                  padding: "5px",
                 }}
               >
 
@@ -991,7 +959,6 @@ function Sidebar() {
                     >
                       <Chart2
                         size="20" variant="Bold"
-                      // color={currentPage === "dashboard" ? "#1E45E1" : "#4B4B4B"}
                       />
                       <span
                         className="Title"
@@ -1200,7 +1167,6 @@ function Sidebar() {
                       listStyleType: "none",
                       display: "flex",
                       alignItems: "center",
-                      // padding: "10px",
                       cursor: "pointer", backgroundColor: billingOpen ? "#F6F8FF" : "#FFF",
                       color: billingOpen ? "#1E45E1" : "#64748B",
                       marginTop: manageOpen ? "5px" : "10px"
@@ -1215,7 +1181,6 @@ function Sidebar() {
                         fontSize: 14,
                         fontWeight: 600,
                         fontFamily: "Gilroy",
-                        // marginLeft: 10,
                       }}
                     >
                       Billing & Payments
@@ -1496,16 +1461,15 @@ function Sidebar() {
               <div
                 style={{
                   flexShrink: 0,
+                  backgroundColor: "#fff",
+                  borderTop: "1px solid #E2E8F0",
                   position: "absolute",
                   bottom: 0,
+                  left: 0,
                   right: 0,
-                  backgroundColor: "#fff",
-                  padding: "12px 0",
-                  zIndex: 5,
-
                 }}
               >
-                <hr style={{ color: "#E2E8F0" }} className="p-0 m-0" />
+
                 <div
                   style={{
                     display: "flex",
@@ -1513,11 +1477,11 @@ function Sidebar() {
                     justifyContent: "flex-start",
                     height: "fit-content",
                     width: "100%",
-                    padding: 16,
-                    marginBottom: 12,
+                    padding: 0,
+                    marginBottom: 0,
                   }}
                 >
-                  <div className="Profile_Hover" style={{ display: "flex", width: 190, margin: "-20px auto", gap: 10 }}>
+                  <div className="Profile_Hover" style={{ display: "flex", width: 190, margin: "0 auto", gap: 10 }}>
                     <div
                       style={{
                         display: "flex",
@@ -1607,7 +1571,8 @@ function Sidebar() {
                     width: "100%",
                     marginTop: 8,
                     zIndex: 1000,
-                    overflow: "visible"
+                    overflow: "visible",
+                    marginBottom: 0,
 
                   }}
                 >
@@ -1785,6 +1750,7 @@ function Sidebar() {
                       </span>
                     )}
                   </div>
+
                 </div>
               </div>
             </div>
