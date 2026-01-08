@@ -21,7 +21,7 @@ function BillsPdfDetails() {
     const dispatch = useDispatch();
     // const navigate = useNavigate();
 
-    const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
+    // const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
     const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);
     const [rowDatas, setRowDatas] = useState('')
     const invoiceRefs = useRef({});
@@ -155,8 +155,8 @@ function BillsPdfDetails() {
                                         </div>
 
                                         <div className="flex-grow-1 ms-3"
-                                            onMouseEnter={() => setHoveredInvoiceId(item.invoiceId)}
-                                            onMouseLeave={() => setHoveredInvoiceId(null)}
+                                            // onMouseEnter={() => setHoveredInvoiceId(item.invoiceId)}
+                                            // onMouseLeave={() => setHoveredInvoiceId(null)}
                                             onClick={() => {
                                                 setSelectedInvoiceId(item.invoiceId);
                                                 handleDisplayInvoiceDownload(item);

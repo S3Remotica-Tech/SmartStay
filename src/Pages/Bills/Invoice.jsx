@@ -15,8 +15,6 @@ import "../Bills/Invoices.css";
 import InvoiceTable from "../Bills/InvoicelistTable";
 import Calendars from "../../Assets/Images/New_images/calendar.png";
 import "flatpickr/dist/themes/material_blue.css";
-// import useMediaQuery from "@mui/material/useMediaQuery";
-// import { useTheme } from "@mui/material/styles";F
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
@@ -44,14 +42,10 @@ const InvoicePage = () => {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const { RangePicker } = DatePicker;
-  // const [recurLoader, setRecurLoader] = useState(false);
   const [loading, setLoading] = useState(false);
   const [invoiceValue, setInvoiceValue] = useState("");
-  const [bankking, setBanking] = useState("");
-  // const [formLoading, setFormLoading] = useState(false)
-  const [initials, setInitials] = useState("");
-  const [formRecordLoading, setFormRecordLoading] = useState(false)
+  // const [initials, setInitials] = useState("");
+  // const [formRecordLoading, setFormRecordLoading] = useState(false)
   // const dropdownRef = useRef(null);
   const [invoiceList, setInvoiceList] = useState({
     firstName: "",
@@ -97,19 +91,19 @@ const InvoicePage = () => {
   const [statusfilter, setStatusfilter] = useState("ALL");
   const [selectedUserId, setSelectedUserId] = useState("");
   // const [paymodeerrormsg, setPaymodeErrmsg] = useState("");
-  const [amounterrormsg, setAmountErrmsg] = useState("");
+  // const [amounterrormsg, setAmountErrmsg] = useState("");
   const [dateerrmsg, setDateErrmsg] = useState("");
   // const [totalErrormsg, setTotalErrmsg] = useState("");
   const [customername, setCustomerName] = useState("");
-    const [startdate, setStartDate] = useState(null);
+  const [startdate, setStartDate] = useState(null);
   const [enddate, setEndDate] = useState(null);
   const [invoicedate, setInvoiceDate] = useState(null);
   const [invoiceduedate, setInvoiceDueDate] = useState(null);
- 
+
   const [bills, setBills] = useState([]);
- 
+
   // const [account, setAccount] = useState("");
-  const [accountError, setAccountError] = useState("");
+  // const [accountError, setAccountError] = useState("");
   const startRef = useRef(null);
   const endRef = useRef(null);
   const invoiceRef = useRef(null);
@@ -118,64 +112,27 @@ const InvoicePage = () => {
   const [showRecurringBillForm, setShowRecurringBillForm] = useState(false);
   const [receiptformShow, setReceiptFormShow] = useState(false);
   const [showAllBill, setShowAllBill] = useState(true);
- 
+
   const [showform, setShowform] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const calendarRef = useRef(null);;
-  // const [tableErrmsg, setTableErrmsg] = useState("");
-  // const [value, setValue] = React.useState("1");
   const [DownloadInvoice, setDownloadInvoice] = useState(false);
-  // const [DownloadReceipt, setDownloadReceipt] = useState(false);
-  // const [showPdfModal, setShowPdfModal] = useState(false);
-  // const [showPdfReceiptModal, setShowPdfReceiptModal] = useState(false);
-  // const [rowData, setRowData] = useState("");
   const [showdeleteform, setShowDeleteform] = useState(false);
-  // const [billMode, setBillMode] = useState("New Bill");
-  // const [isEditing, setIsEditing] = useState(false);
   const [deleteId, setDeleteId] = useState("");
   const [filterInput, setFilterInput] = useState("");
-  // const [isDropdownVisible, setDropdownVisible] = useState(false);
+
   const [search, setSearch] = useState(false);
-  // const [filterStatus, setFilterStatus] = useState(false);
-  // const theme = useTheme();
-  // const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-
-
-
-  // const [transactionId, setTransactionId] = useState("");
   const [hostelId, setHostelId] = useState("");
   const [chips, setChips] = useState([])
-  // const [receiptdata, setReceiptData] = useState([]);
-  // const [receiptLoader, setReceiptLoader] = useState(false);
-  // const [originalBillsFilter, setOriginalBillsFilter] = useState([]);
-  // const [originalBillsFilterReceipt, setOriginalBillsFilterReceipt] = useState(
-  //   []
-  // );
+
   const [originalBills, setOriginalBills] = useState([]);
-  // const [originalRecuiring, setOriginalRecuiring] = useState([]);
-  // const [originalReceipt, setOriginalReceipt] = useState([]);
-  // const [selectedTypes, setSelectedTypes] = useState([]);
-  // const [dateRange, setDateRange] = useState([null, null]);
-  // const [hoveredIndex, setHoveredIndex] = useState(null);
-  // const [startDate, endDate] = dateRange;
-  // const [checkedRows, setCheckedRows] = useState({});
-  // const [manualInvoiceNumberError, setManualInvoiceNumberError] = useState("")
-  // const [unableAddInvoiceDetailsError, setUnableAddInvoiceDetailsError] = useState("")
-  // const [name, setName] = useState("")
-  // const [floor_name, setFloorName] = useState("")
-  // const [room_name, setRoomName] = useState("")
-  // const [bed_name, setBedName] = useState("")
-  // const [profile_pic, setProfilePic] = useState(null)
-  // const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);
-  // const [selectedTransactionId, setSelectedTransactionId] = useState(null);
-  // const [activeStay, setActiveStay] = useState("long_stay");
+
 
   const {
     canWriteModule: canWriteInvoice,
     canReadModule: canReadInvoice,
   } = useHasPermission("Bills");
 
-  console.log("canWriteInvoice", canWriteInvoice)
 
 
 
@@ -635,33 +592,33 @@ const InvoicePage = () => {
 
 
 
- 
 
 
-  const [payableAmount, setPayableAmount] = useState("");
-  const [balance, setBalance] = useState(0);
+
+  // const [payableAmount, setPayableAmount] = useState("");
+  // const [balance, setBalance] = useState(0);
 
 
-  const handleAmount = (e) => {
-    setAmountErrmsg('')
-    let value = e.target.value;
+  // const handleAmount = (e) => {
+  //   setAmountErrmsg('')
+  //   let value = e.target.value;
 
-    if (value !== "") {
-      let numValue = Number(value);
-      if (numValue > (invoiceList.balanceDue || 0)) {
-        numValue = invoiceList.balanceDue || 0;
-      }
-      value = numValue;
-      setBalance((invoiceList.balanceDue || 0) - numValue);
-    } else {
+  //   if (value !== "") {
+  //     let numValue = Number(value);
+  //     if (numValue > (invoiceList.balanceDue || 0)) {
+  //       numValue = invoiceList.balanceDue || 0;
+  //     }
+  //     value = numValue;
+  //     setBalance((invoiceList.balanceDue || 0) - numValue);
+  //   } else {
 
-      setBalance(invoiceList.balanceDue || 0);
-    }
+  //     setBalance(invoiceList.balanceDue || 0);
+  //   }
 
-    setPayableAmount(value);
-    // setPayableAmountError("")
-    dispatch({ type: 'CLEAR_PAYABLE_AMOUNT' })
-  };
+  //   setPayableAmount(value);
+  //   // setPayableAmountError("")
+  //   dispatch({ type: 'CLEAR_PAYABLE_AMOUNT' })
+  // };
 
 
 
@@ -739,7 +696,7 @@ const InvoicePage = () => {
       ).padStart(2, "0")}-${String(lastDayOfMonth.getDate()).padStart(2, "0")}`;
 
       setSelectedUserId(props.item.customerId);
-            const formattedDate = `${year}-${String(month).padStart(2, "0")}-${String(
+      const formattedDate = `${year}-${String(month).padStart(2, "0")}-${String(
         day
       ).padStart(2, "0")}`;
       setInvoiceList({
@@ -769,16 +726,16 @@ const InvoicePage = () => {
   const handleCloseForm = () => {
     // setTransactionId('')
     // setPaymodeErrmsg("")
-    setAccountError("")
+    // setAccountError("")
     setDateErrmsg("")
-    setAmountErrmsg("")
+    // setAmountErrmsg("")
     setShowform(false);
-    setBalance("")
+    // setBalance("")
     setSelectedDate(null);
-    setAmountErrmsg("");
+    // setAmountErrmsg("");
     setDateErrmsg("");
     // setPaymodeErrmsg("");
-    setPayableAmount("")
+    // setPayableAmount("")
 
     dispatch({ type: 'CLEAR_PAYABLE_AMOUNT' })
     dispatch({ type: 'CLEAR_INVALID_DETAILS_ERROR' })
@@ -1138,18 +1095,18 @@ const InvoicePage = () => {
     }
   }, [hostelId]);
 
-  useEffect(() => {
-    if (state.bankingDetails.statusCodeForGetBanking === 200) {
-      setBanking(state.bankingDetails.bankingList.banks);
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_BANKING_LIST" });
-      }, 200);
-    }
-  }, [state.bankingDetails.statusCodeForGetBanking]);
+  // useEffect(() => {
+  //   if (state.bankingDetails.statusCodeForGetBanking === 200) {
+  //     // setBanking(state.bankingDetails.bankingList.banks);
+  //     setTimeout(() => {
+  //       dispatch({ type: "CLEAR_BANKING_LIST" });
+  //     }, 200);
+  //   }
+  // }, [state.bankingDetails.statusCodeForGetBanking]);
 
   useEffect(() => {
     if (state.InvoiceList.payapleAmountError) {
-      setFormRecordLoading(false)
+      // setFormRecordLoading(false)
       // setFormLoading(false)
       setLoading(false)
       // setPayableAmountError(state.InvoiceList.payapleAmountError)
@@ -1175,11 +1132,11 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (state.InvoiceList.RecordPaymentUpdateStatusCode === 200) {
-      setPayableAmount("")
-      setBalance("")
+      // setPayableAmount("")
+      // setBalance("")
       // setTransactionId('')
       setSelectedDate(null);
-      setFormRecordLoading(false)
+      // setFormRecordLoading(false)
       setShowform(false)
       dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
 
@@ -2403,7 +2360,7 @@ const InvoicePage = () => {
 
 
       {showform && (
-        <RecordPayment show={showform} handleClose={handleCloseForm} selectedUserId={selectedUserId} invoiceValue={invoiceValue} invoiceList={invoiceList}/>
+        <RecordPayment show={showform} handleClose={handleCloseForm} selectedUserId={selectedUserId} invoiceValue={invoiceValue} invoiceList={invoiceList} />
 
       )}
     </div>

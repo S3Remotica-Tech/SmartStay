@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import "../Bills/Invoices.css";
 import DownLoad from '../../Assets/Images/New_images/searchss.png'
 import Whatsapp from '../../Assets/Images/whatsapp.png'
@@ -24,12 +24,16 @@ import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Badge from "react-bootstrap/Badge";
 import { ArrowUp2, ArrowDown2, AddCircle } from "iconsax-react";
+import RecordPayment from "../../Pages/Bills/RecordPayment";
+
+
+
 
 const InvoiceCard = ({ rowData }) => {
 
   const state = useSelector((state) => state);
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const [showform, setShowform] = useState(false);
   const [isOpenPayment, setIsOpenPayment] = useState(false);
 
@@ -59,6 +63,14 @@ const InvoiceCard = ({ rowData }) => {
 
 
   const [isVisible, setIsVisible] = useState(true);
+  const [selectedUserId, setSelectedUserId] = useState("");
+  const [invoiceValue, setInvoiceValue] = useState("");
+
+  const [invoiceList, setInvoiceList] = useState({
+    balanceDue: "",
+    InvoiceId: "",
+
+  });
 
   const cardRef = useRef(null);
 
@@ -244,8 +256,17 @@ const InvoiceCard = ({ rowData }) => {
 
 
 
-  const handleNavigateRecordPayment = () => {
+  const handleNavigateRecordPayment = (pdfDetails) => {
     setShowform(true);
+    setSelectedUserId(pdfDetails?.customerInfo?.customerId)
+    setInvoiceValue(pdfDetails)
+    setInvoiceList({
+      balanceDue: pdfDetails?.invoiceInfo?.balanceAmount,
+      InvoiceId: pdfDetails?.invoiceId,
+    })
+
+
+
   }
 
   return (
@@ -1457,7 +1478,7 @@ const InvoiceCard = ({ rowData }) => {
                   fontWeight: 500,
                   fontFamily: "Gilroy",
                 }}
-                onClick={(e) => handleNavigateRecordPayment()}
+                onClick={(e) => handleNavigateRecordPayment(pdfDetails)}
               >
                 <AddCircle size="16" color="#fff" variant="Bold" /> Record Payment
               </Button>
@@ -1566,7 +1587,11 @@ const InvoiceCard = ({ rowData }) => {
       </div>
 
       {showform && (
-        <RecordPayment show={showform} handleClose={handleCloseForm} selectedUserId={selectedUserId} invoiceValue={invoiceValue} invoiceList={invoiceList} />
+        <RecordPayment show={showform} handleClose={handleCloseForm}
+          selectedUserId={selectedUserId}
+          invoiceValue={invoiceValue}
+          invoiceList={invoiceList}
+        />
 
       )}
     </div>

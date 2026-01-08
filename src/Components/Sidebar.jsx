@@ -402,16 +402,24 @@ function Sidebar() {
 
   const handleLogout = () => {
     dispatch({ type: 'LOGOUTADMINSAGA', payload: { source: "WEB" } })
-   
+    const token = cookies.get('v2-token');
+
+    if (!token) {
+      dispatch({ type: "LOG_OUT" });
+      dispatch({ type: 'RESET_ALL' })
+      const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), "abcd");
+      localStorage.setItem("login", encryptData.toString());
+      return;
+    }
   };
 
 
   useEffect(() => {
     if (state.login?.logoutAdminStatusCode === 200) {
-       dispatch({ type: "LOG_OUT" });
-    dispatch({ type: 'RESET_ALL' })
-    const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), "abcd");
-    localStorage.setItem("login", encryptData.toString());
+      dispatch({ type: "LOG_OUT" });
+      dispatch({ type: 'RESET_ALL' })
+      const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), "abcd");
+      localStorage.setItem("login", encryptData.toString());
       cookies.remove('selected_hostelId', { path: '/' });
       cookies.remove('v2-token', { path: '/' });
       cookies.remove('token', { path: '/' });

@@ -41,7 +41,7 @@ const [account, setAccount] = useState("");
     useEffect(() => {
         if (selectedUserId) {
             const userDetails = state?.UsersList?.Users.listCustomers?.filter((u) => u.customerId === selectedUserId)
-                                 console.log("userDetails",userDetails)
+                                 
             setName(userDetails[0]?.fullName)
             setFloorName(userDetails[0]?.floorName)
             setRoomName(userDetails[0]?.roomName)
@@ -57,6 +57,12 @@ const [account, setAccount] = useState("");
 
         }
     }, [selectedDate]);
+
+
+
+
+
+
 
     useEffect(() => {
         if (state.bankingDetails.statusCodeForGetBanking === 200) {
@@ -156,7 +162,7 @@ const [account, setAccount] = useState("");
         dispatch({ type: 'CLEAR_PAYABLE_AMOUNT' })
     };
 
-console.log("invoiceList",invoiceList)
+
 
     const handleSaveInvoiceList = () => {
         const formatpaiddate = formatDateForPayload(selectedDate);
@@ -237,7 +243,10 @@ console.log("invoiceList",invoiceList)
             // setShowform(false)
             dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
 
+ if (invoiceValue?.invoiceId) {
+            dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: state.login.selectedHostel_Id, invoiceId:invoiceValue?.invoiceId } })
 
+        }
            
             setTimeout(() => {
                 dispatch({ type: "CLEAR_RECORD_PAYMENT" });
