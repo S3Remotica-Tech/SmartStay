@@ -43,7 +43,7 @@ function BillsPdfDetails() {
         }
     };
 
-    // console.log("state", state.InvoiceList)
+  
 
     useEffect(() => {
         if (rowData?.invoiceId) {
