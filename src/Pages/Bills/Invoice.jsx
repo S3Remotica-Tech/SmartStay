@@ -739,18 +739,7 @@ const InvoicePage = () => {
       ).padStart(2, "0")}-${String(lastDayOfMonth.getDate()).padStart(2, "0")}`;
 
       setSelectedUserId(props.item.customerId);
-      // const userDetails = state?.UsersList?.Users.listCustomers?.filter((u) => u.customerId === props?.item?.customerId)
-
-      // // setTenantjoingDate()
-
-      // setName(props.item?.fullName)
-      // setFloorName(userDetails[0]?.floorName)
-      // setRoomName(userDetails[0]?.roomName)
-      // setBedName(userDetails[0]?.bedName)
-      // setProfilePic(userDetails[0]?.profilePic)
-      // setInitials(userDetails[0]?.initials)
-
-      const formattedDate = `${year}-${String(month).padStart(2, "0")}-${String(
+            const formattedDate = `${year}-${String(month).padStart(2, "0")}-${String(
         day
       ).padStart(2, "0")}`;
       setInvoiceList({

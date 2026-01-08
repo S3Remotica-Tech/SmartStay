@@ -30,7 +30,7 @@ const InvoiceCard = ({ rowData }) => {
   const state = useSelector((state) => state);
   const navigate = useNavigate();
 
-
+  const [showform, setShowform] = useState(false);
   const [isOpenPayment, setIsOpenPayment] = useState(false);
 
   const [hoveredItem, setHoveredItem] = useState(null);
@@ -67,7 +67,13 @@ const InvoiceCard = ({ rowData }) => {
     setIsVisible(true)
   }, [rowData])
 
+  const handleCloseForm = () => {
 
+    setShowform(false);
+    dispatch({ type: 'CLEAR_PAYABLE_AMOUNT' })
+    dispatch({ type: 'CLEAR_INVALID_DETAILS_ERROR' })
+    dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS' })
+  };
 
 
   const innerScrollRef = useRef(null);
@@ -235,8 +241,11 @@ const InvoiceCard = ({ rowData }) => {
     pdfDetails?.configurations?.invoiceType === 'Rent' &&
     pdfDetails?.invoiceType !== 'SETTLEMENT';
 
-  const handleNavigateRecordPayment = () => {
 
+
+
+  const handleNavigateRecordPayment = () => {
+    setShowform(true);
   }
 
   return (
@@ -1495,11 +1504,11 @@ const InvoiceCard = ({ rowData }) => {
                 {pdfDetails?.paymentHistory?.length > 0 ? (
                   pdfDetails.paymentHistory.map((item, index) => (
                     <tr key={index}>
-                                     <td style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>
+                      <td style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>
                         {item.paidDate || "-"}
                       </td>
 
-                                            <td
+                      <td
                         style={{
                           color: "#1E45E1",
                           fontWeight: 500,
@@ -1509,17 +1518,17 @@ const InvoiceCard = ({ rowData }) => {
                         {item.transactionReferenceId || item.referenceNumber || "-"}
                       </td>
 
-                  
+
                       <td style={{ color: "#111928", fontSize: 12, fontWeight: 600 }}>
                         CASH
                       </td>
 
-              
+
                       <td style={{ color: "#111928", fontSize: 12, fontWeight: 600 }}>
                         ₹{item.amount}
                       </td>
 
-                      
+
                       <td>
                         <Badge
                           bg="success"
@@ -1555,6 +1564,11 @@ const InvoiceCard = ({ rowData }) => {
           </div>
         )}
       </div>
+
+      {showform && (
+        <RecordPayment show={showform} handleClose={handleCloseForm} selectedUserId={selectedUserId} invoiceValue={invoiceValue} invoiceList={invoiceList} />
+
+      )}
     </div>
   );
 };
