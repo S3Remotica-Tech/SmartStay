@@ -21,6 +21,8 @@ import Sidebar from './Components/Sidebar';
 // import { onMessage } from "firebase/messaging";
 import { messaging ,onMessageListener  } from "./Utils/FirebaseNotification";
 import { getToken } from "firebase/messaging";
+import { toast } from 'react-toastify';
+
 function App() {
   const cookies = new Cookies();
   const dispatch = useDispatch();
@@ -85,10 +87,12 @@ function App() {
 
   }, [state.AssetList?.unAuthorized])
 
-
-
+console.log("data",data)
 
   useEffect(() => {
+    if(data && state.login?.isLoggedIn){
+
+    
      const askPermission = async () => {
       const permission = await Notification.requestPermission();
       // console.log("Permission", permission);
@@ -105,7 +109,8 @@ function App() {
     };
 
     askPermission();
-  }, [state.login?.isLoggedIn])
+  }
+  }, [state.login?.isLoggedIn,data])
 
 
 useEffect(() => {

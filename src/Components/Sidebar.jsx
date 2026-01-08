@@ -401,24 +401,34 @@ function Sidebar() {
   };
 
   const handleLogout = () => {
-    cookies.remove('selected_hostelId', { path: '/' });
-    cookies.remove('v2-token', { path: '/' });
-    cookies.remove('token', { path: '/' });
-    dispatch({ type: "LOG_OUT" });
+    dispatch({ type: 'LOGOUTADMINSAGA', payload: { source: "WEB" } })
+   
+  };
+
+
+  useEffect(() => {
+    if (state.login?.logoutAdminStatusCode === 200) {
+       dispatch({ type: "LOG_OUT" });
     dispatch({ type: 'RESET_ALL' })
     const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), "abcd");
     localStorage.setItem("login", encryptData.toString());
-    localStorage.setItem("loginId", "");
-    localStorage.setItem("phoneId", "");
-    localStorage.setItem("emilidd", "");
-    // localStorage.setItem("selectedResponseHostelId", "");
-    // localStorage.setItem("selectedHostelId", "");
-    localStorage.setItem("selectedHostelName", "");
-    localStorage.removeItem("lastPage");
-    localStorage.removeItem("currentPage")
+      cookies.remove('selected_hostelId', { path: '/' });
+      cookies.remove('v2-token', { path: '/' });
+      cookies.remove('token', { path: '/' });
+      localStorage.setItem("loginId", "");
+      localStorage.setItem("phoneId", "");
+      localStorage.setItem("emilidd", "");
+      localStorage.setItem("selectedHostelName", "");
+      localStorage.removeItem("lastPage");
+      localStorage.removeItem("currentPage")
 
 
-  };
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_LOGOUT_ADMIN' })
+      }, 1000)
+    }
+
+  }, [state.login?.logoutAdminStatusCode])
 
 
 
@@ -1495,12 +1505,12 @@ function Sidebar() {
                             height: "35px",
                             width: "35px",
                             borderRadius: "50%",
-                            backgroundColor: "#1e45e1",
-                            color: "white",
+                            backgroundColor: "#E2E8F0",
+                            color: "#44536A",
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
-                            fontWeight: "bold",
+                            fontWeight: "600px",
                             fontSize: "14px",
                             textTransform: "uppercase",
                           }}

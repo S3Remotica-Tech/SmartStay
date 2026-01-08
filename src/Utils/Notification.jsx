@@ -180,12 +180,13 @@ function Notification({ show, handleClose }) {
                                                 width: 38,
                                                 height: 38,
                                                 borderRadius: "50%",
-                                                background: "#E2E8F0",
+                                                 backgroundColor: "#E2E8F0",
+                          color: "#44536A",
                                                 display: "flex",
                                                 alignItems: "center",
                                                 justifyContent: "center",
                                                 fontWeight: 600,
-                                                color: "#73839B",
+                                                // color: "#73839B",
                                             }}
                                         >
                                             {item.initials ? item.initials : <Chart21

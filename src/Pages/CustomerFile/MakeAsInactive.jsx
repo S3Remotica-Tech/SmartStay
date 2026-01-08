@@ -159,13 +159,14 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails, currentIte
                             height: 50,
                             width: 50,
                             borderRadius: "50%",
-                            backgroundColor: "#1E45E1",
+                            backgroundColor: "#E2E8F0",
+                          color: "#44536A",
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "center",
                             fontSize: 20,
                             fontWeight: "600",
-                            color: "white", fontFamily: "Gilroy"
+                            fontFamily: "Gilroy"
                         }}
                     >
                         {inActiveDetails?.initials || inActiveDetails?.tenantInitials || "-"}

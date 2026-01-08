@@ -12,12 +12,12 @@ import { JoininDatecustomer } from "../../Redux/Action/smartStayAction";
 import PropTypes from "prop-types";
 
 
-function BackToCheckIn({ show, handleClose, checkInDetails ,pgDetails}) {
+function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
     const dispatch = useDispatch();
 
     const state = useSelector((state) => state);
 
-// console.log("checkInDetails",checkInDetails,"pgDetails",pgDetails)
+    // console.log("checkInDetails",checkInDetails,"pgDetails",pgDetails)
 
 
     const [activeTab, setActiveTab] = useState("LONG");
@@ -96,7 +96,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails ,pgDetails}) {
         }
 
     }, [state.UsersList?.cancelCheckoutError])
-  
+
 
     const imgsrc =
         checkInDetails?.profilePic && checkInDetails?.profilePic.trim() !== ""
@@ -156,8 +156,8 @@ function BackToCheckIn({ show, handleClose, checkInDetails ,pgDetails}) {
                                         width: 50,
                                         height: 50,
                                         borderRadius: "50%",
-                                        background: "#1E45E1",
-                                        color: "white",
+                                        backgroundColor: "#E2E8F0",
+                                        color: "#44536A",
                                         display: "flex",
                                         alignItems: "center",
                                         justifyContent: "center",
@@ -459,27 +459,27 @@ function BackToCheckIn({ show, handleClose, checkInDetails ,pgDetails}) {
     );
 }
 BackToCheckIn.propTypes = {
-  show: PropTypes.bool.isRequired,
-  handleClose: PropTypes.func.isRequired,
+    show: PropTypes.bool.isRequired,
+    handleClose: PropTypes.func.isRequired,
 
-  checkInDetails: PropTypes.shape({
-    customerId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    tenetId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    checkInDetails: PropTypes.shape({
+        customerId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        tenetId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 
-    profilePic: PropTypes.string,   
-    initials: PropTypes.string,
-    tenantInitials: PropTypes.string,
+        profilePic: PropTypes.string,
+        initials: PropTypes.string,
+        tenantInitials: PropTypes.string,
 
-    fullName: PropTypes.string,
-    tenantFullName: PropTypes.string,
-  }).isRequired,
+        fullName: PropTypes.string,
+        tenantFullName: PropTypes.string,
+    }).isRequired,
 
-  pgDetails: PropTypes.shape({
-    bedId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    floorName: PropTypes.string,
-    roomName: PropTypes.string,
-    bedName: PropTypes.string,
-  }).isRequired,
+    pgDetails: PropTypes.shape({
+        bedId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        floorName: PropTypes.string,
+        roomName: PropTypes.string,
+        bedName: PropTypes.string,
+    }).isRequired,
 };
 
 export default BackToCheckIn;

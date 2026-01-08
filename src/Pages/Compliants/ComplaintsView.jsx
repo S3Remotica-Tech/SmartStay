@@ -3,7 +3,7 @@ import React from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { ArrowCircleRight } from "iconsax-react";
 import { TagUser } from "iconsax-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
     useDispatch,
     useSelector
@@ -15,6 +15,7 @@ import { TiLeaf } from "react-icons/ti";
 import { RiMessage2Fill } from "react-icons/ri";
 import '../CustomerFile/UserList.css';
 import PropTypes from "prop-types";
+import ErrorMessage from '../../Components/ErrorMessage';
 
 
 
@@ -25,10 +26,13 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
 
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
+    const [comments, setComments] = useState("");
+    const [commentsLoading, setCommentsLoading] = useState(false);
+    const [commentsError, setCommentsError] = useState("");
 
     useEffect(() => {
         if (complaintsDetails?.complaintId) {
-                        dispatch({ type: 'COMPLAINTSVIEWUPDATES', payload: { hostelId: state.login.selectedHostel_Id, complaintsId: complaintsDetails?.complaintId } })
+            dispatch({ type: 'COMPLAINTSVIEWUPDATES', payload: { hostelId: state.login.selectedHostel_Id, complaintsId: complaintsDetails?.complaintId } })
         }
     }, [complaintsDetails?.complaintId])
 
@@ -141,6 +145,48 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
     };
 
 
+    const handleAddComment = () => {
+
+        if (!comments || !comments.trim()) {
+            setCommentsError("Please enter a comment");
+            return;
+        }
+
+        setCommentsError("");
+        if (comments && state.ComplianceList?.ComplianceUpdates?.complaintId) {
+            dispatch({
+                type: "Add_COMPLIANCE_COMMENT",
+                payload: {
+                    complaintId: state.ComplianceList?.ComplianceUpdates?.complaintId,
+                    data: { message: comments }
+                },
+            });
+            setCommentsLoading(true)
+        }
+    };
+
+
+    useEffect(() => {
+        if (state.ComplianceList.statusCodeForAddComplianceComment === 201) {
+            setCommentsLoading(false)
+            setComments('')
+            dispatch({ type: 'COMPLAINTSVIEWUPDATES', payload: { hostelId: state.login.selectedHostel_Id, complaintsId: complaintsDetails?.complaintId } })
+
+            setTimeout(() => {
+                dispatch({ type: "CLEAR_COMPLIANCE_ADD_COMMENT" });
+
+            }, 1000)
+        }
+    }, [state.ComplianceList.statusCodeForAddComplianceComment]);
+
+
+
+
+    console.log("state.ComplianceList.statusCodeForAddComplianceComment", state.ComplianceList.statusCodeForAddComplianceComment)
+
+
+
+
 
     return (
         <Offcanvas
@@ -165,9 +211,9 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
                         <div style={{ fontSize: 20, fontWeight: 600, color: "#1F2633" }}>
                             History & Comments
                         </div>
-                        <div style={{ fontSize: 13, color: "#1E45E1", fontWeight: 600 }}>
-                            Complaint Id -
-                        </div>
+                        {/* <div style={{ fontSize: 13, color: "#1E45E1", fontWeight: 600 }}>
+                            Complaint Id - {state.ComplianceList?.ComplianceUpdates?.complaintId}
+                        </div> */}
                     </div>
                 </div>
 
@@ -212,13 +258,13 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
                                     width: 50,
                                     borderRadius: "50%",
                                     backgroundColor: "#E2E8F0",
-                                                             color: "#44536A",
+                                    color: "#44536A",
                                     display: "flex",
                                     justifyContent: "center",
                                     alignItems: "center",
                                     fontSize: 20,
                                     fontWeight: "600",
-                                     fontFamily: "Gilroy"
+                                    fontFamily: "Gilroy"
                                 }}
                             >
                                 {state.createAccount?.accountList?.initial || "-"}
@@ -234,6 +280,11 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
 
                         <textarea
                             placeholder="Add New comment..."
+                            value={comments}
+                            onChange={(e) => {
+                                setComments(e.target.value);
+                                setCommentsError("");
+                            }}
                             style={{
                                 width: "100%",
                                 borderRadius: 6,
@@ -245,8 +296,15 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
                             }}
                             rows={3}
                         ></textarea>
+                        {commentsError && (
+                            <div >
+                                <ErrorMessage message={commentsError} type="error" />
 
+                            </div>
+                        )}
                         <button
+                            onClick={handleAddComment}
+                            disabled={commentsLoading}
                             style={{
                                 marginTop: 10,
                                 background: "#1E45E1",
@@ -259,7 +317,7 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
                                 fontWeight: 500,
                             }}
                         >
-                            Add Comment
+                            {commentsLoading ? "Adding..." : "Add Comment"}
                         </button>
                     </div>
                 </div>
@@ -269,7 +327,7 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
 
 
                 <div style={{ marginTop: 10 }}>
-                    {state.ComplianceList?.ComplianceUpdates?.map((item, index, arr) => (
+                    {state.ComplianceList?.ComplianceUpdates?.complaintUpdates?.map((item, index, arr) => (
                         <StepItem
                             key={index}
                             type={getStepType(item.update)}
@@ -291,10 +349,17 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
                             </div>
 
 
-                            {Array.isArray(item.comments) && item.comments.length > 0 && (
+                            {Array.isArray(item.comments) && item?.comments?.length > 0 && (
                                 <>
-                                    {item.comments.map((comment, i) => (
-                                        <div key={i} style={{ marginTop: 10 }}>
+                                    {item?.comments.map((comment, i) => (
+                                        <div key={i} style={{
+                                            marginBottom: 14,
+                                            paddingBottom: 10,
+                                            borderBottom:
+                                                i !== item.comments.length - 1
+                                                    ? "1px dashed #E5E7EB"
+                                                    : "none",
+                                        }}>
                                             <Row className="mt-2 align-items-center g-1">
                                                 <Col xs="auto" className="p-0">
                                                     {comment.profilePic ? (
@@ -310,8 +375,8 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
                                                                 width: 37,
                                                                 height: 37,
                                                                 borderRadius: "50%",
-                                                                 backgroundColor: "#E2E8F0",
-                                                                                          color: "#44536A",
+                                                                backgroundColor: "#E2E8F0",
+                                                                color: "#44536A",
                                                                 display: "flex",
                                                                 alignItems: "center",
                                                                 justifyContent: "center",

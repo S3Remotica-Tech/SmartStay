@@ -2446,14 +2446,14 @@ useEffect(() => {
                       height: "47px",
                       width: "47px",
                       borderRadius: "50%",
-                      backgroundColor: "#1E45E1",
+                      backgroundColor: "#E2E8F0",
+                          color: "#44536A",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
                       fontSize: "20px",
                       fontWeight: "600",
-                      color: "#FFF",
-                      fontFamily: "Gilroy",
+                                           fontFamily: "Gilroy",
                     }}
                   >
                     {CustomerOverView?.initials

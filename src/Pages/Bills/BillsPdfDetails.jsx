@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import {  Row, Col } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,7 +11,7 @@ import BillPdfModal from "../PDF/BillPdfModal";
 import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
 import '../OthersComponent/BillPdfModal.css';
-import {  useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 
 function BillsPdfDetails() {
@@ -45,18 +45,18 @@ function BillsPdfDetails() {
 
     // console.log("state", state.InvoiceList)
 
-useEffect(() => {
-  if (rowData?.invoiceId) {
-    setSelectedInvoiceId(rowData.invoiceId);
+    useEffect(() => {
+        if (rowData?.invoiceId) {
+            setSelectedInvoiceId(rowData.invoiceId);
 
-    setTimeout(() => {
-      invoiceRefs.current[rowData.invoiceId]?.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
-    }, 100);
-  }
-}, [rowData]);
+            setTimeout(() => {
+                invoiceRefs.current[rowData.invoiceId]?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center",
+                });
+            }, 100);
+        }
+    }, [rowData]);
 
 
     return (
@@ -75,7 +75,7 @@ useEffect(() => {
                         height: 'auto',
                         // margin: (DownloadInvoice) ? 0 : 3,
                         paddingBottom: 0,
-                        borderBottom:"1px solid #E5E7EB",
+                        borderBottom: "1px solid #E5E7EB",
                         boxShadow: "initial"
                     }}
                 >
@@ -86,8 +86,8 @@ useEffect(() => {
                             <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Bills</label>
                         </div>
 
-                    </div> 
-                     </div>
+                    </div>
+                </div>
                 <div
                     className="show-scroll p-2 mt-2"
                     style={{ height: "90vh", overflowY: "auto" }}
@@ -96,14 +96,14 @@ useEffect(() => {
                         state.InvoiceList.billsList?.listInvoices?.map((item) => (
                             <>
 
-                                <div key={item.invoiceId}  ref={(el) => (invoiceRefs.current[item.invoiceId] = el)}
+                                <div key={item.invoiceId} ref={(el) => (invoiceRefs.current[item.invoiceId] = el)}
                                     className="mb-3  shadow-sm rounded"
                                     style={{
                                         padding: "12px 16px", cursor: "pointer",
-                                        backgroundColor: String(selectedInvoiceId) === String(item.invoiceId) ? "#E8EDFF" : "#FFFFFF",transition: "all 0.25s ease-in-out",
+                                        backgroundColor: String(selectedInvoiceId) === String(item.invoiceId) ? "#E8EDFF" : "#FFFFFF", transition: "all 0.25s ease-in-out",
                                     }}
                                 >
-                                    <div className="d-flex align-items-start justify-content-between">  
+                                    <div className="d-flex align-items-start justify-content-between">
                                         <div>
                                             <span>
                                                 {
@@ -124,11 +124,11 @@ useEffect(() => {
                                                                 height: 40,
                                                                 width: 40,
                                                                 borderRadius: "50%",
-                                                                backgroundColor: "#1E45E1",
+                                                                backgroundColor: "#E2E8F0",
+                                                                color: "#44536A",
                                                                 display: "flex",
                                                                 alignItems: "center",
                                                                 justifyContent: "center",
-                                                                color: "white",
                                                                 fontWeight: 600,
                                                                 fontSize: 14,
                                                                 textTransform: "uppercase",

@@ -444,14 +444,14 @@ function TenantAmenities({ show, handleClose }) {
                       height: 60,
                       width: 60,
                       borderRadius: "50%",
-                      backgroundColor: "#1E45E1",
+                       backgroundColor: "#E2E8F0",
+                          color: "#44536A",
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
                       fontSize: 24,
                       fontWeight: "600",
-                      color: "#FFFFFF",
-                      textTransform: "uppercase",
+                                           textTransform: "uppercase",
                     }}
                   >
                     {state.UsersList.customerdetails?.initials || "-"}
