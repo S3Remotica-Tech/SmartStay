@@ -28,7 +28,7 @@ function Complaints({ show, handleClose, complaintsDetails, trigger }) {
     const dispatch = useDispatch();
     const [comments, setComments] = useState("");
     const [commentsLoading, setCommentsLoading] = useState(false);
-const [commentsError, setCommentsError] = useState("");
+    const [commentsError, setCommentsError] = useState("");
 
     useEffect(() => {
         if (complaintsDetails?.complaintId) {
@@ -145,25 +145,49 @@ const [commentsError, setCommentsError] = useState("");
     };
 
 
-const handleAddComment = () => {
-    
- if (!comments || !comments.trim()) {
-    setCommentsError("Please enter a comment");
-    return;
-  }
+    const handleAddComment = () => {
 
-  setCommentsError("");
-      if (comments) {
-      dispatch({
-        type: "Add_COMPLIANCE_COMMENT",
-        payload: {
-        //   complaintId: compliants_Id,
-          data: { message: comments }
-        },
-      });
-      setCommentsLoading(true)
-    }
-  };
+        if (!comments || !comments.trim()) {
+            setCommentsError("Please enter a comment");
+            return;
+        }
+
+        setCommentsError("");
+        if (comments && state.ComplianceList?.ComplianceUpdates?.complaintId) {
+            dispatch({
+                type: "Add_COMPLIANCE_COMMENT",
+                payload: {
+                    complaintId: state.ComplianceList?.ComplianceUpdates?.complaintId,
+                    data: { message: comments }
+                },
+            });
+            setCommentsLoading(true)
+        }
+    };
+
+
+    useEffect(() => {
+        if (state.ComplianceList.statusCodeForAddComplianceComment === 201) {
+            setCommentsLoading(false)
+            setComments('')
+            dispatch({ type: 'COMPLAINTSVIEWUPDATES', payload: { hostelId: state.login.selectedHostel_Id, complaintsId: complaintsDetails?.complaintId } })
+
+            setTimeout(() => {
+                dispatch({ type: "CLEAR_COMPLIANCE_ADD_COMMENT" });
+
+            }, 1000)
+        }
+    }, [state.ComplianceList.statusCodeForAddComplianceComment]);
+
+
+
+
+    console.log("state.ComplianceList.statusCodeForAddComplianceComment", state.ComplianceList.statusCodeForAddComplianceComment)
+
+
+
+
+
     return (
         <Offcanvas
             show={show}
@@ -187,9 +211,9 @@ const handleAddComment = () => {
                         <div style={{ fontSize: 20, fontWeight: 600, color: "#1F2633" }}>
                             History & Comments
                         </div>
-                        <div style={{ fontSize: 13, color: "#1E45E1", fontWeight: 600 }}>
-                            Complaint Id
-                        </div>
+                        {/* <div style={{ fontSize: 13, color: "#1E45E1", fontWeight: 600 }}>
+                            Complaint Id - {state.ComplianceList?.ComplianceUpdates?.complaintId}
+                        </div> */}
                     </div>
                 </div>
 
@@ -257,7 +281,10 @@ const handleAddComment = () => {
                         <textarea
                             placeholder="Add New comment..."
                             value={comments}
-                            onChange={(e) => setComments(e.target.value)}
+                            onChange={(e) => {
+                                setComments(e.target.value);
+                                setCommentsError("");
+                            }}
                             style={{
                                 width: "100%",
                                 borderRadius: 6,
@@ -269,12 +296,12 @@ const handleAddComment = () => {
                             }}
                             rows={3}
                         ></textarea>
-{commentsError && (
-  <div >
-                            <ErrorMessage message={commentsError} type="error" />
+                        {commentsError && (
+                            <div >
+                                <ErrorMessage message={commentsError} type="error" />
 
-  </div>
-)}
+                            </div>
+                        )}
                         <button
                             onClick={handleAddComment}
                             disabled={commentsLoading}
@@ -286,7 +313,7 @@ const handleAddComment = () => {
                                 borderRadius: 8,
                                 color: "white",
                                 fontSize: 14,
-                                cursor:  "pointer",
+                                cursor: "pointer",
                                 fontWeight: 500,
                             }}
                         >
@@ -300,7 +327,7 @@ const handleAddComment = () => {
 
 
                 <div style={{ marginTop: 10 }}>
-                    {state.ComplianceList?.ComplianceUpdates?.map((item, index, arr) => (
+                    {state.ComplianceList?.ComplianceUpdates?.complaintUpdates?.map((item, index, arr) => (
                         <StepItem
                             key={index}
                             type={getStepType(item.update)}
@@ -322,10 +349,17 @@ const handleAddComment = () => {
                             </div>
 
 
-                            {Array.isArray(item.comments) && item.comments.length > 0 && (
+                            {Array.isArray(item.comments) && item?.comments?.length > 0 && (
                                 <>
-                                    {item.comments.map((comment, i) => (
-                                        <div key={i} style={{ marginTop: 10 }}>
+                                    {item?.comments.map((comment, i) => (
+                                        <div key={i} style={{
+                                            marginBottom: 14,
+                                            paddingBottom: 10,
+                                            borderBottom:
+                                                i !== item.comments.length - 1
+                                                    ? "1px dashed #E5E7EB"
+                                                    : "none",
+                                        }}>
                                             <Row className="mt-2 align-items-center g-1">
                                                 <Col xs="auto" className="p-0">
                                                     {comment.profilePic ? (

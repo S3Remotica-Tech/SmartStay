@@ -85,10 +85,12 @@ function App() {
 
   }, [state.AssetList?.unAuthorized])
 
-
-
+console.log("data",data)
 
   useEffect(() => {
+    if(data && state.login?.isLoggedIn){
+
+    
      const askPermission = async () => {
       const permission = await Notification.requestPermission();
       // console.log("Permission", permission);
@@ -105,7 +107,8 @@ function App() {
     };
 
     askPermission();
-  }, [state.login?.isLoggedIn])
+  }
+  }, [state.login?.isLoggedIn,data])
 
 
 useEffect(() => {

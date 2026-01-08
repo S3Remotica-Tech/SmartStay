@@ -427,28 +427,35 @@ function Sidebar() {
   };
 
   const handleLogout = () => {
-    cookies.remove('selected_hostelId', { path: '/' });
-    cookies.remove('v2-token', { path: '/' });
-    cookies.remove('token', { path: '/' });
-    dispatch({ type: "LOG_OUT" });
-    dispatch({ type: 'RESET_ALL' })
-    const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), "abcd");
-    localStorage.setItem("login", encryptData.toString());
-    localStorage.setItem("loginId", "");
-    localStorage.setItem("phoneId", "");
-    localStorage.setItem("emilidd", "");
-    // localStorage.setItem("selectedResponseHostelId", "");
-    // localStorage.setItem("selectedHostelId", "");
-    localStorage.setItem("selectedHostelName", "");
-    localStorage.removeItem("lastPage");
-    localStorage.removeItem("currentPage")
-
-
+    dispatch({ type: 'LOGOUTADMINSAGA', payload: { source: "WEB" } })
+   
   };
 
 
+  useEffect(() => {
+    if (state.login?.logoutAdminStatusCode === 200) {
+       dispatch({ type: "LOG_OUT" });
+    dispatch({ type: 'RESET_ALL' })
+    const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), "abcd");
+    localStorage.setItem("login", encryptData.toString());
+      cookies.remove('selected_hostelId', { path: '/' });
+      cookies.remove('v2-token', { path: '/' });
+      cookies.remove('token', { path: '/' });
+      localStorage.setItem("loginId", "");
+      localStorage.setItem("phoneId", "");
+      localStorage.setItem("emilidd", "");
+      localStorage.setItem("selectedHostelName", "");
+      localStorage.removeItem("lastPage");
+      localStorage.removeItem("currentPage")
 
-  
+
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_LOGOUT_ADMIN' })
+      }, 1000)
+    }
+
+  }, [state.login?.logoutAdminStatusCode])
+
 
 
   const handledisplaycompliace = () => {
@@ -660,12 +667,12 @@ function Sidebar() {
             style={{
               width: "18%",
               display: "flex",
-               height: "100%",
-          overflowY: "visible",
+              height: "100%",
+              overflowY: "visible",
               flexDirection: "column",
               backgroundColor: "#fff",
               boxShadow: "5px 0 2px -2px rgba(0,0,0,0.12)", position: "relative",
-                     }}
+            }}
           >
             <div  >
 
@@ -945,7 +952,7 @@ function Sidebar() {
                 className="show-scrolls-sidebar"
                 style={{
                   flex: 1,
-                                   maxHeight: 415,
+                  maxHeight: 415,
                   overflow: "auto",
                   display: "flex",
                   flexDirection: "column",
@@ -1535,7 +1542,7 @@ function Sidebar() {
                             width: "35px",
                             borderRadius: "50%",
                             backgroundColor: "#E2E8F0",
-                          color: "#44536A",
+                            color: "#44536A",
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",

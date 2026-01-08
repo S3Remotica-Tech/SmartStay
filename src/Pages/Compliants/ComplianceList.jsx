@@ -154,7 +154,10 @@ const ComplianceList = (props) => {
       setComments("");
       setShowCard(false);
       setCommentsLoading(false)
+      setTimeout(()=>{
       dispatch({ type: "CLEAR_COMPLIANCE_ADD_COMMENT" });
+
+      },1000)
     }
   }, [state.ComplianceList.statusCodeForAddComplianceComment]);
 
