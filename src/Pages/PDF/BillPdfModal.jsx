@@ -31,7 +31,7 @@ const InvoiceCard = ({ rowData }) => {
   const navigate = useNavigate();
 
 
-  const [isOpenPayment, setIsOpenPayment] = useState(true);
+  const [isOpenPayment, setIsOpenPayment] = useState(false);
 
   const [hoveredItem, setHoveredItem] = useState(null);
 
@@ -66,16 +66,6 @@ const InvoiceCard = ({ rowData }) => {
 
     setIsVisible(true)
   }, [rowData])
-
-
-
-
-
-
-
-
-
-
 
 
 
