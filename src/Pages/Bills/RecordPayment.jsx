@@ -24,8 +24,8 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceValue, invoic
     const [amounterrormsg, setAmountErrmsg] = useState("");
     const [dateerrmsg, setDateErrmsg] = useState("");
     const [totalErrormsg, setTotalErrmsg] = useState("");
-const [account, setAccount] = useState("");
-     const [accountError, setAccountError] = useState("");
+    const [account, setAccount] = useState("");
+    const [accountError, setAccountError] = useState("");
     const [name, setName] = useState("")
     const [floor_name, setFloorName] = useState("")
     const [room_name, setRoomName] = useState("")
@@ -41,7 +41,7 @@ const [account, setAccount] = useState("");
     useEffect(() => {
         if (selectedUserId) {
             const userDetails = state?.UsersList?.Users.listCustomers?.filter((u) => u.customerId === selectedUserId)
-                                 
+
             setName(userDetails[0]?.fullName)
             setFloorName(userDetails[0]?.floorName)
             setRoomName(userDetails[0]?.roomName)
@@ -243,11 +243,11 @@ const [account, setAccount] = useState("");
             // setShowform(false)
             dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
 
- if (invoiceValue?.invoiceId) {
-            dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: state.login.selectedHostel_Id, invoiceId:invoiceValue?.invoiceId } })
+            if (invoiceValue?.invoiceId) {
+                dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: state.login.selectedHostel_Id, invoiceId: invoiceValue?.invoiceId } })
 
-        }
-           
+            }
+
             setTimeout(() => {
                 dispatch({ type: "CLEAR_RECORD_PAYMENT" });
             }, 300);
@@ -256,17 +256,17 @@ const [account, setAccount] = useState("");
 
 
 
- const formatDateForPayload = (date) => {
-    if (!date) return null;
-    const offset = date.getTimezoneOffset();
-    const localDate = new Date(date.getTime() - offset * 60 * 1000);
+    const formatDateForPayload = (date) => {
+        if (!date) return null;
+        const offset = date.getTimezoneOffset();
+        const localDate = new Date(date.getTime() - offset * 60 * 1000);
 
-    const day = String(localDate.getDate()).padStart(2, "0");
-    const month = String(localDate.getMonth() + 1).padStart(2, "0");
-    const year = localDate.getFullYear();
+        const day = String(localDate.getDate()).padStart(2, "0");
+        const month = String(localDate.getMonth() + 1).padStart(2, "0");
+        const year = localDate.getFullYear();
 
-    return `${day}-${month}-${year}`;
-  };
+        return `${day}-${month}-${year}`;
+    };
 
 
 
@@ -367,7 +367,7 @@ const [account, setAccount] = useState("");
                                 <div className="ms-auto text-end mt-2">
                                     <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "#4B4B4B", padding: 0, margin: 0 }}>Due Pending</p>
                                     <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600, }}>
-                                         {invoiceList.balanceDue}
+                                        {invoiceList.balanceDue}
                                     </p>
                                 </div>
                             </div>

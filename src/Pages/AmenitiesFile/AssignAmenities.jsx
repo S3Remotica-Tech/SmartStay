@@ -761,7 +761,7 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
                             />
                           </div>
                         </div>
-                        {/* <hr style={{ border: "1px solid #ccc" }} className='p-0 m-1' /> */}
+                       
                       </div>
                     )
 
