@@ -24,6 +24,7 @@ import Button from "react-bootstrap/Button";
 import Badge from "react-bootstrap/Badge";
 import { ArrowUp2, ArrowDown2, AddCircle } from "iconsax-react";
 import RecordPayment from "../../Pages/Bills/RecordPayment";
+import RefundAmount from "../Bills/RefundAmount";
 
 
 
@@ -35,9 +36,9 @@ const InvoiceCard = ({ rowData }) => {
   const dispatch = useDispatch();
   const [showform, setShowform] = useState(false);
   const [isOpenPayment, setIsOpenPayment] = useState(false);
-
+const [payapleform, setPayableForm] = useState(false)
   const [hoveredItem, setHoveredItem] = useState(null);
-
+  const [refundDetails, setRefundDetails] = useState('')
   const menuItems = [
     {
       label: "Send Mail",
@@ -263,10 +264,36 @@ const InvoiceCard = ({ rowData }) => {
       balanceDue: pdfDetails?.invoiceInfo?.balanceAmount,
       InvoiceId: pdfDetails?.invoiceId,
     })
-
-
-
   }
+
+
+  const handleNavigateRefund = (pdfDetails) =>{
+console.log("pdfDetails",pdfDetails) 
+    setRefundDetails(pdfDetails)
+setPayableForm(true)
+  }
+ const handleCloseRefundAmount = () => {
+    setPayableForm(false)
+  }
+
+
+
+
+useEffect(() => {
+    if (state.InvoiceList.createRefundStatusCode === 200) {
+      setPayableForm(false)
+      dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
+
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_CREATE_REFUND' })
+      }, 100)
+    }
+
+  }, [state.InvoiceList.createRefundStatusCode])
+
+
+
+
 
   return (
     <div style={{
@@ -1436,6 +1463,9 @@ const InvoiceCard = ({ rowData }) => {
 
         </div>
       </div>
+      
+       
+      
       <div
         style={{
           position: "sticky",
@@ -1462,7 +1492,7 @@ const InvoiceCard = ({ rowData }) => {
               fontFamily: "Gilroy",
             }}
           >
-            Payments Made
+            {pdfDetails?.invoiceInfo?.totalAmount > 0  ? "Payments Made" : "Refund Made"}
           </span>
 
           <div className="d-flex align-items-center gap-2">
@@ -1482,6 +1512,25 @@ const InvoiceCard = ({ rowData }) => {
                 <AddCircle size="16" color="#fff" variant="Bold" /> Record Payment
               </Button>
             }
+{
+  pdfDetails?.invoiceInfo?.totalAmount < 0 &&
+  <Button
+                size="sm"
+                style={{
+                  background: "#1E45E1",
+                  border: "none",
+                  borderRadius: 8,
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                }}
+                onClick={(e) => handleNavigateRefund(pdfDetails)}
+              >
+                <AddCircle size="16" color="#fff" variant="Bold" /> Refund Amount
+              </Button>
+}
+
+
+
             {
               (
                 isOpenPayment ? (
@@ -1593,6 +1642,12 @@ const InvoiceCard = ({ rowData }) => {
         />
 
       )}
+
+
+      {  payapleform && 
+      <RefundAmount show={payapleform} handleClose={handleCloseRefundAmount} refundDetails={refundDetails} />
+
+      }
     </div>
   );
 };

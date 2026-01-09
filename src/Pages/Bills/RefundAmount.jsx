@@ -133,7 +133,9 @@ function RefundAmount({ show, handleClose, refundDetails }) {
     useEffect(() => {
         if (state.InvoiceList?.createRefundStatusCode === 200) {
             setFormRecordLoading(false)
-        }
+                        dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: state.login.selectedHostel_Id, invoiceId:refundDetails?.invoiceId } })
+
+       }
 
     }, [state.InvoiceList?.createRefundStatusCode])
 
@@ -215,7 +217,7 @@ function RefundAmount({ show, handleClose, refundDetails }) {
                             />
                             <div>
                                 <p style={{ fontSize: "1.25rem", fontFamily: "Gilroy", fontWeight: 600 }} className="mb-0">
-                                    {refundDetails.fullName}                   </p>
+                                    {refundDetails?.fullName || refundDetails?.customerInfo?.fullName}                   </p>
                                 <div className="d-flex mb-2">
                                     <span className="badge rounded-pill bg-warning text-dark me-2" style={{ fontSize: "0.75rem", fontFamily: "Gilroy", fontWeight: 400 }}>
                                         {state.InvoiceList?.refundDetails?.floorName}
