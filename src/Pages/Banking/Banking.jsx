@@ -127,9 +127,9 @@ function Banking() {
   }, [state.bankingDetails.statusCodeForGetBanking]);
 
 
-useEffect(()=>{
-setLoader(false)
-},[state.bankingDetails?.bankingList?.listTransactions, state.bankingDetails?.bankingList?.listBanks])
+  useEffect(() => {
+    setLoader(false)
+  }, [state.bankingDetails?.bankingList?.listTransactions, state.bankingDetails?.bankingList?.listBanks])
 
 
   useEffect(() => {
@@ -246,7 +246,7 @@ setLoader(false)
     setOpenMenuId(false);
   };
 
-   const buttonStyle = {
+  const buttonStyle = {
     fontFamily: "Gilroy",
     fontSize: "14px",
     backgroundColor: "#1E45E1",
@@ -403,7 +403,7 @@ setLoader(false)
   //   setSortConfig({ key, direction });
   // };
 
- const sortedData = React.useMemo(() => {
+  const sortedData = React.useMemo(() => {
     return Array.isArray(transactionFilterddata) ? transactionFilterddata : [];
   }, [transactionFilterddata]);
 
@@ -538,18 +538,18 @@ setLoader(false)
   return (
     <>
 
-      <div className="sticky-top bg-white" style={{ margin:5 }} >
+      <div className="sticky-top bg-white" style={{ margin: 5 }} >
         <div
-          className="d-flex flex-wrap justify-content-between align-items-center"
+          className="d-flex flex-wrap justify-content-between align-items-center ms-2"
 
-          style={{  marginTop: 0 }}  >
+          style={{ marginTop: 0 }}  >
           <div className="">
             <label style={{
               fontSize: 18,
               color: "#000000",
               fontWeight: 600,
               fontFamily: "Gilroy",
-             
+
             }}>Banking</label>
           </div>
 
@@ -792,7 +792,7 @@ setLoader(false)
             </div>
           </>
         ) : (
-          <div className="d-flex overflow-auto mt-3 gap-2"  >
+          <div className="d-flex overflow-auto mt-3 gap-2 ms-1"  >
             {bankking && bankking?.length > 0 ? (
               bankking?.map((item) => {
                 return (
@@ -1030,7 +1030,7 @@ setLoader(false)
 
                       <div className="d-flex justify-content-between align-items-center mb-2">
                         <div style={{ fontFamily: "Gilroy", }}>
-                         
+
 
                           <p className="text-muted mb-0" style={{ fontSize: 14, fontWeight: 500 }}>
                             {item.isDefault
@@ -1217,234 +1217,234 @@ setLoader(false)
 
           {sortedData?.length > 0 ? (
             <div
-               className='show-scrolls me-2 sticky-top'
-                style={{
-                  maxHeight:300,
-                  overflow: "auto",
-                  borderTop: "1px solid #E8E8E8",
-                  marginBottom: 20,
-                  marginTop: "20px",
-                  paddingRight: 0,
-                  paddingLeft: 0
-                }}
+              className='show-scrolls me-2 sticky-top ms-1'
+              style={{
+                maxHeight: 300,
+                overflow: "auto",
+                borderTop: "1px solid #E8E8E8",
+                marginBottom: 20,
+                marginTop: "20px",
+                paddingRight: 0,
+                paddingLeft: 0
+              }}
             >
-            
-                <Table
-                  responsive="md"
 
-                  style={{
-                    fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                    top: 0,
-                    zIndex: 1,
-                    borderRadius: 0
-                  }}
-                >
-                  <thead style={{
-                    fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                    top: 0,
-                    zIndex: 1
-                  }}>
-                    <tr>
-                      <th
-                        style={{
-                          textAlign: "start",
-                         
-                          color: "rgb(147, 147, 147)",
-                          fontSize: "12px",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                          // paddingLeft: "20px",
-                          whiteSpace: "nowrap"
+              <Table
+                responsive="md"
 
-                        }}
-                      >
-                        <div className='d-flex gap-1 align-items-center justify-content-start'>
+                style={{
+                  fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                  top: 0,
+                  zIndex: 1,
+                  borderRadius: 0
+                }}
+              >
+                <thead style={{
+                  fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                  top: 0,
+                  zIndex: 1
+                }}>
+                  <tr>
+                    <th
+                      style={{
+                        textAlign: "start",
 
-                          Account Name</div>
-                      </th>
-                      <th
-                        style={{
-                          textAlign: "center",
-                          // padding: "10px",
-                          color: "rgb(147, 147, 147)",
-                          fontSize: "12px",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                        }}
-                      >
-                        <div className='d-flex gap-1 align-items-center justify-content-start'>
+                        color: "rgb(147, 147, 147)",
+                        fontSize: "12px",
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                        // paddingLeft: "20px",
+                        whiteSpace: "nowrap"
 
-                          Date</div>
-                      </th>
-                      <th
-                        style={{
-                          textAlign: "start",
-                          // padding: "10px",
-                          color: "rgb(147, 147, 147)",
-                          fontSize: "12px",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                        }}
-                      >
-                        <div className='d-flex gap-1 align-items-center justify-content-start'>
+                      }}
+                    >
+                      <div className='d-flex gap-1 align-items-center justify-content-start'>
 
-                          Amount</div>
-                      </th>
-                      <th
-                        style={{
-                          textAlign: "start",
-                          // padding: "10px",
-                          color: "rgb(147, 147, 147)",
-                          fontSize: "12px",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                        }}
-                      >
-                        <div className='d-flex gap-1 align-items-center justify-content-start'>
+                        Account Name</div>
+                    </th>
+                    <th
+                      style={{
+                        textAlign: "center",
+                        // padding: "10px",
+                        color: "rgb(147, 147, 147)",
+                        fontSize: "12px",
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                      }}
+                    >
+                      <div className='d-flex gap-1 align-items-center justify-content-start'>
 
-                          Description</div>
-                      </th>
+                        Date</div>
+                    </th>
+                    <th
+                      style={{
+                        textAlign: "start",
+                        // padding: "10px",
+                        color: "rgb(147, 147, 147)",
+                        fontSize: "12px",
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                      }}
+                    >
+                      <div className='d-flex gap-1 align-items-center justify-content-start'>
 
-                      <th
-                        style={{
-                          textAlign: "start",
-                          // padding: "10px",
-                          color: "rgb(147, 147, 147)",
-                          fontSize: "12px",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                        }}
-                      >
-                        <div className='d-flex gap-1 align-items-center justify-content-start'>
+                        Amount</div>
+                    </th>
+                    <th
+                      style={{
+                        textAlign: "start",
+                        // padding: "10px",
+                        color: "rgb(147, 147, 147)",
+                        fontSize: "12px",
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                      }}
+                    >
+                      <div className='d-flex gap-1 align-items-center justify-content-start'>
 
-                          Transaction</div>
-                      </th>
+                        Description</div>
+                    </th>
 
-                    </tr>
-                  </thead>
+                    <th
+                      style={{
+                        textAlign: "start",
+                        // padding: "10px",
+                        color: "rgb(147, 147, 147)",
+                        fontSize: "12px",
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                      }}
+                    >
+                      <div className='d-flex gap-1 align-items-center justify-content-start'>
+
+                        Transaction</div>
+                    </th>
+
+                  </tr>
+                </thead>
 
 
-                  <tbody style={{ textAlign: "center" }}>
-                    <PaginationList>
-                      {sortedData?.map((user) => {
-                       
+                <tbody style={{ textAlign: "center" }}>
+                  <PaginationList>
+                    {sortedData?.map((user) => {
 
-                        return (
-                          <tr
-                            key={user.id}
+
+                      return (
+                        <tr
+                          key={user.id}
+                          style={{
+                            fontSize: "13px",
+                            fontWeight: 600,
+                            textAlign: "center",
+                            marginTop: 10,
+                          }}
+                        >
+                          <td
                             style={{
+                              border: "none",
+                              textAlign: "start",
                               fontSize: "13px",
                               fontWeight: 600,
-                              textAlign: "center",
-                              marginTop: 10,
+                              fontFamily: "Gilroy",
+                              // paddingTop: 15,
                             }}
+                            className=""
                           >
-                            <td
+                            <div className="">
+                              {user.accountHolder}
+                            </div>
+                          </td>
+                          <td
+                            style={{
+                              // paddingTop: 15,
+                              border: "none",
+                              textAlign: "start",
+                              fontSize: "13px",
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              whiteSpace: "nowrap",
+                            }}
+                            className=""
+                          >
+                            <span
                               style={{
-                                border: "none",
-                                textAlign: "start",
-                                fontSize: "13px",
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                                // paddingTop: 15,
-                              }}
-                              className=""
-                            >
-                              <div className="">
-                                {user.accountHolder}
-                              </div>
-                            </td>
-                            <td
-                              style={{
-                                // paddingTop: 15,
-                                border: "none",
-                                textAlign: "start",
-                                fontSize: "13px",
+                                // padding: "3px 10px",
+                                // color:"6B7280",
+                                borderRadius: "60px",
+                                textAlign: "center",
+                                fontSize: "11px",
                                 fontWeight: 500,
                                 fontFamily: "Gilroy",
-                                whiteSpace: "nowrap",
+                                // backgroundColor: "#EBEBEB",
                               }}
-                              className=""
                             >
-                              <span
-                                style={{
-                                  // padding: "3px 10px",
-                                  // color:"6B7280",
-                                  borderRadius: "60px",
-                                  textAlign: "center",
-                                  fontSize: "11px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  // backgroundColor: "#EBEBEB",
-                                }}
-                              >
-                                {user.createdAt}
-                              </span>
-                            </td>
-                            <td
+                              {user.createdAt}
+                            </span>
+                          </td>
+                          <td
+                            style={{
+                              border: "none",
+                              textAlign: "start",
+                              fontSize: "13px",
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              // paddingTop: 15,
+                            }}
+                            className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
+                          >
+                            {user.amount}
+                          </td>
+                          <td
+                            style={{
+                              border: "none",
+                              textAlign: "start",
+                              fontSize: "13px",
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              // paddingTop: 15,
+                            }}
+                            className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
+                          >
+                            {user.source}
+                          </td>
+                          <td
+                            style={{
+                              // paddingTop: 15,
+                              border: "none",
+                              textAlign: "start",
+                              fontSize: "13px",
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              whiteSpace: "nowrap",
+                            }}
+                            className=""
+                          >
+                            <span
                               style={{
-                                border: "none",
+                                // padding: "3px 10px",
+                                color: "#222222",
+                                borderRadius: "60px",
+                                // backgroundColor: "#EBEBEB",
                                 textAlign: "start",
-                                fontSize: "13px",
+                                fontSize: "11px",
                                 fontWeight: 500,
                                 fontFamily: "Gilroy",
-                                // paddingTop: 15,
                               }}
-                              className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
                             >
-                              {user.amount}
-                            </td>
-                            <td
-                              style={{
-                                border: "none",
-                                textAlign: "start",
-                                fontSize: "13px",
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                                // paddingTop: 15,
-                              }}
-                              className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
-                            >
-                              {user.source}
-                            </td>
-                            <td
-                              style={{
-                                // paddingTop: 15,
-                                border: "none",
-                                textAlign: "start",
-                                fontSize: "13px",
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                                whiteSpace: "nowrap",
-                              }}
-                              className=""
-                            >
-                              <span
-                                style={{
-                                  // padding: "3px 10px",
-                                  color:"#222222",
-                                  borderRadius: "60px",
-                                  // backgroundColor: "#EBEBEB",
-                                  textAlign: "start",
-                                  fontSize: "11px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                }}
-                              >
-                                {user.type}
-                              </span>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </PaginationList>
-                  </tbody>
+                              {user.type}
+                            </span>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </PaginationList>
+                </tbody>
 
 
 
 
-                </Table>
-             
+              </Table>
+
             </div>
 
           ) : (
@@ -1491,7 +1491,7 @@ setLoader(false)
               {loader &&
                 <div
                   style={{
-                     position: 'fixed',
+                    position: 'fixed',
                     top: 0,
                     right: 0,
                     bottom: 0,
@@ -1519,7 +1519,7 @@ setLoader(false)
             </div>
           )}
 
-      
+
         </div>
         <Modal
           show={deleteShow}

@@ -1692,7 +1692,7 @@ const InvoicePage = () => {
             xs={12}
           >
             <div
-              className="container sticky-top bg-white"
+              className="ms-auto sticky-top bg-white"
               style={{
                 zIndex: 0,
                 height: 'auto',
@@ -1701,8 +1701,8 @@ const InvoicePage = () => {
                 boxShadow: "initial"
               }}
             >
-              <div className="d-flex justify-content-between align-items-center flex-wrap">
-                <div className="" style={{
+              <div className="d-flex justify-content-between align-items- flex-wrap">
+                <div className="ms-3" style={{
                   marginTop: 12,
                 }}>
                   <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Bills</label>
@@ -1830,7 +1830,7 @@ const InvoicePage = () => {
 
               >
 
-                <div className="d-flex justify-content-start ms-2 pe-2 align-items-center mt-2">
+                <div className="d-flex justify-content-start ms-3 pe-2 align-items-center mt-2">
 
 
                   <div className="d-flex gap-3 align-items-center">
@@ -2143,7 +2143,7 @@ const InvoicePage = () => {
                             {sortedData && sortedData.length > 0 ? (
 
                               <div
-                                className=" ms-2"
+                                className=" ms-3"
                                 style={{ overflowx: "hidden", }}
                               >
                                 <div
