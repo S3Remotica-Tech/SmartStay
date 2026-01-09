@@ -587,6 +587,35 @@ function BedDetailsMap({ room, propsValue,
     }, [state.UsersList.statusCodeForReassinBed]);
 
 
+function getBedStatus(bed) {
+  const icons = [];
+  let badgeCount = 0;
+
+  if (bed.isBooked) {
+    icons.push({ src: recerverimg, alt: "booking" });
+    badgeCount += 1;
+  }
+  if (bed.onNotice) {
+    icons.push({ src: noticeimg, alt: "notice" });
+    badgeCount += 1;
+  }
+  if (bed.overDue) {
+    icons.push({ src: overDude, alt: "overdue" });
+    badgeCount += 1;
+  }
+
+  // If you want a specific rule like old logic:
+  // 3 icons only when booked + notice + overdue
+  if (bed.isBooked && bed.onNotice && bed.overDue) {
+    badgeCount = 3; // explicitly override if needed
+  } else if ((bed.isBooked && bed.onNotice) || (bed.isBooked && bed.overDue) || (bed.onNotice && bed.overDue)) {
+    badgeCount = 2; // 2 icons
+  } else if (icons.length === 1) {
+    badgeCount = 1;
+  }
+
+  return { icons, badgeCount };
+}
 
    
 
@@ -773,12 +802,9 @@ function BedDetailsMap({ room, propsValue,
 
 
 
-                                    {(bed.isBooked || bed.onNotice) && (bed.overDue) && (
+                                    {(bed.isBooked && bed.onNotice ) && (
                                         <div className="action-circle">
                                             {(bed.onNotice && bed.overDue && bed.isBooked) ? 3
-
-
-
                                                 : 2}
 
                                             <div className="action-icons">
@@ -837,7 +863,7 @@ function BedDetailsMap({ room, propsValue,
 
 
 
-
+{/* booked only */}
                                     {bed.isBooked && !bed.onNotice && (
                                         <img
                                             src={recerverimg}
@@ -855,7 +881,7 @@ function BedDetailsMap({ room, propsValue,
                                     )}
 
 
-
+{/* notice only */}
                                     {bed.onNotice && !bed.isBooked && !bed.overDue && (
                                         <img
                                             src={noticeimg}

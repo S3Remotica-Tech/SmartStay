@@ -112,12 +112,31 @@ function App() {
   }
   }, [state.login?.isLoggedIn,data])
 
+  
+function showBrowserNotification(title, body) {
+  if (Notification.permission === "granted") {
+    new Notification(title, {
+      body,
+      icon: "/firebase-logo.png", 
+    });
+  }
+}
 
 useEffect(() => {
     const unsubscribe = onMessageListener((payload) => {
-      // console.log("FCM Foreground Message", payload);
+      console.log("FCM Foreground Message", payload);
    
-      toast.info(payload?.notification?.title || "New Notification");
+       const title =
+      payload?.notification?.title ||
+      payload?.data?.title ||
+      "New Notification";
+
+    const body =
+      payload?.notification?.body ||
+      payload?.data?.body ||
+      "You have a new message";
+
+    showBrowserNotification(title, body);
     });
 
     return () => {

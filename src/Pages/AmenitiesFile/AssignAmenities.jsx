@@ -750,9 +750,10 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
                             <Form.Check aria-label="option 1"
 
                               style={{
-                                cursor: "pointer",
+                                cursor: list?.ending ? "not-allowed" : "pointer",
                                 boxShadow: "none",
                               }}
+                              disabled={list?.ending}
 
                               checked={unAssignedCheckedUsers.includes(list.customerId)}
                               onChange={() => handleUnassignedCheckboxChange(list.customerId)}
@@ -760,7 +761,7 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
                             />
                           </div>
                         </div>
-                        {/* <hr style={{ border: "1px solid #ccc" }} className='p-0 m-1' /> */}
+                       
                       </div>
                     )
 

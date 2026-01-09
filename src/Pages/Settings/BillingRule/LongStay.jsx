@@ -197,6 +197,7 @@ function LongStayRecurringModal({ handleClose, show }) {
                             onChange={(selected) => {
                                 setBillingDate(selected);
                                 setErrors((prev) => ({ ...prev, billingDate: "" }));
+                                 dispatch({ type: 'REMOVE_BILLING_RULE_ERROR' })
                             }}
 
 
@@ -224,6 +225,7 @@ function LongStayRecurringModal({ handleClose, show }) {
                             onChange={(selected) => {
                                 setDueDate(selected);
                                 setErrors((prev) => ({ ...prev, dueDate: "" }));
+                                 dispatch({ type: 'REMOVE_BILLING_RULE_ERROR' })
                             }} />
                         {errors.dueDate && (
                             <ErrorMessage message={errors.dueDate} type="error" />
@@ -246,6 +248,7 @@ function LongStayRecurringModal({ handleClose, show }) {
                             onChange={(selected) => {
                                 setNoticePeriod(selected)
                                 setErrors((prev) => ({ ...prev, notice: "" }));
+                                 dispatch({ type: 'REMOVE_BILLING_RULE_ERROR' })
                             }}
 
                         />

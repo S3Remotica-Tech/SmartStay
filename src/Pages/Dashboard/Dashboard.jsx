@@ -423,7 +423,8 @@ function Dashboard() {
 
   const { datasets } = datum;
 
-
+ console.log("MODE:", import.meta.env.MODE);
+console.log("FIREBASE APP ID:", import.meta.env.VITE_FIREBASE_APP_ID);
 
   const CustomLegend = ({ payload }) => {
     return (
@@ -471,6 +472,8 @@ function Dashboard() {
 
   return (
     <>
+
+
       <div className="container p-0">
         <Marquee pauseOnHover gradient={false}>
           {showWarning && (
