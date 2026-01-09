@@ -3,16 +3,19 @@ import { initializeApp } from "firebase/app";
 import { onMessage } from "firebase/messaging";
 import { getMessaging } from "firebase/messaging";
 
-const firebaseConfig = {
+const firebaseConfig= {
   apiKey: "AIzaSyAfEOOtBi9rbNrV8mnIoPD-uIvCmkvnXY4",
   authDomain: "smart-stay-7da3c.firebaseapp.com",
   projectId: "smart-stay-7da3c",
   storageBucket: "smart-stay-7da3c.firebasestorage.app",
   messagingSenderId: "251194789789",
-  appId: "1:251194789789:web:ce464d9ab1b6e888272974",
-  measurementId: "G-R17ZQ1WK8K"
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_MEASUREMENTID
 };
- 
+
+
+
+
 
 const app = initializeApp(firebaseConfig);
 export const messaging = getMessaging(app);

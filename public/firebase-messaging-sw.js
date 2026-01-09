@@ -15,16 +15,22 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 
-// App CLOSED / Background-la irundha
+// App CLOSED / Background
 messaging.onBackgroundMessage((payload) => {
-  console.log(" Background message", payload);
+  console.log("Background message", payload);
 
-  self.registration.showNotification(
-    payload.notification.title,
-    {
-      body: payload.notification.body,
-      icon: "/logo.png",
-      data: payload.data 
-    }
-  );
+  const title =
+    payload?.notification?.title ||
+    payload?.data?.title ||
+    "New Notification";
+
+  const options = {
+    body:
+      payload?.notification?.body ||
+      payload?.data?.body ||
+      "You have a new message",
+    icon: "/firebase-logo.png",
+  };
+
+  self.registration.showNotification(title, options);
 });
