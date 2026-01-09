@@ -145,6 +145,53 @@ function CustomerReAssign(props) {
 
   }, [state.UsersList.floorListStatusCode])
 
+
+  const roomOptions =
+  state.PgList?.roomsList?.map((item) => ({
+    value: item.id,
+    label: (
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          width: "100%",
+        }}
+      >
+        <span style={{ fontWeight: 600 }}>
+          {item.name}
+        </span>
+
+        <span
+          style={{
+            backgroundColor: "#E9F2FF",
+            color: "#2563EB",
+            padding: "2px 8px",
+            borderRadius: "12px",
+            fontSize: "12px",
+            fontWeight: 600,
+            whiteSpace: "nowrap",
+          }}
+        >
+          {item?.space || 0} sharing
+        </span>
+      </div>
+    ),
+  })) || [];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   // const handleRooms = (selectedOption) => {
   //   const value = selectedOption?.value || "";
   //   setNewRoom(value);
@@ -1050,12 +1097,7 @@ function CustomerReAssign(props) {
 
                           <Select
 
-                            options={
-                              state.PgList?.roomsList?.map((item) => ({
-                                value: item.id,
-                                label: item.name,
-                              })) || []
-                            }
+                           options={roomOptions}
                             onChange={(selectedOption) =>
                               handleRooms(selectedOption?.value)
                             }

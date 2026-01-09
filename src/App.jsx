@@ -87,7 +87,7 @@ function App() {
 
   }, [state.AssetList?.unAuthorized])
 
-console.log("data",data)
+
 
   useEffect(() => {
     if(data && state.login?.isLoggedIn){
@@ -101,7 +101,7 @@ console.log("data",data)
         const token = await getToken(messaging, {
           vapidKey: "BMXC5Wm4kkMiJDq2o98v_QMaXMctNWwtuFlpezETQ-hpSLG1HIKsN0SIFKW-ebfg8tILguRwWisjb0-syzlRgFE"
         });
-        console.log("fcm token", token);
+       
         if(token){
           dispatch({ type: 'FCMTOKENSAGA', payload: {token: token , source: "Web"}})
         }
@@ -115,7 +115,7 @@ console.log("data",data)
 
 useEffect(() => {
     const unsubscribe = onMessageListener((payload) => {
-      console.log("FCM Foreground Message", payload);
+      // console.log("FCM Foreground Message", payload);
    
       toast.info(payload?.notification?.title || "New Notification");
     });

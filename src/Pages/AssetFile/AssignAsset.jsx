@@ -66,9 +66,9 @@ function StaticExample({ show, handleClose, currentItem }) {
       setInitialState({
         pglist: currentItem.hostelId || "",
         room: currentItem.roomId || "",
-      selectedDate: currentItem.assignedAt
-    ? dayjs(currentItem.assignedAt, "DD/MM/YYYY").toDate()
-    : null,
+        selectedDate: currentItem.assignedAt
+          ? dayjs(currentItem.assignedAt, "DD/MM/YYYY").toDate()
+          : null,
         floor_id: currentItem.floorId || "",
       });
     }
@@ -103,7 +103,38 @@ function StaticExample({ show, handleClose, currentItem }) {
     }
   }, [selectedDate]);
 
+  const roomOptions =
+    state.PgList?.roomsList?.map((item) => ({
+      value: item.id,
+      label: (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            width: "100%",
+          }}
+        >
+          <span style={{ fontWeight: 600 }}>
+            {item.name}
+          </span>
 
+          <span
+            style={{
+              backgroundColor: "#E9F2FF",
+              color: "#2563EB",
+              padding: "2px 8px",
+              borderRadius: "12px",
+              fontSize: "12px",
+              fontWeight: 600,
+              whiteSpace: "nowrap",
+            }}
+          >
+            {item?.space || 0} sharing
+          </span>
+        </div>
+      ),
+    })) || [];
 
   const handleRooms = (selectedOption) => {
     setRoom(selectedOption || "");
@@ -217,7 +248,7 @@ function StaticExample({ show, handleClose, currentItem }) {
       normalize(formattedInitialDate) !== normalize(formattedSelectedDate) ||
       normalize(initialState.floor_id) !== normalize(Floor);
 
-   
+
 
 
     if (!isChanged && currentItem?.assignmentStatus === "Assigned") {
@@ -264,7 +295,7 @@ function StaticExample({ show, handleClose, currentItem }) {
   }, [state.createAccount?.networkError, state.AssetList.assetError])
 
 
- 
+
 
 
   return (
@@ -432,12 +463,8 @@ function StaticExample({ show, handleClose, currentItem }) {
 
 
                   <Select
-                    options={
-                      state.PgList?.roomsList?.map((item) => ({
-                        value: item.id,
-                        label: item.name,
-                      })) || []
-                    }
+
+                    options={roomOptions}
                     onChange={(selectedOption) =>
                       handleRooms(selectedOption?.value)
                     }

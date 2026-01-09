@@ -21,7 +21,7 @@ function BillsPdfDetails() {
     const dispatch = useDispatch();
     // const navigate = useNavigate();
 
-    const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
+    // const [hoveredInvoiceId, setHoveredInvoiceId] = useState(null);
     const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);
     const [rowDatas, setRowDatas] = useState('')
     const invoiceRefs = useRef({});
@@ -43,7 +43,7 @@ function BillsPdfDetails() {
         }
     };
 
-    // console.log("state", state.InvoiceList)
+  
 
     useEffect(() => {
         if (rowData?.invoiceId) {
@@ -60,12 +60,20 @@ function BillsPdfDetails() {
 
 
     return (
-        <Row className="p-0" style={{ width: "100%", }}>
+        <Row className="p-0" style={{
+            height: "100vh",
+            overflow: "hidden",
+        }}>
             <Col className="p-0"
                 lg={4}
                 md={4}
                 sm={12}
                 xs={12}
+                style={{
+                    height: "100vh",
+                    overflow: "hidden",
+                    borderRight: "1px solid #E5E7EB",
+                }}
             >
 
                 <div
@@ -76,12 +84,12 @@ function BillsPdfDetails() {
                         // margin: (DownloadInvoice) ? 0 : 3,
                         paddingBottom: 0,
                         borderBottom: "1px solid #E5E7EB",
-                        boxShadow: "initial"
+                        boxShadow: "initial", overflow: "hidden"
                     }}
                 >
                     <div className="d-flex justify-content-between align-items-center flex-wrap mb-2">
                         <div className="" style={{
-                            marginTop: 12,
+                            marginTop: 15,
                         }}>
                             <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Bills</label>
                         </div>
@@ -90,7 +98,11 @@ function BillsPdfDetails() {
                 </div>
                 <div
                     className="show-scroll p-2 mt-2"
-                    style={{ height: "90vh", overflowY: "auto" }}
+                    style={{
+                        height: "calc(100vh - 60px)", // header height
+                        overflowY: "auto",
+                    }}
+                // style={{ height: "90vh", overflowY: "auto" }}
                 >
                     {state.InvoiceList.billsList?.listInvoices &&
                         state.InvoiceList.billsList?.listInvoices?.map((item) => (
@@ -107,9 +119,9 @@ function BillsPdfDetails() {
                                         <div>
                                             <span>
                                                 {
-                                                    item.profilePic && item.profilePic !== "0" ? (
+                                                    item?.profilePic && item?.profilePic !== "0" ? (
                                                         <img
-                                                            src={item.profilePic}
+                                                            src={item?.profilePic}
                                                             alt="User"
                                                             style={{
                                                                 height: 40,
@@ -132,43 +144,45 @@ function BillsPdfDetails() {
                                                                 fontWeight: 600,
                                                                 fontSize: 14,
                                                                 textTransform: "uppercase",
+                                                                fontFamily: "Gilroy",
                                                             }}
                                                         >
-                                                            {item.initials}
+                                                            {item?.initials}
                                                         </div>
                                                     )
                                                 }
                                             </span>
                                         </div>
 
-                                        <div className="flex-grow-1 ms-3">
+                                        <div className="flex-grow-1 ms-3"
+                                            // onMouseEnter={() => setHoveredInvoiceId(item.invoiceId)}
+                                            // onMouseLeave={() => setHoveredInvoiceId(null)}
+                                            onClick={() => {
+                                                setSelectedInvoiceId(item.invoiceId);
+                                                handleDisplayInvoiceDownload(item);
+                                            }}>
                                             <div className="d-flex justify-content-between align-items-center mb-1">
                                                 <div
-                                                    className="Invoice_Name"
+                                                    // className="Invoice_Name"
                                                     style={{
                                                         fontFamily: "Gilroy",
                                                         fontSize: "14px",
                                                         wordWrap: "break-word",
-                                                        color: hoveredInvoiceId === item.invoiceId ? "#1E45E1" : "#222222",
-                                                        textDecoration: "underline",
+                                                        color: "#1E45E1",
+                                                        // textDecoration: "underline",
                                                         fontStyle: "normal",
                                                         lineHeight: "normal",
                                                         fontWeight: 600,
                                                         cursor: "pointer",
                                                     }}
-                                                    onMouseEnter={() => setHoveredInvoiceId(item.invoiceId)}
-                                                    onMouseLeave={() => setHoveredInvoiceId(null)}
-                                                    onClick={() => {
-                                                        setSelectedInvoiceId(item.invoiceId);
-                                                        handleDisplayInvoiceDownload(item);
-                                                    }}
+
                                                 >
                                                     {item.fullName}
                                                 </div>
                                                 <div
                                                     style={{
                                                         fontFamily: "Gilroy",
-                                                        fontSize: "12px",
+                                                        fontSize: "16px",
                                                         wordWrap: "break-word",
                                                         color: "#222",
                                                         fontStyle: "normal",
@@ -176,7 +190,7 @@ function BillsPdfDetails() {
                                                         fontWeight: 600,
                                                     }}
                                                 >
-                                                    {item.baseAmount}
+                                                    ₹ {item.baseAmount}
                                                 </div>
                                             </div>
 
@@ -307,12 +321,19 @@ function BillsPdfDetails() {
                 md={8}
                 sm={8}
                 xs={8}
+                style={{
+                    height: "100vh",
+                    overflow: "hidden",
+                }}
             >
-                <BillPdfModal
-                    // show={showPdfModal}
-                    // handleClosed={handleClosePdfModal}
-                    rowData={rowData || rowDatas}
-                />
+                <div
+                    style={{
+                        height: "100vh",
+                        overflowY: "auto",
+                    }}
+                >
+                    <BillPdfModal rowData={rowData || rowDatas} />
+                </div>
 
 
             </Col>

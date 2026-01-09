@@ -12,8 +12,6 @@ import UserListRoomDetail from "./UserListRoomDetail";
 import Modal from "react-bootstrap/Modal";
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import closecircle from "../../Assets/Images/New_images/close-circle.png";
-// import Box from "@mui/material/Box";
-// import TabList from "@mui/lab/TabList";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 import CustomerReAssign from "./CustomerReAssign";
 import { Trash } from "iconsax-react";
@@ -21,14 +19,12 @@ import Profile from "../../Assets/Images/New_images/profile-picture.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import TabPanel from "@mui/lab/TabPanel";
 import TabContext from "@mui/lab/TabContext";
-// import Tab from "@mui/material/Tab";
 import UserlistBookings from "./UserlistBookings";
 import UserlistCheckout from "./UserlistCheckout";
 import UserlistWalkin from "./UserlistWalkin";
 import Addbooking from "./Addbookingform";
 import CheckOutForm from "./UserListCheckoutForm";
 import UserlistWalkinForm from "./UserlistWalkinForm";
-// import Edit from "../../Assets/Images/Edit-blue.png";
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
 import searchteam from "../../Assets/Images/New_images/Search Team.png";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -47,7 +43,6 @@ import isBetween from "dayjs/plugin/isBetween";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import leftarrow from "../../Assets/Images/arrow-left.png";
-// import { Routes, Route, Outlet, Navigate } from "react-router-dom";
 import Addbook from "../../Assets/Images/New_images/calendar-tick.svg";
 import logout from "../../Assets/Images/New_images/logout.png";
 import DueCustomerConfirmCheckout from "./DueCustomerConfirmCheckout";
@@ -79,18 +74,7 @@ function UserList(props) {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [value, setValue] = React.useState("1");
-  // const [customerrolePermission, setCustomerRolePermission] = useState("");
-  // const [customerpermissionError, setCustomerPermissionError] = useState("");
-  // const [customerAddPermission, setCustomerAddPermission] = useState("");
-  // const [customerDeletePermission, setCustomerDeletePermission] =
-  //   useState("");
-  // const [customerEditPermission, setCustomerEditPermission] = useState("");
-  // const [customerBookingAddPermission, setCustomerBookingAddPermission] =
-    // useState("");
-  // const [customerWalkInAddPermission, setCustomerWalkInAddPermission] =
-    // useState("");
-  // const [customerCheckoutPermission, setCustomerCheckoutAddPermission] =
-    // useState("");
+  
   const [excelDownload, setExcelDownload] = useState("");
   const [excelDownloadBooking, setExcelDownloadBooking] = useState("");
   const [excelDownloadChecout, setExcelDownloadCheckout] = useState("");
@@ -116,7 +100,6 @@ function UserList(props) {
   const [invoiceduedateerrmsg, setInvoiceDueDateErrmsg] = useState("");
   const [allfielderrmsg, setAllFieldErrmsg] = useState("");
   const [isEditing, setIsEditing] = useState(false);
-  // const [currentView, setCurrentView] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteId, setDeleteId] = useState("");
   const [deleteDetails, setDeleteDetails] = useState({ room: null, bed: null });
@@ -139,7 +122,7 @@ function UserList(props) {
 
   const [hostelDelete, setHostelDelete] = useState(false);
   const [roomDelete, setRoomDelete] = useState(false);
-  // const [amenityArray, setamenityArray] = useState([]);
+
   const [formatinvoicedate, setFormatInvoiceDate] = useState(null);
   const [formatduedate, setFormatDueDate] = useState(null);
   const [id, setId] = useState("");
@@ -155,20 +138,15 @@ function UserList(props) {
 
   const tableRef = useRef(null);
 
-  // const canReadTenant = useHasPermission("Customers", "canRead")
-  // const canWriteTenant = useHasPermission("Customers", "canWrite")
-  // const canDeleteTenant = useHasPermission("Customers", "canDelete")
-
+  
 
   const {
     canWriteModule: canWriteTenant,
     canReadModule: canReadTenant,
-    // canUpdateModule: canUpdateInvoice,
-    canDeleteModule: canDeleteTenant,
+      canDeleteModule: canDeleteTenant,
   } = useHasPermission("Customers");
 
-  // const canWriteWalkin = useHasPermission("Walk in", "canWrite")
-  // const canReadWalkin = useHasPermission("Walk in", "canRead")
+  
 
   const {
     canWriteModule: canWriteWalkin,
@@ -176,7 +154,7 @@ function UserList(props) {
 
   } = useHasPermission("Walk in");
 
-  //  const canReadCheckout = useHasPermission("Checkout", "canRead")
+  
 
 
   const {
@@ -210,8 +188,6 @@ function UserList(props) {
   useEffect(() => {
     if (!canReadTenant) {
       setLoading(false);
-    } else {
-      setLoading(true);
     }
   }, [canReadTenant]);
 
@@ -935,22 +911,25 @@ function UserList(props) {
 
 
   useEffect(() => {
-    if (userListDetail) {
+    if (state.UsersList?.Users?.listCustomers) {
       setLoading(false)
     }
 
-  }, [userListDetail])
+  }, [state.UsersList?.Users?.listCustomers])
 
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode === 200) {
-
+     setLoading(false)
       setUserListDetail(state.UsersList.Users.listCustomers);
-      setLoading(false)
+ 
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_USER" });
       }, 100);
     }
   }, [state.UsersList?.UserListStatusCode]);
+
+console.log("state.UsersList",state.UsersList.UserListStatusCode)
+
 
   useEffect(() => {
     if (state.UsersList.userRoomfor) {
