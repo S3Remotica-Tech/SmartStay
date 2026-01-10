@@ -35,7 +35,7 @@ import {
   Call,
   Sms,
   LogoutCurve,
-  Crown1, PasswordCheck, Edit, CardSend
+  Crown1, PasswordCheck, Edit, CardSend, Shield
 } from "iconsax-react";
 import Logout from "../../Components/Logout";
 
@@ -49,9 +49,9 @@ function SettingGeneral() {
 
   const [showFormGeneral, setShowFormGeneral] = useState(false);
   const [file, setFile] = useState(null);
- const [activeTab, setActiveTab] = useState("recent");
+  const [activeTab, setActiveTab] = useState("recent");
 
-const tabs = [
+  const tabs = [
     { key: "masters", label: "Masters" },
     { key: "recent", label: "Recent Activity" },
     { key: "users", label: "Managed Users" }
@@ -1127,7 +1127,7 @@ const tabs = [
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-const [logoutformshow, setLogoutformshow] = useState(false);
+  const [logoutformshow, setLogoutformshow] = useState(false);
 
   const handleShowLogout = () => {
     setLogoutformshow(true);
@@ -1138,14 +1138,14 @@ const [logoutformshow, setLogoutformshow] = useState(false);
   };
 
 
-  
+
 
 
 
   return (
     <>
- {
-        logoutformshow && <Logout show={logoutformshow} handleClose={handleCloseLogout}/>
+      {
+        logoutformshow && <Logout show={logoutformshow} handleClose={handleCloseLogout} />
       }
       <div
 
@@ -1220,7 +1220,7 @@ const [logoutformshow, setLogoutformshow] = useState(false);
         position: "relative",
         overflowY: "auto",
         maxHeight: 500,
-        minHeight: 500
+        minHeight: 500, fontFamily: "Gilroy"
       }}>
 
         {loading &&
@@ -1329,11 +1329,9 @@ const [logoutformshow, setLogoutformshow] = useState(false);
                         }
                       </div>
                       <div style={{ width: "100%" }}>
-                        <div className="d-flex justify-content-between">
+                        <div className="d-flex justify-content-between align-items-center">
                           <div
-                            style={{
 
-                            }}
                           >
                             <span
                               style={{
@@ -1460,7 +1458,7 @@ const [logoutformshow, setLogoutformshow] = useState(false);
 
 
 
-                        <div className="d-flex justify-content-between">
+                        <div className="d-flex justify-content-between align-items-center">
                           <div
                             style={{
                               display: "flex",
@@ -1470,7 +1468,7 @@ const [logoutformshow, setLogoutformshow] = useState(false);
                               color: "#FF9900",
                               backgroundColor: "#FFFAF1",
                               padding: "2px 8px",
-                              borderRadius: 20, width: "fit-content"
+                              borderRadius: 20, width: "fit-content", fontFamily: "Gilroy"
                             }}
                           >
 
@@ -1544,7 +1542,7 @@ const [logoutformshow, setLogoutformshow] = useState(false);
                           padding: "6px 12px",
                           cursor: "pointer"
                         }}
-                         onClick={handleShowLogout}
+                        onClick={handleShowLogout}
                       >
                         <LogoutCurve size={16} color="#FF0000" />
                         Logout
@@ -1556,247 +1554,261 @@ const [logoutformshow, setLogoutformshow] = useState(false);
 
                 )}
 
- <div
-      style={{
-        display: "flex",
-        borderBottom: "1px solid #E5E7EB",
-        gap: 32,
-        fontFamily: "Gilroy, sans-serif"
-      }}
-    >
-      {tabs.map(tab => (
-        <div
-          key={tab.key}
-          onClick={() => setActiveTab(tab.key)}
-          style={{
-            padding: "14px 4px",
-            fontSize: 15,
-            fontWeight: activeTab === tab.key ? 600 : 500,
-            color: activeTab === tab.key ? "#1E45E1" : "#6B7280",
-            cursor: "pointer",
-            position: "relative"
-          }}
-        >
-          {tab.label}
+                <div
+                  style={{
+                    display: "flex",
+                    borderBottom: "1px solid #E5E7EB",
+                    gap: 32,
+                    fontFamily: "Gilroy, sans-serif"
+                  }}
+                >
+                  {tabs.map(tab => (
+                    <div
+                      key={tab.key}
+                      onClick={() => setActiveTab(tab.key)}
+                      style={{
+                        padding: "14px 4px",
+                        fontSize: 15,
+                        fontWeight: activeTab === tab.key ? 600 : 500,
+                        color: activeTab === tab.key ? "#1E45E1" : "#6B7280",
+                        cursor: "pointer",
+                        position: "relative"
+                      }}
+                    >
+                      {tab.label}
 
-          {activeTab === tab.key && (
-            <div
-              style={{
-                position: "absolute",
-                bottom: -1,
-                left: 0,
-                width: "100%",
-                height: 2,
-                backgroundColor: "#1E45E1",
-                borderRadius: 2
-              }}
-            />
-          )}
-        </div>
-      ))}
-    </div>
-{
-  activeTab === "masters" && (
-<>
-                {generalFilterddata && generalFilterddata.length > 0 ? (
-                  generalFilterddata.map((item) => {
-                    const imageUrl = item.profilePic;
-                    return (
-
-
-                      <div
-                        className="card p-3 settingGreneral mt-2"
-                        style={{
-                          borderRadius: 16,
-                          height: 230,
-                          overflow: 'hidden'
-                        }}
-                        key={item.userId}
-                      >
+                      {activeTab === tab.key && (
                         <div
+                          style={{
+                            position: "absolute",
+                            bottom: -1,
+                            left: 0,
+                            width: "100%",
+                            height: 2,
+                            backgroundColor: "#1E45E1",
+                            borderRadius: 2
+                          }}
+                        />
+                      )}
+                    </div>
+                  ))}
+                </div>
+                {
+                  activeTab === "masters" && (
+                    <>
+                      {generalFilterddata && generalFilterddata.length > 0 ? (
+                        generalFilterddata.map((item) => {
+                          const imageUrl = item.profilePic;
+                          return (
 
-                          className="d-flex flex-wrap justify-content-between align-items-center w-100"
-                        >
-                          <div className="d-flex align-items-center flex-wrap">
-                            {
-                              imageUrl ?
 
-                                <Image
-                                  src={imageUrl}
-                                  alt={item.firstName || "Default Profile"}
-                                  roundedCircle
-                                  style={{
-                                    height: "50px",
-                                    width: "50px",
-                                  }}
-
-                                />
-                                :
-
-                                <div
-                                  style={{
-                                    height: 40,
-                                    width: 40,
-                                    borderRadius: "50%",
-                                    backgroundColor: "#E2E8F0",
-                                    color: "#44536A",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    fontWeight: 600,
-                                    fontSize: 14,
-                                    textTransform: "uppercase",
-                                  }}
-                                >
-                                  {item.initials}
-                                </div>
-
-                            }
-                            <div className="ms-2 ">
-                              <p
-                                className="mb-0 text-break"
-                                style={{
-                                  fontSize: 16,
-                                  fontWeight: 600,
-                                  fontFamily: "Gilroy",
-
-                                }}
-                              >
-                                {item.firstName} {item.lastName}
-                              </p>
-                            </div>
-                          </div>
-                          <div className="d-flex align-items-center flex-wrap">
-                            <img src={img2} width="20" height="20" alt="icon" style={{ filter: canWriteProfile ? "none" : "grayscale(100%) brightness(70%)" }} />
-                            <p
-                              onClick={() => canWriteProfile && handleChangePassword(item)}
-                              className="mb-0 mx-2 text-wrap"
+                            <div
+                              className="card p-3  mt-2"
                               style={{
-                                fontFamily: "Montserrat",
-                                fontWeight: 600,
-                                fontSize: 14,
-                                color: canWriteProfile ? "#1E45E1" : "#B0B0B0",
-                                cursor: canWriteProfile ? "pointer" : "not-allowed",
+                                borderRadius: 16,
+                                height: "auto",
+                                // overflow: 'hidden'
                               }}
+                              key={item.userId}
                             >
-                              Change Password
-                            </p>
+                              <div
 
-                            <div className="ms-2 me-2" style={{
-                              cursor: "pointer", height: 40, width: 40, borderRadius: 100,
-                              border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center",
-                              position: "relative", zIndex: generalEdit ? 1000 : 'auto'
-                              , backgroundColor: generalEdit === item.userId ? "#E7F1FF" : "transparent",
+                                className="d-flex flex-wrap justify-content-between align-items-center w-100"
+                              >
+                                <div className="d-flex align-items-center w-100">
+                                  {
+                                    imageUrl ?
 
-
-                            }} onClick={() => handlegeneralform(item.userId)} >
-                              <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-
-                              {generalEdit === item.userId && (
-                                <div
-                                  ref={popupRef}
-                                  style={{
-                                    cursor: "pointer",
-                                    backgroundColor: "#F9F9F9",
-                                    position: "absolute",
-                                    right: window.innerWidth <= 404 ? "auto" : 40,
-                                    top: 40,
-                                    width: window.innerWidth <= 404 ? 100 : 120,
-                                    height: "auto",
-                                    border: "1px solid #EBEBEB",
-                                    borderRadius: 10,
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    padding: 0,
-                                    alignItems: "flex-start",
-                                    zIndex: 1050,
-                                    fontSize: window.innerWidth <= 404 ? 13 : 14,
-                                  }}
-                                >
-                                  <div
-                                    style={{
-                                      width: "100%",
-                                      backgroundColor: "#F9F9F9",
-                                      borderRadius: 10,
-                                    }}
-                                  >
-
-                                    <div
-                                      onClick={() => canUpdateProfile && handleEditGeneralUser(item)}
-                                      onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#EDF2FF")}
-                                      onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#F9F9F9")}
-                                      style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        gap: "10px",
-                                        padding: "8px 12px",
-                                        width: "100%",
-                                        backgroundColor: "#F9F9F9",
-                                        borderTopLeftRadius: 10,
-                                        borderTopRightRadius: 10,
-                                        cursor: canUpdateProfile ? "pointer" : "not-allowed",
-                                        opacity: canUpdateProfile ? 1 : 0.5,
-                                      }}
-                                    >
-                                      <Edit
-                                        size="16"
-                                        color="#1E45E1"
-                                        style={{ height: 16, width: 16, filter: canUpdateProfile ? "none" : "grayscale(100%) brightness(70%)", }} />
-                                      <label
+                                      <Image
+                                        src={imageUrl}
+                                        alt={item.firstName || "Default Profile"}
+                                        roundedCircle
                                         style={{
+                                          height: "50px",
+                                          width: "50px",
+                                        }}
+
+                                      />
+                                      :
+
+                                      <div
+                                        style={{
+                                          height: 40,
+                                          width: 40,
+                                          borderRadius: "50%",
+                                          backgroundColor: "#E2E8F0",
+                                          color: "#44536A",
+                                          display: "flex",
+                                          alignItems: "center",
+                                          justifyContent: "center",
+                                          fontWeight: 600,
                                           fontSize: 14,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy, sans-serif",
-                                          color: canUpdateProfile ? "#000000" : "#999999",
-                                          cursor: canUpdateProfile ? "pointer" : "not-allowed",
+                                          textTransform: "uppercase",
                                         }}
                                       >
-                                        Edit
-                                      </label>
+                                        {item.initials}
+                                      </div>
+
+                                  }
+                                  <div className="ms-2 w-100">
+                                    <div className="d-flex justify-content-between align-items-center w-100" >
+                                                                          <div
+                                        className="mb-0 text-break"
+                                        style={{
+                                          fontSize: 16,
+                                          fontWeight: 600,
+                                          fontFamily: "Gilroy",
+height:"fit-content"
+                                        }}
+                                      >
+                                        {item.firstName} {item.lastName}
+                                      </div>
+                                    
+
+                                      <div className="ms-2 me-2 mt-0" style={{
+                                        cursor: "pointer", height: 40, width: 40, borderRadius: 100,
+                                        // border: "1px solid #EFEFEF",
+                                        display: "flex", justifyContent: "center", alignItems: "center",
+                                        position: "relative", zIndex: generalEdit ? 1000 : 'auto'
+                                        ,
+                                        // backgroundColor: generalEdit === item.userId ? "#E7F1FF" : "transparent",
+
+
+                                      }} onClick={() => handlegeneralform(item.userId)} >
+                                        <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+
+                                        {generalEdit === item.userId && (
+                                          <div
+                                            ref={popupRef}
+                                            style={{
+                                              cursor: "pointer",
+                                              backgroundColor: "#F9F9F9",
+                                              position: "absolute",
+                                              right: window.innerWidth <= 404 ? "auto" : 40,
+                                              top: 40,
+                                              width: window.innerWidth <= 404 ? 100 : 120,
+                                              height: "auto",
+                                              border: "1px solid #EBEBEB",
+                                              borderRadius: 10,
+                                              display: "flex",
+                                              flexDirection: "column",
+                                              padding: 0,
+                                              alignItems: "flex-start",
+                                              zIndex: 1050,
+                                              fontSize: window.innerWidth <= 404 ? 13 : 14,
+                                            }}
+                                          >
+                                            <div
+                                              style={{
+                                                width: "100%",
+                                                backgroundColor: "#F9F9F9",
+                                                borderRadius: 10,
+                                              }}
+                                            >
+
+                                              <div
+                                                onClick={() => canUpdateProfile && handleEditGeneralUser(item)}
+                                                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#EDF2FF")}
+                                                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#F9F9F9")}
+                                                style={{
+                                                  display: "flex",
+                                                  alignItems: "center",
+                                                  gap: "10px",
+                                                  padding: "8px 12px",
+                                                  width: "100%",
+                                                  backgroundColor: "#F9F9F9",
+                                                  borderTopLeftRadius: 10,
+                                                  borderTopRightRadius: 10,
+                                                  cursor: canUpdateProfile ? "pointer" : "not-allowed",
+                                                  opacity: canUpdateProfile ? 1 : 0.5,
+                                                }}
+                                              >
+                                                <Edit
+                                                  size="16"
+                                                  color="#1E45E1"
+                                                  style={{ height: 16, width: 16, filter: canUpdateProfile ? "none" : "grayscale(100%) brightness(70%)", }} />
+                                                <label
+                                                  style={{
+                                                    fontSize: 14,
+                                                    fontWeight: 500,
+                                                    fontFamily: "Gilroy, sans-serif",
+                                                    color: canUpdateProfile ? "#000000" : "#999999",
+                                                    cursor: canUpdateProfile ? "pointer" : "not-allowed",
+                                                  }}
+                                                >
+                                                  Edit
+                                                </label>
+                                              </div>
+
+                                              <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px" }} />
+
+
+                                              <div
+                                                onClick={() => canDeleteProfile && handleDelete(item)}
+                                                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#FFF0F0")}
+                                                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#F9F9F9")}
+                                                style={{
+                                                  display: "flex",
+                                                  alignItems: "center",
+                                                  gap: "10px",
+                                                  padding: "8px 12px",
+                                                  width: "100%",
+                                                  backgroundColor: "#F9F9F9",
+                                                  borderBottomLeftRadius: 10,
+                                                  borderBottomRightRadius: 10,
+                                                  cursor: canDeleteProfile ? "pointer" : "not-allowed",
+                                                  opacity: canDeleteProfile ? 1 : 0.5,
+                                                }}
+                                              >
+                                                <img src={Delete} alt="Delete" style={{ height: 16, width: 16, filter: canDeleteProfile ? "none" : "grayscale(100%) brightness(70%)", }} />
+                                                <label
+                                                  style={{
+                                                    fontSize: 14,
+                                                    fontWeight: 500,
+                                                    fontFamily: "Gilroy, sans-serif",
+                                                    color: canDeleteProfile ? "#FF0000" : "#999999",
+                                                    cursor: canDeleteProfile ? "pointer" : "not-allowed",
+                                                  }}
+                                                >
+                                                  Delete
+                                                </label>
+                                              </div>
+                                            </div>
+                                          </div>
+
+                                        )}
+                                      </div>
                                     </div>
 
-                                    <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px" }} />
-
-
-                                    <div
-                                      onClick={() => canDeleteProfile && handleDelete(item)}
-                                      onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#FFF0F0")}
-                                      onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#F9F9F9")}
-                                      style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        gap: "10px",
-                                        padding: "8px 12px",
-                                        width: "100%",
-                                        backgroundColor: "#F9F9F9",
-                                        borderBottomLeftRadius: 10,
-                                        borderBottomRightRadius: 10,
-                                        cursor: canDeleteProfile ? "pointer" : "not-allowed",
-                                        opacity: canDeleteProfile ? 1 : 0.5,
-                                      }}
-                                    >
-                                      <img src={Delete} alt="Delete" style={{ height: 16, width: 16, filter: canDeleteProfile ? "none" : "grayscale(100%) brightness(70%)", }} />
-                                      <label
+                                    <div className="d-flex justify-content-between align-items-center">
+                                      <div
                                         style={{
-                                          fontSize: 14,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy, sans-serif",
-                                          color: canDeleteProfile ? "#FF0000" : "#999999",
-                                          cursor: canDeleteProfile ? "pointer" : "not-allowed",
+                                          display: "flex",
+                                          alignItems: "center",
+                                          gap: 4,
+                                          fontSize: 12,
+                                          color: "#3A90E5",
+                                          backgroundColor: "#F0F7FF",
+                                          padding: "2px 8px",
+                                          borderRadius: 20, width: "fit-content", fontFamily: "Gilroy"
                                         }}
                                       >
-                                        Delete
-                                      </label>
+
+                                        {item.roleName} <Shield size={14} color="#3A90E5" />
+                                      </div>
+                                      <div>
+                                        <label style={{ color: "#9C9C9C", fontSize: 14, fontWeight: 400, fontFamily: "Gilroy" }}>Profile last updated - 20/11/25</label>
+                                      </div>
                                     </div>
                                   </div>
+
                                 </div>
 
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                        <hr />
-                        <div className="row">
+
+                              </div>
+
+
+                              {/* <div className="row">
                           <div className="col-md-6">
                             <p
                               className="mb-0"
@@ -1878,51 +1890,120 @@ const [logoutformshow, setLogoutformshow] = useState(false);
 
                           </div>
 
-                        </div>
-                      </div>
+                        </div> */}
 
-                    );
-                  })
-                ) :
-                  !loading && (
-                    <div
-                      style={{
-                        textAlign: "center",
-                        marginTop: 90,
-                        height: '40vh',
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center"
-                      }}
-                    >
-                      <img src={EmptyState} alt="emptystate" />
-                      <div
-                        className="pb-1"
-                        style={{
-                          fontWeight: 600,
-                          fontFamily: "Gilroy",
-                          fontSize: 18,
-                          color: "rgba(75, 75, 75, 1)",
-                        }}
-                      >
-                        No Profile
-                      </div>
-                      <div
-                        className="pb-1"
-                        style={{
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                          fontSize: 14,
-                          color: "rgba(75, 75, 75, 1)",
-                        }}
-                      >
-                        There are no Profile available.
-                      </div>
-                    </div>
-                  )
-                }
+                              <hr className="m-2" style={{ border: "1px solid #E8E8E8" }} />
+                              <div className="d-flex justify-content-between">
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    gap: 16,
+                                    marginTop: 8
+                                  }}
+                                >
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                      gap: 6,
+                                      fontSize: 13,
+                                      color: "#555", fontFamily: "Gilroy"
+                                    }}
+                                  >
+                                    <Call size={14} color="#1E45E1" />
+                                    + {item.countryCode} {item.mobileNo}
+                                  </div>
+                                  <div
+                                    style={{
+                                      width: 1,
+                                      height: 28,
+                                      border: "1px solid #D9D9D9"
+                                    }}
+                                  />
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                      gap: 6,
+                                      fontSize: 13,
+                                      color: "#1E45E1", fontFamily: "Gilroy"
+                                    }}
+                                  >
+                                    <Sms size={14} color="#1E45E1" />
+                                    {item.mailId}
+                                    <span>
+                                      <CardSend
+                                        size="16"
+                                        color="#292D32"
+                                      /></span>
+                                  </div>
+                                </div>
 
-           </>  ) }
+                                <div className="d-flex align-items-center flex-wrap">
+                                  <img src={img2} width="20" height="20" alt="icon" style={{ filter: canWriteProfile ? "none" : "grayscale(100%) brightness(70%)" }} />
+                                  <p
+                                    onClick={() => canWriteProfile && handleChangePassword(item)}
+                                    className="mb-0 mx-2 text-wrap"
+                                    style={{
+                                      fontFamily: "Montserrat",
+                                      fontWeight: 600,
+                                      fontSize: 14,
+                                      color: canWriteProfile ? "#1E45E1" : "#B0B0B0",
+                                      cursor: canWriteProfile ? "pointer" : "not-allowed",
+                                    }}
+                                  >
+                                    Change Password
+                                  </p>
+
+
+
+                                </div>
+
+                              </div>
+                            </div>
+
+                          );
+                        })
+                      ) :
+                        !loading && (
+                          <div
+                            style={{
+                              textAlign: "center",
+                              marginTop: 90,
+                              height: '40vh',
+                              display: "flex",
+                              flexDirection: "column",
+                              alignItems: "center"
+                            }}
+                          >
+                            <img src={EmptyState} alt="emptystate" />
+                            <div
+                              className="pb-1"
+                              style={{
+                                fontWeight: 600,
+                                fontFamily: "Gilroy",
+                                fontSize: 18,
+                                color: "rgba(75, 75, 75, 1)",
+                              }}
+                            >
+                              No Profile
+                            </div>
+                            <div
+                              className="pb-1"
+                              style={{
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                                fontSize: 14,
+                                color: "rgba(75, 75, 75, 1)",
+                              }}
+                            >
+                              There are no Profile available.
+                            </div>
+                          </div>
+                        )
+                      }
+
+                    </>)}
               </div>
             )}
 
