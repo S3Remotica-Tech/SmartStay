@@ -973,7 +973,7 @@ function* handleGetAmenities(action) {
    try {
       const response = yield call(GetAmenities, action.payload)
 
-      console.log("response", response)
+      // console.log("response", response)
       const hostelId = GlobalHostelId(response);
       if (hostelId) {
          yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })

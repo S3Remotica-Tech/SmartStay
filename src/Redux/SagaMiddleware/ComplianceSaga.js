@@ -158,7 +158,7 @@ function* handlecompliancelist(action) {
       const hostelId = GlobalHostelId(response);
       if (hostelId) {   
         yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
-         console.log(hostelId,"***hostelId****")
+         // console.log(hostelId,"***hostelId****")
                         }
 
       if (response?.status === 200) {

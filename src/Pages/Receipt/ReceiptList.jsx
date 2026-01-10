@@ -183,7 +183,7 @@ const Receipt = (props) => {
 
 
 
-  console.log("props.item", props.item)
+ 
 
 
   return (

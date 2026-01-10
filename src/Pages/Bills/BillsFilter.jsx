@@ -294,7 +294,7 @@ useEffect(() => {
     //     value: item.name,
     // }));
 
-    console.log("state", state)
+    // console.log("state", state)
 
     const isAllSelectedDrop =
         selectedBillStatusOptions?.length === 1 &&

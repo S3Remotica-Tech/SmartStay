@@ -17,7 +17,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
 
     const state = useSelector((state) => state);
 
-    console.log("checkInDetails", checkInDetails, "pgDetails", pgDetails)
+    // console.log("checkInDetails", checkInDetails, "pgDetails", pgDetails)
 
 
     const [activeTab, setActiveTab] = useState("LONG");
@@ -499,6 +499,9 @@ BackToCheckIn.propTypes = {
 
         fullName: PropTypes.string,
         tenantFullName: PropTypes.string,
+        floorName: PropTypes.string,
+        roomName: PropTypes.string,
+        bedName: PropTypes.string,
     }).isRequired,
 
     pgDetails: PropTypes.shape({

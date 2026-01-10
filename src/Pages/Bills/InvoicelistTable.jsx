@@ -133,7 +133,7 @@ const InvoiceTable = (props) => {
     if (item) {
       // props.DisplayInvoice(true, item)
 
-      console.log("item", item)
+      // console.log("item", item)
 
       dispatch({ type: 'GETPARTICULARBILLSDETAILS', payload: { hostelId: item.hostelId, invoiceId: item.invoiceId } })
 

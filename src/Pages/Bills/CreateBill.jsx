@@ -35,7 +35,7 @@ function CreateBill() {
     const location = useLocation();
     const { id, billData } = location.state || {};
 
-    console.log("billData", billData,)
+    // console.log("billData", billData,)
     const [formLoading, setFormLoading] = useState(false)
     //    const [invoiceList, setInvoiceList] = useState({
     //     firstName: "",
@@ -136,7 +136,7 @@ function CreateBill() {
     }, [billData])
 
 
-    console.log("state", state.InvoiceList.getInitializeRecurring)
+    // console.log("state", state.InvoiceList.getInitializeRecurring)
 
 
 
@@ -782,7 +782,7 @@ function CreateBill() {
 
     };
 
-    console.log("billData", billData)
+    // console.log("billData", billData)
     const [originalRows, setOriginalRows] = useState([]);
 
 

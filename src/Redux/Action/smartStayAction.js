@@ -197,7 +197,7 @@ export async function FCM_Token(token) {
 
 
 export async function LogoutAdmin(logout) {
-  console.log("logout",logout)
+  // console.log("logout",logout)
     return await AxiosConfigV2.post('/v2/profile/logout',logout,{
     data:logout
    

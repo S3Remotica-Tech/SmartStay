@@ -92,7 +92,7 @@ const InvoicePage = () => {
   const [selectedUserId, setSelectedUserId] = useState("");
   // const [paymodeerrormsg, setPaymodeErrmsg] = useState("");
   // const [amounterrormsg, setAmountErrmsg] = useState("");
-  const [dateerrmsg, setDateErrmsg] = useState("");
+  // const [dateerrmsg, setDateErrmsg] = useState("");
   // const [totalErrormsg, setTotalErrmsg] = useState("");
   const [customername, setCustomerName] = useState("");
   const [startdate, setStartDate] = useState(null);
@@ -727,13 +727,13 @@ const InvoicePage = () => {
     // setTransactionId('')
     // setPaymodeErrmsg("")
     // setAccountError("")
-    setDateErrmsg("")
+    // setDateErrmsg("")
     // setAmountErrmsg("")
     setShowform(false);
     // setBalance("")
     setSelectedDate(null);
     // setAmountErrmsg("");
-    setDateErrmsg("");
+    // setDateErrmsg("");
     // setPaymodeErrmsg("");
     // setPayableAmount("")
 

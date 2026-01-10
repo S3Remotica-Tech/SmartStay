@@ -159,7 +159,7 @@ function* handleNotification(action) {
 function* handleFCM_Token(args) {
   try {
     const response = yield call(FCM_Token, args.payload);
-    console.log("response",response)
+    // console.log("response",response)
     if (response?.status === 200) {
       yield put({ type: 'FCM_TOKEN', payload: { response: response.data, statusCode: response?.status } });
 
@@ -174,7 +174,7 @@ function* handleFCM_Token(args) {
 function* handleLogoutAdmin(args) {
   try {
     const response = yield call(LogoutAdmin, args.payload);
-    console.log("response",response)
+    // console.log("response",response)
     if (response?.status === 200) {
       yield put({ type: 'LOGOUT_ADMIN', payload: { response: response.data, statusCode: response?.status } });
 

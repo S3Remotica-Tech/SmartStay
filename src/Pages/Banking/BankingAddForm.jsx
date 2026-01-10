@@ -33,7 +33,7 @@ function BankingAddForm(props) {
     setHostel_Id(state.login.selectedHostel_Id)
   }, [state?.login?.selectedHostel_Id]);
 
-console.log("props",props)
+// console.log("props",props)
 
   const handleAccountName = (e) => {
     const value = e.target.value
