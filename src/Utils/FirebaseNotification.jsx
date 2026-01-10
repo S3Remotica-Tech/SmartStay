@@ -3,6 +3,9 @@ import { initializeApp } from "firebase/app";
 import { onMessage } from "firebase/messaging";
 import { getMessaging } from "firebase/messaging";
 
+// console.log("MODE:", import.meta.env.MODE);
+// console.log("FIREBASE APP ID:", import.meta.env.VITE_FIREBASE_APP_ID);
+
 const firebaseConfig= {
   apiKey: "AIzaSyAfEOOtBi9rbNrV8mnIoPD-uIvCmkvnXY4",
   authDomain: "smart-stay-7da3c.firebaseapp.com",
@@ -14,7 +17,8 @@ const firebaseConfig= {
 };
 
 
-
+console.log("MODE:", import.meta.env.MODE);
+console.log("FIREBASE APP ID:", import.meta.env.VITE_FIREBASE_APP_ID);
 
 
 const app = initializeApp(firebaseConfig);
