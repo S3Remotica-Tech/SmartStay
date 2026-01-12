@@ -71,7 +71,8 @@ function RecentActivity() {
   ];
 
   return (
-    <div style={{ marginTop: 10, width:"100%" , overflowX:"hidden"}}>
+    <div style={{ marginTop: 10, width:"100%" , overflowX:"hidden", overflowY: "auto",
+                        maxHeight: 400,}}>
       {recentActivities.map((item, index) => (
         <StepItem
           key={index}

@@ -2370,13 +2370,13 @@ function UserList(props) {
   }
   const [DueCustomerShow, setDueCustomerShow] = useState(false)
   const [CheckOutDetails, setCheckOutDetails] = useState("");
-  const [finalsettlepage, setFinalSettlePage] = useState(false)
-  const [finalsettledData, setFinalsettledData] = useState("")
+  // const [finalsettlepage, setFinalSettlePage] = useState(false)
+  // const [finalsettledData, setFinalsettledData] = useState("")
 
   const handleConformCheckout = (item) => {
     setDueCustomerShow(true)
     setCheckOutDetails(item)
-    setFinalSettlePage(false)
+    // setFinalSettlePage(false)
 
     dispatch({
       type: "GETCONFIRMCHECKOUTCUSTOMER",
@@ -2413,21 +2413,30 @@ function UserList(props) {
 
 
   const handleCheckoutGenrate = (item) => {
-    setFinalsettledData(item)
-    setFinalSettlePage(true)
+    // setFinalsettledData(item)
+    console.log("item",item)
+    // setFinalSettlePage(true)
     setDueCustomerShow(false);
 
     dispatch({
       type: "GETCONFIRMCHECKOUTCUSTOMER",
-      payload: { id: item.ID, hostel_id: item.Hostel_Id },
+      payload: { id: item?.customerId, hostel_id: item?.Hostel_Id },
     });
+
+ navigate(`/tenant/final-settlement/${item?.customerId}`,{
+  state: {
+    data : item
+  }
+ });
+
+
   }
 
 
-  const handleClosefinal = () => {
-    setFinalSettlePage(false)
+  // const handleClosefinal = () => {
+  //   setFinalSettlePage(false)
 
-  }
+  // }
 
   useEffect(() => {
     if (state.InvoiceList?.unableAddInvoiceDetailsError) {
@@ -5557,9 +5566,12 @@ function UserList(props) {
         />
       )}
 
-      {
-        finalsettlepage && <FinalSettlement show={finalsettlepage} data={finalsettledData} handleClose={handleClosefinal} />
-      }
+      {/* {
+        finalsettlepage && <FinalSettlement show={finalsettlepage} 
+        data={finalsettledData} handleClose={handleClosefinal} />
+      } */}
+
+
       {
         add_bookingshow && <Addbooking add_bookingshow={add_bookingshow} userDetail={userDetail} setAddBookingsShow={setAddBookingsShow} handleCloseAddBooking={handleCloseAddBooking} bookingDet={bookingDet} />
       }
