@@ -62,6 +62,7 @@ import Receipts from "../Pages/Receipt/Receipt"
 import BillsPdfDetails from "../Pages/Bills/BillsPdfDetails";
 import ReceiptPdfDetails from "../Pages/Receipt/ReceiptPdfDetails";
 import BookingsPdfDetails from "../Pages/Bookings/BookingsPdfDetails";
+import FinalSettlement from "../Pages/CustomerFile/FinalSettlement";
 
 
 
@@ -1812,7 +1813,16 @@ function Sidebar() {
                   </div>
                 }
               />
-
+ <Route
+                path="/tenant/final-settlement/:tenantId?"
+                element={
+                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                    <FinalSettlement
+                      
+                    />
+                  </div>
+                }
+              />
 
               <Route
                 path="/invoice/:hostelId?"

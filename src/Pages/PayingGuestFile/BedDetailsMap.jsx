@@ -25,7 +25,7 @@ import DueCustomerConfirmCheckout from '../CustomerFile/DueCustomerConfirmChecko
 import AddCustomerPG from './AddCustomerPG';
 import FinalSettlement from '../CustomerFile/FinalSettlement';
 import { triggerPG } from '../../Redux/Action/smartStayAction';
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Tick from '../../Assets/v2Images/Tick.svg'
 import ConfirmChangeBed from './NoticePeriod/ConfirmChangedBed';
@@ -40,7 +40,7 @@ function BedDetailsMap({ room, propsValue,
 
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     const [emptybed, setEmptyBed] = useState(false)
     const [showReservedBed, setShowReservedBed] = useState(false)
     const [occupiedCustomer, setOccupiedCustomer] = useState(false)
@@ -87,10 +87,19 @@ function BedDetailsMap({ room, propsValue,
 
     const handleshowfinalsettlement = (isvisible, tenantDetails) => {
         // setCustomerId(customerId)
-     
+     console.log("tenantDetails",tenantDetails)
         setFinalSettlePage(isvisible)
+
+
         setNoticePeriodBed(false)
         setSelectedTenant(tenantDetails)
+
+        navigate(`/tenant/final-settlement/${tenantDetails?.tenetId}`,{
+  state: {
+    data : tenantDetails,
+    pgDetails:customer
+  }
+ });
     }
 
     const handleClosefinalsettelment = () => {
