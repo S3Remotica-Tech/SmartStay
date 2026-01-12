@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import PropTypes from "prop-types";
 import React from "react";
 import { Image } from "react-bootstrap";
 import Offcanvas from "react-bootstrap/Offcanvas";
@@ -18,7 +20,7 @@ function SidebarProfile({
   showProfileCard,
   setShowProfileCard,
   handleShowLogout,
-  navigate,
+//   navigate,
   profileCardRef,
 }) {
   return (
@@ -201,5 +203,34 @@ function SidebarProfile({
     </Offcanvas>
   );
 }
+
+
+SidebarProfile.propTypes = {
+  profiles: PropTypes.string,
+  profilename: PropTypes.string,
+  payingGuestName: PropTypes.string,
+
+  showProfileCard: PropTypes.bool.isRequired,
+  setShowProfileCard: PropTypes.func.isRequired,
+  handleShowLogout: PropTypes.func.isRequired,
+
+  profileCardRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.any })
+  ]),
+
+  stateData: PropTypes.shape({
+    accountList: PropTypes.shape({
+      initial: PropTypes.string,
+      firstName: PropTypes.string,
+      roleName: PropTypes.string,
+      mailId: PropTypes.string,
+      mobileNo: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number
+      ]),
+    }),
+  }),
+};
 
 export default SidebarProfile;

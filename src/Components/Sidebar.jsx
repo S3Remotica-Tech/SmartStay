@@ -22,7 +22,7 @@ import Button from "react-bootstrap/Button";
 import Assets from "../Pages/AssetFile/Asset";
 import Expenses from "../Pages/ExpenseFile/Expense";
 import Banking from "../Pages/Banking/Banking";
-import { ArrowUp2, ArrowDown2, Chart2, DocumentText, Buildings, LogoutCurve } from "iconsax-react";
+import { ArrowUp2, ArrowDown2, Chart2, DocumentText, Buildings } from "iconsax-react";
 import SettingAllPages from "../Pages/Settings/SettingAllPages";
 import SettingIcon from "../Assets/Images/sidebariconOne.svg";
 import HelpVideoIcon from "../Assets/Images/sidebariconFour.svg";
@@ -1489,7 +1489,7 @@ function Sidebar() {
 
 
 
-          
+
             </div>
           </div>
 
@@ -1800,7 +1800,7 @@ function Sidebar() {
                 gap: "8px",
                 paddingTop: "10px",
                 cursor: "pointer",
-                
+
               }}
             >
               {profiles === "null" ||
@@ -1827,8 +1827,8 @@ function Sidebar() {
                     flexShrink: 0,
                     marginLeft: 10,
                     marginRight: 10,
-                
-                    
+
+
                   }}
                 >
                   {stateData?.accountList?.initial || ""}
@@ -1847,9 +1847,9 @@ function Sidebar() {
                   }}
                 />
               )}
-  </div>
+            </div>
 
-           
+
             <button
               onClick={() => setShowMenuModal(true)}
               style={{
@@ -1877,7 +1877,7 @@ function Sidebar() {
               +
             </button>
 
-          
+
             <div
               style={{
                 display: "flex",
@@ -1889,7 +1889,7 @@ function Sidebar() {
               }}
             >
 
-                <div
+              <div
                 // onClick={handleShowLogout}
                 style={{
                   position: "relative",
@@ -1901,12 +1901,12 @@ function Sidebar() {
                 }}
                 title="Search"
               >
-                
-                <img src={SearchVector}  style={{ width: "23px", height: "23px" }}></img>
-               
+
+                <img src={SearchVector} alt="Search" style={{ width: "23px", height: "23px" }}></img>
+
               </div>
 
-               
+
               <div
                 onClick={handleShowNotification}
                 onMouseEnter={() => handleMouseEnter("notification")}
@@ -1923,8 +1923,11 @@ function Sidebar() {
               >
                 <div style={{ position: "relative" }}>
                   <Notification
-                   style={{ width: "23px", height: "23px" }}
-                    color="#64748B"
+                    style={{ width: "23px", height: "23px" }}
+                    // color="#64748B"
+                    color={hoveredIcon === "notification" ? "#1E45E1" : "#64748B"}
+                    onMouseEnter={() => setHoveredIcon("notification")}
+                    onMouseLeave={() => setHoveredIcon(null)}
                     onClick={handleShowNotification}
                   />
                   {state.UsersList.hotelDetailsinPg.unreadNotificationCount > 0 && (
@@ -1953,9 +1956,9 @@ function Sidebar() {
                     </span>
                   )}
                 </div>
-              
+
               </div>
-             
+
               <NavLink
                 to={settingsPath}
                 onMouseEnter={() => handleMouseEnter("settings")}
@@ -1982,11 +1985,11 @@ function Sidebar() {
                 <img
                   src={SettingIcon}
                   alt="Settings Icon"
-                   style={{ width: "23px", height: "23px" }}
+                  style={{ width: "23px", height: "23px" }}
                 />
-              
+
               </NavLink>
-              
+
               <div
                 onMouseEnter={() => handleMouseEnter("helpVideo")}
                 onMouseLeave={handleMouseLeave}
@@ -2005,7 +2008,7 @@ function Sidebar() {
                   alt="Help Video Icon"
                   style={{ width: "23px", height: "23px" }}
                 />
-               
+
               </div>
             </div>
           </div>

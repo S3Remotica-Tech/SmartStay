@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import PropTypes from "prop-types";
 import React, { useState } from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import SearchVector from "../Assets/Images/New_images/SearchVector.svg";
@@ -77,7 +79,7 @@ function SidebarQuickActions({ showMenuModal, setShowMenuModal, navigate, hostel
         pointerEvents: "none",
       }}
     >
-      <img src={SearchVector}style={{ width: 16, height: 16 }} />
+      <img src={SearchVector} alt="search" style={{ width: 16, height: 16 }} />
     </span>
 
     <input
@@ -159,5 +161,15 @@ function SidebarQuickActions({ showMenuModal, setShowMenuModal, navigate, hostel
 
   );
 }
+
+SidebarQuickActions.propTypes = {
+  showMenuModal: PropTypes.bool.isRequired,
+  setShowMenuModal: PropTypes.func.isRequired,
+  navigate: PropTypes.func.isRequired,
+  hostelId: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
+};
 
 export default SidebarQuickActions;
