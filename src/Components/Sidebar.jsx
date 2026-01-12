@@ -54,6 +54,8 @@ import {
   Bank, Shop, Box, Profile2User, Location
 } from 'iconsax-react'
 import NotificationForm from "../Utils/Notification";
+import SidebarProfile from "./SidebarProfile";
+import SidebarQuickActions from "./SidebarQuickActions";
 import PaymentPreview from "../Pages/SubscriptionFile/PaymentPreview";
 import SettingSecurity from "../Pages/Settings/SettingSecurityPage";
 import Booking from "../Pages/Bookings/Booking";
@@ -62,7 +64,7 @@ import Receipts from "../Pages/Receipt/Receipt"
 import BillsPdfDetails from "../Pages/Bills/BillsPdfDetails";
 import ReceiptPdfDetails from "../Pages/Receipt/ReceiptPdfDetails";
 import BookingsPdfDetails from "../Pages/Bookings/BookingsPdfDetails";
-
+import SearchVector from "../Assets/Images/New_images/SearchVector.svg";
 
 
 function Sidebar() {
@@ -83,6 +85,10 @@ function Sidebar() {
   const dropdownRef = useRef(null);
   const [isVisibleSidebar, setIsVisibleSidebar] = useState(false)
   const [showNotify, setShowNotify] = useState(false);
+  const [showProfileCard, setShowProfileCard] = useState(false);
+  const [showMenuModal, setShowMenuModal] = useState(false);
+  const profileCardRef = useRef(null);
+  const profileAreaRef = useRef(null);
   const cookies = new Cookies();
 
 
@@ -194,8 +200,23 @@ function Sidebar() {
 
     document.addEventListener("mousedown", handleClickOutside);
 
+    const handleProfileClickOutside = (e) => {
+      if (showProfileCard) {
+        if (
+          profileCardRef.current &&
+          !profileCardRef.current.contains(e.target) &&
+          profileAreaRef.current &&
+          !profileAreaRef.current.contains(e.target)
+        ) {
+          setShowProfileCard(false);
+        }
+      }
+    };
+    document.addEventListener("mousedown", handleProfileClickOutside);
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("mousedown", handleProfileClickOutside);
     };
   }, []);
 
@@ -625,6 +646,7 @@ function Sidebar() {
           width: "100%",
           height: "100vh",
           overflowY: "hidden",
+          flexDirection: "row",
         }}
         >
           <div className="d-md-none p-2 bg-white">
@@ -645,6 +667,7 @@ function Sidebar() {
             className=""
             style={{
               width: "18%",
+              minWidth: "200px",
               display: "flex",
               flexDirection: "column",
               height: "100vh",
@@ -932,7 +955,7 @@ function Sidebar() {
                 style={{
                   overflowY: "auto",
                   overflowX: "hidden",
-                  height: "calc(100vh - 190px)",
+                  height: "calc(100vh - 130px)",
                   padding: "5px",
                 }}
               >
@@ -1466,308 +1489,18 @@ function Sidebar() {
 
 
 
-              <div
-                style={{
-                  flexShrink: 0,
-                  backgroundColor: "#fff",
-                  borderTop: "1px solid #E2E8F0",
-                  position: "absolute",
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                }}
-              >
-
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "flex-start",
-                    height: "fit-content",
-                    width: "100%",
-                    padding: 0,
-                    marginBottom: 0,
-                  }}
-                >
-                  <div className="Profile_Hover" style={{ display: "flex", width: 190, margin: "0 auto", gap: 10 }}>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "start",
-                        width: "fit-content",
-                        textAlign: "center",
-                      }}
-                    >
-                      {profiles === "null" ||
-                        profiles === null ||
-                        profiles === undefined ||
-                        profiles === "undefined" ||
-                        profiles === "" ||
-                        profiles === 0 ||
-                        profiles === "0" ? (
-
-                        <div
-                          style={{
-                            height: "35px",
-                            width: "35px",
-                            borderRadius: "50%",
-                            backgroundColor: "#E2E8F0",
-                            color: "#44536A",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            fontWeight: "600px",
-                            fontSize: "14px",
-                            textTransform: "uppercase",
-                          }}
-                        >
-                          {stateData?.accountList?.initial || ""}
-                        </div>
-                      ) : (
-
-                        <Image
-                          src={profiles}
-                          alt="profile-image"
-                          roundedCircle
-                          style={{ height: "35px", width: "35px", objectFit: "cover" }}
-                        />
-                      )}
-                    </div>
-
-
-                    <div style={{ display: "flex", flexDirection: "column" }}>
-                      <span
-
-                        title={profilename}
-                        style={{
-                          fontSize: 14,
-                          fontWeight: 600,
-                          fontFamily: "Gilroy",
-                          textTransform: "capitalize",
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          display: "inline-block",
-                          maxWidth: 120,
-                        }}
-
-                      >
-                        {profilename}
-                      </span>
-                      <span
-                        style={{
-                          fontSize: 12,
-                          fontWeight: 600,
-                          fontFamily: "Gilroy",
-                          color: "blue",
-                        }}
-                      >
-                        {stateData?.accountList?.roleName}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-around",
-                    width: "100%",
-                    marginTop: 8,
-                    zIndex: 1000,
-                    overflow: "visible",
-                    marginBottom: 0,
-
-                  }}
-                >
-
-                  <NavLink
-                    to={settingsPath}
-                    onMouseEnter={() => handleMouseEnter("settings")}
-                    onMouseLeave={handleMouseLeave}
-                    onClick={() => {
-                      handlePageClick("settingNewDesign");
-                      setSettingsPGShow(false);
-                    }}
-                    className={({ isActive }) =>
-                      `settings-link ${isActive ? "active" : ""}`
-                    }
-                    style={{
-                      cursor: "pointer",
-                      position: "relative",
-                      display: "inline-block",
-                      textDecoration: "none",
-                    }}
-                  >
-                    <img src={SettingIcon} alt="Settings Icon" />
-                    {hoveredIcon === "settings" && (
-                      <span
-                        style={{
-                          display: "block",
-                          position: "absolute",
-                          top: "-30px",
-                          left: "50%",
-                          transform: "translateX(-50%)",
-                          backgroundColor: "#E0ECFF",
-                          color: "black",
-                          padding: "4px 8px",
-                          borderRadius: "4px",
-                          fontSize: "12px",
-                          whiteSpace: "nowrap",
-                        }}
-                      >
-                        Settings
-                      </span>
-                    )}
-                  </NavLink>
-
-
-                  <div
-                    onMouseEnter={() => handleMouseEnter("logout")}
-                    onMouseLeave={handleMouseLeave}
-                    onClick={handleShowLogout}
-                    style={{
-                      position: "relative",
-                      display: "inline-block",
-                      cursor: "pointer",
-                    }}
-                  >
-                    <LogoutCurve
-                      size="20"
-                      color="#FF0000"
-                    />
-                    {hoveredIcon === "logout" && (
-                      <span
-                        style={{
-                          display: "block",
-                          position: "absolute",
-                          top: "-30px",
-                          left: "50%",
-                          transform: "translateX(-50%)",
-                          backgroundColor: "#E0ECFF",
-                          color: "black",
-                          padding: "5px 8px",
-                          borderRadius: "4px",
-                          fontSize: "12px",
-                          whiteSpace: "nowrap",
-                        }}
-                      >
-                        Logout
-                      </span>
-                    )}
-                  </div>
-
-
-
-
-                  <div onClick={handleShowNotification}
-                    onMouseEnter={() => handleMouseEnter("notification")}
-                    onMouseLeave={handleMouseLeave}
-                    style={{
-                      position: "relative",
-                      display: "inline-block",
-                      cursor: "pointer",
-                    }}
-                  >
-
-                    <Notification
-                      size="24"
-                      color="#64748B"
-                      onClick={handleShowNotification} />
-                    {hoveredIcon === "notification" && (
-                      <span
-                        style={{
-                          display: "block",
-                          position: "absolute",
-                          top: "-30px",
-                          left: "50%",
-                          transform: "translateX(-50%)",
-                          backgroundColor: "#E0ECFF",
-                          color: "black",
-                          padding: "5px 8px",
-                          borderRadius: "4px",
-                          fontSize: "12px",
-                          whiteSpace: "nowrap",
-                        }}
-                      >
-                        Notifications
-                      </span>
-                    )}
-
-
-                    {state.UsersList.hotelDetailsinPg.unreadNotificationCount > 0 && (
-                      <span
-                        style={{
-                          position: "absolute",
-                          top: "-2px",
-                          right: "-2px",
-                          minHeight: "16px",
-                          minWidth: "16px",
-                          padding: "0px 3px",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          backgroundColor: "#F97316",
-                          color: "white",
-                          fontSize: 10, textAlign: "center",
-                          borderRadius: "50%",
-                          border: "2px solid white",
-                          fontWeight: 600,
-                          lineHeight: 1,
-
-                        }}
-                      >{state.UsersList?.hotelDetailsinPg?.unreadNotificationCount}</span>
-                    )}
-                  </div>
-
-                  <div
-                    onMouseEnter={() => handleMouseEnter("helpVideo")}
-                    onMouseLeave={handleMouseLeave}
-                    style={{
-                      position: "relative",
-                      display: "inline-block",
-                      cursor: "pointer",
-                      zIndex: 10,
-                      overflow: "visible"
-
-                    }}
-                  >
-                    <img src={HelpVideoIcon} alt="Help Video Icon" />
-                    {hoveredIcon === "helpVideo" && (
-                      <span
-                        style={{
-                          display: "block",
-                          position: "absolute",
-                          top: "-30px",
-                          left: "0%",
-                          transform: "translateX(-50%)",
-                          backgroundColor: "#E0ECFF",
-                          color: "black",
-                          padding: "5px 8px",
-                          borderRadius: "4px",
-                          fontSize: "12px",
-                          whiteSpace: "nowrap",
-                          zIndex: 1000,
-                        }}
-                      >
-                        Help Video
-                      </span>
-                    )}
-                  </div>
-
-                </div>
-              </div>
+          
             </div>
           </div>
 
           {/* main content */}
-
           <div
-            style={{ width: "82%", overflowY: "auto", height: "100vh", }}
+            style={{
+              flex: 1,
+              overflowY: "auto",
+              height: "100vh",
+              minWidth: 0,
+            }}
           >
 
             <Routes>
@@ -2035,8 +1768,269 @@ function Sidebar() {
             </Routes>
 
           </div>
+
+          {/* Right Panel - Profile and Icons */}
+          <div
+            className="right-panel"
+            style={{
+              width: "55px",
+              display: "flex",
+              flexDirection: "column",
+              height: "100vh",
+              backgroundColor: "#f8f9fa",
+              borderLeft: "1px solid #E2E8F0",
+              boxShadow: "-2px 0 5px rgba(0,0,0,0.05)",
+              overflowY: "auto",
+              alignItems: "center",
+              flexShrink: 0,
+            }}
+          >
+            {/* Profile Section */}
+            <div
+              ref={profileAreaRef}
+              onClick={() => setShowProfileCard((s) => !s)}
+              role="button"
+              tabIndex={0}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                textAlign: "center",
+                gap: "8px",
+                paddingTop: "10px",
+                cursor: "pointer",
+                
+              }}
+            >
+              {profiles === "null" ||
+                profiles === null ||
+                profiles === undefined ||
+                profiles === "undefined" ||
+                profiles === "" ||
+                profiles === 0 ||
+                profiles === "0" ? (
+
+                <div
+                  style={{
+                    height: "45px",
+                    width: "45px",
+                    borderRadius: "50%",
+                    backgroundColor: "#E2E8F0",
+                    color: "#44536A",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontWeight: "600",
+                    fontSize: "16px",
+                    textTransform: "uppercase",
+                    flexShrink: 0,
+                    marginLeft: 10,
+                    marginRight: 10,
+                
+                    
+                  }}
+                >
+                  {stateData?.accountList?.initial || ""}
+                </div>
+              ) : (
+
+                <Image
+                  src={profiles}
+                  alt="profile-image"
+                  roundedCircle
+                  style={{
+                    height: "50px",
+                    width: "50px",
+                    objectFit: "cover",
+                    flexShrink: 0,
+                  }}
+                />
+              )}
+  </div>
+
+           
+            <button
+              onClick={() => setShowMenuModal(true)}
+              style={{
+                width: "30px",
+                height: "30px",
+                borderRadius: "8px",
+                backgroundColor: "#038C3D",
+                border: "none",
+                color: "white",
+                fontSize: "20px",
+                fontWeight: "bold",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                marginTop: "16px",
+                transition: "background-color 0.2s",
+                lineHeight: "1",
+                paddingBottom: "2px",
+              }}
+              onMouseEnter={(e) => e.target.style.backgroundColor = "#059669"}
+              onMouseLeave={(e) => e.target.style.backgroundColor = "#038C3D"}
+              title="Quick Add"
+            >
+              +
+            </button>
+
+          
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "flex-start",
+                gap: "19px",
+                marginTop: "28px",
+              }}
+            >
+
+                <div
+                // onClick={handleShowLogout}
+                style={{
+                  position: "relative",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: "4px",
+                  cursor: "pointer",
+                }}
+                title="Search"
+              >
+                
+                <img src={SearchVector}  style={{ width: "23px", height: "23px" }}></img>
+               
+              </div>
+
+               
+              <div
+                onClick={handleShowNotification}
+                onMouseEnter={() => handleMouseEnter("notification")}
+                onMouseLeave={handleMouseLeave}
+                style={{
+                  position: "relative",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: "4px",
+                  cursor: "pointer",
+                }}
+                title="Notifications"
+              >
+                <div style={{ position: "relative" }}>
+                  <Notification
+                   style={{ width: "23px", height: "23px" }}
+                    color="#64748B"
+                    onClick={handleShowNotification}
+                  />
+                  {state.UsersList.hotelDetailsinPg.unreadNotificationCount > 0 && (
+                    <span
+                      style={{
+                        position: "absolute",
+                        top: "-6px",
+                        right: "-6px",
+                        minHeight: "18px",
+                        minWidth: "18px",
+                        padding: "0px 3px",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        backgroundColor: "#F97316",
+                        color: "white",
+                        fontSize: 10,
+                        textAlign: "center",
+                        borderRadius: "50%",
+                        border: "2px solid white",
+                        fontWeight: 600,
+                        lineHeight: 1,
+                      }}
+                    >
+                      {state.UsersList?.hotelDetailsinPg?.unreadNotificationCount}
+                    </span>
+                  )}
+                </div>
+              
+              </div>
+             
+              <NavLink
+                to={settingsPath}
+                onMouseEnter={() => handleMouseEnter("settings")}
+                onMouseLeave={handleMouseLeave}
+                onClick={() => {
+                  handlePageClick("settingNewDesign");
+                  setSettingsPGShow(false);
+                }}
+                className={({ isActive }) =>
+                  `settings-link ${isActive ? "active" : ""}`
+                }
+                style={{
+                  cursor: "pointer",
+                  position: "relative",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: "4px",
+                  textDecoration: "none",
+                  transition: "transform 0.2s",
+                }}
+                title="Settings"
+              >
+                <img
+                  src={SettingIcon}
+                  alt="Settings Icon"
+                   style={{ width: "23px", height: "23px" }}
+                />
+              
+              </NavLink>
+              
+              <div
+                onMouseEnter={() => handleMouseEnter("helpVideo")}
+                onMouseLeave={handleMouseLeave}
+                style={{
+                  position: "relative",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: "4px",
+                  cursor: "pointer",
+                }}
+                title="Help Video"
+              >
+                <img
+                  src={HelpVideoIcon}
+                  alt="Help Video Icon"
+                  style={{ width: "23px", height: "23px" }}
+                />
+               
+              </div>
+            </div>
+          </div>
         </div>
-      </Container >
+        {/* Profile Card Component */}
+        <SidebarProfile
+          profiles={profiles}
+          stateData={stateData}
+          profilename={profilename}
+          payingGuestName={payingGuestName}
+          showProfileCard={showProfileCard}
+          setShowProfileCard={setShowProfileCard}
+          handleShowLogout={handleShowLogout}
+          navigate={navigate}
+          profileCardRef={profileCardRef}
+        />
+
+        {/* Quick Actions Menu Modal */}
+        <SidebarQuickActions
+          showMenuModal={showMenuModal}
+          setShowMenuModal={setShowMenuModal}
+          navigate={navigate}
+          hostelId={allPageHostel_Id}
+        />
+      </Container>
 
 
       <Modal
