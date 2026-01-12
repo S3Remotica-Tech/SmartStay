@@ -2256,7 +2256,7 @@ useEffect(() => {
 
 
   useEffect(() => {
-    setAdvanceList(state.UsersList.customerdetails.advanceInfo);
+    setAdvanceList(state.UsersList.customerdetails?.advanceInfo);
   }, [state.UsersList.customerdetails.advanceInfo]);
 
 
@@ -3960,13 +3960,7 @@ useEffect(() => {
                                           fontFamily: "Gilroy", paddingTop: 7
                                         }}
                                       >
-                                        {advanceList?.advanceAmount !== null
-                                          ? `₹${advanceList?.advanceAmount}`
-                                          : 0
-                                        }
-
-
-
+                                      ₹{advanceList?.advanceAmount ?? 0}
                                       </p>
                                     </div>
 

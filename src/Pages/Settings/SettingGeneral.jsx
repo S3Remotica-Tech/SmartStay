@@ -124,7 +124,7 @@ function SettingGeneral() {
   useEffect(() => {
     if (!canReadProfile) {
       setLoading(false);
-    } 
+    }
   }, [canReadProfile]);
 
 
@@ -1147,229 +1147,235 @@ function SettingGeneral() {
       {
         logoutformshow && <Logout show={logoutformshow} handleClose={handleCloseLogout} />
       }
-      <div
-
-        className="d-flex flex-column flex-md-row justify-content-between align-items-center"
-
-
-        style={{
-          position: "sticky",
-          top: 0,
-          right: 0,
-          left: 0,
-          zIndex: 1000,
-          backgroundColor: "#FFFFFF",
-          minHeight: 50,
-          whiteSpace: "nowrap",
-          paddingRight: 5,
-          paddingLeft: 5,
-
-
-        }}
-      >
-
-        <div className="w-100 d-flex justify-content-center justify-content-md-start mt-0">
-          <div>
-            <label
-              style={{
-                fontSize: 20,
-                color: "#000000",
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-                whiteSpace: "nowrap",
-
-              }}
-            >
-              General Settings
-            </label>
-          </div>
-        </div>
+      {loading &&
         <div
-          className="d-flex justify-content-center justify-content-md-end w-100 mt-0 mt-md-0"
-
+          style={{
+            position: 'fixed',
+            top: '48%',
+            left: '68%',
+            transform: 'translate(-50%, -50%)',
+            width: '100vw',
+            height: '100vh',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'transparent',
+            zIndex: 1050,
+          }}
         >
-
-          <div
-          >
-            <Button
-              disabled={!canWriteProfile}
-              style={{
-                fontFamily: "Gilroy",
-                fontSize: "14px",
-                backgroundColor: "#1E45E1",
-                color: "white",
-                fontWeight: 600,
-                borderRadius: "8px",
-                padding: "11px",
-                height: 45,
-                width: 146,
-                whiteSpace: "nowrap",
-                marginTop: 0
-
-              }}
-
-              onClick={handleShowFormGreneral}
-            >
-              + Create Master
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      <div className="container  mt-0 p-0" style={{
-        position: "relative",
-        height:"100vh", overflowY:"hidden",
-        // overflowY: "auto",
-        // maxHeight: 500,
-        // minHeight: 500, 
-        fontFamily: "Gilroy"
-      }}>
-
-        {loading &&
           <div
             style={{
-              position: 'fixed',
-              top: '48%',
-              left: '68%',
-              transform: 'translate(-50%, -50%)',
-              width: '100vw',
-              height: '100vh',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'transparent',
-              zIndex: 1050,
+              borderTop: '4px solid #1E45E1',
+              borderRight: '4px solid transparent',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              animation: 'spin 1s linear infinite',
             }}
-          >
-            <div
-              style={{
-                borderTop: '4px solid #1E45E1',
-                borderRight: '4px solid transparent',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                animation: 'spin 1s linear infinite',
-              }}
-            ></div>
-          </div>
-        }
+          ></div>
+        </div>
+      }
+      {/* main */}
+      <div
+        style={{
+          height: "100vh",
+          overflow: "hidden",
+          fontFamily: "Gilroy"
+        }}
+      >
+        {/* header */}
+        <div
+
+          className="d-flex flex-column flex-md-row justify-content-between align-items-center"
 
 
-        {
-          !canReadProfile ? (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                marginTop: 100
-              }}
-            >
+          style={{
+            position: "sticky",
+            top: 0,
+            right: 0,
+            left: 0,
+            zIndex: 1000,
+            backgroundColor: "#FFFFFF",
+            minHeight: 50,
+            whiteSpace: "nowrap",
+            paddingRight: 5,
+            paddingLeft: 5,
 
-              <img
-                src={Emptystate}
-                alt="Empty State"
 
-              />
-              <ErrorMessage message={['You do not have access to view General']} type="warning" />
+          }}
+        >
 
+          <div className="w-100 d-flex justify-content-center justify-content-md-start mt-0">
+            <div>
+              <label
+                style={{
+                  fontSize: 20,
+                  color: "#000000",
+                  fontWeight: 600,
+                  fontFamily: "Gilroy",
+                  whiteSpace: "nowrap",
+
+                }}
+              >
+                General Settings
+              </label>
             </div>
-          )
-            : (
-              <div className="mt-2" style={{position: "sticky",
-          top: 0,
-          right: 0,
-          left: 0,
-          }}>
-                {account && (
-                  <Card
-                    style={{
-                      
-                      borderRadius: 12,
-                      border: "1px solid #DCDCDC",
-                      padding: 16,
-                      fontFamily: "Gilroy, sans-serif"
-                    }}
-                  >
-                    <div
+          </div>
+          <div
+            className="d-flex justify-content-center justify-content-md-end w-100 mt-0 mt-md-0"
+
+          >
+
+            <div
+            >
+              <Button
+                disabled={!canWriteProfile}
+                style={{
+                  fontFamily: "Gilroy",
+                  fontSize: "14px",
+                  backgroundColor: "#1E45E1",
+                  color: "white",
+                  fontWeight: 600,
+                  borderRadius: "8px",
+                  padding: "11px",
+                  height: 45,
+                  width: 146,
+                  whiteSpace: "nowrap",
+                  marginTop: 0
+
+                }}
+
+                onClick={handleShowFormGreneral}
+              >
+                + Create Master
+              </Button>
+            </div>
+          </div>
+        </div>
+        {/* card & tabs */}
+        <div className="mt-0 p-0" style={{
+          position: "relative",
+          height: "calc(100vh - 50px)",
+          overflowY: "auto",
+          fontFamily: "Gilroy"
+        }}>
+
+
+
+          {
+            !canReadProfile ? (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginTop: 100
+                }}
+              >
+
+                <img
+                  src={Emptystate}
+                  alt="Empty State"
+
+                />
+                <ErrorMessage message={['You do not have access to view General']} type="warning" />
+
+              </div>
+            )
+              : (
+                <div className="mt-2" style={{
+                }}>
+                  {account && (
+                    <Card
                       style={{
-                        display: "flex",
-                        width: "100%",
-                        gap: 15
+                        position: "sticky",
+                        top: 0,
+                        zIndex: 900,
+                        borderRadius: 12,
+                        border: "1px solid #DCDCDC",
+                        padding: 16,
+                        fontFamily: "Gilroy, sans-serif"
                       }}
                     >
-                      {/* LEFT */}
-                      <div >
-                        {
-                          account?.profilePic ? (
-                            <img
-                              src={account.profilePic}
-                              alt="profile"
-                              style={{
-                                width: 56,
-                                height: 56,
-                                borderRadius: "50%",
-                                objectFit: "cover"
-                              }}
-                            />
-                          ) : (
-                            <div
-                              style={{
-                                width: 56,
-                                height: 56,
-                                borderRadius: "50%",
-                                backgroundColor: "#E2E8F0",
-                                color: "#44536A",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                fontWeight: 600,
-                                fontSize: 18,
-                                fontFamily: "Gilroy, sans-serif",
-                                textTransform: "uppercase"
-                              }}
-                            >
-                              {account?.initial}
-                            </div>
-                          )
-                        }
-                      </div>
-                      <div style={{ width: "100%" }}>
-                        <div className="d-flex justify-content-between align-items-center">
-                          <div
-
-                          >
-                            <span
-                              style={{
-                                fontSize: 20,
-                                fontWeight: 600,
-                                color: "#222222", textTransform: "capitalize"
-                              }}
-                            >
-                              {account.firstName}  {account.lastName}
-                            </span>
-
-
-                          </div>
-                          <div style={{ position: "relative" }}>
-                            <div
-                              onClick={() => setOpenMenu(!openMenu)}
-                              style={{
-                                cursor: "pointer",
-                                height: 40,
-                                width: 40,
-                                borderRadius: "50%",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                backgroundColor: openMenu ? "#E7F1FF" : "transparent"
-                              }}
-                            >
-                              <PiDotsThreeOutlineVerticalFill
-                                style={{ height: 20, width: 20, cursor:"not-allowed" }}
+                      <div
+                        style={{
+                          display: "flex",
+                          width: "100%",
+                          gap: 15
+                        }}
+                      >
+                        {/* LEFT */}
+                        <div >
+                          {
+                            account?.profilePic ? (
+                              <img
+                                src={account.profilePic}
+                                alt="profile"
+                                style={{
+                                  width: 56,
+                                  height: 56,
+                                  borderRadius: "50%",
+                                  objectFit: "cover"
+                                }}
                               />
-                              {/* {openMenu && (
+                            ) : (
+                              <div
+                                style={{
+                                  width: 56,
+                                  height: 56,
+                                  borderRadius: "50%",
+                                  backgroundColor: "#E2E8F0",
+                                  color: "#44536A",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  fontWeight: 600,
+                                  fontSize: 18,
+                                  fontFamily: "Gilroy, sans-serif",
+                                  textTransform: "uppercase"
+                                }}
+                              >
+                                {account?.initial}
+                              </div>
+                            )
+                          }
+                        </div>
+                        <div style={{ width: "100%" }}>
+                          <div className="d-flex justify-content-between align-items-center">
+                            <div
+
+                            >
+                              <span
+                                style={{
+                                  fontSize: 20,
+                                  fontWeight: 600,
+                                  color: "#222222", textTransform: "capitalize"
+                                }}
+                              >
+                                {account.firstName}  {account.lastName}
+                              </span>
+
+
+                            </div>
+                            <div style={{ position: "relative" }}>
+                              <div
+                                onClick={() => setOpenMenu(!openMenu)}
+                                style={{
+                                  cursor: "pointer",
+                                  height: 40,
+                                  width: 40,
+                                  borderRadius: "50%",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  backgroundColor: openMenu ? "#E7F1FF" : "transparent"
+                                }}
+                              >
+                                <PiDotsThreeOutlineVerticalFill
+                                  style={{ height: 20, width: 20, cursor: "not-allowed" }}
+                                />
+                                {/* {openMenu && (
                                 <div
                                   ref={menuRef}
                                   style={{
@@ -1457,366 +1463,369 @@ function SettingGeneral() {
                                   </div>
                                 </div>
                               )} */}
+                              </div>
                             </div>
+
                           </div>
 
+
+
+                          <div className="d-flex justify-content-between align-items-center">
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 4,
+                                fontSize: 12,
+                                color: "#FF9900",
+                                backgroundColor: "#FFFAF1",
+                                padding: "2px 8px",
+                                borderRadius: 20, width: "fit-content", fontFamily: "Gilroy"
+                              }}
+                            >
+
+                              {account.roleName} <Crown1 size={14} color="#FF9900" />
+                            </div>
+                            <div>
+                              <label style={{ color: "#9C9C9C", fontSize: 14, fontWeight: 400 }}>Profile last updated - 20/11/25</label>
+                            </div>
+                          </div>
                         </div>
+                      </div>
 
-
-
-                        <div className="d-flex justify-content-between align-items-center">
+                      <hr className="m-2" style={{ border: "1px solid #E8E8E8" }} />
+                      <div className="d-flex justify-content-between">
+                        <div
+                          style={{
+                            display: "flex",
+                            gap: 16,
+                            marginTop: 8
+                          }}
+                        >
                           <div
                             style={{
                               display: "flex",
                               alignItems: "center",
-                              gap: 4,
-                              fontSize: 12,
-                              color: "#FF9900",
-                              backgroundColor: "#FFFAF1",
-                              padding: "2px 8px",
-                              borderRadius: 20, width: "fit-content", fontFamily: "Gilroy"
+                              gap: 6,
+                              fontSize: 13,
+                              color: "#555"
                             }}
                           >
-
-                            {account.roleName} <Crown1 size={14} color="#FF9900" />
+                            <Call size={14} color="#1E45E1" />
+                            + {account.countryCode} {account.mobileNo}
                           </div>
-                          <div>
-                            <label style={{ color: "#9C9C9C", fontSize: 14, fontWeight: 400 }}>Profile last updated - 20/11/25</label>
+                          <div
+                            style={{
+                              width: 1,
+                              height: 28,
+                              border: "1px solid #D9D9D9"
+                            }}
+                          />
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 6,
+                              fontSize: 13,
+                              color: "#1E45E1"
+                            }}
+                          >
+                            <Sms size={14} color="#1E45E1" />
+                            {account.mailId}
+                            <span>
+                              <CardSend
+                                size="16"
+                                color="#292D32"
+                              /></span>
                           </div>
                         </div>
-                      </div>
-                    </div>
 
-                    <hr className="m-2" style={{ border: "1px solid #E8E8E8" }} />
-                    <div className="d-flex justify-content-between">
+                        <button
+                          style={{
+                            marginTop: 8,
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: 6,
+                            fontSize: 13,
+                            color: "#FF0000",
+                            background: "#FFF7F7",
+                            border: "1px solid #FFDADA",
+                            borderRadius: 8,
+                            padding: "6px 12px",
+                            cursor: "pointer"
+                          }}
+                          onClick={handleShowLogout}
+                        >
+                          <LogoutCurve size={16} color="#FF0000" />
+                          Logout
+                        </button>
+
+                      </div>
+
+                    </Card>
+
+                  )}
+
+                  <div
+                    style={{
+                      display: "flex",
+                      borderBottom: "1px solid #E5E7EB",
+                      gap: 32,
+                      fontFamily: "Gilroy, sans-serif",
+                      position: "sticky",
+                      top: 160,
+                    }}
+                  >
+                    {tabs.map(tab => (
                       <div
+                        key={tab.key}
+                        onClick={() => setActiveTab(tab.key)}
                         style={{
-                          display: "flex",
-                          gap: 16,
-                          marginTop: 8
+                          padding: "14px 4px",
+                          fontSize: 15,
+                          fontWeight: activeTab === tab.key ? 600 : 500,
+                          color: activeTab === tab.key ? "#1E45E1" : "#6B7280",
+                          cursor: "pointer",
+                          position: "relative"
                         }}
                       >
-                        <div
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 6,
-                            fontSize: 13,
-                            color: "#555"
-                          }}
-                        >
-                          <Call size={14} color="#1E45E1" />
-                          + {account.countryCode} {account.mobileNo}
-                        </div>
-                        <div
-                          style={{
-                            width: 1,
-                            height: 28,
-                            border: "1px solid #D9D9D9"
-                          }}
-                        />
-                        <div
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 6,
-                            fontSize: 13,
-                            color: "#1E45E1"
-                          }}
-                        >
-                          <Sms size={14} color="#1E45E1" />
-                          {account.mailId}
-                          <span>
-                            <CardSend
-                              size="16"
-                              color="#292D32"
-                            /></span>
-                        </div>
+                        {tab.label}
+
+                        {activeTab === tab.key && (
+                          <div
+                            style={{
+                              position: "absolute",
+                              bottom: -1,
+                              left: 0,
+                              width: "100%",
+                              height: 2,
+                              backgroundColor: "#1E45E1",
+                              borderRadius: 2
+                            }}
+                          />
+                        )}
                       </div>
-
-                      <button
-                        style={{
-                          marginTop: 8,
-                          display: "inline-flex",
-                          alignItems: "center",
-                          gap: 6,
-                          fontSize: 13,
-                          color: "#FF0000",
-                          background: "#FFF7F7",
-                          border: "1px solid #FFDADA",
-                          borderRadius: 8,
-                          padding: "6px 12px",
-                          cursor: "pointer"
-                        }}
-                        onClick={handleShowLogout}
-                      >
-                        <LogoutCurve size={16} color="#FF0000" />
-                        Logout
-                      </button>
-
-                    </div>
-
-                  </Card>
-
-                )}
-
-                <div 
-                  style={{
-                    display: "flex",
-                    borderBottom: "1px solid #E5E7EB",
-                    gap: 32,
-                    fontFamily: "Gilroy, sans-serif",
-                    position:"sticky"
-                  }}
-                >
-                  {tabs.map(tab => (
-                    <div
-                      key={tab.key}
-                      onClick={() => setActiveTab(tab.key)}
-                      style={{
-                        padding: "14px 4px",
-                        fontSize: 15,
-                        fontWeight: activeTab === tab.key ? 600 : 500,
-                        color: activeTab === tab.key ? "#1E45E1" : "#6B7280",
-                        cursor: "pointer",
-                        position: "relative"
-                      }}
-                    >
-                      {tab.label}
-
-                      {activeTab === tab.key && (
-                        <div
-                          style={{
-                            position: "absolute",
-                            bottom: -1,
-                            left: 0,
-                            width: "100%",
-                            height: 2,
-                            backgroundColor: "#1E45E1",
-                            borderRadius: 2
-                          }}
-                        />
-                      )}
-                    </div>
-                  ))}
-                </div>
-                {
-                  activeTab === "masters" && (
-                    <div className="show-scrolls" style={{ overflowY: "auto",
-        maxHeight:500,}}>
-                      {generalFilterddata && generalFilterddata.length > 0 ? (
-                        generalFilterddata.map((item) => {
-                          const imageUrl = item.profilePic;
-                          return (
+                    ))}
+                  </div>
+                  {
+                    activeTab === "masters" && (
+                      <div className="show-scrolls" style={{
+                        overflowY: "auto",
+                        maxHeight: 400,
+                      }}>
+                        {generalFilterddata && generalFilterddata.length > 0 ? (
+                          generalFilterddata.map((item) => {
+                            const imageUrl = item.profilePic;
+                            return (
 
 
-                            <div
-                              className="card p-3  mt-2 "
-                              style={{
-                                borderRadius: 16,
-                               
-                                // overflow: 'hidden'
-                              }}
-                              key={item.userId}
-                            >
                               <div
+                                className="card p-3  mt-2 "
+                                style={{
+                                  borderRadius: 16,
 
-                                className="d-flex flex-wrap justify-content-between align-items-center w-100"
+                                  // overflow: 'hidden'
+                                }}
+                                key={item.userId}
                               >
-                                <div className="d-flex align-items-center w-100">
-                                  {
-                                    imageUrl ?
+                                <div
 
-                                      <Image
-                                        src={imageUrl}
-                                        alt={item.firstName || "Default Profile"}
-                                        roundedCircle
-                                        style={{
-                                          height: "50px",
-                                          width: "50px",
-                                        }}
+                                  className="d-flex flex-wrap justify-content-between align-items-center w-100"
+                                >
+                                  <div className="d-flex align-items-center w-100">
+                                    {
+                                      imageUrl ?
 
-                                      />
-                                      :
+                                        <Image
+                                          src={imageUrl}
+                                          alt={item.firstName || "Default Profile"}
+                                          roundedCircle
+                                          style={{
+                                            height: "50px",
+                                            width: "50px",
+                                          }}
 
-                                      <div
-                                        style={{
-                                          height: 40,
-                                          width: 40,
-                                          borderRadius: "50%",
-                                          backgroundColor: "#E2E8F0",
-                                          color: "#44536A",
-                                          display: "flex",
-                                          alignItems: "center",
-                                          justifyContent: "center",
-                                          fontWeight: 600,
-                                          fontSize: 14,
-                                          textTransform: "uppercase",
-                                        }}
-                                      >
-                                        {item.initials}
-                                      </div>
+                                        />
+                                        :
 
-                                  }
-                                  <div className="ms-2 w-100">
-                                    <div className="d-flex justify-content-between align-items-center w-100" >
-                                      <div
-                                        className="mb-0 text-break"
-                                        style={{
-                                          fontSize: 16,
-                                          fontWeight: 600,
-                                          fontFamily: "Gilroy",
-                                          height: "fit-content"
-                                        }}
-                                      >
-                                        {item.firstName} {item.lastName}
-                                      </div>
+                                        <div
+                                          style={{
+                                            height: 40,
+                                            width: 40,
+                                            borderRadius: "50%",
+                                            backgroundColor: "#E2E8F0",
+                                            color: "#44536A",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            fontWeight: 600,
+                                            fontSize: 14,
+                                            textTransform: "uppercase",
+                                          }}
+                                        >
+                                          {item.initials}
+                                        </div>
 
-
-                                      <div className="ms-2 me-2 mt-0" style={{
-                                        cursor: "pointer", height: 40, width: 40, borderRadius: 100,
-                                        // border: "1px solid #EFEFEF",
-                                        display: "flex", justifyContent: "center", alignItems: "center",
-                                        position: "relative", zIndex: generalEdit ? 1000 : 'auto'
-                                        ,
-                                        // backgroundColor: generalEdit === item.userId ? "#E7F1FF" : "transparent",
+                                    }
+                                    <div className="ms-2 w-100">
+                                      <div className="d-flex justify-content-between align-items-center w-100" >
+                                        <div
+                                          className="mb-0 text-break"
+                                          style={{
+                                            fontSize: 16,
+                                            fontWeight: 600,
+                                            fontFamily: "Gilroy",
+                                            height: "fit-content"
+                                          }}
+                                        >
+                                          {item.firstName} {item.lastName}
+                                        </div>
 
 
-                                      }} onClick={() => handlegeneralform(item.userId)} >
-                                        <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+                                        <div className="ms-2 me-2 mt-0" style={{
+                                          cursor: "pointer", height: 40, width: 40, borderRadius: 100,
+                                          // border: "1px solid #EFEFEF",
+                                          display: "flex", justifyContent: "center", alignItems: "center",
+                                          position: "relative", zIndex: generalEdit ? 1000 : 'auto'
+                                          ,
+                                          // backgroundColor: generalEdit === item.userId ? "#E7F1FF" : "transparent",
 
-                                        {generalEdit === item.userId && (
-                                          <div
-                                            ref={popupRef}
-                                            style={{
-                                              cursor: "pointer",
-                                              backgroundColor: "#F9F9F9",
-                                              position: "absolute",
-                                              right: window.innerWidth <= 404 ? "auto" : 40,
-                                              top: 40,
-                                              width: window.innerWidth <= 404 ? 100 : 120,
-                                              height: "auto",
-                                              border: "1px solid #EBEBEB",
-                                              borderRadius: 10,
-                                              display: "flex",
-                                              flexDirection: "column",
-                                              padding: 0,
-                                              alignItems: "flex-start",
-                                              zIndex: 1050,
-                                              fontSize: window.innerWidth <= 404 ? 13 : 14,
-                                            }}
-                                          >
+
+                                        }} onClick={() => handlegeneralform(item.userId)} >
+                                          <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+
+                                          {generalEdit === item.userId && (
                                             <div
+                                              ref={popupRef}
                                               style={{
-                                                width: "100%",
+                                                cursor: "pointer",
                                                 backgroundColor: "#F9F9F9",
+                                                position: "absolute",
+                                                right: window.innerWidth <= 404 ? "auto" : 40,
+                                                top: 40,
+                                                width: window.innerWidth <= 404 ? 100 : 120,
+                                                height: "auto",
+                                                border: "1px solid #EBEBEB",
                                                 borderRadius: 10,
+                                                display: "flex",
+                                                flexDirection: "column",
+                                                padding: 0,
+                                                alignItems: "flex-start",
+                                                zIndex: 1050,
+                                                fontSize: window.innerWidth <= 404 ? 13 : 14,
                                               }}
                                             >
-
                                               <div
-                                                onClick={() => canUpdateProfile && handleEditGeneralUser(item)}
-                                                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#EDF2FF")}
-                                                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#F9F9F9")}
                                                 style={{
-                                                  display: "flex",
-                                                  alignItems: "center",
-                                                  gap: "10px",
-                                                  padding: "8px 12px",
                                                   width: "100%",
                                                   backgroundColor: "#F9F9F9",
-                                                  borderTopLeftRadius: 10,
-                                                  borderTopRightRadius: 10,
-                                                  cursor: canUpdateProfile ? "pointer" : "not-allowed",
-                                                  opacity: canUpdateProfile ? 1 : 0.5,
+                                                  borderRadius: 10,
                                                 }}
                                               >
-                                                <Edit
-                                                  size="16"
-                                                  color="#1E45E1"
-                                                  style={{ height: 16, width: 16, filter: canUpdateProfile ? "none" : "grayscale(100%) brightness(70%)", }} />
-                                                <label
+
+                                                <div
+                                                  onClick={() => canUpdateProfile && handleEditGeneralUser(item)}
+                                                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#EDF2FF")}
+                                                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#F9F9F9")}
                                                   style={{
-                                                    fontSize: 14,
-                                                    fontWeight: 500,
-                                                    fontFamily: "Gilroy, sans-serif",
-                                                    color: canUpdateProfile ? "#000000" : "#999999",
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    gap: "10px",
+                                                    padding: "8px 12px",
+                                                    width: "100%",
+                                                    backgroundColor: "#F9F9F9",
+                                                    borderTopLeftRadius: 10,
+                                                    borderTopRightRadius: 10,
                                                     cursor: canUpdateProfile ? "pointer" : "not-allowed",
+                                                    opacity: canUpdateProfile ? 1 : 0.5,
                                                   }}
                                                 >
-                                                  Edit
-                                                </label>
-                                              </div>
+                                                  <Edit
+                                                    size="16"
+                                                    color="#1E45E1"
+                                                    style={{ height: 16, width: 16, filter: canUpdateProfile ? "none" : "grayscale(100%) brightness(70%)", }} />
+                                                  <label
+                                                    style={{
+                                                      fontSize: 14,
+                                                      fontWeight: 500,
+                                                      fontFamily: "Gilroy, sans-serif",
+                                                      color: canUpdateProfile ? "#000000" : "#999999",
+                                                      cursor: canUpdateProfile ? "pointer" : "not-allowed",
+                                                    }}
+                                                  >
+                                                    Edit
+                                                  </label>
+                                                </div>
 
-                                              <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px" }} />
+                                                <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px" }} />
 
 
-                                              <div
-                                                onClick={() => canDeleteProfile && handleDelete(item)}
-                                                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#FFF0F0")}
-                                                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#F9F9F9")}
-                                                style={{
-                                                  display: "flex",
-                                                  alignItems: "center",
-                                                  gap: "10px",
-                                                  padding: "8px 12px",
-                                                  width: "100%",
-                                                  backgroundColor: "#F9F9F9",
-                                                  borderBottomLeftRadius: 10,
-                                                  borderBottomRightRadius: 10,
-                                                  cursor: canDeleteProfile ? "pointer" : "not-allowed",
-                                                  opacity: canDeleteProfile ? 1 : 0.5,
-                                                }}
-                                              >
-                                                <img src={Delete} alt="Delete" style={{ height: 16, width: 16, filter: canDeleteProfile ? "none" : "grayscale(100%) brightness(70%)", }} />
-                                                <label
+                                                <div
+                                                  onClick={() => canDeleteProfile && handleDelete(item)}
+                                                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#FFF0F0")}
+                                                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#F9F9F9")}
                                                   style={{
-                                                    fontSize: 14,
-                                                    fontWeight: 500,
-                                                    fontFamily: "Gilroy, sans-serif",
-                                                    color: canDeleteProfile ? "#FF0000" : "#999999",
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    gap: "10px",
+                                                    padding: "8px 12px",
+                                                    width: "100%",
+                                                    backgroundColor: "#F9F9F9",
+                                                    borderBottomLeftRadius: 10,
+                                                    borderBottomRightRadius: 10,
                                                     cursor: canDeleteProfile ? "pointer" : "not-allowed",
+                                                    opacity: canDeleteProfile ? 1 : 0.5,
                                                   }}
                                                 >
-                                                  Delete
-                                                </label>
+                                                  <img src={Delete} alt="Delete" style={{ height: 16, width: 16, filter: canDeleteProfile ? "none" : "grayscale(100%) brightness(70%)", }} />
+                                                  <label
+                                                    style={{
+                                                      fontSize: 14,
+                                                      fontWeight: 500,
+                                                      fontFamily: "Gilroy, sans-serif",
+                                                      color: canDeleteProfile ? "#FF0000" : "#999999",
+                                                      cursor: canDeleteProfile ? "pointer" : "not-allowed",
+                                                    }}
+                                                  >
+                                                    Delete
+                                                  </label>
+                                                </div>
                                               </div>
                                             </div>
-                                          </div>
 
-                                        )}
+                                          )}
+                                        </div>
+                                      </div>
+
+                                      <div className="d-flex justify-content-between align-items-center">
+                                        <div
+                                          style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            gap: 4,
+                                            fontSize: 12,
+                                            color: "#3A90E5",
+                                            backgroundColor: "#F0F7FF",
+                                            padding: "2px 8px",
+                                            borderRadius: 20, width: "fit-content", fontFamily: "Gilroy"
+                                          }}
+                                        >
+
+                                          {item.roleName} <Shield size={14} color="#3A90E5" />
+                                        </div>
+                                        <div>
+                                          <label style={{ color: "#9C9C9C", fontSize: 14, fontWeight: 400, fontFamily: "Gilroy" }}>Profile last updated - 20/11/25</label>
+                                        </div>
                                       </div>
                                     </div>
 
-                                    <div className="d-flex justify-content-between align-items-center">
-                                      <div
-                                        style={{
-                                          display: "flex",
-                                          alignItems: "center",
-                                          gap: 4,
-                                          fontSize: 12,
-                                          color: "#3A90E5",
-                                          backgroundColor: "#F0F7FF",
-                                          padding: "2px 8px",
-                                          borderRadius: 20, width: "fit-content", fontFamily: "Gilroy"
-                                        }}
-                                      >
-
-                                        {item.roleName} <Shield size={14} color="#3A90E5" />
-                                      </div>
-                                      <div>
-                                        <label style={{ color: "#9C9C9C", fontSize: 14, fontWeight: 400, fontFamily: "Gilroy" }}>Profile last updated - 20/11/25</label>
-                                      </div>
-                                    </div>
                                   </div>
+
 
                                 </div>
 
 
-                              </div>
-
-
-                              {/* <div className="row">
+                                {/* <div className="row">
                           <div className="col-md-6">
                             <p
                               className="mb-0"
@@ -1900,140 +1909,140 @@ function SettingGeneral() {
 
                         </div> */}
 
-                              <hr className="m-2" style={{ border: "1px solid #E8E8E8" }} />
-                              <div className="d-flex justify-content-between">
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    gap: 16,
-                                    marginTop: 8
-                                  }}
-                                >
+                                <hr className="m-2" style={{ border: "1px solid #E8E8E8" }} />
+                                <div className="d-flex justify-content-between">
                                   <div
                                     style={{
                                       display: "flex",
-                                      alignItems: "center",
-                                      gap: 6,
-                                      fontSize: 13,
-                                      color: "#555", fontFamily: "Gilroy"
+                                      gap: 16,
+                                      marginTop: 8
                                     }}
                                   >
-                                    <Call size={14} color="#1E45E1" />
-                                    + {item.countryCode} {item.mobileNo}
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: 6,
+                                        fontSize: 13,
+                                        color: "#555", fontFamily: "Gilroy"
+                                      }}
+                                    >
+                                      <Call size={14} color="#1E45E1" />
+                                      + {item.countryCode} {item.mobileNo}
+                                    </div>
+                                    <div
+                                      style={{
+                                        width: 1,
+                                        height: 28,
+                                        border: "1px solid #D9D9D9"
+                                      }}
+                                    />
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: 6,
+                                        fontSize: 13,
+                                        color: "#1E45E1", fontFamily: "Gilroy"
+                                      }}
+                                    >
+                                      <Sms size={14} color="#1E45E1" />
+                                      {item.mailId}
+                                      <span>
+                                        <CardSend
+                                          size="16"
+                                          color="#292D32"
+                                        /></span>
+                                    </div>
                                   </div>
-                                  <div
-                                    style={{
-                                      width: 1,
-                                      height: 28,
-                                      border: "1px solid #D9D9D9"
-                                    }}
-                                  />
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      alignItems: "center",
-                                      gap: 6,
-                                      fontSize: 13,
-                                      color: "#1E45E1", fontFamily: "Gilroy"
-                                    }}
-                                  >
-                                    <Sms size={14} color="#1E45E1" />
-                                    {item.mailId}
-                                    <span>
-                                      <CardSend
-                                        size="16"
-                                        color="#292D32"
-                                      /></span>
+
+                                  <div className="d-flex align-items-center flex-wrap">
+                                    <img src={img2} width="20" height="20" alt="icon" style={{ filter: canWriteProfile ? "none" : "grayscale(100%) brightness(70%)" }} />
+                                    <p
+                                      onClick={() => canWriteProfile && handleChangePassword(item)}
+                                      className="mb-0 mx-2 text-wrap"
+                                      style={{
+                                        fontFamily: "Montserrat",
+                                        fontWeight: 600,
+                                        fontSize: 14,
+                                        color: canWriteProfile ? "#1E45E1" : "#B0B0B0",
+                                        cursor: canWriteProfile ? "pointer" : "not-allowed",
+                                      }}
+                                    >
+                                      Change Password
+                                    </p>
+
+
+
                                   </div>
-                                </div>
-
-                                <div className="d-flex align-items-center flex-wrap">
-                                  <img src={img2} width="20" height="20" alt="icon" style={{ filter: canWriteProfile ? "none" : "grayscale(100%) brightness(70%)" }} />
-                                  <p
-                                    onClick={() => canWriteProfile && handleChangePassword(item)}
-                                    className="mb-0 mx-2 text-wrap"
-                                    style={{
-                                      fontFamily: "Montserrat",
-                                      fontWeight: 600,
-                                      fontSize: 14,
-                                      color: canWriteProfile ? "#1E45E1" : "#B0B0B0",
-                                      cursor: canWriteProfile ? "pointer" : "not-allowed",
-                                    }}
-                                  >
-                                    Change Password
-                                  </p>
-
-
 
                                 </div>
+                              </div>
 
+                            );
+                          })
+                        ) :
+                          !loading && (
+                            <div
+                              style={{
+                                textAlign: "center",
+                                marginTop: 90,
+                                height: '40vh',
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "center"
+                              }}
+                            >
+                              <img src={EmptyState} alt="emptystate" />
+                              <div
+                                className="pb-1"
+                                style={{
+                                  fontWeight: 600,
+                                  fontFamily: "Gilroy",
+                                  fontSize: 18,
+                                  color: "rgba(75, 75, 75, 1)",
+                                }}
+                              >
+                                No Profile
+                              </div>
+                              <div
+                                className="pb-1"
+                                style={{
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  fontSize: 14,
+                                  color: "rgba(75, 75, 75, 1)",
+                                }}
+                              >
+                                There are no Profile available.
                               </div>
                             </div>
+                          )
+                        }
 
-                          );
-                        })
-                      ) :
-                        !loading && (
-                          <div
-                            style={{
-                              textAlign: "center",
-                              marginTop: 90,
-                              height: '40vh',
-                              display: "flex",
-                              flexDirection: "column",
-                              alignItems: "center"
-                            }}
-                          >
-                            <img src={EmptyState} alt="emptystate" />
-                            <div
-                              className="pb-1"
-                              style={{
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                                fontSize: 18,
-                                color: "rgba(75, 75, 75, 1)",
-                              }}
-                            >
-                              No Profile
-                            </div>
-                            <div
-                              className="pb-1"
-                              style={{
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                                fontSize: 14,
-                                color: "rgba(75, 75, 75, 1)",
-                              }}
-                            >
-                              There are no Profile available.
-                            </div>
-                          </div>
-                        )
-                      }
-
-                    </div>)}
+                      </div>)}
 
 
 
 
-                {
-                  activeTab === "recent" && <RecentActivity />
-                }
+                  {
+                    activeTab === "recent" && <RecentActivity />
+                  }
 
 
- {
-                  activeTab === "users" && <ManagedUsers />
-                }
+                  {
+                    activeTab === "users" && <ManagedUsers />
+                  }
 
 
 
 
-              </div>
-            )}
+                </div>
+              )}
+
+        </div>
 
       </div>
-
-
 
       <Modal
         show={deleteForm}

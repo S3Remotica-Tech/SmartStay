@@ -51,14 +51,17 @@ function ManagedUsers() {
 
 
     return (
-
-        <div className="table-responsive" style={{
+ <div style={{width:"100%" , overflowX:"hidden", overflowY: "auto",
+                        maxHeight: 400,}}>
+        <div className="table-responsive " style={{
             fontFamily: "Gilroy", marginTop: 10, border: "1px solid #DCDCDC", borderRadius: 10,
             maxHeight: 320,
             overflowY: "auto"
         }}>
             <Table className="align-middle">
-                <thead style={{ background: "#F9FAFB" }}>
+                <thead style={{ background: "#F9FAFB", position: "sticky",
+      top: 0,
+      zIndex: 10, }}>
                     <tr >
                         <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>USER NAME</th>
                         <th style={{ color: "#6B7280", fontSize: 12, fontWeight: 600 }}>ROLE ASSIGN</th>
@@ -127,7 +130,7 @@ function ManagedUsers() {
                 </tbody>
             </Table>
         </div>
-
+</div>
     )
 }
 
