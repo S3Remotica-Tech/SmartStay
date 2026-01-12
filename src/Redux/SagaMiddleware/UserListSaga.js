@@ -1,9 +1,10 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import {getInitializeCheckout, EditTenantAmount, editAdvanceAmount, deleteReading,
+import {
+   cancelCheckoutInitialize, getInitializeCheckout, EditTenantAmount, editAdvanceAmount, deleteReading,
    editBasicDetails, CancelCheckOutCustomer, getParticularCustomerReading, getParticularRoomReading, getCustomerReading,
-   cancelBookingGet, bookingToCheckIn, addRoomReading, getRoomReading,editHostelReading, 
+   cancelBookingGet, bookingToCheckIn, addRoomReading, getRoomReading, editHostelReading,
    bookedDetails, availableBedDetailsForDate, checkoutDetailView, customerSaveInfo, CheckIn, GetAllFloor, getParticularHostelList, ConfirmCheckout_Due_Customer, deleteCustomer,
    AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer,
    getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail,
@@ -77,16 +78,16 @@ function* handleApiError(error) {
 function* handleGetInitializeCheckout(action) {
    try {
       const response = yield call(getInitializeCheckout, action.payload)
-const hostelId = GlobalHostelId(response);
-    if (hostelId) {
-       yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
-      // const cookies = new Cookies()
-      // cookies.set('selected_hostelId', hostelId, { path: '/' });
-    }
+      const hostelId = GlobalHostelId(response);
+      if (hostelId) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
+         // const cookies = new Cookies()
+         // cookies.set('selected_hostelId', hostelId, { path: '/' });
+      }
       if (response?.status === 200) {
          yield put({ type: 'GET_INITIALIZE_CHECKOUT', payload: { response: response.data, statusCode: response?.status } })
       }
-            }
+   }
    catch (err) {
 
       const error = err || {};
@@ -98,7 +99,27 @@ const hostelId = GlobalHostelId(response);
 }
 
 
+function* handleCancelCheckoutInitialize(reading) {
+   try {
+      const response = yield call(cancelCheckoutInitialize, reading.payload)
+      const hostelId = GlobalHostelId(response);
+      if (hostelId) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
+      }
+      if (response?.status === 200) {
+         yield put({ type: 'INITIALIZE_CANCEL_CHECKOUT', payload: { response: response.data, statusCode: response?.status } })
+      }
+     
+   }
+   catch (err) {
 
+      const error = err || {};
+      yield* handleApiError(error);
+
+   }
+
+
+}
 
 
 
@@ -255,7 +276,7 @@ function* handleEditTenantAmount(args) {
    }
    catch (error) {
       yield* handleApiError(error);
-       if (error.code === 'ERR_BAD_REQUEST') {
+      if (error.code === 'ERR_BAD_REQUEST') {
          if (error.status === 400) {
             yield put({ type: 'TENANT_UPDATE_ERROR', payload: error.response.data });
          }
@@ -316,12 +337,12 @@ function* handleGetParticularCustomerReading(reading) {
    try {
       const response = yield call(getParticularCustomerReading, reading.payload)
 
-const hostelId = GlobalHostelId(response);
-    if (hostelId) {
-      yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
-      // const cookies = new Cookies()
-      // cookies.set('selected_hostelId', hostelId, { path: '/' });
-    }
+      const hostelId = GlobalHostelId(response);
+      if (hostelId) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
+         // const cookies = new Cookies()
+         // cookies.set('selected_hostelId', hostelId, { path: '/' });
+      }
 
 
       if (response?.status === 200) {
@@ -350,12 +371,12 @@ function* handleGetCustomerReading(reading) {
    try {
       const response = yield call(getCustomerReading, reading.payload)
 
-const hostelId = GlobalHostelId(response);
-    if (hostelId) {
-       yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
-      // const cookies = new Cookies()
-      // cookies.set('selected_hostelId', hostelId, { path: '/' });
-    }
+      const hostelId = GlobalHostelId(response);
+      if (hostelId) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
+         // const cookies = new Cookies()
+         // cookies.set('selected_hostelId', hostelId, { path: '/' });
+      }
 
 
       if (response?.status === 200) {
@@ -380,12 +401,12 @@ function* handleGetParticularRoomReading(reading) {
    try {
       const response = yield call(getParticularRoomReading, reading.payload)
 
-const hostelId = GlobalHostelId(response);
-    if (hostelId) {
-      yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
-      // const cookies = new Cookies()
-      // cookies.set('selected_hostelId', hostelId, { path: '/' });
-    }
+      const hostelId = GlobalHostelId(response);
+      if (hostelId) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
+         // const cookies = new Cookies()
+         // cookies.set('selected_hostelId', hostelId, { path: '/' });
+      }
 
       if (response?.status === 200) {
          yield put({ type: 'GET_PARTICULAR_ROOM_READING', payload: { response: response.data, statusCode: response?.status } })
@@ -471,12 +492,12 @@ function* handleBookingToCheckIn(reading) {
 function* handleCancelBookingGet(reading) {
    try {
       const response = yield call(cancelBookingGet, reading.payload)
-const hostelId = GlobalHostelId(response);
-    if (hostelId) {
-       yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
-      // const cookies = new Cookies()
-      // cookies.set('selected_hostelId', hostelId, { path: '/' });
-    }
+      const hostelId = GlobalHostelId(response);
+      if (hostelId) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
+         // const cookies = new Cookies()
+         // cookies.set('selected_hostelId', hostelId, { path: '/' });
+      }
 
 
 
@@ -512,12 +533,12 @@ const hostelId = GlobalHostelId(response);
 function* handleGetRoomReading(reading) {
    try {
       const response = yield call(getRoomReading, reading.payload)
-const hostelId = GlobalHostelId(response);
-    if (hostelId) {
-      yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
-      // const cookies = new Cookies()
-      // cookies.set('selected_hostelId', hostelId, { path: '/' });
-    }
+      const hostelId = GlobalHostelId(response);
+      if (hostelId) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
+         // const cookies = new Cookies()
+         // cookies.set('selected_hostelId', hostelId, { path: '/' });
+      }
       if (response?.status === 200) {
          yield put({ type: 'GET_ROOM_READING', payload: { response: response.data, statusCode: response?.status } })
       }
@@ -592,7 +613,7 @@ function* handleAddRoomReading(reading) {
          if (error.status === 400) {
             yield put({ type: 'ROOM_READING_ERROR', payload: error.response.data });
          }
-      } 
+      }
    }
 
 
@@ -648,7 +669,7 @@ function* handleEditHostelReading(reading) {
          if (error.status === 400) {
             yield put({ type: 'ROOM_READING_ERROR', payload: error.response.data });
          }
-      } 
+      }
    }
 
 
@@ -662,11 +683,11 @@ function* handleAvailableBedDetailsForDate(bedDetails) {
       const response = yield call(availableBedDetailsForDate, bedDetails.payload)
 
       const hostelId = GlobalHostelId(response);
-    if (hostelId) {
-       yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
-      // const cookies = new Cookies()
-      // cookies.set('selected_hostelId', hostelId, { path: '/' });
-    }
+      if (hostelId) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
+         // const cookies = new Cookies()
+         // cookies.set('selected_hostelId', hostelId, { path: '/' });
+      }
 
       if (response?.status === 200) {
          yield put({ type: 'AVAILABLE_BED', payload: { response: response.data, statusCode: response?.status } })
@@ -682,7 +703,7 @@ function* handleAvailableBedDetailsForDate(bedDetails) {
 
       const error = err || {};
       yield* handleApiError(error);
-     
+
    }
 
 
@@ -692,12 +713,12 @@ function* handleAvailableBedDetailsForDate(bedDetails) {
 function* handleBookedDetails(action) {
    try {
       const response = yield call(bookedDetails, action.payload)
-const hostelId = GlobalHostelId(response);
-    if (hostelId) {
-      yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
-      // const cookies = new Cookies()
-      // cookies.set('selected_hostelId', hostelId, { path: '/' });
-    }
+      const hostelId = GlobalHostelId(response);
+      if (hostelId) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
+         // const cookies = new Cookies()
+         // cookies.set('selected_hostelId', hostelId, { path: '/' });
+      }
 
 
 
@@ -782,7 +803,7 @@ function* handleCheckIn(datum) {
          if (error.status === 400) {
             yield put({ type: 'BED_AVAILABLE_ERROR', payload: error.response.data });
          }
-      } 
+      }
    }
 }
 
@@ -792,12 +813,12 @@ function* handleuserlist(user) {
    try {
       const response = yield call(userlist, user.payload);
 
-const hostelId = GlobalHostelId(response);
-    if (hostelId) {
-       yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
-      // const cookies = new Cookies()
-      // cookies.set('selected_hostelId', hostelId, { path: '/' });
-    }
+      const hostelId = GlobalHostelId(response);
+      if (hostelId) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
+         // const cookies = new Cookies()
+         // cookies.set('selected_hostelId', hostelId, { path: '/' });
+      }
 
 
       if (response?.status === 200) {
@@ -817,7 +838,7 @@ const hostelId = GlobalHostelId(response);
    catch (err) {
       const error = err || {};
       yield* handleApiError(error);
-     
+
    }
 }
 
@@ -826,7 +847,7 @@ function* handleDeleteCustomer(customer) {
    try {
       const response = yield call(deleteCustomer, customer.payload);
 
-          var toastStyle = {
+      var toastStyle = {
          backgroundColor: "#E6F6E6",
          color: "black",
          width: "100%",
@@ -887,7 +908,7 @@ function* handleDeleteReading(reading) {
    try {
       const response = yield call(deleteReading, reading.payload);
 
-          var toastStyle = {
+      var toastStyle = {
          backgroundColor: "#E6F6E6",
          color: "black",
          width: "100%",
@@ -903,7 +924,7 @@ function* handleDeleteReading(reading) {
 
       };
 
-      if (response?.status === 204  || response?.status === 200 ) {
+      if (response?.status === 204 || response?.status === 200) {
          yield put({ type: 'DELETE_READING', payload: { response: response.data, statusCode: response?.status } })
 
          toast.success('Deleted successfully!', {
@@ -919,7 +940,7 @@ function* handleDeleteReading(reading) {
          });
 
       }
-      
+
    }
    catch (error) {
       yield* handleApiError(error);
@@ -940,7 +961,7 @@ function* handleDeleteReading(reading) {
             });
 
          }
-      } 
+      }
    }
 }
 
@@ -953,12 +974,12 @@ function* handleHostelList(hostel) {
       const response = yield call(hostelList, hostel.payload)
 
 
-const hostelId = GlobalHostelId(response);
-    if (hostelId) {
-     yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
-      // const cookies = new Cookies()
-      // cookies.set('selected_hostelId', hostelId, { path: '/' });
-    }
+      const hostelId = GlobalHostelId(response);
+      if (hostelId) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
+         // const cookies = new Cookies()
+         // cookies.set('selected_hostelId', hostelId, { path: '/' });
+      }
       if (response?.status === 200) {
          yield put({ type: 'HOSTEL_LIST', payload: { response: response.data, statusCode: response?.status } })
       }
@@ -978,12 +999,12 @@ function* handleGetParticularHostelList(action) {
    try {
       const response = yield call(getParticularHostelList, action.payload)
 
-const hostelId = GlobalHostelId(response);
-    if (hostelId) {
-     yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
-      // const cookies = new Cookies()
-      // cookies.set('selected_hostelId', hostelId, { path: '/' });
-    }
+      const hostelId = GlobalHostelId(response);
+      if (hostelId) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
+         // const cookies = new Cookies()
+         // cookies.set('selected_hostelId', hostelId, { path: '/' });
+      }
 
 
 
@@ -1020,7 +1041,7 @@ function* handleNumberOfRooms(ID) {
    catch (err) {
       const error = err || {};
       yield* handleApiError(error);
-     
+
    }
 }
 
@@ -1042,7 +1063,7 @@ function* handlehosteliddetail(data) {
       const error = err || {};
 
       yield* handleApiError(error);
-     
+
    }
 }
 function* handleUserBillPaymentHistory() {
@@ -1117,7 +1138,7 @@ function* handleCreateFloor(data) {
          if (error.status === 409) {
             yield put({ type: 'ALREADY_FLOOR_ERROR', payload: error.response.data });
          }
-      } 
+      }
    }
 }
 
@@ -1257,7 +1278,7 @@ function* handleCustomerSaveInfo(datum) {
          } else if (error.response.data.mobileStatus !== "") {
             yield put({ type: 'PHONE_ERROR', payload: mobileError });
          }
-      } 
+      }
    }
 }
 
@@ -1370,7 +1391,7 @@ function* handleDeleteFloor(hosteID) {
             });
 
          }
-      } 
+      }
    }
 }
 
@@ -1435,7 +1456,7 @@ function* handleDeleteRoom(roomDetails) {
             });
 
          }
-      } 
+      }
    }
 }
 
@@ -1460,12 +1481,12 @@ function refreshToken(response) {
 function* handlecustomerdetails(userDetails) {
    try {
       const response = yield call(CustomerDetails, userDetails.payload)
-  const hostelId = GlobalHostelId(response);
-    if (hostelId) {
-      yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
-      // const cookies = new Cookies()
-      // cookies.set('selected_hostelId', hostelId, { path: '/' });
-    }
+      const hostelId = GlobalHostelId(response);
+      if (hostelId) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
+         // const cookies = new Cookies()
+         // cookies.set('selected_hostelId', hostelId, { path: '/' });
+      }
 
 
       if (response?.status === 200) {
@@ -1585,7 +1606,7 @@ function* handleuserAddAmnitiesName(amnity) {
    catch (err) {
       const error = err || {};
       yield* handleApiError(error);
-      
+
    }
 }
 
@@ -1593,12 +1614,12 @@ function* handleuserAddAmnitiesName(amnity) {
 function* handlebedNumberDetails(bedDetails) {
    try {
       const response = yield call(availableBedDetails, bedDetails.payload)
-const hostelId = GlobalHostelId(response);
-    if (hostelId) {
-      yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
-      // const cookies = new Cookies()
-      // cookies.set('selected_hostelId', hostelId, { path: '/' });
-    }
+      const hostelId = GlobalHostelId(response);
+      if (hostelId) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
+         // const cookies = new Cookies()
+         // cookies.set('selected_hostelId', hostelId, { path: '/' });
+      }
 
 
       if (response?.status === 200) {
@@ -1615,7 +1636,7 @@ const hostelId = GlobalHostelId(response);
 
       const error = err || {};
       yield* handleApiError(error);
-      
+
    }
 
 
@@ -1680,7 +1701,7 @@ function* handleKYCValidate(action) {
    catch (err) {
       const error = err || {};
       yield* handleApiError(error);
-    
+
    }
 
 }
@@ -1741,7 +1762,7 @@ function* handleKYCValidateOtpVerify(action) {
    catch (err) {
       const error = err || {};
       yield* handleApiError(error);
-     
+
    }
 
 }
@@ -1822,7 +1843,7 @@ function* handleAddWalkInCustomer(action) {
    catch (err) {
       const error = err || {};
       yield* handleApiError(error);
-     
+
    }
 }
 
@@ -1878,11 +1899,11 @@ function* handleCheckoutCustomer(action) {
       const response = yield call(getCheckOutCustomer, action.payload);
 
       const hostelId = GlobalHostelId(response);
-          if (hostelId) {
-             yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
-            // const cookies = new Cookies()
-            // cookies.set('selected_hostelId', hostelId, { path: '/' });
-          }
+      if (hostelId) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
+         // const cookies = new Cookies()
+         // cookies.set('selected_hostelId', hostelId, { path: '/' });
+      }
 
 
       if (response?.status === 200) {
@@ -2083,7 +2104,7 @@ function* handleAddConfirmCheckout(action) {
    catch (err) {
       const error = err || {};
       yield* handleApiError(error);
-     
+
    }
 
 
@@ -2134,7 +2155,7 @@ function* handleEditConfirmCheckout(action) {
    catch (err) {
       const error = err || {};
       yield* handleApiError(error);
-    
+
    }
 
 }
@@ -2362,7 +2383,7 @@ function* handleReAssignPage(action) {
          if (error.status === 400) {
             yield put({ type: 'CHANGE_BED_ERROR', payload: error.response.data });
          }
-      } 
+      }
    }
 }
 
@@ -2415,7 +2436,7 @@ function* handleCustomerAddContact(action) {
    catch (err) {
       const error = err || {};
       yield* handleApiError(error);
-    
+
    }
 }
 
@@ -2439,7 +2460,7 @@ function* handleCustomerAllDetails(action) {
    catch (err) {
       const error = err || {};
       yield* handleApiError(error);
-     
+
    }
 }
 
@@ -2551,7 +2572,7 @@ function* handleGenerateAdvance(action) {
    catch (err) {
       const error = err || {};
       yield* handleApiError(error);
-     
+
    }
 }
 
@@ -2607,7 +2628,7 @@ function* handleUploadDocument(data) {
    catch (err) {
       const error = err || {};
       yield* handleApiError(error);
-     
+
    }
 }
 
@@ -2661,7 +2682,7 @@ function* handleUploadOtherDocument(data) {
    catch (err) {
       const error = err || {};
       yield* handleApiError(error);
-     
+
    }
 }
 
@@ -2736,7 +2757,7 @@ function* handleKYCVerifyNew(action) {
    catch (err) {
       const error = err || {};
       yield* handleApiError(error);
-     
+
    }
 }
 
@@ -2773,7 +2794,7 @@ function* handleCustomerDetailsKyc(action) {
 
       const error = err || {};
       yield* handleApiError(error);
-     
+
    }
 }
 
@@ -2826,7 +2847,7 @@ function* handleConfirmCheckoutDueCustomer(data) {
    catch (err) {
       const error = err || {};
       yield* handleApiError(error);
-   
+
    }
 }
 
@@ -2839,12 +2860,12 @@ function* handlecustomerUnAssign(action) {
       const response = yield call(CustomerUnAssign, action.payload)
 
 
-const hostelId = GlobalHostelId(response);
-    if (hostelId) {
-       yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
-      // const cookies = new Cookies()
-      // cookies.set('selected_hostelId', hostelId, { path: '/' });
-    }
+      const hostelId = GlobalHostelId(response);
+      if (hostelId) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
+         // const cookies = new Cookies()
+         // cookies.set('selected_hostelId', hostelId, { path: '/' });
+      }
       if (response?.status === 200) {
          yield put({ type: 'UNASSIGN_CUSTOMER', payload: { response: response.data.listCustomers, statusCode: response?.status } })
       }
@@ -2859,7 +2880,7 @@ const hostelId = GlobalHostelId(response);
    catch (err) {
       const error = err || {};
       yield* handleApiError(error);
-    
+
    }
 
 }
@@ -2917,15 +2938,15 @@ function* handleBackToCheckin(action) {
 
 
 function* handleGetAllFloor(floor) {
-   try { 
+   try {
       const response = yield call(GetAllFloor, floor.payload);
 
-const hostelId = GlobalHostelId(response);
-    if (hostelId) {
-      yield put ({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId})
-      // const cookies = new Cookies()
-      // cookies.set('selected_hostelId', hostelId, { path: '/' });
-    }
+      const hostelId = GlobalHostelId(response);
+      if (hostelId) {
+         yield put({ type: "SAVE_RESPONSE_HOSTEL", payload: hostelId })
+         // const cookies = new Cookies()
+         // cookies.set('selected_hostelId', hostelId, { path: '/' });
+      }
 
       if (response?.status === 200) {
          yield put({ type: 'ALL_FLOOR_LIST', payload: { response: response.data, statusCode: response?.status } })
@@ -2938,7 +2959,7 @@ const hostelId = GlobalHostelId(response);
    catch (err) {
       const error = err || {};
       yield* handleApiError(error);
-     
+
    }
 }
 
@@ -2946,7 +2967,7 @@ function* handleGenerateDetails(reading) {
    try {
       const { customerId, data } = reading.payload
       const response = yield call(GenerateDetails, customerId, data)
- 
+
 
       if (response?.status === 201 || response?.status === 200) {
          yield put({ type: 'FINAL_GENERATE', payload: { response: response.data, statusCode: response?.status } })
@@ -2997,7 +3018,7 @@ function* handleGenerateDetails(reading) {
          if (error.status === 400) {
             yield put({ type: 'FINAL_GENERATE_ERROR', payload: error.response.data });
          }
-      } 
+      }
    }
 
 
@@ -3008,7 +3029,7 @@ function* handleGenerateDetails(reading) {
 function* handleConformCheckout(reading) {
    try {
       const response = yield call(conformCheckout, reading.payload)
-   
+
 
       if (response?.status === 200) {
          yield put({ type: 'CONFORM_CHECKOUT', payload: { response: response.data, statusCode: response?.status } })
@@ -3059,7 +3080,7 @@ function* handleConformCheckout(reading) {
          if (error.status === 400) {
             yield put({ type: 'CONFORM_CHECKOUT_ERROR', payload: error.response.data });
          }
-      } 
+      }
    }
 
 
@@ -3091,10 +3112,11 @@ function* handleCheckoutProfile(action) {
 
 
 function* UserListSaga() {
-   yield takeEvery('DELETEREADING',handleDeleteReading)
-  yield takeEvery('GETINITIALIZECHECKOUT',  handleGetInitializeCheckout)
+   yield takeEvery('DELETEREADING', handleDeleteReading)
+   yield takeEvery('INITIALIZECANCELCHECKOUT', handleCancelCheckoutInitialize)
+   yield takeEvery('GETINITIALIZECHECKOUT', handleGetInitializeCheckout)
    yield takeEvery('EDITADVANCE', handleEditAdvance)
-   yield takeEvery('EDITAMOUNTDETAILS',handleEditTenantAmount)
+   yield takeEvery('EDITAMOUNTDETAILS', handleEditTenantAmount)
    yield takeEvery('EDITBASICDETAILS', handleEditBasicDetails)
    yield takeEvery('CANCELCHECKOUT', handleCancelCheckout)
    yield takeEvery('GETCUSTOMERREADING', handleGetCustomerReading)
@@ -3104,7 +3126,7 @@ function* UserListSaga() {
    yield takeEvery('BOOKINGTOCHECKIN', handleBookingToCheckIn)
    yield takeEvery('INITIALIZECANCELBOOKING', handleCancelBookingGet)
    yield takeEvery('ADDROOMREADING', handleAddRoomReading)
-    yield takeEvery('EDITHOSTELREADING',handleEditHostelReading)
+   yield takeEvery('EDITHOSTELREADING', handleEditHostelReading)
    yield takeEvery('BOOKEDDETAILS', handleBookedDetails)
    yield takeEvery('AVAILBALEBEDDETAILS', handleAvailableBedDetailsForDate)
    yield takeEvery('CREATECUSTOMERSAVEINFO', handleCustomerSaveInfo)
@@ -3129,7 +3151,7 @@ function* UserListSaga() {
    yield takeEvery('BEDNUMBERDETAILS', handlebedNumberDetails)
    yield takeEvery('KYCVALIDATE', handleKYCValidate)
    yield takeEvery('KYCVALIDATEOTPVERIFY', handleKYCValidateOtpVerify)
-     yield takeEvery('WALKINCUSTOMERLIST', handleGetWalkInCustomer)
+   yield takeEvery('WALKINCUSTOMERLIST', handleGetWalkInCustomer)
    yield takeEvery('ADDWALKINCUSTOMER', handleAddWalkInCustomer)
    yield takeEvery('DELETEWALKINCUSTOMER', handleDeleteWalkInCustomer)
    yield takeEvery('CHECKOUTCUSTOMERLIST', handleCheckoutCustomer)

@@ -45,11 +45,14 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
     useEffect(() => {
         if (checkInDetails?.customerId || checkInDetails?.tenetId) {
             dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: checkInDetails?.customerId || checkInDetails?.tenetId } });
+               dispatch({ type: "INITIALIZECANCELCHECKOUT", payload: { customerId: checkInDetails?.customerId || checkInDetails?.tenetId, hostelId: state.login.selectedHostel_Id } });
+  
+   
         }
     }, [checkInDetails?.customerId, checkInDetails?.tenetId])
 
 
-
+// console.log("initializeCancelCheckout",state.UsersList.initializeCancelCheckout.canRecheckinSameBed)
 
 
     const noticeDate = state.UsersList.customerdetails?.checkoutInfo?.noticeDate;
@@ -62,7 +65,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
 
 
 
-        console.log("pgDetails",pgDetails, "checkInDetails",checkInDetails)
+        // console.log("pgDetails",pgDetails, "checkInDetails",checkInDetails)
 
 
 
@@ -84,10 +87,10 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
             isValid = false;
         }
 
-        if (!isValid) return;
+        if (!isValid ) return;
 
 
-
+if(state.UsersList?.initializeCancelCheckout?.canRecheckinSameBed){
 
         dispatch({
             type: 'CANCELCHECKOUT',
@@ -101,6 +104,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
             }
         })
         setFormLoading(true);
+    }
     }
 
 
@@ -430,10 +434,10 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
                                     Cancel
                                 </button>
 
-                                <button disabled={formLoading}
+                                <button disabled={!state.UsersList?.initializeCancelCheckout?.canRecheckinSameBed}
                                     type="button"
                                     style={{
-                                        backgroundColor: "#1E45E1",
+                                       backgroundColor: !state.UsersList?.initializeCancelCheckout?.canRecheckinSameBed ? "#9AAAF5" : "#1E45E1",
                                         color: "#fff",
                                         fontWeight: 600,
                                         height: 40,
@@ -454,7 +458,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
                         // Short Stay Tab
                         <div
                             style={{
-                                height: "400px",
+                                height: "200px",
                                 display: "flex",
                                 justifyContent: "center",
                                 alignItems: "center",

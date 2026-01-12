@@ -31,7 +31,9 @@ export async function cancelBookingGet(customerId) {
 }
 
 
-
+export async function cancelCheckoutInitialize(customer) {
+  return await AxiosConfigV2.get(`/v2/customers/cancel-checkout/initialize/${customer.hostelId}/${customer.customerId}`)
+}
 // v1
 
 // export async function addUser(params) {
