@@ -91,9 +91,7 @@ function Dashboard() {
   useEffect(() => {
     if (!canReadDashboard) {
       setLoading(false);
-    } else {
-      setLoading(false);
-    }
+    } 
   }, [canReadDashboard]);
 
 
@@ -156,7 +154,6 @@ function Dashboard() {
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       dispatch({ type: "PGDASHBOARD", payload: state.login.selectedHostel_Id });
-
        setLoading(true);
     }
   }, [state.login.selectedHostel_Id]);
@@ -423,8 +420,8 @@ function Dashboard() {
 
   const { datasets } = datum;
 
- console.log("MODE:", import.meta.env.MODE);
-console.log("FIREBASE APP ID:", import.meta.env.VITE_FIREBASE_APP_ID);
+//  console.log("MODE:", import.meta.env.MODE);
+// console.log("FIREBASE APP ID:", import.meta.env.VITE_FIREBASE_APP_ID);
 
   const CustomLegend = ({ payload }) => {
     return (

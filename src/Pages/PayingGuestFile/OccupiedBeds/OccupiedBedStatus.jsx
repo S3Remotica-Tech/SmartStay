@@ -116,7 +116,7 @@ function OccupiedBedStatus({
         dispatch({ type: "UPDATE_USERSLIST_FALSE" });
     }
 
-    console.log("currentItem", currentItem)
+    
 
 
     return (

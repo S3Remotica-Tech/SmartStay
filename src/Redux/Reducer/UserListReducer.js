@@ -160,6 +160,7 @@ export const initialState = {
     editAdvanceStatusCode: 0,
     advanceError: '',
     initializeCheckout: '',
+    initializeCancelCheckout: ''
 
 }
 
@@ -176,6 +177,9 @@ const UserListReducer = (state = initialState, action) => {
 
         case 'GET_INITIALIZE_CHECKOUT':
             return { ...state, initializeCheckout: action.payload.response }
+
+        case 'INITIALIZE_CANCEL_CHECKOUT':
+            return { ...state, initializeCancelCheckout: action.payload.response }
 
         case 'CANCEL_CHECKOUT':
             return { ...state, cancelCheckoutStatusCode: action.payload.statusCode }
@@ -220,10 +224,10 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, editHostelStatusCode: action.payload.statusCode }
         case 'REMOVE_EDIT_HOSTEL_READING':
             return { ...state, editHostelStatusCode: 0 }
-            case 'DELETE_READING':
-                 return { ...state, deleteReadingStatusCode: action.payload.statusCode }
-                 case 'REMOVE_DELETE_READING':
-                 return { ...state, deleteReadingStatusCode: 0 }
+        case 'DELETE_READING':
+            return { ...state, deleteReadingStatusCode: action.payload.statusCode }
+        case 'REMOVE_DELETE_READING':
+            return { ...state, deleteReadingStatusCode: 0 }
 
         case 'BOOKING_TO_CHECKIN':
             return { ...state, bookingToCheckinStatusCode: action.payload.statusCode }

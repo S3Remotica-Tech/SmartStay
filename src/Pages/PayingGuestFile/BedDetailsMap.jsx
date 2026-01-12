@@ -436,7 +436,7 @@ function BedDetailsMap({ room, propsValue,
 
 
     useEffect(() => {
-        if (state.PgList.statusCodeDeleteBed === 200) {
+        if (state.PgList.statusCodeDeleteBed === 200 || state.PgList.statusCodeDeleteBed === 204) {
             dispatch({
                 type: "GETALLBEDSLIST",
                 payload: { roomId: room.id }
@@ -587,35 +587,7 @@ function BedDetailsMap({ room, propsValue,
     }, [state.UsersList.statusCodeForReassinBed]);
 
 
-function getBedStatus(bed) {
-  const icons = [];
-  let badgeCount = 0;
 
-  if (bed.isBooked) {
-    icons.push({ src: recerverimg, alt: "booking" });
-    badgeCount += 1;
-  }
-  if (bed.onNotice) {
-    icons.push({ src: noticeimg, alt: "notice" });
-    badgeCount += 1;
-  }
-  if (bed.overDue) {
-    icons.push({ src: overDude, alt: "overdue" });
-    badgeCount += 1;
-  }
-
-  // If you want a specific rule like old logic:
-  // 3 icons only when booked + notice + overdue
-  if (bed.isBooked && bed.onNotice && bed.overDue) {
-    badgeCount = 3; // explicitly override if needed
-  } else if ((bed.isBooked && bed.onNotice) || (bed.isBooked && bed.overDue) || (bed.onNotice && bed.overDue)) {
-    badgeCount = 2; // 2 icons
-  } else if (icons.length === 1) {
-    badgeCount = 1;
-  }
-
-  return { icons, badgeCount };
-}
 
    
 
@@ -882,7 +854,7 @@ function getBedStatus(bed) {
 
 
 {/* notice only */}
-                                    {bed.onNotice && !bed.isBooked && !bed.overDue && (
+                                    {bed.onNotice && !bed.isBooked  && (
                                         <img
                                             src={noticeimg}
                                             alt="notice"

@@ -99,9 +99,7 @@ function PgList() {
   useEffect(() => {
     if (!canReadPayingGuests) {
       setLoading(false);
-    } else {
-      setLoading(true);
-    }
+    } 
   }, [canReadPayingGuests]);
 
 
@@ -144,7 +142,7 @@ function PgList() {
     if (hostel_Id) {
       dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } });
       dispatch({ type: 'ALLFLOORLIST', payload: { hostel_id: hostel_Id } })
-      // setLoading(true)
+      setLoading(true)
     }
   }, [hostel_Id]);
 

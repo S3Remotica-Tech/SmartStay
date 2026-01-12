@@ -620,12 +620,20 @@ RefundAmount.propTypes = {
   handleClose: PropTypes.func.isRequired,
 
   refundDetails: PropTypes.shape({
-    invoiceId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    invoiceId: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ]),
     invoiceNumber: PropTypes.string,
     fullName: PropTypes.string,
     profilePic: PropTypes.string,
     invoiceDate: PropTypes.string,
-  }).isRequired,
+
+    customerInfo: PropTypes.shape({
+      fullName: PropTypes.string
+    })
+  }).isRequired
 };
+
 
 export default RefundAmount

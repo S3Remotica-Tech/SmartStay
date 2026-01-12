@@ -37,6 +37,22 @@ function Booking() {
     // canDeleteModule: canDeleteTenant,
   } = useHasPermission("Booking");
 
+
+
+
+// useEffect(() => {
+//     if (!canReadBooking) {
+//       // setLoading(false);
+//     } 
+//   }, [canReadBooking]);
+
+
+
+
+
+
+
+
   const sortedData = []
 
 useEffect(()=>{

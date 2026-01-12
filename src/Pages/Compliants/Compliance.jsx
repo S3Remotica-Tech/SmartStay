@@ -96,9 +96,7 @@ const Compliance = () => {
   useEffect(() => {
     if (!canReadComplaints) {
       setLoading(false);
-    } else {
-      setLoading(true);
-    }
+    } 
   }, [canReadComplaints]);
 
   useEffect(() => {
@@ -110,7 +108,7 @@ const Compliance = () => {
 
   useEffect(() => {
     if (hosId) {
-      dispatch({ type: "COMPLAINT-TYPE-LIST", payload: { hostel_id: state?.login?.selectedHostel_Id } });
+          dispatch({ type: "COMPLAINT-TYPE-LIST", payload: { hostel_id: state?.login?.selectedHostel_Id } });
     }
   }, [hosId])
 

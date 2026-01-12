@@ -8,6 +8,7 @@ import { Modal, Button, } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
 import ErrorMessage from '../../Components/ErrorMessage'
+import PropTypes from "prop-types";
 
 
 function RecordPayment({ show, handleClose, selectedUserId, invoiceValue, invoiceList }) {
@@ -51,6 +52,13 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceValue, invoic
         }
     }, [selectedUserId])
 
+
+    const options = {
+    dateFormat: "d/m/Y",
+    defaultDate: null,
+    minDate: null,
+  }; 
+  
     useEffect(() => {
         if (calendarRef.current) {
             calendarRef.current.flatpickr.set(options);
@@ -859,5 +867,30 @@ function RecordPayment({ show, handleClose, selectedUserId, invoiceValue, invoic
         </div>
     )
 }
+RecordPayment.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  selectedUserId: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
+
+  invoiceList: PropTypes.shape({
+    balanceDue: PropTypes.number,
+    InvoiceId: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ])
+  }),
+
+  invoiceValue: PropTypes.shape({
+    invoiceId: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ]),
+    invoiceDate: PropTypes.string,
+    Date: PropTypes.string
+  })
+};
 
 export default RecordPayment

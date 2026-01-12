@@ -71,9 +71,7 @@ const {
  useEffect(() => {
      if (!canReadCheckout) {
          setCheckOutLoader(false)
-     } else {
-         setCheckOutLoader(true)
-     }
+     } 
    }, [canReadCheckout]);
 
 

@@ -65,6 +65,7 @@ import BookingsPdfDetails from "../Pages/Bookings/BookingsPdfDetails";
 
 
 
+
 function Sidebar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -619,6 +620,8 @@ function Sidebar() {
       {
         showNotify && <NotificationForm show={showNotify} handleClose={handleClose} />
       }
+
+     
       <Container fluid className="p-0" >
         <div style={{
           display: "flex",

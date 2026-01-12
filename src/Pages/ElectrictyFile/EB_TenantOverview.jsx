@@ -29,7 +29,7 @@ const EBTenantOverview = ({ tenant, onBack }) => {
 
     const [tenantReadingList, setTenantreadingList] = useState([])
 
-    console.log("tenant called", tenant)
+    // console.log("tenant called", tenant)
 
     useEffect(() => {
         if (state.login?.selectedHostel_Id && tenant?.customerId) {

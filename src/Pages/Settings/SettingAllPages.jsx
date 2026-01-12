@@ -8,7 +8,7 @@ import '../Settings/SettingAll.css';
 import { useSelector } from 'react-redux';
 import { ArrowRight2, ArrowLeft2 } from 'iconsax-react'
 // import SettingsBills from "./SettingsBills";
-import {useNavigate, Outlet } from "react-router-dom";
+import { useNavigate, Outlet } from "react-router-dom";
 import PropTypes from "prop-types";
 
 function SettingAllPages({ isVisibleSidebar }) {
@@ -126,17 +126,43 @@ function SettingAllPages({ isVisibleSidebar }) {
             </div>
 
             {!isInvoiceAddMode &&
-              <div className={`col-12 col-md-3    ${isSidebarOpen ? "d-block col-3" : "d-none  d-md-block"}`}
+              <div className={`col-12 col-md-3     ${isSidebarOpen ? "d-block col-3" : "d-none  d-md-block"}`}
                 style={{
-                  height: 600,
+                  // height: 600,
                   position: "sticky",
-                  marginLeft: 'auto',
+                  // marginLeft: 'auto',
                   top: 0,
-                  left: 0, transition: "all 0.3s ease-in-out",
+                  left: 0,
+                  transition: "all 0.3s ease-in-out",
                   zIndex: 10,
                   backgroundColor: isSidebarOpen ? 'white' : 'transparent',
                 }}
               >
+                <div style={{position: "sticky",top: 0,backgroundColor:"#FFFFFF"
+                  }}>
+                  <div>
+                    <label
+                      style={{
+                        fontSize: 20,
+                        color: "#000000",
+                        fontWeight: 600,
+                        fontFamily: "Gilroy",
+                        whiteSpace: "nowrap",
+                        // marginLeft: 10,
+                      }}
+                    >
+                      Settings
+                    </label>
+                  </div>
+                  <div>
+                    <label style={{
+                      fontSize: 11, color: "#4B4B4B", fontWeight: 500, fontFamily: "Gilroy",
+                      textWrap:"wrap"
+                      // marginLeft: 10,
+                    }}>Customize until match to your Workflows</label>
+                  </div>
+                </div>
+
                 <div className="show-scrolls"
                   style={{
                     backgroundColor: "#E7F1FF",
@@ -145,7 +171,7 @@ function SettingAllPages({ isVisibleSidebar }) {
                     marginBottom: "20px",
                     boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
                     marginTop: 20,
-                    marginLeft: 30,
+                    // marginLeft: 10,
                     maxWidth: 201,
                     height: 246
                   }}
@@ -162,7 +188,7 @@ function SettingAllPages({ isVisibleSidebar }) {
                       display: "flex",
                       justifyContent: "space-between",
                       alignItems: "center",
-                      color: activePage === "General" ? "#4a90e2" : "#000000",
+                      color: activePage === "General" ? "#1E45E1" : "#000000",
                       cursor: "pointer",
                     }}
                   >
@@ -187,7 +213,7 @@ function SettingAllPages({ isVisibleSidebar }) {
                       display: "flex",
                       justifyContent: "space-between",
                       alignItems: "center",
-                      color: activePage === "Manage PG" ? "#4a90e2" : "#000000",
+                      color: activePage === "Manage PG" ? "#1E45E1" : "#000000",
                       cursor: "pointer",
                     }}
                   >
@@ -212,7 +238,7 @@ function SettingAllPages({ isVisibleSidebar }) {
                       display: "flex",
                       justifyContent: "space-between",
                       alignItems: "center",
-                      color: activePage === "Security" ? "#4a90e2" : "#000000",
+                      color: activePage === "Security" ? "#1E45E1" : "#000000",
                       cursor: "pointer",
                     }}
                   >
@@ -236,7 +262,7 @@ function SettingAllPages({ isVisibleSidebar }) {
                       display: "flex",
                       justifyContent: "space-between",
                       alignItems: "center",
-                      color: activePage === "Subscription" ? "#4a90e2" : "#000000",
+                      color: activePage === "Subscription" ? "#1E45E1" : "#000000",
                       cursor: "pointer",
                     }}
                   >
@@ -261,7 +287,7 @@ function SettingAllPages({ isVisibleSidebar }) {
                       display: "flex",
                       justifyContent: "space-between",
                       alignItems: "center",
-                      color: activePage === "Integration" ? "#4a90e2" : "#000000",
+                      color: activePage === "Integration" ? "#1E45E1" : "#000000",
                       cursor: "pointer",
                     }}
                   >
@@ -280,7 +306,7 @@ function SettingAllPages({ isVisibleSidebar }) {
 
                   <div style={{
                     fontSize: 16, fontWeight: 600, fontFamily: "Gilroy",
-                    textAlign: "start", marginLeft: 30
+                    textAlign: "start", 
                   }}>PG Based Setting</div>
 
 
@@ -294,7 +320,7 @@ function SettingAllPages({ isVisibleSidebar }) {
                       marginBottom: "20px",
                       boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
                       marginTop: 20,
-                      marginLeft: 30,
+                      // marginLeft: 10,
                       maxWidth: '201px',
                       maxHeight: '290px',
 
@@ -310,7 +336,7 @@ function SettingAllPages({ isVisibleSidebar }) {
                         display: "flex",
                         justifyContent: "space-between",
                         alignItems: "center",
-                        color: activePage === "Electricity" ? "#4a90e2" : "#000000",
+                        color: activePage === "Electricity" ? "#1E45E1" : "#000000",
                         cursor: "pointer",
                       }}
                     >
@@ -337,7 +363,7 @@ function SettingAllPages({ isVisibleSidebar }) {
                         display: "flex",
                         justifyContent: "space-between",
                         alignItems: "center",
-                        color: activePage === "Billing_Rule" ? "#4a90e2" : "#000000",
+                        color: activePage === "Billing_Rule" ? "#1E45E1" : "#000000",
                         cursor: "pointer",
                       }}
                     >
@@ -361,7 +387,7 @@ function SettingAllPages({ isVisibleSidebar }) {
                         display: "flex",
                         justifyContent: "space-between",
                         alignItems: "center",
-                        color: activePage === "SettingsNotifications" ? "#4a90e2" : "#000000",
+                        color: activePage === "SettingsNotifications" ? "#1E45E1" : "#000000",
                         cursor: "pointer",
                       }}
                     >
@@ -385,7 +411,7 @@ function SettingAllPages({ isVisibleSidebar }) {
                         display: "flex",
                         justifyContent: "space-between",
                         alignItems: "center",
-                        color: activePage === "Invoice" ? "#4a90e2" : "#000000",
+                        color: activePage === "Invoice" ? "#1E45E1" : "#000000",
                         cursor: "pointer",
                       }}
                     >
@@ -410,7 +436,7 @@ function SettingAllPages({ isVisibleSidebar }) {
                         display: "flex",
                         justifyContent: "space-between",
                         alignItems: "center",
-                        color: activePage === "Expenses" ? "#4a90e2" : "#000000",
+                        color: activePage === "Expenses" ? "#1E45E1" : "#000000",
                         cursor: "pointer",
                       }}
                     >
@@ -434,7 +460,7 @@ function SettingAllPages({ isVisibleSidebar }) {
                         display: "flex",
                         justifyContent: "space-between",
                         alignItems: "center",
-                        color: activePage === "Complaints" ? "#4a90e2" : "#000000",
+                        color: activePage === "Complaints" ? "#1E45E1" : "#000000",
                         cursor: "pointer",
                       }}
                     >
@@ -458,7 +484,7 @@ function SettingAllPages({ isVisibleSidebar }) {
                         display: "flex",
                         justifyContent: "space-between",
                         alignItems: "center",
-                        color: activePage === "Amenities" ? "#4a90e2" : "#000000",
+                        color: activePage === "Amenities" ? "#1E45E1" : "#000000",
                         cursor: "pointer",
                       }}
                     >
@@ -485,7 +511,7 @@ function SettingAllPages({ isVisibleSidebar }) {
                         display: "flex",
                         justifyContent: "space-between",
                         alignItems: "center",
-                        color: activePage === "User" ? "#4a90e2" : "#000000",
+                        color: activePage === "User" ? "#1E45E1" : "#000000",
                         cursor: "pointer",
                       }}
                     >
@@ -511,7 +537,7 @@ function SettingAllPages({ isVisibleSidebar }) {
                         display: "flex",
                         justifyContent: "space-between",
                         alignItems: "center",
-                        color: activePage === "Role" ? "#4a90e2" : "#000000",
+                        color: activePage === "Role" ? "#1E45E1" : "#000000",
                         cursor: "pointer",
                       }}
                     >
@@ -539,7 +565,7 @@ function SettingAllPages({ isVisibleSidebar }) {
                         display: "flex",
                         justifyContent: "space-between",
                         alignItems: "center",
-                        color: activePage === "agreement" ? "#4a90e2" : "#000000",
+                        color: activePage === "agreement" ? "#1E45E1" : "#000000",
                         cursor: "pointer",
                       }}
                     >
@@ -564,7 +590,7 @@ function SettingAllPages({ isVisibleSidebar }) {
 
 
             <div
-              className={`col-12 ${isSidebarOpen ? 'd-none d-md-block' : ''
+              className={`col-12  ${isSidebarOpen ? 'd-none d-md-block' : ''
                 } ${isInvoiceAddMode ? 'col-md-12' : 'col-md-9'}`}
 
               style={{
@@ -581,6 +607,6 @@ function SettingAllPages({ isVisibleSidebar }) {
   );
 }
 SettingAllPages.propTypes = {
-    isVisibleSidebar: PropTypes.func.isRequired,
+  isVisibleSidebar: PropTypes.func.isRequired,
 };
 export default SettingAllPages;

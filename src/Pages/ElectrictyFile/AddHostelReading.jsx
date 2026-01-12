@@ -69,7 +69,7 @@ function AddHostelReading({ show, handleClose
     }, [editHostelReading])
 
 
-    console.log("editHostelReading", editHostelReading)
+    // console.log("editHostelReading", editHostelReading)
 
 
 

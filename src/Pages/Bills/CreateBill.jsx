@@ -35,7 +35,7 @@ function CreateBill() {
     const location = useLocation();
     const { id, billData } = location.state || {};
 
-    console.log("billData", billData,)
+    // console.log("billData", billData,)
     const [formLoading, setFormLoading] = useState(false)
     //    const [invoiceList, setInvoiceList] = useState({
     //     firstName: "",
@@ -136,7 +136,7 @@ function CreateBill() {
     }, [billData])
 
 
-    console.log("state", state.InvoiceList.getInitializeRecurring)
+    // console.log("state", state.InvoiceList.getInitializeRecurring)
 
 
 
@@ -307,6 +307,7 @@ function CreateBill() {
     };
 
     const handleBackBill = () => {
+         dispatch({ type:'REMOVE_MANUAL_INVOICE_ERROR'})
         dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS' })
         setFormLoading(false)
         // setShowManualInvoice(false);
@@ -587,6 +588,7 @@ function CreateBill() {
 
 
     const handleNewRowChange = (index, field, value) => {
+         dispatch({ type:'REMOVE_MANUAL_INVOICE_ERROR'})
         setNewRows((prevRows) =>
             prevRows.map((row, i) => (i === index ? { ...row, [field]: value } : row))
         );
@@ -600,6 +602,7 @@ function CreateBill() {
 );
   
     const handleRowTypeSelect = (type) => {
+         dispatch({ type:'REMOVE_MANUAL_INVOICE_ERROR'})
         let newRow = {
     am_name: "",
     amount: "0",
@@ -779,7 +782,7 @@ function CreateBill() {
 
     };
 
-    console.log("billData", billData)
+    // console.log("billData", billData)
     const [originalRows, setOriginalRows] = useState([]);
 
 
@@ -825,6 +828,7 @@ function CreateBill() {
 
 
     const handleEditBill = () => {
+               dispatch({ type:'REMOVE_MANUAL_INVOICE_ERROR'})
         let hasError = false;
         setCustomerErrmsg("");
         setInvoicenumberErrmsg("");

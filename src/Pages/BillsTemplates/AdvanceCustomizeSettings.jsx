@@ -751,7 +751,7 @@ const handleRemoveQr = () => {
   );
 
 
-console.log("securityDepositInvoiceTemplate",securityDepositInvoiceTemplate)
+// console.log("securityDepositInvoiceTemplate",securityDepositInvoiceTemplate)
 
 
 

@@ -34,10 +34,10 @@ function ReceiptPdfDetails() {
         setSelectedInvoiceId(rowData.transactionId)
     }, [rowData])
 
-    console.log("rowData",rowData)
+    // console.log("rowData",rowData)
 
     const handleDisplayInvoiceDownload = (item) => {
-        console.log("itemmmmm", item)
+        // console.log("itemmmmm", item)
         setRowDatas(item)
         setSelectedInvoiceId(item.transactionId)
         if (item?.transactionId && state.login.selectedHostel_Id) {

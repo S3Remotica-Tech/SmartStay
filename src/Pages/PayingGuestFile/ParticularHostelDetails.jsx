@@ -276,7 +276,7 @@ const [selectedBed, setSelectedBed] = useState(null);
 
 
   useEffect(() => {
-    if (state.PgList.statusCodeDeleteBed === 200) {
+    if (state.PgList.statusCodeDeleteBed === 200 || state.PgList.statusCodeDeleteBed === 204) {
       dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
       setTimeout(() => {
         dispatch({ type: 'CLEAR_DELETE_BED_STATUS_CODE' })

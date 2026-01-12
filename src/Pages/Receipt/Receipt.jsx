@@ -154,7 +154,11 @@ function Receipt() {
     } = useHasPermission("Receipt");
 
 
-
+ useEffect(() => {
+    if (!canReadReceipt) {
+      setReceiptLoader(false);
+    } 
+  }, [canReadReceipt]);
 
 
 

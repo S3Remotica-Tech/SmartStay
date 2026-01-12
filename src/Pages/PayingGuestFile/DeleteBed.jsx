@@ -237,7 +237,7 @@ dispatch({ type: 'CLEAR_DELETE_BED_ERROR' });
 
 
   useEffect(() => {
-    if (state.PgList.statusCodeDeleteBed === 200) {
+    if (state.PgList.statusCodeDeleteBed === 200 || state.PgList.statusCodeDeleteBed === 204) {
       handleClose()
       setFormLoading(false)
     }

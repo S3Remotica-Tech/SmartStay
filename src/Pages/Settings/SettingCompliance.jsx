@@ -61,8 +61,6 @@ const {
 useEffect(() => {
       if (!canReadComplaints) {
         setLoading(false);
-      }else{
-        setLoading(true);
       }
     }, [canReadComplaints]);
 
@@ -113,7 +111,7 @@ useEffect(() => {
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-      // setLoading(true);
+      setLoading(true);
       dispatch({
         type: "COMPLAINT-TYPE-LIST",
         payload: { hostel_id: state.login.selectedHostel_Id },

@@ -76,9 +76,7 @@ function SettingManage() {
   useEffect(() => {
     if (!canReadPayingGuests) {
       setLoading(false);
-    } else {
-      setLoading(true);
-    }
+    } 
   }, [canReadPayingGuests]);
 
   const [hidePgList, setHidePgList] = useState(true);

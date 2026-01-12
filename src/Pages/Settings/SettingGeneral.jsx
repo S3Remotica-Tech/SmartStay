@@ -20,7 +20,7 @@ import "../Settings/Settings.css";
 
 import eye from "../../Assets/Images/login-password.png";
 import eyeClosed from "../../Assets/Images/Show_password.png";
-import Edit from "../../Assets/Images/Edit-blue.png";
+// import Edit from "../../Assets/Images/Edit-blue.png";
 import Delete from "../../Assets/Images/Delete_red.png";
 import '../Settings/SettingAll.css'
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
@@ -30,7 +30,16 @@ import ErrorMessage from '../../Components/ErrorMessage'
 import { useHasPermission } from '../../Utils/Permission';
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
-
+import { Card } from "react-bootstrap";
+import {
+  Call,
+  Sms,
+  LogoutCurve,
+  Crown1, PasswordCheck, Edit, CardSend, Shield
+} from "iconsax-react";
+import Logout from "../../Components/Logout";
+import RecentActivity from "./RecentActivity";
+import ManagedUsers from "./ManagedUsers";
 
 function SettingGeneral() {
   const state = useSelector((state) => state);
@@ -42,9 +51,13 @@ function SettingGeneral() {
 
   const [showFormGeneral, setShowFormGeneral] = useState(false);
   const [file, setFile] = useState(null);
+  const [activeTab, setActiveTab] = useState("masters");
 
-
-
+  const tabs = [
+    { key: "masters", label: "Masters" },
+    { key: "recent", label: "Recent Activity" },
+    { key: "users", label: "Managed Users" }
+  ];
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -105,19 +118,13 @@ function SettingGeneral() {
   } = useHasPermission("Profile");
 
 
-  // const canReadProfile = useHasPermission("Profile", "canRead");
-  // const canWriteProfile = useHasPermission("Profile", "canWrite");
-  // const canUpdateProfile = useHasPermission("Profile", "canUpdate");
-  // const canDeleteProfile = useHasPermission("Profile", "canDelete");
 
 
 
   useEffect(() => {
     if (!canReadProfile) {
       setLoading(false);
-    } else {
-      setLoading(true);
-    }
+    } 
   }, [canReadProfile]);
 
 
@@ -882,7 +889,7 @@ function SettingGeneral() {
   }, [state.Settings.generalDeleteError]);
 
   useEffect(() => {
-    // setLoading(true)
+    setLoading(true)
 
     dispatch({ type: "GETALLGENERAL" });
     const timeout = setTimeout(() => {
@@ -1102,7 +1109,33 @@ function SettingGeneral() {
   }, [state.createAccount?.networkError])
 
 
+  const account = state.createAccount?.accountList
 
+
+  const [openMenu, setOpenMenu] = React.useState(false);
+  const menuRef = React.useRef(null);
+
+
+  React.useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setOpenMenu(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const [logoutformshow, setLogoutformshow] = useState(false);
+
+  const handleShowLogout = () => {
+    setLogoutformshow(true);
+  };
+
+  const handleCloseLogout = () => {
+    setLogoutformshow(false);
+  };
 
 
 
@@ -1111,7 +1144,9 @@ function SettingGeneral() {
 
   return (
     <>
-
+      {
+        logoutformshow && <Logout show={logoutformshow} handleClose={handleCloseLogout} />
+      }
       <div
 
         className="d-flex flex-column flex-md-row justify-content-between align-items-center"
@@ -1124,11 +1159,10 @@ function SettingGeneral() {
           left: 0,
           zIndex: 1000,
           backgroundColor: "#FFFFFF",
-
-          minHeight: 83,
+          minHeight: 50,
           whiteSpace: "nowrap",
-          paddingRight: 10,
-          paddingLeft: 10,
+          paddingRight: 5,
+          paddingLeft: 5,
 
 
         }}
@@ -1146,7 +1180,7 @@ function SettingGeneral() {
 
               }}
             >
-              General
+              General Settings
             </label>
           </div>
         </div>
@@ -1182,11 +1216,13 @@ function SettingGeneral() {
         </div>
       </div>
 
-      <div className="container show-scrolls mt-0" style={{
+      <div className="container  mt-0 p-0" style={{
         position: "relative",
-        overflowY: "auto",
-        maxHeight: 500,
-        minHeight: 500
+        height:"100vh", overflowY:"hidden",
+        // overflowY: "auto",
+        // maxHeight: 500,
+        // minHeight: 500, 
+        fontFamily: "Gilroy"
       }}>
 
         {loading &&
@@ -1240,47 +1276,48 @@ function SettingGeneral() {
 
             </div>
           )
-            :
-
-            generalFilterddata && generalFilterddata.length > 0 ? (
-              generalFilterddata.map((item) => {
-                const imageUrl = item.profilePic;
-                return (
-
-
-                  <div
-                    className="card p-3 settingGreneral mt-2"
+            : (
+              <div className="mt-2" style={{position: "sticky",
+          top: 0,
+          right: 0,
+          left: 0,
+          }}>
+                {account && (
+                  <Card
                     style={{
-                      borderRadius: 16,
-                      height: 230,
-                      overflow: 'hidden'
+                      
+                      borderRadius: 12,
+                      border: "1px solid #DCDCDC",
+                      padding: 16,
+                      fontFamily: "Gilroy, sans-serif"
                     }}
-                    key={item.userId}
                   >
                     <div
-
-                      className="d-flex flex-wrap justify-content-between align-items-center w-100"
+                      style={{
+                        display: "flex",
+                        width: "100%",
+                        gap: 15
+                      }}
                     >
-                      <div className="d-flex align-items-center flex-wrap">
+                      {/* LEFT */}
+                      <div >
                         {
-                          imageUrl ?
-
-                            <Image
-                              src={imageUrl}
-                              alt={item.firstName || "Default Profile"}
-                              roundedCircle
+                          account?.profilePic ? (
+                            <img
+                              src={account.profilePic}
+                              alt="profile"
                               style={{
-                                height: "50px",
-                                width: "50px",
+                                width: 56,
+                                height: 56,
+                                borderRadius: "50%",
+                                objectFit: "cover"
                               }}
-
                             />
-                            :
-
+                          ) : (
                             <div
                               style={{
-                                height: 40,
-                                width: 40,
+                                width: 56,
+                                height: 56,
                                 borderRadius: "50%",
                                 backgroundColor: "#E2E8F0",
                                 color: "#44536A",
@@ -1288,284 +1325,712 @@ function SettingGeneral() {
                                 alignItems: "center",
                                 justifyContent: "center",
                                 fontWeight: 600,
-                                fontSize: 14,
-                                textTransform: "uppercase",
+                                fontSize: 18,
+                                fontFamily: "Gilroy, sans-serif",
+                                textTransform: "uppercase"
                               }}
                             >
-                              {item.initials}
+                              {account?.initial}
                             </div>
-
+                          )
                         }
-                        <div className="ms-2 ">
-                          <p
-                            className="mb-0 text-break"
-                            style={{
-                              fontSize: 16,
-                              fontWeight: 600,
-                              fontFamily: "Gilroy",
-
-                            }}
-                          >
-                            {item.firstName} {item.lastName}
-                          </p>
-                        </div>
                       </div>
-                      <div className="d-flex align-items-center flex-wrap">
-                        <img src={img2} width="20" height="20" alt="icon" style={{ filter: canWriteProfile ? "none" : "grayscale(100%) brightness(70%)" }} />
-                        <p
-                          onClick={() => canWriteProfile && handleChangePassword(item)}
-                          className="mb-0 mx-2 text-wrap"
-                          style={{
-                            fontFamily: "Montserrat",
-                            fontWeight: 600,
-                            fontSize: 14,
-                            color: canWriteProfile ? "#1E45E1" : "#B0B0B0",
-                            cursor: canWriteProfile ? "pointer" : "not-allowed",
-                          }}
-                        >
-                          Change Password
-                        </p>
+                      <div style={{ width: "100%" }}>
+                        <div className="d-flex justify-content-between align-items-center">
+                          <div
 
-                        <div className="ms-2 me-2" style={{
-                          cursor: "pointer", height: 40, width: 40, borderRadius: 100,
-                          border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center",
-                          position: "relative", zIndex: generalEdit ? 1000 : 'auto'
-                          , backgroundColor: generalEdit === item.userId ? "#E7F1FF" : "transparent",
+                          >
+                            <span
+                              style={{
+                                fontSize: 20,
+                                fontWeight: 600,
+                                color: "#222222", textTransform: "capitalize"
+                              }}
+                            >
+                              {account.firstName}  {account.lastName}
+                            </span>
 
 
-                        }} onClick={() => handlegeneralform(item.userId)} >
-                          <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-
-                          {generalEdit === item.userId && (
+                          </div>
+                          <div style={{ position: "relative" }}>
                             <div
-                              ref={popupRef}
+                              onClick={() => setOpenMenu(!openMenu)}
                               style={{
                                 cursor: "pointer",
-                                backgroundColor: "#F9F9F9",
-                                position: "absolute",
-                                right: window.innerWidth <= 404 ? "auto" : 40,
-                                top: 40,
-                                width: window.innerWidth <= 404 ? 100 : 120,
-                                height: "auto",
-                                border: "1px solid #EBEBEB",
-                                borderRadius: 10,
+                                height: 40,
+                                width: 40,
+                                borderRadius: "50%",
                                 display: "flex",
-                                flexDirection: "column",
-                                padding: 0,
-                                alignItems: "flex-start",
-                                zIndex: 1050,
-                                fontSize: window.innerWidth <= 404 ? 13 : 14,
+                                alignItems: "center",
+                                justifyContent: "center",
+                                backgroundColor: openMenu ? "#E7F1FF" : "transparent"
                               }}
                             >
-                              <div
-                                style={{
-                                  width: "100%",
-                                  backgroundColor: "#F9F9F9",
-                                  borderRadius: 10,
-                                }}
-                              >
-
+                              <PiDotsThreeOutlineVerticalFill
+                                style={{ height: 20, width: 20, cursor:"not-allowed" }}
+                              />
+                              {/* {openMenu && (
                                 <div
-                                  onClick={() => canUpdateProfile && handleEditGeneralUser(item)}
-                                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#EDF2FF")}
-                                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#F9F9F9")}
+                                  ref={menuRef}
                                   style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    gap: "10px",
-                                    padding: "8px 12px",
-                                    width: "100%",
-                                    backgroundColor: "#F9F9F9",
-                                    borderTopLeftRadius: 10,
-                                    borderTopRightRadius: 10,
-                                    cursor: canUpdateProfile ? "pointer" : "not-allowed",
-                                    opacity: canUpdateProfile ? 1 : 0.5,
+                                    position: "absolute",
+                                    top: 45,
+                                    right: 0,
+                                    width: 180,
+                                    backgroundColor: "#FFFFFF",
+                                    border: "1px solid #EBEBEB",
+                                    borderRadius: 10,
+                                    boxShadow: "0px 8px 20px rgba(0,0,0,0.08)",
+                                    zIndex: 1000
                                   }}
                                 >
-                                  <img src={Edit} alt="Edit" style={{ height: 16, width: 16, filter: canUpdateProfile ? "none" : "grayscale(100%) brightness(70%)", }} />
-                                  <label
+                                 
+                                  <div
+                                    onClick={() => {
+                                      setOpenMenu(false);
+                                     
+                                    }}
                                     style={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                      gap: "10px",
+                                      padding: "8px 12px",
+                                      width: "100%",
+                                      backgroundColor: "#F9F9F9",
+                                      borderTopLeftRadius: 10,
+                                      borderTopRightRadius: 10,
+                                      cursor: canUpdateProfile ? "pointer" : "not-allowed",
+                                      opacity: canUpdateProfile ? 1 : 0.5,
+                                    }}
+                                    onMouseEnter={(e) =>
+                                      (e.currentTarget.style.backgroundColor = "#EDF2FF")
+                                    }
+                                    onMouseLeave={(e) =>
+                                      (e.currentTarget.style.backgroundColor = "#FFFFFF")
+                                    }
+                                  >
+                                    <Edit
+                                      size="16"
+                                      color="#1E45E1"
+                                    />  <label style={{
                                       fontSize: 14,
                                       fontWeight: 500,
                                       fontFamily: "Gilroy, sans-serif",
                                       color: canUpdateProfile ? "#000000" : "#999999",
                                       cursor: canUpdateProfile ? "pointer" : "not-allowed",
-                                    }}
-                                  >
-                                    Edit
-                                  </label>
-                                </div>
+                                    }}>Edit</label>
+                                  </div>
 
-                                <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px" }} />
-
-
-                                <div
-                                  onClick={() => canDeleteProfile && handleDelete(item)}
-                                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#FFF0F0")}
-                                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#F9F9F9")}
-                                  style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    gap: "10px",
-                                    padding: "8px 12px",
-                                    width: "100%",
-                                    backgroundColor: "#F9F9F9",
-                                    borderBottomLeftRadius: 10,
-                                    borderBottomRightRadius: 10,
-                                    cursor: canDeleteProfile ? "pointer" : "not-allowed",
-                                    opacity: canDeleteProfile ? 1 : 0.5,
-                                  }}
-                                >
-                                  <img src={Delete} alt="Delete" style={{ height: 16, width: 16, filter: canDeleteProfile ? "none" : "grayscale(100%) brightness(70%)", }} />
-                                  <label
+                                  <div
+                                    onClick={() => {
+                                      setOpenMenu(false);
+                                                                         }}
                                     style={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                      gap: "10px",
+                                      padding: "8px 12px",
+                                      width: "100%",
+                                      backgroundColor: "#F9F9F9",
+                                      borderBottomLeftRadius: 10,
+                                      borderBottomRightRadius: 10,
+                                      cursor: canUpdateProfile ? "pointer" : "not-allowed",
+                                      opacity: canUpdateProfile ? 1 : 0.5,
+                                    }}
+                                    onMouseEnter={(e) =>
+                                      (e.currentTarget.style.backgroundColor = "#EDF2FF")
+                                    }
+                                    onMouseLeave={(e) =>
+                                      (e.currentTarget.style.backgroundColor = "#FFFFFF")
+                                    }
+                                  >
+                                    <PasswordCheck
+                                      size="16"
+                                      color="#FF9500"
+                                    />  <label style={{
                                       fontSize: 14,
                                       fontWeight: 500,
                                       fontFamily: "Gilroy, sans-serif",
-                                      color: canDeleteProfile ? "#FF0000" : "#999999",
-                                      cursor: canDeleteProfile ? "pointer" : "not-allowed",
-                                    }}
-                                  >
-                                    Delete
-                                  </label>
+                                      color: canUpdateProfile ? "#000000" : "#999999",
+                                      cursor: canUpdateProfile ? "pointer" : "not-allowed",
+                                    }}>Change Password</label>
+                                  </div>
                                 </div>
-                              </div>
+                              )} */}
                             </div>
+                          </div>
 
-                          )}
+                        </div>
+
+
+
+                        <div className="d-flex justify-content-between align-items-center">
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 4,
+                              fontSize: 12,
+                              color: "#FF9900",
+                              backgroundColor: "#FFFAF1",
+                              padding: "2px 8px",
+                              borderRadius: 20, width: "fit-content", fontFamily: "Gilroy"
+                            }}
+                          >
+
+                            {account.roleName} <Crown1 size={14} color="#FF9900" />
+                          </div>
+                          <div>
+                            <label style={{ color: "#9C9C9C", fontSize: 14, fontWeight: 400 }}>Profile last updated - 20/11/25</label>
+                          </div>
                         </div>
                       </div>
                     </div>
-                    <hr />
-                    <div className="row">
-                      <div className="col-md-6">
-                        <p
-                          className="mb-0"
+
+                    <hr className="m-2" style={{ border: "1px solid #E8E8E8" }} />
+                    <div className="d-flex justify-content-between">
+                      <div
+                        style={{
+                          display: "flex",
+                          gap: 16,
+                          marginTop: 8
+                        }}
+                      >
+                        <div
                           style={{
-                            fontSize: 12,
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            color: "#939393",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 6,
+                            fontSize: 13,
+                            color: "#555"
                           }}
                         >
-                          Email ID
-                        </p>
-                        <p
+                          <Call size={14} color="#1E45E1" />
+                          + {account.countryCode} {account.mobileNo}
+                        </div>
+                        <div
                           style={{
-                            fontSize: 16,
-                            fontFamily: "Gilroy",
-                            fontWeight: 600,
+                            width: 1,
+                            height: 28,
+                            border: "1px solid #D9D9D9"
+                          }}
+                        />
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 6,
+                            fontSize: 13,
+                            color: "#1E45E1"
                           }}
                         >
-                          {item.mailId}
-                        </p>
-                      </div>
-                      <div className="col-md-6">
-                        <p
-                          className="mb-0"
-                          style={{
-                            fontSize: 12,
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            color: "#939393",
-                          }}
-                        >
-                          Contact Number
-                        </p>
-                        <p
-                          style={{
-                            fontSize: 16,
-                            fontFamily: "Gilroy",
-                            fontWeight: 600,
-                          }}
-                        >
-                          + {item?.countryCode}
-                          {item &&
-                            String(item.mobileNo).slice(
-                              0,
-                              String(item.mobileNo).length - 10
-                            )}{" "}
-                          {item && String(item.mobileNo).slice(-10)}
-                        </p>
+                          <Sms size={14} color="#1E45E1" />
+                          {account.mailId}
+                          <span>
+                            <CardSend
+                              size="16"
+                              color="#292D32"
+                            /></span>
+                        </div>
                       </div>
 
-                      <div className="col-12">
-                        <p
-                          className="mb-0"
-                          style={{
-                            fontSize: 12,
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            color: "#939393",
-                          }}
-                        >
-                          Address
-                        </p>
-                        <p
-                          style={{
-                            fontSize: 16,
-                            fontFamily: "Gilroy",
-                            fontWeight: 600,
-                          }}
-                        >
-                          {(item?.houseNo ? item?.houseNo : '') +
-                            (item.street ? ' ' + item.street : '') +
-                            (item.landmark ? ', ' + item.landmark : '')}
-                          <br />
-                          {(item.city ? item.city + ', ' : '') +
-                            (item.state ? item.state + ' ' : '-') +
-                            (item.pincode ? item.pincode : '')}
-                        </p>
-
-                      </div>
+                      <button
+                        style={{
+                          marginTop: 8,
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: 6,
+                          fontSize: 13,
+                          color: "#FF0000",
+                          background: "#FFF7F7",
+                          border: "1px solid #FFDADA",
+                          borderRadius: 8,
+                          padding: "6px 12px",
+                          cursor: "pointer"
+                        }}
+                        onClick={handleShowLogout}
+                      >
+                        <LogoutCurve size={16} color="#FF0000" />
+                        Logout
+                      </button>
 
                     </div>
-                  </div>
 
-                );
-              })
-            )
+                  </Card>
 
-              :
-              !loading && (
-                <div
+                )}
+
+                <div 
                   style={{
-                    textAlign: "center",
-                    marginTop: 90,
-                    height: '40vh',
                     display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center"
+                    borderBottom: "1px solid #E5E7EB",
+                    gap: 32,
+                    fontFamily: "Gilroy, sans-serif",
+                    position:"sticky"
                   }}
                 >
-                  <img src={EmptyState} alt="emptystate" />
-                  <div
-                    className="pb-1"
-                    style={{
-                      fontWeight: 600,
-                      fontFamily: "Gilroy",
-                      fontSize: 18,
-                      color: "rgba(75, 75, 75, 1)",
-                    }}
-                  >
-                    No Profile
-                  </div>
-                  <div
-                    className="pb-1"
-                    style={{
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                      fontSize: 14,
-                      color: "rgba(75, 75, 75, 1)",
-                    }}
-                  >
-                    There are no Profile available.
-                  </div>
+                  {tabs.map(tab => (
+                    <div
+                      key={tab.key}
+                      onClick={() => setActiveTab(tab.key)}
+                      style={{
+                        padding: "14px 4px",
+                        fontSize: 15,
+                        fontWeight: activeTab === tab.key ? 600 : 500,
+                        color: activeTab === tab.key ? "#1E45E1" : "#6B7280",
+                        cursor: "pointer",
+                        position: "relative"
+                      }}
+                    >
+                      {tab.label}
+
+                      {activeTab === tab.key && (
+                        <div
+                          style={{
+                            position: "absolute",
+                            bottom: -1,
+                            left: 0,
+                            width: "100%",
+                            height: 2,
+                            backgroundColor: "#1E45E1",
+                            borderRadius: 2
+                          }}
+                        />
+                      )}
+                    </div>
+                  ))}
                 </div>
+                {
+                  activeTab === "masters" && (
+                    <div className="show-scrolls" style={{ overflowY: "auto",
+        maxHeight:500,}}>
+                      {generalFilterddata && generalFilterddata.length > 0 ? (
+                        generalFilterddata.map((item) => {
+                          const imageUrl = item.profilePic;
+                          return (
 
 
-              )
-        }
+                            <div
+                              className="card p-3  mt-2 "
+                              style={{
+                                borderRadius: 16,
+                               
+                                // overflow: 'hidden'
+                              }}
+                              key={item.userId}
+                            >
+                              <div
+
+                                className="d-flex flex-wrap justify-content-between align-items-center w-100"
+                              >
+                                <div className="d-flex align-items-center w-100">
+                                  {
+                                    imageUrl ?
+
+                                      <Image
+                                        src={imageUrl}
+                                        alt={item.firstName || "Default Profile"}
+                                        roundedCircle
+                                        style={{
+                                          height: "50px",
+                                          width: "50px",
+                                        }}
+
+                                      />
+                                      :
+
+                                      <div
+                                        style={{
+                                          height: 40,
+                                          width: 40,
+                                          borderRadius: "50%",
+                                          backgroundColor: "#E2E8F0",
+                                          color: "#44536A",
+                                          display: "flex",
+                                          alignItems: "center",
+                                          justifyContent: "center",
+                                          fontWeight: 600,
+                                          fontSize: 14,
+                                          textTransform: "uppercase",
+                                        }}
+                                      >
+                                        {item.initials}
+                                      </div>
+
+                                  }
+                                  <div className="ms-2 w-100">
+                                    <div className="d-flex justify-content-between align-items-center w-100" >
+                                      <div
+                                        className="mb-0 text-break"
+                                        style={{
+                                          fontSize: 16,
+                                          fontWeight: 600,
+                                          fontFamily: "Gilroy",
+                                          height: "fit-content"
+                                        }}
+                                      >
+                                        {item.firstName} {item.lastName}
+                                      </div>
+
+
+                                      <div className="ms-2 me-2 mt-0" style={{
+                                        cursor: "pointer", height: 40, width: 40, borderRadius: 100,
+                                        // border: "1px solid #EFEFEF",
+                                        display: "flex", justifyContent: "center", alignItems: "center",
+                                        position: "relative", zIndex: generalEdit ? 1000 : 'auto'
+                                        ,
+                                        // backgroundColor: generalEdit === item.userId ? "#E7F1FF" : "transparent",
+
+
+                                      }} onClick={() => handlegeneralform(item.userId)} >
+                                        <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+
+                                        {generalEdit === item.userId && (
+                                          <div
+                                            ref={popupRef}
+                                            style={{
+                                              cursor: "pointer",
+                                              backgroundColor: "#F9F9F9",
+                                              position: "absolute",
+                                              right: window.innerWidth <= 404 ? "auto" : 40,
+                                              top: 40,
+                                              width: window.innerWidth <= 404 ? 100 : 120,
+                                              height: "auto",
+                                              border: "1px solid #EBEBEB",
+                                              borderRadius: 10,
+                                              display: "flex",
+                                              flexDirection: "column",
+                                              padding: 0,
+                                              alignItems: "flex-start",
+                                              zIndex: 1050,
+                                              fontSize: window.innerWidth <= 404 ? 13 : 14,
+                                            }}
+                                          >
+                                            <div
+                                              style={{
+                                                width: "100%",
+                                                backgroundColor: "#F9F9F9",
+                                                borderRadius: 10,
+                                              }}
+                                            >
+
+                                              <div
+                                                onClick={() => canUpdateProfile && handleEditGeneralUser(item)}
+                                                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#EDF2FF")}
+                                                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#F9F9F9")}
+                                                style={{
+                                                  display: "flex",
+                                                  alignItems: "center",
+                                                  gap: "10px",
+                                                  padding: "8px 12px",
+                                                  width: "100%",
+                                                  backgroundColor: "#F9F9F9",
+                                                  borderTopLeftRadius: 10,
+                                                  borderTopRightRadius: 10,
+                                                  cursor: canUpdateProfile ? "pointer" : "not-allowed",
+                                                  opacity: canUpdateProfile ? 1 : 0.5,
+                                                }}
+                                              >
+                                                <Edit
+                                                  size="16"
+                                                  color="#1E45E1"
+                                                  style={{ height: 16, width: 16, filter: canUpdateProfile ? "none" : "grayscale(100%) brightness(70%)", }} />
+                                                <label
+                                                  style={{
+                                                    fontSize: 14,
+                                                    fontWeight: 500,
+                                                    fontFamily: "Gilroy, sans-serif",
+                                                    color: canUpdateProfile ? "#000000" : "#999999",
+                                                    cursor: canUpdateProfile ? "pointer" : "not-allowed",
+                                                  }}
+                                                >
+                                                  Edit
+                                                </label>
+                                              </div>
+
+                                              <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px" }} />
+
+
+                                              <div
+                                                onClick={() => canDeleteProfile && handleDelete(item)}
+                                                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#FFF0F0")}
+                                                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#F9F9F9")}
+                                                style={{
+                                                  display: "flex",
+                                                  alignItems: "center",
+                                                  gap: "10px",
+                                                  padding: "8px 12px",
+                                                  width: "100%",
+                                                  backgroundColor: "#F9F9F9",
+                                                  borderBottomLeftRadius: 10,
+                                                  borderBottomRightRadius: 10,
+                                                  cursor: canDeleteProfile ? "pointer" : "not-allowed",
+                                                  opacity: canDeleteProfile ? 1 : 0.5,
+                                                }}
+                                              >
+                                                <img src={Delete} alt="Delete" style={{ height: 16, width: 16, filter: canDeleteProfile ? "none" : "grayscale(100%) brightness(70%)", }} />
+                                                <label
+                                                  style={{
+                                                    fontSize: 14,
+                                                    fontWeight: 500,
+                                                    fontFamily: "Gilroy, sans-serif",
+                                                    color: canDeleteProfile ? "#FF0000" : "#999999",
+                                                    cursor: canDeleteProfile ? "pointer" : "not-allowed",
+                                                  }}
+                                                >
+                                                  Delete
+                                                </label>
+                                              </div>
+                                            </div>
+                                          </div>
+
+                                        )}
+                                      </div>
+                                    </div>
+
+                                    <div className="d-flex justify-content-between align-items-center">
+                                      <div
+                                        style={{
+                                          display: "flex",
+                                          alignItems: "center",
+                                          gap: 4,
+                                          fontSize: 12,
+                                          color: "#3A90E5",
+                                          backgroundColor: "#F0F7FF",
+                                          padding: "2px 8px",
+                                          borderRadius: 20, width: "fit-content", fontFamily: "Gilroy"
+                                        }}
+                                      >
+
+                                        {item.roleName} <Shield size={14} color="#3A90E5" />
+                                      </div>
+                                      <div>
+                                        <label style={{ color: "#9C9C9C", fontSize: 14, fontWeight: 400, fontFamily: "Gilroy" }}>Profile last updated - 20/11/25</label>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                </div>
+
+
+                              </div>
+
+
+                              {/* <div className="row">
+                          <div className="col-md-6">
+                            <p
+                              className="mb-0"
+                              style={{
+                                fontSize: 12,
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                                color: "#939393",
+                              }}
+                            >
+                              Email ID
+                            </p>
+                            <p
+                              style={{
+                                fontSize: 16,
+                                fontFamily: "Gilroy",
+                                fontWeight: 600,
+                              }}
+                            >
+                              {item.mailId}
+                            </p>
+                          </div>
+                          <div className="col-md-6">
+                            <p
+                              className="mb-0"
+                              style={{
+                                fontSize: 12,
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                                color: "#939393",
+                              }}
+                            >
+                              Contact Number
+                            </p>
+                            <p
+                              style={{
+                                fontSize: 16,
+                                fontFamily: "Gilroy",
+                                fontWeight: 600,
+                              }}
+                            >
+                              + {item?.countryCode}
+                              {item &&
+                                String(item.mobileNo).slice(
+                                  0,
+                                  String(item.mobileNo).length - 10
+                                )}{" "}
+                              {item && String(item.mobileNo).slice(-10)}
+                            </p>
+                          </div>
+
+                          <div className="col-12">
+                            <p
+                              className="mb-0"
+                              style={{
+                                fontSize: 12,
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                                color: "#939393",
+                              }}
+                            >
+                              Address
+                            </p>
+                            <p
+                              style={{
+                                fontSize: 16,
+                                fontFamily: "Gilroy",
+                                fontWeight: 600,
+                              }}
+                            >
+                              {(item?.houseNo ? item?.houseNo : '') +
+                                (item.street ? ' ' + item.street : '') +
+                                (item.landmark ? ', ' + item.landmark : '')}
+                              <br />
+                              {(item.city ? item.city + ', ' : '') +
+                                (item.state ? item.state + ' ' : '-') +
+                                (item.pincode ? item.pincode : '')}
+                            </p>
+
+                          </div>
+
+                        </div> */}
+
+                              <hr className="m-2" style={{ border: "1px solid #E8E8E8" }} />
+                              <div className="d-flex justify-content-between">
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    gap: 16,
+                                    marginTop: 8
+                                  }}
+                                >
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                      gap: 6,
+                                      fontSize: 13,
+                                      color: "#555", fontFamily: "Gilroy"
+                                    }}
+                                  >
+                                    <Call size={14} color="#1E45E1" />
+                                    + {item.countryCode} {item.mobileNo}
+                                  </div>
+                                  <div
+                                    style={{
+                                      width: 1,
+                                      height: 28,
+                                      border: "1px solid #D9D9D9"
+                                    }}
+                                  />
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                      gap: 6,
+                                      fontSize: 13,
+                                      color: "#1E45E1", fontFamily: "Gilroy"
+                                    }}
+                                  >
+                                    <Sms size={14} color="#1E45E1" />
+                                    {item.mailId}
+                                    <span>
+                                      <CardSend
+                                        size="16"
+                                        color="#292D32"
+                                      /></span>
+                                  </div>
+                                </div>
+
+                                <div className="d-flex align-items-center flex-wrap">
+                                  <img src={img2} width="20" height="20" alt="icon" style={{ filter: canWriteProfile ? "none" : "grayscale(100%) brightness(70%)" }} />
+                                  <p
+                                    onClick={() => canWriteProfile && handleChangePassword(item)}
+                                    className="mb-0 mx-2 text-wrap"
+                                    style={{
+                                      fontFamily: "Montserrat",
+                                      fontWeight: 600,
+                                      fontSize: 14,
+                                      color: canWriteProfile ? "#1E45E1" : "#B0B0B0",
+                                      cursor: canWriteProfile ? "pointer" : "not-allowed",
+                                    }}
+                                  >
+                                    Change Password
+                                  </p>
+
+
+
+                                </div>
+
+                              </div>
+                            </div>
+
+                          );
+                        })
+                      ) :
+                        !loading && (
+                          <div
+                            style={{
+                              textAlign: "center",
+                              marginTop: 90,
+                              height: '40vh',
+                              display: "flex",
+                              flexDirection: "column",
+                              alignItems: "center"
+                            }}
+                          >
+                            <img src={EmptyState} alt="emptystate" />
+                            <div
+                              className="pb-1"
+                              style={{
+                                fontWeight: 600,
+                                fontFamily: "Gilroy",
+                                fontSize: 18,
+                                color: "rgba(75, 75, 75, 1)",
+                              }}
+                            >
+                              No Profile
+                            </div>
+                            <div
+                              className="pb-1"
+                              style={{
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                                fontSize: 14,
+                                color: "rgba(75, 75, 75, 1)",
+                              }}
+                            >
+                              There are no Profile available.
+                            </div>
+                          </div>
+                        )
+                      }
+
+                    </div>)}
+
+
+
+
+                {
+                  activeTab === "recent" && <RecentActivity />
+                }
+
+
+ {
+                  activeTab === "users" && <ManagedUsers />
+                }
+
+
+
+
+              </div>
+            )}
+
       </div>
 
 

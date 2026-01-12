@@ -17,7 +17,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
 
     const state = useSelector((state) => state);
 
-    console.log("checkInDetails", checkInDetails, "pgDetails", pgDetails)
+    // console.log("checkInDetails", checkInDetails, "pgDetails", pgDetails)
 
 
     const [activeTab, setActiveTab] = useState("LONG");
@@ -45,11 +45,14 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
     useEffect(() => {
         if (checkInDetails?.customerId || checkInDetails?.tenetId) {
             dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: checkInDetails?.customerId || checkInDetails?.tenetId } });
+               dispatch({ type: "INITIALIZECANCELCHECKOUT", payload: { customerId: checkInDetails?.customerId || checkInDetails?.tenetId, hostelId: state.login.selectedHostel_Id } });
+  
+   
         }
     }, [checkInDetails?.customerId, checkInDetails?.tenetId])
 
 
-
+// console.log("initializeCancelCheckout",state.UsersList.initializeCancelCheckout.canRecheckinSameBed)
 
 
     const noticeDate = state.UsersList.customerdetails?.checkoutInfo?.noticeDate;
@@ -58,6 +61,12 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
     const noticeDayjs = noticeDate
         ? dayjs(noticeDate, "DD/MM/YYYY")
         : null;
+
+
+
+
+        // console.log("pgDetails",pgDetails, "checkInDetails",checkInDetails)
+
 
 
     const handleSaveBacktoCheckin = () => {
@@ -78,10 +87,10 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
             isValid = false;
         }
 
-        if (!isValid) return;
+        if (!isValid ) return;
 
 
-
+if(state.UsersList?.initializeCancelCheckout?.canRecheckinSameBed){
 
         dispatch({
             type: 'CANCELCHECKOUT',
@@ -89,12 +98,13 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
                 customerId: checkInDetails?.customerId || checkInDetails?.tenetId,
                 hostelId: state.login.selectedHostel_Id,
                 // roomId: checkInDetails?.roomId,
-                bedId: Number(pgDetails?.bedId),
+                bedId: Number(checkInDetails?.bedId) || Number(pgDetails?.bedId),
                 reCheckInDate: dayjs(recheckInDate).format("DD-MM-YYYY"),
                 reason: reason.trim(),
             }
         })
         setFormLoading(true);
+    }
     }
 
 
@@ -424,10 +434,10 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
                                     Cancel
                                 </button>
 
-                                <button disabled={formLoading}
+                                <button disabled={!state.UsersList?.initializeCancelCheckout?.canRecheckinSameBed}
                                     type="button"
                                     style={{
-                                        backgroundColor: "#1E45E1",
+                                       backgroundColor: !state.UsersList?.initializeCancelCheckout?.canRecheckinSameBed ? "#9AAAF5" : "#1E45E1",
                                         color: "#fff",
                                         fontWeight: 600,
                                         height: 40,
@@ -448,7 +458,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
                         // Short Stay Tab
                         <div
                             style={{
-                                height: "400px",
+                                height: "200px",
                                 display: "flex",
                                 justifyContent: "center",
                                 alignItems: "center",
@@ -499,6 +509,9 @@ BackToCheckIn.propTypes = {
 
         fullName: PropTypes.string,
         tenantFullName: PropTypes.string,
+        floorName: PropTypes.string,
+        roomName: PropTypes.string,
+        bedName: PropTypes.string,
     }).isRequired,
 
     pgDetails: PropTypes.shape({

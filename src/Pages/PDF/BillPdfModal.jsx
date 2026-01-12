@@ -25,6 +25,7 @@ import Badge from "react-bootstrap/Badge";
 import { ArrowUp2, ArrowDown2, AddCircle } from "iconsax-react";
 import RecordPayment from "../../Pages/Bills/RecordPayment";
 import RefundAmount from "../Bills/RefundAmount";
+import { useHasPermission } from '../../Utils/Permission';
 
 
 
@@ -36,7 +37,7 @@ const InvoiceCard = ({ rowData }) => {
   const dispatch = useDispatch();
   const [showform, setShowform] = useState(false);
   const [isOpenPayment, setIsOpenPayment] = useState(false);
-const [payapleform, setPayableForm] = useState(false)
+  const [payapleform, setPayableForm] = useState(false)
   const [hoveredItem, setHoveredItem] = useState(null);
   const [refundDetails, setRefundDetails] = useState('')
   const menuItems = [
@@ -197,7 +198,10 @@ const [payapleform, setPayableForm] = useState(false)
   };
 
 
+  const {
+    canWriteModule: canWriteInvoice,
 
+  } = useHasPermission("Bills");
 
 
 
@@ -267,19 +271,19 @@ const [payapleform, setPayableForm] = useState(false)
   }
 
 
-  const handleNavigateRefund = (pdfDetails) =>{
-console.log("pdfDetails",pdfDetails) 
+  const handleNavigateRefund = (pdfDetails) => {
+
     setRefundDetails(pdfDetails)
-setPayableForm(true)
+    setPayableForm(true)
   }
- const handleCloseRefundAmount = () => {
+  const handleCloseRefundAmount = () => {
     setPayableForm(false)
   }
 
 
 
 
-useEffect(() => {
+  useEffect(() => {
     if (state.InvoiceList.createRefundStatusCode === 200) {
       setPayableForm(false)
       dispatch({ type: 'INVOICESLISTFILTER', payload: { hostelId: state.login.selectedHostel_Id } })
@@ -1463,9 +1467,9 @@ useEffect(() => {
 
         </div>
       </div>
-      
-       
-      
+
+
+
       <div
         style={{
           position: "sticky",
@@ -1476,10 +1480,10 @@ useEffect(() => {
           padding: 2,
           backgroundColor: "#fff",
           boxShadow: "0 -6px 10px -6px rgba(0,0,0,0.15)",
-          borderRadius: 12,
+          // borderRadius: 12,
         }}
       >
-        
+
         <div
           className="d-flex justify-content-between align-items-center px-3 py-2"
           style={{ cursor: "pointer" }}
@@ -1492,13 +1496,13 @@ useEffect(() => {
               fontFamily: "Gilroy",
             }}
           >
-            {pdfDetails?.invoiceInfo?.totalAmount > 0  ? "Payments Made" : "Refund Made"}
+            {pdfDetails?.invoiceInfo?.totalAmount > 0 ? "Payments Made" : "Refund Made"}
           </span>
 
           <div className="d-flex align-items-center gap-2">
             {
               Number(pdfDetails?.invoiceInfo?.balanceAmount) > 0 &&
-              <Button
+              <Button disabled={!canWriteInvoice}
                 size="sm"
                 style={{
                   background: "#1E45E1",
@@ -1507,14 +1511,14 @@ useEffect(() => {
                   fontWeight: 500,
                   fontFamily: "Gilroy",
                 }}
-                onClick={(e) => handleNavigateRecordPayment(pdfDetails)}
+                onClick={() => { if (canWriteInvoice) handleNavigateRecordPayment(pdfDetails) }}
               >
                 <AddCircle size="16" color="#fff" variant="Bold" /> Record Payment
               </Button>
             }
-{
-  pdfDetails?.invoiceInfo?.totalAmount < 0 &&
-  <Button
+            {
+              pdfDetails?.invoiceInfo?.totalAmount < 0 &&
+              <Button disabled={!canWriteInvoice}
                 size="sm"
                 style={{
                   background: "#1E45E1",
@@ -1523,11 +1527,11 @@ useEffect(() => {
                   fontWeight: 500,
                   fontFamily: "Gilroy",
                 }}
-                onClick={(e) => handleNavigateRefund(pdfDetails)}
+                onClick={() => handleNavigateRefund(pdfDetails)}
               >
                 <AddCircle size="16" color="#fff" variant="Bold" /> Refund Amount
               </Button>
-}
+            }
 
 
 
@@ -1615,7 +1619,7 @@ useEffect(() => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={5} className="text-center py-3" style={{ fontSize: 12, color:"#FF0000" }}>
+                    <td colSpan={5} className="text-center py-3" style={{ fontSize: 12, color: "#FF0000" }}>
                       No payments found
                     </td>
                   </tr>
@@ -1644,8 +1648,8 @@ useEffect(() => {
       )}
 
 
-      {  payapleform && 
-      <RefundAmount show={payapleform} handleClose={handleCloseRefundAmount} refundDetails={refundDetails} />
+      {payapleform &&
+        <RefundAmount show={payapleform} handleClose={handleCloseRefundAmount} refundDetails={refundDetails} />
 
       }
     </div>

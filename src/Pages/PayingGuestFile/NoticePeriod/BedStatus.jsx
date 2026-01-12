@@ -74,7 +74,7 @@ function NoticeBedStatusDetails({
 
   const handleShowDots = (type, tenant) => {
     setActiveMenu((prev) => (prev === type ? null : type));
-    console.log("tenant", tenant)
+    // console.log("tenant", tenant)
     setSelectedTenant(tenant)
   }
 
@@ -116,7 +116,7 @@ function NoticeBedStatusDetails({
     showBooking(true)
   }
 
-  console.log("currentItem", currentItem)
+  // console.log("currentItem", currentItem)
 
   const handleCheckout = (tenantDetails) => {
 
@@ -135,7 +135,7 @@ function NoticeBedStatusDetails({
     (user) => user.customerId === selectedTenant?.tenetId
   );
 
-  console.log("matchedData", matchedData)
+  // console.log("matchedData", matchedData)
 
   const handleFinalsettelmentGenerate = (tenant) => {
     showfinalsettelemnet(true, tenant)
@@ -234,7 +234,7 @@ function NoticeBedStatusDetails({
 
 
   const handleNavigateTenantProfile = (tenantDetails) => {
-    console.log("tenantDetails", tenantDetails)
+  
     if (tenantDetails) {
       dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: tenantDetails.currentTenantInfo?.tenetId || tenantDetails?.tenetId } });
       navigate(`/tenant/details/${tenantDetails.currentTenantInfo?.tenetId || tenantDetails?.tenetId}`, {

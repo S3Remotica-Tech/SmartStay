@@ -103,9 +103,7 @@ const RoomReadingTable = () => {
   useEffect(() => {
     if (!canReadElectricity) {
       setLoading(false);
-    } else {
-      setLoading(true);
-    }
+    } 
   }, [canReadElectricity]);
 
 
@@ -131,7 +129,7 @@ const RoomReadingTable = () => {
     setRoomDetail(true);
   };
   const handleTenantsDetailsPage = (tenant) => {
-    console.log("")
+    // console.log("")
     setSelectedTenant(tenant);
     setTenantsDetail(true);
   };
@@ -156,7 +154,7 @@ const RoomReadingTable = () => {
 
 
   const handleReadingDelete = (row) => {
-    console.log("delete", row)
+    // console.log("delete", row)
     setShowDelete(true)
     setDeleteDetails(row)
   }
@@ -310,7 +308,7 @@ const RoomReadingTable = () => {
 
 
   const handleEditRoomReading = (rowData) => {
-    console.log("rowData", rowData)
+    // console.log("rowData", rowData)
     setShowModal(true);
     setEditRoomReading(rowData)
   }

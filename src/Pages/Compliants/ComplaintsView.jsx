@@ -21,7 +21,7 @@ import ErrorMessage from '../../Components/ErrorMessage';
 
 function Complaints({ show, handleClose, complaintsDetails, trigger }) {
 
-    console.log("complaintsDetails", complaintsDetails)
+    // console.log("complaintsDetails", complaintsDetails)
 
 
     const state = useSelector((state) => state);

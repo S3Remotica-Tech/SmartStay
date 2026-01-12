@@ -70,7 +70,7 @@ export async function complaintsView(complaintsId) {
 }
 
 export async function complaintsViewUpdates(complaint) {
-  console.log("complaintsViewUpdates",complaint)
+  // console.log("complaintsViewUpdates",complaint)
   return await AxiosConfigV2.get(`/v2/complaint/updates/${complaint.hostelId}/${complaint.complaintsId}`);
 }
 
