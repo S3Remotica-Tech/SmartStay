@@ -141,9 +141,7 @@ const InvoicePage = () => {
   useEffect(() => {
     if (!canReadInvoice) {
       setLoading(false);
-    } else {
-      setLoading(true);
-    }
+    } 
   }, [canReadInvoice]);
 
 

@@ -89,9 +89,7 @@ function Banking() {
   useEffect(() => {
     if (!canReadBanking) {
       setLoader(false);
-    } else {
-      setLoader(true);
-    }
+    } 
   }, [canReadBanking]);
 
 

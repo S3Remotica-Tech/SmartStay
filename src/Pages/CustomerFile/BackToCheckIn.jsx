@@ -60,6 +60,12 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
         : null;
 
 
+
+
+        console.log("pgDetails",pgDetails, "checkInDetails",checkInDetails)
+
+
+
     const handleSaveBacktoCheckin = () => {
         let isValid = true;
 
@@ -89,7 +95,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
                 customerId: checkInDetails?.customerId || checkInDetails?.tenetId,
                 hostelId: state.login.selectedHostel_Id,
                 // roomId: checkInDetails?.roomId,
-                bedId: Number(pgDetails?.bedId),
+                bedId: Number(checkInDetails?.bedId) || Number(pgDetails?.bedId),
                 reCheckInDate: dayjs(recheckInDate).format("DD-MM-YYYY"),
                 reason: reason.trim(),
             }

@@ -62,9 +62,7 @@ function Asset() {
   useEffect(() => {
     if (!canReadAssets) {
       setLoading(false);
-    } else {
-      setLoading(true);
-    }
+    } 
   }, [canReadAssets]);
 
 

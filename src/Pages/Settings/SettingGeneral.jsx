@@ -38,6 +38,8 @@ import {
   Crown1, PasswordCheck, Edit, CardSend, Shield
 } from "iconsax-react";
 import Logout from "../../Components/Logout";
+import RecentActivity from "./RecentActivity";
+import ManagedUsers from "./ManagedUsers";
 
 function SettingGeneral() {
   const state = useSelector((state) => state);
@@ -49,7 +51,7 @@ function SettingGeneral() {
 
   const [showFormGeneral, setShowFormGeneral] = useState(false);
   const [file, setFile] = useState(null);
-  const [activeTab, setActiveTab] = useState("recent");
+  const [activeTab, setActiveTab] = useState("masters");
 
   const tabs = [
     { key: "masters", label: "Masters" },
@@ -122,9 +124,7 @@ function SettingGeneral() {
   useEffect(() => {
     if (!canReadProfile) {
       setLoading(false);
-    } else {
-      setLoading(true);
-    }
+    } 
   }, [canReadProfile]);
 
 
@@ -889,7 +889,7 @@ function SettingGeneral() {
   }, [state.Settings.generalDeleteError]);
 
   useEffect(() => {
-    // setLoading(true)
+    setLoading(true)
 
     dispatch({ type: "GETALLGENERAL" });
     const timeout = setTimeout(() => {
@@ -1216,11 +1216,13 @@ function SettingGeneral() {
         </div>
       </div>
 
-      <div className="container show-scrolls mt-0 p-0" style={{
+      <div className="container  mt-0 p-0" style={{
         position: "relative",
-        overflowY: "auto",
-        maxHeight: 500,
-        minHeight: 500, fontFamily: "Gilroy"
+        height:"100vh", overflowY:"hidden",
+        // overflowY: "auto",
+        // maxHeight: 500,
+        // minHeight: 500, 
+        fontFamily: "Gilroy"
       }}>
 
         {loading &&
@@ -1275,10 +1277,15 @@ function SettingGeneral() {
             </div>
           )
             : (
-              <div className="mt-2">
+              <div className="mt-2" style={{position: "sticky",
+          top: 0,
+          right: 0,
+          left: 0,
+          }}>
                 {account && (
                   <Card
                     style={{
+                      
                       borderRadius: 12,
                       border: "1px solid #DCDCDC",
                       padding: 16,
@@ -1360,9 +1367,9 @@ function SettingGeneral() {
                               }}
                             >
                               <PiDotsThreeOutlineVerticalFill
-                                style={{ height: 20, width: 20 }}
+                                style={{ height: 20, width: 20, cursor:"not-allowed" }}
                               />
-                              {openMenu && (
+                              {/* {openMenu && (
                                 <div
                                   ref={menuRef}
                                   style={{
@@ -1377,11 +1384,11 @@ function SettingGeneral() {
                                     zIndex: 1000
                                   }}
                                 >
-                                  {/* EDIT */}
+                                 
                                   <div
                                     onClick={() => {
                                       setOpenMenu(false);
-                                      // handleEdit();
+                                     
                                     }}
                                     style={{
                                       display: "flex",
@@ -1417,8 +1424,7 @@ function SettingGeneral() {
                                   <div
                                     onClick={() => {
                                       setOpenMenu(false);
-                                      // handleChangePassword();
-                                    }}
+                                                                         }}
                                     style={{
                                       display: "flex",
                                       alignItems: "center",
@@ -1450,7 +1456,7 @@ function SettingGeneral() {
                                     }}>Change Password</label>
                                   </div>
                                 </div>
-                              )}
+                              )} */}
                             </div>
                           </div>
 
@@ -1554,12 +1560,13 @@ function SettingGeneral() {
 
                 )}
 
-                <div
+                <div 
                   style={{
                     display: "flex",
                     borderBottom: "1px solid #E5E7EB",
                     gap: 32,
-                    fontFamily: "Gilroy, sans-serif"
+                    fontFamily: "Gilroy, sans-serif",
+                    position:"sticky"
                   }}
                 >
                   {tabs.map(tab => (
@@ -1595,7 +1602,8 @@ function SettingGeneral() {
                 </div>
                 {
                   activeTab === "masters" && (
-                    <>
+                    <div className="show-scrolls" style={{ overflowY: "auto",
+        maxHeight:500,}}>
                       {generalFilterddata && generalFilterddata.length > 0 ? (
                         generalFilterddata.map((item) => {
                           const imageUrl = item.profilePic;
@@ -1603,10 +1611,10 @@ function SettingGeneral() {
 
 
                             <div
-                              className="card p-3  mt-2"
+                              className="card p-3  mt-2 "
                               style={{
                                 borderRadius: 16,
-                                height: "auto",
+                               
                                 // overflow: 'hidden'
                               }}
                               key={item.userId}
@@ -1652,18 +1660,18 @@ function SettingGeneral() {
                                   }
                                   <div className="ms-2 w-100">
                                     <div className="d-flex justify-content-between align-items-center w-100" >
-                                                                          <div
+                                      <div
                                         className="mb-0 text-break"
                                         style={{
                                           fontSize: 16,
                                           fontWeight: 600,
                                           fontFamily: "Gilroy",
-height:"fit-content"
+                                          height: "fit-content"
                                         }}
                                       >
                                         {item.firstName} {item.lastName}
                                       </div>
-                                    
+
 
                                       <div className="ms-2 me-2 mt-0" style={{
                                         cursor: "pointer", height: 40, width: 40, borderRadius: 100,
@@ -2003,7 +2011,23 @@ height:"fit-content"
                         )
                       }
 
-                    </>)}
+                    </div>)}
+
+
+
+
+                {
+                  activeTab === "recent" && <RecentActivity />
+                }
+
+
+ {
+                  activeTab === "users" && <ManagedUsers />
+                }
+
+
+
+
               </div>
             )}
 

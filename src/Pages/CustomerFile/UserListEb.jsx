@@ -60,93 +60,12 @@ const {
 
 
 
-  // const sortedData = React.useMemo(() => {
-  //   if (!sortConfig.key) return tenantReadingList;
 
-  //   const sorted = [...tenantReadingList].sort((a, b) => {
-  //     const valueA = a[sortConfig.key];
-  //     const valueB = b[sortConfig.key];
 
-  //     if (!isNaN(valueA) && !isNaN(valueB)) {
-  //       return sortConfig.direction === "asc"
-  //         ? valueA - valueB
-  //         : valueB - valueA;
-  //     }
 
-  //     if (typeof valueA === "string" && typeof valueB === "string") {
-  //       return sortConfig.direction === "asc"
-  //         ? valueA.localeCompare(valueB)
-  //         : valueB.localeCompare(valueA);
-  //     }
 
-  //     return 0;
-  //   });
 
-  //   return sorted;
-  // }, [tenantReadingList, sortConfig]);
   
-
-// const sortedData = React.useMemo(() => {
-//       return Array.isArray(tenantReadingList) ? tenantReadingList : [];
-//     }, [tenantReadingList]);
-
-
-//   const handleSort = (key, direction) => {
-//     setSortConfig({ key, direction });
-//   };
-
-//   const handleItemsPerPageChange = (selectedOption) => {
-//   if (selectedOption?.value) {
-//     setEbrowsPerPage(selectedOption.value);
-//     setEbCurrentPage(1);
-//   }
-// };
-
-
-
-
-
-
-
-
-  // useEffect(() => {
-  //   if (selectedHostel) {
-  //     dispatch({
-  //       type: "EB-BILLING-UNIT-LIST",
-  //       payload: selectedHostel ,
-  //     });
-  //   }
-
-  // }, [selectedHostel]);
-
-  // useEffect(() => {
-  //   if (selectedHostel) {
-  //     dispatch({
-  //       type: "HOSTELBASEDEBLIST",
-  //       payload: { hostel_id: selectedHostel },
-  //     });
-  //   }
-  // }, [selectedHostel]);
-
-
-
-  // useEffect(() => {
-  //   setSelectedHostel(state.login.selectedHostel_Id);
-
-
-
-  // }, [props, state.login.selectedHostel_Id]);
-
-
-
-
-  // const totalPagesEb = Math.ceil(EbFilterddata?.length / EbrowsPerPage);
-
-
-  // useEffect(() => {
-  //   setEbFilterddata(state?.UsersList?.customerdetails?.eb_data)
-  // }, [state?.UsersList?.customerdetails?.eb_data])
-
 
 
  useEffect(() => {

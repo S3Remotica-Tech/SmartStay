@@ -79,9 +79,6 @@ useEffect(() => {
   if (!canReadAnnouncement) {
     setLoading(false);
      setFormCommentsLoading(false)
-  }else{
-    setLoading(true);
-         setFormCommentsLoading(true)
   }
 }, [canReadAnnouncement]);
 
@@ -188,13 +185,12 @@ useEffect(() => {
   useEffect(() => {
 
     if (hostel_id) {
+      setLoading(true)
          dispatch({
         type: "ANNOUNCEMENTLIST",
         payload: { hostel_id: hostel_id },
       });
-    } else {
-      setLoading(false)
-    }
+    } 
   }, [hostel_id]);
 
 

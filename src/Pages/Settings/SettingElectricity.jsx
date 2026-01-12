@@ -67,8 +67,6 @@ const {
 useEffect(() => {
       if (!canReadElectricity) {
         setLoading(false);
-      }else{
-        setLoading(true);
       }
     }, [canReadElectricity]);
 
@@ -81,7 +79,7 @@ useEffect(()=>{
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-      // setLoading(true)
+      setLoading(true)
       dispatch({
         type: "EB-BILLING-UNIT-LIST",
         payload: state.login.selectedHostel_Id

@@ -64,9 +64,7 @@ function SettingAmenities() {
     useEffect(() => {
         if (!canReadAmenities) {
             setLoading(false);
-        } else {
-            setLoading(true);
-        }
+        } 
     }, [canReadAmenities]);
 
 

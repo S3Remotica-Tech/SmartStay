@@ -436,7 +436,7 @@ function BedDetailsMap({ room, propsValue,
 
 
     useEffect(() => {
-        if (state.PgList.statusCodeDeleteBed === 200) {
+        if (state.PgList.statusCodeDeleteBed === 200 || state.PgList.statusCodeDeleteBed === 204) {
             dispatch({
                 type: "GETALLBEDSLIST",
                 payload: { roomId: room.id }
@@ -854,7 +854,7 @@ function BedDetailsMap({ room, propsValue,
 
 
 {/* notice only */}
-                                    {bed.onNotice && !bed.isBooked && !bed.overDue && (
+                                    {bed.onNotice && !bed.isBooked  && (
                                         <img
                                             src={noticeimg}
                                             alt="notice"

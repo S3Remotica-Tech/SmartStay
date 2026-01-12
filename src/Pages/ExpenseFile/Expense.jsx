@@ -73,9 +73,7 @@ function Expenses({ allPageHostel_Id }) {
   useEffect(() => {
     if (!canReadExpense) {
       setLoading(false);
-    } else {
-      setLoading(true);
-    }
+    } 
   }, [canReadExpense]);
 
 

@@ -56,8 +56,6 @@ const {
 useEffect(() => {
       if (!canReadRole) {
         setLoading(false);
-      }else{
-        setLoading(true);
       }
     }, [canReadRole]);
 
@@ -143,6 +141,8 @@ useEffect(() => {
   if (!hostelId || hostelId === "null" || hostelId === "undefined" || hostelId === "") return;
 
   dispatch({ type: 'SETTING_ROLE_LIST', payload: hostelId });
+  setLoading(true);
+
 }, [state?.login?.selectedHostel_Id]);
 
 

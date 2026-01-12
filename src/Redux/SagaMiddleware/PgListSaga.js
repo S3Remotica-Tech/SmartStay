@@ -695,7 +695,7 @@ function* handleCreateBed(action) {
 function* handleDeleteBed(action) {
   try {
     const response = yield call(DeleteBed, action.payload);
-
+console.log("response",response)
     var toastStyle = {
       backgroundColor: "#E6F6E6",
       color: "black",
@@ -712,7 +712,7 @@ function* handleDeleteBed(action) {
 
     };
 
-    if (response?.status === 200) {
+    if (response?.status === 200 || response?.status === 204) {
       yield put({
         type: "DELETE_BED",
         payload: {

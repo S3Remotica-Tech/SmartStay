@@ -578,7 +578,7 @@ useEffect(() => {
 
 
   useEffect(() => {
-    if (state.PgList.statusCodeDeleteBed === 200) {
+    if (state.PgList.statusCodeDeleteBed === 200 || state.PgList.statusCodeDeleteBed === 204) {
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       dispatch({ type: 'HOSTELLIST' })
       setTimeout(() => {

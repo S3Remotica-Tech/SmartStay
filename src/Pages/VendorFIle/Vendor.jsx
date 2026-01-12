@@ -46,12 +46,14 @@ function Vendor() {
   } = useHasPermission("Vendor");
 
 
-  useEffect(() => {
-    setLoading(!canReadVendor);
+
+
+
+ useEffect(() => {
+    if (!canReadVendor) {
+      setLoading(false);
+    } 
   }, [canReadVendor]);
-
-
-
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {

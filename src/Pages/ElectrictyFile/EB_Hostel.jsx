@@ -103,9 +103,7 @@ const RoomReadingTable = () => {
   useEffect(() => {
     if (!canReadElectricity) {
       setLoading(false);
-    } else {
-      setLoading(true);
-    }
+    } 
   }, [canReadElectricity]);
 
 

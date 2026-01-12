@@ -59,9 +59,7 @@ function RecurringBills() {
   useEffect(() => {
     if (!canReadRecurring) {
       setRecurLoader(false)
-    } else {
-      setRecurLoader(true)
-    }
+    } 
 
   }, [canReadRecurring])
 
