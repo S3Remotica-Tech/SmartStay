@@ -49,7 +49,7 @@ import DueCustomerConfirmCheckout from "./DueCustomerConfirmCheckout";
 import AddCustomer from "../PayingGuestFile/AddCustomerPG";
 import BookedCheckIn from "./BookedCheckIn";
 import MakeAsInactive from "./MakeAsInactive";
-import FinalSettlement from "./FinalSettlement";
+// import FinalSettlement from "./FinalSettlement";
 import PaginationList from '../../Components/PaginationList';
 import ErrorMessage from '../../Components/ErrorMessage'
 import BackToCheckIn from "./BackToCheckIn";
