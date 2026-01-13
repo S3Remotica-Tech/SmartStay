@@ -16,7 +16,7 @@ import { Tooltip } from "bootstrap";
 import ErrorMessage from '../../Components/ErrorMessage'
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-import { Edit, InfoCircle, AddCircle } from "iconsax-react";
+import { Edit, InfoCircle, AddCircle, Verify } from "iconsax-react";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -498,20 +498,20 @@ function FinalSettlement() {
             }, 100)
         }
     }, [state.InvoiceList.finalSettlementError])
+    
 
 
     return (
-        <div style={{ height: "100vh", overflowY: "hidden" }}>
+        <div style={{ height: "100vh", overflow: "hidden" }}>
             <div
-                className=""
+                className="mb-3"
                 style={{
                     position: "sticky",
-                    top: 0,
+                    // top: 0,
                     backgroundColor: "#fff",
                     zIndex: 1050,
                     height: 50,
-                    // padding: "10px 10px",
-
+                    padding: "10px 12px",
                 }}
             >
                 <div className="d-flex gap-3 align-items-center">
@@ -522,7 +522,7 @@ function FinalSettlement() {
                         />
                     </div>
                     <div>
-                        <p className="mb-0" style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 600, color: "#222222" }}>Final Settlement</p>
+                        <label className="mb-0" style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 600, color: "#222222" }}>Final Settlement</label>
                         <p className="mb-2" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 600, color: "#4A5565" }}>Tenants / Final Settlement</p>
 
                     </div>
@@ -537,16 +537,17 @@ function FinalSettlement() {
                     backgroundColor: "#f9f9f9",
                     padding: 10,
                     width: "100%",
-                    flexWrap: "nowrap",
+                    flexWrap: "nowrap"
                 }}>
-
+{/* left */}
                 <div style={{
                     flex: "0 0 30%",
                     background: "#FFFFFF",
                     borderRadius: 8,
                     padding: 16,
+                    height:"100%"
                 }}>
-                    <div className="d-flex align-items-center gap-3">
+                    <div className="d-flex align-items-center gap-3 mb-1">
                         {
                             finalSettlementList?.customerInfo?.profilePic ?
 
@@ -582,33 +583,47 @@ function FinalSettlement() {
                                 </div>
                         }
                         <div>
-                            <p style={{ fontSize: "1.25rem", fontFamily: "Gilroy", fontWeight: 600 }} className="mb-0">{finalSettlementList?.customerInfo?.fullName}</p>
-                            <div className="d-flex mb-2">
+                            <div className="d-flex gap-2">
+                                <label style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 600, color: "#222222" }}
+                                    className="mb-0">
+                                    {finalSettlementList?.customerInfo?.fullName} </label>
+                                <div>
+                                    <Verify
+                                        size="20"
+                                        color="#1E45E1"
+                                        variant="Bold"
+                                    />
+                                </div>
 
-                                <span
-                                    className="badge rounded-pill text-dark me-2"
-                                    style={{
-                                        fontSize: "0.75rem",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 400,
-                                        backgroundColor: "#FFEFCF"
-                                    }}
-                                >
-                                    {pgDetails?.floorName || data?.floorName}
-                                </span>
-                                <span className="badge rounded-pill bg-danger-subtle text-dark" style={{ fontSize: "0.75rem", fontFamily: "Gilroy", fontWeight: 400 }}>
 
-                                    {pgDetails?.roomName || data?.roomName} - {pgDetails?.bedName || data?.bedName}
-                                </span>
+
+
                             </div>
-
-
+                            <div>
+                                <label style={{ fontSize: 14, color: "#4B4B4B", fontWeight: 400, fontFamily: "Gilroy" }}>Mobile : </label>
+                            </div>
                         </div>
-
 
                     </div>
 
+                    <div className="d-flex justify-content-between mb-2 w-100" style={{ backgroundColor: "" }}>
 
+                        <span
+                            className="badge rounded-pill text-dark me-2 w-100 p-2"
+                            style={{
+                                fontSize: "0.75rem",
+                                fontFamily: "Gilroy",
+                                fontWeight: 400,
+                                backgroundColor: "#FFEFCF"
+                            }}
+                        >
+                            {pgDetails?.floorName || data?.floorName}
+                        </span>
+                        <span className="badge rounded-pill bg-danger-subtle text-dark w-100 p-2" style={{ fontSize: "0.75rem", fontFamily: "Gilroy", fontWeight: 400 }}>
+
+                            {pgDetails?.roomName || data?.roomName} - {pgDetails?.bedName || data?.bedName}
+                        </span>
+                    </div>
 
                     <hr />
 
@@ -671,7 +686,7 @@ function FinalSettlement() {
 
                                 <Edit
                                     size={16}
-                                    color="#555"
+                                    color="#1E45E1"
                                     style={{ cursor: "pointer" }}
                                     onClick={() => setIsEditingDate(true)}
                                 />
@@ -707,26 +722,29 @@ function FinalSettlement() {
                             />
                         </div>
                     )}
-
+                    <hr className="" style={{ border: "1px solid #DFDFDF" }} />
                     <div className="mt-2 p-1" style={{ textAlign: "center", backgroundColor: ReturnAmount > 0 ? "#FFF7F7" : "#F0FFE0", borderRadius: 8 }}>
                         <span style={{ color: ReturnAmount > 0 ? "red" : "#038C3D", fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400, textAlign: "center" }}>{ReturnAmount > 0 ? "Pending" : "Refund"}</span>
                     </div>
 
                 </div>
 
-
+{/* right */}
 
                 <div style={{
                     flex: "1 1 auto",
                     background: "#FFF",
                     borderRadius: 8,
                     padding: 14, position: "relative",
-                     height: "calc(100vh - 50px)",
+                    height: "calc(100vh - 50px)",
+                   
                 }}>
 
 
                     <div className="show-scrolls" style={{
-                        maxHeight: "calc(100vh - 150px)", overflowX: "hidden"
+                                                maxHeight: "calc(100vh - 150px)",
+                        overflowX: "hidden",
+                        overflowY: "auto"
 
                     }}>
 
@@ -1694,15 +1712,15 @@ function FinalSettlement() {
                     </div>
 
                     <div
-                        className="d-flex justify-content-between mt-4 p-3"
+                        className="d-flex justify-content-between mt-4 mb-2  p-3"
                         style={{
                             fontFamily: "Gilroy",
                             boxShadow: "0px -4px 12px rgba(0, 0, 0, 0.08)",
                             backgroundColor: "#fff",
                             position: "absolute",
-    bottom: 0,
-    left: 0,
-    width: "100%",
+                            bottom: 0,
+                            left: 0,
+                            width: "100%",
                         }}
                     >
                         <div className="d-block">

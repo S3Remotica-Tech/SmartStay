@@ -20,7 +20,7 @@ function SidebarProfile({
   showProfileCard,
   setShowProfileCard,
   handleShowLogout,
-//   navigate,
+handleShowsettingsGenaral,
   profileCardRef,
 }) {
   return (
@@ -49,7 +49,7 @@ function SidebarProfile({
           ) : (
             <div
               className="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center fw-semibold"
-              style={{ width: 56, height: 56 }}
+              style={{ width: 56, height: 56 , fontFamily:"Gilroy"}}
             >
               {stateData?.accountList?.initial || ""}
             </div>
@@ -135,7 +135,7 @@ function SidebarProfile({
             //   navigate("/profile");
             // }}
           >
-            <div className="d-flex align-items-start gap-2">
+            <div className="d-flex align-items-start gap-2" onClick={handleShowsettingsGenaral}>
               <div style={{
                       backgroundColor: "#F6EFFF",
                     
@@ -160,17 +160,41 @@ function SidebarProfile({
           </div>
 
           {/* Logout */}
-          <div
-            className="d-flex align-items-center gap-2 p-1 rounded-3 cursor-pointer" style={{backgroundColor:"#FFF7F7"}}
-            role="button"
-            onClick={() => {
-              setShowProfileCard(false);
-              handleShowLogout();
-            }}
-          >
-            <span className="fs-5 text-danger"><img src={LogoutIcon} alt="logout" style={{ width: 18, height: 18 }} /></span>
-            <span className="fw-medium pt-1" style={{color:"#FF3B30"}}>Logout</span>
-          </div>
+         <div
+  role="button"
+  onClick={() => {
+    setShowProfileCard(false);
+    handleShowLogout();
+  }}
+  className="d-flex align-items-center gap-2 px-3 py-2 rounded-3"
+  style={{
+    backgroundColor: "#FFF7F7",
+    cursor: "pointer",
+  }}
+>
+  <img
+    src={LogoutIcon}
+    alt="logout"
+    style={{
+      width: 18,
+      height: 18,
+      display: "block",   
+    }}
+  />
+
+  <span
+    style={{
+      color: "#FF3B30",
+      fontSize: 14,
+      fontWeight: 500,
+      lineHeight: "18px",
+      fontFamily: "Gilroy",
+    }}
+  >
+    Logout
+  </span>
+</div>
+
         </div>
 
         {/* Footer */}
@@ -213,7 +237,7 @@ SidebarProfile.propTypes = {
   showProfileCard: PropTypes.bool.isRequired,
   setShowProfileCard: PropTypes.func.isRequired,
   handleShowLogout: PropTypes.func.isRequired,
-
+handleShowsettingsGenaral:PropTypes.func.isRequired,
   profileCardRef: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.any })
