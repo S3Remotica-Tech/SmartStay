@@ -56,9 +56,13 @@ handleShowsettingsGenaral,
           )}
 
           <div>
-            <div className="fw-semibold mb-2" style={{ fontSize: 18 }}>
-              {stateData?.accountList?.firstName || profilename}
+            
+            <div className="fw-semibold mb-2 fs-5">
+              {[stateData?.accountList?.firstName || profilename, stateData?.accountList?.lastName]
+                .filter(Boolean)
+                .join(" ")}
             </div>
+
 
             <div>
               <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
@@ -76,7 +80,7 @@ handleShowsettingsGenaral,
                 >
                   <img src={ArchieveTick} style={{ width: 15, height: 15, backgroundColor: "transparent" }} alt="icon" />
                 </span>
-                <span style={{ fontSize: 14, color: "black", fontWeight: 400,marginLeft:5 }}>
+                <span style={{ fontSize: 14, color: "black", fontWeight: 400, marginLeft: 5 }}>
                   {stateData?.accountList?.roleName}
                 </span>
               </span>
@@ -89,7 +93,7 @@ handleShowsettingsGenaral,
           role="button"
           tabIndex={0}
           style={{ cursor: "pointer" }}
-          title="Close"
+          // title="Close"
         >
           <img src={Icon} alt="close" />
         </div>
@@ -130,28 +134,28 @@ handleShowsettingsGenaral,
           <div
             className="d-flex align-items-center justify-content-between gap-2 p-2 rounded-3 cursor-pointer mb-2"
             role="button"
-            // onClick={() => {
-            //   setShowProfileCard(false);
-            //   navigate("/profile");
-            // }}
+          // onClick={() => {
+          //   setShowProfileCard(false);
+          //   navigate("/profile");
+          // }}
           >
             <div className="d-flex align-items-start gap-2" onClick={handleShowsettingsGenaral}>
               <div style={{
-                      backgroundColor: "#F6EFFF",
-                    
-                      borderRadius: 8,
-                      display: "inline-flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      width: 32,
-                      height: 32,
-                    }}
-                    >
-              <span className="fs-5 text-primary"><img src={User} alt="sms" style={{ width: 18, height: 18 }} /></span>
-                  </div>
+                backgroundColor: "#F6EFFF",
+
+                borderRadius: 8,
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: 32,
+                height: 32,
+              }}
+              >
+                <span className="fs-5 text-primary"><img src={User} alt="sms" style={{ width: 18, height: 18 }} /></span>
+              </div>
               <div>
-                <div className="" style={{fontSize: '13px'}}>View Profile</div>
-                <div className="text-muted small"style={{fontSize: '11px'}}>
+                <div className="" style={{ fontSize: '13px' }}>View Profile</div>
+                <div className="text-muted small" style={{ fontSize: '11px' }}>
                   Manage your Personal Information
                 </div>
               </div>
@@ -209,7 +213,7 @@ handleShowsettingsGenaral,
             fontFamily: "Gilroy",
             borderBottomLeftRadius: 10,
             borderBottomRightRadius: 10,
-            
+
           }}
         >
           <div style={{ fontSize: 12, color: "#6B7280" }}>

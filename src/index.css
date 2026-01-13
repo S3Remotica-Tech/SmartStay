@@ -26,3 +26,19 @@ input[type=number] {
 .ant-picker-dropdown {
   margin-top: 18px !important; /* You can increase this if you want more gap */
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
