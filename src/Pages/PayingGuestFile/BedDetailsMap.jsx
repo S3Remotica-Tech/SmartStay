@@ -32,11 +32,12 @@ import ConfirmChangeBed from './NoticePeriod/ConfirmChangedBed';
 import { useHasPermission } from '../../Utils/Permission';
 import BackToCheckIn from "../CustomerFile/BackToCheckIn";
 import { clickedBedForChange } from '../../Redux/Action/smartStayAction';
+import FinalOld from '../CustomerFile/FinalOld';
 
 
-function BedDetailsMap({ room, propsValue, 
-     selectedBed,
-  setSelectedBed}) {
+function BedDetailsMap({ room, propsValue,
+    selectedBed,
+    setSelectedBed }) {
 
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
@@ -67,7 +68,7 @@ function BedDetailsMap({ room, propsValue,
     const [showConfirmChangeBedModal, setShowConfirmChangeBedModal] = useState(false)
     const [clickedBed, setClickedBed] = useState('')
     const [changeBedClicked, setChangedBedClicked] = useState('')
-    
+
 
 
     const [bactocheckinForm, setBacktoCheckInForm] = useState(false)
@@ -87,19 +88,19 @@ function BedDetailsMap({ room, propsValue,
 
     const handleshowfinalsettlement = (isvisible, tenantDetails) => {
         // setCustomerId(customerId)
-     console.log("tenantDetails",tenantDetails)
+        console.log("tenantDetails", tenantDetails)
         setFinalSettlePage(isvisible)
 
 
         setNoticePeriodBed(false)
         setSelectedTenant(tenantDetails)
 
-        navigate(`/tenant/final-settlement/${tenantDetails?.tenetId}`,{
-  state: {
-    data : tenantDetails,
-    pgDetails:customer
-  }
- });
+        // navigate(`/tenant/final-settlement/${tenantDetails?.tenetId}`, {
+        //     state: {
+        //         data: tenantDetails,
+        //         pgDetails: customer
+        //     }
+        // });
     }
 
     const handleClosefinalsettelment = () => {
@@ -117,7 +118,7 @@ function BedDetailsMap({ room, propsValue,
         setBacktoCheckInForm(false)
     }
 
-  
+
 
     useEffect(() => {
         if (state.UsersList.cancelCheckoutStatusCode === 200) {
@@ -282,7 +283,7 @@ function BedDetailsMap({ room, propsValue,
     }
 
     const [selectedTenant, setSelectedTenant] = useState(null);
-   
+
 
     useEffect(() => {
         if (state.PgList?.OccupiedCustomer && state.PgList?.OccupiedCustomer?.currentTenantInfo?.[0]?.tenetId) {
@@ -331,7 +332,7 @@ function BedDetailsMap({ room, propsValue,
         setChangedBedClicked(bed)
 
         //   dispatch(changeBedForChange(bed));
-      
+
 
     }
 
@@ -503,7 +504,7 @@ function BedDetailsMap({ room, propsValue,
 
 
 
-    
+
 
     useEffect(() => {
         if (state?.Booking?.statusCodeForAddBooking === 200) {
@@ -598,7 +599,7 @@ function BedDetailsMap({ room, propsValue,
 
 
 
-   
+
 
     return (
 
@@ -738,7 +739,7 @@ function BedDetailsMap({ room, propsValue,
             })()}
 
             {
-                finalsettlepage && <FinalSettlement show={finalsettlepage} handleClose={handleClosefinalsettelment}
+                finalsettlepage && <FinalOld show={finalsettlepage} handleClose={handleClosefinalsettelment}
                     data={selectedTenant}
                     // customerID={customerId} 
                     pgDetails={customer}
@@ -758,11 +759,11 @@ function BedDetailsMap({ room, propsValue,
                                 <div style={{ position: "relative", width: 34, height: 41 }}>
 
                                     {state.login.isTrigger &&
-                                        Number(selectedBed?.bedId) === Number(bed.id) 
-                                        && 
+                                        Number(selectedBed?.bedId) === Number(bed.id)
+                                        &&
                                         Number(selectedBed?.roomId) === Number(bed.roomId)
                                         &&
-                                         (
+                                        (
                                             <div
                                                 style={{
                                                     position: "absolute",
@@ -783,7 +784,7 @@ function BedDetailsMap({ room, propsValue,
 
 
 
-                                    {(bed.isBooked && bed.onNotice ) && (
+                                    {(bed.isBooked && bed.onNotice) && (
                                         <div className="action-circle">
                                             {(bed.onNotice && bed.overDue && bed.isBooked) ? 3
                                                 : 2}
@@ -844,7 +845,7 @@ function BedDetailsMap({ room, propsValue,
 
 
 
-{/* booked only */}
+                                    {/* booked only */}
                                     {bed.isBooked && !bed.onNotice && (
                                         <img
                                             src={recerverimg}
@@ -862,8 +863,8 @@ function BedDetailsMap({ room, propsValue,
                                     )}
 
 
-{/* notice only */}
-                                    {bed.onNotice && !bed.isBooked  && (
+                                    {/* notice only */}
+                                    {bed.onNotice && !bed.isBooked && (
                                         <img
                                             src={noticeimg}
                                             alt="notice"
@@ -1007,11 +1008,11 @@ function BedDetailsMap({ room, propsValue,
 BedDetailsMap.propTypes = {
     room: PropTypes.func.isRequired,
     propsValue: PropTypes.func.isRequired,
-selectedBed: PropTypes.shape({
-    bedId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    roomId: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
-  }),
+    selectedBed: PropTypes.shape({
+        bedId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+        roomId: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+    }),
 
-  setSelectedBed: PropTypes.func.isRequired
+    setSelectedBed: PropTypes.func.isRequired
 };
 export default BedDetailsMap

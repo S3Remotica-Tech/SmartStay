@@ -2039,7 +2039,7 @@ function Sidebar() {
           profileCardRef={profileCardRef}
         />
 
-        {/* Quick Actions Menu Modal */}
+        
         <SidebarQuickActions
           showMenuModal={showMenuModal}
           setShowMenuModal={setShowMenuModal}

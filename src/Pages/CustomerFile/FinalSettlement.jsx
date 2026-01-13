@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {  Button,  } from "react-bootstrap";
+import { Button, } from "react-bootstrap";
 import "flatpickr/dist/flatpickr.css";
 import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
 import PropTypes from "prop-types";
-import {  ArrowDown2, ArrowUp2, ArrowLeft } from "iconsax-react";
+import { ArrowDown2, ArrowUp2, ArrowLeft } from "iconsax-react";
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
 import { Trash } from 'iconsax-react';
 import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
@@ -16,7 +16,7 @@ import { Tooltip } from "bootstrap";
 import ErrorMessage from '../../Components/ErrorMessage'
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-import { Edit ,InfoCircle } from "iconsax-react";
+import { Edit, InfoCircle, AddCircle } from "iconsax-react";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -40,6 +40,11 @@ function FinalSettlement() {
 
     const [showDetails, setShowDetails] = useState(false);
 
+    const [showInvoices, setShowInvoices] = React.useState(false);
+    const [showRentDetails, setShowRentDetails] = React.useState(false);
+    const [showEbMissed, setShowEbMissed] = useState(false);
+    const [showEbPending, setShowEbPending] = useState(false);
+    const [showDeductions, setShowDeductions] = useState(false);
 
     const [isEditingDate, setIsEditingDate] = useState(false);
     const [checkoutDate, setCheckoutDate] = useState(dayjs())
@@ -58,6 +63,10 @@ function FinalSettlement() {
         //     units: 23,
         // },
     ];
+
+
+
+
 
 
     useEffect(() => {
@@ -146,6 +155,7 @@ function FinalSettlement() {
 
 
     const handleAddField = () => {
+        setShowDeductions(true)
         setFields([...fields, { reason_name: "", amount: "", showInput: false }]);
 
         dispatch({ type: "CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
@@ -695,579 +705,901 @@ function FinalSettlement() {
                         </div>
                     )}
 
-                    <div className="mt-2 p-1" style={{ textAlign: "center", backgroundColor: ReturnAmount > 0 ? "#FFF7F7"  : "#F0FFE0", borderRadius:8  }}>
-                         <span style={{ color:ReturnAmount > 0 ? "red": "#038C3D", fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400, textAlign: "center" }}>{ReturnAmount >  0 ? "Pending" : "Refund" }</span>
+                    <div className="mt-2 p-1" style={{ textAlign: "center", backgroundColor: ReturnAmount > 0 ? "#FFF7F7" : "#F0FFE0", borderRadius: 8 }}>
+                        <span style={{ color: ReturnAmount > 0 ? "red" : "#038C3D", fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400, textAlign: "center" }}>{ReturnAmount > 0 ? "Pending" : "Refund"}</span>
                     </div>
 
                 </div>
 
 
-                <div className="show-scrolls" style={{
+
+                <div style={{
                     flex: "1 1 auto",
                     background: "#FFFFFF",
                     borderRadius: 8,
-                    padding: 14,
-                    // overflow: "auto",
-                    maxHeight: "90vh", overflowY: "auto",
+                    padding: 14, position: "relative",
+                    // height:"100vh"
+                }}>
+
+                
+                <div className="show-scrolls" style={{
+                   maxHeight: "calc(100vh - 150px)",
+
                 }}>
 
                     <div >
 
-                        <div className="mb-2">
+                        {/* unpaid invoices */}
 
+                        <div
+                            className="mb-2"
+                            style={{
+                                border: "1px solid #E5E7EB",
+                                borderRadius: 8,
+                                backgroundColor: "#fff",
+                                fontFamily: "Gilroy",
+                            }}
+                        >
 
-                            <div className="mb-2">
-                                <div >
-                                    <p className="mb-1" style={{
+                            <div
+
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                    padding: "10px 14px",
+
+                                }}
+                            >
+
+                                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                                    <span
+                                        style={{
+                                            borderRadius: 5,
+                                            padding: 4,
+                                            display: "flex", cursor: "pointer",
+                                        }}
+                                    >
+                                        {showInvoices ? (
+                                            <ArrowUp2 size="16" color="#1E45E1" onClick={() => setShowInvoices(false)} />
+                                        ) : (
+                                            <ArrowDown2 size="16" color="#1E45E1" onClick={() => setShowInvoices(true)} />
+                                        )}
+                                    </span>
+
+                                    <span style={{
                                         fontSize: 14,
                                         color: "black",
-                                        fontFamily: "Gilroy",
                                         fontWeight: 600,
-                                    }}>Unpaid Invoices</p>
-                                    <div className="table-responsive border border-gray rounded">
-                                        <table className="table table-sm align-middle mb-0" style={{ fontFamily: "Gilroy", }}>
-                                            <thead>
-                                                <tr>
-                                                    <th
-                                                        className="px-2 py-2 text-start"
-                                                        style={{
-                                                            fontSize: 14,
-                                                            color: "#00092F",
-                                                            fontFamily: "Gilroy",
-                                                            fontWeight: 600,
-                                                            verticalAlign: "middle",
-                                                        }}
-                                                    >
-                                                        Invoice No
-                                                    </th>
-
-                                                    <th
-                                                        className="px-2 py-2 text-start"
-                                                        style={{
-                                                            fontSize: 14,
-                                                            color: "#00092F",
-                                                            fontFamily: "Gilroy",
-                                                            fontWeight: 600,
-                                                            verticalAlign: "middle",
-                                                        }}
-                                                    >
-                                                        Type
-                                                    </th>
-
-                                                    <th
-                                                        className="px-2 py-2 text-end"
-                                                        style={{
-                                                            fontSize: 14,
-                                                            color: "#00092F",
-                                                            fontFamily: "Gilroy",
-                                                            fontWeight: 600,
-                                                            verticalAlign: "middle",
-                                                        }}
-                                                    >
-                                                        Invoice Amount
-                                                    </th>
-                                                </tr>
-                                            </thead>
-
-                                            <tbody>
-
-                                                {Array.isArray(finalSettlementList?.unpaidInvoices) && finalSettlementList.unpaidInvoices.length > 0 ? (
-                                                    finalSettlementList?.unpaidInvoices.map((user) => (
-                                                        <tr key={user.invoiceid}>
-                                                            <td
-                                                                className=" text-decoration-underline px-2 py-2"
-
-                                                                style={{
-                                                                    fontFamily: "Gilroy",
-                                                                    fontSize: "14px",
-                                                                    // paddingTop: "1rem", 
-                                                                    color: "#1E45E1", fontWeight: 400
-                                                                }}
-                                                            >
-                                                                {user.invoiceNumber}
-                                                            </td>
-                                                            <td
-                                                                className=" px-2 py-2"
-                                                                style={{
-                                                                    fontFamily: "Gilroy",
-                                                                    fontSize: "14px",
-                                                                    color: "#1E1E1E", fontWeight: 400
-                                                                    // paddingTop: "1rem"
-                                                                }}
-                                                            >
-                                                                {user.type}
-                                                            </td>
-                                                            <td
-                                                                className="text-end px-2 py-2"
-                                                                style={{
-                                                                    fontFamily: "Gilroy",
-                                                                    fontSize: "14px",
-                                                                    color: "#1E1E1E",
-                                                                    fontWeight: 500, fontWeight: 400
-                                                                    // paddingTop: "1rem"
-                                                                }}
-                                                            >
-                                                                ₹{user.payableAmount}
-                                                            </td>
-                                                        </tr>
-                                                    ))
-
-                                                )
-                                                    :
-                                                    (
-                                                        <tr>
-                                                            <td colSpan={3} className="text-center px-2 py-2" style={{ color: "#6B7280", fontSize: 14 }}>
-                                                                No pending invoices
-                                                            </td>
-                                                        </tr>
-                                                    )
-
-                                                }
-                                                <tr style={{ backgroundColor: "#F9F9F9" }}>
-                                                    <td colSpan={2} className=" text-start px-2 py-2" style={{ fontSize: 14, color: "#1E1E1E" }}>
-                                                        Total
-                                                    </td>
-                                                    <td className=" text-end px-2 py-2" style={{ fontSize: 14, color: "#1E1E1E" }}>
-                                                        ₹{
-                                                            finalSettlementList?.unpaidInvoices?.reduce(
-                                                                (sum, inv) => sum + Number(inv.payableAmount || 0),
-                                                                0
-                                                            ) || 0
-                                                        }
-                                                    </td>
-                                                </tr>
-
-
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                    }}>
+                                        Unpaid Invoices
+                                    </span>
                                 </div>
+
+                                <span style={{ fontSize: 14, fontWeight: 600, color: "#111827" }}>
+                                    - ₹
+                                </span>
                             </div>
 
 
+                            {showInvoices && (
+                                <hr style={{ margin: 0, borderColor: "#DFDFDF" }} />
+                            )}
 
-                            <div className="mb-2">
-                                <div>
-                                    <div className="card shadow-sm rounded">
-                                        <div className="card-body p-3">
-
-
-                                            <div className="d-flex justify-content-between mb-2">
-                                                <span
-                                                    style={{
-                                                        fontSize: 14,
-                                                        color: "black",
-                                                        fontFamily: "Gilroy",
-                                                        fontWeight: 600,
-                                                    }}
-                                                >
-                                                    Refundable Rent
-                                                </span>
-
-                                                <span
-                                                    style={{
-                                                        fontSize: 14,
-                                                        color: "black",
-                                                        fontFamily: "Gilroy",
-                                                        fontWeight: 500,
-                                                    }}
-                                                >
-                                                    ₹
-                                                </span>
-                                            </div>
-                                            <hr className="m-1" style={{ border: "1px solid #DFDFDF" }} />
-
-
-                                            <div className="d-flex justify-content-between py-2">
-                                                <span
-                                                    style={{
-                                                        fontFamily: "Gilroy",
-                                                        fontSize: 14,
-                                                        color: "black",
-                                                    }}
-                                                >
-                                                    Last Rent Paid (30 Days)
-                                                </span>
-
-                                                <span
-                                                    style={{
-                                                        fontFamily: "Gilroy",
-                                                        fontSize: 14,
-                                                        color: "black",
-                                                    }}
-                                                >
-                                                    ₹{finalSettlementList?.currentMonthRentInfo?.currentRentPaid || 0}
-                                                </span>
-                                            </div>
-
-                                            <div className="d-flex justify-content-between gap-2 py-2 align-items-start">
-
-
-                                                <div
-                                                    style={{
-                                                        fontFamily: "Gilroy",
-                                                        fontSize: 14,
-                                                        color: "black",
-                                                        cursor: "pointer",
-                                                        userSelect: "none"
-                                                    }}
-                                                    onClick={() => setShowDetails(!showDetails)}
-                                                >
-                                                    Actual Stay Days (Rent) (
-                                                    {(() => {
-                                                        const d = finalSettlementList?.currentMonthRentInfo?.stayDays ?? 0;
-                                                        return `${d} ${d === 1 ? "day" : "days"}`;
-                                                    })()}
-
-                                                    {/* × ₹
-                                                            {Number(finalSettlementList?.currentMonthRentInfo?.rentPerDay || 0)} */}
-                                                    )
-
-
-                                                    <span style={{ marginLeft: 6 }} >
-                                                        {showDetails ? (
-                                                            <span
-                                                                style={{
-                                                                    backgroundColor: "#E7F1FF",
-                                                                    borderRadius: 5,
-                                                                    padding: 4,
-
-
-                                                                }}
-                                                            >
-                                                                <ArrowUp2 size="16" color="#1E45E1" />
-                                                            </span>
-                                                        ) : (
-                                                            <span
-                                                                style={{
-                                                                    backgroundColor: "#E7F1FF",
-                                                                    borderRadius: 5,
-                                                                    padding: 4,
-
-                                                                }}
-                                                            >
-                                                                <ArrowDown2 size="16" color="#1E45E1" />
-                                                            </span>
-                                                        )}
-                                                    </span>
-
-
-
-
-                                                </div>
-
-
-                                                <div
-                                                    style={{
-                                                        fontFamily: "Gilroy",
-                                                        fontSize: 14,
-                                                        color: "black",
-                                                    }}
-                                                >
-                                                    ₹{finalSettlementList?.currentMonthRentInfo?.currentPayableRent}
-                                                </div>
-                                            </div>
-
-                                            {showDetails &&
-                                                finalSettlementList?.currentMonthRentInfo?.rentLists?.map((item, index) => (
-                                                    <div key={index} style={{ marginTop: 8 }}>
-
-                                                        {/* SINGLE ROW */}
-                                                        <div
+                            <div
+                                style={{
+                                    maxHeight: showInvoices ? "500px" : "0",
+                                    overflow: "hidden",
+                                    transition: "max-height 0.3s ease",
+                                }}
+                            >
+                                {showInvoices && (
+                                    <div style={{ padding: "8px 10px" }}>
+                                        <div className="table-responsive border border-gray rounded">
+                                            <table className="table table-sm align-middle mb-0" style={{ fontFamily: "Gilroy", }}>
+                                                <thead>
+                                                    <tr>
+                                                        <th
+                                                            className="px-2 py-2 text-start"
                                                             style={{
-                                                                display: "flex",
-                                                                justifyContent: "space-between",
-                                                                alignItems: "center",
+                                                                fontSize: 14,
+                                                                color: "#00092F",
                                                                 fontFamily: "Gilroy",
-                                                                fontSize: 12,
-                                                                color: "#1E45E1",
-                                                                width: "100%",
-                                                                backgroundColor: "#F9F9F9", padding: 10, borderRadius: 8
+                                                                fontWeight: 600,
+                                                                verticalAlign: "middle",
                                                             }}
                                                         >
+                                                            Invoice No
+                                                        </th>
 
-                                                            <div style={{ whiteSpace: "nowrap" }}>
-                                                                {item.floorName} | {item.roomName} - {item.bedName}
-                                                            </div>
+                                                        <th
+                                                            className="px-2 py-2 text-start"
+                                                            style={{
+                                                                fontSize: 14,
+                                                                color: "#00092F",
+                                                                fontFamily: "Gilroy",
+                                                                fontWeight: 600,
+                                                                verticalAlign: "middle",
+                                                            }}
+                                                        >
+                                                            Type
+                                                        </th>
+
+                                                        <th
+                                                            className="px-2 py-2 text-end"
+                                                            style={{
+                                                                fontSize: 14,
+                                                                color: "#00092F",
+                                                                fontFamily: "Gilroy",
+                                                                fontWeight: 600,
+                                                                verticalAlign: "middle",
+                                                            }}
+                                                        >
+                                                            Invoice Amount
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+
+                                                    {Array.isArray(finalSettlementList?.unpaidInvoices) && finalSettlementList.unpaidInvoices.length > 0 ? (
+                                                        finalSettlementList?.unpaidInvoices.map((user) => (
+                                                            <tr key={user.invoiceid}>
+                                                                <td
+                                                                    className=" text-decoration-underline px-2 py-2"
+
+                                                                    style={{
+                                                                        fontFamily: "Gilroy",
+                                                                        fontSize: "14px",
+                                                                        // paddingTop: "1rem", 
+                                                                        color: "#1E45E1", fontWeight: 400
+                                                                    }}
+                                                                >
+                                                                    {user.invoiceNumber}
+                                                                </td>
+                                                                <td
+                                                                    className=" px-2 py-2"
+                                                                    style={{
+                                                                        fontFamily: "Gilroy",
+                                                                        fontSize: "14px",
+                                                                        color: "#1E1E1E", fontWeight: 400
+                                                                        // paddingTop: "1rem"
+                                                                    }}
+                                                                >
+                                                                    {user.type}
+                                                                </td>
+                                                                <td
+                                                                    className="text-end px-2 py-2"
+                                                                    style={{
+                                                                        fontFamily: "Gilroy",
+                                                                        fontSize: "14px",
+                                                                        color: "#1E1E1E",
+                                                                        fontWeight: 500, fontWeight: 400
+                                                                        // paddingTop: "1rem"
+                                                                    }}
+                                                                >
+                                                                    ₹{user.payableAmount}
+                                                                </td>
+                                                            </tr>
+                                                        ))
+
+                                                    )
+                                                        :
+                                                        (
+                                                            <tr>
+                                                                <td colSpan={3} className="text-center px-2 py-2" style={{ color: "#6B7280", fontSize: 14 }}>
+                                                                    No pending invoices
+                                                                </td>
+                                                            </tr>
+                                                        )
+
+                                                    }
+                                                    <tr style={{ backgroundColor: "#F9F9F9" }}>
+                                                        <td colSpan={2} className=" text-start px-2 py-2" style={{ fontSize: 14, color: "#1E1E1E" }}>
+                                                            Total
+                                                        </td>
+                                                        <td className=" text-end px-2 py-2" style={{ fontSize: 14, color: "#1E1E1E" }}>
+                                                            ₹{
+                                                                finalSettlementList?.unpaidInvoices?.reduce(
+                                                                    (sum, inv) => sum + Number(inv.payableAmount || 0),
+                                                                    0
+                                                                ) || 0
+                                                            }
+                                                        </td>
+                                                    </tr>
 
 
-                                                            <div style={{ whiteSpace: "nowrap", color: "#222" }}>
-                                                                ({item.noOfDays} {item.noOfDays === 1 ? "day" : "days"} × {item.rent})
-                                                            </div>
-                                                        </div>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+
+                        </div>
 
 
-                                                        {index !== finalSettlementList.currentMonthRentInfo.rentLists.length - 1 && (
-                                                            <div
-                                                                style={{
-                                                                    borderBottom: "1px dashed #CBD5E1",
-                                                                    marginTop: 6,
-                                                                }}
-                                                            />
-                                                        )}
-                                                    </div>
-                                                ))}
+                        {/* Refundable Rent */}
+                        <div
+                            className="mb-2"
+                            style={{
+                                border: "1px solid #E5E7EB",
+                                borderRadius: 8,
+                                backgroundColor: "#fff",
+                                fontFamily: "Gilroy",
+                            }}
+                        >
+
+                            <div style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                                padding: "10px 14px",
+
+                            }}
+                            >
+                                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                                    <span
+                                        style={{
+                                            borderRadius: 5,
+                                            padding: 4,
+                                            display: "flex", cursor: "pointer",
+                                        }}
+                                    >
+                                        {showRentDetails ? (
+                                            <ArrowUp2 size="16" color="#1E45E1" onClick={() => setShowRentDetails(false)} />
+                                        ) : (
+                                            <ArrowDown2 size="16" color="#1E45E1" onClick={() => setShowRentDetails(true)} />
+                                        )}
+                                    </span>
+
+                                    <span
+                                        style={{
+                                            fontSize: 14,
+                                            color: "black",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 600,
+                                        }}
+                                    >
+                                        Refundable Rent
+                                    </span>
+                                </div>
+                                <span
+                                    style={{
+                                        fontSize: 14,
+                                        color: "black",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                    }}
+                                >
+                                    ₹
+                                </span>
+                            </div>
+
+                            {
+                                showRentDetails &&
+                                <hr className="m-0" style={{ border: "1px solid #DFDFDF" }} />
+                            }
+                            {
+                                showRentDetails &&
+                                <div style={{ padding: "8px 10px" }}>
+
+                                    <div className="d-flex justify-content-between py-2">
+                                        <span
+                                            style={{
+                                                fontFamily: "Gilroy",
+                                                fontSize: 14,
+                                                color: "black",
+                                            }}
+                                        >
+                                            Last Rent Paid (30 Days)
+                                        </span>
+
+                                        <span
+                                            style={{
+                                                fontFamily: "Gilroy",
+                                                fontSize: 14,
+                                                color: "black",
+                                            }}
+                                        >
+                                            ₹{finalSettlementList?.currentMonthRentInfo?.currentRentPaid || 0}
+                                        </span>
+                                    </div>
+
+                                    <div className="d-flex justify-content-between gap-2 py-2 align-items-start">
+
+
+                                        <div
+                                            style={{
+                                                fontFamily: "Gilroy",
+                                                fontSize: 14,
+                                                color: "black",
+                                                cursor: "pointer",
+                                                userSelect: "none"
+                                            }}
+                                            onClick={() => setShowDetails(!showDetails)}
+                                        >
+                                            Actual Stay Days (Rent) (
+                                            {(() => {
+                                                const d = finalSettlementList?.currentMonthRentInfo?.stayDays ?? 0;
+                                                return `${d} ${d === 1 ? "day" : "days"}`;
+                                            })()}
+
+
+                                            )
+
+
+                                            <span style={{ marginLeft: 6 }} >
+                                                {showDetails ? (
+                                                    <span
+                                                        style={{
+                                                            backgroundColor: "#E7F1FF",
+                                                            borderRadius: 5,
+                                                            padding: 4,
+
+
+                                                        }}
+                                                    >
+                                                        <ArrowUp2 size="16" color="#1E45E1" />
+                                                    </span>
+                                                ) : (
+                                                    <span
+                                                        style={{
+                                                            backgroundColor: "#E7F1FF",
+                                                            borderRadius: 5,
+                                                            padding: 4,
+
+                                                        }}
+                                                    >
+                                                        <ArrowDown2 size="16" color="#1E45E1" />
+                                                    </span>
+                                                )}
+                                            </span>
+
 
 
 
                                         </div>
+
+
+                                        <div
+                                            style={{
+                                                fontFamily: "Gilroy",
+                                                fontSize: 14,
+                                                color: "black",
+                                            }}
+                                        >
+                                            ₹{finalSettlementList?.currentMonthRentInfo?.currentPayableRent}
+                                        </div>
                                     </div>
 
+                                    {showDetails &&
+                                        finalSettlementList?.currentMonthRentInfo?.rentLists?.map((item, index) => (
+                                            <div key={index} style={{ marginTop: 8 }}>
+
+
+                                                <div
+                                                    style={{
+                                                        display: "flex",
+                                                        justifyContent: "space-between",
+                                                        alignItems: "center",
+                                                        fontFamily: "Gilroy",
+                                                        fontSize: 12,
+                                                        color: "#1E45E1",
+                                                        width: "100%",
+                                                        backgroundColor: "#F9F9F9", padding: 10, borderRadius: 8
+                                                    }}
+                                                >
+
+                                                    <div style={{ whiteSpace: "nowrap" }}>
+                                                        {item.floorName} | {item.roomName} - {item.bedName}
+                                                    </div>
+
+
+                                                    <div style={{ whiteSpace: "nowrap", color: "#222" }}>
+                                                        ({item.noOfDays} {item.noOfDays === 1 ? "day" : "days"} × {item.rent})
+                                                    </div>
+                                                </div>
+
+
+                                                {index !== finalSettlementList.currentMonthRentInfo.rentLists.length - 1 && (
+                                                    <div
+                                                        style={{
+                                                            borderBottom: "1px dashed #CBD5E1",
+                                                            marginTop: 6,
+                                                        }}
+                                                    />
+                                                )}
+                                            </div>
+                                        ))}
+
 
                                 </div>
-                            </div>
-
-
-
-
-                           <div
-  className="mb-2"
-  style={{
-    border: "1px solid #E5E7EB",
-    borderRadius: 8,
-    padding: 12,
-    backgroundColor: "#fff",
-    fontFamily: "Gilroy",
-  }}
->
-  {/* HEADER */}
-  <div
-    style={{
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      fontWeight: 600,
-      fontSize: 14,
-      marginBottom: 8,
-      color: "#222222",
-    }}
-  >
-    <span>Electricity Bill</span>
-    <span>₹</span>
-  </div>
-
-  <hr style={{ margin: "6px 0" }} />
-
-  {/* EB NOT CALCULATED STATE */}
-  {(
-    !finalSettlementList?.ebInfo?.unitPrice ||
-    !ebBreakup?.length
-  ) ? (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        gap: 8,
-        padding: "10px 6px",
-        color: "#9CA3AF",
-        fontSize: 13,
-        justifyContent:"center"
-      }}
-    >
-      <InfoCircle size={18} color="#1E45E1" />
-      <span style={{textAlign:"center", color:"#222222", fontSize:16, fontWeight:600}}>EB Bill wasn’t calculated yet!</span>
-    </div>
-  ) : (
-  
-    ebBreakup.map((item, index) => {
-      const unitPrice = finalSettlementList?.ebInfo?.unitPrice || 0;
-      const amount = item.units * unitPrice;
-
-      return (
-        <div
-          key={index}
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            fontSize: 13,
-            marginTop: 6,
-          }}
-        >
-          <div
-            style={{
-              color: "#2A2A2A",
-              whiteSpace: "nowrap",
-              fontWeight: 600,
-              fontSize: 14,
-            }}
-          >
-            {item.floorName} | {item.roomBed}
-          </div>
-
-          <div
-            style={{
-              display: "flex",
-              gap: 12,
-              fontSize: 12,
-              alignItems: "center",
-              whiteSpace: "nowrap",
-            }}
-          >
-            <span style={{ color: "#6C6C6C" }}>
-              ({item.units} Units)
-            </span>
-            <span style={{ fontWeight: 600, color: "#000" }}>
-              ₹{amount}
-            </span>
-          </div>
-        </div>
-      );
-    })
-  )}
-</div>
-
-
-
+                            }
                         </div>
 
-                        <div className="p-3  rounded mt-3" style={{ backgroundColor: "#E7F1FF", borderRadius: 10 }}>
 
 
-                            <div className="d-flex justify-content-between align-items-center p-2">
-                                <div>
-                                    <p style={{ fontFamily: "Gilroy", fontWeight: 600, fontSize: "1rem" }}>Deductions</p>
-                                </div>
-                                <div>
-                                    <Button
-                                        onClick={handleAddField}
+                        {/* Missed EB */}
+
+                        <div
+                            className="mb-2"
+                            style={{
+                                border: "1px solid #E5E7EB",
+                                borderRadius: 8,
+                                backgroundColor: "#fff",
+                                fontFamily: "Gilroy",
+                            }}
+                        >
+
+                            <div
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                    padding: "10px 14px",
+
+                                }}
+
+                            >
+                                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                                    <span
                                         style={{
-                                            fontFamily: "Gilroy",
-                                            fontSize: "14px",
-                                            backgroundColor: "#1E45E1",
-                                            color: "white",
-                                            fontWeight: 600,
-                                            borderRadius: "10px",
-                                            padding: "6px 15px",
-                                            marginBottom: "10px",
-                                            display: "flex",
-                                            alignItems: "center",
-                                            gap: "6px",
+                                            borderRadius: 5,
+                                            padding: 4,
+                                            display: "flex", cursor: "pointer",
                                         }}
                                     >
-                                        <img
-                                            src={addcircle}
-                                            alt="Assign Bed"
+                                        {showEbMissed ? (
+                                            <ArrowUp2 size="16" color="#1E45E1" onClick={() => setShowEbMissed(false)} />
+                                        ) : (
+                                            <ArrowDown2 size="16" color="#1E45E1" onClick={() => setShowEbMissed(true)} />
+                                        )}
+                                    </span>
+
+                                    <span
+                                        style={{
+                                            fontSize: 14,
+                                            color: "black",
+                                            fontWeight: 600,
+                                        }}
+                                    >
+                                        Electricity Bill
+                                    </span>
+                                </div>
+
+                                <span
+                                    style={{
+                                        fontSize: 14,
+                                        color: "black",
+                                        fontWeight: 500,
+                                    }}
+                                >
+                                    ₹
+                                </span>
+                            </div>
+
+
+                            {showEbMissed && (
+                                <hr className="m-0" style={{ border: "1px solid #DFDFDF" }} />
+                            )}
+
+
+                            {showEbMissed && (
+                                <div style={{ padding: "8px 10px" }}>
+
+                                    {(!finalSettlementList?.ebInfo?.unitPrice || !ebBreakup?.length) ? (
+                                        <div
                                             style={{
-                                                height: 16,
-                                                width: 16,
-                                                filter: "brightness(0) invert(1)",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                gap: 8,
+                                                padding: "10px 6px",
+                                                justifyContent: "center",
                                             }}
-                                        />
-                                        Add
-                                    </Button>
+                                        >
+                                            <InfoCircle size={18} color="#1E45E1" />
+                                            <span
+                                                style={{
+                                                    textAlign: "center",
+                                                    color: "#222",
+                                                    fontSize: 14,
+                                                    fontWeight: 600,
+                                                }}
+                                            >
+                                                EB Bill wasn’t calculated yet!
+                                            </span>
+                                        </div>
+                                    ) : (
+                                        ebBreakup.map((item, index) => {
+                                            const unitPrice = finalSettlementList?.ebInfo?.unitPrice || 0;
+                                            const amount = item.units * unitPrice;
+
+                                            return (
+                                                <div key={index} style={{ marginTop: 8 }}>
+                                                    <div
+                                                        style={{
+                                                            display: "flex",
+                                                            justifyContent: "space-between",
+                                                            alignItems: "center",
+                                                            fontFamily: "Gilroy",
+                                                            fontSize: 12,
+                                                            backgroundColor: "#F9F9F9",
+                                                            padding: 10,
+                                                            borderRadius: 8,
+                                                        }}
+                                                    >
+                                                        <div
+                                                            style={{
+                                                                color: "#1E45E1",
+                                                                fontWeight: 600,
+                                                                whiteSpace: "nowrap",
+                                                            }}
+                                                        >
+                                                            {item.floorName} | {item.roomBed}
+                                                        </div>
+
+                                                        <div style={{ whiteSpace: "nowrap", color: "#222" }}>
+                                                            ({item.units} Units × ₹{unitPrice}) = ₹{amount}
+                                                        </div>
+                                                    </div>
+
+                                                    {index !== ebBreakup.length - 1 && (
+                                                        <div
+                                                            style={{
+                                                                borderBottom: "1px dashed #CBD5E1",
+                                                                marginTop: 6,
+                                                            }}
+                                                        />
+                                                    )}
+                                                </div>
+                                            );
+                                        })
+                                    )}
+                                </div>
+                            )}
+                        </div>
+
+
+                        {/* pendingEb */}
+
+                        <div
+                            className="mb-2"
+                            style={{
+                                border: "1px solid #E5E7EB",
+                                borderRadius: 8,
+                                backgroundColor: "#fff",
+                                fontFamily: "Gilroy",
+                            }}
+                        >
+
+                            <div
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                    padding: "10px 14px",
+
+                                }}
+
+                            >
+                                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                                    <span
+                                        style={{
+                                            borderRadius: 5,
+                                            padding: 4,
+                                            display: "flex", cursor: "pointer",
+                                        }}
+                                    >
+                                        {showEbPending ? (
+                                            <ArrowUp2 size="16" color="#1E45E1" onClick={() => setShowEbPending(false)} />
+                                        ) : (
+                                            <ArrowDown2 size="16" color="#1E45E1" onClick={() => setShowEbPending(true)} />
+                                        )}
+                                    </span>
+
+                                    <span
+                                        style={{
+                                            fontSize: 14,
+                                            color: "black",
+                                            fontWeight: 600,
+                                        }}
+                                    >
+                                        Electricity Bill
+                                    </span>
+                                </div>
+
+                                <span
+                                    style={{
+                                        fontSize: 14,
+                                        color: "black",
+                                        fontWeight: 500,
+                                    }}
+                                >
+                                    ₹
+                                </span>
+                            </div>
+
+
+                            {showEbPending && (
+                                <hr className="m-0" style={{ border: "1px solid #DFDFDF" }} />
+                            )}
+
+
+                            {showEbPending && (
+                                <div style={{ padding: "8px 10px" }}>
+
+                                    {(!finalSettlementList?.ebInfo?.unitPrice || !ebBreakup?.length) ? (
+                                        <div
+                                            style={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                gap: 8,
+                                                padding: "10px 6px",
+                                                justifyContent: "center",
+                                            }}
+                                        >
+                                            <InfoCircle size={18} color="#1E45E1" />
+                                            <span
+                                                style={{
+                                                    textAlign: "center",
+                                                    color: "#222",
+                                                    fontSize: 14,
+                                                    fontWeight: 600,
+                                                }}
+                                            >
+                                                EB Bill wasn’t calculated yet!
+                                            </span>
+                                        </div>
+                                    ) : (
+                                        ebBreakup.map((item, index) => {
+                                            const unitPrice = finalSettlementList?.ebInfo?.unitPrice || 0;
+                                            const amount = item.units * unitPrice;
+
+                                            return (
+                                                <div key={index} style={{ marginTop: 8 }}>
+                                                    <div
+                                                        style={{
+                                                            display: "flex",
+                                                            justifyContent: "space-between",
+                                                            alignItems: "center",
+                                                            fontFamily: "Gilroy",
+                                                            fontSize: 12,
+                                                            backgroundColor: "#F9F9F9",
+                                                            padding: 10,
+                                                            borderRadius: 8,
+                                                        }}
+                                                    >
+                                                        <div
+                                                            style={{
+                                                                color: "#1E45E1",
+                                                                fontWeight: 600,
+                                                                whiteSpace: "nowrap",
+                                                            }}
+                                                        >
+                                                            {item.floorName} | {item.roomBed}
+                                                        </div>
+
+                                                        <div style={{ whiteSpace: "nowrap", color: "#222" }}>
+                                                            ({item.units} Units × ₹{unitPrice}) = ₹{amount}
+                                                        </div>
+                                                    </div>
+
+                                                    {index !== ebBreakup.length - 1 && (
+                                                        <div
+                                                            style={{
+                                                                borderBottom: "1px dashed #CBD5E1",
+                                                                marginTop: 6,
+                                                            }}
+                                                        />
+                                                    )}
+                                                </div>
+                                            );
+                                        })
+                                    )}
+                                </div>
+                            )}
+                        </div>
+
+                        <div
+                            className="mt-3"
+                            style={{
+                                border: "1px solid #E5E7EB",
+                                borderRadius: 8,
+                                // backgroundColor: "#E7F1FF",
+                                fontFamily: "Gilroy",
+                            }}
+                        >
+
+
+                            <div style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                                padding: "10px 14px",
+                                cursor: "pointer",
+                            }}
+                            >
+                                <div className="d-flex align-items-center gap-2"  >
+                                    <span
+                                        style={{
+                                            // backgroundColor: "#E7F1FF",
+                                            borderRadius: 5,
+                                            padding: 4,
+                                            display: "flex",
+                                        }}
+                                    >
+                                        {showDeductions ? (
+                                            <ArrowUp2 size="16" color="#1E45E1" onClick={() => setShowDeductions(false)} />
+                                        ) : (
+                                            <ArrowDown2 size="16" color="#1E45E1" onClick={() => setShowDeductions(true)} />
+                                        )}
+                                    </span>
+
+                                    <span
+                                        style={{
+                                            fontSize: 14,
+                                            color: "black",
+                                            fontWeight: 600,
+                                        }}
+                                    >
+                                        Deductions
+                                    </span>
+                                </div>
+                                <div className="d-flex gap-1 align-items-center" style={{ cursor: "pointer" }}>
+                                    <AddCircle onClick={handleAddField}
+                                        size="18"
+                                        color="#1E45E1" variant="Bold" style={{ cursor: "pointer" }}
+                                    />
+                                    <label style={{ fontSize: 13, color: "#222222", fontWeight: 500 }}> Add</label>
+
 
                                 </div>
                             </div>
 
-
-                            {fields.map((item, index) => {
-                                const filteredOptions = (() => {
-                                    let options = [...reasonOptions];
-
-
-                                    if (item.reason_name && !options.some(opt => opt.value === item.reason_name)) {
-                                        options.push({
-                                            value: item.reason_name,
-                                            label: item.reason_name.charAt(0).toUpperCase() + item.reason_name.slice(1)
-                                        });
-                                    }
+                            {showDeductions && (
+                                <hr className="m-0" style={{ border: "1px solid #DFDFDF" }} />
+                            )}
+                            {showDeductions && (
+                                <div style={{ padding: "8px 10px" }} >
+                                    {fields.map((item, index) => {
+                                        const filteredOptions = (() => {
+                                            let options = [...reasonOptions];
 
 
-                                    const isMaintenanceSelected = fields.some(field => field.reason === "maintenance");
-                                    return options.map(opt => ({
-                                        ...opt,
-                                        isDisabled: opt.value === "maintenance" && isMaintenanceSelected && item.reason !== "maintenance"
-                                    }));
-                                })();
+                                            if (item.reason_name && !options.some(opt => opt.value === item.reason_name)) {
+                                                options.push({
+                                                    value: item.reason_name,
+                                                    label: item.reason_name.charAt(0).toUpperCase() + item.reason_name.slice(1)
+                                                });
+                                            }
+
+
+                                            const isMaintenanceSelected = fields.some(field => field.reason === "maintenance");
+                                            return options.map(opt => ({
+                                                ...opt,
+                                                isDisabled: opt.value === "maintenance" && isMaintenanceSelected && item.reason !== "maintenance"
+                                            }));
+                                        })();
 
 
 
-                                return (
-                                    <div className="row px-4 mb-3" key={index}>
-                                        <div className="col-md-6">
+                                        return (
+                                            <div className="row px-4 mb-3" key={index}>
+                                                <div className="col-md-6">
 
 
-                                            {!item.showInput ? (
-                                                <Select
-                                                    options={filteredOptions}
-                                                    value={filteredOptions.find((opt) => opt.value === item.reason_name) || null}
-                                                    onChange={(selectedOption) => {
-                                                        const selectedValue = selectedOption.value;
+                                                    {!item.showInput ? (
+                                                        <Select
+                                                            options={filteredOptions}
+                                                            value={filteredOptions.find((opt) => opt.value === item.reason_name) || null}
+                                                            onChange={(selectedOption) => {
+                                                                const selectedValue = selectedOption.value;
 
-                                                        if (selectedValue === "others") {
-                                                            handleInputChange(index, "reason_name", "others");
-                                                        } else {
-                                                            handleInputChange(index, "reason_name", selectedValue);
-                                                        }
-                                                    }}
-                                                    isDisabled={item.reason_name === "maintenance" || item?.reason_name === "DueAmount"}
-                                                    menuPlacement="auto"
-                                                    styles={{
-                                                        control: (base) => ({
-                                                            ...base,
-                                                            height: "50px",
-                                                            border: "1px solid #D9D9D9",
-                                                            borderRadius: "8px",
-                                                            fontSize: "16px",
-                                                            color: "#4B4B4B",
-                                                            fontFamily: "Gilroy",
-                                                            fontWeight: 500,
-                                                            boxShadow: "none",
-                                                        }),
-                                                        menu: (base) => ({
-                                                            ...base,
-                                                            backgroundColor: "#f8f9fa",
-                                                            border: "1px solid #ced4da",
-                                                            fontFamily: "Gilroy",
-                                                        }),
-                                                        menuList: (base) => ({
-                                                            ...base,
-                                                            backgroundColor: "#f8f9fa",
-                                                            maxHeight: "120px",
-                                                            padding: 0,
-                                                            scrollbarWidth: "thin",
-                                                            overflowY: "auto",
-                                                            fontFamily: "Gilroy",
-                                                        }),
-                                                        placeholder: (base) => ({
-                                                            ...base,
-                                                            color: "#555",
-                                                        }),
-                                                        dropdownIndicator: (base) => ({
-                                                            ...base,
-                                                            color: "#555",
-                                                            display: "inline-block",
-                                                            fill: "currentColor",
-                                                            lineHeight: 1,
-                                                            stroke: "currentColor",
-                                                            strokeWidth: 0,
-                                                            cursor: "pointer",
-                                                        }),
-                                                        indicatorSeparator: () => ({
-                                                            display: "none",
-                                                        }),
-                                                        option: (base, state) => ({
-                                                            ...base,
-                                                            cursor: state.isDisabled ? "not-allowed" : "pointer",
-                                                            backgroundColor: state.isFocused
-                                                                ? "#E7F1FF"
-                                                                : state.isDisabled
-                                                                    ? "#f0f0f0"
-                                                                    : "#fff",
-                                                            color: state.isDisabled ? "#aaa" : "#000",
-                                                        }),
-                                                    }}
-                                                />
-                                            ) : (
-                                                <>
-                                                    <input disabled={item.isSystemGenerated}
+                                                                if (selectedValue === "others") {
+                                                                    handleInputChange(index, "reason_name", "others");
+                                                                } else {
+                                                                    handleInputChange(index, "reason_name", selectedValue);
+                                                                }
+                                                            }}
+                                                            isDisabled={item.reason_name === "maintenance" || item?.reason_name === "DueAmount"}
+                                                            menuPlacement="auto"
+                                                            styles={{
+                                                                control: (base) => ({
+                                                                    ...base,
+                                                                    height: "50px",
+                                                                    border: "1px solid #D9D9D9",
+                                                                    borderRadius: "8px",
+                                                                    fontSize: "16px",
+                                                                    color: "#4B4B4B",
+                                                                    fontFamily: "Gilroy",
+                                                                    fontWeight: 500,
+                                                                    boxShadow: "none",
+                                                                }),
+                                                                menu: (base) => ({
+                                                                    ...base,
+                                                                    backgroundColor: "#f8f9fa",
+                                                                    border: "1px solid #ced4da",
+                                                                    fontFamily: "Gilroy",
+                                                                }),
+                                                                menuList: (base) => ({
+                                                                    ...base,
+                                                                    backgroundColor: "#f8f9fa",
+                                                                    maxHeight: "120px",
+                                                                    padding: 0,
+                                                                    scrollbarWidth: "thin",
+                                                                    overflowY: "auto",
+                                                                    fontFamily: "Gilroy",
+                                                                }),
+                                                                placeholder: (base) => ({
+                                                                    ...base,
+                                                                    color: "#555",
+                                                                }),
+                                                                dropdownIndicator: (base) => ({
+                                                                    ...base,
+                                                                    color: "#555",
+                                                                    display: "inline-block",
+                                                                    fill: "currentColor",
+                                                                    lineHeight: 1,
+                                                                    stroke: "currentColor",
+                                                                    strokeWidth: 0,
+                                                                    cursor: "pointer",
+                                                                }),
+                                                                indicatorSeparator: () => ({
+                                                                    display: "none",
+                                                                }),
+                                                                option: (base, state) => ({
+                                                                    ...base,
+                                                                    cursor: state.isDisabled ? "not-allowed" : "pointer",
+                                                                    backgroundColor: state.isFocused
+                                                                        ? "#E7F1FF"
+                                                                        : state.isDisabled
+                                                                            ? "#f0f0f0"
+                                                                            : "#fff",
+                                                                    color: state.isDisabled ? "#aaa" : "#000",
+                                                                }),
+                                                            }}
+                                                        />
+                                                    ) : (
+                                                        <>
+                                                            <input disabled={item.isSystemGenerated}
+                                                                type="text"
+                                                                className="form-control"
+
+                                                                placeholder="Enter custom reason"
+                                                                value={item.customReason}
+                                                                onChange={(e) => handleInputChange(index, "customReason", e.target.value)}
+                                                                style={{
+                                                                    fontSize: 16,
+                                                                    color: "#4B4B4B",
+                                                                    fontFamily: "Gilroy",
+                                                                    fontWeight: 500,
+                                                                    boxShadow: "none",
+                                                                    border: "1px solid #D9D9D9",
+                                                                    height: 50,
+                                                                    borderRadius: 8,
+                                                                }}
+                                                            />
+                                                        </>
+                                                    )}
+                                                    {errors[index]?.reason && (
+                                                        <ErrorMessage message={errors[index]?.reason} type="error" />
+                                                    )}
+                                                </div>
+
+
+                                                <div className="col-md-5">
+
+                                                    <input
                                                         type="text"
+                                                        placeholder="Enter amount"
+                                                        value={item.amount}
+                                                        disabled={
+                                                            apiDeductions.some(
+                                                                (apiItem) => apiItem.type?.toLowerCase() === item.reason_name?.toLowerCase()
+                                                            ) && item.isSystemGenerated}
+                                                        onChange={(e) => handleInputChange(index, "amount", e.target.value)}
                                                         className="form-control"
-
-                                                        placeholder="Enter custom reason"
-                                                        value={item.customReason}
-                                                        onChange={(e) => handleInputChange(index, "customReason", e.target.value)}
                                                         style={{
                                                             fontSize: 16,
                                                             color: "#4B4B4B",
@@ -1278,62 +1610,35 @@ function FinalSettlement() {
                                                             height: 50,
                                                             borderRadius: 8,
                                                         }}
+
                                                     />
-                                                </>
-                                            )}
-                                            {errors[index]?.reason && (
-                                                <ErrorMessage message={errors[index]?.reason} type="error" />
-                                            )}
-                                        </div>
+                                                    {errors[index]?.amount && (
+                                                        <ErrorMessage message={errors[index]?.amount} type="error" />
+                                                    )}
+                                                </div>
 
 
-                                        <div className="col-md-5">
+                                                <div className="col-md-1 d-flex justify-content-center align-items-center p-0">
 
-                                            <input
-                                                type="text"
-                                                placeholder="Enter amount"
-                                                value={item.amount}
-                                                disabled={
-                                                    apiDeductions.some(
-                                                        (apiItem) => apiItem.type?.toLowerCase() === item.reason_name?.toLowerCase()
-                                                    ) && item.isSystemGenerated}
-                                                onChange={(e) => handleInputChange(index, "amount", e.target.value)}
-                                                className="form-control"
-                                                style={{
-                                                    fontSize: 16,
-                                                    color: "#4B4B4B",
-                                                    fontFamily: "Gilroy",
-                                                    fontWeight: 500,
-                                                    boxShadow: "none",
-                                                    border: "1px solid #D9D9D9",
-                                                    height: 50,
-                                                    borderRadius: 8,
-                                                }}
-
-                                            />
-                                            {errors[index]?.amount && (
-                                                <ErrorMessage message={errors[index]?.amount} type="error" />
-                                            )}
-                                        </div>
+                                                    {(!item.isSystemGenerated) && (
+                                                        <Trash
+                                                            size="20"
+                                                            color="red"
+                                                            variant="Bold"
+                                                            style={{ cursor: "pointer" }}
+                                                            onClick={() => handleRemoveField(index)}
+                                                        />
+                                                    )}
 
 
-                                        <div className="col-md-1 d-flex justify-content-center align-items-center p-0">
-
-                                            {(!item.isSystemGenerated) && (
-                                                <Trash
-                                                    size="20"
-                                                    color="red"
-                                                    variant="Bold"
-                                                    style={{ cursor: "pointer" }}
-                                                    onClick={() => handleRemoveField(index)}
-                                                />
-                                            )}
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            )}
 
 
-                                        </div>
-                                    </div>
-                                );
-                            })}
                         </div>
 
 
@@ -1472,18 +1777,22 @@ function FinalSettlement() {
                             <ErrorMessage message={state.UsersList?.finalError} type="error" />
                         )}
 
-                        <div className="text-end mt-4">
-                            <Button variant="" className="me-2" onClick={handleClose} style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400 }}>
-                                Cancel
-                            </Button>
-                            <Button
-                                disabled={formLoading}
-                                style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400, backgroundColor: "#1E45E1" }}
-                                onClick={handleClickGenerate}
-                            >Generate Bill</Button>
-                        </div>
+
                     </div>
+
+
                 </div>
+                <div className="text-end mt-4 p-0" style={{  }}>
+                    <Button variant="" className="me-2" onClick={handleClose} style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400 }}>
+                        Cancel
+                    </Button>
+                    <Button
+                        disabled={formLoading}
+                        style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400, backgroundColor: "#1E45E1" }}
+                        onClick={handleClickGenerate}
+                    >Generate Bill</Button>
+                </div>
+    </div>
             </div>
 
             {formLoading &&

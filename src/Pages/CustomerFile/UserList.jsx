@@ -57,6 +57,7 @@ import { useHasPermission } from '../../Utils/Permission';
 import { useNavigate } from "react-router-dom";
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import { Tabs, Tab } from "react-bootstrap";
+import FinalOld from "./FinalOld";
 
 
 function UserList(props) {
@@ -2370,13 +2371,13 @@ function UserList(props) {
   }
   const [DueCustomerShow, setDueCustomerShow] = useState(false)
   const [CheckOutDetails, setCheckOutDetails] = useState("");
-  // const [finalsettlepage, setFinalSettlePage] = useState(false)
-  // const [finalsettledData, setFinalsettledData] = useState("")
+  const [finalsettlepage, setFinalSettlePage] = useState(false)
+  const [finalsettledData, setFinalsettledData] = useState("")
 
   const handleConformCheckout = (item) => {
     setDueCustomerShow(true)
     setCheckOutDetails(item)
-    // setFinalSettlePage(false)
+    setFinalSettlePage(false)
 
     dispatch({
       type: "GETCONFIRMCHECKOUTCUSTOMER",
@@ -2413,30 +2414,31 @@ function UserList(props) {
 
 
   const handleCheckoutGenrate = (item) => {
-    // setFinalsettledData(item)
+    setFinalsettledData(item)
     console.log("item",item)
-    // setFinalSettlePage(true)
+    setFinalSettlePage(true)
     setDueCustomerShow(false);
 
     dispatch({
       type: "GETCONFIRMCHECKOUTCUSTOMER",
       payload: { id: item?.customerId, hostel_id: item?.Hostel_Id },
     });
+  }
 
+
+
+  const handleCheckoutGenrateNew = (item) =>{
  navigate(`/tenant/final-settlement/${item?.customerId}`,{
   state: {
     data : item
   }
  });
-
-
   }
 
+  const handleClosefinal = () => {
+    setFinalSettlePage(false)
 
-  // const handleClosefinal = () => {
-  //   setFinalSettlePage(false)
-
-  // }
+  }
 
   useEffect(() => {
     if (state.InvoiceList?.unableAddInvoiceDetailsError) {
@@ -3803,6 +3805,56 @@ function UserList(props) {
                                                       }}
                                                     >
                                                       Generate
+                                                    </label>
+                                                  </div>
+
+
+                                                    <div
+                                                    className="d-flex align-items-center gap-2"
+
+                                                    onClick={() => {
+                                                      if (canWriteTenant) {
+                                                        handleCheckoutGenrateNew(user);
+                                                      }
+                                                    }}
+
+                                                    style={{
+                                                      backgroundColor: "#F9F9F9",
+                                                      cursor: !canWriteTenant ? "not-allowed" : "pointer",
+                                                      opacity: !canWriteTenant ? 0.6 : 1,
+                                                      padding: "8px 12px",
+                                                      borderRadius: 6,
+                                                      transition: "background 0.2s ease-in-out",
+                                                    }}
+                                                    onMouseEnter={(e) => {
+
+                                                      e.currentTarget.style.backgroundColor = "#FFFBEF";
+
+                                                    }}
+                                                    onMouseLeave={(e) => {
+                                                      e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                                    }}
+                                                  >
+                                                    <img
+                                                      src={logout}
+                                                      alt="checkout"
+                                                      style={{
+                                                        width: 16,
+                                                        height: 16,
+                                                        filter: !canWriteTenant ? "grayscale(100%)" : "none",
+                                                      }}
+                                                    />
+                                                    <label
+                                                      style={{
+                                                        fontSize: 14,
+                                                        fontWeight: 500,
+                                                        fontFamily: "Gilroy, sans-serif",
+                                                        color: !canWriteTenant ? "#888888" : "#222222",
+                                                        cursor: !canWriteTenant ? "not-allowed" : "pointer",
+                                                        margin: 0,
+                                                      }}
+                                                    >
+                                                      Generate New
                                                     </label>
                                                   </div>
                                                 </>
@@ -5566,10 +5618,11 @@ function UserList(props) {
         />
       )}
 
-      {/* {
-        finalsettlepage && <FinalSettlement show={finalsettlepage} 
+
+  {
+        finalsettlepage && <FinalOld show={finalsettlepage} 
         data={finalsettledData} handleClose={handleClosefinal} />
-      } */}
+      } 
 
 
       {
