@@ -493,6 +493,9 @@ function FinalSettlement() {
     useEffect(() => {
         if (state.InvoiceList.finalSettlementError) {
             setFormLoading(false)
+              setTimeout(() => {
+                dispatch({ type: 'REMOVE_FINAL_SETTLMENT_ERROR' })
+            }, 100)
         }
     }, [state.InvoiceList.finalSettlementError])
 

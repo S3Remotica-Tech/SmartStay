@@ -459,6 +459,10 @@ function FinalOld({ show, handleClose, data, pgDetails }) {
     useEffect(() => {
         if (state.InvoiceList.finalSettlementError) {
             setFormLoading(false)
+
+            setTimeout(() => {
+                dispatch({ type: 'REMOVE_FINAL_SETTLMENT_ERROR' })
+            }, 100)
         }
     }, [state.InvoiceList.finalSettlementError])
 
@@ -493,8 +497,8 @@ function FinalOld({ show, handleClose, data, pgDetails }) {
                                                 width: 50,
                                                 height: 50,
                                                 borderRadius: "50%",
-                                                 backgroundColor: "#E2E8F0",
-                          color: "#44536A",
+                                                backgroundColor: "#E2E8F0",
+                                                color: "#44536A",
                                                 display: "flex",
                                                 alignItems: "center",
                                                 justifyContent: "center",
