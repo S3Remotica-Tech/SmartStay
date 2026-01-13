@@ -35,7 +35,8 @@ import {
   Call,
   Sms,
   LogoutCurve,
-  Crown1, PasswordCheck, Edit, CardSend, Shield
+  Crown1,  
+  Edit, CardSend, Shield
 } from "iconsax-react";
 import Logout from "../../Components/Logout";
 import RecentActivity from "./RecentActivity";

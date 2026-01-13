@@ -1,14 +1,16 @@
-import React, { useState, useEffect, useRef } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {  useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import CryptoJS from "crypto-js";
-
-
+import PropTypes from "prop-types";
+import Cookies from 'universal-cookie';
 function Logout({show, handleClose}) {
 
 const state = useSelector((state) => state);
   const dispatch = useDispatch();
+    const cookies = new Cookies();
  const handleLogout = () => {
       dispatch({ type: 'LOGOUTADMINSAGA', payload: { source: "WEB" } })
       const token = cookies.get('v2-token');
@@ -130,5 +132,8 @@ const state = useSelector((state) => state);
           </Modal>
   )
 }
-
+Logout.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+};
 export default Logout

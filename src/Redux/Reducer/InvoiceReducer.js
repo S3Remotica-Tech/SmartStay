@@ -456,6 +456,8 @@ const InvoiceReducer = (state = initialState, action) => {
         case 'FINAL_SETTLMENT_ERROR':
             return { ...state, finalSettlementError: action.payload };
 
+case 'REMOVE_FINAL_SETTLMENT_ERROR':
+            return { ...state, finalSettlementError: '' };
 
         case 'SET_TRIGGER_SOURCE':
             return { ...state, triggeredBy: action.payload };

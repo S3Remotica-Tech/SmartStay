@@ -45,14 +45,14 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
     useEffect(() => {
         if (checkInDetails?.customerId || checkInDetails?.tenetId) {
             dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: checkInDetails?.customerId || checkInDetails?.tenetId } });
-               dispatch({ type: "INITIALIZECANCELCHECKOUT", payload: { customerId: checkInDetails?.customerId || checkInDetails?.tenetId, hostelId: state.login.selectedHostel_Id } });
-  
-   
+            dispatch({ type: "INITIALIZECANCELCHECKOUT", payload: { customerId: checkInDetails?.customerId || checkInDetails?.tenetId, hostelId: state.login.selectedHostel_Id } });
+
+
         }
     }, [checkInDetails?.customerId, checkInDetails?.tenetId])
 
 
-// console.log("initializeCancelCheckout",state.UsersList.initializeCancelCheckout.canRecheckinSameBed)
+    // console.log("initializeCancelCheckout",state.UsersList.initializeCancelCheckout.canRecheckinSameBed)
 
 
     const noticeDate = state.UsersList.customerdetails?.checkoutInfo?.noticeDate;
@@ -65,7 +65,7 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
 
 
 
-        // console.log("pgDetails",pgDetails, "checkInDetails",checkInDetails)
+    // console.log("pgDetails",pgDetails, "checkInDetails",checkInDetails)
 
 
 
@@ -87,24 +87,24 @@ function BackToCheckIn({ show, handleClose, checkInDetails, pgDetails }) {
             isValid = false;
         }
 
-        if (!isValid ) return;
+        if (!isValid) return;
 
 
-if(state.UsersList?.initializeCancelCheckout?.canRecheckinSameBed){
+        if (state.UsersList?.initializeCancelCheckout?.canRecheckinSameBed) {
 
-        dispatch({
-            type: 'CANCELCHECKOUT',
-            payload: {
-                customerId: checkInDetails?.customerId || checkInDetails?.tenetId,
-                hostelId: state.login.selectedHostel_Id,
-                // roomId: checkInDetails?.roomId,
-                bedId: Number(checkInDetails?.bedId) || Number(pgDetails?.bedId),
-                reCheckInDate: dayjs(recheckInDate).format("DD-MM-YYYY"),
-                reason: reason.trim(),
-            }
-        })
-        setFormLoading(true);
-    }
+            dispatch({
+                type: 'CANCELCHECKOUT',
+                payload: {
+                    customerId: checkInDetails?.customerId || checkInDetails?.tenetId,
+                    hostelId: state.login.selectedHostel_Id,
+                    // roomId: checkInDetails?.roomId,
+                    bedId: Number(checkInDetails?.bedId) || Number(pgDetails?.bedId),
+                    reCheckInDate: dayjs(recheckInDate).format("DD-MM-YYYY"),
+                    reason: reason.trim(),
+                }
+            })
+            setFormLoading(true);
+        }
     }
 
 
@@ -437,7 +437,7 @@ if(state.UsersList?.initializeCancelCheckout?.canRecheckinSameBed){
                                 <button disabled={!state.UsersList?.initializeCancelCheckout?.canRecheckinSameBed}
                                     type="button"
                                     style={{
-                                       backgroundColor: !state.UsersList?.initializeCancelCheckout?.canRecheckinSameBed ? "#9AAAF5" : "#1E45E1",
+                                        backgroundColor: !state.UsersList?.initializeCancelCheckout?.canRecheckinSameBed ? "#9AAAF5" : "#1E45E1",
                                         color: "#fff",
                                         fontWeight: 600,
                                         height: 40,
@@ -512,6 +512,7 @@ BackToCheckIn.propTypes = {
         floorName: PropTypes.string,
         roomName: PropTypes.string,
         bedName: PropTypes.string,
+        bedId: PropTypes.string,
     }).isRequired,
 
     pgDetails: PropTypes.shape({

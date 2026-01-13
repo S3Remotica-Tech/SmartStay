@@ -66,6 +66,7 @@ import ReceiptPdfDetails from "../Pages/Receipt/ReceiptPdfDetails";
 import BookingsPdfDetails from "../Pages/Bookings/BookingsPdfDetails";
 import FinalSettlement from "../Pages/CustomerFile/FinalSettlement";
 import SearchVector from "../Assets/Images/New_images/SearchVector.svg";
+import Logout from "./Logout";
 
 
 
@@ -513,6 +514,22 @@ function Sidebar() {
   const settingsPath = hostelId
     ? `/settings/${hostelId}`
     : `/settings`;
+
+
+
+const handleShowsettingsGenaral = () =>{
+  setShowProfileCard(false)
+     handlePageClick("settingNewDesign");
+    setSettingsPGShow(false);
+    const hostelId = state.login?.selectedHostel_Id;
+    if (hostelId) {
+      navigate(`/settings/${hostelId}`);
+    } else {
+      navigate(`/settings`);
+    }
+}
+
+
 
   useEffect(() => {
     if (allPageHostel_Id) {
@@ -1549,7 +1566,7 @@ function Sidebar() {
  <Route
                 path="/tenant/final-settlement/:tenantId?"
                 element={
-                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                  <div style={{ marginTop: 0, marginLeft: 10, marginRight: 5 ,}}>
                     <FinalSettlement
                       
                     />
@@ -2037,9 +2054,10 @@ function Sidebar() {
           handleShowLogout={handleShowLogout}
           navigate={navigate}
           profileCardRef={profileCardRef}
+          handleShowsettingsGenaral={handleShowsettingsGenaral}
         />
 
-        {/* Quick Actions Menu Modal */}
+        
         <SidebarQuickActions
           showMenuModal={showMenuModal}
           setShowMenuModal={setShowMenuModal}
@@ -2048,86 +2066,10 @@ function Sidebar() {
         />
       </Container>
 
-
-      <Modal
-        show={logoutformshow}
-        onHide={handleCloseLogout}
-        centered
-        backdrop="static"
-        className="logout-card d-flex justify-content-center align-items-center"
-        dialogClassName="custom-modal-width"
-      >
-        <Modal.Header style={{ borderBottom: "none" }}>
-          <Modal.Title
-            style={{
-              fontSize: "18px",
-              fontFamily: "Gilroy",
-              textAlign: "center",
-              fontWeight: 600,
-              color: "#222222",
-              flex: 1,
-            }}
-          >
-            Logout?
-          </Modal.Title>
-        </Modal.Header>
-
-        <Modal.Body
-          style={{
-            fontSize: 14,
-            fontWeight: 500,
-            fontFamily: "Gilroy",
-            color: "#646464",
-            textAlign: "center",
-            marginTop: "-20px",
-          }}
-        >
-          Are you sure you want Logout?
-        </Modal.Body>
-
-        <Modal.Footer
-          style={{
-            justifyContent: "center",
-            borderTop: "none",
-            marginTop: "-10px",
-          }}
-        >
-          <Button
-            style={{
-              width: 160,
-              height: 52,
-              borderRadius: 8,
-              padding: "12px 20px",
-              background: "#fff",
-              color: "#1E45E1",
-              border: "1px solid #1E45E1",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-              marginRight: 10,
-            }}
-            onClick={handleCloseLogout}
-          >
-            Cancel
-          </Button>
-          <Button
-            style={{
-              width: 160,
-              height: 52,
-              borderRadius: 8,
-              padding: "12px 20px",
-              background: "#1E45E1",
-              color: "#FFFFFF",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-            }}
-            onClick={handleLogout}
-          >
-            Logout
-          </Button>
-        </Modal.Footer>
-      </Modal>
+{
+  logoutformshow  && <Logout show={logoutformshow} handleClose={handleCloseLogout} />
+}
+     
     </>
   );
 }

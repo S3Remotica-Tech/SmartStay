@@ -1,7 +1,7 @@
 import React from 'react';
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Image } from "react-bootstrap";
 import { RiMessage2Fill } from "react-icons/ri";
-
+import PropTypes from "prop-types";
 function RecentActivity() {
 
   const StepItem = ({ children, isLast }) => {
@@ -39,7 +39,15 @@ function RecentActivity() {
         </Col>
       </Row>
     );
-  };
+  }
+  StepItem.propTypes = {
+  children: PropTypes.node.isRequired,
+  isLast: PropTypes.bool,
+};
+
+StepItem.defaultProps = {
+  isLast: false,
+};
 
   const recentActivities = [
     {
