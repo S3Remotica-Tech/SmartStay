@@ -1194,55 +1194,67 @@ function FinalSettlement() {
                                     <>
 
                                         <div style={{ padding: "12px 16px" }}>
-                                            {finalSettlementList?.ebInfo?.missedEb?.map((item, index) => (
-                                                <div key={index} style={{ marginBottom: 14 }}>
+                                            {!finalSettlementList?.ebInfo?.isHostelReading &&
+                                                finalSettlementList?.ebInfo?.missedEb?.map((item, index) => (
+                                                    <div key={index} style={{ marginBottom: 14 }}>
 
 
-                                                    <div
-                                                        style={{
-                                                            display: "flex",
-                                                            justifyContent: "space-between",
-                                                            alignItems: "center",
-                                                            fontSize: 13,
-                                                            fontWeight: 600,
-                                                        }}
-                                                    >
                                                         <div
                                                             style={{
                                                                 display: "flex",
+                                                                justifyContent: "space-between",
                                                                 alignItems: "center",
-                                                                gap: 8,
+                                                                fontSize: 13,
+                                                                fontWeight: 600,
                                                             }}
                                                         >
-                                                            <span>{item.floorName || "Floor Name"}</span>
-
-
-                                                            <span
+                                                            <div
                                                                 style={{
-                                                                    width: 1,
-                                                                    height: 14,
-                                                                    backgroundColor: "#D9D9D9",
-                                                                    display: "inline-block",
+                                                                    display: "flex",
+                                                                    alignItems: "center",
+                                                                    gap: 8,
                                                                 }}
-                                                            />
+                                                            >
+                                                                <span>{item.floorName || "Floor Name"}</span>
 
-                                                            <span>{item.roomName || "Room Name"} - {item.bedName || "Bed Name"}</span>
+
+                                                                <span
+                                                                    style={{
+                                                                        width: 1,
+                                                                        height: 14,
+                                                                        backgroundColor: "#D9D9D9",
+                                                                        display: "inline-block",
+                                                                    }}
+                                                                />
+
+                                                                <span>{item.roomName || "Room Name"} - {item.bedName || "Bed Name"}</span>
+
+
+                                                                <span style={{ color: "#1447E6", fontWeight: 600, fontSize: 12 }}> ({item.fromDate} - {item.toDate})</span>
+                                                            </div>
+
+
+
+
+                                                            <div className="d-flex gap-1 align-items-center" style={{ cursor: "pointer" }}>
+                                                                <AddCircle
+                                                                    size="18"
+                                                                    color="#1E45E1" variant="Bold" style={{ cursor: "pointer" }}
+                                                                />
+                                                                <label style={{ fontSize: 13, color: "#222222", fontWeight: 500 }}> Add</label>
+
+
+                                                            </div>
                                                         </div>
+                                                        <div
+                                                            style={{
+                                                                display: "flex",
+                                                                justifyContent: "space-between",
+                                                                alignItems: "center",
 
-
-                                                        <span style={{ whiteSpace: "nowrap" }}>
-                                                            ({item.units} Units) &nbsp; ₹{item.amount}
-                                                        </span>
-                                                    </div>
-                                                    <div
-                                                        style={{
-                                                            display: "flex",
-                                                            justifyContent: "space-between",
-                                                            alignItems: "center",
-
-                                                        }}
-                                                    >
-                                                        <div style={{
+                                                            }}
+                                                        >
+                                                            {/* <div style={{
                                                             padding: "10px 12px",
                                                             borderRadius: 8, backgroundColor: "#EEF4FF",
                                                         }}>
@@ -1255,75 +1267,71 @@ function FinalSettlement() {
                                                             </span>
                                                             <span style={{ color: "#1447E6", fontWeight: 600, fontSize: 12 }}>{item.fromDate} - {item.toDate}</span>
 
-                                                        </div>
-                                                        <div className="d-flex gap-1 align-items-center" style={{ cursor: "pointer" }}>
-                                                            <AddCircle
-                                                                size="18"
-                                                                color="#1E45E1" variant="Bold" style={{ cursor: "pointer" }}
-                                                            />
-                                                            <label style={{ fontSize: 13, color: "#222222", fontWeight: 500 }}> Add</label>
+                                                        </div> */}
 
 
                                                         </div>
 
-                                                    </div>
-
-
-
-                                                </div>
-                                            ))}
-
-                                            {finalSettlementList?.ebInfo?.pendingEb?.map((item, index) => (
-
-                                                <div key={index}
-                                                    style={{
-                                                        marginTop: 6,
-                                                        display: "inline-flex",
-                                                        alignItems: "center",
-                                                        gap: 8,
-                                                        backgroundColor: "#FFF7ED",
-                                                        color: "#AA6805",
-                                                        fontSize: 12,
-                                                        padding: "6px 10px",
-                                                        borderRadius: 6,
-                                                    }}
-                                                >
-
-                                                    <span
-                                                        style={{
-                                                            display: "flex",
-                                                            alignItems: "center",
-                                                            gap: 4,
-                                                            fontWeight: 500,
-                                                            whiteSpace: "nowrap",
-                                                        }}
-                                                    >
-                                                        <InfoCircle size="14" color="#AA6805" />
-                                                        Pending
-                                                    </span>
-
-
-                                                    <span
-                                                        style={{
-                                                            width: 1,
-                                                            height: 14,
-                                                            backgroundColor: "#E6C07A",
-                                                        }}
-                                                    />
-                                                    <div style={{}}>
-                                                        <span style={{ whiteSpace: "nowrap", fontWeight: 400 }}>
-                                                            Calculated period was {" "}   </span>
-                                                        <span style={{ color: "#AA6805", fontWeight: 600 }}>
-                                                            {item.fromDate} - {item.toDate}
-                                                        </span>
-                                                        <span style={{ fontSize: 13, color: "#222222", fontWeight: 600 }}>
-                                                            ({item.units} Units) &nbsp; ₹{item.amount}
-                                                        </span>
 
 
                                                     </div>
-                                                </div>
-                                            ))}
+                                                ))}
+
+                                            {!finalSettlementList?.ebInfo?.isHostelReading &&
+                                                finalSettlementList?.ebInfo?.pendingEb?.map((item, index) => (
+                                                    <div key={index} style={{ marginBottom: 14 }}>
+
+
+                                                        <div
+                                                            style={{
+                                                                display: "flex",
+                                                                justifyContent: "space-between",
+                                                                alignItems: "center",
+                                                                fontSize: 13,
+                                                                fontWeight: 600,
+                                                            }}
+                                                        >
+                                                            <div
+                                                                style={{
+                                                                    display: "flex",
+                                                                    alignItems: "center",
+                                                                    gap: 8,
+                                                                }}
+                                                            >
+                                                                <span>{item.floorName || "Floor Name"}</span>
+
+
+                                                                <span
+                                                                    style={{
+                                                                        width: 1,
+                                                                        height: 14,
+                                                                        backgroundColor: "#D9D9D9",
+                                                                        display: "inline-block",
+                                                                    }}
+                                                                />
+
+                                                                <span>{item.roomName || "Room Name"} - {item.bedName || "Bed Name"}</span>
+
+
+                                                                <span style={{ color: "#1447E6", fontWeight: 600, fontSize: 12 }}> ({item.fromDate} - {item.toDate})</span>
+                                                            </div>
+
+
+
+
+                                                            <div className="d-flex gap-1 align-items-center" style={{ cursor: "pointer" }}>
+                                                                <span style={{ whiteSpace: "nowrap" }}>
+                                                                    ({item.units} Units) &nbsp; ₹{item.amount}
+                                                                </span>
+
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+                                                ))}
+
+
 
 
 
