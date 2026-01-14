@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import './App.css'
-import { BrowserRouter as Router, Route, Routes, Navigate  } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import FrontPage from './NewLandingPage/Topbar';
 import LoginPage from './Components/LoginPage';
 import CreateAccount from './Components/CreateAccount';
@@ -19,10 +19,10 @@ import ThankYou from './NewLandingPage/ThankYou';
 import Sidebar from './Components/Sidebar';
 // import PaymentPreview from "./Pages/SubscriptionFile/PaymentPreview";
 // import { onMessage } from "firebase/messaging";
-import { messaging ,onMessageListener  } from "./Utils/FirebaseNotification";
+import { messaging, onMessageListener } from "./Utils/FirebaseNotification";
 import { getToken } from "firebase/messaging";
 // import { toast } from 'react-toastify';
-
+import WebNotification from './Utils/WebNotification'
 function App() {
   const cookies = new Cookies();
   const dispatch = useDispatch();
@@ -90,59 +90,81 @@ function App() {
 
 
   useEffect(() => {
-    if(data && state.login?.isLoggedIn){
+    if (data && state.login?.isLoggedIn) {
 
-    
-     const askPermission = async () => {
-      const permission = await Notification.requestPermission();
-      // console.log("Permission", permission);
 
-      if (permission === "granted") {
-        const token = await getToken(messaging, {
-          vapidKey: "BMXC5Wm4kkMiJDq2o98v_QMaXMctNWwtuFlpezETQ-hpSLG1HIKsN0SIFKW-ebfg8tILguRwWisjb0-syzlRgFE"
-        });
-       
-        if(token){
-          dispatch({ type: 'FCMTOKENSAGA', payload: {token: token , source: "Web"}})
+      const askPermission = async () => {
+        const permission = await Notification.requestPermission();
+        // console.log("Permission", permission);
+
+        if (permission === "granted") {
+          const token = await getToken(messaging, {
+            vapidKey: "BMXC5Wm4kkMiJDq2o98v_QMaXMctNWwtuFlpezETQ-hpSLG1HIKsN0SIFKW-ebfg8tILguRwWisjb0-syzlRgFE"
+          });
+
+          if (token) {
+            dispatch({ type: 'FCMTOKENSAGA', payload: { token: token, source: "Web" } })
+          }
         }
-      }
-    };
+      };
 
-    askPermission();
-  }
-  }, [state.login?.isLoggedIn,data])
+      askPermission();
+    }
+  }, [state.login?.isLoggedIn, data])
 
-  
-function showBrowserNotification(title, body) {
-  if (Notification.permission === "granted") {
-    new Notification(title, {
-      body,
-      icon: "/firebase-logo.png", 
-    });
-  }
-}
+  console.log(Notification.permission);
 
-useEffect(() => {
+  const [notification, setNotification] = useState(null);
+
+  // const showBrowserNotification = (title, body, type) => {
+  //   if (!("Notification" in window)) {
+  //     console.log("Browser does not support notifications");
+  //     return;
+  //   }
+
+  //   if (Notification.permission === "granted") {
+  //     new Notification(title, {
+  //       body,
+  //       // icon: "/firebase-logo.png" // optional
+  //     });
+  //   } else if (Notification.permission !== "denied") {
+  //     Notification.requestPermission().then((permission) => {
+  //       if (permission === "granted") {
+  //         new Notification(title, { body });
+  //       }
+  //     });
+  //   }
+  // };
+
+
+  useEffect(() => {
     const unsubscribe = onMessageListener((payload) => {
       console.log("FCM Foreground Message", payload);
-   
-       const title =
-      payload?.notification?.title ||
-      payload?.data?.title ||
-      "New Notification";
 
-    const body =
-      payload?.notification?.body ||
-      payload?.data?.body ||
-      "You have a new message";
 
-    showBrowserNotification(title, body);
+      const title =
+        payload?.data?.title || "New Notification";
+
+      const message =
+        payload?.data?.description || "You have a new message";
+
+      
+      setNotification({
+        title,
+        message,
+                
+      });
+
+
+      setTimeout(() => setNotification(null), 5000);
     });
 
+
     return () => {
-      if (unsubscribe) unsubscribe(); 
+      if (unsubscribe) unsubscribe();
     };
   }, []);
+
 
 
 
@@ -165,7 +187,7 @@ useEffect(() => {
       localStorage.removeItem("currentPage")
       // localStorage.setItem("selectedResponseHostelId", "");
       // cookies.remove('selected_hostelId', { path: '/' });
-      
+
 
     }
   }, [state.login?.isLoggedIn]);
@@ -178,24 +200,40 @@ useEffect(() => {
 
 
 
-
   return (
 
     <> <ToastContainer />
-
+      {notification && (
+        <div
+          style={{
+            position: "fixed",
+                        bottom: 20,
+            right: 20,
+            zIndex: 9999,
+          }}
+        >
+          <WebNotification
+            title={notification.title}
+            message={notification.message}
+            image={notification.image}
+            time={notification.time}
+            // onClose={() => setNotification(null)}
+          />
+        </div>
+      )}
 
       <Router future={{ v7_startTransition: true }}>
         {data || state.login?.isLoggedIn ? (
           <>
-          <Sidebar />
-           
-           
+            <Sidebar />
+
+
           </>
         ) : (
           <>
             <Routes>
               <Route path="/" element={<FrontPage />} />
-               {/* <Route path="/payment-preview" element={<PaymentPreview />} /> */}
+              {/* <Route path="/payment-preview" element={<PaymentPreview />} /> */}
               <Route path="/hostel-management-login" element={<LoginPage />} />
               <Route path="/hostel-management-signup" element={<CreateAccount />} />
               <Route path="/forget-password" element={<ForgetPassword />} />
@@ -206,7 +244,7 @@ useEffect(() => {
               <Route path="/refund_policy" element={<FrontPage />} />
               <Route path="*" element={<Navigate to="/" replace />} />
               <Route path="/thankyou" element={<ThankYou />} />
-               
+
             </Routes>
           </>
         )}
