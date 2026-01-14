@@ -17,7 +17,7 @@ const messaging = firebase.messaging();
 
 // App CLOSED / Background
 messaging.onBackgroundMessage((payload) => {
-  console.log('[SW] Background message received', payload);
+  console.log('SW Background message received', payload);
 
   const notificationTitle = payload.data?.title || 'New Notification';
   const notificationOptions = {
