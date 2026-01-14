@@ -1216,7 +1216,7 @@ function FinalSettlement() {
                                                         >
                                                             <span>{item.floorName || "Floor Name"}</span>
 
-                                                           
+
                                                             <span
                                                                 style={{
                                                                     width: 1,
@@ -1265,6 +1265,7 @@ function FinalSettlement() {
 
 
                                                         </div>
+
                                                     </div>
 
 
@@ -1315,7 +1316,9 @@ function FinalSettlement() {
                                                         <span style={{ color: "#AA6805", fontWeight: 600 }}>
                                                             {item.fromDate} - {item.toDate}
                                                         </span>
-
+                                                        <span style={{ fontSize: 13, color: "#222222", fontWeight: 600 }}>
+                                                            ({item.units} Units) &nbsp; ₹{item.amount}
+                                                        </span>
 
 
                                                     </div>
@@ -1730,7 +1733,7 @@ function FinalSettlement() {
                     >
                         <div className="d-block">
                             <div style={{ fontSize: 14, color: "#4B4B4B", fontWeight: 400 }}>
-                               {ReturnAmount > 0 ? "Outstanding Amount Payable" : "Total Refund Payable"} 
+                                {ReturnAmount > 0 ? "Outstanding Amount Payable" : "Total Refund Payable"}
                             </div>
                             <div style={{ fontSize: 22, color: "#222222", fontWeight: 600 }}>
                                 ₹ {ReturnAmount}
