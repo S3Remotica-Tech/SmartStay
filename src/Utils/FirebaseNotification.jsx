@@ -1,10 +1,8 @@
-import { initializeApp } from "firebase/app";
+import { initializeApp, getApps  } from "firebase/app";
 // import { getAnalytics , getToken } from "firebase/messaging";
 import { onMessage } from "firebase/messaging";
 import { getMessaging } from "firebase/messaging";
 
-// console.log("MODE:", import.meta.env.MODE);
-// console.log("FIREBASE APP ID:", import.meta.env.VITE_FIREBASE_APP_ID);
 
 const firebaseConfig= {
   apiKey: "AIzaSyAfEOOtBi9rbNrV8mnIoPD-uIvCmkvnXY4",
@@ -21,10 +19,16 @@ console.log("MODE:", import.meta.env.MODE);
 console.log("FIREBASE APP ID:", import.meta.env.VITE_FIREBASE_APP_ID);
 
 
-const app = initializeApp(firebaseConfig);
+// const app = initializeApp(firebaseConfig);
+// export const messaging = getMessaging(app);
+
+const app =
+  getApps().length === 0
+    ? initializeApp(firebaseConfig)
+    : getApps()[0];
+
 export const messaging = getMessaging(app);
-
-
+export default app;
 // App OPEN (Foreground)
 export const onMessageListener = (callback) => {
   const unsubscribe = onMessage(messaging, (payload) => {

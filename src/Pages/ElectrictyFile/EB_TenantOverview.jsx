@@ -283,7 +283,8 @@ const EBTenantOverview = ({ tenant, onBack }) => {
 
                 {activeTab === "room" && (
                     billingData?.length === 0 ? (
-                        <div style={{ textAlign: "center", marginTop: 40 }}>
+                        <div className="d-flex justify-content-center" style={{ textAlign: "center", marginTop: 40 }}>
+                            <div>
                             <img src={emptyimg} width={240} height={240} alt="emptystate" />
                             <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "rgba(75, 75, 75, 1)" }}>
                                 No Room Reading
@@ -291,6 +292,7 @@ const EBTenantOverview = ({ tenant, onBack }) => {
                             <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 14, color: "rgba(75, 75, 75, 1)" }}>
                                 There are no Room Reading available.
                             </div>
+                             </div>
                         </div>
                     ) : (
                         <div
@@ -367,13 +369,15 @@ const EBTenantOverview = ({ tenant, onBack }) => {
 
                 {activeTab === "customer" && (
                     formattedTenantReadings?.length === 0 ? (
-                        <div style={{ textAlign: "center", marginTop: 40 }}>
+                        <div className="d-flex justify-content-center" style={{ textAlign: "center", marginTop: 40 }}>
+                          <div>
                             <img src={emptyimg} width={240} height={240} alt="emptystate" />
                             <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "rgba(75, 75, 75, 1)" }}>
                                 No Reading
                             </div>
                             <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 14, color: "rgba(75, 75, 75, 1)" }}>
                                 There are no reading available.
+                            </div>
                             </div>
                         </div>
                     ) : (

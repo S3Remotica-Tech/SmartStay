@@ -79,34 +79,92 @@ export async function Addaccount (datum) {
   })
 }
   
-export function UpdateProfile () {
-  new Promise((resolve) => {
-  resolve({status: 200});
-})
-  // const formData = new FormData();
-  // formData.append("first_name", params.first_name);
-  // formData.append("last_name", params.last_name);
-  // formData.append("phone", params.phone);
-  // formData.append("email_id", params.email_id);
-  // formData.append("address", params.address);
-  //  formData.append("id", params.id);
-  // formData.append("profile", params.profile);
+
+// Owner Profile Update
+
+
+
+export async function UpdateProfile(params) {
+  try {
+    const formData = new FormData();
+
+   
+    formData.append(
+      "updateProfile",
+      JSON.stringify({
+        firstName: params.firstName,
+        lastName: params.lastName,
+        emailId: params.emailId,
+        mobile: params.mobile,
+        houseNo: params.houseNo,
+        street: params.street,
+        landmark: params.landmark,
+        city: params.city,
+        state: params.state,
+        pincode: params.pincode,
+      })
+    );
+
+
+    if (params.profilePic) {
+      formData.append("profilePic", params.profilePic);
+    }
+
+    const response = await AxiosConfigV2.put(
+      "/v2/profile",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        timeout: 100000,
+      }
+    );
+
+    return response;
+  } catch (error) {
+    console.error("Update Profile Error:", error);
+    throw error;
+  }
+}
+
+
+
+
+
+
+
+
+// export function UpdateProfile () {
+//   new Promise((resolve) => {
+//   resolve({status: 200});
+// })
+//   // const formData = new FormData();
+//   // formData.append("first_name", params.first_name);
+//   // formData.append("last_name", params.last_name);
+//   // formData.append("phone", params.phone);
+//   // formData.append("email_id", params.email_id);
+//   // formData.append("address", params.address);
+//   //  formData.append("id", params.id);
+//   // formData.append("profile", params.profile);
   
-  // try {
-  //   const response = await AxiosConfig.post('/update_account_details',formData, {
-  //     headers: {
-  //       "Content-type": "multipart/form-data",
-  //     },
-  //     timeout: 100000000,
+//   // try {
+//   //   const response = await AxiosConfig.post('/update_account_details',formData, {
+//   //     headers: {
+//   //       "Content-type": "multipart/form-data",
+//   //     },
+//   //     timeout: 100000000,
         
-  //   });
-  //   return response.data;
-  // } catch (error) {
-  //   console.error("Axios Error", error);
-  //        }
+//   //   });
+//   //   return response.data;
+//   // } catch (error) {
+//   //   console.error("Axios Error", error);
+//   //        }
 
   
-}
+// }
+
+// Owner Update password
 
 export  function UpdatePassword () {
   new Promise((resolve) => {

@@ -1422,13 +1422,15 @@ const RoomReadingTable = () => {
 
 
                     {roomReadingList?.length === 0 && !loading ? (
-                      <div style={{ textAlign: "center", marginTop: 40 }}>
+                      <div className="d-flex justify-content-center" style={{ textAlign: "center", marginTop: 40 }}>
+                        <div>
                         <img src={emptyimg} width={240} height={240} alt="emptystate" />
                         <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "rgba(75, 75, 75, 1)" }}>
                           No Room Reading
                         </div>
                         <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 14, color: "rgba(75, 75, 75, 1)" }}>
                           There are no Room Reading available.
+                        </div>
                         </div>
                       </div>
                     ) : (
@@ -1744,13 +1746,15 @@ const RoomReadingTable = () => {
 
                 {activeTab === "customer" && (
                   customerReadingList?.length === 0 ? (
-                    <div style={{ textAlign: "center", marginTop: 40 }}>
+                    <div className="d-flex justify-content-center" style={{ textAlign: "center", marginTop: 40 }}>
+                      <div>
                       <img src={emptyimg} width={240} height={240} alt="emptystate" />
                       <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "rgba(75, 75, 75, 1)" }}>
                         No Tenant Reading
                       </div>
                       <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 14, color: "rgba(75, 75, 75, 1)" }}>
                         There are no  tenant reading available.
+                      </div>
                       </div>
                     </div>
                   ) : (

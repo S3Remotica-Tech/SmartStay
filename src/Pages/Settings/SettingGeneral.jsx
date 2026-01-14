@@ -24,7 +24,7 @@ import eyeClosed from "../../Assets/Images/Show_password.png";
 import Delete from "../../Assets/Images/Delete_red.png";
 import '../Settings/SettingAll.css'
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import { CloseCircle } from "iconsax-react";
+import { CloseCircle, PasswordCheck } from "iconsax-react";
 import '../Settings/SettingGeneral.css';
 import ErrorMessage from '../../Components/ErrorMessage'
 import { useHasPermission } from '../../Utils/Permission';
@@ -35,7 +35,7 @@ import {
   Call,
   Sms,
   LogoutCurve,
-  Crown1,  
+  Crown1,
   Edit, CardSend, Shield
 } from "iconsax-react";
 import Logout from "../../Components/Logout";
@@ -1287,7 +1287,7 @@ function SettingGeneral() {
               : (
                 <div className="mt-2" style={{
                 }}>
-                  {account && (
+                  {account.roleName === "Admin" && (
                     <Card
                       style={{
                         position: "sticky",
@@ -1374,96 +1374,96 @@ function SettingGeneral() {
                                 }}
                               >
                                 <PiDotsThreeOutlineVerticalFill
-                                  style={{ height: 20, width: 20, cursor: "not-allowed" }}
+                                  style={{ height: 20, width: 20, cursor: "pointer" }}
                                 />
-                                {/* {openMenu && (
-                                <div
-                                  ref={menuRef}
-                                  style={{
-                                    position: "absolute",
-                                    top: 45,
-                                    right: 0,
-                                    width: 180,
-                                    backgroundColor: "#FFFFFF",
-                                    border: "1px solid #EBEBEB",
-                                    borderRadius: 10,
-                                    boxShadow: "0px 8px 20px rgba(0,0,0,0.08)",
-                                    zIndex: 1000
-                                  }}
-                                >
-                                 
+                                {openMenu && (
                                   <div
-                                    onClick={() => {
-                                      setOpenMenu(false);
-                                     
-                                    }}
+                                    ref={menuRef}
                                     style={{
-                                      display: "flex",
-                                      alignItems: "center",
-                                      gap: "10px",
-                                      padding: "8px 12px",
-                                      width: "100%",
-                                      backgroundColor: "#F9F9F9",
-                                      borderTopLeftRadius: 10,
-                                      borderTopRightRadius: 10,
-                                      cursor: canUpdateProfile ? "pointer" : "not-allowed",
-                                      opacity: canUpdateProfile ? 1 : 0.5,
+                                      position: "absolute",
+                                      top: 45,
+                                      right: 0,
+                                      width: 180,
+                                      backgroundColor: "#FFFFFF",
+                                      border: "1px solid #EBEBEB",
+                                      borderRadius: 10,
+                                      boxShadow: "0px 8px 20px rgba(0,0,0,0.08)",
+                                      zIndex: 1000
                                     }}
-                                    onMouseEnter={(e) =>
-                                      (e.currentTarget.style.backgroundColor = "#EDF2FF")
-                                    }
-                                    onMouseLeave={(e) =>
-                                      (e.currentTarget.style.backgroundColor = "#FFFFFF")
-                                    }
                                   >
-                                    <Edit
-                                      size="16"
-                                      color="#1E45E1"
-                                    />  <label style={{
-                                      fontSize: 14,
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy, sans-serif",
-                                      color: canUpdateProfile ? "#000000" : "#999999",
-                                      cursor: canUpdateProfile ? "pointer" : "not-allowed",
-                                    }}>Edit</label>
-                                  </div>
 
-                                  <div
-                                    onClick={() => {
-                                      setOpenMenu(false);
-                                                                         }}
-                                    style={{
-                                      display: "flex",
-                                      alignItems: "center",
-                                      gap: "10px",
-                                      padding: "8px 12px",
-                                      width: "100%",
-                                      backgroundColor: "#F9F9F9",
-                                      borderBottomLeftRadius: 10,
-                                      borderBottomRightRadius: 10,
-                                      cursor: canUpdateProfile ? "pointer" : "not-allowed",
-                                      opacity: canUpdateProfile ? 1 : 0.5,
-                                    }}
-                                    onMouseEnter={(e) =>
-                                      (e.currentTarget.style.backgroundColor = "#EDF2FF")
-                                    }
-                                    onMouseLeave={(e) =>
-                                      (e.currentTarget.style.backgroundColor = "#FFFFFF")
-                                    }
-                                  >
-                                    <PasswordCheck
-                                      size="16"
-                                      color="#FF9500"
-                                    />  <label style={{
-                                      fontSize: 14,
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy, sans-serif",
-                                      color: canUpdateProfile ? "#000000" : "#999999",
-                                      cursor: canUpdateProfile ? "pointer" : "not-allowed",
-                                    }}>Change Password</label>
+                                    <div
+                                      onClick={() => {
+                                        setOpenMenu(false);
+
+                                      }}
+                                      style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: "10px",
+                                        padding: "8px 12px",
+                                        width: "100%",
+                                        backgroundColor: "#F9F9F9",
+                                        borderTopLeftRadius: 10,
+                                        borderTopRightRadius: 10,
+                                        cursor: canUpdateProfile ? "pointer" : "not-allowed",
+                                        opacity: canUpdateProfile ? 1 : 0.5,
+                                      }}
+                                      onMouseEnter={(e) =>
+                                        (e.currentTarget.style.backgroundColor = "#EDF2FF")
+                                      }
+                                      onMouseLeave={(e) =>
+                                        (e.currentTarget.style.backgroundColor = "#FFFFFF")
+                                      }
+                                    >
+                                      <Edit
+                                        size="16"
+                                        color="#1E45E1"
+                                      />  <label style={{
+                                        fontSize: 14,
+                                        fontWeight: 500,
+                                        fontFamily: "Gilroy, sans-serif",
+                                        color: canUpdateProfile ? "#000000" : "#999999",
+                                        cursor: canUpdateProfile ? "pointer" : "not-allowed",
+                                      }}>Edit</label>
+                                    </div>
+
+                                    <div
+                                      onClick={() => {
+                                        setOpenMenu(false);
+                                      }}
+                                      style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: "10px",
+                                        padding: "8px 12px",
+                                        width: "100%",
+                                        backgroundColor: "#F9F9F9",
+                                        borderBottomLeftRadius: 10,
+                                        borderBottomRightRadius: 10,
+                                        cursor: canUpdateProfile ? "pointer" : "not-allowed",
+                                        opacity: canUpdateProfile ? 1 : 0.5,
+                                      }}
+                                      onMouseEnter={(e) =>
+                                        (e.currentTarget.style.backgroundColor = "#EDF2FF")
+                                      }
+                                      onMouseLeave={(e) =>
+                                        (e.currentTarget.style.backgroundColor = "#FFFFFF")
+                                      }
+                                    >
+                                      <PasswordCheck
+                                        size="16"
+                                        color="#FF9500"
+                                      />  <label style={{
+                                        fontSize: 14,
+                                        fontWeight: 500,
+                                        fontFamily: "Gilroy, sans-serif",
+                                        color: canUpdateProfile ? "#000000" : "#999999",
+                                        cursor: canUpdateProfile ? "pointer" : "not-allowed",
+                                      }}>Change Password</label>
+                                    </div>
                                   </div>
-                                </div>
-                              )} */}
+                                )}
                               </div>
                             </div>
 
@@ -1574,7 +1574,7 @@ function SettingGeneral() {
                       gap: 32,
                       fontFamily: "Gilroy, sans-serif",
                       position: "sticky",
-                      top: 160,
+                      top: account.roleName !== "Admin" ? 160 : 0,
                     }}
                   >
                     {tabs.map(tab => (

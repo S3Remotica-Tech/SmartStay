@@ -498,7 +498,7 @@ function FinalSettlement() {
             }, 100)
         }
     }, [state.InvoiceList.finalSettlementError])
-    
+
 
 
     return (
@@ -509,7 +509,7 @@ function FinalSettlement() {
                     position: "sticky",
                     // top: 0,
                     backgroundColor: "#fff",
-                    zIndex: 1050,
+                    zIndex: 0,
                     height: 50,
                     padding: "10px 12px",
                 }}
@@ -539,13 +539,13 @@ function FinalSettlement() {
                     width: "100%",
                     flexWrap: "nowrap"
                 }}>
-{/* left */}
+                {/* left */}
                 <div style={{
                     flex: "0 0 30%",
                     background: "#FFFFFF",
                     borderRadius: 8,
                     padding: 16,
-                    height:"100%"
+                    height: "100%"
                 }}>
                     <div className="d-flex align-items-center gap-3 mb-1">
                         {
@@ -729,7 +729,7 @@ function FinalSettlement() {
 
                 </div>
 
-{/* right */}
+                {/* right */}
 
                 <div style={{
                     flex: "1 1 auto",
@@ -737,12 +737,12 @@ function FinalSettlement() {
                     borderRadius: 8,
                     padding: 14, position: "relative",
                     height: "calc(100vh - 50px)",
-                   
+
                 }}>
 
 
                     <div className="show-scrolls" style={{
-                                                maxHeight: "calc(100vh - 150px)",
+                        maxHeight: "calc(100vh - 150px)",
                         overflowX: "hidden",
                         overflowY: "auto"
 
@@ -798,7 +798,12 @@ function FinalSettlement() {
                                     </div>
 
                                     <span style={{ fontSize: 16, fontWeight: 600, color: "#111827" }}>
-                                        ₹
+                                        ₹{
+                                            finalSettlementList?.unpaidInvoices?.reduce(
+                                                (sum, inv) => sum + Number(inv.payableAmount || 0),
+                                                0
+                                            ) || 0
+                                        }
                                     </span>
                                 </div>
 
@@ -994,7 +999,7 @@ function FinalSettlement() {
                                             fontWeight: 600,
                                         }}
                                     >
-                                        ₹
+                                        ₹{finalSettlementList?.currentMonthRentInfo?.currentPayableRent}
                                     </span>
                                 </div>
 
@@ -1028,30 +1033,29 @@ function FinalSettlement() {
                                             </span>
                                         </div>
 
-                                        <div className="d-flex justify-content-between gap-2 py-2 align-items-start">
+                                        <div className="d-flex justify-content-between  align-items-start">
 
+                                            <div className="d-flex gap-3">
+                                                <div
+                                                    style={{
+                                                        fontFamily: "Gilroy",
+                                                        fontSize: 14,
+                                                        color: "black",
+                                                        cursor: "pointer",
+                                                        userSelect: "none"
+                                                    }}
 
-                                            <div
-                                                style={{
-                                                    fontFamily: "Gilroy",
-                                                    fontSize: 14,
-                                                    color: "black",
-                                                    cursor: "pointer",
-                                                    userSelect: "none"
-                                                }}
-                                                onClick={() => setShowDetails(!showDetails)}
-                                            >
-                                                Actual Stay Days (Rent) (
-                                                {(() => {
-                                                    const d = finalSettlementList?.currentMonthRentInfo?.stayDays ?? 0;
-                                                    return `${d} ${d === 1 ? "day" : "days"}`;
-                                                })()}
+                                                >
+                                                    Actual Stay Days (Rent) (
+                                                    {(() => {
+                                                        const d = finalSettlementList?.currentMonthRentInfo?.stayDays ?? 0;
+                                                        return `${d} ${d === 1 ? "day" : "days"}`;
+                                                    })()}
 
+                                                    )
+                                                </div>
 
-                                                )
-
-
-                                                <span style={{ marginLeft: 6 }} >
+                                                <div className="d-flex" style={{}} onClick={() => setShowDetails(!showDetails)} >
                                                     {showDetails ? (
                                                         <span
                                                             style={{
@@ -1076,12 +1080,12 @@ function FinalSettlement() {
                                                             <ArrowDown2 size="16" color="#1E45E1" />
                                                         </span>
                                                     )}
-                                                </span>
-
+                                                </div>
 
 
 
                                             </div>
+
 
 
                                             <div
@@ -1190,7 +1194,7 @@ function FinalSettlement() {
                                     <>
 
                                         <div style={{ padding: "12px 16px" }}>
-                                            {ebBreakup.map((item, index) => (
+                                            {finalSettlementList?.ebInfo?.missedEb?.map((item, index) => (
                                                 <div key={index} style={{ marginBottom: 14 }}>
 
 
@@ -1210,9 +1214,9 @@ function FinalSettlement() {
                                                                 gap: 8,
                                                             }}
                                                         >
-                                                            <span>{item.floorName}</span>
+                                                            <span>{item.floorName || "Floor Name"}</span>
 
-                                                            {/* Vertical Divider */}
+
                                                             <span
                                                                 style={{
                                                                     width: 1,
@@ -1222,7 +1226,7 @@ function FinalSettlement() {
                                                                 }}
                                                             />
 
-                                                            <span>{item.roomBed}</span>
+                                                            <span>{item.roomName || "Room Name"} - {item.bedName || "Bed Name"}</span>
                                                         </div>
 
 
@@ -1230,93 +1234,97 @@ function FinalSettlement() {
                                                             ({item.units} Units) &nbsp; ₹{item.amount}
                                                         </span>
                                                     </div>
+                                                    <div
+                                                        style={{
+                                                            display: "flex",
+                                                            justifyContent: "space-between",
+                                                            alignItems: "center",
 
-
-                                                    {item.status !== "pending" && (
-                                                        <div
-                                                            style={{
-                                                                marginTop: 6,
-                                                                display: "inline-flex",
-                                                                alignItems: "center",
-                                                                gap: 8,
-                                                                backgroundColor: "#FFF7ED",
-                                                                color: "#AA6805",
-                                                                fontSize: 12,
-                                                                padding: "6px 10px",
-                                                                borderRadius: 6,
-                                                            }}
-                                                        >
-
-                                                            <span
-                                                                style={{
-                                                                    display: "flex",
-                                                                    alignItems: "center",
-                                                                    gap: 4,
-                                                                    fontWeight: 500,
-                                                                    whiteSpace: "nowrap",
-                                                                }}
-                                                            >
-                                                                <InfoCircle size="14" color="#AA6805" />
-                                                                Pending
+                                                        }}
+                                                    >
+                                                        <div style={{
+                                                            padding: "10px 12px",
+                                                            borderRadius: 8, backgroundColor: "#EEF4FF",
+                                                        }}>
+                                                            <span style={{
+                                                                color: "#1E45E1",
+                                                                fontSize: 11,
+                                                                fontWeight: 400
+                                                            }}>
+                                                                Click add to calculate the latest reading {" "}
                                                             </span>
+                                                            <span style={{ color: "#1447E6", fontWeight: 600, fontSize: 12 }}>{item.fromDate} - {item.toDate}</span>
 
-
-                                                            <span
-                                                                style={{
-                                                                    width: 1,
-                                                                    height: 14,
-                                                                    backgroundColor: "#E6C07A",
-                                                                }}
-                                                            />
-                                                            <div style={{}}>
-                                                                <span style={{ whiteSpace: "nowrap", fontWeight: 400 }}>
-                                                                    Calculated period was {" "}   </span>
-                                                                <span style={{ color: "#AA6805", fontWeight: 600 }}>
-                                                                    {/* {item.fromDate} – {item.toDate} */} 13-01-2026
-                                                                </span>
-
-
-
-                                                            </div>
                                                         </div>
-                                                    )}
+                                                        <div className="d-flex gap-1 align-items-center" style={{ cursor: "pointer" }}>
+                                                            <AddCircle
+                                                                size="18"
+                                                                color="#1E45E1" variant="Bold" style={{ cursor: "pointer" }}
+                                                            />
+                                                            <label style={{ fontSize: 13, color: "#222222", fontWeight: 500 }}> Add</label>
+
+
+                                                        </div>
+
+                                                    </div>
+
+
 
                                                 </div>
                                             ))}
 
+                                            {finalSettlementList?.ebInfo?.pendingEb?.map((item, index) => (
 
-                                            <div
-                                                style={{
-                                                    display: "flex",
-                                                    justifyContent: "space-between",
-                                                    alignItems: "center",
+                                                <div key={index}
+                                                    style={{
+                                                        marginTop: 6,
+                                                        display: "inline-flex",
+                                                        alignItems: "center",
+                                                        gap: 8,
+                                                        backgroundColor: "#FFF7ED",
+                                                        color: "#AA6805",
+                                                        fontSize: 12,
+                                                        padding: "6px 10px",
+                                                        borderRadius: 6,
+                                                    }}
+                                                >
 
-                                                }}
-                                            >
-                                                <div style={{
-                                                    padding: "10px 12px",
-                                                    borderRadius: 8, backgroundColor: "#EEF4FF",
-                                                }}>
-                                                    <span style={{
-                                                        color: "#1E45E1",
-                                                        fontSize: 11,
-                                                        fontWeight: 400
-                                                    }}>
-                                                        Click add to calculate the latest reading {" "}
+                                                    <span
+                                                        style={{
+                                                            display: "flex",
+                                                            alignItems: "center",
+                                                            gap: 4,
+                                                            fontWeight: 500,
+                                                            whiteSpace: "nowrap",
+                                                        }}
+                                                    >
+                                                        <InfoCircle size="14" color="#AA6805" />
+                                                        Pending
                                                     </span>
-                                                    <span style={{ color: "#1447E6", fontWeight: 600, fontSize: 12 }}>13-01-2026</span>
 
-                                                </div>
-                                                <div className="d-flex gap-1 align-items-center" style={{ cursor: "pointer" }}>
-                                                    <AddCircle
-                                                        size="18"
-                                                        color="#1E45E1" variant="Bold" style={{ cursor: "pointer" }}
+
+                                                    <span
+                                                        style={{
+                                                            width: 1,
+                                                            height: 14,
+                                                            backgroundColor: "#E6C07A",
+                                                        }}
                                                     />
-                                                    <label style={{ fontSize: 13, color: "#222222", fontWeight: 500 }}> Add</label>
+                                                    <div style={{}}>
+                                                        <span style={{ whiteSpace: "nowrap", fontWeight: 400 }}>
+                                                            Calculated period was {" "}   </span>
+                                                        <span style={{ color: "#AA6805", fontWeight: 600 }}>
+                                                            {item.fromDate} - {item.toDate}
+                                                        </span>
+                                                        <span style={{ fontSize: 13, color: "#222222", fontWeight: 600 }}>
+                                                            ({item.units} Units) &nbsp; ₹{item.amount}
+                                                        </span>
 
 
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            ))}
+
 
 
                                         </div>
@@ -1724,10 +1732,10 @@ function FinalSettlement() {
                         }}
                     >
                         <div className="d-block">
-                            <div style={{ fontSize: 14, color: "#222222", fontWeight: 400 }}>
-                                Total Refund Payable
+                            <div style={{ fontSize: 14, color: "#4B4B4B", fontWeight: 400 }}>
+                                {ReturnAmount > 0 ? "Outstanding Amount Payable" : "Total Refund Payable"}
                             </div>
-                            <div style={{ fontSize: 22, color: "#4B4B4B", fontWeight: 400 }}>
+                            <div style={{ fontSize: 22, color: "#222222", fontWeight: 600 }}>
                                 ₹ {ReturnAmount}
                             </div>
                         </div>
