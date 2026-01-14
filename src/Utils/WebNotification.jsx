@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { CloseCircle } from "iconsax-react";
+// import { CloseCircle } from "iconsax-react";
 
 const WebNotification = ({ title, message }) => {
     const [visible, setVisible] = useState(false);
@@ -8,14 +8,14 @@ const WebNotification = ({ title, message }) => {
 
         setVisible(true);
 
-        const audio = new Audio("/notification.mp3");
+        const audio = new Audio("/new-notification.mp3");
         audio.volume = 0.2;
         audio.play().catch(() => { });
 
     }, []);
 
-    const audio = new Audio("/notification.mp3");
-
+    const audio = new Audio("/new-notification.mp3");
+console.log("audio",audio)
     return (
         <div
             style={{

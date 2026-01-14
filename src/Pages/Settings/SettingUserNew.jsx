@@ -2,7 +2,7 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
 import { Table } from "react-bootstrap";
-import { Button, Modal } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
 import emptyimg from "../../Assets/Images/New_images/empty_image.png";
@@ -16,6 +16,7 @@ import PaginationList from "../../Components/PaginationList";
 import { useHasPermission } from '../../Utils/Permission';
 import ErrorMessage from '../../Components/ErrorMessage';
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
+import DeleteStaff from "./DeleteStaff";
 
 
 function SettingNewUser() {
@@ -121,11 +122,11 @@ function SettingNewUser() {
     setIsConfirmDelete(false);
   };
 
-  const handleDelete = () => {
-    if (deleteId) {
-      dispatch({ type: "DELETEUSER", payload: { userId: deleteId, hostelId: state.login.selectedHostel_Id } });
-    }
-  };
+  // const handleDelete = () => {
+  //   if (deleteId) {
+  //     dispatch({ type: "DELETEUSER", payload: { userId: deleteId, hostelId: state.login.selectedHostel_Id } });
+  //   }
+  // };
 
   const [hostel_Id, setHostel_Id] = useState("")
 
@@ -179,11 +180,11 @@ function SettingNewUser() {
 
 
   useEffect(() => {
-    if (usersFilterddata.length === 0) {
+    if (state.Settings?.addSettingStaffList) {
       setLoading(false);
     }
 
-  }, [usersFilterddata])
+  }, [state.Settings?.addSettingStaffList])
 
 
   useEffect(() => {
@@ -897,87 +898,7 @@ function SettingNewUser() {
 
 
       {isConfirmDelete && (
-        <Modal
-          show={isConfirmDelete}
-          onHide={handleClose}
-          centered
-          backdrop="static"
-          dialogClassName="custom-delete-modal"
-        >
-          <Modal.Header style={{ borderBottom: "none" }}>
-            <Modal.Title
-              className="w-100 text-center mt-2"
-              style={{
-                fontSize: "18px",
-                fontFamily: "Gilroy",
-
-                fontWeight: 600,
-                color: "#222222",
-              }}
-            >
-              Delete Staff ?
-            </Modal.Title>
-          </Modal.Header>
-
-          <Modal.Body
-            className="text-center"
-            style={{
-              fontSize: 14,
-              fontWeight: 500,
-              fontFamily: "Gilroy",
-              color: "#646464",
-
-              marginTop: "-27px",
-            }}
-          >
-            Are you sure you want to delete the Staff ?{" "}
-          </Modal.Body>
-          <Modal.Footer
-            className="d-flex justify-content-center"
-            style={{
-              borderTop: "none",
-              marginTop: "-10px",
-            }}
-          >
-            <Button
-              className="me-2"
-              style={{
-                width: "100%",
-                maxWidth: 160,
-                height: 52,
-                borderRadius: 8,
-                padding: "12px 20px",
-                background: "#fff",
-                color: "#1E45E1",
-                border: "1px solid #1E45E1",
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-                fontSize: "14px",
-              }}
-              onClick={handleClose}
-            >
-              Cancel
-            </Button>
-
-            <Button
-              style={{
-                width: "100%",
-                maxWidth: 160,
-                height: 52,
-                borderRadius: 8,
-                padding: "12px 20px",
-                background: "#1E45E1",
-                color: "#FFFFFF",
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-                fontSize: "14px",
-              }}
-              onClick={handleDelete}
-            >
-              Delete
-            </Button>
-          </Modal.Footer>
-        </Modal>
+        <DeleteStaff  show={isConfirmDelete} handleClose={handleClose} deleteId={deleteId} />
       )}
 
       {addUserForm && (

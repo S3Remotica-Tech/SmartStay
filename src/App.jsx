@@ -90,12 +90,12 @@ function App() {
 
 
   useEffect(() => {
-    if (data && state.login?.isLoggedIn) {
+    if (state.login?.isLoggedIn) {
 
 
       const askPermission = async () => {
         const permission = await Notification.requestPermission();
-        // console.log("Permission", permission);
+        console.log("Permission", permission);
 
         if (permission === "granted") {
           const token = await getToken(messaging, {
@@ -110,9 +110,12 @@ function App() {
 
       askPermission();
     }
-  }, [state.login?.isLoggedIn, data])
+  }, [state.login?.isLoggedIn])
 
   console.log(Notification.permission);
+
+  console.log("data && state.login?.isLoggedIn",data , state.login?.isLoggedIn)
+
 
   const [notification, setNotification] = useState(null);
 
@@ -140,26 +143,18 @@ function App() {
   useEffect(() => {
     const unsubscribe = onMessageListener((payload) => {
       console.log("FCM Foreground Message", payload);
-
-
       const title =
         payload?.data?.title || "New Notification";
-
       const message =
         payload?.data?.description || "You have a new message";
-
-      
+    
       setNotification({
         title,
         message,
                 
       });
-
-
       setTimeout(() => setNotification(null), 5000);
     });
-
-
     return () => {
       if (unsubscribe) unsubscribe();
     };

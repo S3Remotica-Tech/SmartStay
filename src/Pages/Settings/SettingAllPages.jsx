@@ -138,7 +138,7 @@ function SettingAllPages({ isVisibleSidebar }) {
                   backgroundColor: isSidebarOpen ? 'white' : 'transparent',
                 }}
               >
-                <div style={{position: "sticky",top: 0,backgroundColor:"#FFFFFF"
+                <div style={{position: "sticky",top: 10,backgroundColor:"#FFFFFF"
                   }}>
                   <div>
                     <label
@@ -154,13 +154,7 @@ function SettingAllPages({ isVisibleSidebar }) {
                       Settings
                     </label>
                   </div>
-                  <div>
-                    <label style={{
-                      fontSize: 11, color: "#4B4B4B", fontWeight: 500, fontFamily: "Gilroy",
-                      textWrap:"wrap"
-                      // marginLeft: 10,
-                    }}>Customize until match to your Workflows</label>
-                  </div>
+                
                 </div>
 
                 <div className="show-scrolls"
