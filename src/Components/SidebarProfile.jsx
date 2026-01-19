@@ -251,6 +251,7 @@ handleShowsettingsGenaral:PropTypes.func.isRequired,
     accountList: PropTypes.shape({
       initial: PropTypes.string,
       firstName: PropTypes.string,
+      lastName: PropTypes.string,
       roleName: PropTypes.string,
       mailId: PropTypes.string,
       mobileNo: PropTypes.oneOfType([
