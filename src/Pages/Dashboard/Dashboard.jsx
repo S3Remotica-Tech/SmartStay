@@ -22,7 +22,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { MdWarningAmber } from "react-icons/md";
 import ErrorMessage from '../../Components/ErrorMessage';
-import withErrorBoundary from "../../Hoc/WithErrorBountry"; 
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
 
 import {
   LineChart,
@@ -91,14 +91,14 @@ function Dashboard() {
   useEffect(() => {
     if (!canReadDashboard) {
       setLoading(false);
-    } 
+    }
   }, [canReadDashboard]);
 
 
 
-// useEffect(() => {
-//   throw new Error("Test HOC Error Boundary");
-// }, []);
+  // useEffect(() => {
+  //   throw new Error("Test HOC Error Boundary");
+  // }, []);
 
 
   const monthNames = [
@@ -154,7 +154,7 @@ function Dashboard() {
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       dispatch({ type: "PGDASHBOARD", payload: state.login.selectedHostel_Id });
-       setLoading(true);
+      setLoading(true);
     }
   }, [state.login.selectedHostel_Id]);
 
@@ -277,7 +277,7 @@ function Dashboard() {
 
 
 
- 
+
 
 
 
@@ -333,7 +333,7 @@ function Dashboard() {
     if (state.PgList?.dashboardDetails) {
       setLoading(false)
       setDashboardList(state.PgList?.dashboardDetails);
-      
+
     }
   }, [state.PgList?.dashboardDetails]);
 
@@ -420,8 +420,8 @@ function Dashboard() {
 
   const { datasets } = datum;
 
-//  console.log("MODE:", import.meta.env.MODE);
-// console.log("FIREBASE APP ID:", import.meta.env.VITE_FIREBASE_APP_ID);
+  //  console.log("MODE:", import.meta.env.MODE);
+  // console.log("FIREBASE APP ID:", import.meta.env.VITE_FIREBASE_APP_ID);
 
   const CustomLegend = ({ payload }) => {
     return (
@@ -468,51 +468,1119 @@ function Dashboard() {
   };
 
   return (
+    // <>
+
+
+    //   <div className="container p-0">
+    //     <Marquee pauseOnHover gradient={false}>
+    //       {showWarning && (
+    //         <div
+    //           className={`alert mt-3 d-flex justify-content-between align-items-center px-4 py-2  rounded-3`}
+    //           style={{
+    //             backgroundColor: daysLeft > 0 ? "#fff3cd" : "#f8d7da",
+    //             color: daysLeft > 0 ? "#856404" : "#721c24",
+    //             border: `1px solid ${daysLeft > 0 ? "#ffeeba" : "#f5c6cb"}`,
+    //             fontFamily: "Gilroy",
+    //             width: "100%",
+    //             maxWidth: "900px",
+    //             margin: "auto",
+    //             fontSize: "16px",
+    //           }}
+    //           role="alert"
+    //         >
+    //           <div className="d-flex align-items-center">
+    //             {daysLeft > 0 ? (
+    //               <>
+    //                 <MdWarningAmber size={24} color="#ffc107" style={{ marginRight: "8px" }} />
+    //                 <span>
+    //                   Your plan will expire in <strong>{daysLeft}</strong> day
+    //                   {daysLeft > 1 ? "s" : ""} !
+    //                 </span>
+    //               </>
+    //             ) : (
+    //               <>
+    //                 <span style={{ fontFamily: "Gilroy", }}>
+    //                   <strong>Your plan has expired!</strong>
+    //                 </span>
+    //               </>
+    //             )}
+    //           </div>
+    //           <button
+    //             className="btn btn-sm ms-3"
+    //             style={{
+    //               fontFamily: "Gilroy",
+    //               backgroundColor: daysLeft > 0 ? "#ffc107" : "#dc3545",
+    //               color: "#fff",
+    //               border: "none",
+    //             }}
+    //             onClick={handleOkClick}
+    //           >
+    //             OK
+    //           </button>
+    //         </div>
+    //       )}
+    //     </Marquee>
+
+    //     <TabContext value={value}>
+    //       <div
+    //         className="container-fluid "
+    //         style={{
+    //           position: "sticky",
+    //           top: 0,
+    //           zIndex: 1000,
+    //           backgroundColor: "#FFFFFF",
+    //         }}
+    //       >
+    //         <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
+    //           <TabList
+    //             orientation={isSmallScreen ? "vertical" : "horizontal"}
+    //             onChange={handleChanges}
+    //             aria-label="lab API tabs example"
+    //             // style={{ marginLeft: "20px" }}
+    //             className="d-flex flex-column flex-md-row flex-wrap"
+    //           >
+    //             <Tab className="p-0"
+    //               label="Dashboard"
+    //               value="1"
+    //               style={{
+    //                 fontSize: 16,
+    //                 fontFamily: "Gilroy",
+    //                 color: "#4B4B4B",
+    //                 lineHeight: "normal",
+    //                 fontStyle: "normal",
+    //                 fontWeight: 500,
+    //                 textTransform: "none",
+    //               }}
+    //             />
+    //             <Tab
+    //               label="Announcement"
+    //               value="2"
+    //               style={{
+    //                 fontSize: 16,
+    //                 fontFamily: "Gilroy",
+    //                 color: "#4B4B4B",
+    //                 lineHeight: "normal",
+    //                 fontStyle: "normal",
+    //                 fontWeight: 500,
+    //                 textTransform: "none",
+    //               }}
+    //             />
+    //             <Tab
+    //               label="Updates"
+    //               value="3"
+    //               style={{
+    //                 fontSize: 16,
+    //                 fontFamily: "Gilroy",
+    //                 color: "#4B4B4B",
+    //                 lineHeight: "normal",
+    //                 fontStyle: "normal",
+    //                 fontWeight: 500,
+    //                 textTransform: "none",
+    //               }}
+    //             />
+    //           </TabList>
+    //         </Box>
+    //       </div>
+
+    //       {loading && <LoaderComponent />}
+
+    //       <div >
+    //         <TabPanel value="1">
+    //           {(!canReadDashboard && !loading) ? (
+    //             <div
+    //               style={{
+    //                 display: "flex",
+    //                 flexDirection: "column",
+    //                 alignItems: "center",
+    //                 justifyContent: "center",
+    //                 marginTop: 100
+    //               }}
+    //             >
+
+    //               <img
+    //                 src={Emptystate}
+    //                 alt="Empty State"
+
+    //               />
+
+
+
+    //               <ErrorMessage message={['You do not have access to view Dashboard']} type="warning" />
+
+    //             </div>
+    //           ) : (
+    //             <>
+    //               <div className="mt-4 dashboard-tab-one">
+    //                 <div className=" my-4">
+    //                   <div className="row g-3">
+    //                     <div className="col-md-2">
+    //                       <div
+    //                         className="border rounded-4 p-4 shadow-sm text-start d-flex flex-column align-items-start justify-content-between bg-white"
+    //                         style={{ minHeight: 160 }}
+    //                       >
+    //                         <div className="text-primary mb-2">
+    //                           <i className="bi bi-house-door-fill fs-4"></i>
+    //                         </div>
+    //                         <h6 className="text-muted mb-1" style={{ fontFamily: "Gilroy" }}>Total Rooms</h6>
+    //                         <h5 className="mb-0" style={{ fontFamily: "Gilroy" }}>
+    //                           {dashboardList?.totalRooms || 0}
+    //                         </h5>
+    //                       </div>
+    //                     </div>
+
+    //                     <div className="col-md-3 d-flex flex-column gap-2">
+    //                       <div className="border rounded-4   p-3 shadow-sm d-flex justify-content-between align-items-center bg-white">
+    //                         <div>
+    //                           <h6 className="text-muted mb-1" style={{ fontFamily: "Gilroy" }}>Total Beds</h6>
+    //                           <h5 className="mb-0" style={{ fontFamily: "Gilroy" }}>
+    //                             {dashboardList?.totalBeds || 0}
+    //                           </h5>
+    //                         </div>
+    //                         <img
+    //                           src={clock}
+    //                           width="30"
+    //                           height="30"
+    //                           alt="Bed Icon"
+    //                         />
+    //                       </div>
+    //                       <div className="border rounded-4 p-3 shadow-sm d-flex justify-content-between align-items-center bg-white">
+    //                         <div>
+    //                           <h6 className="text-muted mb-1" style={{ fontFamily: "Gilroy" }}>Free Beds</h6>
+    //                           <h5 className="mb-0" style={{ fontFamily: "Gilroy" }}>
+    //                             {dashboardList?.freeBeds || 0}
+    //                           </h5>
+    //                         </div>
+    //                         <img
+    //                           src={key}
+    //                           width="30"
+    //                           height="30"
+    //                           alt="Key Icon"
+    //                         />
+    //                       </div>
+    //                     </div>
+
+    //                     <div className="col-md-7">
+    //                       <div
+    //                         className="p-2 rounded-4"
+    //                         style={{ backgroundColor: "#E0ECFF" }}
+    //                       >
+    //                         <div className="row g-2">
+    //                           <div className="col-md-9">
+    //                             <div className="row g-2">
+    //                               <div className="col-lg-6 col-md-12 col-sm-12">
+    //                                 <div className="border rounded-4 p-3 shadow-sm bg-white text-start">
+    //                                   <h6 className="text-muted contents mb-1" style={{ fontFamily: "Gilroy" }}>
+    //                                     Occupied Beds
+    //                                   </h6>
+    //                                   <h5 className="mb-0 counts" style={{ fontFamily: "Gilroy" }}>
+    //                                     {dashboardList?.occupiedBeds || 0}
+    //                                   </h5>
+    //                                 </div>
+    //                               </div>
+    //                               <div className="col-lg-6 col-md-12 col-sm-12">
+    //                                 <div className="border rounded-4 p-3 shadow-sm bg-white text-start">
+    //                                   <h6 className="text-muted mb-1 contents" style={{ fontFamily: "Gilroy" }}>
+    //                                     Next Month Projection
+    //                                   </h6>
+    //                                   <h5 className="mb-0 counts" style={{ fontFamily: "Gilroy" }}>
+    //                                     {dashboardList?.nextMonthProjection || 0}
+    //                                   </h5>
+    //                                 </div>
+    //                               </div>
+    //                               <div className="col-lg-6 col-md-12 col-sm-12">
+    //                                 <div className="border rounded-4 p-3 shadow-sm bg-white text-start">
+    //                                   <h6 className="text-muted mb-1 contents" style={{ fontFamily: "Gilroy" }}>
+    //                                     Total Customers
+    //                                   </h6>
+    //                                   <h5 className="mb-0 counts" style={{ fontFamily: "Gilroy" }}>
+    //                                     {dashboardList?.totalCustomers || 0}
+    //                                   </h5>
+    //                                 </div>
+    //                               </div>
+    //                               <div className="col-lg-6 col-md-12 col-sm-12">
+    //                                 <div className="border rounded-4 p-3 shadow-sm bg-white text-start">
+    //                                   <h6 className="text-muted mb-1 contents" style={{ fontFamily: "Gilroy" }}>
+    //                                     EB Amount
+    //                                   </h6>
+    //                                   <h5 className="mb-0 counts" style={{ fontFamily: "Gilroy" }}>
+    //                                     {dashboardList?.electricityAmount || 0}
+    //                                   </h5>
+    //                                 </div>
+    //                               </div>
+    //                             </div>
+    //                           </div>
+
+    //                           <div className="col-md-3">
+    //                             <div className="border rounded-4 px-3 py-4 shadow-sm bg-white text-start d-flex flex-column justify-content-between align-items-start h-100">
+    //                               <img
+    //                                 src={vector}
+    //                                 alt="Asset Icon"
+    //                                 width="30"
+    //                                 height="30"
+    //                                 className="mb-3"
+    //                               />
+    //                               <p
+    //                                 className="text-muted mb-1 small"
+    //                                 style={{ fontFamily: "Gilroy" }}
+    //                               >
+    //                                 Total Asset Value
+    //                               </p>
+    //                               <h5 className="mt-1" style={{ fontFamily: "Gilroy" }}>
+    //                                 {dashboardList?.totalAssetsValue || 0}
+    //                               </h5>
+    //                             </div>
+    //                           </div>
+    //                         </div>
+    //                       </div>
+    //                     </div>
+    //                   </div>
+    //                 </div>
+
+
+    //                 <div className="row g-3">
+
+
+    //                   <div className="col-12 col-md-6 col-lg-4">
+    //                     <div className="d-flex align-items-center p-3 border rounded-4 bg-primary bg-opacity-10">
+    //                       <div className="me-3  text-primary"><img src={advancedHand} alt="advancedhand" width={32} height={32} /></div>
+    //                       <div>
+    //                         <h6 className="text-muted " style={{ fontFamily: "Gilroy" }}>Advance in Hand</h6>
+    //                         <div className="fw-semibold fs-5" style={{ fontFamily: "Gilroy" }}>₹  {dashboardList?.advances || 0}</div>
+    //                       </div>
+    //                     </div>
+    //                   </div>
+
+
+    //                   <div className="col-12 col-md-6 col-lg-4">
+    //                     <div className="d-flex align-items-center p-3 border rounded-4 bg-white">
+    //                       <div className="me-3  text-primary"><img src={activeImage} alt="activeImage" width={32} height={32} /></div>
+    //                       <div>
+    //                         <h6 className="text-muted " style={{ fontFamily: "Gilroy" }}>Active Complaint</h6>
+    //                         <div className="fw-semibold fs-5" style={{ fontFamily: "Gilroy" }}>{dashboardList?.activeComplaint || 0}</div>
+    //                       </div>
+    //                     </div>
+    //                   </div>
+
+    //                   <div className="col-12 col-md-6 col-lg-4">
+    //                     <div className="d-flex align-items-center p-3 border rounded-4 bg-white">
+    //                       <div className="me-3 text-primary"><img src={currentMatch} alt="currentMatch" width={32} height={32} /></div>
+    //                       <div>
+    //                         <h6 className="text-muted " style={{ fontFamily: "Gilroy" }}>Current Month Profit</h6>
+    //                         <div className="fw-semibold fs-5" style={{ fontFamily: "Gilroy" }}>₹  {dashboardList.currentMonthProfit || 0}</div>
+    //                       </div>
+    //                     </div>
+    //                   </div>
+
+
+    //                   <div className="col-12 col-md-6 col-lg-4">
+    //                     <div className="d-flex align-items-center p-3 border rounded-4 bg-white">
+    //                       <div className="me-3  text-primary"><img src={coinImage} alt="coinImage" width={32} height={32} /></div>
+    //                       <div>
+    //                         <h6 className="text-muted " style={{ fontFamily: "Gilroy" }}>Other Profit</h6>
+    //                         <div className="fw-semibold fs-5" style={{ fontFamily: "Gilroy" }}>₹ {dashboardList.otherProfit || 0}</div>
+    //                       </div>
+    //                     </div>
+    //                   </div>
+
+
+    //                   <div className="col-12 col-md-6 col-lg-4">
+    //                     <div className="d-flex align-items-center p-3 border rounded-4 bg-white">
+    //                       <div className="me-3  text-primary"><img src={pendingimg} alt="coinImage" width={32} height={32} /></div>
+    //                       <div>
+    //                         <h6 className="text-muted " style={{ fontFamily: "Gilroy" }}>Pending invoice count</h6>
+    //                         <div className="fw-semibold fs-5" style={{ fontFamily: "Gilroy" }}> {dashboardList.pendingInvoiceCount || 0}</div>
+    //                       </div>
+    //                     </div>
+    //                   </div>
+
+
+    //                   <div className="col-12 col-md-6 col-lg-4">
+    //                     <div className="d-flex align-items-center p-3 border rounded-4 bg-white">
+    //                       <div className="me-3  text-primary"><img src={newBooking} alt="coinImage" width={32} height={32} /></div>
+    //                       <div>
+    //                         <h6 className="text-muted " style={{ fontFamily: "Gilroy" }}>New booking</h6>
+    //                         <div className="fw-semibold fs-5" style={{ fontFamily: "Gilroy" }}>{dashboardList.bookedBeds || 0}</div>
+    //                       </div>
+    //                     </div>
+    //                   </div>
+
+    //                 </div>
+
+
+    //                 <div className="circulardes">
+    //                   <div className="animated-text" style={{ flex: 1 }}>
+    //                     <div
+    //                       className="w-full"
+    //                       style={{
+    //                         paddingTop: "20px",
+    //                         border: "1px solid #e0e0e0",
+    //                         borderRadius: "20px",
+    //                         backgroundColor: "#fff",
+
+    //                         paddingRight: 20,
+    //                         width: "98%",
+    //                         marginTop: 10,
+    //                       }}
+    //                     >
+
+    //                       <div
+    //                         style={{
+    //                           display: "flex",
+    //                           flexWrap: "wrap",
+    //                           justifyContent: "space-between",
+    //                           alignItems: "center",
+    //                           padding: "10px 10px",
+    //                           marginTop: "-15px",
+    //                         }}
+    //                       >
+
+    //                         <div
+    //                           style={{
+    //                             flex: "1 1 60%",
+    //                             minWidth: "200px",
+    //                             paddingLeft: 15,
+    //                           }}
+    //                         >
+    //                           <p
+    //                             style={{
+    //                               fontFamily: "Montserrat",
+    //                               fontSize: 18,
+    //                               fontWeight: 600,
+    //                               margin: 12,
+    //                               whiteSpace: "nowrap"
+    //                             }}
+    //                           >
+    //                             Expenses Vs Revenue
+    //                           </p>
+    //                         </div>
+
+
+    //                         <div
+    //                           style={{
+    //                             flex: "1 1 40%",
+    //                             minWidth: "150px",
+    //                             display: "flex",
+    //                             justifyContent: "flex-end",
+    //                           }}
+    //                         >
+    //                           <div
+    //                             style={{
+    //                               position: "relative",
+    //                               width: "100%",
+    //                               maxWidth: 250,
+    //                               height: 36,
+
+    //                             }}
+    //                           >
+    //                             <select
+    //                               value={selectRevenu}
+    //                               onChange={(e) => handleSelectedRevenue(e)}
+    //                               style={{
+    //                                 fontSize: 12,
+    //                                 color: "#4B4B4B",
+    //                                 fontFamily: "Gilroy",
+    //                                 fontWeight: 600,
+    //                                 boxShadow: "none",
+    //                                 border: "1px solid #D9D9D9",
+    //                                 height: 36,
+    //                                 width: "100%",
+    //                                 borderRadius: 60,
+    //                                 padding: "6px 10px",
+    //                                 appearance: "none",
+    //                                 background: `url(${drop}) no-repeat right 10px center`,
+    //                                 backgroundSize: "16px 16px",
+    //                                 cursor: "pointer",
+    //                               }}
+    //                             >
+    //                               <option value="six_month">last six months</option>
+    //                               <option value="this_year">this year</option>
+    //                               <option value="last_year">last year</option>
+    //                             </select>
+    //                           </div>
+    //                         </div>
+    //                       </div>
+
+
+
+
+    //                       <div
+    //                         className="chart-container"
+    //                         style={{
+    //                           position: "relative",
+    //                           height: 350,
+    //                           overflowX: "auto",
+    //                         }}
+    //                       >
+    //                         <div
+    //                           className="chart-wrapper"
+    //                           style={{
+    //                             minWidth: "100%",
+    //                           }}
+    //                         >
+    //                           <ResponsiveContainer width="100%" height={350}>
+    //                             <BarChart
+    //                               data={data}
+    //                               margin={{
+    //                                 top: 10,
+    //                                 left: 20,
+    //                                 bottom: 40,
+    //                                 right: 10,
+    //                               }}
+    //                               barGap={0}
+    //                               barCategoryGap="5%"
+    //                             >
+    //                               <CartesianGrid
+    //                                 horizontal
+    //                                 vertical={false}
+    //                                 stroke="#e0e0e0"
+    //                               />
+    //                               <XAxis
+    //                                 dataKey="month"
+    //                                 interval="auto"
+    //                                 tick={{
+    //                                   fontFamily: "Gilroy",
+    //                                   fontSize: 12,
+    //                                   fontWeight: 500,
+    //                                 }}
+    //                                 tickFormatter={(month) => {
+    //                                   const date = new Date(`${month}-01`);
+    //                                   return date.toLocaleDateString("en-US", {
+    //                                     month: "short",
+    //                                   });
+    //                                 }}
+    //                               />
+    //                               <YAxis
+    //                                 domain={[0, "dataMax"]}
+    //                                 axisLine={false}
+    //                                 tickLine={false}
+    //                                 tickCount={12}
+    //                                 dx={-10}
+    //                                 tick={{
+    //                                   fontFamily: "Gilroy",
+    //                                   fontSize: 12,
+    //                                   fontWeight: 500,
+    //                                 }}
+    //                               />
+    //                               <Tooltip formatter={(value) => `${value}`} />
+    //                               <Bar
+    //                                 dataKey="revenue"
+    //                                 fill="#00A32E"
+    //                                 barSize={50}
+    //                                 radius={[5, 5, 0, 0]}
+    //                               >
+    //                                 <LabelList
+    //                                   dataKey="revenue"
+    //                                   position="inside"
+    //                                   angle={270}
+    //                                   style={{
+    //                                     fill: "white",
+    //                                     fontSize: 12,
+    //                                     fontWeight: "bold",
+    //                                   }}
+    //                                 />
+    //                               </Bar>
+    //                               <Bar
+    //                                 dataKey="expense"
+    //                                 fill="#E34B4B"
+    //                                 barSize={50}
+    //                                 radius={[5, 5, 0, 0]}
+    //                               >
+    //                                 <LabelList
+    //                                   dataKey="expense"
+    //                                   position="inside"
+    //                                   angle={270}
+    //                                   style={{
+    //                                     fill: "white",
+    //                                     fontSize: 12,
+    //                                     fontWeight: "bold",
+    //                                   }}
+    //                                 />
+    //                               </Bar>
+    //                               <Legend
+    //                                 content={<CustomLegend />}
+    //                                 verticalAlign="bottom"
+    //                                 height={36}
+    //                               />
+    //                             </BarChart>
+    //                           </ResponsiveContainer>
+    //                         </div>
+    //                       </div>
+    //                     </div>
+
+    //                     <Card
+    //                       className="animated-text mt-4"
+    //                       style={{
+
+    //                         height: "30%",
+    //                         width: "97%",
+    //                         borderRadius: "20px",
+    //                       }}
+    //                     >
+    //                       <Card.Body>
+    //                         <div
+    //                           style={{
+    //                             display: "flex",
+    //                             flexWrap: "wrap",
+    //                             justifyContent: "space-between",
+    //                             alignItems: "center",
+    //                             padding: "10px 10px",
+    //                             marginTop: "-15px",
+    //                           }}
+    //                         >
+
+    //                           <div
+    //                             style={{
+    //                               flex: "1 1 60%",
+    //                               minWidth: "200px",
+    //                               paddingLeft: 10,
+    //                               marginBottom: 10,
+    //                             }}
+    //                           >
+    //                             <p
+    //                               style={{
+    //                                 fontFamily: "Montserrat",
+    //                                 fontSize: 18,
+    //                                 fontWeight: 600,
+    //                                 margin: 12,
+    //                                 whiteSpace: "nowrap"
+    //                               }}
+    //                             >
+    //                               Total Cashback
+    //                             </p>
+    //                           </div>
+
+
+    //                           <div
+    //                             style={{
+    //                               flex: "1 1 40%",
+    //                               minWidth: "150px",
+    //                               display: "flex",
+    //                               justifyContent: "flex-end",
+    //                               marginTop: "-10px"
+    //                             }}
+    //                           >
+    //                             <div
+    //                               style={{
+    //                                 position: "relative",
+    //                                 width: "100%",
+    //                                 maxWidth: 250,
+    //                                 height: 36,
+
+    //                               }}
+    //                             >
+    //                               <select
+    //                                 value={selectCashback}
+    //                                 onChange={(e) => handleSelectedReceived(e)}
+    //                                 style={{
+    //                                   fontSize: 12,
+    //                                   color: "#4B4B4B",
+    //                                   fontFamily: "Gilroy",
+    //                                   fontWeight: 600,
+    //                                   boxShadow: "none",
+    //                                   border: "1px solid #D9D9D9",
+    //                                   height: 36,
+    //                                   width: "100%",
+    //                                   borderRadius: 60,
+    //                                   padding: "6px 10px",
+    //                                   appearance: "none",
+    //                                   background: `url(${drop}) no-repeat right 10px center`,
+    //                                   backgroundSize: "16px 16px",
+    //                                   cursor: "pointer",
+    //                                 }}
+    //                               >
+    //                                 <option value="this_month">This month</option>
+    //                                 <option value="last_month">Last month</option>
+    //                                 <option value="last_three_months">
+    //                                   Last 3 months
+    //                                 </option>
+    //                                 <option value="last_six_months">
+    //                                   Last 6 months
+    //                                 </option>
+    //                                 <option value="this_year">Last 1 year</option>
+    //                               </select>
+    //                             </div>
+    //                           </div>
+    //                         </div>
+
+    //                         <div className="d-flex flex-wrap align-items-center">
+
+    //                           <div
+    //                             className="flex-shrink-0 me-3"
+    //                             style={{
+    //                               width: "40%",
+    //                               marginLeft: 15,
+    //                               marginTop: 5,
+    //                               fontFamily: "Gilroy",
+    //                             }}
+    //                           >
+    //                             <CircularProgressbar
+    //                               value={percentage}
+
+    //                               text={`₹${currentvalue || 0}`}
+    //                               circleRatio={0.5}
+    //                               styles={buildStyles({
+    //                                 rotation: 0.75,
+    //                                 pathColor: pathColor,
+    //                                 trailColor: trailColor,
+    //                                 textColor: "#000",
+    //                                 textSize: 9,
+    //                                 text: {
+    //                                   fill: "#000",
+    //                                   transform: "rotate(80deg)",
+    //                                   transformOrigin: "center center",
+    //                                   fontFamily: "Gilroy",
+    //                                   fontWeight: 600,
+    //                                   fontSize: "24px",
+    //                                 },
+    //                               })}
+    //                             />
+    //                           </div>
+
+    //                           <div className="d-flex flex-column ms-auto pe-5" style={{ marginTop: "-50px" }}>
+    //                             <div className="d-flex align-items-center ">
+    //                               <div
+    //                                 className="bg-success rounded-circle me-2"
+    //                                 style={{ width: "15px", height: "15px", marginTop: "-25px" }}
+    //                               ></div>
+    //                               <div>
+    //                                 <p
+    //                                   className="m-0 "
+    //                                   style={{
+    //                                     fontSize: 12,
+    //                                     fontWeight: 500,
+    //                                     fontFamily: "Gilroy",
+    //                                   }}
+    //                                 >
+    //                                   Received
+    //                                 </p>
+    //                                 <p style={{
+    //                                   fontSize: 13,
+    //                                   fontWeight: 600,
+    //                                   fontFamily: "Montserrat",
+    //                                   marginTop: 2
+    //                                 }}>
+    //                                   ₹{cashBackData?.[0]?.Revenue || 0}
+    //                                 </p>
+    //                               </div>
+    //                             </div>
+    //                             <div className="d-flex align-items-center">
+    //                               <div
+    //                                 className="rounded-circle me-2"
+    //                                 style={{
+    //                                   width: "15px",
+    //                                   height: "15px",
+    //                                   backgroundColor: "#EBEBEB",
+    //                                   marginTop: "-25px"
+    //                                 }}
+    //                               ></div>
+    //                               <div>
+    //                                 <p
+    //                                   className="m-0 "
+    //                                   style={{
+    //                                     fontSize: 12,
+    //                                     fontWeight: 500,
+    //                                     fontFamily: "Gilroy",
+    //                                   }}
+    //                                 >
+    //                                   Pending
+    //                                 </p>
+    //                                 <p style={{
+    //                                   fontSize: 13,
+    //                                   fontWeight: 600,
+    //                                   fontFamily: "Montserrat",
+    //                                   marginTop: 2
+    //                                 }}>
+    //                                   ₹{cashBackData?.[0]?.overdue || 0}
+    //                                 </p>
+    //                               </div>
+    //                             </div>
+    //                           </div>
+    //                         </div>
+    //                       </Card.Body>
+    //                     </Card>
+    //                   </div>
+
+    //                   <div style={{ flex: 1 }}>
+    //                     <div
+    //                       className="bg-white rounded-2xl  p-4 md:p-6 w-full max-w-4xl mx-auto overflow-x-auto card rounded-full mt-2"
+    //                       style={{ flex: 1, height: "auto", width: "99%", borderRadius: "24px" }}
+    //                     >
+    //                       <div
+    //                         style={{
+    //                           display: "flex",
+    //                           flexWrap: "wrap",
+    //                           justifyContent: "space-between",
+    //                           alignItems: "center",
+    //                           padding: "10px 10px",
+    //                           marginTop: "-15px",
+    //                         }}
+    //                       >
+    //                         <div
+    //                           style={{
+    //                             flex: "1 1 60%",
+    //                             textAlign: "start",
+    //                             paddingLeft: 0,
+    //                             marginBottom: "10px",
+    //                           }}
+    //                         >
+    //                           <p
+    //                             style={{
+    //                               fontFamily: "Montserrat",
+    //                               fontSize: 18,
+    //                               fontWeight: 600,
+    //                               margin: 0,
+    //                               whiteSpace: "nowrap"
+    //                             }}
+    //                           >
+    //                             Advance VS Advance Return
+    //                           </p>
+    //                         </div>
+
+
+    //                         <div
+    //                           style={{
+    //                             flex: "1 1 40%",
+    //                             maxWidth: "300px",
+    //                             marginLeft: "auto",
+    //                             display: "flex",
+    //                             justifyContent: "flex-end",
+    //                           }}
+    //                         >
+    //                           <div
+    //                             style={{
+    //                               position: "relative",
+    //                               width: "100%",
+    //                               height: 36,
+    //                             }}
+    //                           >
+    //                             <select
+    //                               value={selectAdvance}
+    //                               onChange={(e) => handleSelectedAdvance(e)}
+    //                               style={{
+    //                                 fontSize: 12,
+    //                                 color: "#4B4B4B",
+    //                                 fontFamily: "Gilroy",
+    //                                 fontWeight: 600,
+    //                                 boxShadow: "none",
+    //                                 border: "1px solid #D9D9D9",
+    //                                 height: 36,
+    //                                 width: "100%",
+    //                                 maxWidth: "180px",
+    //                                 borderRadius: 60,
+    //                                 padding: "6px 10px",
+    //                                 appearance: "none",
+    //                                 background: `url(${drop}) no-repeat right 10px center`,
+    //                                 backgroundSize: "16px 16px",
+    //                                 cursor: "pointer",
+    //                               }}
+    //                             >
+    //                               <option value="six_month">
+    //                                 last six months
+    //                               </option>
+    //                               <option value="this_year">this year</option>
+    //                               <option value="last_year">last year</option>
+    //                             </select>
+    //                           </div>
+    //                         </div>
+    //                       </div>
+
+
+
+    //                       <ResponsiveContainer width="100%" height={300}>
+    //                         <LineChart data={formattedChart}>
+    //                           <CartesianGrid stroke="#e0e0e0" strokeDasharray="0" vertical={false} />
+
+    //                           <XAxis
+    //                             dataKey="name"
+    //                             tickFormatter={(tick) => {
+    //                               const date = new Date(tick);
+    //                               return date.toLocaleString('default', { month: 'short', year: 'numeric' });
+    //                             }}
+    //                             tick={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500, fill: "#333" }}
+    //                             axisLine={false}
+    //                             tickLine={false}
+    //                           />
+
+    //                           <YAxis axisLine={false} tickLine={false} />
+    //                           <Tooltip />
+    //                           <Legend
+    //                             verticalAlign="bottom"
+    //                             align="center"
+    //                             iconType="circle"
+    //                             wrapperStyle={{ marginTop: 10, fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}
+    //                           />
+    //                           <Line
+    //                             type="monotone"
+    //                             dataKey="Advance"
+    //                             stroke="#3366FF"
+    //                             strokeWidth={2}
+    //                             dot={{ r: 4 }}
+
+
+    //                           />
+    //                           <Line
+    //                             type="monotone"
+    //                             dataKey="Advance Return"
+    //                             stroke="#FF5733"
+    //                             strokeWidth={2}
+    //                             dot={{ r: 4 }}
+
+    //                           />
+    //                         </LineChart>
+    //                       </ResponsiveContainer>
+
+
+
+    //                     </div>
+    //                     <div className="expenses-container animated-text mt-4">
+    //                       <div className="dropp d-flex justify-content-between align-items-center flex-wrap py-2 px-3">
+
+    //                         <div className="d-flex text-start mb-2">
+    //                           <p
+    //                             style={{
+    //                               fontFamily: "Montserrat",
+    //                               fontSize: 18,
+    //                               fontWeight: 600,
+    //                               paddingLeft: 10,
+    //                               margin: 0,
+    //                             }}
+    //                           >
+    //                             Expenses
+    //                           </p>
+    //                         </div>
+
+
+    //                         <div
+    //                           className="d-flex justify-content-end align-items-center mb-2"
+    //                           style={{ width: "100%", maxWidth: 200 }}
+    //                         >
+    //                           <select
+    //                             aria-label="Default select example"
+    //                             onChange={(e) => handleSelectedExpenses(e)}
+    //                             value={selectExpence}
+    //                             style={{
+    //                               fontSize: 12,
+    //                               color: "#4B4B4B",
+    //                               fontFamily: "Gilroy",
+    //                               fontWeight: 600,
+    //                               boxShadow: "none",
+    //                               border: "1px solid #D9D9D9",
+    //                               height: 36,
+    //                               width: "100%",
+    //                               borderRadius: 60,
+    //                               paddingTop: 6,
+    //                               paddingBottom: 6,
+    //                               paddingRight: 30 /* Allow space for icon */,
+    //                               paddingLeft: 10,
+    //                               appearance: "none",
+    //                               background: `url(${drop}) no-repeat right 10px center`,
+    //                               backgroundSize: "16px 16px",
+    //                               cursor: "pointer",
+    //                             }}
+    //                           >
+    //                             <option value="this_month">This month</option>
+    //                             <option value="last_month">Last month</option>
+    //                             <option value="last_three_months">
+    //                               Last 3 months
+    //                             </option>
+    //                             <option value="last_six_months">
+    //                               Last 6 months
+    //                             </option>
+    //                             <option value="this_year">This year</option>
+    //                           </select>
+    //                         </div>
+    //                       </div>
+
+
+    //                       <div
+    //                         className="content"
+    //                         style={{
+    //                           display: "flex",
+    //                           alignItems: "flex-start",
+    //                           justifyContent: "space-between",
+    //                         }}
+    //                       >
+
+    //                         <div className="chart" style={{ flex: "1" }}>
+    //                           {lablesdata && lablesdata?.length > 0 ? (
+    //                             <Doughnut
+    //                               className="doughnut"
+    //                               data={datum}
+    //                               options={options}
+    //                               style={{ width: 196, height: 196 }}
+    //                             />
+    //                           ) : (
+    //                             <svg
+    //                               xmlns="http://www.w3.org/2000/svg"
+    //                               width="196"
+    //                               height="196"
+    //                               viewBox="0 0 196 196"
+    //                               fill="none"
+    //                             >
+    //                               <path
+    //                                 d="M196 98C196 152.124 152.124 196 98 196C43.8761 196 0 152.124 0 98C0 43.8761 43.8761 0 98 0C152.124 0 196 43.8761 196 98ZM29.4 98C29.4 135.887 60.1133 166.6 98 166.6C135.887 166.6 166.6 135.887 166.6 98C166.6 60.1133 135.887 29.4 98 29.4C60.1133 29.4 29.4 60.1133 29.4 98Z"
+    //                                 fill="#DCDCDC"
+    //                               />
+    //                             </svg>
+    //                           )}
+    //                           <p
+    //                             className="center-text"
+    //                             style={{
+    //                               fontFamily: "Gilroy",
+    //                               fontSize: 25,
+    //                               fontWeight: 600,
+    //                               textAlign: "center",
+    //                               marginTop: "10px",
+    //                             }}
+    //                           >
+    //                             ₹{totalAmount > 0 ? totalAmount : 0}
+    //                           </p>
+    //                         </div>
+
+
+    //                         <div
+    //                           className="categories"
+    //                           style={{
+    //                             flex: "1",
+    //                             display: "grid",
+    //                             gridTemplateColumns: "1fr 1fr",
+    //                             gap: "20px",
+    //                           }}
+    //                         >
+    //                           {lablesdata && lablesdata?.length > 0 ? (
+    //                             lablesdata?.map((label, index) => (
+    //                               <div
+    //                                 className="category"
+    //                                 key={index}
+    //                                 style={{
+    //                                   display: "flex",
+    //                                   alignItems: "center",
+    //                                   gap: "10px",
+    //                                 }}
+    //                               >
+    //                                 <span
+    //                                   className="dot"
+    //                                   style={{
+    //                                     backgroundColor:
+    //                                       datasets[0].backgroundColor[index],
+    //                                     width: "10px",
+    //                                     height: "10px",
+    //                                     borderRadius: "50%",
+    //                                   }}
+    //                                 ></span>
+    //                                 <div
+    //                                   className="text"
+    //                                   style={{
+    //                                     display: "flex",
+    //                                     flexDirection: "column",
+    //                                   }}
+    //                                 >
+    //                                   <p
+    //                                     style={{
+    //                                       fontFamily: "Montserrat",
+    //                                       fontSize: 12,
+    //                                       fontWeight: 600,
+    //                                       color: "#4B4B4B",
+    //                                       margin: 0,
+    //                                     }}
+    //                                   >
+    //                                     {label.category_Name}
+    //                                   </p>
+    //                                   <p
+    //                                     style={{
+    //                                       fontFamily: "Gilroy",
+    //                                       fontSize: 16,
+    //                                       fontWeight: 600,
+    //                                       margin: 0,
+    //                                     }}
+    //                                   >
+    //                                     ₹{label.purchase_amount}
+    //                                   </p>
+    //                                 </div>
+    //                               </div>
+    //                             ))
+    //                           ) : (
+    //                             <div
+    //                               className="no-data-category"
+    //                               style={{
+    //                                 textAlign: "center",
+    //                                 width: "100%",
+    //                                 marginTop: "25px",
+    //                                 color: "red",
+    //                                 whiteSpace: "nowrap",
+    //                               }}
+    //                             >
+    //                               <p>No Data</p>
+    //                             </div>
+    //                           )}
+    //                         </div>
+    //                       </div>
+    //                     </div>
+
+
+    //                   </div>
+    //                 </div>
+    //               </div>
+    //             </>
+    //           )}
+    //         </TabPanel>
+
+    //         <TabPanel value="2" >
+    //           <DashboardAnnouncement
+
+    //             // AnnouncementAddPermission={AnnouncementAddPermission}
+    //             // AnnouncementEditPermission={AnnouncementEditPermission}
+    //             // AnnouncementDeletePermission={AnnouncementDeletePermission}
+    //           />
+    //         </TabPanel>
+
+    //         <TabPanel value="3">
+    //           <DashboardUpdates
+    //           //  updatePermissionError={updatePermissionError}
+    //             />
+    //         </TabPanel>
+    //       </div>
+    //     </TabContext>
+    //   </div>
+    // </>
+
     <>
 
 
-      <div className="container p-0">
+      <div className="w-full max-w-full mx-auto p-2">
         <Marquee pauseOnHover gradient={false}>
           {showWarning && (
             <div
-              className={`alert mt-3 d-flex justify-content-between align-items-center px-4 py-2  rounded-3`}
-              style={{
-                backgroundColor: daysLeft > 0 ? "#fff3cd" : "#f8d7da",
-                color: daysLeft > 0 ? "#856404" : "#721c24",
-                border: `1px solid ${daysLeft > 0 ? "#ffeeba" : "#f5c6cb"}`,
-                fontFamily: "Gilroy",
-                width: "100%",
-                maxWidth: "900px",
-                margin: "auto",
-                fontSize: "16px",
-              }}
+              className={`mt-3 flex flex-col sm:flex-row justify-between items-center gap-2 px-4 py-2 rounded-lg w-full max-w-[900px] mx-auto text-base font-[Gilroy] border
+  ${daysLeft > 0
+                  ? "bg-[#fff3cd] text-[#856404] border-[#ffeeba]"
+                  : "bg-[#f8d7da] text-[#721c24] border-[#f5c6cb]"
+                }
+`}
+
               role="alert"
             >
-              <div className="d-flex align-items-center">
+
+              <div className="flex items-center gap-2">
                 {daysLeft > 0 ? (
                   <>
-                    <MdWarningAmber size={24} color="#ffc107" style={{ marginRight: "8px" }} />
+                    <MdWarningAmber className="text-[#ffc107] text-[24px]" />
                     <span>
-                      Your plan will expire in <strong>{daysLeft}</strong> day
-                      {daysLeft > 1 ? "s" : ""} !
+                      Your plan will expire in{" "}
+                      <strong>{daysLeft}</strong> day{daysLeft > 1 ? "s" : ""}!
                     </span>
                   </>
                 ) : (
-                  <>
-                    <span style={{ fontFamily: "Gilroy", }}>
-                      <strong>Your plan has expired!</strong>
-                    </span>
-                  </>
+                  <span className="font-[Gilroy] font-semibold">
+                    Your plan has expired!
+                  </span>
                 )}
               </div>
+
+
               <button
-                className="btn btn-sm ms-3"
-                style={{
-                  fontFamily: "Gilroy",
-                  backgroundColor: daysLeft > 0 ? "#ffc107" : "#dc3545",
-                  color: "#fff",
-                  border: "none",
-                }}
+                className={`ms-3 px-3 py-1.5 text-sm rounded-md font-[Gilroy] text-white transition-colors ${daysLeft > 0 ? "bg-[#ffc107] hover:bg-[#e0a800]" : "bg-[#dc3545] hover:bg-[#c82333]"}`}
+
                 onClick={handleOkClick}
               >
                 OK
@@ -522,61 +1590,48 @@ function Dashboard() {
         </Marquee>
 
         <TabContext value={value}>
-          <div
-            className="container-fluid "
-            style={{
-              position: "sticky",
-              top: 0,
-              zIndex: 1000,
-              backgroundColor: "#FFFFFF",
-            }}
+          <div className="w-full px-3 sticky top-0 z-[1000] bg-white"
           >
+
+
             <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
               <TabList
                 orientation={isSmallScreen ? "vertical" : "horizontal"}
                 onChange={handleChanges}
                 aria-label="lab API tabs example"
-                // style={{ marginLeft: "20px" }}
-                className="d-flex flex-column flex-md-row flex-wrap"
+                className="flex flex-col md:flex-row flex-wrap -ml-[15px]"
+
               >
-                <Tab className="p-0"
+                <Tab
                   label="Dashboard"
                   value="1"
-                  style={{
-                    fontSize: 16,
-                    fontFamily: "Gilroy",
-                    color: "#4B4B4B",
-                    lineHeight: "normal",
-                    fontStyle: "normal",
-                    fontWeight: 500,
-                    textTransform: "none",
-                  }}
+                  sx={{ textTransform: 'none' }}
+                  className="text-base text-neutral-600 leading-normal not-italic normal-case
+           font-medium
+           [&.Mui-selected]:!text-black
+           [&.Mui-selected]:!font-semibold"
+
+
                 />
                 <Tab
                   label="Announcement"
                   value="2"
-                  style={{
-                    fontSize: 16,
-                    fontFamily: "Gilroy",
-                    color: "#4B4B4B",
-                    lineHeight: "normal",
-                    fontStyle: "normal",
-                    fontWeight: 500,
-                    textTransform: "none",
-                  }}
+                  sx={{ textTransform: 'none' }}
+                  className="text-base text-neutral-600 leading-normal not-italic normal-case
+           font-medium
+           [&.Mui-selected]:!text-black
+           [&.Mui-selected]:!font-semibold"
+
                 />
                 <Tab
                   label="Updates"
                   value="3"
-                  style={{
-                    fontSize: 16,
-                    fontFamily: "Gilroy",
-                    color: "#4B4B4B",
-                    lineHeight: "normal",
-                    fontStyle: "normal",
-                    fontWeight: 500,
-                    textTransform: "none",
-                  }}
+                  sx={{ textTransform: 'none' }}
+                  className="text-base text-neutral-600 leading-normal not-italic normal-case
+           font-medium
+           [&.Mui-selected]:!text-black
+           [&.Mui-selected]:!font-semibold"
+
                 />
               </TabList>
             </Box>
@@ -588,13 +1643,8 @@ function Dashboard() {
             <TabPanel value="1">
               {(!canReadDashboard && !loading) ? (
                 <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    marginTop: 100
-                  }}
+                  className="flex flex-col items-center justify-center mt-24"
+
                 >
 
                   <img
@@ -610,29 +1660,33 @@ function Dashboard() {
                 </div>
               ) : (
                 <>
-                  <div className="mt-4 dashboard-tab-one">
-                    <div className=" my-4">
-                      <div className="row g-3">
-                        <div className="col-md-2">
+                  <div className="mt-4 overflow-y-auto p-2">
+
+                    <div className="my-4">
+                      <div className="grid gap-3 md:grid-cols-12">
+                        <div className="md:col-span-2">
                           <div
-                            className="border rounded-4 p-4 shadow-sm text-start d-flex flex-column align-items-start justify-content-between bg-white"
-                            style={{ minHeight: 160 }}
+                            className="border rounded-2xl p-4 shadow-sm text-left flex flex-col items-start justify-between bg-white min-h-[160px]"
                           >
-                            <div className="text-primary mb-2">
+                            <div className="text-blue-600 mb-2">
                               <i className="bi bi-house-door-fill fs-4"></i>
                             </div>
-                            <h6 className="text-muted mb-1" style={{ fontFamily: "Gilroy" }}>Total Rooms</h6>
-                            <h5 className="mb-0" style={{ fontFamily: "Gilroy" }}>
+                            <h6 className="text-gray-500 mb-1 font-gilroy">Total Rooms</h6>
+                            <h5 className="mb-0 font-gilroy">
                               {dashboardList?.totalRooms || 0}
                             </h5>
+
                           </div>
                         </div>
 
-                        <div className="col-md-3 d-flex flex-column gap-2">
-                          <div className="border rounded-4   p-3 shadow-sm d-flex justify-content-between align-items-center bg-white">
+                        <div className="md:col-span-3 flex flex-col gap-2">
+
+                          <div className="border rounded-2xl p-3 shadow-sm flex justify-between items-center bg-white">
+
                             <div>
-                              <h6 className="text-muted mb-1" style={{ fontFamily: "Gilroy" }}>Total Beds</h6>
-                              <h5 className="mb-0" style={{ fontFamily: "Gilroy" }}>
+                              <h6 className="text-gray-500 mb-1 font-gilroy">Total Beds</h6>
+
+                              <h5 className="mb-0 font-gilroy">
                                 {dashboardList?.totalBeds || 0}
                               </h5>
                             </div>
@@ -643,12 +1697,14 @@ function Dashboard() {
                               alt="Bed Icon"
                             />
                           </div>
-                          <div className="border rounded-4 p-3 shadow-sm d-flex justify-content-between align-items-center bg-white">
+                          <div className="border rounded-2xl p-3 shadow-sm flex justify-between items-center bg-white">
+
                             <div>
-                              <h6 className="text-muted mb-1" style={{ fontFamily: "Gilroy" }}>Free Beds</h6>
-                              <h5 className="mb-0" style={{ fontFamily: "Gilroy" }}>
+                              <h6 className="text-gray-500 mb-1 font-gilroy">Free Beds</h6>
+                              <h5 className="mb-0 font-gilroy">
                                 {dashboardList?.freeBeds || 0}
                               </h5>
+
                             </div>
                             <img
                               src={key}
@@ -659,147 +1715,137 @@ function Dashboard() {
                           </div>
                         </div>
 
-                        <div className="col-md-7">
-                          <div
-                            className="p-2 rounded-4"
-                            style={{ backgroundColor: "#E0ECFF" }}
-                          >
-                            <div className="row g-2">
-                              <div className="col-md-9">
-                                <div className="row g-2">
-                                  <div className="col-lg-6 col-md-12 col-sm-12">
-                                    <div className="border rounded-4 p-3 shadow-sm bg-white text-start">
-                                      <h6 className="text-muted contents mb-1" style={{ fontFamily: "Gilroy" }}>
-                                        Occupied Beds
-                                      </h6>
-                                      <h5 className="mb-0 counts" style={{ fontFamily: "Gilroy" }}>
-                                        {dashboardList?.occupiedBeds || 0}
-                                      </h5>
+                        <div className="md:col-span-7">
+                          <div className="p-2 rounded-2xl bg-blue-100">
+                            <div className="grid gap-2 md:grid-cols-12">
+                              {/* Left 9 columns */}
+                              <div className="md:col-span-9">
+                                <div className="grid gap-2 md:grid-cols-2 sm:grid-cols-1">
+                                  {/* Occupied Beds */}
+                                  <div>
+                                    <div className="border rounded-2xl p-3 shadow-sm bg-white text-left">
+                                      <h6 className="text-gray-500 mb-1 font-gilroy">Occupied Beds</h6>
+                                      <h5 className="mb-0 font-gilroy">{dashboardList?.occupiedBeds || 0}</h5>
                                     </div>
                                   </div>
-                                  <div className="col-lg-6 col-md-12 col-sm-12">
-                                    <div className="border rounded-4 p-3 shadow-sm bg-white text-start">
-                                      <h6 className="text-muted mb-1 contents" style={{ fontFamily: "Gilroy" }}>
-                                        Next Month Projection
-                                      </h6>
-                                      <h5 className="mb-0 counts" style={{ fontFamily: "Gilroy" }}>
-                                        {dashboardList?.nextMonthProjection || 0}
-                                      </h5>
+                                  {/* Next Month Projection */}
+                                  <div>
+                                    <div className="border rounded-2xl p-3 shadow-sm bg-white text-left">
+                                      <h6 className="text-gray-500 mb-1 font-gilroy">Next Month Projection</h6>
+                                      <h5 className="mb-0 font-gilroy">{dashboardList?.nextMonthProjection || 0}</h5>
                                     </div>
                                   </div>
-                                  <div className="col-lg-6 col-md-12 col-sm-12">
-                                    <div className="border rounded-4 p-3 shadow-sm bg-white text-start">
-                                      <h6 className="text-muted mb-1 contents" style={{ fontFamily: "Gilroy" }}>
-                                        Total Customers
-                                      </h6>
-                                      <h5 className="mb-0 counts" style={{ fontFamily: "Gilroy" }}>
-                                        {dashboardList?.totalCustomers || 0}
-                                      </h5>
+                                  {/* Total Customers */}
+                                  <div>
+                                    <div className="border rounded-2xl p-3 shadow-sm bg-white text-left">
+                                      <h6 className="text-gray-500 mb-1 font-gilroy">Total Customers</h6>
+                                      <h5 className="mb-0 font-gilroy">{dashboardList?.totalCustomers || 0}</h5>
                                     </div>
                                   </div>
-                                  <div className="col-lg-6 col-md-12 col-sm-12">
-                                    <div className="border rounded-4 p-3 shadow-sm bg-white text-start">
-                                      <h6 className="text-muted mb-1 contents" style={{ fontFamily: "Gilroy" }}>
-                                        EB Amount
-                                      </h6>
-                                      <h5 className="mb-0 counts" style={{ fontFamily: "Gilroy" }}>
-                                        {dashboardList?.electricityAmount || 0}
-                                      </h5>
+                                  {/* EB Amount */}
+                                  <div>
+                                    <div className="border rounded-2xl p-3 shadow-sm bg-white text-left">
+                                      <h6 className="text-gray-500 mb-1 font-gilroy">EB Amount</h6>
+                                      <h5 className="mb-0 font-gilroy">{dashboardList?.electricityAmount || 0}</h5>
                                     </div>
                                   </div>
                                 </div>
                               </div>
 
-                              <div className="col-md-3">
-                                <div className="border rounded-4 px-3 py-4 shadow-sm bg-white text-start d-flex flex-column justify-content-between align-items-start h-100">
-                                  <img
-                                    src={vector}
-                                    alt="Asset Icon"
-                                    width="30"
-                                    height="30"
-                                    className="mb-3"
-                                  />
-                                  <p
-                                    className="text-muted mb-1 small"
-                                    style={{ fontFamily: "Gilroy" }}
-                                  >
-                                    Total Asset Value
-                                  </p>
-                                  <h5 className="mt-1" style={{ fontFamily: "Gilroy" }}>
-                                    {dashboardList?.totalAssetsValue || 0}
-                                  </h5>
+                              {/* Right 3 columns */}
+                              <div className="md:col-span-3">
+                                <div className="border rounded-2xl p-4 shadow-sm bg-white text-left flex flex-col justify-between items-start h-full">
+                                  <img src={vector} alt="Asset Icon" width="30" height="30" className="mb-3" />
+                                  <p className="text-gray-500 mb-1 text-sm font-gilroy">Total Asset Value</p>
+                                  <h5 className="mt-1 font-gilroy">{dashboardList?.totalAssetsValue || 0}</h5>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
+
                       </div>
                     </div>
 
 
-                    <div className="row g-3">
 
 
-                      <div className="col-12 col-md-6 col-lg-4">
-                        <div className="d-flex align-items-center p-3 border rounded-4 bg-primary bg-opacity-10">
-                          <div className="me-3  text-primary"><img src={advancedHand} alt="advancedhand" width={32} height={32} /></div>
+                    <div className="grid gap-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+
+                      {/* Advance in Hand */}
+                      <div>
+                        <div className="flex items-center p-3 border rounded-2xl bg-primary/10 bg-blue-100">
+                          <div className="mr-3 text-primary">
+                            <img src={advancedHand} alt="advancedHand" width={32} height={32} />
+                          </div>
                           <div>
-                            <h6 className="text-muted " style={{ fontFamily: "Gilroy" }}>Advance in Hand</h6>
-                            <div className="fw-semibold fs-5" style={{ fontFamily: "Gilroy" }}>₹  {dashboardList?.advances || 0}</div>
+                            <h6 className="text-gray-500 font-gilroy">Advance in Hand</h6>
+                            <div className="font-semibold text-lg font-gilroy">₹ {dashboardList?.advances || 0}</div>
                           </div>
                         </div>
                       </div>
 
-
-                      <div className="col-12 col-md-6 col-lg-4">
-                        <div className="d-flex align-items-center p-3 border rounded-4 bg-white">
-                          <div className="me-3  text-primary"><img src={activeImage} alt="activeImage" width={32} height={32} /></div>
+                      {/* Active Complaint */}
+                      <div>
+                        <div className="flex items-center p-3 border rounded-2xl bg-white">
+                          <div className="mr-3 text-primary">
+                            <img src={activeImage} alt="activeImage" width={32} height={32} />
+                          </div>
                           <div>
-                            <h6 className="text-muted " style={{ fontFamily: "Gilroy" }}>Active Complaint</h6>
-                            <div className="fw-semibold fs-5" style={{ fontFamily: "Gilroy" }}>{dashboardList?.activeComplaint || 0}</div>
+                            <h6 className="text-gray-500 font-gilroy">Active Complaint</h6>
+                            <div className="font-semibold text-lg font-gilroy">{dashboardList?.activeComplaint || 0}</div>
                           </div>
                         </div>
                       </div>
 
-                      <div className="col-12 col-md-6 col-lg-4">
-                        <div className="d-flex align-items-center p-3 border rounded-4 bg-white">
-                          <div className="me-3 text-primary"><img src={currentMatch} alt="currentMatch" width={32} height={32} /></div>
+                      {/* Current Month Profit */}
+                      <div>
+                        <div className="flex items-center p-3 border rounded-2xl bg-white">
+                          <div className="mr-3 text-primary">
+                            <img src={currentMatch} alt="currentMatch" width={32} height={32} />
+                          </div>
                           <div>
-                            <h6 className="text-muted " style={{ fontFamily: "Gilroy" }}>Current Month Profit</h6>
-                            <div className="fw-semibold fs-5" style={{ fontFamily: "Gilroy" }}>₹  {dashboardList.currentMonthProfit || 0}</div>
+                            <h6 className="text-gray-500 font-gilroy">Current Month Profit</h6>
+                            <div className="font-semibold text-lg font-gilroy">₹ {dashboardList.currentMonthProfit || 0}</div>
                           </div>
                         </div>
                       </div>
 
-
-                      <div className="col-12 col-md-6 col-lg-4">
-                        <div className="d-flex align-items-center p-3 border rounded-4 bg-white">
-                          <div className="me-3  text-primary"><img src={coinImage} alt="coinImage" width={32} height={32} /></div>
+                      {/* Other Profit */}
+                      <div>
+                        <div className="flex items-center p-3 border rounded-2xl bg-white">
+                          <div className="mr-3 text-primary">
+                            <img src={coinImage} alt="coinImage" width={32} height={32} />
+                          </div>
                           <div>
-                            <h6 className="text-muted " style={{ fontFamily: "Gilroy" }}>Other Profit</h6>
-                            <div className="fw-semibold fs-5" style={{ fontFamily: "Gilroy" }}>₹ {dashboardList.otherProfit || 0}</div>
+                            <h6 className="text-gray-500 font-gilroy">Other Profit</h6>
+                            <div className="font-semibold text-lg font-gilroy">₹ {dashboardList.otherProfit || 0}</div>
                           </div>
                         </div>
                       </div>
 
-
-                      <div className="col-12 col-md-6 col-lg-4">
-                        <div className="d-flex align-items-center p-3 border rounded-4 bg-white">
-                          <div className="me-3  text-primary"><img src={pendingimg} alt="coinImage" width={32} height={32} /></div>
+                      {/* Pending Invoice Count */}
+                      <div>
+                        <div className="flex items-center p-3 border rounded-2xl bg-white">
+                          <div className="mr-3 text-primary">
+                            <img src={pendingimg} alt="pendingimg" width={32} height={32} />
+                          </div>
                           <div>
-                            <h6 className="text-muted " style={{ fontFamily: "Gilroy" }}>Pending invoice count</h6>
-                            <div className="fw-semibold fs-5" style={{ fontFamily: "Gilroy" }}> {dashboardList.pendingInvoiceCount || 0}</div>
+                            <h6 className="text-gray-500 font-gilroy">Pending Invoice Count</h6>
+                            <div className="font-semibold text-lg font-gilroy">{dashboardList.pendingInvoiceCount || 0}</div>
                           </div>
                         </div>
                       </div>
 
-
-                      <div className="col-12 col-md-6 col-lg-4">
-                        <div className="d-flex align-items-center p-3 border rounded-4 bg-white">
-                          <div className="me-3  text-primary"><img src={newBooking} alt="coinImage" width={32} height={32} /></div>
+                      {/* New Booking */}
+                      <div>
+                        <div className="flex items-center p-3 border rounded-2xl bg-white">
+                          <div className="mr-3 text-primary">
+                            <img src={newBooking} alt="newBooking" width={32} height={32} />
+                          </div>
                           <div>
-                            <h6 className="text-muted " style={{ fontFamily: "Gilroy" }}>New booking</h6>
-                            <div className="fw-semibold fs-5" style={{ fontFamily: "Gilroy" }}>{dashboardList.bookedBeds || 0}</div>
+                            <h6 className="text-gray-500 font-gilroy">New Booking</h6>
+                            <div className="font-semibold text-lg font-gilroy">{dashboardList.bookedBeds || 0}</div>
                           </div>
                         </div>
                       </div>
@@ -807,89 +1853,32 @@ function Dashboard() {
                     </div>
 
 
-                    <div className="circulardes">
-                      <div className="animated-text" style={{ flex: 1 }}>
-                        <div
-                          className="w-full"
-                          style={{
-                            paddingTop: "20px",
-                            border: "1px solid #e0e0e0",
-                            borderRadius: "20px",
-                            backgroundColor: "#fff",
 
-                            paddingRight: 20,
-                            width: "98%",
-                            marginTop: 10,
-                          }}
-                        >
+                    {/* <div className="circulardes"> */}
+                    <div className="flex flex-row mt-5 md:flex-col">
 
-                          <div
-                            style={{
-                              display: "flex",
-                              flexWrap: "wrap",
-                              justifyContent: "space-between",
-                              alignItems: "center",
-                              padding: "10px 10px",
-                              marginTop: "-15px",
-                            }}
-                          >
 
-                            <div
-                              style={{
-                                flex: "1 1 60%",
-                                minWidth: "200px",
-                                paddingLeft: 15,
-                              }}
-                            >
-                              <p
-                                style={{
-                                  fontFamily: "Montserrat",
-                                  fontSize: 18,
-                                  fontWeight: 600,
-                                  margin: 12,
-                                  whiteSpace: "nowrap"
-                                }}
-                              >
+                      <div className="flex-1 animated-text">
+                        {/* Expenses vs Revenue Card */}
+                        <div className="w-[98%] mt-2.5 rounded-[20px] border border-[#e0e0e0] bg-white pt-5 pr-5">
+
+                          {/* Header */}
+                          <div className="flex flex-wrap items-center justify-between px-2.5 py-2.5 -mt-4">
+                            <div className="flex-[1_1_60%] min-w-[200px] pl-4">
+                              <p className="m-3 whitespace-nowrap text-[18px] font-semibold font-[Montserrat]">
                                 Expenses Vs Revenue
                               </p>
                             </div>
 
-
-                            <div
-                              style={{
-                                flex: "1 1 40%",
-                                minWidth: "150px",
-                                display: "flex",
-                                justifyContent: "flex-end",
-                              }}
-                            >
-                              <div
-                                style={{
-                                  position: "relative",
-                                  width: "100%",
-                                  maxWidth: 250,
-                                  height: 36,
-
-                                }}
-                              >
+                            <div className="flex-[1_1_40%] min-w-[150px] flex justify-end">
+                              <div className="relative h-9 w-full max-w-[250px]">
                                 <select
                                   value={selectRevenu}
-                                  onChange={(e) => handleSelectedRevenue(e)}
+                                  onChange={handleSelectedRevenue}
+                                  className="h-9 w-full cursor-pointer appearance-none rounded-full border border-[#D9D9D9] px-2.5 text-[12px] font-semibold font-[Gilroy] text-[#4B4B4B]"
                                   style={{
-                                    fontSize: 12,
-                                    color: "#4B4B4B",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 600,
-                                    boxShadow: "none",
-                                    border: "1px solid #D9D9D9",
-                                    height: 36,
-                                    width: "100%",
-                                    borderRadius: 60,
-                                    padding: "6px 10px",
-                                    appearance: "none",
                                     background: `url(${drop}) no-repeat right 10px center`,
                                     backgroundSize: "16px 16px",
-                                    cursor: "pointer",
                                   }}
                                 >
                                   <option value="six_month">last six months</option>
@@ -900,383 +1889,135 @@ function Dashboard() {
                             </div>
                           </div>
 
-
-
-
-                          <div
-                            className="chart-container"
-                            style={{
-                              position: "relative",
-                              height: 350,
-                              overflowX: "auto",
-                            }}
-                          >
-                            <div
-                              className="chart-wrapper"
-                              style={{
-                                minWidth: "100%",
-                              }}
-                            >
+                          {/* Chart */}
+                          <div className="relative h-[350px] overflow-x-auto">
+                            <div className="min-w-full">
                               <ResponsiveContainer width="100%" height={350}>
-                                <BarChart
-                                  data={data}
-                                  margin={{
-                                    top: 10,
-                                    left: 20,
-                                    bottom: 40,
-                                    right: 10,
-                                  }}
-                                  barGap={0}
-                                  barCategoryGap="5%"
-                                >
-                                  <CartesianGrid
-                                    horizontal
-                                    vertical={false}
-                                    stroke="#e0e0e0"
-                                  />
+                                <BarChart data={data} margin={{ top: 10, left: 20, bottom: 40, right: 10 }}>
+                                  <CartesianGrid horizontal vertical={false} stroke="#e0e0e0" />
                                   <XAxis
                                     dataKey="month"
-                                    interval="auto"
-                                    tick={{
-                                      fontFamily: "Gilroy",
-                                      fontSize: 12,
-                                      fontWeight: 500,
-                                    }}
-                                    tickFormatter={(month) => {
-                                      const date = new Date(`${month}-01`);
-                                      return date.toLocaleDateString("en-US", {
-                                        month: "short",
-                                      });
-                                    }}
+                                    tick={{ fontFamily: "Gilroy", fontSize: 12, fontWeight: 500 }}
+                                    tickFormatter={(month) =>
+                                      new Date(`${month}-01`).toLocaleDateString("en-US", { month: "short" })
+                                    }
                                   />
                                   <YAxis
                                     domain={[0, "dataMax"]}
                                     axisLine={false}
                                     tickLine={false}
-                                    tickCount={12}
-                                    dx={-10}
-                                    tick={{
-                                      fontFamily: "Gilroy",
-                                      fontSize: 12,
-                                      fontWeight: 500,
-                                    }}
+                                    tick={{ fontFamily: "Gilroy", fontSize: 12, fontWeight: 500 }}
                                   />
-                                  <Tooltip formatter={(value) => `${value}`} />
-                                  <Bar
-                                    dataKey="revenue"
-                                    fill="#00A32E"
-                                    barSize={50}
-                                    radius={[5, 5, 0, 0]}
-                                  >
-                                    <LabelList
-                                      dataKey="revenue"
-                                      position="inside"
-                                      angle={270}
-                                      style={{
-                                        fill: "white",
-                                        fontSize: 12,
-                                        fontWeight: "bold",
-                                      }}
-                                    />
+                                  <Tooltip />
+                                  <Bar dataKey="revenue" fill="#00A32E" barSize={50} radius={[5, 5, 0, 0]}>
+                                    <LabelList dataKey="revenue" position="inside" angle={270} fill="#fff" />
                                   </Bar>
-                                  <Bar
-                                    dataKey="expense"
-                                    fill="#E34B4B"
-                                    barSize={50}
-                                    radius={[5, 5, 0, 0]}
-                                  >
-                                    <LabelList
-                                      dataKey="expense"
-                                      position="inside"
-                                      angle={270}
-                                      style={{
-                                        fill: "white",
-                                        fontSize: 12,
-                                        fontWeight: "bold",
-                                      }}
-                                    />
+                                  <Bar dataKey="expense" fill="#E34B4B" barSize={50} radius={[5, 5, 0, 0]}>
+                                    <LabelList dataKey="expense" position="inside" angle={270} fill="#fff" />
                                   </Bar>
-                                  <Legend
-                                    content={<CustomLegend />}
-                                    verticalAlign="bottom"
-                                    height={36}
-                                  />
+                                  <Legend content={<CustomLegend />} verticalAlign="bottom" height={36} />
                                 </BarChart>
                               </ResponsiveContainer>
                             </div>
                           </div>
                         </div>
 
-                        <Card
-                          className="animated-text mt-4"
-                          style={{
+                        {/* Cashback Card */}
+                        <div className="mt-4 w-[97%] rounded-[20px] bg-white p-4 shadow">
+                          <div className="flex flex-wrap items-center justify-between -mt-4 px-2.5">
+                            <div className="flex-[1_1_60%] min-w-[200px] pl-2.5 mb-2.5">
+                              <p className="m-3 whitespace-nowrap text-[18px] font-semibold font-[Montserrat]">
+                                Total Cashback
+                              </p>
+                            </div>
 
-                            height: "30%",
-                            width: "97%",
-                            borderRadius: "20px",
-                          }}
-                        >
-                          <Card.Body>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexWrap: "wrap",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                padding: "10px 10px",
-                                marginTop: "-15px",
-                              }}
-                            >
-
-                              <div
-                                style={{
-                                  flex: "1 1 60%",
-                                  minWidth: "200px",
-                                  paddingLeft: 10,
-                                  marginBottom: 10,
-                                }}
-                              >
-                                <p
+                            <div className="flex-[1_1_40%] min-w-[150px] flex justify-end -mt-2.5">
+                              <div className="relative h-9 w-full max-w-[250px]">
+                                <select
+                                  value={selectCashback}
+                                  onChange={handleSelectedReceived}
+                                  className="h-9 w-full cursor-pointer appearance-none rounded-full border border-[#D9D9D9] px-2.5 text-[12px] font-semibold font-[Gilroy] text-[#4B4B4B]"
                                   style={{
-                                    fontFamily: "Montserrat",
-                                    fontSize: 18,
-                                    fontWeight: 600,
-                                    margin: 12,
-                                    whiteSpace: "nowrap"
+                                    background: `url(${drop}) no-repeat right 10px center`,
+                                    backgroundSize: "16px 16px",
                                   }}
                                 >
-                                  Total Cashback
-                                </p>
+                                  <option value="this_month">This month</option>
+                                  <option value="last_month">Last month</option>
+                                  <option value="last_three_months">Last 3 months</option>
+                                  <option value="last_six_months">Last 6 months</option>
+                                  <option value="this_year">Last 1 year</option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="flex flex-wrap items-center">
+                            <div className="w-[40%] ml-4 mt-1 font-[Gilroy]">
+                              <CircularProgressbar
+                                value={percentage}
+                                text={`₹${currentvalue || 0}`}
+                                circleRatio={0.5}
+                                styles={buildStyles({
+                                  rotation: 0.75,
+                                  pathColor,
+                                  trailColor,
+                                  textColor: "#000",
+                                  textSize: "24px",
+                                })}
+                              />
+                            </div>
+
+                            <div className="ml-auto -mt-12 pr-5 flex flex-col gap-4">
+                              <div className="flex items-center">
+                                <div className="mr-2 -mt-6 h-[15px] w-[15px] rounded-full bg-green-600"></div>
+                                <div>
+                                  <p className="text-[12px] font-medium font-[Gilroy]">Received</p>
+                                  <p className="text-[13px] font-semibold font-[Montserrat]">
+                                    ₹{cashBackData?.[0]?.Revenue || 0}
+                                  </p>
+                                </div>
                               </div>
 
-
-                              <div
-                                style={{
-                                  flex: "1 1 40%",
-                                  minWidth: "150px",
-                                  display: "flex",
-                                  justifyContent: "flex-end",
-                                  marginTop: "-10px"
-                                }}
-                              >
-                                <div
-                                  style={{
-                                    position: "relative",
-                                    width: "100%",
-                                    maxWidth: 250,
-                                    height: 36,
-
-                                  }}
-                                >
-                                  <select
-                                    value={selectCashback}
-                                    onChange={(e) => handleSelectedReceived(e)}
-                                    style={{
-                                      fontSize: 12,
-                                      color: "#4B4B4B",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 600,
-                                      boxShadow: "none",
-                                      border: "1px solid #D9D9D9",
-                                      height: 36,
-                                      width: "100%",
-                                      borderRadius: 60,
-                                      padding: "6px 10px",
-                                      appearance: "none",
-                                      background: `url(${drop}) no-repeat right 10px center`,
-                                      backgroundSize: "16px 16px",
-                                      cursor: "pointer",
-                                    }}
-                                  >
-                                    <option value="this_month">This month</option>
-                                    <option value="last_month">Last month</option>
-                                    <option value="last_three_months">
-                                      Last 3 months
-                                    </option>
-                                    <option value="last_six_months">
-                                      Last 6 months
-                                    </option>
-                                    <option value="this_year">Last 1 year</option>
-                                  </select>
+                              <div className="flex items-center">
+                                <div className="mr-2 -mt-6 h-[15px] w-[15px] rounded-full bg-[#EBEBEB]"></div>
+                                <div>
+                                  <p className="text-[12px] font-medium font-[Gilroy]">Pending</p>
+                                  <p className="text-[13px] font-semibold font-[Montserrat]">
+                                    ₹{cashBackData?.[0]?.overdue || 0}
+                                  </p>
                                 </div>
                               </div>
                             </div>
-
-                            <div className="d-flex flex-wrap align-items-center">
-
-                              <div
-                                className="flex-shrink-0 me-3"
-                                style={{
-                                  width: "40%",
-                                  marginLeft: 15,
-                                  marginTop: 5,
-                                  fontFamily: "Gilroy",
-                                }}
-                              >
-                                <CircularProgressbar
-                                  value={percentage}
-
-                                  text={`₹${currentvalue || 0}`}
-                                  circleRatio={0.5}
-                                  styles={buildStyles({
-                                    rotation: 0.75,
-                                    pathColor: pathColor,
-                                    trailColor: trailColor,
-                                    textColor: "#000",
-                                    textSize: 9,
-                                    text: {
-                                      fill: "#000",
-                                      transform: "rotate(80deg)",
-                                      transformOrigin: "center center",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 600,
-                                      fontSize: "24px",
-                                    },
-                                  })}
-                                />
-                              </div>
-
-                              <div className="d-flex flex-column ms-auto pe-5" style={{ marginTop: "-50px" }}>
-                                <div className="d-flex align-items-center ">
-                                  <div
-                                    className="bg-success rounded-circle me-2"
-                                    style={{ width: "15px", height: "15px", marginTop: "-25px" }}
-                                  ></div>
-                                  <div>
-                                    <p
-                                      className="m-0 "
-                                      style={{
-                                        fontSize: 12,
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                      }}
-                                    >
-                                      Received
-                                    </p>
-                                    <p style={{
-                                      fontSize: 13,
-                                      fontWeight: 600,
-                                      fontFamily: "Montserrat",
-                                      marginTop: 2
-                                    }}>
-                                      ₹{cashBackData?.[0]?.Revenue || 0}
-                                    </p>
-                                  </div>
-                                </div>
-                                <div className="d-flex align-items-center">
-                                  <div
-                                    className="rounded-circle me-2"
-                                    style={{
-                                      width: "15px",
-                                      height: "15px",
-                                      backgroundColor: "#EBEBEB",
-                                      marginTop: "-25px"
-                                    }}
-                                  ></div>
-                                  <div>
-                                    <p
-                                      className="m-0 "
-                                      style={{
-                                        fontSize: 12,
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                      }}
-                                    >
-                                      Pending
-                                    </p>
-                                    <p style={{
-                                      fontSize: 13,
-                                      fontWeight: 600,
-                                      fontFamily: "Montserrat",
-                                      marginTop: 2
-                                    }}>
-                                      ₹{cashBackData?.[0]?.overdue || 0}
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </Card.Body>
-                        </Card>
+                          </div>
+                        </div>
                       </div>
 
-                      <div style={{ flex: 1 }}>
-                        <div
-                          className="bg-white rounded-2xl  p-4 md:p-6 w-full max-w-4xl mx-auto overflow-x-auto card rounded-full mt-2"
-                          style={{ flex: 1, height: "auto", width: "99%", borderRadius: "24px" }}
-                        >
-                          <div
-                            style={{
-                              display: "flex",
-                              flexWrap: "wrap",
-                              justifyContent: "space-between",
-                              alignItems: "center",
-                              padding: "10px 10px",
-                              marginTop: "-15px",
-                            }}
-                          >
-                            <div
-                              style={{
-                                flex: "1 1 60%",
-                                textAlign: "start",
-                                paddingLeft: 0,
-                                marginBottom: "10px",
-                              }}
-                            >
-                              <p
-                                style={{
-                                  fontFamily: "Montserrat",
-                                  fontSize: 18,
-                                  fontWeight: 600,
-                                  margin: 0,
-                                  whiteSpace: "nowrap"
-                                }}
-                              >
+
+                      <div className="flex-1">
+                        {/* Advance vs Advance Return */}
+                        <div className="mx-auto mt-2 w-[99%] max-w-4xl overflow-x-auto rounded-[24px] bg-white p-4 md:p-6 card">
+
+                          {/* Header */}
+                          <div className="-mt-4 flex flex-wrap items-center justify-between px-2.5 py-2.5">
+                            <div className="flex-[1_1_60%] text-start mb-2">
+                              <p className="whitespace-nowrap text-[18px] font-semibold font-[Montserrat]">
                                 Advance VS Advance Return
                               </p>
                             </div>
 
-
-                            <div
-                              style={{
-                                flex: "1 1 40%",
-                                maxWidth: "300px",
-                                marginLeft: "auto",
-                                display: "flex",
-                                justifyContent: "flex-end",
-                              }}
-                            >
-                              <div
-                                style={{
-                                  position: "relative",
-                                  width: "100%",
-                                  height: 36,
-                                }}
-                              >
+                            <div className="ml-auto flex flex-[1_1_40%] max-w-[300px] justify-end">
+                              <div className="relative h-9 w-full">
                                 <select
                                   value={selectAdvance}
-                                  onChange={(e) => handleSelectedAdvance(e)}
+                                  onChange={handleSelectedAdvance}
+                                  className="h-9 w-full max-w-[180px] cursor-pointer appearance-none rounded-full border border-[#D9D9D9] px-2.5 text-[12px] font-semibold font-[Gilroy] text-[#4B4B4B]"
                                   style={{
-                                    fontSize: 12,
-                                    color: "#4B4B4B",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 600,
-                                    boxShadow: "none",
-                                    border: "1px solid #D9D9D9",
-                                    height: 36,
-                                    width: "100%",
-                                    maxWidth: "180px",
-                                    borderRadius: 60,
-                                    padding: "6px 10px",
-                                    appearance: "none",
                                     background: `url(${drop}) no-repeat right 10px center`,
                                     backgroundSize: "16px 16px",
-                                    cursor: "pointer",
                                   }}
                                 >
-                                  <option value="six_month">
-                                    last six months
-                                  </option>
+                                  <option value="six_month">last six months</option>
                                   <option value="this_year">this year</option>
                                   <option value="last_year">last year</option>
                                 </select>
@@ -1284,8 +2025,7 @@ function Dashboard() {
                             </div>
                           </div>
 
-
-
+                          {/* Line Chart */}
                           <ResponsiveContainer width="100%" height={300}>
                             <LineChart data={formattedChart}>
                               <CartesianGrid stroke="#e0e0e0" strokeDasharray="0" vertical={false} />
@@ -1294,115 +2034,91 @@ function Dashboard() {
                                 dataKey="name"
                                 tickFormatter={(tick) => {
                                   const date = new Date(tick);
-                                  return date.toLocaleString('default', { month: 'short', year: 'numeric' });
+                                  return date.toLocaleString("default", {
+                                    month: "short",
+                                    year: "numeric",
+                                  });
                                 }}
-                                tick={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500, fill: "#333" }}
+                                tick={{
+                                  fontSize: 12,
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  fill: "#333",
+                                }}
                                 axisLine={false}
                                 tickLine={false}
                               />
 
                               <YAxis axisLine={false} tickLine={false} />
                               <Tooltip />
+
                               <Legend
                                 verticalAlign="bottom"
                                 align="center"
                                 iconType="circle"
-                                wrapperStyle={{ marginTop: 10, fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}
+                                wrapperStyle={{
+                                  marginTop: 10,
+                                  fontSize: 12,
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                }}
                               />
+
                               <Line
                                 type="monotone"
                                 dataKey="Advance"
                                 stroke="#3366FF"
                                 strokeWidth={2}
                                 dot={{ r: 4 }}
-
-
                               />
+
                               <Line
                                 type="monotone"
                                 dataKey="Advance Return"
                                 stroke="#FF5733"
                                 strokeWidth={2}
                                 dot={{ r: 4 }}
-
                               />
                             </LineChart>
                           </ResponsiveContainer>
-
-
-
                         </div>
-                        <div className="expenses-container animated-text mt-4">
-                          <div className="dropp d-flex justify-content-between align-items-center flex-wrap py-2 px-3">
 
-                            <div className="d-flex text-start mb-2">
-                              <p
-                                style={{
-                                  fontFamily: "Montserrat",
-                                  fontSize: 18,
-                                  fontWeight: 600,
-                                  paddingLeft: 10,
-                                  margin: 0,
-                                }}
-                              >
+                        {/* Expenses Section */}
+                        <div className="expenses-container animated-text mt-4">
+
+                          {/* Header */}
+                          <div className="dropp flex flex-wrap items-center justify-between px-3 py-2">
+                            <div className="mb-2 flex text-start">
+                              <p className="pl-2.5 text-[18px] font-semibold font-[Montserrat]">
                                 Expenses
                               </p>
                             </div>
 
-
-                            <div
-                              className="d-flex justify-content-end align-items-center mb-2"
-                              style={{ width: "100%", maxWidth: 200 }}
-                            >
+                            <div className="mb-2 flex w-full max-w-[200px] items-center justify-end">
                               <select
-                                aria-label="Default select example"
-                                onChange={(e) => handleSelectedExpenses(e)}
                                 value={selectExpence}
+                                onChange={handleSelectedExpenses}
+                                className="h-9 w-full cursor-pointer appearance-none rounded-full border border-[#D9D9D9] px-2.5 pr-8 text-[12px] font-semibold font-[Gilroy] text-[#4B4B4B]"
                                 style={{
-                                  fontSize: 12,
-                                  color: "#4B4B4B",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 600,
-                                  boxShadow: "none",
-                                  border: "1px solid #D9D9D9",
-                                  height: 36,
-                                  width: "100%",
-                                  borderRadius: 60,
-                                  paddingTop: 6,
-                                  paddingBottom: 6,
-                                  paddingRight: 30 /* Allow space for icon */,
-                                  paddingLeft: 10,
-                                  appearance: "none",
                                   background: `url(${drop}) no-repeat right 10px center`,
                                   backgroundSize: "16px 16px",
-                                  cursor: "pointer",
                                 }}
                               >
                                 <option value="this_month">This month</option>
                                 <option value="last_month">Last month</option>
-                                <option value="last_three_months">
-                                  Last 3 months
-                                </option>
-                                <option value="last_six_months">
-                                  Last 6 months
-                                </option>
+                                <option value="last_three_months">Last 3 months</option>
+                                <option value="last_six_months">Last 6 months</option>
                                 <option value="this_year">This year</option>
                               </select>
                             </div>
                           </div>
 
+                          {/* Content */}
+                          <div className="flex items-start justify-between">
 
-                          <div
-                            className="content"
-                            style={{
-                              display: "flex",
-                              alignItems: "flex-start",
-                              justifyContent: "space-between",
-                            }}
-                          >
-
-                            <div className="chart" style={{ flex: "1" }}>
-                              {lablesdata && lablesdata?.length > 0 ? (
+                            {/* Doughnut Chart */}
+                            <div className="flex-1">
+                              {lablesdata && lablesdata.length > 0 ? (
                                 <Doughnut
                                   className="doughnut"
                                   data={datum}
@@ -1423,102 +2139,45 @@ function Dashboard() {
                                   />
                                 </svg>
                               )}
-                              <p
-                                className="center-text"
-                                style={{
-                                  fontFamily: "Gilroy",
-                                  fontSize: 25,
-                                  fontWeight: 600,
-                                  textAlign: "center",
-                                  marginTop: "10px",
-                                }}
-                              >
+
+                              <p className="mt-2.5 text-center text-[25px] font-semibold font-[Gilroy]">
                                 ₹{totalAmount > 0 ? totalAmount : 0}
                               </p>
                             </div>
 
-
-                            <div
-                              className="categories"
-                              style={{
-                                flex: "1",
-                                display: "grid",
-                                gridTemplateColumns: "1fr 1fr",
-                                gap: "20px",
-                              }}
-                            >
-                              {lablesdata && lablesdata?.length > 0 ? (
-                                lablesdata?.map((label, index) => (
-                                  <div
-                                    className="category"
-                                    key={index}
-                                    style={{
-                                      display: "flex",
-                                      alignItems: "center",
-                                      gap: "10px",
-                                    }}
-                                  >
+                            {/* Categories */}
+                            <div className="grid flex-1 grid-cols-2 gap-5">
+                              {lablesdata && lablesdata.length > 0 ? (
+                                lablesdata.map((label, index) => (
+                                  <div key={index} className="flex items-center gap-2.5">
                                     <span
-                                      className="dot"
+                                      className="h-[10px] w-[10px] rounded-full"
                                       style={{
                                         backgroundColor:
                                           datasets[0].backgroundColor[index],
-                                        width: "10px",
-                                        height: "10px",
-                                        borderRadius: "50%",
                                       }}
                                     ></span>
-                                    <div
-                                      className="text"
-                                      style={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                      }}
-                                    >
-                                      <p
-                                        style={{
-                                          fontFamily: "Montserrat",
-                                          fontSize: 12,
-                                          fontWeight: 600,
-                                          color: "#4B4B4B",
-                                          margin: 0,
-                                        }}
-                                      >
+
+                                    <div className="flex flex-col">
+                                      <p className="text-[12px] font-semibold font-[Montserrat] text-[#4B4B4B]">
                                         {label.category_Name}
                                       </p>
-                                      <p
-                                        style={{
-                                          fontFamily: "Gilroy",
-                                          fontSize: 16,
-                                          fontWeight: 600,
-                                          margin: 0,
-                                        }}
-                                      >
+                                      <p className="text-[16px] font-semibold font-[Gilroy]">
                                         ₹{label.purchase_amount}
                                       </p>
                                     </div>
                                   </div>
                                 ))
                               ) : (
-                                <div
-                                  className="no-data-category"
-                                  style={{
-                                    textAlign: "center",
-                                    width: "100%",
-                                    marginTop: "25px",
-                                    color: "red",
-                                    whiteSpace: "nowrap",
-                                  }}
-                                >
+                                <div className="col-span-2 mt-6 w-full whitespace-nowrap text-center text-red-500">
                                   <p>No Data</p>
                                 </div>
                               )}
                             </div>
                           </div>
                         </div>
-
-
                       </div>
+
                     </div>
                   </div>
                 </>
@@ -1526,18 +2185,11 @@ function Dashboard() {
             </TabPanel>
 
             <TabPanel value="2" >
-              <DashboardAnnouncement
-
-                // AnnouncementAddPermission={AnnouncementAddPermission}
-                // AnnouncementEditPermission={AnnouncementEditPermission}
-                // AnnouncementDeletePermission={AnnouncementDeletePermission}
-              />
+              <DashboardAnnouncement />
             </TabPanel>
 
             <TabPanel value="3">
-              <DashboardUpdates
-              //  updatePermissionError={updatePermissionError}
-                />
+              <DashboardUpdates />
             </TabPanel>
           </div>
         </TabContext>
