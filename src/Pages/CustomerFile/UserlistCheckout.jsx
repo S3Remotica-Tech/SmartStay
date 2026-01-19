@@ -910,7 +910,8 @@ setCheckOutLoader(false)
                     </div>
 
                   ) : (!checkoutLoader && checkOutCustomer?.length === 0 && (
-                    <div style={{ marginTop: 30,  }} className="animated-text">
+                    <div style={{ minHeight: "85vh",  }} className="animated-text d-flex justify-content-center align-items-center">
+               <div>
                       <div style={{ textAlign: "center" }}>
                         {" "}
                         <img src={Emptystate} alt="emptystate" />
@@ -939,7 +940,7 @@ setCheckOutLoader(false)
                       >
                         There are no checkout tenant added{" "}
                       </div>
-
+   </div>
                     </div>
                   ))}
                 </div>

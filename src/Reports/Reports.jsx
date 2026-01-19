@@ -1,29 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import Card from 'react-bootstrap/Card';
-import Rent from "../Assets/Reports/buildings.png"
-import Revenue from "../Assets/Reports/chart.png";
-import Profit from "../Assets/Reports/arrow-3.png";
-import Purchase from "../Assets/Reports/document-text.png";
-import Vendor from "../Assets/Reports/shop.png";
-import Sales from "../Assets/Reports/profile.png";
-import Room from "../Assets/Reports/house.png";
-import Bed from "../Assets/Reports/category.png";
-import Invoice from "../Assets/Reports/diagram.png";
-import ExpenseCate from "../Assets/Reports/category-2.png";
-import ExpenseAsset from "../Assets/Reports/asset.png";
-import ExpenCate from "../Assets/Reports/category-2.png";
-import Investment from "../Assets/Reports/coin.png";
-import InvesGraph from "../Assets/Reports/graph.png";
-import Aging from "../Assets/Reports/chart-2.png";
-import Image from 'react-bootstrap/Image';
-import CatoryActive from "../Assets/Images/New_images/category-active.png";
-import HostelRentProjection from './HostelRentProjection';
-import { FormControl, InputGroup, Row, Col } from 'react-bootstrap';
-import { CloseCircle, SearchNormal1 } from 'iconsax-react';
-import './Reports.css';
 import { useHasPermission } from '../Utils/Permission';
 import ErrorMessage from '../Components/ErrorMessage'
-
+import { WalletMoney, ArrowRight, DocumentText, ReceiptText, Bank, UserOctagon, Home, 
+  Wallet, Shop, Flash, Warning2, ClipboardText } from "iconsax-react";
 
 function Reports() {
 
@@ -31,161 +10,118 @@ function Reports() {
   // const state = useSelector(state => state.createAccount)
 
 
-  const [hoveredCard, setHoveredCard] = useState(null);
-  const [selectedReport, setSelectedReport] = useState(null);
-  const [showReport, setShowReport] = useState(false)
-  const [searchQuery, setSearchQuery] = useState("");
-
-
-  // const canReadReports = useHasPermission("Reports", "canRead")
-  // const canWriteReports= useHasPermission("Reports", "canWrite");
-  // const canUpdateReports = useHasPermission("Reports", "canUpdate");
-  // const canDeleteReports = useHasPermission("Reports", "canDelete");
-
-const {
-        // canWriteModule: canWriteReports,
-        canReadModule: canReadReports,
-        // canUpdateModule: canUpdateReports,
-        // canDeleteModule: canDeleteReports,
-    } = useHasPermission("Reports");
 
 
 
 
+  const {
+    // canWriteModule: canWriteReports,
+    canReadModule: canReadReports,
+    // canUpdateModule: canUpdateReports,
+    // canDeleteModule: canDeleteReports,
+  } = useHasPermission("Reports");
 
 
 
+  const [activeTab, setActiveTab] = useState("operational");
 
 
-  
+  const tabs = [
+    { id: "operational", label: "Operational Reports" },
+    { id: "analytical", label: "Analytical Reports" },
+  ];
 
+  const reportCards = [
+    {
+      title: "Invoices",
+      subTitle: "This Month",
+      desc: "Track all invoices, payments, and outstanding amounts",
+      value: "₹1,60,000",
+      icon: DocumentText,
+      color: "text-blue-600 bg-blue-100",
 
-  // useEffect(()=>{
-  //   dispatch({ type: 'ASSETLIST'})
-  //   dispatch({ type: 'CATEGORYLIST'})
-  //   dispatch({ type: 'VENDORLIST'})
-  //   dispatch({ type: 'EXPENSELIST'})
-  // },[])
-
-  // useEffect(() => {
-  //   setReportRolePermission(state.createAccount?.accountList);
-  // }, [state.createAccount?.accountList]);
-
-  // useEffect(() => {
-  //   if (
-  //     reportrolePermission[0]?.is_owner == 1 ||
-  //     reportrolePermission[0]?.role_permissions[15]?.per_view == 1
-  //   ) {
-  //     setReportPermissionError("");
-  //   } else {
-  //     setReportPermissionError("Permission Denied");
-  //   }
-  // }, [reportrolePermission]);
-
-
-
-  // useEffect(() => {
-
-  //   if (
-  //     reportrolePermission[0]?.is_owner == 1 ||
-  //     reportrolePermission[0]?.role_permissions[15]?.per_create == 1
-  //   ) {
-  //     setReportAddPermission("");
-  //   } else {
-  //     setReportAddPermission("Permission Denied");
-  //   }
-  // }, [reportrolePermission]);
-
-
-  // useEffect(() => {
-
-  //   if (
-  //     reportrolePermission[0]?.is_owner == 1 ||
-  //     reportrolePermission[0]?.role_permissions[15]?.per_delete == 1
-  //   ) {
-  //     setReportDeletePermission("");
-  //   } else {
-  //     setReportDeletePermission("Permission Denied");
-  //   }
-  // }, [reportrolePermission]);
-  // useEffect(() => {
-
-  //   if (
-  //     reportrolePermission[0]?.is_owner == 1 ||
-  //     reportrolePermission[0]?.role_permissions[15]?.per_edit == 1
-  //   ) {
-  //     setReportEditPermission("");
-  //   } else {
-  //     setReportEditPermission("Permission Denied");
-  //   }
-  // }, [reportrolePermission]);
-
-
-  const [reports, setReports] = useState([
-    { id: 1, ReportsName: "Hostel Wise Rent Projection", images: Rent },
-    { id: 2, ReportsName: "Projection vs Actual Revenue", images: Revenue },
-    { id: 3, ReportsName: "Profit and Loss", images: Profit },
-    { id: 4, ReportsName: "Purchase summary", images: Purchase },
-    { id: 5, ReportsName: "Purchase by Vendor", images: Vendor },
-    { id: 6, ReportsName: "Sales by customer", images: Sales },
-    { id: 7, ReportsName: "Sales by Room", images: Room },
-    { id: 8, ReportsName: "Sales by bed", images: Bed },
-    { id: 9, ReportsName: "Invoice Aging summary", images: Invoice },
-    { id: 10, ReportsName: "Expenses by category", images: ExpenseCate },
-    { id: 11, ReportsName: "Expenses for asset", images: ExpenseAsset },
-    { id: 12, ReportsName: "Expenses with subcategory", images: ExpenCate },
-    { id: 13, ReportsName: "Investment against asset", images: Investment },
-    { id: 14, ReportsName: "Expenses against asset", images: InvesGraph },
-    { id: 15, ReportsName: "Aging against asset", images: Aging },
-  ])
-
-
-
-
-
-
-  const handleMouseEnter = (id) => {
-    setHoveredCard(id);
-  };
-
-  const handleMouseLeave = () => {
-    setHoveredCard(null);
-  };
-
-  const handlePageClick = (id) => {
-    setSelectedReport(id);
-    // setShowReport(false)
-    setShowReport(true)
-  };
-
-  const handleBack = (isVisible) => {
-    setSelectedReport(isVisible)
-    setShowReport(false)
-  }
-
-
-
-  // useEffect(() => {
-  //   if (state.statusCodeForAccountList == 200) {
-
-  //     const loginProfile = state.accountList[0].user_details.profile
-
-
-  //     setProfile(loginProfile)
-
-
-  //   }
-
-  // }, [state.statusCodeForAccountList])
-
-
-  // const handleSearch = (e) => {
-  //   setSearchQuery(e.target.value);
-  // };
-
-  const filteredReports = reports.filter(report =>
-    report.ReportsName.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+    },
+    {
+      title: "Receipt Register",
+      subTitle: "This Month",
+      desc: "Monitor all payment receipts and collections",
+      value: "₹1,52,350",
+      icon: ReceiptText,
+      color: "text-green-600 bg-green-100",
+    },
+    {
+      title: "Bank Transaction Register",
+      subTitle: "Net Balance",
+      desc: "View all banking transactions and reconciliations",
+      value: "₹80,350",
+      icon: Bank,
+      color: "text-purple-600 bg-purple-100",
+    },
+    {
+      title: "Tenant Register",
+      subTitle: "This Month",
+      desc: "Complete tenant directory with status tracking",
+      value: "24",
+      icon: UserOctagon,
+      color: "text-[#F59E0B] bg-[#FFEFD3E5]",
+    },
+    {
+      title: "Occupancy",
+      subTitle: "Occupancy Rate",
+      desc: "Real-time bed occupancy and availability status",
+      value: "87%",
+      icon: Home,
+      color: "text-cyan-600 bg-cyan-100",
+    },
+    {
+      title: "Expense Register",
+      subTitle: "This Month",
+      desc: "Track all expenses, approvals, and payments",
+      value: "₹57,000",
+      icon: Wallet,
+      color: "text-red-600 bg-red-100",
+    },
+    {
+      title: "Vendor Ledger",
+      subTitle: "Active Vendors",
+      desc: "Vendor-wise transaction history and outstanding",
+      value: "12",
+      icon: Shop,
+      color: "text-pink-600 bg-pink-100",
+    },
+    {
+      title: "Electricity Billing Register",
+      subTitle: "This Month",
+      desc: "Meter readings, consumption, and billing records",
+      value: "₹8,450",
+      icon: Flash,
+      color: "text-indigo-600 bg-indigo-100",
+    },
+    {
+      title: "Complaint Register",
+      subTitle: "Total Complaints",
+      desc: "Track complaints, resolution, and SLA compliance",
+      value: "27",
+      icon: Warning2,
+      color: "text-rose-600 bg-rose-100",
+    },
+    {
+      title: "Request Register",
+      subTitle: "This Month",
+      desc: "Monitor tenant requests and approval workflow",
+      value: "",
+      icon: ClipboardText,
+      color: "text-[#6366F1] bg-[#6366F115]",
+    },
+    {
+      title: "Final Settlement",
+      subTitle: "This Month",
+      desc: "Security deposit refunds and settlement tracking",
+      value: "",
+      icon: WalletMoney,
+      color: "text-[#14B8A6] bg-[#14B8A615]",
+    },
+  ];
 
 
 
@@ -212,249 +148,148 @@ const {
   });
 
 
-  const [showDropDown, setShowDropDown] = useState(false)
-  const [showFilterData, setShowFilterData] = useState(false)
 
 
-  const handleShowSearch = () => {
-    setShowFilterData(!showFilterData)
-  }
-
-  const handleCloseSearch = () => {
-    setShowFilterData(false)
-    setReports(reports)
-    setSearchQuery('');
-  }
-
-
-
-  const handleInputChange = (e) => {
-    const searchItem = e.target.value;
-    setSearchQuery(searchItem);
-    if (searchItem !== '') {
-      const filteredReports = reports.filter(report =>
-        report.ReportsName.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-
-      setReports(filteredReports);
-      setShowDropDown(true)
-    }
-    else {
-      setReports(reports)
-    }
-
-  };
-
-  const handleDropDown = (value) => {
-    const searchItem = value;
-    setSearchQuery(searchItem);
-    if (searchItem !== '') {
-      const filteredReports = reports.filter(report =>
-        report.ReportsName.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-      setReports(filteredReports);
-
-    }
-    else {
-      setReports(reports)
-    }
-
-    setShowDropDown(false)
-  }
-
-
+  const summaryData = [
+    {
+      label: "Total Revenue (MTD)",
+      value: "₹1,52,350",
+      valueColor: "#00A63E",
+    },
+    {
+      label: "Outstanding Amount",
+      value: "₹7,650",
+      valueColor: "#222222",
+    },
+    {
+      label: "Active Tenants",
+      value: "24",
+      valueColor: "#222222",
+    },
+    {
+      label: "Occupancy Rate",
+      value: "87%",
+      valueColor: "#222222",
+    },
+  ];
 
 
   return (
 
-    <div className='container' style={{ width: "100%" }}>
-
-      <div className='container'>
-        <div className="d-flex justify-content-between  flex-wrap">
-          <div>
-            <label style={{ color: "#222222", fontWeight: 600, fontSize: 18, fontFamily: "Gilroy", }}>Reports</label>
-
-          </div>
+    <div className="w-full h-screen flex flex-col font-[Gilroy] px-0">
 
 
-          <div>
-            {
-              !showFilterData &&
-
-              <div onClick={()=>canReadReports && handleShowSearch()}>
-                <SearchNormal1
-                  size="26"
-                  color="#222"
-                  style={{
-                    cursor: canReadReports ? "pointer" : "not-allowed",
-                  opacity: canReadReports ? 1 : 0.4,
-                  pointerEvents: canReadReports ? "auto" : "none",
-                  transition: "opacity 0.3s ease" ,}}
-                />
-              </div>
-            }
-            {
-              showFilterData &&
-              <div className='me-3 ' style={{ position: 'relative' }}>
-                <InputGroup style={{
-                  display: 'flex',
-                  flexWrap: 'nowrap',
-                  width: '100%',
-                }}>
-
-                  <FormControl size="lg"
-                    value={searchQuery}
-                    onChange={handleInputChange}
-
-                    style={{
-                      width: 235, boxShadow: "none", borderColor: "lightgray", borderRight: "none", fontSize: 15, fontWeight: 500, color: "#222",
-                      //  '::placeholder': { color: "#222", fontWeight: 500 } 
-                    }}
-                    placeholder="Search..."
-                  />
-                  <InputGroup.Text style={{ backgroundColor: "#ffffff", }}>
-                    <CloseCircle size="24" color="#222" onClick={handleCloseSearch} />
-                  </InputGroup.Text>
-                </InputGroup>
-                {
-                  reports.length > 0 && searchQuery !== '' && showDropDown && (
-
-                    <div className='report-card' style={{
-                      border: '1px solid #d9d9d9 ', position: "absolute", top: 50, left: 0,
-                      zIndex: 1000, padding: 10, borderRadius: 8, backgroundColor: "#fff"
-                    }}>
-                      <ul style={{
-                        // position: 'absolute',
-                        // top: '50px',
-                        // left: 0,
-                        width: 260,
-                        backgroundColor: '#fff',
-                        // maxHeight: 174,
-                        // minHeight: 100,
-                        // overflowY: 'auto',
-                        padding: '5px 10px',
-                        margin: '0',
-                        listStyleType: 'none',
-                        borderRadius: 8,
-                        boxSizing: 'border-box'
-                      }}>
-                        {
-                          reports.map((user, index) => (
-
-                            <li
-                              key={index}
-                              onClick={() => {
-                                handleDropDown(user.ReportsName);
-
-                              }}
-                              style={{
-                                padding: '10px',
-                                cursor: 'pointer',
-                                borderBottom: '1px solid #dcdcdc',
-                                fontSize: '14px',
-                                fontFamily: 'Gilroy',
-                                fontWeight: 500,
-
-                              }}
-                            >
-
-                              <span className='ps-4'>{user.ReportsName}</span>
-                            </li>
+      <div className="sticky top-0 z-20 bg-white ">
 
 
-                          ))
-                        }
-                      </ul>
-                    </div>
-                  )
-                }
-              </div>
-
-
-            }
-          </div>
-
-
+        <div className="px-2 flex gap-6">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`pb-2 text-base font-semibold transition ${activeTab === tab.id
+                ? "text-[#1E45E1] border-b-2 border-[#1E45E1]"
+                : "text-[#64748B]"
+                }`}
+            >
+              {tab.label}
+            </button>
+          ))}
         </div>
       </div>
 
+      {!canReadReports ? (
+        <div className="flex-1 flex items-center justify-center">
+          <ErrorMessage
+            message={['You do not have access to view Reports']}
+            type="warning"
+          />
+        </div>
+      ) : (
 
-      {searchQuery && (
-        <div className='container mb-4' style={{ fontWeight: 600, fontSize: 16 }}>
-          {reports.length > 0 ? (
-            <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>
-              {reports.length} result{reports.length > 1 ? 's' : ''} found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>&quot;{searchQuery}&quot;</span>
-            </span>
-          ) : (
-            <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>No results found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>&quot;{searchQuery}&quot;</span></span>
-          )}
+        <div className="flex-1 overflow-y-auto p-0 my-3 show-scrolls">
+          {
+            activeTab === "operational" && <div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-[Gilroy] my-2">
+                {summaryData?.map((item, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className="flex items-center justify-items-center gap-4 rounded-xl border border-[#E5E7EB] bg-white p-3"
+                    >
+                      <div>
+                        <div>
+                          <label className="text-sm text-gray-500 font-medium">
+                            {item.label}
+                          </label></div>
+                        <div>
+                          <label style={{ color: item.valueColor }}
+                            className={`mt-1 text-xl font-semibold `}
+                          >
+                            {item.value}
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {reportCards.map((item, idx) => {
+                  const Icon = item.icon;
+                  return (
+                    <div
+                      key={idx}
+                      className="rounded-2xl  border border-[#E5E7EB] bg-white p-3 hover:shadow-md transition"
+                    >
+                      <div className={`p-2 rounded-lg w-fit my-1 ${item.color}`}>
+                        <Icon size={22} variant="Bold" />
+                      </div>
+                      <div className="flex items-start gap-4">
+
+                        <div className="flex-1">
+                          <h3 className="text-sm font-semibold text-[#101828">
+                            {item.title}
+                          </h3>
+                          <p className="text-xs text-[#4A5565] mt-1">
+                            {item.desc}
+                          </p>
+                          <label className='text-xs text-[#6A7282]'> {item.subTitle}</label>
+                        </div>
+                      </div>
+
+                      {item.value ? (
+                        <div className="mt-2 text-xl font-semibold text-[#101828]">
+                          {item.value}
+                        </div>
+                      ) : (
+                        <div className="mt-2 h-6" />
+                      )}
+                      <hr className="my-2 border-t border-[#F3F4F6] opacity-80" />
+
+                      <div className="mt-3 flex items-center justify-between gap-1 group cursor-pointer">
+                        <span className="text-sm font-semibold text-[#155DFC] group-hover:underline">
+                          View Report
+                        </span>
+
+                        <ArrowRight
+                          size="16"
+                          className="text-blue-600 transition-transform group-hover:translate-x-1"
+                        />
+                      </div>
+
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          }
         </div>
       )}
-
-      {
-        !canReadReports ? (
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              height: "80vh"
-            }}
-          >
-
-            <ErrorMessage message={['You do not have access to view Reports']} type="warning" />
-
-          </div>
-        )
-          : (
-            <Row>
-
-              <Col lg={showReport ? 4 : 12} md={showReport ? 4 : 12} style={{ borderRight: showReport && "1px solid #E7F1FF" }}>
-
-                <div className='container report-card'
-                // style={{ maxHeight: showReport ? 650 : 'unset', overflowY: showReport ? 'auto' : "unset", backgroundColor: "" }}
-                >
-
-
-
-                  <Row className='mt-3 mb-3 g-2'  >
-                    {filteredReports && filteredReports.map((report) => (
-                      <Col key={report.id} className='show-scroll mb-3' lg={showReport ? 12 : 4} md={showReport ? 12 : 4} >
-
-                        <Card className='fade-in ms-0'
-                          onMouseEnter={() => handleMouseEnter(report.id)}
-                          onMouseLeave={handleMouseLeave}
-                          onClick={() => handlePageClick(report.id)}
-                          style={{ borderRadius: 16, border: "1px solid", borderColor: hoveredCard === report.id ? "#0000FF" : "#DCDCDC" }} >
-                          <Card.Body>
-                            <div className='d-flex justify-content-start gap-2 align-items-center '>
-                              <div>
-                                <Image src={hoveredCard === report.id ? CatoryActive : report.images} style={{ height: 24, width: 24 }} />
-                              </div>
-                              <div>
-                                <label style={{ fontSize: 16, fontWeight: 600, color: hoveredCard === report.id ? "#0000FF" : "#222222", fontFamily: "Gilroy" }}>{report.ReportsName}</label>
-                              </div>
-                            </div>
-                          </Card.Body>
-                        </Card>
-
-                      </Col>
-                    ))}
-                  </Row>
-                </div>
-
-              </Col>
-
-              <Col lg={showReport ? 8 : 12} md={showReport ? 8 : 12}>
-                {selectedReport === 1 ? <HostelRentProjection isVisible={handleBack} /> : ''}
-              </Col>
-            </Row>
-          )
-      }
-
-
     </div>
+
 
 
 

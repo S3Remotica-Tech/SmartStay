@@ -17,8 +17,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "sweetalert2/dist/sweetalert2.min.css";
 import CryptoJS from "crypto-js";
 import Smartstay from "../Assets/Images/New_images/LogoSmart.svg";
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
 import Assets from "../Pages/AssetFile/Asset";
 import Expenses from "../Pages/ExpenseFile/Expense";
 import Banking from "../Pages/Banking/Banking";
@@ -424,18 +422,18 @@ function Sidebar() {
     setLogoutformshow(false);
   };
 
-  const handleLogout = () => {
-    dispatch({ type: 'LOGOUTADMINSAGA', payload: { source: "WEB" } })
-    const token = cookies.get('v2-token');
+  // const handleLogout = () => {
+  //   dispatch({ type: 'LOGOUTADMINSAGA', payload: { source: "WEB" } })
+  //   const token = cookies.get('v2-token');
 
-    if (!token) {
-      dispatch({ type: "LOG_OUT" });
-      dispatch({ type: 'RESET_ALL' })
-      const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), "abcd");
-      localStorage.setItem("login", encryptData.toString());
-      return;
-    }
-  };
+  //   if (!token) {
+  //     dispatch({ type: "LOG_OUT" });
+  //     dispatch({ type: 'RESET_ALL' })
+  //     const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), "abcd");
+  //     localStorage.setItem("login", encryptData.toString());
+  //     return;
+  //   }
+  // };
 
 
   useEffect(() => {

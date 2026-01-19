@@ -11,14 +11,15 @@ import { ArrowDown2, ArrowUp2, ArrowLeft } from "iconsax-react";
 // import addcircle from "../../Assets/Images/New_images/add-circle.png";
 import { Trash } from 'iconsax-react';
 import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
-import arrowTot from "../../Assets/Images/New_images/direction-down 01.png";
+// import arrowTot from "../../Assets/Images/New_images/direction-down 01.png";
 import { Tooltip } from "bootstrap";
 import ErrorMessage from '../../Components/ErrorMessage'
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-import { Edit, InfoCircle, AddCircle, Verify } from "iconsax-react";
+import { Edit,  AddCircle, Verify } from "iconsax-react";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { useLocation, useNavigate } from "react-router-dom";
+import AddRoomReading from "../ElectrictyFile/AddRoomReading";
 
 
 dayjs.extend(customParseFormat);
@@ -43,30 +44,37 @@ function FinalSettlement() {
     const [showInvoices, setShowInvoices] = React.useState(false);
     const [showRentDetails, setShowRentDetails] = React.useState(false);
     const [showEbMissed, setShowEbMissed] = useState(false);
-    const [showEbPending, setShowEbPending] = useState(false);
+    const [showRoomReading, setShowRoomReading] = useState(false);
     const [showDeductions, setShowDeductions] = useState(false);
 
     const [isEditingDate, setIsEditingDate] = useState(false);
     const [checkoutDate, setCheckoutDate] = useState(dayjs())
-
+    const [selectedRowDetails, setSelectedRowDetails] = useState('')
     const { data, pgDetails } = location.state || {};
 
-    const ebBreakup = [
-        {
-            floorName: "Ground Floor",
-            roomBed: "G 005 - B 03",
-            units: 27,
-        },
-        {
-            floorName: "First Floor",
-            roomBed: "F 002 - B 01",
-            units: 23,
-        },
-    ];
+    // const ebBreakup = [
+    //     {
+    //         floorName: "Ground Floor",
+    //         roomBed: "G 005 - B 03",
+    //         units: 27,
+    //     },
+    //     {
+    //         floorName: "First Floor",
+    //         roomBed: "F 002 - B 01",
+    //         units: 23,
+    //     },
+    // ];
 
 
 
+    const handleRoomReading = (item) => {
+        setShowRoomReading(true)
+        setSelectedRowDetails(item)
+    }
 
+    const handleCloseRoomReading = () => {
+        setShowRoomReading(false)
+    }
 
 
     useEffect(() => {
@@ -499,9 +507,38 @@ function FinalSettlement() {
         }
     }, [state.InvoiceList.finalSettlementError])
 
+    useEffect(() => {
+        if (state.UsersList?.addRoomReadingStatusCode === 201 || state.UsersList?.addRoomReadingStatusCode === 200 || state.UsersList?.editHostelStatusCode === 200) {
+            setShowRoomReading(false)
+        }
+
+    }, [state.UsersList?.addRoomReadingStatusCode, state.UsersList?.editHostelStatusCode])
+
+
+    const isNonHostel = !finalSettlementList?.ebInfo?.isHostelReading;
+
+    const missedEbList = finalSettlementList?.ebInfo?.missedEb || [];
+    const pendingEbList = finalSettlementList?.ebInfo?.pendingEb || [];
+
+    const showNoEbMessage =
+        isNonHostel &&
+        missedEbList.length === 0 &&
+        pendingEbList.length === 0;
+
+
+
+
+
+
+
+
+
 
     return (
         <div style={{ height: "100vh", overflow: "hidden" }}>
+            {
+                showRoomReading && <AddRoomReading show={showRoomReading} handleClose={handleCloseRoomReading} selectedRowDetails={selectedRowDetails} />
+            }
             <div
                 className="mb-3"
                 style={{
@@ -1235,12 +1272,12 @@ function FinalSettlement() {
 
 
 
-                                                            <div className="d-flex gap-1 align-items-center" style={{ cursor: "pointer" }}>
+                                                            <div className="d-flex gap-1 align-items-center" style={{ cursor: "pointer" }} onClick={() => handleRoomReading(item)}>
                                                                 <AddCircle
                                                                     size="18"
                                                                     color="#1E45E1" variant="Bold" style={{ cursor: "pointer" }}
                                                                 />
-                                                                <label style={{ fontSize: 13, color: "#222222", fontWeight: 500 }}> Add</label>
+                                                                <label style={{ fontSize: 13, color: "#222222", fontWeight: 500, cursor: "pointer" }}> Add</label>
 
 
                                                             </div>
@@ -1253,20 +1290,6 @@ function FinalSettlement() {
 
                                                             }}
                                                         >
-                                                            {/* <div style={{
-                                                            padding: "10px 12px",
-                                                            borderRadius: 8, backgroundColor: "#EEF4FF",
-                                                        }}>
-                                                            <span style={{
-                                                                color: "#1E45E1",
-                                                                fontSize: 11,
-                                                                fontWeight: 400
-                                                            }}>
-                                                                Click add to calculate the latest reading {" "}
-                                                            </span>
-                                                            <span style={{ color: "#1447E6", fontWeight: 600, fontSize: 12 }}>{item.fromDate} - {item.toDate}</span>
-
-                                                        </div> */}
 
 
                                                         </div>
@@ -1332,6 +1355,21 @@ function FinalSettlement() {
 
 
 
+                                            {showNoEbMessage && (
+                                                <div
+                                                    style={{
+                                                        padding: "12px",
+                                                        textAlign: "center",
+                                                        fontSize: 13,
+                                                        fontWeight: 500,
+                                                        color: "#AA6805",
+                                                        backgroundColor: "#FFF5EE",
+
+                                                    }}
+                                                >
+                                                    EB reading not calculated yet
+                                                </div>
+                                            )}
 
 
                                         </div>
@@ -1389,12 +1427,12 @@ function FinalSettlement() {
                                             Deductions
                                         </span>
                                     </div>
-                                    <div className="d-flex gap-1 align-items-center" style={{ cursor: "pointer" }}>
-                                        <AddCircle onClick={handleAddField}
+                                    <div className="d-flex gap-1 align-items-center" style={{ cursor: "pointer" }} onClick={handleAddField}>
+                                        <AddCircle
                                             size="18"
                                             color="#1E45E1" variant="Bold" style={{ cursor: "pointer" }}
                                         />
-                                        <label style={{ fontSize: 13, color: "#222222", fontWeight: 500 }}> Add</label>
+                                        <label style={{ fontSize: 13, color: "#222222", fontWeight: 500, cursor: "pointer" }}> Add</label>
 
 
                                     </div>
@@ -1405,6 +1443,23 @@ function FinalSettlement() {
                                 )}
                                 {showDeductions && (
                                     <div style={{ padding: "8px 10px" }} >
+
+                                        {fields.length === 0 && (
+                                            <div
+                                                style={{
+                                                    padding: "14px",
+                                                    textAlign: "center",
+                                                    fontSize: 13,
+                                                    fontWeight: 500,
+                                                    color: "#6B7280",
+                                                    backgroundColor: "#F9FAFB",
+                                                    borderRadius: 6,
+                                                    margin: "8px 12px",
+                                                }}
+                                            >
+                                                No deductions available
+                                            </div>
+                                        )}
                                         {fields.map((item, index) => {
                                             const filteredOptions = (() => {
                                                 let options = [...reasonOptions];
@@ -1589,18 +1644,26 @@ function FinalSettlement() {
                             <div className="d-flex justify-content-between align-items-center mt-3">
                                 <p style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>{ReturnAmount > 0 ? "Outstanding Amount Payable" : "Refund Payable to Tenant"}</p>
                                 <span
-                                    style={{ color: "#1E45E1", cursor: "pointer", fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400, marginTop: "-18px" }}
+                                    style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: 6,
+                                        color: "#1E45E1",
+                                        cursor: "pointer",
+                                        fontSize: "0.875rem",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 400,
+                                        whiteSpace: "nowrap",
+                                    }}
                                     onClick={() => setShowBreakdown(!showBreakdown)}
                                 >
 
-                                    View Breakdown <img
-                                        src={arrowTot}
-                                        alt="arrow"
-                                        style={{
-                                            transition: "transform 0.3s ease",
-                                            transform: showBreakdown ? "rotate(180deg)" : "rotate(0deg)",
-                                        }}
-                                    />
+                                    View Breakdown
+                                    {showBreakdown ? (
+                                        <ArrowUp2 size="16" color="#1E45E1" />
+                                    ) : (
+                                        <ArrowDown2 size="16" color="#1E45E1" />
+                                    )}
                                 </span>
 
 

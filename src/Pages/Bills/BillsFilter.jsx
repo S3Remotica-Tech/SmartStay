@@ -25,7 +25,7 @@ function BillsFilter({ show, handleClose }) {
     const [tenantName, setTenantName] = useState("");
     const [selectedBillStatusOptions, setSelectedBillStatusOptions] = useState([]);
     const [dateError, setDateError] = useState("");
-const [formLoading, setFormLoading] = useState(false)
+    const [formLoading, setFormLoading] = useState(false)
 
     console.log("billStatus", billStatus)
 
@@ -175,11 +175,11 @@ const [formLoading, setFormLoading] = useState(false)
         }
     };
 
-useEffect(() => {
-    if (state.InvoiceList.billsListStatusCode === 200) {
-    setFormLoading(false)
-    }
-  }, [state.InvoiceList.billsListStatusCode]);
+    useEffect(() => {
+        if (state.InvoiceList.billsListStatusCode === 200) {
+            setFormLoading(false)
+        }
+    }, [state.InvoiceList.billsListStatusCode]);
 
 
     useEffect(() => {
@@ -267,10 +267,10 @@ useEffect(() => {
             </components.Option>
         );
     }
-   CheckboxOption.propTypes = {
-  isSelected: PropTypes.bool.isRequired,
-  label: PropTypes.string.isRequired,
-};
+    CheckboxOption.propTypes = {
+        isSelected: PropTypes.bool.isRequired,
+        label: PropTypes.string.isRequired,
+    };
 
 
 
@@ -301,6 +301,9 @@ useEffect(() => {
         selectedBillStatusOptions[0]?.value === "ALL";
 
 
+
+    console.log("billStatus", billStatus)
+
     const handleFilterBills = () => {
 
         if ((!startDate && endDate)) {
@@ -313,13 +316,14 @@ useEffect(() => {
         const filters = {
             startDate: startDate ? startDate.format("DD/MM/YYYY") : undefined,
             endDate: endDate ? endDate.format("DD/MM/YYYY") : undefined,
-            type: invoiceType,
-            createdBy: createdBy.map(c => c.value),
-            createdByLabels: createdBy.map(c => c.label),
-            modes: invoiceMode,
-            paymentStatus: billStatus,
-            search: tenantName,
+            type: invoiceType?.length ? invoiceType : undefined,
+            createdBy: createdBy?.length ? createdBy.map(c => c.value) : undefined,
+            createdByLabels: createdBy?.length ? createdBy.map(c => c.label) : undefined,
+            modes: invoiceMode?.length ? invoiceMode : undefined,
+            paymentStatus: billStatus?.length ? billStatus : undefined,
+            search: tenantName?.trim() ? tenantName : undefined,
         };
+
 
         dispatch({
             type: "SET_INVOICE_FILTERS",
@@ -327,37 +331,32 @@ useEffect(() => {
         });
 
 
-        if (state.login?.selectedHostel_Id) {
-            const isAllSelected =
-                Array.isArray(billStatus) &&
-                billStatus.length === 1 &&
-                billStatus[0] === "ALL";
-
-            if (isAllSelected) {
-                dispatch({
-                    type: 'INVOICESLISTFILTER',
-                    payload: {
-                        hostelId: state.login?.selectedHostel_Id,
-                    }
-                })
-                setFormLoading(true)
-            } 
-            else {
-                dispatch({
-                    type: 'INVOICESLISTFILTER',
-                    payload: {
-                        hostelId: state.login?.selectedHostel_Id,
-                        filters: filters
-                    }
-                })
-                setFormLoading(true)
-            }
-
-
-
+        if (!state.login?.selectedHostel_Id) return;
+        const hasFilters = Object.values(filters).some(v => v !== undefined);
+        if (!hasFilters) {
+            return;
         }
+        const isAllSelected =
+            !billStatus ||
+            billStatus.length === 0 ||
+            (billStatus.length === 1 && billStatus[0] === "ALL");
+
+        dispatch({
+            type: 'INVOICESLISTFILTER',
+            payload: isAllSelected
+                ? { hostelId: state.login.selectedHostel_Id }
+                : { hostelId: state.login.selectedHostel_Id, filters }
+        });
+
+        setFormLoading(true);
+
 
     }
+
+
+
+
+
 
     return (
         <div>
@@ -815,31 +814,31 @@ useEffect(() => {
 
 
 
-  {formLoading && <div
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'transparent',
-              opacity: 0.75,
-              zIndex: 10,
-            }}
-          >
-            <div
-              style={{
-                borderTop: '4px solid #1E45E1',
-                borderRight: '4px solid transparent',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                animation: 'spin 1s linear infinite',
-              }}
-            ></div>
-          </div>}
+                {formLoading && <div
+                    style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: 'transparent',
+                        opacity: 0.75,
+                        zIndex: 10,
+                    }}
+                >
+                    <div
+                        style={{
+                            borderTop: '4px solid #1E45E1',
+                            borderRight: '4px solid transparent',
+                            borderRadius: '50%',
+                            width: '40px',
+                            height: '40px',
+                            animation: 'spin 1s linear infinite',
+                        }}
+                    ></div>
+                </div>}
 
 
 
@@ -888,8 +887,8 @@ useEffect(() => {
     )
 }
 BillsFilter.propTypes = {
-  show: PropTypes.bool.isRequired,
-  handleClose: PropTypes.func.isRequired,
+    show: PropTypes.bool.isRequired,
+    handleClose: PropTypes.func.isRequired,
 };
 
 export default BillsFilter

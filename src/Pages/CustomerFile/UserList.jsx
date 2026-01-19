@@ -3047,7 +3047,8 @@ function UserList(props) {
                     <ErrorMessage message={['You do not have access to view Tenant']} type="warning" />
                   </div>
                 ) : !loading && Array.isArray(sortedData) && sortedData.length === 0 ? (
-                  <div style={{ marginTop: 30, height: "auto" }} className="animated-text">
+                  <div style={{ marginTop: 30, height: "auto" }} className="animated-text d-flex align-items-center justify-content-center">
+                    <div>
                     <div style={{ textAlign: "center" }}>
                       <img src={Emptystate} alt="emptystate" />
                     </div>
@@ -3074,6 +3075,7 @@ function UserList(props) {
                       }}
                     >
                       There are no tenant added.
+                    </div>
                     </div>
                   </div>
                 ) : null}
@@ -3498,7 +3500,7 @@ function UserList(props) {
                                                       cursor: !canWriteTenant ? "not-allowed" : "pointer",
                                                     }}
                                                   >
-                                                    Check_In
+                                                    Check-In
                                                   </label>
                                                 </div>
 
@@ -3970,7 +3972,7 @@ function UserList(props) {
                                                         margin: 0,
                                                       }}
                                                     >
-                                                      Check_In
+                                                       Check-In
                                                     </label>
                                                   </div>
                                                   <div
