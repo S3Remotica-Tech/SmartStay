@@ -99,7 +99,7 @@ function PgList() {
   useEffect(() => {
     if (!canReadPayingGuests) {
       setLoading(false);
-    } 
+    }
   }, [canReadPayingGuests]);
 
 
@@ -819,7 +819,7 @@ function PgList() {
                 <div className="d-flex align-items-center mb-3 mb-md-0">
 
                   {state.PgList?.isClickedBed?.currentTenantInfo?.[0].profilePic ? (
-                   
+
                     <img
                       src={state.PgList?.OccupiedCustomer?.currentTenantInfo?.[0].profilePic || Profiles}
                       alt="Tenant Profile"
@@ -1138,33 +1138,40 @@ function PgList() {
                               </div>
 
                               <div className="d-flex align-items-center gap-3">
-                                <div className="d-flex flex-row flex-wrap">
-                                  <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
+                                <div
+                                  className="d-flex"
+                                  style={{
+                                    flexWrap: "nowrap",     
+                                    whiteSpace: "nowrap",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <span style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
                                     <img className="me-1 mb-1" src={availabeimg} alt="available" />
                                     Available
-                                  </p>
+                                  </span>
                                   {
 
                                     !state.login.isTrigger &&
 
                                     <>
 
-                                      <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
+                                      <span style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
                                         <img className="me-1 mb-1" src={occubiedimg} alt="occupied" />
                                         Occupied
-                                      </p>
-                                      <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
+                                      </span>
+                                      <span style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
                                         <img className="me-1 mb-1" src={recerverimg} alt="reserved" />
                                         Reserved
-                                      </p>
-                                      <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
+                                      </span>
+                                      <span style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
                                         <img className="me-1 mb-1" src={overdueimg} alt="overdue" />
                                         Overdue
-                                      </p>
-                                      <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
+                                      </span>
+                                      <span style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
                                         <img className="me-1 mb-1" src={noticeimg} alt="notice" />
                                         Notice Period
-                                      </p>
+                                      </span>
                                     </>
                                   }
 

@@ -208,7 +208,7 @@ const InvoiceCard = ({ rowData }) => {
 
   const pdfDetails = state.InvoiceList?.particularBillsDetails
 
-
+console.log("pdfDetails",pdfDetails, state)
 
   const hasTax = Number(pdfDetails?.invoiceInfo?.taxAmount) > 0;
 
@@ -1469,6 +1469,8 @@ const InvoiceCard = ({ rowData }) => {
       </div>
 
 
+{
+  pdfDetails?.invoiceInfo?.paymentStatus !== "Cancelled" && 
 
       <div
         style={{
@@ -1510,6 +1512,9 @@ const InvoiceCard = ({ rowData }) => {
                   borderRadius: 8,
                   fontWeight: 500,
                   fontFamily: "Gilroy",
+                  whiteSpace: "nowrap",display: "flex", alignItems: "center",
+                  gap: 6,
+
                 }}
                 onClick={() => { if (canWriteInvoice) handleNavigateRecordPayment(pdfDetails) }}
               >
@@ -1525,7 +1530,10 @@ const InvoiceCard = ({ rowData }) => {
                   border: "none",
                   borderRadius: 8,
                   fontWeight: 500,
-                  fontFamily: "Gilroy",
+                  fontFamily: "Gilroy", 
+                  display: "flex", alignItems: "center",
+                  gap: 6,
+                  whiteSpace: "nowrap",
                 }}
                 onClick={() => handleNavigateRefund(pdfDetails)}
               >
@@ -1637,7 +1645,7 @@ const InvoiceCard = ({ rowData }) => {
           </div>
         )}
       </div>
-
+}
       {showform && (
         <RecordPayment show={showform} handleClose={handleCloseForm}
           selectedUserId={selectedUserId}

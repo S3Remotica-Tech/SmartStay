@@ -3498,7 +3498,7 @@ function UserList(props) {
                                                       cursor: !canWriteTenant ? "not-allowed" : "pointer",
                                                     }}
                                                   >
-                                                    Check_In
+                                                    Check-In
                                                   </label>
                                                 </div>
 
@@ -3970,7 +3970,7 @@ function UserList(props) {
                                                         margin: 0,
                                                       }}
                                                     >
-                                                      Check_In
+                                                       Check-In
                                                     </label>
                                                   </div>
                                                   <div

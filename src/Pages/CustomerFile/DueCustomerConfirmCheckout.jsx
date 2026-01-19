@@ -360,12 +360,12 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
                                     {data.floorName || pgDetails.floorName}
                                 </span>
                                 <span className="badge rounded-pill bg-danger-subtle text-dark" style={{ fontSize: "0.75rem", fontFamily: "Gilroy", fontWeight: 400 }}>
-                                    {data.roomName || pgDetails.roomName} - {data.roomName || pgDetails.roomName}
+                                    {data.roomName || pgDetails.roomName} - {data.bedName || pgDetails.bedName}
                                 </span>
                             </div>
                         </div>
                         <div className="ms-auto text-end mt-2">
-                            <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "#4B4B4B", padding: 0, margin: 0 }}>Checkout Date</p>
+                            <p style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 400, color: "#4B4B4B", padding: 0, margin: 0 }}>Check-out Date</p>
                             <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600, }}>{data?.leavingDate || data?.leavingDate || state.UsersList?.initializeCheckout?.checkoutDate}</p>
                         </div>
                     </div>
@@ -444,7 +444,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, pgDetails }) {
                     <Button style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400 }} className="btn btn-light" onClick={handleClosecheck}>
                         Cancel
                     </Button>
-                    <Button disabled={formLoading} onClick={handleConfirmCheckout} style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400 }} variant="primary">Check-Out</Button>
+                    <Button disabled={formLoading} onClick={handleConfirmCheckout} style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400, backgroundColor:"#1E45E1" }} >Check-out</Button>
                 </Modal.Footer>
             </Modal>
         </div>

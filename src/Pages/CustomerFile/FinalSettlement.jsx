@@ -507,12 +507,33 @@ function FinalSettlement() {
         }
     }, [state.InvoiceList.finalSettlementError])
 
-useEffect(() => {
-        if (state.UsersList?.addRoomReadingStatusCode === 201 || state.UsersList?.addRoomReadingStatusCode === 200 ||  state.UsersList?.editHostelStatusCode === 200) {
+    useEffect(() => {
+        if (state.UsersList?.addRoomReadingStatusCode === 201 || state.UsersList?.addRoomReadingStatusCode === 200 || state.UsersList?.editHostelStatusCode === 200) {
             setShowRoomReading(false)
         }
 
     }, [state.UsersList?.addRoomReadingStatusCode, state.UsersList?.editHostelStatusCode])
+
+
+    const isNonHostel = !finalSettlementList?.ebInfo?.isHostelReading;
+
+    const missedEbList = finalSettlementList?.ebInfo?.missedEb || [];
+    const pendingEbList = finalSettlementList?.ebInfo?.pendingEb || [];
+
+    const showNoEbMessage =
+        isNonHostel &&
+        missedEbList.length === 0 &&
+        pendingEbList.length === 0;
+
+
+
+
+
+
+
+
+
+
     return (
         <div style={{ height: "100vh", overflow: "hidden" }}>
             {
@@ -1256,7 +1277,7 @@ useEffect(() => {
                                                                     size="18"
                                                                     color="#1E45E1" variant="Bold" style={{ cursor: "pointer" }}
                                                                 />
-                                                                <label style={{ fontSize: 13, color: "#222222", fontWeight: 500 ,cursor: "pointer"}}> Add</label>
+                                                                <label style={{ fontSize: 13, color: "#222222", fontWeight: 500, cursor: "pointer" }}> Add</label>
 
 
                                                             </div>
@@ -1269,20 +1290,6 @@ useEffect(() => {
 
                                                             }}
                                                         >
-                                                            {/* <div style={{
-                                                            padding: "10px 12px",
-                                                            borderRadius: 8, backgroundColor: "#EEF4FF",
-                                                        }}>
-                                                            <span style={{
-                                                                color: "#1E45E1",
-                                                                fontSize: 11,
-                                                                fontWeight: 400
-                                                            }}>
-                                                                Click add to calculate the latest reading {" "}
-                                                            </span>
-                                                            <span style={{ color: "#1447E6", fontWeight: 600, fontSize: 12 }}>{item.fromDate} - {item.toDate}</span>
-
-                                                        </div> */}
 
 
                                                         </div>
@@ -1348,6 +1355,21 @@ useEffect(() => {
 
 
 
+                                            {showNoEbMessage && (
+                                                <div
+                                                    style={{
+                                                        padding: "12px",
+                                                        textAlign: "center",
+                                                        fontSize: 13,
+                                                        fontWeight: 500,
+                                                        color: "#AA6805",
+                                                        backgroundColor: "#FFF5EE",
+
+                                                    }}
+                                                >
+                                                    EB reading not calculated yet
+                                                </div>
+                                            )}
 
 
                                         </div>
@@ -1406,11 +1428,11 @@ useEffect(() => {
                                         </span>
                                     </div>
                                     <div className="d-flex gap-1 align-items-center" style={{ cursor: "pointer" }} onClick={handleAddField}>
-                                        <AddCircle 
+                                        <AddCircle
                                             size="18"
                                             color="#1E45E1" variant="Bold" style={{ cursor: "pointer" }}
                                         />
-                                        <label style={{ fontSize: 13, color: "#222222", fontWeight: 500 ,cursor: "pointer"}}> Add</label>
+                                        <label style={{ fontSize: 13, color: "#222222", fontWeight: 500, cursor: "pointer" }}> Add</label>
 
 
                                     </div>
@@ -1421,6 +1443,23 @@ useEffect(() => {
                                 )}
                                 {showDeductions && (
                                     <div style={{ padding: "8px 10px" }} >
+
+                                        {fields.length === 0 && (
+                                            <div
+                                                style={{
+                                                    padding: "14px",
+                                                    textAlign: "center",
+                                                    fontSize: 13,
+                                                    fontWeight: 500,
+                                                    color: "#6B7280",
+                                                    backgroundColor: "#F9FAFB",
+                                                    borderRadius: 6,
+                                                    margin: "8px 12px",
+                                                }}
+                                            >
+                                                No deductions available
+                                            </div>
+                                        )}
                                         {fields.map((item, index) => {
                                             const filteredOptions = (() => {
                                                 let options = [...reasonOptions];
@@ -1619,12 +1658,12 @@ useEffect(() => {
                                     onClick={() => setShowBreakdown(!showBreakdown)}
                                 >
 
-                                    View Breakdown 
-                                     {showBreakdown ? (
-                                                <ArrowUp2 size="16" color="#1E45E1"  />
-                                            ) : (
-                                                <ArrowDown2 size="16" color="#1E45E1"  />
-                                            )}
+                                    View Breakdown
+                                    {showBreakdown ? (
+                                        <ArrowUp2 size="16" color="#1E45E1" />
+                                    ) : (
+                                        <ArrowDown2 size="16" color="#1E45E1" />
+                                    )}
                                 </span>
 
 
