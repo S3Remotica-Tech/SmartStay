@@ -1,5 +1,8 @@
-import { useEffect, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from "react";
+
 // import { CloseCircle } from "iconsax-react";
+import PropTypes from "prop-types";
 
 const WebNotification = ({ title, message }) => {
     const [visible, setVisible] = useState(false);
@@ -14,7 +17,7 @@ const WebNotification = ({ title, message }) => {
 
     }, []);
 
-    const audio = new Audio("/new-notification.mp3");
+    // const audio = new Audio("/new-notification.mp3");
 // console.log("audio",audio)
     return (
         <div
@@ -64,5 +67,10 @@ const WebNotification = ({ title, message }) => {
         </div>
     );
 };
+WebNotification.propTypes = {
+  title: PropTypes.string.isRequired,
+  message: PropTypes.string.isRequired,
+};
+
 
 export default WebNotification;

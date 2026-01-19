@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from "react";
 import { Table } from "react-bootstrap";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
@@ -400,7 +401,8 @@ function ManagedUsers() {
                                 color: "rgba(75, 75, 75, 1)",
                             }}
                         >
-                            There are no staff's available
+                           There are no staff{"'"}s available
+
                         </div>
                     </div>
                 </div>

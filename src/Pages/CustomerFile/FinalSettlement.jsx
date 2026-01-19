@@ -11,12 +11,12 @@ import { ArrowDown2, ArrowUp2, ArrowLeft } from "iconsax-react";
 // import addcircle from "../../Assets/Images/New_images/add-circle.png";
 import { Trash } from 'iconsax-react';
 import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
-import arrowTot from "../../Assets/Images/New_images/direction-down 01.png";
+// import arrowTot from "../../Assets/Images/New_images/direction-down 01.png";
 import { Tooltip } from "bootstrap";
 import ErrorMessage from '../../Components/ErrorMessage'
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-import { Edit, InfoCircle, AddCircle, Verify } from "iconsax-react";
+import { Edit,  AddCircle, Verify } from "iconsax-react";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { useLocation, useNavigate } from "react-router-dom";
 import AddRoomReading from "../ElectrictyFile/AddRoomReading";

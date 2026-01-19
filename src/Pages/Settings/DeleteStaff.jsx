@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Modal } from "react-bootstrap";
+import PropTypes from "prop-types";
 
 
 
@@ -103,5 +105,13 @@ function DeleteStaff({ show, handleClose, deleteId }) {
         </Modal>
     )
 }
+DeleteStaff.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  deleteId: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired,
+};
 
 export default DeleteStaff

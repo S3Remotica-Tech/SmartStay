@@ -458,6 +458,7 @@ DueCustomerConfirmCheckout.propTypes = {
     pgDetails: PropTypes.shape({
     floorName: PropTypes.string,
     roomName: PropTypes.string,
+    bedName: PropTypes.string,
   }).isRequired,
 
 
