@@ -28,6 +28,3 @@ messaging.onBackgroundMessage((payload) => {
 });
 
 
-self.addEventListener("push", (event) => {
-  console.log("📦 RAW PUSH EVENT", event);
-});

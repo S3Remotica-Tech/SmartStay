@@ -44,7 +44,7 @@ function FinalSettlement() {
     const [showInvoices, setShowInvoices] = React.useState(false);
     const [showRentDetails, setShowRentDetails] = React.useState(false);
     const [showEbMissed, setShowEbMissed] = useState(false);
-    const [showEbRoomReading, setShowRoomReading] = useState(false);
+    const [showRoomReading, setShowRoomReading] = useState(false);
     const [showDeductions, setShowDeductions] = useState(false);
 
     const [isEditingDate, setIsEditingDate] = useState(false);
@@ -507,11 +507,16 @@ function FinalSettlement() {
         }
     }, [state.InvoiceList.finalSettlementError])
 
+useEffect(() => {
+        if (state.UsersList?.addRoomReadingStatusCode === 201 || state.UsersList?.addRoomReadingStatusCode === 200 ||  state.UsersList?.editHostelStatusCode === 200) {
+            setShowRoomReading(false)
+        }
 
+    }, [state.UsersList?.addRoomReadingStatusCode, state.UsersList?.editHostelStatusCode])
     return (
         <div style={{ height: "100vh", overflow: "hidden" }}>
             {
-                showEbRoomReading && <AddRoomReading show={showEbRoomReading} handleClose={handleCloseRoomReading} selectedRowDetails={selectedRowDetails} />
+                showRoomReading && <AddRoomReading show={showRoomReading} handleClose={handleCloseRoomReading} selectedRowDetails={selectedRowDetails} />
             }
             <div
                 className="mb-3"
@@ -1251,7 +1256,7 @@ function FinalSettlement() {
                                                                     size="18"
                                                                     color="#1E45E1" variant="Bold" style={{ cursor: "pointer" }}
                                                                 />
-                                                                <label style={{ fontSize: 13, color: "#222222", fontWeight: 500 }}> Add</label>
+                                                                <label style={{ fontSize: 13, color: "#222222", fontWeight: 500 ,cursor: "pointer"}}> Add</label>
 
 
                                                             </div>
@@ -1400,12 +1405,12 @@ function FinalSettlement() {
                                             Deductions
                                         </span>
                                     </div>
-                                    <div className="d-flex gap-1 align-items-center" style={{ cursor: "pointer" }}>
-                                        <AddCircle onClick={handleAddField}
+                                    <div className="d-flex gap-1 align-items-center" style={{ cursor: "pointer" }} onClick={handleAddField}>
+                                        <AddCircle 
                                             size="18"
                                             color="#1E45E1" variant="Bold" style={{ cursor: "pointer" }}
                                         />
-                                        <label style={{ fontSize: 13, color: "#222222", fontWeight: 500 }}> Add</label>
+                                        <label style={{ fontSize: 13, color: "#222222", fontWeight: 500 ,cursor: "pointer"}}> Add</label>
 
 
                                     </div>
@@ -1600,18 +1605,26 @@ function FinalSettlement() {
                             <div className="d-flex justify-content-between align-items-center mt-3">
                                 <p style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>{ReturnAmount > 0 ? "Outstanding Amount Payable" : "Refund Payable to Tenant"}</p>
                                 <span
-                                    style={{ color: "#1E45E1", cursor: "pointer", fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400, marginTop: "-18px" }}
+                                    style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: 6,
+                                        color: "#1E45E1",
+                                        cursor: "pointer",
+                                        fontSize: "0.875rem",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 400,
+                                        whiteSpace: "nowrap",
+                                    }}
                                     onClick={() => setShowBreakdown(!showBreakdown)}
                                 >
 
-                                    View Breakdown <img
-                                        src={arrowTot}
-                                        alt="arrow"
-                                        style={{
-                                            transition: "transform 0.3s ease",
-                                            transform: showBreakdown ? "rotate(180deg)" : "rotate(0deg)",
-                                        }}
-                                    />
+                                    View Breakdown 
+                                     {showBreakdown ? (
+                                                <ArrowUp2 size="16" color="#1E45E1"  />
+                                            ) : (
+                                                <ArrowDown2 size="16" color="#1E45E1"  />
+                                            )}
                                 </span>
 
 

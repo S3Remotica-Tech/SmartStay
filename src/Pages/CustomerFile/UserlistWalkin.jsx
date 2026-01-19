@@ -880,7 +880,8 @@ function UserlistWalkin() {
             )}
 
             {!walkinLoader && walkInCustomer?.length === 0 && (
-              <div style={{ marginTop: 30, }} className="animated-text">
+              <div style={{ marginTop: 30, }} className="animated-text d-flex justify-content-center">
+               <div>
                 <div style={{ textAlign: "center" }}>
                   <img src={Emptystate} alt="emptystate" />
                 </div>
@@ -908,8 +909,10 @@ function UserlistWalkin() {
                 >
                   There are no Walk-in added.
                 </div>
+                 </div>
               </div>
             )}
+            
           </div>
 
         </>
