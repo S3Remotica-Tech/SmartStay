@@ -500,7 +500,6 @@ function FinalSettlement() {
     }, [state.InvoiceList.finalSettlementError])
 
 
-
     return (
         <div style={{ height: "100vh", overflow: "hidden" }}>
             <div
@@ -1181,7 +1180,7 @@ function FinalSettlement() {
                                     </div>
 
                                     <span style={{ fontSize: 16, fontWeight: 600 }}>
-                                        {/* ₹ {totalEbAmount} */} ₹
+                                        ₹{finalSettlementList?.ebInfo?.pendingEbAmount}
                                     </span>
                                 </div>
 
