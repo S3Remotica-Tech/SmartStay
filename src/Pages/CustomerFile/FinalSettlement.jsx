@@ -19,6 +19,7 @@ import dayjs from "dayjs";
 import { Edit, InfoCircle, AddCircle, Verify } from "iconsax-react";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { useLocation, useNavigate } from "react-router-dom";
+import AddRoomReading from "../ElectrictyFile/AddRoomReading";
 
 
 dayjs.extend(customParseFormat);
@@ -43,30 +44,37 @@ function FinalSettlement() {
     const [showInvoices, setShowInvoices] = React.useState(false);
     const [showRentDetails, setShowRentDetails] = React.useState(false);
     const [showEbMissed, setShowEbMissed] = useState(false);
-    const [showEbPending, setShowEbPending] = useState(false);
+    const [showEbRoomReading, setShowRoomReading] = useState(false);
     const [showDeductions, setShowDeductions] = useState(false);
 
     const [isEditingDate, setIsEditingDate] = useState(false);
     const [checkoutDate, setCheckoutDate] = useState(dayjs())
-
+    const [selectedRowDetails, setSelectedRowDetails] = useState('')
     const { data, pgDetails } = location.state || {};
 
-    const ebBreakup = [
-        {
-            floorName: "Ground Floor",
-            roomBed: "G 005 - B 03",
-            units: 27,
-        },
-        {
-            floorName: "First Floor",
-            roomBed: "F 002 - B 01",
-            units: 23,
-        },
-    ];
+    // const ebBreakup = [
+    //     {
+    //         floorName: "Ground Floor",
+    //         roomBed: "G 005 - B 03",
+    //         units: 27,
+    //     },
+    //     {
+    //         floorName: "First Floor",
+    //         roomBed: "F 002 - B 01",
+    //         units: 23,
+    //     },
+    // ];
 
 
 
+    const handleRoomReading = (item) => {
+        setShowRoomReading(true)
+        setSelectedRowDetails(item)
+    }
 
+    const handleCloseRoomReading = () => {
+        setShowRoomReading(false)
+    }
 
 
     useEffect(() => {
@@ -503,6 +511,9 @@ function FinalSettlement() {
 
     return (
         <div style={{ height: "100vh", overflow: "hidden" }}>
+            {
+                showEbRoomReading && <AddRoomReading show={showEbRoomReading} handleClose={handleCloseRoomReading} selectedRowDetails={selectedRowDetails} />
+            }
             <div
                 className="mb-3"
                 style={{
@@ -1236,7 +1247,7 @@ function FinalSettlement() {
 
 
 
-                                                            <div className="d-flex gap-1 align-items-center" style={{ cursor: "pointer" }}>
+                                                            <div className="d-flex gap-1 align-items-center" style={{ cursor: "pointer" }} onClick={() => handleRoomReading(item)}>
                                                                 <AddCircle
                                                                     size="18"
                                                                     color="#1E45E1" variant="Bold" style={{ cursor: "pointer" }}
