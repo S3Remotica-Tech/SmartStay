@@ -4,7 +4,7 @@ import ErrorMessage from '../Components/ErrorMessage'
 import { WalletMoney, ArrowRight, DocumentText, ReceiptText, Bank, UserOctagon, Home, 
   Wallet, Shop, Flash, Warning2, ClipboardText } from "iconsax-react";
 import { useNavigate } from "react-router-dom";
-
+import { useDispatch, useSelector } from "react-redux";
 
 
 
@@ -182,7 +182,7 @@ const navigate = useNavigate();
 
   return (
 
-    <div className="w-full h-screen flex flex-col font-[Gilroy] px-0">
+    <div className="w-full h-screen flex flex-col font-[Gilroy] px-0 ">
 
 
       <div className="sticky top-0 z-20 bg-white ">

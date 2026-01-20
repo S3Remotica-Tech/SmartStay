@@ -493,17 +493,24 @@ function BedDetailsMap({ room, propsValue,
     //     )
     //     : bedsForRoom;
 
-    const filteredBeds = React.useMemo(() => {
-        if (!state.login.isTrigger) return bedsForRoom;
+    // const filteredBeds = React.useMemo(() => {
+    //     if (!state.login.isTrigger) return bedsForRoom;
 
-        return bedsForRoom.filter(
-            bed =>
-                (!bed.isBooked && !bed.isOccupied) ||
-                (bed.onNotice && !bed.isBooked && !bed.isOccupied)
-        );
-    }, [bedsForRoom, state.login.isTrigger]);
+    //     return bedsForRoom.filter(
+    //         bed =>
+    //             (!bed.isBooked && !bed.isOccupied) ||
+    //             (bed.onNotice && !bed.isBooked && !bed.isOccupied)
+    //     );
+    // }, [bedsForRoom, state.login.isTrigger]);
 
 
+const filteredBeds = React.useMemo(() => {
+  if (!state.login.isTrigger) return bedsForRoom;
+
+  return bedsForRoom.filter(
+    bed => !bed.isOccupied
+  );
+}, [bedsForRoom, state.login.isTrigger]);
 
 
 

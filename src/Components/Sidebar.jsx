@@ -65,7 +65,7 @@ import BookingsPdfDetails from "../Pages/Bookings/BookingsPdfDetails";
 import FinalSettlement from "../Pages/CustomerFile/FinalSettlement";
 import SearchVector from "../Assets/Images/New_images/SearchVector.svg";
 import Logout from "./Logout";
-import InvoiceRegister from "../Reports/InvoiceRegister";
+import InvoiceRegister from "../Reports/InvoiceRegister/InvoiceRegister";
 
 
 
@@ -1750,7 +1750,7 @@ function Sidebar() {
               <Route
                 path="/reports/invoice-register"
                 element={
-                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }} className="">
                     <InvoiceRegister
                     />
                   </div>
