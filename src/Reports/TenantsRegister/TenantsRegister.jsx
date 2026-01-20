@@ -13,7 +13,7 @@ import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import BillsFilter from '../../Pages/Bills/BillsFilter';
+import TenantsFilter from './TenantsFilter';
 
 
 function TenantsRegister() {
@@ -605,7 +605,7 @@ function TenantsRegister() {
                 </div>
 
                 {
-                    invoiceFilter && <BillsFilter show={invoiceFilter} handleClose={handleCloseFilterBills} />
+                    invoiceFilter && <TenantsFilter show={invoiceFilter} handleClose={handleCloseFilterBills} />
                 }
             </div>
         </div>
