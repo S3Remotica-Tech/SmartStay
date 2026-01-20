@@ -8,7 +8,7 @@ import { FaCheck } from "react-icons/fa6";
 import { IoCloseOutline } from "react-icons/io5";
 import ErrorMessage from '../../Components/ErrorMessage'
 import PropTypes from "prop-types";
-
+import {Filter} from 'iconsax-react'
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 
@@ -27,7 +27,7 @@ function BillsFilter({ show, handleClose }) {
     const [dateError, setDateError] = useState("");
     const [formLoading, setFormLoading] = useState(false)
 
-    console.log("billStatus", billStatus)
+
 
     const CustomStyles = {
         control: (base) => ({
@@ -189,10 +189,7 @@ function BillsFilter({ show, handleClose }) {
         setSelectedBillStatusOptions(selectedOptions);
     }, [billStatus]);
 
-    // const selectedBillStatusOptions =
-    //     billStatusOptions.filter(opt =>
-    //         billStatus.includes(opt.value)
-    //     );
+    
 
     const handleInvoiceTypeChange = (selected) => {
         setInvoiceType(selected.map(opt => opt.value));
@@ -283,18 +280,7 @@ function BillsFilter({ show, handleClose }) {
 
 
 
-    // const filterOptions = [
-    //     { type: "Cash", name: "Cash" },
-    //     { type: "Bank", name: "Bank" },
-
-    // ];
-
-    // const selectOptions = filterOptions?.map(item => ({
-    //     label: item.type,
-    //     value: item.name,
-    // }));
-
-    // console.log("state", state)
+    
 
     const isAllSelectedDrop =
         selectedBillStatusOptions?.length === 1 &&
@@ -366,7 +352,7 @@ function BillsFilter({ show, handleClose }) {
                 placement="end" backdrop="static"
             >
                 <Offcanvas.Header >
-                    <Offcanvas.Title style={{ color: "#222222", fontSize: 20, fontFamily: "Gilroy", fontWeight: 600 }}>Filter</Offcanvas.Title>
+                    <Offcanvas.Title style={{ color: "#222222", fontSize: 20, fontFamily: "Gilroy", fontWeight: 600, display :"flex" , alignItems:"center"}}> <Filter className='me-2' size="20" color="#364153"/>Filter</Offcanvas.Title>
 
 
                     <IoCloseOutline onClick={handleClose} style={{ color: "#FF0000", fontSize: 20, cursor: "pointer" }} />
