@@ -16,7 +16,7 @@ import { Tooltip } from "bootstrap";
 import ErrorMessage from '../../Components/ErrorMessage'
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-import { Edit,  AddCircle, Verify } from "iconsax-react";
+import { Edit, AddCircle, Verify } from "iconsax-react";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { useLocation, useNavigate } from "react-router-dom";
 import AddRoomReading from "../ElectrictyFile/AddRoomReading";

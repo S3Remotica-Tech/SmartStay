@@ -3,12 +3,17 @@ import { useHasPermission } from '../Utils/Permission';
 import ErrorMessage from '../Components/ErrorMessage'
 import { WalletMoney, ArrowRight, DocumentText, ReceiptText, Bank, UserOctagon, Home, 
   Wallet, Shop, Flash, Warning2, ClipboardText } from "iconsax-react";
+import { useNavigate } from "react-router-dom";
+
+
+
 
 function Reports() {
 
   // const dispatch = useDispatch()
   // const state = useSelector(state => state.createAccount)
 
+const navigate = useNavigate();
 
 
 
@@ -39,6 +44,7 @@ function Reports() {
       value: "₹1,60,000",
       icon: DocumentText,
       color: "text-blue-600 bg-blue-100",
+      route: "/reports/invoice-register",
 
     },
     {
@@ -269,8 +275,8 @@ function Reports() {
                       )}
                       <hr className="my-2 border-t border-[#F3F4F6] opacity-80" />
 
-                      <div className="mt-3 flex items-center justify-between gap-1 group cursor-pointer">
-                        <span className="text-sm font-semibold text-[#155DFC] group-hover:underline">
+                      <div className="mt-3 flex items-center justify-between gap-1 group cursor-pointer"  onClick={() => item.route && navigate(item.route)}>
+                        <span className="text-sm font-semibold text-[#155DFC] group-hover:underline" >
                           View Report
                         </span>
 
