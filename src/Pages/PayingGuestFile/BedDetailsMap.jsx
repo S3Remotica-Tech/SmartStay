@@ -337,8 +337,9 @@ function BedDetailsMap({ room, propsValue,
 
 
     const handleCloseChangedBed = () => {
-        setShowConfirmChangeBedModal(false)
+               setShowConfirmChangeBedModal(false)
         setChangedBedClicked('')
+        setSelectedBed(null)
     }
 
 
@@ -357,6 +358,7 @@ function BedDetailsMap({ room, propsValue,
     useEffect(() => {
         if (!state.login.isTrigger) {
             setChangedBedClicked(null)
+            setSelectedBed(null)
         }
 
     }, [state.login.isTrigger])

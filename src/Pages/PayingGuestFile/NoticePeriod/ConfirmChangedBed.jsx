@@ -257,7 +257,7 @@ const [formLoading, setFormLoading] = useState(false)
                 <p className="mb-2" style={{ fontFamily: 'Gilroy' }}>Current Bed</p>
 
 
-                <p className="mb-3" style={{ fontFamily: 'Gilroy', fontSize: '16px' }}>
+                <p className="mb-3 d-flex align-items-center" style={{ fontFamily: 'Gilroy', fontSize: '16px' }}>
                   <img
                     src={building}
                     className="me-2"
@@ -267,7 +267,7 @@ const [formLoading, setFormLoading] = useState(false)
                   <span style={{ position: 'relative', top: '4px', left: '3px' }}>{isPreviousBed?.floorName || 'N/A'} </span>
                 </p>
 
-                <p className="mb-3" style={{ fontFamily: 'Gilroy', fontSize: '16px' }}>
+                <p className="mb-3 d-flex align-items-center" style={{ fontFamily: 'Gilroy', fontSize: '16px' }}>
                   <img
                     src={Frame}
                     className="me-2"
@@ -277,7 +277,7 @@ const [formLoading, setFormLoading] = useState(false)
                   <span style={{ position: 'relative', top: '2px' }}>{isPreviousBed?.roomName || 'N/A'} </span>
                 </p>
 
-                <p className="mb-3" style={{ fontFamily: 'Gilroy', fontSize: '16px' }}>
+                <p className="mb-3 d-flex align-items-center" style={{ fontFamily: 'Gilroy', fontSize: '16px' }}>
 
                   <LiaBedSolid style={{ width: '20px', height: '20px', verticalAlign: 'middle', color: "#1E45E1" }} />
                   <span className="ms-2" style={{ position: 'relative', top: '3px', left: '4px' }}>{isPreviousBed?.bedName || 'N/A'} </span>
@@ -306,17 +306,17 @@ const [formLoading, setFormLoading] = useState(false)
 
               <div>
                 <h6 className="mb-3" style={{ fontFamily: 'Gilroy' }}>New Bed</h6>
-                <p className="mb-3" style={{ fontFamily: 'Gilroy', fontSize: '16px' }}>
+                <p className="mb-3 d-flex align-items-center" style={{ fontFamily: 'Gilroy', fontSize: '16px' }}>
                   <img
                     src={building}
-                    className="me-2"
+                    className="me-2 "
                     style={{ width: '20px', height: '20px', verticalAlign: 'middle' }}
                     alt="building"
                   />
                   <span style={{ position: 'relative', top: '4px', left: '3px' }}>{currentBed?.floorName || 'N/A'} </span>
                 </p>
 
-                <p className="mb-3" style={{ fontFamily: 'Gilroy', fontSize: '16px' }}>
+                <p className="mb-3 d-flex align-items-center" style={{ fontFamily: 'Gilroy', fontSize: '16px' }}>
                   <img
                     src={Frame}
                     className="me-2"
@@ -326,7 +326,7 @@ const [formLoading, setFormLoading] = useState(false)
                   <span style={{ position: 'relative', top: '2px' }}>{currentBed?.roomName || 'N/A'} </span>
                 </p>
 
-                <p className="mb-3" style={{ fontFamily: 'Gilroy', fontSize: '16px' }}>
+                <p className="mb-3 d-flex align-items-center" style={{ fontFamily: 'Gilroy', fontSize: '16px' }}>
                   <LiaBedSolid style={{ width: '20px', height: '20px', verticalAlign: 'middle', color: "#1E45E1" }} />
                   <span className="ms-2" style={{ position: 'relative', top: '3px', left: '4px' }}>{currentBed?.bedName || 'N/A'} </span>
                 </p>
@@ -449,11 +449,13 @@ const [formLoading, setFormLoading] = useState(false)
 
 
           </Modal.Body>
-          <div className="d-flex gap-3 mt-1 ms-3 me-3  mb-3 ">
+          <div className="d-flex gap-3 mt-1 ms-3 me-3  mb-3  ">
             <Button
               variant="light"
-              className="px-4"
-              style={{ border: "1px solid #ddd", width: "260px", backgroundColor: "white", fontSize: 16, fontFamily: "Gilroy" }}
+              className="px-4 w-100"
+              style={{ border: "1px solid #ddd", 
+                // width: "260px",
+                 backgroundColor: "white", fontSize: 16, fontFamily: "Gilroy" }}
               onClick={handleClose}
             >
               Cancel
@@ -461,15 +463,16 @@ const [formLoading, setFormLoading] = useState(false)
 
             <Button disabled={formLoading}
               variant="primary"
-              className="px-4"
+              className="px-4 w-100 d-flex gap-3"
               onClick={handleSubmit}
               style={{
                 backgroundColor: "#1E45E1",
                 borderRadius: "8px",
-                width: "260px", fontSize: 16, fontFamily: "Gilroy"
+                // width: "260px", 
+                 fontSize: 16, fontFamily: "Gilroy"
               }}
             >
-              <img src={repeatOne} alt="icon" className="me-2" />
+              <img src={repeatOne} alt="icon" className="" />
               Assign
             </Button>
 

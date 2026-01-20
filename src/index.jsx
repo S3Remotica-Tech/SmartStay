@@ -30,10 +30,15 @@ if ("serviceWorker" in navigator) {
   navigator.serviceWorker
     .register("/firebase-messaging-sw.js")
     .then((registration) => {
-      console.log("FCM Service Worker registered:", registration);
+      console.log("FCM Service Worker registered");
+      console.log("scope:", registration.scope);
+      console.log("active:", registration.active);
     })
-    .catch(console.error);
+    .catch((err) => {
+      console.error(" SW registration failed", err);
+    });
 }
+
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

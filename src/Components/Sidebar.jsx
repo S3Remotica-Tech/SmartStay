@@ -17,8 +17,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "sweetalert2/dist/sweetalert2.min.css";
 import CryptoJS from "crypto-js";
 import Smartstay from "../Assets/Images/New_images/LogoSmart.svg";
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
 import Assets from "../Pages/AssetFile/Asset";
 import Expenses from "../Pages/ExpenseFile/Expense";
 import Banking from "../Pages/Banking/Banking";
@@ -67,6 +65,7 @@ import BookingsPdfDetails from "../Pages/Bookings/BookingsPdfDetails";
 import FinalSettlement from "../Pages/CustomerFile/FinalSettlement";
 import SearchVector from "../Assets/Images/New_images/SearchVector.svg";
 import Logout from "./Logout";
+import InvoiceRegister from "../Reports/InvoiceRegister";
 
 
 
@@ -424,18 +423,18 @@ function Sidebar() {
     setLogoutformshow(false);
   };
 
-  const handleLogout = () => {
-    dispatch({ type: 'LOGOUTADMINSAGA', payload: { source: "WEB" } })
-    const token = cookies.get('v2-token');
+  // const handleLogout = () => {
+  //   dispatch({ type: 'LOGOUTADMINSAGA', payload: { source: "WEB" } })
+  //   const token = cookies.get('v2-token');
 
-    if (!token) {
-      dispatch({ type: "LOG_OUT" });
-      dispatch({ type: 'RESET_ALL' })
-      const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), "abcd");
-      localStorage.setItem("login", encryptData.toString());
-      return;
-    }
-  };
+  //   if (!token) {
+  //     dispatch({ type: "LOG_OUT" });
+  //     dispatch({ type: 'RESET_ALL' })
+  //     const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), "abcd");
+  //     localStorage.setItem("login", encryptData.toString());
+  //     return;
+  //   }
+  // };
 
 
   useEffect(() => {
@@ -517,9 +516,9 @@ function Sidebar() {
 
 
 
-const handleShowsettingsGenaral = () =>{
-  setShowProfileCard(false)
-     handlePageClick("settingNewDesign");
+  const handleShowsettingsGenaral = () => {
+    setShowProfileCard(false)
+    handlePageClick("settingNewDesign");
     setSettingsPGShow(false);
     const hostelId = state.login?.selectedHostel_Id;
     if (hostelId) {
@@ -527,7 +526,7 @@ const handleShowsettingsGenaral = () =>{
     } else {
       navigate(`/settings`);
     }
-}
+  }
 
 
 
@@ -660,7 +659,7 @@ const handleShowsettingsGenaral = () =>{
         showNotify && <NotificationForm show={showNotify} handleClose={handleClose} />
       }
 
-     
+
       <Container fluid className="p-0" >
         <div style={{
           display: "flex",
@@ -1563,12 +1562,12 @@ const handleShowsettingsGenaral = () =>{
                   </div>
                 }
               />
- <Route
+              <Route
                 path="/tenant/final-settlement/:tenantId?"
                 element={
-                  <div style={{ marginTop: 0, marginLeft: 10, marginRight: 5 ,}}>
+                  <div style={{ marginTop: 0, marginLeft: 10, marginRight: 5, }}>
                     <FinalSettlement
-                      
+
                     />
                   </div>
                 }
@@ -1748,7 +1747,15 @@ const handleShowsettingsGenaral = () =>{
                 }
               />
 
-
+              <Route
+                path="/reports/invoice-register"
+                element={
+                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                    <InvoiceRegister
+                    />
+                  </div>
+                }
+              />
 
               <Route
                 path="/settings/:hostelId?/*"
@@ -1815,7 +1822,7 @@ const handleShowsettingsGenaral = () =>{
               flexShrink: 0,
             }}
           >
-            {/* Profile Section */}
+
             <div
               ref={profileAreaRef}
               onClick={() => setShowProfileCard((s) => !s)}
@@ -1920,7 +1927,7 @@ const handleShowsettingsGenaral = () =>{
             >
 
               <div
-                // onClick={handleShowLogout}
+
                 style={{
                   position: "relative",
                   display: "flex",
@@ -1954,7 +1961,7 @@ const handleShowsettingsGenaral = () =>{
                 <div style={{ position: "relative" }}>
                   <Notification
                     style={{ width: "23px", height: "23px" }}
-                    // color="#64748B"
+
                     color={hoveredIcon === "notification" ? "#1E45E1" : "#64748B"}
                     onMouseEnter={() => setHoveredIcon("notification")}
                     onMouseLeave={() => setHoveredIcon(null)}
@@ -2043,7 +2050,7 @@ const handleShowsettingsGenaral = () =>{
             </div>
           </div>
         </div>
-        {/* Profile Card Component */}
+
         <SidebarProfile
           profiles={profiles}
           stateData={stateData}
@@ -2057,7 +2064,7 @@ const handleShowsettingsGenaral = () =>{
           handleShowsettingsGenaral={handleShowsettingsGenaral}
         />
 
-        
+
         <SidebarQuickActions
           showMenuModal={showMenuModal}
           setShowMenuModal={setShowMenuModal}
@@ -2066,10 +2073,10 @@ const handleShowsettingsGenaral = () =>{
         />
       </Container>
 
-{
-  logoutformshow  && <Logout show={logoutformshow} handleClose={handleCloseLogout} />
-}
-     
+      {
+        logoutformshow && <Logout show={logoutformshow} handleClose={handleCloseLogout} />
+      }
+
     </>
   );
 }
