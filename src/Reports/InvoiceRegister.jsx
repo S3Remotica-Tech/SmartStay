@@ -81,34 +81,35 @@ function InvoiceRegister() {
 
 
     return (
-        <div className="font-gilroy p-1 min-h-screen">
+        <div className="h-screen flex flex-col font-gilroy">
             {/* Header */}
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-0 right-0 left-0 z-30 bg-white">
                 <div className='flex items-center gap-2'>
                     <ArrowLeft
                         size="20"
                         color="#4A5565"
                     />
                     <div>
-                        <h1 className="text-xl font-semibold">Invoice Register</h1>
-                        <p className="text-sm text-gray-500">
+                        <h1 className="text-lg font-semibold my-0 text-[#222222]">Invoice Register</h1>
+                        <label className="text-sm font-normal text-[#4A5565]">
                             Reports / Invoice Register
-                        </p>
+                        </label>
                     </div>
                 </div>
 
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-3 items-stretch"  style={{ height: 36 }}>
 
                     <div
                         className="datepicker-wrapper"
-                        style={{ position: "relative", }}
+                        style={{ position: "relative",  }}
                     >
                         <RangePicker
                             style={{
                                 width: "100%",
-                                height: 48,
+                                height: "100%",
                                 cursor: "pointer",
                                 fontFamily: "Gilroy",
+
                             }}
                             format="DD/MM/YYYY"
                             placeholder={["From date", "To date"]}
@@ -142,11 +143,15 @@ function InvoiceRegister() {
                         />
                     </div>
 
-                    <button className="flex items-center gap-2 px-4 py-1 border rounded-lg text-sm">
+                    <button 
+                    className="h-[36px] flex items-center gap-2 px-4 border rounded-lg text-sm font-gilroy"
+                    >
                         <Filter size="16" />
                         Filter
                     </button>
-                    <button className="flex items-center gap-2 px-4 py-1 bg-[#1E45E1] text-white rounded-lg text-sm">
+                    <button
+                     className="h-[36px] flex items-center gap-2 px-4 bg-[#1E45E1] text-white rounded-lg text-sm font-gilroy"
+                     >
                         <Export size="16" />
                         Export
                     </button>
@@ -154,11 +159,13 @@ function InvoiceRegister() {
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+            <div className="flex-1 overflow-y-auto px-1 pb-6 show-scrolls">
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-3">
                 {stats.map((item, i) => (
                     <div
                         key={i}
-                        className="bg-white rounded-xl p-4 shadow-sm"
+                        className="bg-white rounded-xl p-4 shadow-sm border"
                     >
                         <p className="text-sm text-gray-500">
                             {item.title}
@@ -239,6 +246,7 @@ function InvoiceRegister() {
                     </tbody>
                 </table>
             </div>
+             </div>
         </div>
     );
 }
