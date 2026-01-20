@@ -66,6 +66,7 @@ import FinalSettlement from "../Pages/CustomerFile/FinalSettlement";
 import SearchVector from "../Assets/Images/New_images/SearchVector.svg";
 import Logout from "./Logout";
 import InvoiceRegister from "../Reports/InvoiceRegister/InvoiceRegister";
+import TenantsRegister from "../Reports/TenantsRegister/TenantsRegister";
 
 
 
@@ -1756,7 +1757,15 @@ function Sidebar() {
                   </div>
                 }
               />
-
+  <Route
+                path="/reports/tenant-register"
+                element={
+                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }} className="">
+                    <TenantsRegister
+                    />
+                  </div>
+                }
+              />
               <Route
                 path="/settings/:hostelId?/*"
                 element={

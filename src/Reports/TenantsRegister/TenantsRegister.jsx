@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import BillsFilter from '../../Pages/Bills/BillsFilter';
 
 
-function InvoiceRegister() {
+function TenantsRegister() {
 
 
     const navigate = useNavigate();
@@ -71,10 +71,11 @@ function InvoiceRegister() {
     }, [register]);
 
     const stats = [
-        { title: "Total Invoices", value: "32" },
-        { title: "Total Amount", value: "₹61,500", up: "12%" },
-        { title: "Paid Amount", value: "₹19,500", up: "8%", link: true },
-        { title: "Outstanding", value: "₹42,000", down: "5%", link: true },
+        { title: "Total Tenants", value: "32" },
+        { title: "Active Tenants", value: "₹61,500", up: "12%", link: true },
+        { title: "Notice Period", value: "₹19,500", up: "8%", link: true },
+        { title: "Check out (MTD)", value: "₹42,000", down: "5%", link: true },
+        { title: "Inactive", value: "₹42,000", down: "5%", link: true },
     ];
 
     const invoices = [
@@ -218,9 +219,10 @@ function InvoiceRegister() {
         { key: "payment", label: "Last Payment", checked: true },
     ];
     const reportCards = [
+        { title: "Invoice Register" },
         { title: "Receipt Register" },
         { title: "Bank Transaction Register" },
-        { title: "Tenant Register" },
+        // { title: "Tenant Register" },
         { title: "Occupancy" },
         { title: "Expense Register" },
         { title: "Vendor Ledger" },
@@ -248,7 +250,7 @@ function InvoiceRegister() {
                     />
                     <div>
                         <div className='flex items-center gap-2 relative w-fit' onClick={() => setRegister(!register)}>
-                            <h1 className="text-lg font-semibold my-0 text-[#222222]">Invoice Register</h1>
+                            <h1 className="text-lg font-semibold my-0 text-[#222222]">Tenant Register</h1>
                             <div className='rounded-none border-0'>
                                 <ArrowDown2
                                     size="18"
@@ -286,7 +288,7 @@ function InvoiceRegister() {
                         </div>
 
                         <label className="text-sm font-normal text-[#4A5565]">
-                            Reports / Invoice Register
+                            Reports / Tenant Register
                         </label>
                     </div>
                 </div>
@@ -356,7 +358,7 @@ function InvoiceRegister() {
             <div className="px-1 pb-1 bg-[#F9FAFB] rounded-lg h-full flex flex-col overflow-hidden">
 
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-3 ms-1 me-1 ">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-3 ms-1 me-1 ">
                     {stats.map((item, i) => (
                         <div
                             key={i}
@@ -398,7 +400,7 @@ function InvoiceRegister() {
 
                 <div className="bg-white mt-4 rounded-xl shadow-sm border border-[#E8E8E8] ms-1 me-1 flex-1 overflow-hidden">
 
-                    <div className="overflow-x-auto relative show-scrolls">
+                    <div className="overflow-x-auto relative ">
                         <table className="w-full  text-[12px] font-gilroy">
 
                             <thead className="bg-[#F9FAFB] text-[#6B7280] sticky top-0 z-10">
@@ -415,53 +417,52 @@ function InvoiceRegister() {
                                     </th>
 
 
-                                    <th className="px-4 py-2.5 text-left font-semibold  sticky left-[40px] z-30 bg-[#F9FAFB] w-[140px] ">                                        INVOICE NO
+                                    <th className="px-4 py-2.5 text-left font-semibold  sticky left-[40px] z-30 bg-[#F9FAFB] w-[140px] uppercase">
+                                        Tenant ID
                                     </th>
 
 
-                                    <th className="px-4 py-2.5 text-left font-semibold sticky left-[170px] z-30 bg-[#F9FAFB] w-[200px] ">
+                                    <th className="px-4 py-2.5 text-left font-semibold sticky left-[170px] z-30 bg-[#F9FAFB] w-[200px]  uppercase">
                                         NAME
                                     </th>
 
 
-                                    <th className="px-4 py-2.5 text-center font-semibold ">
+
+
+
+                                    <th className="px-4 py-2.5 text-center font-semibold uppercase">
+                                        Mobile No
+                                    </th>
+
+
+                                    <th className="px-4 py-2.5 text-center font-semibold  uppercase">
                                         <div className="flex justify-center items-center gap-1">
-                                            TYPE
+                                            Sharing
                                             <ArrowSwapVertical size="16" color="#4B4B4B" />
                                         </div>
                                     </th>
 
 
-                                    <th className="px-4 py-2.5 text-center font-semibold w-[200px] ">
-                                        INVOICE DATE
-                                    </th>
-
-
-                                    <th className="px-4 py-2.5 text-center font-semibold ">
-                                        DUE DATE
-                                    </th>
-
-
-                                    <th className="px-4 py-2.5 text-center font-semibold ">
+                                    <th className="px-4 py-2.5 text-center font-semibold  uppercase w-[200px]">
                                         <div className="flex justify-center items-center gap-1">
-                                            AMOUNT
+                                            Checkin  date
+
+                                        </div>
+                                    </th>
+
+
+                                    <th className="px-4 py-2.5 text-center font-semibold uppercase w-[250px]">
+                                        <div className="flex justify-center items-center gap-1">
+                                            Checkout date
                                             <ArrowSwapVertical size="16" color="#4B4B4B" />
                                         </div>
                                     </th>
 
 
-                                    <th className="px-4 py-2.5 text-center font-semibold ">
-                                        <div className="flex justify-center items-center gap-1">
-                                            DUE
-                                            <ArrowSwapVertical size="16" color="#4B4B4B" />
-                                        </div>
+                                    <th className="px-4 py-2.5 text-center font-semibold  uppercase w-[200px]">
+                                        Stay Duration
                                     </th>
-
-
-                                    <th className="px-4 py-2.5 text-center font-semibold">
-                                        STATUS
-                                    </th>
-                                    
+                                   
                                 </tr>
                             </thead>
 
@@ -470,7 +471,7 @@ function InvoiceRegister() {
                                 {invoices.map((row, i) => (
                                     <tr
                                         key={i}
-                                        className="border-b last:border-none  transition"
+                                        className="border-b last:border-none hover:bg-[#F9FAFB] transition"
                                     >
                                         <td className="px-4 py-3 sticky left-0 z-20 bg-white w-[40px]"></td>
                                         <td
@@ -498,36 +499,31 @@ function InvoiceRegister() {
                                         </td>
 
 
-                                        <td className="px-4 py-3 text-center font-semibold truncate whitespace-nowrap"
-                                            title={row.type}>
-                                            {row.type}
-                                        </td>
 
 
-                                        <td className="px-4 py-3 text-center text-[#6B7280] truncate whitespace-nowrap">
+
+                                        <td className="px-4 py-3 text-center text-[#6B7280] whitespace-nowrap">
                                             {row.date}
                                         </td>
 
 
-                                        <td className="px-4 py-3 text-center  text-[#6B7280] truncate font-medium">
+                                        <td className="px-4 py-3 text-center  text-[#6B7280] font-medium">
                                             {row.dueDate}
                                         </td>
 
 
-                                        <td className="px-4 py-3 text-center font-semibold truncate text-[#222222]">
+                                        <td className="px-4 py-3 text-center font-semibold text-[#222222]">
                                             ₹ {row.amount}
                                         </td>
 
 
-                                        <td className="px-4 py-3 text-center font-semibold truncate text-[#222222]">
+                                        <td className="px-4 py-3 text-center font-semibold text-[#222222]">
                                             ₹ {row.due}
                                         </td>
 
 
                                         <td className="px-4 py-3 text-center">
-                                            <span
-                                                className={`inline-block w-3 h-3 rounded-full ${statusColor[row.status]}`}
-                                            />
+
                                         </td>
                                     </tr>
                                 ))}
@@ -615,4 +611,4 @@ function InvoiceRegister() {
         </div>
     );
 }
-export default InvoiceRegister;
+export default TenantsRegister;

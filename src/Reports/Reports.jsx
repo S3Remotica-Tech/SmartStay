@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useHasPermission } from '../Utils/Permission';
 import ErrorMessage from '../Components/ErrorMessage'
 import { WalletMoney, ArrowRight, DocumentText, ReceiptText, Bank, UserOctagon, Home, 
-  Wallet, Shop, Flash, Warning2, ClipboardText } from "iconsax-react";
+  Wallet, Shop, Flash, Warning2, ClipboardText,} from "iconsax-react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-
+import { AiOutlineBarChart } from "react-icons/ai";
 
 function Reports() {
 
@@ -70,6 +70,7 @@ const navigate = useNavigate();
       value: "24",
       icon: UserOctagon,
       color: "text-[#F59E0B] bg-[#FFEFD3E5]",
+      route:"/reports/tenant-register"
     },
     {
       title: "Occupancy",
@@ -292,6 +293,58 @@ const navigate = useNavigate();
               </div>
             </div>
           }
+
+{activeTab === "analytical" && (
+  <div
+    className="d-flex flex-column justify-content-center align-items-center"
+    style={{
+      minHeight: "300px",
+      background: "#F9FAFB",
+      borderRadius: 12,
+      border: "1px dashed #E5E7EB",
+    }}
+  >
+    <AiOutlineBarChart
+      size={48}
+      color="#1E45E1"
+      style={{ marginBottom: 12 }}
+    />
+
+    <div
+      style={{
+        fontSize: 18,
+        fontWeight: 600,
+        fontFamily: "Gilroy",
+        color: "#111827",
+        marginBottom: 4,
+      }}
+    >
+      Analytics Coming Soon
+    </div>
+
+    <div
+      style={{
+        fontSize: 14,
+        fontFamily: "Gilroy",
+        color: "#6B7280",
+        textAlign: "center",
+        maxWidth: 320,
+      }}
+    >
+      We’re working on powerful insights and reports to help you track
+      performance and growth.
+    </div>
+  </div>
+)}
+
+
+
+
+
+
+
+
+
         </div>
       )}
     </div>
