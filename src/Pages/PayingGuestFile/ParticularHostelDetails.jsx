@@ -10,7 +10,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import EmptyState from '../../Assets/Images/New_images/empty_image.png';
 import { Edit, Trash } from 'iconsax-react';
 import PropTypes from "prop-types"
-// import Select from "react-select";
 import "./ParticularHostelDetails.css";
 import BedDetailsMap from './BedDetailsMap';
 import { useHasPermission } from '../../Utils/Permission';
@@ -36,31 +35,15 @@ function ParticularHostelDetails(props) {
   const [showDeleteRoom, setShowDeleteRoom] = useState(false)
   const [deleteRoomDetails, setDeleteRoomDetails] = useState({ hostel_Id: null, floor_Id: null, room_Id: null })
   const [editRoom, setEditRoom] = useState({ hostel_Id: null, floor_Id: null, room_Id: null, Room_Name: null })
-const [selectedBed, setSelectedBed] = useState(null);
+  const [selectedBed, setSelectedBed] = useState(null);
 
-
-
-
-
-
-  // const canWritePayingGuests = useHasPermission("Paying Guests", "canWrite");
-  // const canUpdatePayingGuests = useHasPermission("Paying Guests", "canUpdate");
-  // const canDeletePayingGuests = useHasPermission("Paying Guests", "canDelete");
 
 
   const {
     canWriteModule: canWritePayingGuests,
-    // canReadModule: canReadExpense,
     canUpdateModule: canUpdatePayingGuests,
     canDeleteModule: canDeletePayingGuests,
   } = useHasPermission("Paying Guests");
-
-
-
-
-
-
-
 
 
   const handleShowDots = (roomId) => {
@@ -79,14 +62,6 @@ const [selectedBed, setSelectedBed] = useState(null);
       setActiveRoomId(null);
     }
   };
-
-
-
-
-
-
-
-
 
   const handleShowAddRoom = (floor_Id, hostel_Id) => {
     setShowRoom(true)
@@ -145,7 +120,7 @@ const [selectedBed, setSelectedBed] = useState(null);
       setLoader(true)
       dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
     }
-   
+
   }, [props.hostel_Id, props.floorID, state?.login?.selectedHostel_Id])
 
 
@@ -205,7 +180,7 @@ const [selectedBed, setSelectedBed] = useState(null);
       setShowRoom(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_CREATE_ROOM_STATUS_CODE' })
-        dispatch({ type: 'REMOVE_UPDATE_ROOM'})
+        dispatch({ type: 'REMOVE_UPDATE_ROOM' })
       }, 100)
     }
   }, [state.PgList.statusCodeCreateRoom, state.PgList.statusCodeUpdateRoom])
@@ -316,7 +291,6 @@ const [selectedBed, setSelectedBed] = useState(null);
 
   useEffect(() => {
     if (state.UsersList.statusCodeForFinalSettlement === 201) {
-      // handleCloseBed()
       dispatch({
         type: "USERLIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
@@ -333,7 +307,6 @@ const [selectedBed, setSelectedBed] = useState(null);
 
   useEffect(() => {
     if (state.UsersList.statuscodeForConformCheckout === 200) {
-      //  handleCloseBed()
       dispatch({
         type: "USERLIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
@@ -354,19 +327,19 @@ const [selectedBed, setSelectedBed] = useState(null);
         <div className='mt-2 mb-2 d-flex  w-100 ' style={{ position: "relative" }}>
           {loader &&
             <div
-               style={{
-              position: 'fixed',
-              top: 0,
-              right: 0,
-              bottom: 0,
-              left: '200px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'transparent',
-              opacity: 0.75,
-              zIndex: 10,
-            }}
+              style={{
+                position: 'fixed',
+                top: 0,
+                right: 0,
+                bottom: 0,
+                left: '200px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'transparent',
+                opacity: 0.75,
+                zIndex: 10,
+              }}
             >
               <div
                 style={{
@@ -381,10 +354,12 @@ const [selectedBed, setSelectedBed] = useState(null);
             </div>}
         </div>
 
-        <div className='container-fluid show-scroll' style={{ maxHeight: "480px", overflowY: "auto", marginTop: "-25px" }}>
+        <div className='container-fluid show-scroll' style={{ overflowY: "auto", marginTop: "-25px" }}>
           <div className='row mt-4 mb-2 row-gap-3' style={{ fontFamily: "Gilroy" }}>
             {roomList?.length > 0 && roomList?.map((room) => (
-              <div className='col-lg-6 col-md-6 col-sm-12 d-flex justify-content-center' key={room.id}>
+              <div
+                className="col-12 col-md-6 col-xxl-4 mb-3d-flex justify-content-center"
+                key={room.id}>
                 <Card className="w-100 h-100 fade-in" style={{ border: "1px solid #E6E6E6", borderRadius: 16, minHeight: 120 }}>
                   <Card.Header className="d-flex justify-content-between align-items-start" style={{ backgroundColor: "#E0ECFF", border: "1px solid #E6E6E6", borderTopLeftRadius: 16, borderTopRightRadius: 16 }}>
 
@@ -439,7 +414,6 @@ const [selectedBed, setSelectedBed] = useState(null);
                               padding: "10px",
                               borderTopLeftRadius: 10,
                               borderTopRightRadius: 10,
-                              // pointerEvents: !canUpdatePayingGuests ? "none" : "auto",
                               opacity: !canUpdatePayingGuests ? 0.5 : 1,
                               cursor: !canUpdatePayingGuests ? "not-allowed" : "pointer"
                             }}
@@ -479,9 +453,9 @@ const [selectedBed, setSelectedBed] = useState(null);
                   </Card.Header>
 
                   <Card.Body>
-                    <BedDetailsMap room={room} propsValue={props} 
-                    selectedBed={selectedBed}
-  setSelectedBed={setSelectedBed}/>
+                    <BedDetailsMap room={room} propsValue={props}
+                      selectedBed={selectedBed}
+                      setSelectedBed={setSelectedBed} />
                   </Card.Body>
 
 
