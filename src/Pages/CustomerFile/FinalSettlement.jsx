@@ -1699,7 +1699,7 @@ function FinalSettlement() {
                                         </p>
                                         <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>
                                             ₹{" "}
-                                            {finalSettlementList?.settlementInfo?.refundableAvance}
+                                            {finalSettlementList?.settlementInfo?.refundableAdvance}
                                         </p>
                                     </div>
                                     <div className="d-flex justify-content-between">
@@ -1731,7 +1731,7 @@ function FinalSettlement() {
                                                 color: "red",
                                             }}
                                         >
-                                            ₹{" "}
+                                            ₹{" " + finalSettlementList?.settlementInfo?.electricityAmount}
                                             {/* {totalDeductions} */}
                                         </p>
                                     </div>
@@ -1747,7 +1747,7 @@ function FinalSettlement() {
                                                 color: "red",
                                             }}
                                         >
-                                            ₹{" "}
+                                            ₹{" " + finalSettlementList?.settlementInfo?.unpaidInvoiceAmount}
                                             {/* {totalDeductions} */}
                                         </p>
                                     </div>
