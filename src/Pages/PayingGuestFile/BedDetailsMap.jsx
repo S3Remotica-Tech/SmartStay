@@ -23,10 +23,7 @@ import OccupiedCustomer from './OccupiedCustomer';
 import DeleteBed from './DeleteBed';
 import DueCustomerConfirmCheckout from '../CustomerFile/DueCustomerConfirmCheckout';
 import AddCustomerPG from './AddCustomerPG';
-// import FinalSettlement from '../CustomerFile/FinalSettlement';
 import { triggerPG } from '../../Redux/Action/smartStayAction';
-// import { useNavigate } from "react-router-dom";
-import Button from 'react-bootstrap/Button';
 import Tick from '../../Assets/v2Images/Tick.svg'
 import ConfirmChangeBed from './NoticePeriod/ConfirmChangedBed';
 import { useHasPermission } from '../../Utils/Permission';
@@ -51,13 +48,11 @@ function BedDetailsMap({ room, propsValue,
     const [Noticeperiod_checkout, setNoticePeriodCheckout] = useState(false)
     const [showReAssignBedForm, setShowReAssignBedForm] = useState(false);
     const [moveToNoticePeriodForm, setMoveToNoticePeriodForm] = useState(false);
-    // const [customerId, setCustomerId] = useState('')
     const [customerDetails, setCustomerDetails] = useState('');
     const [Occubied_bed, setOccubiedBed] = useState(false)
     const [Noticeperiod_bed, setNoticePeriodBed] = useState(false)
     const [deleteBedDetails, setDeleteBedDetails] = useState({ bed: null, room: null })
     const [customer, setCustomer] = useState([])
-    // const [customerID, setCustomerID] = useState('')
     const [add_customerform, setAddCustomerForm] = useState(false)
     const [assign_tenantform, setAssignTenantForm] = useState(false)
     const [showDeleteBed, setShowDeleteBed] = useState(false)
@@ -68,39 +63,21 @@ function BedDetailsMap({ room, propsValue,
     const [showConfirmChangeBedModal, setShowConfirmChangeBedModal] = useState(false)
     const [clickedBed, setClickedBed] = useState('')
     const [changeBedClicked, setChangedBedClicked] = useState('')
-
-
-
     const [bactocheckinForm, setBacktoCheckInForm] = useState(false)
     const [editBedMode, setEditBedMode] = useState(false)
 
-    // const canWritePayingGuests = useHasPermission("Paying Guests", "canWrite");
-
-
-
     const {
         canWriteModule: canWritePayingGuests,
-        //   canReadModule: canReadExpense,
-        //   canUpdateModule: canUpdateExpense,
-        //   canDeleteModule: canDeleteExpense,
     } = useHasPermission("Paying Guests");
 
 
     const handleshowfinalsettlement = (isvisible, tenantDetails) => {
-        // setCustomerId(customerId)
         console.log("tenantDetails", tenantDetails)
         setFinalSettlePage(isvisible)
 
 
         setNoticePeriodBed(false)
         setSelectedTenant(tenantDetails)
-
-        // navigate(`/tenant/final-settlement/${tenantDetails?.tenetId}`, {
-        //     state: {
-        //         data: tenantDetails,
-        //         pgDetails: customer
-        //     }
-        // });
     }
 
     const handleClosefinalsettelment = () => {
@@ -147,8 +124,6 @@ function BedDetailsMap({ room, propsValue,
         setOccubiedBed(false)
         dispatch(triggerPG(true))
         setNoticePeriodBed(false)
-        // setShowReAssignBedForm(isVisible)
-        // setCustomerId(customer_id)
 
     }
     const handleShowNoticePeriod = (isVisible, customer) => {
@@ -317,8 +292,6 @@ function BedDetailsMap({ room, propsValue,
             }
         }
 
-        // dispatch(clickedBedForChange(state.PgList?.OccupiedCustomer));
-
         setClickedBed(bed)
 
     };
@@ -330,15 +303,7 @@ function BedDetailsMap({ room, propsValue,
         });
         dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { bedId: bed.id } })
         setChangedBedClicked(bed)
-
-        //   dispatch(changeBedForChange(bed));
-
-
     }
-
-
-
-
 
     const handleShowInActiveForm = (isVisible, reservedTenant) => {
         setMakeasInactive(isVisible)
@@ -372,7 +337,6 @@ function BedDetailsMap({ room, propsValue,
 
 
     const handleCloseChangedBed = () => {
-        // dispatch(triggerPG(false))
         setShowConfirmChangeBedModal(false)
         setChangedBedClicked('')
     }
@@ -421,11 +385,6 @@ function BedDetailsMap({ room, propsValue,
 
         }
     }, [room]);
-
-
-
-
-
 
 
     useEffect(() => {
@@ -481,16 +440,6 @@ function BedDetailsMap({ room, propsValue,
 
     const bedsForRoom = state.PgList?.bedList?.[room.id] || [];
 
-
-
-
-    // const filteredBeds = state.login.isTrigger
-    //     ? bedsForRoom.filter(
-    //         (bed) =>
-    //             (!bed.isBooked && !bed.isOccupied) ||
-    //             (bed.onNotice === true && !bed.isBooked && !bed.isOccupied)
-    //     )
-    //     : bedsForRoom;
 
     const filteredBeds = React.useMemo(() => {
         if (!state.login.isTrigger) return bedsForRoom;
@@ -647,7 +596,6 @@ function BedDetailsMap({ room, propsValue,
                 />
             }
 
-            {/* Reserved Bed */}
             {
                 showReservedBed && <BedDetails show={handleShowReservedBed} handleCloseBed={handleCloseReservedBed}
                     handleShowCheck_In={handleShowCheck_In} MakeAsInActive={handleShowMakeAsInActive}
@@ -688,9 +636,6 @@ function BedDetailsMap({ room, propsValue,
             }
 
 
-
-
-            {/* Notice period  */}
             {
                 Noticeperiod_bed && <NoticeBedStatusDetails showEditBed={handleEditBed} show={Noticeperiod_bed} handleDisplayCheckInForm={handleDisplayCheckInForm}
                     handleCloseBed={handlecloseNoticePeriodBed} currentItem={customer} handleShowReassignBed={handleShowReAssignBedPopup}
@@ -721,7 +666,6 @@ function BedDetailsMap({ room, propsValue,
 
             {
                 Noticeperiod_checkout && <DueCustomerConfirmCheckout show={Noticeperiod_checkout} handleClose={handlecloseNoticeperiodCheckout}
-                    // customerID={customerID}
                     data={selectedTenant}
                     pgDetails={customer}
                 />
@@ -741,66 +685,45 @@ function BedDetailsMap({ room, propsValue,
             {
                 finalsettlepage && <FinalOld show={finalsettlepage} handleClose={handleClosefinalsettelment}
                     data={selectedTenant}
-                    // customerID={customerId} 
                     pgDetails={customer}
                 />
             }
 
-            <div className='row g-2 overflow-auto' style={{ maxHeight: 240 }}>
+
+            <div className="flex flex-wrap justify-start mx-0 max-h-60 py-1.5 overflow-y-auto overflow-x-hidden gap-y-3">
                 {Array.isArray(filteredBeds) && filteredBeds.length > 0 ?
                     filteredBeds?.map((bed) => (
-                        <div key={`${bed.roomId}-${bed.id}`}
-
-                            className={`col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center ${propsValue.addPermissionError ? 'disabled' : ''}`}
+                        <div
+                            key={`${bed.roomId}-${bed.id}`}
+                            className={`w-1/4 flex justify-center px-1 ${propsValue.addPermissionError ? 'disabled' : ''}`}
                         >
-                            <div className="d-flex flex-column align-items-center w-100"
-                                style={{ cursor: propsValue.addPermissionError ? 'not-allowed' : 'pointer' }}
+                            <div
+                                className={`flex flex-col items-center justify-start w-20 ${propsValue.addPermissionError ? 'cursor-not-allowed' : 'cursor-pointer'}`}
                             >
-                                <div style={{ position: "relative", width: 34, height: 41 }}>
+                                <div className="relative w-9 h-10">
 
                                     {state.login.isTrigger &&
-                                        Number(selectedBed?.bedId) === Number(bed.id)
-                                        &&
-                                        Number(selectedBed?.roomId) === Number(bed.roomId)
-                                        &&
-                                        (
-                                            <div
-                                                style={{
-                                                    position: "absolute",
-                                                    top: 1,
-                                                    right: -10,
-                                                    cursor: "pointer",
-                                                    backgroundColor: "#fff",
-                                                    borderRadius: 5
-                                                }}
-                                            >
-                                                <img src={Tick} alt="alt-image"
-
-                                                    style={{ cursor: "pointer", height: 20, width: 20, }}
-                                                />
+                                        Number(selectedBed?.bedId) === Number(bed.id) &&
+                                        Number(selectedBed?.roomId) === Number(bed.roomId) && (
+                                            <div className="absolute inset-y-px -right-2.5 cursor-pointer bg-white rounded-md">
+                                                <img src={Tick} alt="alt-image" className="cursor-pointer h-5 w-5" />
                                             </div>
                                         )}
 
-
-
-
                                     {(bed.isBooked && bed.onNotice) && (
                                         <div className="action-circle">
-                                            {(bed.onNotice && bed.overDue && bed.isBooked) ? 3
-                                                : 2}
+                                            {(bed.onNotice && bed.overDue && bed.isBooked) ? 3 : 2}
 
                                             <div className="action-icons">
-                                                {
-                                                    bed.isBooked &&
-
+                                                {bed.isBooked && (
                                                     <img
                                                         src={recerverimg}
                                                         alt="occupied"
                                                         height={20}
                                                         width={20}
-                                                        style={{ cursor: "pointer" }}
+                                                        className="cursor-pointer"
                                                     />
-                                                }
+                                                )}
 
                                                 {bed.onNotice && (
                                                     <img
@@ -808,10 +731,9 @@ function BedDetailsMap({ room, propsValue,
                                                         alt="notice"
                                                         height={20}
                                                         width={20}
-                                                        style={{ cursor: "pointer" }}
+                                                        className="cursor-pointer"
                                                     />
                                                 )}
-
 
                                                 {bed.overDue && (
                                                     <img
@@ -819,13 +741,12 @@ function BedDetailsMap({ room, propsValue,
                                                         alt="overDude"
                                                         height={20}
                                                         width={20}
-                                                        style={{ cursor: "pointer" }}
+                                                        className="cursor-pointer"
                                                     />
                                                 )}
                                             </div>
                                         </div>
                                     )}
-
 
                                     {!bed.isBooked && !bed.onNotice && bed.overDue && (
                                         <img
@@ -833,60 +754,34 @@ function BedDetailsMap({ room, propsValue,
                                             alt="overDude"
                                             height={20}
                                             width={20}
-                                            style={{
-                                                position: "absolute",
-                                                top: 1,
-                                                right: -10,
-                                                cursor: "pointer",
-                                            }}
+                                            className="absolute inset-y-px -right-2.5 cursor-pointer"
                                         />
                                     )}
 
-
-
-
-                                    {/* booked only */}
                                     {bed.isBooked && !bed.onNotice && (
                                         <img
                                             src={recerverimg}
                                             alt="booking"
                                             height={20}
                                             width={20}
-                                            style={{
-                                                position: "absolute",
-                                                top: 1,
-                                                right: -10,
-                                                cursor: "pointer",
-                                            }}
-
+                                            className="absolute inset-y-px -right-2.5 cursor-pointer"
                                         />
                                     )}
 
-
-                                    {/* notice only */}
                                     {bed.onNotice && !bed.isBooked && (
                                         <img
                                             src={noticeimg}
                                             alt="notice"
                                             height={20}
                                             width={20}
-                                            style={{
-                                                position: "absolute",
-                                                top: 1,
-                                                right: -10,
-                                                cursor: "pointer",
-                                            }}
-
+                                            className="absolute inset-y-px -right-2.5 cursor-pointer"
                                         />
                                     )}
 
-
-
-
-                                    <img className="mt-1"
+                                    <img
+                                        className={`mt-1 h-10 w-9 ${propsValue.addPermissionError ? "cursor-not-allowed" : "cursor-pointer"}`}
                                         src={bed.isOccupied ? Green : White}
                                         alt="bedd"
-                                        style={{ height: 41, width: 34, cursor: propsValue.addPermissionError ? 'not-allowed' : 'pointer' }}
                                         onClick={() => {
                                             if (!state.login.isTrigger) {
                                                 handleclickBed(bed, bed.roomId);
@@ -895,40 +790,44 @@ function BedDetailsMap({ room, propsValue,
                                             }
                                         }}
                                     />
+
                                 </div>
 
-                                <div className="pt-2" style={{ fontSize: 12, fontWeight: 600, fontFamily: "Montserrat" }}>
+                                <div className="pt-2 text-xs font-semibold font-montserrat">
                                     {bed.bedName}
                                 </div>
                             </div>
                         </div>
                     ))
                     :
-                    <div className='d-flex justify-content-center'>
-                        <label style={{ fontFamily: "Gilroy", color: "#4B4B4B", fontSize: 12 }}>
+                    <div className="flex justify-center w-full">
+                        <label className="font-gilroy text-neutral-600 text-xs">
                             No beds available
                         </label>
                     </div>
-
                 }
 
-                {
-                    !state.login.isTrigger &&
-
+                {!state.login.isTrigger &&
                     <div
-                        className={`col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center ${propsValue.addPermissionError ? 'disabled' : ''}`}
+                        className={`w-1/4 flex justify-center
+        ${propsValue.addPermissionError ? 'pointer-events-none opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
                         onClick={() => {
                             if (canWritePayingGuests) {
                                 handleAddBed(propsValue, room.id);
                             }
                         }}
-                        style={{ cursor: propsValue.addPermissionError ? 'not-allowed' : 'pointer' }}
                     >
-                        <div className='d-flex flex-column align-items-center w-100'>
+                        <div className="flex flex-col items-center w-full">
                             <div>
-                                <FaSquarePlus style={{ height: 41, width: 34, color: propsValue.addPermissionError ? "#888888" : "#1E45E1" }} />
+                                <FaSquarePlus
+                                    className={`${propsValue.addPermissionError ? 'text-gray-400' : 'text-blue-600'} h-11 w-9`}
+                                />
                             </div>
-                            <div className="pt-2" style={{ fontSize: 12, fontWeight: 600, fontFamily: "Montserrat", color: !canWritePayingGuests ? "#888888" : "#1E45E1" }}>
+
+                            <div
+                                className={`pt-2 text-xs font-semibold font-montserrat
+            ${!canWritePayingGuests ? 'text-gray-400' : 'text-blue-600'}`}
+                            >
                                 Add bed
                             </div>
                         </div>
@@ -936,69 +835,6 @@ function BedDetailsMap({ room, propsValue,
                 }
             </div>
 
-
-            {
-                state.login.isTrigger && changeBedClicked?.roomId &&
-
-                <div
-                    className="d-flex justify-content-center align-items-center p-2 border-top bg-white flex-wrap"
-                    style={{
-                        position: "fixed",
-                        bottom: 0,
-                        left: "19%",
-                        right: 0,
-                        zIndex: 1050,
-                    }}
-                >
-                    <div>
-                        <p
-                            style={{
-                                fontSize: 14,
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                                color: "rgba(75, 75, 75, 1)",
-                                margin: 0,
-                            }}
-                        >
-                            Bed |  {Array.isArray(state.PgList?.bedList?.[room.id])
-                                ? `${state.PgList.bedList[room.id].length} sharing`
-                                : "0 sharing"}
-                        </p>
-
-                        <p>
-                            <span
-                                style={{
-                                    fontWeight: 500,
-                                    color: "rgba(30, 69, 225, 1)",
-                                    fontSize: 16,
-                                    fontFamily: "Gilroy",
-                                }}
-                            >
-                                {` ${customer?.floorName || "N/A"} | ${customer?.roomName || "N/A"} | ${customer.bedName || "-"}`}
-                            </span>
-                        </p>
-                    </div>
-
-                    <div style={{ marginLeft: 200 }}>
-                        <Button
-                            style={{
-                                fontSize: 16,
-                                backgroundColor: "#1E45E1",
-                                color: "white",
-                                fontWeight: 600,
-                                borderRadius: 12,
-                                padding: "10px 20px",
-                                fontFamily: "Gilroy",
-                            }}
-                            onClick={handleShowConfirmChangeBed}
-                        >
-                            Continue →
-                        </Button>
-                    </div>
-                </div>
-
-
-            }
 
 
 
@@ -1009,10 +845,10 @@ BedDetailsMap.propTypes = {
     room: PropTypes.func.isRequired,
     propsValue: PropTypes.func.isRequired,
     selectedBed: PropTypes.shape({
-        bedId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-        roomId: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+    bedId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    roomId: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
     }),
 
     setSelectedBed: PropTypes.func.isRequired
 };
-export default BedDetailsMap
+export default BedDetailsMap;
