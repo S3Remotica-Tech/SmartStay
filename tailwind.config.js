@@ -6,8 +6,11 @@ export default {
   ],
   theme: {
     extend: {
+     
+    
       fontFamily: {
         gilroy: ["Gilroy", "sans-serif"],
+        montserrat: ['Montserrat', 'sans-serif'],
       },
     },
   },
