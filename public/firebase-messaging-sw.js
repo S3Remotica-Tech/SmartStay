@@ -22,9 +22,27 @@ messaging.onBackgroundMessage((payload) => {
   const notificationTitle = payload.data?.title || 'New Notification';
   const notificationOptions = {
     body: payload.data?.description || 'You have a new message',
+    icon: '/icon.png',
+     data: {
+      url: payload.data?.url || 'https://dev.qbatz.com/', 
+    },
       };
 
   self.registration.showNotification(notificationTitle, notificationOptions);
 });
+
+
+self.addEventListener('notificationclick', function (event) {
+  console.log('Notification clicked', event);
+
+  event.notification.close();
+
+  const redirectUrl = event.notification.data?.url || 'https://dev.qbatz.com/';
+
+  event.waitUntil(
+    clients.openWindow(redirectUrl)
+  );
+});
+
 
 

@@ -584,12 +584,7 @@ function BookingBed({
                         }}
                         getPopupContainer={() => document.body}
                         disabledDate={(current) => {
-                          // Disable all future dates
-                          // if (current && current > dayjs().endOf("day")) {
-                          //   return true;
-                          // }
-
-                          // Disable before bookingDate
+                         
                           if (bookingDate) {
                             return current && current.isBefore(dayjs(bookingDate), "day");
                           }
