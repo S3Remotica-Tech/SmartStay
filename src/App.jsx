@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Cookies from 'universal-cookie';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { StoreSelectedHostelAction } from './Redux/Action/smartStayAction';
+import { StoreSelectedHostelAction } from './Redux/Action/LoginAction';
 import LoaderComponent from './Pages/OthersComponent/LoaderComponent';
 import ThankYou from './NewLandingPage/ThankYou';
 import Sidebar from './Components/Sidebar';

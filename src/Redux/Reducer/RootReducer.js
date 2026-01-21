@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import SmartStayReducer from '../Reducer/smartStayReducer';
+import LoginReducer from '../Reducer/LoginReducer';
 import CreateAccountReducer from "./CreateAccountReducer";
 import ForgetReducer from "./ForgetReducer";
 import UserListReducer from "./UserListReducer";
@@ -16,7 +16,7 @@ import ReportsReducer from "./ReportsReducer"
 
 
 const RootReducer = combineReducers({
-login:SmartStayReducer,
+login:LoginReducer,
 createAccount :CreateAccountReducer,
 NewPass:ForgetReducer,
 UsersList:UserListReducer,

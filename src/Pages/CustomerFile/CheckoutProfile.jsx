@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 // import Modal from "react-bootstrap/Modal";
 import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import { checkoutCustomerProfile } from "../../Redux/Action/smartStayAction";
+import { checkoutCustomerProfile } from "../../Redux/Action/LoginAction";
 import { Call, Sms, House,DocumentUpload } from "iconsax-react";
 import Areaimage from "../../Assets/Images/area_icon.png";
 import PincodeImage from "../../Assets/Images/pin.png";

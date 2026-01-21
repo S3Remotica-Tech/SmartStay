@@ -8,7 +8,7 @@ import dayjs from "dayjs";
 import { CloseCircle } from "iconsax-react";
 // import Profileimage from "../../Assets/Images/New_images/profile-picture.png";
 import ErrorMessage from "../../Components/ErrorMessage";
-import { JoininDatecustomer } from "../../Redux/Action/smartStayAction";
+import { JoininDatecustomer } from "../../Redux/Action/LoginAction";
 import PropTypes from "prop-types";
 
 

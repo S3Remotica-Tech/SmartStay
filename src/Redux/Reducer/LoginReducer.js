@@ -35,10 +35,10 @@ export const initialState = {
    paymentHtml: "",
    apiResponseHostelId: '',
    fcmStatus: 0,
-   logoutAdminStatusCode: 0
-
+   logoutAdminStatusCode: 0,
+readNotificationSuccess: 0
 }
-const SmartStayReducer = (state = initialState, action) => {
+const LoginReducer = (state = initialState, action) => {
 
 
    switch (action.type) {
@@ -132,10 +132,10 @@ const SmartStayReducer = (state = initialState, action) => {
          return { ...state, Notification: action.payload.response, notificationStatus: action.payload.statusCode }
       case 'REMOVE_ALL_NOTIFICATION_STATUS':
          return { ...state, notificationStatus: 0 }
-      case 'UPDATE_NOTIFICATION':
-         return { ...state, UpdateNotificationMessage: action.payload.response }
-      case 'AFTER_UPDATE_NOTIFICATION':
-         return { ...state, UpdateNotificationMessage: action.message }
+      case 'READ_NOTIFICATION':
+         return { ...state, readNotificationSuccess: action.payload.statusCode }
+      case 'CLEAR_READ_NOTIFICATION':
+         return { ...state, readNotificationSuccess: 0 }
 
       case 'ERROR_OTP_CODE':
          return { ...state, twoStepOtpError: action.payload }
@@ -155,4 +155,4 @@ const SmartStayReducer = (state = initialState, action) => {
 
 
 }
-export default SmartStayReducer;
+export default LoginReducer;

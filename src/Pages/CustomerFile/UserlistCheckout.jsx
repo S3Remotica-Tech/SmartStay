@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import CheckOutForm from "./UserListCheckoutForm";
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import CustomerProfile from "./CheckoutProfile";
-import { checkoutCustomerProfile } from "../../Redux/Action/smartStayAction";
+import { checkoutCustomerProfile } from "../../Redux/Action/LoginAction";
 import { Table } from "react-bootstrap";
 import PropTypes from "prop-types";
 import './UserlistCheckout.css';

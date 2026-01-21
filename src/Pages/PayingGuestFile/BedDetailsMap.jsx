@@ -23,12 +23,12 @@ import OccupiedCustomer from './OccupiedCustomer';
 import DeleteBed from './DeleteBed';
 import DueCustomerConfirmCheckout from '../CustomerFile/DueCustomerConfirmCheckout';
 import AddCustomerPG from './AddCustomerPG';
-import { triggerPG } from '../../Redux/Action/smartStayAction';
+import { triggerPG } from '../../Redux/Action/LoginAction';
 import Tick from '../../Assets/v2Images/Tick.svg'
 import ConfirmChangeBed from './NoticePeriod/ConfirmChangedBed';
 import { useHasPermission } from '../../Utils/Permission';
 import BackToCheckIn from "../CustomerFile/BackToCheckIn";
-import { clickedBedForChange } from '../../Redux/Action/smartStayAction';
+import { clickedBedForChange } from '../../Redux/Action/LoginAction';
 import FinalOld from '../CustomerFile/FinalOld';
 import Button from 'react-bootstrap/Button';
 

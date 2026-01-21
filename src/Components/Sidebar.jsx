@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import { Container } from "react-bootstrap";
-import { StoreSelectedHostelAction } from "../Redux/Action/smartStayAction";
+import { StoreSelectedHostelAction } from "../Redux/Action/LoginAction";
 import "../Components/Sidebar.css";
 import Dashboards from "../Pages/Dashboard/Dashboard";
 import PgLists from "../Pages/PayingGuestFile/PgList";
@@ -27,7 +27,7 @@ import HelpVideoIcon from "../Assets/Images/sidebariconFour.svg";
 import { useNavigate, useLocation, Navigate } from "react-router-dom";
 import { Route, Routes, NavLink } from "react-router-dom";
 import Cookies from 'universal-cookie';
-import { checkoutCustomerProfile } from "../Redux/Action/smartStayAction";
+import { checkoutCustomerProfile } from "../Redux/Action/LoginAction";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip"
 import CreateBill from "../Pages/Bills/CreateBill";

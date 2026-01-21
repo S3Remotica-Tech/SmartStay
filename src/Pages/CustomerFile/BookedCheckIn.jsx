@@ -12,7 +12,7 @@ import Select from "react-select";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import { CloseCircle } from "iconsax-react";
-import { JoininDatecustomer } from "../../Redux/Action/smartStayAction";
+import { JoininDatecustomer } from "../../Redux/Action/LoginAction";
 import { Trash } from 'iconsax-react';
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
 // import Profileimage from "../../Assets/Images/New_images/profile-picture.png";

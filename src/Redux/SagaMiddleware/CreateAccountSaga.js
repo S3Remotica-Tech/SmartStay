@@ -1,5 +1,5 @@
 import { call, takeEvery, put } from 'redux-saga/effects';
-import { CreateAccountAction, TwoStepVerification, AccountDetails, Addaccount,  UpdateNotification, UpdateProfile, UpdatePassword } from '../Action/smartStayAction';
+import { CreateAccountAction, TwoStepVerification, AccountDetails, Addaccount,  UpdateProfile, UpdatePassword } from '../Action/LoginAction';
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -298,19 +298,7 @@ function* handleAccountDetails(args) {
 
 
 
-function* HandleUpdateNotification(action) {
-  const response = yield call(UpdateNotification, action.payload)
 
-  if (response?.status === 200) {
-
-    yield put({ type: 'UPDATE_NOTIFICATION', payload: { response: response.data.message, statusCode: response?.status } })
-
-  }
-  else {
-    yield put({ type: 'ERROR', payload: response?.data?.message })
-  }
-  refreshToken(response)
-}
 
 function refreshToken(response) {
   if (response?.data && response.data?.refresh_token) {
@@ -335,8 +323,7 @@ function* CreateAccountSaga() {
   yield takeEvery('TWOSTEPVERIFY', HandleTwoStepVerification)
   yield takeEvery('ACCOUNTDETAILS', handleAccountDetails)
   yield takeEvery('CREATE_ACCOUNT_PAGE', CreateNewAccount)
-  
-  yield takeEvery('UPDATE-NOTIFICATION', HandleUpdateNotification)
+
 
 }
 export default CreateAccountSaga;
