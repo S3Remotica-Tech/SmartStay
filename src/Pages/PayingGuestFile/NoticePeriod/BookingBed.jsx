@@ -14,7 +14,7 @@ import { CloseCircle } from "iconsax-react";
 import ErrorMessage from '../../../Components/ErrorMessage';
 
 function BookingBed({
-  show, handleClose, currentItem
+  show, handleClose, currentItem, selectedTenant
 }) {
 
   const state = useSelector(state => state)
@@ -43,12 +43,30 @@ function BookingBed({
   const [paymentError, setPaymentError] = useState("");
 
 
+  console.log("selectedTenant", selectedTenant)
+
+
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
       dispatch({ type: 'UNASSIGNCUSTOMER', payload: { hostel_id: state.login.selectedHostel_Id, type: "inactive" } })
     }
   }, [])
+
+  useEffect(() => {
+    if (selectedTenant?.tenetId) {
+      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: selectedTenant?.tenetId } });
+    }
+  }, [selectedTenant?.tenetId]);
+
+
+  const CustomerOverView = state.UsersList?.customerdetails?.checkoutInfo?.noticeDate;
+
+  const startDate = CustomerOverView
+    ? dayjs(CustomerOverView, "DD/MM/YYYY").startOf("day")
+    : null;
+
+  const today = dayjs().endOf("day");
 
   const handleBookingCustomerName = (selectedOption) => {
 
@@ -61,25 +79,25 @@ function BookingBed({
   };
 
   const handleAmount = (e) => {
-  const newAmount = e.target.value;
+    const newAmount = e.target.value;
 
-  if (!/^\d*$/.test(newAmount)) {
-    return;
-  }
+    if (!/^\d*$/.test(newAmount)) {
+      return;
+    }
 
-   if (/^0+$/.test(newAmount)) {
-    return;
-  }
+    if (/^0+$/.test(newAmount)) {
+      return;
+    }
 
-  
-  if (/^0\d+/.test(newAmount)) {
-    return;
-  }
 
-  setAmount(newAmount);
-  setamountError("");
-  dispatch({ type: "ERROR_BOOKING_REMOVE" });
-};
+    if (/^0\d+/.test(newAmount)) {
+      return;
+    }
+
+    setAmount(newAmount);
+    setamountError("");
+    dispatch({ type: "ERROR_BOOKING_REMOVE" });
+  };
 
 
   const handleTransactionId = (e) => {
@@ -232,19 +250,13 @@ function BookingBed({
 
 
 
-
+  console.log("currentItem", currentItem)
 
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
       setFormLoading(false)
 
       setJoingDateErrmsg('');
-      // dispatch({
-      //   type: "USERLIST",
-      //   payload: { hostel_id: state.login.selectedHostel_Id },
-      // });
-
-      // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: currentItem?.room?.Floor_Id, hostel_Id: state.login.selectedHostel_Id } })
 
       handleClose()
       setTimeout(() => {
@@ -267,7 +279,7 @@ function BookingBed({
 
 
 
-useEffect(() => {
+  useEffect(() => {
     if (state.createAccount?.networkError) {
       setFormLoading(false)
       setTimeout(() => {
@@ -468,12 +480,15 @@ useEffect(() => {
                           setBookingDateErrmsg('');
                           setJoiningDate("")
                         }}
-                        //  disabledDate={(current) => {
-                        //    return current && current > dayjs().endOf('day');
-                        //  }}
-                        // disabledDate={(current) => {
-                        //   return current && current < dayjs(customer_details.CheckoutDate).startOf('day');
-                        // }}                                                                // getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+
+                        disabledDate={(current) => {
+                          if (!startDate) return false;
+
+                          return (
+                            current.isBefore(startDate) ||
+                            current.isAfter(today)
+                          );
+                        }}
                         getPopupContainer={() => document.body}
                       />
                     </div>
@@ -569,12 +584,7 @@ useEffect(() => {
                         }}
                         getPopupContainer={() => document.body}
                         disabledDate={(current) => {
-                          // Disable all future dates
-                          // if (current && current > dayjs().endOf("day")) {
-                          //   return true;
-                          // }
-
-                          // Disable before bookingDate
+                         
                           if (bookingDate) {
                             return current && current.isBefore(dayjs(bookingDate), "day");
                           }
@@ -740,13 +750,13 @@ useEffect(() => {
 
 
             </div>
-            
-              {
-                state.Booking.bookingBedError && <div className="d-flex justify-content-center"><ErrorMessage message={state.Booking.bookingBedError} type="error" /> </div>
-              }
 
-           
-             {/* {state.createAccount?.networkError ?
+            {
+              state.Booking.bookingBedError && <div className="d-flex justify-content-center"><ErrorMessage message={state.Booking.bookingBedError} type="error" /> </div>
+            }
+
+
+            {/* {state.createAccount?.networkError ?
                          <div className="d-flex justify-content-center mt-1 mb-1">
                           <ErrorMessage message={state.createAccount?.networkError} type="error"/></div>
                           : null} */}
@@ -792,7 +802,7 @@ useEffect(() => {
 
                 }}
                 onClick={handleSubmitBooking}
-              disabled={formLoading}
+                disabled={formLoading}
 
               >
                 Book
@@ -840,7 +850,7 @@ BookingBed.propTypes = {
   handleClose: PropTypes.func.isRequired,
   currentItem: PropTypes.func.isRequired,
   customerID: PropTypes.func.isRequired,
-
+  selectedTenant: PropTypes.func.isRequired,
 
 };
 

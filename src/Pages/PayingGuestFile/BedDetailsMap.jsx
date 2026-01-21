@@ -173,9 +173,10 @@ function BedDetailsMap({ room, propsValue,
         setNoticePeriodBed(false)
     }
 
-    const handleshowNoticePeriodBooking = () => {
-        setNoticePeriodBooking(true)
+    const handleshowNoticePeriodBooking = (isVisible, tenantDetails ) => {
+        setNoticePeriodBooking(isVisible)
         setNoticePeriodBed(false)
+         setSelectedTenant(tenantDetails)
     }
 
     const handlecloseNoticeperiodBooking = () => {
@@ -676,7 +677,7 @@ const filteredBeds = React.useMemo(() => {
             }
 
             {
-                Noticeperiod_booking && <BookingBed show={Noticeperiod_booking} handleClose={handlecloseNoticeperiodBooking} currentItem={customer} />
+                Noticeperiod_booking && <BookingBed show={Noticeperiod_booking} handleClose={handlecloseNoticeperiodBooking} currentItem={customer} selectedTenant={selectedTenant} />
             }
 
 

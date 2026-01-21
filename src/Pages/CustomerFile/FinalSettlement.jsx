@@ -1231,11 +1231,14 @@ function FinalSettlement() {
 
                                         <div style={{ padding: "12px 16px" }}>
 
-                                           
- {
+
+                                            {
                                                 !finalSettlementList?.ebInfo?.isHostelReading &&
-                                                finalSettlementList?.ebInfo?.missedEb.length > 0  &&
-                                                <label className="text-sm font-semibold text-[#222222] font-gilroy">Missed Electricity</label>
+                                                finalSettlementList?.ebInfo?.missedEb.length > 0 &&
+                                                <>
+                                                    <label className="text-sm font-semibold text-[#222222] font-gilroy mb-2">Missed Electricity :</label>
+                                                    <hr className="m-0 mb-2" style={{ border: "1px solid #DFDFDF" }} />
+                                                </>
                                             }
 
                                             {!finalSettlementList?.ebInfo?.isHostelReading &&
@@ -1311,7 +1314,10 @@ function FinalSettlement() {
                                             {
                                                 !finalSettlementList?.ebInfo?.isHostelReading &&
                                                 finalSettlementList?.ebInfo?.pendingEb.length > 0 &&
-                                                <label className="text-sm font-semibold text-[#222222] font-gilroy">Pending invoices</label>
+                                                <>
+                                                    <label className="text-sm font-semibold text-[#222222] font-gilroy pb-1">Pending Invoices : </label>
+                                                    <hr className="m-0 mb-2" style={{ border: "1px solid #DFDFDF" }} />
+                                                </>
                                             }
 
                                             {!finalSettlementList?.ebInfo?.isHostelReading &&

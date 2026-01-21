@@ -113,8 +113,8 @@ function NoticeBedStatusDetails({
 
 
 
-  const handleNewBooking = () => {
-    showBooking(true)
+  const handleNewBooking = (tenant) => {
+    showBooking(true, tenant)
   }
 
   // console.log("currentItem", currentItem)
@@ -136,7 +136,7 @@ function NoticeBedStatusDetails({
     (user) => user.customerId === selectedTenant?.tenetId
   );
 
-  // console.log("matchedData", matchedData)
+  console.log("matchedData", matchedData)
 
   const handleFinalsettelmentGenerate = (tenant) => {
     showfinalsettelemnet(true, tenant)
@@ -383,10 +383,6 @@ function NoticeBedStatusDetails({
                   {currentItem?.currentTenantInfo?.map((tenant, index) => (
                     <div key={tenant.tenetId || index} className="mb-3">
                       <div className="d-flex gap-3 align-items-center justify-content-between">
-
-
-
-
                         <div className="d-flex gap-3 align-items-center justify-content-between">
                           <div className="d-flex gap-3 align-items-center">
                             <div>
@@ -468,10 +464,36 @@ function NoticeBedStatusDetails({
 
 
 
-
+{
+  (
+    matchedData[0]?.currentStatus === "Notice Period" ||
+    matchedData[0]?.currentStatus === "Settlement Generated"
+  ) &&
+<>
+                                  <div
+                                    className="d-flex gap-2 align-items-center"
+                                    onClick={canWriteCustomers ? () => handleNewBooking(tenant) : undefined}
+                                    style={{
+                                      padding: "10px",
+                                      borderBottomLeftRadius: 10,
+                                      borderBottomRightRadius: 10,
+                                      cursor: canWriteCustomers ? "pointer" : "not-allowed",
+                                      opacity: canWriteCustomers ? 1 : 0.5,
+                                    }}
+                                    onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
+                                    onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
+                                  >
+                                    <img src={TimerPause} alt="booking" style={{ filter: canWriteCustomers ? "none" : "grayscale(100%)" }} />
+                                    <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#A0A0A0", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed", }}>
+                                      New Booking
+                                    </label>
+                                  </div>
+                                   <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
+                                   </>
+}
 
                               {
-                                matchedData[0]?.currentStatus === "Notice Period" &&
+                                matchedData[0]?.currentStatus === "Notice Period"   &&
                                 <div>
 
                                   {/* cancel checkout */}
@@ -533,26 +555,7 @@ function NoticeBedStatusDetails({
                                     </div>
                                   )}
 
-                                  <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
-
-                                  <div
-                                    className="d-flex gap-2 align-items-center"
-                                    onClick={canWriteCustomers ? () => handleNewBooking() : undefined}
-                                    style={{
-                                      padding: "10px",
-                                      borderBottomLeftRadius: 10,
-                                      borderBottomRightRadius: 10,
-                                      cursor: canWriteCustomers ? "pointer" : "not-allowed",
-                                      opacity: canWriteCustomers ? 1 : 0.5,
-                                    }}
-                                    onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
-                                    onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
-                                  >
-                                    <img src={TimerPause} alt="booking" style={{ filter: canWriteCustomers ? "none" : "grayscale(100%)" }} />
-                                    <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#A0A0A0", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed", }}>
-                                      New Booking
-                                    </label>
-                                  </div>
+                                 
 
                                   <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
 
