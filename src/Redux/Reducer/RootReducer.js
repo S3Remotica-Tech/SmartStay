@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import SmartStayReducer from '../Reducer/smartStayReducer';
+import LoginReducer from '../Reducer/LoginReducer';
 import CreateAccountReducer from "./CreateAccountReducer";
 import ForgetReducer from "./ForgetReducer";
 import UserListReducer from "./UserListReducer";
@@ -11,11 +11,12 @@ import SettingsReducer from "./SettingsReducer";
 import ExpenseReducer from './ExpenseReducer';
 import BookingReducer from "./BookingReducer";
 import BankingReducer from "./BankingReducer";
+import ReportsReducer from "./ReportsReducer"
 
 
 
 const RootReducer = combineReducers({
-login:SmartStayReducer,
+login:LoginReducer,
 createAccount :CreateAccountReducer,
 NewPass:ForgetReducer,
 UsersList:UserListReducer,
@@ -26,7 +27,8 @@ AssetList:AssetReducer,
 Settings : SettingsReducer,
 ExpenseList:ExpenseReducer,
 Booking:BookingReducer,
-bankingDetails:BankingReducer
+bankingDetails:BankingReducer,
+reports:ReportsReducer
 
 })
 export default RootReducer;

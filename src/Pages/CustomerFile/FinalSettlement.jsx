@@ -1230,6 +1230,14 @@ function FinalSettlement() {
                                     <>
 
                                         <div style={{ padding: "12px 16px" }}>
+
+                                           
+ {
+                                                !finalSettlementList?.ebInfo?.isHostelReading &&
+                                                finalSettlementList?.ebInfo?.missedEb.length > 0  &&
+                                                <label className="text-sm font-semibold text-[#222222] font-gilroy">Missed Electricity</label>
+                                            }
+
                                             {!finalSettlementList?.ebInfo?.isHostelReading &&
                                                 finalSettlementList?.ebInfo?.missedEb?.map((item, index) => (
                                                     <div key={index} style={{ marginBottom: 14 }}>
@@ -1241,7 +1249,7 @@ function FinalSettlement() {
                                                                 justifyContent: "space-between",
                                                                 alignItems: "center",
                                                                 fontSize: 13,
-                                                                fontWeight: 600,
+                                                                // fontWeight: 600,
                                                             }}
                                                         >
                                                             <div
@@ -1251,7 +1259,7 @@ function FinalSettlement() {
                                                                     gap: 8,
                                                                 }}
                                                             >
-                                                                <span>{item.floorName || "Floor Name"}</span>
+                                                                <span className="text-[#2A2A2A] text-sm font-medium">{item.floorName || "Floor Name"}</span>
 
 
                                                                 <span
@@ -1263,10 +1271,10 @@ function FinalSettlement() {
                                                                     }}
                                                                 />
 
-                                                                <span>{item.roomName || "Room Name"} - {item.bedName || "Bed Name"}</span>
+                                                                <span className="text-[#2A2A2A] text-sm font-medium">{item.roomName || "Room Name"} - {item.bedName || "Bed Name"}</span>
 
 
-                                                                <span style={{ color: "#1447E6", fontWeight: 600, fontSize: 12 }}> ({item.fromDate} - {item.toDate})</span>
+                                                                <span className="px-2 py-1 rounded-lg text-xs font-medium" style={{ color: "#AA6805", fontWeight: 600, fontSize: 12, backgroundColor: "#FFF5EE" }}> {item.fromDate} - {item.toDate}</span>
                                                             </div>
 
 
@@ -1299,10 +1307,16 @@ function FinalSettlement() {
                                                     </div>
                                                 ))}
 
+
+                                            {
+                                                !finalSettlementList?.ebInfo?.isHostelReading &&
+                                                finalSettlementList?.ebInfo?.pendingEb.length > 0 &&
+                                                <label className="text-sm font-semibold text-[#222222] font-gilroy">Pending invoices</label>
+                                            }
+
                                             {!finalSettlementList?.ebInfo?.isHostelReading &&
                                                 finalSettlementList?.ebInfo?.pendingEb?.map((item, index) => (
                                                     <div key={index} style={{ marginBottom: 14 }}>
-
 
                                                         <div
                                                             style={{
@@ -1320,7 +1334,7 @@ function FinalSettlement() {
                                                                     gap: 8,
                                                                 }}
                                                             >
-                                                                <span>{item.floorName || "Floor Name"}</span>
+                                                                <span className="text-[#2A2A2A] text-sm font-medium">{item.floorName || "Floor Name"}</span>
 
 
                                                                 <span
@@ -1332,10 +1346,10 @@ function FinalSettlement() {
                                                                     }}
                                                                 />
 
-                                                                <span>{item.roomName || "Room Name"} - {item.bedName || "Bed Name"}</span>
+                                                                <span className="text-[#2A2A2A] text-sm font-medium">{item.roomName || "Room Name"} - {item.bedName || "Bed Name"}</span>
 
 
-                                                                <span style={{ color: "#1447E6", fontWeight: 600, fontSize: 12 }}> ({item.fromDate} - {item.toDate})</span>
+                                                                <span className="px-2 py-1 rounded-lg text-xs font-medium" style={{ color: "#1447E6", fontWeight: 600, fontSize: 12, backgroundColor: "#F0F6FF" }}> {item.fromDate} - {item.toDate}</span>
                                                             </div>
 
 

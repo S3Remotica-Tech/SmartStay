@@ -235,14 +235,9 @@ export async function GetAllNotification(hostelId) {
 }
 
 
-export function UpdateNotification() {
-  new Promise((resolve) => {
-  resolve({status: 200});
-})
-  //  return await AxiosConfig.post('/update_notification',message,{
-  //   data:message
-   
-  // })
+export async function ReadNotification(hostelId) {
+return await AxiosConfigV2.put(`/v2/notification/read/${hostelId}`)
+
 }
 
 

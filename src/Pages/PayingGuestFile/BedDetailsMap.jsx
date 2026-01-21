@@ -23,14 +23,14 @@ import OccupiedCustomer from './OccupiedCustomer';
 import DeleteBed from './DeleteBed';
 import DueCustomerConfirmCheckout from '../CustomerFile/DueCustomerConfirmCheckout';
 import AddCustomerPG from './AddCustomerPG';
-import { triggerPG } from '../../Redux/Action/smartStayAction';
+import { triggerPG } from '../../Redux/Action/LoginAction';
 import Tick from '../../Assets/v2Images/Tick.svg'
 import ConfirmChangeBed from './NoticePeriod/ConfirmChangedBed';
 import { useHasPermission } from '../../Utils/Permission';
 import BackToCheckIn from "../CustomerFile/BackToCheckIn";
-import { clickedBedForChange } from '../../Redux/Action/smartStayAction';
+import { clickedBedForChange } from '../../Redux/Action/LoginAction';
 import FinalOld from '../CustomerFile/FinalOld';
-
+import Button from 'react-bootstrap/Button';
 
 function BedDetailsMap({ room, propsValue,
     selectedBed,
@@ -852,6 +852,70 @@ const filteredBeds = React.useMemo(() => {
                         </div>
                     </div>
                 }
+
+
+                   {
+                state.login.isTrigger && changeBedClicked?.roomId &&
+
+                <div
+                    className="d-flex justify-content-center align-items-center p-2 border-top bg-white flex-wrap"
+                    style={{
+                        position: "fixed",
+                        bottom: 0,
+                        left: "19%",
+                        right: 0,
+                        zIndex: 1050,
+                    }}
+                >
+                    <div>
+                        <p
+                            style={{
+                                fontSize: 14,
+                                fontWeight: 600,
+                                fontFamily: "Gilroy",
+                                color: "rgba(75, 75, 75, 1)",
+                                margin: 0,
+                            }}
+                        >
+                            Bed |  {Array.isArray(state.PgList?.bedList?.[room.id])
+                                ? `${state.PgList.bedList[room.id].length} sharing`
+                                : "0 sharing"}
+                        </p>
+
+                        <p>
+                            <span
+                                style={{
+                                    fontWeight: 500,
+                                    color: "rgba(30, 69, 225, 1)",
+                                    fontSize: 16,
+                                    fontFamily: "Gilroy",
+                                }}
+                            >
+                                {` ${customer?.floorName || "N/A"} | ${customer?.roomName || "N/A"} | ${customer.bedName || "-"}`}
+                            </span>
+                        </p>
+                    </div>
+
+                    <div style={{ marginLeft: 200 }}>
+                        <Button
+                            style={{
+                                fontSize: 16,
+                                backgroundColor: "#1E45E1",
+                                color: "white",
+                                fontWeight: 600,
+                                borderRadius: 12,
+                                padding: "10px 20px",
+                                fontFamily: "Gilroy",
+                            }}
+                            onClick={handleShowConfirmChangeBed}
+                        >
+                            Continue →
+                        </Button>
+                    </div>
+                </div>
+
+
+            }
             </div>
 
 

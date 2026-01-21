@@ -228,11 +228,37 @@ function InvoiceRegister() {
         { title: "Complaint Register" },
         { title: "Request Register" },
         { title: "Final Settlement" },
+        //  { title: "Invoice Register" },
     ];
 
 
 
-
+    const handleNavigateRegister = (item) => {
+        setRegister(false)
+              if (item?.title === "Tenant Register") {
+            navigate(`/reports/tenant-register`)
+        } else if (item?.title === "Receipt Register") {
+            navigate(`/reports/receipt-register`)
+        } else if (item?.title === "Bank Transaction Register") {
+            navigate(`/reports/bank-transaction-register`)
+        } else if (item?.title === "Occupancy") {
+            navigate(`/reports/occupancy-register`)
+        } else if (item?.title === "Expense Register") {
+            navigate(`/reports/expense-register`)
+        } else if (item?.title === "Vendor Ledger") {
+            navigate(`/reports/vendor-register`)
+        } else if (item?.title === "Electricity Billing Register") {
+            navigate(`/reports/electricity-billing-register`)
+        } else if (item?.title === "Complaint Register") {
+            navigate(`/reports/complaint-register`)
+        } else if (item?.title === "Request Register") {
+            navigate(`/reports/request-register`)
+        } else if (item?.title === "Final Settlement") {
+            navigate(`/reports/final-settlement-register`)
+        }else if(item?.title === "Invoice Register"){
+        navigate(`/reports/invoice-register`)
+    }
+    }
 
 
 
@@ -253,7 +279,7 @@ function InvoiceRegister() {
                                 <ArrowDown2
                                     size="18"
                                     color="#1E45E1"
-                                    className={`transition-transform duration-200 ${register ? "rotate-180" : ""
+                                    className={`cursor-pointer transition-transform duration-200 ${register ? "rotate-180" : ""
                                         }`}
                                 />
                                 {register && (
@@ -266,7 +292,8 @@ function InvoiceRegister() {
                                                 <div
                                                     key={index}
                                                     onClick={() => {
-                                                        setRegister(false);
+                                                        handleNavigateRegister(item)
+
                                                     }}
                                                     className={`
             px-4 py-2 text-sm text-[#222] cursor-pointer
@@ -461,7 +488,7 @@ function InvoiceRegister() {
                                     <th className="px-4 py-2.5 text-center font-semibold">
                                         STATUS
                                     </th>
-                                    
+
                                 </tr>
                             </thead>
 

@@ -35,7 +35,7 @@ import Profiles from "../../Assets/Images/New_images/profile-picture.png";
 import Group from "../../Assets/Images/Group.png";
 import Floorimage from "../../Assets/Images/floor_icon.png";
 import RoomImage from "../../Assets/Images/room_icon.png";
-import { triggerPG } from '../../Redux/Action/smartStayAction';
+import { triggerPG } from '../../Redux/Action/LoginAction';
 import ErrorMessage from '../../Components/ErrorMessage'
 import { useHasPermission } from '../../Utils/Permission';
 import withErrorBoundary from "../../Hoc/WithErrorBountry";

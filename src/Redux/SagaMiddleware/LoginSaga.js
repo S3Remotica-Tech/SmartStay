@@ -1,5 +1,5 @@
 import { call, takeEvery, put } from 'redux-saga/effects';
-import { login, OTPverification, loginV2 ,GetAllNotification, FCM_Token,LogoutAdmin} from '../Action/smartStayAction';
+import { login, OTPverification, loginV2 ,GetAllNotification, FCM_Token,LogoutAdmin,ReadNotification} from '../Action/LoginAction';
 
 
 function* handleApiError(error) {
@@ -13,47 +13,13 @@ function* handleApiError(error) {
    }
    else if (status === 500) {
       yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
-      // toast.error("Network error occurred", {
-      //    style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
-      //    position: "top-right",
-      //    autoClose: 2000,
-      //    hideProgressBar: true,
-      //    closeButton: false,
-      //    closeOnClick: true,
-      //    pauseOnHover: true,
-      //    draggable: true,
-      //    progress: undefined,
-      // });
+     
    }
    else if (error.code === "ERR_NETWORK") {
       yield put({ type: "NETWORK_ERROR", payload: "Network error occurred" });
-      // toast.error("Network error occurred", {
-      //    style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
-      //    position: "top-right",
-      //    autoClose: 2000,
-      //    hideProgressBar: true,
-      //    closeButton: false,
-      //    closeOnClick: true,
-      //    pauseOnHover: true,
-      //    draggable: true,
-      //    progress: undefined,
-      // });
+     
    }
-   // else {
-   //    const msg = error?.message || "Something went wrong";
-   //    yield put({ type: "NETWORK_ERROR", payload: msg });
-   //    toast.error(msg, {
-   //       style: { fontFamily: "Gilroy", color: "#000", borderBottom: "5px solid red" },
-   //       position: "top-right",
-   //       autoClose: 2000,
-   //       hideProgressBar: true,
-   //       closeButton: false,
-   //       closeOnClick: true,
-   //       pauseOnHover: true,
-   //       draggable: true,
-   //       progress: undefined,
-   //    });
-   // }
+ 
 }
 
 
@@ -186,6 +152,26 @@ function* handleLogoutAdmin(args) {
 
 }
 
+
+function* handleReadNotification(action) {
+  try {
+    const response = yield call(ReadNotification, action.payload)
+
+    if (response?.status === 200) {
+      yield put({ type: 'READ_NOTIFICATION', payload: { response: response.data, statusCode: response?.status } })
+
+    }
+  }
+  catch (error) {
+    yield* handleApiError(error);
+
+  }
+
+}
+
+
+
+
 function* LoginSaga() {
   yield takeEvery('LOGOUTADMINSAGA',handleLogoutAdmin)
   yield takeEvery('FCMTOKENSAGA',handleFCM_Token)
@@ -193,7 +179,7 @@ function* LoginSaga() {
   yield takeEvery('LOGININFO', handleLogin)
   yield takeEvery('OTPVERIFY', handleOTPVerified)
   yield takeEvery('LOGINVERSION2', handleLoginV2)
-
+  yield takeEvery('READNOTIFICATION', handleReadNotification)
 
 
 }

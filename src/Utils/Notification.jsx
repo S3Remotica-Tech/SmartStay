@@ -26,11 +26,38 @@ function Notification({ show, handleClose }) {
     useEffect(() => {
         if (state.login.selectedHostel_Id) {
             dispatch({ type: 'ALLNOTIFICATION', payload: state.login.selectedHostel_Id })
+
+
+
         }
     }, [state.login.selectedHostel_Id])
 
 
+    useEffect(() => {
+        if (state.login?.Notification?.unreadCount > 0)
+            setTimeout(() => {
+                dispatch({ type: 'READNOTIFICATION', payload: state.login.selectedHostel_Id })
+            }, 5000)
+    }, [state.login?.Notification?.unreadCount])
 
+
+
+
+
+
+
+    useEffect(() => {
+        if (state.login.readNotificationSuccess === 200) {
+            dispatch({ type: 'ALLNOTIFICATION', payload: state.login.selectedHostel_Id })
+                  dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } })
+
+            setTimeout(() => {
+                dispatch({ type: 'CLEAR_READ_NOTIFICATION' })
+            }, 100)
+
+        }
+
+    }, [state.login.readNotificationSuccess])
 
 
     useEffect(() => {
@@ -76,8 +103,8 @@ function Notification({ show, handleClose }) {
 
     const handleNavigateComplaintsView = (complaintId) => {
         setShowComplaint(true)
-        if(complaintId){
-                    dispatch({ type: 'COMPLAINTSVIEWUPDATES', payload: { hostelId: state.login.selectedHostel_Id, complaintsId: complaintId } })
+        if (complaintId) {
+            dispatch({ type: 'COMPLAINTSVIEWUPDATES', payload: { hostelId: state.login.selectedHostel_Id, complaintsId: complaintId } })
         }
 
     }
@@ -180,8 +207,8 @@ function Notification({ show, handleClose }) {
                                                 width: 38,
                                                 height: 38,
                                                 borderRadius: "50%",
-                                                 backgroundColor: "#E2E8F0",
-                          color: "#44536A",
+                                                backgroundColor: "#E2E8F0",
+                                                color: "#44536A",
                                                 display: "flex",
                                                 alignItems: "center",
                                                 justifyContent: "center",
@@ -225,7 +252,7 @@ function Notification({ show, handleClose }) {
 
                                             {
                                                 item.typeCode === 4 ?
-                                                    <button onClick={()=>handleNavigateComplaintsView(item.requestId)}
+                                                    <button onClick={() => handleNavigateComplaintsView(item.requestId)}
                                                         style={{
                                                             marginTop: 10,
                                                             background: "#1E45E1",
@@ -297,63 +324,63 @@ function Notification({ show, handleClose }) {
                                                             //         Checkout
                                                             //     </button>
                                                             //     :
-                                                                item.typeCode === 5 ?
+                                                            item.typeCode === 5 ?
 
-                                                                    <button
-                                                                        style={{
-                                                                            marginTop: 10,
-                                                                            background: "#1E45E1",
-                                                                            border: "none",
-                                                                            padding: "6px 16px",
-                                                                            borderRadius: 6,
-                                                                            color: "white",
-                                                                            fontSize: 13,
-                                                                            cursor: "pointer",
-                                                                        }}
-                                                                    >
-                                                                        Maintenance
-                                                                    </button>
+                                                                <button
+                                                                    style={{
+                                                                        marginTop: 10,
+                                                                        background: "#1E45E1",
+                                                                        border: "none",
+                                                                        padding: "6px 16px",
+                                                                        borderRadius: 6,
+                                                                        color: "white",
+                                                                        fontSize: 13,
+                                                                        cursor: "pointer",
+                                                                    }}
+                                                                >
+                                                                    Maintenance
+                                                                </button>
 
-                                                                    // :
-                                                                    // item.typeCode === 6 ?   
-                                                                    //     <button
-                                                                    //         style={{
-                                                                    //             marginTop: 10,
-                                                                    //             background: "#1E45E1",
-                                                                    //             border: "none",
-                                                                    //             padding: "6px 16px",
-                                                                    //             borderRadius: 6,
-                                                                    //             color: "white",
-                                                                    //             fontSize: 13,
-                                                                    //             cursor: "pointer",
-                                                                    //         }}
-                                                                    //     >
-                                                                    //         Missing checkout
-                                                                    //     </button>
-                                                                        : 
-                                                                        
-                                                                    //    item.typeCode === 7 ?
+                                                                // :
+                                                                // item.typeCode === 6 ?   
+                                                                //     <button
+                                                                //         style={{
+                                                                //             marginTop: 10,
+                                                                //             background: "#1E45E1",
+                                                                //             border: "none",
+                                                                //             padding: "6px 16px",
+                                                                //             borderRadius: 6,
+                                                                //             color: "white",
+                                                                //             fontSize: 13,
+                                                                //             cursor: "pointer",
+                                                                //         }}
+                                                                //     >
+                                                                //         Missing checkout
+                                                                //     </button>
+                                                                :
 
-                                                                    // // <button
-                                                                    // //     style={{
-                                                                    // //         marginTop: 10,
-                                                                    // //         background: "#1E45E1",
-                                                                    // //         border: "none",
-                                                                    // //         padding: "6px 16px",
-                                                                    // //         borderRadius: 6,
-                                                                    // //         color: "white",
-                                                                    // //         fontSize: 13,
-                                                                    // //         cursor: "pointer",
-                                                                    // //     }}
-                                                                    // // >
-                                                                    // //    Recurring
-                                                                    // // </button> 
-                                                                        
-                                                                    //   :  
-                                                                        
-                                                                        
-                                                                        
-                                                                        ""}
+                                                                //    item.typeCode === 7 ?
+
+                                                                // // <button
+                                                                // //     style={{
+                                                                // //         marginTop: 10,
+                                                                // //         background: "#1E45E1",
+                                                                // //         border: "none",
+                                                                // //         padding: "6px 16px",
+                                                                // //         borderRadius: 6,
+                                                                // //         color: "white",
+                                                                // //         fontSize: 13,
+                                                                // //         cursor: "pointer",
+                                                                // //     }}
+                                                                // // >
+                                                                // //    Recurring
+                                                                // // </button> 
+
+                                                                //   :  
+
+
+
+                                                                ""}
 
                                         </div>
                                     </div>
@@ -422,8 +449,8 @@ function Notification({ show, handleClose }) {
     );
 }
 Notification.propTypes = {
-  show: PropTypes.func.isRequired,
-  handleClose: PropTypes.func.isRequired,
- };
+    show: PropTypes.func.isRequired,
+    handleClose: PropTypes.func.isRequired,
+};
 
-export default  Notification;
+export default Notification;

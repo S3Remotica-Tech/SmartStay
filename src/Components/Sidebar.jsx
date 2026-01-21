@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import { Container } from "react-bootstrap";
-import { StoreSelectedHostelAction } from "../Redux/Action/smartStayAction";
+import { StoreSelectedHostelAction } from "../Redux/Action/LoginAction";
 import "../Components/Sidebar.css";
 import Dashboards from "../Pages/Dashboard/Dashboard";
 import PgLists from "../Pages/PayingGuestFile/PgList";
@@ -27,7 +27,7 @@ import HelpVideoIcon from "../Assets/Images/sidebariconFour.svg";
 import { useNavigate, useLocation, Navigate } from "react-router-dom";
 import { Route, Routes, NavLink } from "react-router-dom";
 import Cookies from 'universal-cookie';
-import { checkoutCustomerProfile } from "../Redux/Action/smartStayAction";
+import { checkoutCustomerProfile } from "../Redux/Action/LoginAction";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip"
 import CreateBill from "../Pages/Bills/CreateBill";
@@ -67,8 +67,15 @@ import SearchVector from "../Assets/Images/New_images/SearchVector.svg";
 import Logout from "./Logout";
 import InvoiceRegister from "../Reports/InvoiceRegister/InvoiceRegister";
 import TenantsRegister from "../Reports/TenantsRegister/TenantsRegister";
-
-
+import ComplaintsRegister from "../Reports/ComplaintsRegister/ComplaintsRegister";
+import FinalSettlementRegister from "../Reports/FianlSettlementRegister/FinalSettlementRegister"
+import RequestRegister from "../Reports/RequestRegister/RequestRegister"
+import ElectricityRegister from "../Reports/ElectricityRegister/ElectricityRegister"
+import VendorRegister from "../Reports/VendorRegister/VendorRegister"
+import ExpenseRegister from "../Reports/ExpenseRegister/ExpenseRegister"
+import OccupancyRegister from "../Reports/OccupancyRegister/OccupancyRegister"
+import BankTransactionRegister from "../Reports/BankTransactionRegister/BankTransactionRegister"
+import ReceiptRegister from "../Reports/ReceiptRegister/ReceiptRegister"
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -1755,12 +1762,86 @@ function Sidebar() {
                   </div>
                 }
               />
-  <Route
+              <Route
                 path="/reports/tenant-register"
                 element={
                   <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }} className="">
                     <TenantsRegister
                     />
+                  </div>
+                }
+              />
+              <Route
+                path="/reports/receipt-register"
+                element={
+                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }} className="">
+                    <ReceiptRegister />
+                  </div>
+                }
+              />
+              <Route
+                path="/reports/bank-transaction-register"
+                element={
+                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }}>
+                    <BankTransactionRegister />
+                  </div>
+                }
+              />
+
+              <Route
+                path="/reports/occupancy-register"
+                element={
+                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }}>
+                    <OccupancyRegister />
+                  </div>
+                }
+              />
+              <Route
+                path="/reports/expense-register"
+                element={
+                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }}>
+                    <ExpenseRegister />
+                  </div>
+                }
+              />
+              <Route
+                path="/reports/vendor-register"
+                element={
+                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }}>
+                    <VendorRegister />
+                  </div>
+                }
+              />
+              <Route
+                path="/reports/electricity-billing-register"
+                element={
+                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }}>
+                    <ElectricityRegister />
+                  </div>
+                }
+              />
+              <Route
+                path="/reports/request-register"
+                element={
+                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }}>
+                    <RequestRegister />
+                  </div>
+                }
+              />
+              <Route
+                path="/reports/final-settlement-register"
+                element={
+                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }}>
+                    <FinalSettlementRegister />
+                  </div>
+                }
+              />
+
+              <Route
+                path="/reports/complaint-register"
+                element={
+                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }}>
+                    <ComplaintsRegister />
                   </div>
                 }
               />

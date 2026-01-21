@@ -13,7 +13,7 @@ import PropTypes from "prop-types";
 import { CloseCircle } from "iconsax-react";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-import { JoininDatecustomer } from "../../Redux/Action/smartStayAction";
+import { JoininDatecustomer } from "../../Redux/Action/LoginAction";
 // import ErrorMessage from '../../Components/ErrorMessage'
 
 function EditStayDetails({ show, handleClose,stayDetais }) {
