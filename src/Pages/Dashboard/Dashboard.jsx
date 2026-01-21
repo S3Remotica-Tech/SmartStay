@@ -167,51 +167,6 @@ function Dashboard() {
     setSelectAdvance(e.target.value);
   };
 
-
-  // useEffect(() => {
-
-  //   dispatch({
-  //     type: "DASHBOARDFILTERCASHBACK",
-  //     payload: {
-  //       type: "cashback",
-  //       range: selectCashback,
-  //       hostel_id: state.login.selectedHostel_Id,
-  //     },
-  //   });
-
-
-
-  // }, [selectCashback, state.login.selectedHostel_Id]);
-
-
-
-  // useEffect(() => {
-  //   if (state.login.selectedHostel_Id) {
-  //     dispatch({
-  //       type: "DASHBOARDFILTERREVENUE",
-  //       payload: {
-  //         type: "exp_vs_rev",
-  //         range: selectRevenu,
-  //         hostel_id: state.login.selectedHostel_Id,
-  //       },
-  //     });
-  //   }
-  // }, [selectRevenu, state.login.selectedHostel_Id]);
-
-  // useEffect(() => {
-  //   if (hostel_id) {
-  //     dispatch({
-  //       type: "DASHBOARDFILTERADVANCE",
-  //       payload: {
-  //         type: "advance",
-  //         range: selectAdvance,
-  //         hostel_id: hostel_id,
-  //       },
-  //     });
-  //   }
-  // }, [selectAdvance, state.login.selectedHostel_Id]);
-
-
   useEffect(() => {
     if (state.PgList?.statusCodeForAdvanceFilter === 200) {
       setTimeout(() => {
@@ -257,30 +212,10 @@ function Dashboard() {
     setSelectExpence(e.target.value);
 
   };
-  // useEffect(() => {
-  //   if (state.login.selectedHostel_Id) {
-  //     dispatch({
-  //       type: "DASHBOARDFILTER",
-  //       payload: {
-  //         type: "expenses",
-  //         range: selectExpence,
-  //         hostel_id: state.login.selectedHostel_Id,
-  //       },
-  //     });
-  //   }
-  // }, [selectExpence, state.login.selectedHostel_Id]);
 
   const handleChanges = (event, newValue) => {
     setValue(newValue);
   };
-
-
-
-
-
-
-
-
 
   useEffect(() => {
     const appearOptions = {
@@ -423,40 +358,15 @@ function Dashboard() {
 
   const CustomLegend = ({ payload }) => {
     return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          paddingTop: 15,
-        }}
-      >
+      <div className="flex justify-center items-center pt-4" >
         {payload.map((entry, index) => (
           <div
             key={`item-${index}`}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              marginRight: 10,
-              marginTop: 25,
-            }}
-          >
-            <div
-              style={{
-                width: 12,
-                height: 12,
-                borderRadius: "50%",
-                backgroundColor: entry.color,
-                marginRight: 5,
-              }}
+            className="flex items-center mr-2.5 mt-6">
+            <div className="w-3 h-3 rounded-full mr-1.5"
+              style={{ backgroundColor: entry.color }}
             />
-            <span
-              style={{
-                fontSize: 12,
-                fontWeight: 600,
-                fontFamily: "Montserrat",
-              }}
-            >
+            <span className="text-xs font-semibold font-montserrat">
               {entry.value}
             </span>
           </div>
@@ -474,12 +384,13 @@ function Dashboard() {
       <div className="w-full max-w-full mx-auto p-2">
         <Marquee pauseOnHover gradient={false}>
           {showWarning && (
-            <div
-              className={`mt-3 flex flex-col sm:flex-row justify-between items-center gap-2 px-4 py-2 rounded-lg w-full max-w-[900px] mx-auto text-base font-[Gilroy] border
+            <div className={` mt-3 flex flex-col sm:flex-row justify-between items-center gap-2 px-4 py-2 rounded-lg w-full max-w-4xl mx-auto text-base font-gilroy border
+
   ${daysLeft > 0
-                  ? "bg-[#fff3cd] text-[#856404] border-[#ffeeba]"
-                  : "bg-[#f8d7da] text-[#721c24] border-[#f5c6cb]"
-                }
+
+                ? "bg-yellow-100 text-yellow-800 border-yellow-200"
+                : "bg-red-100 text-red-800 border-red-200"
+              }
 `}
 
               role="alert"
@@ -488,22 +399,26 @@ function Dashboard() {
               <div className="flex items-center gap-2">
                 {daysLeft > 0 ? (
                   <>
-                    <MdWarningAmber className="text-[#ffc107] text-[24px]" />
+                    <MdWarningAmber className="text-yellow-400 text-2xl" />
+
                     <span>
                       Your plan will expire in{" "}
                       <strong>{daysLeft}</strong> day{daysLeft > 1 ? "s" : ""}!
                     </span>
                   </>
                 ) : (
-                  <span className="font-[Gilroy] font-semibold">
+                  <span className="font-gilroy font-semibold">
                     Your plan has expired!
                   </span>
                 )}
               </div>
 
 
-              <button
-                className={`ms-3 px-3 py-1.5 text-sm rounded-md font-[Gilroy] text-white transition-colors ${daysLeft > 0 ? "bg-[#ffc107] hover:bg-[#e0a800]" : "bg-[#dc3545] hover:bg-[#c82333]"}`}
+              <button className={`ms-3 px-3 py-1.5 text-sm rounded-md font-gilroy text-white transition-colors ${daysLeft > 0
+                ? "bg-yellow-400 hover:bg-yellow-500"
+                : "bg-red-500 hover:bg-red-600"
+                }`}
+
 
                 onClick={handleOkClick}
               >
@@ -523,13 +438,13 @@ function Dashboard() {
                 orientation={isSmallScreen ? "vertical" : "horizontal"}
                 onChange={handleChanges}
                 aria-label="lab API tabs example"
-                className="flex flex-col md:flex-row flex-wrap -ml-[15px]"
+                className="flex flex-col md:flex-row flex-wrap -ml-4"
 
               >
                 <Tab
                   label="Dashboard"
                   value="1"
-                  sx={{ textTransform: 'none' }}
+                  sx={{ textTransform: 'none', fontFamily: 'Gilroy' }}
                   className="text-base text-neutral-600 leading-normal not-italic normal-case
            font-medium
            [&.Mui-selected]:!text-black
@@ -540,7 +455,7 @@ function Dashboard() {
                 <Tab
                   label="Announcement"
                   value="2"
-                  sx={{ textTransform: 'none' }}
+                  sx={{ textTransform: 'none', fontFamily: 'Gilroy' }}
                   className="text-base text-neutral-600 leading-normal not-italic normal-case
            font-medium
            [&.Mui-selected]:!text-black
@@ -550,7 +465,7 @@ function Dashboard() {
                 <Tab
                   label="Updates"
                   value="3"
-                  sx={{ textTransform: 'none' }}
+                  sx={{ textTransform: 'none', fontFamily: 'Gilroy' }}
                   className="text-base text-neutral-600 leading-normal not-italic normal-case
            font-medium
            [&.Mui-selected]:!text-black
@@ -567,30 +482,25 @@ function Dashboard() {
             <TabPanel value="1">
               {(!canReadDashboard && !loading) ? (
                 <div
-                  className="flex flex-col items-center justify-center mt-24"
-
-                >
+                  className="flex flex-col items-center justify-center mt-24">
 
                   <img
                     src={Emptystate}
                     alt="Empty State"
-
                   />
-
-
-
                   <ErrorMessage message={['You do not have access to view Dashboard']} type="warning" />
 
                 </div>
               ) : (
                 <>
-                  <div className="mt-4 overflow-y-auto p-2">
-
+                  <div className="overflow-y-auto p-2">
                     <div className="my-4">
-                      <div className="grid gap-3 md:grid-cols-12">
-                        <div className="md:col-span-2">
+                      <div className="grid gap-3 md:grid-cols-12 items-stretch">
+
+                        {/* LEFT SIDE */}
+                        <div className="md:col-span-2 h-full">
                           <div
-                            className="border rounded-2xl p-4 shadow-sm text-left flex flex-col items-start justify-between bg-white min-h-[160px]"
+                            className="border rounded-2xl p-4 shadow-sm text-left flex flex-col items-start justify-between bg-white min-h-44 h-full"
                           >
                             <div className="text-blue-600 mb-2">
                               <i className="bi bi-house-door-fill fs-4"></i>
@@ -599,91 +509,81 @@ function Dashboard() {
                             <h5 className="mb-0 font-gilroy">
                               {dashboardList?.totalRooms || 0}
                             </h5>
-
                           </div>
                         </div>
 
-                        <div className="md:col-span-3 flex flex-col gap-2">
-
-                          <div className="border rounded-2xl p-3 shadow-sm flex justify-between items-center bg-white">
-
+                        {/* MIDDLE */}
+                        <div className="md:col-span-3 flex flex-col gap-2 h-full">
+                          <div className="border rounded-2xl p-3 shadow-sm flex justify-between items-center bg-white h-full">
                             <div>
                               <h6 className="text-gray-500 mb-1 font-gilroy">Total Beds</h6>
-
                               <h5 className="mb-0 font-gilroy">
                                 {dashboardList?.totalBeds || 0}
                               </h5>
                             </div>
-                            <img
-                              src={clock}
-                              width="30"
-                              height="30"
-                              alt="Bed Icon"
-                            />
-                          </div>
-                          <div className="border rounded-2xl p-3 shadow-sm flex justify-between items-center bg-white">
+                            <img src={clock} alt="Bed Icon" className="w-8 h-8" />
 
+                          </div>
+
+                          <div className="border rounded-2xl p-3 shadow-sm flex justify-between items-center bg-white h-full">
                             <div>
                               <h6 className="text-gray-500 mb-1 font-gilroy">Free Beds</h6>
                               <h5 className="mb-0 font-gilroy">
                                 {dashboardList?.freeBeds || 0}
                               </h5>
-
                             </div>
-                            <img
-                              src={key}
-                              width="30"
-                              height="30"
-                              alt="Key Icon"
-                            />
+                            <img src={key} alt="Bed Icon" className="w-8 h-8" />
+
                           </div>
                         </div>
 
-                        <div className="md:col-span-7">
-                          <div className="p-2 rounded-2xl bg-blue-100">
-                            <div className="grid gap-2 md:grid-cols-12">
-                              {/* Left 9 columns */}
-                              <div className="md:col-span-9">
-                                <div className="grid gap-2 md:grid-cols-2 sm:grid-cols-1">
-                                  {/* Occupied Beds */}
+                        {/* RIGHT SIDE */}
+                        <div className="md:col-span-7 h-full">
+                          <div className="p-2 rounded-2xl bg-blue-100 h-full">
+                            <div className="grid gap-2 md:grid-cols-12 h-full">
+
+                              <div className="md:col-span-9 h-full">
+                                <div className="grid gap-2 md:grid-cols-2 sm:grid-cols-1 h-full">
+
                                   <div>
-                                    <div className="border rounded-2xl p-3 shadow-sm bg-white text-left">
+                                    <div className="border rounded-2xl p-3 shadow-sm bg-white text-left h-full">
                                       <h6 className="text-gray-500 mb-1 font-gilroy">Occupied Beds</h6>
                                       <h5 className="mb-0 font-gilroy">{dashboardList?.occupiedBeds || 0}</h5>
                                     </div>
                                   </div>
-                                  {/* Next Month Projection */}
+
                                   <div>
-                                    <div className="border rounded-2xl p-3 shadow-sm bg-white text-left">
+                                    <div className="border rounded-2xl p-3 shadow-sm bg-white text-left h-full">
                                       <h6 className="text-gray-500 mb-1 font-gilroy">Next Month Projection</h6>
                                       <h5 className="mb-0 font-gilroy">{dashboardList?.nextMonthProjection || 0}</h5>
                                     </div>
                                   </div>
-                                  {/* Total Customers */}
+
                                   <div>
-                                    <div className="border rounded-2xl p-3 shadow-sm bg-white text-left">
+                                    <div className="border rounded-2xl p-3 shadow-sm bg-white text-left h-full">
                                       <h6 className="text-gray-500 mb-1 font-gilroy">Total Customers</h6>
                                       <h5 className="mb-0 font-gilroy">{dashboardList?.totalCustomers || 0}</h5>
                                     </div>
                                   </div>
-                                  {/* EB Amount */}
+
                                   <div>
-                                    <div className="border rounded-2xl p-3 shadow-sm bg-white text-left">
+                                    <div className="border rounded-2xl p-3 shadow-sm bg-white text-left h-full">
                                       <h6 className="text-gray-500 mb-1 font-gilroy">EB Amount</h6>
                                       <h5 className="mb-0 font-gilroy">{dashboardList?.electricityAmount || 0}</h5>
                                     </div>
                                   </div>
+
                                 </div>
                               </div>
 
-                              {/* Right 3 columns */}
-                              <div className="md:col-span-3">
+                              <div className="md:col-span-3 h-full">
                                 <div className="border rounded-2xl p-4 shadow-sm bg-white text-left flex flex-col justify-between items-start h-full">
-                                  <img src={vector} alt="Asset Icon" width="30" height="30" className="mb-3" />
+                                  <img src={vector} alt="Asset Icon" className="w-8 h-8 mb-3" />
                                   <p className="text-gray-500 mb-1 text-sm font-gilroy">Total Asset Value</p>
                                   <h5 className="mt-1 font-gilroy">{dashboardList?.totalAssetsValue || 0}</h5>
                                 </div>
                               </div>
+
                             </div>
                           </div>
                         </div>
@@ -694,13 +594,13 @@ function Dashboard() {
 
 
 
+
                     <div className="grid gap-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
 
-                      {/* Advance in Hand */}
                       <div>
-                        <div className="flex items-center p-3 border rounded-2xl bg-primary/10 bg-blue-100">
-                          <div className="mr-3 text-primary">
-                            <img src={advancedHand} alt="advancedHand" width={32} height={32} />
+                        <div className="flex items-center p-3 border rounded-2xl bg-blue-100">
+                          <div className="mr-3 text-blue-600">
+                            <img src={advancedHand} alt="advancedHand" className="w-8 h-8" />
                           </div>
                           <div>
                             <h6 className="text-gray-500 font-gilroy">Advance in Hand</h6>
@@ -709,11 +609,10 @@ function Dashboard() {
                         </div>
                       </div>
 
-                      {/* Active Complaint */}
                       <div>
                         <div className="flex items-center p-3 border rounded-2xl bg-white">
-                          <div className="mr-3 text-primary">
-                            <img src={activeImage} alt="activeImage" width={32} height={32} />
+                          <div className="mr-3 text-blue-600">
+                            <img src={activeImage} alt="activeImage" className="w-8 h-8" />
                           </div>
                           <div>
                             <h6 className="text-gray-500 font-gilroy">Active Complaint</h6>
@@ -722,11 +621,10 @@ function Dashboard() {
                         </div>
                       </div>
 
-                      {/* Current Month Profit */}
                       <div>
                         <div className="flex items-center p-3 border rounded-2xl bg-white">
-                          <div className="mr-3 text-primary">
-                            <img src={currentMatch} alt="currentMatch" width={32} height={32} />
+                          <div className="mr-3 text-blue-600">
+                            <img src={currentMatch} alt="currentMatch" className="w-8 h-8" />
                           </div>
                           <div>
                             <h6 className="text-gray-500 font-gilroy">Current Month Profit</h6>
@@ -735,11 +633,10 @@ function Dashboard() {
                         </div>
                       </div>
 
-                      {/* Other Profit */}
                       <div>
                         <div className="flex items-center p-3 border rounded-2xl bg-white">
-                          <div className="mr-3 text-primary">
-                            <img src={coinImage} alt="coinImage" width={32} height={32} />
+                          <div className="mr-3 text-blue-600">
+                            <img src={coinImage} alt="coinImage" className="w-8 h-8" />
                           </div>
                           <div>
                             <h6 className="text-gray-500 font-gilroy">Other Profit</h6>
@@ -748,11 +645,10 @@ function Dashboard() {
                         </div>
                       </div>
 
-                      {/* Pending Invoice Count */}
                       <div>
                         <div className="flex items-center p-3 border rounded-2xl bg-white">
-                          <div className="mr-3 text-primary">
-                            <img src={pendingimg} alt="pendingimg" width={32} height={32} />
+                          <div className="mr-3 text-blue-600">
+                            <img src={pendingimg} alt="pendingimg" className="w-8 h-8" />
                           </div>
                           <div>
                             <h6 className="text-gray-500 font-gilroy">Pending Invoice Count</h6>
@@ -761,11 +657,10 @@ function Dashboard() {
                         </div>
                       </div>
 
-                      {/* New Booking */}
                       <div>
                         <div className="flex items-center p-3 border rounded-2xl bg-white">
                           <div className="mr-3 text-primary">
-                            <img src={newBooking} alt="newBooking" width={32} height={32} />
+                            <img src={newBooking} alt="newBooking" className="w-8 h-8" />
                           </div>
                           <div>
                             <h6 className="text-gray-500 font-gilroy">New Booking</h6>
@@ -776,18 +671,15 @@ function Dashboard() {
 
                     </div>
 
-
-
-                    {/* <div className="circulardes"> */}
                     <div className="flex flex-row mt-5 md:flex-col">
 
 
                       <div className="flex-1 animated-text">
-                        {/* Expenses vs Revenue Card */}
+
                         <div className="w-[98%] mt-2.5 rounded-[20px] border border-[#e0e0e0] bg-white pt-5 pr-5">
 
-                          {/* Header */}
-                          <div className="flex flex-wrap items-center justify-between px-2.5 py-2.5 -mt-4">
+
+                          <div className="flex flex-wrap items-center justify-between px-2.5 py-2.5 -mt-14">
                             <div className="flex-[1_1_60%] min-w-[200px] pl-4">
                               <p className="m-3 whitespace-nowrap text-[18px] font-semibold font-[Montserrat]">
                                 Expenses Vs Revenue
@@ -813,7 +705,6 @@ function Dashboard() {
                             </div>
                           </div>
 
-                          {/* Chart */}
                           <div className="relative h-[350px] overflow-x-auto">
                             <div className="min-w-full">
                               <ResponsiveContainer width="100%" height={350}>
@@ -846,7 +737,7 @@ function Dashboard() {
                           </div>
                         </div>
 
-                        {/* Cashback Card */}
+
                         <div className="mt-4 w-[97%] rounded-[20px] bg-white p-4 shadow">
                           <div className="flex flex-wrap items-center justify-between -mt-4 px-2.5">
                             <div className="flex-[1_1_60%] min-w-[200px] pl-2.5 mb-2.5">
@@ -918,33 +809,34 @@ function Dashboard() {
                       </div>
 
 
-                      <div className="flex-1">
-                        {/* Advance vs Advance Return */}
-                        <div className="mx-auto mt-2 w-[99%] max-w-4xl overflow-x-auto rounded-[24px] bg-white p-4 md:p-6 card">
+                      <div className="flex-1 mt-3">
 
-                          {/* Header */}
+                        {/* Card Container */}
+                        <div className="mx-auto mt-2 w-full max-w-4xl overflow-hidden rounded-xl bg-white p-4 md:p-6 card">
+
                           <div className="-mt-4 flex flex-wrap items-center justify-between px-2.5 py-2.5">
-                            <div className="flex-[1_1_60%] text-start mb-2">
-                              <p className="whitespace-nowrap text-[18px] font-semibold font-[Montserrat]">
+                            <div className="flex-1 text-start">
+                              <p className="whitespace-nowrap text-lg font-semibold font-sans">
                                 Advance VS Advance Return
                               </p>
                             </div>
 
-                            <div className="ml-auto flex flex-[1_1_40%] max-w-[300px] justify-end">
-                              <div className="relative h-9 w-full">
+                            <div className="flex-1 max-w-xs flex justify-end">
+                              <div className="relative h-9 w-full max-w-[180px]">
                                 <select
                                   value={selectAdvance}
                                   onChange={handleSelectedAdvance}
-                                  className="h-9 w-full max-w-[180px] cursor-pointer appearance-none rounded-full border border-[#D9D9D9] px-2.5 text-[12px] font-semibold font-[Gilroy] text-[#4B4B4B]"
-                                  style={{
-                                    background: `url(${drop}) no-repeat right 10px center`,
-                                    backgroundSize: "16px 16px",
-                                  }}
+                                  className="h-9 w-full cursor-pointer rounded-full border border-gray-300 px-3 text-xs font-semibold font-sans text-gray-700 appearance-none pr-10"
                                 >
                                   <option value="six_month">last six months</option>
                                   <option value="this_year">this year</option>
                                   <option value="last_year">last year</option>
                                 </select>
+
+                                {/* Dropdown arrow */}
+                                <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+                                  <img src={drop} alt="arrow" className="h-4 w-4" />
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -953,7 +845,6 @@ function Dashboard() {
                           <ResponsiveContainer width="100%" height={300}>
                             <LineChart data={formattedChart}>
                               <CartesianGrid stroke="#e0e0e0" strokeDasharray="0" vertical={false} />
-
                               <XAxis
                                 dataKey="name"
                                 tickFormatter={(tick) => {
@@ -965,17 +856,15 @@ function Dashboard() {
                                 }}
                                 tick={{
                                   fontSize: 12,
-                                  fontFamily: "Gilroy",
+                                  fontFamily: "sans",
                                   fontWeight: 500,
                                   fill: "#333",
                                 }}
                                 axisLine={false}
                                 tickLine={false}
                               />
-
                               <YAxis axisLine={false} tickLine={false} />
                               <Tooltip />
-
                               <Legend
                                 verticalAlign="bottom"
                                 align="center"
@@ -983,11 +872,10 @@ function Dashboard() {
                                 wrapperStyle={{
                                   marginTop: 10,
                                   fontSize: 12,
-                                  fontFamily: "Gilroy",
+                                  fontFamily: "sans",
                                   fontWeight: 500,
                                 }}
                               />
-
                               <Line
                                 type="monotone"
                                 dataKey="Advance"
@@ -995,7 +883,6 @@ function Dashboard() {
                                 strokeWidth={2}
                                 dot={{ r: 4 }}
                               />
-
                               <Line
                                 type="monotone"
                                 dataKey="Advance Return"
@@ -1007,40 +894,40 @@ function Dashboard() {
                           </ResponsiveContainer>
                         </div>
 
-                        {/* Expenses Section */}
+
                         <div className="expenses-container animated-text mt-4">
 
-                          {/* Header */}
                           <div className="dropp flex flex-wrap items-center justify-between px-3 py-2">
                             <div className="mb-2 flex text-start">
-                              <p className="pl-2.5 text-[18px] font-semibold font-[Montserrat]">
+                              <p className="pl-2.5 text-lg font-semibold font-sans">
                                 Expenses
                               </p>
                             </div>
 
-                            <div className="mb-2 flex w-full max-w-[200px] items-center justify-end">
-                              <select
-                                value={selectExpence}
-                                onChange={handleSelectedExpenses}
-                                className="h-9 w-full cursor-pointer appearance-none rounded-full border border-[#D9D9D9] px-2.5 pr-8 text-[12px] font-semibold font-[Gilroy] text-[#4B4B4B]"
-                                style={{
-                                  background: `url(${drop}) no-repeat right 10px center`,
-                                  backgroundSize: "16px 16px",
-                                }}
-                              >
-                                <option value="this_month">This month</option>
-                                <option value="last_month">Last month</option>
-                                <option value="last_three_months">Last 3 months</option>
-                                <option value="last_six_months">Last 6 months</option>
-                                <option value="this_year">This year</option>
-                              </select>
+                            <div className="mb-2 flex w-full max-w-xs items-center justify-end">
+                              <div className="relative h-9 w-full max-w-[180px]">
+                                <select
+                                  value={selectExpence}
+                                  onChange={handleSelectedExpenses}
+                                  className="h-9 w-full cursor-pointer appearance-none rounded-full border border-gray-300 px-3 text-xs font-semibold font-sans text-gray-700 pr-10"
+                                >
+                                  <option value="this_month">This month</option>
+                                  <option value="last_month">Last month</option>
+                                  <option value="last_three_months">Last 3 months</option>
+                                  <option value="last_six_months">Last 6 months</option>
+                                  <option value="this_year">This year</option>
+                                </select>
+
+
+                                <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+                                  <img src={drop} alt="arrow" className="h-4 w-4" />
+                                </div>
+                              </div>
                             </div>
                           </div>
 
-                          {/* Content */}
                           <div className="flex items-start justify-between">
 
-                            {/* Doughnut Chart */}
                             <div className="flex-1">
                               {lablesdata && lablesdata.length > 0 ? (
                                 <Doughnut
@@ -1064,29 +951,26 @@ function Dashboard() {
                                 </svg>
                               )}
 
-                              <p className="mt-2.5 text-center text-[25px] font-semibold font-[Gilroy]">
+                              <p className="mt-2.5 text-center text-2xl font-semibold font-sans">
                                 ₹{totalAmount > 0 ? totalAmount : 0}
                               </p>
                             </div>
 
-                            {/* Categories */}
                             <div className="grid flex-1 grid-cols-2 gap-5">
                               {lablesdata && lablesdata.length > 0 ? (
                                 lablesdata.map((label, index) => (
                                   <div key={index} className="flex items-center gap-2.5">
                                     <span
-                                      className="h-[10px] w-[10px] rounded-full"
+                                      className="h-2.5 w-2.5 rounded-full"
                                       style={{
-                                        backgroundColor:
-                                          datasets[0].backgroundColor[index],
+                                        backgroundColor: datasets[0].backgroundColor[index],
                                       }}
                                     ></span>
-
                                     <div className="flex flex-col">
-                                      <p className="text-[12px] font-semibold font-[Montserrat] text-[#4B4B4B]">
+                                      <p className="text-xs font-semibold font-sans text-gray-700">
                                         {label.category_Name}
                                       </p>
-                                      <p className="text-[16px] font-semibold font-[Gilroy]">
+                                      <p className="text-base font-semibold font-sans">
                                         ₹{label.purchase_amount}
                                       </p>
                                     </div>
@@ -1101,6 +985,7 @@ function Dashboard() {
                           </div>
                         </div>
                       </div>
+
 
                     </div>
                   </div>

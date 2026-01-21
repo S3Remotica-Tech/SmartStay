@@ -696,11 +696,9 @@ function Sidebar() {
               position: "relative"
             }}
           >
-            <div  >
+            <div>
 
-              <div
-
-                style={{ padding: "8px 16px", flexShrink: 0 }}
+              <div style={{ padding: "8px 16px", flexShrink: 0,marginTop:15 }}
               >
                 <img
                   src={Smartstay}
