@@ -12,11 +12,11 @@ import { AiOutlineBarChart } from "react-icons/ai";
 
 function Reports() {
 
-  // const dispatch = useDispatch()
-  // const state = useSelector(state => state.createAccount)
-
+  const dispatch = useDispatch()
+  const state = useSelector(state => state)
+  const [loading, setLoading] = useState(true)
   const navigate = useNavigate();
-
+  const [activeTab, setActiveTab] = useState("operational");
 
 
 
@@ -29,8 +29,14 @@ function Reports() {
   } = useHasPermission("Reports");
 
 
+  useEffect(() => {
+    if (!canReadReports) {
+      setLoading(false);
+    }
+  }, [canReadReports]);
 
-  const [activeTab, setActiveTab] = useState("operational");
+  const reportsList = state.reports?.getReportsList
+
 
 
   const tabs = [
@@ -43,16 +49,16 @@ function Reports() {
       title: "Invoice Register",
       subTitle: "This Month",
       desc: "Track all invoices, payments, and outstanding amounts",
-      value: "₹1,60,000",
+      value: `₹${reportsList?.invoices?.totalAmount}`,
       icon: DocumentText,
       color: "text-blue-600 bg-blue-100",
-     
+
     },
     {
       title: "Receipt Register",
       subTitle: "This Month",
       desc: "Monitor all payment receipts and collections",
-      value: "₹1,52,350",
+      value: `₹${reportsList?.receipts?.totalAmount}`,
       icon: ReceiptText,
       color: "text-green-600 bg-green-100",
     },
@@ -60,7 +66,7 @@ function Reports() {
       title: "Bank Transaction Register",
       subTitle: "Net Balance",
       desc: "View all banking transactions and reconciliations",
-      value: "₹80,350",
+      value: `₹${reportsList?.banking?.totalAmount}`,
       icon: Bank,
       color: "text-purple-600 bg-purple-100",
     },
@@ -68,16 +74,16 @@ function Reports() {
       title: "Tenant Register",
       subTitle: "This Month",
       desc: "Complete tenant directory with status tracking",
-      value: "24",
+      value: `₹${reportsList?.tenantInfo?.totalTenants}`,
       icon: UserOctagon,
       color: "text-[#F59E0B] bg-[#FFEFD3E5]",
-     
+
     },
     {
       title: "Occupancy",
       subTitle: "Occupancy Rate",
       desc: "Real-time bed occupancy and availability status",
-      value: "87%",
+      value: `${reportsList?.tenantInfo?.occupancyRate} %`,
       icon: Home,
       color: "text-cyan-600 bg-cyan-100",
     },
@@ -85,7 +91,7 @@ function Reports() {
       title: "Expense Register",
       subTitle: "This Month",
       desc: "Track all expenses, approvals, and payments",
-      value: "₹57,000",
+      value: `₹${reportsList?.expense?.totalExpenseAmount}`,
       icon: Wallet,
       color: "text-red-600 bg-red-100",
     },
@@ -93,7 +99,7 @@ function Reports() {
       title: "Vendor Ledger",
       subTitle: "Active Vendors",
       desc: "Vendor-wise transaction history and outstanding",
-      value: "12",
+      value: `₹${reportsList?.vendor?.totalVendors}`,
       icon: Shop,
       color: "text-pink-600 bg-pink-100",
     },
@@ -101,7 +107,7 @@ function Reports() {
       title: "Electricity Billing Register",
       subTitle: "This Month",
       desc: "Meter readings, consumption, and billing records",
-      value: "₹8,450",
+      value: "₹0",
       icon: Flash,
       color: "text-indigo-600 bg-indigo-100",
     },
@@ -109,7 +115,7 @@ function Reports() {
       title: "Complaint Register",
       subTitle: "Total Complaints",
       desc: "Track complaints, resolution, and SLA compliance",
-      value: "27",
+     value: `₹${reportsList?.complaints?.totalComplaints}`,
       icon: Warning2,
       color: "text-rose-600 bg-rose-100",
     },
@@ -117,7 +123,7 @@ function Reports() {
       title: "Request Register",
       subTitle: "This Month",
       desc: "Monitor tenant requests and approval workflow",
-      value: "",
+      value: `₹${reportsList?.requests?.totalRequests}`,
       icon: ClipboardText,
       color: "text-[#6366F1] bg-[#6366F115]",
     },
@@ -125,12 +131,36 @@ function Reports() {
       title: "Final Settlement",
       subTitle: "This Month",
       desc: "Security deposit refunds and settlement tracking",
-      value: "",
+      value: "0",
       icon: WalletMoney,
       color: "text-[#14B8A6] bg-[#14B8A615]",
     },
   ];
 
+
+
+  const summaryData = [
+    {
+      label: "Total Revenue (MTD)",
+      value: "₹1,52,350",
+      valueColor: "#00A63E",
+    },
+    {
+      label: "Outstanding Amount",
+      value: "₹7,650",
+      valueColor: "#222222",
+    },
+    {
+      label: "Active Tenants",
+      value: `₹${reportsList?.tenantInfo?.totalTenants}`,
+      valueColor: "#222222",
+    },
+    {
+      label: "Occupancy Rate",
+      value: `${reportsList?.tenantInfo?.occupancyRate} %`,
+      valueColor: "#222222",
+    },
+  ];
 
 
 
@@ -155,57 +185,57 @@ function Reports() {
     })
   });
 
+  useEffect(() => {
+    if (state.login?.selectedHostel_Id) {
+      setLoading(true)
+
+      dispatch({ type: 'GET_REEPORTS_SAGA', payload: state.login.selectedHostel_Id })
 
 
-
-  const summaryData = [
-    {
-      label: "Total Revenue (MTD)",
-      value: "₹1,52,350",
-      valueColor: "#00A63E",
-    },
-    {
-      label: "Outstanding Amount",
-      value: "₹7,650",
-      valueColor: "#222222",
-    },
-    {
-      label: "Active Tenants",
-      value: "24",
-      valueColor: "#222222",
-    },
-    {
-      label: "Occupancy Rate",
-      value: "87%",
-      valueColor: "#222222",
-    },
-  ];
-
- const handleNavigateRegister = (item) => {
-                   if (item?.title === "Tenant Register") {
-            navigate(`/reports/tenant-register`)
-        } else if (item?.title === "Receipt Register") {
-            navigate(`/reports/receipt-register`)
-        } else if (item?.title === "Bank Transaction Register") {
-            navigate(`/reports/bank-transaction-register`)
-        } else if (item?.title === "Occupancy") {
-            navigate(`/reports/occupancy-register`)
-        } else if (item?.title === "Expense Register") {
-            navigate(`/reports/expense-register`)
-        } else if (item?.title === "Vendor Ledger") {
-            navigate(`/reports/vendor-register`)
-        } else if (item?.title === "Electricity Billing Register") {
-            navigate(`/reports/electricity-billing-register`)
-        } else if (item?.title === "Complaint Register") {
-            navigate(`/reports/complaint-register`)
-        } else if (item?.title === "Request Register") {
-            navigate(`/reports/request-register`)
-        } else if (item?.title === "Final Settlement") {
-            navigate(`/reports/final-settlement-register`)
-        }else if(item?.title === "Invoice Register"){
-        navigate(`/reports/invoice-register`)
     }
+  }, [state.login?.selectedHostel_Id])
+
+
+  useEffect(() => {
+    if (state.reports.getSuccessReports === 200) {
+      setLoading(false)
+      dispatch({ type: 'CLEAR_GET_REPORTS_REDUCER' })
     }
+
+  }, [state.reports.getSuccessReports])
+
+
+  const handleNavigateRegister = (item) => {
+    if (item?.title === "Tenant Register") {
+      navigate(`/reports/tenant-register`)
+    } else if (item?.title === "Receipt Register") {
+      navigate(`/reports/receipt-register`)
+    } else if (item?.title === "Bank Transaction Register") {
+      navigate(`/reports/bank-transaction-register`)
+    } else if (item?.title === "Occupancy") {
+      navigate(`/reports/occupancy-register`)
+    } else if (item?.title === "Expense Register") {
+      navigate(`/reports/expense-register`)
+    } else if (item?.title === "Vendor Ledger") {
+      navigate(`/reports/vendor-register`)
+    } else if (item?.title === "Electricity Billing Register") {
+      navigate(`/reports/electricity-billing-register`)
+    } else if (item?.title === "Complaint Register") {
+      navigate(`/reports/complaint-register`)
+    } else if (item?.title === "Request Register") {
+      navigate(`/reports/request-register`)
+    } else if (item?.title === "Final Settlement") {
+      navigate(`/reports/final-settlement-register`)
+    } else if (item?.title === "Invoice Register") {
+      navigate(`/reports/invoice-register`)
+    }
+  }
+
+  console.log("state", state.reports)
+
+
+
+
 
 
 
@@ -213,6 +243,11 @@ function Reports() {
 
     <div className="w-full h-screen flex flex-col font-[Gilroy] px-0 ">
 
+      {loading && (
+        <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
+          <div className="w-10 h-10 border-t-4 border-t-[#1E45E1] border-r-4 border-r-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
 
       <div className="sticky top-0 z-20 bg-white ">
 

@@ -261,7 +261,74 @@ function ExpenseFilter({ show, handleClose }) {
                         <div className='mb-3'>
                             <label style={{ color: "#222222", fontSize: 15, fontWeight: 600 }}>System Filter</label>
                         </div>
+ <Form.Group className="mb-3">
+          <Form.Label className="text-muted" style={{ fontSize: 12 }}>
+            Category
+          </Form.Label>
+          <Select
+            styles={selectStyles}
+            value={category}
+            onChange={setCategory}
+            options={[{ label: "Electricity", value: "electricity" }]}
+            placeholder="Select"
+          />
+        </Form.Group>
 
+        {/* Period */}
+        <Form.Group className="mb-3">
+          <Form.Label className="text-muted" style={{ fontSize: 12 }}>
+            Period
+          </Form.Label>
+          <Select
+            styles={selectStyles}
+            value={period}
+            onChange={setPeriod}
+            options={[{ label: "Last Month", value: "last_month" }]}
+            placeholder="Select"
+          />
+        </Form.Group>
+
+        {/* Payment Mode */}
+        <Form.Group className="mb-3">
+          <Form.Label className="text-muted" style={{ fontSize: 12 }}>
+            Payment Mode
+          </Form.Label>
+          <Select
+            styles={selectStyles}
+            value={paymentMode}
+            onChange={setPaymentMode}
+            options={[{ label: "Cash", value: "cash" }]}
+            placeholder="Select"
+          />
+        </Form.Group>
+
+        {/* Paid To */}
+        <Form.Group className="mb-3">
+          <Form.Label className="text-muted" style={{ fontSize: 12 }}>
+            Paid To
+          </Form.Label>
+          <Select
+            styles={selectStyles}
+            value={paidTo}
+            onChange={setPaidTo}
+            options={[{ label: "Vendor", value: "vendor" }]}
+            placeholder="Select"
+          />
+        </Form.Group>
+
+        {/* Created By */}
+        <Form.Group className="mb-3">
+          <Form.Label className="text-muted" style={{ fontSize: 12 }}>
+            Created By
+          </Form.Label>
+          <Select
+            styles={selectStyles}
+            value={createdBy}
+            onChange={setCreatedBy}
+            options={[{ label: "Admin", value: "admin" }]}
+            placeholder="Select"
+          />
+        </Form.Group>
                     </div>
                 </Offcanvas.Body>
 
