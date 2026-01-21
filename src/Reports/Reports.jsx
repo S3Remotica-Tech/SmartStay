@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useHasPermission } from '../Utils/Permission';
 import ErrorMessage from '../Components/ErrorMessage'
-import { WalletMoney, ArrowRight, DocumentText, ReceiptText, Bank, UserOctagon, Home, 
-  Wallet, Shop, Flash, Warning2, ClipboardText,} from "iconsax-react";
+import {
+  WalletMoney, ArrowRight, DocumentText, ReceiptText, Bank, UserOctagon, Home,
+  Wallet, Shop, Flash, Warning2, ClipboardText,
+} from "iconsax-react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -13,7 +15,7 @@ function Reports() {
   // const dispatch = useDispatch()
   // const state = useSelector(state => state.createAccount)
 
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
 
 
@@ -38,14 +40,13 @@ const navigate = useNavigate();
 
   const reportCards = [
     {
-      title: "Invoices",
+      title: "Invoice Register",
       subTitle: "This Month",
       desc: "Track all invoices, payments, and outstanding amounts",
       value: "₹1,60,000",
       icon: DocumentText,
       color: "text-blue-600 bg-blue-100",
-      route: "/reports/invoice-register",
-
+     
     },
     {
       title: "Receipt Register",
@@ -70,7 +71,7 @@ const navigate = useNavigate();
       value: "24",
       icon: UserOctagon,
       color: "text-[#F59E0B] bg-[#FFEFD3E5]",
-      route:"/reports/tenant-register"
+     
     },
     {
       title: "Occupancy",
@@ -180,6 +181,33 @@ const navigate = useNavigate();
     },
   ];
 
+ const handleNavigateRegister = (item) => {
+                   if (item?.title === "Tenant Register") {
+            navigate(`/reports/tenant-register`)
+        } else if (item?.title === "Receipt Register") {
+            navigate(`/reports/receipt-register`)
+        } else if (item?.title === "Bank Transaction Register") {
+            navigate(`/reports/bank-transaction-register`)
+        } else if (item?.title === "Occupancy") {
+            navigate(`/reports/occupancy-register`)
+        } else if (item?.title === "Expense Register") {
+            navigate(`/reports/expense-register`)
+        } else if (item?.title === "Vendor Ledger") {
+            navigate(`/reports/vendor-register`)
+        } else if (item?.title === "Electricity Billing Register") {
+            navigate(`/reports/electricity-billing-register`)
+        } else if (item?.title === "Complaint Register") {
+            navigate(`/reports/complaint-register`)
+        } else if (item?.title === "Request Register") {
+            navigate(`/reports/request-register`)
+        } else if (item?.title === "Final Settlement") {
+            navigate(`/reports/final-settlement-register`)
+        }else if(item?.title === "Invoice Register"){
+        navigate(`/reports/invoice-register`)
+    }
+    }
+
+
 
   return (
 
@@ -276,7 +304,7 @@ const navigate = useNavigate();
                       )}
                       <hr className="my-2 border-t border-[#F3F4F6] opacity-80" />
 
-                      <div className="mt-3 flex items-center justify-between gap-1 group cursor-pointer"  onClick={() => item.route && navigate(item.route)}>
+                      <div className="mt-3 flex items-center justify-between gap-1 group cursor-pointer" onClick={() => handleNavigateRegister(item)}>
                         <span className="text-sm font-semibold text-[#155DFC] group-hover:underline" >
                           View Report
                         </span>
@@ -294,48 +322,48 @@ const navigate = useNavigate();
             </div>
           }
 
-{activeTab === "analytical" && (
-  <div
-    className="d-flex flex-column justify-content-center align-items-center"
-    style={{
-      minHeight: "300px",
-      background: "#F9FAFB",
-      borderRadius: 12,
-      border: "1px dashed #E5E7EB",
-    }}
-  >
-    <AiOutlineBarChart
-      size={48}
-      color="#1E45E1"
-      style={{ marginBottom: 12 }}
-    />
+          {activeTab === "analytical" && (
+            <div
+              className="d-flex flex-column justify-content-center align-items-center"
+              style={{
+                minHeight: "300px",
+                background: "#F9FAFB",
+                borderRadius: 12,
+                border: "1px dashed #E5E7EB",
+              }}
+            >
+              <AiOutlineBarChart
+                size={48}
+                color="#1E45E1"
+                style={{ marginBottom: 12 }}
+              />
 
-    <div
-      style={{
-        fontSize: 18,
-        fontWeight: 600,
-        fontFamily: "Gilroy",
-        color: "#111827",
-        marginBottom: 4,
-      }}
-    >
-      Analytics Coming Soon
-    </div>
+              <div
+                style={{
+                  fontSize: 18,
+                  fontWeight: 600,
+                  fontFamily: "Gilroy",
+                  color: "#111827",
+                  marginBottom: 4,
+                }}
+              >
+                Analytics Coming Soon
+              </div>
 
-    <div
-      style={{
-        fontSize: 14,
-        fontFamily: "Gilroy",
-        color: "#6B7280",
-        textAlign: "center",
-        maxWidth: 320,
-      }}
-    >
-      We’re working on powerful insights and reports to help you track
-      performance and growth.
-    </div>
-  </div>
-)}
+              <div
+                style={{
+                  fontSize: 14,
+                  fontFamily: "Gilroy",
+                  color: "#6B7280",
+                  textAlign: "center",
+                  maxWidth: 320,
+                }}
+              >
+                We’re working on powerful insights and reports to help you track
+                performance and growth.
+              </div>
+            </div>
+          )}
 
 
 

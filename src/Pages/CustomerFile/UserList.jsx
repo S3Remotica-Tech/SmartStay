@@ -2516,12 +2516,12 @@ function UserList(props) {
                           style={{ height: 20, width: 20, cursor: "pointer" }}
                         />
                       </span>
-                      <input
-                        type="text"
+                      <input 
+                        type="text" disabled
                         className="form-control border-start-0"
                         placeholder="Search"
                         value={filterInput}
-                        disabled={!canReadTenant}
+                        // disabled={!canReadTenant}
                         onChange={(e) => handlefilterInput(e)}
                         style={{ boxShadow: "none", borderRight: "none", fontFamily: "Gilroy" }}
                       />

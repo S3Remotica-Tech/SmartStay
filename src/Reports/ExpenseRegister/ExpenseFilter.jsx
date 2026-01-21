@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 import { Filter } from 'iconsax-react'
 
 
-function TenantsFilter({ show, handleClose }) {
+function ExpenseFilter({ show, handleClose }) {
     // const state = useSelector((state) => state);
     const dispatch = useDispatch();
     const [tenantStatus, setTenantStatus] = useState(null);
@@ -181,7 +181,7 @@ function TenantsFilter({ show, handleClose }) {
 
 
 
-   
+
 
 
 
@@ -261,94 +261,7 @@ function TenantsFilter({ show, handleClose }) {
                         <div className='mb-3'>
                             <label style={{ color: "#222222", fontSize: 15, fontWeight: 600 }}>System Filter</label>
                         </div>
- <Form.Group className="mb-3">
-          <Form.Label className="text-muted" style={{ fontSize: 12 }}>
-            Tenant Status
-          </Form.Label>
-          <Select
-            styles={selectStyles}
-            placeholder="Check in"
-            value={tenantStatus}
-            onChange={setTenantStatus}
-            options={[
-              { label: "Check in", value: "CHECK_IN" },
-              { label: "Check out", value: "CHECK_OUT" },
-            ]}
-          />
-        </Form.Group>
-                        <Form.Group className="mb-3">
-                            <Form.Label className="text-muted" style={{ fontSize: 12 }}>
-                                Period
-                            </Form.Label>
-                            <Select
-                                styles={selectStyles}
-                                placeholder="Last Month"
-                                value={period}
-                                onChange={setPeriod}
-                                options={[
-                                    { label: "This Month", value: "THIS_MONTH" },
-                                    { label: "Last Month", value: "LAST_MONTH" },
-                                ]}
-                            />
-                        </Form.Group>
 
-                        <Form.Group className="mb-3">
-                            <Form.Label className="text-muted" style={{ fontSize: 12 }}>
-                                Sharing Type
-                            </Form.Label>
-                            <Select
-                                styles={selectStyles}
-                                placeholder="Select type..."
-                                value={sharingType}
-                                onChange={setSharingType}
-                                options={[
-                                    { label: "Single", value: "SINGLE" },
-                                    { label: "Double", value: "DOUBLE" },
-                                    { label: "Triple", value: "TRIPLE" },
-                                ]}
-                            />
-                        </Form.Group>
-
-
-                        <div className="mb-3">
-                            <label className="text-muted" style={{ fontSize: 12 }}>
-                                Floor
-                            </label>
-
-                            <div className="d-flex flex-wrap gap-2 mt-2">
-                                {["Ground", "First", "Second", "Third", "Fourth"].map((f) => (
-                                    <Button
-                                        key={f}
-                                        variant={floor === f ? "primary" : "outline-secondary"}
-                                        style={{
-                                            fontFamily: "Gilroy",
-                                            fontSize: 13,
-                                            borderRadius: 8,
-                                        }}
-                                        onClick={() => setFloor(f)}
-                                    >
-                                        {f}
-                                    </Button>
-                                ))}
-                            </div>
-                        </div>
-
-                        <Form.Group>
-                            <Form.Label className="text-muted" style={{ fontSize: 12 }}>
-                                Room
-                            </Form.Label>
-                            <Select
-                                styles={selectStyles}
-                                placeholder="Select room..."
-                                value={room}
-                                onChange={setRoom}
-                                options={[
-                                    { label: "101", value: "101" },
-                                    { label: "102", value: "102" },
-                                    { label: "201", value: "201" },
-                                ]}
-                            />
-                        </Form.Group>
                     </div>
                 </Offcanvas.Body>
 
@@ -426,9 +339,9 @@ function TenantsFilter({ show, handleClose }) {
             </Offcanvas></div>
     )
 }
-TenantsFilter.propTypes = {
+ExpenseFilter.propTypes = {
     show: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
 };
 
-export default TenantsFilter
+export default ExpenseFilter
