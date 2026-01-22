@@ -341,24 +341,24 @@ function BankTransactionRegister() {
                   </th>
 
 
-                  <th className="px-4 py-2.5 text-center font-semibold ">
+                  <th className="px-4 py-2.5 text-center font-semibold  uppercase">
                     
                      Bank Acc
                      
                   </th>
 
 
-                  <th className="px-4 py-2.5 text-center font-semibold w-[200px] ">
+                  <th className="px-4 py-2.5 text-center font-semibold w-[200px] uppercase">
                    Mode
                   </th>
 
 
-                  <th className="px-4 py-2.5 text-center font-semibold ">
+                  <th className="px-4 py-2.5 text-center font-semibold uppercase">
                     Description
                   </th>
 
 
-                  <th className="px-4 py-2.5 text-center font-semibold ">
+                  <th className="px-4 py-2.5 text-center font-semibold uppercase">
                     <div className="flex justify-center items-center gap-1">
                      Credit
                       <ArrowSwapVertical size="16" color="#4B4B4B" />
@@ -366,7 +366,7 @@ function BankTransactionRegister() {
                   </th>
 
 
-                  <th className="px-4 py-2.5 text-center font-semibold ">
+                  <th className="px-4 py-2.5 text-center font-semibold uppercase">
                     <div className="flex justify-center items-center gap-1">
                      Debit
                       <ArrowSwapVertical size="16" color="#4B4B4B" />
@@ -374,7 +374,7 @@ function BankTransactionRegister() {
                   </th>
 
 
-                  <th className="px-4 py-2.5 text-center font-semibold">
+                  <th className="px-4 py-2.5 text-center font-semibold uppercase">
                     STATUS
                   </th>
 
