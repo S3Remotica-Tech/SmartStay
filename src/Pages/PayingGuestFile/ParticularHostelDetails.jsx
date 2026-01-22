@@ -892,11 +892,11 @@ function ParticularHostelDetails(props) {
         </div>
 
 
-        <div className='container show-scroll' style={{ overflowY: "auto", marginTop: "-25px" }}>
+        <div className='container show-scroll h-screen' style={{ overflowY: "auto", marginTop: "-25px" }}>
           <div className='row mt-4 mb-2 row-gap-3' style={{ fontFamily: "Gilroy" }}>
             {roomList?.length > 0 && roomList?.map((room) => (
               <div
-                className="col-12 col-md-6 col-xxl-4 mb-3d-flex justify-content-center"
+                className="col-12 col-md-6 col-xxl-4 mb-3 d-flex justify-content-center"
                 key={room.id}>
                 <Card className="w-100 h-100 fade-in" style={{ border: "1px solid #E6E6E6", borderRadius: 16, minHeight: 120 }}>
                   <Card.Header className="d-flex justify-content-between align-items-start" style={{ backgroundColor: "#E0ECFF", border: "1px solid #E6E6E6", borderTopLeftRadius: 16, borderTopRightRadius: 16 }}>
