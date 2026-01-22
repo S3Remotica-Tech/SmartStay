@@ -812,7 +812,7 @@ function PgList() {
               </span>
             </div>
             <div
-              className="card mt-1"
+              className="card mt-1 mb-3"
               style={{ borderRadius: "14px", marginLeft: "20px" }}
             >
               <div className="card-body d-flex flex-column flex-md-row align-items-center justify-content-between">
@@ -1138,44 +1138,47 @@ function PgList() {
                               </div>
 
                               <div className="d-flex align-items-center gap-3">
-                                <div
-                                  className="d-flex"
-                                  style={{
-                                    flexWrap: "nowrap",     
-                                    whiteSpace: "nowrap",
-                                    alignItems: "center",
-                                  }}
-                                >
-                                  <span style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
-                                    <img className="me-1 mb-1" src={availabeimg} alt="available" />
+                            
+                                <div className="flex flex-nowrap items-center whitespace-nowrap">
+
+                               
+                                  <span className="flex items-center gap-2 mx-2 text-sm font-medium font-san">
+                                    <img src={availabeimg} alt="available" className="mb-1 pt-1"  />
                                     Available
                                   </span>
-                                  {
 
-                                    !state.login.isTrigger &&
-
+                                  {!state.login.isTrigger && (
                                     <>
 
-                                      <span style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
-                                        <img className="me-1 mb-1" src={occubiedimg} alt="occupied" />
+                                      {/* Occupied */}
+                                      <span className="flex items-center gap-1 mx-2 text-sm font-medium font-sans">
+                                        <img src={occubiedimg} alt="occupied" className="mb-1" />
                                         Occupied
                                       </span>
-                                      <span style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
-                                        <img className="me-1 mb-1" src={recerverimg} alt="reserved" />
+
+                                      {/* Reserved */}
+                                      <span className="flex items-center gap-1 mx-2 text-sm font-medium font-sans">
+                                        <img src={recerverimg} alt="reserved" className="mb-1" />
                                         Reserved
                                       </span>
-                                      <span style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
-                                        <img className="me-1 mb-1" src={overdueimg} alt="overdue" />
+
+                                      {/* Overdue */}
+                                      <span className="flex items-center gap-1 mx-2 text-sm font-medium font-sans">
+                                        <img src={overdueimg} alt="overdue" className="mb-1" />
                                         Overdue
                                       </span>
-                                      <span style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
-                                        <img className="me-1 mb-1" src={noticeimg} alt="notice" />
+
+                                      {/* Notice Period */}
+                                      <span className="flex items-center gap-1 mx-2 text-sm font-medium font-sans">
+                                        <img src={noticeimg} alt="notice" className="mb-1" />
                                         Notice Period
                                       </span>
+
                                     </>
-                                  }
+                                  )}
 
                                 </div>
+
 
                                 {
 

@@ -338,7 +338,7 @@ function BedDetailsMap({ room, propsValue,
 
 
     const handleCloseChangedBed = () => {
-               setShowConfirmChangeBedModal(false)
+        setShowConfirmChangeBedModal(false)
         setChangedBedClicked('')
         setSelectedBed(null)
     }
@@ -465,13 +465,13 @@ function BedDetailsMap({ room, propsValue,
     // }, [bedsForRoom, state.login.isTrigger]);
 
 
-const filteredBeds = React.useMemo(() => {
-  if (!state.login.isTrigger) return bedsForRoom;
+    const filteredBeds = React.useMemo(() => {
+        if (!state.login.isTrigger) return bedsForRoom;
 
-  return bedsForRoom.filter(
-    bed => !bed.isOccupied
-  );
-}, [bedsForRoom, state.login.isTrigger]);
+        return bedsForRoom.filter(
+            bed => !bed.isOccupied
+        );
+    }, [bedsForRoom, state.login.isTrigger]);
 
 
 
@@ -709,10 +709,10 @@ const filteredBeds = React.useMemo(() => {
                 />
             }
 
-
             <div className="flex flex-wrap justify-start mx-0 max-h-60 py-1.5 overflow-y-auto overflow-x-hidden gap-y-3">
-                {Array.isArray(filteredBeds) && filteredBeds.length > 0 ?
-                    filteredBeds?.map((bed) => (
+
+                {Array.isArray(filteredBeds) && filteredBeds.length > 0 ? (
+                    filteredBeds.map((bed) => (
                         <div
                             key={`${bed.roomId}-${bed.id}`}
                             className={`w-1/4 flex justify-center px-1 ${propsValue.addPermissionError ? 'disabled' : ''}`}
@@ -725,8 +725,8 @@ const filteredBeds = React.useMemo(() => {
                                     {state.login.isTrigger &&
                                         Number(selectedBed?.bedId) === Number(bed.id) &&
                                         Number(selectedBed?.roomId) === Number(bed.roomId) && (
-                                            <div className="absolute inset-y-px -right-2.5 cursor-pointer bg-white rounded-md">
-                                                <img src={Tick} alt="alt-image" className="cursor-pointer h-5 w-5" />
+                                            <div className="absolute inset-y-px -right-2.5 cursor-pointer">
+                                                <img src={Tick} alt="alt-image" className="h-5 w-5 cursor-pointer" />
                                             </div>
                                         )}
 
@@ -736,33 +736,15 @@ const filteredBeds = React.useMemo(() => {
 
                                             <div className="action-icons">
                                                 {bed.isBooked && (
-                                                    <img
-                                                        src={recerverimg}
-                                                        alt="occupied"
-                                                        height={20}
-                                                        width={20}
-                                                        className="cursor-pointer"
-                                                    />
+                                                    <img src={recerverimg} alt="occupied" height={20} width={20} className="cursor-pointer" />
                                                 )}
 
                                                 {bed.onNotice && (
-                                                    <img
-                                                        src={noticeimg}
-                                                        alt="notice"
-                                                        height={20}
-                                                        width={20}
-                                                        className="cursor-pointer"
-                                                    />
+                                                    <img src={noticeimg} alt="notice" height={20} width={20} className="cursor-pointer" />
                                                 )}
 
                                                 {bed.overDue && (
-                                                    <img
-                                                        src={overDude}
-                                                        alt="overDude"
-                                                        height={20}
-                                                        width={20}
-                                                        className="cursor-pointer"
-                                                    />
+                                                    <img src={overDude} alt="overDude" height={20} width={20} className="cursor-pointer" />
                                                 )}
                                             </div>
                                         </div>
@@ -805,12 +787,11 @@ const filteredBeds = React.useMemo(() => {
                                         onClick={() => {
                                             if (!state.login.isTrigger) {
                                                 handleclickBed(bed, bed.roomId);
-                                            } else if (state.login.isTrigger) {
+                                            } else {
                                                 handleclickBedForChangeBed(bed, bed.roomId);
                                             }
                                         }}
                                     />
-
                                 </div>
 
                                 <div className="pt-2 text-xs font-semibold font-montserrat">
@@ -819,18 +800,17 @@ const filteredBeds = React.useMemo(() => {
                             </div>
                         </div>
                     ))
-                    :
+                ) : (
                     <div className="flex justify-center w-full">
-                        <label className="font-gilroy text-neutral-600 text-xs">
+                        <label className="text-xs font-gilroy text-neutral-600">
                             No beds available
                         </label>
                     </div>
-                }
+                )}
 
-                {!state.login.isTrigger &&
+                {!state.login.isTrigger && (
                     <div
-                        className={`w-1/4 flex justify-center
-        ${propsValue.addPermissionError ? 'pointer-events-none opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                        className={`w-1/4 flex justify-center ${propsValue.addPermissionError ? 'pointer-events-none opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
                         onClick={() => {
                             if (canWritePayingGuests) {
                                 handleAddBed(propsValue, room.id);
@@ -838,88 +818,48 @@ const filteredBeds = React.useMemo(() => {
                         }}
                     >
                         <div className="flex flex-col items-center w-full">
-                            <div>
-                                <FaSquarePlus
-                                    className={`${propsValue.addPermissionError ? 'text-gray-400' : 'text-blue-600'} h-11 w-9`}
-                                />
-                            </div>
+                            <FaSquarePlus
+                                className={`${propsValue.addPermissionError ? 'text-gray-400' : 'text-blue-600'} h-11 w-9`}
+                            />
 
                             <div
-                                className={`pt-2 text-xs font-semibold font-montserrat
-            ${!canWritePayingGuests ? 'text-gray-400' : 'text-blue-600'}`}
+                                className={`pt-2 text-xs font-semibold font-montserrat ${!canWritePayingGuests ? 'text-gray-400' : 'text-blue-600'}`}
                             >
                                 Add bed
                             </div>
                         </div>
                     </div>
-                }
+                )}
 
+                {state.login.isTrigger && changeBedClicked?.roomId && (
+                    <div className="fixed bottom-0 left-[19%] right-0 z-50 flex flex-wrap items-center justify-center border-t bg-white p-2">
 
-                   {
-                state.login.isTrigger && changeBedClicked?.roomId &&
+                        <div>
+                            <p className="m-0 text-sm font-semibold font-gilroy text-neutral-600">
+                                Bed | {Array.isArray(state.PgList?.bedList?.[room.id])
+                                    ? `${state.PgList.bedList[room.id].length} sharing`
+                                    : "0 sharing"}
+                            </p>
 
-                <div
-                    className="d-flex justify-content-center align-items-center p-2 border-top bg-white flex-wrap"
-                    style={{
-                        position: "fixed",
-                        bottom: 0,
-                        left: "19%",
-                        right: 0,
-                        zIndex: 1050,
-                    }}
-                >
-                    <div>
-                        <p
-                            style={{
-                                fontSize: 14,
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                                color: "rgba(75, 75, 75, 1)",
-                                margin: 0,
-                            }}
-                        >
-                            Bed |  {Array.isArray(state.PgList?.bedList?.[room.id])
-                                ? `${state.PgList.bedList[room.id].length} sharing`
-                                : "0 sharing"}
-                        </p>
+                            <p>
+                                <span className="text-base font-medium font-gilroy text-blue-700">
+                                    {` ${customer?.floorName || "N/A"} | ${customer?.roomName || "N/A"} | ${customer.bedName || "-"}`}
+                                </span>
+                            </p>
+                        </div>
 
-                        <p>
-                            <span
-                                style={{
-                                    fontWeight: 500,
-                                    color: "rgba(30, 69, 225, 1)",
-                                    fontSize: 16,
-                                    fontFamily: "Gilroy",
-                                }}
+                        <div className="ml-[200px]">
+                            <Button
+                                className="rounded-xl bg-blue-700 px-5 py-2.5 text-base font-semibold font-gilroy text-white"
+                                onClick={handleShowConfirmChangeBed}
                             >
-                                {` ${customer?.floorName || "N/A"} | ${customer?.roomName || "N/A"} | ${customer.bedName || "-"}`}
-                            </span>
-                        </p>
+                                Continue →
+                            </Button>
+                        </div>
                     </div>
+                )}
 
-                    <div style={{ marginLeft: 200 }}>
-                        <Button
-                            style={{
-                                fontSize: 16,
-                                backgroundColor: "#1E45E1",
-                                color: "white",
-                                fontWeight: 600,
-                                borderRadius: 12,
-                                padding: "10px 20px",
-                                fontFamily: "Gilroy",
-                            }}
-                            onClick={handleShowConfirmChangeBed}
-                        >
-                            Continue →
-                        </Button>
-                    </div>
-                </div>
-
-
-            }
             </div>
-
-
 
 
         </div>
@@ -929,8 +869,8 @@ BedDetailsMap.propTypes = {
     room: PropTypes.func.isRequired,
     propsValue: PropTypes.func.isRequired,
     selectedBed: PropTypes.shape({
-    bedId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    roomId: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+        bedId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+        roomId: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
     }),
 
     setSelectedBed: PropTypes.func.isRequired
