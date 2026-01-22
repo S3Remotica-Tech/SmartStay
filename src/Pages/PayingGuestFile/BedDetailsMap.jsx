@@ -725,7 +725,7 @@ function BedDetailsMap({ room, propsValue,
                                     {state.login.isTrigger &&
                                         Number(selectedBed?.bedId) === Number(bed.id) &&
                                         Number(selectedBed?.roomId) === Number(bed.roomId) && (
-                                            <div className="absolute inset-y-px -right-2.5 cursor-pointer">
+                                            <div className="absolute inset-y-px -right-2.5 cursor-pointer z-40">
                                                 <img src={Tick} alt="alt-image" className="h-5 w-5 cursor-pointer" />
                                             </div>
                                         )}

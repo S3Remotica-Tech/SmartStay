@@ -1142,7 +1142,7 @@ function PgList() {
                                 <div className="flex flex-nowrap items-center whitespace-nowrap">
 
                                
-                                  <span className="flex items-center gap-2 mx-2 text-sm font-medium font-san">
+                                  <span className="flex items-center gap-2 mx-2 text-sm font-medium font-gilroy">
                                     <img src={availabeimg} alt="available" className="mb-1 pt-1"  />
                                     Available
                                   </span>
@@ -1151,25 +1151,25 @@ function PgList() {
                                     <>
 
                                       {/* Occupied */}
-                                      <span className="flex items-center gap-1 mx-2 text-sm font-medium font-sans">
+                                      <span className="flex items-center gap-1 mx-2 text-sm font-medium font-gilroy">
                                         <img src={occubiedimg} alt="occupied" className="mb-1" />
                                         Occupied
                                       </span>
 
                                       {/* Reserved */}
-                                      <span className="flex items-center gap-1 mx-2 text-sm font-medium font-sans">
+                                      <span className="flex items-center gap-1 mx-2 text-sm font-medium font-gilroy">
                                         <img src={recerverimg} alt="reserved" className="mb-1" />
                                         Reserved
                                       </span>
 
                                       {/* Overdue */}
-                                      <span className="flex items-center gap-1 mx-2 text-sm font-medium font-sans">
+                                      <span className="flex items-center gap-1 mx-2 text-sm font-medium font-gilroy">
                                         <img src={overdueimg} alt="overdue" className="mb-1" />
                                         Overdue
                                       </span>
 
                                       {/* Notice Period */}
-                                      <span className="flex items-center gap-1 mx-2 text-sm font-medium font-sans">
+                                      <span className="flex items-center gap-1 mx-2 text-sm font-medium font-gilroy">
                                         <img src={noticeimg} alt="notice" className="mb-1" />
                                         Notice Period
                                       </span>
