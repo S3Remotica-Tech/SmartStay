@@ -15,8 +15,8 @@ const firebaseConfig= {
 };
 
 
-console.log("MODE:", import.meta.env.MODE);
-console.log("FIREBASE APP ID:", import.meta.env.VITE_FIREBASE_APP_ID);
+// console.log("MODE:", import.meta.env.MODE);
+// console.log("FIREBASE APP ID:", import.meta.env.VITE_FIREBASE_APP_ID);
 
 
 // const app = initializeApp(firebaseConfig);
