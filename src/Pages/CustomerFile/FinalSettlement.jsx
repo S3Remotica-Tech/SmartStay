@@ -1236,7 +1236,7 @@ function FinalSettlement() {
                                                 !finalSettlementList?.ebInfo?.isHostelReading &&
                                                 finalSettlementList?.ebInfo?.missedEb.length > 0 &&
                                                 <>
-                                                    <label className="text-sm font-semibold text-[#222222] font-gilroy mb-2">Missed Electricity :</label>
+                                                    <label className="text-sm font-semibold text-[#222222] font-gilroy mb-2">Missed Electricity </label>
                                                     <hr className="m-0 mb-2" style={{ border: "1px solid #DFDFDF" }} />
                                                 </>
                                             }
@@ -1315,7 +1315,7 @@ function FinalSettlement() {
                                                 !finalSettlementList?.ebInfo?.isHostelReading &&
                                                 finalSettlementList?.ebInfo?.pendingEb.length > 0 &&
                                                 <>
-                                                    <label className="text-sm font-semibold text-[#222222] font-gilroy pb-1">Pending Invoices : </label>
+                                                    <label className="text-sm font-semibold text-[#222222] font-gilroy pb-1">Pending Invoices  </label>
                                                     <hr className="m-0 mb-2" style={{ border: "1px solid #DFDFDF" }} />
                                                 </>
                                             }
