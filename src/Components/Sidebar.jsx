@@ -1568,7 +1568,7 @@ function Sidebar() {
                   </div>
                 }
               />
-              <Route
+              {/* <Route
                 path="/tenant/final-settlement/:tenantId?"
                 element={
                   <div style={{ marginTop: 0, marginLeft: 10, marginRight: 5, }}>
@@ -1577,7 +1577,7 @@ function Sidebar() {
                     />
                   </div>
                 }
-              />
+              /> */}
 
               <Route
                 path="/invoice/:hostelId?"
