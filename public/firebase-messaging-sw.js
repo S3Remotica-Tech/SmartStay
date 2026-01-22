@@ -32,17 +32,17 @@ messaging.onBackgroundMessage((payload) => {
 });
 
 
-self.addEventListener('notificationclick', function (event) {
-  console.log('Notification clicked', event);
+// self.addEventListener('notificationclick', function (event) {
+//   console.log('Notification clicked', event);
 
-  event.notification.close();
+//   event.notification.close();
 
-  const redirectUrl = event.notification.data?.url || 'https://dev.qbatz.com/';
+//   const redirectUrl = event.notification.data?.url || 'https://dev.qbatz.com/';
 
-  event.waitUntil(
-    clients.openWindow(redirectUrl)
-  );
-});
+//   event.waitUntil(
+//     clients.openWindow(redirectUrl)
+//   );
+// });
 
 
 
