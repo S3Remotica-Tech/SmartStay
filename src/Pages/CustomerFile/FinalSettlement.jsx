@@ -636,7 +636,7 @@ function FinalSettlement() {
 
                             </div>
                             <div>
-                                <label style={{ fontSize: 14, color: "#4B4B4B", fontWeight: 400, fontFamily: "Gilroy" }}>Mobile : </label>
+                                <label style={{ fontSize: 14, color: "#4B4B4B", fontWeight: 400, fontFamily: "Gilroy" }}>Mobile : +{finalSettlementList?.customerInfo?.countryCode} {finalSettlementList?.customerInfo?.mobile}</label>
                             </div>
                         </div>
 
