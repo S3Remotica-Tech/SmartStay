@@ -915,9 +915,9 @@ function PgList() {
             {
               !state.login.isTrigger &&
 
-              <div className="d-flex justify-content-between align-items-center mb-3">
+              <div className="d-flex justify-content-between align-items-center mb-3 ">
 
-                <div className="d-flex align-items-center">
+                <div className="d-flex align-items-center ">
 
 
 
@@ -935,9 +935,7 @@ function PgList() {
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center">
-                  <div className="me-3">
-
-                  </div>
+                 
 
                   <div style={{ marginTop: 5 }}>
                     <Button
