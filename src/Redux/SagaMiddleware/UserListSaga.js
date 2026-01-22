@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import {
+import {finalAddRoomReading,
    cancelCheckoutInitialize, getInitializeCheckout, EditTenantAmount, editAdvanceAmount, deleteReading,
    editBasicDetails, CancelCheckOutCustomer, getParticularCustomerReading, getParticularRoomReading, getCustomerReading,
    cancelBookingGet, bookingToCheckIn, addRoomReading, getRoomReading, editHostelReading,
@@ -618,7 +618,64 @@ function* handleAddRoomReading(reading) {
 
 
 }
+function* handleFinalSettlementAddRoomReading(reading) {
+   try {
+      const response = yield call(finalAddRoomReading, reading.payload)
 
+      if (response?.status === 201 || response?.status === 200) {
+         yield put({ type: 'FINAL_SETTLEMENT_ADD_ROOM_READING', payload: { response: response.data, statusCode: response?.status } })
+
+         var toastStyle = {
+            backgroundColor: "#E6F6E6",
+            color: "black",
+            width: "100%",
+            borderRadius: "60px",
+            height: "20px",
+            fontFamily: "Gilroy",
+            fontWeight: 600,
+            fontSize: 14,
+            textAlign: "start",
+            display: "flex",
+            alignItems: "center",
+            padding: "10px",
+
+         };
+
+         toast.success(response.data, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
+
+
+
+
+
+
+      }
+
+      if (response) {
+         refreshToken(response)
+      }
+   }
+   catch (error) {
+
+      yield* handleApiError(error);
+      if (error.code === 'ERR_BAD_REQUEST') {
+         if (error.status === 400) {
+            yield put({ type: 'ROOM_READING_ERROR', payload: error.response.data });
+         }
+      }
+   }
+
+
+}
 
 
 function* handleEditHostelReading(reading) {
@@ -3112,6 +3169,7 @@ function* handleCheckoutProfile(action) {
 
 
 function* UserListSaga() {
+ yield takeEvery('FINALSETTLEMENTADDROOMREADINGSAGA', handleFinalSettlementAddRoomReading)
    yield takeEvery('DELETEREADING', handleDeleteReading)
    yield takeEvery('INITIALIZECANCELCHECKOUT', handleCancelCheckoutInitialize)
    yield takeEvery('GETINITIALIZECHECKOUT', handleGetInitializeCheckout)

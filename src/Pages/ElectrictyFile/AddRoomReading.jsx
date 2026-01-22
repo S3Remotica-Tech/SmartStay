@@ -13,7 +13,7 @@ import PropTypes from "prop-types";
 
 
 
-function AddRoomReading({ show, handleClose, selectedRowDetails, editRoomReading }) {
+function AddRoomReading({ show, handleClose, selectedRowDetails, editRoomReading, finalSettlementWay }) {
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
     const [changesError, setChangesError] = useState("");
@@ -27,7 +27,7 @@ function AddRoomReading({ show, handleClose, selectedRowDetails, editRoomReading
         date: "",
     });
 
-
+console.log("finalSettlementWay", finalSettlementWay)
 
     const handleCurrentReadingChange = (e) => {
         setChangesError('')
@@ -170,7 +170,7 @@ function AddRoomReading({ show, handleClose, selectedRowDetails, editRoomReading
     }, [show]);
 
 
-    return (
+    return (    
         <div
             className="modal show"
             style={{
@@ -419,7 +419,7 @@ AddRoomReading.propTypes = {
     handleClose: PropTypes.func.isRequired,
     selectedRowDetails: PropTypes.object.isRequired,
     editRoomReading: PropTypes.object.isRequired,
-
+finalSettlementWay : PropTypes.bool.isRequired,
 }
 
 export default AddRoomReading

@@ -537,7 +537,7 @@ function FinalSettlement() {
     return (
         <div style={{ height: "100vh", overflow: "hidden" }}>
             {
-                showRoomReading && <AddRoomReading show={showRoomReading} handleClose={handleCloseRoomReading} selectedRowDetails={selectedRowDetails} />
+                showRoomReading && <AddRoomReading show={showRoomReading} handleClose={handleCloseRoomReading} selectedRowDetails={selectedRowDetails} finalSettlementWay={true}/>
             }
             <div
                 className="mb-3"

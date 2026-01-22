@@ -1112,57 +1112,51 @@ function FinalOld({ show, handleClose, data, pgDetails }) {
                                                         </span>
                                                     </div>
 
-                                                    <div className="d-flex justify-content-between gap-2 py-2 align-items-start">
+                                                    <div className="flex items-center justify-between">
 
+                                                        <div>
+                                                            <div
+                                                                style={{
+                                                                    fontFamily: "Gilroy",
+                                                                    fontSize: 14,
+                                                                    color: "black",
+                                                                    cursor: "pointer",
+                                                                    userSelect: "none", whiteSpace: "nowrap", display: "flex",
+                                                                    alignItems: "center"
+                                                                }}
+                                                                onClick={() => setShowDetails(!showDetails)}
+                                                            >
+                                                                Actual Stay Days (
+                                                                {(() => {
+                                                                    const d = finalSettlementList?.currentMonthRentInfo?.stayDays ?? 0;
+                                                                    return `${d} ${d === 1 ? "day" : "days"}`;
+                                                                })()}
 
-                                                        <div
-                                                            style={{
-                                                                fontFamily: "Gilroy",
-                                                                fontSize: 14,
-                                                                color: "black",
-                                                                cursor: "pointer",
-                                                                userSelect: "none"
-                                                            }}
-                                                            onClick={() => setShowDetails(!showDetails)}
-                                                        >
-                                                            Actual Stay Days (
-                                                            {(() => {
-                                                                const d = finalSettlementList?.currentMonthRentInfo?.stayDays ?? 0;
-                                                                return `${d} ${d === 1 ? "day" : "days"}`;
-                                                            })()}
-
-                                                            {/* × ₹
+                                                                {/* × ₹
                                                             {Number(finalSettlementList?.currentMonthRentInfo?.rentPerDay || 0)} */}
-                                                            )
+                                                                )
 
 
-                                                            <span style={{ marginLeft: 6 }} >
-                                                                {showDetails ? (
-                                                                    <span
-                                                                        style={{
-                                                                            backgroundColor: "#E7F1FF",
-                                                                            borderRadius: 5,
-                                                                            padding: 4,
-
-
-                                                                        }}
-                                                                    >
+                                                                <span
+                                                                    style={{
+                                                                        marginLeft: 6,
+                                                                        backgroundColor: "#E7F1FF",
+                                                                        borderRadius: 5,
+                                                                        padding: 4,
+                                                                        display: "inline-flex",
+                                                                        alignItems: "center",
+                                                                        justifyContent: "center",
+                                                                    }}
+                                                                >
+                                                                    {showDetails ? (
                                                                         <ArrowUp2 size="16" color="#1E45E1" />
-                                                                    </span>
-                                                                ) : (
-                                                                    <span
-                                                                        style={{
-                                                                            backgroundColor: "#E7F1FF",
-                                                                            borderRadius: 5,
-                                                                            padding: 4,
-
-                                                                        }}
-                                                                    >
+                                                                    ) : (
                                                                         <ArrowDown2 size="16" color="#1E45E1" />
-                                                                    </span>
-                                                                )}
-                                                            </span>
-                                                            {showDetails &&
+                                                                    )}
+                                                                </span>
+
+                                                            </div>
+                                                            {/* {showDetails &&
                                                                 finalSettlementList?.currentMonthRentInfo?.rentLists?.map((item, index) => (
                                                                     <div key={index} className="px-1 mt-2 col-md-12">
 
@@ -1189,9 +1183,35 @@ function FinalOld({ show, handleClose, data, pgDetails }) {
                                                                                 {item.roomName} - {item.bedName}
                                                                             </div>
 
-                                                                            <div className="col-6 text-start " style={{ whiteSpace: "nowrap" }}>
+                                                                            <div className="col-6 text-end font-gilroy " style={{ whiteSpace: "nowrap" }}>
                                                                                 ({item.noOfDays} {item.noOfDays === 1 ? "day" : "days"} = {item.rent})
 
+                                                                            </div>
+
+                                                                        </div>
+
+                                                                    </div>
+                                                                ))
+                                                            } */}
+                                                            {showDetails &&
+                                                                finalSettlementList?.currentMonthRentInfo?.rentLists?.map((item, index) => (
+                                                                    <div key={index} className="px-1 mt-2 w-full  ">
+
+                                                                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 py-1 w-full">
+
+
+                                                                            <div className="text-[12px] text-[#1E45E1] font-gilroy sm:whitespace-nowrap">
+                                                                                {item.floorName}
+                                                                            </div>
+
+
+                                                                            <div className="text-[12px] text-[#1E45E1] font-gilroy sm:whitespace-nowrap">
+                                                                                {item.roomName} - {item.bedName}
+                                                                            </div>
+
+
+                                                                            <div className="text-[12px] font-gilroy text-right whitespace-nowrap ">
+                                                                                ({item.noOfDays} {item.noOfDays === 1 ? "day" : "days"} = {item.rent})
                                                                             </div>
 
                                                                         </div>
@@ -1202,6 +1222,7 @@ function FinalOld({ show, handleClose, data, pgDetails }) {
 
 
                                                         </div>
+
 
 
                                                         <div
@@ -1231,19 +1252,32 @@ function FinalOld({ show, handleClose, data, pgDetails }) {
                                 <div className="d-flex justify-content-between align-items-center mt-3">
                                     <p style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>{ReturnAmount > 0 ? "Outstanding Amount Payable" : "Refund Payable to Tenant"}</p>
                                     <span
-                                        style={{ color: "#1E45E1", cursor: "pointer", fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400, marginTop: "-18px" }}
                                         onClick={() => setShowBreakdown(!showBreakdown)}
+                                        className="
+    inline-flex items-center gap-1
+    whitespace-nowrap
+    cursor-pointer
+    text-[#1E45E1]
+    text-sm
+    font-gilroy
+    font-normal
+    -mt-[18px]
+  "
                                     >
-
-                                        View Breakdown <img
+                                        View Breakdown
+                                        <img
                                             src={arrowTot}
                                             alt="arrow"
+                                            className="
+      transition-transform duration-300
+      inline-block
+    "
                                             style={{
-                                                transition: "transform 0.3s ease",
                                                 transform: showBreakdown ? "rotate(180deg)" : "rotate(0deg)",
                                             }}
                                         />
                                     </span>
+
                                 </div>
 
 
