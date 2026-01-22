@@ -9,6 +9,9 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { AiOutlineBarChart } from "react-icons/ai";
+import "react-datepicker/dist/react-datepicker.css";
+import { DatePicker } from 'antd';
+import dayjs from 'dayjs';
 
 function Reports() {
 
@@ -17,6 +20,8 @@ function Reports() {
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("operational");
+  const [selectedRange, setSelectedRange] = useState(null);
+  const { RangePicker } = DatePicker;
 
 
 
@@ -115,7 +120,7 @@ function Reports() {
       title: "Complaint Register",
       subTitle: "Total Complaints",
       desc: "Track complaints, resolution, and SLA compliance",
-     value: `₹${reportsList?.complaints?.totalComplaints}`,
+      value: `₹${reportsList?.complaints?.totalComplaints}`,
       icon: Warning2,
       color: "text-rose-600 bg-rose-100",
     },
@@ -232,7 +237,12 @@ function Reports() {
   }
 
   console.log("state", state.reports)
-
+  useEffect(() => {
+    setSelectedRange({
+      from: dayjs().startOf("month").toDate(),
+      to: dayjs().endOf("month").toDate(),
+    });
+  }, []);
 
 
 
@@ -241,7 +251,7 @@ function Reports() {
 
   return (
 
-    <div className="w-full h-screen flex flex-col font-[Gilroy] px-0 ">
+    <div className="w-full h-screen flex flex-col font-[Gilroy] px-0 mt-px">
 
       {loading && (
         <div className="fixed top-0 right-0 bottom-0 left-[200px] flex items-center justify-center bg-transparent opacity-75 z-10">
@@ -249,7 +259,7 @@ function Reports() {
         </div>
       )}
 
-      <div className="sticky top-0 z-20 bg-white ">
+      <div className="sticky top-0 z-20 bg-white  flex justify-between">
 
 
         <div className="px-2 flex gap-6">
@@ -266,6 +276,50 @@ function Reports() {
             </button>
           ))}
         </div>
+        <div
+          className="datepicker-wrapper"
+          style={{ position: "relative", }}
+        >
+          <RangePicker
+            style={{
+              width: "100%",
+              height: "100%",
+              cursor: "pointer",
+              fontFamily: "Gilroy",
+
+            }}
+            format="DD/MM/YYYY"
+            placeholder={["From date", "To date"]}
+            value={
+              selectedRange?.from && selectedRange?.to
+                ? [dayjs(selectedRange.from), dayjs(selectedRange.to)]
+                : null
+            }
+            onChange={(dates) => {
+
+              if (dates) {
+                setSelectedRange({
+                  from: dates[0].toDate(),
+                  to: dates[1].toDate(),
+                });
+              } else {
+                setSelectedRange(null);
+              }
+            }}
+            disabledDate={(current) => {
+              if (!selectedRange?.from) return current > dayjs().endOf("day");
+              return (
+                current > dayjs().endOf("day") ||
+                current < dayjs(selectedRange.from).startOf("day")
+              );
+            }}
+
+            getPopupContainer={(triggerNode) =>
+              triggerNode.closest(".datepicker-wrapper")
+            }
+          />
+        </div>
+
       </div>
 
       {!canReadReports ? (
