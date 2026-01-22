@@ -14,7 +14,9 @@ import { Filter } from 'iconsax-react'
 function TenantsFilter({ show, handleClose }) {
     // const state = useSelector((state) => state);
     const dispatch = useDispatch();
-    const [tenantStatus, setTenantStatus] = useState(null);
+    const [selectedTenantStatusOptions, setSelectedTenantStatusOptions] = useState([]);
+    const [tenantStatus, setTenantStatus] = useState([]);
+
     const [period, setPeriod] = useState(null);
     const [sharingType, setSharingType] = useState(null);
     const [floor, setFloor] = useState(null);
@@ -132,6 +134,14 @@ function TenantsFilter({ show, handleClose }) {
         setTenantName(e.target.value);
     };
 
+    const tenantStatusOptions = [
+        { label: "All", value: "ALL" },
+        { label: "Check in", value: "CHECK_IN" },
+        { label: "Inactive", value: "INACTIVE" },
+        { label: "Notice period", value: "NOTICE_PERIOD" },
+        { label: "Checkout", value: "CHECK_OUT" },
+        { label: "Walk in", value: "WALK_IN" },
+    ];
 
 
 
@@ -181,7 +191,26 @@ function TenantsFilter({ show, handleClose }) {
 
 
 
-   
+
+    const handleTenantStatusChange = (selectedOptions) => {
+        if (!selectedOptions || selectedOptions.length === 0) {
+            setSelectedTenantStatusOptions([]);
+            setTenantStatus([]);
+            return;
+        }
+
+        const isAllSelected = selectedOptions.some(opt => opt.value === "ALL");
+
+        if (isAllSelected) {
+            // Keep ONLY ALL
+            const allOption = selectedOptions.find(opt => opt.value === "ALL");
+            setSelectedTenantStatusOptions([allOption]);
+            setTenantStatus(["ALL"]);
+        } else {
+            setSelectedTenantStatusOptions(selectedOptions);
+            setTenantStatus(selectedOptions.map(opt => opt.value));
+        }
+    };
 
 
 
@@ -261,21 +290,23 @@ function TenantsFilter({ show, handleClose }) {
                         <div className='mb-3'>
                             <label style={{ color: "#222222", fontSize: 15, fontWeight: 600 }}>System Filter</label>
                         </div>
- <Form.Group className="mb-3">
-          <Form.Label className="text-muted" style={{ fontSize: 12 }}>
-            Tenant Status
-          </Form.Label>
-          <Select
-            styles={selectStyles}
-            placeholder="Check in"
-            value={tenantStatus}
-            onChange={setTenantStatus}
-            options={[
-              { label: "Check in", value: "CHECK_IN" },
-              { label: "Check out", value: "CHECK_OUT" },
-            ]}
-          />
-        </Form.Group>
+                        <Form.Group className="mb-3">
+                            <Form.Label className="text-muted" style={{ fontSize: 12 }}>
+                                Tenant Status
+                            </Form.Label>
+                            <Select
+                                isMulti
+                                closeMenuOnSelect={false}
+                                hideSelectedOptions={false}
+                                options={tenantStatusOptions}
+                                value={selectedTenantStatusOptions}
+                                onChange={handleTenantStatusChange}
+                                styles={selectStyles}
+                                components={{ Option: CheckboxOption }}
+                                placeholder="Select Status"
+                            />
+
+                        </Form.Group>
                         <Form.Group className="mb-3">
                             <Form.Label className="text-muted" style={{ fontSize: 12 }}>
                                 Period
@@ -394,10 +425,10 @@ function TenantsFilter({ show, handleClose }) {
                 }}>
                     <Button
                         onClick={() => {
-                            setBillStatus([]);
-                            setInvoiceType([]);
-                            setInvoiceMode([]);
-                            setCreatedBy([]);
+                            // setBillStatus([]);
+                            // setInvoiceType([]);
+                            // setInvoiceMode([]);
+                            // setCreatedBy([]);
                         }}
                         style={{
                             backgroundColor: "transparent",

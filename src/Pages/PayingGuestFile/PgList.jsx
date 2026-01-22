@@ -776,7 +776,7 @@ function PgList() {
 
 
 
-      <div className="sticky-top bg-white" style={{ position: "relative" }}   >
+      <div className="sticky top-0 bg-white" style={{ position: "relative" }}   >
 
 
         {state.login.isTrigger &&
@@ -914,7 +914,7 @@ function PgList() {
 
             {
               !state.login.isTrigger &&
-
+ <div className="sticky top-0 z-[1000] bg-white mb-3 px-4 py-2">
               <div className="d-flex justify-content-between align-items-center mb-3 ">
 
                 <div className="d-flex align-items-center ">
@@ -959,6 +959,7 @@ function PgList() {
                     </Button>
                   </div>
                 </div>
+              </div>
               </div>
             }
             {

@@ -892,7 +892,7 @@ function ParticularHostelDetails(props) {
         </div>
 
 
-        <div className='container show-scroll h-screen' style={{ overflowY: "auto", marginTop: "-25px" }}>
+        <div className='container show-scrolls h-[400px]' style={{ overflowY: "auto", }}>
           <div className='row mt-4 mb-2 row-gap-3' style={{ fontFamily: "Gilroy" }}>
             {roomList?.length > 0 && roomList?.map((room) => (
               <div

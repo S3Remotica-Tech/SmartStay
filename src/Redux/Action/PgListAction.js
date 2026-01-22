@@ -492,3 +492,5 @@ export function add_sub_comments() {
 export async function DeleteHostel(datum) {
   return await AxiosConfigV2.delete(`/v2/hostel/${datum.hostelId}`);
 }
+
+
