@@ -81,55 +81,13 @@ const {
 
   return (
     <div className="container-fluid " style={{ fontFamily: "Gilroy" }}>
-      {/* <div className="d-flex justify-content-between align-items-center mb-3"> */}
-      {/* <div
-  className="d-flex justify-content-between align-items-center mb-3 px-2 py-4 "
-  style={{
-                    // display: "flex", flexDirection: "row", justifyContent: "space-between",
-                     position: "sticky",
-                    top: 0,
-                    right: 0,
-                    left: 0,
-                    zIndex: 1000,
-                    backgroundColor: "#FFFFFF",
-                    height: 80,
-                }}
->
-        <div>
-          <h5 className="mb-0" style={{ fontSize: 16, fontWeight: 600 }}>Agreement & Policy</h5>
-          <small className="text-muted"><img src={arrowleft} width={20} height={20}/>Simple PG Stay Agreement</small>
-        </div>
-        <div className="d-flex align-items-center">
-          <button className="btn btn-outline-secondary me-2" onClick={handleDownloadPDF}>
-            <img src={download} alt="download" width={15} height={15} className="me-2" />
-            Download Sample
-          </button>
-           {!isEditable && (
-          <button className="btn btn-primary d-flex align-items-center gap-2 px-4" onClick={() => setIsEditable(true)}>
-            <img src={editimg} alt="Edit" width={15} height={15} />
-            Edit
-          </button>
-           )}
- {isEditable && (
-           <button className="btn btn-primary d-flex align-items-center gap-2 px-4" onClick={() => setIsEditable(true)}>
-            <img src={savevec} alt="Edit" width={15} height={15} />
-            Save
-          </button>
- )}
-          {isEditable && (
-            <CloseCircle size="24" color="#000" 
-            onClick={handleCloseEdit} 
-                      style={{ cursor: 'pointer' }}/>
-          )}
 
-        </div>
-      </div> */}
       <div
   className="container-fluid sticky-top bg-white"
   style={{ zIndex: 1000 }}
 >
   <div className="d-flex flex-wrap justify-content-between align-items-center  py-3">
-    {/* Left Section: Title + Subtitle */}
+    
     <div className="mb-2 mb-md-0">
       <h5 className="mb-1" style={{ fontSize: 16, fontWeight: 600 }}>Agreement & Policy</h5>
       <small className="text-muted d-flex align-items-center">
@@ -140,10 +98,26 @@ const {
 
    
     <div className="d-flex flex-wrap align-items-center gap-2">
-      <button className="btn btn-outline-secondary" disabled={!canReadAgreement} onClick={handleDownloadPDF} style={{whiteSpace:"nowrap"}}>
-        <img src={download} alt="download" width={15} height={15} className="me-2" />
-        Download Sample
-      </button>
+    <button
+  disabled={!canReadAgreement}
+  onClick={handleDownloadPDF}
+  className={`flex items-center whitespace-nowrap rounded-md border px-4 py-2 text-sm font-medium transition
+    ${
+      canReadAgreement
+        ? "border-gray-400 text-gray-700 hover:bg-gray-100"
+        : "cursor-not-allowed border-gray-300 text-gray-400"
+    }`}
+>
+  <img
+    src={download}
+    alt="download"
+    width={15}
+    height={15}
+    className="mr-2 shrink-0"
+  />
+  Download Sample
+</button>
+
 
       {!isEditable && (
         <button disabled={!canUpdateAgreement} className="btn btn-primary d-flex align-items-center gap-2 px-4" onClick={() => setIsEditable(true)}>

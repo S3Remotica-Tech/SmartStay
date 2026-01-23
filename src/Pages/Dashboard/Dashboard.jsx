@@ -55,7 +55,7 @@ function Dashboard() {
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const [dashboardList, setDashboardList] = useState('');
-  const [lablesdata, setLables] = useState([]);
+  // const [lablesdata, setLables] = useState([]);
   const [totalAmount, setTotalAmount] = useState([]);
   // const [rolePermission, setRolePermission] = useState("");
   // const [permissionError, setPermissionError] = useState("");
@@ -94,6 +94,157 @@ function Dashboard() {
   }, [canReadDashboard]);
 
 
+// Total Cashback
+
+const cashBackDataSample = {
+  total: 49500,
+  currentValue: 19500,
+  items: [
+    {
+      label: "Received",
+      value: 19500,
+     
+    },
+    {
+      label: "Pending",
+      value: 30000,
+     
+    }
+  ]
+};
+
+
+// expenses
+
+const expensesApiResponse = {
+  totalAmount: 150,
+  categories: [
+    {
+      category_Id: 1,
+      category_Name: "Category 1",
+      purchase_amount: 95,
+     
+    },
+    {
+      category_Id: 2,
+      category_Name: "Category 2",
+      purchase_amount: 26,
+     
+    },
+    {
+      category_Id: 3,
+      category_Name: "Category 3",
+      purchase_amount: 17,
+     
+    },
+    {
+      category_Id: 4,
+      category_Name: "Category 4",
+      purchase_amount: 12,
+      
+    }
+  ]
+};
+
+
+
+
+
+
+const lablesdata = expensesApiResponse.categories;
+
+
+
+
+
+// advance & advance return
+
+
+const advanceApiResponse = [
+  {
+    date: "2024-01-01",
+    advance: 12000,
+    advanceReturn: 10000
+  },
+  {
+    date: "2024-02-01",
+    advance: 18000,
+    advanceReturn: 15000
+  },
+  {
+    date: "2024-03-01",
+    advance: 25000,
+    advanceReturn: 22000
+  },
+  {
+    date: "2024-04-01",
+    advance: 32000,
+    advanceReturn: 30000
+  },
+  {
+    date: "2024-05-01",
+    advance: 28000,
+    advanceReturn: 26000
+  },
+  {
+    date: "2024-06-01",
+    advance: 15000,
+    advanceReturn: 14000
+  }
+];
+
+
+
+const formattedChart = advanceApiResponse.map(item => ({
+  name: item.date,               
+  Advance: item.advance,           
+  "Advance Return": item.advanceReturn 
+}));
+
+
+
+
+//  expense & Revenue
+
+
+const dataExpenseRevenue = [
+  {
+    month: "2024-01",
+    revenue: 400,
+    expense: 300
+  },
+  {
+    month: "2024-02",
+    revenue: 200,
+    expense: 280
+  },
+  {
+    month: "2024-03",
+    revenue: 500,
+    expense: 400
+  },
+  {
+    month: "2024-04",
+    revenue: 200,
+    expense: 150
+  },
+  {
+    month: "2024-05",
+    revenue: 250,
+    expense: 500
+  },
+  {
+    month: "2024-06",
+    revenue: 300,
+    expense: 380
+  }
+];
+
+
+
+
+
+
 
   // useEffect(() => {
   //   throw new Error("Test HOC Error Boundary");
@@ -105,15 +256,15 @@ function Dashboard() {
     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
   ];
 
-  const formattedChart = state.PgList?.dashboardFilterAdvance?.advance_data?.map(item => {
-    const [year, month] = item.month.split("-");
-    const monthIndex = parseInt(month, 10) - 1;
-    return {
-      name: `${monthNames[monthIndex]} ${year}`,
-      Advance: Number(item.advance_amount),
-      AdvanceReturn: Number(item.return_advance),
-    };
-  });
+  // const formattedChart = state.PgList?.dashboardFilterAdvance?.advance_data?.map(item => {
+  //   const [year, month] = item.month.split("-");
+  //   const monthIndex = parseInt(month, 10) - 1;
+  //   return {
+  //     name: `${monthNames[monthIndex]} ${year}`,
+  //     Advance: Number(item.advance_amount),
+  //     AdvanceReturn: Number(item.return_advance),
+  //   };
+  // });
 
   // useEffect(() => {
   //   if (state.login.selectedHostel_Id) {
@@ -243,9 +394,9 @@ function Dashboard() {
 
 
 
-  useEffect(() => {
-    setLables(state.PgList?.dashboardFilter?.exp_data || []);
-  }, [state.PgList?.dashboardFilter?.exp_data]);
+  // useEffect(() => {
+  //   setLables(state.PgList?.dashboardFilter?.exp_data || []);
+  // }, [state.PgList?.dashboardFilter?.exp_data]);
 
   useEffect(() => {
     if (state.PgList?.statusCodeForDashboardFilter === 200) {
@@ -278,16 +429,16 @@ function Dashboard() {
   }, [state.PgList?.dashboardFilterCashback?.cash_back_data]);
 
   const currentvalue =
-    (Number(cashBackData?.[0]?.Revenue) || 0) +
-    (Number(cashBackData?.[0]?.overdue) || 0);
+    (Number(cashBackDataSample?.[0]?.Revenue) || 0) +
+    (Number(cashBackDataSample?.[0]?.overdue) || 0);
 
   const percentage = currentvalue
-    ? ((currentvalue - Number(cashBackData?.[0]?.overdue)) / currentvalue) * 100
+    ? ((currentvalue - Number(cashBackDataSample?.[0]?.overdue)) / currentvalue) * 100
     : 0;
 
   const pathColor =
     currentvalue > 0
-      ? cashBackData?.[0]?.overdue > 0
+      ? cashBackDataSample?.[0]?.overdue > 0
         ? "#00A32E"
         : "#EBEBEB"
       : "#EBEBEB";
@@ -708,7 +859,7 @@ function Dashboard() {
                           <div className="relative h-[350px] overflow-x-auto">
                             <div className="min-w-full">
                               <ResponsiveContainer width="100%" height={350}>
-                                <BarChart data={data} margin={{ top: 10, left: 20, bottom: 40, right: 10 }}>
+                                <BarChart data={dataExpenseRevenue} margin={{ top: 10, left: 20, bottom: 40, right: 10 }}>
                                   <CartesianGrid horizontal vertical={false} stroke="#e0e0e0" />
                                   <XAxis
                                     dataKey="month"
@@ -766,8 +917,8 @@ function Dashboard() {
                               </div>
                             </div>
                           </div>
-
-                          <div className="flex flex-wrap items-center">
+{/* cash back */}
+                          {/* <div className="flex flex-wrap items-center">
                             <div className="w-[40%] ml-4 mt-1 font-[Gilroy]">
                               <CircularProgressbar
                                 value={percentage}
@@ -789,7 +940,7 @@ function Dashboard() {
                                 <div>
                                   <p className="text-[12px] font-medium font-[Gilroy]">Received</p>
                                   <p className="text-[13px] font-semibold font-[Montserrat]">
-                                    ₹{cashBackData?.[0]?.Revenue || 0}
+                                    ₹{cashBackDataSample?.[0]?.Revenue || 0}
                                   </p>
                                 </div>
                               </div>
@@ -799,12 +950,49 @@ function Dashboard() {
                                 <div>
                                   <p className="text-[12px] font-medium font-[Gilroy]">Pending</p>
                                   <p className="text-[13px] font-semibold font-[Montserrat]">
-                                    ₹{cashBackData?.[0]?.overdue || 0}
+                                    ₹{cashBackDataSample?.[0]?.overdue || 0}
                                   </p>
                                 </div>
                               </div>
                             </div>
-                          </div>
+                          </div> */}
+                          <div className="flex flex-wrap items-center">
+  {/* Progress */}
+  <div className="w-[40%] ml-4 mt-1 font-[Gilroy]">
+    <CircularProgressbar
+      value={percentage}
+      text={`₹${cashBackDataSample.currentValue || 0}`}
+      circleRatio={0.5}
+      styles={buildStyles({
+        rotation: 0.75,
+        pathColor: "#16A34A",
+        trailColor: "#EBEBEB",
+        textColor: "#000",
+        textSize: "24px",
+      })}
+    />
+  </div>
+
+  <div className="ml-auto -mt-12 pr-5 flex flex-col gap-4">
+    {cashBackDataSample.items.map((item, index) => (
+      <div key={index} className="flex items-center">
+        <div
+          className={`mr-2 -mt-6 h-[15px] w-[15px] rounded-full ${item.color}`}
+        ></div>
+
+        <div>
+          <p className="text-[12px] font-medium font-[Gilroy]">
+            {item.label}
+          </p>
+          <p className="text-[13px] font-semibold font-[Montserrat]">
+            ₹{item.value}
+          </p>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
                         </div>
                       </div>
 
@@ -816,7 +1004,7 @@ function Dashboard() {
 
                           <div className="-mt-4 flex flex-wrap items-center justify-between px-2.5 py-2.5">
                             <div className="flex-1 text-start">
-                              <p className="whitespace-nowrap text-lg font-semibold font-sans">
+                              <p className="whitespace-nowrap text-lg font-semibold font-gilroy">
                                 Advance VS Advance Return
                               </p>
                             </div>
@@ -894,12 +1082,12 @@ function Dashboard() {
                           </ResponsiveContainer>
                         </div>
 
-
+{/* Expenses */}
                         <div className="expenses-container animated-text mt-4">
 
                           <div className="dropp flex flex-wrap items-center justify-between px-3 py-2">
                             <div className="mb-2 flex text-start">
-                              <p className="pl-2.5 text-lg font-semibold font-sans">
+                              <p className="pl-2.5 text-lg font-semibold font-gilroy">
                                 Expenses
                               </p>
                             </div>

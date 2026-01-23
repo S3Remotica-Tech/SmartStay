@@ -486,7 +486,8 @@ function RecurringBills() {
             (!recurringbills || recurringbills.length === 0) &&
             activeStay === 'long_stay' ?
             (
-              <div style={{ marginTop: 20 }}>
+              <div className="mt-2 flex justify-center">
+                                  <div>
                 <div style={{ textAlign: "center" }}>
                   {" "}
                   <img src={Emptystate} alt="emptystate" />
@@ -516,6 +517,7 @@ function RecurringBills() {
                   There are no Recuring bills added{" "}
                 </div>
               </div>
+                   </div>
             ) : !recurLoader && activeStay === 'short_stay' ?
               <div className="mt-5"
                 style={{
