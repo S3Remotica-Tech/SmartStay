@@ -1400,18 +1400,21 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                 >
                   Customize Bill Templates
                 </h4>
-                <div style={{ display: 'flex', flexDirection: "row" }}>
+             <div className="flex items-start gap-2 my-2">
+  <img
+    src={leftarrow}
+    alt="leftarrow"
+    width={20}
+    height={20}
+    onClick={handleCloseForm}
+    className="cursor-pointer mt-[2px] shrink-0"
+  />
 
-                  <img
-                    src={leftarrow}
-                    alt="leftarrow"
-                    width={20}
-                    height={20}
-                    onClick={handleCloseForm}
-                    style={{ cursor: "pointer", marginRight: '5px', marginTop: 2 }}
-                  />
-                  <p style={{ fontFamily: 'Gilroy', fontSize: 16, fontWeight: 600, }}>Global Bill Settings</p>
-                </div>
+  <p className="font-[Gilroy] text-[16px] font-semibold leading-[22px] m-0">
+    Global Bill Settings
+  </p>
+</div>
+
                 <div
                   style={{
                     display: "grid",
@@ -3058,24 +3061,21 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                   >
                     Bill Template Manager
                   </h4>
-                  <h5
-                    style={{
-                      fontFamily: "Gilroy",
-                      fontSize: 17,
-                      color: "rgba(34, 34, 34, 1)",
-                      fontWeight: 600,
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    <img
-                      src={leftarrow}
-                      alt="leftarrow"
-                      width={20}
-                      height={20}
-                      onClick={handleGlobalCloseForm}
-                      style={{ cursor: "pointer", marginRight: '5px', marginTop: 2 }}
-                    /> Global Bill Settings
-                  </h5>
+                 <h5 className="flex items-start gap-2 font-[Gilroy] text-[17px] font-semibold text-[rgba(34,34,34,1)]">
+  <img
+    src={leftarrow}
+    alt="leftarrow"
+    width={20}
+    height={20}
+    onClick={handleGlobalCloseForm}
+    className="cursor-pointer mt-[2px] shrink-0"
+  />
+
+  <span className="leading-[22px]">
+    Global Bill Settings
+  </span>
+</h5>
+
                 </div>
 
 

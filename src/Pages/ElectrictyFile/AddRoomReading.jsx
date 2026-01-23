@@ -27,7 +27,33 @@ function AddRoomReading({ show, handleClose, selectedRowDetails, editRoomReading
         date: "",
     });
 
-console.log("finalSettlementWay", finalSettlementWay)
+// console.log("finalSettlementWay", finalSettlementWay)
+// console.log("selectedRowDetails",selectedRowDetails)
+
+
+
+const disabledDate = (current) => {
+  if (!current) return false;
+
+  if (finalSettlementWay) {
+    const minDate = dayjs(
+      selectedRowDetails?.lastEntryDate,
+      "DD/MM/YYYY"
+    ).add(1, "day");
+
+    const today = dayjs().endOf("day");
+
+    return (
+      current.isBefore(minDate, "day") ||
+      current.isAfter(today, "day")
+    );
+  }
+
+  return current.isAfter(dayjs().endOf("day"));
+};
+
+
+
 
     const handleCurrentReadingChange = (e) => {
         setChangesError('')
@@ -281,7 +307,7 @@ console.log("finalSettlementWay", finalSettlementWay)
                                     value={readingDate ? dayjs(readingDate) : null}
                                     onChange={handleReadingDateChange}
                                     getPopupContainer={() => modalBodyRef.current}
-                                    disabledDate={(current) => current && current > dayjs()}
+                                    disabledDate={disabledDate}
                                 />
                             </div>
 
@@ -325,7 +351,7 @@ console.log("finalSettlementWay", finalSettlementWay)
                             </Form.Label>
 
                            {
-                            selectedRowDetails?.currentReading ?
+                            (selectedRowDetails?.currentReading || selectedRowDetails?.lastReading) ?
                             <span
                                 style={{
                                     fontFamily: 'Gilroy',
@@ -337,7 +363,7 @@ console.log("finalSettlementWay", finalSettlementWay)
                                     color: "gray"
                                 }}
                             >
-                                Last Reading: <span style={{ color: '#1E45E1', fontFamily: "Gilroy" }}>{selectedRowDetails?.currentReading}</span>
+                                Last Reading: <span style={{ color: '#1E45E1', fontFamily: "Gilroy" }}>{selectedRowDetails?.currentReading || selectedRowDetails?.lastReading}</span>
                             </span>
                             :
                             ""

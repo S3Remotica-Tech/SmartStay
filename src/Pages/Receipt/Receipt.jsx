@@ -1409,7 +1409,8 @@ function Receipt() {
 
                                 {!receiptLoader && sortedDataReceipt &&
                                     sortedDataReceipt?.length === 0 && (
-                                        <div style={{ marginTop: 20 }}>
+                                        <div className="mt-2 flex justify-center">
+                                  <div>
                                             <div style={{ textAlign: "center" }}>
                                                 {" "}
                                                 <img src={Emptystate} alt="emptystate" />
@@ -1437,6 +1438,7 @@ function Receipt() {
                                                 }}
                                             >
                                                 There are no receipt added{" "}
+                                            </div>
                                             </div>
                                         </div>
                                     )}

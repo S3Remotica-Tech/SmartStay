@@ -73,9 +73,10 @@ function FinalSettlement() {
     }
 
     const handleCloseRoomReading = () => {
+         dispatch({ type: 'REMOVE_ROOM_READING_ERROR' })
         setShowRoomReading(false)
     }
-
+    
 
     useEffect(() => {
         if (!data?.customerId && !data?.tenetId) return;
@@ -113,17 +114,7 @@ function FinalSettlement() {
 
 
 
-    //     useEffect(() => {
-    //   if (data?.customerId || data?.tenetId) {
-    //     dispatch({
-    //       type: "GETFINALSETTLEMENT",
-    //       payload: {
-    //         customerId: data?.customerId || data?.tenetId,
-    //       },
-    //     });
-    //     setFormLoading(true);
-    //   }
-    // }, [data]);
+
 
 
 
@@ -322,10 +313,7 @@ function FinalSettlement() {
                 apiDeductions.map(item => [item.type?.toLowerCase(), Number(item.amount) || 0])
             );
 
-            // const totalApiDeductions = apiDeductions.reduce(
-            //     (sum, item) => sum + (Number(item.amount) || 0),
-            //     0
-            // );
+
 
             const totalUserDeductions = (fields || []).reduce((sum, item) => {
                 const reasonName = item.reason_name?.toLowerCase();
@@ -508,11 +496,23 @@ function FinalSettlement() {
     }, [state.InvoiceList.finalSettlementError])
 
     useEffect(() => {
-        if (state.UsersList?.addRoomReadingStatusCode === 201 || state.UsersList?.addRoomReadingStatusCode === 200 || state.UsersList?.editHostelStatusCode === 200) {
+        if (state.UsersList?.addRoomReadingStatusCode === 201 || state.UsersList?.addRoomReadingStatusCode === 200) {
             setShowRoomReading(false)
+
+            if (!data?.customerId && !data?.tenetId) return;
+            const payload = {
+                customerId: data?.customerId || data?.tenetId,
+            };
+
+            if (checkoutDate) {
+                payload.leavingDate = checkoutDate?.format("DD-MM-YYYY");
+            }
+
+            dispatch({ type: "GETFINALSETTLEMENT", payload });
+
         }
 
-    }, [state.UsersList?.addRoomReadingStatusCode, state.UsersList?.editHostelStatusCode])
+    }, [state.UsersList?.addRoomReadingStatusCode])
 
 
     const isNonHostel = !finalSettlementList?.ebInfo?.isHostelReading;
@@ -536,9 +536,7 @@ function FinalSettlement() {
 
     return (
         <div style={{ height: "100vh", overflow: "hidden" }}>
-            {
-                showRoomReading && <AddRoomReading show={showRoomReading} handleClose={handleCloseRoomReading} selectedRowDetails={selectedRowDetails} finalSettlementWay={true}/>
-            }
+
             <div
                 className="mb-3"
                 style={{
@@ -1885,6 +1883,12 @@ function FinalSettlement() {
                     ></div>
                 </div>}
 
+
+
+
+            {
+                showRoomReading && <AddRoomReading show={showRoomReading} handleClose={handleCloseRoomReading} selectedRowDetails={selectedRowDetails} finalSettlementWay={true} />
+            }
 
 
         </div>
