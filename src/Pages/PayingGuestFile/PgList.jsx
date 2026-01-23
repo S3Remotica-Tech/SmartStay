@@ -818,10 +818,10 @@ function PgList() {
               <div className="card-body d-flex flex-column flex-md-row align-items-center justify-content-between">
                 <div className="d-flex align-items-center mb-3 mb-md-0">
 
-                  {state.PgList?.isClickedBed?.currentTenantInfo?.[0].profilePic ? (
+                  {state.PgList?.isClickedBed?.currentTenantInfo?.[0]?.profilePic ? (
 
                     <img
-                      src={state.PgList?.OccupiedCustomer?.currentTenantInfo?.[0].profilePic || Profiles}
+                      src={state.PgList?.isClickedBed?.currentTenantInfo?.[0]?.profilePic || Profiles}
                       alt="Tenant Profile"
                       style={{
                         height: "60px",
@@ -852,7 +852,7 @@ function PgList() {
                         textTransform: "uppercase",
                       }}
                     >
-                      {state.PgList?.isClickedBed?.currentTenantInfo?.[0].tenantInitials || "?"}
+                      {state.PgList?.isClickedBed?.currentTenantInfo?.[0].tenantInitials || "-"}
                     </div>
                   )}
 
