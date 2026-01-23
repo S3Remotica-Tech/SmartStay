@@ -27,8 +27,6 @@ function AddRoomReading({ show, handleClose, selectedRowDetails, editRoomReading
         date: "",
     });
 
-// console.log("finalSettlementWay", finalSettlementWay)
-// console.log("selectedRowDetails",selectedRowDetails)
 
 
 
