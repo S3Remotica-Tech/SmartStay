@@ -75,7 +75,7 @@ function Dashboard() {
 
   const [openCards, setOpenCards] = useState({});
 
-  const [totalAmount, setTotalAmount] = useState([]);
+  const [selectedMonth, setSelectedMonth] = useState([]);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [selectExpence, setSelectExpence] = useState("this_month");
@@ -178,10 +178,12 @@ function Dashboard() {
     "Last 3 Months",
   ];
 
-
   const toggleCard = (id) => {
     setOpenCards((prev) => ({
-      ...prev,
+      ...Object.keys(prev).reduce((acc, key) => {
+        acc[key] = false;
+        return acc;
+      }, {}),
       [id]: !prev[id],
     }));
   };
@@ -205,7 +207,7 @@ function Dashboard() {
     collected: "₹ 54,000",
     outstanding: "₹ 2,70,000",
     collectionRate: 24,
-    trend: "+3% from last month",
+    trend: "3% from last month",
   };
 
 
@@ -228,20 +230,26 @@ function Dashboard() {
   const checkinList = [
     {
       id: 1,
-      name: "Ranjith Subburaj",
-      detail: "1-Sharing • Room B-101",
+      name: "Mathubala",
+      sharing: "1-Sharing",
+      room: "Room B",
+      bed: "101",
       date: "Check-in: Jan 18, 2026",
     },
     {
       id: 2,
-      name: "Ranganathan",
-      detail: "3-Sharing • Room C-305",
+      name: "Jasvika",
+      sharing: "1-Sharing",
+      room: "Room B",
+      bed: "101",
       date: "Check-in: Jan 20, 2026",
     },
     {
       id: 3,
-      name: "Ranganathan",
-      detail: "3-Sharing • Room C-305",
+      name: "Baby",
+      sharing: "1-Sharing",
+      room: "Room B",
+      bed: "101",
       date: "Check-in: Jan 20, 2026",
     },
   ];
@@ -276,15 +284,15 @@ function Dashboard() {
     }
   }, [state.login.selectedHostel_Id]);
 
-  const handleSelectedReceived = (e) => {
-    setSelectCashback(e.target.value);
-  };
-  const handleSelectedRevenue = (e) => {
-    setSelectRevenu(e.target.value);
-  };
-  const handleSelectedAdvance = (e) => {
-    setSelectAdvance(e.target.value);
-  };
+  // const handleSelectedReceived = (e) => {
+  //   setSelectCashback(e.target.value);
+  // };
+  // const handleSelectedRevenue = (e) => {
+  //   setSelectRevenu(e.target.value);
+  // };
+  // const handleSelectedAdvance = (e) => {
+  //   setSelectAdvance(e.target.value);
+  // };
 
   useEffect(() => {
     if (state.PgList?.statusCodeForAdvanceFilter === 200) {
@@ -356,9 +364,9 @@ function Dashboard() {
     });
   });
 
-  useEffect(() => {
-    setTotalAmount(state.PgList?.dashboardFilter?.total_amount);
-  }, [state.PgList?.dashboardFilter?.total_amount]);
+  // useEffect(() => {
+  //   setTotalAmount(state.PgList?.dashboardFilter?.total_amount);
+  // }, [state.PgList?.dashboardFilter?.total_amount]);
 
 
 
@@ -516,9 +524,7 @@ function Dashboard() {
 
 
     <>
-
-
-      <div className="w-full h-screen  bg-[#FAFAFA] px-3 py-3">
+      <div className="w-full h-screen  bg-[#FAFAFA] px-3 py-3  grid grid-rows-[auto_1fr]">
         <Marquee pauseOnHover gradient={false}>
           {showWarning && (
             <div className={` mb-[10px] flex flex-col sm:flex-row justify-between items-center gap-2 px-4 py-2 rounded-lg w-full max-w-4xl mx-auto text-base font-gilroy border
@@ -641,7 +647,7 @@ function Dashboard() {
 
                 </div>
               ) : (
-                <div className="overflow-y-auto">
+                <div className="max-h-[calc(100vh-120px)] overflow-y-auto">
 
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 mt-[10px]">
@@ -667,17 +673,53 @@ function Dashboard() {
                               </h3>
                             </div>
                             {["Occupancy", "Tenants", "Advance Holding"].includes(card.title) && (
-                              <span
-                                onClick={() => toggleCard(card.id)}
-                                className="ml-2 bg-white border border-[#D1D5DC] rounded p-1 cursor-pointer"
-                              >
-                                {openCards[card.id] ? (
-                                  <ArrowUp2 size="16" color="#1E45E1" />
-                                ) : (
-                                  <ArrowDown2 size="16" color="#1E45E1" />
+                              <div className="relative">
+                                <span
+                                  onClick={() => toggleCard(card.id)}
+                                  className="ml-2 bg-white border border-[#D1D5DC] rounded p-1 cursor-pointer whitespace-nowrap inline-flex"
+                                >
+                                  {openCards[card.id] ? (
+                                    <ArrowUp2 size="16" color="#1E45E1" />
+                                  ) : (
+                                    <ArrowDown2 size="16" color="#1E45E1" />
+                                  )}
+                                </span>
+
+                                {openCards[card.id] && (
+                                  <div
+                                    ref={dropdownRef}
+                                    className="animate-fadeIn absolute right-0 mt-2 w-44 bg-white border rounded-lg shadow-lg z-50 py-1"
+                                  >
+                                    {dateOptions.map((option) => {
+                                      const isActive = selected === option;
+
+                                      return (
+                                        <button
+                                          key={option}
+                                          onClick={() => {
+                                            setSelectedMonth(option);
+                                           setOpenCards({});
+                                          }}
+                                          className={`
+            w-full text-left px-4 py-2 text-xs font-[Gilroy]
+             transition
+            ${isActive
+                                              ? "border-l-2 border-[#1E45E1] bg-[#F6F8FF] text-[#222] font-medium"
+                                              : "text-gray-600 hover:bg-[#F6F8FF]"
+                                            }
+          `}
+                                        >
+                                          {option}
+                                        </button>
+                                      );
+                                    })}
+                                  </div>
                                 )}
-                              </span>
+
+                              </div>
                             )}
+
+
 
                           </div>
 
@@ -812,7 +854,7 @@ function Dashboard() {
                             <div className="w-8 h-8 rounded-lg bg-orange-50 flex items-center justify-center">
                               <DocumentText size="18" color="#F97316" variant="Bulk" />
                             </div>
-                            <h3 className="font-semibold text-base text-[#101828] ">
+                            <h3 className="font-semibold text-base text-[#101828] my-0 ">
                               {billingSummary.title}
                             </h3>
                           </div>
@@ -862,30 +904,32 @@ function Dashboard() {
                         <div className="flex justify-between text-sm">
                           <span className="text-[#4A5565 font-medium text-xs">Total Amount</span>
                           <span className="font-semibold text-green-600 text-base">
-                            {billingSummary.totalAmount}
+                            ₹ {billingSummary.totalAmount}
+                          </span>
+                        </div>
+                        <hr className="border border-[#F3F4F5] mx-0" />
+                        <div className="flex justify-between text-sm">
+                          <span className="text-[#4A5565 font-medium text-xs">Collected</span>
+                          <span className="font-semibold text-green-600 text-base">
+                            ₹{billingSummary.collected}
                           </span>
                         </div>
 
-                        <div className="flex justify-between text-sm">
-                          <span className="text-[#4A5565 font-medium text-xs">Collected</span>
-                          <span className="font-semibold">
-                            {billingSummary.collected}
-                          </span>
-                        </div>
+
 
                         <div className="flex justify-between text-sm">
                           <span className="flex items-center gap-1 text-[#4A5565 font-medium text-xs">
                             Outstanding  <ExportSquare
- size="32"
- color="#FF8A65"
-/>
+                              size="14"
+                              color="#1E45E1"
+                            />
                           </span>
-                          <span className="font-semibold ">
-                            {billingSummary.outstanding}
+                          <span className="font-semibold text-green-600 text-base ">
+                            ₹  {billingSummary.outstanding}
                           </span>
                         </div>
-
-                        <div>
+                        <hr className="border border-[#F3F4F5] mx-0" />
+                        <div className="">
                           <div className="flex justify-between text-sm mb-1">
                             <span className="text-[#4A5565 font-medium text-xs"> Collection Rate</span>
                             <span className="font-semibold">
@@ -899,23 +943,26 @@ function Dashboard() {
                             />
 
                           </div>
-                          <p className="text-xs text-gray-500 mt-1">
-                            {billingSummary.trend}
+                          <p className="text-xs text-gray-500 mt-1 flex ">
+                            <ArrowUp
+                              size="16"
+                              color="#6A7282"
+                            /> {billingSummary.trend}
                           </p>
                         </div>
                       </div>
 
 
-                      <div className="bg-white rounded-xl border  p-4 lg:col-span-7">
+                      <div className="bg-white rounded-xl border border-[#E5E7EB]  p-4 lg:col-span-7">
 
 
-                        <div className="flex border-b mb-3">
+                        <div className="flex border-b border-[#F3F3F3] justify-around mb-3 w-full">
                           {tabs.map((tab) => (
                             <button
                               key={tab.id}
                               onClick={() => setActiveTabDashboard(tab.id)}
                               className={`px-4 py-2 text-sm font-medium ${activeTabDashboard === tab.id
-                                ? "border-b-2 border-blue-600 text-blue-600"
+                                ? "border-b-2 border-[#1E45E1] text-[#1E45E1]"
                                 : "text-gray-500"
                                 }`}
                             >
@@ -931,17 +978,21 @@ function Dashboard() {
                               key={item.id}
                               className="flex justify-between items-center border-b pb-3"
                             >
-                              <div>
-                                <p className="font-semibold text-sm">{item.name}</p>
-                                <p className="text-xs text-gray-500">{item.detail}</p>
-                                <p className="text-xs text-gray-500">{item.date}</p>
+                              <div >
+                                <p className="font-semibold text-base">{item.name}</p>
+                                <div className="flex gap-2">
+                                  <p className="text-xs text-[#4A5565] text-xs">{item.sharing}</p>
+                                  <p className="text-xs text-[#4A5565] text-xs">{item.room}</p>
+                                  <p className="text-xs text-[#4A5565] text-xs">{item.bed}</p>
+                                  <p className="text-xs text-[#4A5565] text-xs">{item.date}</p>
+                                </div>
                               </div>
 
                               <div className="flex gap-2">
                                 <button className="border rounded-md px-3 py-1 text-sm">
                                   View
                                 </button>
-                                <button className="bg-blue-600 text-white rounded-md px-3 py-1 text-sm">
+                                <button className="bg-[#1E45E1] text-white rounded-md px-3 py-1 text-sm">
                                   Check-in
                                 </button>
                               </div>
@@ -952,7 +1003,7 @@ function Dashboard() {
 
                     </div>
                   </div>
-                  );
+
 
 
 
