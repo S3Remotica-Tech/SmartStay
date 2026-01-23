@@ -1535,7 +1535,7 @@ function Sidebar() {
               <Route
                 path="/dashboard/:hostelId?"
                 element={
-                  <div style={{ marginTop: 5, marginLeft: 13, marginRight: 5 }}>
+                  <div className="bg-[#FAFAFA] " style={{ paddingTop: 5, paddingLeft: 13, paddingRight: 5 }}>
                     <Dashboards
                       displayCompliance={handledisplaycompliace}
                       allPageHostel_Id={allPageHostel_Id}
