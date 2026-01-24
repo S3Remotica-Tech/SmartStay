@@ -6,17 +6,17 @@ import {
     Chart2,
     Activity,
     ArrowRight,
-    ArrowUp2,ArrowDown2,
+    ArrowUp2, ArrowDown2,
     Calendar
 
 } from "iconsax-react";
 
 function DashExpenseProfit() {
-  const [open, setOpen] = useState(false)
-  const [selected, setSelected] = useState("This Month");
-const [calendarOpen, setCalendarOpen] = useState(false);
-const [slectedData, setSelectedData] = useState("This Month");
-   
+    const [open, setOpen] = useState(false)
+    const [selected, setSelected] = useState("This Month");
+    const [calendarOpen, setCalendarOpen] = useState(false);
+    const [slectedData, setSelectedData] = useState("This Month");
+    const dropdownRef = useRef(null);
     const statsCards = [
         {
             title: "Revenue",
@@ -88,14 +88,24 @@ const [slectedData, setSelectedData] = useState("This Month");
 
 
 
- const dateOptions = [
-    "Today",
-    "This Week",
-    "This Month",
-    "Last Month",
-    "Last 3 Months",
-  ];
+    const dateOptions = [
+        "Today",
+        "This Week",
+        "This Month",
+        "Last Month",
+        "Last 3 Months",
+    ];
 
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+                setOpen(false);
+                setCalendarOpen(false)
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     return (
         <div className="w-full mt-6 font-[Gilroy]">
@@ -106,43 +116,42 @@ const [slectedData, setSelectedData] = useState("This Month");
                 </h2>
 
                 <div className="relative">
-  <button
-    onClick={() => setCalendarOpen(!calendarOpen)}
-    className="flex items-center gap-2 text-xs border rounded-md px-3 py-2 bg-white font-[Gilroy] whitespace-nowrap"
-  >
-    <Calendar size="16" color="#1E45E1" />
+                    <button
+                        onClick={() => setCalendarOpen(!calendarOpen)}
+                        className="flex items-center gap-2 text-xs border rounded-md px-3 py-2 bg-white font-[Gilroy] whitespace-nowrap"
+                    >
+                        <Calendar size="16" color="#1E45E1" />
 
-    <span>{slectedData}</span>
+                        <span>{slectedData}</span>
 
-    {calendarOpen ? (
-      <ArrowUp2 size="16" color="#1E45E1" />
-    ) : (
-      <ArrowDown2 size="16" color="#1E45E1" />
-    )}
-  </button>
+                        {calendarOpen ? (
+                            <ArrowUp2 size="16" color="#1E45E1" />
+                        ) : (
+                            <ArrowDown2 size="16" color="#1E45E1" />
+                        )}
+                    </button>
 
-  {calendarOpen && (
-    <div className="absolute right-0 mt-2 w-44 bg-white border rounded-lg shadow-lg z-50">
-      {dateOptions.map((option) => (
-        <button
-          key={option}
-          onClick={() => {
-            setSelectedData(option);
-            setCalendarOpen(false);
-          }}
-          className={`w-full text-left px-4 py-2 text-xs font-[Gilroy] hover:bg-gray-100
-            ${
-              slectedData === option
-                ? "text-blue-600 font-medium"
-                : "text-gray-600"
-            }`}
-        >
-          {option}
-        </button>
-      ))}
-    </div>
-  )}
-</div>
+                    {calendarOpen && (
+                        <div ref={dropdownRef} className="absolute right-0 mt-2 w-44 bg-white border rounded-lg shadow-lg z-50">
+                            {dateOptions.map((option) => (
+                                <button
+                                    key={option}
+                                    onClick={() => {
+                                        setSelectedData(option);
+                                        setCalendarOpen(false);
+                                    }}
+                                    className={`w-full text-left px-4 py-2 text-xs font-[Gilroy] hover:bg-gray-100
+            ${slectedData === option
+                                            ? "text-blue-600 font-medium"
+                                            : "text-gray-600"
+                                        }`}
+                                >
+                                    {option}
+                                </button>
+                            ))}
+                        </div>
+                    )}
+                </div>
 
             </div>
 
@@ -217,39 +226,39 @@ const [slectedData, setSelectedData] = useState("This Month");
                         Expense Breakdown
                     </h3>
                     <div className="relative">
-                        
-                       
-                      <button
-                                                 onClick={() => setOpen(!open)}
-                                                 className="flex items-center gap-2 text-xs border rounded-md px-2 py-1 bg-white font-[Gilroy] whitespace-nowrap "
-                                               >
-                                                
-                                                
-                   
-                                                 {open ? (
-                                                   <ArrowUp2 size="16" color="#1E45E1" />
-                                                 ) : (
-                                                   <ArrowDown2 size="16" color="#1E45E1" />
-                                                 )}
-                                               </button>
-                                                {open && (
-                              <div className="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg z-50">
-                                {dateOptions.map((option) => (
-                                  <button
-                                    key={option}
-                                    onClick={() => {
-                                      setSelected(option);
-                                      setOpen(false);
-                                    }}
-                                    className={`w-full text-left px-4 py-2 text-xs font-[Gilroy] hover:bg-gray-100 ${selected === option ? "text-blue-600 font-medium " : "text-gray-600"
-                                      }`}
-                                  >
-                                    {option}
-                                  </button>
-                                ))}
-                              </div>
+
+
+                        <button
+                            onClick={() => setOpen(!open)}
+                            className="flex items-center gap-2 text-xs border rounded-md px-2 py-1 bg-white font-[Gilroy] whitespace-nowrap "
+                        >
+
+
+
+                            {open ? (
+                                <ArrowUp2 size="16" color="#1E45E1" />
+                            ) : (
+                                <ArrowDown2 size="16" color="#1E45E1" />
                             )}
-                             </div>
+                        </button>
+                        {open && (
+                            <div ref={dropdownRef} className="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg z-50">
+                                {dateOptions.map((option) => (
+                                    <button
+                                        key={option}
+                                        onClick={() => {
+                                            setSelected(option);
+                                            setOpen(false);
+                                        }}
+                                        className={`w-full text-left px-4 py-2 text-xs font-[Gilroy] hover:bg-gray-100 ${selected === option ? "text-blue-600 font-medium " : "text-gray-600"
+                                            }`}
+                                    >
+                                        {option}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+                    </div>
                 </div>
 
 

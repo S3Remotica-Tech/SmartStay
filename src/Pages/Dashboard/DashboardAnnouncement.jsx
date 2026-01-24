@@ -185,7 +185,7 @@ useEffect(() => {
   useEffect(() => {
 
     if (hostel_id) {
-      setLoading(true)
+      setLoading(false)
          dispatch({
         type: "ANNOUNCEMENTLIST",
         payload: { hostel_id: hostel_id },
@@ -329,14 +329,14 @@ useEffect(() => {
           type: "ADDANNOUNCEMENT",
           payload: { id: editDetails.id, hostel_id: hostel_id, title: title, description: description },
         });
-        setFormLoading(true)
+        setFormLoading(false)
 
       } else {
         dispatch({
           type: "ADDANNOUNCEMENT",
           payload: { hostel_id: hostel_id, title: title, description: description },
         });
-        setFormLoading(true)
+        setFormLoading(false)
       }
 
     }

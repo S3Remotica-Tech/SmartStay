@@ -44,6 +44,7 @@ import ProgressBar from 'react-bootstrap/ProgressBar';
 import DashExpenseProfit from "./DashExpense&Profit";
 import DashQuickAccess from "./DashQuickAccess";
 import DashCoreAnalytics from "./DashCoreAnalytics";
+import DashRequestAndComplaints from "./DashRequestsAndComplaints";
 
 
 function Dashboard() {
@@ -671,6 +672,8 @@ function Dashboard() {
                   <DashExpenseProfit />
 
                   <DashCoreAnalytics />
+
+                  <DashRequestAndComplaints />
 
 
                 </div>
