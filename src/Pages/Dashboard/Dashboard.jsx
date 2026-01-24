@@ -55,15 +55,8 @@ function Dashboard() {
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const [dashboardList, setDashboardList] = useState('');
-  // const [lablesdata, setLables] = useState([]);
-  const [totalAmount, setTotalAmount] = useState([]);
-  // const [rolePermission, setRolePermission] = useState("");
-  // const [permissionError, setPermissionError] = useState("");
-
-  // const [AnnouncementAddPermission, setAnnouncementAddPermission] = useState("");
-  // const [AnnouncementEditPermission, setAnnouncementEditPermission] = useState("")
-  // const [AnnouncementDeletePermission, setAnnouncementDeletePermission] = useState("")
-  // const [updatePermissionError, setupdatePermissionError] = useState("");
+    const [totalAmount, setTotalAmount] = useState([]);
+  
   const [value, setValue] = React.useState("1");
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -71,15 +64,11 @@ function Dashboard() {
   const [selectCashback, setSelectCashback] = useState("this_month");
   const [cashBackData, setCashBackData] = useState("");
   const [selectRevenu, setSelectRevenu] = useState("six_month");
-  // const [hostel_id, setHostel_Id] = useState("");
-  const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
   const [daysLeft, setDaysLeft] = useState(null);
   const [selectAdvance, setSelectAdvance] = useState("six_month");
-  // const [accountList, setAccountList] = useState("");
-
-  // const canReadDashboard =  useHasPermission("Dashboard", "canRead");
-
+ 
   const {
     // canWriteModule: canWriteComplaints,
     canReadModule: canReadDashboard,
