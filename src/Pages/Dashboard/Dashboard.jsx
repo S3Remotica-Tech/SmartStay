@@ -23,30 +23,10 @@ import { MdWarningAmber } from "react-icons/md";
 import ErrorMessage from '../../Components/ErrorMessage';
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
 import Select from "react-select";
-
-import {
-  LineChart,
-  Line,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  LabelList,
-} from "recharts";
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import LoaderComponent from "../OthersComponent/LoaderComponent";
 import PropTypes from "prop-types";
 import Marquee from "react-fast-marquee";
-import pendingimg from "../../Assets/Images/New_images/pending_rent.png";
-import currentMatch from "../../Assets/Images/New_images/currentmatch.png";
-import activeImage from "../../Assets/Images/New_images/Active compliant.png";
-import coinImage from "../../Assets/Images/New_images/coinimage.png";
-import advancedHand from "../../Assets/Images/New_images/AdvancedHand.png";
-import newBooking from "../../Assets/Images/New_images/NewBooking.png";
 import { Tabs, Tab } from "react-bootstrap";
 import { useHasPermission } from '../../Utils/Permission';
 import {
@@ -58,12 +38,12 @@ import {
   ArrowUp2,
   ArrowDown2,
   ArrowUp,
-  DocumentText,
-  Calendar,
-  ArrowRight2,
-  ExportSquare
+
 } from "iconsax-react";
 import ProgressBar from 'react-bootstrap/ProgressBar';
+import DashExpenseProfit from "./DashExpense&Profit";
+import DashQuickAccess from "./DashQuickAccess";
+import DashCoreAnalytics from "./DashCoreAnalytics";
 
 
 function Dashboard() {
@@ -79,16 +59,17 @@ function Dashboard() {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [selectExpence, setSelectExpence] = useState("this_month");
-  const [selectCashback, setSelectCashback] = useState("this_month");
-  const [selectRevenu, setSelectRevenu] = useState("six_month");
+  // const [selectCashback, setSelectCashback] = useState("this_month");
+  // const [selectRevenu, setSelectRevenu] = useState("six_month");
 
   const [loading, setLoading] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
   const [daysLeft, setDaysLeft] = useState(null);
-  const [selectAdvance, setSelectAdvance] = useState("six_month");
-  const [selected, setSelected] = useState("This Month");
+  // const [selectAdvance, setSelectAdvance] = useState("six_month");
+
   const dropdownRef = useRef(null);
   const [open, setOpen] = useState(false);
+    const [selected, setSelected] = useState("This Month");
   const {
     // canWriteModule: canWriteComplaints,
     canReadModule: canReadDashboard,
@@ -200,15 +181,7 @@ function Dashboard() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const billingSummary = {
-    title: "Billing Summary",
-    invoices: 36,
-    totalAmount: "₹ 3,24,000",
-    collected: "₹ 54,000",
-    outstanding: "₹ 2,70,000",
-    collectionRate: 24,
-    trend: "3% from last month",
-  };
+
 
 
   // useEffect(() => {
@@ -222,37 +195,6 @@ function Dashboard() {
   // ];
 
 
-  const tabs = [
-    { id: "checkin", label: "New Check-ins", count: 3 },
-    { id: "overdue", label: "Overdue Invoices", count: 7 },
-  ];
-
-  const checkinList = [
-    {
-      id: 1,
-      name: "Mathubala",
-      sharing: "1-Sharing",
-      room: "Room B",
-      bed: "101",
-      date: "Check-in: Jan 18, 2026",
-    },
-    {
-      id: 2,
-      name: "Jasvika",
-      sharing: "1-Sharing",
-      room: "Room B",
-      bed: "101",
-      date: "Check-in: Jan 20, 2026",
-    },
-    {
-      id: 3,
-      name: "Baby",
-      sharing: "1-Sharing",
-      room: "Room B",
-      bed: "101",
-      date: "Check-in: Jan 20, 2026",
-    },
-  ];
 
 
 
@@ -364,15 +306,6 @@ function Dashboard() {
     });
   });
 
-  // useEffect(() => {
-  //   setTotalAmount(state.PgList?.dashboardFilter?.total_amount);
-  // }, [state.PgList?.dashboardFilter?.total_amount]);
-
-
-
-  // useEffect(() => {
-  //   setLables(state.PgList?.dashboardFilter?.exp_data || []);
-  // }, [state.PgList?.dashboardFilter?.exp_data]);
 
   useEffect(() => {
     if (state.PgList?.statusCodeForDashboardFilter === 200) {
@@ -400,26 +333,6 @@ function Dashboard() {
 
 
 
-  // useEffect(() => {
-  //   setCashBackData(state.PgList?.dashboardFilterCashback?.cash_back_data);
-  // }, [state.PgList?.dashboardFilterCashback?.cash_back_data]);
-
-  // const currentvalue =
-  //   (Number(cashBackDataSample?.[0]?.Revenue) || 0) +
-  //   (Number(cashBackDataSample?.[0]?.overdue) || 0);
-
-  // const percentage = currentvalue
-  //   ? ((currentvalue - Number(cashBackDataSample?.[0]?.overdue)) / currentvalue) * 100
-  //   : 0;
-
-  // const pathColor =
-  //   currentvalue > 0
-  //     ? cashBackDataSample?.[0]?.overdue > 0
-  //       ? "#00A32E"
-  //       : "#EBEBEB"
-  //     : "#EBEBEB";
-  const trailColor = "#EBEBEB";
-
   const currentDate = new Date();
   const months = [];
 
@@ -430,101 +343,12 @@ function Dashboard() {
     months.push({ month: monthYear, revenue: 0, expense: 0 });
   }
 
-  const fixedColors = [
-    "#FF6384",
-    "#36A2EB",
-    "#FFCE56",
-    "#4BC0C0",
-    "#9966FF",
-    "#FF9F40",
-    "#E7E9ED",
-    "#8DD35F",
-    "#D65DB1",
-    "#6A4C93",
-  ];
-
-  // const datum = {
-  //   labels: lablesdata?.map((category) => category.category_Name),
-  //   datasets: [
-  //     {
-  //       data: lablesdata?.map((category) => category.purchase_amount),
-  //       backgroundColor: lablesdata?.map(
-  //         (_, index) => fixedColors[index % fixedColors.length]
-  //       ),
-  //       hoverBackgroundColor: lablesdata?.map(
-  //         (_, index) => fixedColors[index % fixedColors.length]
-  //       ),
-  //       borderWidth: 5,
-  //       borderColor: "#fff",
-  //       borderRadius: 10,
-  //     },
-  //   ],
-  // };
-  // const options = {
-  //   responsive: true,
-  //   maintainAspectRatio: false,
-  //   cutout: "75%",
-  //   plugins: {
-  //     legend: {
-  //       display: false,
-  //     },
-  //     tooltip: {
-  //       enabled: false,
-  //     },
-  //   },
-  //   elements: {
-  //     arc: {
-  //       borderRadius: 2,
-  //     },
-  //   },
-  // };
-
-  // const { datasets } = datum;
-
-
-
-  // const CustomLegend = ({ payload }) => {
-  //   return (
-  //     <div className="flex justify-center items-center pt-4" >
-  //       {payload.map((entry, index) => (
-  //         <div
-  //           key={`item-${index}`}
-  //           className="flex items-center mr-2.5 mt-6">
-  //           <div className="w-3 h-3 rounded-full mr-1.5"
-  //             style={{ backgroundColor: entry.color }}
-  //           />
-  //           <span className="text-xs font-semibold font-montserrat">
-  //             {entry.value}
-  //           </span>
-  //         </div>
-  //       ))}
-  //     </div>
-  //   );
-  // };
-
-
-  const [activeTabDashboard, setActiveTabDashboard] = useState("checkin");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   return (
 
 
     <>
-      <div className="w-full h-screen  bg-[#FAFAFA] px-3 py-3  grid grid-rows-[auto_1fr]">
+      <div className="w-full h-screen  bg-[#FAFAFA] px-3 py-3 overflow-hidden  ">
         <Marquee pauseOnHover gradient={false}>
           {showWarning && (
             <div className={` mb-[10px] flex flex-col sm:flex-row justify-between items-center gap-2 px-4 py-2 rounded-lg w-full max-w-4xl mx-auto text-base font-gilroy border
@@ -698,7 +522,7 @@ function Dashboard() {
                                           key={option}
                                           onClick={() => {
                                             setSelectedMonth(option);
-                                           setOpenCards({});
+                                            setOpenCards({});
                                           }}
                                           className={`
             w-full text-left px-4 py-2 text-xs font-[Gilroy]
@@ -840,173 +664,13 @@ function Dashboard() {
 
 
 
-                  <div className="mt-6 font-[Gilroy]">
-                    <h2 className="text-lg font-semibold text-[#101828] mb-4 font-[Gilroy]">
-                      Quick Access & Follow-ups
-                    </h2>
-
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
 
 
-                      <div className="bg-white rounded-xl border border-[#E5E7EB] lg:col-span-5 p-4 space-y-4">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 rounded-lg bg-orange-50 flex items-center justify-center">
-                              <DocumentText size="18" color="#F97316" variant="Bulk" />
-                            </div>
-                            <h3 className="font-semibold text-base text-[#101828] my-0 ">
-                              {billingSummary.title}
-                            </h3>
-                          </div>
+                  <DashQuickAccess />
 
-                          <div className="relative" ref={dropdownRef}>
+                  <DashExpenseProfit />
 
-                            <button
-                              onClick={() => setOpen(!open)}
-                              className="flex items-center gap-2 text-xs border rounded-md px-3 py-2 bg-white font-[Gilroy] whitespace-nowrap "
-                            >
-                              <Calendar size="16" />
-                              {selected}
-
-                              {open ? (
-                                <ArrowUp2 size="16" color="#1E45E1" />
-                              ) : (
-                                <ArrowDown2 size="16" color="#1E45E1" />
-                              )}
-                            </button>
-
-
-                            {open && (
-                              <div className="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg z-50">
-                                {dateOptions.map((option) => (
-                                  <button
-                                    key={option}
-                                    onClick={() => {
-                                      setSelected(option);
-                                      setOpen(false);
-                                    }}
-                                    className={`w-full text-left px-4 py-2 text-xs font-[Gilroy] hover:bg-gray-100 ${selected === option ? "text-blue-600 font-medium " : "text-gray-600"
-                                      }`}
-                                  >
-                                    {option}
-                                  </button>
-                                ))}
-                              </div>
-                            )}
-                          </div>
-                        </div>
-
-                        <div className="flex justify-between ">
-                          <span className="text-[#4A5565 font-medium text-xs">Invoices Generated</span>
-                          <span className="font-semibold text-[#222222] ">{billingSummary.invoices}</span>
-                        </div>
-
-                        <div className="flex justify-between text-sm">
-                          <span className="text-[#4A5565 font-medium text-xs">Total Amount</span>
-                          <span className="font-semibold text-green-600 text-base">
-                            ₹ {billingSummary.totalAmount}
-                          </span>
-                        </div>
-                        <hr className="border border-[#F3F4F5] mx-0" />
-                        <div className="flex justify-between text-sm">
-                          <span className="text-[#4A5565 font-medium text-xs">Collected</span>
-                          <span className="font-semibold text-green-600 text-base">
-                            ₹{billingSummary.collected}
-                          </span>
-                        </div>
-
-
-
-                        <div className="flex justify-between text-sm">
-                          <span className="flex items-center gap-1 text-[#4A5565 font-medium text-xs">
-                            Outstanding  <ExportSquare
-                              size="14"
-                              color="#1E45E1"
-                            />
-                          </span>
-                          <span className="font-semibold text-green-600 text-base ">
-                            ₹  {billingSummary.outstanding}
-                          </span>
-                        </div>
-                        <hr className="border border-[#F3F4F5] mx-0" />
-                        <div className="">
-                          <div className="flex justify-between text-sm mb-1">
-                            <span className="text-[#4A5565 font-medium text-xs"> Collection Rate</span>
-                            <span className="font-semibold">
-                              {billingSummary.collectionRate}%
-                            </span>
-                          </div>
-                          <div className="h-2 rounded-full bg-gray-100">
-                            <div
-                              className="h-full bg-[#F54900] rounded-full transition-all"
-                              style={{ width: `${billingSummary.collectionRate}%` }}
-                            />
-
-                          </div>
-                          <p className="text-xs text-gray-500 mt-1 flex ">
-                            <ArrowUp
-                              size="16"
-                              color="#6A7282"
-                            /> {billingSummary.trend}
-                          </p>
-                        </div>
-                      </div>
-
-
-                      <div className="bg-white rounded-xl border border-[#E5E7EB]  p-4 lg:col-span-7">
-
-
-                        <div className="flex border-b border-[#F3F3F3] justify-around mb-3 w-full">
-                          {tabs.map((tab) => (
-                            <button
-                              key={tab.id}
-                              onClick={() => setActiveTabDashboard(tab.id)}
-                              className={`px-4 py-2 text-sm font-medium ${activeTabDashboard === tab.id
-                                ? "border-b-2 border-[#1E45E1] text-[#1E45E1]"
-                                : "text-gray-500"
-                                }`}
-                            >
-                              {tab.label} ({tab.count})
-                            </button>
-                          ))}
-                        </div>
-
-                        {/* List */}
-                        <div className="space-y-3 max-h-[280px] overflow-y-auto show-scrolls">
-                          {checkinList.map((item) => (
-                            <div
-                              key={item.id}
-                              className="flex justify-between items-center border-b pb-3"
-                            >
-                              <div >
-                                <p className="font-semibold text-base">{item.name}</p>
-                                <div className="flex gap-2">
-                                  <p className="text-xs text-[#4A5565] text-xs">{item.sharing}</p>
-                                  <p className="text-xs text-[#4A5565] text-xs">{item.room}</p>
-                                  <p className="text-xs text-[#4A5565] text-xs">{item.bed}</p>
-                                  <p className="text-xs text-[#4A5565] text-xs">{item.date}</p>
-                                </div>
-                              </div>
-
-                              <div className="flex gap-2">
-                                <button className="border rounded-md px-3 py-1 text-sm">
-                                  View
-                                </button>
-                                <button className="bg-[#1E45E1] text-white rounded-md px-3 py-1 text-sm">
-                                  Check-in
-                                </button>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-
-                    </div>
-                  </div>
-
-
-
-
+                  <DashCoreAnalytics />
 
 
                 </div>
