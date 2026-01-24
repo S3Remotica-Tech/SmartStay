@@ -384,7 +384,7 @@ function Dashboard() {
       <div className="w-full max-w-full mx-auto p-2">
         <Marquee pauseOnHover gradient={false}>
           {showWarning && (
-            <div className={` mt-3 flex flex-col sm:flex-row justify-between items-center gap-2 px-4 py-2 rounded-lg w-full max-w-4xl mx-auto text-base font-gilroy border
+            <div className={` mt-3 flex flex-col sm:flex-row justify-between items-center gap-2 px-4 py-2 rounded-lg w-full max-w-4xl mx-auto text-base font-gilroy 
 
   ${daysLeft > 0
 
@@ -414,9 +414,10 @@ function Dashboard() {
               </div>
 
 
-              <button className={`ms-3 px-3 py-1.5 text-sm rounded-md font-gilroy text-white transition-colors ${daysLeft > 0
+              <button
+               className={`ms-3 px-3 py-1.5 text-sm rounded-md font-gilroy text-white transition-colors ${daysLeft > 0
                 ? "bg-yellow-400 hover:bg-yellow-500"
-                : "bg-red-500 hover:bg-red-600"
+                : "bg-red-500 hover:bg-red-600"   
                 }`}
 
 
@@ -439,39 +440,49 @@ function Dashboard() {
                 onChange={handleChanges}
                 aria-label="lab API tabs example"
                 className="flex flex-col md:flex-row flex-wrap -ml-4"
-
+                sx={{
+                  '& .MuiTabs-indicator': {
+                    backgroundColor: '#1E45E1',
+                    height: '2px',
+                    borderRadius: '2px',
+                    bottom: '10px',
+                  },
+                  '& .MuiTab-root': {
+                    paddingBottom: '2px',
+                    minHeight: '36px',
+                  },
+                }}
               >
                 <Tab
                   label="Dashboard"
                   value="1"
-                  sx={{ textTransform: 'none', fontFamily: 'Gilroy' }}
-                  className="text-base text-neutral-600 leading-normal not-italic normal-case
-           font-medium
-           [&.Mui-selected]:!text-black
-           [&.Mui-selected]:!font-semibold"
-
-
+                  sx={{ textTransform: 'none', fontFamily: 'Gilroy', fontSize: '15px' }}
+                  className="px-1 text-base text-neutral-600 leading-normal not-italic normal-case
+  font-medium
+  [&.Mui-selected]:!text-black
+  [&.Mui-selected]:!font-semibold"
                 />
+
                 <Tab
                   label="Announcement"
                   value="2"
-                  sx={{ textTransform: 'none', fontFamily: 'Gilroy' }}
-                  className="text-base text-neutral-600 leading-normal not-italic normal-case
-           font-medium
-           [&.Mui-selected]:!text-black
-           [&.Mui-selected]:!font-semibold"
-
+                  sx={{ textTransform: 'none', fontFamily: 'Gilroy', fontSize: '15px' }}
+                  className="px-1 text-base text-neutral-600 leading-normal not-italic normal-case
+  font-medium
+  [&.Mui-selected]:!text-black
+  [&.Mui-selected]:!font-semibold"
                 />
+
                 <Tab
                   label="Updates"
                   value="3"
-                  sx={{ textTransform: 'none', fontFamily: 'Gilroy' }}
-                  className="text-base text-neutral-600 leading-normal not-italic normal-case
-           font-medium
-           [&.Mui-selected]:!text-black
-           [&.Mui-selected]:!font-semibold"
-
+                  sx={{ textTransform: 'none', fontFamily: 'Gilroy', fontSize: '15px' }}
+                  className="px-1 text-base text-neutral-600 leading-normal not-italic normal-case
+  font-medium
+  [&.Mui-selected]:!text-black
+  [&.Mui-selected]:!font-semibold"
                 />
+
               </TabList>
             </Box>
           </div>
