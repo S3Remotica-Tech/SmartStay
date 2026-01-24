@@ -69,8 +69,8 @@ function DashCoreAnalytics() {
 
 
   return (
-    <div className="space-y-2 my-3">
-      <h2 className="text-[18px] font-semibold text-[#0F172A] font-[Gilroy]">
+    <div className="space-y-2 my-4">
+      <h2 className="text-[18px] font-semibold text-[#0F172A] font-[Gilroy] mb-4">
         Core Analytics
       </h2>
 
