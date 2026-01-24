@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Calendar, ArrowDown2, MessageQuestion, Warning2, ArrowRight } from "iconsax-react";
+import { Calendar, ArrowDown2, MessageQuestion, Warning2, ArrowRight, Messages2 } from "iconsax-react";
 
 function DashRequestAndComplaints() {
     // date dropdown states
@@ -84,8 +84,13 @@ function DashRequestAndComplaints() {
     }, []);
 
     return (
+        <div className="space-y-2 my-4">
+            <h2 className="text-[18px] font-semibold text-[#0F172A] font-[Gilroy] mb-4">
+         Tenant Requests & Complaints
+      </h2>
+      
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 font-[Gilroy]">
-
+ 
             <div className="border rounded-xl p-4 bg-white">
 
                 <div className="flex justify-between items-center mb-4">
@@ -216,7 +221,10 @@ function DashRequestAndComplaints() {
 
                 <div className="flex justify-between items-center mb-4">
                     <div className="flex items-center gap-2">
-                        <Warning2 size="18" className="text-red-500" />
+                         <div className="bg-[#FEF2F2] px-2 py-2 rounded-lg">
+                            <Messages2 size="18" className="text-[#E7000B]" />
+                        </div>
+                        
                         <label className="font-semibold text-sm font-[Gilroy] text-[#101828]">
                             Tenant Complaints (5)
                         </label>
@@ -336,6 +344,7 @@ function DashRequestAndComplaints() {
 
             </div>
         </div>
+          </div>
     );
 }
 export default DashRequestAndComplaints

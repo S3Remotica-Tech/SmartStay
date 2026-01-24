@@ -55,6 +55,7 @@ function Dashboard() {
   const [activeTab, setActiveTab] = useState("1");
 
   const [openCards, setOpenCards] = useState({});
+  const [showBreakdown, setShowBreakdown] = useState(false);
 
   const [selectedMonth, setSelectedMonth] = useState([]);
   const theme = useTheme();
@@ -70,7 +71,7 @@ function Dashboard() {
 
   const dropdownRef = useRef(null);
   const [open, setOpen] = useState(false);
-    const [selected, setSelected] = useState("This Month");
+  const [selected, setSelected] = useState("This Month");
   const {
     // canWriteModule: canWriteComplaints,
     canReadModule: canReadDashboard,
@@ -150,6 +151,7 @@ function Dashboard() {
       footer: "Others",
     },
   ];
+
 
 
   const dateOptions = [
@@ -383,10 +385,10 @@ function Dashboard() {
 
 
               <button
-               className={`ms-3 px-3 py-1.5 text-sm rounded-md font-gilroy text-white transition-colors ${daysLeft > 0
-                ? "bg-yellow-400 hover:bg-yellow-500"
-                : "bg-red-500 hover:bg-red-600"   
-                }`}
+                className={`ms-3 px-3 py-1.5 text-sm rounded-md font-gilroy text-white transition-colors ${daysLeft > 0
+                  ? "bg-yellow-400 hover:bg-yellow-500"
+                  : "bg-red-500 hover:bg-red-600"
+                  }`}
 
 
                 onClick={handleOkClick}
@@ -581,7 +583,109 @@ function Dashboard() {
                                   {card.footer}
                                 </h3>
                                 {card.title === "Rooms & Beds" && (
-                                  <InfoCircle size="18" className="text-gray-400" variant="Outline" />
+                                  <div className="relative">
+                                    {card.title === "Rooms & Beds" && (
+                                      <InfoCircle
+                                        size="18"
+                                        className="text-gray-400 cursor-pointer"
+                                        variant="Outline"
+                                        onClick={() => setShowBreakdown(!showBreakdown)}
+                                      />
+                                    )}
+
+
+                                    {showBreakdown && (
+  <div className="absolute left-0 top-6 z-[9999]">
+    <div className="w-[280px] bg-white rounded-xl shadow-lg border p-4">
+      
+      <div className="text-sm font-semibold mb-4">
+        Detailed Sharing Breakdown
+      </div>
+
+      {/* spacing like <br /> handled here */}
+      <div className="space-y-4">
+
+        {/* 1 Sharing */}
+        <div>
+          <div className="flex justify-between text-xs text-gray-500 mb-1">
+            <div>1-Sharing</div>
+            <div>2 Rooms Available</div>
+          </div>
+
+          <div className="flex justify-between text-sm whitespace-nowrap">
+            <div className=" gap-1">
+              <div>Rooms</div>
+              <div className="font-semibold">7</div>
+            </div>
+
+            <div className="gap-1">
+              <div>Total Beds</div>
+              <div className="font-semibold">7</div>
+            </div>
+
+            <div className="gap-1 text-green-600">
+              <div>Occupied</div>
+              <div className="font-semibold">5</div>
+            </div>
+          </div>
+        </div>
+
+        {/* 2 Sharing */}
+        <div className="pt-3 border-t">
+          <div className="flex justify-between text-xs text-gray-500 mb-1">
+            <div>2-Sharing</div>
+            <div>1 Room Available</div>
+          </div>
+
+          <div className="flex justify-between text-sm whitespace-nowrap">
+            <div className="gap-1">
+              <div>Rooms</div>
+              <div className="font-semibold">5</div>
+            </div>
+
+            <div className=" gap-1">
+              <div>Total Beds</div>
+              <div className="font-semibold">10</div>
+            </div>
+
+            <div className=" gap-1 text-green-600">
+              <div>Occupied</div>
+              <div className="font-semibold">8</div>
+            </div>
+          </div>
+        </div>
+
+        {/* 3 Sharing */}
+        <div className="pt-3 border-t">
+          <div className="flex justify-between text-xs text-gray-500 mb-1">
+            <div>3-Sharing</div>
+            <div>2 Rooms Available</div>
+          </div>
+
+          <div className="flex justify-between text-sm whitespace-nowrap">
+            <div className="gap-1">
+              <div>Rooms</div>
+              <div className="font-semibold">12</div>
+            </div>
+
+            <div className=" gap-1">
+              <div>Total Beds</div>
+              <div className="font-semibold">36</div>
+            </div>
+
+            <div className=" gap-1 text-green-600">
+              <div>Occupied</div>
+              <div className="font-semibold">30</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+)}
+
+                                  </div>
                                 )}
                                 {
                                   card.title === "Occupancy" &&
