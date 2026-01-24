@@ -1786,7 +1786,7 @@ function UserList(props) {
   };
 
   useEffect(() => {
-    if (state.UsersList?.deleteCustomerSuccessStatusCode === 204) {
+    if (state.UsersList?.deleteCustomerSuccessStatusCode === 204 && value === "1") {
       setFormLoading(false)
       setDeleteShow(false);
       dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
@@ -1969,7 +1969,7 @@ function UserList(props) {
   }, [state.UsersList.addWalkInCustomerStatusCode]);
 
   useEffect(() => {
-    if (state.UsersList.addCheckoutCustomerStatusCode === 201) {
+    if (state.UsersList.addCheckoutCustomerStatusCode === 201 && value === "1") {
       dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
       setcheckoutForm(false);
     }

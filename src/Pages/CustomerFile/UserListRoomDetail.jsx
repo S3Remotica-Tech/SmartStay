@@ -35,7 +35,7 @@ import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-import { CloseCircle, DocumentUpload } from "iconsax-react";
+import { CloseCircle, DocumentUpload, WalletCheck } from "iconsax-react";
 import { RightOutlined } from '@ant-design/icons';
 import timehalf from "../../Assets/Images/New_images/time-half past.png";
 // import html2canvas from "html2canvas";
@@ -73,7 +73,9 @@ import ManualDocumentsUpload from "./ManualDocumentsUpload";
 import ParentsGuardian from "./Parents&Guardian";
 import KYCDocuments from "./KYCDocuments";
 import ManualDocumentsDetails from "./ManualDocumentsDetails";
-import withErrorBoundary from "../../Hoc/WithErrorBountry"; 
+import withErrorBoundary from "../../Hoc/WithErrorBountry";
+import WalletHistory from "./WalletHistory";
+import BookedCheckIn from "./BookedCheckIn";
 
 function UserListRoomDetail(props) {
   const state = useSelector((state) => state);
@@ -156,7 +158,8 @@ function UserListRoomDetail(props) {
   const [showDocModal, setShowDocModal] = useState(false);
   const [showDocModaldoc2, setShowDocModaldoc2] = useState(false);
   const [documentvalue, setDocumentValue] = useState("1")
-  // const [previewUrl, setPreviewUrl] = useState(null);
+  const [showWalletHistory, setShowWalletHistory] = useState(false);
+  const [BookingAssignForm, setBookingAssignForm] = useState(false)
   // const [previewUrl2, setPreviewUrl2] = useState(null)
   // const [loadingFile, setLoadingFile] = useState(true)
   const [showModal, setShowModal] = useState(false);
@@ -191,30 +194,30 @@ function UserListRoomDetail(props) {
 
   const amenitiesRef = useRef(null);
 
-  const { customerId,totriggerBillTap, isPgWay ,IsOverView, scrollTo } = location.state || {};
+  const { customerId, totriggerBillTap, isPgWay, IsOverView, scrollTo } = location.state || {};
 
 
-useEffect(() => {
-  if (totriggerBillTap) {
-    setTimeout(() => setValue("3"), 0);
-  }
+  useEffect(() => {
+    if (totriggerBillTap) {
+      setTimeout(() => setValue("3"), 0);
+    }
 
-  if (IsOverView) {
-    setTimeout(() => setValue("1"), 0);
-  }
+    if (IsOverView) {
+      setTimeout(() => setValue("1"), 0);
+    }
 
-  if (scrollTo === "amenities") {
-    setTimeout(() => {
-      amenitiesRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 300);
-  }
-}, [totriggerBillTap, IsOverView, scrollTo]);
-
-
+    if (scrollTo === "amenities") {
+      setTimeout(() => {
+        amenitiesRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 300);
+    }
+  }, [totriggerBillTap, IsOverView, scrollTo]);
 
 
 
-useEffect(() => {
+
+
+  useEffect(() => {
     if (state.UsersList?.CustomerdetailsgetStatuscode === 200) {
       // setLoadingFile(false)
       setTimeout(() => {
@@ -295,7 +298,7 @@ useEffect(() => {
   //   const parts = baseName.split("_");
   //   const lastPart = parts[parts.length - 1]; 
 
-   
+
   //   const short = lastPart.substring(0, 15);
 
   //   return `${short}.${ext}`;
@@ -844,7 +847,7 @@ useEffect(() => {
 
   const handleCloseUpdateAdvanceChange = () => {
     setShowUpdateAdvanceForm(false)
-     dispatch({ type: 'REMOVE_EDIT_ADVANCE_ERROR' })
+    dispatch({ type: 'REMOVE_EDIT_ADVANCE_ERROR' })
   }
 
   const handleUpdateJoiningChange = () => {
@@ -1285,15 +1288,15 @@ useEffect(() => {
 
 
 
- useEffect(() => {
-        if (state.UsersList.editAdvanceStatusCode === 200) {
-            setShowUpdateAdvanceForm(false)
-             dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
-            setTimeout(() => {
-                dispatch({ type: 'REMOVE_EDIT_ADVANCE' })
-            }, 100)
-        }
-    }, [state.UsersList.editAdvanceStatusCode])
+  useEffect(() => {
+    if (state.UsersList.editAdvanceStatusCode === 200) {
+      setShowUpdateAdvanceForm(false)
+      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_EDIT_ADVANCE' })
+      }, 100)
+    }
+  }, [state.UsersList.editAdvanceStatusCode])
 
 
   const handleSaveUserlist = () => {
@@ -1997,7 +2000,7 @@ useEffect(() => {
   // };
 
 
-  
+
   // useEffect(() => {
   //   if (state.UsersList.statuscodeForAdharFileError === 201) {
   //     setUploadError(state.UsersList.adharuploadfileError);
@@ -2067,7 +2070,7 @@ useEffect(() => {
     }
   }, [state.UsersList.statusCodeForGenerateAdvance]);
 
-  
+
 
   const handleClose = () => {
     setShowModal(false);
@@ -2214,14 +2217,15 @@ useEffect(() => {
 
   const CustomerOverView = state.UsersList.customerdetails;
 
+  console.log("CustomerOverView", CustomerOverView)
 
   const imageUrl = kycPic
-      ? kycPic.startsWith("data:image")
-        ? kycPic
-        : `data:image/jpeg;base64,${kycPic}`
-      : CustomerOverView.profilePic
-        ? CustomerOverView.profilePic
-        : null;
+    ? kycPic.startsWith("data:image")
+      ? kycPic
+      : `data:image/jpeg;base64,${kycPic}`
+    : CustomerOverView.profilePic
+      ? CustomerOverView.profilePic
+      : null;
 
 
 
@@ -2231,8 +2235,8 @@ useEffect(() => {
 
 
   useEffect(() => {
-  setDocuments([]); 
-}, []);
+    setDocuments([]);
+  }, []);
 
 
   // const handleFileUpload = (index, e) => {
@@ -2311,38 +2315,61 @@ useEffect(() => {
 
   }
 
+  const handleShowWalletHistory = () => {
+    setShowWalletHistory(true);
+  }
+
+
+  const handleCloseWallet = () => {
+    setShowWalletHistory(false);
+  }
+
+
+  useEffect(() => {
+    if (state.UsersList?.bookingToCheckinStatusCode === 200) {
+      setBookingAssignForm(false)
+      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: CustomerOverView?.customerId } });
+
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_BOOKING_TO_CHECKIN' })
+      }, 100)
+    }
+
+  }, [state.UsersList?.bookingToCheckinStatusCode])
+
+  console.log("MODE:", import.meta.env.MODE);
+
+
+
+
+
+
+  const handleShowBookingToCheckin = () => {
+    setBookingAssignForm(true)
+  }
+
+
+
+  const handleCloseBooking = () => {
+    setBookingAssignForm(false)
+  }
+
+
+
+
+
   return (
 
 
     <>
 
-    {/* {loadingFile && <div
-                style={{
-                  position: 'absolute',
-                  top: 100,
-                  right: 0,
-                  bottom: 0,
-                  left: "25%",
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  backgroundColor: 'transparent',
-                  opacity: 0.75,
-                  zIndex: 10,
-                }}
-              >
-                <div
-                  style={{
-                    borderTop: '4px solid #1E45E1',
-                    borderRight: '4px solid transparent',
-                    borderRadius: '50%',
-                    width: '40px',
-                    height: '40px',
-                    animation: 'spin 1s linear infinite',
-                  }}
-                ></div>
-              </div>} */}
 
+      {
+        BookingAssignForm && <BookedCheckIn BookingAssignForm={BookingAssignForm}
+          handleClose={handleCloseBooking}
+          bookingDetails={CustomerOverView}
+        />
+      }
 
       <div
         key={CustomerOverView?.customerId}
@@ -2426,13 +2453,13 @@ useEffect(() => {
                       width: "47px",
                       borderRadius: "50%",
                       backgroundColor: "#E2E8F0",
-                          color: "#44536A",
+                      color: "#44536A",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
                       fontSize: "20px",
                       fontWeight: "600",
-                                           fontFamily: "Gilroy",
+                      fontFamily: "Gilroy",
                     }}
                   >
                     {CustomerOverView?.initials
@@ -2642,6 +2669,58 @@ useEffect(() => {
 
               </div>
             </div>
+
+            {
+              state.UsersList.customerdetails?.customerCurrentStatus === "BOOKED" &&
+
+              <button onClick={handleShowBookingToCheckin}
+                type="button"
+
+                className={`
+        px-4 py-2
+    rounded-lg
+    bg-[#1E45E1]
+    text-white
+    text-sm font-semibold
+    font-[Montserrat]
+    flex items-center justify-center
+    transition-all duration-200
+    disabled:opacity-50 disabled:cursor-not-allowed
+    hover:bg-[#1E45E1]
+  `}
+              >
+                Check-In
+              </button>
+
+            }
+            {import.meta.env.MODE === "development" &&
+              state.UsersList.customerdetails?.customerCurrentStatus !== "BOOKED" &&
+
+              <div onClick={handleShowWalletHistory}
+                className="
+    mt-2
+    inline-flex items-center justify-center
+    p-2
+    rounded-full
+    bg-[#ECFDF3] text-[#16A34A]
+
+    shadow-sm
+    ring-1 ring-red-200
+    cursor-pointer
+    transition-all duration-300 ease-out
+    hover:shadow-md
+    hover:scale-105
+       active:scale-95
+  "
+              >
+                <WalletCheck
+                  size="26"
+                  color="#16A34A"
+                  variant="Bold"
+                />
+              </div>
+
+            }
 
 
 
@@ -3807,7 +3886,7 @@ useEffect(() => {
                                   style={{
                                     height: 14,
                                     width: 14,
-                                    color: !canUpdateTenant || !CustomerOverView.hostelInfo?.joiningDate 
+                                    color: !canUpdateTenant || !CustomerOverView.hostelInfo?.joiningDate
                                       ? "#1E45E1"
                                       : "#000", cursor: "pointer"
                                   }}
@@ -3960,7 +4039,7 @@ useEffect(() => {
                                           fontFamily: "Gilroy", paddingTop: 7
                                         }}
                                       >
-                                      ₹{advanceList?.advanceAmount ?? 0}
+                                        ₹{advanceList?.advanceAmount ?? 0}
                                       </p>
                                     </div>
 
@@ -3986,7 +4065,7 @@ useEffect(() => {
                                         }}
                                       >
 
-                                        {CustomerOverView?.bookingInfo &&CustomerOverView?.bookingInfo?.bookingAmount !== null
+                                        {CustomerOverView?.bookingInfo && CustomerOverView?.bookingInfo?.bookingAmount !== null
                                           ? `₹${CustomerOverView?.bookingInfo?.bookingAmount}`
                                           : 0
                                         }
@@ -4217,7 +4296,7 @@ useEffect(() => {
 
                       >
                         <Button
-                          disabled={!canWriteAmenities || state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" || state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" || state.UsersList.customerdetails?.customerCurrentStatus === "VACATED" ||  state.UsersList.customerdetails?.customerCurrentStatus === "SETTLEMENT_GENERATED"}
+                          disabled={!canWriteAmenities || state.UsersList.customerdetails?.hostelInfo?.currentStatus === "BOOKED" || state.UsersList.customerdetails?.customerCurrentStatus === "INACTIVE" || state.UsersList.customerdetails?.customerCurrentStatus === "VACATED" || state.UsersList.customerdetails?.customerCurrentStatus === "SETTLEMENT_GENERATED"}
 
                           style={{
                             backgroundColor: "#1E45E1",
@@ -6301,7 +6380,7 @@ useEffect(() => {
         {
           editStayDetailsShow && <EditStayDetails show={editStayDetailsShow} handleClose={handleCloseStayDetails}
           //  stayDetais={stayDetais} 
-           />
+          />
         }
 
 
@@ -6429,7 +6508,9 @@ useEffect(() => {
 
 
 
-
+      {
+        showWalletHistory && <WalletHistory show={showWalletHistory} handleClose={handleCloseWallet} />
+      }
 
 
 

@@ -288,7 +288,7 @@ function BillsFilter({ show, handleClose }) {
 
 
 
-    console.log("billStatus", billStatus)
+   
 
     const handleFilterBills = () => {
 

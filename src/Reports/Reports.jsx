@@ -236,7 +236,7 @@ function Reports() {
     }
   }
 
-  console.log("state", state.reports)
+
   useEffect(() => {
     setSelectedRange({
       from: dayjs().startOf("month").toDate(),
