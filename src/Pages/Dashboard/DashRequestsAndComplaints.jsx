@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Calendar, ArrowDown2, MessageQuestion, Warning2, ArrowRight } from "iconsax-react";
+import { Calendar, ArrowDown2, MessageQuestion, Warning2, ArrowRight, Messages2 } from "iconsax-react";
 
 function DashRequestAndComplaints() {
     // date dropdown states
@@ -221,7 +221,10 @@ function DashRequestAndComplaints() {
 
                 <div className="flex justify-between items-center mb-4">
                     <div className="flex items-center gap-2">
-                        <Warning2 size="18" className="text-red-500" />
+                         <div className="bg-[#FEF2F2] px-2 py-2 rounded-lg">
+                            <Messages2 size="18" className="text-[#E7000B]" />
+                        </div>
+                        
                         <label className="font-semibold text-sm font-[Gilroy] text-[#101828]">
                             Tenant Complaints (5)
                         </label>
