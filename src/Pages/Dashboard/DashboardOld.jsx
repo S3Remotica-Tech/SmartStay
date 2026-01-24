@@ -12,17 +12,16 @@ import { useDispatch, useSelector } from "react-redux";
 import drop from "../../Assets/Images/New_images/arrow-down.png";
 import DashboardAnnouncement from "../../Pages/Dashboard/DashboardAnnouncement";
 import DashboardUpdates from "../../Pages/Dashboard/DashboardUpdates";
-// import Tab from "@mui/material/Tab";
+import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
-// import TabList from "@mui/lab/TabList";
+import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-// import Box from "@mui/material/Box";
+import Box from "@mui/material/Box";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { MdWarningAmber } from "react-icons/md";
 import ErrorMessage from '../../Components/ErrorMessage';
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
-import Select from "react-select";
 
 import {
   LineChart,
@@ -47,22 +46,8 @@ import activeImage from "../../Assets/Images/New_images/Active compliant.png";
 import coinImage from "../../Assets/Images/New_images/coinimage.png";
 import advancedHand from "../../Assets/Images/New_images/AdvancedHand.png";
 import newBooking from "../../Assets/Images/New_images/NewBooking.png";
-import { Tabs, Tab } from "react-bootstrap";
+
 import { useHasPermission } from '../../Utils/Permission';
-import {
-  Buildings,
-  // Bed,
-  Profile2User,
-  WalletMoney,
-  InfoCircle,
-  ArrowUp2,
-  ArrowDown2,
-  ArrowUp,
-  DocumentText,
-  Calendar,
-  ArrowRight2,
-} from "iconsax-react";
-import ProgressBar from 'react-bootstrap/ProgressBar';
 
 
 function Dashboard() {
@@ -70,28 +55,20 @@ function Dashboard() {
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const [dashboardList, setDashboardList] = useState('');
-  const [activeTab, setActiveTab] = useState("1");
-
-  const [openCards, setOpenCards] = useState({});
-
-  const [totalAmount, setTotalAmount] = useState([]);
-
-  // const [value, setValue] = React.useState("1");
+    const [totalAmount, setTotalAmount] = useState([]);
+  
+  const [value, setValue] = React.useState("1");
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [selectExpence, setSelectExpence] = useState("this_month");
   const [selectCashback, setSelectCashback] = useState("this_month");
-  // const [cashBackData, setCashBackData] = useState("");
+  const [cashBackData, setCashBackData] = useState("");
   const [selectRevenu, setSelectRevenu] = useState("six_month");
-  // const [hostel_id, setHostel_Id] = useState("");
-  const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
   const [daysLeft, setDaysLeft] = useState(null);
   const [selectAdvance, setSelectAdvance] = useState("six_month");
-  // const [accountList, setAccountList] = useState("");
-  const [showDetails, setShowDetails] = useState(false);
-  // const canReadDashboard =  useHasPermission("Dashboard", "canRead");
-
+ 
   const {
     // canWriteModule: canWriteComplaints,
     canReadModule: canReadDashboard,
@@ -106,244 +83,156 @@ function Dashboard() {
   }, [canReadDashboard]);
 
 
-  // // Total Cashback
+// Total Cashback
 
-  // const cashBackDataSample = {
-  //   total: 49500,
-  //   currentValue: 19500,
-  //   items: [
-  //     {
-  //       label: "Received",
-  //       value: 19500,
-
-  //     },
-  //     {
-  //       label: "Pending",
-  //       value: 30000,
-
-  //     }
-  //   ]
-  // };
-
-
-  // // expenses
-
-  // const expensesApiResponse = {
-  //   totalAmount: 150,
-  //   categories: [
-  //     {
-  //       category_Id: 1,
-  //       category_Name: "Category 1",
-  //       purchase_amount: 95,
-
-  //     },
-  //     {
-  //       category_Id: 2,
-  //       category_Name: "Category 2",
-  //       purchase_amount: 26,
-
-  //     },
-  //     {
-  //       category_Id: 3,
-  //       category_Name: "Category 3",
-  //       purchase_amount: 17,
-
-  //     },
-  //     {
-  //       category_Id: 4,
-  //       category_Name: "Category 4",
-  //       purchase_amount: 12,
-
-  //     }
-  //   ]
-  // };
-
-
-
-
-
-
-  // const lablesdata = expensesApiResponse.categories;
-
-
-
-
-
-  // advance & advance return
-
-
-  // const advanceApiResponse = [
-  //   {
-  //     date: "2024-01-01",
-  //     advance: 12000,
-  //     advanceReturn: 10000
-  //   },
-  //   {
-  //     date: "2024-02-01",
-  //     advance: 18000,
-  //     advanceReturn: 15000
-  //   },
-  //   {
-  //     date: "2024-03-01",
-  //     advance: 25000,
-  //     advanceReturn: 22000
-  //   },
-  //   {
-  //     date: "2024-04-01",
-  //     advance: 32000,
-  //     advanceReturn: 30000
-  //   },
-  //   {
-  //     date: "2024-05-01",
-  //     advance: 28000,
-  //     advanceReturn: 26000
-  //   },
-  //   {
-  //     date: "2024-06-01",
-  //     advance: 15000,
-  //     advanceReturn: 14000
-  //   }
-  // ];
-
-
-
-  // const formattedChart = advanceApiResponse.map(item => ({
-  //   name: item.date,
-  //   Advance: item.advance,
-  //   "Advance Return": item.advanceReturn
-  // }));
-
-
-
-
-  //  expense & Revenue
-
-
-  // const dataExpenseRevenue = [
-  //   {
-  //     month: "2024-01",
-  //     revenue: 400,
-  //     expense: 300
-  //   },
-  //   {
-  //     month: "2024-02",
-  //     revenue: 200,
-  //     expense: 280
-  //   },
-  //   {
-  //     month: "2024-03",
-  //     revenue: 500,
-  //     expense: 400
-  //   },
-  //   {
-  //     month: "2024-04",
-  //     revenue: 200,
-  //     expense: 150
-  //   },
-  //   {
-  //     month: "2024-05",
-  //     revenue: 250,
-  //     expense: 500
-  //   },
-  //   {
-  //     month: "2024-06",
-  //     revenue: 300,
-  //     expense: 380
-  //   }
-  // ];
-
-
-  const dashboardCards = [
+const cashBackDataSample = {
+  total: 49500,
+  currentValue: 19500,
+  items: [
     {
-      id: 1,
-      title: "Rooms & Beds",
-      icon: Buildings,
-      iconColor: "text-[#155DFC]",
-      iconBg: "bg-[#EFF6FF]",
-      stats: [
-        { label: "Total Rooms", value1: "20", value2: 24 },
-        { label: "Total Beds", value1: "53" },
-      ],
-      footer: "Sharing Breakdown",
-      sharingData: [
-        { label: "1-share", value: 12, percent: 40 },
-        { label: "2-share", value: 24, percent: 70 },
-        { label: "3-share", value: 12, percent: 40 },
-      ]
+      label: "Received",
+      value: 19500,
+     
     },
     {
-      id: 2,
-      title: "Occupancy",
-      icon: WalletMoney,
-      iconColor: "text-[#00A63E]",
-      iconBg: "bg-[#F0FDF4]",
-      stats: [
-        { label: "Occupied Beds", value1: "43", valueColor: "text-green-600" },
-        { label: "Available Beds", value1: "10", valueColor: "text-red-500" },
-      ],
-      footer: "Occupancy Rate",
-      nextMonth: "3% from last month",
-      sharingData: [
-        { percent: 85 },
-
-      ]
-    },
-    {
-      id: 3,
-      title: "Tenants",
-      icon: Profile2User,
-      iconColor: "text-purple-600",
-      iconBg: "bg-purple-100",
-      stats: [
-        { label: "Total Tenants", value1: "306" },
-        { label: "Check-in Tenants", value1: "43", valueColor: "text-green-600" },
-      ],
-      footer: "Notice Period",
-      footerValue: "4 Tenants",
-      nextCheckout: "Feb 20, 2026"
-    },
-    {
-      id: 4,
-      title: "Advance Holding",
-      icon: WalletMoney,
-      iconColor: "text-orange-600",
-      iconBg: "bg-orange-100",
-      stats: [
-        { label: "Total Advance", value1: "₹1.5L" },
-        { label: "Refunded", value1: "₹10,000", valueColor: "text-red-500" },
-
-      ],
-      footer: "Others",
-    },
-  ];
-
-
-  const cardOptions = [
-    { value: "today", label: "Today" },
-    { value: "week", label: "This Week" },
-    { value: "month", label: "This Month" },
-  ];
-
-  const toggleCard = (id) => {
-    setOpenCards((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
-  };
-
-
-
-
-
-const billingSummary = {
-  title: "Billing Summary",
-  invoices: 36,
-  totalAmount: "₹ 3,24,000",
-  collected: "₹ 54,000",
-  outstanding: "₹ 2,70,000",
-  collectionRate: 24,
-  trend: "+3% from last month",
+      label: "Pending",
+      value: 30000,
+     
+    }
+  ]
 };
+
+
+// expenses
+
+const expensesApiResponse = {
+  totalAmount: 150,
+  categories: [
+    {
+      category_Id: 1,
+      category_Name: "Category 1",
+      purchase_amount: 95,
+     
+    },
+    {
+      category_Id: 2,
+      category_Name: "Category 2",
+      purchase_amount: 26,
+     
+    },
+    {
+      category_Id: 3,
+      category_Name: "Category 3",
+      purchase_amount: 17,
+     
+    },
+    {
+      category_Id: 4,
+      category_Name: "Category 4",
+      purchase_amount: 12,
+      
+    }
+  ]
+};
+
+
+
+
+
+
+const lablesdata = expensesApiResponse.categories;
+
+
+
+
+
+// advance & advance return
+
+
+const advanceApiResponse = [
+  {
+    date: "2024-01-01",
+    advance: 12000,
+    advanceReturn: 10000
+  },
+  {
+    date: "2024-02-01",
+    advance: 18000,
+    advanceReturn: 15000
+  },
+  {
+    date: "2024-03-01",
+    advance: 25000,
+    advanceReturn: 22000
+  },
+  {
+    date: "2024-04-01",
+    advance: 32000,
+    advanceReturn: 30000
+  },
+  {
+    date: "2024-05-01",
+    advance: 28000,
+    advanceReturn: 26000
+  },
+  {
+    date: "2024-06-01",
+    advance: 15000,
+    advanceReturn: 14000
+  }
+];
+
+
+
+const formattedChart = advanceApiResponse.map(item => ({
+  name: item.date,               
+  Advance: item.advance,           
+  "Advance Return": item.advanceReturn 
+}));
+
+
+
+
+//  expense & Revenue
+
+
+const dataExpenseRevenue = [
+  {
+    month: "2024-01",
+    revenue: 400,
+    expense: 300
+  },
+  {
+    month: "2024-02",
+    revenue: 200,
+    expense: 280
+  },
+  {
+    month: "2024-03",
+    revenue: 500,
+    expense: 400
+  },
+  {
+    month: "2024-04",
+    revenue: 200,
+    expense: 150
+  },
+  {
+    month: "2024-05",
+    revenue: 250,
+    expense: 500
+  },
+  {
+    month: "2024-06",
+    revenue: 300,
+    expense: 380
+  }
+];
+
+
+
+
+
 
 
   // useEffect(() => {
@@ -351,42 +240,37 @@ const billingSummary = {
   // }, []);
 
 
-  // const monthNames = [
-  //   "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-  //   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-  // ];
+  const monthNames = [
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  ];
 
+  // const formattedChart = state.PgList?.dashboardFilterAdvance?.advance_data?.map(item => {
+  //   const [year, month] = item.month.split("-");
+  //   const monthIndex = parseInt(month, 10) - 1;
+  //   return {
+  //     name: `${monthNames[monthIndex]} ${year}`,
+  //     Advance: Number(item.advance_amount),
+  //     AdvanceReturn: Number(item.return_advance),
+  //   };
+  // });
 
-  const tabs = [
-  { id: "checkin", label: "New Check-ins", count: 3 },
-  { id: "overdue", label: "Overdue Invoices", count: 7 },
-];
-
-const checkinList = [
-  {
-    id: 1,
-    name: "Ranjith Subburaj",
-    detail: "1-Sharing • Room B-101",
-    date: "Check-in: Jan 18, 2026",
-  },
-  {
-    id: 2,
-    name: "Ranganathan",
-    detail: "3-Sharing • Room C-305",
-    date: "Check-in: Jan 20, 2026",
-  },
-  {
-    id: 3,
-    name: "Ranganathan",
-    detail: "3-Sharing • Room C-305",
-    date: "Check-in: Jan 20, 2026",
-  },
-];
+  // useEffect(() => {
+  //   if (state.login.selectedHostel_Id) {
+  //     setHostel_Id(state.login.selectedHostel_Id);
+  //   }
+  // }, [state.login.selectedHostel_Id]);
 
 
 
 
-
+  // useEffect(() => {
+  //   if (state?.createAccount?.accountList[0]?.plan_data) {
+  //     // const customerDetailsPage =
+  //     //   state?.createAccount?.accountList[0]?.plan_data;
+  //     // setAccountList(customerDetailsPage);
+  //   }
+  // }, [state?.createAccount?.accountList[0]?.plan_data]);
 
 
 
@@ -469,8 +353,8 @@ const checkinList = [
 
   };
 
-  const handleChanges = (event, key) => {
-    setActiveTab(key);
+  const handleChanges = (event, newValue) => {
+    setValue(newValue);
   };
 
   useEffect(() => {
@@ -529,24 +413,24 @@ const checkinList = [
 
 
 
-  // useEffect(() => {
-  //   setCashBackData(state.PgList?.dashboardFilterCashback?.cash_back_data);
-  // }, [state.PgList?.dashboardFilterCashback?.cash_back_data]);
+  useEffect(() => {
+    setCashBackData(state.PgList?.dashboardFilterCashback?.cash_back_data);
+  }, [state.PgList?.dashboardFilterCashback?.cash_back_data]);
 
-  // const currentvalue =
-  //   (Number(cashBackDataSample?.[0]?.Revenue) || 0) +
-  //   (Number(cashBackDataSample?.[0]?.overdue) || 0);
+  const currentvalue =
+    (Number(cashBackDataSample?.[0]?.Revenue) || 0) +
+    (Number(cashBackDataSample?.[0]?.overdue) || 0);
 
-  // const percentage = currentvalue
-  //   ? ((currentvalue - Number(cashBackDataSample?.[0]?.overdue)) / currentvalue) * 100
-  //   : 0;
+  const percentage = currentvalue
+    ? ((currentvalue - Number(cashBackDataSample?.[0]?.overdue)) / currentvalue) * 100
+    : 0;
 
-  // const pathColor =
-  //   currentvalue > 0
-  //     ? cashBackDataSample?.[0]?.overdue > 0
-  //       ? "#00A32E"
-  //       : "#EBEBEB"
-  //     : "#EBEBEB";
+  const pathColor =
+    currentvalue > 0
+      ? cashBackDataSample?.[0]?.overdue > 0
+        ? "#00A32E"
+        : "#EBEBEB"
+      : "#EBEBEB";
   const trailColor = "#EBEBEB";
 
   const currentDate = new Date();
@@ -572,82 +456,64 @@ const checkinList = [
     "#6A4C93",
   ];
 
-  // const datum = {
-  //   labels: lablesdata?.map((category) => category.category_Name),
-  //   datasets: [
-  //     {
-  //       data: lablesdata?.map((category) => category.purchase_amount),
-  //       backgroundColor: lablesdata?.map(
-  //         (_, index) => fixedColors[index % fixedColors.length]
-  //       ),
-  //       hoverBackgroundColor: lablesdata?.map(
-  //         (_, index) => fixedColors[index % fixedColors.length]
-  //       ),
-  //       borderWidth: 5,
-  //       borderColor: "#fff",
-  //       borderRadius: 10,
-  //     },
-  //   ],
-  // };
-  // const options = {
-  //   responsive: true,
-  //   maintainAspectRatio: false,
-  //   cutout: "75%",
-  //   plugins: {
-  //     legend: {
-  //       display: false,
-  //     },
-  //     tooltip: {
-  //       enabled: false,
-  //     },
-  //   },
-  //   elements: {
-  //     arc: {
-  //       borderRadius: 2,
-  //     },
-  //   },
-  // };
+  const datum = {
+    labels: lablesdata?.map((category) => category.category_Name),
+    datasets: [
+      {
+        data: lablesdata?.map((category) => category.purchase_amount),
+        backgroundColor: lablesdata?.map(
+          (_, index) => fixedColors[index % fixedColors.length]
+        ),
+        hoverBackgroundColor: lablesdata?.map(
+          (_, index) => fixedColors[index % fixedColors.length]
+        ),
+        borderWidth: 5,
+        borderColor: "#fff",
+        borderRadius: 10,
+      },
+    ],
+  };
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    cutout: "75%",
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        enabled: false,
+      },
+    },
+    elements: {
+      arc: {
+        borderRadius: 2,
+      },
+    },
+  };
 
-  // const { datasets } = datum;
-
-
-
-  // const CustomLegend = ({ payload }) => {
-  //   return (
-  //     <div className="flex justify-center items-center pt-4" >
-  //       {payload.map((entry, index) => (
-  //         <div
-  //           key={`item-${index}`}
-  //           className="flex items-center mr-2.5 mt-6">
-  //           <div className="w-3 h-3 rounded-full mr-1.5"
-  //             style={{ backgroundColor: entry.color }}
-  //           />
-  //           <span className="text-xs font-semibold font-montserrat">
-  //             {entry.value}
-  //           </span>
-  //         </div>
-  //       ))}
-  //     </div>
-  //   );
-  // };
-
-
- const [activeTabDashboard, setActiveTabDashboard] = useState("checkin");
+  const { datasets } = datum;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+  const CustomLegend = ({ payload }) => {
+    return (
+      <div className="flex justify-center items-center pt-4" >
+        {payload.map((entry, index) => (
+          <div
+            key={`item-${index}`}
+            className="flex items-center mr-2.5 mt-6">
+            <div className="w-3 h-3 rounded-full mr-1.5"
+              style={{ backgroundColor: entry.color }}
+            />
+            <span className="text-xs font-semibold font-montserrat">
+              {entry.value}
+            </span>
+          </div>
+        ))}
+      </div>
+    );
+  };
 
   return (
 
@@ -655,10 +521,10 @@ const checkinList = [
     <>
 
 
-      <div className="w-full h-screen  bg-[#FAFAFA] px-3 py-3">
+      <div className="w-full max-w-full mx-auto p-2">
         <Marquee pauseOnHover gradient={false}>
           {showWarning && (
-            <div className={` mb-[10px] flex flex-col sm:flex-row justify-between items-center gap-2 px-4 py-2 rounded-lg w-full max-w-4xl mx-auto text-base font-gilroy border
+            <div className={` mt-3 flex flex-col sm:flex-row justify-between items-center gap-2 px-4 py-2 rounded-lg w-full max-w-4xl mx-auto text-base font-gilroy 
 
   ${daysLeft > 0
 
@@ -688,9 +554,10 @@ const checkinList = [
               </div>
 
 
-              <button className={`ms-3 px-3 py-1.5 text-sm rounded-md font-gilroy text-white transition-colors ${daysLeft > 0
+              <button
+               className={`ms-3 px-3 py-1.5 text-sm rounded-md font-gilroy text-white transition-colors ${daysLeft > 0
                 ? "bg-yellow-400 hover:bg-yellow-500"
-                : "bg-red-500 hover:bg-red-600"
+                : "bg-red-500 hover:bg-red-600"   
                 }`}
 
 
@@ -702,64 +569,62 @@ const checkinList = [
           )}
         </Marquee>
 
-        <TabContext value={activeTab} >
-          <div className="w-full px-3 sticky top-0 z-[1000] bg-white py-3  border border-[#E5E7EB] rounded-xl" >
-            <Tabs
-              id="dashboard-tabs"
-              activeKey={activeTab}
-              onSelect={(k) => handleChanges(null, k)}
-              className={`${isSmallScreen ? "flex flex-col items-center" : "flex items-center"} 
-    w-1/2 gap-3  border-0 custom-tabs items-center`}
-            >
-              <Tab
-                eventKey="1"
-                title={
-                  <span
-                    className={`
-          inline-block capitalize text-base font-medium font-[Gilroy]
-          ${activeTab === "1" ? "text-[#1E45E1]  bg-[#F6F8FF] px-[15px] py-[10px] rounded-lg  text-base font-medium" : " px-[15px] py-[10px]  text-[#4B4B4B] text-base font-medium  bg-[#FFFFFF]"}
-        
-        `}
-                  >
-                    Dashboard
-                  </span>
-                }
-              />
-
-              <Tab
-                eventKey="2"
-                title={
-                  <span
-                    className={`
-          inline-block capitalize text-base font-medium font-[Gilroy]
-          ${activeTab === "2" ? "text-[#1E45E1]  bg-[#F6F8FF] px-[15px] py-[10px] rounded-lg  text-base font-medium" : " px-[15px] py-[10px]  text-[#4B4B4B] text-base font-medium  bg-[#FFFFFF]"}
-       
-        `}
-                  >
-                    Announcement
-                  </span>
-                }
-              />
-
-              <Tab
-                eventKey="3"
-                title={
-                  <span
-                    className={`
-          inline-block capitalize text-base font-medium font-[Gilroy]
-          ${activeTab === "3" ? "text-[#1E45E1]  bg-[#F6F8FF] px-[15px] py-[10px] rounded-lg  text-base font-medium" : " px-[15px] py-[10px]  text-[#4B4B4B] text-base font-medium  bg-[#FFFFFF]"}
-        `}
-                  >
-                    Updates
-                  </span>
-                }
-              />
-            </Tabs>
+        <TabContext value={value}>
+          <div className="w-full px-3 sticky top-0 z-[1000] bg-white"
+          >
 
 
+            <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
+              <TabList
+                orientation={isSmallScreen ? "vertical" : "horizontal"}
+                onChange={handleChanges}
+                aria-label="lab API tabs example"
+                className="flex flex-col md:flex-row flex-wrap -ml-4"
+                sx={{
+                  '& .MuiTabs-indicator': {
+                    backgroundColor: '#1E45E1',
+                    height: '2px',
+                    borderRadius: '2px',
+                    bottom: '10px',
+                  },
+                  '& .MuiTab-root': {
+                    paddingBottom: '2px',
+                    minHeight: '36px',
+                  },
+                }}
+              >
+                <Tab
+                  label="Dashboard"
+                  value="1"
+                  sx={{ textTransform: 'none', fontFamily: 'Gilroy', fontSize: '15px' }}
+                  className="px-1 text-base text-neutral-600 leading-normal not-italic normal-case
+  font-medium
+  [&.Mui-selected]:!text-black
+  [&.Mui-selected]:!font-semibold"
+                />
 
+                <Tab
+                  label="Announcement"
+                  value="2"
+                  sx={{ textTransform: 'none', fontFamily: 'Gilroy', fontSize: '15px' }}
+                  className="px-1 text-base text-neutral-600 leading-normal not-italic normal-case
+  font-medium
+  [&.Mui-selected]:!text-black
+  [&.Mui-selected]:!font-semibold"
+                />
 
+                <Tab
+                  label="Updates"
+                  value="3"
+                  sx={{ textTransform: 'none', fontFamily: 'Gilroy', fontSize: '15px' }}
+                  className="px-1 text-base text-neutral-600 leading-normal not-italic normal-case
+  font-medium
+  [&.Mui-selected]:!text-black
+  [&.Mui-selected]:!font-semibold"
+                />
 
+              </TabList>
+            </Box>
           </div>
 
           {loading && <LoaderComponent />}
@@ -778,13 +643,12 @@ const checkinList = [
 
                 </div>
               ) : (
-                <div className="overflow-y-auto">
-
-              <div className="overflow-y-auto ">
+                <>
+                  <div className="overflow-y-auto p-2">
                     <div className="my-4">
                       <div className="grid gap-3 md:grid-cols-12 items-stretch">
 
-
+                        {/* LEFT SIDE */}
                         <div className="md:col-span-2 h-full">
                           <div
                             className="border rounded-2xl p-4 shadow-sm text-left flex flex-col items-start justify-between bg-white min-h-44 h-full"
@@ -799,7 +663,7 @@ const checkinList = [
                           </div>
                         </div>
 
-
+                        {/* MIDDLE */}
                         <div className="md:col-span-3 flex flex-col gap-2 h-full">
                           <div className="border rounded-2xl p-3 shadow-sm flex justify-between items-center bg-white h-full">
                             <div>
@@ -824,7 +688,7 @@ const checkinList = [
                           </div>
                         </div>
 
-
+                        {/* RIGHT SIDE */}
                         <div className="md:col-span-7 h-full">
                           <div className="p-2 rounded-2xl bg-blue-100 h-full">
                             <div className="grid gap-2 md:grid-cols-12 h-full">
@@ -1053,18 +917,17 @@ const checkinList = [
                               </div>
                             </div>
                           </div>
-                         
-                          <div className="flex flex-wrap items-center">
-                           
+{/* cash back */}
+                          {/* <div className="flex flex-wrap items-center">
                             <div className="w-[40%] ml-4 mt-1 font-[Gilroy]">
                               <CircularProgressbar
                                 value={percentage}
-                                text={`₹${cashBackDataSample.currentValue || 0}`}
+                                text={`₹${currentvalue || 0}`}
                                 circleRatio={0.5}
                                 styles={buildStyles({
                                   rotation: 0.75,
-                                  pathColor: "#16A34A",
-                                  trailColor: "#EBEBEB",
+                                  pathColor,
+                                  trailColor,
                                   textColor: "#000",
                                   textSize: "24px",
                                 })}
@@ -1072,24 +935,63 @@ const checkinList = [
                             </div>
 
                             <div className="ml-auto -mt-12 pr-5 flex flex-col gap-4">
-                              {cashBackDataSample.items.map((item, index) => (
-                                <div key={index} className="flex items-center">
-                                  <div
-                                    className={`mr-2 -mt-6 h-[15px] w-[15px] rounded-full ${item.color}`}
-                                  ></div>
-
-                                  <div>
-                                    <p className="text-[12px] font-medium font-[Gilroy]">
-                                      {item.label}
-                                    </p>
-                                    <p className="text-[13px] font-semibold font-[Montserrat]">
-                                      ₹{item.value}
-                                    </p>
-                                  </div>
+                              <div className="flex items-center">
+                                <div className="mr-2 -mt-6 h-[15px] w-[15px] rounded-full bg-green-600"></div>
+                                <div>
+                                  <p className="text-[12px] font-medium font-[Gilroy]">Received</p>
+                                  <p className="text-[13px] font-semibold font-[Montserrat]">
+                                    ₹{cashBackDataSample?.[0]?.Revenue || 0}
+                                  </p>
                                 </div>
-                              ))}
+                              </div>
+
+                              <div className="flex items-center">
+                                <div className="mr-2 -mt-6 h-[15px] w-[15px] rounded-full bg-[#EBEBEB]"></div>
+                                <div>
+                                  <p className="text-[12px] font-medium font-[Gilroy]">Pending</p>
+                                  <p className="text-[13px] font-semibold font-[Montserrat]">
+                                    ₹{cashBackDataSample?.[0]?.overdue || 0}
+                                  </p>
+                                </div>
+                              </div>
                             </div>
-                          </div>
+                          </div> */}
+                          <div className="flex flex-wrap items-center">
+  {/* Progress */}
+  <div className="w-[40%] ml-4 mt-1 font-[Gilroy]">
+    <CircularProgressbar
+      value={percentage}
+      text={`₹${cashBackDataSample.currentValue || 0}`}
+      circleRatio={0.5}
+      styles={buildStyles({
+        rotation: 0.75,
+        pathColor: "#16A34A",
+        trailColor: "#EBEBEB",
+        textColor: "#000",
+        textSize: "24px",
+      })}
+    />
+  </div>
+
+  <div className="ml-auto -mt-12 pr-5 flex flex-col gap-4">
+    {cashBackDataSample.items.map((item, index) => (
+      <div key={index} className="flex items-center">
+        <div
+          className={`mr-2 -mt-6 h-[15px] w-[15px] rounded-full ${item.color}`}
+        ></div>
+
+        <div>
+          <p className="text-[12px] font-medium font-[Gilroy]">
+            {item.label}
+          </p>
+          <p className="text-[13px] font-semibold font-[Montserrat]">
+            ₹{item.value}
+          </p>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
 
                         </div>
                       </div>
@@ -1097,7 +999,7 @@ const checkinList = [
 
                       <div className="flex-1 mt-3">
 
-                 
+                        {/* Card Container */}
                         <div className="mx-auto mt-2 w-full max-w-4xl overflow-hidden rounded-xl bg-white p-4 md:p-6 card">
 
                           <div className="-mt-4 flex flex-wrap items-center justify-between px-2.5 py-2.5">
@@ -1119,7 +1021,7 @@ const checkinList = [
                                   <option value="last_year">last year</option>
                                 </select>
 
-                              
+                                {/* Dropdown arrow */}
                                 <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
                                   <img src={drop} alt="arrow" className="h-4 w-4" />
                                 </div>
@@ -1127,7 +1029,7 @@ const checkinList = [
                             </div>
                           </div>
 
-                         
+                          {/* Line Chart */}
                           <ResponsiveContainer width="100%" height={300}>
                             <LineChart data={formattedChart}>
                               <CartesianGrid stroke="#e0e0e0" strokeDasharray="0" vertical={false} />
@@ -1180,6 +1082,7 @@ const checkinList = [
                           </ResponsiveContainer>
                         </div>
 
+{/* Expenses */}
                         <div className="expenses-container animated-text mt-4">
 
                           <div className="dropp flex flex-wrap items-center justify-between px-3 py-2">
@@ -1213,7 +1116,7 @@ const checkinList = [
 
                           <div className="flex items-start justify-between">
 
-                            <div className="flex-1">
+                            {/* <div className="flex-1">
                               {lablesdata && lablesdata.length > 0 ? (
                                 <Doughnut
                                   className="doughnut"
@@ -1239,7 +1142,7 @@ const checkinList = [
                               <p className="mt-2.5 text-center text-2xl font-semibold font-sans">
                                 ₹{totalAmount > 0 ? totalAmount : 0}
                               </p>
-                            </div>
+                            </div> */}
 
                             <div className="grid flex-1 grid-cols-2 gap-5">
                               {lablesdata && lablesdata.length > 0 ? (
@@ -1273,24 +1176,8 @@ const checkinList = [
 
 
                     </div>
-                  </div> 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                </div>
+                  </div>
+                </>
               )}
             </TabPanel>
 

@@ -76,6 +76,8 @@ import ExpenseRegister from "../Reports/ExpenseRegister/ExpenseRegister"
 import OccupancyRegister from "../Reports/OccupancyRegister/OccupancyRegister"
 import BankTransactionRegister from "../Reports/BankTransactionRegister/BankTransactionRegister"
 import ReceiptRegister from "../Reports/ReceiptRegister/ReceiptRegister"
+import DashboardOld from "../Pages/Dashboard/DashboardOld";
+import Dashboard from "../Pages/Dashboard/Dashboard";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -104,6 +106,7 @@ function Sidebar() {
 
   const pageMap = {
     "/dashboard/:hostelId": "dashboard",
+     "/dashboard/new/:hostelId": "dashboard-new",
     "/paying-guest/:hostelId": "pg-list",
     "/tenant/:hostelId": "user-list",
     "/tenant/details/:hostelId": "user-details",
@@ -374,7 +377,7 @@ function Sidebar() {
 
     const validPages = [
       "dashboard",
-      "paying-guest",
+          "paying-guest",
       "tenant",
       "invoice",
       "compliance",
@@ -407,7 +410,7 @@ function Sidebar() {
 
   useEffect(() => {
     if (state.login?.isLoggedIn) {
-      setCurrentPage("dashboardd");
+      setCurrentPage("dashboard");
     }
   }, [state.login?.isLoggedIn]);
 
@@ -1030,7 +1033,37 @@ function Sidebar() {
                       </span>
                     </NavLink>
                   </li>
+  <li
 
+                    style={{
+                      listStyleType: "none",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <NavLink
+                      to={withHostel("/dashboard/new")}
+                      className={({ isActive }) =>
+                        `align-items-center d-flex list-Item ${isActive ? "active" : ""}`
+                      }
+                      onClick={() => handlePageClick("dashboard-new")}
+                    >
+                      <Chart2
+                        size="20" variant="Bold"
+                      />
+                      <span
+                        className="Title"
+                        style={{
+                          fontSize: 14,
+                          fontWeight: 600,
+                          display: "inline-block",
+                          fontFamily: "Gilroy",
+                        }}
+                      > 
+                        Home New
+                      </span>
+                    </NavLink>
+                  </li>
                   <li
                     className={`align-items-center list-Item ${manageOpen ? "active" : ""
                       }`}
@@ -1535,8 +1568,20 @@ function Sidebar() {
               <Route
                 path="/dashboard/:hostelId?"
                 element={
+                  <div className="bg-[#FFF] " style={{ paddingTop: 5, paddingLeft: 13, paddingRight: 5 }}>
+                    <DashboardOld
+                      displayCompliance={handledisplaycompliace}
+                      allPageHostel_Id={allPageHostel_Id}
+                      setAllPageHostel_Id={setAllPageHostel_Id}
+                    />
+                  </div>
+                }
+              />
+               <Route
+                path="/dashboard/new/:hostelId?"
+                element={
                   <div className="bg-[#FAFAFA] " style={{ paddingTop: 5, paddingLeft: 13, paddingRight: 5 }}>
-                    <Dashboards
+                    <Dashboard
                       displayCompliance={handledisplaycompliace}
                       allPageHostel_Id={allPageHostel_Id}
                       setAllPageHostel_Id={setAllPageHostel_Id}
