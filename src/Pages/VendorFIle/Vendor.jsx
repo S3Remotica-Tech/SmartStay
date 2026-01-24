@@ -241,10 +241,10 @@ function Vendor() {
   return (
     <>
 
-      <div className="sticky-top bg-white" style={{  }}>
+      <div className="sticky top-0 bg-white" style={{  }}>
 
 
-        <div
+        {/* <div
 
 
         >
@@ -398,9 +398,122 @@ function Vendor() {
             </div>
           </div>
 
-        </div>
+        </div> */}
 
-        {searchQuery && (
+        <div>
+  <div className="sticky top-0 z-10 bg-white p-2 flex justify-between items-center flex-wrap">
+
+    <div>
+      <label className="text-[18px] font-semibold font-[Gilroy] text-black">
+        Vendor
+      </label>
+    </div>
+
+    <div className="flex justify-between items-center flex-wrap">
+
+      {!showFilterData && (
+        <div
+          onClick={() => canReadVendor && handleShowSearch()}
+          className="pr-[30px]"
+        >
+          <SearchNormal1
+            size="26"
+            color="#222"
+            className={`transition-opacity duration-300 ${
+              canReadVendor
+                ? "cursor-pointer opacity-100 pointer-events-auto"
+                : "cursor-not-allowed opacity-40 pointer-events-none"
+            }`}
+          />
+        </div>
+      )}
+
+      {showFilterData && (
+        <div
+          className={`relative me-3 flex flex-wrap mt-[-4px] ${
+            isSmallScreen ? "w-[150px]" : "w-[240px]"
+          }`}
+        >
+          <InputGroup className="flex flex-nowrap w-full">
+            <FormControl
+              size="lg"
+              value={searchQuery}
+              onChange={handleInputChange}
+              placeholder="Search..."
+              className="shadow-none border border-gray-300 border-r-0 text-[15px] font-medium text-[#222]"
+            />
+            <InputGroup.Text className="bg-white cursor-pointer">
+              <CloseCircle size="24" color="#222" onClick={handleCloseSearch} />
+            </InputGroup.Text>
+          </InputGroup>
+
+          {filteredData.length > 0 &&
+            searchQuery !== "" &&
+            showDropDown && (
+              <div className="absolute top-[50px] left-0 z-[1000] bg-white border border-[#d9d9d9] p-2 rounded-lg">
+                <ul
+                  className="show-scroll bg-white rounded-lg box-border px-[10px] py-[5px]"
+                  style={{
+                    width: 235,
+                    maxHeight: "174px",
+                    minHeight:
+                      filteredData.length > 1 ? "100px" : "auto",
+                    overflowY:
+                      filteredData.length > 2 ? "auto" : "hidden",
+                  }}
+                >
+                  {filteredData.map((user, index) => (
+                    <li
+                      key={index}
+                      onClick={() =>
+                        handleDropDown(user.Vendor_Name)
+                      }
+                      onMouseEnter={() => setHoveredIndex(index)}
+                      onMouseLeave={() => setHoveredIndex(null)}
+                      className={`flex items-center gap-4 p-[10px] text-[14px] font-[Gilroy] font-medium border-b border-[#dcdcdc] cursor-pointer ${
+                        hoveredIndex === index
+                          ? "bg-[#1E45E1] text-white"
+                          : "bg-transparent text-black"
+                      }`}
+                    >
+                      <Image
+                        src={
+                          user.Vendor_profile &&
+                          user.Vendor_profile !== "undefined"
+                            ? user.Vendor_profile
+                            : Profile2
+                        }
+                        className="h-[20px] w-[20px]"
+                        roundedCircle
+                      />
+                      <span>{user.Vendor_Name}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+        </div>
+      )}
+
+      <div>
+        <button
+  disabled={!canWriteVendor}
+  onClick={handleShow}
+  className="bg-[#1E45E1] hover:bg-[#1E45E1] text-white text-[14px] font-semibold
+             rounded-lg px-4 py-2 w-[146px] whitespace-nowrap font-gilroy
+             disabled:opacity-50 disabled:cursor-not-allowed " 
+>
+  + Vendor
+</button>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+        {/* {searchQuery && (
           <div className='container mb-4' style={{ marginTop: '20px', fontWeight: 600, fontSize: 16 }}>
             {filteredData.length > 0 ? (
               <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>
@@ -410,7 +523,28 @@ function Vendor() {
               <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>No results found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>&quot;{searchQuery}&quot;</span></span>
             )}
           </div>
-        )}
+        )} */}
+
+        {searchQuery && (
+  <div className="container mb-4 mt-5 text-[16px] font-semibold font-[Gilroy]">
+    {filteredData.length > 0 ? (
+      <span className="text-[rgba(100,100,100,1)]">
+        {filteredData.length} result{filteredData.length > 1 ? "s" : ""} found for{" "}
+        <span className="text-[rgba(34,34,34,1)]">
+          &quot;{searchQuery}&quot;
+        </span>
+      </span>
+    ) : (
+      <span className="text-[rgba(100,100,100,1)]">
+        No results found for{" "}
+        <span className="text-[rgba(34,34,34,1)]">
+          &quot;{searchQuery}&quot;
+        </span>
+      </span>
+    )}
+  </div>
+)}
+
 
         {
           !canReadVendor ? (

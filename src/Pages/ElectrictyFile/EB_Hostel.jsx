@@ -1670,7 +1670,7 @@ const RoomReadingTable = () => {
       }
 
       {showModal && (
-        <AddRoomReading show={showModal} handleClose={handleCloseShowModal} selectedRowDetails={selectedRow} editRoomReading={editRoomReading} />
+        <AddRoomReading show={showModal} handleClose={handleCloseShowModal} selectedRowDetails={selectedRow} editRoomReading={editRoomReading} finalSettlementWay={false} />
       )}
 
       {showHostelModal && (

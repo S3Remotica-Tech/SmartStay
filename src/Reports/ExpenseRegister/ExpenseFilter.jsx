@@ -21,8 +21,10 @@ function ExpenseFilter({ show, handleClose }) {
     const [room, setRoom] = useState(null);
     const [tenantName, setTenantName] = useState("");
     const [formLoading, setFormLoading] = useState(false)
-
-
+    const [paymentMode, setPaymentMode] = useState(null);
+    const [paidTo, setPaidTo] = useState(null);
+    const [createdBy, setCreatedBy] = useState(null)
+    const [category, setCategory] = useState(null)
 
     const selectStyles = {
         control: (base) => ({
@@ -191,7 +193,10 @@ function ExpenseFilter({ show, handleClose }) {
     }
 
 
-
+    const handlePeriodChange = (opt) => setPeriod(opt?.value);
+    const handlePaymentMode = (opt) => setPaymentMode(opt?.value);
+    const handlePaidChange = (opt) => setPaidTo(opt?.value);
+    const handleCreatedByChange = (opt) => setCreatedBy(opt?.value);
 
 
 
@@ -261,74 +266,75 @@ function ExpenseFilter({ show, handleClose }) {
                         <div className='mb-3'>
                             <label style={{ color: "#222222", fontSize: 15, fontWeight: 600 }}>System Filter</label>
                         </div>
- <Form.Group className="mb-3">
-          <Form.Label className="text-muted" style={{ fontSize: 12 }}>
-            Category
-          </Form.Label>
-          <Select
-            styles={selectStyles}
-            value={category}
-            onChange={setCategory}
-            options={[{ label: "Electricity", value: "electricity" }]}
-            placeholder="Select"
-          />
-        </Form.Group>
 
-        {/* Period */}
-        <Form.Group className="mb-3">
-          <Form.Label className="text-muted" style={{ fontSize: 12 }}>
-            Period
-          </Form.Label>
-          <Select
-            styles={selectStyles}
-            value={period}
-            onChange={setPeriod}
-            options={[{ label: "Last Month", value: "last_month" }]}
-            placeholder="Select"
-          />
-        </Form.Group>
+                        <Form.Group className="mb-3">
+                            <Form.Label className="text-muted" style={{ fontSize: 12 }}>
+                                Category
+                            </Form.Label>
+                            <Select
+                                styles={selectStyles}
+                                value={category}
+                                onChange={setCategory}
+                                options={[{ label: "Electricity", value: "electricity" }]}
+                                placeholder="Select"
+                            />
+                        </Form.Group>
 
-        {/* Payment Mode */}
-        <Form.Group className="mb-3">
-          <Form.Label className="text-muted" style={{ fontSize: 12 }}>
-            Payment Mode
-          </Form.Label>
-          <Select
-            styles={selectStyles}
-            value={paymentMode}
-            onChange={setPaymentMode}
-            options={[{ label: "Cash", value: "cash" }]}
-            placeholder="Select"
-          />
-        </Form.Group>
+                        {/* Period */}
+                        <Form.Group className="mb-3">
+                            <Form.Label className="text-muted" style={{ fontSize: 12 }}>
+                                Period
+                            </Form.Label>
+                            <Select
+                                styles={selectStyles}
+                                value={period}
+                                onChange={handlePeriodChange}
+                                options={[{ label: "Last Month", value: "last_month" }]}
+                                placeholder="Select"
+                            />
+                        </Form.Group>
 
-        {/* Paid To */}
-        <Form.Group className="mb-3">
-          <Form.Label className="text-muted" style={{ fontSize: 12 }}>
-            Paid To
-          </Form.Label>
-          <Select
-            styles={selectStyles}
-            value={paidTo}
-            onChange={setPaidTo}
-            options={[{ label: "Vendor", value: "vendor" }]}
-            placeholder="Select"
-          />
-        </Form.Group>
 
-        {/* Created By */}
-        <Form.Group className="mb-3">
-          <Form.Label className="text-muted" style={{ fontSize: 12 }}>
-            Created By
-          </Form.Label>
-          <Select
-            styles={selectStyles}
-            value={createdBy}
-            onChange={setCreatedBy}
-            options={[{ label: "Admin", value: "admin" }]}
-            placeholder="Select"
-          />
-        </Form.Group>
+                        <Form.Group className="mb-3">
+                            <Form.Label className="text-muted" style={{ fontSize: 12 }}>
+                                Payment Mode
+                            </Form.Label>
+                            <Select
+                                styles={selectStyles}
+                                value={paymentMode}
+                                onChange={handlePaymentMode}
+                                options={[{ label: "Cash", value: "cash" }]}
+                                placeholder="Select"
+                            />
+                        </Form.Group>
+
+
+                        <Form.Group className="mb-3">
+                            <Form.Label className="text-muted" style={{ fontSize: 12 }}>
+                                Paid To
+                            </Form.Label>
+                            <Select
+                                styles={selectStyles}
+                                value={paidTo}
+                                onChange={handlePaidChange}
+                                options={[{ label: "Vendor", value: "vendor" }]}
+                                placeholder="Select"
+                            />
+                        </Form.Group>
+
+
+                        <Form.Group className="mb-3">
+                            <Form.Label className="text-muted" style={{ fontSize: 12 }}>
+                                Created By
+                            </Form.Label>
+                            <Select
+                                styles={selectStyles}
+                                value={createdBy}
+                                onChange={handleCreatedByChange}
+                                options={[{ label: "Admin", value: "admin" }]}
+                                placeholder="Select"
+                            />
+                        </Form.Group>
                     </div>
                 </Offcanvas.Body>
 

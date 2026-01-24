@@ -13,7 +13,7 @@ import PropTypes from "prop-types";
 
 
 
-function AddRoomReading({ show, handleClose, selectedRowDetails, editRoomReading }) {
+function AddRoomReading({ show, handleClose, selectedRowDetails, editRoomReading, finalSettlementWay }) {
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
     const [changesError, setChangesError] = useState("");
@@ -26,6 +26,30 @@ function AddRoomReading({ show, handleClose, selectedRowDetails, editRoomReading
         reading: "",
         date: "",
     });
+
+
+
+
+const disabledDate = (current) => {
+  if (!current) return false;
+
+  if (finalSettlementWay) {
+    const minDate = dayjs(
+      selectedRowDetails?.lastEntryDate,
+      "DD/MM/YYYY"
+    ).add(1, "day");
+
+    const today = dayjs().endOf("day");
+
+    return (
+      current.isBefore(minDate, "day") ||
+      current.isAfter(today, "day")
+    );
+  }
+
+  return current.isAfter(dayjs().endOf("day"));
+};
+
 
 
 
@@ -170,7 +194,7 @@ function AddRoomReading({ show, handleClose, selectedRowDetails, editRoomReading
     }, [show]);
 
 
-    return (
+    return (    
         <div
             className="modal show"
             style={{
@@ -281,7 +305,7 @@ function AddRoomReading({ show, handleClose, selectedRowDetails, editRoomReading
                                     value={readingDate ? dayjs(readingDate) : null}
                                     onChange={handleReadingDateChange}
                                     getPopupContainer={() => modalBodyRef.current}
-                                    disabledDate={(current) => current && current > dayjs()}
+                                    disabledDate={disabledDate}
                                 />
                             </div>
 
@@ -325,7 +349,7 @@ function AddRoomReading({ show, handleClose, selectedRowDetails, editRoomReading
                             </Form.Label>
 
                            {
-                            selectedRowDetails?.currentReading ?
+                            (selectedRowDetails?.currentReading || selectedRowDetails?.lastReading) ?
                             <span
                                 style={{
                                     fontFamily: 'Gilroy',
@@ -337,7 +361,7 @@ function AddRoomReading({ show, handleClose, selectedRowDetails, editRoomReading
                                     color: "gray"
                                 }}
                             >
-                                Last Reading: <span style={{ color: '#1E45E1', fontFamily: "Gilroy" }}>{selectedRowDetails?.currentReading}</span>
+                                Last Reading: <span style={{ color: '#1E45E1', fontFamily: "Gilroy" }}>{selectedRowDetails?.currentReading || selectedRowDetails?.lastReading}</span>
                             </span>
                             :
                             ""
@@ -419,7 +443,7 @@ AddRoomReading.propTypes = {
     handleClose: PropTypes.func.isRequired,
     selectedRowDetails: PropTypes.object.isRequired,
     editRoomReading: PropTypes.object.isRequired,
-
+finalSettlementWay : PropTypes.bool.isRequired,
 }
 
 export default AddRoomReading

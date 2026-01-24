@@ -744,9 +744,9 @@ function PgList() {
               <div className="p-4 flex flex-col md:flex-row items-center justify-between">
                 <div className="flex items-center mb-3 md:mb-0">
 
-                  {state.PgList?.isClickedBed?.currentTenantInfo?.[0].profilePic ? (
+                  {state.PgList?.isClickedBed?.currentTenantInfo?.[0]?.profilePic ? (
                     <img
-                      src={state.PgList?.OccupiedCustomer?.currentTenantInfo?.[0].profilePic || Profiles}
+                      src={state.PgList?.isClickedBed?.currentTenantInfo?.[0]?.profilePic || Profiles}
                       alt="Tenant Profile"
                       className="h-15 w-15 rounded-full object-cover"
                       onError={(e) => { e.target.onerror = null; e.target.src = Profiles; }}

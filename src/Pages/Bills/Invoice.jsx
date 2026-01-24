@@ -2267,7 +2267,8 @@ const InvoicePage = () => {
                               sortedData &&
                               sortedData?.length === 0 && (
 
-                                <div className="mt-2">
+                                <div className="mt-2 flex justify-center">
+                                  <div>
                                   <div style={{ textAlign: "center" }}>
                                     {" "}
                                     <img src={Emptystate} alt="emptystate" />
@@ -2295,6 +2296,7 @@ const InvoicePage = () => {
                                     }}
                                   >
                                     There are no bills added{" "}
+                                  </div>
                                   </div>
                                 </div>
                               )
