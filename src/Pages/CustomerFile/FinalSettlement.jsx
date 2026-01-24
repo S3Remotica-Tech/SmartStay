@@ -509,6 +509,9 @@ function FinalSettlement() {
             }
 
             dispatch({ type: "GETFINALSETTLEMENT", payload });
+             setTimeout(() => {
+        dispatch({ type: 'REMOVE_ADD_ROOM_READING' })
+      }, 100)
 
         }
 

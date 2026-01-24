@@ -382,9 +382,10 @@ function Dashboard() {
               </div>
 
 
-              <button className={`ms-3 px-3 py-1.5 text-sm rounded-md font-gilroy text-white transition-colors ${daysLeft > 0
+              <button
+               className={`ms-3 px-3 py-1.5 text-sm rounded-md font-gilroy text-white transition-colors ${daysLeft > 0
                 ? "bg-yellow-400 hover:bg-yellow-500"
-                : "bg-red-500 hover:bg-red-600"
+                : "bg-red-500 hover:bg-red-600"   
                 }`}
 
 

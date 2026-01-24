@@ -335,6 +335,7 @@ function PaginationList({
             bottom: 0,
             left: display ? "50%" : "30%",
             width: "100%",
+            maxWidth: display ? "500px" : "700px",
             background: "#FFFF",
             padding: "0px 16px",
             display: "flex",

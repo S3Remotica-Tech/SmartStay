@@ -24,7 +24,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
 
 
-    //  valdation => joing date enale, before booking darte not allowed
+
 
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
@@ -105,40 +105,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
         setFields([...fields, { reason_name: "", amount: "", showInput: false }]);
     };
 
-    // const handleInputChange = (index, field, value) => {
-    //     const updatedFields = [...fields];
-    //     const updatedErrors = [...errors];
-
-    //     if (field === "reason") {
-    //         if (value === "others") {
-    //             updatedFields[index].showInput = true;
-    //             updatedFields[index].reason_name = "others";
-    //             updatedFields[index].customReason = "";
-    //         } else {
-    //             updatedFields[index].showInput = false;
-    //             updatedFields[index].reason = value;
-    //             updatedFields[index].reason_name = value;
-    //             updatedFields[index].customReason = "";
-    //         }
-
-
-    //         if (updatedErrors[index]) updatedErrors[index].reason = "";
-    //     } else if (field === "customReason") {
-    //         updatedFields[index].customReason = value;
-    //         if (updatedErrors[index]) updatedErrors[index].reason = "";
-    //     } else if (field === "amount") {
-
-
-    //         const numericValue = value.replace(/[^0-9]/g, "");
-    //         updatedFields[index].amount = numericValue;
-    //         if (updatedErrors[index]) updatedErrors[index].amount = "";
-
-    //     }
-
-    //     setFields(updatedFields);
-    //     setErrors(updatedErrors);
-    // };
-
+   
     const handleInputChange = (index, field, value) => {
         dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR_BOOKED' })
         const updatedFields = [...fields];
@@ -430,23 +397,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                         {bookingDetails?.initials || "-"}
                                     </div>
                                 )}
-                                {/* <img
-                                    src={
-                                        typeof bookingDetails?.profilePic === "string" && bookingDetails?.profilePic.trim()
-                                            ? bookingDetails?.profilePic
-                                            : bookingDetails?.profilePic instanceof File
-                                                ? URL.createObjectURL(bookingDetails?.profilePic)
-                                                : Profileimage
-                                    }
-                                    alt="Profile"
-                                    className="rounded-circle"
-                                    width="35"
-                                    height="35"
-                                    onError={(e) => {
-                                        e.target.onerror = null;
-                                        e.target.src = Profileimage;
-                                    }}
-                                /> */}
+                              
                                 <div>
                                     <div>
                                         <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px", fontFamily: "Gilroy" }}>
@@ -467,7 +418,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                                 fontFamily: "Gilroy"
                                             }}
                                         >
-                                            {bookingDetails?.floorName}
+                                            {bookingDetails?.floorName || bookingDetails?.hostelInfo?.floorName}
                                         </span>
                                         <span
                                             style={{
@@ -480,7 +431,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                                 fontFamily: "Gilroy"
                                             }}
                                         >
-                                            {bookingDetails?.roomName} - {bookingDetails?.bedName}
+                                            {bookingDetails?.roomName || bookingDetails?.hostelInfo?.roomName} - {bookingDetails?.bedName || bookingDetails?.hostelInfo?.bedName}
                                         </span>
                                     </div>
 
