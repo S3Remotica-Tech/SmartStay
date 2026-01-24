@@ -106,7 +106,7 @@ function Sidebar() {
 
   const pageMap = {
     "/dashboard/:hostelId": "dashboard",
-     "/dashboard/new/:hostelId": "dashboard-new",
+     "/dashboard-new/:hostelId": "dashboard-new",
     "/paying-guest/:hostelId": "pg-list",
     "/tenant/:hostelId": "user-list",
     "/tenant/details/:hostelId": "user-details",
@@ -377,6 +377,7 @@ function Sidebar() {
 
     const validPages = [
       "dashboard",
+      "dashboard-new",
           "paying-guest",
       "tenant",
       "invoice",
@@ -1042,7 +1043,7 @@ function Sidebar() {
                     }}
                   >
                     <NavLink
-                      to={withHostel("/dashboard/new")}
+                      to={withHostel("/dashboard-new")}
                       className={({ isActive }) =>
                         `align-items-center d-flex list-Item ${isActive ? "active" : ""}`
                       }
@@ -1578,7 +1579,7 @@ function Sidebar() {
                 }
               />
                <Route
-                path="/dashboard/new/:hostelId?"
+                path="/dashboard-new/:hostelId?"
                 element={
                   <div className="bg-[#FAFAFA] " style={{ paddingTop: 5, paddingLeft: 13, paddingRight: 5 }}>
                     <Dashboard
