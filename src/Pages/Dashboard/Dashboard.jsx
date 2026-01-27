@@ -1,13 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import { Doughnut } from "react-chartjs-2";
 import "chart.js/auto";
-import "../../Pages/Dashboard/Dashboard.css";
-import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import vector from "../../Assets/Images/New_images/Asset_Arrow.png";
-import key from "../../Assets/Images/key.png";
-import clock from "../../Assets/Images/Car.png";
 import { useDispatch, useSelector } from "react-redux";
 import drop from "../../Assets/Images/New_images/arrow-down.png";
 import DashboardAnnouncement from "../../Pages/Dashboard/DashboardAnnouncement";
@@ -22,7 +16,7 @@ import { useTheme } from "@mui/material/styles";
 import { MdWarningAmber } from "react-icons/md";
 import ErrorMessage from '../../Components/ErrorMessage';
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
-import Select from "react-select";
+// import Select from "react-select";
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import LoaderComponent from "../OthersComponent/LoaderComponent";
 import PropTypes from "prop-types";
@@ -31,7 +25,7 @@ import { Tabs, Tab } from "react-bootstrap";
 import { useHasPermission } from '../../Utils/Permission';
 import {
   Buildings,
-  // Bed,
+  Share,
   Profile2User,
   WalletMoney,
   InfoCircle,
@@ -50,8 +44,8 @@ import DashRequestAndComplaints from "./DashRequestsAndComplaints";
 function Dashboard() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-  const [data, setData] = useState([]);
-  const [dashboardList, setDashboardList] = useState('');
+  // const [data, setData] = useState([]);
+  // const [dashboardList, setDashboardList] = useState('');
   const [activeTab, setActiveTab] = useState("1");
 
   const [openCards, setOpenCards] = useState({});
@@ -60,7 +54,7 @@ function Dashboard() {
   const [selectedMonth, setSelectedMonth] = useState([]);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const [selectExpence, setSelectExpence] = useState("this_month");
+  // const [selectExpence, setSelectExpence] = useState("this_month");
   // const [selectCashback, setSelectCashback] = useState("this_month");
   // const [selectRevenu, setSelectRevenu] = useState("six_month");
 
@@ -70,8 +64,9 @@ function Dashboard() {
   // const [selectAdvance, setSelectAdvance] = useState("six_month");
 
   const dropdownRef = useRef(null);
-  const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState("This Month");
+  const dropdownSharingRef = useRef(null)
+  // const [open, setOpen] = useState(false);
+  // const [selected, setSelected] = useState("This Month");
   const {
     // canWriteModule: canWriteComplaints,
     canReadModule: canReadDashboard,
@@ -152,6 +147,29 @@ function Dashboard() {
     },
   ];
 
+  const sharingBreakdown = [
+    {
+      type: "1-Sharing",
+      roomsAvailable: 2,
+      rooms: 7,
+      totalBeds: 7,
+      occupied: 5,
+    },
+    {
+      type: "2-Sharing",
+      roomsAvailable: 1,
+      rooms: 5,
+      totalBeds: 10,
+      occupied: 8,
+    },
+    {
+      type: "3-Sharing",
+      roomsAvailable: 2,
+      rooms: 12,
+      totalBeds: 36,
+      occupied: 30,
+    },
+  ];
 
 
   const dateOptions = [
@@ -174,32 +192,41 @@ function Dashboard() {
 
 
 
-  useEffect(() => {
+ 
+
+ useEffect(() => {
     const handleClickOutside = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setOpen(false);
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target)
+      ) {
+        setOpenCards({});
       }
     };
+
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        dropdownSharingRef.current &&
+        !dropdownSharingRef.current.contains(e.target)
+      ) {
+        setShowBreakdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
 
-
-
-  // useEffect(() => {
-  //   throw new Error("Test HOC Error Boundary");
-  // }, []);
-
-
-  // const monthNames = [
-  //   "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-  //   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-  // ];
-
-
-
-
+  
 
 
 
@@ -229,15 +256,7 @@ function Dashboard() {
     }
   }, [state.login.selectedHostel_Id]);
 
-  // const handleSelectedReceived = (e) => {
-  //   setSelectCashback(e.target.value);
-  // };
-  // const handleSelectedRevenue = (e) => {
-  //   setSelectRevenu(e.target.value);
-  // };
-  // const handleSelectedAdvance = (e) => {
-  //   setSelectAdvance(e.target.value);
-  // };
+  
 
   useEffect(() => {
     if (state.PgList?.statusCodeForAdvanceFilter === 200) {
@@ -247,31 +266,7 @@ function Dashboard() {
     }
   }, [state.PgList?.statusCodeForAdvanceFilter]);
 
-
-  useEffect(() => {
-    const cashBackDataRevenu =
-      state.PgList?.dashboardFilterRevenu?.cash_back_data;
-    setData(cashBackDataRevenu);
-  }, [state.PgList?.dashboardFilterRevenu?.cash_back_data]);
-
-  useEffect(() => {
-    if (state.PgList?.statusCodeForDashboardFilterRevenue === 200) {
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_DASHBOARD_FILTER_REVENUE" });
-      }, 1000);
-    }
-  }, [state.PgList?.statusCodeForDashboardFilterRevenue]);
-
-  useEffect(() => {
-    if (state.PgList?.statusCodeForDashboardFilterCashBack === 200) {
-      setLoading(false);
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_DASHBOARD_FILTER_DETAILS_CASHBACK" });
-      }, 1000);
-    }
-  }, [state.PgList?.statusCodeForDashboardFilterCashBack]);
-
-  useEffect(() => {
+useEffect(() => {
     if (state.PgList?.NoDashboardStatusCode === 201) {
       setLoading(false);
       setTimeout(() => {
@@ -279,11 +274,7 @@ function Dashboard() {
       }, 1000);
     }
   }, [state.PgList?.NoDashboardStatusCode]);
-
-  const handleSelectedExpenses = (e) => {
-    setSelectExpence(e.target.value);
-
-  };
+ 
 
   const handleChanges = (event, key) => {
     setActiveTab(key);
@@ -329,7 +320,7 @@ function Dashboard() {
   useEffect(() => {
     if (state.PgList?.dashboardDetails) {
       setLoading(false)
-      setDashboardList(state.PgList?.dashboardDetails);
+      // setDashboardList(state.PgList?.dashboardDetails);
 
     }
   }, [state.PgList?.dashboardDetails]);
@@ -519,7 +510,7 @@ function Dashboard() {
                                     className="animate-fadeIn absolute right-0 mt-2 w-44 bg-white border rounded-lg shadow-lg z-50 py-1"
                                   >
                                     {dateOptions.map((option) => {
-                                      const isActive = selected === option;
+                                      const isActive = selectedMonth === option;
 
                                       return (
                                         <button
@@ -589,101 +580,63 @@ function Dashboard() {
                                         size="18"
                                         className="text-gray-400 cursor-pointer"
                                         variant="Outline"
-                                        onClick={() => setShowBreakdown(!showBreakdown)}
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          setShowBreakdown((prev) => !prev);
+                                        }}
                                       />
                                     )}
 
 
                                     {showBreakdown && (
-  <div className="absolute left-0 top-6 z-[9999]">
-    <div className="w-[280px] bg-white rounded-xl shadow-lg border p-4">
-      
-      <div className="text-sm font-semibold mb-4">
-        Detailed Sharing Breakdown
-      </div>
+                                      <div
+                                        ref={dropdownSharingRef}
+                                        className="absolute left-0 top-6 z-[9999] w-fit"
+                                      >
+                                        <div className="w-fit bg-white rounded-xl shadow-lg border p-3">
 
-      {/* spacing like <br /> handled here */}
-      <div className="space-y-4">
+                                          {/* Header */}
+                                          <div className="text-sm font-semibold mb-3 flex gap-2 items-center text-[#101828]">
+                                            <Share size="18" color="#1E45E1" />
+                                            Detailed Sharing Breakdown
+                                          </div>
 
-        {/* 1 Sharing */}
-        <div>
-          <div className="flex justify-between text-xs text-gray-500 mb-1">
-            <div>1-Sharing</div>
-            <div>2 Rooms Available</div>
-          </div>
+                                          {/* Content */}
+                                          <div className="space-y-4">
+                                            {sharingBreakdown.map((item, index) => (
+                                              <div
+                                                key={index}
+                                                className="px-3 py-2 border   rounded"
+                                              >
+                                                <div className="flex justify-between text-xs text-gray-500 mb-1">
+                                                  <div className="text-[#101828] font-semibold text-sm">{item.type}</div>
+                                                  <div className="text-[#64748B] font-semibold text-xs">{item.roomsAvailable} Rooms Available</div>
+                                                </div>
 
-          <div className="flex justify-between text-sm whitespace-nowrap">
-            <div className=" gap-1">
-              <div>Rooms</div>
-              <div className="font-semibold">7</div>
-            </div>
+                                                <div className="flex justify-between text-sm whitespace-nowrap border-t pb-1 pt-1 space-x-8">
+                                                  <div className="gap-1">
+                                                    <div className="text-[#6A7282] font-semibold text-xs">Rooms</div>
+                                                    <div className="text-[#101828] font-semibold text-base">{item.rooms}</div>
+                                                  </div>
 
-            <div className="gap-1">
-              <div>Total Beds</div>
-              <div className="font-semibold">7</div>
-            </div>
+                                                  <div className="gap-1">
+                                                    <div className="text-[#6A7282] font-semibold text-xs">Total Beds</div>
+                                                    <div className="text-[#101828] font-semibold text-base">{item.totalBeds}</div>
+                                                  </div>
 
-            <div className="gap-1 text-green-600">
-              <div>Occupied</div>
-              <div className="font-semibold">5</div>
-            </div>
-          </div>
-        </div>
+                                                  <div className="gap-1 text-green-600">
+                                                    <div className="text-[#6A7282] font-semibold text-xs">Occupied</div>
+                                                    <div className="text-[#00A63E] font-semibold text-base">{item.occupied}</div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            ))}
+                                          </div>
 
-        {/* 2 Sharing */}
-        <div className="pt-3 border-t">
-          <div className="flex justify-between text-xs text-gray-500 mb-1">
-            <div>2-Sharing</div>
-            <div>1 Room Available</div>
-          </div>
+                                        </div>
+                                      </div>
+                                    )}
 
-          <div className="flex justify-between text-sm whitespace-nowrap">
-            <div className="gap-1">
-              <div>Rooms</div>
-              <div className="font-semibold">5</div>
-            </div>
-
-            <div className=" gap-1">
-              <div>Total Beds</div>
-              <div className="font-semibold">10</div>
-            </div>
-
-            <div className=" gap-1 text-green-600">
-              <div>Occupied</div>
-              <div className="font-semibold">8</div>
-            </div>
-          </div>
-        </div>
-
-        {/* 3 Sharing */}
-        <div className="pt-3 border-t">
-          <div className="flex justify-between text-xs text-gray-500 mb-1">
-            <div>3-Sharing</div>
-            <div>2 Rooms Available</div>
-          </div>
-
-          <div className="flex justify-between text-sm whitespace-nowrap">
-            <div className="gap-1">
-              <div>Rooms</div>
-              <div className="font-semibold">12</div>
-            </div>
-
-            <div className=" gap-1">
-              <div>Total Beds</div>
-              <div className="font-semibold">36</div>
-            </div>
-
-            <div className=" gap-1 text-green-600">
-              <div>Occupied</div>
-              <div className="font-semibold">30</div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-)}
 
                                   </div>
                                 )}

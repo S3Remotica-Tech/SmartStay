@@ -10,7 +10,7 @@ import {
   ArrowUp,
   DocumentText,
   Calendar,
-   ExportSquare,
+   ExportSquare,MoneySend
 
 } from "iconsax-react";
 
@@ -77,7 +77,35 @@ function DashQuickAccess() {
     },
   ];
 
-
+const payments = [
+  {
+    id: 1,
+    name: "Charles M",
+    invoice: "INV-001",
+    status: "Un Paid",
+    amount: "7,700",
+    date: "18 Dec 2025",
+    initials: "CM",
+  },
+  {
+    id: 2,
+    name: "Karthik Subbaraj",
+    invoice: "INV-001",
+    status: "Un Paid",
+    amount: "3,700",
+    date: "18 Dec 2025",
+    initials: "KS",
+  },
+  {
+    id: 3,
+    name: "Ravi Kumar S",
+    invoice: "INV-001",
+    status: "Un Paid",
+    amount: "3,700",
+    date: "18 Dec 2025",
+    initials: "RK",
+  },
+];
 
 
 
@@ -213,8 +241,9 @@ function DashQuickAccess() {
                           ))}
                         </div>
 
-                        {/* List */}
-                        <div className="space-y-3 max-h-[280px] overflow-y-auto show-scrolls">
+                       {
+                        activeTabDashboard === "checkin" && 
+                                              <div className="space-y-3 max-h-[280px] overflow-y-auto show-scrolls">
                           {checkinList.map((item) => (
                             <div
                               key={item.id}
@@ -241,6 +270,75 @@ function DashQuickAccess() {
                             </div>
                           ))}
                         </div>
+}
+
+
+
+{
+  activeTabDashboard === "overdue" && 
+  <div className="space-y-3 max-h-[280px] overflow-y-auto show-scrolls  font-[Gilroy] ">
+       {payments.map((item) => (
+        <div
+          key={item.id}
+          className="flex justify-between items-center border-b pb-3"
+        >
+    
+          <div className="flex items-center gap-3">
+        
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-sm font-semibold text-gray-600">
+              {item.initials}
+            </div>
+
+         
+            <div>
+              <div className="text-sm font-semibold text-gray-900">
+                {item.name}
+              </div>
+
+              <div className="flex items-center gap-2 text-xs text-gray-500">
+                <span>{item.invoice}</span>
+
+                <span className="flex items-center gap-1 rounded-full bg-orange-100 px-2 py-[2px] text-[11px] font-medium text-orange-600">
+                  <span className="h-2 w-2 rounded-full bg-orange-500" />
+                  {item.status}
+                </span>
+              </div>
+            </div>
+          </div>
+
+   
+          <div className="flex items-center gap-6">
+       
+            <div className="text-right">
+              <div className="text-sm font-semibold text-gray-900">
+                ₹ {item.amount}
+              </div>
+              <div className="text-xs text-gray-500">{item.date}</div>
+            </div>
+
+        <button className="bg-[#1E45E1] text-white rounded-md px-3 py-2 text-sm">
+                                  Record Payment
+                                </button>
+           
+          </div>
+        </div>
+      ))}
+   
+    </div>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
                       </div>
 
                     </div>

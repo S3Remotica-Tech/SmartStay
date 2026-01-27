@@ -6,7 +6,7 @@ import Ellipse5 from "../../Assets/Images/Profile.jpg";
 import like from "../../Assets/Images/like.png";
 import message from "../../Assets/Images/message.png";
 import Select from "react-select";
-import Emptystate from "../../Assets/Images/Empty-State.jpg";
+import Emptystate from "../../Assets/Images/Empty-State-svg.svg";
 import { Modal, Button, Form, FormControl, Image } from "react-bootstrap";
 import "../Dashboard/Dashboard.css";
 import Profile from "../../Assets/Images/New_images/profile-picture.png";
