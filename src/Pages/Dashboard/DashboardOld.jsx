@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { Doughnut } from "react-chartjs-2";
+
 import "chart.js/auto";
 import "../../Pages/Dashboard/Dashboard.css";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
