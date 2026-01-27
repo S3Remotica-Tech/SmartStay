@@ -276,7 +276,7 @@ useEffect(() => {
   }, [state.PgList?.NoDashboardStatusCode]);
  
 
-  const handleChanges = (event, key) => {
+  const handleChanges = ( key) => {
     setActiveTab(key);
   };
 

@@ -225,7 +225,7 @@ function DashExpenseProfit() {
                     <h3 className="text-[20px] font-semibold text-[#101828] font-[Gilroy]">
                         Expense Breakdown
                     </h3>
-                    <div className="relative">
+                    {/* <div className="relative">
 
 
                         <button
@@ -238,7 +238,7 @@ function DashExpenseProfit() {
                             {open ? (
                                 <ArrowUp2 size="16" color="#1E45E1" />
                             ) : (
-                                <ArrowDown2 size="16" color="#1E45E1" />
+                                <ArrowDown2 size="16" color="#6e7079" />
                             )}
                         </button>
                         {open && (
@@ -258,7 +258,7 @@ function DashExpenseProfit() {
                                 ))}
                             </div>
                         )}
-                    </div>
+                    </div> */}
                 </div>
 
 

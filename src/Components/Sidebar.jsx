@@ -78,10 +78,12 @@ import BankTransactionRegister from "../Reports/BankTransactionRegister/BankTran
 import ReceiptRegister from "../Reports/ReceiptRegister/ReceiptRegister"
 import DashboardOld from "../Pages/Dashboard/DashboardOld";
 import Dashboard from "../Pages/Dashboard/Dashboard";
-
-
-// const location = useLocation();
-
+import AnalyticalCollectedOutstanding from "../Reports/AnalyticalCollectedVsOutstanding.jsx/AnalyticalCollectedOutstanding";
+import AnalyticalMonthRevenue from "../Reports/AnalyticalMonthRevenue/AnalyticalMonthRevenue";
+import AnalyticalVacantOcupied from "../Reports/AnalyticalVacantOcupied/AnalyticalVacantOcupied";
+import AnalyticalExpenseTrend from "../Reports/AnalyticalExpenseTrend/AnalyticalExpenseTrend";
+import AnalyticalInvoiceTrend from "../Reports/AnalyticalInvoiceTrend/AnalyticalInvoiceTrend";
+import AnalyticalComplaintsResolved from "../Reports/AnalyticalComplaintsResolved/AnalyticalComplaintsResolved"
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -139,8 +141,7 @@ function Sidebar() {
 
     "/booking/:hostelId": "booking",
 
-    // 🔹 ADD THESE TWO
-    "/recurring/:hostelId": "recurring",
+     "/recurring/:hostelId": "recurring",
     "/receipts/:hostelId": "receipts",
 
     "/vendor/:hostelId": "vendor",
@@ -1570,6 +1571,63 @@ ${manageOpen ? "mt-1" : "mt-2.5"}`}
                 element={
                   <div className="mt-1 ml-2.5 mr-1">
                     <ComplaintsRegister />
+                  </div>
+                }
+              />
+
+
+
+              <Route
+                path="/reports/month-revenue"
+                element={
+                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }}>
+                    <AnalyticalMonthRevenue />
+                  </div>
+                }
+              />
+
+              <Route
+                path="/reports/collected-outstanding"
+                element={
+                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }}>
+                    <AnalyticalCollectedOutstanding />
+                  </div>
+                }
+              />
+
+
+              <Route
+                path="/reports/vacant-occupied"
+                element={
+                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }}>
+                    <AnalyticalVacantOcupied />
+                  </div>
+                }
+              />
+
+              <Route
+                path="/reports/expense-trend"
+                element={
+                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }}>
+                    <AnalyticalExpenseTrend />
+                  </div>
+                }
+              />
+              <Route
+                path="/reports/overdue-invoice-trend"
+                element={
+                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }}>
+
+                    <AnalyticalInvoiceTrend />
+                  </div>
+                }
+              />
+              <Route
+                path="/reports/complaints-resolved"
+                element={
+                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }}>
+
+                    <AnalyticalComplaintsResolved />
                   </div>
                 }
               />

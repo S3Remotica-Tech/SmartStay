@@ -658,7 +658,9 @@ function CreateAccountPage() {
 
 
                 <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 mt-4 mb-1" >
-                  <Button data-testid='create-account-btn' onClick={handleCreateAccount} className="w-100" style={{ backgroundColor: "rgba(30, 69, 225, 1)", borderRadius: 12, padding: 10, fontFamily: "Montserrat", height: 50, fontWeight: 600 }}>Create account</Button>
+                  <Button data-testid='create-account-btn' disabled={loading}
+                  onClick={handleCreateAccount} className="w-100" 
+                  style={{ backgroundColor: "rgba(30, 69, 225, 1)", borderRadius: 12, padding: 10, fontFamily: "Montserrat", height: 50, fontWeight: 600 }}>Create account</Button>
                 </div>
 
               </div>

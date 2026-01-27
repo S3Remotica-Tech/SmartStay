@@ -236,7 +236,8 @@ const formattedTenantReadings = (tenantReadingList?.electricityHistory || []).ma
                                        </Table>
                                    </div>
           ) :
-            <div style={{ marginTop: 25 }}>
+            <div style={{ marginTop: 25 }} className="flex justify-content-center">
+              <div>
               <div style={{ textAlign: "center" }}>
                 <img src={Emptystate} alt="emptystate" />
               </div>
@@ -263,8 +264,9 @@ const formattedTenantReadings = (tenantReadingList?.electricityHistory || []).ma
                 }}
               >
                 There are no Electricity added.
-              </div>
-            </div>}
+              </div></div>
+            </div>
+            }
         </div>
         
       </div>

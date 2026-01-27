@@ -76,7 +76,8 @@ function TransactionHistory() {
 
 
                     {CustomerOverView?.length === 0 ? (
-                        <div style={{ textAlign: "center", marginTop: 40 }}>
+                         <div style={{ marginTop: 10 }} className="flex justify-content-center">
+              <div>
                             <img src={emptyimg} width={240} height={240} alt="emptystate" />
                             <div
                                 className="pb-1"
@@ -93,6 +94,7 @@ function TransactionHistory() {
 
                             <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 14, color: "rgba(75, 75, 75, 1)" }}>
                                 There are no transaction available
+                            </div>
                             </div>
                         </div>
                     ) : (
