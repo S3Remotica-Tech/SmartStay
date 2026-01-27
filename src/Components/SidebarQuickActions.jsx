@@ -7,22 +7,22 @@ import SearchVector from "../Assets/Images/New_images/SearchVector.svg";
 function SidebarQuickActions({ showMenuModal, setShowMenuModal, navigate, hostelId }) {
   const [searchQuery, setSearchQuery] = useState("");
 
- const menuItems = [
-  { name: "Home", path: "/dashboard" },
-  { name: "Paying Guest", path: "/paying-guest" },
-  { name: "Tenant", path: "/tenant" },
-  { name: "Asset", path: "/asset" },
-  { name: "Vendor", path: "/vendor" },
-  { name: "Banking", path: "/banking" },
-  { name: "Bills", path: "/invoice" },
-  { name: "Bookings", path: "/booking" },
-  { name: "Recurring Bills", path: "/recurring" },
-  { name: "Receipt", path: "/receipts" },
-  { name: "Electricity", path: "/electricity" },
-  { name: "Complaint", path: "/compliance" },
-  { name: "Expense", path: "/expense" },
-  { name: "Reports", path: "/reports" },
-];
+  const menuItems = [
+    { name: "Home", path: "/dashboard" },
+    { name: "Paying Guest", path: "/paying-guest" },
+    { name: "Tenant", path: "/tenant" },
+    { name: "Asset", path: "/asset" },
+    { name: "Vendor", path: "/vendor" },
+    { name: "Banking", path: "/banking" },
+    { name: "Bills", path: "/invoice" },
+    { name: "Bookings", path: "/booking" },
+    { name: "Recurring Bills", path: "/recurring" },
+    { name: "Receipt", path: "/receipts" },
+    { name: "Electricity", path: "/electricity" },
+    { name: "Complaint", path: "/compliance" },
+    { name: "Expense", path: "/expense" },
+    { name: "Reports", path: "/reports" },
+  ];
 
 
   const filteredItems = menuItems.filter((item) =>
@@ -35,129 +35,62 @@ function SidebarQuickActions({ showMenuModal, setShowMenuModal, navigate, hostel
   };
 
   return (
- 
+
     <Offcanvas
-  show={showMenuModal}
-  onHide={() => setShowMenuModal(false)}
-  placement="end"
-  backdrop="static"
-  style={{
-    width: 300,
-    fontFamily: "Gilroy",
-    borderLeft: "1px solid #E5E7EB",
-    borderRadius: 12,
-    backgroundColor: "#FFFFFF",
-  }}
->
- 
-
-  <Offcanvas.Header
-  style={{
-    borderBottom: "1px solid #E5E7EB",
-    padding: "14px 16px",
-    display: "flex",
-    alignItems: "center",
-    gap: 10,
-  }}
->
-
-  <div
-    style={{
-      position: "relative",
-      flex: 1,
-    }}
-  >
-  
-    <span
-      style={{
-        position: "absolute",
-        left: 12,
-        top: "50%",
-        transform: "translateY(-50%)",
-        fontSize: 14,
-        color: "#9CA3AF",
-        pointerEvents: "none",
-      }}
+      show={showMenuModal}
+      onHide={() => setShowMenuModal(false)}
+      placement="end"
+      backdrop="static"
+      className="w-[300px] font-[Gilroy] border-l border-gray-200 rounded-xl bg-white"
     >
-      <img src={SearchVector} alt="search" style={{ width: 16, height: 16 }} />
-    </span>
+      {/* Header */}
+      <Offcanvas.Header className="border-b border-gray-200 px-4 py-3 flex items-center gap-2.5">
+        <div className="relative flex-1">
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
+            <img src={SearchVector} alt="search" className="w-4 h-4" />
+          </span>
 
-    <input
-      type="text"
-      placeholder="Search"
-      value={searchQuery}
-      onChange={(e) => setSearchQuery(e.target.value)}
-      style={{
-        width: "100%",
-        padding: "8px 12px 8px 34px", 
-        border: "1px solid #E5E7EB",
-        borderRadius: 8,
-        fontSize: 15,
-        outline: "none",
-        paddingTop: "10px"
-      }}
-    />
-  </div>
-
-  {/* Close Icon - outside right */}
-  <span
-    onClick={() => setShowMenuModal(false)}
-    style={{
-      fontSize: 18,
-      color: "#EF4444", // red
-      cursor: "pointer",
-      fontWeight: 600,
-    }}
-  >
-    ✕
-  </span>
-</Offcanvas.Header>
-
-
-  {/* Body */}
-  <Offcanvas.Body style={{ padding: "8px 8px" }}>
-    <div style={{ display: "flex", flexDirection: "column" }}>
-      {filteredItems.length > 0 ? (
-        filteredItems.map((item, index) => (
-          <div
-            key={index}
-            onClick={() => handleMenuItemClick(item.path)}
-            role="button"
-            style={{
-              padding: "10px 12px",
-              fontSize: 14,
-              fontWeight: 500,
-              color: "#111827",
-              borderRadius: 6,
-              cursor: "pointer",
-              backgroundColor: index === 0 ? "#EEF2FF" : "transparent",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = "#EEF2FF";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor =
-                index === 0 ? "#EEF2FF" : "transparent";
-            }}
-          >
-            {item.name}
-          </div>
-        ))
-      ) : (
-        <div
-          style={{
-            textAlign: "center",
-            color: "#9CA3AF",
-            padding: "20px 0",
-            fontSize: 14,
-          }}
-        >
-          No items found
+          <input
+            type="text"
+            placeholder="Search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-9 pr-3 py-2 pt-2.5 border border-gray-200 rounded-lg text-[15px] outline-none"
+          />
         </div>
-      )}
-    </div>
-  </Offcanvas.Body>
-</Offcanvas>
+
+        {/* Close Icon */}
+        <span
+          onClick={() => setShowMenuModal(false)}
+          className="text-lg text-red-500 cursor-pointer font-semibold"
+        >
+          ✕
+        </span>
+      </Offcanvas.Header>
+
+      {/* Body */}
+      <Offcanvas.Body className="p-2">
+        <div className="flex flex-col">
+          {filteredItems.length > 0 ? (
+            filteredItems.map((item, index) => (
+              <div
+                key={index}
+                onClick={() => handleMenuItemClick(item.path)}
+                role="button"
+                className={`px-3 py-2.5 text-sm font-medium text-gray-900 rounded-md cursor-pointer ${index === 0 ? "bg-indigo-50" : "bg-transparent"
+                  } hover:bg-indigo-50`}
+              >
+                {item.name}
+              </div>
+            ))
+          ) : (
+            <div className="text-center text-gray-400 py-5 text-sm">
+              No items found
+            </div>
+          )}
+        </div>
+      </Offcanvas.Body>
+    </Offcanvas>
 
   );
 }
