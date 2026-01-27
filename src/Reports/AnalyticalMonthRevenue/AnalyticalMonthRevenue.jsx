@@ -300,7 +300,7 @@ const comparePercent = Math.round((data[0].revenue / totalRevenue) * 100);
         </div>
       </div>
 
-<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
 
   {revenueCards.map((card) => {
     const Icon = card.icon;
