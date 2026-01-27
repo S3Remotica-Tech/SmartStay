@@ -797,7 +797,10 @@ const sortedData = React.useMemo(() => {
                 
 
               </div>
-            ) : <div>
+            ) :
+            
+        <div style={{ marginTop: 10 }} className="flex justify-content-center">
+          <div>
               <div style={{ textAlign: "center" }}>
                 <img src={Emptystate} alt="emptystate" />
               </div>
@@ -825,6 +828,7 @@ const sortedData = React.useMemo(() => {
               >
                 There are no Bills added.
               </div>
+               </div>
             </div>
         }
       </div>

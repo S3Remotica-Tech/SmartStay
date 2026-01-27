@@ -78,6 +78,9 @@ import BankTransactionRegister from "../Reports/BankTransactionRegister/BankTran
 import ReceiptRegister from "../Reports/ReceiptRegister/ReceiptRegister"
 import DashboardOld from "../Pages/Dashboard/DashboardOld";
 import Dashboard from "../Pages/Dashboard/Dashboard";
+import AnalyticalCollectedOutstanding from "../Reports/AnalyticalCollectedVsOutstanding.jsx/AnalyticalCollectedOutstanding";
+import AnalyticalMonthRevenue from "../Reports/AnalyticalMonthRevenue/AnalyticalMonthRevenue";
+import AnalyticalVacantOcupied from "../Reports/AnalyticalVacantOcupied/AnalyticalVacantOcupied";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -106,7 +109,7 @@ function Sidebar() {
 
   const pageMap = {
     "/dashboard/:hostelId": "dashboard",
-     "/dashboard-new/:hostelId": "dashboard-new",
+    "/dashboard-new/:hostelId": "dashboard-new",
     "/paying-guest/:hostelId": "pg-list",
     "/tenant/:hostelId": "user-list",
     "/tenant/details/:hostelId": "user-details",
@@ -378,7 +381,7 @@ function Sidebar() {
     const validPages = [
       "dashboard",
       "dashboard-new",
-          "paying-guest",
+      "paying-guest",
       "tenant",
       "invoice",
       "compliance",
@@ -710,7 +713,7 @@ function Sidebar() {
           >
             <div>
 
-              <div style={{ padding: "8px 16px", flexShrink: 0,marginTop:15 }}
+              <div style={{ padding: "8px 16px", flexShrink: 0, marginTop: 15 }}
               >
                 <img
                   src={Smartstay}
@@ -1034,7 +1037,7 @@ function Sidebar() {
                       </span>
                     </NavLink>
                   </li>
-  <li
+                  <li
 
                     style={{
                       listStyleType: "none",
@@ -1060,7 +1063,7 @@ function Sidebar() {
                           display: "inline-block",
                           fontFamily: "Gilroy",
                         }}
-                      > 
+                      >
                         Home New
                       </span>
                     </NavLink>
@@ -1578,7 +1581,7 @@ function Sidebar() {
                   </div>
                 }
               />
-               <Route
+              <Route
                 path="/dashboard-new/:hostelId?"
                 element={
                   <div className="bg-[#FAFAFA] " style={{ paddingTop: 5, paddingLeft: 13, paddingRight: 5 }}>
@@ -1891,6 +1894,40 @@ function Sidebar() {
                   </div>
                 }
               />
+
+
+
+              <Route
+                path="/reports/month-revenue"
+                element={
+                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }}>
+                    <AnalyticalMonthRevenue />
+                  </div>
+                }
+              />
+
+              <Route
+                path="/reports/collected-outstanding"
+                element={
+                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }}>
+                    <AnalyticalCollectedOutstanding />
+                  </div>
+                }
+              />
+
+
+ <Route
+                path="/reports/vacant-occupied"
+                element={
+                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }}>
+                    <AnalyticalVacantOcupied />
+                  </div>
+                }
+              />
+
+
+
+
               <Route
                 path="/settings/:hostelId?/*"
                 element={

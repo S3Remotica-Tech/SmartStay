@@ -4,6 +4,12 @@ import ErrorMessage from '../Components/ErrorMessage'
 import {
   WalletMoney, ArrowRight, DocumentText, ReceiptText, Bank, UserOctagon, Home,
   Wallet, Shop, Flash, Warning2, ClipboardText,
+  TrendUp,
+  DollarCircle,Buildings ,
+  
+  ReceiptItem,
+  Clock,
+  MessageText
 } from "iconsax-react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -147,12 +153,12 @@ function Reports() {
   const summaryData = [
     {
       label: "Total Revenue (MTD)",
-      value: "₹1,52,350",
+      value: `₹${reportsList?.outStandingAmount}`,
       valueColor: "#00A63E",
     },
     {
       label: "Outstanding Amount",
-      value: "₹7,650",
+      value: `₹${reportsList?.totalRevenue}`,
       valueColor: "#222222",
     },
     {
@@ -167,6 +173,59 @@ function Reports() {
     },
   ];
 
+const analyticsCards = [
+  {
+    id: 1,
+    title: "Month vs Month Revenue",
+    desc: "Compare revenue performance across months with trend analysis",
+    icon: TrendUp,
+     color: "text-blue-600 bg-blue-100",
+     subTitle:"MonthRevenue"
+    
+  },
+  {
+    id: 2,
+    title: "Collected vs Outstanding",
+    desc: "Track payment collections and outstanding amounts",
+    icon: DollarCircle,
+    color: "text-green-600 bg-green-100",
+    subTitle:"Outstanding"
+  },
+  {
+    id: 3,
+    title: "Vacant vs Occupied Beds",
+    desc: "Real-time bed occupancy and availability status",
+    icon: Buildings ,
+    color: "text-purple-600 bg-purple-100",
+    subTitle:"Vacant"
+  },
+  {
+    id: 4,
+    title: "Monthly Expense Trend",
+    desc: "Track and analyze monthly expense patterns",
+    icon: ReceiptItem,
+  color: "text-[#F59E0B] bg-[#FFEFD3E5]",
+   subTitle:"MonthlyExpenseTrend"
+  },
+  {
+    id: 5,
+    title: "Overdue Invoices Trend",
+    desc: "Monitor overdue payment trends and risks",
+    icon: Clock,
+    color: "text-red-600 bg-red-100",
+    subTitle:"OverdueInvoicesTrend"
+   
+  },
+  {
+    id: 6,
+    title: "Complaints Resolved",
+    desc: "Track complaint resolution performance",
+    icon: MessageText,
+    color: "text-indigo-600 bg-indigo-100",
+    subTitle:"Complaints"
+    
+  }
+];
 
 
   useEffect(() => {
@@ -236,7 +295,22 @@ function Reports() {
     }
   }
 
-
+const handleNavigateAnalyTics = (item)=>{
+  if (item?.subTitle === "MonthRevenue") {
+      navigate(`/reports/month-revenue`)
+    } else if (item?.subTitle === "Outstanding") {
+      navigate(`/reports/collected-outstanding`)
+    } else if (item?.subTitle === "Vacant") {
+      navigate(`/reports/vacant-occupied`)
+    } else if (item?.subTitle === "MonthlyExpenseTrend") {
+      navigate(`/reports/expense-trend`)
+    } else if (item?.subTitle === "OverdueInvoicesTrend") {
+      navigate(`/reports/overdue-invoice-trend`)
+    }
+    else if (item?.subTitle === "Complaints") {
+      navigate(`/reports/complaints-resolved`)
+    }
+}
   useEffect(() => {
     setSelectedRange({
       from: dayjs().startOf("month").toDate(),
@@ -412,46 +486,53 @@ function Reports() {
           }
 
           {activeTab === "analytical" && (
-            <div
-              className="d-flex flex-column justify-content-center align-items-center"
-              style={{
-                minHeight: "300px",
-                background: "#F9FAFB",
-                borderRadius: 12,
-                border: "1px dashed #E5E7EB",
-              }}
-            >
-              <AiOutlineBarChart
-                size={48}
-                color="#1E45E1"
-                style={{ marginBottom: 12 }}
-              />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {analyticsCards?.map((item, idx) => {
+                  const Icon = item.icon;
+                  return (
+                    <div
+                      key={idx}
+                      className="rounded-2xl  border border-[#E5E7EB] bg-white p-3 hover:shadow-md transition h-full"
+                    >
+                      <div className={`p-2 rounded-lg w-fit my-1 ${item.color}`}>
+                        <Icon size={22} variant="Bold" />
+                      </div>
+                      <div className="flex items-start gap-4 h-[70px]">
 
-              <div
-                style={{
-                  fontSize: 18,
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                  color: "#111827",
-                  marginBottom: 4,
-                }}
-              >
-                Analytics Coming Soon
-              </div>
+                        <div className="flex-1">
+                          <h3 className="text-sm font-semibold text-[#101828">
+                            {item.title}
+                          </h3>
+                          <p className="text-xs text-[#4A5565] mt-1">
+                            {item.desc}
+                          </p>
+                        
+                        </div>
+                      </div>
 
-              <div
-                style={{
-                  fontSize: 14,
-                  fontFamily: "Gilroy",
-                  color: "#6B7280",
-                  textAlign: "center",
-                  maxWidth: 320,
-                }}
-              >
-                We’re working on powerful insights and reports to help you track
-                performance and growth.
+                      {item.value && (
+                        <div className="mt-2 text-xl font-semibold text-[#101828]">
+                          {item.value}
+                        </div>
+                      )}
+                      <hr className="my-2 border-t border-[#F3F4F6] opacity-80" />
+
+                      <div className="mt-3 flex items-center justify-between gap-1 group cursor-pointer" onClick={() => handleNavigateAnalyTics
+                        (item)}>
+                        <span className="text-sm font-semibold text-[#155DFC] group-hover:underline" >
+                          View Analytics
+                        </span>
+
+                        <ArrowRight
+                          size="16"
+                          className="text-blue-600 transition-transform group-hover:translate-x-1"
+                        />
+                      </div>
+
+                    </div>
+                  );
+                })}
               </div>
-            </div>
           )}
 
 
