@@ -31,7 +31,7 @@ import { Tabs, Tab } from "react-bootstrap";
 import { useHasPermission } from '../../Utils/Permission';
 import {
   Buildings,
-  // Bed,
+  Share,
   Profile2User,
   WalletMoney,
   InfoCircle,
@@ -70,6 +70,7 @@ function Dashboard() {
   // const [selectAdvance, setSelectAdvance] = useState("six_month");
 
   const dropdownRef = useRef(null);
+  const dropdownSharingRef = useRef(null)
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState("This Month");
   const {
@@ -152,6 +153,29 @@ function Dashboard() {
     },
   ];
 
+  const sharingBreakdown = [
+    {
+      type: "1-Sharing",
+      roomsAvailable: 2,
+      rooms: 7,
+      totalBeds: 7,
+      occupied: 5,
+    },
+    {
+      type: "2-Sharing",
+      roomsAvailable: 1,
+      rooms: 5,
+      totalBeds: 10,
+      occupied: 8,
+    },
+    {
+      type: "3-Sharing",
+      roomsAvailable: 2,
+      rooms: 12,
+      totalBeds: 36,
+      occupied: 30,
+    },
+  ];
 
 
   const dateOptions = [
@@ -174,17 +198,38 @@ function Dashboard() {
 
 
 
-  useEffect(() => {
+ 
+
+ useEffect(() => {
     const handleClickOutside = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setOpen(false);
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target)
+      ) {
+        setOpenCards({});
       }
     };
+
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        dropdownSharingRef.current &&
+        !dropdownSharingRef.current.contains(e.target)
+      ) {
+        setShowBreakdown(false);
+      }
+    };
 
-
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
 
   // useEffect(() => {
@@ -589,101 +634,63 @@ function Dashboard() {
                                         size="18"
                                         className="text-gray-400 cursor-pointer"
                                         variant="Outline"
-                                        onClick={() => setShowBreakdown(!showBreakdown)}
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          setShowBreakdown((prev) => !prev);
+                                        }}
                                       />
                                     )}
 
 
                                     {showBreakdown && (
-  <div className="absolute left-0 top-6 z-[9999]">
-    <div className="w-[280px] bg-white rounded-xl shadow-lg border p-4">
-      
-      <div className="text-sm font-semibold mb-4">
-        Detailed Sharing Breakdown
-      </div>
+                                      <div
+                                        ref={dropdownSharingRef}
+                                        className="absolute left-0 top-6 z-[9999] w-fit"
+                                      >
+                                        <div className="w-fit bg-white rounded-xl shadow-lg border p-3">
 
-      {/* spacing like <br /> handled here */}
-      <div className="space-y-4">
+                                          {/* Header */}
+                                          <div className="text-sm font-semibold mb-3 flex gap-2 items-center text-[#101828]">
+                                            <Share size="18" color="#1E45E1" />
+                                            Detailed Sharing Breakdown
+                                          </div>
 
-        {/* 1 Sharing */}
-        <div>
-          <div className="flex justify-between text-xs text-gray-500 mb-1">
-            <div>1-Sharing</div>
-            <div>2 Rooms Available</div>
-          </div>
+                                          {/* Content */}
+                                          <div className="space-y-4">
+                                            {sharingBreakdown.map((item, index) => (
+                                              <div
+                                                key={index}
+                                                className="px-3 py-2 border   rounded"
+                                              >
+                                                <div className="flex justify-between text-xs text-gray-500 mb-1">
+                                                  <div className="text-[#101828] font-semibold text-sm">{item.type}</div>
+                                                  <div className="text-[#64748B] font-semibold text-xs">{item.roomsAvailable} Rooms Available</div>
+                                                </div>
 
-          <div className="flex justify-between text-sm whitespace-nowrap">
-            <div className=" gap-1">
-              <div>Rooms</div>
-              <div className="font-semibold">7</div>
-            </div>
+                                                <div className="flex justify-between text-sm whitespace-nowrap border-t pb-1 pt-1 space-x-8">
+                                                  <div className="gap-1">
+                                                    <div className="text-[#6A7282] font-semibold text-xs">Rooms</div>
+                                                    <div className="text-[#101828] font-semibold text-base">{item.rooms}</div>
+                                                  </div>
 
-            <div className="gap-1">
-              <div>Total Beds</div>
-              <div className="font-semibold">7</div>
-            </div>
+                                                  <div className="gap-1">
+                                                    <div className="text-[#6A7282] font-semibold text-xs">Total Beds</div>
+                                                    <div className="text-[#101828] font-semibold text-base">{item.totalBeds}</div>
+                                                  </div>
 
-            <div className="gap-1 text-green-600">
-              <div>Occupied</div>
-              <div className="font-semibold">5</div>
-            </div>
-          </div>
-        </div>
+                                                  <div className="gap-1 text-green-600">
+                                                    <div className="text-[#6A7282] font-semibold text-xs">Occupied</div>
+                                                    <div className="text-[#00A63E] font-semibold text-base">{item.occupied}</div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            ))}
+                                          </div>
 
-        {/* 2 Sharing */}
-        <div className="pt-3 border-t">
-          <div className="flex justify-between text-xs text-gray-500 mb-1">
-            <div>2-Sharing</div>
-            <div>1 Room Available</div>
-          </div>
+                                        </div>
+                                      </div>
+                                    )}
 
-          <div className="flex justify-between text-sm whitespace-nowrap">
-            <div className="gap-1">
-              <div>Rooms</div>
-              <div className="font-semibold">5</div>
-            </div>
-
-            <div className=" gap-1">
-              <div>Total Beds</div>
-              <div className="font-semibold">10</div>
-            </div>
-
-            <div className=" gap-1 text-green-600">
-              <div>Occupied</div>
-              <div className="font-semibold">8</div>
-            </div>
-          </div>
-        </div>
-
-        {/* 3 Sharing */}
-        <div className="pt-3 border-t">
-          <div className="flex justify-between text-xs text-gray-500 mb-1">
-            <div>3-Sharing</div>
-            <div>2 Rooms Available</div>
-          </div>
-
-          <div className="flex justify-between text-sm whitespace-nowrap">
-            <div className="gap-1">
-              <div>Rooms</div>
-              <div className="font-semibold">12</div>
-            </div>
-
-            <div className=" gap-1">
-              <div>Total Beds</div>
-              <div className="font-semibold">36</div>
-            </div>
-
-            <div className=" gap-1 text-green-600">
-              <div>Occupied</div>
-              <div className="font-semibold">30</div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-)}
 
                                   </div>
                                 )}
