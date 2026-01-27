@@ -3416,18 +3416,12 @@ function UserList(props) {
                                       <div
                                         style={{
                                           cursor: "pointer",
-                                          // height: 40,
-                                          // width: 40,
-                                          // borderRadius: 100,
-                                          // border: "1px solid #EFEFEF",
                                           display: "flex",
                                           justifyContent: "start",
                                           alignItems: "center",
                                           position: "relative",
-                                          // backgroundColor:
-                                          //   activeRow === user.customerId
-                                          //     ? "#E7F1FF"
-                                          //     : "white",
+                                          marginTop: 5
+                                       
                                         }}
                                         onClick={(e) =>
                                           handleShowDots(user.customerId, e)

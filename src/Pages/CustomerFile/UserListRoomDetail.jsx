@@ -2376,7 +2376,7 @@ function UserListRoomDetail(props) {
         className="container mt-2"
         style={{
           marginLeft: "-20px",
-          height: "90vh",
+          height: "97vh",
           overflowY: "auto",
         }}
       >
@@ -3873,14 +3873,15 @@ function UserListRoomDetail(props) {
                             </div>
                             <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
                               <p
+                                className="d-flex align-items-center"
                                 style={{
                                   fontSize: 12,
                                   fontWeight: 500,
                                   fontFamily: "Gilroy",
-                                  // marginLeft: 29
+                                  gap: "6px",
                                 }}
                               >
-                                Joined Date  <img className="ms-2" onClick={() => (canUpdateTenant && CustomerOverView.hostelInfo?.joiningDate && CustomerOverView.hostelInfo.currentStatus !== "NOTICE") && handleUpdateJoiningChange()}
+                                Joined Date  <img onClick={() => (canUpdateTenant && CustomerOverView.hostelInfo?.joiningDate && CustomerOverView.hostelInfo.currentStatus !== "NOTICE") && handleUpdateJoiningChange()}
                                   src={EditImage}
                                   alt="EditImage"
                                   style={{
@@ -3976,15 +3977,17 @@ function UserListRoomDetail(props) {
                                 <div>
                                   <div className="row mb-3">
                                     <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
-                                      <div
+                                      <div className="d-flex align-items-center"
                                         style={{
                                           fontSize: 12,
                                           fontWeight: 500,
                                           fontFamily: "Gilroy",
+                                          gap: "6px",
                                         }}
+
                                       >
                                         Monthly Rent
-                                        <img className="ms-2"
+                                        <img
                                           onClick={() => (canUpdateTenant && CustomerOverView.hostelInfo?.monthlyRent && CustomerOverView.hostelInfo.currentStatus !== "NOTICE") && handleUpdateChange()}
                                           src={EditImage}
                                           alt="EditImage"
@@ -4014,13 +4017,15 @@ function UserListRoomDetail(props) {
                                     </div>
                                     <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
                                       <div
+                                        className="d-flex align-items-center"
                                         style={{
                                           fontSize: 12,
                                           fontWeight: 500,
                                           fontFamily: "Gilroy",
+                                          gap: "6px",
                                         }}
                                       >
-                                        Advance Amount  <img className="ms-2" onClick={() => (canUpdateTenant && advanceList?.advanceAmount && CustomerOverView.hostelInfo.currentStatus !== "NOTICE") && handleUpdateAdvanceChange()}
+                                        Advance Amount  <img onClick={() => (canUpdateTenant && advanceList?.advanceAmount && CustomerOverView.hostelInfo.currentStatus !== "NOTICE") && handleUpdateAdvanceChange()}
                                           src={EditImage}
                                           alt="EditImage"
                                           style={{
