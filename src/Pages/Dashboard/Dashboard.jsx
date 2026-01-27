@@ -1,13 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import { Doughnut } from "react-chartjs-2";
 import "chart.js/auto";
-import "../../Pages/Dashboard/Dashboard.css";
-import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import vector from "../../Assets/Images/New_images/Asset_Arrow.png";
-import key from "../../Assets/Images/key.png";
-import clock from "../../Assets/Images/Car.png";
 import { useDispatch, useSelector } from "react-redux";
 import drop from "../../Assets/Images/New_images/arrow-down.png";
 import DashboardAnnouncement from "../../Pages/Dashboard/DashboardAnnouncement";
@@ -22,7 +16,7 @@ import { useTheme } from "@mui/material/styles";
 import { MdWarningAmber } from "react-icons/md";
 import ErrorMessage from '../../Components/ErrorMessage';
 import withErrorBoundary from "../../Hoc/WithErrorBountry";
-import Select from "react-select";
+// import Select from "react-select";
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import LoaderComponent from "../OthersComponent/LoaderComponent";
 import PropTypes from "prop-types";
@@ -50,8 +44,8 @@ import DashRequestAndComplaints from "./DashRequestsAndComplaints";
 function Dashboard() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-  const [data, setData] = useState([]);
-  const [dashboardList, setDashboardList] = useState('');
+  // const [data, setData] = useState([]);
+  // const [dashboardList, setDashboardList] = useState('');
   const [activeTab, setActiveTab] = useState("1");
 
   const [openCards, setOpenCards] = useState({});
@@ -60,7 +54,7 @@ function Dashboard() {
   const [selectedMonth, setSelectedMonth] = useState([]);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const [selectExpence, setSelectExpence] = useState("this_month");
+  // const [selectExpence, setSelectExpence] = useState("this_month");
   // const [selectCashback, setSelectCashback] = useState("this_month");
   // const [selectRevenu, setSelectRevenu] = useState("six_month");
 
@@ -71,8 +65,8 @@ function Dashboard() {
 
   const dropdownRef = useRef(null);
   const dropdownSharingRef = useRef(null)
-  const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState("This Month");
+  // const [open, setOpen] = useState(false);
+  // const [selected, setSelected] = useState("This Month");
   const {
     // canWriteModule: canWriteComplaints,
     canReadModule: canReadDashboard,
@@ -232,19 +226,7 @@ function Dashboard() {
   }, []);
 
 
-  // useEffect(() => {
-  //   throw new Error("Test HOC Error Boundary");
-  // }, []);
-
-
-  // const monthNames = [
-  //   "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-  //   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-  // ];
-
-
-
-
+  
 
 
 
@@ -274,15 +256,7 @@ function Dashboard() {
     }
   }, [state.login.selectedHostel_Id]);
 
-  // const handleSelectedReceived = (e) => {
-  //   setSelectCashback(e.target.value);
-  // };
-  // const handleSelectedRevenue = (e) => {
-  //   setSelectRevenu(e.target.value);
-  // };
-  // const handleSelectedAdvance = (e) => {
-  //   setSelectAdvance(e.target.value);
-  // };
+  
 
   useEffect(() => {
     if (state.PgList?.statusCodeForAdvanceFilter === 200) {
@@ -292,31 +266,7 @@ function Dashboard() {
     }
   }, [state.PgList?.statusCodeForAdvanceFilter]);
 
-
-  useEffect(() => {
-    const cashBackDataRevenu =
-      state.PgList?.dashboardFilterRevenu?.cash_back_data;
-    setData(cashBackDataRevenu);
-  }, [state.PgList?.dashboardFilterRevenu?.cash_back_data]);
-
-  useEffect(() => {
-    if (state.PgList?.statusCodeForDashboardFilterRevenue === 200) {
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_DASHBOARD_FILTER_REVENUE" });
-      }, 1000);
-    }
-  }, [state.PgList?.statusCodeForDashboardFilterRevenue]);
-
-  useEffect(() => {
-    if (state.PgList?.statusCodeForDashboardFilterCashBack === 200) {
-      setLoading(false);
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_DASHBOARD_FILTER_DETAILS_CASHBACK" });
-      }, 1000);
-    }
-  }, [state.PgList?.statusCodeForDashboardFilterCashBack]);
-
-  useEffect(() => {
+useEffect(() => {
     if (state.PgList?.NoDashboardStatusCode === 201) {
       setLoading(false);
       setTimeout(() => {
@@ -324,11 +274,7 @@ function Dashboard() {
       }, 1000);
     }
   }, [state.PgList?.NoDashboardStatusCode]);
-
-  const handleSelectedExpenses = (e) => {
-    setSelectExpence(e.target.value);
-
-  };
+ 
 
   const handleChanges = (event, key) => {
     setActiveTab(key);
@@ -374,7 +320,7 @@ function Dashboard() {
   useEffect(() => {
     if (state.PgList?.dashboardDetails) {
       setLoading(false)
-      setDashboardList(state.PgList?.dashboardDetails);
+      // setDashboardList(state.PgList?.dashboardDetails);
 
     }
   }, [state.PgList?.dashboardDetails]);
@@ -564,7 +510,7 @@ function Dashboard() {
                                     className="animate-fadeIn absolute right-0 mt-2 w-44 bg-white border rounded-lg shadow-lg z-50 py-1"
                                   >
                                     {dateOptions.map((option) => {
-                                      const isActive = selected === option;
+                                      const isActive = selectedMonth === option;
 
                                       return (
                                         <button
