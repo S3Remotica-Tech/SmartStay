@@ -11,7 +11,7 @@ import {
   Clock,
   MessageText
 } from "iconsax-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate ,useLocation} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { AiOutlineBarChart } from "react-icons/ai";
@@ -28,6 +28,9 @@ function Reports() {
   const [activeTab, setActiveTab] = useState("operational");
   const [selectedRange, setSelectedRange] = useState(null);
   const { RangePicker } = DatePicker;
+const location = useLocation();
+
+  const analytical = location.state?.analytical;
 
 
 
@@ -48,7 +51,14 @@ function Reports() {
 
   const reportsList = state.reports?.getReportsList
 
-
+useEffect(()=>{
+  if(analytical){
+    setActiveTab("analytical")
+  }else{
+     setActiveTab("operational")
+  }
+  
+},[analytical])
 
   const tabs = [
     { id: "operational", label: "Operational Reports" },

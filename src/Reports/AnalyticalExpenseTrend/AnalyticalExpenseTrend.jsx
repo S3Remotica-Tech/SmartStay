@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState, useRef } from 'react';
 import {
   Filter,
@@ -14,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 
-function AnalyticalMonthRevenue() {
+function AnalyticalExpenseTrend() {
 
 
 
@@ -53,44 +51,44 @@ function AnalyticalMonthRevenue() {
     };
   }, [register]);
 
-  const reportCards = [
-    // {
-    //   id: 1,
-    //   title: "Month vs Month Revenue",
-    //   subTitle: "MonthRevenue"
-
-    // },
-    {
-      id: 2,
-      title: "Collected vs Outstanding",
-      subTitle: "Outstanding"
-    },
-    {
-      id: 3,
-      title: "Vacant vs Occupied Beds",
-
-      subTitle: "Vacant"
-    },
-    {
-      id: 4,
-      title: "Monthly Expense Trend",
-      subTitle: "MonthlyExpenseTrend"
-    },
-    {
-      id: 5,
-      title: "Overdue Invoices Trend",
-      subTitle: "OverdueInvoicesTrend"
-
-    },
-    {
-      id: 6,
-      title: "Complaints Resolved",
-      subTitle: "Complaints"
-
-    }
-  ];
-
-   const handleNavigateReports = () => {
+const reportCards = [
+  {
+    id: 1,
+    title: "Month vs Month Revenue",
+         subTitle:"MonthRevenue"
+    
+  },
+  {
+    id: 2,
+    title: "Collected vs Outstanding",
+       subTitle:"Outstanding"
+  },
+  {
+    id: 3,
+    title: "Vacant vs Occupied Beds",
+    
+    subTitle:"Vacant"
+  },
+//   {
+//     id: 4,
+//     title: "Monthly Expense Trend",
+//       subTitle:"MonthlyExpenseTrend"
+//   },
+  {
+    id: 5,
+    title: "Overdue Invoices Trend",
+        subTitle:"OverdueInvoicesTrend"
+   
+  },
+  {
+    id: 6,
+    title: "Complaints Resolved",
+        subTitle:"Complaints"
+    
+  }
+];
+ 
+  const handleNavigateReports = () => {
     navigate(`/reports/${state.login.selectedHostel_Id}`, {
      state: {
     analytical: true,
@@ -135,7 +133,7 @@ function AnalyticalMonthRevenue() {
           />
           <div>
             <div className='flex items-center gap-2 relative w-fit' onClick={() => setRegister(!register)}>
-              <h1 className="text-lg font-semibold my-0 text-[#222222]">Month vs Month Revenue</h1>
+              <h1 className="text-lg font-semibold my-0 text-[#222222]">Monthly Expense Trend</h1>
               <div className='rounded-none border-0'>
                 <ArrowDown2
                   size="18"
@@ -173,7 +171,7 @@ function AnalyticalMonthRevenue() {
               </div>
             </div>
 
-
+           
           </div>
         </div>
 
@@ -237,27 +235,8 @@ function AnalyticalMonthRevenue() {
           </button>
         </div>
       </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      
     </div>
   )
 }
 
-export default AnalyticalMonthRevenue
+export default AnalyticalExpenseTrend

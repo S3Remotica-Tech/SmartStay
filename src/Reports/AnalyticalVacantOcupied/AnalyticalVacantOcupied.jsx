@@ -90,7 +90,11 @@ const reportCards = [
 ];
  
   const handleNavigateReports = () => {
-    navigate(`/reports/${state.login.selectedHostel_Id}`)
+    navigate(`/reports/${state.login.selectedHostel_Id}`, {
+     state: {
+    analytical: true,
+  },
+    })
   }
 
   const handleNavigateRegister = (item) => {

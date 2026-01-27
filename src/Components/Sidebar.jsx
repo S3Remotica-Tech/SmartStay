@@ -81,6 +81,9 @@ import Dashboard from "../Pages/Dashboard/Dashboard";
 import AnalyticalCollectedOutstanding from "../Reports/AnalyticalCollectedVsOutstanding.jsx/AnalyticalCollectedOutstanding";
 import AnalyticalMonthRevenue from "../Reports/AnalyticalMonthRevenue/AnalyticalMonthRevenue";
 import AnalyticalVacantOcupied from "../Reports/AnalyticalVacantOcupied/AnalyticalVacantOcupied";
+import AnalyticalExpenseTrend from "../Reports/AnalyticalExpenseTrend/AnalyticalExpenseTrend";
+import AnalyticalInvoiceTrend from "../Reports/AnalyticalInvoiceTrend/AnalyticalInvoiceTrend";
+import AnalyticalComplaintsResolved from "../Reports/AnalyticalComplaintsResolved/AnalyticalComplaintsResolved"
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -107,14 +110,40 @@ function Sidebar() {
   const cookies = new Cookies();
 
 
+  // const pageMap = {
+  //   "/dashboard/:hostelId": "dashboard",
+  //   "/dashboard-new/:hostelId": "dashboard-new",
+  //   "/paying-guest/:hostelId": "pg-list",
+  //   "/tenant/:hostelId": "user-list",
+  //   "/tenant/details/:hostelId": "user-details",
+  //   "/invoice/:hostelId": "invoice",
+  //   "/invoice/new/:hostelId": "invoice",
+  //   "/vendor/:hostelId": "vendor",
+  //   "/compliance/:hostelId": "compliance",
+  //   "/asset/:hostelId": "asset",
+  //   "/reports/:hostelId": "reports",
+  //   "/electricity/:hostelId": "eb",
+  //   "/expense/:hostelId": "expenses",
+  //   "/banking/:hostelId": "banking",
+  //   "/settings/:hostelId": "settingNewDesign",
+  //   "/booking/:hostelId": "booking",
+  // };
+
   const pageMap = {
     "/dashboard/:hostelId": "dashboard",
     "/dashboard-new/:hostelId": "dashboard-new",
     "/paying-guest/:hostelId": "pg-list",
     "/tenant/:hostelId": "user-list",
     "/tenant/details/:hostelId": "user-details",
+
     "/invoice/:hostelId": "invoice",
     "/invoice/new/:hostelId": "invoice",
+
+    "/booking/:hostelId": "booking",
+
+     "/recurring/:hostelId": "recurring",
+    "/receipts/:hostelId": "receipts",
+
     "/vendor/:hostelId": "vendor",
     "/compliance/:hostelId": "compliance",
     "/asset/:hostelId": "asset",
@@ -123,7 +152,6 @@ function Sidebar() {
     "/expense/:hostelId": "expenses",
     "/banking/:hostelId": "banking",
     "/settings/:hostelId": "settingNewDesign",
-    "/booking/:hostelId": "booking",
   };
 
   useEffect(() => {
@@ -144,6 +172,19 @@ function Sidebar() {
     }
   }, [location.pathname]);
 
+
+  useEffect(() => {
+    if (
+      currentPage === "invoice" ||
+      currentPage === "booking" ||
+      currentPage === "recurring" ||
+      currentPage === "receipts"
+    ) {
+      setBillingOpen(true);
+    } else {
+      setBillingOpen(false);
+    }
+  }, [currentPage]);
 
 
 
@@ -674,64 +715,33 @@ function Sidebar() {
         showNotify && <NotificationForm show={showNotify} handleClose={handleClose} />
       }
 
-
-      <Container fluid className="p-0" >
-        <div style={{
-          display: "flex",
-          width: "100%",
-          height: "100vh",
-          overflowY: "hidden",
-          flexDirection: "row",
-        }}
-        >
+      <div className="w-full p-0">
+        <div className="flex w-full h-screen overflow-y-hidden flex-row">
           <div className="d-md-none p-2 bg-white">
             <button
               onClick={toggleSidebar}
-              style={{
-                background: "none",
-                border: "none",
-                fontSize: "24px",
-                cursor: "pointer",
-              }}
-            >
+              className="bg-transparent border-none text-2xl cursor-pointer">
               ☰
             </button>
           </div>
-          {/* sidebar */}
+
           <div
-            className=""
-            style={{
-              width: "18%",
-              minWidth: "200px",
-              display: "flex",
-              flexDirection: "column",
-              height: "100vh",
-              backgroundColor: "#fff",
-              boxShadow: "5px 0 2px -2px rgba(0,0,0,0.12)",
-              position: "relative"
-            }}
-          >
+            className="w-64 min-w-48 flex flex-col h-screen bg-white relative border-r-2 border-gray-200 shadow-md" >
             <div>
 
-              <div style={{ padding: "8px 16px", flexShrink: 0, marginTop: 15 }}
-              >
+              <div
+                className="p-3 flex-shrink-0 mt-1.5">
                 <img
                   src={Smartstay}
                   alt="smartstay"
-                  style={{ height: 25.06, width: 134 }}
-                  className="Title"
+                  className="Title mb-1 w-36 h-6"
                   onClick={() => handlePageClick("dashboard")}
                 />
                 <button
                   onClick={closeSidebar}
-                  style={{
-                    background: "none",
-                    border: "none",
-                    fontSize: "24px",
-                    cursor: "pointer",
-                    display: isSidebarOpen ? "block" : "none",
-                  }}
-                  className="d-md-none"
+                  className={`bg-transparent border-none textbase cursor-pointer md:hidden ${isSidebarOpen ? "block" : "hidden"
+                    }`}
+
                 >
                   <svg
                     width="24"
@@ -755,69 +765,26 @@ function Sidebar() {
 
                 {hostelListDetail && hostelListDetail?.length > 0 && (
                   <li ref={dropdownRef}
-                    className={`align-items-center list-Item-Hostel mt-2 ${currentPage === "settingNewDesign" ? "active" : ""}`}
                     onClick={toggleDropdown}
-                    style={{
-                      listStyleType: "none",
-                      display: "flex",
-                      position: "relative",
-                      cursor: "pointer",
-                      fontFamily: "Gilroy", fontSize: 13,
-                      boxShadow: "0 2px 4px rgba(0,0,0,0.08)",
-                      borderRadius: "8px",
-                      backgroundColor: "#fff",
-                    }}
+                    className={`list-none flex items-center relative cursor-pointer font-gilroy text-[13px] shadow-[0_2px_4px_rgba(0,0,0,0.08)] rounded-[8px] bg-white mt-2 list-Item-Hostel ${currentPage === "settingNewDesign" ? "active" : ""}`}
+
                   >
 
                     {selectedProfileImage && selectedProfileImage !== null && selectedProfileImage !== "" ? (
                       <img
                         src={selectedProfileImage}
-                        style={{
-                          height: 35,
-                          width: 35,
-                          borderRadius: "50%",
-                          marginRight: 8,
-                        }}
+                        className="h-9 w-9 rounded-full mr-2"
+
                         alt="Selected Profile"
                       />
                     ) : (
-                      <div
-                        style={{
-                          flexShrink: 0,
-                          height: 35,
-                          width: 35,
-                          minWidth: 35,
-                          borderRadius: "50%",
-                          backgroundColor: "#E2E8F0",
-                          color: "#44536A",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          fontWeight: 600,
-                          fontSize: 12,
-                          marginRight: 8,
-                          textTransform: "uppercase",
-                          lineHeight: "1",
-                        }}
-                      >
+                      <div className="shrink-0 h-9 w-9 min-w-9 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-semibold text-xs mr-2 uppercase leading-none" >
                         {initials}
                       </div>
                     )}
 
                     <span
-                      className="Title"
-                      style={{
-                        fontSize: 14,
-                        fontWeight: 600,
-                        display: "inline-block",
-                        fontFamily: "Gilroy",
-                        maxWidth: "150px",
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        verticalAlign: "middle", color: "#222222", cursor: "pointer",
-                      }}
-                    >
+                      className="inline-block text-smfont-semibold font-gilroy max-w-[150px] truncate align-middle text-[#222222] cursor-pointer"  >
                       {payingGuestName}
                       <div>
                         <OverlayTrigger
@@ -829,31 +796,17 @@ function Sidebar() {
                           }
                         >
                           <span
-                            style={{
-                              fontSize: 12,
-                              color: "#9C9C9C",
-                              maxWidth: "100px",
-                              cursor: "pointer",
-                              display: "flex",
-                              alignItems: "center",
-                              gap: "4px",
-                            }}
-                          >
+                            className="flex items-center gap-1 text-[12px] text-[#9C9C9C] max-w-[100px] cursor-pointer" >
+
                             <Location
-                              className="me-1"
+                              className="mr-1 shrink-0"
                               size="16"
                               color="#FF8A65"
                               variant="Bold"
-                              style={{ flexShrink: 0 }}
                             />
+
                             <span
-                              style={{
-                                whiteSpace: "nowrap",
-                                overflow: "hidden",
-                                textOverflow: "ellipsis",
-                                minWidth: 0,
-                              }}
-                            >
+                              className="truncate min-w-0" >
                               {locationName}
                             </span>
                           </span>
@@ -872,21 +825,7 @@ function Sidebar() {
 
                     {isDropdownOpen && (
                       <div
-                        className="show-scrolls"
-                        style={{
-                          position: "absolute",
-                          top: "100%",
-                          left: 0,
-                          backgroundColor: "white",
-                          boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
-                          padding: "5px 0",
-                          borderRadius: "4px",
-                          width: "100%",
-                          zIndex: 10,
-                          maxHeight: "200px",
-                          overflowY: "auto",
-                          overflowX: "hidden",
-                        }}
+                        className="absolute top-full mt-1 left-0 bg-white shadow-md py-1 rounded w-full z-10 max-h-48 overflow-y-auto overflow-x-hidden show-scrolls"
                       >
                         <ul style={{ margin: 0, padding: 0 }}>
                           {hostelListDetail.map((item) => (
@@ -897,49 +836,20 @@ function Sidebar() {
                             >
                               <li
                                 key={item.id}
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  padding: "8px 12px",
-                                  cursor: "pointer",
-                                  color: "#1e45e1",
-                                  maxWidth: "160px",
-                                  whiteSpace: "nowrap",
-                                  overflow: "hidden",
-                                  textOverflow: "ellipsis",
-                                  verticalAlign: "middle",
-                                }}
+                                className="flex items-center py-2 px-3 cursor-pointer text-blue-600 max-w-40 truncate align-middle"
+
                                 onClick={() => handleHostelId(item.hostelId, item.name, item.mainImage, item.initials, item.city)}
                               >
                                 {item.mainImage && item.mainImage !== "0" && item.mainImage !== "" ? (
                                   <img
                                     src={item.mainImage}
-                                    style={{
-                                      height: 25,
-                                      width: 25,
-                                      borderRadius: "50%",
-                                      marginRight: 8,
-                                    }}
+                                    className="w-6 h-6 rounded-full mr-2"
                                     alt={item.initials || "Default Profile"}
                                   />
                                 ) : (
                                   <div
-                                    style={{
-                                      flexShrink: 0,
-                                      minWidth: 25,
-                                      height: 25,
-                                      width: 25,
-                                      borderRadius: "50%",
-                                      backgroundColor: "#E2E8F0",
-                                      color: "#44536A",
-                                      display: "flex",
-                                      alignItems: "center",
-                                      justifyContent: "center",
-                                      fontWeight: 600,
-                                      fontSize: 12,
-                                      marginRight: 8,
-                                      textTransform: "uppercase",
-                                    }}
+                                    className="shrink-0 min-w-6 w-6 h-6 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-semibold text-xs mr-2 uppercase"
+
                                   >
                                     {item.initials}
                                   </div>
@@ -958,20 +868,8 @@ function Sidebar() {
                 {!(hostelListDetail ?? []).length && (
                   <NavLink
                     to={settingsPath}
-                    className="align-items-center d-flex justify-content-center mt-2 list-Button mb-2"
-                    style={{
-                      listStyleType: "none",
-                      display: "flex",
-                      fontFamily: "Gilroy",
-                      color: "#FFFFFF",
-                      fontWeight: 500,
-                      backgroundColor: "#1E45E1",
-                      boxShadow: "5px 0 2px -2px rgba(0,0,0,0.12)",
-                      padding: 8,
-                      borderRadius: "8px",
-                      cursor: "pointer",
-                      textDecoration: "none",
-                    }}
+                    className="flex items-center justify-center mt-2 list-none font-gilroy text-white font-medium bg-blue-600 shadow-sm p-2 rounded-lg cursor-pointer no-underline"
+
                     onClick={() => {
                       handledisplaySettingsPG("manage-pg", "Manage PG");
                       dispatch({ type: "MANAGE_PG" });
@@ -983,37 +881,13 @@ function Sidebar() {
 
                 )}
               </div>
-              <div
-                className="show-scrolls-sidebar"
-                style={{
-                  overflowY: "auto",
-                  overflowX: "hidden",
-                  height: "calc(100vh - 130px)",
-                  padding: "5px",
-                }}
+              <div className="show-scrolls-sidebar overflow-y-auto overflow-x-hidden h-[calc(100vh-130px)] p-1"
               >
 
-                <ul
-                  className=""
-                  style={{
-                    flex: 1,
-                    minHeight: 0,
-                    overflowY: "auto",
-                    listStyle: "none",
-                    padding: 2,
-                    marginBottom: 0,
-                    width: "100%",
-                  }}
-                >
+                <ul className="flex-1 min-h-0 overflow-y-auto list-none p-0.5 mb-0 w-full" >
 
                   <li
-
-                    style={{
-                      listStyleType: "none",
-                      display: "flex",
-                      alignItems: "center",
-                    }}
-                  >
+                    className="list-none flex items-center" >
                     <NavLink
                       to={withHostel("/dashboard")}
                       className={({ isActive }) =>
@@ -1024,27 +898,12 @@ function Sidebar() {
                       <Chart2
                         size="20" variant="Bold"
                       />
-                      <span
-                        className="Title"
-                        style={{
-                          fontSize: 14,
-                          fontWeight: 600,
-                          display: "inline-block",
-                          fontFamily: "Gilroy",
-                        }}
-                      >
+                      <span className="inline-block text-sm font-semibold font-gilroy Title" >
                         Home
                       </span>
                     </NavLink>
                   </li>
-                  <li
-
-                    style={{
-                      listStyleType: "none",
-                      display: "flex",
-                      alignItems: "center",
-                    }}
-                  >
+                  <li className="list-none flex items-center" >
                     <NavLink
                       to={withHostel("/dashboard-new")}
                       className={({ isActive }) =>
@@ -1055,54 +914,30 @@ function Sidebar() {
                       <Chart2
                         size="20" variant="Bold"
                       />
-                      <span
-                        className="Title"
-                        style={{
-                          fontSize: 14,
-                          fontWeight: 600,
-                          display: "inline-block",
-                          fontFamily: "Gilroy",
-                        }}
-                      >
+                      <span className="inline-block text-sm font-semibold font-gilroy Title mt-1" >
                         Home New
                       </span>
                     </NavLink>
                   </li>
+
                   <li
-                    className={`align-items-center list-Item ${manageOpen ? "active" : ""
-                      }`}
+                    className={`flex relative list-none mt-[${manageOpen ? "0.5" : "2.5"}] items-center px-3 py-2 rounded 
+    ${manageOpen ? "bg-[#F6F8FF] text-[#1E45E1]" : "bg-white text-[#64748B]"} cursor-pointer list-Item`}
                     onClick={() => {
                       setManageOpen(!manageOpen);
                       setBillingOpen(false);
                       localStorage.setItem("manageOpen", !manageOpen);
                     }}
-                    style={{
-                      listStyleType: "none",
-                      display: "flex",
-                      position: "relative",
-                      marginTop: manageOpen ? "2px" : "10px",
-                      backgroundColor: manageOpen ? "#F6F8FF" : "#FFF",
-                      color: manageOpen ? "#1E45E1" : "#64748B",
-
-                    }}
                   >
-                    <Setting2 size="20" variant="Bold" />
-                    <span
-                      className="Title"
-                      style={{
-                        fontSize: 14,
-                        fontWeight: 600,
-                        display: "inline-block",
-                        fontFamily: "Gilroy",
-                      }}
-                    >
+                    <Setting2 size={20} variant="Bold" className="mt-1" />
+                    <span className="mt-1.5 font-gilroy font-semibold text-sminline-block text-sm">
                       Manage
                     </span>
-                    <span className="ms-auto ">
+                    <span className="ml-auto mt-1.5">
                       {manageOpen ? (
-                        <ArrowUp2 size="16" color="#4B4B4B" />
+                        <ArrowUp2 size={16} color="#4B4B4B" />
                       ) : (
-                        <ArrowDown2 size="16" color="#4B4B4B" />
+                        <ArrowDown2 size={16} color="#4B4B4B" />
                       )}
                     </span>
                   </li>
@@ -1110,15 +945,8 @@ function Sidebar() {
                   {manageOpen && (
                     <div className={`submenu ${manageOpen ? "open" : ""}`}>
                       <ul
-                        className="p-1 "
-                        style={{
-                          marginLeft: 10, position: "relative",
-                        }}
-                      >
-                        <li
-
-                          style={{ listStyleType: "none", display: "flex" }}
-                        >
+                        className="pl-2 relative p-1.5">
+                        <li className="list-none flex">
                           <NavLink
                             to={withHostel("/paying-guest")}
                             className={({ isActive }) =>
@@ -1129,89 +957,64 @@ function Sidebar() {
                             <Buildings size="20" variant="Bold" />
 
                             <span
-                              className="Title"
-                              style={{
-                                fontSize: 14,
-                                fontWeight: 600,
-                                display: "inline-block",
-                                fontFamily: "Gilroy",
-                              }}
-                            >
+                              className="Title font-gilroy font-semibold text-sm inline-block" >
                               Paying Guest
                             </span>
                           </NavLink>
                         </li>
-                        <li style={{ listStyleType: "none" }}>
+                        <li className="list-none">
                           <NavLink
                             to={withHostel("/tenant")}
                             className={({ isActive }) =>
-                              `list-sub-Item d-flex align-items-center ${isActive || currentPage === "user-details" ? "active" : ""
+                              `list-sub-Item no-underline d-flex align-items-center ${isActive || currentPage === "user-details" ? "active" : ""
                               }`
                             }
                             onClick={() => handlePageClick("user-list")}
-                            style={{ textDecoration: "none" }}
+
                           >
                             <Profile2User size="20" variant="Bold" />
 
                             <span
-                              className="Title"
-                              style={{
-                                fontSize: 14,
-                                fontWeight: 600,
-                                display: "inline-block",
-                                fontFamily: "Gilroy",
-                              }}
+                              className="Title font-gilroy font-semibold text-sminline-block text-sm"
+
                             >
                               Tenant
                             </span>
                           </NavLink>
                         </li>
-                        <li style={{ listStyleType: "none" }}>
+
+
+                        <li className="list-none">
                           <NavLink
                             to={withHostel("/asset")}
                             className={({ isActive }) =>
-                              `align-items-center list-sub-Item d-flex ${isActive || currentPage === "asset" ? "active" : ""
+                              `align-items-center list-sub-Item no-underline d-flex ${isActive || currentPage === "asset" ? "active" : ""
                               }`
                             }
                             onClick={() => handlePageClick("asset")}
-                            style={{ textDecoration: "none" }}
+
                           >
                             <Box size="20" variant="Bold" />
 
-                            <span
-                              className="Title"
-                              style={{
-                                fontSize: 14,
-                                fontWeight: 600,
-                                display: "inline-block",
-                                fontFamily: "Gilroy",
-                              }}
-                            >
+                            <span className="Title font-gilroy font-semibold text-sminline-block text-sm">
                               Assets
                             </span>
                           </NavLink>
                         </li>
 
-                        <li style={{ listStyleType: "none" }}>
+                        <li className="list-none">
                           <NavLink
                             to={withHostel("/vendor")}
                             className={({ isActive }) =>
-                              `align-items-center list-sub-Item d-flex ${isActive || currentPage === "vendor" ? "active" : ""
+                              `align-items-center list-sub-Item no-underline d-flex ${isActive || currentPage === "vendor" ? "active" : ""
                               }`
                             }
                             onClick={() => handlePageClick("vendor")}
-                            style={{ textDecoration: "none" }}
+
                           >
                             <Shop size="20" variant="Bold" />
 
-                            <span
-                              className="Title"
-                              style={{
-                                fontSize: 14,
-                                fontWeight: 600,
-                                display: "inline-block",
-                                fontFamily: "Gilroy",
-                              }}
+                            <span className="Title font-gilroy font-semibold text-sminline-block text-sm"
                             >
                               Vendor
                             </span>
@@ -1222,194 +1025,130 @@ function Sidebar() {
                     </div>
                   )}
 
-                  <li style={{ listStyleType: "none", marginTop: manageOpen ? "5px" : "10px" }}>
+                  <li className={`list-none ${manageOpen ? "mt-1" : "mt-2.5"}`} >
                     <NavLink
                       to={withHostel("/banking")}
                       className={({ isActive }) =>
-                        `align-items-center list-Item d-flex ${isActive || currentPage === "banking" ? "active" : ""
+                        `align-items-center list-Item  d-flex ${isActive || currentPage === "banking" ? "active" : ""
                         }`
                       }
-                      onClick={() => handlePageClick("banking")}
-                      style={{ textDecoration: "none" }}
-                    >
-                      <Bank size="20" variant="Bold" />
+                      onClick={() => handlePageClick("banking")} >
+                      <Bank size="20" variant="Bold" className="-mt-1" />
 
-                      <span
-                        className="Title"
-                        style={{
-                          fontSize: 14,
-                          fontWeight: 600,
-                          display: "inline-block",
-                          fontFamily: "Gilroy",
-                        }}
+                      <span className="Title font-gilroy font-semibold text-sm"
+
                       >
                         Banking
                       </span>
                     </NavLink>
                   </li>
 
-
-
-
                   <li
-                    className={`align-items-center list-Item ${currentPage.startsWith("billing") ? "active" : ""}`}
+                    className={`list-none flex items-center cursor-pointer list-Item
+${currentPage === "invoice" ||
+                        currentPage === "booking" ||
+                        currentPage === "recurring" ||
+                        currentPage === "receipts"
+                        ? "active bg-blue-50 text-blue-700"
+                        : "bg-white text-slate-500"
+                      }
+${manageOpen ? "mt-1" : "mt-2.5"}`}
                     onClick={() => {
                       setBillingOpen(!billingOpen);
                       setManageOpen(false);
                     }}
-                    style={{
-                      listStyleType: "none",
-                      display: "flex",
-                      alignItems: "center",
-                      cursor: "pointer", backgroundColor: billingOpen ? "#F6F8FF" : "#FFF",
-                      color: billingOpen ? "#1E45E1" : "#64748B",
-                      marginTop: manageOpen ? "5px" : "10px"
-                    }}
                   >
-                    <DocumentText
-                      size="22"
-                      variant="Bold"
-                    />
-                    <span className="Title"
-                      style={{
-                        fontSize: 14,
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                      }}
-                    >
+                    <DocumentText size={21} variant="Bold" className="-mt-1" />
+
+                    <span className="Title font-gilroy font-semibold text-[14px]">
                       Billing & Payments
                     </span>
-                    <span className="ms-auto">
-                      {billingOpen ? <ArrowUp2 size={14} /> : <ArrowDown2 size={14} />}
+
+                    <span className="ml-auto">
+                      {billingOpen ? <ArrowUp2 size={16} /> : <ArrowDown2 size={16} />}
                     </span>
                   </li>
 
+
                   {billingOpen && (
                     <div className={`submenu ${billingOpen ? "open" : ""}`} style={{}}>
-                      <ul
-                        className="p-1 "
-                        style={{
-                          marginLeft: 10, position: "relative",
+                      <ul className="p-1 relative">
+                        <li className={`list-none ${billingOpen ? "mt-0.5" : "mt-2.5"}`}>
 
-
-                        }}
-                      >
-
-                        <li
-                          style={{
-                            listStyleType: "none",
-                            marginTop: billingOpen ? "2px" : "10px",
-                          }}
-                        >
                           <NavLink
                             to={withHostel("/invoice")}
                             className={({ isActive }) =>
                               `align-items-center list-sub-Item d-flex ${isActive || currentPage === "invoice" ? "active" : ""
                               }`
                             }
+
                             onClick={() => handlePageClick("invoice")}
                             style={{ textDecoration: "none" }}
                           >
-                            <Receipt size="20" variant="Bold" />
+                            <Receipt size="22" variant="Bold" className="ml-1 -mt-1" />
 
-                            <span
-                              className="Title"
-                              style={{
-                                fontSize: 14,
-                                fontWeight: 600,
-                                display: "inline-block",
-                                fontFamily: "Gilroy",
-                              }}
-                            >
+                            <span className="Title font-gilroy font-semibold text-sm inline-block " >
                               Bills
                             </span>
                           </NavLink>
                         </li>
 
-                        <li
-                          style={{
-                            listStyleType: "none",
-                            borderRadius: 6,
-                          }}
-                        >
+                        <li className="list-none rounded-md" >
                           <NavLink
                             to={withHostel("/booking")}
                             className={({ isActive }) =>
-                              `list-sub-Item d-flex align-items-center ${isActive || currentPage === "booking" ? "active" : ""
+                              `list-sub-Item d-flex no-underline cursor-pointer align-items-center ${isActive || currentPage === "booking" ? "active" : ""
                               }`
                             }
                             onClick={() => handlePageClick("booking")}
-                            style={{ textDecoration: "none", cursor: "pointer" }}
+
                           >
-                            <CalendarAdd variant="Bold" size="22" />
+                            <CalendarAdd variant="Bold" size="22" className="-mt-1" />
 
                             <span
-                              style={{
-                                fontSize: 14,
-                                fontWeight: 600,
-                                display: "inline-block",
-                                fontFamily: "Gilroy",
-                              }}
-                            >
+                              className="Title font-gilroy font-semibold text-sm inline-block">
                               Bookings
                             </span>
                           </NavLink>
                         </li>
 
 
-                        <li
-                          style={{
-                            listStyleType: "none",
-                          }}
+                        <li className="list-none"
                         >
                           <NavLink
                             to={withHostel("/recurring")}
                             className={({ isActive }) =>
-                              `list-sub-Item d-flex align-items-center ${isActive || currentPage === "recurring" ? "active" : ""
+                              `list-sub-Item d-flex no-underline cursor-pointer align-items-center ${isActive || currentPage === "recurring" ? "active" : ""
                               }`
                             }
                             onClick={() => handlePageClick("recurring")}
-                            style={{ textDecoration: "none", cursor: "pointer" }}
+
                           >
-                            <RulerPen variant="Bold" size="22" />
+                            <RulerPen variant="Bold" size="22" className="-mt-1" />
 
                             <span
-                              style={{
-                                fontSize: 14,
-                                fontWeight: 600,
-                                display: "inline-block",
-                                fontFamily: "Gilroy",
-                              }}
+                              className="Title font-gilroy font-semibold text-sm inline-block"
                             >
+
                               Recurring bills
                             </span>
                           </NavLink>
                         </li>
 
 
-                        <li
-                          style={{
-                            listStyleType: "none",
-                          }}
-                        >
+                        <li className="list-none">
                           <NavLink
                             to={withHostel("/receipts")}
                             className={({ isActive }) =>
-                              `list-sub-Item d-flex align-items-center ${isActive || currentPage === "receipts" ? "active" : ""
+                              `list-sub-Item d-flex no-underline cursor-pointer align-items-center ${isActive || currentPage === "receipts" ? "active" : ""
                               }`
                             }
                             onClick={() => handlePageClick("receipts")}
-                            style={{ textDecoration: "none", cursor: "pointer" }}
                           >
-                            <DocumentText variant="Bold" size="22" />
+                            <DocumentText variant="Bold" size="22" className="-mt-1" />
 
                             <span
-                              style={{
-                                fontSize: 14,
-                                fontWeight: 600,
-                                display: "inline-block",
-                                fontFamily: "Gilroy",
-                              }}
+                              className="Title font-gilroy font-semibold text-sm inline-block"
                             >
                               Receipts
                             </span>
@@ -1421,133 +1160,81 @@ function Sidebar() {
                   )}
 
 
-                  <li
-                    style={{
-                      listStyleType: "none",
-                      marginTop: manageOpen ? "2px" : "8px",
-                    }}
+                  <li className={`list-none ${manageOpen ? "mt-0.5" : "mt-2"}`}
                   >
                     <NavLink
                       to={withHostel("/electricity")}
                       className={({ isActive }) =>
-                        `align-items-center list-Item d-flex ${isActive || currentPage === "eb" ? "active" : ""
+                        `align-items-center list-Item d-flex no-underline cursor-pointer ${isActive || currentPage === "eb" ? "active" : ""
                         }`
                       }
-                      onClick={() => handlePageClick("eb")}
-                      style={{ textDecoration: "none" }}
-                    >
-                      <Flash size="20" variant="Bold" />
+                      onClick={() => handlePageClick("eb")} >
+                      <Flash size="22" variant="Bold" />
 
-                      <span
-                        className="Title"
-                        style={{
-                          fontSize: 14,
-                          fontWeight: 600,
-                          display: "inline-block",
-                          fontFamily: "Gilroy",
-                        }}
-                      >
+                      <span className="Title font-gilroy font-semibold text-sm inline-block">
                         Electricity
                       </span>
                     </NavLink>
                   </li>
 
 
-                  <li
-                    style={{
-                      listStyleType: "none",
-                      marginTop: manageOpen ? "2px" : "8px",
-                    }}
+                  <li className={`list-none ${manageOpen ? "mt-0.5" : "mt-2"}`}
                   >
                     <NavLink
                       to={withHostel("/compliance")}
                       className={({ isActive }) =>
-                        `align-items-center list-Item d-flex ${isActive || currentPage === "compliance" ? "active" : ""
+                        `align-items-center list-Item d-flex no-underline cursor-pointer ${isActive || currentPage === "compliance" ? "active" : ""
                         }`
                       }
                       onClick={() => handlePageClick("compliance")}
-                      style={{ textDecoration: "none" }}
-                    >
-                      <MessageQuestion size="20" variant="Bold" />
 
-                      <span
-                        className="Title"
-                        style={{
-                          fontSize: 14,
-                          fontWeight: 600,
-                          display: "inline-block",
-                          fontFamily: "Gilroy",
-                        }}
-                      >
+                    >
+                      <MessageQuestion size="22" variant="Bold" />
+
+                      <span className="Title font-gilroy font-semibold text-sm inline-block" >
                         Compliants
                       </span>
                     </NavLink>
                   </li>
 
-                  <li
-                    style={{
-                      listStyleType: "none",
-                      marginTop: manageOpen ? "2px" : "8px",
-                    }}
-                  >
+                  <li className={`list-none ${manageOpen ? "mt-0.5" : "mt-2"}`}>
                     <NavLink
                       to={withHostel("/expense")}
                       className={({ isActive }) =>
-                        `align-items-center list-Item d-flex ${isActive || currentPage === "expenses" ? "active" : ""
+                        `align-items-center list-Item d-flex no-underline cursor-pointer ${isActive || currentPage === "expenses" ? "active" : ""
                         }`
                       }
                       onClick={() => handlePageClick("expenses")}
-                      style={{ textDecoration: "none" }}
                     >
                       <MoneySend size="20" variant="Bold" />
 
-                      <span
-                        className="Title"
-                        style={{
-                          fontSize: 14,
-                          fontWeight: 600,
-                          display: "inline-block",
-                          fontFamily: "Gilroy",
-                        }}
-                      >
+                      <span className="Title font-gilroy font-semibold text-sm inline-block" >
                         Expenses
                       </span>
                     </NavLink>
                   </li>
 
 
-                  <li
-                    style={{
-                      listStyleType: "none",
-                      marginTop: manageOpen ? "2px" : "8px",
-                    }}
-                  >
+                  <li className={`list-none ${manageOpen ? "mt-0.5" : "mt-2"}`}>
                     <NavLink
                       to={withHostel("/reports")}
                       className={({ isActive }) =>
-                        `align-items-center list-Item d-flex ${isActive || currentPage === "reports" ? "active" : ""
+                        `align-items-center list-Item d-flex no-underline cursor-pointer ${isActive || currentPage === "reports" ? "active" : ""
                         }`
                       }
                       onClick={() => handlePageClick("reports")}
-                      style={{ textDecoration: "none" }}
                     >
                       <Chart size="20" variant="Bold" />
 
-                      <span
-                        className="Title"
-                        style={{
-                          fontSize: 14,
-                          fontWeight: 600,
-                          display: "inline-block",
-                          fontFamily: "Gilroy",
-                        }}
-                      >
+                      <span className="Title font-gilroy font-semibold text-sm inline-block" >
                         Reports
                       </span>
                     </NavLink>
                   </li>
 
                 </ul>
+
+
               </div>
 
 
@@ -1556,15 +1243,7 @@ function Sidebar() {
             </div>
           </div>
 
-          {/* main content */}
-          <div
-            style={{
-              flex: 1,
-              overflowY: "auto",
-              height: "100vh",
-              minWidth: 0,
-            }}
-          >
+          <div className="flex-1 overflow-y-auto h-screen min-w-0">
 
             <Routes>
 
@@ -1572,7 +1251,7 @@ function Sidebar() {
               <Route
                 path="/dashboard/:hostelId?"
                 element={
-                  <div className="bg-[#FFF] " style={{ paddingTop: 5, paddingLeft: 13, paddingRight: 5 }}>
+                  <div className="bg-white pt-1 pl-3 pr-1">
                     <DashboardOld
                       displayCompliance={handledisplaycompliace}
                       allPageHostel_Id={allPageHostel_Id}
@@ -1584,7 +1263,7 @@ function Sidebar() {
               <Route
                 path="/dashboard-new/:hostelId?"
                 element={
-                  <div className="bg-[#FAFAFA] " style={{ paddingTop: 5, paddingLeft: 13, paddingRight: 5 }}>
+                  <div className="bg-[#FAFAFA] pt-1 pl-3 pr-1">
                     <Dashboard
                       displayCompliance={handledisplaycompliace}
                       allPageHostel_Id={allPageHostel_Id}
@@ -1596,7 +1275,7 @@ function Sidebar() {
               <Route
                 path="/paying-guest/:hostelId?"
                 element={
-                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                  <div className="mt-1 ml-2.5 mr-1">
                     <PgLists
                       displaysettings={handledisplaySettingsPG}
                       allPageHostel_Id={allPageHostel_Id}
@@ -1609,7 +1288,8 @@ function Sidebar() {
               <Route
                 path="/tenant/:hostelId?"
                 element={
-                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                  <div className="mt-1 ml-2.5 mr-1"
+                  >
                     <UserLists
                       allPageHostel_Id={allPageHostel_Id}
                       setAllPageHostel_Id={setAllPageHostel_Id}
@@ -1620,7 +1300,7 @@ function Sidebar() {
               <Route
                 path="/tenant/final-settlement/:tenantId?"
                 element={
-                  <div style={{ marginTop: 0, marginLeft: 10, marginRight: 5, }}>
+                  <div className="mt-1 ml-2.5 mr-1">
                     <FinalSettlement
 
                     />
@@ -1631,7 +1311,7 @@ function Sidebar() {
               <Route
                 path="/invoice/:hostelId?"
                 element={
-                  <div style={{ marginTop: 5, marginLeft: 15, marginRight: 5 }}>
+                  <div className="mt-1 ml-2.5 mr-1">
                     <Invoices
                       allPageHostel_Id={allPageHostel_Id}
                       setAllPageHostel_Id={setAllPageHostel_Id}
@@ -1643,7 +1323,7 @@ function Sidebar() {
               <Route
                 path="/booking/:hostelId?"
                 element={
-                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                  <div className="mt-1 ml-2.5 mr-1">
                     <Booking
                     />
                   </div>
@@ -1652,7 +1332,7 @@ function Sidebar() {
               <Route
                 path="/booking/details/:hostelId?"
                 element={
-                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                  <div className="mt-1 ml-2.5 mr-1">
                     <BookingsPdfDetails
                     />
                   </div>
@@ -1662,7 +1342,7 @@ function Sidebar() {
               <Route
                 path="/recurring/:hostelId?"
                 element={
-                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                  <div className="mt-1 ml-2.5 mr-1">
                     <RecurringBills
                     />
                   </div>
@@ -1671,7 +1351,7 @@ function Sidebar() {
               <Route
                 path="/receipts/:hostelId?"
                 element={
-                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                  <div className="mt-1 ml-2.5 mr-1">
                     <Receipts
                     />
                   </div>
@@ -1680,7 +1360,7 @@ function Sidebar() {
               <Route
                 path="/receipts/details/:receiptId?"
                 element={
-                  <div style={{ marginTop: 5, marginLeft: 15, marginRight: 5 }}>
+                  <div className="mt-1 ml-2.5 mr-1">
                     <ReceiptPdfDetails />
 
                   </div>
@@ -1689,7 +1369,7 @@ function Sidebar() {
               <Route
                 path="/invoice/details/:invoiceId"
                 element={
-                  <div style={{ marginTop: 5, marginLeft: 15, marginRight: 5 }}>
+                  <div className="mt-1 ml-2.5 mr-1">
                     <BillsPdfDetails />
                   </div>
                 }
@@ -1697,7 +1377,7 @@ function Sidebar() {
               <Route
                 path="/vendor/:hostelId?"
                 element={
-                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                  <div className="mt-1 ml-2.5 mr-1">
                     <VendorComponent
                       allPageHostel_Id={allPageHostel_Id}
                       setAllPageHostel_Id={setAllPageHostel_Id}
@@ -1708,7 +1388,7 @@ function Sidebar() {
               <Route
                 path="/compliance/:hostelId?"
                 element={
-                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                  <div className="mt-1 ml-2.5 mr-1">
                     <Compliances
                       allPageHostel_Id={allPageHostel_Id}
                       setAllPageHostel_Id={setAllPageHostel_Id}
@@ -1719,7 +1399,7 @@ function Sidebar() {
               <Route
                 path="/asset/:hostelId?"
                 element={
-                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                  <div className="mt-1 ml-2.5 mr-1">
                     <Assets allPageHostel_Id={allPageHostel_Id} />
                   </div>
                 }
@@ -1727,7 +1407,7 @@ function Sidebar() {
               <Route
                 path="/reports/:hostelId?"
                 element={
-                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                  <div className="mt-1 ml-2.5 mr-1">
                     <Report
                       allPageHostel_Id={allPageHostel_Id}
                       setAllPageHostel_Id={setAllPageHostel_Id}
@@ -1738,7 +1418,7 @@ function Sidebar() {
               <Route
                 path="/electricity/:hostelId?"
                 element={
-                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                  <div className="mt-1 ml-2.5 mr-1">
                     <EbHostel
                       allPageHostel_Id={allPageHostel_Id}
                       setAllPageHostel_Id={setAllPageHostel_Id}
@@ -1749,7 +1429,7 @@ function Sidebar() {
               <Route
                 path="/expense/:hostelId?"
                 element={
-                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                  <div className="mt-1 ml-2.5 mr-1">
                     <Expenses
                       allPageHostel_Id={allPageHostel_Id}
                       setAllPageHostel_Id={setAllPageHostel_Id}
@@ -1760,7 +1440,7 @@ function Sidebar() {
               <Route
                 path="/banking/:hostelId?"
                 element={
-                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                  <div className="mt-1 ml-2.5 mr-1">
                     <Banking
                       allPageHostel_Id={allPageHostel_Id}
                       setAllPageHostel_Id={setAllPageHostel_Id}
@@ -1775,7 +1455,7 @@ function Sidebar() {
               <Route
                 path="/create-bill"
                 element={
-                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                  <div className="mt-1 ml-2.5 mr-1">
                     <CreateBill
                     />
                   </div>
@@ -1785,7 +1465,7 @@ function Sidebar() {
               <Route
                 path="/tenant/details/:tenantId"
                 element={
-                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                  <div className="mt-1 ml-2.5 mr-1">
                     <UserListRoomDetail
                     />
                   </div>
@@ -1795,7 +1475,7 @@ function Sidebar() {
               <Route
                 path="/tenant/checkout/details/:tenantId"
                 element={
-                  <div style={{ marginTop: 5, marginLeft: 10, marginRight: 5 }}>
+                  <div className="mt-1 ml-2.5 mr-1">
                     <CheckoutProfile />
                   </div>
 
@@ -1805,7 +1485,7 @@ function Sidebar() {
               <Route
                 path="/reports/invoice-register"
                 element={
-                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }} className="">
+                  <div className="mt-1 ml-2.5 mr-1">
                     <InvoiceRegister
                     />
                   </div>
@@ -1814,7 +1494,7 @@ function Sidebar() {
               <Route
                 path="/reports/tenant-register"
                 element={
-                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }} className="">
+                  <div className="mt-1 ml-2.5 mr-1">
                     <TenantsRegister
                     />
                   </div>
@@ -1823,7 +1503,7 @@ function Sidebar() {
               <Route
                 path="/reports/receipt-register"
                 element={
-                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }} className="">
+                  <div className="mt-1 ml-2.5 mr-1">
                     <ReceiptRegister />
                   </div>
                 }
@@ -1831,7 +1511,7 @@ function Sidebar() {
               <Route
                 path="/reports/bank-transaction-register"
                 element={
-                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }}>
+                  <div className="mt-1 ml-2.5 mr-1">
                     <BankTransactionRegister />
                   </div>
                 }
@@ -1840,7 +1520,7 @@ function Sidebar() {
               <Route
                 path="/reports/occupancy-register"
                 element={
-                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }}>
+                  <div className="mt-1 ml-2.5 mr-1">
                     <OccupancyRegister />
                   </div>
                 }
@@ -1848,7 +1528,7 @@ function Sidebar() {
               <Route
                 path="/reports/expense-register"
                 element={
-                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }}>
+                  <div className="mt-1 ml-2.5 mr-1">
                     <ExpenseRegister />
                   </div>
                 }
@@ -1856,7 +1536,7 @@ function Sidebar() {
               <Route
                 path="/reports/vendor-register"
                 element={
-                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }}>
+                  <div className="mt-1 ml-2.5 mr-1">
                     <VendorRegister />
                   </div>
                 }
@@ -1864,7 +1544,7 @@ function Sidebar() {
               <Route
                 path="/reports/electricity-billing-register"
                 element={
-                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }}>
+                  <div className="mt-1 ml-2.5 mr-1">
                     <ElectricityRegister />
                   </div>
                 }
@@ -1872,7 +1552,7 @@ function Sidebar() {
               <Route
                 path="/reports/request-register"
                 element={
-                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }}>
+                  <div className="mt-1 ml-2.5 mr-1">
                     <RequestRegister />
                   </div>
                 }
@@ -1880,7 +1560,7 @@ function Sidebar() {
               <Route
                 path="/reports/final-settlement-register"
                 element={
-                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }}>
+                  <div className="mt-1 ml-2.5 mr-1">
                     <FinalSettlementRegister />
                   </div>
                 }
@@ -1889,7 +1569,7 @@ function Sidebar() {
               <Route
                 path="/reports/complaint-register"
                 element={
-                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }}>
+                  <div className="mt-1 ml-2.5 mr-1">
                     <ComplaintsRegister />
                   </div>
                 }
@@ -1916,7 +1596,7 @@ function Sidebar() {
               />
 
 
- <Route
+              <Route
                 path="/reports/vacant-occupied"
                 element={
                   <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }}>
@@ -1925,13 +1605,36 @@ function Sidebar() {
                 }
               />
 
+              <Route
+                path="/reports/expense-trend"
+                element={
+                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }}>
+                    <AnalyticalExpenseTrend />
+                  </div>
+                }
+              />
+              <Route
+                path="/reports/overdue-invoice-trend"
+                element={
+                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }}>
 
+                    <AnalyticalInvoiceTrend />
+                  </div>
+                }
+              />
+              <Route
+                path="/reports/complaints-resolved"
+                element={
+                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }}>
 
-
+                    <AnalyticalComplaintsResolved />
+                  </div>
+                }
+              />
               <Route
                 path="/settings/:hostelId?/*"
                 element={
-                  <div style={{ marginTop: 5, marginLeft: 2, marginRight: 5 }}>
+                  <div className="mt-1 ml-2.5 mr-1">
                     <SettingAllPages
                       allPageHostel_Id={allPageHostel_Id}
                       setAllPageHostel_Id={setAllPageHostel_Id}
@@ -1977,8 +1680,7 @@ function Sidebar() {
 
           </div>
 
-          {/* Right Panel - Profile and Icons */}
-          <div
+          {/* <div
             className="right-panel"
             style={{
               width: "55px",
@@ -2219,7 +1921,111 @@ function Sidebar() {
 
               </div>
             </div>
+          </div> */}
+          <div className="right-panel w-14 flex flex-col h-screen bg-slate-50 border-l border-slate-200 shadow-sm overflow-y-auto items-center flex-shrink-0">
+
+            {/* Profile Area */}
+            <div
+              ref={profileAreaRef}
+              onClick={() => setShowProfileCard((s) => !s)}
+              role="button"
+              tabIndex={0}
+              className="flex flex-col items-center justify-center text-center gap-2 pt-2.5 cursor-pointer"
+            >
+              {profiles === "null" ||
+                profiles === null ||
+                profiles === undefined ||
+                profiles === "undefined" ||
+                profiles === "" ||
+                profiles === 0 ||
+                profiles === "0" ? (
+
+                <div className="h-11 w-11 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-semibold text-base uppercase flex-shrink-0 mx-2">
+                  {stateData?.accountList?.initial || ""}
+                </div>
+              ) : (
+                <Image
+                  src={profiles}
+                  alt="profile-image"
+                  roundedCircle
+                  className="h-12 w-12 object-cover flex-shrink-0"
+                />
+              )}
+            </div>
+
+            {/* Quick Add Button */}
+            <button
+              onClick={() => setShowMenuModal(true)}
+              title="Quick Add"
+              className="w-8 h-8 rounded-lg bg-emerald-700 hover:bg-emerald-600 border-0 text-white text-xl font-bold cursor-pointer flex items-center justify-center mt-4 transition-colors leading-none pb-0.5"
+            >
+              +
+            </button>
+
+            {/* Icon Section */}
+            <div className="flex flex-col items-center justify-start gap-4 mt-7">
+
+              {/* Search */}
+              <div
+                className="relative flex flex-col items-center gap-1 cursor-pointer"
+                title="Search"
+              >
+                <img src={SearchVector} alt="Search" className="w-6 h-6" />
+              </div>
+
+              {/* Notification */}
+              <div
+                onClick={handleShowNotification}
+                onMouseEnter={() => handleMouseEnter("notification")}
+                onMouseLeave={handleMouseLeave}
+                className="relative flex flex-col items-center gap-1 cursor-pointer"
+                title="Notifications"
+              >
+                <div className="relative">
+                  <Notification
+                    className="w-6 h-6"
+                    color={hoveredIcon === "notification" ? "#1E45E1" : "#64748B"}
+                    onClick={handleShowNotification}
+                  />
+
+                  {state.UsersList.hotelDetailsinPg.unreadNotificationCount > 0 && (
+                    <span className="absolute -top-1.5 -right-1.5 min-h-[18px] min-w-[18px] px-1 flex justify-center items-center bg-orange-500 text-white text-[10px] text-center rounded-full border-2 border-white font-semibold leading-none">
+                      {state.UsersList?.hotelDetailsinPg?.unreadNotificationCount}
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              {/* Settings */}
+              <NavLink
+                to={settingsPath}
+                onMouseEnter={() => handleMouseEnter("settings")}
+                onMouseLeave={handleMouseLeave}
+                onClick={() => {
+                  handlePageClick("settingNewDesign");
+                  setSettingsPGShow(false);
+                }}
+                className={({ isActive }) =>
+                  `settings-link ${isActive ? "active" : ""} cursor-pointer relative flex flex-col items-center gap-1 no-underline transition-transform`
+                }
+                title="Settings"
+              >
+                <img src={SettingIcon} alt="Settings Icon" className="w-6 h-6" />
+              </NavLink>
+
+              {/* Help Video */}
+              <div
+                onMouseEnter={() => handleMouseEnter("helpVideo")}
+                onMouseLeave={handleMouseLeave}
+                className="relative flex flex-col items-center gap-1 cursor-pointer"
+                title="Help Video"
+              >
+                <img src={HelpVideoIcon} alt="Help Video Icon" className="w-6 h-6" />
+              </div>
+
+            </div>
           </div>
+
         </div>
 
         <SidebarProfile
@@ -2242,7 +2048,8 @@ function Sidebar() {
           navigate={navigate}
           hostelId={allPageHostel_Id}
         />
-      </Container>
+      </div>
+      {/* </Container> */}
 
       {
         logoutformshow && <Logout show={logoutformshow} handleClose={handleCloseLogout} />
@@ -2253,3 +2060,6 @@ function Sidebar() {
 }
 
 export default Sidebar;
+
+
+

@@ -808,7 +808,7 @@ function PgList() {
                 <img src={EmptyState} alt="Empty State"/>
                 <ErrorMessage message={['You do not have access to view paying guest']} type="warning" />
               </div>
-            ) : (
+            ) : floorList?.length > 0 ? (
               <div className="flex flex-col md:flex-row gap-0 h-[calc(100vh-90px)] ms-2">
 
                 <div className="md:w-1/12 sticky top-24 z-10">
@@ -1001,7 +1001,57 @@ function PgList() {
 
                 </div>
               </div>
-            )}
+            )
+          :
+         (!loading) && (
+                    <div
+                      className="d-flex align-items-center justify-content-center animated-text mt-5"
+                      style={{
+                        width: "100%",
+                        margin: "0px auto",
+                        backgroundColor: "",
+                      }}
+                    >
+                      <div>
+                        <div className="d-flex  justify-content-center">
+                          <img
+                            src={EmptyState}
+                            style={{ height: 240, width: 240 }}
+                            alt="Empty state"
+                          />
+                        </div>
+                        <div
+                          className="pb-1 mt-1"
+                          style={{
+                            textAlign: "center",
+                            fontWeight: 600,
+                            fontFamily: "Gilroy",
+                            fontSize: 20,
+                            color: "rgba(75, 75, 75, 1)",
+                          }}
+                        >
+                          No floors available
+                        </div>
+                        <div
+                          className="pb-1 mt-1"
+                          style={{
+                            textAlign: "center",
+                            fontWeight: 500,
+                            fontFamily: "Gilroy",
+                            fontSize: 16,
+                            color: "rgba(75, 75, 75, 1)",
+                          }}
+                        >
+                          There is no floor added to this paying guest.
+                        </div>
+                        <div className="d-flex justify-content-center pb-1 mt-3">
+                          {" "}
+
+                        </div>
+                      </div>
+                      <div></div>
+                    </div>
+                  )}
           </div>
         )}
 
