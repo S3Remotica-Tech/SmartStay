@@ -46,7 +46,7 @@ function Dashboard() {
   const dispatch = useDispatch();
   // const [data, setData] = useState([]);
   // const [dashboardList, setDashboardList] = useState('');
-  const [activeTab, setActiveTab] = useState("3");
+  const [activeTab, setActiveTab] = useState("1");
 
   const [openCards, setOpenCards] = useState({});
   const [showBreakdown, setShowBreakdown] = useState(false);

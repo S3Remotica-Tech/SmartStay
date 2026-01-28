@@ -108,7 +108,15 @@ const payments = [
 ];
 
 
-
+useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+                setOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
   return (
      <div className="mt-6 font-[Gilroy]">
                     <h2 className="text-lg font-semibold text-[#101828] mb-4 font-[Gilroy]">

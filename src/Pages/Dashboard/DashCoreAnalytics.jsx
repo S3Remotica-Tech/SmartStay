@@ -135,7 +135,11 @@ function DashCoreAnalytics() {
                 domain={[0, "dataMax + 10"]}
               />
 
-              <Tooltip />
+              <Tooltip  contentStyle={{
+        fontFamily: "Gilroy",
+        borderRadius: 8,
+        border: "1px solid #E5E7EB",
+      }}/>
 
 
               <Line
@@ -221,7 +225,11 @@ function DashCoreAnalytics() {
                 }}
               />
 
-              <Tooltip
+              <Tooltip  contentStyle={{
+        fontFamily: "Gilroy",
+        borderRadius: 8,
+        border: "1px solid #E5E7EB",
+      }}
                 formatter={(value) => [`₹ ${value} L`, ""]}
                 cursor={{ fill: "transparent" }}
               />

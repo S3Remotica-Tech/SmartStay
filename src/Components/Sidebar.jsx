@@ -1407,7 +1407,7 @@ ${manageOpen ? "mt-1" : "mt-2.5"}`}
               <Route
                 path="/reports/:hostelId?"
                 element={
-                  <div className="mt-1 ml-2.5 mr-1">
+                  <div className="mt-1 ml-2.5 mr-2.5">
                     <Report
                       allPageHostel_Id={allPageHostel_Id}
                       setAllPageHostel_Id={setAllPageHostel_Id}
@@ -1580,7 +1580,7 @@ ${manageOpen ? "mt-1" : "mt-2.5"}`}
               <Route
                 path="/reports/month-revenue"
                 element={
-                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }}>
+                  <div className="bg-[#FFFFFF]">
                     <AnalyticalMonthRevenue />
                   </div>
                 }
@@ -1589,7 +1589,7 @@ ${manageOpen ? "mt-1" : "mt-2.5"}`}
               <Route
                 path="/reports/collected-outstanding"
                 element={
-                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }}>
+                  <div className="bg-[#FFFFFF]">
                     <AnalyticalCollectedOutstanding />
                   </div>
                 }
@@ -1599,7 +1599,7 @@ ${manageOpen ? "mt-1" : "mt-2.5"}`}
               <Route
                 path="/reports/vacant-occupied"
                 element={
-                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }}>
+                  <div className="mt-1 ml-2.5 mr-1">
                     <AnalyticalVacantOcupied />
                   </div>
                 }
@@ -1608,7 +1608,7 @@ ${manageOpen ? "mt-1" : "mt-2.5"}`}
               <Route
                 path="/reports/expense-trend"
                 element={
-                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }}>
+                  <div className="mt-1 ml-2.5 mr-1">
                     <AnalyticalExpenseTrend />
                   </div>
                 }
@@ -1616,7 +1616,7 @@ ${manageOpen ? "mt-1" : "mt-2.5"}`}
               <Route
                 path="/reports/overdue-invoice-trend"
                 element={
-                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }}>
+                  <div className="mt-1 ml-2.5 mr-1">
 
                     <AnalyticalInvoiceTrend />
                   </div>
@@ -1625,7 +1625,7 @@ ${manageOpen ? "mt-1" : "mt-2.5"}`}
               <Route
                 path="/reports/complaints-resolved"
                 element={
-                  <div style={{ marginTop: 0, marginLeft: 2, marginRight: 5 }}>
+                  <div className="mt-1 ml-2.5 mr-1">
 
                     <AnalyticalComplaintsResolved />
                   </div>
