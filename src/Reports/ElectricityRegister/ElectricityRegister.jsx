@@ -10,7 +10,7 @@ import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
+import ComingSoon from "../../Utils/ComingSoon";
 
 function ElectricityRegister() {
 
@@ -220,6 +220,9 @@ function ElectricityRegister() {
           </button>
         </div>
       </div>
+       <div className="w-full col-span-full flex justify-center items-center" >
+                          <ComingSoon />
+                        </div>
     </div>
   )
 }

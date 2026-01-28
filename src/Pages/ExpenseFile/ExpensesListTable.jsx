@@ -560,7 +560,7 @@ function ExpensesListTable(props) {
 
 
 
-            <Button
+            <Button disabled
               style={{
                 marginBottom: 5,
                 marginTop: 10,
@@ -577,7 +577,7 @@ function ExpensesListTable(props) {
               }}
               onClick={handleTagAsset}
             >
-              Tag Asset
+              {/* Tag Asset */} Coming Soon
             </Button>
           </div>
         </Modal.Body>

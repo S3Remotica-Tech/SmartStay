@@ -322,7 +322,7 @@ const RecurringBillList = (props) => {
           >
             Cancel
           </Button>
-          <Button
+          <Button disabled
             style={{
               width: "100%",
               maxWidth: 160,
@@ -337,7 +337,8 @@ const RecurringBillList = (props) => {
             }}
             onClick={handleDelete}
           >
-            Delete
+                              Coming Soon
+            {/* Delete */} 
           </Button>
         </Modal.Footer>
       </Modal>

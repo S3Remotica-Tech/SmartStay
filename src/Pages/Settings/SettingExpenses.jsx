@@ -720,7 +720,7 @@ function SettingExpenses() {
                               category.listSubcategories.map((sub) => (
                                 <li key={sub.subCategoryId} className="d-flex justify-content-between align-items-center mb-2" style={{ fontFamily: "Gilroy" }}>
                                   {sub.subCategoryName}
-                                  <span>
+                                  <span className='d-flex justify-content-between'>
                                     <img
                                       src={Editbtn}
                                       height={15}
@@ -869,7 +869,7 @@ function SettingExpenses() {
                     >
                       Cancel
                     </Button>
-                    <Button
+                    <Button disabled
                       style={{
                         width: "100%",
                         maxWidth: 160,
@@ -882,9 +882,9 @@ function SettingExpenses() {
                         fontFamily: "Gilroy",
                         fontSize: "14px",
                       }}
-                      onClick={confirmDelete}
+                      onClick={confirmDelete} 
                     >
-                      Delete
+                      {/* Delete */} Coming Soon
                     </Button>
                   </Modal.Footer>
                 </Modal>

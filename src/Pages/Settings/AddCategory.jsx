@@ -187,7 +187,7 @@ function AddCategory({ show, handleCloseForm, editCategory }) {
                     )}
 
                     <Modal.Footer style={{ border: "none" }}>
-                        <Button
+                        <Button disabled={editCategory}
                             className="w-100"
                             style={{
                                 backgroundColor: "#1E45E1",
@@ -200,7 +200,7 @@ function AddCategory({ show, handleCloseForm, editCategory }) {
                             }}
                             onClick={handleSubmit}
                         >
-                            {editCategory ? "Save Changes" : "+ Category"}
+                            {editCategory ? "Coming Soon" : "+ Category"}
                         </Button>
                     </Modal.Footer>
                 </Modal.Dialog>
