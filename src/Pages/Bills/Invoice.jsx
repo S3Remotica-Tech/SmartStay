@@ -2102,7 +2102,7 @@ const InvoicePage = () => {
                             >
                               Cancel
                             </Button>
-                            <Button
+                            <Button disabled
                               style={{
                                 width: "100%",
                                 maxWidth: 160,
@@ -2117,7 +2117,7 @@ const InvoicePage = () => {
                               }}
                               onClick={handleBillDeleted}
                             >
-                              Delete
+                              {/* Delete */} Coming Soon
                             </Button>
                           </Modal.Footer>
                         </Modal>

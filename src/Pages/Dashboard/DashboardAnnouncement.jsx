@@ -1833,7 +1833,7 @@ useEffect(() => {
             <ErrorMessage message={state.createAccount?.networkError} />
             : null} */}
 
-          <Button
+          <Button disabled
             className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
             style={{
               backgroundColor: "#1E45E1",
@@ -1847,7 +1847,8 @@ useEffect(() => {
             }}
             onClick={handleSaveAnnonce}
           >
-            {editDetails ? 'Save Changes' : 'Add Announcement'}
+            {/* {editDetails ? 'Save Changes' : 'Add Announcement'} */}
+            Coming Soon
           </Button>
 
         </Modal.Body>

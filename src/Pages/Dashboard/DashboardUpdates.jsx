@@ -1,5 +1,6 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import ComingSoon from "../../Utils/ComingSoon";
 
 function DashboardUpdates() {
   const updates = [
@@ -24,10 +25,14 @@ function DashboardUpdates() {
   ]
 
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col-lg-7 mb-4">
+    <div className="w-full col-span-full flex justify-center items-center" >
+      
+        {/* <div className="col-lg-7 mb-4">
           <div className="card-body">
+
+
+
+
             {updates.map((update, index) => (
               <div key={index} className="position-relative mb-4">
                 <div className="d-flex">
@@ -95,10 +100,12 @@ function DashboardUpdates() {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
 
-        
-      </div>
+       
+          <ComingSoon/>
+ 
+     
     </div>
   );
 }

@@ -10,7 +10,7 @@ import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
+import ComingSoon from "../../Utils/ComingSoon";
 
 function ReceiptRegister() {
 
@@ -54,15 +54,15 @@ function ReceiptRegister() {
 
   const reportCards = [
     // { title: "Receipt Register" },
-     { title: "Bank Transaction Register" },
+    { title: "Bank Transaction Register" },
     { title: "Tenant Register" },
     { title: "Occupancy" },
     { title: "Expense Register" },
     { title: "Vendor Ledger" },
-     { title: "Electricity Billing Register" },
-     { title: "Complaint Register" },
+    { title: "Electricity Billing Register" },
+    { title: "Complaint Register" },
     { title: "Request Register" },
-   { title: "Final Settlement" },
+    { title: "Final Settlement" },
     { title: "Invoice Register" },
   ];
 
@@ -219,7 +219,16 @@ function ReceiptRegister() {
             Export
           </button>
         </div>
+
+
+
+
+
       </div>
+      <div className="w-full col-span-full flex justify-center items-center" >
+        <ComingSoon />
+      </div>
+
     </div>
   )
 }

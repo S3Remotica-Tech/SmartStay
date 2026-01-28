@@ -121,7 +121,10 @@ function WriteOffForm(props) {
           >
             Cancel
           </Button>
-          <Button style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400 }} variant="primary">Conform</Button>
+          <Button disabled style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400 }} variant="primary">
+            {/* Conform */}
+            Coming Soon
+            </Button>
         </Modal.Footer>
       </Modal>
 

@@ -1068,7 +1068,7 @@ function Banking() {
                             if (!canWriteBanking) {
                               e.preventDefault();
                             } else {
-                              handleAccountTypeChange(item);
+                              // handleAccountTypeChange(item);
                             }
                           }}
                           className={
@@ -1450,8 +1450,8 @@ function Banking() {
             <div>
               {!loader && sortedData.length === 0 && canReadBanking &&
 
-                <div>
-
+                <div className="flex justify-center mt-3">
+<div>
                   <div style={{ textAlign: "center" }}>
                     <img
                       src={emptyimg}
@@ -1483,6 +1483,7 @@ function Banking() {
                     }}
                   >
                     There are no Transaction available.{" "}
+                  </div>
                   </div>
                 </div>
               }
@@ -1583,7 +1584,7 @@ function Banking() {
             >
               Cancel
             </Button>
-            <Button
+            <Button disabled
               style={{
                 width: "100%",
                 maxWidth: 160,
@@ -1598,7 +1599,7 @@ function Banking() {
               }}
               onClick={handleDeleteBank}
             >
-              Delete
+              {/* Delete */} Coming Soon
             </Button>
           </Modal.Footer>
         </Modal>
@@ -1888,8 +1889,8 @@ function Banking() {
 
 
             <div className="text-end mt-3">
-              <Button variant="primary" >
-                Transfer
+              <Button variant="primary" disabled>
+                {/* Transfer */} Coming Soon
               </Button>
             </div>
           </Modal.Body>

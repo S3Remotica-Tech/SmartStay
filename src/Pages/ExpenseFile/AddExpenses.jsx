@@ -964,6 +964,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
 
           <Modal.Footer style={{ border: "none" }} className="mt-1 pt-1">
             <Button
+            disabled={currentItem}
               onClick={handleAddExpenses}
               className="w-100"
               style={{
@@ -975,7 +976,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
                 padding: 12,
               }}
             >
-              {currentItem ? "Save Changes" : "Add Expense"}
+              {currentItem ? "Coming Soon" : "Add Expense"}
             </Button>
           </Modal.Footer>
         </Modal.Dialog>

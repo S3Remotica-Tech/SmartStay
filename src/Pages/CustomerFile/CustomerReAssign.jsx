@@ -584,6 +584,8 @@ function CustomerReAssign(props) {
       const invoiceList = customerData.invoiceResponseList || [];
       const bedHistory = customerData.bedHistory || [];
 
+console.log("hostelInfo",hostelInfo)
+
       setCurrentFloor(hostelInfo.floorName || "");
       setCustomerName(customerData.fullName || "");
       setCurrentRoom(hostelInfo.roomName || "");
