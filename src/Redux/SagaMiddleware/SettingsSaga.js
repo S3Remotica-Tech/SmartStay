@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { PlanList, ChangeRoomHostelElectricity, getModules, RecurringRole, AddExpencesCategory, EditExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit, GetAllRoles, AddSettingRole, AddSettingPermission, editRolePermission, deleteRolePermission, addStaffUser, GetAllStaff, GetAllReport, AddGeneral, GetAllGeneral, passwordChangesinstaff, generalDelete, passwordCheck, Editcomplainttype, DeleteElectricity, newSubscription, SubscriptionList, SubscriptionPdfDownload, SettingsAddRecurring, GetBillsFrequncyTypes, GetBillsNotificationTypes, SettingsGetRecurring, AddInvoiceSettings, SettingsGetInvoice, AddBillTemplate, getTemplateList, AddGlobalSettingTemplate, SettingsGetGlobal, EditGeneral, EditStaffUser } from "../Action/SettingsAction"
+import { EditExpencesSubCategory,PlanList, ChangeRoomHostelElectricity, getModules, RecurringRole, AddExpencesCategory, EditExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit, GetAllRoles, AddSettingRole, AddSettingPermission, editRolePermission, deleteRolePermission, addStaffUser, GetAllStaff, GetAllReport, AddGeneral, GetAllGeneral, passwordChangesinstaff, generalDelete, passwordCheck, Editcomplainttype, DeleteElectricity, newSubscription, SubscriptionList, SubscriptionPdfDownload, SettingsAddRecurring, GetBillsFrequncyTypes, GetBillsNotificationTypes, SettingsGetRecurring, AddInvoiceSettings, SettingsGetInvoice, AddBillTemplate, getTemplateList, AddGlobalSettingTemplate, SettingsGetGlobal, EditGeneral, EditStaffUser } from "../Action/SettingsAction"
 import Cookies from 'universal-cookie';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
@@ -302,30 +302,52 @@ function* handleEditCategory(params) {
       const response = yield call(EditExpencesCategory, params.payload);
 
       if (response?.status === 200) {
-         yield put({ type: 'EDIT-EXPENCES-CATEGORY', payload: { response: response.data, statusCode: response?.status, message: response?.data?.message } })
+         yield put({ type: 'EDIT-EXPENCES-CATEGORY', payload: { response: response.data, statusCode: response?.status, message: response?.data } })
 
          var toastStyle = { backgroundColor: "#E6F6E6", color: "black", width: "100%", borderRadius: "60px", height: "20px", fontFamily: "Gilroy", fontWeight: 600, fontSize: 14, textAlign: "start", display: "flex", alignItems: "center", padding: "10px", };
-         toast.success(response.data.message, {
+         toast.success("Updated Successfully", {
             position: "bottom-center", autoClose: 2000, hideProgressBar: true, closeButton: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, style: toastStyle
          })
       }
 
-      else if (response?.status === 201) {
-         yield put({ type: 'ERROR', payload: response?.data?.message })
-         toast.error(response.data.message, {
-            position: "bottom-center", autoClose: 2000, hideProgressBar: true, closeButton: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined,
-         })
-      }
-      if (response) {
-         refreshToken(response)
-      }
+    
+
+      
    }
    catch (error) {
       yield* handleApiError(error);
-     
+       if (error.code === 'ERR_BAD_REQUEST') {
+         if (error.status === 400) {
+            yield put({ type: 'ALREADY_EXPENCE_CATEGORY_ERROR', payload: error.response.data })
+         }
+      } 
    }
 }
 
+function* handleEditSubCategory(params) {
+   try {
+      const response = yield call(EditExpencesSubCategory, params.payload);
+
+      if (response?.status === 200) {
+         yield put({ type: 'EDIT-EXPENCES-SUB-CATEGORY', payload: { response: response.data, statusCode: response?.status, message: response?.data } })
+
+         var toastStyle = { backgroundColor: "#E6F6E6", color: "black", width: "100%", borderRadius: "60px", height: "20px", fontFamily: "Gilroy", fontWeight: 600, fontSize: 14, textAlign: "start", display: "flex", alignItems: "center", padding: "10px", };
+         toast.success("Updated Successfully", {
+            position: "bottom-center", autoClose: 2000, hideProgressBar: true, closeButton: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, style: toastStyle
+         })
+      
+      }
+            
+   }
+   catch (error) {
+      yield* handleApiError(error);
+       if (error.code === 'ERR_BAD_REQUEST') {
+         if (error.status === 400) {
+            yield put({ type: 'ALREADY_EXPENCE_CATEGORY_ERROR', payload: error.response.data })
+         }
+      } 
+   }
+}
 
 
 function* handleDeleteExpencescategory(action) {
@@ -1943,6 +1965,7 @@ function refreshToken(response) {
 
 
 function* SettingsSaga() {
+   yield takeEvery('EDITSUBCATEGORYSAGA',handleEditSubCategory)
    yield takeEvery('ROOMHOSTELEBCHANGE', handleChangeRoomHostelElectricity)
    yield takeEvery('GETMODULES', handleGetModules)
    yield takeEvery('EXPENCES-CATEGORY-LIST', handleCategorylist)

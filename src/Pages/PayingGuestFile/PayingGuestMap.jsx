@@ -371,7 +371,7 @@ function PayingGuestMap(props) {
                               fontSize: 14,
                               fontWeight: 600,
                               fontFamily: "Gilroy",
-                              color: !canUpdatePayingGuests ? "#A0A0A0" : "#1E45E1",
+                              color: !canUpdatePayingGuests  ? "#A0A0A0" : "#1E45E1",
                               cursor: "pointer",
                               marginBottom: 0,
                             }}

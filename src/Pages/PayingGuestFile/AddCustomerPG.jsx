@@ -136,7 +136,12 @@ function AddCustomer({ showMenu, handleClose }) {
     setFirstnameError("");
   };
 
-
+ useEffect(() => {
+   
+    if (firstnameRef.current) {
+      firstnameRef.current.focus();
+    }
+  }, []);
 
 
   useEffect(() => {

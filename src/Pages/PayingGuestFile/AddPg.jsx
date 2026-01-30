@@ -149,6 +149,12 @@ function AddPg({ show, handleClose, currentItem }) {
     }
   };
 
+
+  useEffect(() => {
+    if (pgNameRef.current) {
+      pgNameRef.current.focus();
+    }
+  }, []); 
   const handlePgNameChange = (e) => {
     const value = e.target.value;
     setPgNameError("");
@@ -824,9 +830,9 @@ function AddPg({ show, handleClose, currentItem }) {
                   <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
                 <Form.Control
-                  value={pgName}
+                  value={pgName} 
                   onChange={handlePgNameChange}
-                  type="text"
+                  type="text" 
                   ref={pgNameRef}
                   placeholder="Enter PG Name"
                   style={{

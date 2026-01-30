@@ -22,17 +22,14 @@ function SettingExpenses() {
   const state = useSelector(state => state)
   const dispatch = useDispatch()
 
-  // const [formLoading, setFormLoading] = useState(false)
+
 
   const [type, setType] = useState([]);
   const [showSubCategoryForm, setShowSubCategoryForm] = useState(false)
   const [subType, setSubType] = useState('');
-  // const [isSubCategory, setIsSubCategory] = useState(false);
+
   const [showform, setShowForm] = useState(false);
-  // const [edit, setEdit] = useState(false);
-  // const [cateogoryerrmsg, setCategoryErrmsg] = useState('');
-  // const [subcateogoryerrmsg, setSubCategoryErrmsg] = useState('');
-  // const [totalErrormsg, setTotalErrmsg] = useState('');
+
   const [showModal, setShowModal] = useState(false);
   const [subCategoryDetails, setSubCategoryDetails] = useState('')
   const [deleteCategoryId, setDeleteCategoryId] = useState('')
@@ -41,12 +38,9 @@ function SettingExpenses() {
   const [expensescurrentPage, setExpensescurrentPage] = useState(1);
   const [deletesubcatItems, setDeleteSubCatItems] = useState('')
   const [deletesubcat, setDeleteSubCat] = useState(false)
-  // const [showPopup, setShowPopup] = useState(false);
 
-  // const canReadExpense = useHasPermission("Expense", "canRead");
-  // const canWriteExpense = useHasPermission("Expense", "canWrite");
-  // const canUpdateExpense = useHasPermission("Expense", "canUpdate");
-  // const canDeleteExpense = useHasPermission("Expense", "canDelete");
+
+
 
   const {
     canWriteModule: canWriteExpense,
@@ -58,7 +52,7 @@ function SettingExpenses() {
   useEffect(() => {
     if (!canReadExpense) {
       setLoading(false);
-    } 
+    }
   }, [canReadExpense]);
 
 
@@ -220,7 +214,7 @@ function SettingExpenses() {
 
 
   useEffect(() => {
-    if (state.Settings.addexpencesStatuscode === 201 || state.Settings.editexpencesStatuscode === 200 || state.Settings.deleteexpencesStatusCode === 200) {
+    if (state.Settings.addexpencesStatuscode === 201 || state.Settings.editexpencesStatuscode === 200 || state.Settings.deleteexpencesStatusCode === 200 || state.Settings.editExpencesSubCategoryStatuscode === 200) {
       setShowForm(false)
       setShowSubCategoryForm(false)
       // setFormLoading(false)
@@ -235,17 +229,14 @@ function SettingExpenses() {
 
       setTimeout(() => {
         dispatch({ type: 'CLEAR_ADD_EXPENCES_STATUS_CODE' })
-      }, 1000)
-
-      setTimeout(() => {
+        dispatch({ type: 'REMOVE-EDIT-EXPENCES-SUB-CATEGORY' })
         dispatch({ type: 'CLEAR_EDITEXPENCES_CATEGORY_STATUS_CODE' })
-      }, 1000)
-
-      setTimeout(() => {
         dispatch({ type: 'CLEAR_DELETE_EXPENCES_STATUS_CODE' })
       }, 1000)
+
+
     }
-  }, [state.login.selectedHostel_Id, state.Settings.addexpencesStatuscode, state.Settings.editexpencesStatuscode, state.Settings.deleteexpencesStatusCode])
+  }, [state.login.selectedHostel_Id, state.Settings.editExpencesSubCategoryStatuscode, state.Settings.addexpencesStatuscode, state.Settings.editexpencesStatuscode, state.Settings.deleteexpencesStatusCode])
 
 
   // const [options, setOptions] = useState([]);
@@ -279,127 +270,10 @@ function SettingExpenses() {
   }
 
 
-  // const handleChange = (selected) => {
-  //   dispatch({ type: 'CLEAR_ALREADY_EXPENCE_CATEGORY_ERROR' })
-  //   setSelectedOptions(selected);
-
-  //   setType(selected)
-  //   setCategoryErrmsg("")
-  // };
 
 
 
 
-  // const handleCreate = (inputValue) => {
-  //   // dispatch({ type: 'CLEAR_ALREADY_EXPENCE_CATEGORY_ERROR' })
-  //   const existingCategoryIndex = options.findIndex(option => option.value === selectedOptions?.value);
-
-
-
-  // if (existingCategoryIndex !== -1) {
-
-  //   const updatedOptions = [...options];
-  //   updatedOptions[existingCategoryIndex] = { 
-  //     ...updatedOptions[existingCategoryIndex], 
-  //     label: cleanedValue 
-  //   };
-
-  //   setOptions(updatedOptions);
-  //   setSelectedOptions(updatedOptions[existingCategoryIndex]);
-  //   setType(updatedOptions[existingCategoryIndex]);
-
-  //     dispatch({
-  //       type: 'EDIT_EXPENCES_CATEGORY',
-  //       payload: { id: selectedOptions.value, hostel_id: state.login.selectedHostel_Id, name: inputValue.trim(), type: 1 }
-  //     });
-  //     // setFormLoading(true)
-
-
-  // } else {
-
-  //   const newOption = { value: cleanedValue, label: cleanedValue };
-
-  //   setOptions((prev) => [...prev, newOption]);
-  //   setSelectedOptions(newOption);
-  //   setType(newOption);
-
-  //     dispatch({
-  //       type: 'EXPENCES-CATEGORY-ADD',
-  //       payload: {
-  //         hostelId: state.login.selectedHostel_Id,
-  //         categoryName: inputValue.trim(),
-  //       }
-  //     });
-  //     // setFormLoading(true)
-  //   }
-  // };
-
-  // const handleCreate = (inputValue) => {
-  //   const cleanedValue = inputValue.trim();   
-
-  //   const existingCategoryIndex = options.findIndex(
-  //     option => option.value === selectedOptions?.value
-  //   );
-
-  //   if (existingCategoryIndex !== -1) {
-
-  //     const updatedOptions = [...options];
-  //     updatedOptions[existingCategoryIndex] = { 
-  //       ...updatedOptions[existingCategoryIndex], 
-  //       label: cleanedValue 
-  //     };
-
-  //     setOptions(updatedOptions);
-  //     setSelectedOptions(updatedOptions[existingCategoryIndex]);
-  //     setType(updatedOptions[existingCategoryIndex]);
-
-  //     dispatch({
-  //       type: 'EDIT_EXPENCES_CATEGORY',
-  //       payload: { 
-  //         id: selectedOptions.value,
-  //         hostel_id: state.login.selectedHostel_Id,
-  //         name: cleanedValue,
-  //         type: 1 
-  //       }
-  //     });
-
-  //   } else {
-
-  //     const newOption = { value: cleanedValue, label: cleanedValue };
-
-  //     setOptions((prev) => [...prev, newOption]);
-  //     setSelectedOptions(newOption);
-  //     setType(newOption);
-
-  //     dispatch({
-  //       type: 'EXPENCES-CATEGORY-ADD',
-  //       payload: {
-  //         hostelId: state.login.selectedHostel_Id,
-  //         categoryName: cleanedValue,
-  //       }
-  //     });
-  //   }
-  // };
-
-
-  // useEffect(() => {
-  //   if (!state.Settings?.Expences || !Array.isArray(state.Settings.Expences)) {
-
-  //     return;
-  //   }
-
-  //   if (selectedOptions) {
-  //     const TakeCategoryId = state.Settings.Expences.filter(
-  //       (view) => selectedOptions?.label && view.categoryName?.toLowerCase() === selectedOptions.label.toLowerCase()
-  //     );
-
-
-
-  //     if (TakeCategoryId.length > 0) {
-  //       setType({ value: TakeCategoryId[0]?.categoryId, label: TakeCategoryId[0]?.categoryName });
-  //     }
-  //   }
-  // }, [state.Settings.addexpencesStatuscode, selectedOptions]);
 
 
 
@@ -411,37 +285,6 @@ function SettingExpenses() {
 
 
 
-  // useEffect(() => {
-  //   let optionArray = [];
-  //   state.Settings?.Expences?.map((view) => {
-
-  //     let optionObj = {
-  //       label: view.categoryName,
-  //       value: view.categoryId
-  //     }
-  //     optionArray.push(optionObj)
-  //     return view
-  //   })
-  //   setOptions(optionArray)
-
-  // }, [state.Settings?.Expences])
-
-
-
-
-
-
-  // const handlesubcategoryAdd = (e) => {
-  //   setSubType(e.target.value)
-  //   setFormError('')
-  //   setTotalErrmsg('')
-  //   if (!e.target.value) {
-  //     setSubCategoryErrmsg("Please Enter  Sub-Category")
-  //   }
-  //   else {
-  //     setSubCategoryErrmsg("")
-  //   }
-  // }
 
 
   const [expandedCategoryId, setExpandedCategoryId] = useState(null);
@@ -549,7 +392,7 @@ function SettingExpenses() {
 
 
       <div
-        className="container-fluid"
+        className=""
         style={{
           position: 'sticky',
           top: 0,
@@ -561,7 +404,7 @@ function SettingExpenses() {
         <div
           className="row align-items-center justify-content-between"
 
-          style={{ marginTop: 20 }}
+          style={{ }}
         >
 
           <div className="col-12 col-md-6 text-center text-md-start mb-2 mb-md-0">
@@ -592,19 +435,7 @@ function SettingExpenses() {
       </div>
 
 
-      {/* {showPopup && (
-        <div className="d-flex flex-wrap mt-3 align-items-center"
-          style={{ gap: "10px" }} >
-          <p style={{ color: "red", fontFamily: "Gilroy", fontSize: 14 }} className="col-12 col-sm-6 col-md-6 col-lg-9">
-            Please add a hostel before adding Expense information.
-          </p>
 
-
-
-        </div>
-
-
-      )} */}
 
       {
         !canReadExpense ? (
@@ -629,72 +460,72 @@ function SettingExpenses() {
           (
 
 
-            <div className="mt-4 pe-4 d-flex flex-wrap justify-content-between show-scrolls" style={{
+            <div className="mt-4  d-flex flex-wrap  show-scrolls" style={{
               alignItems: "flex-start", minHeight: "450px",
-              overflowY: "auto", backgroundColor: "", columnGap: "20px",
-              rowGap: "10px",
+              overflowY: "auto", backgroundColor: "", columnGap: "2px",
+              rowGap: "5px",
             }}>
 
 
 
-              <div className='row ms-3 g-1' style={{ width: "100%" }}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 w-full">
 
-                {expensesFilterddata && expensesFilterddata.length > 0 ? (
+                {expensesFilterddata && expensesFilterddata.length > 0 && (
                   expensesFilterddata.map((category) => (
 
-                    <div key={category.categoryId}
+                    <div
+                      key={category.categoryId}
+                      className="relative pb-[10px]"
+                    >
+                      <Card className="flex items-center justify-between border rounded p-2 font-[Gilroy] text-[16px] font-medium">
 
-                      className="col-lg-4"
-                      style={{
-                        // flex: "0 0 48%",
-                        position: "relative",
-                        paddingBottom: "30px",
-                        // backgroundColor:"orangered"
-                      }}>
-                      <Card className="d-flex justify-content-between card-height-sm border rounded p-2"
-                        style={{ fontFamily: "Gilroy", fontSize: 16, fontWeight: 500 }}>
 
-                        <div className="d-flex justify-content-between align-items-center border-0 gap-4 flex-wrap card-inner">
-                          <div className="category-title">{category.categoryName}</div>
+                        <div className="flex items-center gap-4 w-full  min-w-0">
+                          <div className="flex-1 min-w-0">
+                            <label
+                              className="block truncate"
+                              title={category.categoryName}
+                            >
+                              {category.categoryName}
+                            </label>
+                          </div>
 
-                          <div className="d-flex align-items-center " style={{ gap: "10px" }}>
+
+                          <div className="flex items-center gap-[10px] shrink-0">
 
                             <img
                               src={Editbtn}
-                              height={15}
-                              width={15}
+                              className={`h-[15px] w-[15px] ${canUpdateExpense ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-40"
+                                }`}
                               alt="edit"
-                              style={{
-                                cursor: canUpdateExpense ? "pointer" : "not-allowed",
-                                opacity: canUpdateExpense ? 1 : 0.4
+                              onClick={() => {
+                                if (canUpdateExpense) handleEditCategory(category);
                               }}
-                              onClick={() => { if (canUpdateExpense) handleEditCategory(category); }}
                             />
-                            <AddCircle onClick={() => { if (canWriteExpense) handleCreateSubCategory(category) }}
+                            <AddCircle
                               size="16"
-                              color="#FF9900" style={{ cursor: canWriteExpense ? "pointer" : "not-allowed", }}
+                              color="#FF9900"
+                              className={canWriteExpense ? "cursor-pointer" : "cursor-not-allowed opacity-40"}
+                              onClick={() => {
+                                if (canWriteExpense) handleCreateSubCategory(category);
+                              }}
                             />
 
                             <img
                               src={Closebtn}
-                              height={15}
-                              width={15}
+                              className={`h-[15px] w-[15px] ${canDeleteExpense ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-40"
+                                }`}
                               alt="delete"
-                              style={{
-                                cursor: canDeleteExpense ? "pointer" : "not-allowed",
-                                opacity: canDeleteExpense ? 1 : 0.4
-                              }}
                               onClick={() => {
-                                if (canDeleteExpense) {
-                                  handleDeleteExpensesCategory(category);
-                                }
+                                if (canDeleteExpense) handleDeleteExpensesCategory(category);
                               }}
-
                             />
                             <i
                               onClick={(event) => handleToggleDropdown(category.categoryId, event)}
-                              className={`bi ${expandedCategoryId === category.categoryId ? "bi-chevron-up" : "bi-chevron-down"}`}
-                              style={{ cursor: "pointer" }}
+                              className={`bi ${expandedCategoryId === category.categoryId
+                                ? "bi-chevron-up"
+                                : "bi-chevron-down"
+                                } cursor-pointer`}
                             />
                           </div>
                         </div>
@@ -705,6 +536,7 @@ function SettingExpenses() {
                           position: "absolute",
                           top: "50%",
                           left: 0,
+                          right: 0,
                           width: "100%",
                           zIndex: 999,
                           backgroundColor: "#fff",
@@ -715,11 +547,18 @@ function SettingExpenses() {
                           overflowY: "auto",
                           marginTop: "5px"
                         }}>
-                          <ul className="p-2 m-0">
+                          {/* <ul className="p-2 m-0 overflow-hidden">
                             {category.listSubcategories && category?.listSubcategories?.length > 0 ? (
                               category.listSubcategories.map((sub) => (
-                                <li key={sub.subCategoryId} className="d-flex justify-content-between align-items-center mb-2" style={{ fontFamily: "Gilroy" }}>
-                                  {sub.subCategoryName}
+                                <li key={sub.subCategoryId} className="d-flex justify-content-between align-items-center mb-2"
+                                style={{ fontFamily: "Gilroy" }}>
+                                  <div
+    className="flex-grow-1 text-truncate "
+    title={sub.subCategoryName}
+    style={{ minWidth: 0 }}
+  >
+    {sub.subCategoryName}
+  </div>
                                   <span className='d-flex justify-content-between'>
                                     <img
                                       src={Editbtn}
@@ -754,142 +593,199 @@ function SettingExpenses() {
                                 </li>
                               ))
                             ) : (
-                              <span className="text-muted" style={{ fontFamily: "Gilroy" }}>No Subcategories Available</span>
+                              <span className="text-muted text-sm" style={{ fontFamily: "Gilroy" }}>No Subcategories Available</span>
                             )}
-                          </ul>
+                          </ul> */}
+
+                          <ul className="p-2 m-0 overflow-hidden">
+  {category.listSubcategories &&
+  category.listSubcategories.length > 0 ? (
+    category.listSubcategories.map((sub) => (
+      <li
+        key={sub.subCategoryId}
+        className="flex items-center justify-between mb-2 font-[Gilroy]"
+      >
+        {/* TEXT */}
+        <div
+          className="flex-1 min-w-0 truncate"
+          title={sub.subCategoryName}
+        >
+          {sub.subCategoryName}
+        </div>
+
+        {/* ACTION ICONS */}
+        <div className="flex items-center gap-2 shrink-0">
+          <img
+            src={Editbtn}
+            className={`h-[15px] w-[15px] ${
+              canUpdateExpense
+                ? "cursor-pointer opacity-100"
+                : "cursor-not-allowed opacity-40"
+            }`}
+            alt="edit"
+            onClick={() =>
+              canUpdateExpense && handleSubEditCategory(sub)
+            }
+          />
+
+          <img
+            src={Closebtn}
+            className={`h-[15px] w-[15px] ${
+              canDeleteExpense
+                ? "cursor-pointer opacity-100"
+                : "cursor-not-allowed opacity-40"
+            }`}
+            alt="delete"
+            onClick={() =>
+              canDeleteExpense && handleDeleteSubCategory(sub)
+            }
+          />
+        </div>
+      </li>
+    ))
+  ) : (
+    <span className="text-sm text-gray-400 font-[Gilroy]">
+      No Subcategories Available
+    </span>
+  )}
+</ul>
+
                         </div>
                       )}
 
                     </div>
                   ))
-                ) : !loading && (
+                )}
+              </div>
+
+              {!loading &&  expensesFilterddata.length === 0 &&(
 
 
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      marginTop: 90,
+                <div className='w-full'
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: 90,
 
-                    }}
-                  >
-                    <div style={{ textAlign: "center" }}>
-                      <img
-                        src={EmptyState}
-                        alt="emptystate"
-                        style={{ maxWidth: "250px" }}
-                      />
-                      <div
-                        style={{
-                          fontWeight: 600,
-                          fontFamily: "Gilroy",
-                          fontSize: 18,
-                          color: "rgba(75, 75, 75, 1)",
-                        }}
-                      >
-                        No Expense available
-                      </div>
+                  }}
+                >
+                  <div style={{ textAlign: "center" }}>
+                    <img
+                      src={EmptyState}
+                      alt="emptystate"
+                      style={{ maxWidth: "250px" }}
+                    />
+                    <div
+                      style={{
+                        fontWeight: 600,
+                        fontFamily: "Gilroy",
+                        fontSize: 18,
+                        color: "rgba(75, 75, 75, 1)",
+                      }}
+                    >
+                      No Expense available
                     </div>
                   </div>
+                </div>
 
 
 
-                )}
+              )}
 
 
 
 
 
 
-                {showform && (
-                  <AddCategory show={showform} handleCloseForm={handleCloseForm} editCategory={type} />
-                )}
+              {showform && (
+                <AddCategory show={showform} handleCloseForm={handleCloseForm} editCategory={type} />
+              )}
 
-                {
-                  showSubCategoryForm && <AddSubCategory show={showSubCategoryForm} handleCloseForm={handleCloseSubCategory} AddSubCategory={subType} editSubCategory={subCategoryDetails} />
-                }
+              {
+                showSubCategoryForm && <AddSubCategory show={showSubCategoryForm} handleCloseForm={handleCloseSubCategory} AddSubCategory={subType} editSubCategory={subCategoryDetails} />
+              }
 
-                <Modal
-                  show={showModal} onHide={cancelDelete}
-                  centered
-                  backdrop="static"
-                  dialogClassName="custom-delete-modal"
+              <Modal
+                show={showModal} onHide={cancelDelete}
+                centered
+                backdrop="static"
+                dialogClassName="custom-delete-modal"
 
-                >
-                  <Modal.Header style={{ borderBottom: 'none' }}>
-                    <Modal.Title
-                      className="w-100 text-center mt-2"
-                      style={{
-                        fontSize: '18px',
-                        fontFamily: 'Gilroy',
-
-                        fontWeight: 600,
-                        color: '#222222',
-
-                      }}
-                    >
-                      {deletesubcat ? "Delete Sub-Category?" : "Delete Category?"}
-                    </Modal.Title>
-                  </Modal.Header>
-
-                  <Modal.Body
-                    className="text-center"
+              >
+                <Modal.Header style={{ borderBottom: 'none' }}>
+                  <Modal.Title
+                    className="w-100 text-center mt-2"
                     style={{
-                      fontSize: 14,
-                      fontWeight: 500,
+                      fontSize: '18px',
                       fontFamily: 'Gilroy',
-                      color: '#646464',
 
-                      marginTop: '-27px'
+                      fontWeight: 600,
+                      color: '#222222',
+
                     }}
                   >
-                    {deletesubcat ? "Are you sure you want to delete this Expences-Sub-category?" : "Are you sure you want to delete this Expences-Category?"}
-                  </Modal.Body>
+                    {deletesubcat ? "Delete Sub-Category?" : "Delete Category?"}
+                  </Modal.Title>
+                </Modal.Header>
 
-                  <Modal.Footer
-                    className="d-flex justify-content-center"
-                    style={{ borderTop: 'none', marginTop: '-10px' }}>
-                    <Button
-                      className="me-2"
-                      style={{
-                        width: "100%",
-                        maxWidth: 160,
-                        height: 52,
-                        borderRadius: 8,
-                        padding: "12px 20px",
-                        background: "#fff",
-                        color: "#1E45E1",
-                        border: "1px solid #1E45E1",
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                        fontSize: "14px",
-                      }}
-                      onClick={cancelDelete}
-                    >
-                      Cancel
-                    </Button>
-                    <Button disabled
-                      style={{
-                        width: "100%",
-                        maxWidth: 160,
-                        height: 52,
-                        borderRadius: 8,
-                        padding: "12px 20px",
-                        background: "#1E45E1",
-                        color: "#FFFFFF",
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                        fontSize: "14px",
-                      }}
-                      onClick={confirmDelete} 
-                    >
-                      {/* Delete */} Coming Soon
-                    </Button>
-                  </Modal.Footer>
-                </Modal>
+                <Modal.Body
+                  className="text-center"
+                  style={{
+                    fontSize: 14,
+                    fontWeight: 500,
+                    fontFamily: 'Gilroy',
+                    color: '#646464',
 
-              </div>
+                    marginTop: '-27px'
+                  }}
+                >
+                  {deletesubcat ? "Are you sure you want to delete this Expences-Sub-category?" : "Are you sure you want to delete this Expences-Category?"}
+                </Modal.Body>
+
+                <Modal.Footer
+                  className="d-flex justify-content-center"
+                  style={{ borderTop: 'none', marginTop: '-10px' }}>
+                  <Button
+                    className="me-2"
+                    style={{
+                      width: "100%",
+                      maxWidth: 160,
+                      height: 52,
+                      borderRadius: 8,
+                      padding: "12px 20px",
+                      background: "#fff",
+                      color: "#1E45E1",
+                      border: "1px solid #1E45E1",
+                      fontWeight: 600,
+                      fontFamily: "Gilroy",
+                      fontSize: "14px",
+                    }}
+                    onClick={cancelDelete}
+                  >
+                    Cancel
+                  </Button>
+                  <Button disabled
+                    style={{
+                      width: "100%",
+                      maxWidth: 160,
+                      height: 52,
+                      borderRadius: 8,
+                      padding: "12px 20px",
+                      background: "#1E45E1",
+                      color: "#FFFFFF",
+                      fontWeight: 600,
+                      fontFamily: "Gilroy",
+                      fontSize: "14px",
+                    }}
+                    onClick={confirmDelete}
+                  >
+                    {/* Delete */} Coming Soon
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+
+
             </div>
           )
       }

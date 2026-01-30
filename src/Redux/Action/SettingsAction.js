@@ -7,14 +7,18 @@ export async function AddExpencesCategory(Expences) {
   });
 }
 
-export function EditExpencesCategory() {
-  new Promise((resolve) => {
-  resolve({status: 200});
-})
-  // return await AxiosConfig.post("/edit/expense_category", Expences, {
-  //   data: Expences,
-  // });
+export async function EditExpencesCategory(Expences) {
+ return await AxiosConfigV2.put(`/v2/expense/category/${Expences.hostelId}/${Expences.categoryId}`, Expences, {
+    data: Expences,
+  });
 }
+
+export async function EditExpencesSubCategory(Expences) {
+ return await AxiosConfigV2.put(`/v2/expense/subCategory/${Expences.hostelId}/${Expences.subCategoryId}`, Expences, {
+    data: Expences,
+  });
+}
+
 
 export async function ExpencesCategorylist(hostelId) {
   return await AxiosConfigV2.get(`/v2/expense/category/${hostelId}`);
@@ -26,9 +30,7 @@ export  function DeleteExpencesCategoryList() {
   new Promise((resolve) => {
   resolve({status: 200});
 })
-  // return await AxiosConfig.post("/delete/delete-category", expences, {
-  //   data: expences,
-  // });
+  
 }
 
 // export async function Addcomplainttype(type) {
