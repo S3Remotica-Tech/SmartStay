@@ -47,39 +47,46 @@ function AddSubCategory({ show, handleCloseForm, AddSubCategory, editSubCategory
 
     const handleSubmit = () => {
         dispatch({ type: "CLEAR_ALREADY_EXPENCE_CATEGORY_ERROR" });
-
-        if (!subCategory.trim()) {
-            setSubCategoryError("Please enter sub category");
+        const trimmedSubCategory = subCategory.trim();
+        if (!trimmedSubCategory) {
+            setSubCategoryError("Please Enter Sub Category");
+            focusInput();
+            return;
+        }
+        if (
+            editSubCategory &&
+            trimmedSubCategory === editSubCategory.subCategoryName?.trim()
+        ) {
+            setSubCategoryError("No changes detected");
             focusInput();
             return;
         }
 
         if (editSubCategory) {
+            dispatch({
+                type: "EDITSUBCATEGORYSAGA",
+                payload: {
+                    subCategoryId: editSubCategory.subCategoryId,
+                    hostelId: state.login.selectedHostel_Id,
+                    newSubCategoryName: trimmedSubCategory,
+                },
+            });
 
-            // dispatch({
-            //     type: "EXPENCES-SUBCATEGORY-UPDATE",
-            //     payload: {
-            //         id: editSubCategory.id,
-            //         hostelId: state.login.selectedHostel_Id,
-            //         categoryName: subCategory.trim(),
-            //     },
-            // });
+            setFormLoading(true);
         } else {
-
             dispatch({
                 type: "EXPENCES-CATEGORY-ADD",
                 payload: {
                     hostelId: state.login.selectedHostel_Id,
                     categoryId: AddSubCategory?.categoryId,
-                    subCategory: subCategory.trim(),
+                    subCategory: trimmedSubCategory,
                 },
-
             });
+
             setFormLoading(true);
         }
-
-        
     };
+
 
     useEffect(() => {
         if (state.Settings?.alreadycategoryerror) {
@@ -193,7 +200,7 @@ function AddSubCategory({ show, handleCloseForm, AddSubCategory, editSubCategory
                     )}
 
                     <Modal.Footer style={{ border: "none" }}>
-                        <Button disabled={editSubCategory}
+                        <Button disabled={formLoading}
                             className="w-100"
                             style={{
                                 backgroundColor: "#1E45E1",
@@ -206,7 +213,7 @@ function AddSubCategory({ show, handleCloseForm, AddSubCategory, editSubCategory
                             }}
                             onClick={handleSubmit}
                         >
-                            {editSubCategory ? "Coming Soon" : "+ Sub Category"}
+                            {editSubCategory ? "Save Changes" : "+ Sub Category"}
                         </Button>
                     </Modal.Footer>
                 </Modal.Dialog>
@@ -216,14 +223,14 @@ function AddSubCategory({ show, handleCloseForm, AddSubCategory, editSubCategory
 }
 
 AddSubCategory.propTypes = {
-  show: PropTypes.func.isRequired,
-  handleCloseForm: PropTypes.func.isRequired,
-  AddSubCategory: PropTypes.func.isRequired,
-  editSubCategory: PropTypes.shape({
-    subCategoryName: PropTypes.string,   
-  }),
-  categoryId: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-    .isRequired, 
+    show: PropTypes.func.isRequired,
+    handleCloseForm: PropTypes.func.isRequired,
+    AddSubCategory: PropTypes.func.isRequired,
+    editSubCategory: PropTypes.shape({
+        subCategoryName: PropTypes.string,
+    }),
+    categoryId: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+        .isRequired,
 };
 
 export default AddSubCategory;

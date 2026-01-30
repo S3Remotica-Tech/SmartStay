@@ -96,7 +96,8 @@ export const initialState = {
   ebSettingsChangesStatusCode: 0,
   planList: [],
   statusCodeForPlanList: 0,
-  billingRuleError: ""
+  billingRuleError: "",
+  editExpencesSubCategoryStatuscode: 0
 
 };
 
@@ -166,6 +167,10 @@ const SettingsReducer = (state = initialState, action) => {
       };
     case "CLEAR_EDITEXPENCES_CATEGORY_STATUS_CODE":
       return { ...state, editexpencesStatuscode: 0 };
+    case "EDIT-EXPENCES-SUB-CATEGORY":
+      return { ...state, editExpencesSubCategoryStatuscode: action.payload.statusCode, };
+    case "REMOVE-EDIT-EXPENCES-SUB-CATEGORY":
+      return { ...state, editExpencesSubCategoryStatuscode: 0 };
     case "DELETE_EXPENCES":
       return { ...state, deleteexpencesStatusCode: action.payload.statusCode };
     case "CLEAR_DELETE_EXPENCES_STATUS_CODE":
@@ -220,10 +225,10 @@ const SettingsReducer = (state = initialState, action) => {
     case "REMOVE_ALREADY_ASSIGNCOMPLAINTTYPE_ERROR":
       return { ...state, alreadyAssignComplainterror: "" };
 
-case 'BILLING_RULE_ERROR':
-   return { ...state, billingRuleError: action.payload };
-   case 'REMOVE_BILLING_RULE_ERROR':
-   return { ...state, billingRuleError: "" };
+    case 'BILLING_RULE_ERROR':
+      return { ...state, billingRuleError: action.payload };
+    case 'REMOVE_BILLING_RULE_ERROR':
+      return { ...state, billingRuleError: "" };
 
     case "PLAN-EXPIRED":
       return { ...state, planExpired: action.payload };

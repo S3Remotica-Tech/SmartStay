@@ -22,17 +22,14 @@ function SettingExpenses() {
   const state = useSelector(state => state)
   const dispatch = useDispatch()
 
-  // const [formLoading, setFormLoading] = useState(false)
+
 
   const [type, setType] = useState([]);
   const [showSubCategoryForm, setShowSubCategoryForm] = useState(false)
   const [subType, setSubType] = useState('');
-  // const [isSubCategory, setIsSubCategory] = useState(false);
+
   const [showform, setShowForm] = useState(false);
-  // const [edit, setEdit] = useState(false);
-  // const [cateogoryerrmsg, setCategoryErrmsg] = useState('');
-  // const [subcateogoryerrmsg, setSubCategoryErrmsg] = useState('');
-  // const [totalErrormsg, setTotalErrmsg] = useState('');
+
   const [showModal, setShowModal] = useState(false);
   const [subCategoryDetails, setSubCategoryDetails] = useState('')
   const [deleteCategoryId, setDeleteCategoryId] = useState('')
@@ -41,12 +38,9 @@ function SettingExpenses() {
   const [expensescurrentPage, setExpensescurrentPage] = useState(1);
   const [deletesubcatItems, setDeleteSubCatItems] = useState('')
   const [deletesubcat, setDeleteSubCat] = useState(false)
-  // const [showPopup, setShowPopup] = useState(false);
 
-  // const canReadExpense = useHasPermission("Expense", "canRead");
-  // const canWriteExpense = useHasPermission("Expense", "canWrite");
-  // const canUpdateExpense = useHasPermission("Expense", "canUpdate");
-  // const canDeleteExpense = useHasPermission("Expense", "canDelete");
+
+
 
   const {
     canWriteModule: canWriteExpense,
@@ -58,7 +52,7 @@ function SettingExpenses() {
   useEffect(() => {
     if (!canReadExpense) {
       setLoading(false);
-    } 
+    }
   }, [canReadExpense]);
 
 
@@ -220,7 +214,7 @@ function SettingExpenses() {
 
 
   useEffect(() => {
-    if (state.Settings.addexpencesStatuscode === 201 || state.Settings.editexpencesStatuscode === 200 || state.Settings.deleteexpencesStatusCode === 200) {
+    if (state.Settings.addexpencesStatuscode === 201 || state.Settings.editexpencesStatuscode === 200 || state.Settings.deleteexpencesStatusCode === 200 || state.Settings.editExpencesSubCategoryStatuscode === 200) {
       setShowForm(false)
       setShowSubCategoryForm(false)
       // setFormLoading(false)
@@ -235,17 +229,14 @@ function SettingExpenses() {
 
       setTimeout(() => {
         dispatch({ type: 'CLEAR_ADD_EXPENCES_STATUS_CODE' })
-      }, 1000)
-
-      setTimeout(() => {
+        dispatch({ type: 'REMOVE-EDIT-EXPENCES-SUB-CATEGORY' })
         dispatch({ type: 'CLEAR_EDITEXPENCES_CATEGORY_STATUS_CODE' })
-      }, 1000)
-
-      setTimeout(() => {
         dispatch({ type: 'CLEAR_DELETE_EXPENCES_STATUS_CODE' })
       }, 1000)
+
+
     }
-  }, [state.login.selectedHostel_Id, state.Settings.addexpencesStatuscode, state.Settings.editexpencesStatuscode, state.Settings.deleteexpencesStatusCode])
+  }, [state.login.selectedHostel_Id, state.Settings.editExpencesSubCategoryStatuscode, state.Settings.addexpencesStatuscode, state.Settings.editexpencesStatuscode, state.Settings.deleteexpencesStatusCode])
 
 
   // const [options, setOptions] = useState([]);
@@ -279,127 +270,10 @@ function SettingExpenses() {
   }
 
 
-  // const handleChange = (selected) => {
-  //   dispatch({ type: 'CLEAR_ALREADY_EXPENCE_CATEGORY_ERROR' })
-  //   setSelectedOptions(selected);
-
-  //   setType(selected)
-  //   setCategoryErrmsg("")
-  // };
 
 
 
 
-  // const handleCreate = (inputValue) => {
-  //   // dispatch({ type: 'CLEAR_ALREADY_EXPENCE_CATEGORY_ERROR' })
-  //   const existingCategoryIndex = options.findIndex(option => option.value === selectedOptions?.value);
-
-
-
-  // if (existingCategoryIndex !== -1) {
-
-  //   const updatedOptions = [...options];
-  //   updatedOptions[existingCategoryIndex] = { 
-  //     ...updatedOptions[existingCategoryIndex], 
-  //     label: cleanedValue 
-  //   };
-
-  //   setOptions(updatedOptions);
-  //   setSelectedOptions(updatedOptions[existingCategoryIndex]);
-  //   setType(updatedOptions[existingCategoryIndex]);
-
-  //     dispatch({
-  //       type: 'EDIT_EXPENCES_CATEGORY',
-  //       payload: { id: selectedOptions.value, hostel_id: state.login.selectedHostel_Id, name: inputValue.trim(), type: 1 }
-  //     });
-  //     // setFormLoading(true)
-
-
-  // } else {
-
-  //   const newOption = { value: cleanedValue, label: cleanedValue };
-
-  //   setOptions((prev) => [...prev, newOption]);
-  //   setSelectedOptions(newOption);
-  //   setType(newOption);
-
-  //     dispatch({
-  //       type: 'EXPENCES-CATEGORY-ADD',
-  //       payload: {
-  //         hostelId: state.login.selectedHostel_Id,
-  //         categoryName: inputValue.trim(),
-  //       }
-  //     });
-  //     // setFormLoading(true)
-  //   }
-  // };
-
-  // const handleCreate = (inputValue) => {
-  //   const cleanedValue = inputValue.trim();   
-
-  //   const existingCategoryIndex = options.findIndex(
-  //     option => option.value === selectedOptions?.value
-  //   );
-
-  //   if (existingCategoryIndex !== -1) {
-
-  //     const updatedOptions = [...options];
-  //     updatedOptions[existingCategoryIndex] = { 
-  //       ...updatedOptions[existingCategoryIndex], 
-  //       label: cleanedValue 
-  //     };
-
-  //     setOptions(updatedOptions);
-  //     setSelectedOptions(updatedOptions[existingCategoryIndex]);
-  //     setType(updatedOptions[existingCategoryIndex]);
-
-  //     dispatch({
-  //       type: 'EDIT_EXPENCES_CATEGORY',
-  //       payload: { 
-  //         id: selectedOptions.value,
-  //         hostel_id: state.login.selectedHostel_Id,
-  //         name: cleanedValue,
-  //         type: 1 
-  //       }
-  //     });
-
-  //   } else {
-
-  //     const newOption = { value: cleanedValue, label: cleanedValue };
-
-  //     setOptions((prev) => [...prev, newOption]);
-  //     setSelectedOptions(newOption);
-  //     setType(newOption);
-
-  //     dispatch({
-  //       type: 'EXPENCES-CATEGORY-ADD',
-  //       payload: {
-  //         hostelId: state.login.selectedHostel_Id,
-  //         categoryName: cleanedValue,
-  //       }
-  //     });
-  //   }
-  // };
-
-
-  // useEffect(() => {
-  //   if (!state.Settings?.Expences || !Array.isArray(state.Settings.Expences)) {
-
-  //     return;
-  //   }
-
-  //   if (selectedOptions) {
-  //     const TakeCategoryId = state.Settings.Expences.filter(
-  //       (view) => selectedOptions?.label && view.categoryName?.toLowerCase() === selectedOptions.label.toLowerCase()
-  //     );
-
-
-
-  //     if (TakeCategoryId.length > 0) {
-  //       setType({ value: TakeCategoryId[0]?.categoryId, label: TakeCategoryId[0]?.categoryName });
-  //     }
-  //   }
-  // }, [state.Settings.addexpencesStatuscode, selectedOptions]);
 
 
 
@@ -411,37 +285,6 @@ function SettingExpenses() {
 
 
 
-  // useEffect(() => {
-  //   let optionArray = [];
-  //   state.Settings?.Expences?.map((view) => {
-
-  //     let optionObj = {
-  //       label: view.categoryName,
-  //       value: view.categoryId
-  //     }
-  //     optionArray.push(optionObj)
-  //     return view
-  //   })
-  //   setOptions(optionArray)
-
-  // }, [state.Settings?.Expences])
-
-
-
-
-
-
-  // const handlesubcategoryAdd = (e) => {
-  //   setSubType(e.target.value)
-  //   setFormError('')
-  //   setTotalErrmsg('')
-  //   if (!e.target.value) {
-  //     setSubCategoryErrmsg("Please Enter  Sub-Category")
-  //   }
-  //   else {
-  //     setSubCategoryErrmsg("")
-  //   }
-  // }
 
 
   const [expandedCategoryId, setExpandedCategoryId] = useState(null);
@@ -592,19 +435,7 @@ function SettingExpenses() {
       </div>
 
 
-      {/* {showPopup && (
-        <div className="d-flex flex-wrap mt-3 align-items-center"
-          style={{ gap: "10px" }} >
-          <p style={{ color: "red", fontFamily: "Gilroy", fontSize: 14 }} className="col-12 col-sm-6 col-md-6 col-lg-9">
-            Please add a hostel before adding Expense information.
-          </p>
 
-
-
-        </div>
-
-
-      )} */}
 
       {
         !canReadExpense ? (
@@ -637,64 +468,61 @@ function SettingExpenses() {
 
 
 
-              <div className='row ms-3 g-1' style={{ width: "100%" }}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full ml-3">
 
                 {expensesFilterddata && expensesFilterddata.length > 0 ? (
                   expensesFilterddata.map((category) => (
 
-                    <div key={category.categoryId}
+                    <div
+                      key={category.categoryId}
+                      className="relative pb-[10px]"
+                    >
+                      <Card className="flex items-center justify-between border rounded p-2 font-[Gilroy] text-[16px] font-medium">
 
-                      className="col-lg-4"
-                      style={{
-                        // flex: "0 0 48%",
-                        position: "relative",
-                        paddingBottom: "30px",
-                        // backgroundColor:"orangered"
-                      }}>
-                      <Card className="d-flex justify-content-between card-height-sm border rounded p-2"
-                        style={{ fontFamily: "Gilroy", fontSize: 16, fontWeight: 500 }}>
 
-                        <div className="d-flex justify-content-between align-items-center border-0 gap-4 flex-wrap card-inner">
-                          <div className="category-title">{category.categoryName}</div>
+                        <div className="flex items-center gap-4 flex-1 min-w-0">
 
-                          <div className="d-flex align-items-center " style={{ gap: "10px" }}>
+
+
+                          <div className="flex-1 min-w-0 truncate">
+                            {category.categoryName}
+                          </div>
+
+                          <div className="flex items-center gap-[10px] shrink-0">
 
                             <img
                               src={Editbtn}
-                              height={15}
-                              width={15}
+                              className={`h-[15px] w-[15px] ${canUpdateExpense ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-40"
+                                }`}
                               alt="edit"
-                              style={{
-                                cursor: canUpdateExpense ? "pointer" : "not-allowed",
-                                opacity: canUpdateExpense ? 1 : 0.4
+                              onClick={() => {
+                                if (canUpdateExpense) handleEditCategory(category);
                               }}
-                              onClick={() => { if (canUpdateExpense) handleEditCategory(category); }}
                             />
-                            <AddCircle onClick={() => { if (canWriteExpense) handleCreateSubCategory(category) }}
+                            <AddCircle
                               size="16"
-                              color="#FF9900" style={{ cursor: canWriteExpense ? "pointer" : "not-allowed", }}
+                              color="#FF9900"
+                              className={canWriteExpense ? "cursor-pointer" : "cursor-not-allowed opacity-40"}
+                              onClick={() => {
+                                if (canWriteExpense) handleCreateSubCategory(category);
+                              }}
                             />
 
                             <img
                               src={Closebtn}
-                              height={15}
-                              width={15}
+                              className={`h-[15px] w-[15px] ${canDeleteExpense ? "cursor-pointer opacity-100" : "cursor-not-allowed opacity-40"
+                                }`}
                               alt="delete"
-                              style={{
-                                cursor: canDeleteExpense ? "pointer" : "not-allowed",
-                                opacity: canDeleteExpense ? 1 : 0.4
-                              }}
                               onClick={() => {
-                                if (canDeleteExpense) {
-                                  handleDeleteExpensesCategory(category);
-                                }
+                                if (canDeleteExpense) handleDeleteExpensesCategory(category);
                               }}
-
                             />
                             <i
                               onClick={(event) => handleToggleDropdown(category.categoryId, event)}
-                              className={`bi ${expandedCategoryId === category.categoryId ? "bi-chevron-up" : "bi-chevron-down"}`}
-                              style={{ cursor: "pointer" }}
+                              className={`bi ${expandedCategoryId === category.categoryId
+                                ? "bi-chevron-up"
+                                : "bi-chevron-down"
+                                } cursor-pointer`}
                             />
                           </div>
                         </div>
@@ -705,6 +533,7 @@ function SettingExpenses() {
                           position: "absolute",
                           top: "50%",
                           left: 0,
+                          right: 0,
                           width: "100%",
                           zIndex: 999,
                           backgroundColor: "#fff",
@@ -754,7 +583,7 @@ function SettingExpenses() {
                                 </li>
                               ))
                             ) : (
-                              <span className="text-muted" style={{ fontFamily: "Gilroy" }}>No Subcategories Available</span>
+                              <span className="text-muted text-sm" style={{ fontFamily: "Gilroy" }}>No Subcategories Available</span>
                             )}
                           </ul>
                         </div>
@@ -882,7 +711,7 @@ function SettingExpenses() {
                         fontFamily: "Gilroy",
                         fontSize: "14px",
                       }}
-                      onClick={confirmDelete} 
+                      onClick={confirmDelete}
                     >
                       {/* Delete */} Coming Soon
                     </Button>

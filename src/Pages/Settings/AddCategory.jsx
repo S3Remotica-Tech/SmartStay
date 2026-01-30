@@ -36,6 +36,8 @@ function AddCategory({ show, handleCloseForm, editCategory }) {
     };
 
 
+    console.log("editCategory", editCategory)
+
     const handleCategoryAdd = (e) => {
         const value = e.target.value;
 
@@ -51,27 +53,44 @@ function AddCategory({ show, handleCloseForm, editCategory }) {
     const handleSubmit = () => {
         dispatch({ type: "CLEAR_ALREADY_EXPENCE_CATEGORY_ERROR" });
 
-        if (!category.trim()) {
+        const trimmedCategory = category.trim();
+
+        if (!trimmedCategory) {
             setCategoryError("Please enter category");
             focusInput();
             return;
         }
+
+
+        if (
+            editCategory &&
+            trimmedCategory === editCategory.categoryName?.trim()
+        ) {
+            setCategoryError("No changes detected");
+            focusInput();
+            return;
+        }
+
         if (editCategory) {
-
-            console.log("excuted")
-
+            dispatch({
+                type: "EDIT_EXPENCES_CATEGORY",
+                payload: {
+                    hostelId: state.login.selectedHostel_Id,
+                    newCategoryName: trimmedCategory,
+                    categoryId: editCategory.categoryId,
+                },
+            });
         } else {
             dispatch({
                 type: "EXPENCES-CATEGORY-ADD",
                 payload: {
                     hostelId: state.login.selectedHostel_Id,
-                    categoryName: category.trim(),
+                    categoryName: trimmedCategory,
                 },
             });
-
-            setFormLoading(true);
         }
 
+        setFormLoading(true);
     };
 
 
@@ -187,7 +206,7 @@ function AddCategory({ show, handleCloseForm, editCategory }) {
                     )}
 
                     <Modal.Footer style={{ border: "none" }}>
-                        <Button disabled={editCategory}
+                        <Button disabled={formLoading}
                             className="w-100"
                             style={{
                                 backgroundColor: "#1E45E1",
@@ -200,7 +219,7 @@ function AddCategory({ show, handleCloseForm, editCategory }) {
                             }}
                             onClick={handleSubmit}
                         >
-                            {editCategory ? "Coming Soon" : "+ Category"}
+                            {editCategory ? "Save Changes" : "+ Category"}
                         </Button>
                     </Modal.Footer>
                 </Modal.Dialog>
@@ -209,11 +228,11 @@ function AddCategory({ show, handleCloseForm, editCategory }) {
     );
 }
 AddCategory.propTypes = {
-  show: PropTypes.func.isRequired,
-  handleCloseForm: PropTypes.func.isRequired,
- editCategory: PropTypes.shape({
-    categoryName: PropTypes.string,
-  }),
-  
+    show: PropTypes.func.isRequired,
+    handleCloseForm: PropTypes.func.isRequired,
+    editCategory: PropTypes.shape({
+        categoryName: PropTypes.string,
+    }),
+
 };
 export default AddCategory;

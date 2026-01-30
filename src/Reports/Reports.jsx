@@ -128,7 +128,7 @@ useEffect(()=>{
       title: "Electricity Billing Register",
       subTitle: "This Month",
       desc: "Meter readings, consumption, and billing records",
-      value: "₹0",
+      value: `₹${reportsList?.electricity?.totalAmount}`,
       icon: Flash,
       color: "text-indigo-600 bg-indigo-100",
     },
@@ -152,7 +152,7 @@ useEffect(()=>{
       title: "Final Settlement",
       subTitle: "This Month",
       desc: "Security deposit refunds and settlement tracking",
-      value: "0",
+       value: `₹${reportsList?.settlement?.totalAmount}`,
       icon: WalletMoney,
       color: "text-[#14B8A6] bg-[#14B8A615]",
     },
@@ -163,12 +163,12 @@ useEffect(()=>{
   const summaryData = [
     {
       label: "Total Revenue (MTD)",
-      value: `₹${reportsList?.outStandingAmount}`,
+      value: `₹${reportsList?.totalRevenue}`,
       valueColor: "#00A63E",
     },
     {
       label: "Outstanding Amount",
-      value: `₹${reportsList?.totalRevenue}`,
+      value: `₹${reportsList?.outStandingAmount}`,
       valueColor: "#222222",
     },
     {
