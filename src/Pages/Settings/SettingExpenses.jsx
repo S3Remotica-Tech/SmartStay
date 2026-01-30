@@ -392,7 +392,7 @@ function SettingExpenses() {
 
 
       <div
-        className="container-fluid"
+        className=""
         style={{
           position: 'sticky',
           top: 0,
@@ -404,7 +404,7 @@ function SettingExpenses() {
         <div
           className="row align-items-center justify-content-between"
 
-          style={{ marginTop: 20 }}
+          style={{ }}
         >
 
           <div className="col-12 col-md-6 text-center text-md-start mb-2 mb-md-0">
@@ -460,17 +460,17 @@ function SettingExpenses() {
           (
 
 
-            <div className="mt-4 pe-4 d-flex flex-wrap justify-content-between show-scrolls" style={{
+            <div className="mt-4  d-flex flex-wrap  show-scrolls" style={{
               alignItems: "flex-start", minHeight: "450px",
-              overflowY: "auto", backgroundColor: "", columnGap: "20px",
-              rowGap: "10px",
+              overflowY: "auto", backgroundColor: "", columnGap: "2px",
+              rowGap: "5px",
             }}>
 
 
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full ml-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 w-full">
 
-                {expensesFilterddata && expensesFilterddata.length > 0 ? (
+                {expensesFilterddata && expensesFilterddata.length > 0 && (
                   expensesFilterddata.map((category) => (
 
                     <div
@@ -480,13 +480,16 @@ function SettingExpenses() {
                       <Card className="flex items-center justify-between border rounded p-2 font-[Gilroy] text-[16px] font-medium">
 
 
-                        <div className="flex items-center gap-4 flex-1 min-w-0">
-
-
-
-                          <div className="flex-1 min-w-0 truncate">
-                            {category.categoryName}
+                        <div className="flex items-center gap-4 w-full  min-w-0">
+                          <div className="flex-1 min-w-0">
+                            <label
+                              className="block truncate"
+                              title={category.categoryName}
+                            >
+                              {category.categoryName}
+                            </label>
                           </div>
+
 
                           <div className="flex items-center gap-[10px] shrink-0">
 
@@ -544,11 +547,18 @@ function SettingExpenses() {
                           overflowY: "auto",
                           marginTop: "5px"
                         }}>
-                          <ul className="p-2 m-0">
+                          {/* <ul className="p-2 m-0 overflow-hidden">
                             {category.listSubcategories && category?.listSubcategories?.length > 0 ? (
                               category.listSubcategories.map((sub) => (
-                                <li key={sub.subCategoryId} className="d-flex justify-content-between align-items-center mb-2" style={{ fontFamily: "Gilroy" }}>
-                                  {sub.subCategoryName}
+                                <li key={sub.subCategoryId} className="d-flex justify-content-between align-items-center mb-2"
+                                style={{ fontFamily: "Gilroy" }}>
+                                  <div
+    className="flex-grow-1 text-truncate "
+    title={sub.subCategoryName}
+    style={{ minWidth: 0 }}
+  >
+    {sub.subCategoryName}
+  </div>
                                   <span className='d-flex justify-content-between'>
                                     <img
                                       src={Editbtn}
@@ -585,140 +595,197 @@ function SettingExpenses() {
                             ) : (
                               <span className="text-muted text-sm" style={{ fontFamily: "Gilroy" }}>No Subcategories Available</span>
                             )}
-                          </ul>
+                          </ul> */}
+
+                          <ul className="p-2 m-0 overflow-hidden">
+  {category.listSubcategories &&
+  category.listSubcategories.length > 0 ? (
+    category.listSubcategories.map((sub) => (
+      <li
+        key={sub.subCategoryId}
+        className="flex items-center justify-between mb-2 font-[Gilroy]"
+      >
+        {/* TEXT */}
+        <div
+          className="flex-1 min-w-0 truncate"
+          title={sub.subCategoryName}
+        >
+          {sub.subCategoryName}
+        </div>
+
+        {/* ACTION ICONS */}
+        <div className="flex items-center gap-2 shrink-0">
+          <img
+            src={Editbtn}
+            className={`h-[15px] w-[15px] ${
+              canUpdateExpense
+                ? "cursor-pointer opacity-100"
+                : "cursor-not-allowed opacity-40"
+            }`}
+            alt="edit"
+            onClick={() =>
+              canUpdateExpense && handleSubEditCategory(sub)
+            }
+          />
+
+          <img
+            src={Closebtn}
+            className={`h-[15px] w-[15px] ${
+              canDeleteExpense
+                ? "cursor-pointer opacity-100"
+                : "cursor-not-allowed opacity-40"
+            }`}
+            alt="delete"
+            onClick={() =>
+              canDeleteExpense && handleDeleteSubCategory(sub)
+            }
+          />
+        </div>
+      </li>
+    ))
+  ) : (
+    <span className="text-sm text-gray-400 font-[Gilroy]">
+      No Subcategories Available
+    </span>
+  )}
+</ul>
+
                         </div>
                       )}
 
                     </div>
                   ))
-                ) : !loading && (
+                )}
+              </div>
+
+              {!loading &&  expensesFilterddata.length === 0 &&(
 
 
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      marginTop: 90,
+                <div className='w-full'
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: 90,
 
-                    }}
-                  >
-                    <div style={{ textAlign: "center" }}>
-                      <img
-                        src={EmptyState}
-                        alt="emptystate"
-                        style={{ maxWidth: "250px" }}
-                      />
-                      <div
-                        style={{
-                          fontWeight: 600,
-                          fontFamily: "Gilroy",
-                          fontSize: 18,
-                          color: "rgba(75, 75, 75, 1)",
-                        }}
-                      >
-                        No Expense available
-                      </div>
+                  }}
+                >
+                  <div style={{ textAlign: "center" }}>
+                    <img
+                      src={EmptyState}
+                      alt="emptystate"
+                      style={{ maxWidth: "250px" }}
+                    />
+                    <div
+                      style={{
+                        fontWeight: 600,
+                        fontFamily: "Gilroy",
+                        fontSize: 18,
+                        color: "rgba(75, 75, 75, 1)",
+                      }}
+                    >
+                      No Expense available
                     </div>
                   </div>
+                </div>
 
 
 
-                )}
+              )}
 
 
 
 
 
 
-                {showform && (
-                  <AddCategory show={showform} handleCloseForm={handleCloseForm} editCategory={type} />
-                )}
+              {showform && (
+                <AddCategory show={showform} handleCloseForm={handleCloseForm} editCategory={type} />
+              )}
 
-                {
-                  showSubCategoryForm && <AddSubCategory show={showSubCategoryForm} handleCloseForm={handleCloseSubCategory} AddSubCategory={subType} editSubCategory={subCategoryDetails} />
-                }
+              {
+                showSubCategoryForm && <AddSubCategory show={showSubCategoryForm} handleCloseForm={handleCloseSubCategory} AddSubCategory={subType} editSubCategory={subCategoryDetails} />
+              }
 
-                <Modal
-                  show={showModal} onHide={cancelDelete}
-                  centered
-                  backdrop="static"
-                  dialogClassName="custom-delete-modal"
+              <Modal
+                show={showModal} onHide={cancelDelete}
+                centered
+                backdrop="static"
+                dialogClassName="custom-delete-modal"
 
-                >
-                  <Modal.Header style={{ borderBottom: 'none' }}>
-                    <Modal.Title
-                      className="w-100 text-center mt-2"
-                      style={{
-                        fontSize: '18px',
-                        fontFamily: 'Gilroy',
-
-                        fontWeight: 600,
-                        color: '#222222',
-
-                      }}
-                    >
-                      {deletesubcat ? "Delete Sub-Category?" : "Delete Category?"}
-                    </Modal.Title>
-                  </Modal.Header>
-
-                  <Modal.Body
-                    className="text-center"
+              >
+                <Modal.Header style={{ borderBottom: 'none' }}>
+                  <Modal.Title
+                    className="w-100 text-center mt-2"
                     style={{
-                      fontSize: 14,
-                      fontWeight: 500,
+                      fontSize: '18px',
                       fontFamily: 'Gilroy',
-                      color: '#646464',
 
-                      marginTop: '-27px'
+                      fontWeight: 600,
+                      color: '#222222',
+
                     }}
                   >
-                    {deletesubcat ? "Are you sure you want to delete this Expences-Sub-category?" : "Are you sure you want to delete this Expences-Category?"}
-                  </Modal.Body>
+                    {deletesubcat ? "Delete Sub-Category?" : "Delete Category?"}
+                  </Modal.Title>
+                </Modal.Header>
 
-                  <Modal.Footer
-                    className="d-flex justify-content-center"
-                    style={{ borderTop: 'none', marginTop: '-10px' }}>
-                    <Button
-                      className="me-2"
-                      style={{
-                        width: "100%",
-                        maxWidth: 160,
-                        height: 52,
-                        borderRadius: 8,
-                        padding: "12px 20px",
-                        background: "#fff",
-                        color: "#1E45E1",
-                        border: "1px solid #1E45E1",
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                        fontSize: "14px",
-                      }}
-                      onClick={cancelDelete}
-                    >
-                      Cancel
-                    </Button>
-                    <Button disabled
-                      style={{
-                        width: "100%",
-                        maxWidth: 160,
-                        height: 52,
-                        borderRadius: 8,
-                        padding: "12px 20px",
-                        background: "#1E45E1",
-                        color: "#FFFFFF",
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                        fontSize: "14px",
-                      }}
-                      onClick={confirmDelete}
-                    >
-                      {/* Delete */} Coming Soon
-                    </Button>
-                  </Modal.Footer>
-                </Modal>
+                <Modal.Body
+                  className="text-center"
+                  style={{
+                    fontSize: 14,
+                    fontWeight: 500,
+                    fontFamily: 'Gilroy',
+                    color: '#646464',
 
-              </div>
+                    marginTop: '-27px'
+                  }}
+                >
+                  {deletesubcat ? "Are you sure you want to delete this Expences-Sub-category?" : "Are you sure you want to delete this Expences-Category?"}
+                </Modal.Body>
+
+                <Modal.Footer
+                  className="d-flex justify-content-center"
+                  style={{ borderTop: 'none', marginTop: '-10px' }}>
+                  <Button
+                    className="me-2"
+                    style={{
+                      width: "100%",
+                      maxWidth: 160,
+                      height: 52,
+                      borderRadius: 8,
+                      padding: "12px 20px",
+                      background: "#fff",
+                      color: "#1E45E1",
+                      border: "1px solid #1E45E1",
+                      fontWeight: 600,
+                      fontFamily: "Gilroy",
+                      fontSize: "14px",
+                    }}
+                    onClick={cancelDelete}
+                  >
+                    Cancel
+                  </Button>
+                  <Button disabled
+                    style={{
+                      width: "100%",
+                      maxWidth: 160,
+                      height: 52,
+                      borderRadius: 8,
+                      padding: "12px 20px",
+                      background: "#1E45E1",
+                      color: "#FFFFFF",
+                      fontWeight: 600,
+                      fontFamily: "Gilroy",
+                      fontSize: "14px",
+                    }}
+                    onClick={confirmDelete}
+                  >
+                    {/* Delete */} Coming Soon
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+
+
             </div>
           )
       }
