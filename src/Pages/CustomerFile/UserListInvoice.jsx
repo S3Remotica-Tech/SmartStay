@@ -402,7 +402,7 @@ const sortedData = React.useMemo(() => {
                             Status
                           </div>
                         </th>
-                        {
+                        {/* {
                           state.UsersList.customerdetails?.customerCurrentStatus !== "VACATED" &&
 
                           <th style={{
@@ -410,11 +410,10 @@ const sortedData = React.useMemo(() => {
                             fontWeight: 500,
                             fontSize: "12px",
                             fontFamily: "Gilroy",
-                            // paddingTop: "10px",
-                            // paddingBottom: "10px",
+                           
                             textAlign: "start",
                           }}> Action</th>
-                        }
+                        } */}
                       </tr>
                     </thead>
                     <tbody
@@ -614,7 +613,7 @@ const sortedData = React.useMemo(() => {
                                 }
                               </span>
                             </td>
-                            {
+                            {/* {
 
                               state.UsersList.customerdetails?.customerCurrentStatus !== "VACATED" &&
 
@@ -779,7 +778,7 @@ const sortedData = React.useMemo(() => {
                                 </div>
 
                               </td>
-                            }
+                            } */}
                           </tr>
                         );
                       })}

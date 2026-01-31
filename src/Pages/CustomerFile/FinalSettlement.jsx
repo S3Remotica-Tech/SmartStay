@@ -1422,7 +1422,7 @@ function FinalSettlement() {
                                                     key={index}
                                                     className="flex items-center justify-between px-3 py-3 border-b last:border-b-0  transition"
                                                 >
-                                                    {/* LEFT: Source */}
+                                                   
                                                     <div className="flex flex-col">
                                                         <span className="text-sm font-medium text-[#111827]">
                                                             {txn.source}
@@ -1433,13 +1433,13 @@ function FinalSettlement() {
                                                         </span>
                                                     </div>
 
-                                                    {/* RIGHT: Amount */}
+                                                   
                                                     <div className="flex items-center gap-2">
                                                         <span
                                                             className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-semibold
                 ${txn.amount < 0
-                                                                    ? "bg-red-50 text-red-600"
-                                                                    : "bg-green-50 text-green-600"
+                                                                    ? " text-red-600"
+                                                                    : " text-green-600"
                                                                 }
               `}
                                                         >

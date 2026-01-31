@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Modal from "react-bootstrap/Modal";
 import { FormControl, Nav } from "react-bootstrap";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState , useRef} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -28,7 +28,38 @@ function BankingAddForm(props) {
   const [hostel_id, setHostel_Id] = useState("")
   const [formLoading, setFormLoading] = useState(false)
   const [isChangedError, setIsChangedError] = useState("")
+     const [activeTab, setActiveTab] = useState("BANK");
 
+const accountNameRef = useRef(null)
+const bankNameUPIRef = useRef(null)
+const bankNameCardRef = useRef(null)
+const benificiaryNameRef = useRef(null)
+  const [bankaccount, setBankAccount] = useState("");
+  const [bankaccountError, setBankAccountError] = useState("");
+  // const [isSelectOpen, setIsSelectOpen] = useState(false);
+  const [bankking, setBanking] = useState("")
+  const [bankHolderName, setBankHolderName] = useState("");
+
+
+
+useEffect(() => {
+  if (activeTab === "UPI") {
+    bankNameUPIRef.current?.focus();
+  } else if (activeTab === "CARD") {
+    bankNameCardRef.current?.focus();
+  } else if (activeTab === "BANK") {
+    accountNameRef.current?.focus();
+  } else if  (activeTab === "CASH") {
+    benificiaryNameRef.current.focus()
+
+  }
+}, [activeTab]);
+
+
+
+
+
+   
   useEffect(() => {
     setHostel_Id(state.login.selectedHostel_Id)
   }, [state?.login?.selectedHostel_Id]);
@@ -121,11 +152,7 @@ function BankingAddForm(props) {
 };
 
 
-  const [bankaccount, setBankAccount] = useState("");
-  const [bankaccountError, setBankAccountError] = useState("");
-  // const [isSelectOpen, setIsSelectOpen] = useState(false);
-  const [bankking, setBanking] = useState("")
-  const [bankHolderName, setBankHolderName] = useState("");
+
 
   useEffect(() => {
     if (hostel_id) {
@@ -689,7 +716,7 @@ function BankingAddForm(props) {
     }
   }, [state.bankingDetails.statusCodeForEditBanking]);
 
-  const [activeTab, setActiveTab] = useState("BANK");
+
   const tabStyle = {
     fontFamily: "Gilroy",
     fontWeight: 600,
@@ -743,7 +770,7 @@ function BankingAddForm(props) {
           <CloseCircle size="24" color="#000" onClick={handleClose}
             style={{ cursor: 'pointer' }} />
         </Modal.Header>
-        <Nav
+        {/* <Nav
           variant="tabs"
           activeKey={activeTab}
 
@@ -762,7 +789,7 @@ function BankingAddForm(props) {
         >
           {["BANK", "UPI", "CARD", "CASH"].map((tab) => (
             <Nav.Item key={tab}>
-              <Nav.Link
+              <Nav.Link className="px-4 py-4"
                 eventKey={tab}
                 disabled={
                   props.editAddBank?.bankingId && props.editAddBank.accountType !== tab
@@ -783,6 +810,7 @@ function BankingAddForm(props) {
                       : "pointer",
                   width: 120,
                   textAlign: "center",
+                  
                 }}
 
               >
@@ -792,9 +820,50 @@ function BankingAddForm(props) {
               </Nav.Link>
             </Nav.Item>
           ))}
-        </Nav>
+        </Nav> */}
 
 
+<div className="flex gap-2 mx-2 border-b">
+  {["BANK", "UPI", "CARD", "CASH"].map((tab) => {
+    const isActive = activeTab === tab;
+    const isDisabled =
+      props.editAddBank?.bankingId &&
+      props.editAddBank.accountType !== tab;
+
+    return (
+      <button
+        key={tab}
+        // type="button"
+        disabled={isDisabled}
+        onClick={() => {
+          if (isDisabled) return;
+          setActiveTab(tab);
+          setError("");
+          setUpiIdError("");
+          setBankAccountError("");
+          setCardTypeError("");
+          setIsChangedError("");
+          setaccountNumberError("");
+          dispatch({ type: "REMOVE_CREATE_BANKING_ERROR" });
+        }}
+        className={`
+          px-2 py-1 w-[150px] text-center font-medium rounded-t-lg font-[Gilroy]
+          transition-all
+          ${isActive
+            ? "bg-[#1E45E1] text-white"
+            : "text-[#4B4B4B] bg-transparent"}
+          ${isDisabled
+            ? "opacity-60 cursor-not-allowed"
+            : " cursor-pointer"}
+        `}
+      >
+        {tab === "BANK"
+          ? "Bank Name"
+          : tab.charAt(0) + tab.slice(1).toLowerCase()}
+      </button>
+    );
+  })}
+</div>
 
 
         <Modal.Body className="pb-0">
@@ -824,6 +893,7 @@ function BankingAddForm(props) {
                   </Form.Label>
                   <FormControl
                     type="text"
+                    ref={accountNameRef}
                     id="form-controls"
                     placeholder="Enter Benificiary Name"
                     value={accountName}
@@ -1062,7 +1132,7 @@ function BankingAddForm(props) {
                     <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
 
-                  <Select
+                  <Select inputRef={bankNameUPIRef}
                     options={paymentOptions}
                     value={
                       paymentOptions.find((opt) => opt.value === String(bankaccount)) || null
@@ -1271,7 +1341,8 @@ function BankingAddForm(props) {
                     <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
 
-                  <Select
+                  <Select inputRef={bankNameCardRef}
+                  
                     options={paymentOptions}
                     value={
                       paymentOptions.find((opt) => opt.value === String(bankaccount)) || null
@@ -1552,7 +1623,7 @@ function BankingAddForm(props) {
                       *{" "}
                     </span>
                   </Form.Label>
-                  <FormControl
+                  <FormControl ref={benificiaryNameRef}
                     type="text"
                     id="form-controls"
                     placeholder="Enter Benificiary Name"

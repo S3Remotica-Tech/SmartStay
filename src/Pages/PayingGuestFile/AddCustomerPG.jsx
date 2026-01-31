@@ -14,7 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 // import { MdError } from "react-icons/md";
 import PropTypes from "prop-types";
 import Select from "react-select";
-import { CloseCircle } from "iconsax-react";
+import { ArrowDown2, CloseCircle } from "iconsax-react";
 import Flipbackward from "../../Assets/Images/flip-backward.png";
 import FlipbackwardBlue from "../../Assets/Images/flip-backwardblue.png";
 import Store_Icon from "../../Assets/Images/store_icon.png";
@@ -136,8 +136,8 @@ function AddCustomer({ showMenu, handleClose }) {
     setFirstnameError("");
   };
 
- useEffect(() => {
-   
+  useEffect(() => {
+
     if (firstnameRef.current) {
       firstnameRef.current.focus();
     }
@@ -245,7 +245,7 @@ function AddCustomer({ showMenu, handleClose }) {
 
   const handleStreetName = (e) => {
     const value = e.target.value;
-     const regex = /^[a-zA-Z0-9 .,'/\\#()&:-]*$/;
+    const regex = /^[a-zA-Z0-9 .,'/\\#()&:-]*$/;
 
 
     if (regex.test(value)) {
@@ -882,9 +882,10 @@ function AddCustomer({ showMenu, handleClose }) {
                                   </Form.Label>
 
                                   <InputGroup>
-                                    <Form.Select
+                                    {/* <Form.Select
                                       value={countryCode}
                                       id="vendor-select-pg"
+                                      onMouseDown={(e) => e.preventDefault()}
                                       style={{
                                         border: "1px solid #D9D9D9",
 
@@ -898,11 +899,36 @@ function AddCustomer({ showMenu, handleClose }) {
                                         backgroundColor: "#fff",
                                         maxWidth: 90,
                                         paddingRight: 10,
-                                        cursor: "pointer"
+                                         cursor: "default",
+    pointerEvents: "none"
                                       }}
                                     >
                                       <option>{countryCode}</option>
-                                    </Form.Select>
+                                    </Form.Select> */}
+
+                                    <div
+                                      className="d-flex align-items-center justify-content-between gap-2"
+                                      style={{
+                                        border: "1px solid #D9D9D9",
+                                        borderRadius: "8px 0 0 8px",
+                                        height: 40,
+                                        maxWidth: 150,
+                                        padding: "0 10px",
+                                        backgroundColor: "#fff",
+                                        fontFamily: "Gilroy",
+                                        fontSize: 16,
+                                        fontWeight: countryCode ? 600 : 300,
+                                        color: "#4B4B4B",
+                                        cursor: "default",
+                                        userSelect: "none"
+                                      }}
+                                    >
+                                     
+                                      <span>+{countryCode}</span>
+
+<ArrowDown2 size="18" />
+                                    </div>
+
                                     <Form.Control
                                       value={Phone}
                                       ref={phoneRef}
@@ -988,7 +1014,7 @@ function AddCustomer({ showMenu, handleClose }) {
                         </div>
 
                         <div className="d-flex justify-content-end mt-3">
-                          <Button  disabled={formLoading} style={{
+                          <Button disabled={formLoading} style={{
                             fontFamily: "Gilroy",
                             fontSize: "14px",
                             backgroundColor: "#1E45E1",
@@ -1081,7 +1107,7 @@ function AddCustomer({ showMenu, handleClose }) {
                                   fontSize: 16,
                                   color: "#4B4B4B",
                                   fontFamily: "Gilroy",
-                                  fontWeight: street ? 600 :  500,
+                                  fontWeight: street ? 600 : 500,
                                   boxShadow: "none",
                                   border: "1px solid #D9D9D9",
                                   height: 40,
@@ -1197,7 +1223,7 @@ function AddCustomer({ showMenu, handleClose }) {
                                   fontSize: 16,
                                   color: "#4B4B4B",
                                   fontFamily: "Gilroy",
-                                  fontWeight: city ? 600 :  500,
+                                  fontWeight: city ? 600 : 500,
                                   boxShadow: "none",
                                   border: "1px solid #D9D9D9",
                                   height: 40,

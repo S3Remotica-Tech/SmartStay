@@ -71,7 +71,7 @@ const Compliance = () => {
   const [excelDownload, setExcelDownload] = useState("")
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
-
+const customerSelectRef = useRef(null);
 
   const {
     canWriteModule: canWriteComplaints,
@@ -80,7 +80,12 @@ const Compliance = () => {
     // canDeleteModule: canDeleteBanking,
   } = useHasPermission("Complaints");
 
+useEffect(() => {
 
+    if (customerSelectRef.current) {
+      customerSelectRef.current.focus();
+    }
+  }, []);
   // console.log(state,"state")
 
   // const canReadComplaints = useHasPermission("Complaints", "canRead");
@@ -1415,7 +1420,7 @@ const Compliance = () => {
                         </Form.Label>
 
 
-                        <Select
+                        <Select ref={customerSelectRef}
                           options={
                             state?.UsersList?.Users?.listCustomers?.filter(
                               (u) =>
