@@ -62,7 +62,12 @@ function AddVendor({ show, setShow, currentItem }) {
   const countryRef = useRef(null);
 
 
+useEffect(() => {
 
+    if (firstNameRef.current) {
+      firstNameRef.current.focus();
+    }
+  }, []);
 
 
   const indianStates = [

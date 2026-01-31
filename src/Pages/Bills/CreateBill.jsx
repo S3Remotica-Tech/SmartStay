@@ -1040,40 +1040,20 @@ function CreateBill() {
 
     return (
         <div className="mt-4" style={{ paddingLeft: 5, position: "relative" }}>
-            <div
-                className="container justify-content-start  d-flex align-items-start"
-                style={{
-                    position: "sticky",
-                    top: 0,
-                    left: 0,
-                    width: "100%",
-                    zIndex: 1000,
-                    backgroundColor: "#FFFFFF",
-                    height: "50px",
-                    padding: "5px 5px",
-                }}
-            >
-                <div style={{ position: "fixed" }}>
-                    <img
-                        src={leftarrow}
-                        alt="leftarrow"
-                        width={20}
-                        height={20}
-                        onClick={handleBackBill}
-                        style={{ cursor: "pointer" }}
-                    />
-                    <span
-                        style={{
-                            fontWeight: 500,
-                            fontSize: "18px",
-                            fontFamily: "Gilroy",
-                            paddingLeft: "10px"
-                        }}
-                    >
-                        {billData ? "Edit Bill" : "New Bill"}
-                    </span>{" "}
-                </div>
-            </div>
+          <div className="sticky top-0 left-0 z-[1000] w-full h-[50px] bg-white px-[5px] py-[5px] flex items-start justify-start whitespace-nowrap">
+  <div className="fixed flex items-center gap-2">
+    <img
+      src={leftarrow}
+      alt="leftarrow"
+      className="w-5 h-5 cursor-pointer"
+      onClick={handleBackBill}
+    />
+
+    <span className="font-medium text-[18px] font-['Gilroy'] pl-2">
+      {billData ? "Edit Bill" : "New Bill"}
+    </span>
+  </div>
+</div>
 
             <div style={{ display: 'flex', flexDirection: 'row' }}>
                 <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4">
