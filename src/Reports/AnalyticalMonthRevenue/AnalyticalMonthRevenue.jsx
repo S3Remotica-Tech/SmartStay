@@ -282,7 +282,7 @@ function AnalyticalMonthRevenue() {
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-3 items-stretch" style={{}}>
+        {/* <div className="flex flex-wrap gap-3 items-stretch" style={{}}>
 
           <div className="flex items-center gap-3 bg-white  px-3 py-2 w-fit">
 
@@ -333,7 +333,7 @@ function AnalyticalMonthRevenue() {
             <Export size="16" />
             Export
           </button>
-        </div>
+        </div> */}
       </div>
       <div className='bg-[#FAFAFA] p-3 mt-1 rounded'>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-1">
