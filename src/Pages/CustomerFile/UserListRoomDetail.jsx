@@ -2978,16 +2978,18 @@ function UserListRoomDetail(props) {
                             >
                               Mobile No
                             </p>
-                            <p style={{ marginTop: "-10px", marginLeft: 60 }}>
+                            {/* <p style={{ marginTop: "-10px", marginLeft: 60 }}> */}
+                            <p className="d-flex align-items-center" style={{ marginTop: "-10px" }}>
                               <Call size="16" color="#1E45E1" />
                               <span
-                                style={{
-                                  marginLeft: 5,
-                                  fontSize: 14,
-                                  fontWeight: 600,
-                                  fontFamily: "Gilroy",
-                                  whiteSpace: "nowrap",
-                                }}
+                                // style={{
+                                //   marginLeft: 5,
+                                //   fontSize: 14,
+                                //   fontWeight: 600,
+                                //   fontFamily: "Gilroy",
+                                //   whiteSpace: "nowrap",
+                                // }}
+                                style={{ marginLeft: 6, fontSize: 14, fontWeight: 600, fontFamily: "Gilroy", whiteSpace: "nowrap" }}
                               >
 
                                 {CustomerOverView && CustomerOverView.mobileNo ? `+ ${CustomerOverView.countryCode} ${CustomerOverView.mobileNo}` : ''}
@@ -4015,7 +4017,9 @@ function UserListRoomDetail(props) {
                                         }
                                       </p>
                                     </div>
-                                    <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
+                                    
+                                    {/* <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start"> */}
+                                     <div className="col-12 col-md-4 d-flex flex-column align-items-start">
                                       <div
                                         className="d-flex align-items-center"
                                         style={{
@@ -4025,7 +4029,8 @@ function UserListRoomDetail(props) {
                                           gap: "6px",
                                         }}
                                       >
-                                        Advance Amount  <img onClick={() => (canUpdateTenant && advanceList?.advanceAmount && CustomerOverView.hostelInfo.currentStatus !== "NOTICE") && handleUpdateAdvanceChange()}
+                                        Advance Amount 
+                                         <img onClick={() => (canUpdateTenant && advanceList?.advanceAmount && CustomerOverView.hostelInfo.currentStatus !== "NOTICE") && handleUpdateAdvanceChange()}
                                           src={EditImage}
                                           alt="EditImage"
                                           style={{
