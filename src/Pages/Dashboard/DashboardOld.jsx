@@ -760,7 +760,7 @@ const dataExpenseRevenue = [
                         </div>
                       </div>
 
-                      <div>
+                      {/* <div>
                         <div className="flex items-center p-3 border rounded-2xl bg-white">
                           <div className="mr-3 text-blue-600">
                             <img src={activeImage} alt="activeImage" className="w-8 h-8" />
@@ -770,7 +770,7 @@ const dataExpenseRevenue = [
                             <div className="font-semibold text-lg font-gilroy">{dashboardList?.activeComplaint || 0}</div>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
 
                       <div>
                         <div className="flex items-center p-3 border rounded-2xl bg-white">

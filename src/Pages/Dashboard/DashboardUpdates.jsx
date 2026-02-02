@@ -25,7 +25,7 @@ function DashboardUpdates() {
   ]
 
   return (
-    <div className="w-full col-span-full flex justify-center items-center" >
+    <div >
       
         {/* <div className="col-lg-7 mb-4">
           <div className="card-body">
