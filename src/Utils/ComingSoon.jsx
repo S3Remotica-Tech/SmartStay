@@ -7,6 +7,7 @@ import BottomImage from "../Assets/v2Images/bottom_image.svg";
 
 function ComingSoon() {
     return (
+       <div className="w-full col-span-full flex justify-center items-center" >
        <div className="min-h-screen w-screen  px-4 relative overflow-hidden font-[Gilroy] flex flex-col items-center justify-center text-center">
 
 
@@ -38,6 +39,7 @@ function ComingSoon() {
     className="absolute bottom-0 left-0 w-full opacity-40 pointer-events-none"
   />
 
+</div>
 </div>
 
     );

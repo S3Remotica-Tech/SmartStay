@@ -22,6 +22,7 @@ import { useHasPermission } from '../../Utils/Permission';
 import BookingInvoice from '../Bookings/BookingInvoice'
 import { FiSearch } from "react-icons/fi";
 import ApplyBookingModal from './ApplyInvoices';
+import ComingSoon from '../../Utils/ComingSoon';
 
 function Booking() {
 
@@ -639,8 +640,9 @@ setShowBookingPdf(false)
                         className='show-scrolls ms-2'
                         style={{
                         }}>
-
-                        <Table
+ <ComingSoon />
+  </div>
+                        {/* <Table
                           responsive="md"
                         >
 
@@ -705,8 +707,8 @@ setShowBookingPdf(false)
                           </tbody>
 
 
-                        </Table>
-                      </div>
+                        </Table> */}
+                     
 
 
                       {/* )} */}
