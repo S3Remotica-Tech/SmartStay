@@ -123,7 +123,7 @@ function SettingInvoice({ hostelid, handleFormPage }) {
   useEffect(() => {
     if (!canReadInvoice) {
       setLoading(false);
-    } 
+    }
   }, [canReadInvoice]);
 
   useEffect(() => {
@@ -1400,20 +1400,20 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                 >
                   Customize Bill Templates
                 </h4>
-             <div className="flex items-start gap-2 my-2">
-  <img
-    src={leftarrow}
-    alt="leftarrow"
-    width={20}
-    height={20}
-    onClick={handleCloseForm}
-    className="cursor-pointer mt-[2px] shrink-0"
-  />
+                <div className="flex items-start gap-2 my-2">
+                  <img
+                    src={leftarrow}
+                    alt="leftarrow"
+                    width={20}
+                    height={20}
+                    onClick={handleCloseForm}
+                    className="cursor-pointer mt-[2px] shrink-0"
+                  />
 
-  <p className="font-[Gilroy] text-[16px] font-semibold leading-[22px] m-0">
-    Global Bill Settings
-  </p>
-</div>
+                  <p className="font-[Gilroy] text-[16px] font-semibold leading-[22px] m-0">
+                    Global Bill Settings
+                  </p>
+                </div>
 
                 <div
                   style={{
@@ -3061,20 +3061,20 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                   >
                     Bill Template Manager
                   </h4>
-                 <h5 className="flex items-start gap-2 font-[Gilroy] text-[17px] font-semibold text-[rgba(34,34,34,1)]">
-  <img
-    src={leftarrow}
-    alt="leftarrow"
-    width={20}
-    height={20}
-    onClick={handleGlobalCloseForm}
-    className="cursor-pointer mt-[2px] shrink-0"
-  />
+                  <h5 className="flex items-start gap-2 font-[Gilroy] text-[17px] font-semibold text-[rgba(34,34,34,1)]">
+                    <img
+                      src={leftarrow}
+                      alt="leftarrow"
+                      width={20}
+                      height={20}
+                      onClick={handleGlobalCloseForm}
+                      className="cursor-pointer mt-[2px] shrink-0"
+                    />
 
-  <span className="leading-[22px]">
-    Global Bill Settings
-  </span>
-</h5>
+                    <span className="leading-[22px]">
+                      Global Bill Settings
+                    </span>
+                  </h5>
 
                 </div>
 
@@ -3528,16 +3528,13 @@ function SettingInvoice({ hostelid, handleFormPage }) {
                 </div>
               </div>
               :
-                   <div >
-<div className="sticky top-0 z-[1000] bg-white h-[60px] px-3 py-2 flex flex-col md:flex-row md:items-center md:justify-between whitespace-nowrap">
-                <h5 className="mb-4 " style={{
-                  fontFamily: "Gilroy",
-                  fontSize: 22,
-                  color: "rgba(34, 34, 34, 1)",
-                  fontWeight: 600,
-                  whiteSpace: "nowrap",
-                }}>Bill Templates</h5>
-                </div>
+              <div >
+     <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
+  <label className="text-[18px] font-semibold text-[#222] font-gilroy">
+    Bill Templates
+  </label>
+</div>
+
 
                 <div
                   style={{

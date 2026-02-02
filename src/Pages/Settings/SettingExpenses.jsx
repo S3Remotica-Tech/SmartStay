@@ -409,31 +409,29 @@ function SettingExpenses() {
 
 
 
-      <div className="sticky top-0 z-[1000] bg-white">
-        <div className="flex flex-col md:flex-row items-center md:items-center justify-between">
+     <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
 
+  <div className="w-full flex justify-center items-center md:justify-start mb-2 md:mb-0">
+    <label className="font-gilroy text-[18px] text-[#222] font-semibold">
+      Expenses Category
+    </label>
+  </div>
 
-          <div className="w-full md:w-1/2  md:text-left mb-2 md:mb-0">
-            <h3 className="font-[Gilroy] text-[20px] text-[#222] font-semibold mb-0">
-              Expenses Category
-            </h3>
-          </div>
-
-
-          <div className="w-full md:w-1/2 flex justify-center md:justify-end">
-            <button
-              onClick={handleShow}
-              disabled={!canWriteExpense}
-              className={`font-[Gilroy] text-[14px] font-semibold text-white
-          bg-[#1E45E1] h-[45px] w-[146px] rounded-[8px] 
-          disabled:opacity-50 disabled:cursor-not-allowed`}
-            >
-              + Category
-            </button>
-          </div>
-
-        </div>
-      </div>
+  
+  <div className="w-full flex justify-center md:justify-end">
+    <button
+      onClick={handleShow}
+      disabled={!canWriteExpense}
+      className={`h-[45px] w-[146px] rounded-lg text-sm font-semibold font-gilroy transition
+        ${canWriteExpense
+          ? "bg-[#1E45E1] text-white hover:bg-[#1638c9]"
+          : "bg-gray-300 text-gray-500 cursor-not-allowed"
+        }`}
+    >
+      + Category
+    </button>
+  </div>
+</div>
 
 
 

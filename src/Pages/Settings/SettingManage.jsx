@@ -690,9 +690,9 @@ function SettingManage() {
       {hidePgList && (
         <>
 
-          <div className="sticky top-0 z-[1000] bg-white h-[50px] px-3 py-2 flex flex-col md:flex-row md:items-center md:justify-between whitespace-nowrap">
-            <div className="w-full flex justify-center md:justify-start md:mt-0">
-              <label className="text-[18px] font-semibold font-[Gilroy] text-[#222]">
+<div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">      
+        <div className="w-full flex justify-center md:justify-start md:mt-0">
+              <label className="text-black font-semibold text-[18px] font-gilroy whitespace-nowrap">
                 Manage PG
               </label>
             </div>

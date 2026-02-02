@@ -368,20 +368,20 @@ function SettingSubscription() {
 
 
   return (
-    <div className="p-0 m-0 h-screen overflow-hidden">
-      <div className="sticky top-2 z-[1000] bg-white h-[50px] px-3 py-2 flex flex-col md:flex-row md:items-center md:justify-between whitespace-nowrap">
-        <div className="w-full">
+    <div >
+<div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">      
 
-          <label className="block text-[20px] font-semibold font-[Gilroy] text-[#222]">
-            Subscription
-          </label>
+  {/* Title and Subtitle */}
+  <div className="flex flex-col justify-center w-full md:w-auto">
+    <label className="block text-[18px] md:text-[18px] font-semibold font-gilroy text-[#222]">
+      Subscription
+    </label>
+    <p className="text-[12px] md:text-[14px] font-medium font-gilroy text-[#4B4B4B]">
+      Manage your subscription and billing
+    </p>
+  </div>
+</div>
 
-          <p className="mt-1 text-[14px] font-medium font-[Gilroy] text-[#4B4B4B]">
-            Manage your subscription and billing
-          </p>
-
-        </div>
-      </div>
 
 
 
@@ -452,7 +452,7 @@ function SettingSubscription() {
 
 
 
-            <div className="container mt-4 show-scroll p-0 " style={{
+            <div className="container mt-2 show-scroll p-0 " style={{
               fontFamily: "Gilroy", maxHeight: "500px",
               overflowY: "auto", marginBottom: 50
             }}>

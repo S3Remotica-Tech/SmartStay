@@ -127,10 +127,10 @@ function BillingRule() {
 
   return (
     <>
-      <div className="sticky top-0 z-[1000] bg-white h-[60px] px-3 py-2 flex flex-col md:flex-row md:items-center md:justify-between whitespace-nowrap">
-        <h3 className="font-[Gilroy] text-[20px] font-semibold text-[#222] whitespace-nowrap">
+     <div className="sticky top-0 left-0 right-0 z-50 bg-white flex flex-col md:flex-row justify-between items-center min-h-[50px] px-1.5 whitespace-nowrap">
+     <label className="text-black font-semibold text-[18px] font-gilroy whitespace-nowrap">
           Bills
-        </h3>
+        </label>
 
       </div>
 
