@@ -1786,7 +1786,7 @@ function UserList(props) {
   };
 
   useEffect(() => {
-    if (state.UsersList?.deleteCustomerSuccessStatusCode === 204) {
+    if (state.UsersList?.deleteCustomerSuccessStatusCode === 204 && value === "1") {
       setFormLoading(false)
       setDeleteShow(false);
       dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
@@ -1969,7 +1969,7 @@ function UserList(props) {
   }, [state.UsersList.addWalkInCustomerStatusCode]);
 
   useEffect(() => {
-    if (state.UsersList.addCheckoutCustomerStatusCode === 201) {
+    if (state.UsersList.addCheckoutCustomerStatusCode === 201 && value === "1") {
       dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
       setcheckoutForm(false);
     }
@@ -3416,18 +3416,11 @@ function UserList(props) {
                                       <div
                                         style={{
                                           cursor: "pointer",
-                                          // height: 40,
-                                          // width: 40,
-                                          // borderRadius: 100,
-                                          // border: "1px solid #EFEFEF",
                                           display: "flex",
                                           justifyContent: "start",
                                           alignItems: "center",
                                           position: "relative",
-                                          // backgroundColor:
-                                          //   activeRow === user.customerId
-                                          //     ? "#E7F1FF"
-                                          //     : "white",
+                                         
                                         }}
                                         onClick={(e) =>
                                           handleShowDots(user.customerId, e)
