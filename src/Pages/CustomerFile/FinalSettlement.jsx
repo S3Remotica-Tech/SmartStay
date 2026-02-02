@@ -1428,9 +1428,7 @@ function FinalSettlement() {
                                                             {txn.source}
                                                         </span>
 
-                                                        <span className="text-xs text-gray-400">
-                                                            Transaction
-                                                        </span>
+                                                       
                                                     </div>
 
                                                    

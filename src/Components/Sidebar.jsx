@@ -903,7 +903,7 @@ function Sidebar() {
                       </span>
                     </NavLink>
                   </li>
-                  <li className="list-none flex items-center" >
+                  {/* <li className="list-none flex items-center" >
                     <NavLink
                       to={withHostel("/dashboard-new")}
                       className={({ isActive }) =>
@@ -918,7 +918,7 @@ function Sidebar() {
                         Home New
                       </span>
                     </NavLink>
-                  </li>
+                  </li> */}
 
                   <li
                     className={`flex relative list-none mt-[${manageOpen ? "0.5" : "2.5"}] items-center px-3 py-2 rounded 
@@ -1253,7 +1253,7 @@ function Sidebar() {
                   </div>
                 }
               />
-              <Route
+              {/* <Route
                 path="/dashboard-new/:hostelId?"
                 element={
                   <div className="bg-[#FAFAFA] pt-1 pl-3 pr-1">
@@ -1264,7 +1264,7 @@ function Sidebar() {
                     />
                   </div>
                 }
-              />
+              /> */}
               <Route
                 path="/paying-guest/:hostelId?"
                 element={
